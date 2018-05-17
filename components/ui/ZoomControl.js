@@ -3,6 +3,23 @@ import PropTypes from 'prop-types';
 import Icon from 'components/ui/Icon';
 
 class ZoomControl extends React.Component {
+  static propTypes = {
+    // maxValue: PropTypes.number,
+    // minValue: PropTypes.number,
+    value: PropTypes.number,
+    className: PropTypes.string,
+
+    // ACTIONS
+    onZoomIn: PropTypes.func,
+    onZoomOut: PropTypes.func
+  };
+
+  static defaultProps = {
+    // maxValue: 10,
+    // minValue: 0,
+    value: 0
+  };
+
   constructor(props) {
     super(props);
 
@@ -49,22 +66,5 @@ class ZoomControl extends React.Component {
     );
   }
 }
-
-ZoomControl.propTypes = {
-  // maxValue: PropTypes.number,
-  // minValue: PropTypes.number,
-  value: PropTypes.number,
-  className: PropTypes.string,
-
-  // ACTIONS
-  onZoomIn: PropTypes.func,
-  onZoomOut: PropTypes.func
-};
-
-ZoomControl.defaultProps = {
-  // maxValue: 10,
-  // minValue: 0,
-  value: 0
-};
 
 export default ZoomControl;

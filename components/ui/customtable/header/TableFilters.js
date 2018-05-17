@@ -6,6 +6,18 @@ import Icon from '../../Icon';
 import CheckboxGroup from '../../../form/CheckboxGroup';
 
 export default class TableFilters extends React.Component {
+  static propTypes = {
+    field: PropTypes.string.isRequired,
+    values: PropTypes.array,
+    selected: PropTypes.array,
+    onFilter: PropTypes.func
+  };
+
+  static defaultProps = {
+    onChange: null,
+    selected: null
+  };
+
   constructor(props) {
     super(props);
 
@@ -252,15 +264,3 @@ export default class TableFilters extends React.Component {
     );
   }
 }
-
-TableFilters.propTypes = {
-  field: PropTypes.string.isRequired,
-  values: PropTypes.array,
-  selected: PropTypes.array,
-  onFilter: PropTypes.func
-};
-
-TableFilters.defaultProps = {
-  onChange: null,
-  selected: null
-};

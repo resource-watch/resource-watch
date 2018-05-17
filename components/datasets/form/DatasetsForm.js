@@ -73,6 +73,7 @@ class DatasetsForm extends React.Component {
               })
               .catch((err) => {
                 this.setState({ loadingColumns: false });
+                console.error('Error fetching the dataset', err);
               });
           } else {
             this.setState({ loadingColumns: false });
@@ -104,8 +105,8 @@ class DatasetsForm extends React.Component {
       if (valid) {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
-          const dataset = this.props.dataset;
-
+          const { dataset } = this.props;
+          const { form } = this.state;
           logEvent('My RW', 'Add New Dataset', this.state.name);
 
           // Start the submitting
@@ -117,11 +118,21 @@ class DatasetsForm extends React.Component {
             omit: (dataset) ? ['connectorUrlHint', 'authorization', 'connectorType', 'provider'] : ['connectorUrlHint', 'authorization']
           };
 
+          const bodyObj = omit(form, requestOptions.omit);
+
+          bodyObj.subscribable = {};
+          form.subscribable.map((s) => {
+            bodyObj.subscribable[s.type] = Object.assign({}, {
+              dataQuery: s.dataQuery,
+              subscriptionQuery: s.subscriptionQuery
+            });
+          });
+
           // Save the data
           this.service.saveData({
             type: requestOptions.type,
             id: dataset,
-            body: omit(this.state.form, requestOptions.omit)
+            body: bodyObj
           })
             .then((data) => {
               toastr.success('Success', `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`);
@@ -170,16 +181,26 @@ class DatasetsForm extends React.Component {
 
     form.forEach((f) => {
       if (params[f] || this.state.form[f]) {
-        newForm[f] = params[f] || this.state.form[f];
+        if (f === 'subscribable') {
+          const subscribable = params[f] || this.state.form[f];
+          newForm.subscribable = Object.keys(subscribable)
+            .map((prop, i) => ({
+              type: prop,
+              dataQuery: subscribable[prop].dataQuery,
+              subscriptionQuery: subscribable[prop].subscriptionQuery,
+              id: i
+            }));
+        } else {
+          newForm[f] = params[f] || this.state.form[f];
+        }
       }
     });
-
     return newForm;
   }
 
   render() {
     return (
-      <form className="c-form" onSubmit={this.onSubmit} noValidate>
+      <form className="c-form c-datasets-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={this.state.loading} className="-light" />
 
         {(this.state.step === 1 && !this.state.loading) &&

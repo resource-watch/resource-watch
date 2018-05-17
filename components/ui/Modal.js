@@ -4,6 +4,22 @@ import Icon from 'components/ui/Icon';
 import Spinner from 'components/ui/Spinner';
 
 export default class Modal extends React.Component {
+  static propTypes = {
+    // STORE
+    open: PropTypes.bool,
+    options: PropTypes.object,
+    className: PropTypes.string,
+    loading: PropTypes.bool,
+    // ACTIONS
+    toggleModal: PropTypes.func,
+    setModalOptions: PropTypes.func
+  };
+
+  static defaultProps = {
+    open: false,
+    options: {}
+  };
+
   componentDidMount() {
     this.el.addEventListener('transitionend', () => {
       if (!this.props.open) {
@@ -31,33 +47,25 @@ export default class Modal extends React.Component {
   }
 
   render() {
+    const { options, open, className } = this.props;
     return (
-      <section ref={(node) => { this.el = node; }} className={`c-modal ${this.props.open ? '' : '-hidden'} ${this.props.options.size || ''}`}>
+      <section
+        ref={(node) => { this.el = node; }}
+        className={`c-modal ${open ? '' : '-hidden'} ${options.size || ''} ${className || ''}`}
+      >
         <div className="modal-container">
-          <button className="modal-close" onClick={() => this.props.toggleModal(false)}>
-            <Icon name="icon-cross" className="-big" />
+          <button className="modal-close" onClick={(e) => e.stopPropagation() || this.props.toggleModal(false)}>
+            <Icon name="icon-cross" className="-small" />
           </button>
           <div className="modal-content">
             {this.props.loading ? <Spinner isLoading /> : this.getContent()}
           </div>
         </div>
-        <div className="modal-backdrop" onClick={() => this.props.toggleModal(false)} />
+        <div
+          className="modal-backdrop"
+          onClick={(e) => e.stopPropagation() ||  this.props.toggleModal(false)}
+        />
       </section>
     );
   }
 }
-
-Modal.propTypes = {
-  // STORE
-  open: PropTypes.bool,
-  options: PropTypes.object,
-  loading: PropTypes.bool,
-  // ACTIONS
-  toggleModal: PropTypes.func,
-  setModalOptions: PropTypes.func
-};
-
-Modal.defaultProps = {
-  open: false,
-  options: {}
-};

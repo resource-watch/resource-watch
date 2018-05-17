@@ -1,12 +1,17 @@
 .c-partners-slider {
-  .slick-slide {
+  .slick-slide, .slider-slide .item {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 56px;
+    min-height: 56px;
 
     a {
       display: block;
+    }
+
+    img {
+      width: auto;
+      max-height: 56px;
     }
   }
 }

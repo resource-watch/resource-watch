@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -26,7 +25,41 @@ import NameTD from './td/NameTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
 import OwnershipTD from './td/OwnershipTD';
 
-class LayersTable extends React.Component {
+class LayersTable extends PureComponent {
+
+  static defaultProps = {
+    application: [],
+    columns: [],
+    actions: {},
+    // Store
+    layers: [],
+    users: {}
+  };
+
+  static propTypes = {
+    dataset: PropTypes.string,
+    application: PropTypes.array.isRequired,
+    authorization: PropTypes.string,
+
+    // Store
+    loading: PropTypes.bool.isRequired,
+    layers: PropTypes.array.isRequired,
+    error: PropTypes.string,
+    user: PropTypes.object,
+
+    // Actions
+    getLayers: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+
+    // ---------------- Bindings ---------------------
+    this.onSearch = this.onSearch.bind(this);
+    // -----------------------------------------------
+  }
+
   componentDidMount() {
     const { dataset, application } = this.props;
     this.props.setFilters([]);
@@ -37,7 +70,6 @@ class LayersTable extends React.Component {
    * Event handler executed when the user search for a layer
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
@@ -112,31 +144,6 @@ class LayersTable extends React.Component {
     );
   }
 }
-
-LayersTable.defaultProps = {
-  application: [],
-  columns: [],
-  actions: {},
-  // Store
-  layers: [],
-  users: {}
-};
-
-LayersTable.propTypes = {
-  dataset: PropTypes.string,
-  application: PropTypes.array.isRequired,
-  authorization: PropTypes.string,
-
-  // Store
-  loading: PropTypes.bool.isRequired,
-  layers: PropTypes.array.isRequired,
-  error: PropTypes.string,
-  user: PropTypes.object,
-
-  // Actions
-  getLayers: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   loading: state.layers.layers.loading,

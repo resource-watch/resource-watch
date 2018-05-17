@@ -1,42 +1,58 @@
 
 .c-explore-slider-tooltip {
-  min-width: 180px;
-  padding-right: 10px;
+  min-width: 150px;
+  padding: 8px 0 0;
 
-  .actions-container {
+  // Title
+  h4 {
+    font-size: $font-size-small;
+    font-weight: $font-weight-regular;
+    margin: 0;
+  }
+
+  // Actions
+  .slider-tooltip-actions {
     display: flex;
     align-items: center;
-    margin-top: 25px;
+    justify-content: flex-end;
+  }
 
-    .c-button {
-      padding: 8px 16px;
-      height: auto;
-      margin-right: 5px;
-    }
+  // Slider
+  .slider-tooltip-container {
+    // padding: 0 4px;
   }
 
   /* Slider override */
   .rc-slider {
     cursor: pointer;
+    margin: 10px 0 5px;
   }
 
   .rc-slider-track {
     background-color: $color-primary;
     height: 2px;
+    top: 50%;
+    margin: -1px 0 0;
   }
 
   .rc-slider-rail {
     height: 2px;
+    top: 50%;
+    margin: -1px 0 0;
   }
 
   .rc-slider-step {
     height: 2px;
+    top: 50%;
+    margin: -1px 0 0;
   }
 
   .rc-slider-handle {
-    margin-top: -8px;
-    width: 17px;
-    height: 17px;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
     border-color: $color-white;
     background-color: $color-primary;
 

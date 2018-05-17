@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
-import { toastr } from 'react-redux-toastr';
 
 class LayerChart extends React.Component {
   constructor(props) {
@@ -90,7 +89,7 @@ class LayerChart extends React.Component {
   getImagePreview() {
     const { data } = this.props;
 
-    if (!data.account) return;
+    if (!data || !data.account) return;
 
     if (this.mounted) this.props.toggleLoading(true);
 
@@ -131,7 +130,7 @@ class LayerChart extends React.Component {
 
   render() {
     return (
-      <div className="c-chart">
+      <div className="c-we-chart">
         <div
           ref={(c) => { this.chart = c; }}
           className="chart"
@@ -145,6 +144,7 @@ class LayerChart extends React.Component {
 LayerChart.propTypes = {
   // Define the chart data
   data: PropTypes.object,
+  dimensions: PropTypes.object,
   toggleLoading: PropTypes.func
 };
 

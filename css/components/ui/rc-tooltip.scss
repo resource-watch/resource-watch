@@ -1,0 +1,37 @@
+.c-rc-tooltip {
+  opacity: 1;
+  padding: 0;
+  background: none;
+  font-size: inherit;
+
+  .rc-tooltip-inner {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .rc-tooltip-arrow {
+    display: none;
+    z-index: 2;
+    border-top-color: currentColor;
+    border-bottom-color: currentColor;
+  }
+
+  &.-default {
+    .rc-tooltip-inner {
+      position: relative;
+      max-width: 200px;
+      padding: $space-1 $space-1 * 2;
+      border: 1px solid rgba($border-color-1,0.15);
+      border-radius: 4px;
+      background: $color-white;
+      box-shadow: 0 20px 30px 0 rgba(0,0,0,0.1);
+      font-size: $font-size-small;
+    }
+
+    .rc-tooltip-arrow {
+      display: block;
+    }
+  }
+}

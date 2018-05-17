@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 // Redux
 import { connect } from 'react-redux';
 
-
 // Components
 import DashboardsIndex from 'components/admin/dashboards/pages/index';
 import DashboardsNew from 'components/admin/dashboards/pages/new';
 import DashboardsShow from 'components/admin/dashboards/pages/show';
 
 function DashboardsTab(props) {
-  const { tab, subtab, id, user } = props;
+  const {
+    tab,
+    subtab,
+    id,
+    user
+  } = props;
 
   return (
     <div className="c-dashboards-tab">

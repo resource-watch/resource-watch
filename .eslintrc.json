@@ -18,9 +18,12 @@
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": 0,
     "import/named": 0,
+    "react/prefer-stateless-function": 0,
     "react/jsx-filename-extension": 0,
     "linebreak-style": 0,
-    "no-plusplus": 0
+    "no-plusplus": 0,
+    "jsx-a11y/href-no-hash": 0,
+    "jsx-a11y/anchor-is-valid": 0
   },
   "parser": "babel-eslint",
   "parserOptions": {

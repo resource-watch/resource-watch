@@ -20,7 +20,11 @@ export const logPageView = () => {
 export const logEvent = (category = '', action = '', label = '') => {
   if (process.env.NODE_ENV === 'production') {
     if (category && action) {
-      ReactGA.event(Object.assign({ category, action }, label ? { label } : {}));
+      ReactGA.event({
+        category,
+        action,
+        ...!!label && { label }
+      });
     }
   } else {
     console.info(`[GA] Event: ${category}, ${action}, ${label}`);

@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Router from 'next/router';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
+import { getUserAreas } from 'redactions/user';
+
 // Components
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 import Tabs from 'components/ui/Tabs';
 import Title from 'components/ui/Title';
 
@@ -17,6 +20,7 @@ import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 import AreasTab from 'components/app/myrw/areas/AreasTab';
+import CollectionsTab from 'components/app/myrw/collections/CollectionsTab';
 
 // Contants
 const MYRW_TABS = [{
@@ -28,12 +32,12 @@ const MYRW_TABS = [{
   label: 'Datasets',
   value: 'datasets',
   route: 'myrw',
-  params: { tab: 'datasets' }
+  params: { tab: 'datasets', subtab: 'my_datasets' }
 }, {
-  label: 'Widgets',
+  label: 'Visualizations',
   value: 'widgets',
   route: 'myrw',
-  params: { tab: 'widgets' }
+  params: { tab: 'widgets', subtab: 'my_widgets' }
 }, {
   label: 'Dashboards',
   value: 'dashboards',
@@ -45,13 +49,44 @@ const MYRW_TABS = [{
   value: 'areas',
   route: 'myrw',
   params: { tab: 'areas' }
+},
+{
+  label: 'Collections',
+  value: 'collections',
+  route: 'myrw',
+  params: { tab: 'collections' }
 }];
 
 class MyRW extends Page {
+  static defaultProps = {
+  };
+
+  static propTypes = {
+    url: PropTypes.object,
+    user: PropTypes.object
+  };
+
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { user } = props;
+    const { tab } = props.url.query;
+
+    if (tab === 'areas') {
+      await context.store.dispatch(getUserAreas({ layerGroups: true }));
+    }
+
+    // If user is not logged redirect to login
+    if (!user.token && typeof window !== 'undefined') {
+      window.location.pathname = '/login';
+    }
+
+    return { ...props };
+  }
+
   constructor(props) {
     super(props);
 
-    const { url } = props;
+    const { url, tab } = props;
 
     this.state = {
       tab: url.query.tab || 'profile',
@@ -70,10 +105,12 @@ class MyRW extends Page {
 
   render() {
     const { url, user } = this.props;
+
+    if (!user.token) return null;
+
     const { tab, subtab } = this.state;
     const userName = user && user.name ? ` ${user.name.split(' ')[0]}` : '';
-    const title = `Hi${userName}!`;
-
+    const title = userName ? `Hi${userName}!` : 'My Resource Watch';
     return (
       <Layout
         title="My Resource Watch Edit Profile"
@@ -105,6 +142,7 @@ class MyRW extends Page {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
+
                 {tab === 'profile' &&
                   <ProfilesTab tab={tab} subtab={subtab} />
                 }
@@ -118,12 +156,17 @@ class MyRW extends Page {
                 }
 
                 {tab === 'areas' &&
-                  <AreasTab tag={tab} subtab={subtab} />
+                  <AreasTab tag={tab} subtab={subtab} query={url.query} />
                 }
 
                 {tab === 'widgets' &&
                   <WidgetsTab tab={tab} subtab={subtab} />
                 }
+
+                {tab === 'collections' &&
+                  <CollectionsTab tab={tab} subtab={subtab} />
+                }
+
               </div>
             </div>
           </div>
@@ -133,13 +176,5 @@ class MyRW extends Page {
     );
   }
 }
-
-MyRW.defaultProps = {
-};
-
-MyRW.propTypes = {
-  url: PropTypes.object,
-  user: PropTypes.object
-};
 
 export default withRedux(initStore, null, null)(MyRW);

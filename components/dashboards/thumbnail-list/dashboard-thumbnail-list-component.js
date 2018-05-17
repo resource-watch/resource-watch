@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 export default function DashboardThumbnailList({
-  dashboards,
+  dashboards = [],
   total,
-  selected,
+  selected = '',
   pagination,
-  expanded,
+  expanded = false,
+  add = false,
   onSelect,
+  onAdd,
   onExpand
 }) {
   return (
@@ -33,6 +35,20 @@ export default function DashboardThumbnailList({
           </li>
         ))
       }
+
+      {!pagination && add &&
+        <li
+          className="-toggle"
+          role="button"
+          tabIndex="0"
+          onClick={() => onAdd()}
+        >
+          <div className="content">
+            New
+          </div>
+        </li>
+      }
+
       {pagination && total > 5 &&
         <li
           className="-toggle"
@@ -53,14 +69,10 @@ DashboardThumbnailList.propTypes = {
   dashboards: PropTypes.array,
   total: PropTypes.number,
   pagination: PropTypes.bool,
+  add: PropTypes.bool,
   selected: PropTypes.string,
   expanded: PropTypes.bool,
   onSelect: PropTypes.func,
-  onExpand: PropTypes.func
-};
-
-DashboardThumbnailList.defaultProps = {
-  dashboards: [],
-  selected: '',
-  expanded: false
+  onExpand: PropTypes.func,
+  onAdd: PropTypes.func
 };

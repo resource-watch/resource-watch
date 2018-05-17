@@ -3,6 +3,24 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
 export default class Table extends React.Component {
+  /* Property typing */
+  static propTypes = {
+    data: PropTypes.array,
+    columns: PropTypes.array,
+    actionsColumn: PropTypes.bool,
+    paginated: PropTypes.bool,
+    pageSize: PropTypes.number
+  };
+
+  /* Property default values */
+  static defaultProps = {
+    data: [],
+    columns: [],
+    actionsColumn: true,
+    paginated: true,
+    pageSize: 10
+  };
+
   constructor(props) {
     super(props);
 
@@ -142,27 +160,3 @@ export default class Table extends React.Component {
     );
   }
 }
-
-/* Property typing */
-Table.propTypes = {
-  data: PropTypes.array,
-  columns: PropTypes.array,
-  actionsColumn: PropTypes.bool,
-  editablePath: PropTypes.string,
-  removablePath: PropTypes.string,
-  paginated: PropTypes.bool,
-  pageSize: PropTypes.number,
-  initialPage: PropTypes.number
-};
-
-/* Property default values */
-Table.defaultProps = {
-  data: [],
-  columns: [],
-  actionsColumn: true,
-  editablePath: '/admin/datasets/:id/edit',
-  removablePath: '/admin/datasets/:id/remove',
-  paginated: true,
-  pageSize: 10,
-  initialPage: 0
-};

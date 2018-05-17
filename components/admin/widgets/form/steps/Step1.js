@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -7,10 +7,6 @@ import { toastr } from 'react-redux-toastr';
 // Constants
 import { FORM_ELEMENTS, CONFIG_TEMPLATE, CONFIG_TEMPLATE_OPTIONS } from 'components/admin/widgets/form/constants';
 
-// Redux
-import { connect } from 'react-redux';
-import { setTitle } from 'components/widgets/editor/redux/widgetEditor';
-
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
@@ -18,20 +14,42 @@ import TextArea from 'components/form/TextArea';
 import Select from 'components/form/SelectInput';
 import Code from 'components/form/Code';
 import Checkbox from 'components/form/Checkbox';
-import WidgetEditor from 'components/widgets/editor/WidgetEditor';
 import SwitchOptions from 'components/ui/SwitchOptions';
+import Spinner from 'components/ui/Spinner';
 
-class Step1 extends React.Component {
+// Widget editor
+import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
+
+
+class Step1 extends Component {
+  static defaultProps = {
+    showEditor: true
+  };
+
+  static propTypes = {
+    id: PropTypes.string,
+    form: PropTypes.object,
+    mode: PropTypes.string,
+    datasets: PropTypes.array,
+    onChange: PropTypes.func,
+    onModeChange: PropTypes.func,
+    showEditor: PropTypes.bool,
+    onGetWidgetConfig: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
       id: props.id,
-      form: props.form
+      form: props.form,
+      loadingVegaChart: false,
     };
 
-    // BINDINGS
+    // ------------------- BINDINGS ---------------------------
     this.triggerChangeMode = this.triggerChangeMode.bind(this);
+    this.triggerToggleLoadingVegaChart = this.triggerToggleLoadingVegaChart.bind(this);
+    this.refreshWidgetPreview = this.refreshWidgetPreview.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,9 +82,17 @@ class Step1 extends React.Component {
     }
   }
 
+  triggerToggleLoadingVegaChart(loading) {
+    this.setState({ loadingVegaChart: loading });
+  }
+
+  refreshWidgetPreview() {
+    this.forceChartUpdate();
+  }
+
   render() {
-    const { id } = this.state;
-    const { widgetEditor } = this.props;
+    const { id, loadingVegaChart } = this.state;
+    const { showEditor } = this.props;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -74,6 +100,8 @@ class Step1 extends React.Component {
     const editorFieldContainerClass = classnames({
       '-expanded': this.props.mode === 'editor'
     });
+
+    const widgetTypeEmbed = this.state.form.widgetConfig.type === 'embed';
 
     return (
       <fieldset className="c-field-container">
@@ -104,7 +132,7 @@ class Step1 extends React.Component {
           {/* NAME */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-            onChange={value => this.props.setTitle(value)}
+            onChange={value => this.props.onChange({ name: value })}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -112,8 +140,8 @@ class Step1 extends React.Component {
               label: 'Name',
               type: 'text',
               required: true,
-              default: widgetEditor.title || '',
-              value: widgetEditor.title || ''
+              default: this.state.form.name,
+              value: this.state.form.name
             }}
           >
             {Input}
@@ -181,9 +209,32 @@ class Step1 extends React.Component {
             {Checkbox}
           </Field>
 
+          {/* FREEZE */}
+          <div className="freeze-container">
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.freeze = c; }}
+              onChange={value => this.props.onChange({ freeze: value.checked })}
+              properties={{
+                name: 'freeze',
+                label: this.props.id ? '' : 'Do you want to freeze this widget?',
+                value: 'freeze',
+                title: 'Freeze',
+                defaultChecked: this.props.form.freeze,
+                checked: this.props.form.freeze,
+                disabled: this.props.id && this.props.form.freeze
+              }}
+            >
+              {Checkbox}
+            </Field>
+            {this.props.form.freeze && this.props.id &&
+              <div className="freeze-text">
+                This widget has been <strong>frozen</strong> and cannot be modified...
+              </div>
+            }
+          </div>
         </fieldset>
 
-        {this.state.form.dataset &&
+        {this.state.form.dataset && showEditor &&
           <fieldset className={`c-field-container ${editorFieldContainerClass}`}>
             <div className="l-row row align-right">
               <div className="column shrink">
@@ -203,14 +254,12 @@ class Step1 extends React.Component {
 
             {this.props.mode === 'editor' &&
               <WidgetEditor
-                dataset={this.state.form.dataset}
-                mode="dataset"
-                showSaveButton={false}
-                onChange={(value) => { this.props.onChange({ widgetConfig: value }); }}
-                onError={() => {
-                  toastr.info('Info', 'This dataset doesn\'t allow editor mode');
-                  this.props.onModeChange('advanced');
-                }}
+                datasetId={this.state.form.dataset}
+                widgetId={this.props.id}
+                saveButtonMode="never"
+                embedButtonMode="never"
+                titleMode="never"
+                provideWidgetConfig={this.props.onGetWidgetConfig}
               />
             }
 
@@ -231,44 +280,67 @@ class Step1 extends React.Component {
             }
 
             {this.props.mode === 'advanced' &&
-              <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
-                onChange={value => this.props.onChange({ widgetConfig: value })}
-                properties={{
-                  name: 'widgetConfig',
-                  label: 'Widget config',
-                  default: this.state.form.widgetConfig,
-                  value: this.state.form.widgetConfig
-                }}
-              >
-                {Code}
-              </Field>
+              <div className="advanced-mode-container">
+                <Field
+                  ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
+                  onChange={value => this.props.onChange({ widgetConfig: value })}
+                  properties={{
+                    name: 'widgetConfig',
+                    label: 'Widget config',
+                    default: this.state.form.widgetConfig,
+                    value: this.state.form.widgetConfig
+                  }}
+                >
+                  {Code}
+                </Field>
+                <div className="c-field vega-preview">
+                  <h5>Widget preview</h5>
+                  {!widgetTypeEmbed &&
+                    <div className="">
+                      <Spinner isLoading={loadingVegaChart} className="-light -relative" />
+                      <VegaChart
+                        data={this.state.form.widgetConfig}
+                        theme={getVegaTheme(true)}
+                        showLegend
+                        reloadOnResize
+                        toggleLoading={this.triggerToggleLoadingVegaChart}
+                        getForceUpdate={(func) => { this.forceChartUpdate = func; }}
+                      />
+                      <div className="actions">
+                        <button
+                          type="button"
+                          className="c-button -primary"
+                          onClick={this.refreshWidgetPreview}
+                        >
+                            Refresh
+                        </button>
+                      </div>
+                    </div>
+                  }
+                  {widgetTypeEmbed &&
+                    <iframe src={this.state.form.widgetConfig.url} width="100%" height="100%" frameBorder="0"></iframe>
+                  }
+                </div>
+              </div>
             }
+
           </fieldset>
+        }
+        {!showEditor && this.state.form.dataset &&
+          <div>
+            <Spinner isLoading={loadingVegaChart} className="-light -relative" />
+            <VegaChart
+              data={this.state.form.widgetConfig}
+              theme={getVegaTheme()}
+              showLegend
+              reloadOnResize
+              toggleLoading={this.triggerToggleLoadingVegaChart}
+            />
+          </div>
         }
       </fieldset>
     );
   }
 }
 
-Step1.propTypes = {
-  id: PropTypes.string,
-  form: PropTypes.object,
-  mode: PropTypes.string,
-  datasets: PropTypes.array,
-  onChange: PropTypes.func,
-  onModeChange: PropTypes.func,
-  // REDUX
-  widgetEditor: PropTypes.object,
-  setTitle: PropTypes.func
-};
-
-const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor
-});
-
-const mapDispatchToProps = dispatch => ({
-  setTitle: title => dispatch(setTitle(title))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Step1);
+export default Step1;

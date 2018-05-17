@@ -1,0 +1,47 @@
+.c-search-list {
+
+  .search-list {
+    &-item {
+      padding: 10px 20px;
+      margin: 0;
+
+      &:first-child {
+        margin: 0;
+      }
+
+      &--selected {
+        background:rgba(00,00,00,0.1);
+      }
+    }
+  }
+
+  &--header {
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 700px;
+    max-height: calc(100vh - 110px);
+
+    background: #FFF;
+    overflow-y: scroll;
+    border-radius: 0 0 5px 5px;
+
+    & .search-list {
+      max-height: calc(100% - 60px);
+
+      overflow-y: scroll;
+    }
+  }
+
+  &--empty {
+    padding: 10px 0;
+    font-size: 20px;
+
+    color: rgba(00,00,00,0.4);
+    font-weight: 600;
+    text-align: center;
+  }
+
+}

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -24,15 +23,50 @@ import DeleteAction from './actions/DeleteAction';
 import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 import OwnershipTD from './td/OwnershipTD';
-// import DatasetTD from './td/DatasetTD';
 
 
 class WidgetsTable extends React.Component {
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    dataset: '',
+    // Store
+    widgets: [],
+    filteredWidgets: [],
+    user: {}
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    dataset: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    widgets: PropTypes.array.isRequired,
+    filteredWidgets: PropTypes.array.isRequired,
+    error: PropTypes.string,
+    user: PropTypes.object,
+
+    // Actions
+    getWidgets: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+
+    // ------------------- Bindings -----------------------
+    this.onSearch = this.onSearch.bind(this);
+    // ----------------------------------------------------
+  }
+
   componentDidMount() {
     this.props.setFilters([]);
     // TODO: get filtered widgets
     this.props.getWidgets({
-      dataset: this.props.dataset
+      filters: {
+        ...this.props.dataset && { dataset: this.props.dataset },
+        'page[size]': 9999
+      }
     });
   }
 
@@ -40,7 +74,6 @@ class WidgetsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
@@ -111,7 +144,10 @@ class WidgetsTable extends React.Component {
             data={this.getFilteredWidgets()}
             pageSize={20}
             onRowDelete={() => this.props.getWidgets({
-              dataset: this.props.dataset
+              filters: {
+                ...this.props.dataset && { dataset: this.props.dataset },
+                'page[size]': 9999
+              }
             })}
             pagination={{
               enabled: true,
@@ -124,31 +160,6 @@ class WidgetsTable extends React.Component {
     );
   }
 }
-
-WidgetsTable.defaultProps = {
-  columns: [],
-  actions: {},
-  dataset: '',
-  // Store
-  widgets: [],
-  filteredWidgets: [],
-  user: {}
-};
-
-WidgetsTable.propTypes = {
-  authorization: PropTypes.string,
-  dataset: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  widgets: PropTypes.array.isRequired,
-  filteredWidgets: PropTypes.array.isRequired,
-  error: PropTypes.string,
-  user: PropTypes.object,
-
-  // Actions
-  getWidgets: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   loading: state.widgets.widgets.loading,

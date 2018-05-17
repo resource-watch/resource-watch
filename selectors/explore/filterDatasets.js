@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 // Get datasets
 const datasetList = state => state.explore.datasets.list;
 const filters = state => state.explore.filters;
+const exploreDatasetFilters = state => state.exploreDatasetFilters.filters;
 const datasetPage = state => state.explore.datasets.page;
 const datasetLimit = state => state.explore.datasets.limit;
 const datasetSorting = state => state.explore.sorting;
@@ -36,10 +37,12 @@ const getSortedDatasets = (datasets, sorting) => {
 };
 
 // Filter datasets by issues
-const getFilteredDatasets = (_list, _filters, _page, _limit, _sorting) => {
-  const { search, topics, dataType, geographies, datasetsFilteredByConcepts } = _filters;
+const getFilteredDatasets = (_list, _filters, _exploreDatasetFilters, _page, _limit, _sorting) => {
+  const { search, datasetsFilteredByConcepts } = _filters;
+  const { topics, dataTypes, geographies } = _exploreDatasetFilters;
   const haveResults = datasetsFilteredByConcepts.length;
-  const areFiltersApplied = ([...topics || [], ...geographies || [], ...dataType || []].length) || search;
+  const areFiltersApplied = ([...topics || [], ...geographies || [],
+    ...dataTypes || []].length) || search;
 
   if (!haveResults && areFiltersApplied && !search) {
     return {
@@ -60,14 +63,28 @@ const getFilteredDatasets = (_list, _filters, _page, _limit, _sorting) => {
     let conceptsCheckPassed = true;
 
     if (search && search.key === 'name') {
-      if (it.attributes.metadata[0] && it.attributes.metadata[0].attributes.info) {
-        if (it.attributes.metadata[0].attributes.info.name) {
-          if (it.attributes.metadata[0].attributes.info.name.toLowerCase().match(search.value.toLowerCase())) {
-            searchFilterPassed = true;
-          }
+      const searchSt = search.value.toLowerCase();
+
+      if (it.attributes.metadata.length > 0) {
+        const metadataObj = it.attributes.metadata[0].attributes;
+        const infoObj = metadataObj.info;
+
+        const nameCheck = infoObj.name && infoObj.name.toLowerCase().indexOf(searchSt) >= 0;
+        const functionsCheck = infoObj.functions && infoObj.functions.toLowerCase().indexOf(searchSt) >= 0;
+        const sourceCheck = metadataObj.source && metadataObj.source.toLowerCase().indexOf(searchSt) >= 0;
+
+        if (nameCheck || functionsCheck || sourceCheck) {
+          searchFilterPassed = true;
         }
-      } else if (it.attributes.name.toLowerCase().match(search.value.toLowerCase())) {
+      } else if (it.attributes.name.toLowerCase().indexOf(searchSt) >= 0) {
         searchFilterPassed = true;
+      }
+      if (it.attributes.vocabulary.length > 0) {
+        const vocabulary = it.attributes.vocabulary[0];
+        const tagsCheck = vocabulary.attributes.tags.find(tag => tag.toLowerCase().indexOf(searchSt) >= 0);
+        if (tagsCheck) {
+          searchFilterPassed = true;
+        }
       }
     }
 
@@ -96,6 +113,7 @@ const getFilteredDatasets = (_list, _filters, _page, _limit, _sorting) => {
 export default createSelector(
   datasetList,
   filters,
+  exploreDatasetFilters,
   datasetPage,
   datasetLimit,
   datasetSorting,

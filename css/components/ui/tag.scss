@@ -1,0 +1,58 @@
+.c-tag {
+  appearance: none;
+  display: inline-block;
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 11px;
+  white-space: nowrap;
+  cursor: pointer;
+
+  > * {
+    margin: 0 0 0 4px;
+
+    &:first-child { margin: 0 }
+  }
+
+  &.-primary {
+    background: $color-primary;
+    color: $color-white;
+    border: 1px solid $color-primary;
+    font-weight: $font-weight-bold;
+
+    &:hover {
+      background: darken($color-primary, 10%);
+    }
+  }
+
+  &.-secondary {
+    background: transparent;
+    color: $color-text-1;
+    border: 1px solid $color-primary;
+    font-weight: $font-weight-bold;
+
+    &:hover {
+      background: rgba($color-primary, 0.2);
+    }
+  }
+
+  &.-tertiary {
+    background: transparent;
+    color: $color-text-1;
+    border: 1px solid $border-color-2;
+    font-weight: $font-weight-bold;
+
+    &:hover {
+      background: rgba($border-color-2, 0.2);
+    }
+  }
+
+  &.-clean {
+    cursor: default; // If we don't have include grapho we can't set this tags as clickable
+    padding: 0;
+    color: $color-text-1;
+
+    &:hover {
+      // text-decoration: underline; // If we don't have include grapho we can't set this tags as clickable
+    }
+  }
+}

@@ -1,19 +1,5 @@
 import 'isomorphic-fetch';
-
-function parseDataset(dataset) {
-  const d = Object.assign({}, { ...dataset.attributes, id: dataset.id });
-  if (d.metadata) {
-    const metadata = d.metadata.map(m => ({
-      ...m.attributes,
-      ...m.attributes.info,
-      id: m.id
-    }));
-    d.metadata = metadata && metadata.length ? metadata[0] : {};
-  }
-  if (d.widget) d.widgets = d.widget.map(w => ({ ...w.attributes, id: w.id }));
-  if (d.layer) d.layer = d.layer.map(l => ({ ...l.attributes, id: l.id }));
-  return d;
-}
+import WRISerializer from 'wri-json-api-serializer';
 
 /**
  * Dataset service
@@ -48,7 +34,7 @@ export default class DatasetService {
    * Get subscribable datasets
    */
   getSubscribableDatasets(includes = '') {
-    return fetch(`${this.opts.apiURL}/dataset?application=${[process.env.APPLICATIONS]}&language=${this.opts.language}&includes=${includes}&subscribable=true&page[size]=999`)
+    return fetch(`${this.opts.apiURL}/dataset?application=${process.env.APPLICATIONS}&language=${this.opts.language}&includes=${includes}&subscribable=true&page[size]=999`)
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
@@ -59,7 +45,15 @@ export default class DatasetService {
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
     const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
-    return fetch(url)
+    return fetch(
+      url,
+      {
+        method: 'GET',
+        headers: {
+          'Upgrade-Insecure-Requests': 1
+        }
+      }
+    )
       .then((response) => {
         if (response.status >= 400) throw Error(response.statusText);
         return response.json();
@@ -73,12 +67,20 @@ export default class DatasetService {
    */
   fetchDataset(includes = '', applications = [process.env.APPLICATIONS]) {
     const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
-    return fetch(url)
+    return fetch(
+      url,
+      {
+        method: 'GET',
+        headers: {
+          'Upgrade-Insecure-Requests': 1
+        }
+      }
+    )
       .then((response) => {
         if (response.status >= 400) throw Error(response.statusText);
         return response.json();
       })
-      .then(body => parseDataset(body.data));
+      .then(body => WRISerializer(body));
   }
 
   /**
@@ -218,9 +220,9 @@ export default class DatasetService {
     document.body.removeChild(a);
   }
 
-  getSimilarDatasets(withAncestors = true) {
+  getSimilarDatasets(datasetIds, withAncestors = true) {
     const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
-    return fetch(`${this.opts.apiURL}/graph/query/${endpoint}/${this.datasetId}?published=true&env=${process.env.API_ENV}&application=${[process.env.APPLICATIONS]}&limit=6`)
+    return fetch(`${this.opts.apiURL}/graph/query/${endpoint}/?dataset=${datasetIds}&published=true&env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}&limit=6`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();
@@ -272,7 +274,7 @@ export default class DatasetService {
     }
 
 
-    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=${process.env.API_ENV}&application=${[process.env.APPLICATIONS]}&page[size]=999999`)
+    return fetch(`${this.opts.apiURL}/graph/query/search-datasets?${querySt}&published=true&env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}&page[size]=999999`)
       .then((response) => {
         if (response.status >= 400) throw new Error(response.statusText);
         return response.json();

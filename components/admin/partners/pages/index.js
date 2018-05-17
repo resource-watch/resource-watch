@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import PartnersTable from 'components/admin/partners/table/PartnersTable';
 
-export default function PartnersIndex(props) {
-  const { user } = props;
-
+export default function PartnersIndex({ user = {} }) {
   return (
     <div className="c-partners-index">
       <PartnersTable
@@ -19,8 +17,4 @@ export default function PartnersIndex(props) {
 
 PartnersIndex.propTypes = {
   user: PropTypes.object.isRequired
-};
-
-PartnersIndex.defaultProps = {
-  user: {}
 };

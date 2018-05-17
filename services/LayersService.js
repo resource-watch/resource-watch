@@ -20,6 +20,9 @@ export default class LayersService {
         }, {
           key: 'Authorization',
           value: this.opts.authorization
+        }, {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: ({ data }) => {
           if (Array.isArray(data)) {
@@ -53,6 +56,9 @@ export default class LayersService {
         }, {
           key: 'Authorization',
           value: this.opts.authorization
+        }, {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: (response) => {
           resolve({
@@ -67,7 +73,39 @@ export default class LayersService {
     });
   }
 
-  saveData({ type, body, id, dataset }) {
+  getColumns({ dataset }) {
+    return new Promise((resolve, reject) => {
+      get({
+        url: `${process.env.WRI_API_URL}/fields/${dataset}`,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: (response) => {
+          const fieldsObj = response.fields;
+
+          const parsedData = {
+            tableName: response.tableName,
+            fields: ((fieldsObj && Object.keys(fieldsObj)) || []).map((fKey) => {
+              const { type } = fieldsObj[fKey] || null;
+              return { label: fKey || '', value: fKey || '', type };
+            })
+          };
+          resolve({ ...parsedData });
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
+  saveData({
+    type, body, id, dataset
+  }) {
     return new Promise((resolve, reject) => {
       post({
         url: `${process.env.WRI_API_URL}/dataset/${dataset}/layer/${id}`,

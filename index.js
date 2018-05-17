@@ -7,10 +7,12 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const basicAuth = require('basic-auth');
 const sass = require('node-sass');
+const serveStatic = require('serve-static');
 const postcssMiddleware = require('postcss-middleware');
 const redis = require('redis');
 const RedisStore = require('connect-redis')(session);
 const { parse } = require('url');
+const path = require('path');
 const routes = require('./routes');
 const postcssConfig = require('./postcss.config');
 const auth = require('./auth');
@@ -20,15 +22,10 @@ const prod = process.env.NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
-const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
-  // Server rendering for AddSearch and Explore detail page
-  const newRoute = Object.assign({}, route);
-  if (route.name === 'explore_detail' && /AddSearchBot/.test(req.headers['user-agent'])) {
-    newRoute.pattern = `${route.pattern}/beta`;
-    newRoute.name = 'explore_detail_beta';
-    newRoute.page = '/app/ExploreDetailBeta';
-  }
-  app.render(req, res, newRoute.page, query);
+const handle = routes.getRequestHandler(app, ({
+  req, res, route, query
+}) => {
+  app.render(req, res, route.page, query);
 });
 
 // Express app creation
@@ -39,8 +36,8 @@ function checkBasicAuth(users) {
     if (!/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       let authorized = false;
-      if (user && ( (user.name === users[0].name && user.pass === users[0].pass) ||
-        (user.name === users[1].name && user.pass === users[1].pass) ) ) {
+      if (user && ((user.name === users[0].name && user.pass === users[0].pass) ||
+        (user.name === users[1].name && user.pass === users[1].pass))) {
         authorized = true;
       }
 
@@ -84,13 +81,14 @@ if (prod) {
 }
 
 // Using basic auth in prod mode
-if (prod) {
+const { USERNAME, PASSWORD, RW_USERNAME, RW_PASSWORD } = process.env;
+if (prod && ((USERNAME && PASSWORD) || (RW_USERNAME && RW_PASSWORD))) {
   server.use(checkBasicAuth([{
-    name: process.env.USERNAME,
-    pass: process.env.PASSWORD
+    name: USERNAME,
+    pass: PASSWORD
   }, {
-    name: process.env.RW_USERNAME,
-    pass: process.env.RW_PASSWORD
+    name: RW_USERNAME,
+    pass: RW_PASSWORD
   }]));
 }
 
@@ -99,6 +97,15 @@ server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(session(sessionOptions));
+server.use(serveStatic(path.join(__dirname, 'static')));
+
+// Middleware check: Make sure that we trigger auth if a token is passed to RW
+server.use((req, res, nextAction) => {
+  if (req.query && req.query.token && !/auth/.test(req.url)) {
+    return res.redirect(`/auth?token=${req.query.token}`);
+  }
+  return nextAction();
+});
 
 // Authentication
 auth.initialize(server);
@@ -135,16 +142,43 @@ app.prepare()
     // Authentication
     server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
       if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
-      return res.redirect('/myrw');
+      const authRedirect = req.cookies.authUrl || '/myrw';
+
+      if (req.cookies.authUrl) {
+        res.clearCookie('authUrl');
+      }
+
+      return res.redirect(authRedirect);
     });
+
+    // Authenticate specific service, and set authUrl cookie so we remember where we where
+    server.get('/auth/:service', (req, res) => {
+      const { service } = req.params;
+
+      // Returning user data
+      if (service === 'user') return res.json(req.user || {});
+
+      if (!/facebook|google|twitter/.test(service)) {
+        return res.redirect('/');
+      }
+
+      if (req.cookies.authUrl) {
+        res.clearCookie('authUrl');
+      }
+
+      // save the current url for redirect if successfull, set it to expire in 5 min
+      res.cookie('authUrl', req.headers.referer, { maxAge: 3E5, httpOnly: true });
+      return res.redirect(`${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true&origin=rw`);
+    });
+
     server.get('/login', auth.login);
     server.get('/logout', (req, res) => {
+      req.session.destroy();
       req.logout();
-      res.redirect('/');
+      res.redirect('back');
     });
 
     // Routes with required authentication
-    server.get('/auth/user', (req, res) => res.json(req.user || {}));
     server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
     server.get('/myrw*?', isAuthenticated, handleUrl);
     server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);

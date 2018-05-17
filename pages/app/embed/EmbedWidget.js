@@ -8,29 +8,48 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
 import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
+import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
-import VegaChart from 'components/widgets/charts/VegaChart';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
-import ChartTheme from 'utils/widgets/theme';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Icon from 'components/ui/Icon';
+
+// Widget editor
+import { VegaChart, getVegaTheme } from 'widget-editor';
 
 class EmbedWidget extends Page {
-  static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    const referer = isServer ? req.headers.referer : location.href;
-    store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    return { user, isServer, url, referer, isLoading: true };
+  static propTypes = {
+    widget: PropTypes.object,
+    getWidget: PropTypes.func,
+    checkIfFavorited: PropTypes.func,
+    setIfFavorited: PropTypes.func,
+    bandDescription: PropTypes.string,
+    bandStats: PropTypes.object,
+    loading: PropTypes.bool,
+    error: PropTypes.string,
+    favourited: PropTypes.bool
+  };
+
+  static defaultProps = {
+    widget: {}
+  };
+
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store, isServer, req } = context;
+
+    store.dispatch(setEmbed(true));
+
+    return {
+      ...props,
+      referer: isServer ? req.headers.referer : window.location.href
+    };
   }
 
   isLoadedExternally() {
-    return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
+    return !/localhost|(staging\.)?resourcewatch.org/.test(this.props.referer);
   }
 
   constructor(props) {
@@ -43,16 +62,40 @@ class EmbedWidget extends Page {
 
   componentDidMount() {
     const { url } = this.props;
-    this.props.getWidget(url.query.id);
+    this.props.getWidget(url.query.id, 'metadata');
     if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
   }
 
   getModal() {
     const { widget, bandDescription, bandStats } = this.props;
+    const widgetAtts = widget.attributes;
+    const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
+      widgetAtts.metadata[0].attributes.info &&
+      widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
+    const noAdditionalInfo = !widget.attributes.description && !bandDescription &&
+      isEmpty(bandStats) && widgetLinks.length === 0;
     return (
       <div className="widget-modal">
-        { !widget.attributes.description && !bandDescription && isEmpty(bandStats) &&
+        { noAdditionalInfo &&
           <p>No additional information is available</p>
+        }
+
+        { widgetLinks.length > 0 &&
+          <div className="widget-links-container">
+            <h4>Links</h4>
+            <ul>
+              { widgetLinks.map(link => (
+                <li>
+                  <a
+                    href={link.link}
+                    target="_blank"
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         }
 
         { widget.attributes.description && (
@@ -98,29 +141,36 @@ class EmbedWidget extends Page {
   }
 
   render() {
-    const { widget, loading, error, favorited, user } = this.props;
+    const {
+      widget, loading, error, favourited, user
+    } = this.props;
     const { isLoading, modalOpened } = this.state;
 
-    const favoriteIcon = favorited ? 'star-full' : 'star-empty';
+    const favouriteIcon = favourited ? 'star-full' : 'star-empty';
+
+    const widgetAtts = widget && widget.attributes;
+    const widgetLinks = (widgetAtts && widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
+      widgetAtts.metadata[0].attributes.info &&
+      widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
 
     if (loading) {
       return (
-        <EmbedLayout
-          title={'Loading widget...'}
-          description={''}
+        <LayoutEmbed
+          title="Loading widget..."
+          description=""
         >
           <div className="c-embed-widget">
             <Spinner isLoading className="-light" />
           </div>
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     if (error) {
       return (
-        <EmbedLayout
-          title={'Resource Watch'}
-          description={''}
+        <LayoutEmbed
+          title="Resource Watch"
+          description=""
         >
           <div className="c-embed-widget">
             <div className="widget-title">
@@ -136,35 +186,40 @@ class EmbedWidget extends Page {
                 <a href="/" target="_blank" rel="noopener noreferrer">
                   <img
                     className="embed-logo"
-                    src={'/static/images/logo-embed.png'}
+                    src="/static/images/logo-embed.png"
                     alt="Resource Watch"
                   />
                 </a>
               </div>
             ) }
           </div>
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     return (
-      <EmbedLayout
+      <LayoutEmbed
         title={`${widget.attributes.name}`}
         description={`${widget.attributes.description || ''}`}
       >
         <div className="c-embed-widget">
           <Spinner isLoading={isLoading} className="-light" />
           <div className="widget-title">
-            <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
+            {widgetLinks.length === 0 &&
+              <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
+                <h4>{widget.attributes.name}</h4>
+              </a>
+            }
+            {widgetLinks.length > 0 &&
               <h4>{widget.attributes.name}</h4>
-            </a>
+            }
             <div className="buttons">
               {
                 user.id && (
                   <button
-                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
+                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favourited)}
                   >
-                    <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
+                    <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
                   </button>
                 )
               }
@@ -179,7 +234,7 @@ class EmbedWidget extends Page {
           <div className="widget-content">
             <VegaChart
               data={widget.attributes.widgetConfig}
-              theme={ChartTheme()}
+              theme={getVegaTheme()}
               toggleLoading={l => this.setState({ isLoading: l })}
               reloadOnResize
             />
@@ -187,36 +242,21 @@ class EmbedWidget extends Page {
           </div>
           { this.isLoadedExternally() && (
             <div className="widget-footer">
+              Powered by
               <a href="/" target="_blank" rel="noopener noreferrer">
                 <img
                   className="embed-logo"
-                  src={'/static/images/logo-embed.png'}
+                  src="/static/images/logo-embed.png"
                   alt="Resource Watch"
                 />
               </a>
             </div>
           ) }
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }
-
-EmbedWidget.propTypes = {
-  widget: PropTypes.object,
-  getWidget: PropTypes.func,
-  checkIfFavorited: PropTypes.func,
-  setIfFavorited: PropTypes.func,
-  bandDescription: PropTypes.string,
-  bandStats: PropTypes.object,
-  loading: PropTypes.bool,
-  error: PropTypes.string,
-  favorited: PropTypes.bool
-};
-
-EmbedWidget.defaultProps = {
-  widget: {}
-};
 
 const mapStateToProps = state => ({
   widget: state.widget.data,
@@ -224,7 +264,7 @@ const mapStateToProps = state => ({
   error: state.widget.error,
   bandDescription: state.widget.bandDescription,
   bandStats: state.widget.bandStats,
-  favorited: state.widget.favorite.favorited,
+  favourited: state.widget.favourite.favourited,
   user: state.user
 });
 

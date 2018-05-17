@@ -6,8 +6,10 @@
   box-sizing: border-box;
   padding: 0 (map-get($grid-column-gutter, small)/2);
 
+
   @media screen and (min-width: map-get($breakpoints, medium)) {
     max-width: map-get($breakpoints, medium);
+    padding: 0 (map-get($grid-column-gutter, small)/2);
   }
 
   @media screen and (min-width: map-get($breakpoints, large)) {
@@ -17,6 +19,10 @@
 
   @media screen and (min-width: map-get($breakpoints, xlarge)) {
     max-width: 1080px;
+
+    &.-admin {
+      max-width: 1280px;
+    }
   }
 
   &.-expanded {

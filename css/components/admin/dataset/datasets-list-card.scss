@@ -1,12 +1,36 @@
 .c-datasets-list-card {
 
-  .actions {
-    display: flex;
-    justify-content: flex-end;
+  .card-header {
+    position: relative;
+    padding-right: 20px;
 
-    a {
-      color: $color-dark-pink;
-      text-decoration: none;
+    > .favourite-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &.-owner {
+    .card-container {
+      padding-bottom: 50px;
+    }
+
+    .actions {
+      width: 100%;
+      padding: 0 30px;
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      display: flex;
+      justify-content: flex-end;
+
+      a {
+        color: $color-dark-pink;
+        text-decoration: none;
+      }
     }
   }
 }

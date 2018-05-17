@@ -3,25 +3,22 @@ import PropTypes from 'prop-types';
 import TableFilters from './TableFilters';
 import TableSorts from './TableSorts';
 
+function TableHeaderActions(props) {
+  return (
+    <div className="c-table-header-actions">
+      <ul>
+        <li className="action sortby-action">
+          <TableSorts {...props} />
+        </li>
 
-export default class TableHeaderActions extends React.Component {
-  render() {
-    return (
-      <div className="c-table-header-actions">
-        <ul>
-          <li className="action sortby-action">
-            <TableSorts {...this.props} />
+        {props.filters &&
+          <li className="action filter-action">
+            <TableFilters {...props} />
           </li>
-
-          {this.props.filters &&
-            <li className="action filter-action">
-              <TableFilters {...this.props} />
-            </li>
-          }
-        </ul>
-      </div>
-    );
-  }
+        }
+      </ul>
+    </div>
+  );
 }
 
 TableHeaderActions.propTypes = {
@@ -33,8 +30,10 @@ TableHeaderActions.propTypes = {
   onSort: PropTypes.func
 };
 
-TableHeaderActions.defaultProps = {
-  onChange: null,
-  selected: null,
-  filters: true
-};
+// TableHeaderActions.defaultProps = {
+//   onChange: null,
+//   selected: null,
+//   filters: true
+// };
+
+export default TableHeaderActions;

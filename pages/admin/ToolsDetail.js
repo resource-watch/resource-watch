@@ -14,8 +14,8 @@ import ToolsService from 'services/ToolsService';
 import { capitalizeFirstLetter } from 'utils/utils';
 
 // Layout
-import Page from 'components/admin/layout/Page';
-import Layout from 'components/admin/layout/Layout';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-admin';
 
 // Tabs
 import ToolsTab from 'components/admin/tools/ToolsTab';
@@ -107,7 +107,7 @@ class ToolsDetail extends Page {
       >
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">
-          <div className="l-container">
+          <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
@@ -123,7 +123,7 @@ class ToolsDetail extends Page {
           </div>
         </div>
         <div className="c-page-section">
-          <div className="l-container">
+          <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
                 {tab === 'tools' &&

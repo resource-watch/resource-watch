@@ -1,0 +1,102 @@
+.c-search {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba($color-black, .3);
+  transition: all $animation-time $ease-in-sine;
+  z-index: 100000; // Just to be sure that is over all the content
+  visibility: hidden;
+  opacity: 0;
+
+  // Active styles
+  &.-opened {
+    visibility: visible;
+    opacity: 1;
+
+    .search-form {
+      transform: translateY(0px);
+    }
+  }
+
+  &--term {
+    width: 100%;
+
+    .search-close {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+  }
+
+  .search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: $header-main-height;
+    box-shadow: 0 1px 1px rgba(0,0,0,.15);
+
+    background-color: $header-bg-color;
+    background-image: $header-bg-image,
+      linear-gradient(
+        86deg,
+        $header-gradient-color-1 0%,
+        $header-gradient-color-2 100%
+      );
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    z-index: 10;
+  }
+
+  .search-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    transition: transform $animation-time-2 $ease-out-cubic;
+    transform: translateY(-100%);
+  }
+
+  .search-icon {
+    fill: $color-white;
+    flex-shrink: 0;
+  }
+
+  .search-close {
+    flex-shrink: 0;
+    fill: $color-black;
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    padding: 0;
+    border: 0;
+    background-color: $color-white;
+    cursor: pointer;
+    z-index: 2; /* Otherwise, it won't be reachable */
+
+    svg {
+      fill: $color-primary;
+    }
+
+    &:hover {
+      svg { fill: $color-error; }
+    }
+  }
+
+  .search-backdrop {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+}

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
@@ -17,7 +16,7 @@ import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
 
 const MAP_CONFIG = {
   zoom: 3,
@@ -36,8 +35,7 @@ class SubscriptionCard extends React.Component {
       loading: false,
       dataset: null,
       country: null,
-      type: props.subscription.attributes.datasetsQuery[0].type,
-      layer: {}
+      type: props.subscription.attributes.datasetsQuery[0].type
     };
 
     // Services
@@ -47,6 +45,11 @@ class SubscriptionCard extends React.Component {
     });
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    // ------------------- Bindings ---------------------------
+    this.handleDeleteSubscription = this.handleDeleteSubscription.bind(this);
+    this.handleGoToDataset = this.handleGoToDataset.bind(this);
+    // --------------------------------------------------------
   }
 
   componentDidMount() {
@@ -123,7 +126,6 @@ class SubscriptionCard extends React.Component {
       .catch(err => toastr.error('Error', err));
   }
 
-  @Autobind
   handleDeleteSubscription() {
     const { subscription, token } = this.props;
     const toastrConfirmOptions = {
@@ -139,16 +141,21 @@ class SubscriptionCard extends React.Component {
     toastr.confirm('Are you sure you want to delete the subscription?', toastrConfirmOptions);
   }
 
-  @Autobind
   handleGoToDataset() {
     Router.pushRoute('explore_detail', { id: this.props.subscription.attributes.datasets[0] });
   }
 
   render() {
-    const { loading, dataset, country, layerGroups, type } = this.state;
+    const {
+      loading,
+      dataset,
+      country,
+      layerGroups,
+      type
+    } = this.state;
+
     const { subscription } = this.props;
-    const confirmed = subscription.attributes.confirmed;
-    const name = subscription.attributes.name;
+    const { confirmed, name } = subscription.attributes;
 
     return (
       <div className="c-subscription-card">

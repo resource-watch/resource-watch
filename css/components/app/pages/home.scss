@@ -4,6 +4,10 @@
     width: 100%;
     height: 390px;
     overflow: hidden;
+    background-image: url('/static/images/homepage/video-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 
     .video-foreground,
     .video-foreground iframe {
@@ -13,6 +17,22 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
+    }
+
+    @media (min-aspect-ratio: 16/9) {
+      .video-foreground { height: 300%; top: -100%; }
+    }
+    @media (max-aspect-ratio: 16/9) {
+      .video-foreground { height: 250%; top: -75%; }
+    }
+
+    .video-foreground {
+      opacity: 0;
+      transition: opacity 2s;
+
+      &.-ready {
+        opacity: 1;
+      }
     }
 
     .video-text {
@@ -25,6 +45,7 @@
       justify-content: center;
       align-items: center;
       background: rgba(0,0,0,0.2);
+      padding: 0 32px;
 
       color: $alt-font-color;
       font-size: $font-size-big;
@@ -35,31 +56,86 @@
 
       h1 {
         color: $alt-font-color;
+        line-height: 1.35;
+        margin: 0 0 16px;
+
+        @media screen and (min-width: map-get($breakpoints, medium)) {
+          margin: 0 0 32px;
+        }        
+      }
+
+      a {
+        padding: 20px;
+        text-shadow: none;
       }
     }
 
     @media screen and (min-width: map-get($breakpoints, medium)) {
       height: 560px;
     }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 
-  @media (min-aspect-ratio: 16/9) {
-    .video-intro >.video-foreground { height: 300%; top: -100%; }
-  }
-  @media (max-aspect-ratio: 16/9) {
-    .video-intro > .video-foreground { height: 250%; top: -75%; }
+  .topics-container {
+    .c-topics-thumbnail-list {
+      margin-top: 50px;
+    }
   }
 
   .explore-cards .c-card-static {
-    height: 590px;
-    margin-top: $margin-size;
+    height: 360px;
+    margin-top: 20px;
   }
 }
 
+
 .insight-cards {
+  min-height: 590px;
+  position: relative;
+
   .c-card-static {
     margin-top: $margin-size;
     height: 590px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-radius: 4px;
+      background-image: linear-gradient(180deg, rgba(22, 22, 22, .5) 0%, rgba(22, 22, 22, .1) 50%);
+    }
+
+    div {
+      z-index: 1;
+    };
+
+    h3 {
+      font-weight: 600;
+      font-size: 20px;
+    }
+
+    h4 {
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    .source-name a:hover {
+      text-decoration: underline;
+    }
   }
 
   .dual {
@@ -67,6 +143,25 @@
     .c-card-static {
       margin-top: $margin-size-extra-small;
       height: 288px;
+    }
+  }
+}
+
+.explore-cards {
+  margin-top: 20px;
+
+  .c-card-static {
+
+    .tag-name {
+      text-transform: uppercase;
+      font-size: $font-size-small;
+    }
+    .title {
+      font-weight: bold;
+      font-size: $font-size-big;
+    }
+    .buttons {
+      justify-content: flex-start;
     }
   }
 }

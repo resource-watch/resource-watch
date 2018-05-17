@@ -6,27 +6,41 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
 import { getWidget } from 'redactions/widget';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
+import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
 import TextChart from 'components/widgets/charts/TextChart';
 import Spinner from 'components/ui/Spinner';
 
 class EmbedText extends Page {
-  static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    const referer = isServer ? req.headers.referer : location.href;
-    store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    return { user, isServer, url, referer, isLoading: true };
+  static propTypes = {
+    widget: PropTypes.object,
+    getWidget: PropTypes.func,
+    bandDescription: PropTypes.string,
+    bandStats: PropTypes.object,
+    loading: PropTypes.bool
+  };
+
+  static defaultProps = {
+    widget: {}
+  };
+
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store, isServer, req } = context;
+
+    store.dispatch(setEmbed(true));
+
+    return {
+      ...props,
+      referer: isServer ? req.headers.referer : window.location.href
+    };
   }
 
   isLoadedExternally() {
-    return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
+    return !/localhost|(staging\.)?resourcewatch.org/.test(this.props.referer);
   }
 
   constructor(props) {
@@ -46,17 +60,17 @@ class EmbedText extends Page {
 
     if (loading) {
       return (
-        <EmbedLayout
-          title={'Loading widget...'}
-          description={''}
+        <LayoutEmbed
+          title="Loading widget..."
+          description=""
         >
           <Spinner isLoading className="-light" />
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     return (
-      <EmbedLayout
+      <LayoutEmbed
         title={`${widget.attributes.name}`}
         description={`${widget.attributes.description || ''}`}
       >
@@ -81,26 +95,14 @@ class EmbedText extends Page {
               className="embed-logo"
               height={21}
               width={129}
-              src={'/static/images/logo-embed.png'}
+              src="/static/images/logo-embed.png"
               alt="Resource Watch"
             /> }
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }
-
-EmbedText.propTypes = {
-  widget: PropTypes.object,
-  getWidget: PropTypes.func,
-  bandDescription: PropTypes.string,
-  bandStats: PropTypes.object,
-  loading: PropTypes.bool
-};
-
-EmbedText.defaultProps = {
-  widget: {}
-};
 
 const mapStateToProps = state => ({
   widget: state.widget.data,

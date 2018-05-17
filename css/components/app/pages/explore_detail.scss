@@ -1,37 +1,5 @@
 .c-page-explore-detail {
 
-  .favorite-button {
-    fill: $white;
-    cursor: pointer;
-  }
-
-  .c-configurable-widget {
-
-    position:relative;
-    margin-top: 30px;
-    width: 100%;
-
-    //temporal
-    height: 300px;
-    background: #34B7DA;
-
-    button {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      text-align: center;
-      fill: $color-white;
-      color: $color-white;
-    }
-
-    .dropdown {
-      min-width: 100px;
-      min-height: 100px;
-      background: $color-white;
-    }
-
-  }
-
   .widget-row {
     position: relative;
     margin-top: 60px;
@@ -110,19 +78,4 @@
   h2 {
     color: $color-dark-pink;
   }
-
-  .shortened-text {
-    .read-more {
-      padding: 0;
-      margin-left: 5px;
-      color: $color-primary;
-      cursor: pointer;
-
-      &.-less {
-        display: block;
-        margin: 5px 0 0 0;
-      }
-    }
-  }
-
 }

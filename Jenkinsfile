@@ -34,8 +34,8 @@ node {
     stage ('Build docker') {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} -f Dockerfile-staging .")
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest -f Dockerfile-staging .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} --build-arg apiEnv=production,preproduction --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg callbackUrl=https://staging.resourcewatch.org/auth .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
         default:
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
@@ -71,6 +71,17 @@ node {
           }
           sh("kubectl set image deployment ${appName}-staging ${appName}-staging=${imageTag} --record")
           break
+
+        case "preproduction":
+        sh("echo Deploying to PROD cluster")
+        sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
+        def service = sh([returnStdout: true, script: "kubectl get deploy ${appName}-preproduction || echo NotFound"]).trim()
+        if ((service && service.indexOf("NotFound") > -1) || (forceCompleteDeploy)){
+          sh("sed -i -e 's/{name}/${appName}/g' k8s/preproduction/*.yaml")
+          sh("kubectl apply -f k8s/preproduction/")
+        }
+        sh("kubectl set image deployment ${appName}-preproduction ${appName}-preproduction=${imageTag} --record")
+        break
 
         // Roll out to production
         case "preproduction":

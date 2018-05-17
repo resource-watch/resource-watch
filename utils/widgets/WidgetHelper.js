@@ -250,7 +250,7 @@ export async function getRasterDataURL(dataset, datasetType, tableName, band, pr
  * @return {string}
  */
 export async function getDataURL(dataset, datasetType, tableName, band, provider,
-  chartInfo, isTable = false) {
+  chartInfo, isTable = false, datasetSlug = null) {
   // If the dataset is a raster one, the behaviour is totally different
   if (datasetType === 'raster') {
     if (!band) return '';
@@ -315,7 +315,7 @@ export async function getDataURL(dataset, datasetType, tableName, band, provider
   }
 
   const sortOrder = chartInfo.order ? chartInfo.order.orderType : 'asc';
-  const query = `${getQueryByFilters(tableName, chartInfo.filters, columns, orderByColumn, sortOrder)} LIMIT ${chartInfo.limit}`;
+  const query = `${getQueryByFilters(tableName, chartInfo.filters, columns, orderByColumn, sortOrder, datasetSlug)} LIMIT ${chartInfo.limit}`;
 
   const geostore = chartInfo.areaIntersection ? `&geostore=${chartInfo.areaIntersection}` : '';
 

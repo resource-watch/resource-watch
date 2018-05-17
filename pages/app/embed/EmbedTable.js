@@ -6,26 +6,37 @@ import 'isomorphic-fetch';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
+import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 
 class EmbedTable extends Page {
-  static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    const referer = isServer ? req.headers.referer : location.href;
-    store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    return { user, isServer, url, referer, isLoading: true };
+  static propTypes = {
+    queryURL: PropTypes.object,
+    isLoading: PropTypes.bool
+  };
+
+  static defaultProps = {
+    isLoading: true
+  };
+
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store, isServer, req } = context;
+
+    store.dispatch(setEmbed(true));
+
+    return {
+      ...props,
+      referer: isServer ? req.headers.referer : window.location.href
+    };
   }
 
   isLoadedExternally() {
-    return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
+    return !/localhost|(staging\.)?resourcewatch.org/.test(this.props.referer);
   }
 
   constructor(props) {
@@ -65,17 +76,17 @@ class EmbedTable extends Page {
 
     if (isEmpty(tableData)) {
       return (
-        <EmbedLayout
-          title={'Loading widget...'}
-          description={''}
+        <LayoutEmbed
+          title="Loading widget..."
+          description=""
         >
           <Spinner isLoading className="-light" />
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     return (
-      <EmbedLayout>
+      <LayoutEmbed>
         <div className="c-embed-table">
           <div className="visualization">
             <Spinner isLoading={isLoading} className="-light" />
@@ -105,8 +116,7 @@ class EmbedTable extends Page {
                               Object.keys(row).map(column => (<td key={`td${column}`}>{row[column]}</td>))
                             }
                           </tr>
-                        )
-                      )
+                        ))
                     }
                   </tbody>
                 </table>
@@ -118,22 +128,13 @@ class EmbedTable extends Page {
               className="embed-logo"
               height={21}
               width={129}
-              src={'/static/images/logo-embed.png'}
+              src="/static/images/logo-embed.png"
               alt="Resource Watch"
             /> }
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }
-
-EmbedTable.propTypes = {
-  queryURL: PropTypes.object,
-  isLoading: PropTypes.bool
-};
-
-EmbedTable.defaultProps = {
-  isLoading: true
-};
 
 export default withRedux(initStore, null, null)(EmbedTable);

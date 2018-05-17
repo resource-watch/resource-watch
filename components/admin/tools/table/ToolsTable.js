@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -24,6 +23,35 @@ import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 
 class ToolsTable extends React.Component {
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    // Store
+    tools: [],
+    filteredTools: []
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    tools: PropTypes.array.isRequired,
+    filteredTools: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getTools: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+
+    // ------------------ Bindings ------------------------
+    this.onSearch = this.onSearch.bind(this);
+    // ----------------------------------------------------
+  }
+
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getTools();
@@ -33,7 +61,6 @@ class ToolsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
@@ -109,32 +136,11 @@ class ToolsTable extends React.Component {
   }
 }
 
-ToolsTable.defaultProps = {
-  columns: [],
-  actions: {},
-  // Store
-  tools: [],
-  filteredTools: []
-};
-
-ToolsTable.propTypes = {
-  authorization: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  tools: PropTypes.array.isRequired,
-  filteredTools: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getTools: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
-  loading: state.tools.tools.loading,
-  tools: state.tools.tools.list,
+  loading: state.tools.loading,
+  tools: state.tools.list,
   filteredTools: getFilteredTools(state),
-  error: state.tools.tools.error
+  error: state.tools.error
 });
 const mapDispatchToProps = dispatch => ({
   getTools: () => dispatch(getTools()),

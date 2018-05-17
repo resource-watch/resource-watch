@@ -13,6 +13,31 @@ spec:
       labels:
         name: {name}
     spec:
+      tolerations:
+      - key: "type"
+        operator: "Equal"
+        value: "webapps"
+        effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: type
+                operator: In
+                values:
+                - webapps
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: name
+                  operator: In
+                  values:
+                  - {name}
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: {name}
         image: vizzuality/{name}
@@ -20,6 +45,7 @@ spec:
         resources:
           requests:
             memory: "128Mi"
+            cpu: "250m"
           limits:
             memory: "1Gi"
         env:
@@ -28,26 +54,6 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_SECRET
-          - name: USERNAME
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW_USERNAME
-          - name: PASSWORD
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW_PASSWORD
-          - name: RW_USERNAME
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW2_USERNAME
-          - name: RW_PASSWORD
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW2_PASSWORD
           - name: REDIS_URL
             valueFrom:
                 secretKeyRef:

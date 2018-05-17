@@ -5,7 +5,6 @@ import compact from 'lodash/compact';
 // Redux
 import { connect } from 'react-redux';
 
-
 // Constants
 import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS, DATASET_TYPES } from 'components/datasets/form/constants';
 
@@ -18,6 +17,9 @@ import Checkbox from 'components/form/Checkbox';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 
+// Modal
+import Modal from 'components/modal/modal-component';
+import TrySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -27,11 +29,13 @@ class Step1 extends React.Component {
       dataset: props.dataset,
       form: props.form,
       carto: {},
-      document: {}
+      subscribableSelected: props.form.subscribable.length > 0,
+      activeSubscriptionModal: null
     };
 
     // BINDINGS
     this.onCartoFieldsChange = this.onCartoFieldsChange.bind(this);
+    this.handleAddSubscription = this.handleAddSubscription.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,6 +46,10 @@ class Step1 extends React.Component {
     * UI EVENTS
     * - onCartoFieldsChange
     * - onLegendChange
+    * - onSubscribableChange
+    * - onSubscribableCheckboxChange
+    * - handleRemoveSubscription
+    * - handleAddSubscription
   */
   onCartoFieldsChange() {
     const { cartoAccountUsername, tableName } = this.state.carto;
@@ -55,6 +63,34 @@ class Step1 extends React.Component {
   onLegendChange(obj) {
     const legend = Object.assign({}, this.props.form.legend, obj);
     this.props.onChange({ legend });
+  }
+
+  onSubscribableChange(obj) {
+    let { subscribable } = this.props.form;
+
+    subscribable = subscribable.map((s) => {
+      if (s.id === obj.id) {
+        return Object.assign({}, s, obj);
+      }
+      return s;
+    });
+
+    this.props.onChange({ subscribable });
+  }
+
+  onSubscribableCheckboxChange(checked) {
+    this.setState({
+      subscribableSelected: checked
+    });
+    if (checked) {
+      this.props.onChange({ subscribable: [{ type: '', value: '', id: 0 }] });
+    } else {
+      this.props.onChange({ subscribable: [] });
+    }
+  }
+
+  onToggleSubscribableModal(id) {
+    this.setState({ activeSubscriptionModal: id });
   }
 
   /**
@@ -85,10 +121,29 @@ class Step1 extends React.Component {
     return (basic) ? compact(options) : options;
   }
 
+  handleRemoveSubscription(id) {
+    let { subscribable } = this.state.form;
+    subscribable = subscribable.filter(s => s.id !== id);
+
+    this.props.onChange({ subscribable });
+  }
+
+  handleAddSubscription() {
+    const { subscribable } = this.state.form;
+    subscribable.push({ type: '', value: '', id: Date.now() });
+    this.props.onChange({ subscribable });
+  }
+
+  renderMainDateOptions(option) {
+    return (
+      <div>{option.value} {option.type && typeof option.type === 'string' ?
+        <small className="_right">{option.type}</small> : null}
+      </div>);
+  }
 
   render() {
     const { user, columns, loadingColumns, basic } = this.props;
-    const { dataset } = this.state;
+    const { dataset, subscribableSelected } = this.state;
     const { provider, columnFields } = this.state.form;
 
     // Reset FORM_ELEMENTS
@@ -105,6 +160,7 @@ class Step1 extends React.Component {
     const isWMS = (provider === 'wms');
     const isDocument = (isJson || isXml || isCsv || isTsv);
 
+    const dateColumns = columns.map(f => ({ label: f.name, value: f.name, type: f.type }));
     const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
 
     return (
@@ -121,6 +177,23 @@ class Step1 extends React.Component {
                 value: 'published',
                 title: 'Published',
                 defaultChecked: (!dataset) ? user.role === 'ADMIN' : this.props.form.published
+              }}
+            >
+              {Checkbox}
+            </Field>
+          }
+
+          {user.role === 'ADMIN' && !basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.protected = c; }}
+              onChange={value => this.props.onChange({ protected: value.checked })}
+              validations={['required']}
+              properties={{
+                name: 'protected',
+                label: 'Do you want to set this dataset as protected?',
+                value: 'protected',
+                title: 'Protected',
+                defaultChecked: this.props.form.protected
               }}
             >
               {Checkbox}
@@ -306,7 +379,7 @@ class Step1 extends React.Component {
               className="-fluid"
               properties={{
                 name: 'connectorUrl',
-                label: 'connectorUrl',
+                label: 'connector Url',
                 type: 'text',
                 default: this.state.form.connectorUrl,
                 disabled: !!this.state.dataset,
@@ -419,6 +492,170 @@ class Step1 extends React.Component {
 
           {/*
             *****************************************************
+            ****************** SUBSCRIBABLE ****************
+            *****************************************************
+          */}
+
+          {isCarto && user.role === 'ADMIN' && !basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribable = c; }}
+              onChange={value => this.onSubscribableCheckboxChange(value.checked)}
+              properties={{
+                name: 'subscribable',
+                title: 'Subscribable',
+                checked: Object.keys(this.state.form.subscribable).length > 0
+              }}
+            >
+              {Checkbox}
+            </Field>
+          }
+
+          {subscribableSelected && this.state.form.subscribable.length &&
+            <h3>Subscriptions ({this.state.form.subscribable.length})</h3>}
+
+          {subscribableSelected &&
+            <div>
+              {
+                this.state.form.subscribable.map((elem, key) => (
+                  <div
+                    className="c-field-row subscription-container"
+                    key={elem.id}
+                  >
+                    <div className="l-row row">
+                      <div className="column small-12">
+                        <Field
+                          ref={(c) => { if (c) FORM_ELEMENTS.elements.subscribableType = c; }}
+                          onChange={type => this.onSubscribableChange({
+                            type, id: elem.id })}
+                          validations={['required', {
+                            type: 'unique',
+                            value: elem.type,
+                            default: elem.type,
+                            condition: 'type',
+                            data: this.state.form.subscribable
+                          }]}
+                          className="-fluid"
+                          properties={{
+                            name: 'subscribableType',
+                            label: 'Type',
+                            type: 'text',
+                            default: elem.type,
+                            required: true
+                          }}
+                        >
+                          {Input}
+                        </Field>
+                      </div>
+
+                      <div className="column small-12">
+                        <Field
+                          ref={(c) => { if (c) FORM_ELEMENTS.elements.dataQuery = c; }}
+                          onChange={dataQuery => this.onSubscribableChange({ dataQuery, id: elem.id })}
+                          validations={['required']}
+                          className="-fluid"
+                          button={
+                            <button
+                              type="button"
+                              className="c-button -secondary"
+                              onClick={() => this.onToggleSubscribableModal(elem.id)}
+                            >
+                              Try it
+                            </button>
+                          }
+                          properties={{
+                            name: 'dataQuery',
+                            label: 'Data query',
+                            type: 'text',
+                            default: elem.dataQuery,
+                            required: true
+                          }}
+                        >
+                          {Input}
+                        </Field>
+
+                        {this.state.activeSubscriptionModal === elem.id &&
+                          <Modal
+                            isOpen
+                            onRequestClose={() => this.onToggleSubscribableModal(null)}
+                          >
+                            <TrySubscriptionModal
+                              query={elem.dataQuery}
+                            />
+                          </Modal>
+                        }
+                      </div>
+
+                      <div className="column small-12">
+                        <Field
+                          ref={(c) => { if (c) FORM_ELEMENTS.elements.subscriptionQuery = c; }}
+                          onChange={subscriptionQuery => this.onSubscribableChange({ subscriptionQuery, id: elem.id })}
+                          validations={['required']}
+                          className="-fluid"
+                          button={
+                            <button
+                              type="button"
+                              className="c-button -secondary"
+                              onClick={() => this.onToggleSubscribableModal(elem.id)}
+                            >
+                              Try it
+                            </button>
+                          }
+                          properties={{
+                            name: 'subscriptionQuery',
+                            label: 'Subscription query',
+                            type: 'text',
+                            default: elem.subscriptionQuery,
+                            required: true
+                          }}
+                        >
+                          {Input}
+                        </Field>
+
+                        {this.state.activeSubscriptionModal === elem.id &&
+                          <Modal
+                            isOpen
+                            onRequestClose={() => this.onToggleSubscribableModal(null)}
+                          >
+                            <TrySubscriptionModal
+                              query={elem.subscriptionQuery}
+                            />
+                          </Modal>
+                        }
+                      </div>
+
+                      <div className="column small-12 remove-subscribable-container">
+                        <button
+                          type="button"
+                          className="c-button -secondary"
+                          onClick={() => this.handleRemoveSubscription(elem.id)}
+                          disabled={this.state.form.subscribable.length === 1}
+                        >
+                            Remove
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                ))
+              }
+              <div className="c-field-row">
+                <div className="l-row row">
+                  <div className="column small-12 add-subscribable-container">
+                    <button
+                      type="button"
+                      className="c-button -secondary -fullwidth"
+                      onClick={this.handleAddSubscription}
+                    >
+                      Add subscription
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
+          {/*
+            *****************************************************
             ****************** DOCUMENT ****************
             *****************************************************
           */}
@@ -507,6 +744,24 @@ class Step1 extends React.Component {
               {Input}
             </Field>
           }
+
+          {dateColumns.length > 0 &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.mainDateField = c; }}
+            onChange={value => this.props.onChange({ mainDateField: value })}
+            options={dateColumns}
+            className="-fluid"
+            properties={{
+              name: 'mainDateField',
+              label: 'Main date',
+              type: 'text',
+              placeholder: 'Select or type',
+              optionRenderer: this.renderMainDateOptions,
+              default: this.state.form.mainDateField
+            }}
+          >
+            {Select}
+          </Field>}
 
           {isDocument && columnFields &&
             <div className="c-field-row">

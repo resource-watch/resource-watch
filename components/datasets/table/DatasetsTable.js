@@ -26,6 +26,34 @@ import UpdatedAtTD from './td/UpdatedAtTD';
 import OwnerTD from './td/OwnerTD';
 
 class DatasetsTable extends React.Component {
+  static defaultProps = {
+    routes: {
+      index: '',
+      detail: ''
+    },
+    columns: [],
+    actions: {},
+    getDatasetsFilters: {},
+    // Store
+    datasets: []
+  };
+
+  static propTypes = {
+    routes: PropTypes.object,
+    getDatasetsFilters: PropTypes.object,
+
+    // Store
+    user: PropTypes.object,
+    loading: PropTypes.bool.isRequired,
+    datasets: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getDatasets: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
+
   constructor(props) {
     super(props);
 
@@ -33,12 +61,9 @@ class DatasetsTable extends React.Component {
   }
 
   componentDidMount() {
-    const { getDatasetsFilters } = this.props;
-    this.props.setFilters([]);
-
+    this.props.setFilters({});
     this.props.getDatasets({
-      includes: 'widget,layer,metadata,vocabulary,user',
-      filters: getDatasetsFilters
+      includes: 'widget,layer,metadata,vocabulary,user'
     });
   }
 
@@ -55,7 +80,20 @@ class DatasetsTable extends React.Component {
   }
 
   getDatasets() {
-    return this.props.datasets;
+    return this.props.datasets
+      .map((d) => {
+        const user = d.user || {};
+
+        const metadata = d.metadata.length && d.metadata.length > 0 && d.metadata[0];
+        const metadataInfo = (metadata && metadata.attributes) && (metadata.attributes.info || {});
+
+        return {
+          ...d,
+          owner: user.email || '',
+          code: metadataInfo.rwId || ''
+        };
+      })
+      .filter(d => d.published === true || d.user.role === 'ADMIN');
   }
 
   render() {
@@ -86,11 +124,12 @@ class DatasetsTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD, tdProps: { route: routes.detail } },
+              { label: 'Code', value: 'code' },
               { label: 'Status', value: 'status', td: StatusTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
-              { label: 'Owner', value: 'user', td: OwnerTD },
+              { label: 'Owner', value: 'owner', td: OwnerTD },
               { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: routes.detail } }
             ]}
             actions={{
@@ -107,7 +146,7 @@ class DatasetsTable extends React.Component {
             filters={false}
             data={this.getDatasets()}
             onRowDelete={() => this.props.getDatasets({
-              includes: 'widget,layer,metadata,vocabulary',
+              includes: 'widget,layer,metadata,vocabulary,user',
               filters: getDatasetsFilters
             })}
             pageSize={20}
@@ -123,42 +162,15 @@ class DatasetsTable extends React.Component {
   }
 }
 
-DatasetsTable.defaultProps = {
-  routes: {
-    index: '',
-    detail: ''
-  },
-  columns: [],
-  actions: {},
-  getDatasetsFilters: {},
-  // Store
-  datasets: []
-};
-
-DatasetsTable.propTypes = {
-  routes: PropTypes.object,
-  getDatasetsFilters: PropTypes.object,
-
-  // Store
-  user: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
-  datasets: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getDatasets: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
   user: state.user,
   loading: state.datasets.datasets.loading,
   datasets: getFilteredDatasets(state),
   error: state.datasets.datasets.error
 });
-const mapDispatchToProps = dispatch => ({
-  getDatasets: options => dispatch(getDatasets(options)),
-  setFilters: filters => dispatch(setFilters(filters))
-});
+const mapDispatchToProps = {
+  getDatasets,
+  setFilters
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetsTable);

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
@@ -25,6 +24,36 @@ import PublishedTD from './td/PublishedTD';
 import FeaturedTD from './td/FeaturedTD';
 
 class PartnersTable extends React.Component {
+
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    // Store
+    partners: [],
+    filteredPartners: []
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    partners: PropTypes.array.isRequired,
+    filteredPartners: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getPartners: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+
+    // ------------------ Bindings ------------------------
+    this.onSearch = this.onSearch.bind(this);
+    // ----------------------------------------------------
+  }
+
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getPartners();
@@ -34,7 +63,6 @@ class PartnersTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
@@ -112,32 +140,11 @@ class PartnersTable extends React.Component {
   }
 }
 
-PartnersTable.defaultProps = {
-  columns: [],
-  actions: {},
-  // Store
-  partners: [],
-  filteredPartners: []
-};
-
-PartnersTable.propTypes = {
-  authorization: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  partners: PropTypes.array.isRequired,
-  filteredPartners: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getPartners: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
-  loading: state.partners.partners.loading,
-  partners: state.partners.partners.list,
+  loading: state.partners.loading,
+  partners: state.partners.list,
   filteredPartners: getFilteredPartners(state),
-  error: state.partners.partners.error
+  error: state.partners.error
 });
 const mapDispatchToProps = dispatch => ({
   getPartners: () => dispatch(getPartners()),

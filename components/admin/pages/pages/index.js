@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import PagesTable from 'components/admin/pages/table/PagesTable';
 
-export default function PagesIndex(props) {
-  const { user } = props;
-
+export default function PagesIndex({ user = {} }) {
   return (
     <div className="c-pages-index">
       <PagesTable
@@ -19,8 +17,4 @@ export default function PagesIndex(props) {
 
 PagesIndex.propTypes = {
   user: PropTypes.object.isRequired
-};
-
-PagesIndex.defaultProps = {
-  user: {}
 };

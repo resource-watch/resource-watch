@@ -26,16 +26,17 @@ $porcelain: #F4F6F7;
 $white: #ffffff;
 $black: #000;
 $sea-blue: #2C75B0;
+$blue-grey: #9AA2A9;
 
 // Theme
-$base-font-color: $charcoal-grey;
+$body-font-color: $charcoal-grey;
 $header-font-color: $color-primary;
 $link-font-color: $sea-blue;
 $active-font-color: $yellow;
 $ui-font-color: $dove-grey;
 $alt-font-color: $white;
 $ui-bg-color: $porcelain;
-$base-bg-color: $white;
+$body-bg-color: $white;
 
 $border-color-1: rgba(26, 28, 34, 0.1);
 $border-color-2: rgba(202, 204,208, 0.85);; // For inputs
@@ -52,13 +53,17 @@ $font-size-small: 13px;
 $font-size-normal: 14px;
 $font-size-medium: 16px;
 $font-size-big: 21px;
+$body-font-size: 14px;
+
 
 $font-size-h1: 64px;
 $font-size-h2: 42px;
 $font-size-h3: 26px;
 $font-size-h4: 16px;
 
-$body-font-color: $base-font-color;
+$body-background: $body-bg-color;
+$body-font-size: $body-font-color;
+$body-font-color: $body-font-color;
 $body-font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
 $global-weight-normal: normal;
 $global-lineheight: 1.625;
@@ -69,3 +74,21 @@ $margin-size-extra-small: 15px;
 $margin-size-small: 30px;
 $margin-size: 50px;
 $margin-size-big: 100px;
+
+
+// Header
+$header-main-height: 75px;
+$header-main-height-mobile: 50px;
+$header-secondary-height: 0;
+$header-bg-color: $color-primary;
+$header-bg-image: url("/static/images/components/layout/header-bg-texture.png");
+$header-gradient-color-1: rgba(#c32d7b, 0.8);
+$header-gradient-color-2: rgba(#c90e39, 0.7);
+
+// Shadows
+$thick-shadow: 0 20px 30px 0 rgba(0,0,0,0.1);
+
+// Map specific settings
+$map-controls-index: 10;
+$map-labels-index: 11;
+$map-box-shadow: 0 0 0 1px rgba($black, 0.1), 0 1px 2px rgba($black, 0.1);

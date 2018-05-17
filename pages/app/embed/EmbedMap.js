@@ -7,32 +7,55 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
 import { getWidget, toggleLayerGroupVisibility, checkIfFavorited, setIfFavorited } from 'redactions/widget';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
+import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
-import Spinner from 'components/widgets/editor/ui/Spinner';
-import Map from 'components/widgets/editor/map/Map';
-import Legend from 'components/widgets/editor/ui/Legend';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
+import Spinner from 'components/ui/Spinner';
+import Map from 'components/ui/map/Map';
+import { Legend, LegendItemTypes } from 'wri-api-components';
+import Icon from 'components/ui/Icon';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import LayerManager from 'utils/layers/LayerManager';
+import { paramIsTrue } from 'utils/utils';
+
 
 class EmbedMap extends Page {
-  static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    const referer = isServer ? req.headers.referer : location.href;
-    store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    return { user, isServer, url, referer, isLoading: true };
+  static propTypes = {
+    widget: PropTypes.object,
+    isLoading: PropTypes.bool,
+    getWidget: PropTypes.func,
+    toggleLayerGroupVisibility: PropTypes.func,
+    checkIfFavorited: PropTypes.func,
+    setIfFavorited: PropTypes.func,
+    loading: PropTypes.bool,
+    layerGroups: PropTypes.array,
+    error: PropTypes.string,
+    zoom: PropTypes.number,
+    latLng: PropTypes.object,
+    favourited: PropTypes.bool
+  };
+
+  static defaultProps = {
+    widget: {}
+  };
+
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store, isServer, req } = context;
+
+    store.dispatch(setEmbed(true));
+
+    return {
+      ...props,
+      referer: isServer ? req.headers.referer : window.location.href
+    };
   }
 
   isLoadedExternally() {
-    return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
+    return !/localhost|(staging\.)?resourcewatch.org/.test(this.props.referer);
   }
 
   constructor(props) {
@@ -44,7 +67,9 @@ class EmbedMap extends Page {
 
   componentDidMount() {
     this.props.getWidget(this.props.url.query.id);
-    if (this.props.user.id) this.props.checkIfFavorited(this.props.url.query.id);
+    if (this.props.user && this.props.user.id) {
+      this.props.checkIfFavorited(this.props.url.query.id);
+    }
   }
 
   getModal() {
@@ -66,29 +91,34 @@ class EmbedMap extends Page {
   }
 
   render() {
-    const { widget, loading, layerGroups, error, zoom, latLng, favorited, user } = this.props;
+    const {
+      widget, loading, layerGroups, error, zoom, latLng, favourited, user, url
+    } = this.props;
+
     const { modalOpened } = this.state;
 
-    const favoriteIcon = favorited ? 'star-full' : 'star-empty';
+    const { disableZoom, legendExpanded, hideTimeline } = url.query;
+
+    const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
     if (loading) {
       return (
-        <EmbedLayout
-          title={'Loading widget...'}
-          description={''}
+        <LayoutEmbed
+          title="Loading widget..."
+          description=""
         >
           <div className="c-embed-widget">
             <Spinner isLoading={loading} className="-light" />
           </div>
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     if (error) {
       return (
-        <EmbedLayout
-          title={'Resource Watch'}
-          description={''}
+        <LayoutEmbed
+          title="Resource Watch"
+          description=""
         >
           <div className="c-embed-widget">
             <div className="widget-title">
@@ -104,19 +134,19 @@ class EmbedMap extends Page {
                 <a href="/" target="_blank" rel="noopener noreferrer">
                   <img
                     className="embed-logo"
-                    src={'/static/images/logo-embed.png'}
+                    src="/static/images/logo-embed.png"
                     alt="Resource Watch"
                   />
                 </a>
               </div>
             ) }
           </div>
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     return (
-      <EmbedLayout
+      <LayoutEmbed
         title={`${widget.attributes.name}`}
         description={`${widget.attributes.description || ''}`}
       >
@@ -127,11 +157,11 @@ class EmbedMap extends Page {
             </a>
             <div className="buttons">
               {
-                user.id && (
+                user && user.id && (
                   <button
-                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
+                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favourited)}
                   >
-                    <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
+                    <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
                   </button>
                 )
               }
@@ -146,60 +176,41 @@ class EmbedMap extends Page {
 
           <div className={classnames('widget-content', { '-external': this.isLoadedExternally() })}>
             <Map
+              disableScrollZoom
               LayerManager={LayerManager}
-              mapConfig={{ zoom, latLng }}
+              mapConfig={{ zoom, latLng, zoomControl: !paramIsTrue(disableZoom) }}
               layerGroups={layerGroups}
             />
 
-            <Legend
-              layerGroups={layerGroups}
-              className={{ color: '-dark' }}
-              toggleLayerGroupVisibility={
-                layerGroup => this.props.toggleLayerGroupVisibility(layerGroup)
-              }
-              setLayerGroupsOrder={() => {}}
-              setLayerGroupActiveLayer={() => {}}
-              interactionDisabled
-              expanded={false}
-            />
+            <div className="c-legend-map">
+              <Legend
+                maxHeight={200}
+                sortable={false}
+                expanded={paramIsTrue(!!legendExpanded)}
+                layerGroups={layerGroups}
+                LegendItemTypes={<LegendItemTypes />}
+              />
+            </div>
 
             { modalOpened && this.getModal() }
           </div>
           { this.isLoadedExternally() && (
             <div className="widget-footer">
+              Powered by
               <a href="/" target="_blank" rel="noopener noreferrer">
                 <img
                   className="embed-logo"
-                  src={'/static/images/logo-embed.png'}
+                  src="/static/images/logo-embed.png"
                   alt="Resource Watch"
                 />
               </a>
             </div>
           ) }
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }
-
-EmbedMap.propTypes = {
-  widget: PropTypes.object,
-  isLoading: PropTypes.bool,
-  getWidget: PropTypes.func,
-  toggleLayerGroupVisibility: PropTypes.func,
-  checkIfFavorited: PropTypes.func,
-  setIfFavorited: PropTypes.func,
-  loading: PropTypes.bool,
-  layerGroups: PropTypes.array,
-  error: PropTypes.string,
-  zoom: PropTypes.number,
-  latLng: PropTypes.object,
-  favorited: PropTypes.bool
-};
-
-EmbedMap.defaultProps = {
-  widget: {}
-};
 
 const mapStateToProps = state => ({
   widget: state.widget.data,
@@ -207,7 +218,7 @@ const mapStateToProps = state => ({
   error: state.widget.error,
   layerGroups: state.widget.layerGroups,
   zoom: state.widget.zoom,
-  favorited: state.widget.favorite.favorited,
+  favourited: state.widget.favourite.favourited,
   latLng: state.widget.latLng
 });
 

@@ -1,24 +1,16 @@
 // Reset
 // Project settings (it doesn't include Grid system)
 @import "settings";
+@import 'foundation_settings';
 
 @import "../node_modules/normalize.css/normalize";
 
-// Foundation:
-// We are using this library only for grid system
-@import '../node_modules/foundation-sites/scss/foundation';
-@import 'foundation_settings';
-@include foundation-flex-classes;
-@include foundation-flex-grid;
-@include foundation-responsive-embed;
-
 // Libraries
-@import '../node_modules/leaflet/dist/leaflet';
-@import '../node_modules/slick-carousel/slick/slick.scss';
-@import '../node_modules/slick-carousel/slick/slick-theme.scss';
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/rc-slider/assets/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
+@import '../node_modules/wri-api-components/dist/components';
+
 
 // Editor
 @import '../node_modules/react-quill/dist/quill.snow';
@@ -34,8 +26,10 @@
   "layouts/page",
   "layouts/section",
   "layouts/header",
+  "layouts/header-menu-mobile",
   "layouts/content",
   "layouts/postcontent",
+  "layouts/row",
   "layouts/footer",
   "layouts/sidebar",
   "layouts/map",
@@ -53,32 +47,45 @@
 @import "./components/ui/card";
 @import "./components/ui/card-app";
 @import "./components/ui/compound_menu";
+@import "./components/ui/contact-us";
 @import "./components/ui/custom_select";
 @import "./components/ui/dock";
 @import "./components/ui/header-dropdown";
 @import "./components/ui/icon";
 @import "./components/ui/legend";
+@import "./components/ui/legend-timeline";
 @import "./components/ui/modal";
+@import "./components/ui/modal2";
 @import "./components/ui/paginator";
+@import "./components/ui/progress-bar";
+@import "./components/ui/read-more";
 @import "./components/ui/related-content";
+@import "./components/ui/search";
+@import "./components/ui/search-list";
 @import "./components/ui/search-input";
 @import "./components/ui/slider-tooltip";
 @import "./components/ui/spinner";
+@import "./components/ui/sortable-row";
 @import "./components/ui/switch-options";
 @import "./components/ui/switch";
 @import "./components/ui/table";
 @import "./components/ui/table_header_actions";
 @import "./components/ui/table_tooltip";
 @import "./components/ui/tabs";
+@import "./components/ui/tag";
+@import "./components/ui/tag-list";
 @import "./components/ui/terms";
 @import "./components/ui/title";
 @import "./components/ui/tooltip";
 @import "./components/ui/tooltip-global";
 @import "./components/ui/tree_selector";
+@import "./components/ui/user-report";
 @import "./components/ui/zoom_control";
-@import "./components/ui/progress-bar";
+@import "./components/ui/dataset-table";
 
 // Modal
+@import "./components/modal/share-modal";
+@import "./components/modal/credits_modal";
 @import "./components/modal/save_widget_modal";
 @import "./components/modal/how_to_widget_editor_modal";
 @import "./components/modal/embed_my_widget_modal";
@@ -97,6 +104,11 @@
 @import "./components/areas/area_card";
 @import "./components/areas/area_actions_tooltip";
 
+// datasets
+@import './components/datasets/list';
+@import './components/datasets/list-item';
+@import './components/datasets/search';
+
 // Subscriptions
 @import "./components/subscriptions/subscriptions_form";
 @import "./components/subscriptions/subscription_selector";
@@ -107,9 +119,13 @@
 // Map
 @import "./components/map/map";
 @import "./components/map/map-controls";
+@import "./components/map/map-search-control";
+@import "./components/map/map-popup";
+@import './components/map/map-side-by-side-layout';
+@import './components/map/map-side-by-side-range';
 
 // Form
-@import '../node_modules/vizz-wysiwyg/build/wysiwyg';
+@import '../node_modules/vizz-wysiwyg/build/rw';
 @import "./components/form/form";
 @import "./components/form/field";
 @import "./components/form/field-container";
@@ -121,9 +137,11 @@
 @import "./components/form/select";
 @import "./components/form/token";
 @import "./components/form/toggle-search";
+@import "./components/form/wysiwyg";
 
 
 // WIDGETS
+@import '../node_modules/widget-editor/dist/styles.min';
 @import "./components/widgets/add_widget_to_collection_tooltip";
 @import "./components/widgets/text_chart";
 @import "./components/widgets/widget_editor";
@@ -157,7 +175,7 @@
 @import "./components/admin/dataset/card";
 @import "./components/admin/dataset/filter";
 @import "./components/admin/dataset/filter-item";
-@import "./components/admin/dataset/list";
+@import "./components/admin/dataset/form";
 @import "./components/admin/dataset/datasets-list-card";
 @import "./components/admin/dataset/source-item";
 @import "./components/admin/dataset/metadata-source-list";
@@ -171,16 +189,19 @@
 @import "./components/admin/widget/placeholder_chart";
 @import "./components/admin/widget/layer_chart";
 @import "./components/admin/widget/widget_index";
+@import "./components/admin/widget/form";
+@import "./components/admin/widget/metadata_form";
 
 // Layers
 @import "./components/admin/layer/layers_new";
-
-// Vocabularies
-@import "./components/admin/vocabularies/vocabulary_item";
-@import "./components/admin/vocabularies/vocabularies_form";
+@import "./components/admin/layer/form";
+@import "./components/admin/layer/interactions";
 
 // Tags
 @import "./components/admin/tags/tags_form";
+
+// FAQs
+@import "./components/admin/faqs/faqs_table";
 
 // ================== APP ======================
 
@@ -190,76 +211,93 @@
 @import "./components/app/common/text";
 @import "./components/app/common/viel";
 @import "./components/app/common/card_static";
+@import "./components/app/common/faq";
 @import "./components/app/common/partner_block";
 @import "./components/app/common/partners_slider";
 
 // PAGES
 @import "./components/app/pages/explore";
 @import "./components/app/pages/explore_detail";
-@import "./components/app/pages/dashboards";
 @import "./components/app/pages/about";
 @import "./components/app/pages/pulse";
 @import "./components/app/pages/home";
-@import "./components/app/pages/partners";
 @import "./components/app/pages/submit_insight";
 @import "./components/app/pages/partner_detail";
 @import "./components/app/pages/getInvolved";
 @import "./components/app/pages/develop_app";
 @import "./components/app/pages/apps";
-@import "./components/app/pages/p-app-detail";
 @import "./components/app/pages/splash";
 @import "./components/app/pages/splash_detail";
-
-// LAYOUT
-// @import "./components/app/layout/page";
-// @import "./components/app/layout/page-header";
-// @import "./components/app/layout/page-section";
-// @import "./components/app/layout/footer";
-// @import "./components/app/layout/sidebar";
-// @import "./components/app/layout/header";
+@import "./components/app/pages/alerts_page";
 
 // PULSE
+@import "./components/app/pulse/globe_cesium";
 @import "./components/app/pulse/globe_tooltip";
-@import "./components/app/pulse/layer_nav_dropdown";
-@import "./components/app/pulse/layer_nav";
+@import "./components/app/pulse/layer_container";
+@import "./components/app/pulse/layer_menu_dropdown";
+@import "./components/app/pulse/layer_menu_native";
+@import "./components/app/pulse/layer_menu";
 @import "./components/app/pulse/layer_card";
 @import "./components/app/pulse/legend_type";
 @import "./components/app/pulse/legend";
 
 // EXPLORE
-@import "./components/app/explore/configurable_widget";
-@import "./components/app/explore/dataset_list_header";
-@import "./components/app/explore/dataset_list";
-@import "./components/app/explore/dataset_widget";
+// new
+@import "./components/app/explore/explore-datasets";
+@import "./components/app/explore/explore-datasets-header";
+
+// old
 @import "./components/app/explore/dataset_placeholder_chart";
 @import "./components/app/explore/widget_configurator";
 @import "./components/app/explore/explore_layers_tooltip";
 @import "./components/app/explore/resume_filters";
 @import "./components/app/explore/dataset_tags_tooltip";
+@import "./components/app/explore/explore_dataset_filters";
+@import "./components/app/explore/similar_datasets";
 
 // EXPLORE DETAIL
-@import "./components/app/explore-detail/dataset-info";
+@import "./components/explore-detail/explore-detail-actions";
+@import "./components/explore-detail/explore-detail-tags";
+@import "./components/explore-detail/explore-detail-widget-editor";
+@import "./components/explore-detail/explore-detail-info";
 
 // DASHBOARDS
 @import './components/dashboards/dashboard-thumbnail-list';
 @import './components/dashboards/dashboard-card';
+@import './components/dashboards/list';
+
+// TOPICS
+@import './components/topics/topics-thumbnail-list';
 
 // MyRW
 // @import "./components/app/pages/myrw/activity";
 @import "./components/app/pages/myrw/myrw_edit_profile";
 @import "./components/app/pages/myrw/myrw_subscriptions";
-@import "./components/app/pages/myrw/myrw_widgets";
-@import "./components/app/pages/myrw/myrw_widgets_my";
-@import "./components/app/pages/myrw/myrw_widgets_starred";
+@import "./components/app/pages/myrw/myrw_common";
 @import "./components/app/pages/myrw/myrw_widgets_edit";
 @import "./components/app/pages/myrw/myrw_widgets_new";
+@import "./components/app/pages/myrw/myrw_widgets_my";
 @import "./components/app/pages/myrw/myrw_dataset_widgets";
-@import "./components/app/pages/myrw/myrw_datasets_starred";
 
 // Embed
 @import "./components/app/pages/embed/embed_widget";
 @import "./components/app/pages/embed/embed_layer";
 @import "./components/app/pages/embed/embed_table";
+@import "./components/app/pages/embed/embed_dataset";
 
 // Subscriptions
 @import "./components/app/subscriptions/subscription_card";
+
+// ------ SPLASH -------
+@import "./components/splash/layout/splash_header";
+
+// RC-TOOLTIP
+@import '../node_modules/rc-tooltip/assets/bootstrap_white';
+@import "./components/ui/rc-tooltip";
+
+// Foundation:
+// We are using this library only for grid system
+@import '../node_modules/foundation-sites/scss/foundation';
+@include foundation-flex-classes;
+@include foundation-flex-grid;
+@include foundation-responsive-embed;

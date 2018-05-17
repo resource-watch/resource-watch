@@ -78,6 +78,7 @@ export const STATE_DEFAULT = {
     published: false,
     geoInfo: false,
     verified: false,
+    protected: false,
     env: 'production',
     tableName: '',
     widgetRelevantProps: [],
@@ -89,7 +90,9 @@ export const STATE_DEFAULT = {
       long: undefined,
       date: [],
       country: []
-    }
+    },
+    subscribable: [],
+    mainDateField: ''
   }
 };
 

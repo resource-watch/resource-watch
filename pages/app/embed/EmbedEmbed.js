@@ -6,27 +6,50 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { bindActionCreators } from 'redux';
 import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
+import { setEmbed } from 'redactions/common';
 
 // Components
-import Page from 'components/app/layout/Page';
-import EmbedLayout from 'components/app/layout/EmbedLayout';
+import Page from 'layout/page';
+import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
-import Icon from 'components/widgets/editor/ui/Icon';
+import Icon from 'components/ui/Icon';
 
-class EmbedWidget extends Page {
-  static getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    const referer = isServer ? req.headers.referer : location.href;
-    store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    return { user, isServer, url, referer, isLoading: true };
+class EmbedEmbed extends Page {
+  static propTypes = {
+    widget: PropTypes.object,
+    getWidget: PropTypes.func,
+    checkIfFavorited: PropTypes.func,
+    setIfFavorited: PropTypes.func,
+    loading: PropTypes.bool,
+    error: PropTypes.string,
+    favourited: PropTypes.bool
+  };
+
+  static defaultProps = {
+    widget: {}
+  };
+
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store, isServer, req } = context;
+
+    store.dispatch(setEmbed(true));
+
+    return {
+      ...props,
+      referer: isServer ? req.headers.referer : window.location.href
+    };
   }
 
   isLoadedExternally() {
-    return !/localhost|staging.resourcewatch.org/.test(this.props.referer);
+    return !/localhost|(staging\.)?resourcewatch.org/.test(this.props.referer);
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalOpened: false
+    };
   }
 
   componentDidMount() {
@@ -35,29 +58,51 @@ class EmbedWidget extends Page {
     if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
   }
 
-  render() {
-    const { widget, loading, error, favorited, user } = this.props;
+  getModal() {
+    const { widget } = this.props;
+    return (
+      <div className="widget-modal">
+        { !widget.attributes.description &&
+          <p>No additional information is available</p>
+        }
 
-    const favoriteIcon = favorited ? 'star-full' : 'star-empty';
+        { widget.attributes.description && (
+          <div>
+            <h4>Description</h4>
+            <p>{widget.attributes.description}</p>
+          </div>
+        ) }
+      </div>
+    );
+  }
+
+  render() {
+    const {
+      widget, loading, error, favourited, user
+    } = this.props;
+
+    const { modalOpened } = this.state;
+
+    const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
     if (loading) {
       return (
-        <EmbedLayout
-          title={'Loading widget...'}
-          description={''}
+        <LayoutEmbed
+          title="Loading widget..."
+          description=""
         >
           <div className="c-embed-widget">
             <Spinner isLoading className="-light" />
           </div>
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     if (error) {
       return (
-        <EmbedLayout
-          title={'Resource Watch'}
-          description={''}
+        <LayoutEmbed
+          title="Resource Watch"
+          description=""
         >
           <div className="c-embed-widget">
             <div className="widget-title">
@@ -73,19 +118,19 @@ class EmbedWidget extends Page {
                 <a href="/" target="_blank" rel="noopener noreferrer">
                   <img
                     className="embed-logo"
-                    src={'/static/images/logo-embed.png'}
+                    src="/static/images/logo-embed.png"
                     alt="Resource Watch"
                   />
                 </a>
               </div>
             ) }
           </div>
-        </EmbedLayout>
+        </LayoutEmbed>
       );
     }
 
     return (
-      <EmbedLayout
+      <LayoutEmbed
         title={`${widget.attributes.name}`}
         description={`${widget.attributes.description || ''}`}
       >
@@ -98,57 +143,52 @@ class EmbedWidget extends Page {
               {
                 user.id && (
                   <button
-                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favorited)}
+                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favourited)}
                   >
-                    <Icon name={`icon-${favoriteIcon}`} className="c-icon -small" />
+                    <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
                   </button>
                 )
               }
+              <button
+                aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
+                onClick={() => this.setState({ modalOpened: !modalOpened })}
+              >
+                <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
+              </button>
             </div>
           </div>
           <div className="widget-content">
-            <iframe
-              title={widget.attributes.name}
-              src={widget.attributes.widgetConfig.paramsConfig.embed.src}
-              frameBorder="0"
-            />
+            { !modalOpened &&
+              <iframe
+                title={widget.attributes.name}
+                src={widget.attributes.widgetConfig.url}
+                frameBorder="0"
+              />
+            }
+            { modalOpened && this.getModal() }
           </div>
           { this.isLoadedExternally() && (
             <div className="widget-footer">
               <a href="/" target="_blank" rel="noopener noreferrer">
                 <img
                   className="embed-logo"
-                  src={'/static/images/logo-embed.png'}
+                  src="/static/images/logo-embed.png"
                   alt="Resource Watch"
                 />
               </a>
             </div>
           ) }
         </div>
-      </EmbedLayout>
+      </LayoutEmbed>
     );
   }
 }
-
-EmbedWidget.propTypes = {
-  widget: PropTypes.object,
-  getWidget: PropTypes.func,
-  checkIfFavorited: PropTypes.func,
-  setIfFavorited: PropTypes.func,
-  loading: PropTypes.bool,
-  error: PropTypes.string,
-  favorited: PropTypes.bool
-};
-
-EmbedWidget.defaultProps = {
-  widget: {}
-};
 
 const mapStateToProps = state => ({
   widget: state.widget.data,
   loading: state.widget.loading,
   error: state.widget.error,
-  favorited: state.widget.favorite.favorited,
+  favourited: state.widget.favourite.favourited,
   user: state.user
 });
 
@@ -158,4 +198,4 @@ const mapDispatchToProps = dispatch => ({
   setIfFavorited: bindActionCreators(setIfFavorited, dispatch)
 });
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedWidget);
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedEmbed);

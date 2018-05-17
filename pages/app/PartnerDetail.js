@@ -1,20 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Banner from 'components/app/common/Banner';
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+
+// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { getPartnerData } from 'redactions/partnerDetail';
+import { getPartnerData, getDatasets } from 'redactions/partnerDetail';
+
+// Next
+import { Router } from 'routes';
+
+// Components
+import Banner from 'components/app/common/Banner';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
+import Spinner from 'components/ui/Spinner';
+import DatasetList from 'components/datasets/list';
+
+// Utils
+import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 
 class PartnerDetail extends Page {
-  /**
-  * COMPONENT LIFECYCLE
-  * - componentDidMount
-  * - componentWillReceiveProps
-  */
+  static propTypes = {
+    url: PropTypes.object,
+    data: PropTypes.object,
+    getPartnerData: PropTypes.func
+  };
+
+  static defaultProps = {
+    data: {},
+    datasets: []
+  };
+
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    await context.store.dispatch(getPartnerData(props.url.query.id));
+
+    return { props };
+  }
+
   componentDidMount() {
-    this.props.getPartnerData(this.props.url.query.id);
+    const datasetIds = PARTNERS_CONNECTIONS
+      .filter(p => p.partnerId === this.props.url.query.id).map(elem => elem.datasetId);
+    if (datasetIds.length > 0) {
+      this.props.getDatasets(datasetIds);
+    }
   }
   componentWillReceiveProps(newProps) {
     if (this.props.url.query.id !== newProps.url.query.id) {
@@ -31,15 +60,33 @@ class PartnerDetail extends Page {
     ];
   }
 
+  handleTagSelected(tag) {
+    Router.pushRoute('explore', { topics: `["${tag.id}"]` });
+  }
+
   render() {
-    const { data } = this.props;
+    const { data, datasets } = this.props;
+    const { loading, list } = datasets;
     const logoPath = data['white-logo'] ? data['white-logo'].medium : '';
     const coverPath = data.cover && data.cover.cover;
+
     const logo = data.website !== '' ?
-      (<a href={data.website} target="_blank" rel="noopener noreferrer">
-        <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />
-      </a>) :
-      <img src={`${process.env.STATIC_SERVER_URL}${logoPath}`} className="logo" title={data.name} alt={data.name} />;
+      (
+        <a href={data.website} target="_blank" rel="noopener noreferrer">
+          <img
+            title={data.name}
+            alt={data.name}
+            className="logo"
+            src={`${process.env.STATIC_SERVER_URL}${logoPath}`}
+          />
+        </a>) :
+      (<img
+        title={data.name}
+        alt={data.name}
+        className="logo"
+        src={`${process.env.STATIC_SERVER_URL}${logoPath}`}
+      />);
+
     const backgroundImage = { 'background-image': `url(${process.env.STATIC_SERVER_URL}${coverPath})` };
 
     return (
@@ -71,23 +118,50 @@ class PartnerDetail extends Page {
               </div>
             </div>
           </Banner>
-        </div>
+          <section className="l-section">
+            <div className="l-container">
+              <div className="row align-center">
+                <div className="column small-12 medium-8">
+                  <p>{data.body}</p>
+                </div>
+              </div>
+              <div className="row align-center">
+                <div className="column small-12 datasets-container">
+                  <Spinner isLoading={loading} className="-light -relative" />
+                  {list && list.length > 0 &&
+                    <div>
+                      <h3>{`Datasets by ${data.name}`}</h3>
+                      <DatasetList
+                        active={[]}
+                        list={list}
+                        mode="grid"
+                        showActions={false}
+                        onTagSelected={this.handleTagSelected}
+                      />
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </section>
 
-        <div className="l-container learn-more">
-          <div className="row align-center">
-            <div className="column small-12">
-              <Banner className="-text-center">
-                <p className="-claim">
-                  Important work,<br /> beautifully crafted
-                </p>
-                <a
-                  className="c-btn -primary -filled"
-                  href={data.website}
-                  target="_blank"
-                >
-                  LEARN ABOUT OUR WORK
-                </a>
-              </Banner>
+          <div className="l-container learn-more">
+            <div className="row align-center">
+              <div className="column small-12">
+                <Banner className="-text-center">
+                  <p className="-claim">
+                    Learn more about <br />
+                    {data.name}
+                  </p>
+                  <a
+                    className="c-btn -primary -alt"
+                    href={data.website}
+                    target="_blank"
+                  >
+                    Our work
+                  </a>
+                </Banner>
+              </div>
             </div>
           </div>
         </div>
@@ -96,22 +170,14 @@ class PartnerDetail extends Page {
   }
 }
 
-PartnerDetail.propTypes = {
-  url: PropTypes.object,
-  data: PropTypes.object,
-  getPartnerData: PropTypes.func
-};
-
-PartnerDetail.defaultProps = {
-  data: {}
-};
-
 const mapStateToProps = state => ({
-  data: state.partnerDetail.data
+  data: state.partnerDetail.data,
+  datasets: state.partnerDetail.datasets
 });
 
-const mapDispatchToProps = dispatch => ({
-  getPartnerData: (id) => { dispatch(getPartnerData(id)); }
-});
+const mapDispatchToProps = {
+  getPartnerData,
+  getDatasets
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(PartnerDetail);

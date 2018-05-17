@@ -1,6 +1,4 @@
-import 'isomorphic-fetch';
-import flatten from 'lodash/flatten';
-import sortBy from 'lodash/sortBy';
+import queryString from 'query-string';
 
 // Utils
 import { get, post, remove } from 'utils/request';
@@ -10,58 +8,55 @@ export default class WidgetsService {
     this.opts = options;
   }
 
-  // GET ALL DATA
-  fetchAllData({ application = [process.env.APPLICATIONS], dataset = '', includes, filters }) {
-    const qParams = {
-      application: application.join(','),
-      ...!!includes && { includes },
-      'page[size]': 9999999,
+  static getAllWidgets(token, options) {
+    const { filters } = options;
+    const queryParams = queryString.stringify({
+      application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
       ...filters
-    };
+    });
 
     return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/dataset/${dataset}?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: ({ data }) => {
-          if (Array.isArray(data)) {
-            const widgets = flatten(data.map(d => d.attributes.widget.map(widget => ({
-              ...widget.attributes,
-              id: widget.id
-            }))));
-
-            resolve(sortBy(widgets, 'name'));
-          } else {
-            const widgets = data.attributes.widget.map(widget => ({
-              ...widget.attributes,
-              id: widget.id
-            }));
-            resolve(sortBy(widgets, 'name'));
-          }
-        },
-        onError: (error) => {
-          reject(error);
+      fetch(`${process.env.WRI_API_URL}/widget?${queryParams}`, {
+        method: 'GET',
+        headers: {
+          Authorization: token,
+          'Upgrade-Insecure-Requests': 1
         }
-      });
+      })
+        .then((response) => {
+          const { status, statusText } = response;
+          if (status === 200) return response.json();
+
+          const errorObject = {
+            errors: {
+              status,
+              details: statusText
+            }
+          };
+          throw errorObject;
+        })
+        .then(data => resolve(data))
+        .catch(errors => reject(errors));
     });
   }
 
-  fetchData({ id }) {
+  fetchData({ id, includes = '' }) {
     return new Promise((resolve, reject) => {
+      const qParams = queryString.stringify({
+        includes
+      });
       get({
-        url: `${process.env.WRI_API_URL}/widget/${id}`,
+        url: `${process.env.WRI_API_URL}/widget/${id}?${qParams}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
         }, {
           key: 'Authorization',
           value: this.opts.authorization
+        }, {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: (response) => {
           resolve({
@@ -102,6 +97,32 @@ export default class WidgetsService {
     });
   }
 
+  saveMetadata({ type, body, id = '', dataset }) {
+    return new Promise((resolve, reject) => {
+      post({
+        url: `${process.env.WRI_API_URL}/dataset/${dataset}/widget/${id}/metadata`,
+        type,
+        body,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }],
+        onSuccess: (response) => {
+          resolve({
+            ...response.data.attributes,
+            id: response.data.id
+          });
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
   deleteData({ id, dataset }) {
     return new Promise((resolve, reject) => {
       remove({
@@ -120,26 +141,23 @@ export default class WidgetsService {
     });
   }
 
-  fetchCollections() {
+  /**
+  * This method freezes a widget and returns the URL of the corresponding JSON
+  * file that was created on the cloud
+  */
+  freezeWidget(sqlQuery) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/vocabulary/widget_collections?application=${process.env.APPLICATIONS}`,
+        url: `${process.env.WRI_API_URL}/query?sql=${sqlQuery}&freeze=true`,
         headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
           key: 'Authorization',
           value: this.opts.authorization
+        }, {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
-        onSuccess: ({ data }) => {
-          const collections = flatten(data.map((d) => {
-            return d.attributes.resources
-              .filter(val => val.type === 'widget')
-              .map(val => ({ id: val.id, tags: val.tags }))
-              .filter(val => val.tags.find(tag => tag.includes(this.opts.user.id)));
-          }));
-
-          resolve(collections);
+        onSuccess: (response) => {
+          resolve(response);
         },
         onError: (error) => {
           reject(error);

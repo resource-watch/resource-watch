@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import escapeRegExp from 'lodash/escapeRegExp';
+import classnames from 'classnames';
 
 // Next
 import { Link } from 'routes';
@@ -8,22 +9,34 @@ import { Link } from 'routes';
 // Components
 import Icon from 'components/ui/Icon';
 
-class SearchInput extends React.Component {
+class SearchInput extends PureComponent {
+  static defaultProps = {
+    link: {}
+  }
+
+  static propTypes = {
+    input: PropTypes.object.isRequired,
+    link: PropTypes.object,
+    getRef: PropTypes.func,
+    onKeyDown: PropTypes.func,
+    isHeader: PropTypes.bool,
+    escapeText: PropTypes.bool,
+    onSearch: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
     this.state = {
-      value: props.input.value || undefined
+      value: props.input.value || props.input.defaultValue || undefined
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const { input } = nextProps;
-    const { value } = this.state;
-    if (input && input.value && input.value !== value) {
-      this.setState({
-        value: input.value
-      });
+
+    if (input.value) {
+      this.setState({ value: input.value });
     }
   }
 
@@ -31,26 +44,58 @@ class SearchInput extends React.Component {
     this.setState({
       value: e.currentTarget.value || ''
     }, () => {
-      if (this.props.onSearch) this.props.onSearch(escapeRegExp(this.state.value));
+      const { value } = this.state;
+      if (this.props.escapeText) this.props.onSearch(escapeRegExp(value));
+      if (!this.props.escapeText) this.props.onSearch(value);
     });
   }
 
+  onKeyDown(c) {
+    const { onKeyDown } = this.props;
+    if (onKeyDown && typeof onKeyDown === 'function') {
+      return onKeyDown(c);
+    }
+    return null;
+  }
+
+  getInputRef(c) {
+    const { getRef } = this.props;
+    if (getRef && typeof getRef === 'function') {
+      return getRef(c);
+    }
+    return null;
+  }
+
+
   render() {
     const { value } = this.state;
-    const { link, input } = this.props;
+    const { link, input, isHeader } = this.props;
+
+    const classNames = classnames({
+      'c-search-input--header': isHeader
+    });
+
+    const inputClassNames = classnames({
+      'c-search-input--header': isHeader
+    });
 
     return (
-      <div className="c-search-input">
+      <div className={`c-search-input ${classNames}`}>
         <div className="c-field -fluid">
-          <input
-            className="-fluid"
-            onChange={this.onSearch}
-            placeholder={input.placeholder}
-            value={value}
-            type="search"
-          />
-          <Icon name="icon-search" className="-small" />
+          <div className="field-container">
+            <input
+              className={`-fluid ${inputClassNames}`}
+              ref={c => this.getInputRef(c)}
+              onKeyDown={c => this.onKeyDown(c)}
+              onChange={this.onSearch}
+              placeholder={input.placeholder}
+              value={value || ''}
+              type="search"
+            />
+            {!isHeader && <Icon name="icon-search" className="-small" />}
+          </div>
         </div>
+
         {link.route &&
           <Link route={link.route} params={link.params}>
             <a className="c-button -primary">{link.label}</a>
@@ -60,16 +105,5 @@ class SearchInput extends React.Component {
     );
   }
 }
-
-SearchInput.propTypes = {
-  input: PropTypes.object.isRequired,
-  link: PropTypes.object.isRequired,
-  onSearch: PropTypes.func.isRequired
-};
-
-SearchInput.defaultProps = {
-  input: {},
-  link: {}
-};
 
 export default SearchInput;

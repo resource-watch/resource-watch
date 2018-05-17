@@ -1,28 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import { Link, Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
+import { removeUserArea, getUserAreaLayerGroups } from 'redactions/user';
+
+// Selectors
+import areaAlerts from 'selectors/user/areaAlerts';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import Map from 'components/widgets/editor/map/Map';
-import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
+import Map from 'components/ui/map/Map';
 import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 
+// Modal
+import Modal from 'components/modal/modal-component';
+import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
+
 // Services
-import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
-import UserService from 'services/UserService';
 
 // Utils
-import LayerManager from 'components/widgets/editor/helpers/LayerManager';
+import { getLabel } from 'utils/datasets/dataset-helpers';
+import LayerManager from 'utils/layers/LayerManager';
 
 const MAP_CONFIG = {
   zoom: 3,
@@ -54,165 +58,47 @@ class AreaCard extends React.Component {
 
     this.state = {
       loading: false,
-      country: null,
-      layer: {}
+      modal: {
+        open: false,
+        mode: 'new'
+      }
     };
 
     // Services
-    this.datasetService = new DatasetService(null, {
-      apiURL: process.env.WRI_API_URL,
-      language: props.locale
-    });
-
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
+
+    // ------------------- Bindings -----------------------
+    this.handleEditSubscription = this.handleEditSubscription.bind(this);
+    this.handleDeleteArea = this.handleDeleteArea.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleEditArea = this.handleEditArea.bind(this);
+    // ----------------------------------------------------
   }
 
-  componentDidMount() {
-    this.loadData();
-  }
-
-  loadData() {
-    this.setState({ loading: true });
-    const attsObj = this.props.area.attributes;
-
-    if (attsObj.geostore) {
-      this.areasService.getGeostore(attsObj.geostore)
-        .then((res) => {
-          const obj = res.data;
-          const bounds = [
-            [obj.attributes.bbox[0], obj.attributes.bbox[1]],
-            [obj.attributes.bbox[2], obj.attributes.bbox[3]]
-          ];
-          const fakeLayer = {
-            id: `${obj.id}`,
-            provider: 'geojson',
-            active: true,
-            layerConfig: {
-              data: obj.attributes.geojson,
-              fitBounds: true,
-              bounds: { type: 'Polygon', coordinates: [bounds] }
-            }
-          };
-
-          this.setState({
-            loading: false,
-            country: obj.id,
-            layerGroups: [{
-              dataset: null,
-              visible: true,
-              layers: [fakeLayer]
-            }]
-          });
-        });
-    } else if (attsObj.iso.country) {
-      this.areasService.getCountry(attsObj.iso.country)
-        .then((res) => {
-          const country = res.data[0];
-          const newGeoJson = {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                properties: {},
-                geometry: JSON.parse(country.geojson)
-              }
-            ]
-          };
-
-          const fakeLayer = {
-            id: `-${country.label}`,
-            provider: 'geojson',
-            active: true,
-            layerConfig: {
-              data: newGeoJson,
-              fitBounds: true,
-              bounds: JSON.parse(country.bounds)
-            }
-          };
-
-          this.setState({
-            loading: false,
-            country: country.label,
-            layerGroups: [{
-              dataset: null,
-              visible: true,
-              layers: [fakeLayer]
-            }]
-          });
-        });
-    }
-  }
-
-  @Autobind
   handleEditArea() {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 
-  @Autobind
-  handleEditSubscription() {
-    const mode = this.props.area.subscription ? 'edit' : 'new';
-    const options = {
-      children: AreaSubscriptionModal,
-      childrenProps: {
-        area: this.props.area,
-        toggleModal: this.props.toggleModal,
-        onSubscriptionUpdated: this.handleSubscriptionUpdated,
-        onSubscriptionCreated: this.handleSubscriptionUpdated,
-        mode
+  handleEditSubscription(modalState = true) {
+    this.setState({
+      modal: {
+        open: modalState,
+        mode: this.props.area.subscription ? 'edit' : 'new'
       }
-    };
-    this.props.toggleModal(true);
-    this.props.setModalOptions(options);
+    });
   }
 
-  @Autobind
-  handleSubscriptionCreated() {
-    this.props.onChange();
-  }
-
-  @Autobind
-  handleSubscriptionUpdated() {
-    this.props.onChange();
-  }
-
-  @Autobind
   handleDeleteArea() {
-    const { area, token } = this.props;
+    const { area } = this.props;
     const toastrConfirmOptions = {
       onOk: () => {
-        this.setState({ loading: true });
-
-        // Delete subscription associated to area if there's one
-        if (area.subscription) {
-          this.userService.deleteSubscription(area.subscription.id, token)
-            .then(() => {
-              this.userService.deleteArea(area.id, token)
-                .then(() => {
-                  this.props.onAreaRemoved();
-                })
-                // Fetch throws an error for some reason but the request is successful...
-                .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
-            })
-            .catch((err) => {
-              this.setState({ loading: false });
-              toastr.error('Error removing area', err);
-            });
-        } else {
-          this.userService.deleteArea(area.id, token)
-            .then(() => {
-              this.props.onAreaRemoved();
-            })
-            // Fetch throws an error for some reason but the request is successful...
-            .catch(err => this.props.onAreaRemoved()); // eslint-disable-line
-        }
+        this.props.removeUserArea(area);
       }
     };
     toastr.confirm(`Are you sure you want to delete the area ${area.attributes.name}?
       Deleting an area will delete all the subscriptions associated to it`, toastrConfirmOptions);
   }
 
-  @Autobind
   handleEdit(event) {
     const position = AreaCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
@@ -222,64 +108,83 @@ class AreaCard extends React.Component {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onEditArea: this.handleEditArea,
-        onEditSubscriptions: this.handleEditSubscription
+        onEditSubscriptions: this.handleEditSubscription,
+        onDeleteArea: this.handleDeleteArea
       }
     });
   }
 
   render() {
-    const { loading, layerGroups } = this.state;
-    const { area } = this.props;
-    const name = area.attributes.name;
-    const subscription = area.subscription;
+    const { loading } = this.state;
+    const { area, user, alerts } = this.props;
+    const { name } = area.attributes;
+    const { subscription } = area;
     const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
 
     const borderContainerClassNames = classnames({
-      'border-container': true,
-      'blue-background': subscription && !subscriptionConfirmed
+      'border-container': true
     });
+
+    // TODO: Selector
+    let layerGroups = [];
+
+    if (area.id in user.areas.layerGroups) {
+      layerGroups = user.areas.layerGroups[area.id];
+    }
+
+    const activeAlerts = area.id in alerts ? alerts[area.id] : [];
 
     return (
       <div className="c-area-card">
         <div className={borderContainerClassNames}>
           <div className="map-container">
-            <Map
-              LayerManager={LayerManager}
-              mapConfig={MAP_CONFIG}
-              layerGroups={layerGroups || []}
-              interactionEnabled={false}
-              useLightBasemap
-            />
+            <Spinner isLoading={loading} />
+
+            {!loading &&
+              <Map
+                mapConfig={{
+                  ...MAP_CONFIG,
+                  ...!!layerGroups.length && {
+                    bbox: [
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][0][0],
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][0][1],
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][1][0],
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][1][1]
+                    ]
+                  }
+                }}
+                LayerManager={LayerManager}
+                layerGroups={layerGroups}
+                interactionEnabled={false}
+              />
+            }
           </div>
-          <Spinner isLoading={loading} className="-small -light -relative -center" />
           <div className="text-container">
             <div className="name-container">
               <h4>{name}</h4>
             </div>
             <div className="subscriptions-container">
-              {subscription &&
+              {activeAlerts &&
                 <div className="datasets-container">
                   <div className="datasets-list">
-                    {subscription.attributes.datasets.map((datasetObj, index) =>
+                    {activeAlerts.map((alert, index) =>
                       (<div
                         className="dataset-element"
-                        key={`${datasetObj}-${index}`} // eslint-disable-line
+                        key={`${alert.id}-${index}`}
                       >
                         <div className="dataset-name">
                           <Link
-                            route={'explore_detail'}
-                            params={{ id: datasetObj.id }}
+                            route="explore_detail"
+                            params={{ id: alert.id }}
                           >
                             <a>
-                              {datasetObj.label}
+                              {getLabel(alert.dataset)}
                             </a>
                           </Link>
                         </div>
                         <div className="dataset-subscription-type">
-                          {subscription.attributes.datasetsQuery
-                            .find(elem => elem.id === datasetObj.id).type}
-                          &nbsp;(&ge;{subscription.attributes.datasetsQuery
-                            .find(elem => elem.id === datasetObj.id).threshold})
+                          {alert.type}
+                          &nbsp;({alert.threshold})
                         </div>
                       </div>)
                     )}
@@ -291,7 +196,7 @@ class AreaCard extends React.Component {
                   <div className="status-label">
                     {!subscriptionConfirmed &&
                     <div className="pending-label">
-                      Pending
+                      Pending email confirmation
                     </div>
                     }
                   </div>
@@ -300,49 +205,60 @@ class AreaCard extends React.Component {
             </div>
             <div className="actions-div">
               <button
-                className="c-btn -b -compressed"
+                className="c-btn -secondary -compressed"
                 onClick={this.handleEdit}
               >
-                Edit
+                Area Options
               </button>
-              <a
-                tabIndex={-1}
-                role="button"
-                onClick={this.handleDeleteArea}
+              <Link
+                route="myrw_detail"
+                params={{ id: area.id, tab: 'areas', subtab: 'alerts' }}
               >
-                Delete
-              </a>
+                <a>View alerts</a>
+              </Link>
             </div>
           </div>
         </div>
+
+        {this.state.modal.open &&
+          <Modal
+            isOpen
+            onRequestClose={() => this.handleEditSubscription(false)}
+          >
+            <AreaSubscriptionModal
+              area={this.props.area}
+              mode={this.state.modal.mode}
+              onRequestClose={() => this.handleEditSubscription(false)}
+              subscriptionDataset
+              subscriptionType
+              subscriptionThreshold
+            />
+          </Modal>}
+
       </div>
     );
   }
 }
 
 AreaCard.propTypes = {
-  token: PropTypes.string.isRequired,
   area: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
-  // Callbacks
-  onAreaRemoved: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  alerts: PropTypes.object.isRequired,
   // Store
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
-  toggleTooltip: PropTypes.func.isRequired
+  toggleTooltip: PropTypes.func.isRequired,
+  removeUserArea: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  locale: state.common.locale
+  locale: state.common.locale,
+  user: state.user,
+  alerts: areaAlerts(state)
 });
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: (open, opts) => { dispatch(toggleModal(open, opts)); },
-  setModalOptions: (options) => { dispatch(setModalOptions(options)); },
-  toggleTooltip: (opened, opts) => {
-    dispatch(toggleTooltip(opened, opts));
-  }
-});
+const mapDispatchToProps = {
+  toggleTooltip,
+  removeUserArea,
+  getUserAreaLayerGroups
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AreaCard);

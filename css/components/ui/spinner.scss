@@ -51,6 +51,14 @@
     }
   }
 
+  &.-pink-icon {
+    .spinner-box {
+      .icon {
+        border-top-color: $dark-pink;
+      }
+    }
+  }
+
   // Position
   &.-fixed { position: fixed;}
   &.-relative { position: relative;}
@@ -74,6 +82,17 @@
       }
     }
   }
+
+  // Sizes
+  &.-tiny {
+    .spinner-box {
+      .icon {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+
 }
 
  // ROTATE

@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
 
-function DashboardsListCard({ dashboard, routes, onDelete }) {
+function DashboardsListCard({ dashboard = {}, routes = { index: '', detail: '' }, onDelete = null }) {
   return (
     <div className="c-card">
       <div className="card-container">
@@ -45,15 +44,6 @@ function DashboardsListCard({ dashboard, routes, onDelete }) {
     </div>
   );
 }
-
-DashboardsListCard.defaultProps = {
-  routes: {
-    index: '',
-    detail: ''
-  },
-  dashboard: {},
-  onDelete: null
-};
 
 DashboardsListCard.propTypes = {
   dashboard: PropTypes.object,

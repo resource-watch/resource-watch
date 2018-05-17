@@ -15,8 +15,25 @@
   border: 1px solid $border-color-1;
   border-radius: 4px;
 
+  &.-compact {
+    .card-container {
+      padding: 40px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-footer {
+      position: relative;
+      padding: 0;
+      margin-top: auto;
+      padding-top: 40px;
+    }
+  }
+
   .card-background {
     height: 190px;
+    background-size: cover;
   }
 
   .card-container {

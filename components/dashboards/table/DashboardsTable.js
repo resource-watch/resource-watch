@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 // Redux
 import { connect } from 'react-redux';
-
 import { getDashboards, setFilters } from 'redactions/admin/dashboards';
 
 // Selectors
@@ -25,6 +23,35 @@ import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
 
 class DashboardsTable extends React.Component {
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    // Store
+    dashboards: [],
+    filteredDashboards: []
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    dashboards: PropTypes.array.isRequired,
+    filteredDashboards: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getDashboards: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+
+    // ------------------- Bindings -----------------------
+    this.onSearch = this.onSearch.bind(this);
+    // ----------------------------------------------------
+  }
+
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getDashboards();
@@ -34,7 +61,6 @@ class DashboardsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  @Autobind
   onSearch(value) {
     if (!value.length) {
       this.props.setFilters([]);
@@ -111,36 +137,15 @@ class DashboardsTable extends React.Component {
   }
 }
 
-DashboardsTable.defaultProps = {
-  columns: [],
-  actions: {},
-  // Store
-  dashboards: [],
-  filteredDashboards: []
-};
-
-DashboardsTable.propTypes = {
-  authorization: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  dashboards: PropTypes.array.isRequired,
-  filteredDashboards: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getDashboards: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
   loading: state.dashboards.dashboards.loading,
   dashboards: state.dashboards.dashboards.list,
   filteredDashboards: getFilteredDashboards(state),
   error: state.dashboards.dashboards.error
 });
-const mapDispatchToProps = dispatch => ({
-  getDashboards: () => dispatch(getDashboards()),
-  setFilters: filters => dispatch(setFilters(filters))
-});
+const mapDispatchToProps = {
+  getDashboards,
+  setFilters
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardsTable);

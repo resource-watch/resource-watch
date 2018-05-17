@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 
 function OwnerTD(props) {
   const { value, index } = props;
-  const emailSt = value ? value.email : '';
 
   return (
-    <td key={index} className="main">
-      {emailSt}
+    <td key={index}>
+      {value && value.split('@')[0]}
     </td>
   );
 }
 
 OwnerTD.propTypes = {
-  value: PropTypes.object,
+  value: PropTypes.string,
   index: PropTypes.string
 };
 

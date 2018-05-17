@@ -1,24 +1,12 @@
 .c-dataset-tags-tooltip {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
   max-height: 200px;
   max-width: 250px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 
-  .tag {
-    display: flex;
-    float: left;
-    clear: left;
-    align-items: center;
-    min-height: 22px;
-    background: $dark-pink;
-    color: $white;
-    font-size: $font-size-small-medium;
-    font-weight: $font-weight-bold;
-    border-radius: 15px;
-    padding: 3px 10px 4px 10px;
-    margin: 5px;
-    cursor: pointer;
-  }
+  padding: 15px;
+  border: 1px solid rgba(57,63,68,0.15);
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: 0 20px 30px 0 rgba(0,0,0,0.1);
 }

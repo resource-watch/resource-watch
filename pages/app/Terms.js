@@ -5,20 +5,17 @@ import renderHTML from 'react-render-html';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import { getStaticData } from 'redactions/static_pages';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
 
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 
 class Terms extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
-    await store.dispatch(getStaticData('terms-of-service'));
-    return { isServer, user, url };
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+
+    // Get static data
+    await context.store.dispatch(getStaticData('terms-of-service'));
+    return { ...props };
   }
 
   render() {
@@ -82,10 +79,8 @@ const mapStateToProps = state => ({
   data: state.staticPages['terms-of-service']
 });
 
-const mapDispatchToProps = dispatch => ({
-  getStaticData: (slug, ref) => {
-    dispatch(getStaticData(slug, ref));
-  }
-});
+const mapDispatchToProps = {
+  getStaticData
+};
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Terms);

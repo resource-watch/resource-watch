@@ -1,30 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { toggleModal } from 'redactions/modal';
 
 class LayerInfoModal extends React.Component {
-  @Autobind
-  handleMoreInfo() {
-    this.props.toggleModal(false);
+  handleMoreInfo = () => {
+    const { onRequestClose } = this.props;
+    if (onRequestClose && typeof onRequestClose === 'function') {
+      onRequestClose(false);
+    }
     Router.pushRoute('explore_detail', { id: this.props.data.dataset });
   }
 
   render() {
+    const { embed, data } = this.props;
     return (
       <div className="layer-info-modal">
         <div className="layer-info-content">
-          <h2>{this.props.data.name}</h2>
-          <p>{this.props.data.description}</p>
+          <h2>{data.name}</h2>
+          <p>{data.description}</p>
           <div className="buttons">
-            <button
-              className="c-btn -primary"
-              onClick={this.handleMoreInfo}
-            >More info</button>
+            {embed &&
+              <a
+                className="c-btn -primary"
+                href={`${window.location.origin}/data/explore/${data.dataset}`}
+                target="_blank"
+              >
+                More info
+              </a>
+            }
+
+            {!embed &&
+              <button
+                className="c-btn -primary"
+                onClick={this.handleMoreInfo}
+              >
+                More info
+              </button>
+            }
           </div>
         </div>
       </div>
@@ -33,12 +48,14 @@ class LayerInfoModal extends React.Component {
 }
 
 LayerInfoModal.propTypes = {
-  toggleModal: PropTypes.func.isRequired,
-  data: PropTypes.object
+  onRequestClose: PropTypes.func.isRequired,
+  data: PropTypes.object,
+  embed: PropTypes.bool
 };
 
-const mapDispatchToProps = dispatch => ({
-  toggleModal: open => dispatch(toggleModal(open))
-});
-
-export default connect(null, mapDispatchToProps)(LayerInfoModal);
+export default connect(
+  state => ({
+    embed: state.common.embed
+  }),
+  null
+)(LayerInfoModal);

@@ -1,0 +1,57 @@
+.c-my-rw {
+
+  .list-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .left-container {
+      display: flex;
+
+      button {
+        margin-right: 10px;
+      }
+    }
+
+    .buttons-container {
+      display: flex;
+      align-items: center;
+
+      .last-modified-container {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        min-width: 120px;
+
+        svg {
+          margin-left: 5px;
+          fill: $color-grey;
+        }
+      }
+
+      .mode-buttons {
+        display: flex;
+        align-items: center;
+        min-width: 70px;
+
+        button {
+          cursor: pointer;
+          fill: $color-grey;
+          padding-top: 0px;
+          padding-bottom: 0px;
+
+          &.-active {
+            fill: $color-black;
+          }
+        }
+      }
+    }
+  }
+
+  .no-resources {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

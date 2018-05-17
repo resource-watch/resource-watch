@@ -10,7 +10,15 @@ export default class WidgetService {
   }
 
   fetchData(includes = '') {
-    return fetch(`${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999&application=${[process.env.APPLICATIONS]}`)
+    return fetch(
+      `${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999&application=${process.env.APPLICATIONS}`,
+      {
+        method: 'GET',
+        headers: {
+          'Upgrade-Insecure-Requests': 1
+        }
+      }
+    )
       .then(async (response) => {
         const data = await response.json();
 
@@ -70,13 +78,29 @@ export default class WidgetService {
   getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc', includes = '') {
     const directionPart = (direction === 'asc') ? '&sort=updatedAt' : '&sort=-updatedAt';
     const sortSt = sortByUpdatedAt ? directionPart : '';
-    return fetch(`${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&env=${process.env.API_ENV}&includes=${includes}&application=${[process.env.APPLICATIONS]}&page[size]=999`)
+    return fetch(
+      `${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&env=${process.env.API_ENV}&includes=${includes}&application=${process.env.APPLICATIONS}&page[size]=999`,
+      {
+        method: 'GET',
+        headers: {
+          'Upgrade-Insecure-Requests': 1
+        }
+      }
+    )
       .then(response => response.json())
       .then(jsonData => jsonData.data);
   }
 
   getUserWidgetCollections(user) {
-    return fetch(`${this.opts.apiURL}/vocabulary/widget_collections?application=${[process.env.APPLICATIONS]}`)
+    return fetch(
+      `${this.opts.apiURL}/vocabulary/widget_collections?application=${process.env.APPLICATIONS}`,
+      {
+        method: 'GET',
+        headers: {
+          'Upgrade-Insecure-Requests': 1
+        }
+      }
+    )
       .then(response => response.json())
       .then((jsonData) => {
         const dataObj = jsonData.data;

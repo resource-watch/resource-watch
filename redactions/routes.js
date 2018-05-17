@@ -18,14 +18,14 @@ export default function (state = initialState, action) {
 
 // ACTIONS
 export function setRouter(router) {
-  if (router.query && router.query.page) router.query.page = parseInt(router.query.page);
+  if (router.query && router.query.page) router.query.page = parseInt(router.query.page, 10);
   return { type: SET_ROUTER, payload: router };
 }
 
 export function setPage(pageNumber = 1) {
   return (dispatch, getState) => {
     const { routes } = getState();
-    if (routes.query && routes.query.page) routes.query.page = parseInt(pageNumber);
+    if (routes.query && routes.query.page) routes.query.page = parseInt(pageNumber, 10);
     dispatch({
       type: SET_ROUTER_PAGE,
       payload: routes

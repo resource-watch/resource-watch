@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { toastr } from 'react-redux-toastr';
-
 import { connect } from 'react-redux';
 
 // Constants
@@ -16,9 +14,9 @@ import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
 
 // Wysiwyg
-import Wysiwyg from 'components/form/Wysiwyg';
-import DashboardWidget from 'components/dashboards/wysiwyg/DashboardWidget';
-import WidgetBlockEdition from 'components/dashboards/wysiwyg/widget-block-edition/widget-block-edition';
+import Wysiwyg from 'components/form/VizzWysiwyg';
+import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
+import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -151,8 +149,10 @@ class Step1 extends React.Component {
               default: this.state.form.content,
               blocks: {
                 widget: {
-                  Component: DashboardWidget,
+                  Component: WidgetBlock,
                   EditionComponent: WidgetBlockEdition,
+                  icon: 'icon-widget',
+                  label: 'Visualization',
                   renderer: 'modal'
                 }
               },

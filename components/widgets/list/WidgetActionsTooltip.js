@@ -1,8 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 
 class WidgetActionsTooltip extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // ---------------------- Bindings --------------------------
+    this.triggerMouseDown = this.triggerMouseDown.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    // ----------------------------------------------------------
+  }
+
   componentDidMount() {
     document.addEventListener('mousedown', this.triggerMouseDown);
   }
@@ -11,7 +19,6 @@ class WidgetActionsTooltip extends React.Component {
     document.removeEventListener('mousedown', this.triggerMouseDown);
   }
 
-  @Autobind
   triggerMouseDown(e) {
     const el = document.querySelector('.c-tooltip');
     const clickOutside = el && el.contains && !el.contains(e.target);
@@ -20,7 +27,6 @@ class WidgetActionsTooltip extends React.Component {
     }
   }
 
-  @Autobind
   handleClick(link) {
     switch (link) { // eslint-disable-line default-case
       case 'edit_widget':
@@ -42,14 +48,17 @@ class WidgetActionsTooltip extends React.Component {
   }
 
   render() {
+    const { widgetLinks } = this.props;
     return (
       <div className="c-widget-actions-tooltip">
         <ul>
-          <li>
-            <button onClick={() => this.handleClick('edit_widget')}>
-              Edit widget
-            </button>
-          </li>
+          { this.props.isWidgetOwner &&
+            <li>
+              <button onClick={() => this.handleClick('edit_widget')}>
+                Edit visualization
+              </button>
+            </li>
+          }
           <li>
             <button onClick={() => this.handleClick('share_embed')}>
               Share/Embed
@@ -60,11 +69,18 @@ class WidgetActionsTooltip extends React.Component {
               Add to dashboard
             </button>
           </li>
-          <li>
-            <button onClick={() => this.handleClick('go_to_dataset')}>
-              Go to dataset
-            </button>
-          </li>
+          {widgetLinks.length === 0 &&
+            <li>
+              <button onClick={() => this.handleClick('go_to_dataset')}>
+                Go to dataset
+              </button>
+            </li>
+          }
+          {widgetLinks.map(link =>
+            (<li>
+              <a href={link.link} target="_blank">Go to {link.name}</a>
+            </li>)
+          )}
           <li>
             <button onClick={() => this.handleClick('download_pdf')}>
               Download as PDF
@@ -77,6 +93,8 @@ class WidgetActionsTooltip extends React.Component {
 }
 
 WidgetActionsTooltip.propTypes = {
+  isWidgetOwner: PropTypes.bool,
+  widgetLinks: PropTypes.array,
   toggleTooltip: PropTypes.func.isRequired,
   // Callbacks
   onGoToDataset: PropTypes.func.isRequired,

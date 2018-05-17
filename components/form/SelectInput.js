@@ -4,6 +4,18 @@ import Select, { Creatable } from 'react-select';
 import FormElement from './FormElement';
 
 class SelectInput extends FormElement {
+  static defaultProps = {
+    options: []
+  };
+
+  static propTypes = {
+    properties: PropTypes.object.isRequired,
+    options: PropTypes.array.isRequired,
+    creatable: PropTypes.bool,
+    onChange: PropTypes.func,
+    defaultValue: PropTypes.any
+  };
+
   constructor(props) {
     super(props);
 
@@ -58,17 +70,5 @@ class SelectInput extends FormElement {
     );
   }
 }
-
-SelectInput.defaultProps = {
-  options: []
-};
-
-SelectInput.propTypes = {
-  properties: PropTypes.object.isRequired,
-  options: PropTypes.array.isRequired,
-  creatable: PropTypes.bool,
-  onChange: PropTypes.func,
-  defaultValue: PropTypes.any
-};
 
 export default SelectInput;

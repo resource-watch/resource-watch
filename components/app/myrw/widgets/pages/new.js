@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
-import { setTitle } from 'components/widgets/editor/redux/widgetEditor';
 
 // Services
 import WidgetService from 'services/WidgetService';
@@ -14,14 +12,13 @@ import DatasetsService from 'services/DatasetsService';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'components/widgets/editor/WidgetEditor';
+import WidgetEditor from 'widget-editor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
 // Utils
-import { getChartConfig, canRenderChart, getChartInfo } from 'utils/widgets/WidgetHelper';
 import { logEvent } from 'utils/analytics';
 
 const FORM_ELEMENTS = {
@@ -63,144 +60,66 @@ class WidgetsNew extends React.Component {
     this.datasetsService = new DatasetsService({
       language: props.locale
     });
+
+    // ------------------- Bindings -----------------------
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleDatasetSelected = this.handleDatasetSelected.bind(this);
+    // ----------------------------------------------------
   }
 
   componentDidMount() {
     this.loadDatasets();
   }
 
-  @Autobind
   async onSubmit(event) {
     if (event) event.preventDefault();
 
-    const { widget, selectedDataset, datasets } = this.state;
-    const { widgetEditor, user } = this.props;
-    const {
-      visualizationType,
-      band,
-      limit,
-      value,
-      category,
-      color,
-      size,
-      orderBy,
-      aggregateFunction,
-      chartType,
-      filters,
-      areaIntersection,
-      layer,
-      title,
-      zoom,
-      latLng
-    } = widgetEditor;
-
-    const dataset = datasets.find(elem => elem.value === selectedDataset);
-    const { type, provider, tableName } = dataset;
-
-    if (!canRenderChart(widgetEditor, provider)) {
-      toastr.error('Error', 'Please create a widget in order to save it');
-      return;
-    }
+    const { widget, selectedDataset } = this.state;
+    const { user } = this.props;
 
     logEvent('My RW', 'User creates new widget', this.state.datasets.find(d => d.id === this.state.selectedDataset).label);
 
     this.setState({ loading: true });
 
-    let chartConfig;
+    setTimeout(async () => {
+      const widgetConfig = (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {};
 
-    // If the visualization if a map, we don't have any chartConfig
-    if (visualizationType !== 'map') {
-      const chartInfo = getChartInfo(dataset.id, type, provider, widgetEditor);
-
-      try {
-        chartConfig = await getChartConfig(
-          dataset.id,
-          type,
-          tableName,
-          band,
-          provider,
-          chartInfo
-        );
-      } catch (err) {
-        this.setState({
-          saved: false,
-          loading: false
-        });
-        toastr.error('Error', 'Unable to generate the configuration of the chart');
-
-        return;
-      }
-    }
-
-    const widgetConfig = {
-      widgetConfig: Object.assign(
+      const widgetObj = Object.assign(
         {},
-        // If the widget is a map, we want to add some extra info
-        // in widgetConfig so the widget is compatible with other
-        // apps that use the same API
-        // The type and layer_id are not necessary for the editor
-        // because it is already saved in widgetConfig.paramsConfig
-        (
-          visualizationType === 'map'
-            ? { type: 'map', layer_id: layer && layer.id, zoom, ...latLng }
-            : {}
-        ),
-        {
-          paramsConfig: {
-            visualizationType,
-            band: band && { name: band.name },
-            limit,
-            value,
-            category,
-            color,
-            size,
-            orderBy,
-            aggregateFunction,
-            chartType,
-            filters,
-            areaIntersection,
-            layer: layer && layer.id
+        widget,
+        { widgetConfig }
+      );
+
+      this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
+        .then((response) => {
+          if (response.errors) {
+            const errorMessage = response.errors[0].detail;
+            this.setState({
+              saved: false,
+              loading: false
+            });
+
+            toastr.error('Error', errorMessage);
+          } else {
+            Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+            toastr.success('Success', 'Widget created successfully!');
           }
-        },
-        chartConfig
-      )
-    };
-
-    const widgetObj = Object.assign(
-      {},
-      {
-        name: title,
-        description: widget.description,
-        authors: widget.authors,
-        source: widget.source,
-        sourceUrl: widget.sourceUrl
-      },
-      widgetConfig
-    );
-
-    this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
-      .then((response) => {
-        if (response.errors) {
-          const errorMessage = response.errors[0].detail;
+        }).catch((err) => {
           this.setState({
             saved: false,
             loading: false
           });
-
-          toastr.error('Error', errorMessage);
-        } else {
-          Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
-          toastr.success('Success', 'Widget created successfully!');
-        }
-      }).catch((err) => {
-        this.setState({
-          saved: false,
-          loading: false
+          toastr.err('Error', err);
         });
-        toastr.err('Error', err);
-      });
+    }, 0);
   }
 
+  getWidgetConfig() {
+    return this.onGetWidgetConfig()
+      .then(widgetConfig => widgetConfig)
+      .catch(() => ({}));
+  }
 
   loadDatasets() {
     this.datasetsService.fetchAllData({ filters: { published: true }, includes: 'metadata' }).then((response) => {
@@ -243,39 +162,26 @@ class WidgetsNew extends React.Component {
     });
   }
 
-  @Autobind
   handleChange(value) {
     const newWidgetObj = Object.assign({}, this.state.widget, value);
     this.setState({ widget: newWidgetObj });
-
-    if (Object.keys(value).indexOf('name') !== -1) {
-      this.props.setTitle(value.name);
-    }
   }
 
-  @Autobind
   handleDatasetSelected(value) {
     this.setState({
       selectedDataset: value
     });
   }
 
-  @Autobind
-  handleWidgetEditorError() { // eslint-disable-line class-methods-use-this
-    toastr.error('Error', 'An error occured with the widget editor');
-  }
-
   render() {
     const {
       loading,
-      widget,
       submitting,
       datasets,
       selectedDataset,
       loadingUserDatasets,
       loadingPublishedDatasets
     } = this.state;
-    const { widgetEditor } = this.props;
 
     return (
       <div className="c-myrw-widgets-new">
@@ -305,12 +211,12 @@ class WidgetsNew extends React.Component {
         {selectedDataset &&
         <div>
           <WidgetEditor
-            widget={widget}
-            dataset={selectedDataset}
-            mode="widget"
-            onUpdateWidget={this.onSubmit}
-            showSaveButton
-            onError={this.handleWidgetEditorError}
+            datasetId={selectedDataset}
+            widgetId={null}
+            saveButtonMode="never"
+            embedButtonMode="never"
+            titleMode="never"
+            provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
           />
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>
@@ -324,8 +230,6 @@ class WidgetsNew extends React.Component {
                     label: 'Title',
                     type: 'text',
                     required: true,
-                    default: widgetEditor.title || '',
-                    value: widgetEditor.title || '',
                     placeholder: 'Widget title'
                   }}
                 >
@@ -343,44 +247,6 @@ class WidgetsNew extends React.Component {
                 >
                   {Input}
                 </Field>
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.authors = c; }}
-                  onChange={value => this.handleChange({ authors: value })}
-                  properties={{
-                    title: 'authors',
-                    label: 'Authors',
-                    type: 'text',
-                    placeholder: 'Author name'
-                  }}
-                >
-                  {Input}
-                </Field>
-                <div className="source-container">
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.source = c; }}
-                    onChange={value => this.handleChange({ source: value })}
-                    properties={{
-                      title: 'source',
-                      label: 'Source name',
-                      type: 'text',
-                      placeholder: 'Source name'
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.sourceUrl = c; }}
-                    onChange={value => this.handleChange({ sourceUrl: value })}
-                    properties={{
-                      title: 'sourceUrl',
-                      label: 'Source URL',
-                      type: 'text',
-                      placeholder: 'Paste a URL here'
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                </div>
               </fieldset>
               <div className="buttons-container">
                 <Button
@@ -406,19 +272,12 @@ WidgetsNew.propTypes = {
   dataset: PropTypes.string,
   // Store
   user: PropTypes.object.isRequired,
-  widgetEditor: PropTypes.object.isRequired,
-  setTitle: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  widgetEditor: state.widgetEditor,
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  setTitle: title => dispatch(setTitle(title))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(WidgetsNew);
+export default connect(mapStateToProps, null)(WidgetsNew);

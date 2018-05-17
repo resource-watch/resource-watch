@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { toastr } from 'react-redux-toastr';
 
 // Redux
@@ -16,8 +15,37 @@ import SearchInput from 'components/ui/SearchInput';
 import DashboardsListCard from 'components/dashboards/list/DashboardsListCard';
 
 class DashboardsList extends React.Component {
+  static defaultProps = {
+    routes: {
+      index: '',
+      detail: ''
+    },
+    getDashboardsFilters: {},
+    // Store
+    dashboards: []
+  };
+
+  static propTypes = {
+    routes: PropTypes.object,
+    getDashboardsFilters: PropTypes.object,
+
+    // Store
+    dashboards: PropTypes.array.isRequired,
+    loading: PropTypes.bool,
+    filters: PropTypes.array,
+
+    // Actions
+    getDashboards: PropTypes.func.isRequired,
+    deleteDashboard: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
+
+    this.state = {
+      loading: true
+    };
 
     this.onSearch = this.onSearch.bind(this);
     this.onDelete = this.onDelete.bind(this);
@@ -30,6 +58,12 @@ class DashboardsList extends React.Component {
     this.props.getDashboards({
       filters: getDashboardsFilters
     });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.loading !== this.state.loading) {
+      this.setState({ loading: nextProps.loading });
+    }
   }
 
   /**
@@ -67,11 +101,15 @@ class DashboardsList extends React.Component {
   }
 
   render() {
-    const { dashboards, routes } = this.props;
+    const { dashboards, routes, filters } = this.props;
+    const { loading } = this.state;
 
     return (
-      <div className="c-dashboard-list">
-        <Spinner className="-light" isLoading={this.props.loading} />
+      <div className="c-dashboards-list">
+        <Spinner
+          className="-light"
+          isLoading={loading}
+        />
 
         <SearchInput
           input={{
@@ -98,41 +136,28 @@ class DashboardsList extends React.Component {
               />
             </div>
           ))}
+          {!loading && dashboards.length === 0 && filters.length === 0 &&
+            <div className="text-container">
+              You currently have no dashboards
+            </div>
+          }
+          {!loading && dashboards.length === 0 && filters.length > 0 &&
+            <div className="text-container">
+              There were no dashboards found with the text provided
+            </div>
+          }
         </div>
       </div>
     );
   }
 }
 
-DashboardsList.defaultProps = {
-  routes: {
-    index: '',
-    detail: ''
-  },
-  getDashboardsFilters: {},
-  // Store
-  dashboards: []
-};
-
-DashboardsList.propTypes = {
-  routes: PropTypes.object,
-  getDashboardsFilters: PropTypes.object,
-
-  // Store
-  dashboards: PropTypes.array.isRequired,
-  loading: PropTypes.bool,
-
-  // Actions
-  getDashboards: PropTypes.func.isRequired,
-  deleteDashboard: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({
   user: state.user,
   loading: state.dashboards.dashboards.loading,
   dashboards: getFilteredDashboards(state),
-  error: state.dashboards.dashboards.error
+  error: state.dashboards.dashboards.error,
+  filters: state.clientDashboards.filters
 });
 
 const mapDispatchToProps = {

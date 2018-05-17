@@ -4,29 +4,27 @@ import { Router } from 'routes';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setUser } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
-import { fetchDashboards, setPagination, setExpanded } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
+import { fetchDashboards, setPagination, setExpanded, setAdd, setSelected } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
 
 // Components
-import Page from 'components/app/layout/Page';
-import Layout from 'components/app/layout/Layout';
-import Breadcrumbs from 'components/ui/Breadcrumbs';
+import Page from 'layout/page';
+import Layout from 'layout/layout/layout-app';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 
 class Dashboards extends Page {
-  static async getInitialProps({ asPath, pathname, query, req, store, isServer }) {
-    const { user } = isServer ? req : store.getState();
-    const url = { asPath, pathname, query };
-    store.dispatch(setUser(user));
-    store.dispatch(setRouter(url));
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
 
-    store.dispatch(setPagination(false));
-    await store.dispatch(fetchDashboards({
+    // Dashboard thumbnail list
+    context.store.dispatch(setPagination(false));
+    context.store.dispatch(setAdd(false));
+    context.store.dispatch(setSelected(null));
+
+    await context.store.dispatch(fetchDashboards({
       filters: { 'filter[published]': 'true' }
     }));
 
-    return { isServer, user, url };
+    return { ...props };
   }
 
 
@@ -47,7 +45,6 @@ class Dashboards extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Data', href: '/data' }]} />
                   <h1>Dashboards</h1>
                 </div>
               </div>
@@ -62,7 +59,10 @@ class Dashboards extends Page {
                 <DashboardThumbnailList
                   onSelect={({ slug }) => {
                     // We need to make an amendment in the Wysiwyg to have this working
-                    Router.pushRoute('dashboards_detail', { slug });
+                    Router.pushRoute('dashboards_detail', { slug })
+                      .then(() => {
+                        window.scrollTo(0, 0);
+                      });
                   }}
                   onExpand={(bool) => {
                     this.props.setExpanded(bool);
@@ -82,7 +82,9 @@ const mapStateToProps = null;
 const mapDispatchToProps = {
   fetchDashboards,
   setExpanded,
-  setPagination
+  setPagination,
+  setAdd,
+  setSelected
 };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Dashboards);

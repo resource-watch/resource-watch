@@ -1,4 +1,4 @@
-import { getVisualisationTypes } from '../components/widget-builder/helpers/dataset-helpers';
+import { getVisualisationTypes } from '../utils/datasets/dataset-helpers';
 
 require('isomorphic-fetch');
 require('colors');

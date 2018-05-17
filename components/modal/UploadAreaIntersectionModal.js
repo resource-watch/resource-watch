@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Autobind } from 'es-decorators';
 import Dropzone from 'react-dropzone';
 import classnames from 'classnames';
 
@@ -8,6 +7,17 @@ import classnames from 'classnames';
 import Spinner from 'components/ui/Spinner';
 
 class UploadAreaIntersectionModal extends React.Component {
+  static propTypes = {
+    // Callback to call with the id of the area
+    onUploadArea: PropTypes.func.isRequired,
+    // Whether this component is embedded somewhere (not in a modal)
+    embed: PropTypes.bool
+  };
+
+  static defaultProps = {
+    embed: false
+  };
+
   /**
    * Return the name of the file
    * @param {File} file
@@ -128,13 +138,19 @@ class UploadAreaIntersectionModal extends React.Component {
       loading: false,
       errors: []
     };
+
+    // -------------------- Bindings ---------------------
+    this.onDragEnter = this.onDragEnter.bind(this);
+    this.onDragLeave = this.onDragLeave.bind(this);
+    this.onDrop = this.onDrop.bind(this);
+    this.onOpenDialog = this.onOpenDialog.bind(this);
+    // -----------------------------------------------------
   }
 
   /**
    * Event handler executed when the user drags a file over the
    * drop zone
    */
-  @Autobind
   onDragEnter() {
     this.setState({
       dropzoneActive: true
@@ -145,7 +161,6 @@ class UploadAreaIntersectionModal extends React.Component {
    * Event handler executed when the user drags a file over the
    * drop zone
    */
-  @Autobind
   onDragLeave() {
     this.setState({
       dropzoneActive: false
@@ -158,7 +173,6 @@ class UploadAreaIntersectionModal extends React.Component {
    * @param {File[]} accepted List of accepted files
    * @param {File[]} rejected List of rejected files
    */
-  @Autobind
   onDrop(accepted, rejected) {
     this.setState({
       accepted: accepted[0],
@@ -180,7 +194,6 @@ class UploadAreaIntersectionModal extends React.Component {
    * Event handler executed when the user clicks on the drop
    * zone
    */
-  @Autobind
   onOpenDialog() {
     this.dropzone.open();
   }
@@ -276,16 +289,5 @@ class UploadAreaIntersectionModal extends React.Component {
     );
   }
 }
-
-UploadAreaIntersectionModal.propTypes = {
-  // Callback to call with the id of the area
-  onUploadArea: PropTypes.func.isRequired,
-  // Whether this component is embedded somewhere (not in a modal)
-  embed: PropTypes.bool
-};
-
-UploadAreaIntersectionModal.defaultProps = {
-  embed: false
-};
 
 export default UploadAreaIntersectionModal;

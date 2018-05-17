@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Autobind } from 'es-decorators';
 
 // Components
 import Icon from 'components/ui/Icon';
@@ -18,6 +17,34 @@ import Spinner from 'components/ui/Spinner';
  */
 
 export default class SliderSelect extends React.Component {
+  static propTypes = {
+    /** @type {Item[]} */
+    options: PropTypes.array, // List of the options (see the type Item)
+    // Callback exectued when the selected option changes
+    // If waitForChangeConfirmation is set to true, then the component
+    // waits for this callback to return either true or false to confirm
+    // if the choice can be made
+    // A promise can be returned for asynchronous confirmation
+    /** @type {(item: Item, path?: string[]) => (void|boolean|Promise<boolean>)} */
+    onValueChange: PropTypes.func,
+    /** @type {string} */
+    value: PropTypes.string, // Initial selected value (value of an Item)
+    className: PropTypes.string,
+    placeholder: PropTypes.string,
+    // Whether the user can select an intermediate node (not a leaf)
+    allowNonLeafSelection: PropTypes.bool,
+    // Whether the component should wait for the onValueChange callback to
+    // return true before confirming the user's choice; if false, then
+    // nothing would happen
+    waitForChangeConfirmation: PropTypes.bool
+  };
+
+  static defaultProps = {
+    onValueChange: () => { },
+    allowNonLeafSelection: true,
+    waitForChangeConfirmation: false
+  };
+
   constructor(props) {
     super(props);
 
@@ -34,6 +61,19 @@ export default class SliderSelect extends React.Component {
       selectedIndex: 0, // Index of the selected option (via the keyboard)
       waitingConfirmation: false // Whether we're waiting a selection confirmation
     };
+
+    // -------------------- BINDINGS -----------------------
+    this.onType = this.onType.bind(this);
+    this.onEnterSearch = this.onEnterSearch.bind(this);
+    this.onSliderPrev = this.onSliderPrev.bind(this);
+    this.onScreenClick = this.onScreenClick.bind(this);
+    this.onMouseDownOption = this.onMouseDownOption.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.selectItem = this.selectItem.bind(this);
+    this.clearSelectedItem = this.clearSelectedItem.bind(this);
+    // --------------------------------------------------------
   }
 
   componentWillReceiveProps(newProps) {
@@ -86,7 +126,6 @@ export default class SliderSelect extends React.Component {
    * search input
    * @param {KeyboardEvent} evt
    */
-  @Autobind
   async onType(evt) {
     switch (evt.keyCode) {
       // key up
@@ -145,7 +184,6 @@ export default class SliderSelect extends React.Component {
    * Event handler executed when the user places the
    * focus on the search input
    */
-  @Autobind
   onEnterSearch() {
     if (this.state.closed) this.open();
   }
@@ -174,7 +212,6 @@ export default class SliderSelect extends React.Component {
    * level
    * @param {MouseEvent} e Event object
    */
-  @Autobind
   onSliderPrev(e) {
     e.stopPropagation();
 
@@ -194,7 +231,6 @@ export default class SliderSelect extends React.Component {
    * clicks outside of it
    * @param {MouseEvent} evt
    */
-  @Autobind
   onScreenClick(evt) {
     if (this.el.contains && !this.el.contains(evt.target)) {
       this.close();
@@ -210,7 +246,6 @@ export default class SliderSelect extends React.Component {
    * @param {MouseEvent} e Event object
    * @param {Item} item Associated item
    */
-  @Autobind
   async onMouseDownOption(e, item) {
     // If the element is not the option itself but
     // the button to go a level deeper then we
@@ -261,7 +296,6 @@ export default class SliderSelect extends React.Component {
    * Toggle the dropdown
    * @param {MouseEvent} e
    */
-  @Autobind
   toggle(e) {
     if (e.target === this.input) return;
 
@@ -273,7 +307,6 @@ export default class SliderSelect extends React.Component {
   /**
    * Expand the dropdown
    */
-  @Autobind
   open() {
     // This listener is used to close the dropdown
     // when the user clicks outside of it
@@ -287,7 +320,6 @@ export default class SliderSelect extends React.Component {
   /**
    * Close the dropdown
    */
-  @Autobind
   close() {
     // We remove the handler that is used to close the
     // dropdown when the user clicks outside
@@ -326,7 +358,6 @@ export default class SliderSelect extends React.Component {
    * NOTE: this is an asynchronous method
    * @param {Item} item
    */
-  @Autobind
   async selectItem(item) {
     const path = this.state.pathToCurrentItemsList;
 
@@ -353,7 +384,6 @@ export default class SliderSelect extends React.Component {
    * Reset the selected item
    * @param {MouseEvent} e
    */
-  @Autobind
   clearSelectedItem(e) {
     e.stopPropagation();
     this.setState({
@@ -429,7 +459,7 @@ export default class SliderSelect extends React.Component {
                 onClick={this.onSliderPrev}
               >
                 <div>
-                  <Icon name="icon-arrow-left" className="-small icon-arrow-left" />
+                  <Icon name="icon-arrow-left-2" className="-small icon-arrow-left-2" />
                   <span>{pathToCurrentItemsList[pathToCurrentItemsList.length - 1].label}</span>
                 </div>
               </li>
@@ -446,7 +476,7 @@ export default class SliderSelect extends React.Component {
                 <span className="label">{item.label}</span>
                 {item.items && item.items.length &&
                   <button className="next" onClick={e => this.onSliderNext(e, item)}>
-                    <Icon name="icon-arrow-right" className="-small icon-arrow-right" />
+                    <Icon name="icon-arrow-right-2" className="-small icon-arrow-right-2" />
                   </button>
                 }
               </li>
@@ -457,31 +487,3 @@ export default class SliderSelect extends React.Component {
     );
   }
 }
-
-SliderSelect.propTypes = {
-  /** @type {Item[]} */
-  options: PropTypes.array, // List of the options (see the type Item)
-  // Callback exectued when the selected option changes
-  // If waitForChangeConfirmation is set to true, then the component
-  // waits for this callback to return either true or false to confirm
-  // if the choice can be made
-  // A promise can be returned for asynchronous confirmation
-  /** @type {(item: Item, path?: string[]) => (void|boolean|Promise<boolean>)} */
-  onValueChange: PropTypes.func,
-  /** @type {string} */
-  value: PropTypes.string, // Initial selected value (value of an Item)
-  className: PropTypes.string,
-  placeholder: PropTypes.string,
-  // Whether the user can select an intermediate node (not a leaf)
-  allowNonLeafSelection: PropTypes.bool,
-  // Whether the component should wait for the onValueChange callback to
-  // return true before confirming the user's choice; if false, then
-  // nothing would happen
-  waitForChangeConfirmation: PropTypes.bool
-};
-
-SliderSelect.defaultProps = {
-  onValueChange: () => {},
-  allowNonLeafSelection: true,
-  waitForChangeConfirmation: false
-};
