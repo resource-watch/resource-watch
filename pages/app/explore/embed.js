@@ -11,6 +11,7 @@ import Page from 'layout/page';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import * as actions from 'layout/explore/explore-actions';
+import { setEmbed } from 'redactions/common';
 import Explore from 'layout/explore/embed';
 
 class ExplorePage extends Page {
@@ -31,6 +32,9 @@ class ExplorePage extends Page {
       boundaries,
       layers
     } = routes.query;
+
+    // Embed
+    store.dispatch(setEmbed(true));
 
     // Map
     if (zoom) store.dispatch(actions.setMapZoom(+zoom));

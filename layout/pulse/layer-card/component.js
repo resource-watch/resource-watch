@@ -11,7 +11,7 @@ import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
 import Legend from 'layout/pulse/legend';
 import WidgetChart from 'components/charts/widget-chart';
 import LoginRequired from 'components/ui/login-required';
-import LayerInfoModal from 'components/modal/LayerInfoModal';
+import LayerInfoModal from 'components/modal/layer-info-modal';
 import Icon from 'components/ui/Icon';
 
 // Modal
@@ -125,7 +125,7 @@ class LayerCardComponent extends PureComponent {
                   onRequestClose={() => this.setState({ showInfoModal: false })}
                 >
                   <LayerInfoModal
-                    data={layerActive && layerActive.attributes}
+                    layer={layerActive && layerActive.attributes}
                   />
                 </Modal>
               </button>
