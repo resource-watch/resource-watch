@@ -1,6 +1,6 @@
 {
   "name": "resource-watch",
-  "version": "2.14.3",
+  "version": "2.14.6",
   "description": "Resource Watch",
   "author": "Vizzuality",
   "license": "MIT",
@@ -58,7 +58,6 @@
     "now-logs": "0.0.7",
     "nuka-carousel": "^4.1.0",
     "numeral": "^2.0.6",
-    "opbeat-react": "3.4.0",
     "orm": "3.2.3",
     "passport": "0.3.2",
     "passport-control-tower": "0.1.8",

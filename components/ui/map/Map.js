@@ -17,6 +17,25 @@ import Spinner from 'components/ui/Spinner';
 // Redux
 import { connect } from 'react-redux';
 
+if (typeof window !== 'undefined') {
+  /*
+   * Workaround for 1px lines appearing in some browsers due to fractional transforms
+   * and resulting anti-aliasing.
+   * https://github.com/Leaflet/Leaflet/issues/3575
+   */
+  (function(){
+    const originalInitTile = L.GridLayer.prototype._initTile;
+    L.GridLayer.include({
+      _initTile: function (tile) {
+        originalInitTile.call(this, tile);
+        const tileSize = this.getTileSize();
+        tile.style.width = tileSize.x + 1 + 'px';
+        tile.style.height = tileSize.y + 1 + 'px';
+      }
+    });
+  })()
+}
+
 const MAP_CONFIG = {
   zoom: 2,
   minZoom: 2,

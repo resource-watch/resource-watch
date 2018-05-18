@@ -12,8 +12,10 @@
 .l-page {
   background-color: $body-bg-color;
   width: 100%;
-  overflow: hidden;
 
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    overflow: hidden;
+  }
 
   &.-fullscreen {
     @media screen and (min-width: map-get($breakpoints, medium)) {

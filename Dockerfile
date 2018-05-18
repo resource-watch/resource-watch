@@ -2,21 +2,19 @@ FROM node:8.9.4
 
 ARG apiEnv=production
 ARG apiUrl=https://resourcewatch.org/api
+ARG wriApiUrl=https://api.resourcewatch.org/v1
 ARG callbackUrl=https://resourcewatch.org/auth
 
 ENV NODE_ENV production
-ENV WRI_API_URL https://api.resourcewatch.org/v1
+ENV WRI_API_URL $wriApiUrl
 # ENV BASEMAP_TILE_URL https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
 ENV API_URL $apiUrl
 ENV CONTROL_TOWER_URL https://production-api.globalforestwatch.org
 ENV CALLBACK_URL $callbackUrl
 ENV STATIC_SERVER_URL=
 ENV APPLICATIONS rw
-ENV OPBEAT_ORG_ID 17ab8eb501d2418a81f3167c10407e90
-ENV OPBEAT_APP_ID 7170680c2a
 ENV ADD_SEARCH_KEY ea4c79622844ade140170b141c36f14f
 ENV TRANSIFEX_LIVE_API fca0343bce994bf8ba3dcdeaab389136
-ENV GOGGLE_API_TOKEN_SHORTENER AIzaSyAf0lJIKq32sQwrfiOKx0T6yFWnonbfOso
 ENV BING_MAPS_API_KEY PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-y1QukRox537t604Je0pxhygfcraTQGVWr7Ko9LwPoS7-MHW0qY
 ENV API_ENV $apiEnv
 ENV GOOGLE_ANALYTICS UA-67196006-1
