@@ -28,6 +28,7 @@ export default function WidgetBlockEdition({
                   <Tabs
                     options={[
                       { label: 'My visualizations', value: 'my-widgets' },
+                      { label: 'My favourites', value: 'my-favourites' },
                       { label: 'All visualizations', value: 'all-widgets' }
                     ]}
                     defaultSelected={data.tab}

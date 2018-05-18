@@ -7,9 +7,6 @@ import CollectionPanelItem from './collections-panel-item/collections-panel-item
 // constants
 import { FAVOURITES_COLLECTION } from './collections-panel-constants';
 
-// styles
-import styles from './collections-panel-styles.scss';
-
 class CollectionsPanel extends PureComponent {
   static defaultProps = {
     collections: [],
@@ -31,7 +28,7 @@ class CollectionsPanel extends PureComponent {
     addCollection: PropTypes.func,
     toggleCollection: PropTypes.func,
     toggleFavourite: PropTypes.func,
-    resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget'])
+    resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget']).isRequired
   };
 
   constructor(props) {
@@ -119,9 +116,6 @@ class CollectionsPanel extends PureComponent {
 
     return (
       <ul className="collection-list">
-        <style jsx>
-          {styles}
-        </style>
         {collectionItems}
       </ul>
     );
@@ -130,9 +124,6 @@ class CollectionsPanel extends PureComponent {
   render() {
     return (
       <div className="c-collections-panel">
-        <style jsx>
-          {styles}
-        </style>
         <div className="new-collection-container">
           <input
             type="text"

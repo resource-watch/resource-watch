@@ -2,14 +2,16 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    name: {name}-staging
-  name: {name}-staging
+    name: {name}-preproduction
+  name: {name}-preproduction
 spec:
-  revisionHistoryLimit: 0
+  revisionHistoryLimit: 2
   template:
     metadata:
+      annotations:
+        chaos.alpha.kubernetes.io/enabled: "true"
       labels:
-        name: {name}-staging
+        name: {name}-preproduction
     spec:
       tolerations:
       - key: "type"
@@ -34,42 +36,24 @@ spec:
                 - key: name
                   operator: In
                   values:
-                  - {name}-staging
+                  - {name}-preproduction
               topologyKey: kubernetes.io/hostname
       containers:
-      - name: {name}-staging
+      - name: {name}-preproduction
         image: vizzuality/{name}
         imagePullPolicy: Always
         resources:
           requests:
-            memory: "0Mi"
-            cpu: "0m"
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
         env:
           - name: SECRET
             valueFrom:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_SECRET
-          - name: USERNAME
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW_USERNAME
-          - name: PASSWORD
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW_PASSWORD
-          - name: RW_USERNAME
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW2_USERNAME
-          - name: RW_PASSWORD
-            valueFrom:
-                secretKeyRef:
-                  name: appsecrets
-                  key: RW2_PASSWORD
           - name: REDIS_URL
             valueFrom:
                 secretKeyRef:
@@ -80,6 +64,7 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
+
         ports:
           - containerPort: 3000
       restartPolicy: Always
