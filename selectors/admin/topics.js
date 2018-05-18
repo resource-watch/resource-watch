@@ -9,7 +9,8 @@ const filters = state => state.topics.filters;
  * @param {{ key: string, value: string|number }[]} filters Filters to apply to the topics
  */
 const getFilteredTopics = (topics, filters) => { // eslint-disable-line no-shadow
-  if (!filters.length) return topics;
+  if (!filters) return topics;
+  if (filters && !filters.length) return topics;
 
   return topics.filter((topic) => { // eslint-disable-line arrow-body-style
     return filters.every((filter) => {
