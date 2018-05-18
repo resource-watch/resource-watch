@@ -109,6 +109,5 @@ function ContributeData() {
 }
 
 ContributeData.propTypes = {};
-ContributeData.defaultProps = {};
 
 export default ContributeData;

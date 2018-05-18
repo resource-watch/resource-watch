@@ -17,6 +17,34 @@ import Spinner from 'components/ui/Spinner';
  */
 
 export default class SliderSelect extends React.Component {
+  static propTypes = {
+    /** @type {Item[]} */
+    options: PropTypes.array, // List of the options (see the type Item)
+    // Callback exectued when the selected option changes
+    // If waitForChangeConfirmation is set to true, then the component
+    // waits for this callback to return either true or false to confirm
+    // if the choice can be made
+    // A promise can be returned for asynchronous confirmation
+    /** @type {(item: Item, path?: string[]) => (void|boolean|Promise<boolean>)} */
+    onValueChange: PropTypes.func,
+    /** @type {string} */
+    value: PropTypes.string, // Initial selected value (value of an Item)
+    className: PropTypes.string,
+    placeholder: PropTypes.string,
+    // Whether the user can select an intermediate node (not a leaf)
+    allowNonLeafSelection: PropTypes.bool,
+    // Whether the component should wait for the onValueChange callback to
+    // return true before confirming the user's choice; if false, then
+    // nothing would happen
+    waitForChangeConfirmation: PropTypes.bool
+  };
+
+  static defaultProps = {
+    onValueChange: () => { },
+    allowNonLeafSelection: true,
+    waitForChangeConfirmation: false
+  };
+
   constructor(props) {
     super(props);
 
@@ -459,31 +487,3 @@ export default class SliderSelect extends React.Component {
     );
   }
 }
-
-SliderSelect.propTypes = {
-  /** @type {Item[]} */
-  options: PropTypes.array, // List of the options (see the type Item)
-  // Callback exectued when the selected option changes
-  // If waitForChangeConfirmation is set to true, then the component
-  // waits for this callback to return either true or false to confirm
-  // if the choice can be made
-  // A promise can be returned for asynchronous confirmation
-  /** @type {(item: Item, path?: string[]) => (void|boolean|Promise<boolean>)} */
-  onValueChange: PropTypes.func,
-  /** @type {string} */
-  value: PropTypes.string, // Initial selected value (value of an Item)
-  className: PropTypes.string,
-  placeholder: PropTypes.string,
-  // Whether the user can select an intermediate node (not a leaf)
-  allowNonLeafSelection: PropTypes.bool,
-  // Whether the component should wait for the onValueChange callback to
-  // return true before confirming the user's choice; if false, then
-  // nothing would happen
-  waitForChangeConfirmation: PropTypes.bool
-};
-
-SliderSelect.defaultProps = {
-  onValueChange: () => {},
-  allowNonLeafSelection: true,
-  waitForChangeConfirmation: false
-};

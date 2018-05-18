@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { arrayMove } from 'react-sortable-hoc';
 
@@ -17,7 +17,30 @@ import Spinner from 'components/ui/Spinner';
 import SearchInput from 'components/ui/SearchInput';
 import FaqsList from './FaqsList';
 
-class FaqsSortableList extends React.Component {
+class FaqsSortableList extends PureComponent {
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    // Store
+    faqs: [],
+    filteredFaqs: []
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    faqs: PropTypes.array.isRequired,
+    filteredFaqs: PropTypes.array.isRequired,
+    error: PropTypes.string,
+    filters: PropTypes.array,
+
+    // Actions
+    getFaqs: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired,
+    setFaqOrder: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
 
@@ -105,29 +128,6 @@ class FaqsSortableList extends React.Component {
     );
   }
 }
-
-FaqsSortableList.defaultProps = {
-  columns: [],
-  actions: {},
-  // Store
-  faqs: [],
-  filteredFaqs: []
-};
-
-FaqsSortableList.propTypes = {
-  authorization: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  faqs: PropTypes.array.isRequired,
-  filteredFaqs: PropTypes.array.isRequired,
-  error: PropTypes.string,
-  filters: PropTypes.array,
-
-  // Actions
-  getFaqs: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired,
-  setFaqOrder: PropTypes.func
-};
 
 const mapStateToProps = state => ({
   loading: state.faqs.loading,

@@ -23,6 +23,21 @@ import Spinner from 'components/ui/Spinner';
 import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
 
 class WidgetsForm extends React.Component {
+  static defaultProps = {
+    showEditor: true
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    id: PropTypes.string,
+    onSubmit: PropTypes.func,
+    dataset: PropTypes.string, // ID of the dataset that should be pre-selected
+    showEditor: PropTypes.bool,
+    // Store
+    widgetEditor: PropTypes.object,
+    locale: PropTypes.string.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -324,21 +339,6 @@ class WidgetsForm extends React.Component {
     );
   }
 }
-
-WidgetsForm.defaultProps = {
-  showEditor: true
-};
-
-WidgetsForm.propTypes = {
-  authorization: PropTypes.string,
-  id: PropTypes.string,
-  onSubmit: PropTypes.func,
-  dataset: PropTypes.string, // ID of the dataset that should be pre-selected
-  showEditor: PropTypes.bool,
-  // Store
-  widgetEditor: PropTypes.object,
-  locale: PropTypes.string.isRequired
-};
 
 const mapStateToProps = state => ({
   widgetEditor: state.widgetEditor,

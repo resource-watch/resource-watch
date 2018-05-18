@@ -6,7 +6,8 @@ import HeaderMenuComponent from './component';
 export default connect(
   state => ({
     header: state.header,
-    routes: state.routes
+    routes: state.routes,
+    user: state.user
   }),
   actions
 )(HeaderMenuComponent);

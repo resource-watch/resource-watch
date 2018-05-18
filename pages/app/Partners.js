@@ -16,6 +16,15 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 
 class Partners extends Page {
+  static propTypes = {
+    partners: PropTypes.array.isRequired,
+    getPartners: PropTypes.func
+  };
+
+  static defaultProps = {
+    partners: []
+  };
+
   componentDidMount() {
     this.props.getPartners();
   }
@@ -170,15 +179,6 @@ class Partners extends Page {
     );
   }
 }
-
-Partners.propTypes = {
-  partners: PropTypes.array.isRequired,
-  getPartners: PropTypes.func
-};
-
-Partners.defaultProps = {
-  partners: []
-};
 
 const mapStateToProps = state => ({ partners: state.partners.list });
 

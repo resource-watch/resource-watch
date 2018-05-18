@@ -1,20 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Slider from 'react-slick';
+import Slider from 'nuka-carousel';
 
 const defaultSettings = {
-  dots: false,
-  infinite: true,
   slidesToShow: 7,
   slidesToScroll: 7,
+  dragging: true,
   autoplay: true,
-  autoplaySpeed: 3500,
-  arrows: false
+  autoplayInterval: 3500,
+  initialSlideHeight: 56,
+  wrapAround: true,
+  renderTopCenterControls: () => {},
+  renderCenterLeftControls: () => {},
+  renderCenterRightControls: () => {},
+  renderBottomCenterControls: () => {}
 };
 
-function Carousel(props) {
-  const settings = props.settings || defaultSettings;
-
+function Carousel({ settings = defaultSettings, items = [] }) {
   if (window.innerWidth < 720) {
     settings.slidesToShow = 2;
     settings.slidesToScroll = 2;
@@ -23,7 +25,7 @@ function Carousel(props) {
   return (
     <div className="c-carousel">
       <Slider {...settings}>
-        {props.items.map(item => item)}
+        {items.map(item => item)}
       </Slider>
     </div>
   );
@@ -32,10 +34,6 @@ function Carousel(props) {
 Carousel.propTypes = {
   items: PropTypes.array.isRequired,
   settings: PropTypes.object
-};
-
-Carousel.defaultProps = {
-  items: []
 };
 
 export default Carousel;

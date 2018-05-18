@@ -178,7 +178,7 @@ class AreaCard extends React.Component {
                             params={{ id: alert.id }}
                           >
                             <a>
-                              {getLabel(alert.dataset)}
+                              {/*getLabel(alert.dataset)*/}
                             </a>
                           </Link>
                         </div>

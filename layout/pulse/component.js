@@ -5,7 +5,7 @@ import debounce from 'lodash/debounce';
 // Redux
 import { connect } from 'react-redux';
 import { getLayers, getLayerPoints, resetLayerPoints } from 'layout/pulse/actions';
-import { toggleActiveLayer } from 'layout/pulse/layer-menu/actions';
+import { resetActiveLayer } from 'layout/pulse/layer-menu/actions';
 import { toggleTooltip } from 'redactions/tooltip';
 
 // Selectors
@@ -24,7 +24,6 @@ import LayerContainer from 'layout/pulse/layer-container';
 import LayerMenu from 'layout/pulse/layer-menu';
 import LayerCard from 'layout/pulse/layer-card';
 import Spinner from 'components/ui/Spinner';
-import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'layout/pulse/globe-tooltip';
 import GlobeCesium from 'components/vis/globe-cesium';
 import Page from 'layout/page';
@@ -38,15 +37,12 @@ class Pulse extends Page {
     super(props);
     this.state = {
       selectedMarker: null,
-      interactionConfig: null,
-      zoom: 0
+      interactionConfig: null
     };
     this.layerGlobeManager = new LayerGlobeManager();
 
     // -------------------------- Bindings ----------------------------
     this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 10);
-    this.triggerZoomIn = this.triggerZoomIn.bind(this);
-    this.triggerZoomOut = this.triggerZoomOut.bind(this);
     this.handleMouseClick = this.handleMouseClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMarkerSelected = this.handleMarkerSelected.bind(this);
@@ -101,15 +97,13 @@ class Pulse extends Page {
   componentWillUnmount() {
     document.removeEventListener('click', this.handleMouseClick);
     this.props.toggleTooltip(false);
-    this.props.toggleActiveLayer({});
+    this.props.resetActiveLayer();
     this.props.resetLayerPoints();
     this.mounted = false;
   }
 
   /**
   * UI EVENTS
-  * - triggerZoomIn
-  * - triggerZoomOut
   * - handleMouseClick
   * - handleMouseDown
   * - handleMarkerSelected
@@ -119,12 +113,6 @@ class Pulse extends Page {
   */
   handleMouseHoldOverGlobe() {
     this.props.toggleTooltip(false);
-  }
-  triggerZoomIn() {
-    this.setState({ zoom: this.state.zoom - 1000000 });
-  }
-  triggerZoomOut() {
-    this.setState({ zoom: this.state.zoom + 1000000 });
   }
   handleMouseClick(event) {
     if (event.target.tagName !== 'CANVAS') {
@@ -238,7 +226,6 @@ class Pulse extends Page {
     } = this.props;
     const { layerActive } = layerMenuPulse;
     // const { layerPoints } = pulse;
-    const { zoom } = this.state;
     // const shapes = this.getShapes(layerPoints, layerActive && layerActive.markerType);
 
     // Check if there's a custom basemap
@@ -246,8 +233,8 @@ class Pulse extends Page {
 
     return (
       <Layout
-        title="Planet Pulse"
-        description="Planet Pulse description"
+        title="Planet Pulse — Resource Watch"
+        description="Planet Pulse provides a snapshot of our changing world."
         url={url}
         user={this.props.user}
       >
@@ -263,7 +250,6 @@ class Pulse extends Page {
           />
           <GlobeCesium
             basemap={basemap}
-            zoom={zoom}
             contextLayersOnTop={layerActive && layerActive.contextLayersOnTop}
             onClick={this.handleCesiumClick}
             onMouseDown={this.handleCesiumMouseDown}
@@ -277,10 +263,6 @@ class Pulse extends Page {
             />
             <LayerCard />
           </LayerContainer>
-          <ZoomControl
-            onZoomIn={this.triggerZoomIn}
-            onZoomOut={this.triggerZoomOut}
-          />
         </div>
       </Layout>
     );
@@ -297,7 +279,7 @@ Pulse.propTypes = {
   getLayers: PropTypes.func.isRequired,
   getLayerPoints: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired,
-  toggleActiveLayer: PropTypes.func.isRequired
+  resetActiveLayer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -312,7 +294,7 @@ const mapDispatchToProps = {
   getLayers,
   toggleTooltip,
   getLayerPoints,
-  toggleActiveLayer,
+  resetActiveLayer,
   resetLayerPoints
 };
 

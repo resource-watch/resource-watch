@@ -15,6 +15,31 @@ import SearchInput from 'components/ui/SearchInput';
 import TopicsListCard from 'components/topics/list/TopicsListCard';
 
 class TopicsList extends React.Component {
+  static defaultProps = {
+    routes: {
+      index: '',
+      detail: ''
+    },
+    getTopicsFilters: {},
+    // Store
+    topics: []
+  };
+
+  static propTypes = {
+    routes: PropTypes.object,
+    getTopicsFilters: PropTypes.object,
+
+    // Store
+    topics: PropTypes.array.isRequired,
+    loading: PropTypes.bool,
+    filters: PropTypes.array,
+
+    // Actions
+    getTopics: PropTypes.func.isRequired,
+    deleteTopic: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -126,31 +151,6 @@ class TopicsList extends React.Component {
     );
   }
 }
-
-TopicsList.defaultProps = {
-  routes: {
-    index: '',
-    detail: ''
-  },
-  getTopicsFilters: {},
-  // Store
-  topics: []
-};
-
-TopicsList.propTypes = {
-  routes: PropTypes.object,
-  getTopicsFilters: PropTypes.object,
-
-  // Store
-  topics: PropTypes.array.isRequired,
-  loading: PropTypes.bool,
-  filters: PropTypes.array,
-
-  // Actions
-  getTopics: PropTypes.func.isRequired,
-  deleteTopic: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   user: state.user,

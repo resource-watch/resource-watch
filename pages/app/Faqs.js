@@ -16,6 +16,15 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import FaqBlock from 'components/app/common/Faqs/FaqBlock';
 
 class Faqs extends Page {
+  static propTypes = {
+    faqs: PropTypes.array.isRequired,
+    getFaqs: PropTypes.func
+  };
+
+  static defaultProps = {
+    faqs: []
+  };
+
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
 
@@ -85,15 +94,6 @@ class Faqs extends Page {
     );
   }
 }
-
-Faqs.propTypes = {
-  faqs: PropTypes.array.isRequired,
-  getFaqs: PropTypes.func
-};
-
-Faqs.defaultProps = {
-  faqs: []
-};
 
 const mapStateToProps = state => ({ faqs: state.faqs.list });
 

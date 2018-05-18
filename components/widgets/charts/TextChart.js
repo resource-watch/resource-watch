@@ -4,6 +4,15 @@ import 'isomorphic-fetch';
 import { format } from 'd3-format';
 
 class TextChart extends React.Component {
+  static propTypes = {
+    widgetConfig: PropTypes.object.isRequired,
+    toggleLoading: PropTypes.func // Will be called with the loading state
+  };
+
+  static defaultProps = {
+    toggleLoading: () => { }
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -104,14 +113,5 @@ class TextChart extends React.Component {
     );
   }
 }
-
-TextChart.propTypes = {
-  widgetConfig: PropTypes.object.isRequired,
-  toggleLoading: PropTypes.func // Will be called with the loading state
-};
-
-TextChart.defaultProps = {
-  toggleLoading: () => {}
-};
 
 export default TextChart;

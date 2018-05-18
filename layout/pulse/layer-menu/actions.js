@@ -3,6 +3,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 // Actions
 import { setContextActiveLayers } from 'layout/pulse/layer-pill/actions';
 import { setInitialPosition } from 'components/vis/globe-cesium/actions';
+import { resetLabelsLayer } from 'layout/pulse/labels-pill/actions';
 
 // Components
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
@@ -11,6 +12,13 @@ export const resetLayerPoints = createAction('layer-menu/resetLayerPoints');
 export const setActiveLayer = createAction('layer-menu/setActiveLayer');
 export const setActiveLayerLoading = createAction('layer-menu/setActiveLayerLoading');
 export const setActiveLayerError = createAction('layer-menu/setActiveLayerError');
+
+export const resetActiveLayer = createThunkAction('layer-menu/resetActiveLayer', () => (dispatch) => {
+  dispatch(setContextActiveLayers([]));
+  dispatch(setActiveLayer(null));
+  dispatch(setActiveLayerLoading(false));
+  dispatch(resetLabelsLayer());
+});
 
 export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer', ({
   id,
@@ -29,6 +37,7 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
     if (!layerActive || layerActive.id !== id) {
       // Clear the possible active layers from the previous layer selection
       dispatch(setContextActiveLayers([]));
+      dispatch(resetLabelsLayer());
       dispatch(setActiveLayerLoading(true));
 
       if (initialPosition) {
@@ -94,8 +103,6 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
           dispatch(setActiveLayerError(error));
         });
     } else {
-      dispatch(setContextActiveLayers([]));
-      dispatch(setActiveLayer(null));
-      dispatch(setActiveLayerLoading(false));
+      dispatch(resetActiveLayer());
     }
   });

@@ -3,6 +3,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Switch extends React.Component {
+  static defaultProps = {
+    active: false,
+    onChange: () => ({})
+  };
+
+  static propTypes = {
+    active: PropTypes.bool,
+    classNames: PropTypes.string,
+    onChange: PropTypes.func
+  };
+
   constructor(props) {
     super(props);
 
@@ -42,16 +53,5 @@ class Switch extends React.Component {
     );
   }
 }
-
-Switch.defaultProps = {
-  active: false,
-  onChange: () => ({ })
-};
-
-Switch.propTypes = {
-  active: PropTypes.bool,
-  classNames: PropTypes.string,
-  onChange: PropTypes.func
-};
 
 export default Switch;

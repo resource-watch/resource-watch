@@ -9,6 +9,7 @@ import { breakpoints } from 'utils/responsive';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import * as topicsActions from 'layout/topics/topics-actions';
+import * as blogActions from 'components/blog/latest-posts/actions';
 
 // Layout
 import Page from 'layout/page';
@@ -98,6 +99,10 @@ class Home extends Page {
       filters: { 'filter[published]': 'true' }
     }));
 
+    // Get blog posts
+    await context.store.dispatch(blogActions.fetchBlogPostsLatest());
+    await context.store.dispatch(blogActions.fetchBlogPostsSpotlightLatest());
+
     return { ...props };
   }
 
@@ -123,8 +128,8 @@ class Home extends Page {
             {c.buttons.map((b) => {
               if (b.loginRequired) {
                 return (
-                  <LoginRequired text={b.loginRequired}>
-                    <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
+                  <LoginRequired key={b.path} text={b.loginRequired}>
+                    <a href={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
                   </LoginRequired>
                 );
               }
@@ -184,8 +189,8 @@ class Home extends Page {
     };
     return (
       <Layout
-        title="Resource Watch"
-        description="Monitoring the Planet’s Pulse"
+        title="Monitoring the Planet’s Pulse — Resource Watch"
+        description="Trusted and timely data for a sustainable future."
         url={this.props.url}
         user={this.props.user}
         className="page-home"

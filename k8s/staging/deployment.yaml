@@ -75,6 +75,11 @@ spec:
                 secretKeyRef:
                   name: dbsecrets
                   key: REDIS_URI
+          - name: RW_GOGGLE_API_TOKEN_SHORTENER
+            valueFrom:
+                secretKeyRef:
+                  name: appsecrets
+                  key: RW_GOGGLE_API_TOKEN_SHORTENER
         ports:
           - containerPort: 3000
       restartPolicy: Always

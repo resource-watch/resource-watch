@@ -34,9 +34,7 @@ class GlobeCesiumComponent extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      billboardHover: false
-    };
+    this.state = { billboardHover: false };
 
     // Bindings
     this.onMouseClick = this.onMouseClick.bind(this);
@@ -62,7 +60,16 @@ class GlobeCesiumComponent extends PureComponent {
       creditsDisplay: false,
       fullscreenButton: false,
       skyAtmosphere: false,
+      selectionIndicator: false,
+      infoBox: false,
       ...this.props.viewerOptions
+    });
+
+    // Extend plugins
+    this.viewer.extend(Cesium.viewerCesiumNavigationMixin, {
+      enableCompass: false,
+      enableDistanceLegend: false,
+      enableCompassOuterRing: false
     });
 
     // Set maximum/minimum zoom values
@@ -136,6 +143,12 @@ class GlobeCesiumComponent extends PureComponent {
 
     Cesium.knockout.track(this.viewModel);
 
+    // remove default behavior when double clicking on a 3D shape
+    const handler = new Cesium.ScreenSpaceEventHandler(this.viewer.scene.canvas);
+    handler.setInputAction(() => {
+      this.viewer.trackedEntity = undefined;
+    }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
+
     this.initGlobe();
 
     // ----- Markers ---------
@@ -155,13 +168,14 @@ class GlobeCesiumComponent extends PureComponent {
     // ----- Updates in layers ----------
     if (nextProps.basemap !== this.props.basemap ||
       nextProps.activeContextLayers !== this.props.activeContextLayers ||
-      newMainLayer !== mainLayer) {
-
+      newMainLayer !== mainLayer ||
+      nextProps.labelsPulse !== this.props.labelsPulse) {
       this.updateLayers(
         nextProps,
         nextProps.basemap !== this.props.basemap,
         (nextProps.activeContextLayers !== this.props.activeContextLayers) ||
-        (newMainLayer !== mainLayer)
+        (newMainLayer !== mainLayer) ||
+        (nextProps.labelsPulse !== this.props.labelsPulse)
       );
     }
     // ----- Markers ---------
@@ -177,28 +191,14 @@ class GlobeCesiumComponent extends PureComponent {
         this.createShapes(this.getShapes(nextProps));
       }
     }
-    // -------- zoom level updates -------------
-    if (this.props.zoom !== nextProps.zoom) {
-      const { camera } = this.viewer;
-      const increment = this.props.zoom - nextProps.zoom;
-      const difference = camera.getMagnitude() - this.viewer.scene.globe.ellipsoid.maximumRadius;
-      const smallerScalar = difference < 1000000;
-      let scalar = smallerScalar ? 0.95 : 0.7;
-      if (increment < 0) {
-        scalar = smallerScalar ? 1.005 : 1.3;
-      }
-      const newPosition = {
-        x: camera.position.x * scalar,
-        y: camera.position.y * scalar,
-        z: camera.position.z * scalar
-      };
-      this.viewer.camera.flyTo({ destination: newPosition, duration: 1.5 });
-    }
 
     // ---------- initialPosition ----------
-    if (this.props.globeCesium.initialPosition.latitude !== nextProps.globeCesium.initialPosition.latitude ||
-      this.props.globeCesium.initialPosition.longitude !== nextProps.globeCesium.initialPosition.longitude ||
-      this.props.globeCesium.initialPosition.height !== nextProps.globeCesium.initialPosition.height) {
+    if (this.props.globeCesium.initialPosition.latitude !==
+      nextProps.globeCesium.initialPosition.latitude ||
+      this.props.globeCesium.initialPosition.longitude !==
+      nextProps.globeCesium.initialPosition.longitude ||
+      this.props.globeCesium.initialPosition.height !==
+      nextProps.globeCesium.initialPosition.height) {
       this.setPosition(nextProps.globeCesium.initialPosition, 0);
     }
 
@@ -222,8 +222,8 @@ class GlobeCesiumComponent extends PureComponent {
       // Dehighlight the rest of billboards
       this.viewer.entities.values.forEach((entity) => {
         if (entity.type === 'billboard' && entity.id !== pickedFeature.id.id) {
-          entity.highlighted = false;
-          entity.billboard.image = entity.imageNotSelected;
+          entity.highlighted = false; // eslint-disable-line no-param-reassign
+          entity.billboard.image = entity.imageNotSelected; // eslint-disable-line no-param-reassign
         }
       });
       this.props.onBillboardClick(pickedFeature);
@@ -403,6 +403,14 @@ class GlobeCesiumComponent extends PureComponent {
     }
   }
 
+  removeLabelsLayer() {
+    for (let i = 0; i < this.imageryLayers.length; i++) {
+      if (this.imageryLayers.get(i).name === 'labelsLayer') {
+        this.imageryLayers.remove(this.imageryLayers.get(i), false);
+      }
+    }
+  }
+
   removeContextLayers() {
     for (let i = this.imageryLayers.length - 1; i > 0; i--) {
       if (this.imageryLayers.get(i).name !== 'mainLayer') {
@@ -424,7 +432,8 @@ class GlobeCesiumComponent extends PureComponent {
       basemap,
       activeContextLayers,
       contextLayersOnTop,
-      layerActive
+      layerActive,
+      labelsPulse
     } = props;
     const mainLayer = layerActive && layerActive.url;
 
@@ -438,10 +447,15 @@ class GlobeCesiumComponent extends PureComponent {
 
     if (!contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
+      this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.attributes.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
+      if (labelsPulse.labelsLayerActive) {
+        this.addAdditionalLayerOption('labelsLayer',
+          new Cesium.UrlTemplateImageryProvider({ url: labelsPulse.url }), 1, true);
+      }
     }
 
     if (mainLayer && updateLayers) {
@@ -455,10 +469,15 @@ class GlobeCesiumComponent extends PureComponent {
 
     if (contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
+      this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
         l.attributes.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
+      if (labelsPulse.labelsLayerActive) {
+        this.addAdditionalLayerOption('labelsLayer',
+          new Cesium.UrlTemplateImageryProvider({ url: labelsPulse.url }), 1, true);
+      }
     }
 
     this.viewModel.layers = [];
@@ -534,13 +553,13 @@ GlobeCesiumComponent.propTypes = {
   contextLayersOnTop: PropTypes.bool,
   layerPoints: PropTypes.array,
   layerActive: PropTypes.object,
-  zoom: PropTypes.number,
   markers: PropTypes.array,
   viewerOptions: PropTypes.object,
 
   // Store
   setShapesCreated: PropTypes.func.isRequired,
   globeCesium: PropTypes.object.isRequired,
+  labelsPulse:PropTypes.object.isRequired,
 
   // Callbacks
   onClick: PropTypes.func,

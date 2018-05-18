@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 // Components
 import ToolsTable from 'components/admin/tools/table/ToolsTable';
 
-export default function ToolsIndex(props) {
-  const { user } = props;
-
+export default function ToolsIndex({ user = {} }) {
   return (
     <div className="c-tools-index">
       <ToolsTable
@@ -19,8 +17,4 @@ export default function ToolsIndex(props) {
 
 ToolsIndex.propTypes = {
   user: PropTypes.object.isRequired
-};
-
-ToolsIndex.defaultProps = {
-  user: {}
 };

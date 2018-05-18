@@ -53,8 +53,8 @@ class GetInvolvedDetail extends Page {
 
     return (
       <Layout
-        title={data.title || 'Get Involved detail'}
-        description={data.summary || 'Get Involved summary'}
+        title={data.title || 'Get Involved'}
+        description={data.summary || ''}
         url={url}
         user={user}
       >

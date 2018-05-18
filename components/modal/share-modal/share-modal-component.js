@@ -50,9 +50,9 @@ class ShareModalComponent extends PureComponent {
   componentDidMount() {
     const { links } = this.props;
     if (links.link) {
-      this.props.fetchShortUrl({
-        longUrl: links.link
-      });
+      // this.props.fetchShortUrl({
+      //   longUrl: links.link
+      // });
     }
   }
 

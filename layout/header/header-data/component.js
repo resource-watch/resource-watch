@@ -7,6 +7,9 @@ import { Link } from 'routes';
 // Components
 import TetherComponent from 'react-tether';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 export default class HeaderData extends React.PureComponent {
   toggleDropdown = debounce((bool) => {
     this.props.setDropdownOpened({ data: bool });
@@ -45,10 +48,24 @@ export default class HeaderData extends React.PureComponent {
             <li
               className="header-dropdown-list-item"
               key={c.label}
+              role="button"
+              tabIndex={-1}
+              onKeyPress={() => {
+                if (c.logEvent) {
+                  logEvent(`${c.label} link clicked`, 'Header');
+                }
+              }}
+              onClick={() => {
+                if (c.logEvent) {
+                  logEvent(`${c.label} link clicked`, 'Header');
+                }
+              }}
             >
               {!!c.route &&
                 <Link route={c.route} params={c.params}>
-                  <a>{c.label}</a>
+                  <a>
+                    {c.label}
+                  </a>
                 </Link>
               }
 

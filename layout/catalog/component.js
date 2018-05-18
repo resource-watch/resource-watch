@@ -37,8 +37,8 @@ class CatalogComponent extends React.Component {
 
     return (
       <Layout
-        title="Catalog"
-        description=""
+        title="Resource Watch Catalog"
+        description="Check the whole list of datasets available in RW"
       >
         <div className="l-page-header">
           <div className="l-container">

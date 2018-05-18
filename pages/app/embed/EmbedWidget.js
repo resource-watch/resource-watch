@@ -20,6 +20,22 @@ import Icon from 'components/ui/Icon';
 import { VegaChart, getVegaTheme } from 'widget-editor';
 
 class EmbedWidget extends Page {
+  static propTypes = {
+    widget: PropTypes.object,
+    getWidget: PropTypes.func,
+    checkIfFavorited: PropTypes.func,
+    setIfFavorited: PropTypes.func,
+    bandDescription: PropTypes.string,
+    bandStats: PropTypes.object,
+    loading: PropTypes.bool,
+    error: PropTypes.string,
+    favourited: PropTypes.bool
+  };
+
+  static defaultProps = {
+    widget: {}
+  };
+
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     const { store, isServer, req } = context;
@@ -241,22 +257,6 @@ class EmbedWidget extends Page {
     );
   }
 }
-
-EmbedWidget.propTypes = {
-  widget: PropTypes.object,
-  getWidget: PropTypes.func,
-  checkIfFavorited: PropTypes.func,
-  setIfFavorited: PropTypes.func,
-  bandDescription: PropTypes.string,
-  bandStats: PropTypes.object,
-  loading: PropTypes.bool,
-  error: PropTypes.string,
-  favourited: PropTypes.bool
-};
-
-EmbedWidget.defaultProps = {
-  widget: {}
-};
 
 const mapStateToProps = state => ({
   widget: state.widget.data,

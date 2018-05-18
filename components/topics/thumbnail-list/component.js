@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 export default function TopicThumbnailList({
-  topics,
-  selected,
+  topics = [],
+  selected = '',
   onSelect,
-  portraitMode
+  portraitMode = false
 }) {
   return (
     <div className="c-topics-thumbnail-list">
@@ -54,10 +54,4 @@ TopicThumbnailList.propTypes = {
   selected: PropTypes.string,
   onSelect: PropTypes.func,
   portraitMode: PropTypes.bool
-};
-
-TopicThumbnailList.defaultProps = {
-  topics: [],
-  selected: '',
-  portraitMode: false
 };

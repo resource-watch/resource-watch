@@ -4,16 +4,9 @@
 import 'isomorphic-fetch';
 import isEmpty from 'lodash/isEmpty';
 
-let L;
 if (typeof window !== 'undefined') {
-  L = require('leaflet');
-
   // adding support for UTFGrid
   require('leaflet-utfgrid/L.UTFGrid-min');
-
-  // adding support for esri
-  const esri = require('esri-leaflet');
-  L.esri = esri;
 
   // adding support for Side by Side
   require('lib/leaflet-side-by-side');
@@ -373,6 +366,11 @@ export default class LayerManager {
           this.rejectLayersLoading = true;
         });
 
+        if (this.options.swipe) {
+          this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
+        }
+
+
         // Add interactivity
         if (isInteractive) {
           const gridUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/0/{z}/{x}/{y}.grid.json`;
@@ -386,9 +384,6 @@ export default class LayerManager {
         if (callback && typeof callback === 'function') callback(!this.errors);
       }).catch(() => {
         this.rejectLayersLoading = true;
-        if (this.options.swipe) {
-          this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
-        }
       });
   }
 

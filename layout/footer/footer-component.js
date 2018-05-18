@@ -11,61 +11,17 @@ import Icon from 'components/ui/Icon';
 import Modal from 'components/modal/modal-component';
 import NewsletterModal from 'components/modal/newsletter-modal';
 
-const data = [
-  { name: 'Data', route: 'explore' },
-  { name: 'Explore Datasets', route: 'explore' },
-  { name: 'Planet Pulse', anchor: '/data/pulse' },
-  { name: 'App Gallery', route: 'get_involved_detail', params: { id: 'apps' } },
-  { name: 'Catalog', route: 'catalog' }
-];
-
-const topics = [
-  { name: 'Topics', route: 'topics' },
-  { name: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
-  { name: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
-  { name: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
-  { name: 'Food', route: 'topics_detail', params: { id: 'food' } },
-  { name: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
-  { name: 'Oceans', route: 'topics_detail', params: { id: 'oceans' } },
-  { name: 'Society', route: 'topics_detail', params: { id: 'society' } },
-  { name: 'Water', route: 'topics_detail', params: { id: 'water' } }
-];
-
-const about = [
-  { name: 'About', route: 'about' },
-  { name: 'Partners', route: 'about_partners' },
-  { name: 'FAQs', route: 'about_faqs' },
-  { name: 'How To', route: 'about_howto' },
-  { name: 'Contact Us', route: 'about_contact-us' },
-  { name: 'Terms of Service', route: 'terms-of-service' },
-  { name: 'Privacy Policy', route: 'privacy-policy' },
-  { name: 'API attribution requirements', route: 'attribution-requirements' }
-];
-
-const blog = [
-  { name: 'Blog', anchor: '/blog' }
-];
-
-const getInvolved = [
-  { name: 'Get Involved', route: 'get_involved' },
-  { name: 'Suggest a Story', route: 'get_involved_detail', params: { id: 'suggest-a-story' } },
-  { name: 'Contribute Data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
-  { name: 'Join the Community', route: 'get_involved_detail', params: { id: 'join-the-community' } },
-  { name: 'Develop Your App', route: 'get_involved_detail', params: { id: 'develop-your-app' } }
-];
-
 class Footer extends React.Component {
   static propTypes = {
-    fetchPartners: PropTypes.func,
-    footer: PropTypes.object
+    header: PropTypes.object.isRequired,
+    footer: PropTypes.object.isRequired,
+    fetchPartners: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
 
-    this.state = {
-      showNewsletterModal: false
-    };
+    this.state = { showNewsletterModal: false };
   }
 
   componentDidMount() {
@@ -91,8 +47,15 @@ class Footer extends React.Component {
   }
 
   render() {
-    const { footer } = this.props;
-    const menuData = [data, topics, blog, about, getInvolved];
+    const { header, footer } = this.props;
+    const menuData = header.items
+      .filter(i => i.id !== 'search' && i.id !== 'myrw')
+      .map((i) => {
+        const parent = [i];
+        const { children = [] } = i;
+
+        return [...parent, ...children];
+      });
 
     return (
       <footer className="l-footer">

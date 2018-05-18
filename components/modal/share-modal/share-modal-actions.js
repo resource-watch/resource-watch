@@ -30,7 +30,6 @@ export const fetchShortUrl = createThunkAction('SHARE_SHORT_URL_FETCH_DATA', (pa
       dispatch(setShortLinks({ link: response.id }));
     })
     .catch((err) => {
-      console.error(err);
       dispatch(setLoading(false));
       dispatch(setError(err));
     });

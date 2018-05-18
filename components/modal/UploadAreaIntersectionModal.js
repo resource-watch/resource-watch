@@ -7,6 +7,17 @@ import classnames from 'classnames';
 import Spinner from 'components/ui/Spinner';
 
 class UploadAreaIntersectionModal extends React.Component {
+  static propTypes = {
+    // Callback to call with the id of the area
+    onUploadArea: PropTypes.func.isRequired,
+    // Whether this component is embedded somewhere (not in a modal)
+    embed: PropTypes.bool
+  };
+
+  static defaultProps = {
+    embed: false
+  };
+
   /**
    * Return the name of the file
    * @param {File} file
@@ -278,16 +289,5 @@ class UploadAreaIntersectionModal extends React.Component {
     );
   }
 }
-
-UploadAreaIntersectionModal.propTypes = {
-  // Callback to call with the id of the area
-  onUploadArea: PropTypes.func.isRequired,
-  // Whether this component is embedded somewhere (not in a modal)
-  embed: PropTypes.bool
-};
-
-UploadAreaIntersectionModal.defaultProps = {
-  embed: false
-};
 
 export default UploadAreaIntersectionModal;

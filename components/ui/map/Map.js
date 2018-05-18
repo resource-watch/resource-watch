@@ -17,10 +17,23 @@ import Spinner from 'components/ui/Spinner';
 // Redux
 import { connect } from 'react-redux';
 
-// Leaflet can't be imported on the server because it's not isomorphic
-let L;
 if (typeof window !== 'undefined') {
-  L = require('leaflet');
+  /*
+   * Workaround for 1px lines appearing in some browsers due to fractional transforms
+   * and resulting anti-aliasing.
+   * https://github.com/Leaflet/Leaflet/issues/3575
+   */
+  (function(){
+    const originalInitTile = L.GridLayer.prototype._initTile;
+    L.GridLayer.include({
+      _initTile: function (tile) {
+        originalInitTile.call(this, tile);
+        const tileSize = this.getTileSize();
+        tile.style.width = tileSize.x + 1 + 'px';
+        tile.style.height = tileSize.y + 1 + 'px';
+      }
+    });
+  })()
 }
 
 const MAP_CONFIG = {
@@ -286,19 +299,18 @@ class Map extends React.Component {
         )
       )
     ) {
-      // Get the current interactive layer content
-      const currentContent = render(
-        MapPopup({
-          interaction: nextProps.interaction,
-          interactionSelected: nextProps.interactionSelected,
-          interactionLayers: compact(nextLayerGroups.map(g =>
-            g.layers.find(l => l.active && !isEmpty(l.interactionConfig)))),
-          onChangeInteractiveLayer: this.props.setLayerInteractionSelected
-        }),
-        window.document.createElement('div')
+      const popupContainer = document.createElement('div');
+
+      render(
+        <MapPopup
+          interaction={nextProps.interaction}
+          interactionSelected={nextProps.interactionSelected}
+          interactionLayers={compact(nextLayerGroups.map(g =>
+            g.layers.find(l => l.active && !isEmpty(l.interactionConfig))))}
+          onChangeInteractiveLayer={this.props.setLayerInteractionSelected}
+        />,
+        popupContainer
       );
-
-
 
       this.popup = this.popup || L.popup({
         maxWidth: 400,
@@ -307,7 +319,7 @@ class Map extends React.Component {
 
       this.popup
         .setLatLng(nextProps.interactionLatLng)
-        .setContent(currentContent)
+        .setContent(popupContainer)
         .openOn(this.map);
     }
 
@@ -382,9 +394,12 @@ class Map extends React.Component {
    */
   setLabels(labels) {
     if (this.labelLayer) this.labelLayer.remove();
-    this.labelLayer = L.tileLayer(labels.value, labels.options || {})
-      .addTo(this.map)
-      .setZIndex(1002);
+
+    if (labels.id !== 'none') {
+      this.labelLayer = L.tileLayer(labels.value, labels.options || {})
+        .addTo(this.map)
+        .setZIndex(1002);
+    }
   }
 
   /**

@@ -136,14 +136,15 @@ class Step1 extends React.Component {
         {layerPreview.errors === false &&
           this.layerConfigStatus('Layer config valid')}
 
-
-        <button
-          type="button"
-          className="c-button -primary"
-          onClick={() => verifyLayerConfig()}
-        >
-          Verify config
-        </button>
+        {form.provider === 'cartodb' &&
+          <button
+            type="button"
+            className="c-button -primary"
+            onClick={() => verifyLayerConfig()}
+          >
+            Verify config
+          </button>
+        }
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.legendConfig = c; }}
@@ -174,7 +175,7 @@ class Step1 extends React.Component {
             label: 'Do you want to set this layer as the default one. (Only one default layer per dataset is allowed at a time)',
             value: 'default',
             title: 'Default',
-            checked: form.default
+            checked: this.props.form.default
           }}
         >
           {Checkbox}

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const topics = state => state.topics.topics.list;
-const filters = state => state.topics.topics.filters;
+const topics = state => state.topics.topics;
+const filters = state => state.topics.filters;
 
 /**
  * Return the topics that comply with the filters

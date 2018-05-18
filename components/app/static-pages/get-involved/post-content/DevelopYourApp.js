@@ -5,6 +5,9 @@ import { Link } from 'routes';
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 function DevelopYourApp() {
   const cards = [
     {
@@ -68,7 +71,13 @@ function DevelopYourApp() {
                   by the Resource Watch community.
                 </p>
                 <Link route="get_involved_detail" params={{ id: 'apps' }}>
-                  <a className="c-button -primary -alt">
+                  <a
+                    role="button"
+                    onKeyPress={() => logEvent('App Gallery link clicked', 'Develop your app')}
+                    className="c-button -primary -alt"
+                    onClick={() => logEvent('App Gallery link clicked', 'Develop your app')}
+                    tabIndex={-1}
+                  >
                     App gallery
                   </a>
                 </Link>
@@ -82,6 +91,5 @@ function DevelopYourApp() {
 }
 
 DevelopYourApp.propTypes = {};
-DevelopYourApp.defaultProps = {};
 
 export default DevelopYourApp;
