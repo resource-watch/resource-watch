@@ -83,7 +83,8 @@ class Map extends React.Component {
   };
 
   state = {
-    loading: false
+    loading: false,
+    mapHasInvalidState: false
   }
 
   componentDidMount() {
@@ -323,8 +324,10 @@ class Map extends React.Component {
         .openOn(this.map);
     }
 
-    if (this.props.sidebar.open !== nextProps.sidebar.open) {
-      this.map.invalidateSize();
+    if (this.props.sidebar.open !== nextProps.sidebar.open && !this.state.mapHasInvalidState) {
+      // Ensures that if map has invalid state (wrong container width/height)
+      // we re-draw the map to fill it
+      this.setState({ mapHasInvalidState: true });
     }
   }
 
@@ -424,6 +427,7 @@ class Map extends React.Component {
       zoom: this.getZoom(),
       latLng: this.getCenter()
     };
+
     return params;
   }
 
@@ -435,6 +439,12 @@ class Map extends React.Component {
   // MAP LISTENERS
   setMapEventListeners() {
     function mapChangeHandler() {
+      // Checks if map has changed its size container, if so, reload the map to fill it
+      if (this.state.mapHasInvalidState) {
+        this.map.invalidateSize();
+        this.setState({ mapHasInvalidState: false });
+      }
+
       // Dispatch the action to set the params
       this.props.onMapParams(this.getMapParams());
     }
