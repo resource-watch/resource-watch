@@ -166,7 +166,6 @@ class AlertWidget extends React.Component {
               // List item
               LegendItemToolbar={
                 <LegendItemToolbar>
-                  <LegendItemButtonLayers />
                   <LegendItemButtonInfo />
                 </LegendItemToolbar>
               }
