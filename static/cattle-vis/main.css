@@ -33,3 +33,8 @@
   stroke: #f3f5f6;
   stroke-width: 4;
 }
+
+.slider .track-overlay {
+  stroke: transparent;
+  stroke-width: 18;
+}
