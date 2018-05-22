@@ -33,7 +33,7 @@ Visualization.prototype.setCattleDensity = function(value) {
  * @returns {number}
  */
 Visualization.prototype.getBaseflow = function() {
-  return 0.40326 + (this.getCattleDensity() - 0.13029);
+  return 0.7269 + (this.getCattleDensity() * -0.16700507);
 }
 
 /**
@@ -41,7 +41,7 @@ Visualization.prototype.getBaseflow = function() {
  * @returns {number}
  */
 Visualization.prototype.getEvaporation = function() {
-  return 0.72693 + (this.getCattleDensity() - 0.16703);
+  return 1 - this.getFlow();
 }
 
 /**
@@ -49,7 +49,7 @@ Visualization.prototype.getEvaporation = function() {
  * @returns {number}
  */
 Visualization.prototype.getFlow = function() {
-  return 1 - this.getEvaporation();
+  return 0.40326 + (this.getCattleDensity() * -0.1303)
 }
 
 /**
