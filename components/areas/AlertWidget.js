@@ -16,11 +16,16 @@ import Map from 'components/ui/map/Map';
 import MapControls from 'components/ui/map/MapControls';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
+import DataTable from 'components/ui/DataTable';
 
 // Modal
 import Modal from 'components/modal/modal-component';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
+
+// Services
+import UserService from 'services/UserService';
+
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -69,6 +74,7 @@ class AlertWidget extends React.Component {
     this.state = {
       area: areas.items.find(a => a.id === id),
       subscription,
+      subscriptionData: null,
       modalOpen: false,
       zoom: 3,
       layer: null,
@@ -89,6 +95,11 @@ class AlertWidget extends React.Component {
         }))
       }]
     };
+
+    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
+    this.userService.getSubscription(subscription.id, user.token).then(((data) => {
+      this.setState({ subscriptionData: data });
+    }));
   }
 
   // Map params
@@ -117,10 +128,18 @@ class AlertWidget extends React.Component {
     this.setState({ layer });
   }
 
+  getAlertHistory() {
+    const { subscription, user } = this.props;
+    const { subscriptionData } = this.state;
+
+    console.log('subscription', subscription);
+    console.log('subscription data', subscriptionData);
+
+    return fakeRecentChangesData;
+  }
+
   handleEditSubscription(modalOpen = true) {
-    this.setState({
-      modalOpen
-    });
+    this.setState({ modalOpen });
   }
 
   render() {
@@ -176,13 +195,10 @@ class AlertWidget extends React.Component {
           </div>
         </div>}
 
-        {/*
-        Enabe data table when we got data :)
         <DataTable
-          title="10 Most Recent Changes (fake data)"
-          table={fakeRecentChangesData}
+          title="10 Most Recent Changes"
+          table={this.getAlertHistory()}
         />
-        */}
 
         {this.state.modalOpen &&
           <Modal
