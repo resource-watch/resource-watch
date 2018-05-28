@@ -99,8 +99,12 @@ export const getVisualisationTypes = (datasetData) => {
 };
 
 export const getLabel = (dataset) => {
-  return dataset.metadata.length &&
-    dataset.metadata[0].info ?
-    dataset.metadata[0].info.name :
-    dataset.name;
+  if (dataset && dataset.metadata && dataset.metadata.length > 0) {
+    const metadata = dataset.metadata[0];
+    if ('info' in metadata && 'name' in metadata.info) {
+      return metadata.info.name;
+    }
+  }
+
+  return dataset && 'name' in dataset ? dataset.name : '';
 };

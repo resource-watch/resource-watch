@@ -202,16 +202,16 @@ export default class UserService {
   /**
    *  Get Subscription
    */
-  async getSubscription(subscriptionId, token) {
-    const response = await fetch(`${this.opts.apiURL}/v1/subscriptions/${subscriptionId}/data`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
+  getSubscription(subscriptionId, token) {
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/v1/subscriptions/${subscriptionId}/data`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
     });
-
-    const jsonData = await response.json();
-    return jsonData.data;
   }
 
   /**
