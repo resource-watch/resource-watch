@@ -9,7 +9,13 @@ const filters = state => state.layers.layers.filters;
  * @param {{ key: string, value: string|number }[]} filters Filters to apply to the layers
  */
 const getFilteredLayers = (layers, filters) => { // eslint-disable-line no-shadow
-  if (!filters.length) return layers;
+  if (!filters.length) {
+    return layers.map(layer => ({
+      ...layer,
+      owner: layer.user && layer.user.email,
+      role: layer.user && layer.user.role
+    }));
+  }
 
   return layers.filter((layer) => { // eslint-disable-line arrow-body-style
     return filters.every((filter) => {
@@ -22,7 +28,11 @@ const getFilteredLayers = (layers, filters) => { // eslint-disable-line no-shado
 
       return layer[filter.key] === filter.value;
     });
-  });
+  }).map(layer => ({
+    ...layer,
+    owner: layer.user && layer.user.email,
+    role: layer.user && layer.user.role
+  }));
 };
 
 export default createSelector(layers, filters, getFilteredLayers);

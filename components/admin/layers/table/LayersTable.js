@@ -24,6 +24,7 @@ import GoToDatasetAction from './actions/GoToDatasetAction';
 import NameTD from './td/NameTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
 import OwnershipTD from './td/OwnershipTD';
+import OwnerTD from './td/OwnerTD';
 
 class LayersTable extends PureComponent {
 
@@ -84,6 +85,7 @@ class LayersTable extends PureComponent {
 
   render() {
     const { dataset, application, user } = this.props;
+    console.log(this.getLayers());
     return (
       <div className="c-layer-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -108,14 +110,15 @@ class LayersTable extends PureComponent {
           onSearch={this.onSearch}
         />
 
-
         {!this.props.error && (
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD, tdProps: { dataset } },
               { label: 'Provider', value: 'provider' },
-              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
-              { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } }
+              { label: 'Owner', value: 'email', td: OwnerTD, tdProps: { user } },
+              { label: 'Role', value: 'role', td: OwnerTD, tdProps: { user } },
+              { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } },
+              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD }
             ]}
             actions={{
               show: true,

@@ -13,7 +13,8 @@ export default class WidgetsService {
     const queryParams = queryString.stringify({
       application: process.env.APPLICATIONS,
       env: process.env.API_ENV,
-      ...filters
+      ...filters,
+      includes: 'user'
     });
 
     return new Promise((resolve, reject) => {
