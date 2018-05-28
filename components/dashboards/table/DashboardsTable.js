@@ -54,7 +54,7 @@ class DashboardsTable extends React.Component {
 
   componentDidMount() {
     this.props.setFilters([]);
-    this.props.getDashboards();
+    this.props.getDashboards({ env: 'production,preproduction' });
   }
 
   /**
@@ -124,7 +124,7 @@ class DashboardsTable extends React.Component {
             filters={false}
             data={this.getFilteredDashboards()}
             pageSize={20}
-            onRowDelete={() => this.props.getDashboards()}
+            onRowDelete={() => this.props.getDashboards({ env: 'production,preproduction' })}
             pagination={{
               enabled: true,
               pageSize: 20,

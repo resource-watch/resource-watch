@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Constants
 import { PROVIDER_OPTIONS, FORM_ELEMENTS } from 'components/admin/layers/form/constants';
 
@@ -48,6 +51,7 @@ class Step1 extends React.Component {
 
   render() {
     const {
+      user,
       layerPreview,
       verifyLayerConfig
     } = this.props;
@@ -87,6 +91,42 @@ class Step1 extends React.Component {
           }}
         >
           {Input}
+        </Field>
+
+        {(user.role === 'ADMIN') &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
+            hint={'Choose "preproduction" to see this dataset it only as admin, "production" option will show it in public site.'}
+            className="-fluid"
+            options={[{ label: 'Pre-production', value: 'preproduction' }, { label: 'Production', value: 'production' }]}
+            onChange={value => this.props.onChange({ env: value })}
+            properties={{
+              name: 'env',
+              label: 'Environment',
+              placeholder: 'Type the columns...',
+              noResultsText: 'Please, type the name of the columns and press enter',
+              promptTextCreator: label => `The name of the column is "${label}"`,
+              default: 'preproduction',
+              value: this.props.form.env
+            }}
+          >
+            {Select}
+          </Field>}
+
+        {/* PUBLISHED */}
+        <Field
+          ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
+          onChange={value => this.props.onChange({ published: value.checked })}
+          properties={{
+            name: 'published',
+            label: 'Do you want to set this widget as published?',
+            value: 'published',
+            title: 'Published',
+            defaultChecked: this.props.form.published,
+            checked: this.props.form.published
+          }}
+        >
+          {Checkbox}
         </Field>
 
         <Field
@@ -193,6 +233,7 @@ Step1.defaultPropTypes = {
 
 Step1.propTypes = {
   id: PropTypes.string,
+  user: PropTypes.string,
   datasets: PropTypes.array,
   form: PropTypes.object,
   layerPreview: PropTypes.object,
@@ -201,4 +242,6 @@ Step1.propTypes = {
   verifyLayerConfig: PropTypes.func
 };
 
-export default Step1;
+const mapStateToProps = state => ({ user: state.user });
+
+export default connect(mapStateToProps, null)(Step1);

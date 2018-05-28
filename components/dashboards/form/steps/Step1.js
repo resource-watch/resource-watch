@@ -22,10 +22,7 @@ class Step1 extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      id: props.id,
-      form: props.form
-    };
+    this.state = { form: props.form };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -133,6 +130,36 @@ class Step1 extends React.Component {
               {Checkbox}
             </Field>
           }
+
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.preproduction = c; }}
+            onChange={value => this.props.onChange({ preproduction: value.checked })}
+            properties={{
+              name: 'preproduction',
+              label: 'Do you want to set this dashboard as pre-production?',
+              value: 'preproduction',
+              title: 'Pre-production',
+              defaultChecked: this.props.form.preproduction,
+              checked: this.props.form.preproduction
+            }}
+          >
+            {Checkbox}
+          </Field>
+
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.production = c; }}
+            onChange={value => this.props.onChange({ production: value.checked })}
+            properties={{
+              name: 'production',
+              label: 'Do you want to set this dashboard as production?',
+              value: 'production',
+              title: 'Production',
+              defaultChecked: this.props.form.production,
+              checked: this.props.form.production
+            }}
+          >
+            {Checkbox}
+          </Field>
         </fieldset>
 
         <fieldset className="c-field-container">
@@ -163,9 +190,7 @@ class Step1 extends React.Component {
 
                 fetch(`${process.env.API_URL}/temporary_content_images`, {
                   method: 'POST',
-                  headers: {
-                    Authorization: this.props.user.token
-                  },
+                  headers: { Authorization: this.props.user.token },
                   body: formData
                 })
                   .then(response => response.json())
@@ -188,15 +213,10 @@ class Step1 extends React.Component {
 }
 
 Step1.propTypes = {
-  id: PropTypes.string,
   form: PropTypes.object,
   basic: PropTypes.bool,
   user: PropTypes.object,
   onChange: PropTypes.func
 };
 
-export default connect(
-  state => ({
-    user: state.user
-  })
-)(Step1);
+export default connect(state => ({ user: state.user }))(Step1);

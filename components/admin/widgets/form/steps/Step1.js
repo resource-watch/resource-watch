@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+// Redux
+import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 
 // Constants
@@ -22,12 +24,11 @@ import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
 
 
 class Step1 extends Component {
-  static defaultProps = {
-    showEditor: true
-  };
+  static defaultProps = { showEditor: true };
 
   static propTypes = {
     id: PropTypes.string,
+    user: PropTypes.string,
     form: PropTypes.object,
     mode: PropTypes.string,
     datasets: PropTypes.array,
@@ -92,15 +93,12 @@ class Step1 extends Component {
 
   render() {
     const { id, loadingVegaChart } = this.state;
-    const { showEditor } = this.props;
+    const { user, showEditor } = this.props;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
 
-    const editorFieldContainerClass = classnames({
-      '-expanded': this.props.mode === 'editor'
-    });
-
+    const editorFieldContainerClass = classnames({ '-expanded': this.props.mode === 'editor' });
     const widgetTypeEmbed = this.state.form.widgetConfig.type === 'embed';
 
     return (
@@ -160,6 +158,26 @@ class Step1 extends Component {
           >
             {TextArea}
           </Field>
+
+          {(user.role === 'ADMIN') &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
+              hint={'Choose "preproduction" to see this dataset it only as admin, "production" option will show it in public site.'}
+              className="-fluid"
+              options={[{ label: 'Pre-production', value: 'preproduction' }, { label: 'Production', value: 'production' }]}
+              onChange={value => this.props.onChange({ env: value })}
+              properties={{
+                name: 'env',
+                label: 'Environment',
+                placeholder: 'Type the columns...',
+                noResultsText: 'Please, type the name of the columns and press enter',
+                promptTextCreator: label => `The name of the column is "${label}"`,
+                default: 'preproduction',
+                value: this.props.form.env
+              }}
+            >
+              {Select}
+            </Field>}
 
           {/* PUBLISHED */}
           <Field
@@ -343,4 +361,6 @@ class Step1 extends Component {
   }
 }
 
-export default Step1;
+const mapStateToProps = state => ({ user: state.user });
+
+export default connect(mapStateToProps, null)(Step1);
