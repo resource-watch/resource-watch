@@ -127,7 +127,6 @@ class DatasetsTable extends React.Component {
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Owner', value: 'owner', td: OwnerTD },
-              { label: 'Role', value: 'role', td: OwnerTD },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
               { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: routes.detail } }
             ]}

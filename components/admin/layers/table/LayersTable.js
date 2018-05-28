@@ -23,7 +23,6 @@ import GoToDatasetAction from './actions/GoToDatasetAction';
 // TDs
 import NameTD from './td/NameTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
-import OwnershipTD from './td/OwnershipTD';
 import OwnerTD from './td/OwnerTD';
 
 class LayersTable extends PureComponent {
@@ -116,8 +115,6 @@ class LayersTable extends PureComponent {
               { label: 'Name', value: 'name', td: NameTD, tdProps: { dataset } },
               { label: 'Provider', value: 'provider' },
               { label: 'Owner', value: 'owner', td: OwnerTD, tdProps: { dataset } },
-              { label: 'Role', value: 'role', td: OwnerTD, tdProps: { dataset } },
-              { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD }
             ]}
             actions={{
