@@ -85,7 +85,7 @@ class LayersTable extends PureComponent {
 
   render() {
     const { dataset, application, user } = this.props;
-    console.log(this.getLayers());
+
     return (
       <div className="c-layer-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -115,8 +115,8 @@ class LayersTable extends PureComponent {
             columns={[
               { label: 'Name', value: 'name', td: NameTD, tdProps: { dataset } },
               { label: 'Provider', value: 'provider' },
-              { label: 'Owner', value: 'email', td: OwnerTD, tdProps: { user } },
-              { label: 'Role', value: 'role', td: OwnerTD, tdProps: { user } },
+              { label: 'Owner', value: 'owner', td: OwnerTD, tdProps: { dataset } },
+              { label: 'Role', value: 'role', td: OwnerTD, tdProps: { dataset } },
               { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD }
             ]}

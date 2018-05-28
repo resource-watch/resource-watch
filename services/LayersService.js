@@ -25,21 +25,6 @@ export default class LayersService {
         }],
         onSuccess: ({ data }) => {
           resolve(sortBy(data.map(d => ({ ...d.attributes, id: d.id })), 'name'));
-          // if (Array.isArray(data)) {
-          //   const layers = flatten(data.map(d => d.attributes.layer.map(layer => ({
-          //     ...layer.attributes,
-          //     user: d.attributes.user,
-          //     id: layer.id
-          //   }))));
-          //   resolve(sortBy(layers, 'name'));
-          // } else {
-          //   const layers = data.attributes.layer.map(layer => ({
-          //     ...layer.attributes,
-          //     user: data.attributes.user,
-          //     id: layer.id
-          //   }));
-          //   resolve(sortBy(layers, 'name'));
-          // }
         },
         onError: (error) => {
           reject(error);
