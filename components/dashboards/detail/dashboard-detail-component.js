@@ -6,7 +6,7 @@ import Wysiwyg from 'vizz-wysiwyg';
 import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
 import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
-export default function DashboardDetail({ dashboardDetail }) {
+export default function DashboardDetail({ dashboardDetail = {} }) {
   let items = [];
 
   try {
@@ -34,8 +34,4 @@ export default function DashboardDetail({ dashboardDetail }) {
 
 DashboardDetail.propTypes = {
   dashboardDetail: PropTypes.object
-};
-
-DashboardDetail.defaultProps = {
-  dashboardDetail: {}
 };

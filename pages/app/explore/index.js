@@ -77,7 +77,9 @@ class ExplorePage extends Page {
   }
 
   componentWillUnmount() {
-    this.props.resetExplore();
+    if (process.env.NODE_ENV === 'production') {
+      this.props.resetExplore();
+    }
   }
 
   componentDidUpdate(prevProps) {

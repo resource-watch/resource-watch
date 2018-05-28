@@ -14,7 +14,7 @@ export const setSearch = createAction('WIDGET_BLOCK_EDITION_SEARCH');
 
 
 // Async actions
-export const fetchWidgets = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA', (payload = {}) => (dispatch) => {
+export const fetchWidgets = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA', (payload = {}) => (dispatch, getState) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
 
@@ -27,7 +27,14 @@ export const fetchWidgets = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA',
     ...payload.filters
   });
 
-  fetch(`${process.env.WRI_API_URL}/widget?${qParams}`)
+  const { user } = getState();
+
+  fetch(`${process.env.WRI_API_URL}/widget?${qParams}`, {
+    headers: {
+      Authorization: user.token,
+      'Upgrade-Insecure-Requests': 1
+    }
+  })
     .then(response => response.json())
     .then(({ data, meta }) => {
       dispatch(setLoading(false));

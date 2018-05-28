@@ -24,6 +24,28 @@ import PublishedTD from './td/PublishedTD';
 import FeaturedTD from './td/FeaturedTD';
 
 class PartnersTable extends React.Component {
+
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    // Store
+    partners: [],
+    filteredPartners: []
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    partners: PropTypes.array.isRequired,
+    filteredPartners: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getPartners: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -117,27 +139,6 @@ class PartnersTable extends React.Component {
     );
   }
 }
-
-PartnersTable.defaultProps = {
-  columns: [],
-  actions: {},
-  // Store
-  partners: [],
-  filteredPartners: []
-};
-
-PartnersTable.propTypes = {
-  authorization: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  partners: PropTypes.array.isRequired,
-  filteredPartners: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getPartners: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   loading: state.partners.loading,

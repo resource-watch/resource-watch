@@ -4,6 +4,20 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 
 class CardStatic extends React.Component {
+  static propTypes = {
+    children: PropTypes.any.isRequired,
+    background: PropTypes.string,
+    backgroundSize: PropTypes.any,
+    className: PropTypes.any,
+    clickable: PropTypes.bool.isRequired,
+    route: PropTypes.string,
+    anchor: PropTypes.bool
+  };
+
+  static defaultProps = {
+    children: ''
+  };
+
   constructor(props) {
     super(props);
 
@@ -46,19 +60,5 @@ class CardStatic extends React.Component {
     );
   }
 }
-
-CardStatic.propTypes = {
-  children: PropTypes.any.isRequired,
-  background: PropTypes.string,
-  backgroundSize: PropTypes.any,
-  className: PropTypes.any,
-  clickable: PropTypes.bool.isRequired,
-  route: PropTypes.string,
-  anchor: PropTypes.bool
-};
-
-CardStatic.defaultProps = {
-  children: ''
-};
 
 export default CardStatic;

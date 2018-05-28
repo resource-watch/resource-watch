@@ -111,7 +111,4 @@ class JoinCommunity extends React.Component {
   }
 }
 
-JoinCommunity.propTypes = {};
-JoinCommunity.defaultProps = {};
-
 export default JoinCommunity;

@@ -17,11 +17,9 @@ export default function WidgetsIndex(props) {
   );
 }
 
+WidgetsIndex.defaultProps = { dataset: null };
+
 WidgetsIndex.propTypes = {
   user: PropTypes.object.isRequired,
   dataset: PropTypes.string
-};
-
-WidgetsIndex.defaultProps = {
-  user: {}
 };

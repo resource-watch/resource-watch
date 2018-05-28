@@ -34,8 +34,11 @@ node {
     stage ('Build docker') {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} --build-arg apiEnv=production,preproduction --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg callbackUrl=https://staging.resourcewatch.org/auth .")
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
+          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg apiEnv=production,preproduction --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg wriApiUrl=https://staging-api.globalforestwatch.org/v1 --build-arg callbackUrl=https://staging.resourcewatch.org/auth .")
+          break
+        case "preproduction":
+          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg apiEnv=production,preproduction --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth .")
+          break
         default:
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
@@ -52,7 +55,9 @@ node {
       withCredentials([usernamePassword(credentialsId: 'Vizzuality Docker Hub', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
         sh("docker -H :2375 login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}")
         sh("docker -H :2375 push ${imageTag}")
-        sh("docker -H :2375 push ${dockerUsername}/${appName}:latest")
+        if ("${env.BRANCH_NAME}" == 'master') {
+          sh("docker -H :2375 push ${dockerUsername}/${appName}:latest")
+        }
         sh("docker -H :2375 rmi ${imageTag}")
       }
     }
@@ -70,6 +75,17 @@ node {
             sh("kubectl apply -f k8s/staging/")
           }
           sh("kubectl set image deployment ${appName}-staging ${appName}-staging=${imageTag} --record")
+          break
+
+        case "preproduction":
+          sh("echo Deploying to PROD cluster")
+          sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
+          def service = sh([returnStdout: true, script: "kubectl get deploy ${appName}-preproduction || echo NotFound"]).trim()
+          if ((service && service.indexOf("NotFound") > -1) || (forceCompleteDeploy)){
+            sh("sed -i -e 's/{name}/${appName}/g' k8s/preproduction/*.yaml")
+            sh("kubectl apply -f k8s/preproduction/")
+          }
+          sh("kubectl set image deployment ${appName}-preproduction ${appName}-preproduction=${imageTag} --record")
           break
 
         // Roll out to production

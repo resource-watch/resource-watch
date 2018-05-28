@@ -4,10 +4,20 @@ import classnames from 'classnames';
 
 import Spinner from 'components/ui/Spinner';
 
-// styles
-import styles from '../collections-panel-styles.scss';
-
 class CollectionPanelItem extends PureComponent {
+  static defaultProps = {
+    collection: {},
+    isChecked: false,
+    onToggleCollection: () => { }
+  };
+
+  static propTypes = {
+    collection: PropTypes.object,
+    isChecked: PropTypes.bool,
+    loading: PropTypes.bool,
+    onToggleCollection: PropTypes.func
+  };
+
   onCheck = (evt) => {
     const isChecked = evt.currentTarget.checked;
     const { onToggleCollection, collection } = this.props;
@@ -25,9 +35,6 @@ class CollectionPanelItem extends PureComponent {
 
     return (
       <li className={collectionItemClass}>
-        <style jsx>
-          {styles}
-        </style>
         {loading && <Spinner
           isLoading={loading}
           className="-transparent -tiny -pink-icon"
@@ -48,18 +55,5 @@ class CollectionPanelItem extends PureComponent {
     );
   }
 }
-
-CollectionPanelItem.defaultProps = {
-  collection: {},
-  isChecked: false,
-  onToggleCollection: () => {}
-};
-
-CollectionPanelItem.propTypes = {
-  collection: PropTypes.object,
-  isChecked: PropTypes.bool,
-  loading: PropTypes.bool,
-  onToggleCollection: PropTypes.func
-};
 
 export default CollectionPanelItem;

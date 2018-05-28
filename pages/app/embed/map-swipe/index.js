@@ -35,7 +35,6 @@ class EmbedMapSwipePage extends Page {
     if (lat && lng) store.dispatch(actions.setLatLng({ lat: +lat, lng: +lng }));
 
     if (layers && layers.split(',').length === 2) {
-      console.log(layers.split(','));
       await store.dispatch(actions.fetchLayerGroups({
         layers: layers.split(',')
       }));

@@ -7,10 +7,30 @@ import CollectionPanelItem from './collections-panel-item/collections-panel-item
 // constants
 import { FAVOURITES_COLLECTION } from './collections-panel-constants';
 
-// styles
-import styles from './collections-panel-styles.scss';
-
 class CollectionsPanel extends PureComponent {
+  static defaultProps = {
+    collections: [],
+    favourites: [],
+    resource: {},
+    collectionsLoadingQueue: [],
+    favouritesLoading: false,
+    addCollection: () => { },
+    toggleCollection: () => { },
+    toggleFavourite: () => { }
+  };
+
+  static propTypes = {
+    collections: PropTypes.array,
+    favourites: PropTypes.array,
+    resource: PropTypes.object,
+    collectionsLoadingQueue: PropTypes.array,
+    favouritesLoading: PropTypes.bool,
+    addCollection: PropTypes.func,
+    toggleCollection: PropTypes.func,
+    toggleFavourite: PropTypes.func,
+    resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget']).isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -96,9 +116,6 @@ class CollectionsPanel extends PureComponent {
 
     return (
       <ul className="collection-list">
-        <style jsx>
-          {styles}
-        </style>
         {collectionItems}
       </ul>
     );
@@ -107,9 +124,6 @@ class CollectionsPanel extends PureComponent {
   render() {
     return (
       <div className="c-collections-panel">
-        <style jsx>
-          {styles}
-        </style>
         <div className="new-collection-container">
           <input
             type="text"
@@ -133,28 +147,5 @@ class CollectionsPanel extends PureComponent {
     );
   }
 }
-
-CollectionsPanel.defaultProps = {
-  collections: [],
-  favourites: [],
-  resource: {},
-  collectionsLoadingQueue: [],
-  favouritesLoading: false,
-  addCollection: () => {},
-  toggleCollection: () => {},
-  toggleFavourite: () => {}
-};
-
-CollectionsPanel.propTypes = {
-  collections: PropTypes.array,
-  favourites: PropTypes.array,
-  resource: PropTypes.object,
-  collectionsLoadingQueue: PropTypes.array,
-  favouritesLoading: PropTypes.bool,
-  addCollection: PropTypes.func,
-  toggleCollection: PropTypes.func,
-  toggleFavourite: PropTypes.func,
-  resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget'])
-};
 
 export default CollectionsPanel;

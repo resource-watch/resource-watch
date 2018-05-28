@@ -24,7 +24,6 @@ import LayerContainer from 'layout/pulse/layer-container';
 import LayerMenu from 'layout/pulse/layer-menu';
 import LayerCard from 'layout/pulse/layer-card';
 import Spinner from 'components/ui/Spinner';
-import ZoomControl from 'components/ui/ZoomControl';
 import GlobeTooltip from 'layout/pulse/globe-tooltip';
 import GlobeCesium from 'components/vis/globe-cesium';
 import Page from 'layout/page';
@@ -38,15 +37,12 @@ class Pulse extends Page {
     super(props);
     this.state = {
       selectedMarker: null,
-      interactionConfig: null,
-      zoom: 0
+      interactionConfig: null
     };
     this.layerGlobeManager = new LayerGlobeManager();
 
     // -------------------------- Bindings ----------------------------
     this.handleMouseHoldOverGlobe = debounce(this.handleMouseHoldOverGlobe.bind(this), 10);
-    this.triggerZoomIn = this.triggerZoomIn.bind(this);
-    this.triggerZoomOut = this.triggerZoomOut.bind(this);
     this.handleMouseClick = this.handleMouseClick.bind(this);
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMarkerSelected = this.handleMarkerSelected.bind(this);
@@ -108,8 +104,6 @@ class Pulse extends Page {
 
   /**
   * UI EVENTS
-  * - triggerZoomIn
-  * - triggerZoomOut
   * - handleMouseClick
   * - handleMouseDown
   * - handleMarkerSelected
@@ -119,12 +113,6 @@ class Pulse extends Page {
   */
   handleMouseHoldOverGlobe() {
     this.props.toggleTooltip(false);
-  }
-  triggerZoomIn() {
-    this.setState({ zoom: this.state.zoom - 1000000 });
-  }
-  triggerZoomOut() {
-    this.setState({ zoom: this.state.zoom + 1000000 });
   }
   handleMouseClick(event) {
     if (event.target.tagName !== 'CANVAS') {
@@ -238,7 +226,6 @@ class Pulse extends Page {
     } = this.props;
     const { layerActive } = layerMenuPulse;
     // const { layerPoints } = pulse;
-    const { zoom } = this.state;
     // const shapes = this.getShapes(layerPoints, layerActive && layerActive.markerType);
 
     // Check if there's a custom basemap
@@ -263,7 +250,6 @@ class Pulse extends Page {
           />
           <GlobeCesium
             basemap={basemap}
-            zoom={zoom}
             contextLayersOnTop={layerActive && layerActive.contextLayersOnTop}
             onClick={this.handleCesiumClick}
             onMouseDown={this.handleCesiumMouseDown}
@@ -277,10 +263,6 @@ class Pulse extends Page {
             />
             <LayerCard />
           </LayerContainer>
-          <ZoomControl
-            onZoomIn={this.triggerZoomIn}
-            onZoomOut={this.triggerZoomOut}
-          />
         </div>
       </Layout>
     );

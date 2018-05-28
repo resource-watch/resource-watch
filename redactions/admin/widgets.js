@@ -161,14 +161,15 @@ export const getWidgetsByTab = createThunkAction('widgets/getWidgetsByTab', tab 
         'page[size]': limit,
         'page[number]': page,
         sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt',
-        name: (filters.find(filter => filter.key === 'name') || {}).value
+        name: (filters.find(filter => filter.key === 'name') || {}).value
       }
     };
 
     switch (tab) {
       // when the user asks for a its own widgets...
       case 'my_widgets':
-        options = { ...options,
+        options = {
+          ...options,
           filters: {
             ...options.filters,
             userId: id
@@ -179,7 +180,8 @@ export const getWidgetsByTab = createThunkAction('widgets/getWidgetsByTab', tab 
 
       // when the user asks for its favourites widgets...
       case 'favourites':
-        options = { ...options,
+        options = {
+          ...options,
           filters: {
             ...options.filters,
             favourite: true

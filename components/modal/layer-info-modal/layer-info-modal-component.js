@@ -35,11 +35,7 @@ class LayerInfoModal extends React.Component {
                 route="explore_detail"
                 params={{ id: layer.dataset }}
               >
-                <a
-                  className="c-btn -primary"
-                  href={`${window.location.origin}/data/explore/${layer.dataset}`}
-                  target="_blank"
-                >
+                <a className="c-btn -primary">
                   More info
                 </a>
               </Link>

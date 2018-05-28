@@ -1,5 +1,3 @@
-import initOpbeat from 'opbeat-react';
-import { createOpbeatMiddleware } from 'opbeat-react/redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
@@ -45,6 +43,7 @@ import * as layerContainer from 'layout/pulse/layer-container';
 import * as layerMenu from 'layout/pulse/layer-menu';
 import * as layerCard from 'layout/pulse/layer-card';
 import * as layerPill from 'layout/pulse/layer-pill';
+import * as labelsPill from 'layout/pulse/labels-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
 
 // Widget
@@ -57,6 +56,7 @@ import * as catalog from 'layout/catalog';
 import * as latestBlogPosts from 'components/blog/latest-posts';
 
 // Topic
+import * as topics from 'redactions/topics';
 import * as topicsIndex from 'layout/topics';
 import * as topicsDetail from 'layout/topics-detail';
 import * as topicThumbnailList from 'components/topics/thumbnail-list';
@@ -77,13 +77,6 @@ import { reducer as responsiveReducer } from 'react-responsive-redux';
 
 // Embed
 import * as embedMapSwipe from 'layout/embed/map-swipe';
-
-if (process.env.NODE_ENV === 'production') {
-  initOpbeat({
-    orgId: '17ab8eb501d2418a81f3167c10407e90',
-    appId: '7170680c2a'
-  });
-}
 
 // REDUCERS
 const reducer = combineReducers({
@@ -121,6 +114,7 @@ const reducer = combineReducers({
   layerMenuPulse: handleModule(layerMenu),
   layerCardPulse: handleModule(layerCard),
   contextLayersPulse: handleModule(layerPill),
+  labelsPulse: handleModule(labelsPill),
   globeCesium: handleModule(globeCesium),
   pulse: handleModule(pulse),
 
@@ -142,6 +136,7 @@ const reducer = combineReducers({
   latestBlogPosts: handleModule(latestBlogPosts),
 
   // Topic
+  topics: handleModule(topics),
   topicsIndex: handleModule(topicsIndex),
   topicsDetail: handleModule(topicsDetail),
   topicThumbnailList: handleModule(topicThumbnailList),
@@ -168,5 +163,5 @@ export const initStore = (initialState = {}) => createStore(
   composeEnhancers(
     /* The router middleware MUST be before thunk otherwise the URL changes
     * inside a thunk function won't work properly */
-    applyMiddleware(thunk, createOpbeatMiddleware()))
+    applyMiddleware(thunk))
 );

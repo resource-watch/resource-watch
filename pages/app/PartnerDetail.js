@@ -20,6 +20,17 @@ import DatasetList from 'components/datasets/list';
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
 
 class PartnerDetail extends Page {
+  static propTypes = {
+    url: PropTypes.object,
+    data: PropTypes.object,
+    getPartnerData: PropTypes.func
+  };
+
+  static defaultProps = {
+    data: {},
+    datasets: []
+  };
+
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
     await context.store.dispatch(getPartnerData(props.url.query.id));
@@ -158,17 +169,6 @@ class PartnerDetail extends Page {
     );
   }
 }
-
-PartnerDetail.propTypes = {
-  url: PropTypes.object,
-  data: PropTypes.object,
-  getPartnerData: PropTypes.func
-};
-
-PartnerDetail.defaultProps = {
-  data: {},
-  datasets: []
-};
 
 const mapStateToProps = state => ({
   data: state.partnerDetail.data,

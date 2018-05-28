@@ -6,9 +6,6 @@
 @import "../node_modules/normalize.css/normalize";
 
 // Libraries
-@import '../node_modules/leaflet/dist/leaflet';
-@import '../node_modules/slick-carousel/slick/slick.scss';
-@import '../node_modules/slick-carousel/slick/slick-theme.scss';
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/rc-slider/assets/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
@@ -106,6 +103,9 @@
 @import "./components/areas/areas_list";
 @import "./components/areas/area_card";
 @import "./components/areas/area_actions_tooltip";
+
+// collections
+@import "./components/collections/collections-panel";
 
 // datasets
 @import './components/datasets/list';

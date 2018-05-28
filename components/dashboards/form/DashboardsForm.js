@@ -33,9 +33,7 @@ class DashboardsForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
 
-    this.service = new DashboardsService({
-      authorization: props.user.token
-    });
+    this.service = new DashboardsService({ authorization: props.user.token });
   }
 
   componentDidMount() {

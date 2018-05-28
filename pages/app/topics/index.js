@@ -17,8 +17,7 @@ import Topics from 'layout/topics';
 class TopicsPage extends Page {
   static propTypes = {
     user: PropTypes.object,
-    topics: PropTypes.object,
-    locale: PropTypes.string.isRequired
+    topics: PropTypes.object
   };
 
   static async getInitialProps(context) {

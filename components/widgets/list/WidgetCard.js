@@ -43,6 +43,28 @@ import LayerManager from 'utils/layers/LayerManager';
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 class WidgetCard extends PureComponent {
+  static defaultProps = {
+    showActions: false,
+    showRemove: false,
+    showFavourite: true,
+    limitChar: 70
+  };
+
+  static propTypes = {
+    widget: PropTypes.object.isRequired,
+    showActions: PropTypes.bool,
+    showRemove: PropTypes.bool,
+    showEmbed: PropTypes.bool,
+    showFavourite: PropTypes.bool,
+    mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
+    onWidgetClick: PropTypes.func,
+    onWidgetRemove: PropTypes.func,
+    user: PropTypes.object.isRequired,
+    toggleModal: PropTypes.func.isRequired,
+    setModalOptions: PropTypes.func.isRequired,
+    toggleTooltip: PropTypes.func.isRequired
+  };
+
   /**
    * Return the position of the click within the page taking
    * into account the scroll (relative to the page, not the
@@ -492,28 +514,6 @@ class WidgetCard extends PureComponent {
     );
   }
 }
-
-WidgetCard.defaultProps = {
-  showActions: false,
-  showRemove: false,
-  showFavourite: true,
-  limitChar: 70
-};
-
-WidgetCard.propTypes = {
-  widget: PropTypes.object.isRequired,
-  showActions: PropTypes.bool,
-  showRemove: PropTypes.bool,
-  showEmbed: PropTypes.bool,
-  showFavourite: PropTypes.bool,
-  mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
-  onWidgetClick: PropTypes.func,
-  onWidgetRemove: PropTypes.func,
-  user: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
-  toggleTooltip: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   user: state.user

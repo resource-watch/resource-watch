@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const topics = state => state.topics.topics.list;
-const filters = state => state.topics.topics.filters;
+const topics = state => state.topics.topics;
+const filters = state => state.topics.filters;
 
 /**
  * Return the topics that comply with the filters
@@ -9,7 +9,8 @@ const filters = state => state.topics.topics.filters;
  * @param {{ key: string, value: string|number }[]} filters Filters to apply to the topics
  */
 const getFilteredTopics = (topics, filters) => { // eslint-disable-line no-shadow
-  if (!filters.length) return topics;
+  if (!filters) return topics;
+  if (filters && !filters.length) return topics;
 
   return topics.filter((topic) => { // eslint-disable-line arrow-body-style
     return filters.every((filter) => {

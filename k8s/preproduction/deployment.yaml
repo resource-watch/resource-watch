@@ -1,0 +1,70 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: {name}-preproduction
+  name: {name}-preproduction
+spec:
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      annotations:
+        chaos.alpha.kubernetes.io/enabled: "true"
+      labels:
+        name: {name}-preproduction
+    spec:
+      tolerations:
+      - key: "type"
+        operator: "Equal"
+        value: "webapps"
+        effect: "NoSchedule"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: type
+                operator: In
+                values:
+                - webapps
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: name
+                  operator: In
+                  values:
+                  - {name}-preproduction
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: {name}-preproduction
+        image: vizzuality/{name}
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+        env:
+          - name: SECRET
+            valueFrom:
+                secretKeyRef:
+                  name: appsecrets
+                  key: RW_SECRET
+          - name: REDIS_URL
+            valueFrom:
+                secretKeyRef:
+                  name: dbsecrets
+                  key: REDIS_URI
+          - name: RW_GOGGLE_API_TOKEN_SHORTENER
+            valueFrom:
+                secretKeyRef:
+                  name: appsecrets
+                  key: RW_GOGGLE_API_TOKEN_SHORTENER
+
+        ports:
+          - containerPort: 3000
+      restartPolicy: Always

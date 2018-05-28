@@ -23,6 +23,27 @@ import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
 
 class DashboardsTable extends React.Component {
+  static defaultProps = {
+    columns: [],
+    actions: {},
+    // Store
+    dashboards: [],
+    filteredDashboards: []
+  };
+
+  static propTypes = {
+    authorization: PropTypes.string,
+    // Store
+    loading: PropTypes.bool.isRequired,
+    dashboards: PropTypes.array.isRequired,
+    filteredDashboards: PropTypes.array.isRequired,
+    error: PropTypes.string,
+
+    // Actions
+    getDashboards: PropTypes.func.isRequired,
+    setFilters: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
 
@@ -33,7 +54,7 @@ class DashboardsTable extends React.Component {
 
   componentDidMount() {
     this.props.setFilters([]);
-    this.props.getDashboards();
+    this.props.getDashboards({ env: 'production,preproduction' });
   }
 
   /**
@@ -103,7 +124,7 @@ class DashboardsTable extends React.Component {
             filters={false}
             data={this.getFilteredDashboards()}
             pageSize={20}
-            onRowDelete={() => this.props.getDashboards()}
+            onRowDelete={() => this.props.getDashboards({ env: 'production,preproduction' })}
             pagination={{
               enabled: true,
               pageSize: 20,
@@ -115,27 +136,6 @@ class DashboardsTable extends React.Component {
     );
   }
 }
-
-DashboardsTable.defaultProps = {
-  columns: [],
-  actions: {},
-  // Store
-  dashboards: [],
-  filteredDashboards: []
-};
-
-DashboardsTable.propTypes = {
-  authorization: PropTypes.string,
-  // Store
-  loading: PropTypes.bool.isRequired,
-  dashboards: PropTypes.array.isRequired,
-  filteredDashboards: PropTypes.array.isRequired,
-  error: PropTypes.string,
-
-  // Actions
-  getDashboards: PropTypes.func.isRequired,
-  setFilters: PropTypes.func.isRequired
-};
 
 const mapStateToProps = state => ({
   loading: state.dashboards.dashboards.loading,
