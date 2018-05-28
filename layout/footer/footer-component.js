@@ -47,13 +47,12 @@ class Footer extends React.Component {
   }
 
   render() {
-    const { header, footer } = this.props;
-    const menuData = header.items
+    const { footer } = this.props;
+    const menuData = footer.items
       .filter(i => i.id !== 'search' && i.id !== 'myrw')
       .map((i) => {
         const parent = [i];
         const { children = [] } = i;
-
         return [...parent, ...children];
       });
 
