@@ -35,8 +35,10 @@ node {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
           sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg apiEnv=production,preproduction --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg wriApiUrl=https://staging-api.globalforestwatch.org/v1 --build-arg callbackUrl=https://staging.resourcewatch.org/auth .")
+          break
         case "preproduction":
           sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg apiEnv=production,preproduction --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth .")
+          break
         default:
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${imageTag} .")
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} -t ${dockerUsername}/${appName}:latest .")
