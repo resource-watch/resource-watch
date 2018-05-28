@@ -204,10 +204,10 @@ class AlertWidget extends React.Component {
           </div>
         </div>}
 
-        <DataTable
+        {alertTable ? <DataTable
           title="10 Most Recent Changes"
           table={alertTable}
-        />
+        /> : <p>There are no alerts for this subscription yet.</p>}
 
         {this.state.modalOpen &&
           <Modal
