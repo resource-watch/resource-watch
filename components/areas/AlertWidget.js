@@ -16,11 +16,13 @@ import Map from 'components/ui/map/Map';
 import MapControls from 'components/ui/map/MapControls';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
+import DataTable from 'components/ui/DataTable';
 
 // Modal
 import Modal from 'components/modal/modal-component';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
+
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -36,39 +38,22 @@ import {
   LegendItemTypes
 } from 'wri-api-components';
 
-// TODO:
-// For now, we are faking this data
-// Fetch real data when we have it :)
-const fakeRecentChangesData = {
-  columns: ['Latitude', 'Longitude', 'Date & Time', 'FRP'],
-  data: [
-    [38.3131, -5.5552, '2017-11-07 02.42', 'xxx'],
-    [32.3131, -5.5552, '2017-11-07 02.42', 'xxx'],
-    [64.3231, -5.5552, '2017-11-07 02.42', 'xxx'],
-    [66.5631, -4.2552, '2017-11-07 02.42', 'xxx'],
-    [38.3131, -5.5552, '2017-11-07 02.42', 'xxx'],
-    [44.3131, -1.2552, '2017-11-07 02.42', 'xxx'],
-    [38.3131, -44.552, '2017-11-07 02.42', 'xxx'],
-    [55.3131, -12.552, '2017-11-07 02.42', 'xxx'],
-    [11.3131, -5.5552, '2017-11-07 02.42', 'xxx'],
-    [66.3131, -3.5552, '2017-11-07 02.42', 'xxx']
-  ]
-};
-
 class AlertWidget extends React.Component {
   constructor(props) {
     super(props);
     const {
       dataset,
-      subscription,
+      subscriptionData,
       user,
       id
     } = props;
+
     const { areas } = user;
 
     this.state = {
       area: areas.items.find(a => a.id === id),
-      subscription,
+      alertTable: null,
+      subscriptionData,
       modalOpen: false,
       zoom: 3,
       layer: null,
@@ -77,18 +62,24 @@ class AlertWidget extends React.Component {
         lng: 0
       },
       layerGroups: [{
-        dataset: dataset.id,
+        dataset: dataset ? dataset.id : null,
         visible: true,
-        layers: dataset.layer.map((d, k) => ({
+        layers: dataset ? dataset.layer.map((d, k) => ({
           active: k === 0,
           id: d.id,
           name: d.name,
           layerConfig: d.layerConfig,
           legendConfig: d.legendConfig,
           provider: d.provider
-        }))
+        })) : null
       }]
     };
+  }
+
+  componentWillUpdate(nextProps) {
+    if ((nextProps.subscriptionData !== this.state.subscriptionData) && !this.state.alertTable) {
+      this.getAlertHistory(nextProps).then(table => this.setState({ alertTable: table }));
+    }
   }
 
   // Map params
@@ -117,16 +108,53 @@ class AlertWidget extends React.Component {
     this.setState({ layer });
   }
 
-  handleEditSubscription(modalOpen = true) {
-    this.setState({
-      modalOpen
+  // XXX: this is a temporary fix
+  // currently the structure from the alerts return <uid>-<title>
+  // This abstracts the two out of the string
+  getAlertInfoFromKey(key) {
+    return {
+      id: key.substr(0, 36),
+      title: key.substring(37)
+    };
+  }
+
+  getAlertHistory(props) {
+    const { subscriptionData, dataset } = props;
+    const layer = dataset ? dataset.layer.find(l => l.default) : null;
+
+    const o = {
+      columns: [],
+      data: []
+    };
+
+    return new Promise((resolve) => {
+      if (subscriptionData && subscriptionData.length) {
+        subscriptionData.forEach((sub) => {
+          Object.keys(sub).forEach((subKey) => {
+            const { id } = this.getAlertInfoFromKey(subKey);
+            if (id === layer.dataset && sub[subKey].length) {
+              o.columns = Object.keys(sub[subKey][0]);
+              sub[subKey].forEach((item, key) => {
+                if (key < 11) {
+                  o.data.push(Object.values(item));
+                }
+              });
+              resolve(o);
+            }
+          });
+        });
+      }
     });
+  }
+
+  handleEditSubscription(modalOpen = true) {
+    this.setState({ modalOpen });
   }
 
   render() {
     const { dataset } = this.props;
-    const layer = dataset.layer.find(l => l.default);
-    const { zoom, latLng, layerGroups } = this.state;
+    const layer = dataset ? dataset.layer.find(l => l.default) : null;
+    const { zoom, latLng, layerGroups, alertTable } = this.state;
 
     return (
       <div className="c-alerts-page__widget">
@@ -176,13 +204,10 @@ class AlertWidget extends React.Component {
           </div>
         </div>}
 
-        {/*
-        Enabe data table when we got data :)
-        <DataTable
-          title="10 Most Recent Changes (fake data)"
-          table={fakeRecentChangesData}
-        />
-        */}
+        {alertTable ? <DataTable
+          title="10 Most Recent Changes"
+          table={alertTable}
+        /> : <p>There are no alerts for this subscription yet.</p>}
 
         {this.state.modalOpen &&
           <Modal
@@ -217,6 +242,7 @@ class AlertWidget extends React.Component {
 
 AlertWidget.propTypes = {
   dataset: PropTypes.object,
+  subscriptionData: PropTypes.array,
   subscription: PropTypes.object,
   user: PropTypes.object,
   id: PropTypes.string.isRequired

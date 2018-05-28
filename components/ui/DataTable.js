@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function DataTable({ title, table, downloadLink }) {
+
+  if (!table || !table.data || table.data.length === 0) {
+    return null;
+  }
+
   const { columns, data } = table;
 
   return (
@@ -27,12 +32,13 @@ export default function DataTable({ title, table, downloadLink }) {
           </tbody>
         </table>
 
-        <button
-          className="c-dataset-table__cta c-btn -b"
-          onClick={() => console.info(downloadLink || 'no download link specified')}
-        >
+        {downloadLink &&
+          <a
+            className="c-dataset-table__cta c-btn -b"
+            href={downloadLink}
+          >
           Download full list
-        </button>
+          </a>}
 
       </section>
     </div>
