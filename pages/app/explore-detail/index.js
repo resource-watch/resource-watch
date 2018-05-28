@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Router } from 'routes';
 
 // Components
 import Page from 'layout/page';
@@ -59,6 +60,9 @@ class ExploreDetailPage extends Page {
    * - componentWillUnmount
   */
   componentDidMount() {
+    if (this.props.url.asPath === '/data/explore/Powerwatch') {
+      Router.replaceRoute('/data/explore/a86d906d-9862-4783-9e30-cdb68cd808b8');
+    }
     this.props.fetchTags();
     this.props.setCountView();
   }
