@@ -9,11 +9,35 @@ export default class LayersService {
     this.opts = options;
   }
 
+  fetchAllLayers({ applications }) {
+    return new Promise((resolve, reject) => {
+      get({
+        url: `${process.env.WRI_API_URL}/layer?application=${applications.join(',')}&includes=user&page[size]=99999`,
+        headers: [{
+          key: 'Content-Type',
+          value: 'application/json'
+        }, {
+          key: 'Authorization',
+          value: this.opts.authorization
+        }, {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
+        }],
+        onSuccess: ({ data }) => {
+          resolve(sortBy(data.map(d => ({ ...d.attributes, id: d.id })), 'name'));
+        },
+        onError: (error) => {
+          reject(error);
+        }
+      });
+    });
+  }
+
   // GET ALL DATA
   fetchAllData({ applications, dataset = '' }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/dataset/${dataset}?application=${applications.join(',')}&includes=layer&page[size]=${Date.now() / 100000}`,
+        url: `${process.env.WRI_API_URL}/dataset/${dataset}?application=${applications.join(',')}&includes=layer,user&page[size]=9999`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -28,12 +52,14 @@ export default class LayersService {
           if (Array.isArray(data)) {
             const layers = flatten(data.map(d => d.attributes.layer.map(layer => ({
               ...layer.attributes,
+              user: d.attributes.user,
               id: layer.id
             }))));
             resolve(sortBy(layers, 'name'));
           } else {
             const layers = data.attributes.layer.map(layer => ({
               ...layer.attributes,
+              user: data.attributes.user,
               id: layer.id
             }));
             resolve(sortBy(layers, 'name'));
