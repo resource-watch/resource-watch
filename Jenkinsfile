@@ -34,7 +34,7 @@ node {
     stage ('Build docker') {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
-          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg apiEnv=production,preproduction --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg callbackUrl=https://staging.resourcewatch.org/auth .")
+          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg apiEnv=production,preproduction --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg wriApiUrl=https://staging-api.globalforestwatch.org/v1 --build-arg callbackUrl=https://staging.resourcewatch.org/auth .")
         case "preproduction":
           sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg apiEnv=production,preproduction --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth .")
         default:
@@ -74,15 +74,15 @@ node {
           break
 
         case "preproduction":
-        sh("echo Deploying to PROD cluster")
-        sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
-        def service = sh([returnStdout: true, script: "kubectl get deploy ${appName}-preproduction || echo NotFound"]).trim()
-        if ((service && service.indexOf("NotFound") > -1) || (forceCompleteDeploy)){
-          sh("sed -i -e 's/{name}/${appName}/g' k8s/preproduction/*.yaml")
-          sh("kubectl apply -f k8s/preproduction/")
-        }
-        sh("kubectl set image deployment ${appName}-preproduction ${appName}-preproduction=${imageTag} --record")
-        break
+          sh("echo Deploying to PROD cluster")
+          sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
+          def service = sh([returnStdout: true, script: "kubectl get deploy ${appName}-preproduction || echo NotFound"]).trim()
+          if ((service && service.indexOf("NotFound") > -1) || (forceCompleteDeploy)){
+            sh("sed -i -e 's/{name}/${appName}/g' k8s/preproduction/*.yaml")
+            sh("kubectl apply -f k8s/preproduction/")
+          }
+          sh("kubectl set image deployment ${appName}-preproduction ${appName}-preproduction=${imageTag} --record")
+          break
 
         // Roll out to production
         case "master":
