@@ -18,9 +18,7 @@ module.exports = {
       {
         test: /\.(css|scss)/,
         loader: 'emit-file-loader',
-        options: {
-          name: 'dist/[path][name].[ext]'
-        }
+        options: { name: 'dist/[path][name].[ext]' }
       }
       ,
       {
@@ -69,7 +67,7 @@ module.exports = {
         'process.env.BING_MAPS_API_KEY': JSON.stringify(process.env.BING_MAPS_API_KEY),
         'process.env.API_ENV': JSON.stringify(process.env.API_ENV),
         'process.env.GOOGLE_ANALYTICS': JSON.stringify(process.env.GOOGLE_ANALYTICS),
-        'process.env.GOGGLE_API_TOKEN_SHORTENER': JSON.stringify(process.env.GOGGLE_API_TOKEN_SHORTENER)
+        'process.env.RW_GOGGLE_API_TOKEN_SHORTENER': JSON.stringify(process.env.RW_GOGGLE_API_TOKEN_SHORTENER)
       }),
       new CopyWebpackPlugin([
         {
