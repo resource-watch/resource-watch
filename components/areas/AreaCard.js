@@ -210,12 +210,13 @@ class AreaCard extends React.Component {
               >
                 Area Options
               </button>
-              <Link
-                route="myrw_detail"
-                params={{ id: area.id, tab: 'areas', subtab: 'alerts' }}
-              >
-                <a>View alerts</a>
-              </Link>
+              {activeAlerts.length > 0 &&
+                <Link
+                  route="myrw_detail"
+                  params={{ id: area.id, tab: 'areas', subtab: 'alerts' }}
+                >
+                  <a>View alerts</a>
+                </Link>}
             </div>
           </div>
         </div>
