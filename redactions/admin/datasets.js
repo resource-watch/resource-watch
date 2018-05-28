@@ -151,9 +151,7 @@ export function getDatasets(options) {
 
     const state = getState();
 
-    const service = new DatasetsService({
-      language: state.common.locale
-    });
+    const service = new DatasetsService({ language: state.common.locale });
 
     service.fetchAdminData(options)
       .then((data) => {
@@ -203,7 +201,8 @@ export const getDatasetsByTab = createThunkAction('datasets/getDatasetsByTab', t
     switch (tab) {
       // when the user asks for a its own datasets...
       case 'my_datasets':
-        options = { ...options,
+        options = {
+          ...options,
           filters: {
             ...options.filters,
             userId: id
@@ -214,7 +213,8 @@ export const getDatasetsByTab = createThunkAction('datasets/getDatasetsByTab', t
 
       // when the user asks for its favourites datasets...
       case 'favourites':
-        options = { ...options,
+        options = {
+          ...options,
           filters: {
             ...options.filters,
             favourite: true
