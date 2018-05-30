@@ -9,7 +9,13 @@ const filters = state => state.widgets.widgets.filters;
  * @param {{ key: string, value: string|number }[]} filters Filters to apply to the widgets
  */
 const getFilteredWidgets = (widgets, filters) => { // eslint-disable-line no-shadow
-  if (!filters.length) return widgets;
+  if (!filters.length) {
+    return widgets.map(widget => ({
+      ...widget,
+      owner: widget.user && widget.user.email,
+      role: widget.user && widget.user.role
+    }));
+  }
 
   const cleanFilters = filters.filter(filter => !filter.orderDirection);
 
@@ -24,7 +30,11 @@ const getFilteredWidgets = (widgets, filters) => { // eslint-disable-line no-sha
 
       return widget[filter.key] === filter.value;
     });
-  });
+  }).map(widget => ({
+    ...widget,
+    owner: widget.user && widget.user.email,
+    role: widget.user && widget.user.role
+  }));
 };
 
 export default createSelector(widgets, filters, getFilteredWidgets);

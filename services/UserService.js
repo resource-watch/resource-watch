@@ -200,6 +200,21 @@ export default class UserService {
   }
 
   /**
+   *  Get Subscription
+   */
+  getSubscription(subscriptionId, token) {
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/v1/subscriptions/${subscriptionId}/data`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
+    });
+  }
+
+  /**
    * Deletes a subscription
    * @param {subscriptionId} ID of the subscription that will be deleted
    * @param {token} User token

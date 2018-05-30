@@ -22,7 +22,7 @@ import DeleteAction from './actions/DeleteAction';
 // TDs
 import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
-import OwnershipTD from './td/OwnershipTD';
+import OwnerTD from './td/OwnerTD';
 
 
 class WidgetsTable extends React.Component {
@@ -97,6 +97,7 @@ class WidgetsTable extends React.Component {
 
   render() {
     const { user, dataset } = this.props;
+
     return (
       <div className="c-widgets-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -127,7 +128,7 @@ class WidgetsTable extends React.Component {
               { label: 'Title', value: 'name', td: TitleTD, tdProps: { dataset } },
               // { label: 'Dataset', value: 'dataset', td: DatasetTD },
               { label: 'Published', value: 'published', td: PublishedTD },
-              { label: 'Ownership', value: 'userId', td: OwnershipTD, tdProps: { user } }
+              { label: 'Owner', value: 'owner', td: OwnerTD }
             ]}
             actions={{
               show: true,

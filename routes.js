@@ -89,5 +89,4 @@ routes.add('attribution-requirements', '/api-attribution-requirements', 'app/Att
 // ------- CATALOG -------------
 routes.add('catalog', '/catalog', 'app/catalog');
 
-
 module.exports = routes;

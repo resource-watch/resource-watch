@@ -62,9 +62,7 @@ class DatasetsTable extends React.Component {
 
   componentDidMount() {
     this.props.setFilters({});
-    this.props.getDatasets({
-      includes: 'widget,layer,metadata,vocabulary,user'
-    });
+    this.props.getDatasets({ includes: 'widget,layer,metadata,vocabulary,user' });
   }
 
   /**
@@ -90,10 +88,10 @@ class DatasetsTable extends React.Component {
         return {
           ...d,
           owner: user.email || '',
+          role: user.role || '',
           code: metadataInfo.rwId || ''
         };
-      })
-      .filter(d => d.published === true || d.user.role === 'ADMIN');
+      });
   }
 
   render() {
@@ -128,8 +126,8 @@ class DatasetsTable extends React.Component {
               { label: 'Status', value: 'status', td: StatusTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
-              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
               { label: 'Owner', value: 'owner', td: OwnerTD },
+              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
               { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: routes.detail } }
             ]}
             actions={{
