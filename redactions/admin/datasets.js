@@ -149,9 +149,8 @@ export function getDatasets(options) {
   return (dispatch, getState) => {
     dispatch({ type: GET_DATASETS_LOADING });
 
-    const state = getState();
-
-    const service = new DatasetsService({ language: state.common.locale });
+    const { user, common } = getState();
+    const service = new DatasetsService({ language: common.locale, authorization: user.token });
 
     service.fetchAdminData(options)
       .then((data) => {

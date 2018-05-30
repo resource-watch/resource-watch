@@ -13,12 +13,10 @@ export const fetchShortUrl = createThunkAction('SHARE_SHORT_URL_FETCH_DATA', (pa
   dispatch(setLoading(true));
   dispatch(setError(null));
 
-  fetch(new Request(`https://www.googleapis.com/urlshortener/v1/url?key=${process.env.GOGGLE_API_TOKEN_SHORTENER}`), {
+  fetch(new Request(`https://www.googleapis.com/urlshortener/v1/url?key=${process.env.RW_GOGGLE_API_TOKEN_SHORTENER}`), {
     method: 'POST',
     body: JSON.stringify(payload),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    headers: { 'Content-Type': 'application/json' }
   })
     .then((response) => {
       if (response.ok) return response.json();
