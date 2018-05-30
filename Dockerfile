@@ -4,6 +4,7 @@ ARG apiEnv=production
 ARG apiUrl=https://resourcewatch.org/api
 ARG wriApiUrl=https://api.resourcewatch.org/v1
 ARG callbackUrl=https://resourcewatch.org/auth
+ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 
 ENV NODE_ENV production
 ENV WRI_API_URL $wriApiUrl
@@ -19,6 +20,7 @@ ENV BING_MAPS_API_KEY PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-
 ENV API_ENV $apiEnv
 ENV GOOGLE_ANALYTICS UA-67196006-1
 ENV BLOG_API_URL https://resourcewatch.org/blog/wp-json/wp/v2
+ENV RW_GOGGLE_API_TOKEN_SHORTENER $RW_GOGGLE_API_TOKEN_SHORTENER
 
 RUN apt-get update && \
     apt-get install -y bash git build-essential \
