@@ -202,24 +202,30 @@ Visualization.prototype.createBaseflowVis = function() {
   container.append('use')
     .attr('class', 'cloud')
     .attr('href', '#cloud')
-    .attr('width', 100)
-    .attr('x', -70)
+    .attr('width', 80)
+    .attr('height', 50)
+    .attr('x', -60)
     .attr('y', -130);
 
   container.append('use')
     .attr('class', 'cloud')
     .attr('href', '#cloud')
-    .attr('width', 100)
-    .attr('x', 50)
+    .attr('width', 80)
+    .attr('height', 50)
+    .attr('x', 60)
     .attr('y', -110);
 
   container.append('use')
     .attr('href', '#rain')
+    .attr('width', 36)
+    .attr('height', 40)
     .attr('x', -45)
     .attr('y', -70);
 
   container.append('use')
     .attr('href', '#rain')
+    .attr('width', 36)
+    .attr('height', 40)
     .attr('x', 80)
     .attr('y', -50);
 
@@ -235,14 +241,16 @@ Visualization.prototype.createBaseflowVis = function() {
   var arrowDown = container.append('use')
     .attr('href', '#arrow-down')
     .attr('width', 50)
+    .attr('height', 55.8)
     .attr('x', 0)
-    .attr('y', 50);
+    .attr('y', 60);
 
   var arrowCurved = container.append('use')
     .attr('href', '#arrow-curved')
     .attr('width', 100)
+    .attr('height', 61.3)
     .attr('x', 100)
-    .attr('y', 120);
+    .attr('y', 125);
 
   var title = container.append('text')
     .attr('class', 'title')
@@ -288,6 +296,8 @@ Visualization.prototype.updateBaseflowVis = function() {
     .attr('y', function(_, i) {
       return i * 2.5;
     })
+    .attr('width', 20)
+    .attr('height', 13);
 
   cows.exit()
     .remove();
@@ -310,7 +320,8 @@ Visualization.prototype.updateBaseflowVis = function() {
   clouds.enter()
     .append('use')
     .attr('href', '#cloud')
-    .attr('width', 100)
+    .attr('width', 80)
+    .attr('height', 50)
     .attr('x', 0)
     .attr('y', 0)
     .attr('fill', '#B5BEC3');
@@ -330,14 +341,15 @@ Visualization.prototype.createEvaporationVis = function() {
   container.append('use')
     .attr('class', 'cloud')
     .attr('href', '#cloud')
-    .attr('width', 100)
+    .attr('width', 80)
+    .attr('height', 50)
     .attr('x', 25)
     .attr('y', -100);
 
 
   this.arrowWavesContainer = container.append('g')
     .attr('class', 'arrow-wave')
-    .attr('transform', 'translate(20, -40)');
+    .attr('transform', 'translate(20, -30)');
 
   var title = container.append('text')
     .attr('class', 'title')
@@ -382,6 +394,7 @@ Visualization.prototype.updateEvaporationVis = function() {
     .append('use')
     .attr('href', '#arrow-wave')
     .attr('width', 50)
+    .attr('height', 66.2)
     .attr('x', function (_, i) {
       if (i === 0) {
         return 0;
