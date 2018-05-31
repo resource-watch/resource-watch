@@ -111,7 +111,7 @@ class DashboardsDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Dashboards', href: '/data/dashboards' }]} />
+                  <Breadcrumbs items={[{ name: 'Dashboards', href: '/data/dashboards/' }]} />
                   <h1>{dashboardDetail.dashboard.name}</h1>
 
                   <div className="page-header-info">
