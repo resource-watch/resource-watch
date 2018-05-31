@@ -1,6 +1,6 @@
 {
   "name": "resource-watch",
-  "version": "2.14.10",
+  "version": "2.14.11",
   "description": "Resource Watch",
   "author": "Vizzuality",
   "license": "MIT",
@@ -119,7 +119,7 @@
     "vizz-wysiwyg": "2.0.2",
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
-    "widget-editor": "^1.2.1",
+    "widget-editor": "^1.2.2",
     "wri-api-components": "1.0.4",
     "wri-json-api-serializer": "1.0.1"
   },
