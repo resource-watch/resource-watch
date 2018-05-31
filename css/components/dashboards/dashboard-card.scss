@@ -21,6 +21,11 @@
       justify-content: space-between;
       padding-right: 80px;
 
+      ul li {
+        display: inline-block;
+        margin: 0 0 0 5px;
+      }
+
       .buttons {
         position: absolute;
         top: 0px;
@@ -29,10 +34,6 @@
         align-items: center;
         margin: 0;
         padding: 0;
-
-        & > :nth-child(even) {
-          margin: 0 0 0 5px;
-        }
 
         button {
           position: relative;

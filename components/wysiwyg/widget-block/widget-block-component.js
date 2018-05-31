@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Components
 import TextChart from 'components/widgets/charts/TextChart';
 import Map from 'components/ui/map/Map';
@@ -18,7 +21,8 @@ import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 import CollectionsPanel from 'components/collections-panel';
-
+import Modal from 'components/modal/modal-component';
+import ShareModal from 'components/modal/share-modal';
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
 
@@ -45,7 +49,12 @@ class WidgetBlock extends React.Component {
     onToggleLoading: null
   };
 
-  getMapConfig = (widget) => {
+  constructor(props) {
+    super(props);
+    this.state = { shareWidget: null };
+  }
+
+  getMapConfig(widget) {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
@@ -66,6 +75,10 @@ class WidgetBlock extends React.Component {
     }
 
     return {};
+  }
+
+  handleToggleShareModal(widget) {
+    this.setState({ shareWidget: widget });
   }
 
   render() {
@@ -121,43 +134,70 @@ class WidgetBlock extends React.Component {
             <Title className="-default">{widget ? widget.name : '–'}</Title>
 
             <div className="buttons">
-              <LoginRequired text="Log in or sign up to save items in favorites">
-                <Tooltip
-                  overlay={<CollectionsPanel
-                    resource={widget}
-                    resourceType="widget"
-                  />}
-                  overlayClassName="c-rc-tooltip"
-                  overlayStyle={{
-                        color: '#fff'
-                      }}
-                  placement="bottomLeft"
-                  trigger="click"
-                >
-                  <button
-                    className="c-btn favourite-button"
-                    tabIndex={-1}
-                  >
-                    <Icon
-                      name={starIconName}
-                      className="-star -small"
-                    />
+              <ul>
+                <li>
+                  <button className="c-btn -tertiary -clean" onClick={() => this.handleToggleShareModal(widget)}>
+                    <Icon name="icon-share" className="-small" />
                   </button>
-                </Tooltip>
-              </LoginRequired>
 
-              <button
-                type="button"
-                onClick={() => onToggleModal(!widgetModal)}
-              >
-                {!widgetModal &&
-                  <Icon name="icon-info" className="-small" />
-                }
+                  <Modal
+                    isOpen={this.state.shareWidget === widget}
+                    className="-medium"
+                    onRequestClose={() => this.handleToggleShareModal(null)}
+                  >
+                    <ShareModal
+                      links={{
+                        link: typeof window !== 'undefined' && `${window.location.origin}/embed/widget/${widget.id}`,
+                        embed: typeof window !== 'undefined' && `${window.location.origin}/embed/widget/${widget.id}`
+                      }}
+                      analytics={{
+                        facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
+                        twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
+                        copy: type => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`)
+                      }}
+                    />
+                  </Modal>
+                </li>
+                <li>
+                  <LoginRequired text="Log in or sign up to save items in favorites">
+                    <Tooltip
+                      overlay={<CollectionsPanel
+                        resource={widget}
+                        resourceType="widget"
+                      />}
+                      overlayClassName="c-rc-tooltip"
+                      overlayStyle={{ color: '#fff' }}
+                      placement="bottomLeft"
+                      trigger="click"
+                    >
+                      <button
+                        className="c-btn favourite-button"
+                        tabIndex={-1}
+                      >
+                        <Icon
+                          name={starIconName}
+                          className="-star -small"
+                        />
+                      </button>
+                    </Tooltip>
+                  </LoginRequired>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => onToggleModal(!widgetModal)}
+                  >
+                    {!widgetModal &&
+                      <Icon name="icon-info" className="-small" />
+                    }
 
-                {widgetModal &&
-                  <Icon name="icon-cross" className="-small" />
-                }
-              </button>
+                    {widgetModal &&
+                      <Icon name="icon-cross" className="-small" />
+                    }
+                  </button>
+                </li>
+              </ul>
+
             </div>
           </div>
         </header>

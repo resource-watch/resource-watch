@@ -10,11 +10,16 @@ import { bindActionCreators } from 'redux';
 import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 import { setEmbed } from 'redactions/common';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Components
 import Page from 'layout/page';
 import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
+import Modal from 'components/modal/modal-component';
+import ShareModal from 'components/modal/share-modal';
 
 // Widget editor
 import { VegaChart, getVegaTheme } from 'widget-editor';
@@ -56,7 +61,8 @@ class EmbedWidget extends Page {
     super(props);
     this.state = {
       isLoading: props.isLoading,
-      modalOpened: false
+      modalOpened: false,
+      shareWidget: null
     };
   }
 
@@ -64,6 +70,10 @@ class EmbedWidget extends Page {
     const { url } = this.props;
     this.props.getWidget(url.query.id, 'metadata');
     if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
+  }
+
+  handleToggleShareModal(widget) {
+    this.setState({ shareWidget: widget });
   }
 
   getModal() {
@@ -214,21 +224,50 @@ class EmbedWidget extends Page {
               <h4>{widget.attributes.name}</h4>
             }
             <div className="buttons">
-              {
-                user.id && (
-                  <button
-                    onClick={() => this.props.setIfFavorited(widget.id, !this.props.favourited)}
-                  >
-                    <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
+              <ul>
+                <li>
+                  <button className="c-btn -tertiary -clean" onClick={() => this.handleToggleShareModal(widget)}>
+                    <Icon name="icon-share" className="-small" />
                   </button>
-                )
-              }
-              <button
-                aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
-                onClick={() => this.setState({ modalOpened: !modalOpened })}
-              >
-                <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
-              </button>
+
+                  <Modal
+                    isOpen={this.state.shareWidget === widget}
+                    className="-medium"
+                    onRequestClose={() => this.handleToggleShareModal(null)}
+                  >
+                    <ShareModal
+                      links={{
+                        link: typeof window !== 'undefined' && `${window.location.origin}/embed/widget/${widget.id}`,
+                        embed: typeof window !== 'undefined' && `${window.location.origin}/embed/widget/${widget.id}`
+                      }}
+                      analytics={{
+                        facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
+                        twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
+                        copy: type => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`)
+                      }}
+                    />
+                  </Modal>
+                </li>
+                {
+                  user.id && (
+                  <li>
+                    <button
+                      onClick={() => this.props.setIfFavorited(widget.id, !this.props.favourited)}
+                    >
+                      <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
+                    </button>
+                  </li>
+                  )
+                }
+                <li>
+                  <button
+                    aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
+                    onClick={() => this.setState({ modalOpened: !modalOpened })}
+                  >
+                    <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
+                  </button>
+                </li>
+              </ul>
             </div>
           </div>
           <div className="widget-content">
