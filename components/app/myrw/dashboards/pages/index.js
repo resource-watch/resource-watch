@@ -13,9 +13,7 @@ function DashboardsIndex(props) {
   return (
     <div className="c-dashboards-index">
       <DashboardsList
-        getDashboardsFilters={{
-          'filter[user]': user.id
-        }}
+        getDashboardsFilters={{ 'filter[user]': user.id }}
         routes={{
           index: 'myrw',
           detail: 'myrw_detail'
@@ -25,12 +23,8 @@ function DashboardsIndex(props) {
   );
 }
 
-DashboardsIndex.propTypes = {
-  user: PropTypes.object.isRequired
-};
+DashboardsIndex.propTypes = { user: PropTypes.object.isRequired };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DashboardsIndex);
