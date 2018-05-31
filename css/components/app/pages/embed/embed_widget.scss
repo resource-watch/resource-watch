@@ -50,6 +50,10 @@
       margin: 0;
       padding: 0;
 
+      ul li {
+        display: inline-block;
+      }
+
       button {
         cursor: pointer;
       }
