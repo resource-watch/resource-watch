@@ -40,6 +40,9 @@
           display: inline-flex;
           padding: 0;
           cursor: pointer;
+          .c-icon {
+            fill: $charcoal-grey;
+          }
         }
 
       }
