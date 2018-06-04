@@ -1,19 +1,6 @@
 .c-browser {
-  display: block;
-
-  h3 {
-    display: block;
-  }
-
-  h4 {
-    display: block;
-  }
-
-  p { display: block; }
-
   ul {
     li { display: inline-block;}
-
     a {
       line-height: 60px;
       display: inline-block;
@@ -22,5 +9,4 @@
       text-decoration: underline;
     }
   }
-
 }
