@@ -4,6 +4,7 @@ import Progress from 'react-progress-2';
 
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
+import { browserSupported } from 'utils/browser';
 
 // Wri-api-components
 import { Icons } from 'wri-api-components';
@@ -19,6 +20,8 @@ import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Search from 'layout/header/search';
+
+import NoBrowserSupport from 'components/app/common/Browser';
 
 import {
   setConfig,
@@ -118,8 +121,14 @@ class LayoutApp extends React.Component {
           category={category}
         />
 
-        <Icons />
 
+        {!browserSupported() &&
+          <Modal open canClose={false}>
+            <NoBrowserSupport />
+          </Modal>
+        }
+
+        <Icons />
 
         <Header
           pageHeader={pageHeader}

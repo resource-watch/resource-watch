@@ -12,11 +12,13 @@ export default class Modal extends React.Component {
     loading: PropTypes.bool,
     // ACTIONS
     toggleModal: PropTypes.func,
-    setModalOptions: PropTypes.func
+    setModalOptions: PropTypes.func,
+    canClose: PropTypes.bool
   };
 
   static defaultProps = {
     open: false,
+    canClose: true,
     options: {}
   };
 
@@ -47,17 +49,20 @@ export default class Modal extends React.Component {
   }
 
   render() {
-    const { options, open, className } = this.props;
+    const { options, open, className, canClose } = this.props;
     return (
       <section
         ref={(node) => { this.el = node; }}
         className={`c-modal ${open ? '' : '-hidden'} ${options.size || ''} ${className || ''}`}
       >
         <div className="modal-container">
-          <button className="modal-close" onClick={(e) => e.stopPropagation() || this.props.toggleModal(false)}>
-            <Icon name="icon-cross" className="-small" />
-          </button>
+          {canClose &&
+            <button className="modal-close" onClick={(e) => e.stopPropagation() || this.props.toggleModal(false)}>
+              <Icon name="icon-cross" className="-small" />
+            </button>
+          }
           <div className="modal-content">
+            {this.props.children ? this.props.children : null}
             {this.props.loading ? <Spinner isLoading /> : this.getContent()}
           </div>
         </div>
