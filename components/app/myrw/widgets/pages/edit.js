@@ -107,7 +107,8 @@ class WidgetsEdit extends React.Component {
         id: widget.id,
         application: widgetAtts.application,
         name: widgetAtts.name,
-        description: widgetAtts.description
+        description: widgetAtts.description,
+        caption: widgetAtts.caption
       },
       { widgetConfig }
     );
@@ -205,6 +206,7 @@ class WidgetsEdit extends React.Component {
                 >
                   {Input}
                 </Field>
+
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
                   onChange={value => this.handleChange({ description: value })}
@@ -218,6 +220,7 @@ class WidgetsEdit extends React.Component {
                 >
                   {Input}
                 </Field>
+
               </fieldset>
               <div className="buttons-container">
                 <Button
