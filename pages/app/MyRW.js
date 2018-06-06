@@ -37,7 +37,6 @@ const MYRW_TABS = [{
 }, {
   label: 'Visualizations',
   value: 'widgets',
-  desktopOnly: true,
   route: 'myrw',
   params: { tab: 'widgets', subtab: 'my_widgets' }
 }, {
@@ -49,7 +48,6 @@ const MYRW_TABS = [{
 {
   label: 'Areas of interest',
   value: 'areas',
-  desktopOnly: true,
   route: 'myrw',
   params: { tab: 'areas' }
 },

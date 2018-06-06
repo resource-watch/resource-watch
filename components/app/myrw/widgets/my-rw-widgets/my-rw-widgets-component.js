@@ -105,6 +105,7 @@ class MyRWWidgets extends PureComponent {
           link={{
             label: 'New visualization',
             route: routes.detail,
+            onlyDesktop: true,
             params: { tab: 'widgets', id: 'new' }
           }}
           onSearch={this.handleSearch}

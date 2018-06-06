@@ -11,7 +11,8 @@ import Icon from 'components/ui/Icon';
 
 class SearchInput extends PureComponent {
   static defaultProps = {
-    link: {}
+    link: {},
+    onlyDesktop: false
   }
 
   static propTypes = {
@@ -21,7 +22,8 @@ class SearchInput extends PureComponent {
     onKeyDown: PropTypes.func,
     isHeader: PropTypes.bool,
     escapeText: PropTypes.bool,
-    onSearch: PropTypes.func.isRequired
+    onSearch: PropTypes.func.isRequired,
+    onlyDesktop: PropTypes.bool
   };
 
   constructor(props) {
@@ -70,6 +72,7 @@ class SearchInput extends PureComponent {
   render() {
     const { value } = this.state;
     const { link, input, isHeader } = this.props;
+    const { onlyDesktop } = link;
 
     const classNames = classnames({
       'c-search-input--header': isHeader
@@ -77,6 +80,12 @@ class SearchInput extends PureComponent {
 
     const inputClassNames = classnames({
       'c-search-input--header': isHeader
+    });
+
+    const linkClassNames = classnames({
+      '-desktopOnly': onlyDesktop,
+      'c-button': true,
+      '-primary': true
     });
 
     return (
@@ -98,7 +107,7 @@ class SearchInput extends PureComponent {
 
         {link.route &&
           <Link route={link.route} params={link.params}>
-            <a className="c-button -primary">{link.label}</a>
+            <a className={linkClassNames}>{link.label}</a>
           </Link>
         }
       </div>

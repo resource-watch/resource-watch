@@ -54,7 +54,7 @@ class WidgetActionsTooltip extends React.Component {
         <ul>
           { this.props.isWidgetOwner &&
             <li>
-              <button onClick={() => this.handleClick('edit_widget')}>
+              <button className="-desktopOnly" onClick={() => this.handleClick('edit_widget')}>
                 Edit visualization
               </button>
             </li>
