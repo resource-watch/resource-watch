@@ -9,16 +9,12 @@ export default class Tabs extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      selected: props.defaultSelected
-    };
+    this.state = { selected: props.defaultSelected };
   }
 
   componentWillReceiveProps(nextProps) {
     const { selected } = nextProps;
-    this.setState({
-      selected
-    });
+    this.setState({ selected });
   }
 
   /**
@@ -45,7 +41,8 @@ export default class Tabs extends React.Component {
         <div className="row l-row">
           {options.map((option) => {
             const btnClasses = classnames({
-              '-active': option.value === selected
+              '-active': option.value === selected,
+              '-desktopOnly': option.desktopOnly
             });
 
             return (

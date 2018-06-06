@@ -169,6 +169,12 @@ input, button, select, textarea {
   }
 }
 
+.-desktopOnly {
+  @media screen and (max-width: map-get($breakpoints, medium)) {
+    display: none!important;
+  }
+}
+
 @media screen and (min-width: map-get($breakpoints, medium)) {
   h1 {
     font-size: $font-size-h1;
