@@ -64,6 +64,30 @@ export default class WidgetService {
       .then(response => response.json());
   }
 
+  userWidgetMetadata(widget, datasetId, token) {
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}/metadata`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
+  }
+
+
+  updateUserWidgetMetadata(widget, datasetId, metadata, token, isPatch) {
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}/metadata`, {
+      method: isPatch ? 'PATCH' : 'POST',
+      body: JSON.stringify(metadata),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
+  }
+
   removeUserWidget(widgetId, token) {
     return fetch(`${this.opts.apiURL}/widget/${widgetId}`, {
       method: 'DELETE',
