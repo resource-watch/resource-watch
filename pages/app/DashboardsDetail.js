@@ -34,9 +34,7 @@ class DashboardsDetail extends Page {
 
     // Dashboard detail
     await context.store.dispatch(
-      fetchDashboard({
-        id: props.url.query.slug
-      })
+      fetchDashboard({ id: props.url.query.slug })
     );
 
     return { ...props };
@@ -45,9 +43,7 @@ class DashboardsDetail extends Page {
   constructor(props) {
     super(props);
 
-    this.state = {
-      showShareModal: false
-    };
+    this.state = { showShareModal: false };
   }
 
   handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
@@ -70,12 +66,20 @@ class DashboardsDetail extends Page {
     const content = JSON.parse(dashboardDetail.dashboard.content);
 
     const datasetIds = content.map((block) => {
+      if (!block) {
+        return null;
+      }
+
       if (block.type === 'widget') {
         return block.content.datasetId;
       }
 
       if (block.type === 'grid') {
         return block.content.map((b) => {
+          if (!b) {
+            return null;
+          }
+
           if (b.type === 'widget') {
             return b.content.datasetId;
           }
@@ -180,9 +184,7 @@ class DashboardsDetail extends Page {
   }
 }
 
-const mapStateToProps = state => ({
-  dashboardDetail: state.dashboardDetail
-});
+const mapStateToProps = state => ({ dashboardDetail: state.dashboardDetail });
 
 const mapDispatchToProps = {
   fetchDashboard,
