@@ -316,14 +316,16 @@ class Step1 extends Component {
                   {!widgetTypeEmbed &&
                     <div className="">
                       <Spinner isLoading={loadingVegaChart} className="-light -relative" />
-                      <VegaChart
-                        data={this.state.form.widgetConfig}
-                        theme={getVegaTheme(true)}
-                        showLegend
-                        reloadOnResize
-                        toggleLoading={this.triggerToggleLoadingVegaChart}
-                        getForceUpdate={(func) => { this.forceChartUpdate = func; }}
-                      />
+                      {this.state.form.widgetConfig && this.state.form.widgetConfig.data && (
+                        <VegaChart
+                          data={this.state.form.widgetConfig}
+                          theme={getVegaTheme(true)}
+                          showLegend
+                          reloadOnResize
+                          toggleLoading={this.triggerToggleLoadingVegaChart}
+                          getForceUpdate={(func) => { this.forceChartUpdate = func; }}
+                        />
+                      )}
                       <div className="actions">
                         <button
                           type="button"
