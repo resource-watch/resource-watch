@@ -22,3 +22,6 @@
 
 # Ignore environment variables
 .env
+
+# Don't upload npm lock file
+package-lock.json
