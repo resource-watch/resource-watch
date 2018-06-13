@@ -100,9 +100,7 @@ class DashboardsForm extends React.Component {
               toastr.error('Error', `Oops! There was an error, try again. ${err}`);
             });
         } else {
-          this.setState({
-            step: this.state.step + 1
-          });
+          this.setState({ step: this.state.step + 1 });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
@@ -127,7 +125,7 @@ class DashboardsForm extends React.Component {
       switch (f) {
         // TODO: if the API doesn't send it we won't need to handle it
         case 'photo': {
-          if (params[f] && params[f].original !== '/images/original/missing.png') {
+          if (params[f] && params[f].original !== '/photos/original/missing.png') {
             newForm[f] = params[f].original;
           }
           break;
