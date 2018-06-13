@@ -90,7 +90,11 @@ class Step1 extends React.Component {
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
                   onChange={(value) => {
-                    this.props.onChange({ photo: value });
+                    if (value) {
+                      this.props.onChange({ photo: value });
+                    } else {
+                      this.props.onChange({ photo: null });
+                    }
                   }}
                   className="-fluid"
                   properties={{
