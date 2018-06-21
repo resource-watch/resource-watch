@@ -11194,9 +11194,9 @@ wri-api-components@1.0.3:
     react-sortable-hoc "^0.6.8"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-1.0.5.tgz#ed33d965e8562577e0db4d5babeb75345f6e9c5e"
+wri-api-components@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-1.0.6.tgz#55da1035b775e36af14ffd1603c133e34c89e9e8"
   dependencies:
     prop-types "^15.6.1"
     rc-tooltip "3.7.0"
