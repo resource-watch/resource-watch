@@ -489,7 +489,7 @@ class GlobeCesiumComponent extends PureComponent {
   initGlobe() {
     this.addAdditionalLayerOption(
       'default',
-      new Cesium.UrlTemplateImageryProvider({ url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g' }), 1, true
+      new Cesium.UrlTemplateImageryProvider({ url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w' }), 1, true
     );
     if (this.props.onInit) {
       this.props.onInit(this.viewer);
