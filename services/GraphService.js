@@ -9,7 +9,11 @@ export default class GraphService {
    * Get all tags
    */
   getAllTags() {
-    return fetch(`${process.env.WRI_API_URL}/graph/query/list-concepts?application=${process.env.APPLICATIONS}`)
+    return fetch(
+      `${process.env.WRI_API_URL}/graph/query/list-concepts?application=${process.env.APPLICATIONS}`,
+      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+
+    )
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -17,7 +21,11 @@ export default class GraphService {
    * Get inferred tags
    */
   getInferredTags(tags) {
-    return fetch(`${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`)
+    return fetch(
+      `${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`,
+      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+
+    )
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -26,7 +34,11 @@ export default class GraphService {
   * Get dataset tags
   */
   getDatasetTags(datasetId) {
-    return fetch(`${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary?application=${process.env.APPLICATIONS}`)
+    return fetch(
+      `${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary?application=${process.env.APPLICATIONS}`,
+      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+
+    )
       .then(response => response.json())
       .then(response => response.data);
   }
@@ -92,7 +104,11 @@ export default class GraphService {
    * @returns {Promise<string[]>} List of sorted ids
    */
   getMostViewedDatasets() {
-    return fetch(`${process.env.WRI_API_URL}/graph/query/most-viewed?application=${process.env.APPLICATIONS}`)
+    return fetch(
+      `${process.env.WRI_API_URL}/graph/query/most-viewed?application=${process.env.APPLICATIONS}`,
+      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error('Unable to fetch the most viewed datasets');
@@ -105,7 +121,11 @@ export default class GraphService {
    * @returns {Promise<string[]>} List of sorted ids
    */
   getMostFavoritedDatasets() {
-    return fetch(`${process.env.WRI_API_URL}/graph/query/most-liked-datasets?application=${process.env.APPLICATIONS}`)
+    return fetch(
+      `${process.env.WRI_API_URL}/graph/query/most-liked-datasets?application=${process.env.APPLICATIONS}`,
+      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+
+    )
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error('Unable to fetch the most favourited datasets');

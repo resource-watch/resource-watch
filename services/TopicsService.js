@@ -27,6 +27,10 @@ export default class TopicsService {
         }, {
           key: 'Authorization',
           value: this.opts.authorization
+        },
+        {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: response => new Deserializer({
           keyForAttribute: 'underscore_case'
@@ -44,6 +48,10 @@ export default class TopicsService {
     return new Promise((resolve, reject) => {
       get({
         url: `${process.env.API_URL}/topics/${id}`,
+        headers: [{
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
+        }],
         onSuccess: (response) => {
           new Deserializer({
             keyForAttribute: 'underscore_case'

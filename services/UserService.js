@@ -20,7 +20,8 @@ export default class UserService {
     return new Promise((resolve) => {
       fetch(`${this.opts.apiURL}/auth/check-logged`, {
         headers: {
-          Authorization: token
+          Authorization: token,
+          'Upgrade-Insecure-Requests': 1
         }
       })
         .then(response => resolve(response.json()));

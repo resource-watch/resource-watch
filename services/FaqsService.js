@@ -10,7 +10,11 @@ export default class FaqsService {
 
   // GET ALL DATA
   fetchAllData() {
-    return fetch(`${process.env.API_URL}/faqs/?published=all`)
+    return fetch(
+      `${process.env.API_URL}/faqs/?published=all`,
+      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+
+    )
       .then((response) => {
         const { status, statusText } = response;
         if (response.ok) return response.json();
@@ -29,7 +33,11 @@ export default class FaqsService {
   }
 
   fetchData(id) {
-    return fetch(`${process.env.API_URL}/faqs/${id}`)
+    return fetch(
+      `${process.env.API_URL}/faqs/${id}`,
+      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+
+    )
       .then((response) => {
         const { status, statusText } = response;
         if (response.ok) return response.json();
@@ -53,6 +61,7 @@ export default class FaqsService {
       body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
+        'Upgrade-Insecure-Requests': 1,
         Authorization: this.opts.authorization
       }
     })
