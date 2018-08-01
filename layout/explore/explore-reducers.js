@@ -139,7 +139,7 @@ export default {
     if (toggle) {
       layerGroups.unshift({
         dataset: dataset.id,
-        visible: true,
+        visibility: true,
         layers: dataset.layer.map(l => ({ ...l, active: l.default }))
       });
       if (layerGroups[0].layers.length) {
@@ -158,8 +158,8 @@ export default {
     const { dataset, visibility } = action.payload;
     const layerGroups = state.map.layerGroups.map((lg) => {
       if (lg.dataset !== dataset.id) return lg;
-      const layers = lg.layers.map(l => ({ ...l, visible: visibility }));
-      return { ...lg, layers, visible: visibility };
+      const layers = lg.layers.map(l => ({ ...l, visibility }));
+      return { ...lg, layers, visibility };
     });
 
     const map = { ...state.map, layerGroups };
@@ -212,12 +212,12 @@ export default {
         return {
           dataset: d.id,
           opacity: dParams.opacity,
-          visible: dParams.visible,
+          visibility: dParams.visibility,
           layers: d.layer.map(l => ({
             ...l,
             active: dParams.layer === l.id,
             opacity: dParams.opacity,
-            visible: dParams.visible
+            visibility: dParams.visibility
           }))
         };
       })

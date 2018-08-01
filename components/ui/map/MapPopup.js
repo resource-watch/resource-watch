@@ -6,10 +6,13 @@ import numeral from 'numeral';
 
 class MapPopup extends React.Component {
   static propTypes = {
-    interaction: PropTypes.object,
-    interactionLayers: PropTypes.array,
-    interactionSelected: PropTypes.string,
-    onChangeInteractiveLayer: PropTypes.func
+    popup: PropTypes.object,
+    data: PropTypes.object
+  };
+
+  static defaultProps = {
+    popup: {},
+    data: {}
   };
 
   formatValue(item, data) {
@@ -29,23 +32,28 @@ class MapPopup extends React.Component {
 
   render() {
     const {
-      interaction,
-      interactionSelected,
-      interactionLayers,
-      onChangeInteractiveLayer
+      data,
+      popup
     } = this.props;
 
-    const layer =
-      interactionLayers.find(l => l.id === interactionSelected) ||
-      interactionLayers[0];
+    
+    if (!data) return null;
+
+    const {
+      layers,
+      layersInteraction,
+      layersInteractionSelected
+    } = data;
+
+    const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
 
     if (!layer) {
+      popup.remove();
       return null;
     }
 
-    const layerInteraction = interaction[layer.id] || {};
-
-    const { data } = layerInteraction;
+    const interaction = layersInteraction[layer.id] || {};
+    const { data: interactionData } = interaction;
     const { interactionConfig } = layer;
 
     return (
@@ -55,22 +63,15 @@ class MapPopup extends React.Component {
             className="popup-header-select"
             name="interactionLayers"
             value={layer.id}
-            onChange={e => onChangeInteractiveLayer(e.target.value)}
+            onChange={e => this.props.onChangeInteractiveLayer(e.target.value)}
           >
-            {interactionLayers.map(o =>
+            {layers.map(o =>
               <option key={o.id} value={o.id}>{o.name}</option>)}
-          </select>
-
-          {/* <button className="">
-          <Icon
-            name="icon-close"
-            className="-default"
-          />
-        </button> */}
+          </select> 
         </header>
 
         <div className="popup-content">
-          {data &&
+          {interactionData &&
             <table className="popup-table">
               <tbody>
                 {interactionConfig.output.map(outputItem => (
@@ -81,14 +82,14 @@ class MapPopup extends React.Component {
                     <td className="dt">
                       {outputItem.property || outputItem.column}:
                     </td>
-                    <td className="dd">{this.formatValue(outputItem, data[outputItem.column])}</td>
+                  <td className="dd">{this.formatValue(outputItem, interactionData[outputItem.column])}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           }
 
-          {!data &&
+          {!interactionData &&
             'No data available'
           }
         </div>

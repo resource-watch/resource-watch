@@ -60,9 +60,7 @@ export default {
   },
 
   // Sidebar
-  sidebar: {
-    open: true
-  },
+  sidebar: { open: true },
 
   tags: {
     tooltip: false,
