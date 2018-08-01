@@ -25,7 +25,11 @@ export default class RasterService {
       query = `SELECT (st_metadata(st_union(the_raster_webmercator))).* from ${this.tableName}`;
     }
 
-    return fetch(`${process.env.WRI_API_URL}/query/${this.dataset}?sql=${query}`)
+    return fetch(
+      `${process.env.WRI_API_URL}/query/${this.dataset}?sql=${query}`,
+      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+
+    )
       .then((response) => {
         if (!response.ok) throw new Error('Unable to fetch the band names');
         return response.json();
@@ -66,7 +70,11 @@ export default class RasterService {
       }
 
       // We now fetch the actual data
-      return fetch(`https://api.resourcewatch.org/v1/query/${this.dataset}?sql=${query}`)
+      return fetch(
+        `https://api.resourcewatch.org/v1/query/${this.dataset}?sql=${query}`,
+        { headers: { 'Upgrade-Insecure-Requests': 1 } }
+
+      )
         .then((res) => {
           if (!res.ok) reject();
           return res.json();

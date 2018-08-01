@@ -84,9 +84,7 @@ class FavouritesService {
     return new Promise((resolve, reject) => {
       fetch(`${process.env.WRI_API_URL}/favourite/${resourceId}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: token
-        }
+        headers: { Authorization: token }
       })
         .then((response) => {
           const { status, statusText } = response;
