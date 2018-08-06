@@ -33,11 +33,14 @@
         color: $color-charcoal-grey;
         fill: rgba($color-charcoal-grey, 0.2);
         display: flex;
-        cursor: pointer;
 
-        &:hover {
-          color: darken($color-charcoal-grey, 15%);
-          fill: rgba($color-charcoal-grey, 0.5);
+        &.isInteractive {
+          cursor: pointer;
+
+          &:hover {
+            color: darken($color-charcoal-grey, 15%);
+            fill: rgba($color-charcoal-grey, 0.5);
+          }
         }
       }
     }
