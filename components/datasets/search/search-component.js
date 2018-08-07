@@ -219,7 +219,7 @@ class SearchComponent extends React.Component {
   render() {
     const { open, search, options, selected, tab, list } = this.props;
     const { index, value, groupedFilteredList } = this.state;
-    // console.log(options)
+
     let groupedFilteredListIndex = 0;
 
     const tabs = this.getTabs();
