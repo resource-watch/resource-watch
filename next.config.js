@@ -6,7 +6,9 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  webpack: (config) => {
+  webpack: (originalConfig) => {
+    const config = Object.assign({}, originalConfig);
+
     config.resolve = Object.assign({}, config.resolve, {
       alias: {
         react: path.resolve(__dirname, 'node_modules', 'react'),
