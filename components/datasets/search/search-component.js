@@ -217,14 +217,9 @@ class SearchComponent extends React.Component {
   }
 
   render() {
-    const {
-      open, search, options, selected, tab, list
-    } = this.props;
-
-    const {
-      index, value, groupedFilteredList
-    } = this.state;
-
+    const { open, search, options, selected, tab, list } = this.props;
+    const { index, value, groupedFilteredList } = this.state;
+    // console.log(options)
     let groupedFilteredListIndex = 0;
 
     const tabs = this.getTabs();
@@ -235,9 +230,11 @@ class SearchComponent extends React.Component {
       .map(s => list.find(l => l.id === s));
 
     const selectedAllArr = flatten(Object.keys(selected).map(s =>
-      selected[s].map(c =>
-        ({ ...list.find(o => o.id === c), tab: s }))));
-
+      selected[s].map((c) => {
+        const result = list.find(o => o.id === c) ||
+          mainArr.find(a => a.id === c);
+        return { ...result, tab: s };
+      })));
 
     return (
       <div className="c-dataset-search">
