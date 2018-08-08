@@ -10,6 +10,7 @@ import { toggleModal, setModalOptions } from 'redactions/modal';
 // Components
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
+import Map from 'components/ui/map/Map';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersectionModal';
@@ -20,6 +21,24 @@ import UserService from 'services/UserService';
 
 // Utils
 import { logEvent } from 'utils/analytics';
+import LayerManager from 'utils/layers/LayerManager';
+
+// Constants
+const MAP_CONFIG = {
+  zoom: 3,
+  latLng: {
+    lat: 0,
+    lng: 0
+  },
+  zoomControl: false
+};
+
+const mapStyles = {
+  display: 'inline-block',
+  height: '410px',
+  position: 'relative',
+  width: '100%'
+};
 
 const FORM_ELEMENTS = {
   elements: {
@@ -87,6 +106,8 @@ class AreasForm extends React.Component {
       geostore: geostore || '',
       openUploadAreaModal
     };
+
+    this.map = null;
 
     // Services
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
@@ -215,6 +236,8 @@ class AreasForm extends React.Component {
     } = this.state;
     const { mode } = this.props;
 
+    console.log(this);
+
     return (
       <div className="c-areas-form">
         <Spinner loading={loading || loadingAreaOptions} className="-light" />
@@ -252,6 +275,20 @@ class AreasForm extends React.Component {
               />
             </div>
           }
+          <div className="c-field">
+            <label for="input-name" class="label">Draw Area</label>
+            <div style={mapStyles}>
+              <Map
+                LayerManager={LayerManager}
+                mapConfig={MAP_CONFIG}
+                setMapInstance={(map) => { this.map = map; }}
+                layerGroups={[]}
+                canDraw
+              />
+            </div>
+          </div>
+
+
           <div className="buttons-div">
             <button type="button" onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">
               Cancel

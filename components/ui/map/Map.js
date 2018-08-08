@@ -46,6 +46,27 @@ const MAP_CONFIG = {
   zoomControl: true
 };
 
+const DEFAULT_DRAW_OPTIONS = {
+  position: 'topright',
+  draw: {
+    polygon: {
+      allowIntersection: false, // Restricts shapes to simple polygons
+      drawError: {
+        color: '#e1e100', // Color the shape will turn when intersects
+        message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+      },
+      shapeOptions: {
+        color: '#97009c'
+      }
+    },
+    // disable toolbar item by setting it to false
+    polyline: false,
+    circle: false, // Turns off this drawing tool
+    rectangle: false,
+    marker: false
+  }
+};
+
 class Map extends React.Component {
   static defaultProps = {
     swipe: false,
@@ -56,6 +77,7 @@ class Map extends React.Component {
 
   static propTypes = {
     swipe: PropTypes.bool,
+    canDraw: PropTypes.bool,
     interactionEnabled: PropTypes.bool,
     disableScrollZoom: PropTypes.bool,
     onMapInstance: PropTypes.func,
@@ -111,6 +133,41 @@ class Map extends React.Component {
 
     if (this.props.disableScrollZoom) {
       this.map.scrollWheelZoom.disable();
+    }
+
+    if (this.props.canDraw) {
+      // Initialise the FeatureGroup to store editable layers
+      const editableLayers = new L.FeatureGroup();
+      this.map.addLayer(editableLayers);
+
+      this.drawConfig = Object.assign({}, DEFAULT_DRAW_OPTIONS, {
+        edit: {
+          featureGroup: editableLayers,
+          remove: false
+        }
+      });
+
+      this.drawControl = new L.Control.Draw(this.drawConfig);
+      this.map.addControl(this.drawControl);
+
+      this.editableLayers = new L.FeatureGroup();
+      this.map.addLayer(this.editableLayers);
+
+      this.map.on(L.Draw.Event.CREATED, (e) => {
+        const type = e.layerType;
+        const { layer } = e.layer;
+
+        if (type === 'marker') {
+          layer.bindPopup('A popup!');
+        }
+
+        this.editableLayers.addLayer(layer);
+      });
+
+      this.map.on('draw:editstop', (e) => {
+        console.log(e, 'yolo');
+      });
+
     }
 
     // CONTROLS
