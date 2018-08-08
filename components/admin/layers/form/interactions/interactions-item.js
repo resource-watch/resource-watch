@@ -16,9 +16,12 @@ import InteractionsHandler from './interactions-handler';
 
 const DATA_FORMATS = {
   number: [
-    { label: '00000', value: '00000' },
-    { label: '0,0', value: '0,0' },
-    { label: '0a', value: '0a' }
+    { label: 'Integer', value: '0,0' },
+    { label: 'Float', value: '0,0.0[0]' },
+    { label: 'Percent Integer', value: '0,0%' },
+    { label: 'Percent Float', value: '0,0[.0]%' },
+    { label: 'Scientific notation', value: '0,0.0[0]e+0' },
+    { label: 'Years', value: '0000' }
   ],
   date: [
     { label: 'YYYY/MM/DD', value: 'YYYY/MM/DD' },
