@@ -159,6 +159,8 @@ export const fetchFiltersTags = createThunkAction('EXPLORE/fetchFiltersTags', ()
 // SORT
 export const setSortSelected = createAction('EXPLORE/setSortSelected');
 export const setSortDirection = createAction('EXPLORE/setSortDirection');
+export const setSortIsUserSelected = createAction('EXPLORE/setSortIsUserSelected');
+export const resetFiltersSort = createAction('EXPLORE/resetFiltersSort');
 
 // SIDEBAR
 export const setSidebarOpen = createAction('EXPLORE/setSidebarOpen');
