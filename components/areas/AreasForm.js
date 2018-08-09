@@ -126,25 +126,20 @@ class AreasForm extends React.Component {
     }
   }
 
-  onSubmit(e) {
+  async onSubmit(e) {
     e.preventDefault();
-
-    // createGeostore
-    this.areasService.createGeostore(this.state.geojson).then((response) => {
-      console.log(response);
-    });
-
-    return null;
+    const drawedGeoJson = this.state.geojson ? await this.areasService.createGeostore(this.state.geojson) : null;
 
     const { name, geostore } = this.state;
     const { user, mode, id, routes } = this.props;
     const { query } = routes;
     const { subscriptionDataset } = query || {};
-    if (geostore) {
+
+    if (geostore || (drawedGeoJson && 'id' in drawedGeoJson)) {
       this.setState({ loading: true });
 
       if (mode === 'new') {
-        this.userService.createNewArea(name, geostore, user.token)
+        this.userService.createNewArea(name, drawedGeoJson.id || geostore, user.token)
           .then((response) => {
             Router.pushRoute('myrw', {
               tab: 'areas',
@@ -157,7 +152,8 @@ class AreasForm extends React.Component {
 
         logEvent('My RW', 'Create area', name);
       } else if (mode === 'edit') {
-        this.userService.updateArea(id, name, user.token)
+        this.userService.updateArea(id, name, user.token,
+          drawedGeoJson && drawedGeoJson.id ? drawedGeoJson.id : null)
           .then(() => {
             Router.pushRoute('myrw', { tab: 'areas' });
             toastr.success('Success', 'Area successfully updated!');
@@ -222,15 +218,13 @@ class AreasForm extends React.Component {
     });
   }
 
-  onMapDraw(layer) {
-    this.setState({ geojson: layer.toGeoJSON() });
-  }
 
-  getDrawShape(areaLayers) {
-    const { query } = this.props.routes;
-    const { areas } = this.props.user;
-    const area = areas.items.find(a => a.id === query.id);
-    return area.id in areaLayers.layerGroups ? areaLayers.layerGroups[area.id] : null;
+  onMapDraw(layer) {
+    this.setState({ geojson: { geojson: {
+      type: 'FeatureCollection',
+      features:[ layer.toGeoJSON() ]}
+    }
+    });
   }
 
   render() {
@@ -248,7 +242,7 @@ class AreasForm extends React.Component {
 
     let layerGroups = [];
 
-    if (area.id in user.areas.layerGroups) {
+    if (area && area.id in user.areas.layerGroups) {
       layerGroups = user.areas.layerGroups[area.id];
     }
 
@@ -308,7 +302,6 @@ class AreasForm extends React.Component {
                 setMapInstance={(map) => { this.map = map; }}
                 layerGroups={layerGroups}
                 canDraw
-                drawShape={this.getDrawShape(areas)}
                 onMapDraw={layer => this.onMapDraw(layer)}
               />
             </div>

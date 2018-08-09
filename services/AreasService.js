@@ -40,15 +40,15 @@ export default class AreasService {
       .then(response => response.json());
   }
 
-  createGeostore(geojson) {
-    console.log(geojson);
-    return fetch(`${this.opts.apiURL}/geostore`, {
+  async createGeostore(geojson) {
+    const response = await fetch(`${this.opts.apiURL}/geostore`, {
       method: 'POST',
       headers: new Headers({ 'content-type': 'application/json' }),
       body: JSON.stringify(geojson)
-    }).then((response) => {
-      if (!response.ok) throw new Error('The file couldn\'t be processed correctly. Try again in a few minutes.');
-      return response.json();
-    }).then(({ data }) => data.id);
+    });
+
+    if (!response.ok) throw new Error('The file couldn\'t be processed correctly. Try again in a few minutes.');
+    const { data } = await response.json();
+    return data;
   }
 }

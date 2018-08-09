@@ -143,19 +143,8 @@ class Map extends React.Component {
     }
 
     if (this.props.canDraw) {
-      // For now we only support 1 shape
-      const drawShape = this.props.drawShape[0];
-      console.log('drawshape', drawShape);
-
       // Initialise the FeatureGroup to store editable layers
       const editableLayers = new L.FeatureGroup();
-
-      if (drawShape.layers.length) {
-        const polygon = new L.Polygon(drawShape.layers[0].layerConfig.data.features[0].geometry);
-        polygon.editing.enable();
-        editableLayers.addLayer(polygon);
-      }
-
       this.map.addLayer(editableLayers);
 
       this.drawConfig = {
