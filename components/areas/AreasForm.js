@@ -226,6 +226,10 @@ class AreasForm extends React.Component {
     });
   }
 
+  onMapDraw(layer) {
+    console.log('im drawing', layer);
+  }
+
   render() {
     const {
       areaOptions,
@@ -276,7 +280,7 @@ class AreasForm extends React.Component {
             </div>
           }
           <div className="c-field">
-            <label for="input-name" class="label">Draw Area</label>
+            <label>Draw Area</label>
             <div style={mapStyles}>
               <Map
                 LayerManager={LayerManager}
@@ -284,6 +288,7 @@ class AreasForm extends React.Component {
                 setMapInstance={(map) => { this.map = map; }}
                 layerGroups={[]}
                 canDraw
+                onMapDraw={layer => this.onMapDraw(layer)}
               />
             </div>
           </div>

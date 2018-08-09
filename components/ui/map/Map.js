@@ -1,5 +1,4 @@
 /* eslint global-require: 0 */
-
 import React from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -46,42 +45,16 @@ const MAP_CONFIG = {
   zoomControl: true
 };
 
-const DEFAULT_DRAW_OPTIONS = {
-  position: 'topright',
-  draw: {
-    polygon: {
-      allowIntersection: false, // Restricts shapes to simple polygons
-      drawError: {
-        color: '#e1e100', // Color the shape will turn when intersects
-        message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-      },
-      shapeOptions: {
-        color: '#97009c'
-      }
-    },
-    // disable toolbar item by setting it to false
-    polyline: false,
-    circle: false, // Turns off this drawing tool
-    rectangle: false,
-    marker: false
-  }
-};
+const VOID = () => {};
 
 class Map extends React.Component {
-  static defaultProps = {
-    swipe: false,
-    interactionEnabled: true,
-    disableScrollZoom: true,
-    onMapInstance: () => { /* console.info(map); */ }
-  };
-
   static propTypes = {
     swipe: PropTypes.bool,
     canDraw: PropTypes.bool,
     interactionEnabled: PropTypes.bool,
     disableScrollZoom: PropTypes.bool,
     onMapInstance: PropTypes.func,
-
+    onMapDraw: PropTypes.func,
     // STORE
     mapConfig: PropTypes.object,
     location: PropTypes.object,
@@ -102,6 +75,37 @@ class Map extends React.Component {
     setLayerInteraction: PropTypes.func,
     setLayerInteractionSelected: PropTypes.func,
     setLayerInteractionLatLng: PropTypes.func
+  };
+
+  static defaultProps = {
+    mapConfig: {},
+    location: {},
+    sidebar: {},
+    basemap: {},
+    labels: {},
+    filters: {},
+    interaction: {},
+    interactionLatLng: {},
+
+    boundaries: false,
+    swipe: false,
+    canDraw: false,
+
+    interactionEnabled: true,
+    disableScrollZoom: true,
+
+    layerGroups: [],
+    availableInteractions: [],
+
+    interactionSelected: null,
+
+    onMapInstance: VOID,
+    onMapDraw: VOID,
+    LayerManager: VOID,
+    onMapParams: VOID,
+    setLayerInteraction: VOID,
+    setLayerInteractionSelected: VOID,
+    setLayerInteractionLatLng: VOID
   };
 
   state = {
@@ -140,12 +144,24 @@ class Map extends React.Component {
       const editableLayers = new L.FeatureGroup();
       this.map.addLayer(editableLayers);
 
-      this.drawConfig = Object.assign({}, DEFAULT_DRAW_OPTIONS, {
+      this.drawConfig = {
+        position: 'topright',
+        draw: {
+          polygon: {
+            allowIntersection: false,
+            showArea: true
+          },
+          polyline: false,
+          circle: false,
+          rectangle: false,
+          marker: false
+        },
         edit: {
+          poly: { allowIntersection: false },
           featureGroup: editableLayers,
-          remove: false
+          remove: true
         }
-      });
+      };
 
       this.drawControl = new L.Control.Draw(this.drawConfig);
       this.map.addControl(this.drawControl);
@@ -153,21 +169,11 @@ class Map extends React.Component {
       this.editableLayers = new L.FeatureGroup();
       this.map.addLayer(this.editableLayers);
 
-      this.map.on(L.Draw.Event.CREATED, (e) => {
-        const type = e.layerType;
-        const { layer } = e.layer;
-
-        if (type === 'marker') {
-          layer.bindPopup('A popup!');
-        }
-
-        this.editableLayers.addLayer(layer);
+      this.map.on(L.Draw.Event.CREATED, (event) => {
+        const { layer } = event;
+        editableLayers.addLayer(layer);
+        this.props.onMapDraw(layer);
       });
-
-      this.map.on('draw:editstop', (e) => {
-        console.log(e, 'yolo');
-      });
-
     }
 
     // CONTROLS
