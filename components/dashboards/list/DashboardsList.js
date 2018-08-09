@@ -22,7 +22,8 @@ class DashboardsList extends React.Component {
     },
     getDashboardsFilters: {},
     // Store
-    dashboards: []
+    loading: false,
+    filters: []
   };
 
   static propTypes = {
@@ -55,9 +56,7 @@ class DashboardsList extends React.Component {
     const { getDashboardsFilters } = this.props;
 
     this.props.setFilters([]);
-    this.props.getDashboards({
-      filters: getDashboardsFilters
-    });
+    this.props.getDashboards({ filters: getDashboardsFilters });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -112,9 +111,7 @@ class DashboardsList extends React.Component {
         />
 
         <SearchInput
-          input={{
-            placeholder: 'Search dashboard'
-          }}
+          input={{ placeholder: 'Search dashboard' }}
           link={{
             label: 'New dashboard',
             route: routes.detail,

@@ -52,7 +52,7 @@ class AreaActionsTooltip extends React.Component {
             </button>
           </li>
           <li>
-            <button onClick={() => this.handleClick('edit_subscriptions')}>
+            <button className="-desktopOnly" onClick={() => this.handleClick('edit_subscriptions')}>
               Edit subscriptions
             </button>
           </li>

@@ -19,16 +19,15 @@ import Input from 'components/form/Input';
 import Field from 'components/form/Field';
 
 const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
-    const elements = this.elements;
+    const { elements } = this;
     Object.keys(elements).forEach((k) => {
       elements[k].validate();
     });
   },
   isValid() {
-    const elements = this.elements;
+    const { elements } = this;
     const valid = Object.keys(elements)
       .map(k => elements[k].isValid())
       .filter(v => v !== null)
@@ -46,7 +45,8 @@ class WidgetsEdit extends React.Component {
       loading: true,
       submitting: false,
       widget: null,
-      dataset: null // Data associated with the dataset
+      caption: null,
+      name: null
     };
 
     this.widgetService = new WidgetService(this.props.id,
@@ -95,48 +95,56 @@ class WidgetsEdit extends React.Component {
 
     this.setState({ loading: true });
 
-    const { widget } = this.state;
+
+
+    const { widget, name } = this.state;
     const widgetAtts = widget.attributes;
-    const dataset = widgetAtts.dataset;
+    const { dataset } = widgetAtts;
     const { user } = this.props;
     const widgetConfig = (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {};
+
+    const metadata = {
+      language: this.props.locale,
+      info: {
+        caption: this.state.caption,
+        widgetLinks: []
+      },
+      application: 'rw'
+    };
 
     const widgetObj = Object.assign(
       {},
       {
         id: widget.id,
         application: widgetAtts.application,
-        name: widgetAtts.name,
+        name,
         description: widgetAtts.description
       },
       { widgetConfig }
     );
 
+    const hasMetadata = await this.widgetService.userWidgetMetadata(widgetObj, dataset, user.token);
+
     this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
       .then((response) => {
         if (response.errors) {
           const errorMessage = response.errors[0].detail;
-          this.setState({
-            saved: false,
-            loading: false,
-            error: true,
-            errorMessage
-          });
+          this.setState({ loading: false });
           toastr.error('Error', errorMessage);
         } else {
-          this.setState({
-            saved: true,
-            loading: false,
-            error: false
+          this.widgetService.updateUserWidgetMetadata(
+            widgetObj,
+            dataset,
+            metadata,
+            user.token,
+            hasMetadata.data.length > 0
+          ).then(() => {
+            this.setState({ loading: false });
+            toastr.success('Success', 'Widget updated successfully!');
           });
-          toastr.success('Success', 'Widget updated successfully!');
         }
       }).catch((err) => {
-        this.setState({
-          saved: false,
-          error: true,
-          loading: false
-        });
+        this.setState({ loading: false });
         toastr.error('Error', err);
       });
   }
@@ -153,6 +161,10 @@ class WidgetsEdit extends React.Component {
     // following: simulating a click on the submit button to trigger the
     // validation and eventually save the changes
     if (this.form) this.form.querySelector('button[type="submit"]').click();
+  }
+
+  onEditWidget(type, value) {
+    this.setState({ [type]: value });
   }
 
   getWidgetConfig() {
@@ -184,27 +196,15 @@ class WidgetsEdit extends React.Component {
             widgetId={widget.id}
             saveButtonMode="never"
             embedButtonMode="never"
-            titleMode="never"
+            titleMode="auto"
             provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
+            onChangeWidgetTitle={name => this.onEditWidget('name', name)}
+            onChangeWidgetCaption={capt => this.onEditWidget('caption', capt)}
           />
           <div className="form-container">
             <form ref={(node) => { this.form = node; }} className="form-container" onSubmit={this.onSubmit}>
               <fieldset className="c-field-container">
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                  onChange={value => this.handleChange({ name: value })}
-                  validations={['required']}
-                  properties={{
-                    title: 'title',
-                    label: 'Title',
-                    type: 'text',
-                    required: true,
-                    default: widgetAtts.name,
-                    placeholder: 'Widget title'
-                  }}
-                >
-                  {Input}
-                </Field>
+
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
                   onChange={value => this.handleChange({ description: value })}
@@ -218,6 +218,7 @@ class WidgetsEdit extends React.Component {
                 >
                   {Input}
                 </Field>
+
               </fieldset>
               <div className="buttons-container">
                 <Button

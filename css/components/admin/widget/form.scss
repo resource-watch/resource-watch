@@ -23,7 +23,8 @@
       }
 
       .c-we-chart {
-        height: 100%;
+        position: relative;
+        height: 300px;
         overflow: auto;
         border: solid 1px $light-grey;
       }

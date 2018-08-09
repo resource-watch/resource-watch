@@ -11,16 +11,34 @@ import areaAlerts from 'selectors/user/areaAlerts';
 import { getLabel } from 'utils/datasets/dataset-helpers';
 import AlertWidget from 'components/areas/AlertWidget';
 
-class AreasAlerts extends React.Component  {
+// Services
+import UserService from 'services/UserService';
+
+class AreasAlerts extends React.Component {
+  constructor(props) {
+    super(props);
+
+    const { user, id } = this.props;
+    const { subscription } = user.areas.items.find(alert => alert.id === id);
+
+    this.state = { subscriptionData: null };
+    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
+
+    this.userService.getSubscription(subscription.id, user.token).then(((data) => {
+      this.setState({ subscriptionData: data });
+    }));
+  }
+
   render() {
     const { user, id, alerts } = this.props;
+    const { subscriptionData } = this.state;
     const { subscription } = user.areas.items.find(alert => alert.id === id);
 
     return (
       <div className="c-alerts-page">
         {subscription && subscription.attributes && subscription.attributes.datasets &&
           subscription.attributes.datasets.map((dataset, key) =>
-            <AlertWidget key={key} dataset={dataset} id={id} layerGroup={id} subscription={subscription} />)}
+            <AlertWidget key={key} dataset={dataset} id={id} layerGroup={id} subscription={subscription} subscriptionData={subscriptionData} />)}
 
         <p>
           This notification reports {id in alerts ? alerts[id].map(a => getLabel(a.dataset)).join(', ') : null} for the area of interest you subscribed to.

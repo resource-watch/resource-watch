@@ -20,7 +20,8 @@ export default class UserService {
     return new Promise((resolve) => {
       fetch(`${this.opts.apiURL}/auth/check-logged`, {
         headers: {
-          Authorization: token
+          Authorization: token,
+          'Upgrade-Insecure-Requests': 1
         }
       })
         .then(response => resolve(response.json()));
@@ -190,6 +191,21 @@ export default class UserService {
   getSubscriptions(token) {
     return new Promise((resolve) => {
       fetch(`${this.opts.apiURL}/subscriptions?application=${process.env.APPLICATIONS}`, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.json())
+        .then(jsonData => resolve(jsonData.data));
+    });
+  }
+
+  /**
+   *  Get Subscription
+   */
+  getSubscription(subscriptionId, token) {
+    return new Promise((resolve) => {
+      fetch(`${this.opts.apiURL}/v1/subscriptions/${subscriptionId}/data`, {
         headers: {
           Authorization: token
         }

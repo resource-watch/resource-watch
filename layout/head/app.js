@@ -195,7 +195,7 @@ class Head extends React.PureComponent {
         {this.getCesium()}
         {this.getAFrame()}
 
-        <script src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_API_TOKEN}&libraries=places`} />
+        <script src={`https://maps.googleapis.com/maps/api/js?key=${process.env.RW_GOGGLE_API_TOKEN_SHORTENER}&libraries=places`} />
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );
@@ -210,8 +210,6 @@ Head.propTypes = {
 };
 
 export default connect(
-  state => ({
-    routes: state.routes
-  }),
+  state => ({routes: state.routes}),
   null
 )(Head);

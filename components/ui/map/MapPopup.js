@@ -12,11 +12,17 @@ class MapPopup extends React.Component {
     onChangeInteractiveLayer: PropTypes.func
   };
 
-  formatValue(item, data) {
-    if (item.type === 'date' && item.format && data) {
-      data = moment(data).format(item.format);
-    } else if (item.type === 'number' && item.format && data) {
-      data = numeral(data).format(item.format);
+  formatValue(item, value) {
+    let data = value;
+
+    if (item.type === 'date' && item.format && value) {
+      data = moment(value).format(item.format);
+    } else if (item.type === 'number' && item.format && value) {
+      if (item.format === '0,0%' || item.format === '0,0[.0]%') {
+        data = numeral(value / 100).format(item.format);
+      } else {
+        data = numeral(value).format(item.format);
+      }
     }
 
     function removeHtmlTags(str) {

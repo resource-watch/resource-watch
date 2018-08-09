@@ -90,17 +90,19 @@ class Step1 extends React.Component {
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
                   onChange={(value) => {
-                    this.props.onChange({ photo: value });
+                    if (value) {
+                      this.props.onChange({ photo: value });
+                    } else {
+                      this.props.onChange({ photo: null });
+                    }
                   }}
-                  validations={['required']}
                   className="-fluid"
                   properties={{
                     name: 'photo',
                     label: 'Photo',
                     placeholder: 'Browse file',
                     baseUrl: process.env.STATIC_SERVER_URL,
-                    default: this.state.form.photo,
-                    required: true
+                    default: this.state.form.photo
                   }}
                 >
                   {FileImage}

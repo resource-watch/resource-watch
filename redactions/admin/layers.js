@@ -83,11 +83,19 @@ export function getLayers({ applications = [process.env.APPLICATIONS], dataset }
   return (dispatch) => {
     dispatch({ type: GET_LAYERS_LOADING });
 
-    service.fetchAllData({ applications, dataset })
-      .then((data) => {
-        dispatch({ type: GET_LAYERS_SUCCESS, payload: data });
-      })
-      .catch(err => dispatch({ type: GET_LAYERS_ERROR, payload: err.message }));
+    if (dataset && dataset !== '') {
+      service.fetchAllData({ applications, dataset })
+        .then((data) => {
+          dispatch({ type: GET_LAYERS_SUCCESS, payload: data });
+        })
+        .catch(err => dispatch({ type: GET_LAYERS_ERROR, payload: err.message }));
+    } else {
+      service.fetchAllLayers({ applications })
+        .then((data) => {
+          dispatch({ type: GET_LAYERS_SUCCESS, payload: data });
+        })
+        .catch(err => dispatch({ type: GET_LAYERS_ERROR, payload: err.message }));
+    }
   };
 }
 

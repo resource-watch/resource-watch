@@ -21,6 +21,11 @@
       justify-content: space-between;
       padding-right: 80px;
 
+      ul li {
+        display: inline-block;
+        margin: 0 0 0 5px;
+      }
+
       .buttons {
         position: absolute;
         top: 0px;
@@ -30,15 +35,14 @@
         margin: 0;
         padding: 0;
 
-        & > :nth-child(even) {
-          margin: 0 0 0 5px;
-        }
-
         button {
           position: relative;
           display: inline-flex;
           padding: 0;
           cursor: pointer;
+          .c-icon {
+            fill: $charcoal-grey;
+          }
         }
 
       }

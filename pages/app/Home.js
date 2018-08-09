@@ -23,6 +23,7 @@ import BlogLatestPosts from 'components/blog/latest-posts';
 import YouTube from 'react-youtube';
 import MediaQuery from 'react-responsive';
 import LoginRequired from 'components/ui/login-required';
+import { browserSupported } from 'utils/browser';
 
 // Modal
 import Modal from 'components/modal/modal-component';
@@ -187,6 +188,7 @@ class Home extends Page {
         playlist: 'XryMlA-8IwE'
       }
     };
+
     return (
       <Layout
         title="Monitoring the Planet’s Pulse — Resource Watch"
@@ -201,11 +203,11 @@ class Home extends Page {
             values={{ deviceWidth: responsive.fakeWidth }}
           >
             <div className={`video-foreground ${videoReady ? '-ready' : ''}`}>
-              <YouTube
+              {browserSupported() && <YouTube
                 videoId="XryMlA-8IwE"
                 opts={videoOpts}
                 onStateChange={this.onVideoStateChange}
-              />
+              />}
             </div>
           </MediaQuery>
           <div className="video-text">

@@ -22,9 +22,7 @@ import TopicThumbnailList from 'components/topics/thumbnail-list';
 import Title from 'components/ui/Title';
 
 class TopicDetailComponent extends React.Component {
-  static propTypes = {
-    topicsDetail: PropTypes.object
-  };
+  static propTypes = { topicsDetail: PropTypes.object.isRequired };
 
   getDatasetIds() {
     const { topicsDetail } = this.props;
@@ -32,12 +30,20 @@ class TopicDetailComponent extends React.Component {
     const content = JSON.parse(topicsDetail.data.content);
 
     const datasetIds = content.map((block) => {
+      if (!block) {
+        return null;
+      }
+
       if (block.type === 'widget') {
         return block.content.datasetId;
       }
 
       if (block.type === 'grid') {
         return block.content.map((b) => {
+          if (!b) {
+            return null;
+          }
+          
           if (b.type === 'widget') {
             return b.content.datasetId;
           }
@@ -53,9 +59,7 @@ class TopicDetailComponent extends React.Component {
   }
 
   render() {
-    const {
-      topicsDetail
-    } = this.props;
+    const { topicsDetail } = this.props;
 
     const { data: topic } = topicsDetail;
 

@@ -1,0 +1,71 @@
+body {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
+  color: #393f44;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.cloud {
+  fill: #E7EAEC;
+}
+
+.dark-cloud {
+  fill: #B5BEC3;
+}
+
+.slider .legend {
+  font-size: 68.75%;
+  fill: #9AA2A9;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.slider .track {
+  stroke: #f3f5f6;
+  stroke-width: 4;
+}
+
+.slider .track-progress {
+  stroke: #c32d7b;
+  stroke-width: 4;
+}
+
+.slider .handle {
+  fill: #fff;
+}
+
+.slider .handle-value {
+  font-size: 75%;
+  fill: #6F7578;
+}
+
+.slider .track-overlay {
+  stroke: transparent;
+  stroke-width: 18;
+}
+
+.baseflow .title tspan:first-of-type,
+.evaporation .title tspan:first-of-type,
+.flow .title tspan:first-of-type {
+  font-size: 125%;
+  font-weight: 300;
+  fill: #c32d7b;
+}
+
+.baseflow .title tspan:last-of-type,
+.evaporation .title tspan:last-of-type,
+.flow .title tspan:last-of-type {
+  font-size: 156.25%;
+  font-weight: 700;
+}
+
+.flow .ground {
+  stroke-width: 4px;
+  stroke: #99A2A9;
+  fill: none;
+}
+
+.flow .water-flow {
+  fill: #00B5CE;
+}

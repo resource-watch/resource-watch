@@ -14,9 +14,7 @@ export default class WidgetService {
       `${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999&application=${process.env.APPLICATIONS}`,
       {
         method: 'GET',
-        headers: {
-          'Upgrade-Insecure-Requests': 1
-        }
+        headers: { 'Upgrade-Insecure-Requests': 1 }
       }
     )
       .then(async (response) => {
@@ -64,6 +62,31 @@ export default class WidgetService {
       .then(response => response.json());
   }
 
+  userWidgetMetadata(widget, datasetId, token) {
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}/metadata`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+        'Upgrade-Insecure-Requests': 1
+      }
+    })
+      .then(response => response.json());
+  }
+
+
+  updateUserWidgetMetadata(widget, datasetId, metadata, token, isPatch) {
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}/metadata`, {
+      method: isPatch ? 'PATCH' : 'POST',
+      body: JSON.stringify(metadata),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    })
+      .then(response => response.json());
+  }
+
   removeUserWidget(widgetId, token) {
     return fetch(`${this.opts.apiURL}/widget/${widgetId}`, {
       method: 'DELETE',
@@ -82,9 +105,7 @@ export default class WidgetService {
       `${this.opts.apiURL}/widget/?userId=${userId}${sortSt}&env=${process.env.API_ENV}&includes=${includes}&application=${process.env.APPLICATIONS}&page[size]=999`,
       {
         method: 'GET',
-        headers: {
-          'Upgrade-Insecure-Requests': 1
-        }
+        headers: { 'Upgrade-Insecure-Requests': 1 }
       }
     )
       .then(response => response.json())
@@ -96,9 +117,7 @@ export default class WidgetService {
       `${this.opts.apiURL}/vocabulary/widget_collections?application=${process.env.APPLICATIONS}`,
       {
         method: 'GET',
-        headers: {
-          'Upgrade-Insecure-Requests': 1
-        }
+        headers: { 'Upgrade-Insecure-Requests': 1 }
       }
     )
       .then(response => response.json())

@@ -151,11 +151,11 @@ class MyRWDetail extends Page {
       return id === 'new' ? `New ${singular(tab)}` : 'Edit';
     }
 
-    if (data.name) {
+    if (data && data.name) {
       return data.name;
     }
 
-    if (data.attributes && data.attributes.name) {
+    if (data && data.attributes && data.attributes.name) {
       return data.attributes.name;
     }
 
