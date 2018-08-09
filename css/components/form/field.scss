@@ -26,6 +26,14 @@
     }
   }
 
+  &__helpMessage {
+    display: block;
+    font-size: 13px;
+    color: #989898;
+    position: relative;
+    top: -15px;
+  }
+
   &__map {
     margin: 20px 0 0 0;
     &--container {

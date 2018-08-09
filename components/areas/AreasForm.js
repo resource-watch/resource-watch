@@ -13,7 +13,7 @@ import Spinner from 'components/ui/Spinner';
 import Map from 'components/ui/map/Map';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
-import UploadAreaIntersectionModal from 'components/modal/UploadAreaIntersectionModal';
+import UploadArea from 'components/areas/UploadArea';
 
 // Services
 import AreasService from 'services/AreasService';
@@ -52,25 +52,7 @@ const FORM_ELEMENTS = {
   }
 };
 
-const AREAS = [
-  {
-    label: 'Custom area',
-    value: 'custom',
-    items: [
-      {
-        label: 'Upload new area',
-        value: 'upload',
-        as: 'Custom area'
-      }
-    ]
-  }
-];
-
 class AreasForm extends React.Component {
-  static defaultProps = {
-    openUploadAreaModal: false
-  };
-
   static propTypes = {
     mode: PropTypes.string.isRequired, // edit | new
     id: PropTypes.string, // area id for edit mode,
@@ -78,6 +60,10 @@ class AreasForm extends React.Component {
     user: PropTypes.object.isRequired,
     toggleModal: PropTypes.func.isRequired,
     routes: PropTypes.object.isRequired
+  };
+
+  static defaultProps = {
+    openUploadAreaModal: false
   };
 
   constructor(props) {
@@ -168,37 +154,25 @@ class AreasForm extends React.Component {
   }
 
   async onChangeSelectedArea(value) {
+    if (typeof value === 'undefined') {
+      this.setState({ geostore: null });
+      return null;
+    }
     return new Promise((resolve) => {
-      if (value.value === 'upload') {
-        this.props.toggleModal(true, {
-          children: UploadAreaIntersectionModal,
-          childrenProps: {
-            onUploadArea: (id) => {
-              this.setState({
-                geostore: id
-              });
-
-              // We close the modal
-              this.props.toggleModal(false, {});
-              resolve(true);
-            }
-          },
-          onCloseModal: () => resolve(false)
-        });
-      } else {
-        this.setState({
-          geostore: value.value
-        });
-        resolve(true);
-      }
+      this.setState({ geostore: value.value });
+      resolve(true);
     });
   }
 
-  openUploadAreaModal() {
+  onMapDraw(layer) {
     this.setState({
-      geostore: 'custom'
-    },
-    () => this.onChangeSelectedArea({ value: 'upload' }));
+      geojson: {
+        geojson: {
+          type: 'FeatureCollection',
+          features: [layer.toGeoJSON()]
+        }
+      }
+    });
   }
 
   handleNameChange(value) {
@@ -211,19 +185,10 @@ class AreasForm extends React.Component {
     this.setState({ loadingAreaOptions: true });
     this.areasService.fetchCountries().then((response) => {
       this.setState({
-        areaOptions: [...AREAS,
-          ...response.map(elem => ({ value: elem.geostoreId, label: elem.name || '' }))],
+        areaOptions: response.filter(elem => typeof elem.name !== 'undefined')
+          .map(elem => ({ value: elem.geostoreId, label: elem.name })),
         loadingAreaOptions: false
       });
-    });
-  }
-
-
-  onMapDraw(layer) {
-    this.setState({ geojson: { geojson: {
-      type: 'FeatureCollection',
-      features:[ layer.toGeoJSON() ]}
-    }
     });
   }
 
@@ -267,9 +232,10 @@ class AreasForm extends React.Component {
               {Input}
             </Field>
           </fieldset>
+
           {mode === 'new' &&
             <div
-              className="selectors-container"
+              className="c-field selectors-container"
             >
               <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
               <CustomSelect
@@ -283,7 +249,10 @@ class AreasForm extends React.Component {
               />
             </div>
           }
-          <div className="c-field c-field__map">
+
+          {geostore && mode === 'new' && <span className="c-field__helpMessage">If you want to draw a custom area, remove selected area.</span>}
+
+          {!geostore && <div className="c-field c-field__map">
             <label>Draw Area</label>
             <div className="c-field__map--container">
               <Map
@@ -305,8 +274,9 @@ class AreasForm extends React.Component {
                 onMapDraw={layer => this.onMapDraw(layer)}
               />
             </div>
-          </div>
+          </div>}
 
+          <UploadArea />
 
           <div className="buttons-div">
             <button type="button" onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">

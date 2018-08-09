@@ -1,18 +1,20 @@
-.c-upload-area-intersection-modal {
+.c-upload-area {
   p a {
     color: $color-secondary;
     text-decoration: none;
   }
 
   .c-dropzone {
-    margin: 40px 0;
+    margin: 20px 0;
   }
 
   .dropzone-file-input {
     display: flex;
     height: 45px;
-    margin-top: 40px;
+
+    margin: 10px 0 20px 0;
     padding: 5px;
+
     border: 1px solid $border-color-2;
     border-radius: 4px;
 
@@ -33,8 +35,12 @@
 
   .dropzone-file-errors {
     width: 100%;
+
     padding: 10px 20px;
+    margin: 0 0 40px 0;
+
     list-style: none;
+
     background-color: rgba(250,183,46,0.2);
     border-radius: 4px;
 
@@ -42,19 +48,19 @@
       display: inline-block;
       margin-right: 5px;
       padding: 2px 8px;
+
       color: $color-white;
       background-color: $color-mango;
+
       border-radius: 4px;
     }
   }
 
   .complementary-info {
-    margin-top: 40px;
+    margin-top: 20px;
     font-size: $font-size-default;
 
-    p {
-      margin: 0;
-    }
+    p { margin: 0; }
 
     ul {
       margin: 10px 0;
