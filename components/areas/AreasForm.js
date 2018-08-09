@@ -83,7 +83,8 @@ class AreasForm extends React.Component {
       name: name || '',
       geostore: geostore || '',
       openUploadAreaModal,
-      geojson: null
+      geojson: null,
+      geoCountrySelected: false
     };
 
     this.map = null;
@@ -103,7 +104,7 @@ class AreasForm extends React.Component {
     const { openUploadAreaModal } = this.state;
     const { query } = this.props.routes;
 
-    if (query.id && query.id === 'new') {
+    if (query.id) {
       this.loadAreas();
     }
 
@@ -125,11 +126,10 @@ class AreasForm extends React.Component {
       this.setState({ loading: true });
 
       if (mode === 'new') {
-        this.userService.createNewArea(name, drawedGeoJson.id || geostore, user.token)
-          .then((response) => {
+        this.userService.createNewArea(name, geostore || drawedGeoJson.id, user.token)
+          .then(() => {
             Router.pushRoute('myrw', {
               tab: 'areas',
-              openModal: response.data.id && subscriptionDataset,
               subscriptionDataset
             });
             toastr.success('Success', 'Area successfully created!');
@@ -139,7 +139,7 @@ class AreasForm extends React.Component {
         logEvent('My RW', 'Create area', name);
       } else if (mode === 'edit') {
         this.userService.updateArea(id, name, user.token,
-          drawedGeoJson && drawedGeoJson.id ? drawedGeoJson.id : null)
+          geostore || (drawedGeoJson && drawedGeoJson.id ? drawedGeoJson.id : null))
           .then(() => {
             Router.pushRoute('myrw', { tab: 'areas' });
             toastr.success('Success', 'Area successfully updated!');
@@ -155,11 +155,11 @@ class AreasForm extends React.Component {
 
   async onChangeSelectedArea(value) {
     if (typeof value === 'undefined') {
-      this.setState({ geostore: null });
+      this.setState({ geostore: null, geoCountrySelected: false });
       return null;
     }
     return new Promise((resolve) => {
-      this.setState({ geostore: value.value });
+      this.setState({ geostore: value.value, geoCountrySelected: true });
       resolve(true);
     });
   }
@@ -175,18 +175,25 @@ class AreasForm extends React.Component {
     });
   }
 
+  onUploadArea(id) {
+    this.setState({ geostore: id });
+  }
+
   handleNameChange(value) {
-    this.setState({
-      name: value
-    });
+    this.setState({ name: value });
   }
 
   loadAreas() {
     this.setState({ loadingAreaOptions: true });
     this.areasService.fetchCountries().then((response) => {
+      let geoCountrySelected = false;
       this.setState({
         areaOptions: response.filter(elem => typeof elem.name !== 'undefined')
-          .map(elem => ({ value: elem.geostoreId, label: elem.name })),
+          .map((elem) => {
+            geoCountrySelected = elem.geostoreId === this.state.geostore;
+            return { value: elem.geostoreId, label: elem.name };
+          }),
+        geoCountrySelected,
         loadingAreaOptions: false
       });
     });
@@ -198,7 +205,8 @@ class AreasForm extends React.Component {
       loadingAreaOptions,
       loading,
       geostore,
-      name
+      name,
+      geoCountrySelected
     } = this.state;
     const { query } = this.props.routes;
     const { mode, user } = this.props;
@@ -248,9 +256,9 @@ class AreasForm extends React.Component {
             />
           </div>
 
-          {geostore && mode === 'new' && <span className="c-field__helpMessage">If you want to draw/upload a custom area, remove the selected area above.</span>}
+          {geostore && geoCountrySelected && <span className="c-field__helpMessage">If you want to draw/upload a custom area, remove the selected area above.</span>}
 
-          {!geostore && <div className="c-field c-field__map">
+          {(!geostore || !geoCountrySelected) && <div className="c-field c-field__map">
             <label>Draw Area</label>
             <div className="c-field__map--container">
               <Map
@@ -274,7 +282,7 @@ class AreasForm extends React.Component {
             </div>
           </div>}
 
-          {!geostore && <UploadArea />}
+          {(!geostore || !geoCountrySelected) && <UploadArea onUploadArea={id => this.onUploadArea(id)} />}
 
           <div className="buttons-div">
             <button type="button" onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">
