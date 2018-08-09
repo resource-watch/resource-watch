@@ -26,6 +26,16 @@
     }
   }
 
+  &__map {
+    margin: 20px 0 0 0;
+    &--container {
+      display: inline-block;
+      height: 410px;
+      position: relative;
+      width: 100%;
+    }
+  }
+
   .hint {
     font-style: italic;
     padding: 0 0 5px;

@@ -53,8 +53,7 @@ class Map extends React.Component {
     canDraw: PropTypes.bool,
     interactionEnabled: PropTypes.bool,
     disableScrollZoom: PropTypes.bool,
-    onMapInstance: PropTypes.func,
-    onMapDraw: PropTypes.func,
+
     // STORE
     mapConfig: PropTypes.object,
     location: PropTypes.object,
@@ -63,14 +62,17 @@ class Map extends React.Component {
     labels: PropTypes.object,
     boundaries: PropTypes.bool,
     filters: PropTypes.object,
+    drawShape: PropTypes.array,
     layerGroups: PropTypes.array, // List of LayerGroup items
     interaction: PropTypes.object,
     interactionSelected: PropTypes.string,
     interactionLatLng: PropTypes.object,
     availableInteractions: PropTypes.array,
-    LayerManager: PropTypes.func,
 
     // ACTIONS
+    onMapInstance: PropTypes.func,
+    onMapDraw: PropTypes.func,
+    LayerManager: PropTypes.func,
     onMapParams: PropTypes.func,
     setLayerInteraction: PropTypes.func,
     setLayerInteractionSelected: PropTypes.func,
@@ -86,6 +88,7 @@ class Map extends React.Component {
     filters: {},
     interaction: {},
     interactionLatLng: {},
+    drawShape: [{}],
 
     boundaries: false,
     swipe: false,
@@ -105,7 +108,7 @@ class Map extends React.Component {
     onMapParams: VOID,
     setLayerInteraction: VOID,
     setLayerInteractionSelected: VOID,
-    setLayerInteractionLatLng: VOID
+    setLayerInteractionLatLng: VOID,
   };
 
   state = {
@@ -140,8 +143,19 @@ class Map extends React.Component {
     }
 
     if (this.props.canDraw) {
+      // For now we only support 1 shape
+      const drawShape = this.props.drawShape[0];
+      console.log('drawshape', drawShape);
+
       // Initialise the FeatureGroup to store editable layers
       const editableLayers = new L.FeatureGroup();
+
+      if (drawShape.layers.length) {
+        const polygon = new L.Polygon(drawShape.layers[0].layerConfig.data.features[0].geometry);
+        polygon.editing.enable();
+        editableLayers.addLayer(polygon);
+      }
+
       this.map.addLayer(editableLayers);
 
       this.drawConfig = {
@@ -545,9 +559,7 @@ class Map extends React.Component {
       bounds = geometry.getBounds();
     }
 
-    this.map.fitBounds(bounds, {
-      padding: [20, 20]
-    });
+    this.map.fitBounds(bounds, { padding: [20, 20] });
   }
 
   removeMapEventListeners() {

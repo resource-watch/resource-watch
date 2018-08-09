@@ -30,19 +30,11 @@ const MAP_CONFIG = {
     lat: 0,
     lng: 0
   },
-  zoomControl: false
-};
-
-const mapStyles = {
-  display: 'inline-block',
-  height: '410px',
-  position: 'relative',
-  width: '100%'
+  zoomControl: true
 };
 
 const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: { },
   validate() {
     const { elements } = this;
     Object.keys(elements).forEach((k) => {
@@ -104,7 +96,8 @@ class AreasForm extends React.Component {
       loading: false,
       name: name || '',
       geostore: geostore || '',
-      openUploadAreaModal
+      openUploadAreaModal,
+      geojson: null
     };
 
     this.map = null;
@@ -136,14 +129,19 @@ class AreasForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
 
+    // createGeostore
+    this.areasService.createGeostore(this.state.geojson).then((response) => {
+      console.log(response);
+    });
+
+    return null;
+
     const { name, geostore } = this.state;
     const { user, mode, id, routes } = this.props;
     const { query } = routes;
     const { subscriptionDataset } = query || {};
     if (geostore) {
-      this.setState({
-        loading: true
-      });
+      this.setState({ loading: true });
 
       if (mode === 'new') {
         this.userService.createNewArea(name, geostore, user.token)
@@ -155,7 +153,7 @@ class AreasForm extends React.Component {
             });
             toastr.success('Success', 'Area successfully created!');
           })
-          .catch(err => this.setState({ error: err, loading: false }));
+          .catch(error => this.setState({ error, loading: false }));
 
         logEvent('My RW', 'Create area', name);
       } else if (mode === 'edit') {
@@ -164,7 +162,7 @@ class AreasForm extends React.Component {
             Router.pushRoute('myrw', { tab: 'areas' });
             toastr.success('Success', 'Area successfully updated!');
           })
-          .catch(err => this.setState({ error: err, loading: false }));
+          .catch(error => this.setState({ error, loading: false }));
 
         logEvent('My RW', 'Edit area', name);
       }
@@ -214,9 +212,7 @@ class AreasForm extends React.Component {
   }
 
   loadAreas() {
-    this.setState({
-      loadingAreaOptions: true
-    });
+    this.setState({ loadingAreaOptions: true });
     this.areasService.fetchCountries().then((response) => {
       this.setState({
         areaOptions: [...AREAS,
@@ -227,7 +223,14 @@ class AreasForm extends React.Component {
   }
 
   onMapDraw(layer) {
-    console.log('im drawing', layer);
+    this.setState({ geojson: layer.toGeoJSON() });
+  }
+
+  getDrawShape(areaLayers) {
+    const { query } = this.props.routes;
+    const { areas } = this.props.user;
+    const area = areas.items.find(a => a.id === query.id);
+    return area.id in areaLayers.layerGroups ? areaLayers.layerGroups[area.id] : null;
   }
 
   render() {
@@ -238,9 +241,16 @@ class AreasForm extends React.Component {
       geostore,
       name
     } = this.state;
-    const { mode } = this.props;
+    const { query } = this.props.routes;
+    const { mode, user } = this.props;
+    const { areas } = user;
+    const area = areas.items.find(a => a.id === query.id);
 
-    console.log(this);
+    let layerGroups = [];
+
+    if (area.id in user.areas.layerGroups) {
+      layerGroups = user.areas.layerGroups[area.id];
+    }
 
     return (
       <div className="c-areas-form">
@@ -279,15 +289,26 @@ class AreasForm extends React.Component {
               />
             </div>
           }
-          <div className="c-field">
+          <div className="c-field c-field__map">
             <label>Draw Area</label>
-            <div style={mapStyles}>
+            <div className="c-field__map--container">
               <Map
                 LayerManager={LayerManager}
-                mapConfig={MAP_CONFIG}
+                mapConfig={{
+                  ...MAP_CONFIG,
+                  ...!!layerGroups.length && {
+                    bbox: [
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][0][0],
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][0][1],
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][1][0],
+                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][1][1]
+                    ]
+                  }
+                }}
                 setMapInstance={(map) => { this.map = map; }}
-                layerGroups={[]}
+                layerGroups={layerGroups}
                 canDraw
+                drawShape={this.getDrawShape(areas)}
                 onMapDraw={layer => this.onMapDraw(layer)}
               />
             </div>
