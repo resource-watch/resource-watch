@@ -233,24 +233,22 @@ class AreasForm extends React.Component {
             </Field>
           </fieldset>
 
-          {mode === 'new' &&
-            <div
-              className="c-field selectors-container"
-            >
-              <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
-              <CustomSelect
-                placeholder="Select area"
-                options={areaOptions}
-                onValueChange={this.onChangeSelectedArea}
-                allowNonLeafSelection={false}
-                value={geostore}
-                waitForChangeConfirmation
-                disabled={mode === 'edit'}
-              />
-            </div>
-          }
+          <div
+            className="c-field selectors-container"
+          >
+            <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
+            <CustomSelect
+              placeholder="Select area"
+              options={areaOptions}
+              onValueChange={this.onChangeSelectedArea}
+              allowNonLeafSelection={false}
+              value={geostore}
+              waitForChangeConfirmation
+              disabled={mode === 'edit'}
+            />
+          </div>
 
-          {geostore && mode === 'new' && <span className="c-field__helpMessage">If you want to draw a custom area, remove selected area.</span>}
+          {geostore && mode === 'new' && <span className="c-field__helpMessage">If you want to draw/upload a custom area, remove the selected area above.</span>}
 
           {!geostore && <div className="c-field c-field__map">
             <label>Draw Area</label>
@@ -276,7 +274,7 @@ class AreasForm extends React.Component {
             </div>
           </div>}
 
-          <UploadArea />
+          {!geostore && <UploadArea />}
 
           <div className="buttons-div">
             <button type="button" onClick={() => Router.pushRoute('myrw', { tab: 'areas' })} className="c-btn -secondary">
