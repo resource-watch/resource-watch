@@ -83,7 +83,7 @@ class AreasForm extends React.Component {
       name: name || '',
       geostore: geostore || '',
       openUploadAreaModal,
-      geojson: null,
+      geojson: [],
       geoCountrySelected: false
     };
 
@@ -164,15 +164,17 @@ class AreasForm extends React.Component {
     });
   }
 
-  onMapDraw(layer) {
-    this.setState({
-      geojson: {
-        geojson: {
-          type: 'FeatureCollection',
-          features: [layer.toGeoJSON()]
-        }
-      }
+  onMapDraw(layerGroup) {
+    const geoJsonStructure = {
+      type: 'FeatureCollection',
+      features: []
+    };
+
+    layerGroup.eachLayer((l) => {
+      geoJsonStructure.features.push(l.toGeoJSON());
     });
+
+    this.setState({ geojson: { geojson: geoJsonStructure } });
   }
 
   onUploadArea(id) {

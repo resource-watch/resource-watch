@@ -177,7 +177,8 @@ class Map extends React.Component {
       this.map.on(L.Draw.Event.CREATED, (event) => {
         const { layer } = event;
         editableLayers.addLayer(layer);
-        this.props.onMapDraw(layer);
+
+        this.props.onMapDraw(editableLayers);
       });
     }
 
