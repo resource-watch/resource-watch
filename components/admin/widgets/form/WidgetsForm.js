@@ -173,7 +173,7 @@ class WidgetsForm extends React.Component {
             ).then((dataURL) => {
               const sqlSt = dataURL.split('sql=')[1];
               this.service.freezeWidget(sqlSt).then((resp) => {
-                const url = resp.url;
+                const { url } = resp;
                 formObj.queryUrl = url;
                 formObj.widgetConfig.data = [
                   {

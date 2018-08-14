@@ -238,8 +238,7 @@ class Step1 extends Component {
                 value: 'freeze',
                 title: 'Freeze',
                 defaultChecked: this.props.form.freeze,
-                checked: this.props.form.freeze,
-                disabled: this.props.id && this.props.form.freeze
+                checked: this.props.form.freeze
               }}
             >
               {Checkbox}
