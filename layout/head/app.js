@@ -177,7 +177,7 @@ class Head extends React.PureComponent {
         />
         <link
           rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.3/leaflet.draw.css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"
           crossOrigin=""
         />
         <script
@@ -186,7 +186,7 @@ class Head extends React.PureComponent {
           crossOrigin=""
         />
         <script
-          src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.3/leaflet.draw.js"
+          src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"
           crossOrigin=""
         />
         <script

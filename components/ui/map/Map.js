@@ -142,6 +142,7 @@ class Map extends React.Component {
       this.map.scrollWheelZoom.disable();
     }
 
+    // TODO: Move the draw logic to WRI api components
     if (this.props.canDraw) {
       // Initialise the FeatureGroup to store editable layers
       const editableLayers = new L.FeatureGroup();
@@ -152,7 +153,8 @@ class Map extends React.Component {
         draw: {
           polygon: {
             allowIntersection: false,
-            showArea: true
+            showArea: true,
+            shapeOptions: { color: '#c32d7b' }
           },
           polyline: false,
           circle: false,
