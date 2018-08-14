@@ -83,7 +83,7 @@ class AreasForm extends React.Component {
       name: name || '',
       geostore: geostore || '',
       openUploadAreaModal,
-      geojson: [],
+      geojson: null,
       geoCountrySelected: false
     };
 
