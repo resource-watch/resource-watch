@@ -320,7 +320,7 @@ class Step1 extends Component {
                       {this.state.form.widgetConfig && this.state.form.widgetConfig.data && (
                         <VegaChart
                           data={this.state.form.widgetConfig}
-                          theme={getVegaTheme(true)}
+                          theme={theme}
                           showLegend
                           reloadOnResize
                           toggleLoading={this.triggerToggleLoadingVegaChart}
