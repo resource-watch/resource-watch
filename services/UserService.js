@@ -275,10 +275,11 @@ export default class UserService {
   /**
   * Update area
   */
-  updateArea(id, name, token) {
+  updateArea(id, name, token, geostore) {
     const bodyObj = {
       name,
-      application: process.env.APPLICATIONS
+      application: process.env.APPLICATIONS,
+      geostore
     };
 
     return fetch(`${this.opts.apiURL}/area/${id}`, {

@@ -1,5 +1,4 @@
 /* eslint global-require: 0 */
-
 import React from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -46,19 +45,14 @@ const MAP_CONFIG = {
   zoomControl: true
 };
 
-class Map extends React.Component {
-  static defaultProps = {
-    swipe: false,
-    interactionEnabled: true,
-    disableScrollZoom: true,
-    onMapInstance: () => { /* console.info(map); */ }
-  };
+const VOID = () => {};
 
+class Map extends React.Component {
   static propTypes = {
     swipe: PropTypes.bool,
+    canDraw: PropTypes.bool,
     interactionEnabled: PropTypes.bool,
     disableScrollZoom: PropTypes.bool,
-    onMapInstance: PropTypes.func,
 
     // STORE
     mapConfig: PropTypes.object,
@@ -68,18 +62,53 @@ class Map extends React.Component {
     labels: PropTypes.object,
     boundaries: PropTypes.bool,
     filters: PropTypes.object,
+    drawShape: PropTypes.array,
     layerGroups: PropTypes.array, // List of LayerGroup items
     interaction: PropTypes.object,
     interactionSelected: PropTypes.string,
     interactionLatLng: PropTypes.object,
     availableInteractions: PropTypes.array,
-    LayerManager: PropTypes.func,
 
     // ACTIONS
+    onMapInstance: PropTypes.func,
+    onMapDraw: PropTypes.func,
+    LayerManager: PropTypes.func,
     onMapParams: PropTypes.func,
     setLayerInteraction: PropTypes.func,
     setLayerInteractionSelected: PropTypes.func,
     setLayerInteractionLatLng: PropTypes.func
+  };
+
+  static defaultProps = {
+    mapConfig: {},
+    location: {},
+    sidebar: {},
+    basemap: {},
+    labels: {},
+    filters: {},
+    interaction: {},
+    interactionLatLng: {},
+    drawShape: [{}],
+
+    boundaries: false,
+    swipe: false,
+    canDraw: false,
+
+    interactionEnabled: true,
+    disableScrollZoom: true,
+
+    layerGroups: [],
+    availableInteractions: [],
+
+    interactionSelected: null,
+
+    onMapInstance: VOID,
+    onMapDraw: VOID,
+    LayerManager: VOID,
+    onMapParams: VOID,
+    setLayerInteraction: VOID,
+    setLayerInteractionSelected: VOID,
+    setLayerInteractionLatLng: VOID,
   };
 
   state = {
@@ -111,6 +140,46 @@ class Map extends React.Component {
 
     if (this.props.disableScrollZoom) {
       this.map.scrollWheelZoom.disable();
+    }
+
+    // TODO: Move the draw logic to WRI api components
+    if (this.props.canDraw) {
+      // Initialise the FeatureGroup to store editable layers
+      const editableLayers = new L.FeatureGroup();
+      this.map.addLayer(editableLayers);
+
+      this.drawConfig = {
+        position: 'topright',
+        draw: {
+          polygon: {
+            allowIntersection: false,
+            showArea: true,
+            shapeOptions: { color: '#c32d7b' }
+          },
+          polyline: false,
+          circle: false,
+          rectangle: false,
+          marker: false
+        },
+        edit: {
+          poly: { allowIntersection: false },
+          featureGroup: editableLayers,
+          remove: true
+        }
+      };
+
+      this.drawControl = new L.Control.Draw(this.drawConfig);
+      this.map.addControl(this.drawControl);
+
+      this.editableLayers = new L.FeatureGroup();
+      this.map.addLayer(this.editableLayers);
+
+      this.map.on(L.Draw.Event.CREATED, (event) => {
+        const { layer } = event;
+        editableLayers.addLayer(layer);
+
+        this.props.onMapDraw(editableLayers);
+      });
     }
 
     // CONTROLS
@@ -482,9 +551,7 @@ class Map extends React.Component {
       bounds = geometry.getBounds();
     }
 
-    this.map.fitBounds(bounds, {
-      padding: [20, 20]
-    });
+    this.map.fitBounds(bounds, { padding: [20, 20] });
   }
 
   removeMapEventListeners() {

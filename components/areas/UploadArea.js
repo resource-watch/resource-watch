@@ -6,36 +6,7 @@ import classnames from 'classnames';
 // Components
 import Spinner from 'components/ui/Spinner';
 
-class UploadAreaIntersectionModal extends React.Component {
-  static propTypes = {
-    // Callback to call with the id of the area
-    onUploadArea: PropTypes.func.isRequired,
-    // Whether this component is embedded somewhere (not in a modal)
-    embed: PropTypes.bool
-  };
-
-  static defaultProps = {
-    embed: false
-  };
-
-  /**
-   * Return the name of the file
-   * @param {File} file
-   * @returns {string}
-   */
-  static getFileName(file) {
-    return file.name;
-  }
-
-  /**
-   * Return the extension of the file
-   * @param {File} file
-   * @returns {string}
-   */
-  static getFileType(file) {
-    return file.name.split('.').pop();
-  }
-
+class UploadArea extends React.Component {
   /**
    * Return the JSON object that the file represents
    * @static
@@ -75,7 +46,7 @@ class UploadAreaIntersectionModal extends React.Component {
         return response.json();
       })
       .then(({ data }) => {
-        const features = data.attributes.features;
+        const { features } = data.attributes;
 
         if (!features || !features.length || !Array.isArray(features)) {
           throw new Error('The geometry seems to be empty. Please make sure the file isn\'t empty.');
@@ -97,17 +68,17 @@ class UploadAreaIntersectionModal extends React.Component {
   static processFile(file) {
     // First step: we convert the file to a geojson format
     return new Promise((resolve, reject) => {
-      const fileType = UploadAreaIntersectionModal.getFileType(file);
+      const fileType = UploadArea.getFileType(file);
 
       // If the file is already a geojson, we don't need to convert it
       if (fileType === 'geojson') {
         // If there's an error, it will be caught at a higher level
-        UploadAreaIntersectionModal.readJSONFile(file)
+        UploadArea.readJSONFile(file)
           .then(resolve)
           .catch(reject);
       } else { // Otherwise, we convert it
         // If there's an error, it will be caught at a higher level
-        UploadAreaIntersectionModal.convertToJSON(file)
+        UploadArea.convertToJSON(file)
           .then(resolve)
           .catch(reject);
       }
@@ -115,9 +86,7 @@ class UploadAreaIntersectionModal extends React.Component {
       // Second: we store it in the geostore
       .then(geojson => fetch(`${process.env.WRI_API_URL}/geostore`, {
         method: 'POST',
-        headers: new Headers({
-          'content-type': 'application/json'
-        }),
+        headers: new Headers({ 'content-type': 'application/json' }),
         body: JSON.stringify({ geojson })
       }))
       .then((response) => {
@@ -127,6 +96,15 @@ class UploadAreaIntersectionModal extends React.Component {
       // Finally: we return the id of the geojson
       .then(({ data }) => data.id);
   }
+
+  static propTypes = {
+    // Callback to call with the id of the area
+    onUploadArea: PropTypes.func.isRequired,
+    // Whether this component is embedded somewhere (not in a modal)
+    embed: PropTypes.bool
+  };
+
+  static defaultProps = { embed: false };
 
   constructor(props) {
     super(props);
@@ -152,9 +130,7 @@ class UploadAreaIntersectionModal extends React.Component {
    * drop zone
    */
   onDragEnter() {
-    this.setState({
-      dropzoneActive: true
-    });
+    this.setState({ dropzoneActive: true });
   }
 
   /**
@@ -162,9 +138,7 @@ class UploadAreaIntersectionModal extends React.Component {
    * drop zone
    */
   onDragLeave() {
-    this.setState({
-      dropzoneActive: false
-    });
+    this.setState({ dropzoneActive: false });
   }
 
   /**
@@ -182,7 +156,7 @@ class UploadAreaIntersectionModal extends React.Component {
       errors: []
     }, () => {
       if (this.state.accepted) {
-        UploadAreaIntersectionModal.processFile(this.state.accepted)
+        UploadArea.processFile(this.state.accepted)
           .then(id => this.props.onUploadArea(id))
           .catch(err => this.setState({ errors: [err] }))
           .then(() => this.setState({ loading: false }));
@@ -198,6 +172,24 @@ class UploadAreaIntersectionModal extends React.Component {
     this.dropzone.open();
   }
 
+  /**
+   * Return the name of the file
+   * @param {File} file
+   * @returns {string}
+   */
+  static getFileName(file) {
+    return file.name;
+  }
+
+  /**
+   * Return the extension of the file
+   * @param {File} file
+   * @returns {string}
+   */
+  static getFileType(file) {
+    return file.name.split('.').pop();
+  }
+
   render() {
     const { dropzoneActive, loading, errors } = this.state;
 
@@ -205,7 +197,7 @@ class UploadAreaIntersectionModal extends React.Component {
     if (dropzoneActive) {
       fileInputContent = 'Drop the file here';
     } else if (this.state.accepted) {
-      fileInputContent = UploadAreaIntersectionModal.getFileName(this.state.accepted);
+      fileInputContent = UploadArea.getFileName(this.state.accepted);
     }
 
     const description = (
@@ -224,9 +216,8 @@ class UploadAreaIntersectionModal extends React.Component {
     );
 
     return (
-      <div className={classnames('c-upload-area-intersection-modal', { '-embed': this.props.embed })}>
+      <div className={classnames('c-upload-area', { '-embed': this.props.embed })}>
         <Spinner isLoading={loading} className="-light" />
-        { !this.props.embed && <h2>Upload a new area</h2> }
 
         <Dropzone
           ref={(node) => { this.dropzone = node; }}
@@ -240,8 +231,6 @@ class UploadAreaIntersectionModal extends React.Component {
           onDragEnter={this.onDragEnter}
           onDragLeave={this.onDragLeave}
         >
-
-          { !this.props.embed && description }
 
           <div className={classnames({ 'dropzone-file-input': true, '-active': dropzoneActive })}>
             <div
@@ -262,10 +251,11 @@ class UploadAreaIntersectionModal extends React.Component {
           {!!errors.length &&
             <ul className="dropzone-file-errors">
               {errors.map((err, index) =>
-                <li key={err}>{index === 0 && <span>Error</span>} {err.message}</li>
-              )}
+                <li key={err}>{index === 0 && <span>Error</span>} {err.message}</li>)}
             </ul>
           }
+
+          { !this.props.embed && description }
 
           <div className="info">
             { this.props.embed && description }
@@ -290,4 +280,4 @@ class UploadAreaIntersectionModal extends React.Component {
   }
 }
 
-export default UploadAreaIntersectionModal;
+export default UploadArea;
