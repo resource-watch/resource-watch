@@ -101,6 +101,8 @@ class Step1 extends Component {
     const editorFieldContainerClass = classnames({ '-expanded': this.props.mode === 'editor' });
     const widgetTypeEmbed = this.state.form.widgetConfig.type === 'embed';
 
+    const theme = getVegaTheme();
+
     return (
       <fieldset className="c-field-container">
         <fieldset className="c-field-container">
@@ -350,7 +352,7 @@ class Step1 extends Component {
             <Spinner isLoading={loadingVegaChart} className="-light -relative" />
             <VegaChart
               data={this.state.form.widgetConfig}
-              theme={getVegaTheme()}
+              theme={theme}
               showLegend
               reloadOnResize
               toggleLoading={this.triggerToggleLoadingVegaChart}

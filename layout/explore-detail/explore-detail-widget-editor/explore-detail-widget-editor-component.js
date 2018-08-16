@@ -33,6 +33,7 @@ class ExploreDetailWidgetEditor extends PureComponent {
   render() {
     const { dataset, responsive } = this.props;
     const defaultEditableWidget = getDatasetDefaultEditableWidget(dataset);
+    const theme = getVegaTheme();
 
     return (
       <div className="c-explore-detail-widget-editor">
@@ -73,7 +74,7 @@ class ExploreDetailWidgetEditor extends PureComponent {
                 <div className="column small-12">
                   <VegaChart
                     data={defaultEditableWidget.widgetConfig}
-                    theme={getVegaTheme()}
+                    theme={theme}
                     reloadOnResize
                   />
                 </div>

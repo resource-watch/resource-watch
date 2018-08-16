@@ -127,6 +127,8 @@ class WidgetBlock extends React.Component {
       'icon-star-empty': !isInACollection
     });
 
+    const theme = getVegaTheme();
+
     return (
       <div className={classNames}>
         <header>
@@ -215,7 +217,7 @@ class WidgetBlock extends React.Component {
           {!widgetError && widgetType === 'vega' && widget.widgetConfig && widget &&
             <VegaChart
               data={widget.widgetConfig}
-              theme={getVegaTheme()}
+              theme={theme}
               toggleLoading={loading => onToggleLoading(loading)}
               reloadOnResize
             />

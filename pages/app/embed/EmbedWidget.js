@@ -162,6 +162,7 @@ class EmbedWidget extends Page {
     const widgetLinks = (widgetAtts && widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
       widgetAtts.metadata[0].attributes.info &&
       widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
+    const theme = getVegaTheme();
 
     if (loading) {
       return (
@@ -273,7 +274,7 @@ class EmbedWidget extends Page {
           <div className="widget-content">
             <VegaChart
               data={widget.attributes.widgetConfig}
-              theme={getVegaTheme()}
+              theme={theme}
               toggleLoading={l => this.setState({ isLoading: l })}
               reloadOnResize
             />
