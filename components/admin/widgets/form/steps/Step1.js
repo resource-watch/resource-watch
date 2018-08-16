@@ -22,6 +22,7 @@ import Spinner from 'components/ui/Spinner';
 // Widget editor
 import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
 
+const defaultTheme = getVegaTheme();
 
 class Step1 extends Component {
   static defaultProps = { showEditor: true };
@@ -100,8 +101,6 @@ class Step1 extends Component {
 
     const editorFieldContainerClass = classnames({ '-expanded': this.props.mode === 'editor' });
     const widgetTypeEmbed = this.state.form.widgetConfig.type === 'embed';
-
-    const theme = getVegaTheme();
 
     return (
       <fieldset className="c-field-container">
@@ -320,7 +319,7 @@ class Step1 extends Component {
                       {this.state.form.widgetConfig && this.state.form.widgetConfig.data && (
                         <VegaChart
                           data={this.state.form.widgetConfig}
-                          theme={theme}
+                          theme={defaultTheme}
                           showLegend
                           reloadOnResize
                           toggleLoading={this.triggerToggleLoadingVegaChart}
@@ -352,7 +351,7 @@ class Step1 extends Component {
             <Spinner isLoading={loadingVegaChart} className="-light -relative" />
             <VegaChart
               data={this.state.form.widgetConfig}
-              theme={theme}
+              theme={defaultTheme}
               showLegend
               reloadOnResize
               toggleLoading={this.triggerToggleLoadingVegaChart}

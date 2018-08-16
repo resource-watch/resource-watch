@@ -32,6 +32,8 @@ import { VegaChart, getVegaTheme } from 'widget-editor';
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
+const defaultTheme = getVegaTheme();
+
 class WidgetBlock extends React.Component {
   static propTypes = {
     user: PropTypes.object,
@@ -127,8 +129,6 @@ class WidgetBlock extends React.Component {
       'icon-star-empty': !isInACollection
     });
 
-    const theme = getVegaTheme();
-
     return (
       <div className={classNames}>
         <header>
@@ -217,7 +217,7 @@ class WidgetBlock extends React.Component {
           {!widgetError && widgetType === 'vega' && widget.widgetConfig && widget &&
             <VegaChart
               data={widget.widgetConfig}
-              theme={theme}
+              theme={defaultTheme}
               toggleLoading={loading => onToggleLoading(loading)}
               reloadOnResize
             />

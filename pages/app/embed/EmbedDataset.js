@@ -16,6 +16,8 @@ import { VegaChart, getVegaTheme } from 'widget-editor';
 // Services
 import DatasetService from 'services/DatasetService';
 
+const defaultTheme = getVegaTheme();
+
 class EmbedDataset extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
@@ -75,7 +77,6 @@ class EmbedDataset extends Page {
     const datasetDescription = metadataObj && metadataObj.attributes ?
       metadataObj.attributes.description : dataset && dataset.attributes.description;
     let widget = null;
-    const theme = getVegaTheme();
 
     if (widgets) {
       widget = widgets.find(value => value.attributes.default === true);
@@ -104,7 +105,7 @@ class EmbedDataset extends Page {
             <div className="widget-content">
               <VegaChart
                 data={widget.attributes.widgetConfig}
-                theme={theme}
+                theme={defaultTheme}
                 toggleLoading={this.triggerToggleLoading}
                 reloadOnResize
               />
