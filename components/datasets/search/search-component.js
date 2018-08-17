@@ -181,7 +181,11 @@ class SearchComponent extends React.Component {
   onChangeSearch = (e) => {
     const { value } = e.currentTarget;
 
-    const filteredList = (value.length > 2) ? sortBy(this.fuse.search(value), 'label') : [];
+    const filteredList = (value.length > 2) ? this.fuse.search(value).sort((a, b) => {
+      const index1 = a.label.indexOf(value);
+      const index2 = b.label.indexOf(value);
+      return index1 > index2;
+    }) : [];
     const newGroupFilteredList = omit(groupBy(filteredList, (l) => {
       const group = l.labels && l.labels[1];
       return group || 'undefined';
