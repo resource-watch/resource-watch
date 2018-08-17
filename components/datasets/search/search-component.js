@@ -182,10 +182,18 @@ class SearchComponent extends React.Component {
     const { value } = e.currentTarget;
 
     const filteredList = (value.length > 2) ? this.fuse.search(value).sort((a, b) => {
-      const index1 = a.label.indexOf(value);
-      const index2 = b.label.indexOf(value);
+      const index1 = a.label.toLowerCase().indexOf(value.toLowerCase());
+      const index2 = b.label.toLowerCase().indexOf(value.toLowerCase());
+      const exactMatch1 = a.label.toLowerCase() === value.toLowerCase();
+      const exactMatch2 = b.label.toLowerCase() === value.toLowerCase();
+      if (exactMatch1) {
+        return -1;
+      } else if (exactMatch2) {
+        return 1;
+      }
       return index1 > index2;
     }) : [];
+    console.log('filteredList', filteredList);
     const newGroupFilteredList = omit(groupBy(filteredList, (l) => {
       const group = l.labels && l.labels[1];
       return group || 'undefined';
