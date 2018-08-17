@@ -8251,15 +8251,6 @@ react-dom-factories@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-dom-factories/-/react-dom-factories-1.0.2.tgz#eb7705c4db36fb501b3aa38ff759616aa0ff96e0"
 
-react-dom@15.6.2:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.2.tgz#41cfadf693b757faf2708443a1d1fd5a02bef730"
-  dependencies:
-    fbjs "^0.8.9"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
-    prop-types "^15.5.10"
-
 react-dom@16.3.2:
   version "16.3.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.3.2.tgz#cb90f107e09536d683d84ed5d4888e9640e0e4df"
@@ -8369,7 +8360,7 @@ react-input-autosize@^2.0.1, react-input-autosize@^2.1.2:
   dependencies:
     prop-types "^15.5.8"
 
-react-input-range@1.3.0, react-input-range@^1.2.1:
+react-input-range@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/react-input-range/-/react-input-range-1.3.0.tgz#f96d001631ab817417f1e26d8f9f9684b4827f59"
   dependencies:
@@ -8593,16 +8584,6 @@ react-youtube@7.5.0:
     prop-types "^15.5.3"
     youtube-player "^5.4.0"
 
-react@15.6.2, react@^15.4.1:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
-  dependencies:
-    create-react-class "^15.6.0"
-    fbjs "^0.8.9"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
-    prop-types "^15.5.10"
-
 react@16.3.2:
   version "16.3.2"
   resolved "https://registry.yarnpkg.com/react/-/react-16.3.2.tgz#fdc8420398533a1e58872f59091b272ce2f91ea9"
@@ -8618,6 +8599,16 @@ react@^0.14.7:
   dependencies:
     envify "^3.0.0"
     fbjs "^0.6.1"
+
+react@^15.4.1:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
+  dependencies:
+    create-react-class "^15.6.0"
+    fbjs "^0.8.9"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
+    prop-types "^15.5.10"
 
 "react@^15.6.2 || ^16.0":
   version "16.4.0"
@@ -11513,19 +11504,6 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
 
-wri-api-components@1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-1.0.6.tgz#55da1035b775e36af14ffd1603c133e34c89e9e8"
-  dependencies:
-    prop-types "^15.6.1"
-    rc-tooltip "3.7.0"
-    react "15.6.2"
-    react-css-modules "^4.7.1"
-    react-dom "15.6.2"
-    react-input-range "1.3.0"
-    react-sortable-hoc "^0.6.8"
-    wri-json-api-serializer "^1.0.1"
-
 wri-api-components@2.0.17:
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.0.17.tgz#4033ccc382df6faf432cd52f8b0d5b91578dae03"
@@ -11539,6 +11517,19 @@ wri-api-components@2.0.17:
     react-sortable-hoc "^0.6.8"
     react-vega "^4.0.2"
     vega-lib "^4.2.0"
+    wri-json-api-serializer "^1.0.1"
+
+wri-api-components@^2.0.20:
+  version "2.0.20"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.0.20.tgz#0d52dc62a574fb76b4d66ec9c9f42e25473fcbb5"
+  dependencies:
+    layer-manager "^1.0.4"
+    prop-types "^15.6.2"
+    rc-slider "^8.6.1"
+    rc-tooltip "3.7.0"
+    react-css-modules "^4.7.1"
+    react-sortable-hoc "^0.6.8"
+    react-vega "^4.0.2"
     wri-json-api-serializer "^1.0.1"
 
 wri-json-api-serializer@1.0.1, wri-json-api-serializer@^1.0.1:
