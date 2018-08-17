@@ -9,6 +9,9 @@ import { VegaChart, getVegaTheme } from 'widget-editor';
 import Spinner from 'components/ui/Spinner';
 import DatasetPlaceholderChart from '../placeholder-chart';
 
+const defaultTheme = getVegaTheme();
+const defaultThumbnailTheme = getVegaTheme(true);
+
 class DatasetWidgetChart extends React.Component {
   static propTypes = {
     widget: PropTypes.object,
@@ -46,7 +49,7 @@ class DatasetWidgetChart extends React.Component {
   render() {
     const { mode, widget } = this.props;
 
-    const themeObj = getVegaTheme(mode === 'thumbnail');
+    const themeObj = mode === 'thumbnail' ? defaultThumbnailTheme : defaultTheme;
     const classname = classnames({
       'c-widget-chart': true,
       '-thumbnail': (mode === 'thumbnail')
