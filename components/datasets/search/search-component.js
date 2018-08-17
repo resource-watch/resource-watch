@@ -193,7 +193,6 @@ class SearchComponent extends React.Component {
       }
       return index1 > index2;
     }) : [];
-    console.log('filteredList', filteredList);
     const newGroupFilteredList = omit(groupBy(filteredList, (l) => {
       const group = l.labels && l.labels[1];
       return group || 'undefined';
