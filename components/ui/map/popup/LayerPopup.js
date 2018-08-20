@@ -4,8 +4,13 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import numeral from 'numeral';
 
+import { replace } from 'layer-manager';
+
+import Spinner from 'components/ui/Spinner';
+
 class MapPopup extends React.Component {
   static propTypes = {
+    latlng: PropTypes.object.isRequired,
     popup: PropTypes.object,
     data: PropTypes.object
   };
@@ -14,6 +19,52 @@ class MapPopup extends React.Component {
     popup: {},
     data: {}
   };
+
+  state = {
+    loading: true,
+    interaction: {}
+  }
+
+  componentDidMount() {
+    const { latlng, data } = this.props;
+
+    const {
+      layers,
+      layersInteractionSelected
+    } = data;
+
+    const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
+    const { interactionConfig } = layer;
+
+    if (
+      !!latlng &&
+      !!layers.length &&
+      !!interactionConfig.config &&
+      !!interactionConfig.config.url
+    ) {     
+      fetch(replace(interactionConfig.config.url, latlng))
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw response;
+        })
+        .then((data) => {
+          this.setState({ loading: false });
+          console.log(data);
+        })
+        .catch((err) => {
+          this.setState({ loading: false });
+          if (err && err.json && typeof err.json === 'function') {
+            err.json()
+              .then((er) => {
+                console.error(er);
+              });
+          }
+        })
+        .finally(() => {
+          this.setState({ loading: false });
+        });
+    }
+  }
 
   formatValue(item, data) {
     if (item.type === 'date' && item.format && data) {
@@ -36,7 +87,6 @@ class MapPopup extends React.Component {
       popup
     } = this.props;
 
-    
     if (!data) return null;
 
     const {
@@ -51,10 +101,13 @@ class MapPopup extends React.Component {
       popup.remove();
       return null;
     }
-
-    const interaction = layersInteraction[layer.id] || {};
-    const { data: interactionData } = interaction;
+    // Get interactionConfig
     const { interactionConfig } = layer;
+
+    // Get data from props or state
+    const interaction = layersInteraction[layer.id] || {};
+    const interactionState = this.state.interaction[layer.id] || {};
+
 
     return (
       <div className="c-map-popup">
@@ -67,11 +120,11 @@ class MapPopup extends React.Component {
           >
             {layers.map(o =>
               <option key={o.id} value={o.id}>{o.name}</option>)}
-          </select> 
+          </select>
         </header>
 
         <div className="popup-content">
-          {interactionData &&
+          {(interaction.data || interactionState.data) &&
             <table className="popup-table">
               <tbody>
                 {interactionConfig.output.map(outputItem => (
@@ -82,14 +135,25 @@ class MapPopup extends React.Component {
                     <td className="dt">
                       {outputItem.property || outputItem.column}:
                     </td>
-                  <td className="dd">{this.formatValue(outputItem, interactionData[outputItem.column])}</td>
+                    <td className="dd">{this.formatValue(outputItem, interaction.data[outputItem.column])}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           }
 
-          {!interactionData &&
+          {this.state.loading && (!interaction.data || !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
+            <div className="popup-loader">
+              <Spinner isLoading className="-tiny -inline -pink-color" />
+            </div>
+          }
+
+          {!this.state.loading && (!interaction.data || !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
+            'No data available'
+          }
+
+
+          {(!interaction.data && !interactionState.data) && (!interactionConfig.config || !interactionConfig.config.url) &&
             'No data available'
           }
         </div>

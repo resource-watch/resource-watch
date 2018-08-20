@@ -11,7 +11,7 @@ import isEmpty from 'lodash/isEmpty';
 import { BOUNDARIES } from 'components/ui/map/constants';
 
 // Components
-import MapPopup from 'components/ui/map/MapPopup';
+import LayerPopup from 'components/ui/map/popup/LayerPopup';
 import Spinner from 'components/ui/Spinner';
 
 // Redux
@@ -23,17 +23,17 @@ if (typeof window !== 'undefined') {
    * and resulting anti-aliasing.
    * https://github.com/Leaflet/Leaflet/issues/3575
    */
-  (function(){
+  (function () {
     const originalInitTile = L.GridLayer.prototype._initTile;
     L.GridLayer.include({
-      _initTile: function (tile) {
+      _initTile (tile) {
         originalInitTile.call(this, tile);
         const tileSize = this.getTileSize();
         tile.style.width = tileSize.x + 1 + 'px';
         tile.style.height = tileSize.y + 1 + 'px';
       }
     });
-  })()
+  }());
 }
 
 const MAP_CONFIG = {
@@ -303,7 +303,7 @@ class Map extends React.Component {
       const popupContainer = document.createElement('div');
 
       render(
-        <MapPopup
+        <LayerPopup
           interaction={nextProps.interaction}
           interactionSelected={nextProps.interactionSelected}
           interactionLayers={compact(nextLayerGroups.map(g =>
@@ -482,9 +482,7 @@ class Map extends React.Component {
       bounds = geometry.getBounds();
     }
 
-    this.map.fitBounds(bounds, {
-      padding: [20, 20]
-    });
+    this.map.fitBounds(bounds, {padding: [20, 20]});
   }
 
   removeMapEventListeners() {
@@ -498,9 +496,7 @@ class Map extends React.Component {
     if (layers.length) this.setState({ loading: true });
 
     layers.forEach((layer) => {
-      this.layerManager.addLayer(layer, {
-        ...(filters || this.props.filters)
-      });
+      this.layerManager.addLayer(layer, {...(filters || this.props.filters)});
     });
   }
 

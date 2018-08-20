@@ -24,6 +24,12 @@
     overflow-y: scroll;
   }
 
+  .popup-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .popup-table {
     width: inherit;
 
