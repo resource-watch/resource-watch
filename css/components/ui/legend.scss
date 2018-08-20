@@ -8,8 +8,9 @@
   z-index: 9;
   border-radius: 4px;
 
-  .c-embed-widget & {
-    right: $margin-size-extra-small;
+  &.-embed {
+    bottom: $space-1 * 2;
+    right: $space-1 * 2;
   }
 
   @media screen and (min-width: $grid-row-width) {
