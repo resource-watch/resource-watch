@@ -7,6 +7,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   webpack: (config) => {
+
+    config.devtool = process.env.NODE_ENV === 'development' ? 'source-map' : false;
+
     config.resolve = Object.assign({}, config.resolve, {
       alias: {
         react: path.resolve(__dirname, 'node_modules', 'react'),

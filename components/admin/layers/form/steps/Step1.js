@@ -17,7 +17,7 @@ import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
 
 import InteractionsComponent from '../interactions/interactions-component';
-import LayerPreviewComponent from '../layer-preview/layer-preview-component';
+import LayerPreviewComponent from '../layer-preview';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -233,7 +233,7 @@ Step1.defaultPropTypes = {
 
 Step1.propTypes = {
   id: PropTypes.string,
-  user: PropTypes.string,
+  user: PropTypes.object,
   datasets: PropTypes.array,
   form: PropTypes.object,
   layerPreview: PropTypes.object,
