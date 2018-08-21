@@ -23,6 +23,8 @@ import {
 import { LayerManager, Layer } from 'layer-manager/dist/react';
 import { PluginLeaflet } from 'layer-manager';
 
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+
 import LoginRequired from 'components/ui/login-required';
 
 import Icon from 'components/ui/Icon';
@@ -87,6 +89,30 @@ class WidgetBlock extends React.Component {
     }
 
     return {};
+  }
+
+  getMapBasemap(widget) {
+    const { widgetConfig } = widget;
+    if (!widgetConfig) return {};
+
+    const basemap = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.basemap) ? widgetConfig.basemapLayers.basemap : 'dark';
+
+    return {
+      url: BASEMAPS[basemap].value,
+      options: BASEMAPS[basemap].options
+    };
+  }
+
+  getMapLabel(widget) {    
+    const { widgetConfig } = widget;
+    if (!widgetConfig) return {};
+
+    const label = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.labels) ? widgetConfig.basemapLayers.labels : 'light';
+
+    return {
+      url: LABELS[label].value,
+      options: LABELS[label].options
+    };
   }
 
   handleToggleShareModal(widget) {
@@ -244,6 +270,8 @@ class WidgetBlock extends React.Component {
                 <Map
                   mapOptions={this.getMapOptions(widget)}
                   bbox={this.getMapBounds(widget)}
+                  basemap={this.getMapBasemap(widget)}
+                  label={this.getMapLabel(widget)}
                   scrollZoomEnabled={false}
                 >
                   {map => (
@@ -257,11 +285,11 @@ class WidgetBlock extends React.Component {
 
                       {/* LayerManager */}
                       <LayerManager map={map} plugin={PluginLeaflet}>
-                        {layers && flatten(layers.map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
+                        {layerManager => layers && flatten(layers.map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
                           <Layer
+                            layerManager={layerManager}
                             {...l}
                             key={l.id}
-                            opacity={l.opacity || 1}
                             zIndex={1000 - i}
                           />
                         ))}
