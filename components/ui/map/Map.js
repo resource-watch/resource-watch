@@ -144,47 +144,61 @@ class Map extends React.Component {
 
     // TODO: Move the draw logic to WRI api components
     if (this.props.canDraw) {
-      // Initialise the FeatureGroup to store editable layers
-      const editableLayers = new L.FeatureGroup();
-      this.map.addLayer(editableLayers);
+      this.editableLayers = new L.FeatureGroup();
+
+      const DRAW_SHAPE_STYLES = { fillOpacity: 0.2, weight: 3, opacity: 1, color: '#FAB72E' };
 
       this.drawConfig = {
         position: 'topright',
         draw: {
           polygon: {
-            allowIntersection: false,
             showArea: true,
-            shapeOptions: { color: '#c32d7b' }
+            shapeOptions: DRAW_SHAPE_STYLES,
+            icon: new L.DivIcon({
+              iconSize: new L.Point(10, 10),
+              className: 'leaflet-div-icon leaflet-editing-icon c-map__draw--icon'
+            })
           },
           polyline: false,
           circle: false,
           rectangle: false,
-          marker: false
+          marker: false,
+          circlemarker: false
         },
         edit: {
-          poly: { allowIntersection: false },
-          featureGroup: editableLayers,
+          polygon: {
+            showArea: true,
+            shapeOptions: DRAW_SHAPE_STYLES
+          },
+          featureGroup: this.editableLayers,
+          edit: false,
           remove: true
         }
       };
 
       this.drawControl = new L.Control.Draw(this.drawConfig);
-      this.map.addControl(this.drawControl);
-
-      this.editableLayers = new L.FeatureGroup();
-      this.map.addLayer(this.editableLayers);
+      this.map.addLayer(this.editableLayers.bringToFront());
 
       this.map.on(L.Draw.Event.CREATED, (event) => {
         const { layer } = event;
-        editableLayers.addLayer(layer);
 
-        this.props.onMapDraw(editableLayers);
+        /* eslint-disable no-unused-expressions */
+        // XXX : This is a bug in leaflet, whenever we go into edit mode the styles gets reset
+        layer.options.editing || (layer.options.editing = {});
+        layer.editing.enable();
+
+        this.editableLayers.addLayer(layer);
+
+        this.props.onMapDraw(this.editableLayers);
       });
     }
 
     // CONTROLS
     this.setAttribution();
     this.setZoomControl();
+    if (this.props.canDraw) {
+      this.setDrawControll();
+    }
 
     // BASEMAP && LABELS && BOUNDARIES
     this.setBasemap(this.props.basemap);
@@ -449,6 +463,12 @@ class Map extends React.Component {
   setZoomControl() {
     if (this.map.zoomControl) {
       this.map.zoomControl.setPosition('topright');
+    }
+  }
+
+  setDrawControll() {
+    if (this.drawControl) {
+      this.map.addControl(this.drawControl);
     }
   }
 

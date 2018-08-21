@@ -1,3 +1,17 @@
+@mixin drawMarker($important : '', $margins : 'false', $width: 10) {
+
+  @if $margins == 'true' {
+    margin-left: -#{$width/2}px$important;
+    margin-top: -#{$width/2}px$important;
+  }
+
+  width: #{$width}px$important;
+  height: #{$width}px$important;
+  border: none$important;
+  border-radius: 50%$important;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5)$important;
+}
+
 .c-map {
   position: absolute;
   top: 0;
@@ -54,9 +68,22 @@
       text-decoration: underline;
     }
   }
+
+  &__draw {
+   &--icon {
+    @include drawMarker()
+   }
+  }
 }
 
 // Class to define marker icon path
 .leaflet-default-icon-path {
   background-image: url("https://unpkg.com/leaflet@1.1.0/dist/images/marker-icon.png");
 }
+
+// Bug in leaflet, when editing the markers get reset, this forces our styles to apply to the edit marker
+.leaflet-div-icon.leaflet-editing-icon {
+  @include drawMarker(!important, 'true')
+
+}
+
