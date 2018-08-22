@@ -1869,6 +1869,10 @@ classnames@2.2.5, classnames@^2.2.3, classnames@^2.2.4, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+
 cli-cursor@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-2.1.0.tgz#b35dac376479facc3e94747d41d0d0f5238ffcb5"
@@ -5746,7 +5750,7 @@ latest-version@^1.0.0:
   dependencies:
     package-json "^1.0.0"
 
-layer-manager@^1.0.20:
+layer-manager@^1.0.20, layer-manager@^1.0.4:
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.0.20.tgz#7c789cd0b7ad93be8948e7923a861734f60a024f"
   dependencies:
@@ -8038,7 +8042,7 @@ rc-slider@7.0.8:
     rc-util "^4.0.4"
     warning "^3.0.0"
 
-rc-slider@^8.4.0:
+rc-slider@^8.4.0, rc-slider@^8.6.1:
   version "8.6.1"
   resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.6.1.tgz#ee5e0380dbdf4b5de6955a265b0d4ff6196405d1"
   dependencies:
@@ -8469,6 +8473,12 @@ react-vega@3.1.2:
   resolved "https://registry.yarnpkg.com/react-vega/-/react-vega-3.1.2.tgz#163560b9bf61e3d5188d7cfd3d5ffb3c3678ed42"
   dependencies:
     prop-types "^15.5.8"
+
+react-vega@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/react-vega/-/react-vega-4.0.2.tgz#3f2713c3efcc8fbf30e094e5c1ea0035ccea41d6"
+  dependencies:
+    prop-types "^15.6.1"
 
 react-youtube@7.5.0:
   version "7.5.0"
@@ -11209,15 +11219,18 @@ wri-api-components@1.0.3:
     react-sortable-hoc "^0.6.8"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@^2.0.8:
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.0.8.tgz#d76e3a3bfab4563b67239aeb5ea5f39437bb7bc3"
+wri-api-components@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.1.0.tgz#d704969a39316f8eb2e3546a171e327b96f3c36b"
   dependencies:
+    classnames "^2.2.6"
+    layer-manager "^1.0.4"
+    lodash "^4.17.10"
     prop-types "^15.6.2"
+    rc-slider "^8.6.1"
     rc-tooltip "3.7.0"
-    react-css-modules "^4.7.1"
-    react-input-range "1.3.0"
     react-sortable-hoc "^0.6.8"
+    react-vega "^4.0.2"
     wri-json-api-serializer "^1.0.1"
 
 wri-json-api-serializer@1.0.1, wri-json-api-serializer@^1.0.1:
