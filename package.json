@@ -117,6 +117,7 @@
     "three": "0.83.0",
     "url-loader": "0.5.8",
     "vega": "3.1.0",
+    "vega-lib": "^4.2.0",
     "vizz-wysiwyg": "2.0.3",
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
