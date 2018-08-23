@@ -41,6 +41,8 @@ class ExploreMapComponent extends React.Component {
   static propTypes = {
     embed: PropTypes.bool,
 
+    open: PropTypes.bool,
+
     zoom: PropTypes.number,
     latLng: PropTypes.object,
     location: PropTypes.object,
@@ -84,6 +86,15 @@ class ExploreMapComponent extends React.Component {
 
     if (!!this.popup && prevLayerGroups.length !== nextLayerGroups.length) {
       this.popup.remove();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { open: prevOpen } = prevProps;
+    const { open: nextOpen } = this.props;
+
+    if (prevOpen !== nextOpen) {
+      this.map.invalidateSize();
     }
   }
 
