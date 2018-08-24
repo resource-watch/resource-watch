@@ -43,7 +43,7 @@
     "jiminy": "0.1.1",
     "json-loader": "0.5.4",
     "jsonapi-serializer": "3.5.3",
-    "layer-manager": "^1.0.20",
+    "layer-manager": "^1.1.0",
     "leaflet-utfgrid": "^0.3.0",
     "lodash": "4.17.4",
     "lusca": "1.4.1",
@@ -122,7 +122,7 @@
     "webpack": "^3.6.0",
     "whatwg-fetch": "2.0.2",
     "widget-editor": "^1.3.1",
-    "wri-api-components": "^2.1.3",
+    "wri-api-components": "^2.1.5",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {

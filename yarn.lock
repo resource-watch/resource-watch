@@ -5767,9 +5767,17 @@ latest-version@^1.0.0:
   dependencies:
     package-json "^1.0.0"
 
-layer-manager@^1.0.20, layer-manager@^1.0.4:
+layer-manager@^1.0.4:
   version "1.0.20"
   resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.0.20.tgz#7c789cd0b7ad93be8948e7923a861734f60a024f"
+  dependencies:
+    bluebird "^3.5.1"
+    lodash "^4.17.10"
+    wri-json-api-serializer "^1.0.1"
+
+layer-manager@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.1.0.tgz#605682edad189b10c96409f9e6646dd3021877c6"
   dependencies:
     bluebird "^3.5.1"
     lodash "^4.17.10"
@@ -11423,9 +11431,9 @@ wri-api-components@1.0.3:
     react-sortable-hoc "^0.6.8"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.1.3.tgz#0717c28cbf8512e6b26b9e47cedb54b86d6f76b4"
+wri-api-components@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.1.5.tgz#b2a59016afc64cf8be7853b4cecc77771659cf76"
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.0.4"
