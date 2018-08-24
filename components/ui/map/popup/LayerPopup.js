@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import isEmpty from 'lodash/isEmpty';
+
 import moment from 'moment';
 import numeral from 'numeral';
 
@@ -8,14 +10,15 @@ import { replace } from 'layer-manager';
 
 import Spinner from 'components/ui/Spinner';
 
-class MapPopup extends React.Component {
+class LayerPopup extends React.Component {
   static propTypes = {
-    latlng: PropTypes.object.isRequired,
+    latlng: PropTypes.object,
     popup: PropTypes.object,
     data: PropTypes.object
   };
 
   static defaultProps = {
+    latlng: {},
     popup: {},
     data: {}
   };
@@ -34,21 +37,25 @@ class MapPopup extends React.Component {
     } = data;
 
     const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
+
+    if (!layer) return false;
+    
     const { interactionConfig } = layer;
 
     if (
-      !!latlng &&
+      !isEmpty(latlng) &&
       !!layers.length &&
       !!interactionConfig.config &&
       !!interactionConfig.config.url
-    ) {     
+    ) {
       fetch(replace(interactionConfig.config.url, latlng))
         .then((response) => {
           if (response.ok) return response.json();
           throw response;
         })
-        .then((data) => {
+        .then(({ data }) => {
           this.setState({ loading: false });
+          console.log('Need to be finished!!!!!!!!!!');
           console.log(data);
         })
         .catch((err) => {
@@ -162,4 +169,4 @@ class MapPopup extends React.Component {
   }
 }
 
-export default MapPopup;
+export default LayerPopup;

@@ -142,6 +142,7 @@ class ExploreMapComponent extends React.Component {
       embed,
       zoom,
       latLng,
+      bbox,
       location,
       basemap,
       labels,
@@ -181,6 +182,10 @@ class ExploreMapComponent extends React.Component {
             label={{
               url: labels.value,
               options: labels.options
+            }}
+            bounds={{
+              bbox: location.bbox,
+              options: {}
             }}
             events={{
               resize: debounce((e, map) => {
@@ -240,11 +245,12 @@ class ExploreMapComponent extends React.Component {
 
                 {/* LayerManager */}
                 <LayerManager map={map} plugin={PluginLeaflet}>
-                  {activeLayers && activeLayers.map((l, i) => (
+                  {layerManager => activeLayers && activeLayers.map((l, i) => (
                     <Layer
                       {...l}
                       key={l.id}
-                      opacity={l.opacity || 1}
+                      layerManager={layerManager}
+                      opacity={l.opacity}
                       zIndex={1000 - i}
 
                       // Interaction
