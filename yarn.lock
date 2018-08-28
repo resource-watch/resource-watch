@@ -5844,9 +5844,8 @@ latest-version@^1.0.0:
     package-json "^1.0.0"
 
 layer-manager@^1.0.4:
-<<<<<<< HEAD
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.0.20.tgz#7c789cd0b7ad93be8948e7923a861734f60a024f"
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.0.17.tgz#fb73ea8b2bb46f117e9e71f491296e53cd654817"
   dependencies:
     bluebird "^3.5.1"
     lodash "^4.17.10"
@@ -5855,10 +5854,6 @@ layer-manager@^1.0.4:
 layer-manager@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.1.0.tgz#605682edad189b10c96409f9e6646dd3021877c6"
-=======
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.0.17.tgz#fb73ea8b2bb46f117e9e71f491296e53cd654817"
->>>>>>> 5aa60f7fb0bd6f4e313a5383ab2652cd8411e8a2
   dependencies:
     bluebird "^3.5.1"
     lodash "^4.17.10"
@@ -11536,10 +11531,9 @@ wri-api-components@2.0.17:
     vega-lib "^4.2.0"
     wri-json-api-serializer "^1.0.1"
 
-<<<<<<< HEAD
-wri-api-components@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.1.5.tgz#b2a59016afc64cf8be7853b4cecc77771659cf76"
+wri-api-components@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.1.8.tgz#153dc4e1067cac249cd36fa1978c13ce4ede53f3"
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.0.4"
@@ -11547,17 +11541,6 @@ wri-api-components@^2.1.5:
     prop-types "^15.6.2"
     rc-slider "^8.6.1"
     rc-tooltip "3.7.0"
-=======
-wri-api-components@^2.0.20:
-  version "2.0.20"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.0.20.tgz#0d52dc62a574fb76b4d66ec9c9f42e25473fcbb5"
-  dependencies:
-    layer-manager "^1.0.4"
-    prop-types "^15.6.2"
-    rc-slider "^8.6.1"
-    rc-tooltip "3.7.0"
-    react-css-modules "^4.7.1"
->>>>>>> 5aa60f7fb0bd6f4e313a5383ab2652cd8411e8a2
     react-sortable-hoc "^0.6.8"
     react-vega "^4.0.2"
     wri-json-api-serializer "^1.0.1"
