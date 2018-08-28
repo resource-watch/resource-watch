@@ -121,12 +121,13 @@ class AreasForm extends React.Component {
     const { user, mode, id, routes } = this.props;
     const { query } = routes;
     const { subscriptionDataset } = query || {};
+    const drawedGeoJsonId = drawedGeoJson ? drawedGeoJson.id : null;
 
-    if (geostore || (drawedGeoJson && 'id' in drawedGeoJson)) {
+    if (geostore || drawedGeoJsonId) {
       this.setState({ loading: true });
 
       if (mode === 'new') {
-        this.userService.createNewArea(name, geostore || drawedGeoJson.id, user.token)
+        this.userService.createNewArea(name, drawedGeoJsonId || geostore, user.token)
           .then(() => {
             Router.pushRoute('myrw', {
               tab: 'areas',
@@ -138,8 +139,7 @@ class AreasForm extends React.Component {
 
         logEvent('My RW', 'Create area', name);
       } else if (mode === 'edit') {
-        this.userService.updateArea(id, name, user.token,
-          geostore || (drawedGeoJson && drawedGeoJson.id ? drawedGeoJson.id : null))
+        this.userService.updateArea(id, name, user.token, drawedGeoJsonId || geostore)
           .then(() => {
             Router.pushRoute('myrw', { tab: 'areas' });
             toastr.success('Success', 'Area successfully updated!');
