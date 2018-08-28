@@ -169,12 +169,6 @@ class Head extends React.PureComponent {
         <meta name="twitter:site" content="@resource_watch" />
 
         {/* Leaflet CDN */}
-<<<<<<< HEAD
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
-        <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" />
-        <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js" />
-        <script src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js" />
-=======
         <link
           rel="stylesheet"
           href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
@@ -200,7 +194,6 @@ class Head extends React.PureComponent {
           integrity="sha512-pijLQd2FbV/7+Jwa86Mk3ACxnasfIMzJRrIlVQsuPKPCfUBCDMDUoLiBQRg7dAQY6D1rkmCcR8286hVTn/wlIg=="
           crossOrigin=""
         />
->>>>>>> 5aa60f7fb0bd6f4e313a5383ab2652cd8411e8a2
 
         {Head.getStyles()}
         {this.getCesiumStyles()}
