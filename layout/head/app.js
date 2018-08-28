@@ -194,6 +194,10 @@ class Head extends React.PureComponent {
           integrity="sha512-pijLQd2FbV/7+Jwa86Mk3ACxnasfIMzJRrIlVQsuPKPCfUBCDMDUoLiBQRg7dAQY6D1rkmCcR8286hVTn/wlIg=="
           crossOrigin=""
         />
+        <script
+          src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js"
+          crossOrigin=""
+        />
 
         {Head.getStyles()}
         {this.getCesiumStyles()}
