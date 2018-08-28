@@ -338,7 +338,7 @@ class Home extends Page {
                   <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Suggest a story</a></Link>
                 </div>
                 <div className="column small-12 medium-3">
-                  <Link route="get_involved_detail" params={{ id: 'develop-app', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
+                  <Link route="get_involved_detail" params={{ id: 'develop-your-app', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
                 </div>
               </div>
             </div>

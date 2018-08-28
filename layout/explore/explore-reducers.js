@@ -96,8 +96,23 @@ export default {
     const sort = { ...state.sort, selected: action.payload };
     return { ...state, sort };
   },
+  [actions.setSortIsUserSelected]: (state) => {
+    const sort = {
+      ...state.sort,
+      isSetFromDefaultState: false
+    };
+    return { ...state, sort };
+  },
   [actions.setSortDirection]: (state, action) => {
     const sort = { ...state.sort, direction: action.payload };
+    return { ...state, sort };
+  },
+  [actions.resetFiltersSort]: (state) => {
+    const sort = {
+      ...state.sort,
+      selected: initialState.sort.selected,
+      direction: initialState.sort.direction
+    };
     return { ...state, sort };
   },
 

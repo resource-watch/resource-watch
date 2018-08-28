@@ -54,7 +54,7 @@ class ContactUs extends Page {
             <div className="row align-center">
               <div className="column small-12 medium-8">
                 <h2>Media inquiries</h2>
-                <p>Please contact Rose Gilroy at <a href="mailto://rose.gilroy@wri.org">rose.gilroy@wri.org</a> or Lauren Zelin at <a href="mailto://lzelin@wri.org">lzelin@wri.org</a> for media inquiries.</p>
+                <p>Please contact Corey Filiault at <a href="mailto://corey.filiault@wri.org">corey.filiault@wri.org</a> or Lauren Zelin at <a href="mailto://lzelin@wri.org">lzelin@wri.org</a> for media inquiries.</p>
               </div>
             </div>
           </div>

@@ -20,6 +20,10 @@ export default class PartnersService {
         }, {
           key: 'Authorization',
           value: this.opts.authorization
+        },
+        {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: (response) => {
           new Deserializer({
@@ -45,6 +49,10 @@ export default class PartnersService {
         }, {
           key: 'Authorization',
           value: this.opts.authorization
+        },
+        {
+          key: 'Upgrade-Insecure-Requests',
+          value: 1
         }],
         onSuccess: (response) => {
           new Deserializer({

@@ -1,10 +1,8 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
-
 // Components
 import DatasetSearch from 'components/datasets/search';
-
 // Utils
 import { logEvent } from 'utils/analytics';
 
@@ -16,6 +14,8 @@ class ExploreHeaderComponent extends React.Component {
     options: PropTypes.object,
     selected: PropTypes.object,
     search: PropTypes.string,
+    sortSelected: PropTypes.string,
+    shouldAutoUpdateSortDirection: PropTypes.bool,
 
     // ACTIONS
     fetchDatasets: PropTypes.func,
@@ -24,12 +24,22 @@ class ExploreHeaderComponent extends React.Component {
     setFiltersTab: PropTypes.func,
     setFiltersSearch: PropTypes.func,
     setFiltersSelected: PropTypes.func,
+    setSortSelected: PropTypes.func,
+    setSortDirection: PropTypes.func,
     toggleFiltersSelected: PropTypes.func,
-    resetFiltersSelected: PropTypes.func
+    resetFiltersSelected: PropTypes.func,
+    resetFiltersSort: PropTypes.func
   }
 
   onChangeSearch = (search) => {
+    if (search.length === 0 && this.props.sortSelected === 'relevance') {
+      this.props.resetFiltersSort();
+    }
     this.props.setFiltersSearch(search);
+    if (search.length > 0 && this.props.shouldAutoUpdateSortDirection) {
+      this.props.setSortSelected('relevance');
+      this.props.setSortDirection(-1);
+    }
     this.fetchDatasets();
     logEvent('Explore Menu', 'search', search);
   }
@@ -50,6 +60,9 @@ class ExploreHeaderComponent extends React.Component {
 
   onResetSelected = () => {
     this.props.resetFiltersSelected();
+    if (this.props.sortSelected === 'relevance') {
+      this.props.resetFiltersSort();
+    }
     this.fetchDatasets();
     logEvent('Explore Menu', 'Clear filters', 'click');
   }
@@ -70,11 +83,11 @@ class ExploreHeaderComponent extends React.Component {
     } = this.props;
 
     return (
-      <div className="c-explore-header">
-        <h1>Explore</h1>
+      <div className="c-explore-header" >
+        <h1 >Explore</h1 >
         {/* <p>Identify patterns between data sets on the map or download data for analysis.</p> */}
 
-        <div className="explore-header-container">
+        <div className="explore-header-container" >
           <DatasetSearch
             open={open}
             tab={tab}
@@ -89,8 +102,8 @@ class ExploreHeaderComponent extends React.Component {
             onChangeSelected={this.onChangeSelected}
             onResetSelected={this.onResetSelected}
           />
-        </div>
-      </div>
+        </div >
+      </div >
     );
   }
 }

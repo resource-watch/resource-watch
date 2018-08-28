@@ -169,10 +169,38 @@ class Head extends React.PureComponent {
         <meta name="twitter:site" content="@resource_watch" />
 
         {/* Leaflet CDN */}
+<<<<<<< HEAD
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
         <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" />
         <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js" />
         <script src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js" />
+=======
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossOrigin=""
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"
+          crossOrigin=""
+        />
+        <script
+          src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+          integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+          crossOrigin=""
+        />
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"
+          crossOrigin=""
+        />
+        <script
+          src="https://unpkg.com/esri-leaflet@2.1.3/dist/esri-leaflet.js"
+          integrity="sha512-pijLQd2FbV/7+Jwa86Mk3ACxnasfIMzJRrIlVQsuPKPCfUBCDMDUoLiBQRg7dAQY6D1rkmCcR8286hVTn/wlIg=="
+          crossOrigin=""
+        />
+>>>>>>> 5aa60f7fb0bd6f4e313a5383ab2652cd8411e8a2
 
         {Head.getStyles()}
         {this.getCesiumStyles()}

@@ -15,6 +15,8 @@ import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
 import Modal from 'components/modal/modal-component';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 
+const defaultTheme = getVegaTheme();
+
 // Constants
 class ExploreDetailWidgetEditor extends PureComponent {
   static propTypes = {
@@ -73,7 +75,7 @@ class ExploreDetailWidgetEditor extends PureComponent {
                 <div className="column small-12">
                   <VegaChart
                     data={defaultEditableWidget.widgetConfig}
-                    theme={getVegaTheme()}
+                    theme={defaultTheme}
                     reloadOnResize
                   />
                 </div>

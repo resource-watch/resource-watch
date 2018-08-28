@@ -20,7 +20,8 @@ export default class UserService {
     return new Promise((resolve) => {
       fetch(`${this.opts.apiURL}/auth/check-logged`, {
         headers: {
-          Authorization: token
+          Authorization: token,
+          'Upgrade-Insecure-Requests': 1
         }
       })
         .then(response => resolve(response.json()));
@@ -274,10 +275,11 @@ export default class UserService {
   /**
   * Update area
   */
-  updateArea(id, name, token) {
+  updateArea(id, name, token, geostore) {
     const bodyObj = {
       name,
-      application: process.env.APPLICATIONS
+      application: process.env.APPLICATIONS,
+      geostore
     };
 
     return fetch(`${this.opts.apiURL}/area/${id}`, {

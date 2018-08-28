@@ -6,27 +6,38 @@ import { Tooltip } from 'wri-api-components';
 // Components
 import Icon from 'components/ui/Icon';
 import RadioGroup from 'components/form/RadioGroup';
+import classnames from 'classnames';
 
 class ExploreDatasetsSortComponent extends React.Component {
   static propTypes = {
+    canChangeSortDirection: PropTypes.bool,
     selected: PropTypes.string,
     direction: PropTypes.number,
     options: PropTypes.array,
 
     // Actions
     setSortSelected: PropTypes.func,
+    setSortIsUserSelected: PropTypes.func,
     setSortDirection: PropTypes.func,
     fetchDatasets: PropTypes.func
   };
 
   onSortSelected = (selected) => {
     this.props.setSortSelected(selected);
+    if (selected === 'relevance') {
+      this.props.setSortDirection(-1);
+    }
+    this.props.setSortIsUserSelected();
     this.props.fetchDatasets();
   }
 
   onSortDirection = () => {
-    const { direction } = this.props;
+    const { direction, canChangeSortDirection } = this.props;
+    if (!canChangeSortDirection) {
+      return;
+    }
     this.props.setSortDirection(-direction);
+    this.props.setSortIsUserSelected();
     this.props.fetchDatasets();
   }
 
@@ -44,7 +55,7 @@ class ExploreDatasetsSortComponent extends React.Component {
 
   render() {
     const {
-      selected, direction, options
+      selected, direction, options, canChangeSortDirection
     } = this.props;
 
     return (
@@ -73,7 +84,10 @@ class ExploreDatasetsSortComponent extends React.Component {
         </Tooltip>
 
         <button
-          className="actions-sort-button"
+          className={classnames({
+            'actions-sort-button': true,
+            isInteractive: canChangeSortDirection
+          })}
           onClick={this.onSortDirection}
         >
           {direction < 0 &&

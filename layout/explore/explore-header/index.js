@@ -7,7 +7,9 @@ import ExploreHeaderComponent from './explore-header-component';
 export default connect(
   state => ({
     // Store
-    ...state.explore.filters
+    ...state.explore.filters,
+    shouldAutoUpdateSortDirection: state.explore.sort.isSetFromDefaultState,
+    sortSelected: state.explore.sort.selected
   }),
   actions
 )(ExploreHeaderComponent);
