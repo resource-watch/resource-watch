@@ -97,7 +97,7 @@ class ExploreDetailButtons extends PureComponent {
                   }]))
                 }}
               >
-                <a href="/data/explore" className="c-button -primary">
+                <a className="c-button -primary">
                   Open in map
                 </a>
               </Link>
