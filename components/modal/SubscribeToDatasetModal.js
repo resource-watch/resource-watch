@@ -71,8 +71,7 @@ class SubscribeToDatasetModal extends React.Component {
         id: 'new',
         subscriptionDataset: this.props.dataset.id,
         subscriptionType: this.state.selectedType,
-        subscriptionThreshold: this.state.selectedThreshold,
-        openUploadAreaModal: true
+        subscriptionThreshold: this.state.selectedThreshold
       });
     } else {
       this.setState({
