@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import flatten from 'lodash/flatten';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
@@ -13,12 +14,24 @@ import { setEmbed } from 'redactions/common';
 import Page from 'layout/page';
 import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
-import Map from 'components/ui/map/Map';
-import { Legend, LegendItemTypes } from 'wri-api-components';
 import Icon from 'components/ui/Icon';
 
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+
+import {
+  Map,
+  MapControls,
+  ZoomControl,
+  Legend,
+  LegendListItem,
+  LegendItemTypes
+} from 'wri-api-components';
+
+import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { PluginLeaflet } from 'layer-manager';
+
+
 // Utils
-import LayerManager from 'utils/layers/LayerManager';
 import { paramIsTrue } from 'utils/utils';
 
 
@@ -97,7 +110,7 @@ class EmbedMap extends Page {
 
     const { modalOpened } = this.state;
 
-    const { disableZoom, legendExpanded, hideTimeline } = url.query;
+    const { disableZoom, legendExpanded } = url.query;
 
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
 
@@ -145,6 +158,12 @@ class EmbedMap extends Page {
       );
     }
 
+
+    // Widget loaded
+    const { widgetConfig } = widget.attributes;
+    const basemap = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.basemap) ? widgetConfig.basemapLayers.basemap : 'dark';
+    const label = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.labels) ? widgetConfig.basemapLayers.labels : 'light';
+
     return (
       <LayoutEmbed
         title={`${widget.attributes.name}`}
@@ -175,27 +194,71 @@ class EmbedMap extends Page {
           </div>
 
           <div className={classnames('widget-content', { '-external': this.isLoadedExternally() })}>
-            <Map
-              disableScrollZoom
-              LayerManager={LayerManager}
-              mapConfig={{ zoom, latLng, zoomControl: !paramIsTrue(disableZoom) }}
-              layerGroups={layerGroups}
-            />
+            <div className="c-map">
+              <Map
+                mapOptions={{
+                  zoom,
+                  center: latLng
+                }}
+                basemap={{
+                  url: BASEMAPS[basemap].value,
+                  options: BASEMAPS[basemap].options
+                }}
+                label={{
+                  url: LABELS[label].value,
+                  options: LABELS[label].options
+                }}
+                scrollZoomEnabled={false}
+              >
+                {map => (
+                  <React.Fragment>
+                    {/* Controls */}
+                    <MapControls
+                      customClass="c-map-controls -embed"
+                    >
+                      {!paramIsTrue(disableZoom) &&
+                        <ZoomControl map={map} />
+                      }
+                    </MapControls>
 
-            <div className="c-legend-map">
+                    {/* LayerManager */}
+                    <LayerManager map={map} plugin={PluginLeaflet}>
+                      {layerManager => layerGroups && flatten(layerGroups.map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
+                        <Layer
+                          layerManager={layerManager}
+                          {...l}
+                          key={l.id}
+                          opacity={l.opacity || 1}
+                          zIndex={1000 - i}
+                        />
+                      ))}
+                    </LayerManager>
+                  </React.Fragment>
+                )}
+              </Map>
+            </div>
+
+            <div className="c-legend-map -embed">
               <Legend
                 maxHeight={200}
                 sortable={false}
                 expanded={paramIsTrue(!!legendExpanded)}
-                layerGroups={layerGroups}
-                LegendItemTypes={<LegendItemTypes />}
-              />
+              >
+                {layerGroups.map((lg, i) => (
+                  <LegendListItem
+                    index={i}
+                    key={lg.dataset}
+                    layerGroup={lg}
+                  >
+                    <LegendItemTypes />
+                  </LegendListItem>
+                ))}
+              </Legend>
             </div>
-
             { modalOpened && this.getModal() }
           </div>
           { this.isLoadedExternally() && (
-            <div className="widget-footer">
+            <div className="widget-footer -map">
               Powered by
               <a href="/" target="_blank" rel="noopener noreferrer">
                 <img

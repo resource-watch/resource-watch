@@ -24,6 +24,12 @@
     overflow-y: scroll;
   }
 
+  .popup-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .popup-table {
     width: inherit;
 
@@ -57,6 +63,7 @@
 .leaflet-popup-content {
   margin: 0;
   line-height: 1.4;
+  min-height: 46px;
 }
 
 .leaflet-popup-content p {

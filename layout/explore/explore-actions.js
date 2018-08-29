@@ -62,9 +62,14 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
       return WRISerializer(response, { locale: common.locale });
     })
     .then((data) => {
+      // Show only published layers
+      const datasets = data.map(d => ({
+        ...d,
+        layer: d.layer.filter(l => l.published)
+      }));
       dispatch(setDatasetsLoading(false));
       dispatch(setDatasetsError(null));
-      dispatch(setDatasets(data));
+      dispatch(setDatasets(datasets));
     })
     .catch((err) => {
       dispatch(setDatasetsLoading(false));
