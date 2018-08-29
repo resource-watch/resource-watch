@@ -62,19 +62,14 @@ class AreasForm extends React.Component {
     routes: PropTypes.object.isRequired
   };
 
-  static defaultProps = {
-    openUploadAreaModal: false
-  };
-
   constructor(props) {
     super(props);
 
     const { query } = props.routes;
-    const { openUploadAreaModal } = query || {};
     const { areas } = props.user;
 
     const area = areas.items.find(a => a.id === query.id);
-    let { name, geostore } = area ? area.attributes : {};
+    const { name, geostore } = area ? area.attributes : {};
 
     this.state = {
       areaOptions: [],
@@ -82,7 +77,6 @@ class AreasForm extends React.Component {
       loading: false,
       name: name || '',
       geostore: geostore || '',
-      openUploadAreaModal,
       geojson: null,
       geoCountrySelected: false
     };
@@ -101,15 +95,10 @@ class AreasForm extends React.Component {
   }
 
   componentDidMount() {
-    const { openUploadAreaModal } = this.state;
     const { query } = this.props.routes;
 
     if (query.id) {
       this.loadAreas();
-    }
-
-    if (openUploadAreaModal) {
-      this.openUploadAreaModal();
     }
   }
 
