@@ -2,18 +2,28 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
+import flatten from 'lodash/flatten';
 
 // Utils
 import { logEvent } from 'utils/analytics';
 
 // Components
 import TextChart from 'components/widgets/charts/TextChart';
-import Map from 'components/ui/map/Map';
+
 import {
+  Map,
+  MapControls,
+  ZoomControl,
   Tooltip,
   Legend,
+  LegendListItem,
   LegendItemTypes
 } from 'wri-api-components';
+
+import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { PluginLeaflet } from 'layer-manager';
+
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
 import LoginRequired from 'components/ui/login-required';
 
@@ -23,14 +33,14 @@ import Spinner from 'components/ui/Spinner';
 import CollectionsPanel from 'components/collections-panel';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
-// Utils
-import LayerManager from 'utils/layers/LayerManager';
 
 // Widget editor
 import { VegaChart, getVegaTheme } from 'widget-editor';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+
+const defaultTheme = getVegaTheme();
 
 class WidgetBlock extends React.Component {
   static propTypes = {
@@ -54,15 +64,10 @@ class WidgetBlock extends React.Component {
     this.state = { shareWidget: null };
   }
 
-  getMapConfig(widget) {
+  getMapOptions(widget) {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
-    if (widgetConfig.bbox) {
-      return {
-        bbox: widgetConfig.bbox
-      };
-    }
 
     if (widgetConfig.lat && widgetConfig.lng && widgetConfig.zoom) {
       return {
@@ -75,6 +80,41 @@ class WidgetBlock extends React.Component {
     }
 
     return {};
+  }
+
+  getMapBounds(widget) {
+    const { widgetConfig } = widget;
+    if (!widgetConfig) return {};
+
+    if (widgetConfig.bbox) {
+      return { bbox: widgetConfig.bbox };
+    }
+
+    return {};
+  }
+
+  getMapBasemap(widget) {
+    const { widgetConfig } = widget;
+    if (!widgetConfig) return {};
+
+    const basemap = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.basemap) ? widgetConfig.basemapLayers.basemap : 'dark';
+
+    return {
+      url: BASEMAPS[basemap].value,
+      options: BASEMAPS[basemap].options
+    };
+  }
+
+  getMapLabel(widget) {    
+    const { widgetConfig } = widget;
+    if (!widgetConfig) return {};
+
+    const label = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.labels) ? widgetConfig.basemapLayers.labels : 'light';
+
+    return {
+      url: LABELS[label].value,
+      options: LABELS[label].options
+    };
   }
 
   handleToggleShareModal(widget) {
@@ -158,6 +198,7 @@ class WidgetBlock extends React.Component {
                     />
                   </Modal>
                 </li>
+                
                 <li>
                   <LoginRequired text="Log in or sign up to save items in favorites">
                     <Tooltip
@@ -215,30 +256,66 @@ class WidgetBlock extends React.Component {
           {!widgetError && widgetType === 'vega' && widget.widgetConfig && widget &&
             <VegaChart
               data={widget.widgetConfig}
-              theme={getVegaTheme()}
+              theme={defaultTheme}
               toggleLoading={loading => onToggleLoading(loading)}
               reloadOnResize
             />
           }
 
           {widgetIsEmbed &&
-            <iframe src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0"></iframe>
+            <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
           }
 
           {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && (
             <div>
-              <Map
-                mapConfig={this.getMapConfig(widget)}
-                LayerManager={LayerManager}
-                layerGroups={layers}
-              />
-              <div className="c-legend-map">
+              <div className="c-map">
+                <Map
+                  mapOptions={this.getMapOptions(widget)}
+                  bbox={this.getMapBounds(widget)}
+                  basemap={this.getMapBasemap(widget)}
+                  label={this.getMapLabel(widget)}
+                  scrollZoomEnabled={false}
+                >
+                  {map => (
+                    <React.Fragment>
+                      {/* Controls */}
+                      <MapControls
+                        customClass="c-map-controls -embed"
+                      >
+                        <ZoomControl map={map} />
+                      </MapControls>
+
+                      {/* LayerManager */}
+                      <LayerManager map={map} plugin={PluginLeaflet}>
+                        {layerManager => layers && flatten(layers.map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
+                          <Layer
+                            layerManager={layerManager}
+                            {...l}
+                            key={l.id}
+                            zIndex={1000 - i}
+                          />
+                        ))}
+                      </LayerManager>
+                    </React.Fragment>
+                  )}
+                </Map>
+              </div>
+              
+              <div className="c-legend-map -embed">
                 <Legend
                   maxHeight={140}
-                  layerGroups={layers}
                   sortable={false}
-                  LegendItemTypes={<LegendItemTypes />}
-                />
+                >
+                  {layers.map((lg, i) => (
+                    <LegendListItem
+                      index={i}
+                      key={lg.dataset}
+                      layerGroup={lg}
+                    >
+                      <LegendItemTypes />
+                    </LegendListItem>
+                  ))}
+                </Legend>
               </div>
             </div>
           )}

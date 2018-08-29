@@ -22,6 +22,7 @@ import Spinner from 'components/ui/Spinner';
 // Widget editor
 import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
 
+const defaultTheme = getVegaTheme();
 
 class Step1 extends Component {
   static defaultProps = { showEditor: true };
@@ -238,8 +239,7 @@ class Step1 extends Component {
                 value: 'freeze',
                 title: 'Freeze',
                 defaultChecked: this.props.form.freeze,
-                checked: this.props.form.freeze,
-                disabled: this.props.id && this.props.form.freeze
+                checked: this.props.form.freeze
               }}
             >
               {Checkbox}
@@ -319,7 +319,7 @@ class Step1 extends Component {
                       {this.state.form.widgetConfig && this.state.form.widgetConfig.data && (
                         <VegaChart
                           data={this.state.form.widgetConfig}
-                          theme={getVegaTheme(true)}
+                          theme={defaultTheme}
                           showLegend
                           reloadOnResize
                           toggleLoading={this.triggerToggleLoadingVegaChart}
@@ -351,7 +351,7 @@ class Step1 extends Component {
             <Spinner isLoading={loadingVegaChart} className="-light -relative" />
             <VegaChart
               data={this.state.form.widgetConfig}
-              theme={getVegaTheme()}
+              theme={defaultTheme}
               showLegend
               reloadOnResize
               toggleLoading={this.triggerToggleLoadingVegaChart}

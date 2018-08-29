@@ -1,7 +1,7 @@
 export default {
+  layerGroups: [],
   interaction: {},
-  errors: null,
-  interactionLatLng: null,
+  interactionLatLng: {},
   interactionSelected: null,
-  layerGroups: []
+  errors: null
 };

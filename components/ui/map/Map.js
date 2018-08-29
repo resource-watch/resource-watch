@@ -1,5 +1,4 @@
 /* eslint global-require: 0 */
-
 import React from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -11,7 +10,7 @@ import isEmpty from 'lodash/isEmpty';
 import { BOUNDARIES } from 'components/ui/map/constants';
 
 // Components
-import MapPopup from 'components/ui/map/MapPopup';
+import LayerPopup from 'components/ui/map/popup/LayerPopup';
 import Spinner from 'components/ui/Spinner';
 
 // Redux
@@ -23,17 +22,17 @@ if (typeof window !== 'undefined') {
    * and resulting anti-aliasing.
    * https://github.com/Leaflet/Leaflet/issues/3575
    */
-  (function(){
+  (function () {
     const originalInitTile = L.GridLayer.prototype._initTile;
     L.GridLayer.include({
-      _initTile: function (tile) {
+      _initTile (tile) {
         originalInitTile.call(this, tile);
         const tileSize = this.getTileSize();
         tile.style.width = tileSize.x + 1 + 'px';
         tile.style.height = tileSize.y + 1 + 'px';
       }
     });
-  })()
+  }());
 }
 
 const MAP_CONFIG = {
@@ -46,19 +45,14 @@ const MAP_CONFIG = {
   zoomControl: true
 };
 
-class Map extends React.Component {
-  static defaultProps = {
-    swipe: false,
-    interactionEnabled: true,
-    disableScrollZoom: true,
-    onMapInstance: () => { /* console.info(map); */ }
-  };
+const VOID = () => {};
 
+class Map extends React.Component {
   static propTypes = {
     swipe: PropTypes.bool,
+    canDraw: PropTypes.bool,
     interactionEnabled: PropTypes.bool,
     disableScrollZoom: PropTypes.bool,
-    onMapInstance: PropTypes.func,
 
     // STORE
     mapConfig: PropTypes.object,
@@ -68,18 +62,53 @@ class Map extends React.Component {
     labels: PropTypes.object,
     boundaries: PropTypes.bool,
     filters: PropTypes.object,
+    drawShape: PropTypes.array,
     layerGroups: PropTypes.array, // List of LayerGroup items
     interaction: PropTypes.object,
     interactionSelected: PropTypes.string,
     interactionLatLng: PropTypes.object,
     availableInteractions: PropTypes.array,
-    LayerManager: PropTypes.func,
 
     // ACTIONS
+    onMapInstance: PropTypes.func,
+    onMapDraw: PropTypes.func,
+    LayerManager: PropTypes.func,
     onMapParams: PropTypes.func,
     setLayerInteraction: PropTypes.func,
     setLayerInteractionSelected: PropTypes.func,
     setLayerInteractionLatLng: PropTypes.func
+  };
+
+  static defaultProps = {
+    mapConfig: {},
+    location: {},
+    sidebar: {},
+    basemap: {},
+    labels: {},
+    filters: {},
+    interaction: {},
+    interactionLatLng: {},
+    drawShape: [{}],
+
+    boundaries: false,
+    swipe: false,
+    canDraw: false,
+
+    interactionEnabled: true,
+    disableScrollZoom: true,
+
+    layerGroups: [],
+    availableInteractions: [],
+
+    interactionSelected: null,
+
+    onMapInstance: VOID,
+    onMapDraw: VOID,
+    LayerManager: VOID,
+    onMapParams: VOID,
+    setLayerInteraction: VOID,
+    setLayerInteractionSelected: VOID,
+    setLayerInteractionLatLng: VOID,
   };
 
   state = {
@@ -113,9 +142,63 @@ class Map extends React.Component {
       this.map.scrollWheelZoom.disable();
     }
 
+    // TODO: Move the draw logic to WRI api components
+    if (this.props.canDraw) {
+      this.editableLayers = new L.FeatureGroup();
+
+      const DRAW_SHAPE_STYLES = { fillOpacity: 0.2, weight: 3, opacity: 1, color: '#FAB72E' };
+
+      this.drawConfig = {
+        position: 'topright',
+        draw: {
+          polygon: {
+            showArea: true,
+            shapeOptions: DRAW_SHAPE_STYLES,
+            icon: new L.DivIcon({
+              iconSize: new L.Point(10, 10),
+              className: 'leaflet-div-icon leaflet-editing-icon c-map__draw--icon'
+            })
+          },
+          polyline: false,
+          circle: false,
+          rectangle: false,
+          marker: false,
+          circlemarker: false
+        },
+        edit: {
+          polygon: {
+            showArea: true,
+            shapeOptions: DRAW_SHAPE_STYLES
+          },
+          featureGroup: this.editableLayers,
+          edit: false,
+          remove: true
+        }
+      };
+
+      this.drawControl = new L.Control.Draw(this.drawConfig);
+      this.map.addLayer(this.editableLayers.bringToFront());
+
+      this.map.on(L.Draw.Event.CREATED, (event) => {
+        const { layer } = event;
+
+        /* eslint-disable no-unused-expressions */
+        // XXX : This is a bug in leaflet, whenever we go into edit mode the styles gets reset
+        layer.options.editing || (layer.options.editing = {});
+        layer.editing.enable();
+
+        this.editableLayers.addLayer(layer);
+
+        this.props.onMapDraw(this.editableLayers);
+      });
+    }
+
     // CONTROLS
     this.setAttribution();
     this.setZoomControl();
+    if (this.props.canDraw) {
+      this.setDrawControll();
+    }
 
     // BASEMAP && LABELS && BOUNDARIES
     this.setBasemap(this.props.basemap);
@@ -303,7 +386,7 @@ class Map extends React.Component {
       const popupContainer = document.createElement('div');
 
       render(
-        <MapPopup
+        <LayerPopup
           interaction={nextProps.interaction}
           interactionSelected={nextProps.interactionSelected}
           interactionLayers={compact(nextLayerGroups.map(g =>
@@ -380,6 +463,12 @@ class Map extends React.Component {
   setZoomControl() {
     if (this.map.zoomControl) {
       this.map.zoomControl.setPosition('topright');
+    }
+  }
+
+  setDrawControll() {
+    if (this.drawControl) {
+      this.map.addControl(this.drawControl);
     }
   }
 
@@ -482,9 +571,7 @@ class Map extends React.Component {
       bounds = geometry.getBounds();
     }
 
-    this.map.fitBounds(bounds, {
-      padding: [20, 20]
-    });
+    this.map.fitBounds(bounds, { padding: [20, 20] });
   }
 
   removeMapEventListeners() {
@@ -498,9 +585,7 @@ class Map extends React.Component {
     if (layers.length) this.setState({ loading: true });
 
     layers.forEach((layer) => {
-      this.layerManager.addLayer(layer, {
-        ...(filters || this.props.filters)
-      });
+      this.layerManager.addLayer(layer, {...(filters || this.props.filters)});
     });
   }
 

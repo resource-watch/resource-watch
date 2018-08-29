@@ -9,7 +9,7 @@
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/rc-slider/assets/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
-@import '../node_modules/wri-api-components/dist/components';
+@import '../node_modules/wri-api-components/dist/bundle';
 
 
 // Editor
@@ -94,7 +94,6 @@
 @import "./components/modal/share_modal_explore";
 @import "./components/modal/embed_layer_modal";
 @import "./components/modal/embed_table_modal";
-@import "./components/modal/upload_area_intersection_modal";
 @import "./components/modal/subscribe_to_dataset_modal";
 @import "./components/modal/area_subscription_modal";
 @import "./components/modal/layer_info_modal";
@@ -105,6 +104,8 @@
 @import "./components/areas/areas_list";
 @import "./components/areas/area_card";
 @import "./components/areas/area_actions_tooltip";
+@import "./components/areas/upload_area";
+
 
 // collections
 @import "./components/collections/collections-panel";

@@ -15,8 +15,8 @@ import { breakpoints } from 'utils/responsive';
 // Layout
 import Page from 'layout/page';
 import Head from 'layout/head/app';
-import Icons from 'layout/icons';
 import Header from 'components/splash/layout/Header';
+import { Icons } from 'wri-api-components';
 
 // Components
 import Spinner from 'components/ui/Spinner';

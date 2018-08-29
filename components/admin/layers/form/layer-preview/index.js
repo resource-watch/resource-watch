@@ -12,7 +12,9 @@ export {
 
 export default connect(
   state => ({
-    dashboardDetail: state.LayerPreviewComponent
+    user: state.user,
+    adminLayerPreview: state.adminLayerPreview,
+    interactions: state.interactions
   }),
   actions
 )(LayerPreviewComponent);

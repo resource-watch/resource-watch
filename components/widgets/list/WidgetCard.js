@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import isEqual from 'lodash/isEqual';
+import flatten from 'lodash/flatten';
 import truncate from 'lodash/truncate';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
@@ -18,15 +19,21 @@ import LayerChart from 'components/charts/layer-chart';
 import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
 import Icon from 'components/ui/Icon';
-import Map from 'components/ui/map/Map';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
 
 import {
+  Map,
+  MapControls,
+  ZoomControl,
   Tooltip,
   Legend,
+  LegendListItem,
   LegendItemTypes
 } from 'wri-api-components';
+
+import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { PluginLeaflet } from 'layer-manager';
 
 import CollectionsPanel from 'components/collections-panel';
 import LoginRequired from 'components/ui/login-required';
@@ -35,9 +42,6 @@ import LoginRequired from 'components/ui/login-required';
 import WidgetService from 'services/WidgetService';
 import UserService from 'services/UserService';
 import LayersService from 'services/LayersService';
-
-// Utils
-import LayerManager from 'utils/layers/LayerManager';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -262,6 +266,51 @@ class WidgetCard extends PureComponent {
       // We render a full map
       return (
         <div className="c-widget-chart -map">
+          <div className="c-map">
+            <Map
+              scrollZoomEnabled={false}
+            >
+              {map => (
+                <React.Fragment>
+                  {/* Controls */}
+                  <MapControls
+                    customClass="c-map-controls -embed"
+                  >
+                    <ZoomControl map={map} />
+                  </MapControls>
+
+                  {/* LayerManager */}
+                  <LayerManager map={map} plugin={PluginLeaflet}>
+                    {this.state.layerGroups && flatten(this.state.layerGroups.map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
+                      <Layer
+                        {...l}
+                        key={l.id}
+                        opacity={l.opacity || 1}
+                        zIndex={1000 - i}
+                      />
+                    ))}
+                  </LayerManager>
+                </React.Fragment>
+              )}
+            </Map>
+          </div>
+
+          <div className="c-legend-map -embed">
+            <Legend
+              sortable={false}
+            >
+              {this.state.layerGroups.map((lg, i) => (
+                <LegendListItem
+                  index={i}
+                  key={lg.dataset}
+                  layerGroup={lg}
+                >
+                  <LegendItemTypes />
+                </LegendListItem>
+              ))}
+            </Legend>
+          </div>
+
           <Map
             LayerManager={LayerManager}
             mapConfig={{}}

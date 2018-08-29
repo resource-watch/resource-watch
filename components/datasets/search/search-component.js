@@ -181,16 +181,27 @@ class SearchComponent extends React.Component {
   onChangeSearch = (e) => {
     const { value } = e.currentTarget;
 
-    const filteredList = (value.length > 2) ? sortBy(this.fuse.search(value), 'label') : [];
-
+    const filteredList = (value.length > 2) ? this.fuse.search(value).sort((a, b) => {
+      const index1 = a.label.toLowerCase().indexOf(value.toLowerCase());
+      const index2 = b.label.toLowerCase().indexOf(value.toLowerCase());
+      const exactMatch1 = a.label.toLowerCase() === value.toLowerCase();
+      const exactMatch2 = b.label.toLowerCase() === value.toLowerCase();
+      if (exactMatch1) {
+        return -1;
+      } else if (exactMatch2) {
+        return 1;
+      }
+      return index1 > index2;
+    }) : [];
+    const newGroupFilteredList = omit(groupBy(filteredList, (l) => {
+      const group = l.labels && l.labels[1];
+      return group || 'undefined';
+    }), ['undefined', 'GEOGRAPHY']);
     this.setState({
-      index: 0,
+      index: Object.keys(newGroupFilteredList).length > 0 ? 1 : 0,
       value,
       filteredList,
-      groupedFilteredList: omit(groupBy(filteredList, (l) => {
-        const group = l.labels && l.labels[1];
-        return group || 'undefined';
-      }), ['undefined', 'GEOGRAPHY'])
+      groupedFilteredList: newGroupFilteredList
     });
   }
 
@@ -219,7 +230,6 @@ class SearchComponent extends React.Component {
   render() {
     const { open, search, options, selected, tab, list } = this.props;
     const { index, value, groupedFilteredList } = this.state;
-
     let groupedFilteredListIndex = 0;
 
     const tabs = this.getTabs();
@@ -315,25 +325,6 @@ class SearchComponent extends React.Component {
         {open && value &&
           <div className="search-dropdown">
             <div className="search-dropdown-list">
-              <div className="search-dropdown-list-item">
-                <h4>Search by text:</h4>
-
-                <ul className="list-item-results">
-                  <li>
-                    <button
-                      type="button"
-                      className={classnames({
-                        '-active': index === 0
-                      })}
-                      onClick={() => this.props.onChangeSearch(value)}
-                      onMouseOver={() => this.onListItemMouseOver(0)}
-                    >
-                      {value}
-                    </button>
-                  </li>
-                </ul>
-              </div>
-
               {Object.keys(groupedFilteredList).map(g => (
                 <div className="search-dropdown-list-item" key={g}>
                   {!!g && g.toLowerCase &&
@@ -351,7 +342,7 @@ class SearchComponent extends React.Component {
                           <button
                             type="button"
                             className={classnames({
-                              '-active': index === currentIndex
+                              '-active': index === 1 && currentIndex === 1
                             })}
                             onClick={() => {
                               this.props.onToggleSelected({
@@ -371,6 +362,24 @@ class SearchComponent extends React.Component {
                   </ul>
                 </div>
               ))}
+              <div className="search-dropdown-list-item">
+                <h4>Search by text:</h4>
+
+                <ul className="list-item-results">
+                  <li>
+                    <button
+                      type="button"
+                      className={classnames({
+                        '-active': index === 0
+                      })}
+                      onClick={() => this.props.onChangeSearch(value)}
+                      onMouseOver={() => this.onListItemMouseOver(0)}
+                    >
+                      {value}
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         }

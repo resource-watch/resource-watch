@@ -16,6 +16,8 @@ import { VegaChart, getVegaTheme } from 'widget-editor';
 // Services
 import DatasetService from 'services/DatasetService';
 
+const defaultTheme = getVegaTheme();
+
 class EmbedDataset extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
@@ -103,7 +105,7 @@ class EmbedDataset extends Page {
             <div className="widget-content">
               <VegaChart
                 data={widget.attributes.widgetConfig}
-                theme={getVegaTheme()}
+                theme={defaultTheme}
                 toggleLoading={this.triggerToggleLoading}
                 reloadOnResize
               />

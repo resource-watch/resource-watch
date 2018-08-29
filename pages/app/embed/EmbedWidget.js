@@ -24,6 +24,8 @@ import ShareModal from 'components/modal/share-modal';
 // Widget editor
 import { VegaChart, getVegaTheme } from 'widget-editor';
 
+const defaultTheme = getVegaTheme();
+
 class EmbedWidget extends Page {
   static propTypes = {
     widget: PropTypes.object,
@@ -273,7 +275,7 @@ class EmbedWidget extends Page {
           <div className="widget-content">
             <VegaChart
               data={widget.attributes.widgetConfig}
-              theme={getVegaTheme()}
+              theme={defaultTheme}
               toggleLoading={l => this.setState({ isLoading: l })}
               reloadOnResize
             />
