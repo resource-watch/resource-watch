@@ -126,15 +126,11 @@ class SearchComponent extends React.Component {
   onKeyArrow = (direction) => {
     const { index, filteredList } = this.state;
     if (direction === 'up') {
-      this.setState({
-        index: (index !== 0) ? index - 1 : filteredList.length
-      });
+      this.setState({ index: (index !== 0) ? index - 1 : filteredList.length });
     }
 
     if (direction === 'down') {
-      this.setState({
-        index: (index !== filteredList.length) ? index + 1 : 0
-      });
+      this.setState({ index: (index !== filteredList.length) ? index + 1 : 0 });
     }
   }
 
@@ -207,9 +203,7 @@ class SearchComponent extends React.Component {
 
   // HELPERS
   getTabs = () => {
-    const {
-      options, selected
-    } = this.props;
+    const { options, selected } = this.props;
 
     return Object
       .keys(options)
@@ -341,9 +335,7 @@ class SearchComponent extends React.Component {
                         >
                           <button
                             type="button"
-                            className={classnames({
-                              '-active': index === 1 && currentIndex === 1
-                            })}
+                            className={classnames({ '-active': index === currentIndex })}
                             onClick={() => {
                               this.props.onToggleSelected({
                                 tag: l,
@@ -369,9 +361,7 @@ class SearchComponent extends React.Component {
                   <li>
                     <button
                       type="button"
-                      className={classnames({
-                        '-active': index === 0
-                      })}
+                      className={classnames({ '-active': index === 0 })}
                       onClick={() => this.props.onChangeSearch(value)}
                       onMouseOver={() => this.onListItemMouseOver(0)}
                     >
