@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
 import debounce from 'lodash/debounce';
 
 // Redux
@@ -12,10 +11,9 @@ import areaAlerts from 'selectors/user/areaAlerts';
 // Components
 import Map from 'components/ui/map/Map';
 
-// import DataTable from 'components/ui/DataTable';
-import MapControls from 'components/ui/map/MapControls';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 import DataTable from 'components/ui/DataTable';
 
 // Modal
@@ -23,17 +21,16 @@ import Modal from 'components/modal/modal-component';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
-
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
 
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
-
 // WRI components
 import {
+  MapControls,
+  ZoomControl,
   Legend,
+  LegendListItem,
   LegendItemToolbar,
-  LegendItemButtonLayers,
   LegendItemButtonInfo,
   LegendItemTypes
 } from 'wri-api-components';
@@ -55,7 +52,7 @@ class AlertWidget extends React.Component {
       alertTable: null,
       subscriptionData,
       modalOpen: false,
-      zoom: 3,
+      zoom: 0,
       layer: null,
       latLng: {
         lat: 0,
@@ -175,33 +172,51 @@ class AlertWidget extends React.Component {
             LayerManager={LayerManager}
             layerGroups={layerGroups}
             onMapParams={this.onMapParams}
+            onReady={(map) => { this.map = map; }}
             useLightBasemap
-          />
-          <MapControls>
-            <ShareControl />
-            <BasemapControl
-              basemap={BASEMAPS.dark}
-              labels={LABELS.light}
-              boundaries={false}
-            />
-          </MapControls>
+          >
+            {map => (
+              <React.Fragment>
+                <MapControls>
+                  <ZoomControl map={map} />
+
+                  <ShareControl />
+
+                  <BasemapControl
+                    basemap={BASEMAPS.dark}
+                    labels={LABELS.light}
+                    boundaries={false}
+                  />
+
+                </MapControls>
+              </React.Fragment>
+            )}
+          </Map>
 
           <div className="c-legend-map">
             <Legend
-              maxHeight={250}
               sortable={false}
-              layerGroups={layerGroups}
-              // List item
-              LegendItemToolbar={
-                <LegendItemToolbar>
-                  <LegendItemButtonInfo />
-                </LegendItemToolbar>
-              }
-              LegendItemTypes={<LegendItemTypes />}
-              onChangeLayer={l => this.onChangeLayer(l)}
-              onChangeInfo={this.onChangeInfo}
-            />
+              maxHeight={300}
+              onChangeOrder={this.onChangeOrder}
+            >
+              {layerGroups.map((lg, i) => (
+                <LegendListItem
+                  index={i}
+                  key={lg.dataset}
+                  layerGroup={lg}
+                  onChangeInfo={this.onChangeInfo}
+                  toolbar={
+                    <LegendItemToolbar>
+                      <LegendItemButtonInfo />
+                    </LegendItemToolbar>
+                  }
+                >
+                  <LegendItemTypes />
+                </LegendListItem>
+            ))}
+            </Legend>
           </div>
+
         </div>}
 
         {alertTable ? <DataTable
