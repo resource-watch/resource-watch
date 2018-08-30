@@ -9,8 +9,6 @@ import { connect } from 'react-redux';
 import areaAlerts from 'selectors/user/areaAlerts';
 
 // Components
-import Map from 'components/ui/map/Map';
-
 import ShareControl from 'components/ui/map/controls/ShareControl';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
@@ -22,10 +20,12 @@ import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
 // Utils
-import LayerManager from 'utils/layers/LayerManager';
+import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { PluginLeaflet } from 'layer-manager';
 
 // WRI components
 import {
+  Map,
   MapControls,
   ZoomControl,
   Legend,
@@ -169,11 +169,16 @@ class AlertWidget extends React.Component {
         <div className="c-alerts-page__graph">
           <Map
             mapConfig={{ zoom, latLng }}
-            LayerManager={LayerManager}
-            layerGroups={layerGroups}
             onMapParams={this.onMapParams}
             onReady={(map) => { this.map = map; }}
-            useLightBasemap
+            basemap={{
+              url: BASEMAPS.dark.value,
+              options: BASEMAPS.dark.options
+            }}
+            label={{
+              url: LABELS.light.value,
+              options: LABELS.light.options
+            }}
           >
             {map => (
               <React.Fragment>
@@ -189,6 +194,13 @@ class AlertWidget extends React.Component {
                   />
 
                 </MapControls>
+
+                <LayerManager map={map} plugin={PluginLeaflet}>
+                  {layerManager => (
+                    <Layer {...layer} layerManager={layerManager} />
+                  )}
+                </LayerManager>
+
               </React.Fragment>
             )}
           </Map>
