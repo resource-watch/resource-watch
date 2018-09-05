@@ -5851,9 +5851,9 @@ layer-manager@^1.0.4:
     lodash "^4.17.10"
     wri-json-api-serializer "^1.0.1"
 
-layer-manager@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.1.0.tgz#605682edad189b10c96409f9e6646dd3021877c6"
+layer-manager@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.1.2.tgz#8a4c4d25ffc95ea80c8d5294095c8b7b14fc18ac"
   dependencies:
     bluebird "^3.5.1"
     lodash "^4.17.10"
@@ -11531,9 +11531,9 @@ wri-api-components@2.0.17:
     vega-lib "^4.2.0"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@^2.1.8:
-  version "2.1.8"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.1.8.tgz#153dc4e1067cac249cd36fa1978c13ce4ede53f3"
+wri-api-components@^2.1.9:
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.1.9.tgz#5a19824e5a3e1eda140f73d2716fd3bf0c53946b"
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.0.4"

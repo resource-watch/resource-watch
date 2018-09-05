@@ -56,7 +56,7 @@ class WidgetsNew extends React.Component {
     };
 
     // Services
-    this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
+    this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
     this.datasetsService = new DatasetsService({
       language: props.locale
     });
