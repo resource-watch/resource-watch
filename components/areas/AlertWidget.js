@@ -19,6 +19,9 @@ import Modal from 'components/modal/modal-component';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
+// Services
+import AreasService from 'services/AreasService';
+
 // Utils
 import { LayerManager, Layer } from 'layer-manager/dist/react';
 import { PluginLeaflet } from 'layer-manager';
@@ -47,12 +50,15 @@ class AlertWidget extends React.Component {
 
     const { areas } = user;
 
+    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
+
     this.state = {
       area: areas.items.find(a => a.id === id),
       alertTable: null,
       subscriptionData,
       modalOpen: false,
       zoom: 0,
+      geostore: null,
       layer: null,
       latLng: {
         lat: 0,
@@ -71,6 +77,19 @@ class AlertWidget extends React.Component {
         })) : null
       }]
     };
+  }
+
+  componentDidMount() {
+    const { area, layerGroups } = this.state;
+
+    this.areasService.getGeostore(area.attributes.geostore)
+      .then(({ data }) => {
+        const geostore = { ...data.attributes, id: data.id, type: data.type };
+
+        this.setState({
+          geostore
+        })
+      })
   }
 
   componentWillUpdate(nextProps) {
@@ -151,7 +170,7 @@ class AlertWidget extends React.Component {
   render() {
     const { dataset } = this.props;
     const layer = dataset ? dataset.layer.find(l => l.default) : null;
-    const { zoom, latLng, layerGroups, alertTable } = this.state;
+    const { zoom, latLng, layerGroups, alertTable, geostore } = this.state;
 
     return (
       <div className="c-alerts-page__widget">
@@ -166,70 +185,101 @@ class AlertWidget extends React.Component {
         </div>
 
         {layer &&
-        <div className="c-alerts-page__graph">
-          <Map
-            mapConfig={{ zoom, latLng }}
-            onMapParams={this.onMapParams}
-            onReady={(map) => { this.map = map; }}
-            basemap={{
-              url: BASEMAPS.dark.value,
-              options: BASEMAPS.dark.options
-            }}
-            label={{
-              url: LABELS.light.value,
-              options: LABELS.light.options
-            }}
-          >
-            {map => (
-              <React.Fragment>
-                <MapControls>
-                  <ZoomControl map={map} />
-
-                  <ShareControl />
-
-                  <BasemapControl
-                    basemap={BASEMAPS.dark}
-                    labels={LABELS.light}
-                    boundaries={false}
-                  />
-
-                </MapControls>
-
-                <LayerManager map={map} plugin={PluginLeaflet}>
-                  {layerManager => (
-                    <Layer {...layer} layerManager={layerManager} />
-                  )}
-                </LayerManager>
-
-              </React.Fragment>
-            )}
-          </Map>
-
-          <div className="c-legend-map">
-            <Legend
-              sortable={false}
-              maxHeight={300}
-              onChangeOrder={this.onChangeOrder}
-            >
-              {layerGroups.map((lg, i) => (
-                <LegendListItem
-                  index={i}
-                  key={lg.dataset}
-                  layerGroup={lg}
-                  onChangeInfo={this.onChangeInfo}
-                  toolbar={
-                    <LegendItemToolbar>
-                      <LegendItemButtonInfo />
-                    </LegendItemToolbar>
+          <div className="c-alerts-page__graph">
+            <Map
+              mapConfig={{ zoom, latLng }}
+              onMapParams={this.onMapParams}
+              onReady={(map) => { this.map = map; }}
+              basemap={{
+                url: BASEMAPS.dark.value,
+                options: BASEMAPS.dark.options
+              }}
+              label={{
+                url: LABELS.light.value,
+                options: LABELS.light.options
+              }}
+              {...geostore && {
+                bounds: {
+                  bbox: geostore.bbox,
+                  options: {
+                    padding: [20, 20]
                   }
-                >
-                  <LegendItemTypes />
-                </LegendListItem>
-            ))}
-            </Legend>
-          </div>
+                }
+              }}
+            >
+              {map => (
+                <React.Fragment>
+                  <MapControls
+                    customClass="c-map-controls"
+                  >
+                    <ZoomControl map={map} />
 
-        </div>}
+                    <ShareControl />
+
+                    <BasemapControl
+                      basemap={BASEMAPS.dark}
+                      labels={LABELS.light}
+                      boundaries={false}
+                    />
+
+                  </MapControls>
+
+                  <LayerManager map={map} plugin={PluginLeaflet}>
+                    {layerManager => (
+                      <React.Fragment>
+                        <Layer {...layer} layerManager={layerManager} />
+                        {geostore &&
+                          <Layer
+                            id={geostore.id}
+                            name='Geojson'
+                            provider='leaflet'
+                            layerConfig={{
+                              type: 'geoJSON',
+                              body: geostore.geojson
+                            }}            
+                            layerManager={layerManager}
+                            // Interaction
+                            interactivity
+                            events={{
+                              mouseover: (e) => {
+                                console.info(e);
+                              }
+                            }}
+                          />
+                        }
+                      </React.Fragment>
+                    )}
+                  </LayerManager>
+
+                </React.Fragment>
+              )}
+            </Map>
+
+            <div className="c-legend-map">
+              <Legend
+                sortable={false}
+                maxHeight={300}
+                onChangeOrder={this.onChangeOrder}
+              >
+                {layerGroups.map((lg, i) => (
+                  <LegendListItem
+                    index={i}
+                    key={lg.dataset}
+                    layerGroup={lg}
+                    onChangeInfo={this.onChangeInfo}
+                    toolbar={
+                      <LegendItemToolbar>
+                        <LegendItemButtonInfo />
+                      </LegendItemToolbar>
+                    }
+                  >
+                    <LegendItemTypes />
+                  </LegendListItem>
+              ))}
+              </Legend>
+            </div>
+          </div>
+        }
 
         {alertTable ? <DataTable
           title="10 Most Recent Changes"
