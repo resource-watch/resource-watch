@@ -1997,7 +1997,19 @@ babel-loader@^7.1.4:
     loader-utils "^1.0.2"
     mkdirp "^0.5.1"
 
+<<<<<<< HEAD
 babel-messages@^6.23.0:
+=======
+babel-loader@^7.1.4:
+  version "7.1.5"
+  resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-7.1.5.tgz#e3ee0cd7394aa557e013b02d3e492bfd07aa6d68"
+  dependencies:
+    find-cache-dir "^1.0.0"
+    loader-utils "^1.0.2"
+    mkdirp "^0.5.1"
+
+babel-messages@^6.22.0, babel-messages@^6.23.0:
+>>>>>>> Dashboards: WRI_API_URL
   version "6.23.0"
   resolved "https://registry.yarnpkg.com/babel-messages/-/babel-messages-6.23.0.tgz#f3cdf4703858035b2a2951c6ec5edf6c62f2630e"
   integrity sha1-8830cDhYA1sqKVHG7F7fbGLyYw4=
@@ -8670,7 +8682,10 @@ normalize-url@2.0.1:
 normalize-url@^3.0.1:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
+<<<<<<< HEAD
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
+=======
+>>>>>>> Dashboards: WRI_API_URL
 
 normalize.css@7.0.0:
   version "7.0.0"
@@ -9984,7 +9999,10 @@ quill-delta@^3.6.2:
 quill-magic-url@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/quill-magic-url/-/quill-magic-url-1.0.0.tgz#d4cb89cc25174598c7190a3be11804eeb65e2ef5"
+<<<<<<< HEAD
   integrity sha512-fwbi3rCVZBjjZQ9xg+x0YmM7Dkm0ezcoHF6GnfVz/+r0g9VtxQCNO/2m7g7IR7fPTBryUSjoMyxQWg4XsmZmEw==
+=======
+>>>>>>> Dashboards: WRI_API_URL
   dependencies:
     babel-loader "^7.1.4"
     normalize-url "^3.0.1"
@@ -13795,10 +13813,16 @@ vis@^4.18.1:
     moment "^2.18.1"
     propagating-hammerjs "^1.4.6"
 
+<<<<<<< HEAD
 vizz-wysiwyg@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-2.1.1.tgz#8abc929d58d9e8c7fc77e8e045109e4b2543b786"
   integrity sha512-NrJsTmWAfOF87ahglL9UM0Wm8xV9QO6fTWFtEfRzt0nz9xH9IKw/u3zmtOPXRVK8EpUkE0L7kVo376vt1vz8gw==
+=======
+vizz-wysiwyg@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-2.1.1.tgz#8abc929d58d9e8c7fc77e8e045109e4b2543b786"
+>>>>>>> Dashboards: WRI_API_URL
   dependencies:
     autoprefixer "6.7.6"
     babel-core "^6.26.0"
