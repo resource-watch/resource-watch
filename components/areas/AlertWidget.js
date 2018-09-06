@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
 import debounce from 'lodash/debounce';
 
 // Redux
@@ -10,12 +9,9 @@ import { connect } from 'react-redux';
 import areaAlerts from 'selectors/user/areaAlerts';
 
 // Components
-import Map from 'components/ui/map/Map';
-
-// import DataTable from 'components/ui/DataTable';
-import MapControls from 'components/ui/map/MapControls';
 import ShareControl from 'components/ui/map/controls/ShareControl';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 import DataTable from 'components/ui/DataTable';
 
 // Modal
@@ -23,17 +19,21 @@ import Modal from 'components/modal/modal-component';
 import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
+// Services
+import AreasService from 'services/AreasService';
 
 // Utils
-import LayerManager from 'utils/layers/LayerManager';
-
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { PluginLeaflet } from 'layer-manager';
 
 // WRI components
 import {
+  Map,
+  MapControls,
+  ZoomControl,
   Legend,
+  LegendListItem,
   LegendItemToolbar,
-  LegendItemButtonLayers,
   LegendItemButtonInfo,
   LegendItemTypes
 } from 'wri-api-components';
@@ -50,12 +50,15 @@ class AlertWidget extends React.Component {
 
     const { areas } = user;
 
+    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
+
     this.state = {
       area: areas.items.find(a => a.id === id),
       alertTable: null,
       subscriptionData,
       modalOpen: false,
-      zoom: 3,
+      zoom: 0,
+      geostore: null,
       layer: null,
       latLng: {
         lat: 0,
@@ -74,6 +77,19 @@ class AlertWidget extends React.Component {
         })) : null
       }]
     };
+  }
+
+  componentDidMount() {
+    const { area, layerGroups } = this.state;
+
+    this.areasService.getGeostore(area.attributes.geostore)
+      .then(({ data }) => {
+        const geostore = { ...data.attributes, id: data.id, type: data.type };
+
+        this.setState({
+          geostore
+        })
+      })
   }
 
   componentWillUpdate(nextProps) {
@@ -154,7 +170,7 @@ class AlertWidget extends React.Component {
   render() {
     const { dataset } = this.props;
     const layer = dataset ? dataset.layer.find(l => l.default) : null;
-    const { zoom, latLng, layerGroups, alertTable } = this.state;
+    const { zoom, latLng, layerGroups, alertTable, geostore } = this.state;
 
     return (
       <div className="c-alerts-page__widget">
@@ -169,40 +185,101 @@ class AlertWidget extends React.Component {
         </div>
 
         {layer &&
-        <div className="c-alerts-page__graph">
-          <Map
-            mapConfig={{ zoom, latLng }}
-            LayerManager={LayerManager}
-            layerGroups={layerGroups}
-            onMapParams={this.onMapParams}
-            useLightBasemap
-          />
-          <MapControls>
-            <ShareControl />
-            <BasemapControl
-              basemap={BASEMAPS.dark}
-              labels={LABELS.light}
-              boundaries={false}
-            />
-          </MapControls>
+          <div className="c-alerts-page__graph">
+            <Map
+              mapConfig={{ zoom, latLng }}
+              onMapParams={this.onMapParams}
+              onReady={(map) => { this.map = map; }}
+              basemap={{
+                url: BASEMAPS.dark.value,
+                options: BASEMAPS.dark.options
+              }}
+              label={{
+                url: LABELS.light.value,
+                options: LABELS.light.options
+              }}
+              {...geostore && {
+                bounds: {
+                  bbox: geostore.bbox,
+                  options: {
+                    padding: [20, 20]
+                  }
+                }
+              }}
+            >
+              {map => (
+                <React.Fragment>
+                  <MapControls
+                    customClass="c-map-controls"
+                  >
+                    <ZoomControl map={map} />
 
-          <div className="c-legend-map">
-            <Legend
-              maxHeight={250}
-              sortable={false}
-              layerGroups={layerGroups}
-              // List item
-              LegendItemToolbar={
-                <LegendItemToolbar>
-                  <LegendItemButtonInfo />
-                </LegendItemToolbar>
-              }
-              LegendItemTypes={<LegendItemTypes />}
-              onChangeLayer={l => this.onChangeLayer(l)}
-              onChangeInfo={this.onChangeInfo}
-            />
+                    <ShareControl />
+
+                    <BasemapControl
+                      basemap={BASEMAPS.dark}
+                      labels={LABELS.light}
+                      boundaries={false}
+                    />
+
+                  </MapControls>
+
+                  <LayerManager map={map} plugin={PluginLeaflet}>
+                    {layerManager => (
+                      <React.Fragment>
+                        <Layer {...layer} layerManager={layerManager} />
+                        {geostore &&
+                          <Layer
+                            id={geostore.id}
+                            name='Geojson'
+                            provider='leaflet'
+                            layerConfig={{
+                              type: 'geoJSON',
+                              body: geostore.geojson
+                            }}            
+                            layerManager={layerManager}
+                            // Interaction
+                            interactivity
+                            events={{
+                              mouseover: (e) => {
+                                console.info(e);
+                              }
+                            }}
+                          />
+                        }
+                      </React.Fragment>
+                    )}
+                  </LayerManager>
+
+                </React.Fragment>
+              )}
+            </Map>
+
+            <div className="c-legend-map">
+              <Legend
+                sortable={false}
+                maxHeight={300}
+                onChangeOrder={this.onChangeOrder}
+              >
+                {layerGroups.map((lg, i) => (
+                  <LegendListItem
+                    index={i}
+                    key={lg.dataset}
+                    layerGroup={lg}
+                    onChangeInfo={this.onChangeInfo}
+                    toolbar={
+                      <LegendItemToolbar>
+                        <LegendItemButtonInfo />
+                      </LegendItemToolbar>
+                    }
+                  >
+                    <LegendItemTypes />
+                  </LegendListItem>
+              ))}
+              </Legend>
+            </div>
           </div>
-        </div>}
+        }
 
         {alertTable ? <DataTable
           title="10 Most Recent Changes"

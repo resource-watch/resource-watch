@@ -215,7 +215,11 @@ class AreaCard extends React.Component {
                   route="myrw_detail"
                   params={{ id: area.id, tab: 'areas', subtab: 'alerts' }}
                 >
-                  <a>View alerts</a>
+                  <a
+                    className="c-btn -tertiary -compressed"
+                  >
+                    View alerts
+                  </a>
                 </Link>}
             </div>
           </div>

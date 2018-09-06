@@ -37,9 +37,17 @@ class AreasAlerts extends React.Component {
     return (
       <div className="c-alerts-page">
         {subscription && subscription.attributes && subscription.attributes.datasets &&
-          subscription.attributes.datasets.map((dataset, key) =>
-            <AlertWidget key={key} dataset={dataset} id={id} layerGroup={id} subscription={subscription} subscriptionData={subscriptionData} />)}
-
+          subscription.attributes.datasets.map((dataset, key) => (
+            <AlertWidget
+              key={id}
+              dataset={dataset}
+              id={id}
+              layerGroup={id}
+              subscription={subscription}
+              subscriptionData={subscriptionData}
+            />
+          ))
+        }
         <p>
           This notification reports {id in alerts ? alerts[id].map(a => getLabel(a.dataset)).join(', ') : null} for the area of interest you subscribed to.
           You will receive a separate email for each area and each alert you subscribe to.
