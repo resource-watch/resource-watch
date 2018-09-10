@@ -18,7 +18,7 @@ export const fetchTopics = createThunkAction('TOPIC_THUMBNAIL_LIST_FETCH_DATA', 
     ...payload.filters
   });
 
-  return fetch(new Request(`${process.env.API_URL}/topics?${qParams}`))
+  return fetch(new Request(`${process.env.WRI_API_URL}/topic?${qParams}`))
     .then(response => response.json())
     .then(({ data }) => {
       dispatch(setLoading(false));
