@@ -115,19 +115,19 @@ app.prepare()
   .then(() => {
     // Add route to serve compiled SCSS from /assets/{build id}/main.css
     // Note: This is is only used in production, in development it is inlined
-    if (prod) {
-      const sassResult = sass.renderSync({
-        file: './css/index.scss',
-        outputStyle: 'compressed',
-        includePaths: ['node_modules']
-      });
-      server.get('/styles/:id/main.css', postcssMiddleware(postcssConfig), (req, res) => {
-        res.setHeader('Content-Type', 'text/css');
-        res.setHeader('Cache-Control', 'public, max-age=2592000');
-        res.setHeader('Expires', new Date(Date.now() + 2592000000).toUTCString());
-        res.send(sassResult.css);
-      });
-    }
+    // if (prod) {
+    //   const sassResult = sass.renderSync({
+    //     file: './css/index.scss',
+    //     outputStyle: 'compressed',
+    //     includePaths: ['node_modules']
+    //   });
+    //   server.get('/styles/:id/main.css', postcssMiddleware(postcssConfig), (req, res) => {
+    //     res.setHeader('Content-Type', 'text/css');
+    //     res.setHeader('Cache-Control', 'public, max-age=2592000');
+    //     res.setHeader('Expires', new Date(Date.now() + 2592000000).toUTCString());
+    //     res.send(sassResult.css);
+    //   });
+    // }
 
     // Configuring next routes with express
     const handleUrl = (req, res) => {

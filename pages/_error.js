@@ -19,7 +19,7 @@ class Error extends React.Component {
     return (
       <div className="p-error">
         <HeadNext>
-          <style dangerouslySetInnerHTML={{ __html: require('css/index.scss') }} />
+          <link rel="stylesheet" type="text/css" href="/_next/static/style.css" />;
         </HeadNext>
         <div className="container">
           <h1>404</h1>
