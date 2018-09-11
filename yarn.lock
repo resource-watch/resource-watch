@@ -5851,9 +5851,9 @@ layer-manager@^1.0.4:
     lodash "^4.17.10"
     wri-json-api-serializer "^1.0.1"
 
-layer-manager@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.1.2.tgz#8a4c4d25ffc95ea80c8d5294095c8b7b14fc18ac"
+layer-manager@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.1.5.tgz#7b12a5ec233b05423cb49ada651a4f07a2a64585"
   dependencies:
     bluebird "^3.5.1"
     lodash "^4.17.10"
@@ -11531,12 +11531,12 @@ wri-api-components@2.0.17:
     vega-lib "^4.2.0"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@^2.1.9:
-  version "2.1.9"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.1.9.tgz#5a19824e5a3e1eda140f73d2716fd3bf0c53946b"
+wri-api-components@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.2.0.tgz#5423de6aae54e6d77fc3fa45f237a42f862b3ba0"
   dependencies:
     classnames "^2.2.6"
-    layer-manager "^1.0.4"
+    layer-manager "^1.1.5"
     lodash "^4.17.10"
     prop-types "^15.6.2"
     rc-slider "^8.6.1"
