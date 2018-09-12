@@ -7906,13 +7906,7 @@ next-redux-wrapper@1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/next-redux-wrapper/-/next-redux-wrapper-1.3.2.tgz#83fb49ce64e1e9fc04ad69e85c9a0aec582a7b5b"
 
-next-routes@1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/next-routes/-/next-routes-1.4.1.tgz#740e3c02c4c0435ce68a5c6f877412fe8686402b"
-  dependencies:
-    path-to-regexp "^2.1.0"
-
-next-routes@^1.4.1:
+next-routes@^1.4.1, next-routes@^1.4.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/next-routes/-/next-routes-1.4.2.tgz#736a382579a792ea69f35ae70b449acdfefa7944"
   dependencies:
