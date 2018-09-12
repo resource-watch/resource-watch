@@ -8,8 +8,6 @@ import { connect } from 'react-redux';
 // Utils
 import { USERREPORT_BLACKLIST } from 'utils/user-report';
 
-// import Package from '../../package.json';
-
 const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedDashboard',
   '/app/embed/EmbedMap',

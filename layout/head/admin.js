@@ -2,20 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
 
-import Package from '../../package.json';
-
 export default class Head extends React.Component {
-  // static getStyles() {
-  //   if (process.env.NODE_ENV === 'production') {
-  //     // In production, serve pre-built CSS file from /styles/{version}/main.css
-  //     return <link rel="stylesheet" type="text/css" href={`/styles/${Package.version}/main.css`} />;
-  //   }
-  //   // In development, serve CSS inline (with live reloading) with webpack
-  //   // NB: Not using dangerouslySetInnerHTML will cause problems with some CSS
-  //   /* eslint-disable */
-  //   return <style dangerouslySetInnerHTML={{ __html: require('css/index.scss') }} />;
-  //   /* eslint-enable */
-  // }
   static getStyles() {
     return <link rel="stylesheet" type="text/css" href="/_next/static/style.css" />;
   }
