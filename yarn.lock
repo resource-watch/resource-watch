@@ -13419,9 +13419,9 @@ wri-api-components@2.0.17:
     vega-lib "^4.2.0"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.2.0.tgz#5423de6aae54e6d77fc3fa45f237a42f862b3ba0"
+wri-api-components@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.2.1.tgz#37289ab64d77597a6364922023493f1b340b4de3"
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.1.5"
