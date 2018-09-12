@@ -6,15 +6,12 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const basicAuth = require('basic-auth');
-const sass = require('node-sass');
 const serveStatic = require('serve-static');
-const postcssMiddleware = require('postcss-middleware');
 const redis = require('redis');
 const RedisStore = require('connect-redis')(session);
 const { parse } = require('url');
 const path = require('path');
 const routes = require('./routes');
-const postcssConfig = require('./postcss.config');
 const auth = require('./auth');
 
 const port = process.env.PORT || 3000;
@@ -22,9 +19,7 @@ const prod = process.env.NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
-const handle = routes.getRequestHandler(app, ({
-  req, res, route, query
-}) => {
+const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
   app.render(req, res, route.page, query);
 });
 
@@ -113,22 +108,6 @@ auth.initialize(server);
 // Initializing next app before express server
 app.prepare()
   .then(() => {
-    // Add route to serve compiled SCSS from /assets/{build id}/main.css
-    // Note: This is is only used in production, in development it is inlined
-    if (prod) {
-      const sassResult = sass.renderSync({
-        file: './css/index.scss',
-        outputStyle: 'compressed',
-        includePaths: ['node_modules']
-      });
-      server.get('/styles/:id/main.css', postcssMiddleware(postcssConfig), (req, res) => {
-        res.setHeader('Content-Type', 'text/css');
-        res.setHeader('Cache-Control', 'public, max-age=2592000');
-        res.setHeader('Expires', new Date(Date.now() + 2592000000).toUTCString());
-        res.send(sassResult.css);
-      });
-    }
-
     // Configuring next routes with express
     const handleUrl = (req, res) => {
       const parsedUrl = parse(req.url, true);

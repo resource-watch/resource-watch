@@ -1,57 +1,13 @@
 require('dotenv').load();
 
-const path = require('path');
-const glob = require('glob');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const withCSS = require('@zeit/next-css');
+const withSass = require('@zeit/next-sass');
+const commonsChunkConfig = require('@zeit/next-css/commons-chunk-config');
 
-module.exports = {
+module.exports = withCSS(withSass({
   webpack: (originalConfig) => {
     const config = Object.assign({}, originalConfig);
-
-    config.resolve = Object.assign({}, config.resolve, {
-      alias: {
-        react: path.resolve(__dirname, 'node_modules', 'react'),
-        'react-dom': path.resolve(__dirname, 'node_modules', 'react-dom')
-      }
-    });
-
-    config.module.rules.push(
-      {
-        test: /\.(css|scss)/,
-        loader: 'emit-file-loader',
-        options: { name: 'dist/[path][name].[ext]' }
-      }
-      ,
-      {
-        test: /\.css$/,
-        use: ['babel-loader', 'raw-loader', 'postcss-loader']
-      }
-      ,
-      {
-        test: /\.s(a|c)ss$/,
-        use: [
-          { loader: 'babel-loader', query: { compact: false } },
-          { loader: 'raw-loader' },
-          { loader: 'postcss-loader' },
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: ['./node_modules']
-                .map(d => path.join(__dirname, d))
-                .map(g => glob.sync(g))
-                .reduce((a, c) => a.concat(c), [])
-            }
-          }
-        ]
-      }
-    );
-
-    // Images task
-    config.module.rules.push({
-      test: /\.(png|jpg|gif|svg)$/,
-      loader: 'url-loader?prefix=image/&limit=5000&context=/static/images'
-    });
 
     config.plugins.push(
       new webpack.DefinePlugin({
@@ -70,15 +26,9 @@ module.exports = {
         'process.env.API_ENV': JSON.stringify(process.env.API_ENV),
         'process.env.GOOGLE_ANALYTICS': JSON.stringify(process.env.GOOGLE_ANALYTICS),
         'process.env.RW_GOGGLE_API_TOKEN_SHORTENER': JSON.stringify(process.env.RW_GOGGLE_API_TOKEN_SHORTENER)
-      }),
-      new CopyWebpackPlugin([
-        {
-          from: 'node_modules/widget-editor/dist/images',
-          to: 'static/images/widget-editor/'
-        }
-      ])
+      })
     );
 
-    return config;
+    return commonsChunkConfig(config, /\.(sass|scss|css)$/);
   }
-};
+}));
