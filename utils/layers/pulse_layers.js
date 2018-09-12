@@ -217,6 +217,127 @@ export const LAYERS_PLANET_PULSE = [
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
+
+        {
+        label: 'Air Quality Measurements (SO₂)',
+        id: '509c71b2-9c68-4acd-88a6-f64015494001',
+        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayersOnTop: false,
+        '3d': false,
+        descriptionPulse:
+          <div className="description">
+            <div className="description-text">
+              Sufur dioxide (SO₂) is released into the air from the burning of fossil fuels.  It contributes to particulate matter concentrations and can cause acid rain.  These air quality measurements are collected from government and research sources by OpenAQ.
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
+            </div>
+          </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
+        widgets: [],
+        basemap: {
+          name: 'default',
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+      },
+        {
+        label: 'Air Quality Measurements (NO₂)',
+        id: '99f02e72-c59d-4d3d-880f-922bff7b7f39',
+        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayersOnTop: false,
+        '3d': false,
+        descriptionPulse:
+          <div className="description">
+            <div className="description-text">
+              Nitrogen dioxide (NO₂) is released into the atmosphere from the burning of fossil fuels.  Breathing air with high concentrations of NO₂ can result in respiratory symptoms.  These air quality measurements are collected from government and research sources by OpenAQ.
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
+            </div>
+          </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
+        widgets: [],
+        basemap: {
+          name: 'default',
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+      },
+        {
+        label: 'Air Quality Measurements (Tropospheric/Ground-level O3)',
+        id: '39524ca8-e1e3-4e9f-8b77-6682064bd176',
+        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayersOnTop: false,
+        '3d': false,
+        descriptionPulse:
+          <div className="description">
+            <div className="description-text">
+              Unlike stratospheric ozone that protects from ultraviolet rays, ground-level, or tropospheric ozone (O3) is created through the interactions of the emissions of volatile organic compounds (from gasoline burning engines) and nitrogen oxides (from the burning of fossil fuels) in the presence of heat and sunlight. These air quality measurements are collected from government and research sources by OpenAQ.
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
+            </div>
+          </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
+        widgets: [],
+        basemap: {
+          name: 'default',
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+      },
+        {
+        label: 'Air Quality Measurements (CO)',
+        id: '8f73075e-80b8-4176-86f2-88c0c4af129c',
+        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayersOnTop: false,
+        '3d': false,
+        descriptionPulse:
+          <div className="description">
+            <div className="description-text">
+              Carbon monoxide (CO) is a colorless, odorless gas released into the atmosphere when burning materials.  It can be harmful to human health if inhaled in high concentrations.  These air quality measurements are collected from government and research sources by OpenAQ.
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
+            </div>
+          </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
+        widgets: [],
+        basemap: {
+          name: 'default',
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+      },
+         {
+        label: 'Air Quality Measurements (BC)',
+        id: 'd40902f3-4948-48b0-a847-675d40222a55',
+        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayersOnTop: false,
+        '3d': false,
+        descriptionPulse:
+          <div className="description">
+            <div className="description-text">
+              High black carbon (BC) concentrations have negative implications for both human health and the climate, and are caused by the burning of fossil fuels. These air quality measurements are collected from government and research sources by OpenAQ.
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
+            </div>
+          </div>,
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
+        widgets: [],
+        basemap: {
+          name: 'default',
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+      },
     ]
   },
   {
