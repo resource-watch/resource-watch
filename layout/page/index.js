@@ -5,6 +5,8 @@ import { fetchTopics } from 'redactions/topics/actions';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { setItem, setMobileOpened } from 'layout/header/header-actions';
 
+import 'css/index.scss';
+
 export default class Page extends PureComponent {
   static async getInitialProps({
     asPath,
