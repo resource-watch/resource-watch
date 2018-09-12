@@ -6,15 +6,12 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const basicAuth = require('basic-auth');
-const sass = require('node-sass');
 const serveStatic = require('serve-static');
-const postcssMiddleware = require('postcss-middleware');
 const redis = require('redis');
 const RedisStore = require('connect-redis')(session);
 const { parse } = require('url');
 const path = require('path');
 const routes = require('./routes');
-const postcssConfig = require('./postcss.config');
 const auth = require('./auth');
 
 const port = process.env.PORT || 3000;
@@ -22,9 +19,7 @@ const prod = process.env.NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
-const handle = routes.getRequestHandler(app, ({
-  req, res, route, query
-}) => {
+const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
   app.render(req, res, route.page, query);
 });
 
