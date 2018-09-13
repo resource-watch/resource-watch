@@ -6,17 +6,8 @@
   border-radius: 4px;
   height: 45px;
 
-  &.-fixed {
-    max-width: 200px;
-  }
-
-  &.-disabled {
-    pointer-events: none;
-    opacity: .4;
-  }
-
   &:after {
-    content: "";
+    content: '';
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
@@ -30,13 +21,32 @@
     pointer-events: none;
   }
 
+  &.-fixed {
+    max-width: 200px;
+  }
+
+  &.-disabled {
+    pointer-events: none;
+    opacity: .4;
+
+    .clear-button,
+    &:after {
+      display: none;
+    }
+
+    .custom-select-text {
+      > div {
+        width: 100%;
+      }
+    }
+  }
+
   &.-closed {
     .custom-select-search {
       // Don't use display: none here
       // For accessibility reasons (focus) the input
       // can't be hidden
       opacity: 0;
-      visibility: none;
       cursor: pointer;
     }
 
@@ -63,7 +73,11 @@
   }
 
   .clear-button {
+    position: absolute;
+    top: 50%;
+    right: 0;
     margin-right: 15px;
+    transform: translate(0, -50%);
     // Without this property, the user will be unable to click on the
     // clear button (the click gets caught by the input)
     z-index: 1;
@@ -99,14 +113,16 @@
 
     > div {
       user-select: none;
-      display: flex;
-      justify-content: space-between;
-      padding: 10px $margin-size-extra-small;
       overflow: hidden;
+      position: relative;
+      display: inline-block;
+      width: calc(100% - 15px);
       height: 100%;
+      padding: 10px $margin-size-extra-small;
       white-space: nowrap;
-      line-height: 17px;
-      align-items: center;
+      text-overflow: ellipsis;
+      line-height: 23px;
+
       // Don't capitalise the text here because the case of the
       // content of the input won't match the case of the text
       // when the focus is somewhere else
@@ -196,6 +212,7 @@
   }
 
   .custom-select-search {
+    z-index: 1;
     background-color: transparent;
     color: $body-font-color;
     outline: none;

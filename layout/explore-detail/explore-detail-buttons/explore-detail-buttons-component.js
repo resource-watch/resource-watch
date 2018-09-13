@@ -19,7 +19,7 @@ import LoginRequired from 'components/ui/login-required';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+import SubscriptionsModal from 'components/modal/subscriptions-modal';
 
 
 class ExploreDetailButtons extends PureComponent {
@@ -54,11 +54,6 @@ class ExploreDetailButtons extends PureComponent {
     return dataset && !isEmpty(dataset.subscribable);
   }
 
-
-  /**
-   * UI EVENTS
-   * - handleToggleSubscribeModal
-  */
   handleToggleSubscribeModal = (bool) => {
     this.setState({ showSubscribeModal: bool });
   }
@@ -110,6 +105,7 @@ class ExploreDetailButtons extends PureComponent {
             <a
               className="c-button -secondary"
               target="_blank"
+              rel="noopener noreferrer"
               href={metadata.info && metadata.info.data_download_link}
               onClick={() => logEvent('Explore', 'Download data', getLabel(dataset))}
             >
@@ -125,17 +121,7 @@ class ExploreDetailButtons extends PureComponent {
                 className="c-button -secondary"
                 onClick={() => this.handleToggleSubscribeModal(true)}
               >
-              Subscribe to alerts
-                <Modal
-                  isOpen={this.state.showSubscribeModal}
-                  onRequestClose={() => this.handleToggleSubscribeModal(false)}
-                >
-                  <SubscribeToDatasetModal
-                    dataset={dataset}
-                    showDatasetSelector={false}
-                    onRequestClose={() => this.handleToggleSubscribeModal(false)}
-                  />
-                </Modal>
+                Subscribe to alerts
               </button>
             </LoginRequired>
           </div>
@@ -146,6 +132,7 @@ class ExploreDetailButtons extends PureComponent {
             <a
               className="c-button -secondary"
               target="_blank"
+              rel="noopener noreferrer"
               onClick={() => logEvent('Explore', 'Download data from source', getLabel(dataset))}
               href={metadata.info && metadata.info.data_download_original_link}
             >
@@ -164,6 +151,7 @@ class ExploreDetailButtons extends PureComponent {
             <a
               className="c-button -secondary"
               target="_blank"
+              rel="noopener noreferrer"
               href={metadata.info && metadata.info.learn_more_link}
             >
               <span>
@@ -174,6 +162,14 @@ class ExploreDetailButtons extends PureComponent {
           </div>
         }
 
+        <Modal
+          isOpen={this.state.showSubscribeModal}
+          onRequestClose={() => this.handleToggleSubscribeModal(false)}
+        >
+          <SubscriptionsModal
+            onRequestClose={() => this.handleToggleSubscribeModal(false)}
+          />
+        </Modal>
       </div>
     );
   }

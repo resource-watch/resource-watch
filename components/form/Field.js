@@ -1,26 +1,32 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-class Field extends React.Component {
+class Field extends PureComponent {
+  static propTypes = {
+    properties: PropTypes.object.isRequired,
+    hint: PropTypes.string,
+    className: PropTypes.string,
+    button: PropTypes.node,
+    children: PropTypes.any.isRequired
+  }
+
+  static defaultProps = {
+    hint: null,
+    button: null,
+    className: null
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
-      value: this.props.properties.default,
       valid: null,
       error: []
     };
-
-    // BINDINGS
-    this.onValid = this.onValid.bind(this);
   }
 
-  /**
-   * UI EVENTS
-   * - onValid (valid, error)
-  */
-  onValid(valid, error) {
+  onValid = (valid, error) => {
     this.setState({
       valid,
       error
@@ -36,7 +42,7 @@ class Field extends React.Component {
   }
 
   render() {
-    const { properties, className, hint, button } = this.props;
+    const { properties, children, className, hint, button } = this.props;
     const { valid, error } = this.state;
 
     // Set classes
@@ -60,11 +66,13 @@ class Field extends React.Component {
         }
 
         <div className="field-container">
-          <this.props.children
-            {...this.props}
-            ref={(c) => { if (c) this.child = c; }}
-            onValid={this.onValid}
-          />
+          {React.isValidElement(children) && children}
+          {children && typeof children === 'function' &&
+            <this.props.children
+              {...this.props}
+              ref={(c) => { if (c) this.child = c; }}
+              onValid={this.onValid}
+            />}
 
           {!!button &&
             button
@@ -88,11 +96,5 @@ class Field extends React.Component {
     );
   }
 }
-
-Field.propTypes = {
-  properties: PropTypes.object.isRequired,
-  hint: PropTypes.string,
-  className: PropTypes.string
-};
 
 export default Field;

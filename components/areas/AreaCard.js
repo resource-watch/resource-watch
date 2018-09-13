@@ -19,13 +19,12 @@ import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
+import SubscriptionsModal from 'components/modal/subscriptions-modal';
 
 // Services
 import AreasService from 'services/AreasService';
 
 // Utils
-import { getLabel } from 'utils/datasets/dataset-helpers';
 import LayerManager from 'utils/layers/LayerManager';
 
 const MAP_CONFIG = {
@@ -173,14 +172,15 @@ class AreaCard extends React.Component {
                         key={`${alert.id}-${index}`}
                       >
                         <div className="dataset-name">
-                          <Link
-                            route="explore_detail"
-                            params={{ id: alert.id }}
-                          >
-                            <a>
-                              {/*getLabel(alert.dataset)*/}
-                            </a>
-                          </Link>
+                          {alert.id &&
+                            <Link
+                              route="explore_detail"
+                              params={{ id: alert.id }}
+                            >
+                              <a>
+                                {/* getLabel(alert.dataset) */}
+                              </a>
+                            </Link>}
                         </div>
                         <div className="dataset-subscription-type">
                           {alert.type}
@@ -210,7 +210,7 @@ class AreaCard extends React.Component {
               >
                 Area Options
               </button>
-              {activeAlerts.length > 0 &&
+              {/* {activeAlerts.length > 0 &&
                 <Link
                   route="myrw_detail"
                   params={{ id: area.id, tab: 'areas', subtab: 'alerts' }}
@@ -220,7 +220,7 @@ class AreaCard extends React.Component {
                   >
                     View alerts
                   </a>
-                </Link>}
+                </Link>} */}
             </div>
           </div>
         </div>
@@ -230,14 +230,18 @@ class AreaCard extends React.Component {
             isOpen
             onRequestClose={() => this.handleEditSubscription(false)}
           >
-            <AreaSubscriptionModal
+            <SubscriptionsModal
+              activeArea={area}
+              onRequestClose={() => this.handleEditSubscription(false)}
+            />
+            {/* <AreaSubscriptionModal
               area={this.props.area}
               mode={this.state.modal.mode}
               onRequestClose={() => this.handleEditSubscription(false)}
               subscriptionDataset
               subscriptionType
               subscriptionThreshold
-            />
+            /> */}
           </Modal>}
 
       </div>
