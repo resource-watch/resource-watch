@@ -16,7 +16,7 @@ import Icon from 'components/ui/Icon';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+import SubscriptionsModal from 'components/modal/subscriptions-modal';
 
 
 class LayerCardComponent extends PureComponent {
@@ -222,9 +222,7 @@ class LayerCardComponent extends PureComponent {
                   isOpen={showSubscribeToDatasetModal}
                   onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
                 >
-                  <SubscribeToDatasetModal
-                    dataset={dataset}
-                    showDatasetSelector={false}
+                  <SubscriptionsModal
                     onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
                   />
                 </Modal>
