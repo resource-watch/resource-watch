@@ -31,6 +31,7 @@ export default class SliderSelect extends React.Component {
     value: PropTypes.string, // Initial selected value (value of an Item)
     className: PropTypes.string,
     placeholder: PropTypes.string,
+    clearable: PropTypes.bool,
     // Whether the user can select an intermediate node (not a leaf)
     allowNonLeafSelection: PropTypes.bool,
     // Whether the component should wait for the onValueChange callback to
@@ -41,6 +42,7 @@ export default class SliderSelect extends React.Component {
 
   static defaultProps = {
     onValueChange: () => { },
+    clearable: true,
     allowNonLeafSelection: true,
     waitForChangeConfirmation: false
   };
@@ -397,7 +399,7 @@ export default class SliderSelect extends React.Component {
   }
 
   render() {
-    const { className, options, placeholder } = this.props;
+    const { className, options, placeholder, clearable } = this.props;
     const {
       closed,
       filteredOptions,
@@ -438,7 +440,7 @@ export default class SliderSelect extends React.Component {
                 <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
               </button>
             */}
-            { selectedItem &&
+            { selectedItem && clearable &&
               <button className="icon-btn clear-button" onClick={this.clearSelectedItem}>
                 <Icon name="icon-cross" className="-smaller icon-cross" />
               </button>
@@ -469,7 +471,7 @@ export default class SliderSelect extends React.Component {
                 role="option"
                 aria-selected={item === selectedItem}
                 className={classnames({ '-selected': index === selectedIndex })}
-                key={item.value}
+                key={item.id || item.value}
                 onMouseEnter={() => { this.setSelectedIndex(index); }}
                 onMouseDown={e => this.onMouseDownOption(e, item)}
               >
