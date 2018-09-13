@@ -133,7 +133,6 @@ export default {
         ...payload
       }
     }),
-
   [actions.clearUserSelection]: state =>
     ({
       ...state,
