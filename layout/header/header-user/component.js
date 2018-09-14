@@ -80,6 +80,22 @@ class HeaderUser extends PureComponent {
                   <li className="header-dropdown-list-item">
                     <Link
                       route="myrw"
+                      params={{ tab: 'collections' }}
+                    >
+                      <a>Collections</a>
+                    </Link>
+                  </li>
+                  <li className="header-dropdown-list-item">
+                    <Link
+                      route="myrw"
+                      params={{ tab: 'dashboards' }}
+                    >
+                      <a>Dashboards</a>
+                    </Link>
+                  </li>
+                  <li className="header-dropdown-list-item">
+                    <Link
+                      route="myrw"
                       params={{
                         tab: 'datasets',
                         subtab: 'my_datasets'
@@ -97,22 +113,6 @@ class HeaderUser extends PureComponent {
                       }}
                     >
                       <a>Visualizations</a>
-                    </Link>
-                  </li>
-                  <li className="header-dropdown-list-item">
-                    <Link
-                      route="myrw"
-                      params={{ tab: 'dashboards' }}
-                    >
-                      <a>Dashboards</a>
-                    </Link>
-                  </li>
-                  <li className="header-dropdown-list-item">
-                    <Link
-                      route="myrw"
-                      params={{ tab: 'collections' }}
-                    >
-                      <a>Collections</a>
                     </Link>
                   </li>
                 </ul>
