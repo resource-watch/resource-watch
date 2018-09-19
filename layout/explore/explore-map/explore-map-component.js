@@ -27,7 +27,8 @@ import {
   LegendItemButtonOpacity,
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
-  LegendItemTypes
+  LegendItemTypes,
+  LegendItemTimeline
 } from 'wri-api-components';
 
 import { LayerManager, Layer } from 'layer-manager/dist/react';
@@ -304,6 +305,7 @@ class ExploreMapComponent extends React.Component {
                 onRemoveLayer={this.onRemoveLayer}
               >
                 <LegendItemTypes />
+                <LegendItemTimeline onChangeLayer={this.onChangeLayer} />
               </LegendListItem>
             ))}
           </Legend>
