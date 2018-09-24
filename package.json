@@ -62,7 +62,7 @@
     "nodemon": "1.11.0",
     "normalize.css": "7.0.0",
     "now-logs": "0.0.7",
-    "nuka-carousel": "^4.1.0",
+    "nuka-carousel": "^4.4.0",
     "numeral": "^2.0.6",
     "orm": "3.2.3",
     "passport": "0.3.2",

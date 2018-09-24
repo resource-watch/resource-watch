@@ -8343,9 +8343,9 @@ npmconf@^2.1.2:
     gauge "~2.7.3"
     set-blocking "~2.0.0"
 
-nuka-carousel@^4.1.0:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/nuka-carousel/-/nuka-carousel-4.2.1.tgz#f2b0f847e2bf8d44668f6eb5d7fc275706673ec5"
+nuka-carousel@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/nuka-carousel/-/nuka-carousel-4.4.0.tgz#30770fcdc5c1a57a8ea816e181dfb7b2a18c85d9"
   dependencies:
     d3-ease "^1.0.3"
     exenv "^1.2.0"
