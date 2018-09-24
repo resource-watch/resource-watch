@@ -1,5 +1,6 @@
 import 'isomorphic-fetch';
 import Promise from 'bluebird';
+import * as queryString from 'query-string';
 
 export default class UserService {
   constructor(options) {
@@ -39,6 +40,37 @@ export default class UserService {
         'Content-Type': 'application/json',
         Authorization: token
       }
+    })
+      .then(response => response.json());
+  }
+
+  /**
+   * Register a new user based on email + password combination
+   */
+  registerUser({ email, password, repeatPassword }) {
+    return fetch(`${this.opts.apiURL}/auth/sign-up`, {
+      method: 'POST',
+      body: JSON.stringify({ email, password, repeatPassword }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.json());
+  }
+
+  /**
+   * Logs in a user based on email + password combination
+   */
+  loginUser({ email, password }) {
+    const queryParams = queryString.stringify({
+      callbackUrl: process.env.CALLBACK_URL,
+      applications: 'rw',
+      token: true,
+      origin: 'rw'
+    });
+
+    return fetch(`${this.opts.apiURL}/auth/login?${queryParams}`, {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: { 'Content-Type': 'application/json' }
     })
       .then(response => response.json());
   }
