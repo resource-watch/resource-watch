@@ -52,8 +52,14 @@ function isAuthenticated(req, res, nextAction) {
   // Saving referrer of user
   req.session.referrer = req.url;
   if (req.isAuthenticated()) return nextAction();
-  // if they aren't redirect them to the home page
-  return res.redirect('/login');
+
+  // if the user is not authenticated and tries to access to the admin zone,
+  // it will be redirected to the API log-in page
+  if (req.path === '/admin') return res.redirect('/login');
+
+  // if the user is not authenticated and tries to access to a non-admin zone,
+  // it will be redirected to the user log-in/register page
+  return res.redirect('/sign-in');
 }
 
 function isAdmin(req, res, nextAction) {

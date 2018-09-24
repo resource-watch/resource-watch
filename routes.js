@@ -89,4 +89,7 @@ routes.add('attribution-requirements', '/api-attribution-requirements', 'app/Att
 // ------- CATALOG -------------
 routes.add('catalog', '/catalog', 'app/catalog');
 
+// ------- LOG-IN/REGISTER  -------------
+routes.add('log-in', '/sign-in', 'app/log-in');
+
 module.exports = routes;
