@@ -169,7 +169,6 @@ class ExploreMapComponent extends React.Component {
         provider: 'leaflet',
         opacity: 1,
         visibility: true,
-        zIndex: 1050,
         layerConfig: {
           type: 'tileLayer',
           url: BOUNDARIES.dark.value,
