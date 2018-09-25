@@ -119,6 +119,11 @@ export default {
         error: payload
       }
     }),
+  [actions.clearLocalSubscriptions]: state =>
+    ({
+      ...state,
+      subscriptionCreation: { ...initialState.subscriptionCreation }
+    }),
   // user selection
   [actions.setUserSelection]: (state, { payload }) =>
     ({
@@ -127,6 +132,12 @@ export default {
         ...state.userSelection,
         ...payload
       }
+    }),
+
+  [actions.clearUserSelection]: state =>
+    ({
+      ...state,
+      userSelection: { ...initialState.userSelection }
     }),
   [actions.resetModal]: state =>
     ({

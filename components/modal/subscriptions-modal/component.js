@@ -38,7 +38,8 @@ class SubscriptionsModal extends PureComponent {
     createSubscriptionToArea: PropTypes.func.isRequired,
     createSubscriptionOnNewArea: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
-    clearSubscriptions: PropTypes.func.isRequired
+    clearSubscriptions: PropTypes.func.isRequired,
+    clearLocalSubscriptions: PropTypes.func.isRequired
   }
 
   static defaultProps = { activeArea: null }
@@ -131,9 +132,11 @@ class SubscriptionsModal extends PureComponent {
   componentWillUnmount() {
     const {
       clearSubscriptions,
-      clearUserSelection
+      clearUserSelection,
+      clearLocalSubscriptions
     } = this.props;
 
+    clearLocalSubscriptions();
     clearSubscriptions();
     clearUserSelection();
   }
@@ -240,13 +243,13 @@ class SubscriptionsModal extends PureComponent {
       (
         <p>
             Your subscription was successfully created.
-          <strong>Please check your email address to confirm it.</strong>
+          <strong> Please check your email address to confirm it.</strong>
         </p>) : null;
 
     return (
       <div className="c-subscriptions-modal">
         <Spinner
-          className="-light -small"
+          className="-light"
           isLoading={loading}
         />
         <div className="header-div">
