@@ -115,6 +115,7 @@ export const resetModal = createAction('SUBSCRIPTIONS__RESET-MODAL');
 export const setSubscriptionSuccess = createAction('SUBSCRIPTIONS__SET_SUBSCRIPTION_SUCCESS');
 export const setSubscriptionLoading = createAction('SUBSCRIPTIONS__SET_SUBSCRIPTION_LOADING');
 export const setSubscriptionError = createAction('SUBSCRIPTIONS__SET_SUBSCRIPTION_ERROR');
+export const clearLocalSubscriptions = createAction('SUBSCRIPTIONS__CLEAR_LOCA_SUBSCRIPTIONS');
 
 export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE-SUBSCRIPTION-ON-AREA', () =>
   (dispatch, getState) => {
@@ -293,6 +294,8 @@ export default {
   setSubscriptionSuccess,
   setSubscriptionLoading,
   setSubscriptionError,
+  clearLocalSubscriptions,
+
   createSubscriptionToArea,
   createSubscriptionOnNewArea,
   updateSubscription
