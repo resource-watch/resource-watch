@@ -9753,6 +9753,18 @@ rc-slider@^8.4.0, rc-slider@^8.6.1:
     shallowequal "^1.0.1"
     warning "^3.0.0"
 
+rc-slider@^8.6.3:
+  version "8.6.3"
+  resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.6.3.tgz#1ca0e0bd2863252741de75e7bf8c9f2cfcffccb7"
+  dependencies:
+    babel-runtime "6.x"
+    classnames "^2.2.5"
+    prop-types "^15.5.4"
+    rc-tooltip "^3.7.0"
+    rc-util "^4.0.4"
+    shallowequal "^1.0.1"
+    warning "^3.0.0"
+
 rc-tooltip@3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/rc-tooltip/-/rc-tooltip-3.7.0.tgz#3afbf109865f7cdcfe43752f3f3f501f7be37aaa"
@@ -13432,15 +13444,15 @@ wri-api-components@2.0.17:
     vega-lib "^4.2.0"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@^2.2.7-alpha.2:
-  version "2.2.7-alpha.2"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.2.7-alpha.2.tgz#09d65598cf5466452c284ee36e602fb32f77082c"
+wri-api-components@^2.2.7-alpha.3:
+  version "2.2.7-alpha.3"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.2.7-alpha.3.tgz#14b530ef687493c8d1511621406d32c35e48561f"
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.10.0"
     lodash "^4.17.10"
     prop-types "^15.6.2"
-    rc-slider "^8.6.1"
+    rc-slider "^8.6.3"
     rc-tooltip "3.7.0"
     react-sortable-hoc "^0.6.8"
     react-vega "^4.0.2"
