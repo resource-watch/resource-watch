@@ -39,7 +39,7 @@ class LayerPopup extends React.Component {
     const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
 
     if (!layer) return false;
-    
+
     const { interactionConfig } = layer;
 
     if (
@@ -54,9 +54,16 @@ class LayerPopup extends React.Component {
           throw response;
         })
         .then(({ data }) => {
-          this.setState({ loading: false });
-          console.log('Need to be finished!!!!!!!!!!');
-          console.log(data);
+          this.setState({
+            interaction: {
+              ...this.state.interaction,
+              [layer.id]: {
+                ...layer,
+                data: data[0]
+              }
+            },
+            loading: false
+          });
         })
         .catch((err) => {
           this.setState({ loading: false });
@@ -115,7 +122,6 @@ class LayerPopup extends React.Component {
     const interaction = layersInteraction[layer.id] || {};
     const interactionState = this.state.interaction[layer.id] || {};
 
-
     return (
       <div className="c-map-popup">
         <header className="popup-header">
@@ -142,7 +148,7 @@ class LayerPopup extends React.Component {
                     <td className="dt">
                       {outputItem.property || outputItem.column}:
                     </td>
-                    <td className="dd">{this.formatValue(outputItem, interaction.data[outputItem.column])}</td>
+                    <td className="dd">{this.formatValue(outputItem, (interaction.data || interactionState.data)[outputItem.column])}</td>
                   </tr>
                 ))}
               </tbody>
@@ -155,7 +161,7 @@ class LayerPopup extends React.Component {
             </div>
           }
 
-          {!this.state.loading && (!interaction.data || !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
+          {!this.state.loading && (!interaction.data && !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
             'No data available'
           }
 
