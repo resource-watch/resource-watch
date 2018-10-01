@@ -28,6 +28,7 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
 
   const qParams = queryString.stringify({
     application: process.env.APPLICATIONS,
+    env: process.env.API_ENV,
     language: common.locale,
     includes: 'layer,metadata,vocabulary,widget',
     sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
