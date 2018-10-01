@@ -27,7 +27,8 @@ import {
   LegendItemButtonOpacity,
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
-  LegendItemTypes
+  LegendItemTypes,
+  LegendItemTimeline
 } from 'wri-api-components';
 
 import { LayerManager, Layer } from 'layer-manager/dist/react';
@@ -36,6 +37,9 @@ import { PluginLeaflet } from 'layer-manager';
 // Modal
 import Modal from 'components/modal/modal-component';
 import LayerInfoModal from 'components/modal/layer-info-modal';
+
+// constants
+import { BOUNDARIES } from 'components/ui/map/constants';
 
 class ExploreMapComponent extends React.Component {
   static propTypes = {
@@ -48,7 +52,7 @@ class ExploreMapComponent extends React.Component {
     location: PropTypes.object,
     basemap: PropTypes.object,
     labels: PropTypes.object,
-    boundaries: PropTypes.bool,
+    boundaries: PropTypes.bool.isRequired,
     layerGroups: PropTypes.array,
     layerGroupsInteraction: PropTypes.object,
     layerGroupsInteractionSelected: PropTypes.string,
@@ -142,7 +146,6 @@ class ExploreMapComponent extends React.Component {
       embed,
       zoom,
       latLng,
-      bbox,
       location,
       basemap,
       labels,
@@ -158,6 +161,21 @@ class ExploreMapComponent extends React.Component {
       opacity: (typeof lg.opacity !== 'undefined') ? lg.opacity : 1,
       visibility: (typeof lg.visibility !== 'undefined') ? lg.visibility : true
     }));
+
+    if (boundaries) {
+      activeLayers.unshift({
+        id: 'dark-boundaries',
+        active: true,
+        provider: 'leaflet',
+        opacity: 1,
+        visibility: true,
+        layerConfig: {
+          type: 'tileLayer',
+          url: BOUNDARIES.dark.value,
+          body: {}
+        }
+      });
+    }
 
     return (
       <div className="l-map -relative">
@@ -304,6 +322,7 @@ class ExploreMapComponent extends React.Component {
                 onRemoveLayer={this.onRemoveLayer}
               >
                 <LegendItemTypes />
+                <LegendItemTimeline onChangeLayer={this.onChangeLayer} />
               </LegendListItem>
             ))}
           </Legend>
