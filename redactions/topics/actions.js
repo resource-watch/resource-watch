@@ -3,12 +3,13 @@ import queryString from 'query-string';
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Actions
-export const setTopics = createAction('TOPIC_THUMBNAIL_LIST_GET');
-export const setLoading = createAction('TOPIC_THUMBNAIL_LIST_LOADING');
-export const setError = createAction('TOPIC_THUMBNAIL_LIST_ERROR');
+export const setTopics = createAction('TOPICS_GET');
+export const setLoading = createAction('TOPICS_LOADING');
+export const setFilters = createAction('TOPICS_SET-FILTERS');
+export const setError = createAction('TOPICS_ERROR');
 
 // Async actions
-export const fetchTopics = createThunkAction('TOPIC_THUMBNAIL_LIST_FETCH_DATA', (payload = {}) => (dispatch) => {
+export const fetchTopics = createThunkAction('TOPICS_FETCH_DATA', (payload = {}) => (dispatch) => {
   dispatch(setLoading(true));
   dispatch(setError(null));
 

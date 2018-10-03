@@ -27,7 +27,7 @@ export default class Page extends PureComponent {
     await store.dispatch(getUserCollections());
 
     // Get topics
-    await store.dispatch(fetchTopics({ filters: { 'filter[published]': 'true' } }));
+    await store.dispatch(fetchTopics({ filters: {} }));
     const { topics } = store.getState().topics;
 
     store.dispatch(setItem(

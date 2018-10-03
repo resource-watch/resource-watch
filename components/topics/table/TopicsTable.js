@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { getTopics, setFilters } from 'redactions/admin/topics';
+import { fetchTopics, setFilters } from 'redactions/topics/actions';
 
 // Selectors
 import getFilteredTopics from 'selectors/admin/topics';
@@ -22,46 +22,23 @@ import NameTD from './td/NameTD';
 import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
 
-class TopicsTable extends React.Component {
-  static defaultProps = {
-    columns: [],
-    actions: {},
-    // Store
-    topics: [],
-    filteredTopics: []
-  };
-
+class TopicsTable extends PureComponent {
   static propTypes = {
-    authorization: PropTypes.string,
-    // Store
+    authorization: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
     topics: PropTypes.array.isRequired,
-    filteredTopics: PropTypes.array.isRequired,
     error: PropTypes.string,
-
-    // Actions
-    getTopics: PropTypes.func.isRequired,
+    fetchTopics: PropTypes.func.isRequired,
     setFilters: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    // ------------------- Bindings -----------------------
-    this.onSearch = this.onSearch.bind(this);
-    // ----------------------------------------------------
-  }
-
-  componentDidMount() {
-    this.props.setFilters([]);
-    this.props.getTopics();
-  }
+  static defaultProps = { error: null }
 
   /**
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
+  onSearch = (value) => {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
@@ -69,32 +46,20 @@ class TopicsTable extends React.Component {
     }
   }
 
-  /**
-   * HELPERS
-   * - getTopics
-   * - getFilteredTopics
-  */
-  getTopics() {
-    return this.props.topics;
-  }
-
-  getFilteredTopics() {
-    return this.props.filteredTopics;
-  }
-
   render() {
+    const { loading, error, topics, authorization } = this.props;
+
     return (
       <div className="c-topics-table">
-        <Spinner className="-light" isLoading={this.props.loading} />
+        {loading &&
+          <Spinner className="-light" isLoading={loading} />}
 
-        {this.props.error && (
-          <p>Error: {this.props.error}</p>
+        {error && (
+          <p>Error: {error}</p>
         )}
 
         <SearchInput
-          input={{
-            placeholder: 'Search topic'
-          }}
+          input={{ placeholder: 'Search topic' }}
           link={{
             label: 'New topic',
             route: 'admin_topics_detail',
@@ -103,7 +68,7 @@ class TopicsTable extends React.Component {
           onSearch={this.onSearch}
         />
 
-        {!this.props.error && (
+        {!error && (
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
@@ -114,7 +79,7 @@ class TopicsTable extends React.Component {
               show: true,
               list: [
                 { name: 'Edit', route: 'admin_topics_detail', params: { tab: 'topics', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_topics_detail', params: { tab: 'topics', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
+                { name: 'Remove', route: 'admin_topics_detail', params: { tab: 'topics', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization } }
               ]
             }}
             sort={{
@@ -122,9 +87,9 @@ class TopicsTable extends React.Component {
               value: 1
             }}
             filters={false}
-            data={this.getFilteredTopics()}
+            data={topics}
             pageSize={20}
-            onRowDelete={() => this.props.getTopics()}
+            onRowDelete={() => this.props.fetchTopics()}
             pagination={{
               enabled: true,
               pageSize: 20,
@@ -137,15 +102,14 @@ class TopicsTable extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  loading: state.topics.topics.loading,
-  topics: state.topics.topics.list,
-  filteredTopics: getFilteredTopics(state),
-  error: state.topics.topics.error
-});
-const mapDispatchToProps = {
-  getTopics,
-  setFilters
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TopicsTable);
+export default connect(
+  state => ({
+    loading: state.topics.loading,
+    topics: getFilteredTopics(state),
+    error: state.topics.error
+  }),
+  {
+    fetchTopics,
+    setFilters
+  }
+)(TopicsTable);

@@ -1,21 +1,19 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-function PreviewTD(props) {
-  const { value, index } = props;
+class PreviewTD extends PureComponent {
+  static propTypes = { value: PropTypes.string.isRequired }
 
-  return (
-    <td key={index}>
-      <a target="_blank" href={`/topics/${value}`}>
-        {`${window.location.origin}/topics/${value}`}
-      </a>
-    </td>
-  );
+  render() {
+    const { value } = this.props;
+    return (
+      <td key={value}>
+        <a target="_blank" rel="noopener noreferrer" href={`/topics/${value}`}>
+          {`${window.location.origin}/topics/${value}`}
+        </a>
+      </td>
+    );
+  }
 }
-
-PreviewTD.propTypes = {
-  value: PropTypes.bool,
-  index: PropTypes.string
-};
 
 export default PreviewTD;
