@@ -190,6 +190,13 @@ class DatasetListItem extends React.Component {
               }
             </div>
 
+            {/* Last update */}
+            <div className="last-update-container">
+              {dataset.dataLastUpdated &&
+                <p>Last update: {dataset.dataLastUpdated}</p>
+              }
+            </div>
+
             {!!tags &&
               React.cloneElement(
                 tags,
