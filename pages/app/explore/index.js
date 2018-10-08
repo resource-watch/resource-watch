@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
 // Utils
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
@@ -15,14 +16,20 @@ import { Router } from 'routes';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { setIsServer } from 'redactions/common';
 import * as actions from 'layout/explore/explore-actions';
 import Explore from 'layout/explore';
 
 class ExplorePage extends Page {
   static propTypes = {
-    explore: PropTypes.object,
-    resetExplore: PropTypes.func
+    explore: PropTypes.object.isRequired,
+    resetExplore: PropTypes.func.isRequired,
+    setIsServer: PropTypes.func.isRequired
   };
+
+  componentDidMount() {
+    this.props.setIsServer(false);
+  }
 
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
@@ -184,5 +191,8 @@ export default withRedux(
     // Store
     explore: state.explore
   }),
-  actions
+  {
+    ...actions,
+    setIsServer
+  }
 )(ExplorePage);
