@@ -1,21 +1,22 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
-// Utils
-import { logEvent } from 'utils/analytics';
-
-// Services
+// services
 import DashboardsService from 'services/DashboardsService';
 
+import Navigation from 'components/form/Navigation';
+import Spinner from 'components/ui/Spinner';
+import Step1 from 'components/dashboards/form/steps/step-1';
+
+// utils
+import { logEvent } from 'utils/analytics';
+
+// constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/dashboards/form/constants';
 
-import Navigation from 'components/form/Navigation';
-import Step1 from 'components/dashboards/form/steps/Step1';
-import Spinner from 'components/ui/Spinner';
-
-class DashboardsForm extends React.Component {
+class DashboardsForm extends PureComponent {
   constructor(props) {
     super(props);
 

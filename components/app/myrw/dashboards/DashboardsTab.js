@@ -20,8 +20,7 @@ function DashboardsTab(props) {
       }
 
       {user.token && id && id === 'new' &&
-        <DashboardsNew tab={tab} subtab={subtab} id={id} user={user} />
-      }
+        <DashboardsNew />}
 
       {user.token && id && id !== 'new' &&
         <DashboardsShow tab={tab} subtab={subtab} id={id} user={user} />
@@ -31,7 +30,7 @@ function DashboardsTab(props) {
 }
 
 DashboardsTab.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.object.isRequired,
   tab: PropTypes.string,
   id: PropTypes.string,
   subtab: PropTypes.string

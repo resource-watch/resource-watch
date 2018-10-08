@@ -1,32 +1,60 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { connect } from 'react-redux';
 
-// Constants
-import { FORM_ELEMENTS } from 'components/dashboards/form/constants';
-
-// Components
+// components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
+import TemplateSelector from 'components/dashboards/template-selector';
 
 // Wysiwyg
 import Wysiwyg from 'components/form/VizzWysiwyg';
 import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
 import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
-class Step1 extends React.Component {
-  constructor(props) {
-    super(props);
+// constants
+import { FORM_ELEMENTS } from 'components/dashboards/form/constants';
+import { TEMPLATES } from 'components/dashboards/template-selector/constants';
 
-    this.state = { form: props.form };
+class Step1 extends PureComponent {
+  static propTypes = {
+    form: PropTypes.object,
+    basic: PropTypes.bool,
+    user: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    form: {},
+    basic: false
+  }
+
+  state = {
+    form: {
+      ...this.props.form,
+      content: TEMPLATES[0].content
+    }
+  };
+
+  componentDidMount() {
+    const { child: wysiwyg } = FORM_ELEMENTS.elements.content;
+    const { content } = TEMPLATES[0];
+
+    wysiwyg.setValue(JSON.stringify(content));
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({ form: nextProps.form });
+  }
+
+  onChangeTemplate(nextTemplate) {
+    const { child: wysiwyg } = FORM_ELEMENTS.elements.content;
+    const { content } = nextTemplate;
+
+    wysiwyg.setValue(JSON.stringify(content));
   }
 
   render() {
@@ -111,7 +139,6 @@ class Step1 extends React.Component {
             </div>
           </div>
 
-
           {/* PUBLISHED */}
           {!this.props.basic &&
             <Field
@@ -165,6 +192,9 @@ class Step1 extends React.Component {
         </fieldset>
 
         <fieldset className="c-field-container">
+          {/* templates */}
+          <TemplateSelector onChange={this.onChangeTemplate} />
+
           {/* CONTENT */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.content = c; }}
@@ -214,11 +244,4 @@ class Step1 extends React.Component {
   }
 }
 
-Step1.propTypes = {
-  form: PropTypes.object,
-  basic: PropTypes.bool,
-  user: PropTypes.object,
-  onChange: PropTypes.func
-};
-
-export default connect(state => ({ user: state.user }))(Step1);
+export default Step1;

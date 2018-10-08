@@ -1,0 +1,57 @@
+.c-dashboard-template-selector {
+  .template-list {
+    display: flex;
+    justify-content: space-between;
+    margin: $margin-size-small 0 0 0;
+
+    > .template-list-item {
+      flex: 1;
+      overflow: hidden;
+      padding: $margin-size-extra-small;
+      border: 1px solid $border-color-2;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px 0 rgba($black, .09);
+      cursor: pointer;
+
+      &:not(:first-child) {
+        margin: 0 0 0 $margin-size-extra-small / 2;
+      }
+
+      > .template-name {
+        margin: 0 0 $margin-size-extra-small / 2 0;
+        font-weight: 700;
+      }
+
+      > .template-description {
+        font-size: $font-size-normal;
+        color: $dove-grey;
+      }
+
+      &.-selected {
+        position: relative;
+
+        &:after {
+          content: '';
+          display: inline-block;
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 25px;
+          height: 25px;
+          background: $color-primary;
+          transform: translate(50%, -50%) rotate(45deg);
+        }
+      }
+
+      &.-disabled {
+        cursor: default;
+        pointer-events: none;
+        opacity: .35;
+
+        > .template-name {
+          color: $dove-grey;
+        }
+      }
+    }
+  }
+}
