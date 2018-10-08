@@ -25,6 +25,9 @@ import WidgetChart from 'components/charts/widget-chart';
 import LayerChart from 'components/charts/layer-chart';
 import PlaceholderChart from 'components/charts/placeholder-chart';
 
+// Utils
+import { getDateConsideringTimeZone } from 'utils/utils';
+
 class DatasetListItem extends React.Component {
   static propTypes = {
     // STATE
@@ -104,7 +107,6 @@ class DatasetListItem extends React.Component {
       dataset, metadata, mode, user, actions, tags, responsive
     } = this.props;
 
-
     const isInACollection = belongsToACollection(user, dataset);
     const starIconName = classnames({
       'icon-star-full': isInACollection,
@@ -115,6 +117,8 @@ class DatasetListItem extends React.Component {
       '-filled': isInACollection,
       '-empty': !isInACollection
     });
+
+    const dateLastUpdated = getDateConsideringTimeZone(dataset.dataLastUpdated);
 
     return (
       <div className={`c-dataset-list-item -${mode}`}>
@@ -192,8 +196,8 @@ class DatasetListItem extends React.Component {
 
             {/* Last update */}
             <div className="last-update-container">
-              {dataset.dataLastUpdated &&
-                <p>Last update: {dataset.dataLastUpdated}</p>
+              {dateLastUpdated &&
+                <p>Last update: {dateLastUpdated}</p>
               }
             </div>
 
