@@ -32,6 +32,4 @@ export default function DashboardDetail({ dashboardDetail = {} }) {
   );
 }
 
-DashboardDetail.propTypes = {
-  dashboardDetail: PropTypes.object
-};
+DashboardDetail.propTypes = { dashboardDetail: PropTypes.object.isRequired };

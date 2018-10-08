@@ -1,52 +1,32 @@
 import React from 'react';
-import flatten from 'lodash/flatten';
-import compact from 'lodash/compact';
-
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-actions';
-import { fetchDashboards, setPagination, setAdd, setSelected, setExpanded } from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list-actions';
-
-// Next
+import PropTypes from 'prop-types';
 import { Router } from 'routes';
 
-// Utils
-import { logEvent } from 'utils/analytics';
-
-// Components
+// components
 import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 import Icon from 'components/ui/Icon';
-
 import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
-
-// Modal
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
-class DashboardsDetail extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
+// utils
+import { logEvent } from 'utils/analytics';
 
-    // Dashboard detail
-    await context.store.dispatch(
-      fetchDashboard({ id: props.url.query.slug })
-    );
-
-    return { ...props };
+class DashboardsDetailPage extends Page {
+  static propTypes = {
+    dashboardDetail: PropTypes.object.isRequired,
+    datasetIds: PropTypes.array
   }
 
-  constructor(props) {
-    super(props);
+  static defaultProps = { datasetIds: [] }
 
-    this.state = { showShareModal: false };
-  }
+  state = { showShareModal: false }
 
-  handleTagSelected(tag, labels = ['TOPIC']) { // eslint-disable-line class-methods-use-this
+  handleTagSelected(tag, labels = ['TOPIC']) {
     const tagSt = `["${tag.id}"]`;
     let treeSt = 'topics';
     if (labels.includes('TOPIC')) {
@@ -60,53 +40,23 @@ class DashboardsDetail extends Page {
     Router.pushRoute('explore', { [treeSt]: tagSt });
   }
 
-  getDatasetIds() {
-    const { dashboardDetail } = this.props;
-
-    const content = JSON.parse(dashboardDetail.dashboard.content);
-
-    const datasetIds = content.map((block) => {
-      if (!block) {
-        return null;
-      }
-
-      if (block.type === 'widget') {
-        return block.content.datasetId;
-      }
-
-      if (block.type === 'grid') {
-        return block.content.map((b) => {
-          if (!b) {
-            return null;
-          }
-
-          if (b.type === 'widget') {
-            return b.content.datasetId;
-          }
-
-          return null;
-        });
-      }
-
-      return null;
-    });
-
-    return compact(flatten(datasetIds));
-  }
-
-  handleToggleShareModal = (bool) => {
-    this.setState({ showShareModal: bool });
+  handleToggleShareModal = (showShareModal) => {
+    this.setState({ showShareModal });
   }
 
   render() {
-    const { dashboardDetail } = this.props;
+    const { dashboardDetail, datasetIds } = this.props;
+    const {
+      name,
+      summary,
+      description,
+      slug
+    } = dashboardDetail;
 
     return (
       <Layout
-        title={dashboardDetail.dashboard.name}
-        description={dashboardDetail.dashboard.summary}
-        url={this.props.url}
-        user={this.props.user}
+        title={name}
+        description={summary}
         pageHeader
         className="page-dashboards c-page-dashboards"
       >
@@ -115,8 +65,17 @@ class DashboardsDetail extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'Dashboards', href: '/myrw/dashboards' }]} />
-                  <h1>{dashboardDetail.dashboard.name}</h1>
+                  <Breadcrumbs items={[
+                    {
+                      name: 'Dashboards',
+                      href: '/myrw/dashboards'
+                    }
+                    ]}
+                  />
+                  <h1>{name}</h1>
+
+                  {summary &&
+                    <h3>{summary}</h3>}
 
                   <div className="page-header-info">
                     <ul>
@@ -134,19 +93,18 @@ class DashboardsDetail extends Page {
                           <ShareModal
                             links={{
                               link: typeof window !== 'undefined' && window.location.href,
-                              embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${dashboardDetail.dashboard.slug}`
+                              embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${slug}`
                             }}
                             analytics={{
-                              facebook: () => logEvent('Share', `Share dashboard: ${dashboardDetail.dashboard.name}`, 'Facebook'),
-                              twitter: () => logEvent('Share', `Share dashboard: ${dashboardDetail.dashboard.name}`, 'Twitter'),
-                              copy: type => logEvent('Share', `Share dashboard: ${dashboardDetail.dashboard.name}`, `Copy ${type}`)
+                              facebook: () => logEvent('Share', `Share dashboard: ${name}`, 'Facebook'),
+                              twitter: () => logEvent('Share', `Share dashboard: ${name}`, 'Twitter'),
+                              copy: type => logEvent('Share', `Share dashboard: ${name}`, `Copy ${type}`)
                             }}
                           />
                         </Modal>
                       </li>
                     </ul>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -156,6 +114,10 @@ class DashboardsDetail extends Page {
         <div className="l-section">
           <div className="l-container">
             <div className="row">
+              {description &&
+                <div className="column small-12">
+                  {description}
+                </div>}
               <div className="column small-12">
                 <DashboardDetail />
               </div>
@@ -172,7 +134,7 @@ class DashboardsDetail extends Page {
                 </Title>
 
                 <SimilarDatasets
-                  datasetIds={this.getDatasetIds()}
+                  datasetIds={datasetIds}
                   onTagSelected={this.handleTagSelected}
                 />
               </div>
@@ -184,15 +146,4 @@ class DashboardsDetail extends Page {
   }
 }
 
-const mapStateToProps = state => ({ dashboardDetail: state.dashboardDetail });
-
-const mapDispatchToProps = {
-  fetchDashboard,
-  fetchDashboards,
-  setExpanded,
-  setPagination,
-  setAdd,
-  setSelected
-};
-
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(DashboardsDetail);
+export default DashboardsDetailPage;
