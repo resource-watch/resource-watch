@@ -53,7 +53,6 @@ export function getDateConsideringTimeZone(date) {
     const newDate = new Date(date);
     const dateDifferenceWithLocale = newDate.getTimezoneOffset();
     const result = new Date(newDate.getTime() + (dateDifferenceWithLocale * 60000));
-    console.log('test getDataConsideringTimeZone', result);
     return result.toDateString();
   }
   return null;
