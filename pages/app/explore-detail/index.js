@@ -10,15 +10,16 @@ import Error from 'pages/_error';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
+import { setIsServer } from 'redactions/common';
 import * as actions from 'layout/explore-detail/explore-detail-actions';
 import ExploreDetail from 'layout/explore-detail';
 
 import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
-import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
 
 class ExploreDetailPage extends Page {
   static propTypes = {
-    exploreDetail: PropTypes.object
+    exploreDetail: PropTypes.object,
+    setIsServer: PropTypes.func.isRequired
   };
 
   static async getInitialProps(context) {
@@ -53,12 +54,6 @@ class ExploreDetailPage extends Page {
     return { ...props };
   }
 
-  /**
-   * Component Lifecycle
-   * - componentDidMount
-   * - componentWillReceiveProps
-   * - componentWillUnmount
-  */
   componentDidMount() {
     if (this.props.url.asPath === '/data/explore/Powerwatch') {
       Router.replaceRoute('/data/explore/a86d906d-9862-4783-9e30-cdb68cd808b8');
@@ -73,12 +68,12 @@ class ExploreDetailPage extends Page {
       this.props.fetchTags();
       this.props.setCountView();
     }
+
+    this.props.setIsServer(false);
   }
 
   render() {
-    const {
-      exploreDetail
-    } = this.props;
+    const { exploreDetail } = this.props;
 
     const { data: dataset } = exploreDetail;
     if (dataset && !dataset.published) return <Error status={404} />;
@@ -89,9 +84,9 @@ class ExploreDetailPage extends Page {
 
 export default withRedux(
   initStore,
-  state => ({
-    // Store
-    exploreDetail: state.exploreDetail
-  }),
-  actions
+  state => ({ exploreDetail: state.exploreDetail }),
+  {
+    ...actions,
+    setIsServer
+  }
 )(ExploreDetailPage);

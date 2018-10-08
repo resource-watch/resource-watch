@@ -7,7 +7,7 @@ import { setMobileOpened } from 'layout/header/header-actions';
 
 import 'css/index.scss';
 
-export default class Page extends PureComponent {
+class Page extends PureComponent {
   static async getInitialProps({
     asPath,
     pathname,
@@ -41,3 +41,6 @@ export default class Page extends PureComponent {
     return { user, isServer, url };
   }
 }
+
+
+export default Page;
