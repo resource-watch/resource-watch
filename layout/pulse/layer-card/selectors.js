@@ -14,7 +14,7 @@ export const getUpdatedDataset = createSelector(
 
     return ({
       ..._dataset,
-      dateLastUpdated: getDateConsideringTimeZone(_dataset.dataLastUpdated)
+      dataLastUpdated: getDateConsideringTimeZone(_dataset.dataLastUpdated)
     });
   }
 );
