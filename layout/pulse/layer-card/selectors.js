@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty';
 import { createSelector } from 'reselect';
 
 // utils
@@ -9,7 +10,7 @@ const getIsServer = state => state.common.isServer;
 export const getUpdatedDataset = createSelector(
   [getDataset, getIsServer],
   (_dataset, _isServer) => {
-    if (_isServer) return _dataset;
+    if (isEmpty(_dataset) || _isServer) return _dataset;
 
     return ({
       ..._dataset,

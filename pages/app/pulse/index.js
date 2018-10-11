@@ -9,8 +9,13 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 import * as actions from 'layout/pulse/actions';
 import Pulse from 'layout/pulse';
+import { setIsServer } from 'redactions/common';
 
 class PulsePage extends Page {
+  componentDidMount() {
+    this.props.setIsServer(false);
+  }
+
   render() {
     return <Pulse />;
   }
@@ -19,5 +24,5 @@ class PulsePage extends Page {
 export default withRedux(
   initStore,
   null,
-  actions
+  { ...actions, setIsServer }
 )(PulsePage);
