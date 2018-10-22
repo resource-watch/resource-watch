@@ -198,9 +198,25 @@ class Step1 extends React.Component {
           {Code}
         </Field>
 
-        <InteractionsComponent
-          form={form}
-        />
+        {form.provider !== 'gee' &&
+          <InteractionsComponent
+            form={form}
+          />
+        }
+
+        {form.provider === 'gee' &&
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.interactionConfig = c; }}
+            onChange={value => this.props.onChange({ interactionConfig: value })}
+            properties={{
+              name: 'interactionConfig',
+              label: 'Raster interactivity',
+              default: form.interactionConfig
+            }}
+          >
+            {Code}
+          </Field>
+        }
 
         <LayerPreviewComponent
           form={form}
