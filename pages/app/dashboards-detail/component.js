@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
 import { Router } from 'routes';
 
 // components
@@ -116,7 +117,7 @@ class DashboardsDetailPage extends Page {
             <div className="row">
               {description &&
                 <div className="column small-12">
-                  {description}
+                  <ReactMarkdown source={description} />
                 </div>}
               <div className="column small-12">
                 <DashboardDetail />

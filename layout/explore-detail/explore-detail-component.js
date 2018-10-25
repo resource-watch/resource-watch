@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactMarkdown from 'react-markdown';
 
 // Explore Detail Component
 import ExploreDetailHeader from 'layout/explore-detail/explore-detail-header';
@@ -14,7 +15,6 @@ import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 
 import Title from 'components/ui/Title';
-import ReadMore from 'components/ui/ReadMore';
 import Banner from 'components/app/common/Banner';
 
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
@@ -29,14 +29,10 @@ import {
 import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
 
 class ExploreDetail extends Page {
-  static propTypes = {
-    exploreDetail: PropTypes.object
-  };
+  static propTypes = { exploreDetail: PropTypes.object };
 
   render() {
-    const {
-      exploreDetail
-    } = this.props;
+    const { exploreDetail } = this.props;
 
     const dataset = exploreDetail.data;
     const datasetName = getDatasetName(dataset);
@@ -68,10 +64,8 @@ class ExploreDetail extends Page {
             <div className="l-container">
               <div className="row">
                 <div className="column small-12 large-7">
-                  {/* Function */}
-                  <ReadMore
-                    text={metadata.description}
-                  />
+                  {metadata.description &&
+                    <ReactMarkdown source={metadata.description} />}
                 </div>
 
                 <div className="column small-12 large-4 large-offset-1">
