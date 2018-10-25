@@ -50,6 +50,8 @@
         margin: 22px 0 0;
 
         .form-buttons {
+          margin: $margin-size-small 0 0;
+
           > ul {
             display: flex;
             align-items: center;
