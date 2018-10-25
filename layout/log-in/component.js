@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { toastr } from 'react-redux-toastr';
-import { Router } from 'routes';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -10,39 +9,48 @@ import Input from 'components/form/Input';
 // services
 import UserService from 'services/UserService';
 
+// constants
+import { FORM_ELEMENTS } from './constants';
+
 class Login extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      email: '',
-      password: '',
-      repeatPassword: '',
-      register: false
-    };
-
-    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
-  }
+  state ={
+    email: '',
+    password: '',
+    repeatPassword: '',
+    register: false
+  };
 
   onSubmit = (e) => {
     if (e) e.preventDefault();
-
+    FORM_ELEMENTS.validate();
+    const isValid = FORM_ELEMENTS.isValid();
     const { register, ...userSettings } = this.state;
 
-    // register user
-    if (register) {
-      this.userService.registerUser(userSettings)
-        .then(() => toastr.success('Confirm registration', 'You will receieve an email shortly. Please confirm your registration.'))
-        .catch(err => toastr.error('Something went wrong', err));
-    } else {
-      // log-in user
-      this.userService.loginUser(userSettings)
-        .catch(err => toastr.error('Something went wrong', err));
-    }
+    if (!isValid) return;
+
+    setTimeout(() => {
+      // register user
+      if (register) {
+        this.userService.registerUser(userSettings)
+          .then(() => toastr.success('Confirm registration', 'You will receieve an email shortly. Please confirm your registration.'))
+          .catch(err => toastr.error('Something went wrong', err));
+      } else {
+        // log-in user
+        this.userService.loginUser(userSettings)
+          .catch(err => toastr.error('Something went wrong', err));
+      }
+    }, 0);
   }
 
+  userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
+
   render() {
-    const { email, password, repeatPassword, register } = this.state;
+    const {
+      email,
+      password,
+      repeatPassword,
+      register
+    } = this.state;
 
     return (
       <Layout
@@ -62,6 +70,7 @@ class Login extends PureComponent {
                       <span>Access with your email</span>
                       <form onSubmit={this.onSubmit}>
                         <Field
+                          ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
                           onChange={value => this.setState({ email: value })}
                           className="-fluid"
                           validations={['required', 'email']}
@@ -76,6 +85,7 @@ class Login extends PureComponent {
                           {Input}
                         </Field>
                         <Field
+                          ref={(c) => { if (c) FORM_ELEMENTS.elements.password = c; }}
                           onChange={value => this.setState({ password: value })}
                           className="-fluid"
                           validations={['required']}
@@ -93,9 +103,14 @@ class Login extends PureComponent {
 
                         {register &&
                           <Field
+                            ref={(c) => { if (c) FORM_ELEMENTS.elements.repeatPassword = c; }}
                             onChange={value => this.setState({ repeatPassword: value })}
                             className="-fluid"
-                            validations={['required']}
+                            validations={['required', {
+                              type: 'equal',
+                              data: password,
+                              condition: 'Passwords don\'t match'
+                            }]}
                             properties={{
                               name: 'repeat-password',
                               label: 'Repeat Password',
@@ -111,10 +126,7 @@ class Login extends PureComponent {
                         <div className="c-button-container form-buttons">
                           <ul>
                             <li>
-                              <button
-                                className="c-button -primary"
-                                // onClick={() => { this.setState({ register: !register }); }}
-                              >
+                              <button className="c-button -primary">
                                 {register ? 'Register' : 'Log in'}
                               </button>
                             </li>
