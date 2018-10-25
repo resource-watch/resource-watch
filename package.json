@@ -94,6 +94,7 @@
     "react-dropzone": "4.2.9",
     "react-ga": "^2.3.5",
     "react-geosuggest": "^2.7.0",
+    "react-google-recaptcha": "^1.0.4",
     "react-graph-vis": "1.0.2",
     "react-hammerjs": "^1.0.1",
     "react-input-autosize": "2.0.1",

@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { toastr } from 'react-redux-toastr';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -17,6 +18,7 @@ class Login extends PureComponent {
     email: '',
     password: '',
     repeatPassword: '',
+    captcha: null,
     register: false
   };
 
@@ -24,20 +26,34 @@ class Login extends PureComponent {
     if (e) e.preventDefault();
     FORM_ELEMENTS.validate();
     const isValid = FORM_ELEMENTS.isValid();
-    const { register, ...userSettings } = this.state;
+    const { register, captcha, ...userSettings } = this.state;
 
-    if (!isValid) return;
+    if (captcha === null) toastr.error('Please fill the captcha');
+
+    if (!isValid || captcha === null) return;
 
     setTimeout(() => {
       // register user
       if (register) {
         this.userService.registerUser(userSettings)
-          .then(() => toastr.success('Confirm registration', 'You will receieve an email shortly. Please confirm your registration.'))
-          .catch(err => toastr.error('Something went wrong', err));
+          .then(() => {
+            toastr.success('Confirm registration', 'You will receieve an email shortly. Please confirm your registration.');
+          })
+          .catch((err) => {
+            err.json()
+              .then(({ errors } = {}) => {
+                (errors || []).forEach(_error => toastr.error('Something went wrong', `${_error.status}:${_error.detail}`));
+              });
+          });
       } else {
         // log-in user
         this.userService.loginUser(userSettings)
-          .catch(err => toastr.error('Something went wrong', err));
+          .catch((err) => {
+            err.json()
+              .then(({ errors } = {}) => {
+                (errors || []).forEach(_error => toastr.error('Something went wrong', `${_error.status}:${_error.detail}`));
+              });
+          });
       }
     }, 0);
   }
@@ -102,27 +118,33 @@ class Login extends PureComponent {
                         </Field>
 
                         {register &&
-                          <Field
-                            ref={(c) => { if (c) FORM_ELEMENTS.elements.repeatPassword = c; }}
-                            onChange={value => this.setState({ repeatPassword: value })}
-                            className="-fluid"
-                            validations={['required', {
-                              type: 'equal',
-                              data: password,
-                              condition: 'Passwords don\'t match'
-                            }]}
-                            properties={{
-                              name: 'repeat-password',
-                              label: 'Repeat Password',
-                              required: true,
-                              default: repeatPassword,
-                              type: 'password',
-                              placeholder: '*********'
-                            }}
-                          >
-                            {Input}
-                          </Field>}
-
+                          <Fragment>
+                            <Field
+                              ref={(c) => { if (c) FORM_ELEMENTS.elements.repeatPassword = c; }}
+                              onChange={(value) => { this.setState({ repeatPassword: value }); }}
+                              className="-fluid"
+                              validations={['required', {
+                                type: 'equal',
+                                data: password,
+                                condition: 'Passwords don\'t match'
+                              }]}
+                              properties={{
+                                name: 'repeat-password',
+                                label: 'Repeat Password',
+                                required: true,
+                                default: repeatPassword,
+                                type: 'password',
+                                placeholder: '*********'
+                              }}
+                            >
+                              {Input}
+                            </Field>
+                            <ReCAPTCHA
+                              sitekey="6LeBy3YUAAAAACLNnSGCnvok_tRDnQut-Mc7SBh8"
+                              onChange={(value) => { this.setState({ captcha: value }); }}
+                            />
+                          </Fragment>
+                        }
                         <div className="c-button-container form-buttons">
                           <ul>
                             <li>

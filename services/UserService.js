@@ -53,7 +53,10 @@ export default class UserService {
       body: JSON.stringify({ email, password, repeatPassword }),
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(response => response.json());
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw response;
+      });
   }
 
   /**
@@ -72,7 +75,10 @@ export default class UserService {
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(response => response.json());
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw response;
+      });
   }
 
   /**
