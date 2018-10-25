@@ -80,7 +80,7 @@ class Login extends PureComponent {
                 <div className="wrapper">
                   <div className="row">
                     <div className="column small-12">
-                      <h2 className="c-title">{register ? 'Sign up' : 'Log-in'}</h2>
+                      <h2 className="c-title">{register ? 'Sign up' : 'Sign in'}</h2>
                     </div>
                     <div className="column small-12 medium-5">
                       <span>Access with your email</span>
