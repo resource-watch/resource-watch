@@ -1,10 +1,6 @@
 {
   "name": "resource-watch",
-  "version": "2.15.11",
-  "description": "Resource Watch",
-  "author": "Vizzuality",
   "license": "MIT",
-  "repository": "https://github.com/resource-watch/resource-watch.git",
   "main": "index.js",
   "dependencies": {
     "@babel/core": "^7.2.0",
