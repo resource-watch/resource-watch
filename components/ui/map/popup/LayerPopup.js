@@ -117,6 +117,7 @@ class LayerPopup extends React.Component {
     }
     // Get interactionConfig
     const { interactionConfig } = layer;
+    const { output } = interactionConfig;
 
     // Get data from props or state
     const interaction = layersInteraction[layer.id] || {};
@@ -140,17 +141,27 @@ class LayerPopup extends React.Component {
           {(interaction.data || interactionState.data) &&
             <table className="popup-table">
               <tbody>
-                {interactionConfig.output.map(outputItem => (
-                  <tr
-                    className="dc"
-                    key={outputItem.property || outputItem.column}
-                  >
-                    <td className="dt">
-                      {outputItem.property || outputItem.column}:
-                    </td>
-                    <td className="dd">{this.formatValue(outputItem, (interaction.data || interactionState.data)[outputItem.column])}</td>
-                  </tr>
-                ))}
+                {output.map((outputItem) => {
+                  const { column } = outputItem;
+                  let value = (interaction.data || interactionState.data)[column];
+                  if (column.indexOf('.') >= 0) {
+                    value = (interaction.data || interactionState.data);
+                    const propArray = column.split('.');
+                    propArray.forEach(elem => (value = value[elem])); // eslint-disable-line no-return-assign, max-len
+                  }
+                    return (
+                      <tr
+                        className="dc"
+                        key={outputItem.property || outputItem.column}
+                      >
+                        <td className="dt">
+                          {outputItem.property || outputItem.column}:
+                        </td>
+                        <td className="dd">{this.formatValue(outputItem, value)}</td>
+                      </tr>
+                    );
+                  }
+              )}
               </tbody>
             </table>
           }
