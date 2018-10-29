@@ -143,12 +143,9 @@ class LayerPopup extends React.Component {
               <tbody>
                 {output.map((outputItem) => {
                   const { column } = outputItem;
-                  let value = (interaction.data || interactionState.data)[column];
-                  if (column.indexOf('.') >= 0) {
-                    value = (interaction.data || interactionState.data);
-                    const propArray = column.split('.');
-                    propArray.forEach(elem => (value = value[elem])); // eslint-disable-line no-return-assign, max-len
-                  }
+                  const columnArray = column.split('.');
+                  const value = columnArray.reduce((acc, c) => acc[c],
+                    interaction.data || interactionState.data);
                     return (
                       <tr
                         className="dc"
