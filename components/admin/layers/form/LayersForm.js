@@ -115,12 +115,15 @@ class LayersForm extends React.Component {
       const valid = FORM_ELEMENTS.isValid(this.state.step);
       const { interactions } = this.props;
 
+      let interactionConfig = this.state.form.interactionConfig;
       // Grab all the interactions from the redux store
-      const interactionConfig = Object.assign(
-        {},
-        this.state.form.interactionConfig,
-        { output: interactions.added }
-      );
+      if (this.state.form.provider !== 'gee') {
+        interactionConfig = Object.assign(
+          {},
+          this.state.form.interactionConfig,
+          { output: interactions.added }
+        );
+      }
 
       const form = Object.assign({}, this.state.form, { interactionConfig });
 
