@@ -132,12 +132,14 @@ class LayerCardComponent extends PureComponent {
               </button>
             </div>
             }
-            {
-              lastUpdateDate &&
-              <div className="last-update-date-container">
-                Last update: {lastUpdateDate}
-              </div>
-            }
+            {/* Temporarilly hidden until data is fixed
+              {
+                lastUpdateDate &&
+                <div className="last-update-date-container">
+                  Last update: {lastUpdateDate}
+                </div>
+              }
+            } */}
             <Legend
               layerActive={layerActive}
               className={{ color: '-dark' }}

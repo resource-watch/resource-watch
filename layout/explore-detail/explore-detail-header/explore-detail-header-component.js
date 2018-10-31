@@ -77,7 +77,9 @@ class ExploreDetailHeader extends PureComponent {
         <div className="page-header-info">
           <ul>
             <li>Source: {(metadata.source) || '-'}</li>
+            {/* Temporarilly hidden until data is fixed
             <li>Last update: {dataset.dateLastUpdated || '-'}</li>
+            } */}
             <li>
               <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
                 <Icon name="icon-share" className="-small" />
