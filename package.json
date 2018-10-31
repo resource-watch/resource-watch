@@ -1,6 +1,6 @@
 {
   "name": "resource-watch",
-  "version": "2.15.8",
+  "version": "2.15.11",
   "description": "Resource Watch",
   "author": "Vizzuality",
   "license": "MIT",
@@ -94,6 +94,7 @@
     "react-hammerjs": "^1.0.1",
     "react-input-autosize": "2.0.1",
     "react-input-range": "^1.2.1",
+    "react-markdown": "^4.0.3",
     "react-modal": "3.1.13",
     "react-progress-2": "4.4.1",
     "react-quill": "1.1.0",
