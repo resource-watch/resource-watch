@@ -14,8 +14,6 @@ function SubmitModalComponent(props) {
   );
 }
 
-SubmitModalComponent.propTypes = {
-  text: PropTypes.string.isRequired
-};
+SubmitModalComponent.propTypes = { text: PropTypes.string.isRequired };
 
 export default SubmitModalComponent;

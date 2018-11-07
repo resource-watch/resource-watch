@@ -19,7 +19,6 @@ import {
   MapPopup,
   MapControls,
   ZoomControl,
-
   Legend,
   LegendListItem,
   LegendItemToolbar,
@@ -80,13 +79,12 @@ class ExploreMapComponent extends React.Component {
   state = {
     layer: null,
     loading: {}
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     const { layerGroups: prevLayerGroups } = this.props;
 
     const { layerGroups: nextLayerGroups } = nextProps;
-
 
     if (!!this.popup && prevLayerGroups.length !== nextLayerGroups.length) {
       this.popup.remove();
@@ -104,33 +102,42 @@ class ExploreMapComponent extends React.Component {
 
   onChangeInfo = (layer) => {
     this.setState({ layer });
-  }
+  };
 
   onChangeOpacity = debounce((l, opacity) => {
     this.props.setMapLayerGroupOpacity({ dataset: { id: l.dataset }, opacity });
-  }, 250)
+  }, 250);
 
   onChangeVisibility = (l, visibility) => {
-    this.props.setMapLayerGroupVisibility({ dataset: { id: l.dataset }, visibility });
-  }
+    this.props.setMapLayerGroupVisibility({
+      dataset: { id: l.dataset },
+      visibility
+    });
+  };
 
   onChangeLayer = (l) => {
-    this.props.setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
-  }
+    this.props.setMapLayerGroupActive({
+      dataset: { id: l.dataset },
+      active: l.id
+    });
+  };
 
   onRemoveLayer = (l) => {
-    this.props.toggleMapLayerGroup({ dataset: { id: l.dataset }, toggle: false });
-  }
+    this.props.toggleMapLayerGroup({
+      dataset: { id: l.dataset },
+      toggle: false
+    });
+  };
 
   onChangeOrder = (datasetIds) => {
     this.props.setMapLayerGroupsOrder({ datasetIds });
-  }
+  };
 
   // Map params
   onMapParams = debounce(({ zoom, latLng }) => {
     this.props.setMapZoom(zoom);
     this.props.setMapLatLng(latLng);
-  }, 250)
+  }, 250);
 
   onLayerLoading = (id, bool) => {
     this.setState({
@@ -139,7 +146,7 @@ class ExploreMapComponent extends React.Component {
         [id]: bool
       }
     });
-  }
+  };
 
   render() {
     const {
@@ -158,8 +165,8 @@ class ExploreMapComponent extends React.Component {
 
     const activeLayers = layerGroups.map(lg => ({
       ...lg.layers.find(l => l.active),
-      opacity: (typeof lg.opacity !== 'undefined') ? lg.opacity : 1,
-      visibility: (typeof lg.visibility !== 'undefined') ? lg.visibility : true
+      opacity: typeof lg.opacity !== 'undefined' ? lg.opacity : 1,
+      visibility: typeof lg.visibility !== 'undefined' ? lg.visibility : true
     }));
 
     if (boundaries) {
@@ -182,9 +189,7 @@ class ExploreMapComponent extends React.Component {
         {/* Spinner */}
         {Object.keys(this.state.loading)
           .map(k => this.state.loading[k])
-          .some((l => !!l)) &&
-          <Spinner isLoading />
-        }
+          .some(l => !!l) && <Spinner isLoading />}
 
         {/* Map */}
         <div className="c-map">
@@ -222,14 +227,15 @@ class ExploreMapComponent extends React.Component {
                 });
               }
             }}
-            onReady={(map) => { this.map = map; console.info(this.map); }}
+            onReady={(map) => {
+              this.map = map;
+              console.info(this.map);
+            }}
           >
             {map => (
               <React.Fragment>
                 {/* Controls */}
-                <MapControls
-                  customClass="c-map-controls"
-                >
+                <MapControls customClass="c-map-controls">
                   <ZoomControl map={map} />
 
                   {!embed && <ShareControl />}
@@ -250,42 +256,67 @@ class ExploreMapComponent extends React.Component {
                   map={map}
                   latlng={layerGroupsInteractionLatLng}
                   data={{
-                    layers: activeLayers.filter(l => !!l.interactionConfig && !!l.interactionConfig.output && !!l.interactionConfig.output.length),
+                    layers: activeLayers.filter(
+                      l =>
+                        !!l.interactionConfig &&
+                        !!l.interactionConfig.output &&
+                        !!l.interactionConfig.output.length
+                    ),
                     layersInteraction: layerGroupsInteraction,
                     layersInteractionSelected: layerGroupsInteractionSelected
                   }}
-                  onReady={(popup) => { this.popup = popup; }}
+                  onReady={(popup) => {
+                    this.popup = popup;
+                  }}
                 >
                   <LayerPopup
-                    onChangeInteractiveLayer={selected => this.props.setMapLayerGroupsInteractionSelected(selected)}
+                    onChangeInteractiveLayer={selected =>
+                      this.props.setMapLayerGroupsInteractionSelected(selected)
+                    }
                   />
                 </MapPopup>
 
                 {/* LayerManager */}
                 <LayerManager map={map} plugin={PluginLeaflet}>
-                  {layerManager => activeLayers && activeLayers.map((l, i) => (
-                    <Layer
-                      {...l}
-                      key={l.id}
-                      layerManager={layerManager}
-                      opacity={l.opacity}
-                      zIndex={1000 - i}
+                  {layerManager =>
+                    activeLayers &&
+                    activeLayers.map((l, i) => (
+                      <Layer
+                        {...l}
+                        key={l.id}
+                        layerManager={layerManager}
+                        opacity={l.opacity}
+                        zIndex={1000 - i}
+                        // Interaction
+                        {...!!l.interactionConfig &&
+                          !!l.interactionConfig.output &&
+                          !!l.interactionConfig.output.length && {
+                            interactivity:
+                              l.provider === "carto" || l.provider === "cartodb"
+                                ? l.interactionConfig.output.map(o => o.column)
+                                : true,
+                            events: {
+                              click: (e) => {
+                                if (this.props.setMapLayerGroupsInteraction)
+                                  this.props.setMapLayerGroupsInteraction({
+                                    ...e,
+                                    ...l
+                                  });
+                                if (
+                                  this.props.setMapLayerGroupsInteractionLatLng
+                                )
+                                  this.props.setMapLayerGroupsInteractionLatLng(
+                                    e.latlng
+                                  );
+                              }
+                            }
+                          }}
 
-                      // Interaction
-                      {...!!l.interactionConfig && !!l.interactionConfig.output && !!l.interactionConfig.output.length && {
-                        interactivity: (l.provider === 'carto' || l.provider === 'cartodb') ? l.interactionConfig.output.map(o => o.column) : true,
-                        events: {
-                          click: (e) => {
-                            if (this.props.setMapLayerGroupsInteraction) this.props.setMapLayerGroupsInteraction({ ...e, ...l });
-                            if (this.props.setMapLayerGroupsInteractionLatLng) this.props.setMapLayerGroupsInteractionLatLng(e.latlng);
-                          }
-                        }
-                      }}
-
-                    // There is a bug here... Too many setState
-                    // onLayerLoading={bool => this.onLayerLoading(l.id, bool)}
-                    />
-                  ))}
+                        // There is a bug here... Too many setState
+                        // onLayerLoading={bool => this.onLayerLoading(l.id, bool)}
+                      />
+                    ))
+                  }
                 </LayerManager>
               </React.Fragment>
             )}
@@ -304,15 +335,16 @@ class ExploreMapComponent extends React.Component {
                 key={lg.dataset}
                 layerGroup={lg}
                 toolbar={
-                  (embed) ?
+                  embed ? (
                     <LegendItemToolbar>
                       <LegendItemButtonLayers />
                       <LegendItemButtonOpacity />
                       <LegendItemButtonVisibility />
                       <LegendItemButtonInfo />
-                    </LegendItemToolbar> :
-
+                    </LegendItemToolbar>
+                  ) : (
                     <LegendItemToolbar />
+                  )
                 }
                 // Actions
                 onChangeInfo={this.onChangeInfo}
@@ -328,17 +360,15 @@ class ExploreMapComponent extends React.Component {
           </Legend>
         </div>
 
-        {!!this.state.layer &&
+        {!!this.state.layer && (
           <Modal
             isOpen={!!this.state.layer}
             className="-medium"
             onRequestClose={() => this.onChangeInfo(null)}
           >
-            <LayerInfoModal
-              layer={this.state.layer}
-            />
+            <LayerInfoModal layer={this.state.layer} />
           </Modal>
-        }
+        )}
       </div>
     );
   }

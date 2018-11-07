@@ -37,22 +37,17 @@ class ShareModalComponent extends PureComponent {
     }
   };
 
-
   constructor(props) {
     super(props);
     this.inputs = {};
 
-    this.state = {
-      copied: {}
-    };
+    this.state = { copied: {} };
   }
 
   componentDidMount() {
     const { links } = this.props;
     if (links.link) {
-      // this.props.fetchShortUrl({
-      //   longUrl: links.link
-      // });
+      this.props.fetchShortUrl({ longUrl: links.link });
     }
   }
 
@@ -92,15 +87,13 @@ class ShareModalComponent extends PureComponent {
     } catch (err) {
       toastr.warning('Oops, unable to copy');
     }
-  }
-
+  };
 
   render() {
     const { links, shortLinks, loading } = this.props;
 
     return (
       <div className="c-share-modal">
-
         <h2>Share</h2>
 
         <div className="share-content">
@@ -110,18 +103,17 @@ class ShareModalComponent extends PureComponent {
 
             switch (type) {
               case 'link':
-
                 return (
                   <div key={type} className="c-field">
-                    <label htmlFor={htmlFor}>
-                      Public url to share
-                    </label>
+                    <label htmlFor={htmlFor}>Public url to share</label>
 
                     <div className="share-input-container">
                       {loading && <Spinner className="-light -tiny" isLoading />}
 
                       <input
-                        ref={(n) => { this.inputs[type] = n; }}
+                        ref={(n) => {
+                          this.inputs[type] = n;
+                        }}
                         id={htmlFor}
                         name={htmlFor}
                         className="share-input"
@@ -142,7 +134,9 @@ class ShareModalComponent extends PureComponent {
 
                         <a
                           className="c-btn -secondary -compressed -square"
-                          href={`https://twitter.com/share?url=${url}&text=${encodeURIComponent(document.title)}`}
+                          href={`https://twitter.com/share?url=${url}&text=${encodeURIComponent(
+                            document.title
+                          )}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={() => this.props.analytics.twitter(type)}
@@ -166,13 +160,13 @@ class ShareModalComponent extends PureComponent {
               case 'embed':
                 return (
                   <div key={type} className="c-field">
-                    <label htmlFor={htmlFor}>
-                      Code to embed
-                    </label>
+                    <label htmlFor={htmlFor}>Code to embed</label>
 
                     <div className="share-input-container">
                       <input
-                        ref={(n) => { this.inputs[type] = n; }}
+                        ref={(n) => {
+                          this.inputs[type] = n;
+                        }}
                         id={htmlFor}
                         name={htmlFor}
                         className="share-input"
