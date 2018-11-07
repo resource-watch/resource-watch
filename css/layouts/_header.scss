@@ -74,7 +74,9 @@
         margin-left: $margin-size-extra-small;
         color: $alt-font-color;
 
-        > a, > span, > button {
+        > a,
+        > span,
+        > button {
           position: relative;
           display: flex;
           align-items: center;
@@ -85,7 +87,7 @@
           cursor: pointer;
 
           &.-bordered {
-            border: 1px solid rgba($alt-border-color, .5);
+            border: 1px solid rgba($alt-border-color, 0.5);
             border-radius: 4px;
           }
 
@@ -99,7 +101,9 @@
         &.-active > a {
           color: $active-font-color;
           fill: $active-font-color;
-          text-decoration: underline;
+          text-decoration: none;
+          border: 1px $active-font-color solid;
+          border-radius: 5px;
         }
       }
     }
