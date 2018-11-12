@@ -14,7 +14,7 @@
     }
 
     &.signup {
-      background: url('/static/images/backgrounds/jellyfish.jpg');
+      background: url('/static/images/backgrounds/computer.jpg');
     }
     &.insights {
       background: url('/static/images/backgrounds/jellyfish.jpg');
@@ -32,6 +32,7 @@
     }
   }
   .c-card-long {
+  padding: 40px;
   border-radius: 4px;
 }
 }

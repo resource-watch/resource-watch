@@ -93,11 +93,12 @@ class GetInvolvedComponent extends React.PureComponent {
               <div className="row align-center">
                 <div className="column small-12">
                   <Banner
-                    className="-text-center c-card-long"
-                    bgImage="/static/images/backgrounds/partners-02@2x.jpg"
+                    className="-text-center  c-card-long"
+                    bgImage="/static/images/backgrounds/computer.jpg"
+                    overlay
                   >
                     <p className="-claim">
-                      Save visualizations, subscribe to aletrs and enjoy the full experience
+                      Save visualizations, subscribe to alerts and enjoy the full experience
                     </p>
                     <Link to="get_involved_detail" params={{ id: 'sign-up', source: 'get-involved' }}>
                       <a className="c-button -alt -primary">
