@@ -4,10 +4,13 @@ export default {
   error: null,
   cards: [
     // TODO: No action or reducer for cards
+
     {
       id: 'join',
       title: 'Join the community',
-      intro: ['Resource Watch is an open platform for everyone to explore data and insights about our planet.'],
+      intro: [
+        'Resource Watch is an open platform for everyone to explore data and insights about our planet.'
+      ],
       buttons: [
         {
           text: 'Join the community',
@@ -21,7 +24,9 @@ export default {
     {
       id: 'data',
       title: 'Contribute data',
-      intro: ['Extend the reach and impact of your data sets. Upload for private or public use, and see how many are using it.'],
+      intro: [
+        'Extend the reach and impact of your data sets. Upload for private or public use, and see how many are using it.'
+      ],
       buttons: [
         {
           text: 'Contribute data',
@@ -35,7 +40,9 @@ export default {
     {
       id: 'insights',
       title: 'Suggest a story',
-      intro: ['Have you uncovered an interesting connection in the data we should tell a story about?'],
+      intro: [
+        'Have you uncovered an interesting connection in the data we should tell a story about?'
+      ],
       buttons: [
         {
           text: 'Suggest a story',
@@ -49,7 +56,9 @@ export default {
     {
       id: 'app',
       title: 'Develop your app',
-      intro: ['Power your application with the Resource Watch API, or build on our open source code for your next project.'],
+      intro: [
+        'Power your application with the Resource Watch API, or build on our open source code for your next project.'
+      ],
       buttons: [
         {
           text: 'Develop your app',
