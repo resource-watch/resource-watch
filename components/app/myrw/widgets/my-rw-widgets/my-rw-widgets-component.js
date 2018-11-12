@@ -91,72 +91,74 @@ class MyRWWidgets extends PureComponent {
     });
 
     return (
-      <div className="c-myrw-widgets-my c-my-rw">
-        <SearchInput
-          input={{
-            placeholder: 'Search visualization',
-            value: nameSearchValue
-          }}
-          link={{
-            label: 'New visualization',
-            route: routes.detail,
-            onlyDesktop: true,
-            params: { tab: 'widgets', id: 'new' }
-          }}
-          onSearch={this.handleSearch}
-        />
-        <div className="row">
-          <div className="column small-12">
-            <div className="list-actions">
-              <div className="buttons-container">
-                <button className="last-modified-container" onClick={this.handleOrderChange}>
-                  <a>Last modified</a>
-                  <Icon className="-small" name={iconName} />
-                </button>
-                <div className="mode-buttons">
-                  <button
-                    className={mode === 'grid' ? '-active' : ''}
-                    onClick={this.setGridMode}
-                    title="Grid view"
-                  >
-                    <Icon name="icon-view-grid" />
+      <div>
+        <div className="c-myrw-widgets-my c-my-rw">
+          <SearchInput
+            input={{
+              placeholder: 'Search visualization',
+              value: nameSearchValue
+            }}
+            link={{
+              label: 'New visualization',
+              route: routes.detail,
+              onlyDesktop: true,
+              params: { tab: 'widgets', id: 'new' }
+            }}
+            onSearch={this.handleSearch}
+          />
+          <div className="row">
+            <div className="column small-12">
+              <div className="list-actions">
+                <div className="buttons-container">
+                  <button className="last-modified-container" onClick={this.handleOrderChange}>
+                    <a>Last modified</a>
+                    <Icon className="-small" name={iconName} />
                   </button>
-                  <button
-                    className={mode === 'list' ? '-active' : ''}
-                    onClick={this.setListMode}
-                    title="List view"
-                  >
-                    <Icon name="icon-list-mode" />
-                  </button>
+                  <div className="mode-buttons">
+                    <button
+                      className={mode === 'grid' ? '-active' : ''}
+                      onClick={this.setGridMode}
+                      title="Grid view"
+                    >
+                      <Icon name="icon-view-grid" />
+                    </button>
+                    <button
+                      className={mode === 'list' ? '-active' : ''}
+                      onClick={this.setListMode}
+                      title="List view"
+                    >
+                      <Icon name="icon-list-mode" />
+                    </button>
+                  </div>
                 </div>
               </div>
+              {loading && <Spinner isLoading className="-fixed -light" />}
+              {!!widgets.length && (
+                <WidgetList
+                  isLoading={loading}
+                  widgets={widgets}
+                  mode={mode}
+                  onWidgetRemove={this.handleWidgetRemoved}
+                  showActions
+                  showRemove
+                  onWidgetClick={this.handleWidgetClick}
+                />
+              )}
+              {!!total && (
+                <Paginator
+                  options={{
+                    size: total,
+                    page,
+                    limit
+                  }}
+                  onChange={this.handlePageChange}
+                />
+              )}
             </div>
-            {loading && <Spinner isLoading className="-fixed -light" />}
-            {!!widgets.length && (
-              <WidgetList
-                isLoading={loading}
-                widgets={widgets}
-                mode={mode}
-                onWidgetRemove={this.handleWidgetRemoved}
-                showActions
-                showRemove
-                onWidgetClick={this.handleWidgetClick}
-              />
-            )}
-            {!!total && (
-              <Paginator
-                options={{
-                  size: total,
-                  page,
-                  limit
-                }}
-                onChange={this.handlePageChange}
-              />
-            )}
-            {!widgets.length && (
-              <div className="no-widgets-div">You currently have no visualizations</div>
-            )}
           </div>
+          {!widgets.length && (
+            <div className="no-data-div">You currently have no visualizations</div>
+          )}
         </div>
       </div>
     );

@@ -85,14 +85,12 @@ class DatasetsList extends PureComponent {
               {!!filters.length && 'There were no datasets found with the current filter'}
             </div>
           )}
-          {!datasets.length &&
-            !loading &&
-            !filters.length && (
-              <div className="text-container">
-                There are no datasets added in this collection yet
-              </div>
-            )}
         </div>
+        {!datasets.length &&
+          !loading &&
+          !filters.length && (
+            <div className="text-container">There are no datasets added in this collection yet</div>
+          )}
       </div>
     );
   }

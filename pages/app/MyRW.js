@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Router from 'next/router';
 import { Link } from 'routes';
 
 // Redux
@@ -172,7 +171,3 @@ class MyRW extends Page {
 }
 
 export default withRedux(initStore, null, null)(MyRW);
-
-//   display: flex;
-//   justify-content: space-around;
-//   padding-top: 20px;

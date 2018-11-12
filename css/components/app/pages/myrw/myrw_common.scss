@@ -1,4 +1,6 @@
 .c-my-rw {
+  $margin-between-fields: 20px;
+
   .list-actions {
     display: flex;
     justify-content: flex-end;
@@ -46,6 +48,12 @@
         }
       }
     }
+  }
+  .no-data-div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: $margin-between-fields;
   }
   .explore {
     margin: 30px;
