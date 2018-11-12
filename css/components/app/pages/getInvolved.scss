@@ -1,6 +1,4 @@
-
 .p-get-involved {
-
   .c-card-static {
     min-height: 290px;
     margin-top: 20px;
@@ -15,9 +13,25 @@
       padding-right: 180px;
     }
 
-    &.insights { background: url('/static/images/backgrounds/jellyfish.jpg'); }
-    &.contribute { background: $color-primary url('/static/images/components/layout/header-bg-texture.png') no-repeat center; }
-    &.join { background: $color-secondary; }
-    &.develop { background: url('/static/images/backgrounds/develop_app.jpg'); }
+    &.signup {
+      background: url('/static/images/backgrounds/jellyfish.jpg');
+    }
+    &.insights {
+      background: url('/static/images/backgrounds/jellyfish.jpg');
+    }
+    &.contribute {
+      background: $color-primary
+        url('/static/images/components/layout/header-bg-texture.png') no-repeat
+        center;
+    }
+    &.join {
+      background: $color-secondary;
+    }
+    &.develop {
+      background: url('/static/images/backgrounds/develop_app.jpg');
+    }
   }
+  .c-card-long {
+  border-radius: 4px;
+}
 }

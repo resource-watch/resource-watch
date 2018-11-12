@@ -65,10 +65,31 @@ export default {
       route: 'get_involved',
       pathnames: ['/app/get-involved', '/app/get-involved-detail'],
       children: [
-        { label: 'Suggest a story', route: 'get_involved_detail', params: { id: 'suggest-a-story' } },
-        { label: 'Contribute data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
-        { label: 'Join the community', route: 'get_involved_detail', params: { id: 'join-the-community' } },
-        { label: 'Develop your app', route: 'get_involved_detail', params: { id: 'develop-your-app' } }
+        {
+          label: 'Suggest a story',
+          route: 'get_involved_detail',
+          params: { id: 'suggest-a-story' }
+        },
+        {
+          label: 'Contribute data',
+          route: 'get_involved_detail',
+          params: { id: 'contribute-data' }
+        },
+        {
+          label: 'Join the community',
+          route: 'get_involved_detail',
+          params: { id: 'join-the-community' }
+        },
+        {
+          label: 'Develop your app',
+          route: 'get_involved_detail',
+          params: { id: 'develop-your-app' }
+        },
+        {
+          label: 'Sign up',
+          route: 'get_involved_detail',
+          params: { id: 'sign-up' }
+        }
       ]
     },
     {
