@@ -327,8 +327,8 @@ class Home extends Page {
                 <p>Use data to drive change in your community and around the world.</p>
               </div>
             </div>
-            <div className="c-banner -light -use-background -text-center">
-              <Link route="get_involved_detail" params={{ id: 'sign-up', source: 'home' }}>
+            <div className="-light -text-center">
+              <Link route="get_involved_detail" params={{ id: 'sign-up' }}>
                 <a className="c-btn -b -alt -fullwidth">Sign up</a>
               </Link>
             </div>
