@@ -101,11 +101,23 @@
         &.-active > a {
           color: $active-font-color;
           fill: $active-font-color;
+          font-weight: bold;
           text-decoration: none;
-          border: 1px $active-font-color solid;
-          border-radius: 5px;
+
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%,0);
+            width: calc(100% - 20px);
+            height: 2px;
+            background: $active-font-color;
+          }
         }
       }
     }
   }
 }
+
+
