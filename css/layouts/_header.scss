@@ -74,7 +74,9 @@
         margin-left: $margin-size-extra-small;
         color: $alt-font-color;
 
-        > a, > span, > button {
+        > a,
+        > span,
+        > button {
           position: relative;
           display: flex;
           align-items: center;
@@ -85,7 +87,7 @@
           cursor: pointer;
 
           &.-bordered {
-            border: 1px solid rgba($alt-border-color, .5);
+            border: 1px solid rgba($alt-border-color, 0.5);
             border-radius: 4px;
           }
 
@@ -99,9 +101,23 @@
         &.-active > a {
           color: $active-font-color;
           fill: $active-font-color;
-          text-decoration: underline;
+          font-weight: bold;
+          text-decoration: none;
+
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%,0);
+            width: calc(100% - 20px);
+            height: 2px;
+            background: $active-font-color;
+          }
         }
       }
     }
   }
 }
+
+
