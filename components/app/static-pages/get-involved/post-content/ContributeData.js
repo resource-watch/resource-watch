@@ -68,8 +68,11 @@ function ContributeData() {
           <div className="row">
             <div className="column small-12">
               <p>
-                Before submitting a dataset, please make sure to browse our
-                catalog and review our <Link route="get_involved_detail" params={{ id: 'data-policy' }}><a>data policy</a></Link> and submission guidelines.
+                Before submitting a dataset, please make sure to browse our catalog and review our{' '}
+                <Link route="get_involved_detail" params={{ id: 'data-policy' }}>
+                  <a>data policy</a>
+                </Link>{' '}
+                and submission guidelines.
               </p>
             </div>
           </div>
