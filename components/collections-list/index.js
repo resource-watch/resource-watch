@@ -48,18 +48,11 @@ class CollectionsList extends React.Component {
   }
 
   render() {
-    const {
-      routes,
-      collections,
-      filteredCollections,
-      user
-    } = this.props;
+    const { routes, collections, filteredCollections, user } = this.props;
 
     return (
       <div className="c-dataset-table">
-
         <Spinner className="-light" isLoading={collections.loading} />
-
         <SearchInput
           input={{
             placeholder: 'Search collections',
@@ -72,55 +65,55 @@ class CollectionsList extends React.Component {
           }}
           onSearch={this.onSearch}
         />
-
-        {!collections.loading && <CustomTable
-          columns={[
-            {
-              label: 'Name',
-              value: 'attributes',
-              td: NameTD,
-              tdProps: { route: routes.detail },
-              params: { tab: 'collections', id: '{{id}}' }
-            },
-            {
-              label: 'Related content',
-              value: 'attributes',
-              td: RelatedContentTD
-            }
-          ]}
-          actions={{
-            show: true,
-            list: [
+        {!collections.loading && (
+          <CustomTable
+            columns={[
               {
-                name: 'Edit',
-                params: { tab: 'collections', subtab: '{{id}}' },
-                show: true,
-                component: EditAction
+                label: 'Name',
+                value: 'attributes',
+                td: NameTD,
+                tdProps: { route: routes.detail },
+                params: { tab: 'collections', id: '{{id}}' }
               },
               {
-                name: 'Remove',
-                route: routes.detail,
-                params: { tab: 'collections', subtab: 'remove', id: '{{id}}' },
-                component: DeleteAction,
-                componentProps: { authorization: user.token }
+                label: 'Related content',
+                value: 'attributes',
+                td: RelatedContentTD
               }
-            ]
-          }}
-          sort={{
-            field: 'updatedAt',
-            value: -1
-          }}
-          filters={false}
-          data={filteredCollections}
-          onRowDelete={() => this.getCollections()}
-          pageSize={20}
-          pagination={{
-            enabled: true,
-            pageSize: 20,
-            page: 0
-          }}
-        />}
-
+            ]}
+            actions={{
+              show: true,
+              list: [
+                {
+                  name: 'Edit',
+                  params: { tab: 'collections', subtab: '{{id}}' },
+                  show: true,
+                  component: EditAction
+                },
+                {
+                  name: 'Remove',
+                  route: routes.detail,
+                  params: { tab: 'collections', subtab: 'remove', id: '{{id}}' },
+                  component: DeleteAction,
+                  componentProps: { authorization: user.token }
+                }
+              ]
+            }}
+            sort={{
+              field: 'updatedAt',
+              value: -1
+            }}
+            filters={false}
+            data={filteredCollections}
+            onRowDelete={() => this.getCollections()}
+            pageSize={20}
+            pagination={{
+              enabled: true,
+              pageSize: 20,
+              page: 0
+            }}
+          />
+        )}
       </div>
     );
   }
@@ -131,8 +124,9 @@ const mapStateToProps = state => ({
   filteredCollections: getUserCollections(state)
 });
 
-const mapDispatchToProps = dispatch => ({
-  setUserCollectionsFilter: value => dispatch(setUserCollectionsFilter(value))
-});
+const mapDispatchToProps = dispatch => ({ setUserCollectionsFilter: value => dispatch(setUserCollectionsFilter(value)) });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CollectionsList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CollectionsList);
