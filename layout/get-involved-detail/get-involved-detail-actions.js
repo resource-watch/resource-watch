@@ -4,7 +4,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 
 // The pages have chnged titles and lookup required to match to old slug
 const lookup = {
-  'sign-up': 'sign-up',
+  'sign-up': 'sign-in',
   'suggest-a-story': 'suggest-a-story',
   'contribute-data': 'contribute-data',
   'join-the-community': 'join-community',
