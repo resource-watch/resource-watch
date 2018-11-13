@@ -328,7 +328,7 @@ class Home extends Page {
               </div>
             </div>
             <div className="-light -text-center">
-              <Link route="get_involved_detail" params={{ id: 'sign-up' }}>
+              <Link route="get_involved_detail" params={{ id: 'sign-in' }}>
                 <a className="c-btn -b -alt -fullwidth">Sign up</a>
               </Link>
             </div>

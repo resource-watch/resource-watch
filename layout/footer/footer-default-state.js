@@ -87,7 +87,7 @@ export default {
         {
           label: 'Sign up',
           route: 'get_involved_detail',
-          params: { id: 'sign-up' }
+          params: { id: 'sign-in' }
         }
       ]
     },
