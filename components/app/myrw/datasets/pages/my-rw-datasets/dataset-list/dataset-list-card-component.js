@@ -50,9 +50,7 @@ class DatasetsListCard extends PureComponent {
     const isOwnerOrAdmin = (dataset.userId === user.id || user.role === 'ADMIN');
     const isInACollection = belongsToACollection(user, dataset);
 
-    const classNames = classnames({
-      '-owner': isOwnerOrAdmin
-    });
+    const classNames = classnames({'-owner': isOwnerOrAdmin});
 
     const starIconName = classnames({
       'icon-star-full': isInACollection,
@@ -101,9 +99,7 @@ class DatasetsListCard extends PureComponent {
                 />
               }
               overlayClassName="c-rc-tooltip"
-              overlayStyle={{
-                color: '#fff'
-              }}
+              overlayStyle={{color: '#fff'}}
               placement="bottomLeft"
               trigger="click"
             >

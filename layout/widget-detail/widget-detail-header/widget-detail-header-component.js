@@ -25,9 +25,7 @@ class WidgetDetailHeader extends PureComponent {
     user: PropTypes.object
   }
 
-  state = {
-    showShareModal: false
-  }
+  state = {showShareModal: false}
 
   handleToggleShareModal = (bool) => {
     this.setState({ showShareModal: bool });
@@ -93,9 +91,7 @@ class WidgetDetailHeader extends PureComponent {
                     />
                   }
                   overlayClassName="c-rc-tooltip"
-                  overlayStyle={{
-                    color: '#c32d7b'
-                  }}
+                  overlayStyle={{color: '#c32d7b'}}
                   placement="bottomLeft"
                   trigger="click"
                 >
