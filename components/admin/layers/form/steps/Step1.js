@@ -198,13 +198,13 @@ class Step1 extends React.Component {
           {Code}
         </Field>
 
-        {form.provider !== 'gee' &&
+        {form.provider === 'carto' &&
           <InteractionsComponent
             form={form}
           />
         }
 
-        {form.provider === 'gee' &&
+        {form.provider !== 'carto' &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.interactionConfig = c; }}
             onChange={value => this.props.onChange({ interactionConfig: value })}
