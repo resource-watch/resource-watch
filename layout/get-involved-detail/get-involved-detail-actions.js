@@ -11,7 +11,7 @@ const lookup = {
   'app-review-guidelines': 'app-review-guidelines',
   'partner-application-guidelines': 'partner-application-guidelines',
   'data-policy': 'data-policy',
-  apps: 'app-gallery'
+  'apps': 'app-gallery'
 };
 
 // Actions
