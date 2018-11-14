@@ -97,9 +97,9 @@ class GetInvolvedComponent extends React.PureComponent {
                     bgImage="/static/images/backgrounds/computer.jpg"
                     overlay
                   >
-                    <p className="-claim">
+                    <h2>
                       Save visualizations, subscribe to alerts and enjoy the full experience
-                    </p>
+                    </h2>
                     <Link to="log-in">
                       <a className="c-button -alt -primary">
                         Sign up
