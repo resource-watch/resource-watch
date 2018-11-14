@@ -15105,6 +15105,13 @@ vega-statistics@^1.2, vega-statistics@^1.2.1:
   dependencies:
     d3-array "1"
 
+vega-tooltip@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/vega-tooltip/-/vega-tooltip-0.13.0.tgz#008d06a1c8f94ba3f23f52bb2498661b21dbf5e6"
+  integrity sha512-NbeHzpxwKZ+yk+CION3wRH66rx9XGx5v6M82LT6qSIAnUrH8eh+sFtjK6pO7ErXGF5AieAhg8Hfb/NvC8uNMuA==
+  dependencies:
+    vega-util "^1.7.0"
+
 vega-tooltip@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/vega-tooltip/-/vega-tooltip-0.5.1.tgz#8ec54177cf9444470c445e9f9433366f922a4b9c"
@@ -15829,10 +15836,10 @@ wri-api-components@2.0.17:
     vega-lib "^4.2.0"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@^2.2.9:
-  version "2.2.9"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.2.9.tgz#524284f9d48d4e8d927e33e834e3b08aed274095"
-  integrity sha512-Smn4v4rOKd8TuZGlp62Ol5naw3OFaCUQhpVPAYBr/nt2jKEKZXUiPt2MrMfIUu+vPDMRZLivu6iKGmOGFM9RPw==
+wri-api-components@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.3.1.tgz#d62d992c7e0383465ccb36997762f43d7df2f192"
+  integrity sha512-X4vsl7lh3IhvMMJsypVpteIuAtyl2hofBnClElGXpoSAAj5gR0abN7QmaTYg4Y/a/4jpy3iJ9AmJfMralr6LUg==
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.10.0"
@@ -15842,6 +15849,7 @@ wri-api-components@^2.2.9:
     rc-tooltip "3.7.0"
     react-sortable-hoc "^0.6.8"
     react-vega "^4.0.2"
+    vega-tooltip "^0.13.0"
     wri-json-api-serializer "^1.0.1"
 
 wri-json-api-serializer@1.0.1, wri-json-api-serializer@^1.0.1:

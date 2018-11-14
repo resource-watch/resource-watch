@@ -41,7 +41,7 @@ class LayerPreviewComponent extends PureComponent {
     setLayerInteractionSelected: PropTypes.func.isRequired,
     generateLayerGroups: PropTypes.func.isRequired
   };
-  
+
   handleRefreshPreview() {
     const { form, interactions } = this.props;
     this.props.generateLayerGroups({ form, interactions });
@@ -57,11 +57,11 @@ class LayerPreviewComponent extends PureComponent {
       interactionSelected
     } = adminLayerPreview;
 
-    
+
     const { added } = interactions;
 
     const activeLayers = flatten(layerGroups.map(lg => lg.layers.filter(l => l.active)));
-    
+
     return (
       <div className="c-field preview-container">
         <h5>Layer preview</h5>
@@ -133,7 +133,7 @@ class LayerPreviewComponent extends PureComponent {
                     ))}
                   </LayerManager>
                 </React.Fragment>
-              )}          
+              )}
             </Map>
           </div>
 
