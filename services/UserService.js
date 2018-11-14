@@ -86,6 +86,36 @@ export default class UserService {
       });
   }
 
+  // sends a request to reset password.
+  // It generates a token to use in resetPassword
+  forgotPassword({ email }) {
+    return fetch(`${this.opts.apiURL}/auth/reset-password`, {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw response;
+      });
+  }
+
+  // resets the password of the user.
+  // Needs the token hosted in the email sent in forgotPassword
+  // NOTE:this is NOT implemented in the API to be done from the app.
+  // right now the only way it's through the email link pointing to Control Tower.
+  resetPassword(tokenEmail, { password, repeatPassword }) {
+    return fetch(`${this.opts.apiURL}/auth/reset-password/${tokenEmail}`, {
+      method: 'POST',
+      body: JSON.stringify({ password, repeatPassword }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw response;
+      });
+  }
+
   /**
    * Gets the widgets that have been starred/favourited by the user that is
    * currently logged
