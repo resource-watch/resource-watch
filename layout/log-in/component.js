@@ -28,9 +28,9 @@ class Login extends PureComponent {
     const isValid = FORM_ELEMENTS.isValid();
     const { register, captcha, ...userSettings } = this.state;
 
-    if (captcha === null) toastr.error('Please fill the captcha');
+    if (captcha === null && register) toastr.error('Please fill the captcha');
 
-    if (!isValid || captcha === null) return;
+    if (!isValid || (captcha === null && register)) return;
 
     setTimeout(() => {
       // register user
