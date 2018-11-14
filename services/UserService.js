@@ -50,7 +50,12 @@ export default class UserService {
   registerUser({ email, password, repeatPassword }) {
     return fetch(`${this.opts.apiURL}/auth/sign-up`, {
       method: 'POST',
-      body: JSON.stringify({ email, password, repeatPassword }),
+      body: JSON.stringify({
+        email,
+        password,
+        repeatPassword,
+        apps: ['rw']
+      }),
       headers: { 'Content-Type': 'application/json' }
     })
       .then((response) => {
