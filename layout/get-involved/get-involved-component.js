@@ -100,7 +100,7 @@ class GetInvolvedComponent extends React.PureComponent {
                     <p className="-claim">
                       Save visualizations, subscribe to alerts and enjoy the full experience
                     </p>
-                    <Link to="get_involved_detail" params={{ id: 'sign-in' }}>
+                    <Link to="log-in">
                       <a className="c-button -alt -primary">
                         Sign up
                       </a>

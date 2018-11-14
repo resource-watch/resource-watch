@@ -87,8 +87,8 @@ export default {
         },
         {
           label: 'Sign up',
-          route: 'get_involved_detail',
-          params: { id: 'sign-in' }
+          route: 'log-in',
+          params: {}
         }
       ]
     },
