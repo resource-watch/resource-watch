@@ -7,7 +7,6 @@ import { logEvent } from 'utils/analytics';
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 // Components
-import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Icon from 'components/ui/Icon';
 
 // Tooltip
@@ -21,11 +20,11 @@ import ShareModal from 'components/modal/share-modal';
 // Constants
 class WidgetDetailHeader extends PureComponent {
   static propTypes = {
-    widget: PropTypes.object,
-    user: PropTypes.object
+    widget: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
   }
 
-  state = {showShareModal: false}
+  state = { showShareModal: false }
 
   handleToggleShareModal = (bool) => {
     this.setState({ showShareModal: bool });
@@ -91,7 +90,7 @@ class WidgetDetailHeader extends PureComponent {
                     />
                   }
                   overlayClassName="c-rc-tooltip"
-                  overlayStyle={{color: '#c32d7b'}}
+                  overlayStyle={{ color: '#c32d7b' }}
                   placement="bottomLeft"
                   trigger="click"
                 >
@@ -108,7 +107,6 @@ class WidgetDetailHeader extends PureComponent {
                 </Tooltip>
               </li>
             }
-            {/* Favorites */}
           </ul>
         </div>
       </div>

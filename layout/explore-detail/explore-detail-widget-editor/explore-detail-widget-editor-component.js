@@ -21,12 +21,13 @@ const defaultTheme = getVegaTheme();
 // Constants
 class ExploreDetailWidgetEditor extends PureComponent {
   static propTypes = {
-    user: PropTypes.object,
-    modal: PropTypes.object,
-    text: PropTypes.object,
-    dataset: PropTypes.object,
-    responsive: PropTypes.object
+    user: PropTypes.object.isRequired,
+    text: PropTypes.string,
+    dataset: PropTypes.object.isRequired,
+    responsive: PropTypes.object.isRequired
   }
+
+  static defaultProps = { text: '' }
 
   state = {
     showSaveModal: false,
@@ -36,7 +37,11 @@ class ExploreDetailWidgetEditor extends PureComponent {
   handleToggleModals = (bool) => {
     const { user } = this.props;
 
-    !user.id ? this.setState({ showLoginModal: bool }) : this.setState({ showSaveModal: bool });
+    if (!user.id) {
+      this.setState({ showLoginModal: bool });
+    } else {
+      this.setState({ showSaveModal: bool });
+    }
   }
 
   handleToggleSaveWidget = (bool) => {
@@ -83,7 +88,7 @@ class ExploreDetailWidgetEditor extends PureComponent {
             className="-medium"
             onRequestClose={() => this.handleToggleLoginModal(false)}
           >
-            <LoginModal text={text || ''} />
+            <LoginModal text={text} />
           </Modal>
         </MediaQuery>
 
