@@ -139,10 +139,12 @@ class Login extends PureComponent {
                             >
                               {Input}
                             </Field>
-                            <ReCAPTCHA
-                              sitekey="6LeBy3YUAAAAACLNnSGCnvok_tRDnQut-Mc7SBh8"
-                              onChange={(value) => { this.setState({ captcha: value }); }}
-                            />
+                            <div className="recaptcha-container">
+                              <ReCAPTCHA
+                                sitekey="6LeBy3YUAAAAACLNnSGCnvok_tRDnQut-Mc7SBh8"
+                                onChange={(value) => { this.setState({ captcha: value }); }}
+                              />
+                            </div>
                           </Fragment>
                         }
                         <div className="c-button-container form-buttons">
