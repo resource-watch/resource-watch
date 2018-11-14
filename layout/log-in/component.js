@@ -39,12 +39,7 @@ class Login extends PureComponent {
           .then(() => {
             toastr.success('Confirm registration', 'You will receieve an email shortly. Please confirm your registration.');
           })
-          .catch((err) => {
-            err.json()
-              .then(({ errors } = {}) => {
-                (errors || []).forEach(_error => toastr.error('Something went wrong', `${_error.status}:${_error.detail}`));
-              });
-          });
+          .catch(() => { toastr.error('Something went wrong'); });
       } else {
         // log-in user
         this.userService.loginUser(userSettings)
