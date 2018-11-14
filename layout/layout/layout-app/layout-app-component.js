@@ -33,7 +33,8 @@ import {
 const fullScreenPages = [
   '/app/explore',
   '/app/pulse',
-  '/app/Splash'
+  '/app/Splash',
+  '/app/log-in'
 ];
 
 class LayoutApp extends React.Component {
