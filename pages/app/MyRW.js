@@ -149,7 +149,7 @@ class MyRW extends Page {
                 {tab === 'areas' && <AreasTab tag={tab} subtab={subtab} query={url.query} />}
                 {tab === 'widgets' && <WidgetsTab tab={tab} subtab={subtab} />}
                 {tab === 'collections' && <CollectionsTab tab={tab} subtab={subtab} />}
-                {tab !== 'profile' && (
+                {tab !== ('profile' && 'datasets') && (tab !== 'widgets') && (
                   <div className="c-button-container -j-center explore c-field-buttons">
                     <ul className="c-field-buttons">
                       <li />
