@@ -49,6 +49,10 @@
       form {
         margin: 22px 0 0;
 
+        .recaptcha-container {
+          min-height: 78px;
+        }
+
         .form-buttons {
           margin: $margin-size-small 0 0;
 
