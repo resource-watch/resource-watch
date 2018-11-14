@@ -49,6 +49,11 @@
       form {
         margin: 22px 0 0;
 
+        .forgot-password-link {
+          font-size: $font-size-small;
+          color: $dark-pink;
+        }
+
         .recaptcha-container {
           min-height: 78px;
         }

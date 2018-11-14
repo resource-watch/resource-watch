@@ -89,7 +89,9 @@ routes.add('attribution-requirements', '/api-attribution-requirements', 'app/Att
 // ------- CATALOG -------------
 routes.add('catalog', '/catalog', 'app/catalog');
 
-// ------- SIGN-IN/REGISTER  -------------
+// ------- USER MANAGEMENT  -------------
 routes.add('log-in', '/sign-in', 'app/log-in');
+routes.add('forgot-password', '/forgot-password', 'app/forgot-password');
+routes.add('reset-password', '/reset-password/:tokenEmail?', 'app/reset-password');
 
 module.exports = routes;

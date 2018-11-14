@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { toastr } from 'react-redux-toastr';
+import { Link } from 'routes';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 // components
@@ -111,6 +112,10 @@ class Login extends PureComponent {
                         >
                           {Input}
                         </Field>
+                        {!register && (
+                          <Link to="forgot-password">
+                            <a className="forgot-password-link">Have you forgotten your password?</a>
+                          </Link>)}
 
                         {register &&
                           <Fragment>
