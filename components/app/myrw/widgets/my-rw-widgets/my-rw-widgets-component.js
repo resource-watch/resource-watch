@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import { Router } from 'routes';
+import { Router, Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
 // components
@@ -77,7 +77,7 @@ class MyRWWidgets extends PureComponent {
   };
 
   // TO-DO
-  handleWidgetClick = () => {};
+  handleWidgetClick = () => { };
 
   render() {
     const { mode } = this.state;
@@ -159,6 +159,13 @@ class MyRWWidgets extends PureComponent {
           {!widgets.length && (
             <div className="no-data-div">You currently have no visualizations</div>
           )}
+          <div className="c-button-container -j-center c-field-buttons">
+            <Link route="explore">
+              <a className="c-button -secondary">
+                {'Explore Datasets'}
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
     );
