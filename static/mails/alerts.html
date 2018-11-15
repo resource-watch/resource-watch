@@ -84,7 +84,6 @@
         width: 520px !important;
       }
 
-      div[class='fluid-img'] img,
       td[class='fluid-img'] img {
         width: 100% !important;
         max-width: 100% !important;
@@ -128,7 +127,6 @@
 </head>
 
 <body class="body" style="padding:0 !important; margin:0 !important; display:block !important; min-width:100% !important; width:100% !important; background:#f2f2f2; -webkit-text-size-adjust:none">
-
   <table width="100%" cellspacing="0" cellpadding="0" bgcolor="#f2f2f2">
     <tr>
       <td align="center" valign="top">
@@ -139,21 +137,10 @@
               <table width="100%" cellspacing="0" cellpadding="0">
                 <tr>
                   <td>
-                    <table width="100%" cellspacing="0" cellpadding="0">
-                      <tr>
-                        <td>
-                          <table width="100%" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
-                            <tr>
-                              <td height="50" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
-                            </tr>
-                          </table>
-                        </td>
-                      </tr>
-                    </table>
                     <table width="100%" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
                       <tr>
-                        <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="35"
-                          valign="top">
+                        <td bgcolor="#c32d7b" class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left"
+                          width="35" valign="top">
                           <table width="40px" height="207" cellspacing="0" cellpadding="0" bgcolor="#c32d7b" class="border"
                             style="font-size:0pt; line-height:0pt; text-align:center;">
                             <tr>
@@ -170,10 +157,11 @@
                           target="_blank"><img src="https://resourcewatch.org/static/images/logo-resource-watch.png"
                             alt="resourcewatch logo" style="    margin-top: 20px;height: 40px"></a></div>
                           <div height="56" width="520" class="" style="padding-top:50px; color:#ffffff; font-family:Arial; font-size:50px; line-height:58px; text-align:left; letter-spacing:-0.89px">
-                            {{Alerts in Brazil}}
+                            Alerts in {{AlertZone}}
                           </div>
                         </td>
                       </tr>
+
                     </table>
                   </td>
                 </tr>
@@ -184,35 +172,41 @@
 
               <table width="100%" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
                 <tr>
-                  <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="35"></td>
                   <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left">
                     <!-- Section1 -->
                     <table width="100%" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
                       <tr>
-                        <td height="38" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
-                      </tr>
-                      <tr>
-
-                        <td height="33" width="520" class="spacer" style="color:#C32D7B; font-family: Arial; font-size:30px; line-height:34px; letter-spacing:-0.54px; text-align:left; min-width:100%">{{***Brazilian
-                          Amazon Deforestation Alerts***}}</td>
-                      </tr>
-                      <tr>
-                        <td height="38" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; text-align:center; width:100%; min-width:100%">&nbsp;</td>
-                      </tr>
-                      <tr>
-                        <td height="52" width="520" class="spacer" style="font-size:16px; font-family: Arial; line-height:26px; text-align:left; color:#393F44; text-shadow:0 2px 4px 0 rgba(0,0,0,0.5);">
-                          <p style="display:inline">Resource Watch detected </p>
-                          <p style="display:inline; font-weight:bold">{{***210 new***}}{{***Brazilian Amazon
-                            Deforestation Alerts***}}</p>
-                          <p style="display:inline;"> within your area.</p>
+                        <td class="content-spacing" style="font-size:0pt; width: 40px; line-height:0pt; text-align:left">&nbsp;</td>
+                        <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left">
+                          <table width="100%" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                            <tr>
+                              <td height="38" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td height="33" width="520" class="spacer" style="color:#C32D7B; font-family: Arial; font-size:30px; line-height:34px; letter-spacing:-0.54px; text-align:left; min-width:100%">{{AlertName}}
+                                Alerts</td>
+                            </tr>
+                            <tr>
+                              <td height="38" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td height="52" width="520" class="spacer" style="font-size:16px; font-family: Arial; line-height:26px; text-align:left; color:#393F44; text-shadow:0 2px 4px 0 rgba(0,0,0,0.5);">
+                                <p style="display:inline">Resource Watch detected </p>
+                                <p style="display:inline; font-weight:bold">{{AlertNumber}} new {{AlertName}} Alerts</p>
+                                <p style="display:inline;"> within your area.</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td height="18" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;
+                              </td>
+                            </tr>
+                          </table>
                         </td>
                       </tr>
-                      <tr>
-                        <td height="38" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;
-                        </td>
-                      </tr>
-
-                      <!-- Image Section -->
+                    </table>
+                    <!-- END Image Section -->
+                    <!-- Image Section -->
+                    <table width="100%" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
                       <tr>
                         <td class="fluid-img" height="321" width="965" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
                           <a href="#" target="_blank">
@@ -220,86 +214,91 @@
                           </a>
                         </td>
                       </tr>
-
-                      <!-- END Image Section -->
                     </table>
-                    <table width="100%" cellspacing="0" cellpadding="8">
-                      <caption style="text-align:left; padding: 8px; font-size:20px; color: #c5417d; font-family: Arial,sans-serif; line-height: 26px;">Most
-                        recent alerts</caption>
-                  <th style="text-align:left; width:33%; font-size:16px; color: #c5417d; font-family: Arial,sans-serif; line-height: 26px;">Latitude</th>
-                  <th style="text-align:left; width:33%; font-size:16px; color: #c5417d; font-family: Arial,sans-serif; line-height: 26px;">Longitud</th>
-                  <th style="text-align:left; width:33%; font-size:16px; color: #c5417d; font-family: Arial,sans-serif; line-height: 26px;">Date
-                    & Time</th>
-                <tr>
-                  <td class="h4" width="100" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">Name:</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px;
-                                text-align:left">{{alertName}}
-                  </td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
-                </tr>
-                <tr>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">Type:</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{alertType}}</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
-                </tr>
-                <tr>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">Dates:</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{alertBeginDate}}
-                    to {{alertEndDate}}</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}</td>
-                </tr>
-                <tr>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">Result:</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{alertResult}}</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
-                </tr>
-                <tr>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">Area
-                    name:</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{areaName}}</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
-                </tr>
-                <tr>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">Data
-                    set:</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{datasetName}}</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
-                </tr>
-                <tr>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">Data
-                    set summary:</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{datasetSummary}}</td>
-                  <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
-                </tr>
-              </table>
-              <!-- END Section 1 -->
-              <table class="spacer" width="100%" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
-                <tr>
-                  <td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
-                </tr>
-              </table>
-              <!-- Button -->
-              <table width="100%" style="justify-content:center">
-                <tr>
-                  <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="90"></td>
-                  <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="35">
-                    <table width="100" style="border: 1px solid #C32D7B; border-radius: 3px; background-color:#C32D7B; justify-content:center">
+                    <!-- Space-->
+                    <table class="spacer" width="100%" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
                       <tr>
-                        <td height="45" style="text-align:center"><a class="h4" style="color:#ffffff; text-shadow: 0 2px 4px 0 rgba(0,0,0,0.5); text-decoration: none; font-family:Lato; font-size:16px;"
-                            href="https://resourcewatch.org/myrw-detail/areas/{{areaId}}/alerts">View all</a>
-                        </td>
+                        <td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
                       </tr>
                     </table>
-                  </td>
-                  <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="35"></td>
-                </tr>
+                    <!-- Section2 -->
+                    <table width="100%" cellspacing="0" cellpadding="8">
+                      <tr>
+                        <td class="spacer" style="font-size:0pt; width: 16px; line-height:0pt; text-align:left">&nbsp;</td>
+                        <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left">
+                          <table width="100%" cellspacing="0" cellpadding="8">
+                            <caption style="text-align:left; padding: 8px; font-size:20px; color: #c5417d; font-family: Arial,sans-serif; line-height: 26px;">Most
+                              recent alerts</caption>
+                        <th style="text-align:left; width:33%; font-size:16px; color: #c5417d; font-family: Arial,sans-serif; line-height: 26px;">Latitude</th>
+                        <th style="text-align:left; width:33%; font-size:16px; color: #c5417d; font-family: Arial,sans-serif; line-height: 26px;">Longitud</th>
+                        <th style="text-align:left; width:33%; font-size:16px; color: #c5417d; font-family: Arial,sans-serif; line-height: 26px;">Date
+                          & Time</th>
+                      </tr>
+                      <tr>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Latitude}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Longitud}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
+                      </tr>
+                      <tr>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Latitude}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Longitud}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
+                      </tr>
+                      <tr>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Latitude}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Longitud}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
+                      </tr>
+                      <tr>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Latitude}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Longitud}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
+                      </tr>
+                      <tr>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Latitude}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Longitud}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
+                      </tr>
+                      <tr>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Latitude}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Longitud}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
+                      </tr>
+                      <tr>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Latitude}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{Longitud}}</td>
+                        <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-size:16px; line-height:26px; text-align:left">{{dateTime}}</td>
+                      </tr>
+                    </table>
 
-              </table>
-              <!-- END Button -->
-              <table class="spacer" width="100%" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
-                <tr>
-                  <td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
-                </tr>
+                    <!-- END Section 1 -->
+                    <table class="spacer" width="100%" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                      <tr>
+                        <td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                      </tr>
+                    </table>
+                    <!-- Button -->
+                    <table width="100%" style="justify-content:center">
+                      <tr>
+                        <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="90"></td>
+                        <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="35">
+                          <table width="100" style="border: 1px solid #C32D7B; border-radius: 3px; background-color:#C32D7B; justify-content:center">
+                            <tr>
+                              <td height="45" style="text-align:center"><a class="h4" style="color:#ffffff; text-shadow: 0 2px 4px 0 rgba(0,0,0,0.5); text-decoration: none; font-family:Lato; font-size:16px;"
+                                  href="https://resourcewatch.org/myrw-detail/areas/{{areaId}}/alerts">View all</a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td class="content-spacing" style="font-size:0pt; line-height:0pt; text-align:left" width="35"></td>
+                      </tr>
+                    </table>
+                    <!-- END Button -->
+                    <table class="spacer" width="100%" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">
+                      <tr>
+                        <td height="30" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td>
+                      </tr>
+                    </table>
               </table>
               <!-- END Main -->
             </td>
@@ -312,10 +311,12 @@
           </tr>
           <tr>
             <td class="h4" style="width: 100%; color:#555555; font-family: Arial; font-style: italic; font-size: 14px; line-height: 18px; text-align:left">
-              This notification reports Brazilian Amazon Deforestation Alerts, GLAD Deforestation Alerts, Fires (VIIRS)
+              This notification reports Brazilian Amazon Deforestation Alerts, GLAD Deforestation Alerts, Fires
+              (VIIRS)
               for
               the area of interest you subscribed to.
-              You will receive a separate email for each area and each alert you subscribe to. Date of alerts refers to
+              You will receive a separate email for each area and each alert you subscribe to. Date of alerts
+              refers to
               the
               date range within which change was detected.
               There may be a lag between detection and when you receive this notification.
@@ -336,11 +337,12 @@
           <tr>
             <td class="h4" style="color:#555555; font-family:Arial,sans-serif; font-style: italic; font-size:14px; line-height:26px; text-align:left">
               Please note that this information is subject to the Resource Watch
-              Terms of Service. You can<a href="" style="color:#2C75B0; text-decoration:none;">
+              Terms of Service. You can<a href="https://resourcewatch.org/myrw" style="color:#2C75B0; text-decoration:none;">
                 unsubscribe
               </a> or
-              <a href="" style="color:#2C75B0; text-decoration:none;">manage your subscriptions</a> at <a href="https://resourcewatch.org/"
-                style="color:#2C75B0; text-decoration:none;">My
+              <a href="https://resourcewatch.org/myrw" style="color:#2C75B0; text-decoration:none;">manage your
+                subscriptions</a>
+              at <a href="https://resourcewatch.org/" style="color:#2C75B0; text-decoration:none;">My
                 Resource Watch</a>
             </td>
           </tr>
@@ -351,9 +353,6 @@
         <!-- END Footer -->
       </td>
     </tr>
-  </table>
-  </td>
-  </tr>
   </table>
 </body>
 
