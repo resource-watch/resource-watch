@@ -153,7 +153,7 @@ class Home extends Page {
     super(props);
 
     this.state = {
-      showNewsletterModal: props.url.query.newsletter,
+      showNewsletterModal: props.url.query.newsletter || false,
       videoReady: false,
       videoHeight: 0,
       videoWidth: 0
