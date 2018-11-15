@@ -1,6 +1,5 @@
 import 'isomorphic-fetch';
 import Promise from 'bluebird';
-import * as queryString from 'query-string';
 
 export default class UserService {
   constructor(options) {
@@ -68,14 +67,7 @@ export default class UserService {
    * Logs in a user based on email + password combination
    */
   loginUser({ email, password }) {
-    const queryParams = queryString.stringify({
-      callbackUrl: process.env.CALLBACK_URL,
-      applications: 'rw',
-      token: true,
-      origin: 'rw'
-    });
-
-    return fetch(`${this.opts.apiURL}/auth/login?${queryParams}`, {
+    return fetch('/local-sign-in', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: { 'Content-Type': 'application/json' }

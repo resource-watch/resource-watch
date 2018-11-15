@@ -176,6 +176,13 @@ app.prepare().then(() => {
     );
   });
 
+  // if the user is already logged-in, redirect it to /myrw
+  // if it tries to go to sign-in page
+  server.get('/sign-in', (req, res, nextAction) => {
+    if (req.isAuthenticated()) res.redirect('/myrw');
+    return nextAction();
+  });
+
   server.get('/login', auth.login);
   server.get('/logout', (req, res) => {
     req.session.destroy();
@@ -187,6 +194,10 @@ app.prepare().then(() => {
   server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
   server.get('/myrw*?', isAuthenticated, handleUrl);
   server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
+
+
+  // local sign-in
+  server.post('/local-sign-in', auth.signin);
 
   server.use(handle);
 

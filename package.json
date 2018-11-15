@@ -72,6 +72,7 @@
     "passport-control-tower": "0.1.8",
     "passport-facebook": "2.1.1",
     "passport-google-oauth": "1.0.0",
+    "passport-local": "^1.0.0",
     "passport-twitter": "1.0.4",
     "pluralize": "5.0.0",
     "postcss-easy-import": "2.0.0",

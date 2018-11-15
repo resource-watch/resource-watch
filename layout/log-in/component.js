@@ -48,7 +48,7 @@ class Login extends PureComponent {
       } else {
         // sign-in user
         this.userService.loginUser(userSettings)
-          .then(({ data }) => {
+          .then((data) => {
             setUser(data);
             // redirects the user to /myrw once logged-in
             window.location.href = '/myrw';

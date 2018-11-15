@@ -10463,7 +10463,7 @@ passport-google-oauth@1.0.0:
     passport-google-oauth1 "1.x.x"
     passport-google-oauth20 "1.x.x"
 
-passport-local@1.0.0:
+passport-local@1.0.0, passport-local@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/passport-local/-/passport-local-1.0.0.tgz#1fe63268c92e75606626437e3b906662c15ba6ee"
   integrity sha1-H+YyaMkudWBmJkN+O5BmYsFbpu4=
