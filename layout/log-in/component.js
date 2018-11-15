@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -15,6 +16,8 @@ import UserService from 'services/UserService';
 import { FORM_ELEMENTS } from './constants';
 
 class Login extends PureComponent {
+  static propTypes = { setUser: PropTypes.func.isRequired }
+
   state ={
     email: '',
     password: '',
@@ -27,6 +30,7 @@ class Login extends PureComponent {
     if (e) e.preventDefault();
     FORM_ELEMENTS.validate();
     const isValid = FORM_ELEMENTS.isValid();
+    const { setUser } = this.props;
     const { register, captcha, ...userSettings } = this.state;
 
     if (captcha === null && register) toastr.error('Please fill the captcha');
@@ -38,12 +42,17 @@ class Login extends PureComponent {
       if (register) {
         this.userService.registerUser(userSettings)
           .then(() => {
-            toastr.success('Confirm registration', 'You will receieve an email shortly. Please confirm your registration.');
+            toastr.success('Confirm registration', 'You will receive an email shortly. Please confirm your registration.');
           })
           .catch(() => { toastr.error('Something went wrong'); });
       } else {
-        // log-in user
+        // sign-in user
         this.userService.loginUser(userSettings)
+          .then(({ data }) => {
+            setUser(data);
+            // redirects the user to /myrw once logged-in
+            window.location.href = '/myrw';
+          })
           .catch((err) => {
             err.json()
               .then(({ errors } = {}) => {

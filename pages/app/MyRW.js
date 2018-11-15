@@ -76,7 +76,6 @@ class MyRW extends Page {
     const props = await super.getInitialProps(context);
     const { user } = props;
     const { tab } = props.url.query;
-    const { routes } = props;
 
     if (tab === 'areas') {
       await context.store.dispatch(getUserAreas({ layerGroups: true }));
@@ -84,7 +83,7 @@ class MyRW extends Page {
 
     // If user is not logged redirect to login
     if (!user.token && typeof window !== 'undefined') {
-      window.location.pathname = '/login';
+      window.location.pathname = '/sign-in';
     }
 
     return { ...props };

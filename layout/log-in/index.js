@@ -1,9 +1,13 @@
 // Redux
 import { connect } from 'react-redux';
 
+// actions
+import { setUser } from 'redactions/user';
+
+// component
 import Login from './component';
 
 export default connect(
   null,
-  null
+  { setUser }
 )(Login);
