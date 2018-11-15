@@ -12,7 +12,8 @@
     font-family: 'Arial';
     user-select: none;
     margin: 0 auto;
-    padding: 0;
+    //@at-rootpadding: 0;
+    margin-bottom: 32px;
 
     &:after {
       content: " ";
