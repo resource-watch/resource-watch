@@ -45,6 +45,12 @@ $min-width-sidebar-closed: 10px;
         padding: 0;
       }
     }
+
+    &:after {
+      content: "";
+      height: 32px;
+      display: block;
+    }
   }
 
   // Toggle button
