@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import { Link } from 'routes';
 
 // Services
 import DatasetsService from 'services/DatasetsService';
@@ -46,7 +47,7 @@ class DatasetsList extends PureComponent {
 
     toastr.confirm(
       `Are you sure you want to delete the dataset: ${
-        metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name
+      metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name
       }?`,
       {
         onOk: () => {
@@ -80,17 +81,27 @@ class DatasetsList extends PureComponent {
               />
             </div>
           ))}
+
           {!datasets.length && (
             <div className="text-container">
               {!!filters.length && 'There were no datasets found with the current filter'}
             </div>
           )}
         </div>
+
         {!datasets.length &&
           !loading &&
           !filters.length && (
-            <div className="text-container">There are no datasets added in this collection yet</div>
+            <div className="no-data-div">There are no datasets added in this collection yet</div>
           )}
+
+        <div className="c-button-container -j-center c-field-buttons">
+          <Link route="explore">
+            <a className="c-button -secondary">
+              {'Explore Datasets'}
+            </a>
+          </Link>
+        </div>
       </div>
     );
   }
