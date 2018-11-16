@@ -37,6 +37,12 @@ $min-width-sidebar-closed: 10px;
     height: 100%;
     padding: 32px 16px;
 
+    &:after {
+      content: '';
+      height: 32px;
+      display: block;
+    }
+
     @media screen and (min-width: map-get($breakpoints, medium)) {
       padding: 0;
     }
