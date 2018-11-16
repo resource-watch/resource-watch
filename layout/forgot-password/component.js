@@ -25,7 +25,7 @@ class ForgotPassword extends PureComponent {
     if (!isValid) return;
 
     setTimeout(() => {
-      this.userService.registerUser({ email })
+      this.userService.forgotPassword({ email })
         .then(() => {
           toastr.success('Reset password requested', 'Please, check your inbox and follow instructions to reset your password.');
         })
@@ -84,7 +84,7 @@ class ForgotPassword extends PureComponent {
                             </button>
                           </li>
                           <li>
-                            <Link route="log-in">
+                            <Link route="sign-in">
                               <a className="c-button -tertirary">Sign in</a>
                             </Link>
                           </li>

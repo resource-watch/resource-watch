@@ -100,7 +100,7 @@ class GetInvolvedComponent extends React.PureComponent {
                     <h2>
                       Save visualizations, subscribe to alerts and enjoy the full experience
                     </h2>
-                    <Link to="log-in">
+                    <Link to="sign-in">
                       <a className="c-button -alt -primary">
                         Sign up
                       </a>

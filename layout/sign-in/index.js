@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { setUser } from 'redactions/user';
 
 // component
-import Login from './component';
+import SigIn from './component';
 
 export default connect(
   null,
   { setUser }
-)(Login);
+)(SigIn);

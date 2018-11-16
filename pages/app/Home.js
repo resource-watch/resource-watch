@@ -328,7 +328,7 @@ class Home extends Page {
               </div>
             </div>
             <div className="-light -text-center">
-              <Link route="log-in">
+              <Link route="sign-in">
                 <a className="c-btn -b -alt -fullwidth">Sign up</a>
               </Link>
             </div>

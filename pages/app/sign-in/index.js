@@ -6,9 +6,9 @@ import { initStore } from 'store';
 
 // components
 import Page from 'layout/page';
-import Login from 'layout/log-in';
+import SignIn from 'layout/sign-in';
 
-class LoginPage extends Page {
+class SignInPage extends Page {
   // static async getInitialProps(context) {
   //   const props = await super.getInitialProps(context);
   //   const { user, isServer } = props;
@@ -26,7 +26,7 @@ class LoginPage extends Page {
   // }
 
   render() {
-    return (<Login />);
+    return (<SignIn />);
   }
 }
 
@@ -34,4 +34,4 @@ export default withRedux(
   initStore,
   null,
   null
-)(LoginPage);
+)(SignInPage);

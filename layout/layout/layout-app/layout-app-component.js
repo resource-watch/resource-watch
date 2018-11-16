@@ -34,7 +34,7 @@ const fullScreenPages = [
   '/app/explore',
   '/app/pulse',
   '/app/Splash',
-  '/app/log-in'
+  '/app/sign-in'
 ];
 
 class LayoutApp extends React.Component {

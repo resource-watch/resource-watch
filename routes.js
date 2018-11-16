@@ -90,7 +90,7 @@ routes.add('attribution-requirements', '/api-attribution-requirements', 'app/Att
 routes.add('catalog', '/catalog', 'app/catalog');
 
 // ------- USER MANAGEMENT  -------------
-routes.add('log-in', '/sign-in', 'app/log-in');
+routes.add('sign-in', '/sign-in', 'app/sign-in');
 routes.add('forgot-password', '/forgot-password', 'app/forgot-password');
 routes.add('reset-password', '/reset-password/:tokenEmail?', 'app/reset-password');
 

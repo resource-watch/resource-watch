@@ -15,7 +15,7 @@ import UserService from 'services/UserService';
 // constants
 import { FORM_ELEMENTS } from './constants';
 
-class Login extends PureComponent {
+class SigIn extends PureComponent {
   static propTypes = { setUser: PropTypes.func.isRequired }
 
   state ={
@@ -216,4 +216,4 @@ class Login extends PureComponent {
   }
 }
 
-export default Login;
+export default SigIn;

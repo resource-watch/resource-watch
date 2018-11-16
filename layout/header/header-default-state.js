@@ -87,7 +87,7 @@ export default {
         },
         {
           label: 'Sign up',
-          route: 'log-in',
+          route: 'sign-in',
           params: {}
         }
       ]
