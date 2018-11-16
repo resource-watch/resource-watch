@@ -117,7 +117,7 @@ class LayersForm extends React.Component {
 
       let interactionConfig = this.state.form.interactionConfig;
       // Grab all the interactions from the redux store
-      if (this.state.form.provider !== 'gee') {
+      if (this.state.form.provider === 'cartodb') {
         interactionConfig = Object.assign(
           {},
           this.state.form.interactionConfig,
