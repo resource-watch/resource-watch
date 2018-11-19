@@ -50,8 +50,9 @@ function checkBasicAuth(users) {
 
 function isAuthenticated(req, res, nextAction) {
   // Saving referrer of user
-  req.session.referrer = req.url;
+  if (req.session) req.session.referrer = req.url;
   if (req.isAuthenticated()) return nextAction();
+
   // if they aren't redirect them to the home page
   return res.redirect('/login');
 }
