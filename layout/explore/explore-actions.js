@@ -110,7 +110,8 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
     language: common.locale,
     includes: 'layer',
     ids: payload.map(lg => lg.dataset).join(','),
-    'page[size]': 999
+    'page[size]': 999,
+    env: process.env.API_ENV
   });
 
   return fetch(`${process.env.WRI_API_URL}/dataset?${qParams}`)
