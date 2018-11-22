@@ -53,10 +53,6 @@ function isAuthenticated(req, res, nextAction) {
   if (req.session) req.session.referrer = req.url;
   if (req.isAuthenticated()) return nextAction();
 
-<<<<<<< HEAD
-  // if they aren't redirect them to the home page
-  return res.redirect('/login');
-=======
   // if the user is not authenticated and tries to access to the admin zone,
   // it will be redirected to the Control Tower login page
   if (req.path === '/admin') return res.redirect('/login');
@@ -64,7 +60,6 @@ function isAuthenticated(req, res, nextAction) {
   // if the user is not authenticated and tries to access to a non-admin zone,
   // it will be redirected to the user sign-in/register page
   return res.redirect('/sign-in');
->>>>>>> Adds new log-in page
 }
 
 function isAdmin(req, res, nextAction) {
