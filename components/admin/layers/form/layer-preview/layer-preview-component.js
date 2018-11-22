@@ -16,7 +16,7 @@ import {
 // Map Popups
 import LayerPopup from 'components/ui/map/popup/LayerPopup';
 
-import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { LayerManager, Layer } from 'layer-manager/lib/react';
 import { PluginLeaflet } from 'layer-manager';
 
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';

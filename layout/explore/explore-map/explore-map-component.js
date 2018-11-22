@@ -30,7 +30,7 @@ import {
   LegendItemTimeline
 } from 'wri-api-components';
 
-import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { LayerManager, Layer } from 'layer-manager/lib/react';
 import { PluginLeaflet } from 'layer-manager';
 
 // Modal
@@ -278,45 +278,41 @@ class ExploreMapComponent extends React.Component {
 
                 {/* LayerManager */}
                 <LayerManager map={map} plugin={PluginLeaflet}>
-                  {layerManager =>
-                    activeLayers &&
-                    activeLayers.map((l, i) => (
-                      <Layer
-                        {...l}
-                        key={l.id}
-                        layerManager={layerManager}
-                        opacity={l.opacity}
-                        zIndex={1000 - i}
-                        // Interaction
-                        {...!!l.interactionConfig &&
-                          !!l.interactionConfig.output &&
-                          !!l.interactionConfig.output.length && {
-                            interactivity:
-                              l.provider === "carto" || l.provider === "cartodb"
-                                ? l.interactionConfig.output.map(o => o.column)
-                                : true,
-                            events: {
-                              click: (e) => {
-                                if (this.props.setMapLayerGroupsInteraction)
-                                  this.props.setMapLayerGroupsInteraction({
-                                    ...e,
-                                    ...l
-                                  });
-                                if (
-                                  this.props.setMapLayerGroupsInteractionLatLng
-                                )
-                                  this.props.setMapLayerGroupsInteractionLatLng(
-                                    e.latlng
-                                  );
-                              }
+                  {(activeLayers || []).map((l, i) => (
+                    <Layer
+                      {...l}
+                      key={l.id}
+                      opacity={l.opacity}
+                      zIndex={1000 - i}
+                      // Interaction
+                      {...!!l.interactionConfig &&
+                        !!l.interactionConfig.output &&
+                        !!l.interactionConfig.output.length && {
+                          interactivity:
+                            l.provider === "carto" || l.provider === "cartodb"
+                              ? l.interactionConfig.output.map(o => o.column)
+                              : true,
+                          events: {
+                            click: (e) => {
+                              if (this.props.setMapLayerGroupsInteraction)
+                                this.props.setMapLayerGroupsInteraction({
+                                  ...e,
+                                  ...l
+                                });
+                              if (
+                                this.props.setMapLayerGroupsInteractionLatLng
+                              )
+                                this.props.setMapLayerGroupsInteractionLatLng(
+                                  e.latlng
+                                );
                             }
-                          }}
+                          }
+                        }}
 
-                        // There is a bug here... Too many setState
-                        // onLayerLoading={bool => this.onLayerLoading(l.id, bool)}
-                      />
-                    ))
-                  }
+                      // There is a bug here... Too many setState
+                      // onLayerLoading={bool => this.onLayerLoading(l.id, bool)}
+                    />
+                  ))}
                 </LayerManager>
               </React.Fragment>
             )}
