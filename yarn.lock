@@ -11635,7 +11635,7 @@ react-css-modules@^4.7.1:
     lodash "^4.16.6"
     object-unfreeze "^1.1.0"
 
-react-dates@^18.1.1:
+react-dates@^18.1.1, react-dates@^18.2.2:
   version "18.2.2"
   resolved "https://registry.yarnpkg.com/react-dates/-/react-dates-18.2.2.tgz#77f8fc55ebd462673e0476d64ed926d98504d6a4"
   integrity sha512-esJhsXmQdSFVKU39fzRTXD8ViXj3JT26JNWDh2STQZni8AfdWTqM2OHa2YbrHsqqhDj5mlfc8inX99WzOeJ69g==
@@ -16024,10 +16024,10 @@ wri-api-components@2.0.17:
     vega-lib "^4.2.0"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.3.2.tgz#89e631d71a293366985c9ea09e70235c80191f5c"
-  integrity sha512-ei+r8f5dz+YxK3+rU9qvFEWbqCGr1lBTl9+kBehWG3ZPhGFUpKgKpJqbpEKV9KSSZRLZBtbFejiMoGx3dJi11Q==
+wri-api-components@2.3.3-fix-7:
+  version "2.3.3-fix-7"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.3.3-fix-7.tgz#b0c3e25b5dee723f747fea5a66dbb21a9be4b8ee"
+  integrity sha512-Y/aK3/LBsFZ5W28P2Uap8FBdnwWe3oGMetFh5Hl19UwsOH0DFONasA2v/cZ19lBk1BQ1RNARhgo4k/XST1dGfg==
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.10.0"
