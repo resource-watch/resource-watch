@@ -275,6 +275,21 @@ export default {
     };
     return { ...state, map };
   },
+  [actions.setMapLayerParametrization]: (state, { payload }) => {
+    const { id, params } = payload;
+    const { map } = state;
+    const { parametrization } = map;
+
+    parametrization[id] = params;
+
+    return {
+      ...state,
+      map: {
+        ...state.map,
+        parametrization: { ...parametrization }
+      }
+    };
+  },
 
 
   //

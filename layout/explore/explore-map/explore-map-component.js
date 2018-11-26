@@ -27,37 +27,35 @@ import {
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
   LegendItemTypes,
-  LegendItemTimeline
+  // LegendItemTimeline,
+  LegendItemTimeStep
 } from 'wri-api-components';
 
-import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { LayerManager, Layer } from 'layer-manager/lib/react';
 import { PluginLeaflet } from 'layer-manager';
 
 // Modal
 import Modal from 'components/modal/modal-component';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
-// constants
-import { BOUNDARIES } from 'components/ui/map/constants';
-
 class ExploreMapComponent extends React.Component {
   static propTypes = {
     embed: PropTypes.bool,
 
-    open: PropTypes.bool,
+    open: PropTypes.bool.isRequired,
 
-    zoom: PropTypes.number,
-    latLng: PropTypes.object,
-    location: PropTypes.object,
-    basemap: PropTypes.object,
-    labels: PropTypes.object,
+    zoom: PropTypes.number.isRequired,
+    latLng: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    basemap: PropTypes.object.isRequired,
+    labels: PropTypes.object.isRequired,
     boundaries: PropTypes.bool.isRequired,
-    layerGroups: PropTypes.array,
-    layerGroupsInteraction: PropTypes.object,
+    activeLayers: PropTypes.array.isRequired,
+    layerGroups: PropTypes.array.isRequired,
+    layerGroupsInteraction: PropTypes.object.isRequired,
     layerGroupsInteractionSelected: PropTypes.string,
     layerGroupsInteractionLatLng: PropTypes.object,
 
-    // Actions
     setMapZoom: PropTypes.func.isRequired,
     setMapLatLng: PropTypes.func.isRequired,
     setMapBasemap: PropTypes.func.isRequired,
@@ -69,12 +67,19 @@ class ExploreMapComponent extends React.Component {
     setMapLayerGroupOpacity: PropTypes.func.isRequired,
     setMapLayerGroupActive: PropTypes.func.isRequired,
     setMapLayerGroupsOrder: PropTypes.func.isRequired,
+    setMapLayerParametrization: PropTypes.func.isRequired,
 
     setMapLayerGroupsInteraction: PropTypes.func.isRequired,
     setMapLayerGroupsInteractionLatLng: PropTypes.func.isRequired,
     setMapLayerGroupsInteractionSelected: PropTypes.func.isRequired,
     resetMapLayerGroupsInteraction: PropTypes.func.isRequired
   };
+
+  static defaultProps = {
+    embed: false,
+    layerGroupsInteractionSelected: null,
+    layerGroupsInteractionLatLng: null
+  }
 
   state = {
     layer: null,
@@ -133,6 +138,21 @@ class ExploreMapComponent extends React.Component {
     this.props.setMapLayerGroupsOrder({ datasetIds });
   };
 
+  onChangeLayerDate = (dates, layer) => {
+    const { setMapLayerParametrization } = this.props;
+    const { id } = layer;
+
+    setMapLayerParametrization({
+      id,
+      params: {
+        decodeParams: {
+          startDate: dates[0],
+          endDate: dates[1]
+        }
+      }
+    });
+  }
+
   // Map params
   onMapParams = debounce(({ zoom, latLng }) => {
     this.props.setMapZoom(zoom);
@@ -157,32 +177,12 @@ class ExploreMapComponent extends React.Component {
       basemap,
       labels,
       boundaries,
+      activeLayers,
       layerGroups,
       layerGroupsInteraction,
       layerGroupsInteractionSelected,
       layerGroupsInteractionLatLng
     } = this.props;
-
-    const activeLayers = layerGroups.map(lg => ({
-      ...lg.layers.find(l => l.active),
-      opacity: typeof lg.opacity !== 'undefined' ? lg.opacity : 1,
-      visibility: typeof lg.visibility !== 'undefined' ? lg.visibility : true
-    }));
-
-    if (boundaries) {
-      activeLayers.unshift({
-        id: 'dark-boundaries',
-        active: true,
-        provider: 'leaflet',
-        opacity: 1,
-        visibility: true,
-        layerConfig: {
-          type: 'tileLayer',
-          url: BOUNDARIES.dark.value,
-          body: {}
-        }
-      });
-    }
 
     return (
       <div className="l-map -relative">
@@ -256,12 +256,9 @@ class ExploreMapComponent extends React.Component {
                   map={map}
                   latlng={layerGroupsInteractionLatLng}
                   data={{
-                    layers: activeLayers.filter(
-                      l =>
-                        !!l.interactionConfig &&
-                        !!l.interactionConfig.output &&
-                        !!l.interactionConfig.output.length
-                    ),
+                    layers: activeLayers.filter(l =>
+                      !!l.interactionConfig && !!l.interactionConfig.output
+                      && !!l.interactionConfig.output.length),
                     layersInteraction: layerGroupsInteraction,
                     layersInteractionSelected: layerGroupsInteractionSelected
                   }}
@@ -271,50 +268,41 @@ class ExploreMapComponent extends React.Component {
                 >
                   <LayerPopup
                     onChangeInteractiveLayer={selected =>
-                      this.props.setMapLayerGroupsInteractionSelected(selected)
-                    }
+                      this.props.setMapLayerGroupsInteractionSelected(selected)}
                   />
                 </MapPopup>
 
                 {/* LayerManager */}
                 <LayerManager map={map} plugin={PluginLeaflet}>
-                  {layerManager =>
-                    activeLayers &&
-                    activeLayers.map((l, i) => (
-                      <Layer
-                        {...l}
-                        key={l.id}
-                        layerManager={layerManager}
-                        opacity={l.opacity}
-                        zIndex={1000 - i}
-                        // Interaction
-                        {...!!l.interactionConfig &&
-                          !!l.interactionConfig.output &&
-                          !!l.interactionConfig.output.length && {
-                            interactivity:
-                              l.provider === "carto" || l.provider === "cartodb"
-                                ? l.interactionConfig.output.map(o => o.column)
-                                : true,
-                            events: {
-                              click: (e) => {
-                                if (this.props.setMapLayerGroupsInteraction)
-                                  this.props.setMapLayerGroupsInteraction({
-                                    ...e,
-                                    ...l
-                                  });
-                                if (
-                                  this.props.setMapLayerGroupsInteractionLatLng
-                                )
-                                  this.props.setMapLayerGroupsInteractionLatLng(
-                                    e.latlng
-                                  );
+                  {(activeLayers || []).map((l, i) => (
+                    <Layer
+                      {...l}
+                      key={l.id}
+                      opacity={l.opacity}
+                      zIndex={1000 - i}
+                      // Interaction
+                      {...!!l.interactionConfig &&
+                        !!l.interactionConfig.output &&
+                        !!l.interactionConfig.output.length && {
+                          interactivity:
+                            l.provider === 'carto' || l.provider === 'cartodb'
+                              ? l.interactionConfig.output.map(o => o.column)
+                              : true,
+                          events: {
+                            click: (e) => {
+                              if (this.props.setMapLayerGroupsInteraction) {
+                                this.props.setMapLayerGroupsInteraction({
+                                  ...e,
+                                  ...l
+                                });
+                              }
+                              if (this.props.setMapLayerGroupsInteractionLatLng) {
+                                this.props.setMapLayerGroupsInteractionLatLng(e.latlng);
                               }
                             }
-                          }}
-
-                        // There is a bug here... Too many setState
-                        // onLayerLoading={bool => this.onLayerLoading(l.id, bool)}
-                      />
+                          }
+                        }}
+                    />
                     ))
                   }
                 </LayerManager>
@@ -354,7 +342,11 @@ class ExploreMapComponent extends React.Component {
                 onRemoveLayer={this.onRemoveLayer}
               >
                 <LegendItemTypes />
-                <LegendItemTimeline onChangeLayer={this.onChangeLayer} />
+                {/* <LegendItemTimeline onChangeLayer={this.onChangeLayer} /> */}
+                <LegendItemTimeStep handleChange={(dates, activeLayer) => {
+                  this.onChangeLayerDate(dates, activeLayer);
+                }}
+                />
               </LegendListItem>
             ))}
           </Legend>

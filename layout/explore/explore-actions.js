@@ -68,6 +68,7 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
         ...d,
         layer: d.layer.filter(l => l.published)
       }));
+
       dispatch(setDatasetsLoading(false));
       dispatch(setDatasetsError(null));
       dispatch(setDatasets(datasets));
@@ -93,6 +94,7 @@ export const setMapLayerGroupVisibility = createAction('EXPLORE/setMapLayerGroup
 export const setMapLayerGroupOpacity = createAction('EXPLORE/setMapLayerGroupOpacity');
 export const setMapLayerGroupActive = createAction('EXPLORE/setMapLayerGroupActive');
 export const setMapLayerGroupsOrder = createAction('EXPLORE/setMapLayerGroupsOrder');
+export const setMapLayerParametrization = createAction('EXPLORE/setMapLayerParametrization');
 
 // INTERACTION
 export const setMapLayerGroupsInteraction = createAction('EXPLORE/setMapLayerGroupsInteraction');
