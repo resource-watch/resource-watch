@@ -196,10 +196,9 @@ class DatasetListItem extends React.Component {
 
             {/* Last update */}
             <div className="last-update-container">
-              {/* Temporarilly hidden until data is fixed
-                {dateLastUpdated &&
-                 <p>Last update: {dateLastUpdated}</p>
-              } */}
+              {dateLastUpdated &&
+                <p>Last update: {dateLastUpdated}</p>
+              }
             </div>
 
             {!!tags &&
