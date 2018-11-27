@@ -10,7 +10,7 @@
   border-radius: 4px;
   z-index: 7;
   overflow: auto;
-  max-height: calc(100% - 200px - 100px);  
+  max-height: calc(100% - 200px - 100px);
 
   @media screen and (max-width: map-get($breakpoints, medium)) {
     position: relative;
@@ -27,7 +27,7 @@
       display: none;
     }
   }
-  
+
   h3, h5 {
     color: $color-dark-pink;
     margin: 0px;
@@ -89,6 +89,11 @@
           height: 15px;
         }
       }
+    }
+
+    .last-update-date-container {
+      margin-top: 10px;
+      font-size: $font-size-extra-small;
     }
   }
 

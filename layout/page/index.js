@@ -3,11 +3,11 @@ import { setUser, getUserFavourites, getUserCollections } from 'redactions/user'
 import { setRouter } from 'redactions/routes';
 import { fetchTopics } from 'redactions/topics/actions';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { setItem, setMobileOpened } from 'layout/header/header-actions';
+import { setMobileOpened } from 'layout/header/header-actions';
 
 import 'css/index.scss';
 
-export default class Page extends PureComponent {
+class Page extends PureComponent {
   static async getInitialProps({
     asPath,
     pathname,
@@ -27,19 +27,7 @@ export default class Page extends PureComponent {
     await store.dispatch(getUserCollections());
 
     // Get topics
-    await store.dispatch(fetchTopics({ filters: { 'filter[published]': 'true' } }));
-    const { topics } = store.getState().topics;
-
-    store.dispatch(setItem(
-      {
-        id: 'topics',
-        label: 'Topics',
-        route: 'topics',
-        pathnames: ['/app/topics', '/app/topics-detail'],
-        children: topics.map(t => ({ label: t.name, route: 'topics_detail', params: { id: t.slug } }))
-      }
-    ));
-
+    await store.dispatch(fetchTopics({ filters: {} }));
 
     // Mobile detection
     if (isServer) {
@@ -53,3 +41,6 @@ export default class Page extends PureComponent {
     return { user, isServer, url };
   }
 }
+
+
+export default Page;

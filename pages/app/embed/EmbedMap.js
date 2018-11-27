@@ -27,7 +27,7 @@ import {
   LegendItemTypes
 } from 'wri-api-components';
 
-import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { LayerManager, Layer } from 'layer-manager/lib/react';
 import { PluginLeaflet } from 'layer-manager';
 
 

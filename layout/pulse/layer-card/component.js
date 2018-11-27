@@ -74,6 +74,7 @@ class LayerCardComponent extends PureComponent {
     const source = dataset && dataset.metadata && dataset.metadata.source;
     const layerName = layerActive && layerActive.attributes && layerActive.attributes.name;
     const rotatableGlobe = layerActive && layerActive.rotatableGlobe;
+    const lastUpdateDate = dataset && dataset.dataLastUpdated;
 
     const className = classNames({
       'c-layer-card': true,
@@ -85,19 +86,19 @@ class LayerCardComponent extends PureComponent {
     return (
       <div className={className}>
         <div>
-        <h3>{layerActive && layerActive.label}</h3>
-        {source &&
+          <h3>{layerActive && layerActive.label}</h3>
+          {source &&
           <div className="source-container">
             {source}
           </div>
         }
-        {layerActive && layerActive.descriptionPulse}
-        {layerPoints && layerPoints.length > 0 &&
+          {layerActive && layerActive.descriptionPulse}
+          {layerPoints && layerPoints.length > 0 &&
           <div className="number-of-points">
             Number of objects: {layerPoints.length}
           </div>
         }
-        {rotatableGlobe &&
+          {rotatableGlobe &&
           <div>
             <button
               className="c-button -secondary rotate-globe-button"
@@ -107,10 +108,10 @@ class LayerCardComponent extends PureComponent {
             </button>
           </div>
         }
-        <div className="legends">
-          {layerName &&
+          <div className="legends">
+            {layerName &&
             <div className="layer-container">
-              <span>{layerName}</span>
+              <div>{layerName}</div>
               <button
                 type="button"
                 className="info"
@@ -130,12 +131,20 @@ class LayerCardComponent extends PureComponent {
                 </Modal>
               </button>
             </div>
-          }
-          <Legend
-            layerActive={layerActive}
-            className={{ color: '-dark' }}
-          />
-          {activeContextLayers.length > 0 &&
+            }
+            {/* Temporarilly hidden until data is fixed
+              {
+                lastUpdateDate &&
+                <div className="last-update-date-container">
+                  Last update: {lastUpdateDate}
+                </div>
+              }
+            } */}
+            <Legend
+              layerActive={layerActive}
+              className={{ color: '-dark' }}
+            />
+            {activeContextLayers.length > 0 &&
             <div className="context-layers-legends">
               {
                 activeContextLayers.map(ctLayer => (
@@ -170,8 +179,8 @@ class LayerCardComponent extends PureComponent {
               }
             </div>
           }
-        </div>
-        {widget &&
+          </div>
+          {widget &&
           <div>
             <h5>Similar content</h5>
             <div
@@ -193,8 +202,8 @@ class LayerCardComponent extends PureComponent {
             </div>
           </div>
         }
-        <div className="card-buttons">
-          { datasetId &&
+          <div className="card-buttons">
+            { datasetId &&
             <Link
               route="explore_detail"
               params={{ id: datasetId }}
@@ -202,7 +211,7 @@ class LayerCardComponent extends PureComponent {
               <a className="c-button -tertiary link_button" >Details</a>
             </Link>
           }
-          { subscribable &&
+            { subscribable &&
             <LoginRequired text="Log in or sign up to subscribe to alerts from this dataset">
               <button
                 className="c-button -secondary link_button"
@@ -220,7 +229,7 @@ class LayerCardComponent extends PureComponent {
               </button>
             </LoginRequired>
           }
-        </div>
+          </div>
         </div>
       </div>
     );

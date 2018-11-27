@@ -1,31 +1,29 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
-
 import { Link } from 'routes';
-
-// Components
+import debounce from 'lodash/debounce';
 import TetherComponent from 'react-tether';
 
-export default class HeaderTopics extends React.PureComponent {
+class HeaderTopics extends PureComponent {
+  static propTypes = {
+    header: PropTypes.object.isRequired,
+    topics: PropTypes.array.isRequired,
+    setDropdownOpened: PropTypes.func.isRequired
+  };
+
   toggleDropdown = debounce((bool) => {
     this.props.setDropdownOpened({ topics: bool });
   }, 50)
 
   render() {
-    const { children } = this.props;
+    const { header, topics } = this.props;
 
     return (
       <TetherComponent
         attachment="top center"
-        constraints={[{
-          to: 'window'
-        }
-      ]}
+        constraints={[{ to: 'window' }]}
         targetOffset="0 0"
-        classes={{
-        element: 'c-header-dropdown'
-      }}
+        classes={{ element: 'c-header-dropdown' }}
       >
         {/* First child: This is what the item will be tethered to */}
         <Link route="topics">
@@ -37,34 +35,23 @@ export default class HeaderTopics extends React.PureComponent {
           </a>
         </Link>
         {/* Second child: If present, this item will be tethered to the the first child */}
-        {this.props.header.dropdownOpened.topics &&
+        {header.dropdownOpened.topics &&
           <ul
             className="header-dropdown-list"
             onMouseEnter={() => this.toggleDropdown(true)}
             onMouseLeave={() => this.toggleDropdown(false)}
           >
-            {children.map(c => (
+            {topics.map(_topic => (
               <li
                 className="header-dropdown-list-item"
-                key={c.label}
+                key={_topic.label}
               >
-                {!!c.route &&
-                  <Link route={c.route} params={c.params}>
-                    <a>{c.label}</a>
-                  </Link>
-                }
-
-                {!!c.href &&
-                  <a href={c.href}>
-                    {c.label}
-                  </a>
-                }
-
-                {!c.route && !c.href &&
-                  <span>
-                    {c.label}
-                  </span>
-                }
+                <Link
+                  route={_topic.route}
+                  params={_topic.params}
+                >
+                  <a>{_topic.label}</a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -74,8 +61,4 @@ export default class HeaderTopics extends React.PureComponent {
   }
 }
 
-HeaderTopics.propTypes = {
-  header: PropTypes.object,
-  children: PropTypes.array,
-  setDropdownOpened: PropTypes.func
-};
+export default HeaderTopics;

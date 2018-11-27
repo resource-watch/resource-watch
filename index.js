@@ -31,8 +31,11 @@ function checkBasicAuth(users) {
     if (!/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       let authorized = false;
-      if (user && ((user.name === users[0].name && user.pass === users[0].pass) ||
-        (user.name === users[1].name && user.pass === users[1].pass))) {
+      if (
+        user &&
+        ((user.name === users[0].name && user.pass === users[0].pass) ||
+          (user.name === users[1].name && user.pass === users[1].pass))
+      ) {
         authorized = true;
       }
 
@@ -47,8 +50,9 @@ function checkBasicAuth(users) {
 
 function isAuthenticated(req, res, nextAction) {
   // Saving referrer of user
-  req.session.referrer = req.url;
+  if (req.session) req.session.referrer = req.url;
   if (req.isAuthenticated()) return nextAction();
+
   // if they aren't redirect them to the home page
   return res.redirect('/login');
 }
@@ -78,13 +82,18 @@ if (prod) {
 // Using basic auth in prod mode
 const { USERNAME, PASSWORD, RW_USERNAME, RW_PASSWORD } = process.env;
 if (prod && ((USERNAME && PASSWORD) || (RW_USERNAME && RW_PASSWORD))) {
-  server.use(checkBasicAuth([{
-    name: USERNAME,
-    pass: PASSWORD
-  }, {
-    name: RW_USERNAME,
-    pass: RW_PASSWORD
-  }]));
+  server.use(
+    checkBasicAuth([
+      {
+        name: USERNAME,
+        pass: PASSWORD
+      },
+      {
+        name: RW_USERNAME,
+        pass: RW_PASSWORD
+      }
+    ])
+  );
 }
 
 // configure Express
@@ -106,21 +115,24 @@ server.use((req, res, nextAction) => {
 auth.initialize(server);
 
 // Initializing next app before express server
-app.prepare()
-  .then(() => {
-    // Configuring next routes with express
-    const handleUrl = (req, res) => {
-      const parsedUrl = parse(req.url, true);
-      return handle(req, res, parsedUrl);
-    };
+app.prepare().then(() => {
+  // Configuring next routes with express
+  const handleUrl = (req, res) => {
+    const parsedUrl = parse(req.url, true);
+    return handle(req, res, parsedUrl);
+  };
 
-    // Redirecting data to data/explore
-    // TODO: create data page
-    server.get('/data', (req, res) => res.redirect('/data/explore'));
+  // Redirecting data to data/explore
+  // TODO: create data page
+  server.get('/data', (req, res) => res.redirect('/data/explore'));
 
-    // Authentication
-    server.get('/auth', auth.authenticate({ failureRedirect: '/login' }), (req, res) => {
-      if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
+  // Authentication
+  server.get(
+    '/auth',
+    auth.authenticate({ failureRedirect: '/login' }),
+    (req, res) => {
+      if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer))
+        return res.redirect('/admin');
       const authRedirect = req.cookies.authUrl || '/myrw';
 
       if (req.cookies.authUrl) {
@@ -128,44 +140,52 @@ app.prepare()
       }
 
       return res.redirect(authRedirect);
-    });
+    }
+  );
 
-    // Authenticate specific service, and set authUrl cookie so we remember where we where
-    server.get('/auth/:service', (req, res) => {
-      const { service } = req.params;
+  // Authenticate specific service, and set authUrl cookie so we remember where we where
+  server.get('/auth/:service', (req, res) => {
+    const { service } = req.params;
 
-      // Returning user data
-      if (service === 'user') return res.json(req.user || {});
+    // Returning user data
+    if (service === 'user') return res.json(req.user || {});
 
-      if (!/facebook|google|twitter/.test(service)) {
-        return res.redirect('/');
-      }
+    if (!/facebook|google|twitter/.test(service)) {
+      return res.redirect('/');
+    }
 
-      if (req.cookies.authUrl) {
-        res.clearCookie('authUrl');
-      }
+    if (req.cookies.authUrl) {
+      res.clearCookie('authUrl');
+    }
 
-      // save the current url for redirect if successfull, set it to expire in 5 min
-      res.cookie('authUrl', req.headers.referer, { maxAge: 3E5, httpOnly: true });
-      return res.redirect(`${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true&origin=rw`);
-    });
-
-    server.get('/login', auth.login);
-    server.get('/logout', (req, res) => {
-      req.session.destroy();
-      req.logout();
-      res.redirect('back');
-    });
-
-    // Routes with required authentication
-    server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
-    server.get('/myrw*?', isAuthenticated, handleUrl);
-    server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
-
-    server.use(handle);
-
-    server.listen(port, (err) => {
-      if (err) throw err;
-      console.info(`> Ready on http://localhost:${port} [${process.env.NODE_ENV || 'development'}]`);
-    });
+    // save the current url for redirect if successfull, set it to expire in 5 min
+    res.cookie('authUrl', req.headers.referer, { maxAge: 3e5, httpOnly: true });
+    return res.redirect(
+      `${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${
+        process.env.CALLBACK_URL
+      }&applications=rw&token=true&origin=rw`
+    );
   });
+
+  server.get('/login', auth.login);
+  server.get('/logout', (req, res) => {
+    req.session.destroy();
+    req.logout();
+    res.redirect('back');
+  });
+
+  // Routes with required authentication
+  server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
+  server.get('/myrw*?', isAuthenticated, handleUrl);
+  server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
+
+  server.use(handle);
+
+  server.listen(port, (err) => {
+    if (err) throw err;
+    console.info(
+      `> Ready on http://localhost:${port} [${process.env.NODE_ENV ||
+        'development'}]`
+    );
+  });
+});

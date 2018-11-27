@@ -39,7 +39,7 @@ class LayerPopup extends React.Component {
     const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
 
     if (!layer) return false;
-    
+
     const { interactionConfig } = layer;
 
     if (
@@ -54,9 +54,16 @@ class LayerPopup extends React.Component {
           throw response;
         })
         .then(({ data }) => {
-          this.setState({ loading: false });
-          console.log('Need to be finished!!!!!!!!!!');
-          console.log(data);
+          this.setState({
+            interaction: {
+              ...this.state.interaction,
+              [layer.id]: {
+                ...layer,
+                data: data[0]
+              }
+            },
+            loading: false
+          });
         })
         .catch((err) => {
           this.setState({ loading: false });
@@ -110,11 +117,11 @@ class LayerPopup extends React.Component {
     }
     // Get interactionConfig
     const { interactionConfig } = layer;
+    const { output } = interactionConfig;
 
     // Get data from props or state
     const interaction = layersInteraction[layer.id] || {};
     const interactionState = this.state.interaction[layer.id] || {};
-
 
     return (
       <div className="c-map-popup">
@@ -134,17 +141,24 @@ class LayerPopup extends React.Component {
           {(interaction.data || interactionState.data) &&
             <table className="popup-table">
               <tbody>
-                {interactionConfig.output.map(outputItem => (
-                  <tr
-                    className="dc"
-                    key={outputItem.property || outputItem.column}
-                  >
-                    <td className="dt">
-                      {outputItem.property || outputItem.column}:
-                    </td>
-                    <td className="dd">{this.formatValue(outputItem, interaction.data[outputItem.column])}</td>
-                  </tr>
-                ))}
+                {output.map((outputItem) => {
+                  const { column } = outputItem;
+                  const columnArray = column.split('.');
+                  const value = columnArray.reduce((acc, c) => acc[c],
+                    interaction.data || interactionState.data);
+                    return (
+                      <tr
+                        className="dc"
+                        key={outputItem.property || outputItem.column}
+                      >
+                        <td className="dt">
+                          {outputItem.property || outputItem.column}:
+                        </td>
+                        <td className="dd">{this.formatValue(outputItem, value)}</td>
+                      </tr>
+                    );
+                  }
+              )}
               </tbody>
             </table>
           }
@@ -155,7 +169,7 @@ class LayerPopup extends React.Component {
             </div>
           }
 
-          {!this.state.loading && (!interaction.data || !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
+          {!this.state.loading && (!interaction.data && !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
             'No data available'
           }
 

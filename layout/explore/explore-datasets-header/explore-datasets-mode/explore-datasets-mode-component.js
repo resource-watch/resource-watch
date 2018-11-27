@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -7,18 +7,14 @@ import { Tooltip } from 'wri-api-components';
 // Components
 import Icon from 'components/ui/Icon';
 
-class ExploreDatasetsSortComponent extends React.Component {
+class ExploreDatasetsSortComponent extends PureComponent {
   static propTypes = {
-    mode: PropTypes.string,
-
-    // Actions
-    setDatasetsMode: PropTypes.func
+    mode: PropTypes.string.isRequired,
+    setDatasetsMode: PropTypes.func.isRequired
   };
 
   render() {
-    const {
-      mode
-    } = this.props;
+    const { mode } = this.props;
 
     return (
       <div className="c-explore-datasets-mode">

@@ -28,6 +28,7 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
 
   const qParams = queryString.stringify({
     application: process.env.APPLICATIONS,
+    env: process.env.API_ENV,
     language: common.locale,
     includes: 'layer,metadata,vocabulary,widget',
     sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
@@ -67,6 +68,7 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
         ...d,
         layer: d.layer.filter(l => l.published)
       }));
+
       dispatch(setDatasetsLoading(false));
       dispatch(setDatasetsError(null));
       dispatch(setDatasets(datasets));
@@ -92,6 +94,7 @@ export const setMapLayerGroupVisibility = createAction('EXPLORE/setMapLayerGroup
 export const setMapLayerGroupOpacity = createAction('EXPLORE/setMapLayerGroupOpacity');
 export const setMapLayerGroupActive = createAction('EXPLORE/setMapLayerGroupActive');
 export const setMapLayerGroupsOrder = createAction('EXPLORE/setMapLayerGroupsOrder');
+export const setMapLayerParametrization = createAction('EXPLORE/setMapLayerParametrization');
 
 // INTERACTION
 export const setMapLayerGroupsInteraction = createAction('EXPLORE/setMapLayerGroupsInteraction');
@@ -109,7 +112,8 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
     language: common.locale,
     includes: 'layer',
     ids: payload.map(lg => lg.dataset).join(','),
-    'page[size]': 999
+    'page[size]': 999,
+    env: process.env.API_ENV
   });
 
   return fetch(`${process.env.WRI_API_URL}/dataset?${qParams}`)

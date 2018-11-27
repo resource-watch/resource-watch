@@ -27,7 +27,13 @@ class Head extends React.PureComponent {
 
   getCrazyEgg() {
     if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
-      return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async" />;
+      return (
+        <script
+          type="text/javascript"
+          src="//script.crazyegg.com/pages/scripts/0069/4623.js"
+          async="async"
+        />
+      );
     }
     return null;
   }
@@ -137,7 +143,11 @@ class Head extends React.PureComponent {
         {category && <meta name="addsearch-category" content={category} />}
 
         <link rel="icon" href="/static/favicon.ico" />
-        <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
+        <link
+          rel="stylesheet"
+          media="screen"
+          href="https://fonts.googleapis.com/css?family=Lato:400,300,700"
+        />
         <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
 
         {/* Mobile Adress background */}
@@ -152,7 +162,10 @@ class Head extends React.PureComponent {
         {/* Social metadata */}
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content="https://resourcewatch.org/static/images/social-big.jpg" />
+        <meta
+          property="og:image"
+          content="https://resourcewatch.org/static/images/social-big.jpg"
+        />
         <meta property="og:url" content="https://resourcewatch.org" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
@@ -184,10 +197,7 @@ class Head extends React.PureComponent {
           integrity="sha512-pijLQd2FbV/7+Jwa86Mk3ACxnasfIMzJRrIlVQsuPKPCfUBCDMDUoLiBQRg7dAQY6D1rkmCcR8286hVTn/wlIg=="
           crossOrigin=""
         />
-        <script
-          src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js"
-          crossOrigin=""
-        />
+        <script src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js" crossOrigin="" />
 
         {Head.getStyles()}
         {this.getCesiumStyles()}
@@ -198,7 +208,11 @@ class Head extends React.PureComponent {
         {this.getCesium()}
         {this.getAFrame()}
 
-        <script src={`https://maps.googleapis.com/maps/api/js?key=${process.env.RW_GOGGLE_API_TOKEN_SHORTENER}&libraries=places`} />
+        <script
+          src={`https://maps.googleapis.com/maps/api/js?key=${
+            process.env.RW_GOGGLE_API_TOKEN_SHORTENER
+          }&libraries=places`}
+        />
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
     );

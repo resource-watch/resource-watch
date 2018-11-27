@@ -8,5 +8,8 @@ export default {
     ({ ...state, loading: action.payload }),
 
   [actions.setError]: (state, action) =>
-    ({ ...state, error: action.payload })
+    ({ ...state, error: action.payload }),
+
+  [actions.setFilters]: (state, action) =>
+    ({ ...state, filters: action.payload })
 };

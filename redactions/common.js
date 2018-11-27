@@ -3,12 +3,14 @@ import { Router } from 'routes';
 const SET_LOCALE = 'common/SET_LOCALE';
 const SET_EMBED = 'common/SET_EMBED';
 const SET_IS_LOADED_EXTERNALY = 'common/SET_IS_LOADED_EXTERNALY';
+const SET_IS_SERVER = 'common/SET_IS_SERVER';
 
 
 const initialState = {
   locale: 'en',
   embed: false,
-  isLoadedExternally: false
+  isLoadedExternally: false,
+  isServer: true
 };
 
 export default function (state = initialState, action) {
@@ -21,6 +23,9 @@ export default function (state = initialState, action) {
 
     case SET_IS_LOADED_EXTERNALY:
       return Object.assign({}, state, { isLoadedExternally: action.payload });
+
+    case SET_IS_SERVER:
+      return Object.assign({}, state, { isServer: action.payload });
 
     default:
       return state;
@@ -69,5 +74,16 @@ export function setIsLoadedExternaly(isLoadedExternally) {
   return {
     type: SET_IS_LOADED_EXTERNALY,
     payload: isLoadedExternally
+  };
+}
+
+/**
+ * Set if we are on the server side or not
+ * @param {boolean} isServer boolean
+ */
+export function setIsServer(isServer) {
+  return {
+    type: SET_IS_SERVER,
+    payload: isServer
   };
 }

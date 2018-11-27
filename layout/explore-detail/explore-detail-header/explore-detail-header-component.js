@@ -19,16 +19,15 @@ import CollectionsPanel from 'components/collections-panel';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
-// Constants
 class ExploreDetailHeader extends PureComponent {
   static propTypes = {
     dataset: PropTypes.object,
-    user: PropTypes.object
+    user: PropTypes.object.isRequired
   }
 
-  state = {
-    showShareModal: false
-  }
+  static defaultProps = { dataset: {} }
+
+  state = { showShareModal: false }
 
   getDatasetMetadata() {
     const { dataset } = this.props;
@@ -78,6 +77,9 @@ class ExploreDetailHeader extends PureComponent {
         <div className="page-header-info">
           <ul>
             <li>Source: {(metadata.source) || '-'}</li>
+            {/* Temporarilly hidden until data is fixed
+            <li>Last update: {dataset.dateLastUpdated || '-'}</li>
+            } */}
             <li>
               <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
                 <Icon name="icon-share" className="-small" />
@@ -89,9 +91,7 @@ class ExploreDetailHeader extends PureComponent {
                   onRequestClose={() => this.handleToggleShareModal(false)}
                 >
                   <ShareModal
-                    links={{
-                      link: typeof window !== 'undefined' && window.location.href
-                    }}
+                    links={{ link: typeof window !== 'undefined' && window.location.href }}
                     analytics={{
                       facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
                       twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
@@ -113,9 +113,7 @@ class ExploreDetailHeader extends PureComponent {
                     />
                   }
                   overlayClassName="c-rc-tooltip"
-                  overlayStyle={{
-                    color: '#c32d7b'
-                  }}
+                  overlayStyle={{ color: '#c32d7b' }}
                   placement="bottomLeft"
                   trigger="click"
                 >
@@ -132,7 +130,6 @@ class ExploreDetailHeader extends PureComponent {
                 </Tooltip>
               </LoginRequired>
             </li>
-            {/* Favorites */}
           </ul>
         </div>
       </div>

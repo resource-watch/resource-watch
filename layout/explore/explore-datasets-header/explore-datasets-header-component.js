@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Responsive
@@ -9,13 +9,13 @@ import { breakpoints } from 'utils/responsive';
 import ExploreDatasetsSort from './explore-datasets-sort';
 import ExploreDatasetsMode from './explore-datasets-mode';
 
-class ExploreDatasetsHeaderComponent extends React.Component {
+class ExploreDatasetsHeaderComponent extends PureComponent {
   static propTypes = {
-    page: PropTypes.number,
-    limit: PropTypes.number,
-    total: PropTypes.number,
-    responsive: PropTypes.object
-  };
+    page: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired,
+    total: PropTypes.number.isRequired,
+    responsive: PropTypes.object.isRequired
+  }
 
   getTotalDatasets = () => {
     const {
@@ -24,20 +24,18 @@ class ExploreDatasetsHeaderComponent extends React.Component {
       total
     } = this.props;
 
-    const from = (page === 1) ? page : (page * limit) + 1;
-    const to = (page === 1) ? page * limit : (page * limit) + limit;
+    const from = (page === 1) ? page : ((page - 1) * limit) + 1;
+    let to = (page === 1) ? page * limit : ((page - 1) * limit) + limit;
 
-    if (total < limit) {
-      return `${total}`;
-    }
+    if (to > total) to = total;
+
+    if (total < limit) return `${total}`;
 
     return `${from}-${to} / ${total}`;
   }
 
   render() {
-    const {
-      responsive
-    } = this.props;
+    const { responsive } = this.props;
 
     return (
       <div className="c-explore-datasets-header">
