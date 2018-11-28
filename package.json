@@ -49,7 +49,7 @@
     "jiminy": "0.1.1",
     "json-loader": "0.5.4",
     "jsonapi-serializer": "3.5.3",
-    "layer-manager": "1.13.3",
+    "layer-manager": "1.13.3-interactivity",
     "leaflet-utfgrid": "^0.3.0",
     "lodash": "4.17.4",
     "lusca": "1.4.1",

@@ -8314,10 +8314,10 @@ latest-version@^1.0.0:
   dependencies:
     package-json "^1.0.0"
 
-layer-manager@1.13.3:
-  version "1.13.3"
-  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.3.tgz#525798049a89983cda9abe4de423f4848a4fe41c"
-  integrity sha512-sfXmEd1mGRR+uvpFylYcwhvzM8u+tZNGdBcpC5psoGRWm3J9E3EufMVcJy8gwFIAsWdgDIlM7CnToOQoQRCdaA==
+layer-manager@1.13.3-interactivity:
+  version "1.13.3-interactivity"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.3-interactivity.tgz#80a836a75d3c86b1a9d9ffcb9603e21b55dbaea4"
+  integrity sha512-0yQwq8McjOSMqmqWsr7/4otbdQVISFkp/F0gncaf9vnp1mIKPABlUUPClmkVqhsIxatcHGAAC/kiDlPF50U8vg==
   dependencies:
     bluebird "^3.5.2"
     d3-scale "^2.1.2"
