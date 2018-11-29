@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -11,14 +11,10 @@ import Icon from 'components/ui/Icon';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-class SearchControl extends React.Component {
-  static propTypes = {
-    setMapLocation: PropTypes.func
-  };
+class SearchControl extends PureComponent {
+  static propTypes = { setMapLocation: PropTypes.func.isRequired };
 
-  state = {
-    showSearchInput: false
-  };
+  state = { showSearchInput: false };
 
   // UI EVENTS
   onToggleSearchInput = (to) => {
@@ -38,8 +34,8 @@ class SearchControl extends React.Component {
       if (viewport) {
         this.props.setMapLocation({
           bbox: [
-            viewport.b.b, viewport.f.b,
-            viewport.b.f, viewport.f.f
+            viewport.j.j, viewport.l.j,
+            viewport.j.l, viewport.l.l
           ]
         });
       }
@@ -68,13 +64,10 @@ class SearchControl extends React.Component {
   // RENDER
   render() {
     const { showSearchInput } = this.state;
-    const className = classNames({
-      'c-map-search-control': true
-    });
+    const className = classNames({ 'c-map-search-control': true });
 
     return (
       <div className={className}>
-
         {showSearchInput &&
           <Geosuggest
             ref={(r) => { this.geosuggest = r; }}
@@ -82,7 +75,6 @@ class SearchControl extends React.Component {
             onKeyDown={this.onKeyDown}
           />
         }
-
         <button
           type="button"
           className="search-button"
