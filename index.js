@@ -53,14 +53,19 @@ function isAuthenticated(req, res, nextAction) {
   if (req.session) req.session.referrer = req.url;
   if (req.isAuthenticated()) return nextAction();
 
-  // if they aren't redirect them to the home page
-  return res.redirect('/login');
+  // if the user is not authenticated and tries to access to the admin zone,
+  // it will be redirected to the Control Tower login page
+  if (req.path === '/admin') return res.redirect('/login');
+
+  // if the user is not authenticated and tries to access to a non-admin zone,
+  // it will be redirected to the user sign-in/register page
+  return res.redirect('/sign-in');
 }
 
 function isAdmin(req, res, nextAction) {
   if (req.user.role === 'ADMIN') return nextAction();
-  // if they aren't redirect them to the home page
-  return res.redirect('/myrw');
+  // if the user has not admin role, it will be redirect to the sign-in/register page
+  return res.redirect('/sign-in');
 }
 
 // Configuring session and cookie options
@@ -129,10 +134,9 @@ app.prepare().then(() => {
   // Authentication
   server.get(
     '/auth',
-    auth.authenticate({ failureRedirect: '/login' }),
+    auth.authenticate({ failureRedirect: '/sign-in' }),
     (req, res) => {
-      if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer))
-        return res.redirect('/admin');
+      if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
       const authRedirect = req.cookies.authUrl || '/myrw';
 
       if (req.cookies.authUrl) {
@@ -151,7 +155,7 @@ app.prepare().then(() => {
     if (service === 'user') return res.json(req.user || {});
 
     if (!/facebook|google|twitter/.test(service)) {
-      return res.redirect('/');
+      return res.redirect('/sign-in');
     }
 
     if (req.cookies.authUrl) {
@@ -167,6 +171,13 @@ app.prepare().then(() => {
     );
   });
 
+  // if the user is already logged-in, redirect it to /myrw
+  // if it tries to go to sign-in page
+  server.get('/sign-in', (req, res, nextAction) => {
+    if (req.isAuthenticated()) res.redirect('/myrw');
+    return nextAction();
+  });
+
   server.get('/login', auth.login);
   server.get('/logout', (req, res) => {
     req.session.destroy();
@@ -178,6 +189,10 @@ app.prepare().then(() => {
   server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
   server.get('/myrw*?', isAuthenticated, handleUrl);
   server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
+
+
+  // local sign-in
+  server.post('/local-sign-in', auth.signin);
 
   server.use(handle);
 

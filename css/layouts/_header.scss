@@ -118,6 +118,15 @@
       }
     }
   }
+
+  .header-menu-link {
+    .user-icon {
+      fill: $white;
+      &:hover {
+        fill: $yellow;
+      }
+    }
+  }
 }
 
 

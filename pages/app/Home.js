@@ -96,9 +96,9 @@ class Home extends Page {
     // Dashboard thumbnail list
     context.store.dispatch(topicsActions.setSelected(null));
 
-    await context.store.dispatch(topicsActions.fetchTopics({
-      filters: { 'filter[published]': 'true' }
-    }));
+    await context.store.dispatch(
+      topicsActions.fetchTopics({ filters: { 'filter[published]': 'true' } })
+    );
 
     // Get blog posts
     await context.store.dispatch(blogActions.fetchBlogPostsLatest());
@@ -109,10 +109,7 @@ class Home extends Page {
 
   static exploreCardsStatic() {
     return exploreCards.map(c => (
-      <div
-        key={`explore-card-${c.title}-${c.tag}`}
-        className="column small-12 medium-6"
-      >
+      <div key={`explore-card-${c.title}-${c.tag}`} className="column small-12 medium-6">
         <CardStatic
           className="-alt -clickable"
           background={c.background}
@@ -130,17 +127,23 @@ class Home extends Page {
               if (b.loginRequired) {
                 return (
                   <LoginRequired key={b.path} text={b.loginRequired}>
-                    <a href={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
+                    <a href={b.path} className={`c-btn -alt ${b.className}`}>
+                      {b.text}
+                    </a>
                   </LoginRequired>
                 );
               }
               if (b.anchor) {
                 return (
-                  <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>{b.text}</a>
+                  <a href={b.path} key={b.path} className={`c-btn -alt ${b.className}`}>
+                    {b.text}
+                  </a>
                 );
               }
               return (
-                <Link route={b.path} key={b.path}><a className={`c-btn -alt ${b.className}`}>{b.text}</a></Link>
+                <Link route={b.path} key={b.path}>
+                  <a className={`c-btn -alt ${b.className}`}>{b.text}</a>
+                </Link>
               );
             })}
           </div>
@@ -162,16 +165,17 @@ class Home extends Page {
 
   handleToggleShareModal = (bool) => {
     this.setState({ showNewsletterModal: bool });
-  }
+  };
 
   onVideoStateChange = (state) => {
     const { data } = state;
-    if (data === 1) { // eslint disable
+    if (data === 1) {
+      // eslint disable
       this.setState({ videoReady: true });
     } else {
       this.setState({ videoReady: false });
     }
-  }
+  };
 
   render() {
     const { responsive } = this.props;
@@ -203,11 +207,13 @@ class Home extends Page {
             values={{ deviceWidth: responsive.fakeWidth }}
           >
             <div className={`video-foreground ${videoReady ? '-ready' : ''}`}>
-              {browserSupported() && <YouTube
-                videoId="XryMlA-8IwE"
-                opts={videoOpts}
-                onStateChange={this.onVideoStateChange}
-              />}
+              {browserSupported() && (
+                <YouTube
+                  videoId="XryMlA-8IwE"
+                  opts={videoOpts}
+                  onStateChange={this.onVideoStateChange}
+                />
+              )}
             </div>
           </MediaQuery>
           <div className="video-text">
@@ -215,11 +221,7 @@ class Home extends Page {
               <h1>Monitoring the Planet&rsquo;s Pulse</h1>
               <p>Resource Watch provides trusted and timely data for a sustainable future.</p>
               <Link route="explore">
-                <a
-                  className="c-button -alt -primary"
-                >
-                  Explore data
-                </a>
+                <a className="c-button -alt -primary">Explore data</a>
               </Link>
             </div>
           </div>
@@ -256,7 +258,9 @@ class Home extends Page {
                       </Modal>
                     </button>
 
-                    <a href="/blog" className="c-btn -primary">More stories</a>
+                    <a href="/blog" className="c-btn -primary">
+                      More stories
+                    </a>
                   </div>
                 </div>
               </div>
@@ -284,10 +288,9 @@ class Home extends Page {
                     // portraitMode
                     onSelect={({ slug }) => {
                       // We need to make an amendment in the Wysiwyg to have this working
-                      Router.pushRoute('topics_detail', { id: slug })
-                        .then(() => {
-                          window.scrollTo(0, 0);
-                        });
+                      Router.pushRoute('topics_detail', { id: slug }).then(() => {
+                        window.scrollTo(0, 0);
+                      });
                     }}
                   />
                 </div>
@@ -302,45 +305,56 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12 medium-8">
                   <h2>Dive into the data</h2>
-                  <p>Create overlays, share visualizations, and subscribe to updates on your favorite issues.</p>
+                  <p>
+                    Create overlays, share visualizations, and subscribe to updates on your favorite
+                    issues.
+                  </p>
                 </div>
               </div>
             </header>
 
             <div className="explore-cards">
-              <div className="row">
-                {exploreCardsStatic}
-              </div>
+              <div className="row">{exploreCardsStatic}</div>
             </div>
           </div>
         </section>
 
-
         <Banner className="get-involved" bgImage="/static/images/backgrounds/mod_getInvolved.jpg">
           <div className="l-container">
-            <div className="l-row row">
-              <div className="column small-12 medium-8">
-                <h2>Get involved</h2>
-                <p>
-                  Use data to drive change in your community and around the world.
-                </p>
-              </div>
-            </div>
-            <div className="buttons">
-              <div className="l-row row">
-                <div className="column small-12 medium-3">
-                  <Link route="get_involved_detail" params={{ id: 'join-community', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Join the community</a></Link>
-                </div>
-                <div className="column small-12 medium-3">
-                  <Link route="get_involved_detail" params={{ id: 'contribute-data', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Contribute data</a></Link>
-                </div>
-                <div className="column small-12 medium-3">
-                  <Link route="get_involved_detail" params={{ id: 'submit-an-insight', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Suggest a story</a></Link>
-                </div>
-                <div className="column small-12 medium-3">
-                  <Link route="get_involved_detail" params={{ id: 'develop-your-app', source: 'home' }}><a className="c-btn -b -alt -fullwidth">Develop your app</a></Link>
-                </div>
-              </div>
+            <h2>Get involved</h2>
+            <p>Use data to drive change in your community and around the world.</p>
+            <div className="buttons -align-left">
+              <Link route="sign-in">
+                <a className="c-btn -alt -primary">Sign up</a>
+              </Link>
+
+              <Link
+                route="get_involved_detail"
+                params={{ id: 'join-community', source: 'home' }}
+              >
+                <a className="c-btn -b -alt">Join the community</a>
+              </Link>
+
+              <Link
+                route="get_involved_detail"
+                params={{ id: 'contribute-data', source: 'home' }}
+              >
+                <a className="c-btn -b -alt">Contribute data</a>
+              </Link>
+
+              <Link
+                route="get_involved_detail"
+                params={{ id: 'submit-an-insight', source: 'home' }}
+              >
+                <a className="c-btn -b -alt">Suggest a story</a>
+              </Link>
+
+              <Link
+                route="get_involved_detail"
+                params={{ id: 'develop-your-app', source: 'home' }}
+              >
+                <a className="c-btn -b -alt">Develop your app</a>
+              </Link>
             </div>
           </div>
         </Banner>
@@ -349,8 +363,6 @@ class Home extends Page {
   }
 }
 
-const mapStateToProps = state => ({
-  responsive: state.responsive
-});
+const mapStateToProps = state => ({ responsive: state.responsive });
 
 export default withRedux(initStore, mapStateToProps, null)(Home);

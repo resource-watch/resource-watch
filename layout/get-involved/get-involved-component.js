@@ -1,6 +1,7 @@
 /* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import renderHTML from 'react-render-html';
 
 // Components
@@ -8,7 +9,6 @@ import { Link } from 'routes';
 import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
-
 
 class GetInvolvedComponent extends React.PureComponent {
   static propTypes = {
@@ -18,11 +18,7 @@ class GetInvolvedComponent extends React.PureComponent {
   };
 
   render() {
-    const {
-      getInvolvedIndex,
-      user,
-      url
-    } = this.props;
+    const { getInvolvedIndex, user, url } = this.props;
 
     const { staticData: data, cards } = getInvolvedIndex;
 
@@ -34,31 +30,30 @@ class GetInvolvedComponent extends React.PureComponent {
       styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})`;
     }
 
-    const cardsStatic = cards.map(c =>
-      (
-        <div
-          key={c.id}
-          className="column small-12 medium-6"
-        >
-          <CardStatic
-            className={`-alt ${c.className}`}
-            background={c.background}
-            clickable={false}
-          >
-            <div>
-              <h2>{c.title}</h2>
-              <p>{c.intro}</p>
-            </div>
-            <div className="buttons -align-left">
-              {c.buttons.map(b => (
-                <Link key={b.route + b.params.id} route={b.route} params={b.params}>
-                  <a className={`c-button ${b.className}`}>{b.text}</a>
-                </Link>
+
+    const cardsStatic = cards.map(c => (
+      <div
+        key={c.id}
+        className={classnames({
+          'column small-12 medium-6': !c.grid,
+          [c.grid]: !!c.grid
+        })}
+      >
+        <CardStatic className={`-alt ${c.className}`} background={c.background} clickable={false}>
+          <div>
+            <h2>{c.title}</h2>
+            <p>{c.intro}</p>
+          </div>
+          <div className="buttons -align-left">
+            {c.buttons.map(b => (
+              <Link key={b.route + b.params.id} route={b.route} params={b.params}>
+                <a className={`c-button ${b.className}`}>{b.text}</a>
+              </Link>
             ))}
-            </div>
-          </CardStatic>
-        </div>
-      ));
+          </div>
+        </CardStatic>
+      </div>
+    ));
 
     return (
       <Layout
@@ -68,6 +63,7 @@ class GetInvolvedComponent extends React.PureComponent {
         url={url}
         user={user}
       >
+
         <section className="l-content">
           <header className="l-content-header">
             <div className="cover" style={styles}>
@@ -81,26 +77,38 @@ class GetInvolvedComponent extends React.PureComponent {
               </div>
             </div>
           </header>
-          <div className="l-content-body">
 
-            { data.content ?
-              (
-                <div className="l-container">
-                  <article>
-                    <div className="row align-center">
-                      <div className="column small-12 medium-8">
-                        {renderHTML(data.content || '')}
-                      </div>
-                    </div>
-                  </article>
-                </div>
-              )
-            : null }
+          <div className="l-content-body">
+            {data.content ? (
+              <div className="l-container">
+                <article>
+                  <div className="row align-center">
+                    <div className="column small-12 medium-8">{renderHTML(data.content || '')}</div>
+                  </div>
+                </article>
+              </div>
+            ) : null}
 
             <div className="l-container">
-              <div className="row">
-                {cardsStatic}
+              <div className="row align-center">
+                <div className="column small-12">
+                  <Banner
+                    className="-text-center  c-card-long"
+                    bgImage="/static/images/backgrounds/computer.jpg"
+                    overlay
+                  >
+                    <h2>
+                      Save visualizations, subscribe to alerts and enjoy the full experience
+                    </h2>
+                    <Link to="sign-in">
+                      <a className="c-button -alt -primary">
+                        Sign up
+                      </a>
+                    </Link>
+                  </Banner>
+                </div>
               </div>
+              <div className="row">{cardsStatic}</div>
             </div>
           </div>
         </section>
@@ -109,7 +117,10 @@ class GetInvolvedComponent extends React.PureComponent {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner className="-text-center" bgImage="/static/images/backgrounds/partners-02@2x.jpg">
+                <Banner
+                  className="-text-center"
+                  bgImage="/static/images/backgrounds/partners-02@2x.jpg"
+                >
                   <p className="-claim">
                     Questions, comments, or feedback? <br />
                     Help us improve Resource Watch.
@@ -122,7 +133,6 @@ class GetInvolvedComponent extends React.PureComponent {
             </div>
           </div>
         </aside>
-
       </Layout>
     );
   }
