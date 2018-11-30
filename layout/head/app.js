@@ -209,7 +209,7 @@ class Head extends React.PureComponent {
         {this.getAFrame()}
 
         <script
-          src={`https://maps.googleapis.com/maps/api/js?key=${
+          src={`https://maps.googleapis.com/maps/api/js?v=3.35&key=${
             process.env.RW_GOGGLE_API_TOKEN_SHORTENER
           }&libraries=places`}
         />
