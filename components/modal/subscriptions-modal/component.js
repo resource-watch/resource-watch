@@ -322,9 +322,14 @@ class SubscriptionsModal extends PureComponent {
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
               {activeArea ? 'Update' : 'Subscribe'}
             </button>
-            <button className="c-btn -secondary" onClick={this.handleShowSubscribePreview}>
-              Preview
-            </button>
+
+            <button
+              className={classnames({
+                'c-btn': true,
+                '-secondary': true,
+                '-disabled': !!activeArea,
+              })}
+              onClick={this.handleShowSubscribePreview} disabled={userSelection.area === null || (userSelection.datasets).length === 0}>Preview</button>
             <button className="c-btn -secondary" onClick={this.handleCancel}>
               Cancel
             </button>
@@ -349,8 +354,8 @@ class SubscriptionsModal extends PureComponent {
         {!success && showSubscribePreview &&
           <SubscriptionsPreview
             showSubscribePreview={showSubscribePreview}
-            resetModal={resetModal}
-            //handleSubscribe={handleSubscribe}
+            handleModal={this.handleModal}
+            handleSubscribe={this.handleSubscribe}
             onRequestClose={onRequestClose} />
         }
       </div>
