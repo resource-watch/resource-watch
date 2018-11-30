@@ -5,6 +5,7 @@ import { toastr } from 'react-redux-toastr';
 import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
 import DatasetService from 'services/DatasetService';
+import { fetchAlerts } from 'services/AlertsService';
 
 const areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
 const userService = new UserService({ apiURL: process.env.WRI_API_URL });
@@ -14,6 +15,10 @@ export const setSubscriptions = createAction('SUBSCRIPTIONS__SET-SUBSCRIPTIONS')
 export const setSubscriptionsLoading = createAction('SUBSCRIPTIONS__SET-SUBSCRIPTIONS-LOADING');
 export const setSubscriptionsError = createAction('SUBSCRIPTIONS__SET-SUBSCRIPTIONS-ERROR');
 export const clearSubscriptions = createAction('SUBSCRIPTIONS__CLEAR-SUBSCRIPTIONS');
+export const setAlertsPreview = createAction('ALERTS__SET-ALERTS-PREVIEW');
+export const setSubscriptionsLoadingPreview = createAction('ALERTS__SET-ALERTS-LOADING');
+export const setSubscriptionsErrorPreview = createAction('ALERTS__SET-ALERTS-ERROR');
+export const clearSubscriptionsPreview = createAction('ALERTS__CLEAR-ALERTS');
 
 export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS', () =>
   (dispatch, getState) => {
@@ -33,6 +38,23 @@ export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-S
       });
   });
 
+// actions - user subscriptions preview
+export const getUserSubscriptionsPreview = createThunkAction('SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS-PREVIEW', (sql) =>
+  (dispatch, getState) => {
+    const { user } = getState();
+    const { token } = user;
+    const temporal = "SELECT frp AS value, acq_date,  ST_AsGeoJSON(the_geom) as geom     FROM VIIRS-Active-Fire-Global-1490086842549  WHERE acq_date >= '2018-11-26' AND acq_date <= '2018-11-27'  ORDER BY acq_date DESC  LIMIT 10"
+    dispatch(setSubscriptionsLoadingPreview(false)); //**
+    fetchAlerts(token, temporal)
+      .then((subscriptionsAlerts = []) => {
+        dispatch(setAlertsPreview(subscriptionsAlerts));
+        dispatch(setSubscriptionsLoadingPreview(false));
+      })
+      .catch((err) => {
+        dispatch(setSubscriptionsError(err));
+        toastr.error('Error loading preview', err);
+      });
+  });
 
 // actions – areas
 export const setAreas = createAction('SUBSCRIPTIONS__SET-AREAS');
@@ -275,6 +297,7 @@ export default {
   setSubscriptionsLoading,
   setSubscriptionsError,
   getUserSubscriptions,
+  getUserSubscriptionsPreview,
 
   setUserAreas,
   setUserAreasLoading,

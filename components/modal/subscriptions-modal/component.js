@@ -11,6 +11,7 @@ import Field from 'components/form/Field';
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 import DatasetsManager from './dataset-manager';
+import SubscriptionsPreview from './subscriptions-preview';
 
 // constants
 import { SUBSCRIPTION_FREQUENCY_OPTIONS } from './constants';
@@ -44,6 +45,9 @@ class SubscriptionsModal extends PureComponent {
 
   static defaultProps = { activeArea: null }
 
+  state = {
+    showSubscribePreview: false
+  }
   componentWillMount() {
     const {
       activeDataset,
@@ -53,8 +57,9 @@ class SubscriptionsModal extends PureComponent {
       getAreas,
       getUserAreas,
       getDatasets,
-      getUserSubscriptions
+      getUserSubscriptions,
     } = this.props;
+
 
     if (Object.keys(activeDataset).length) {
       setUserSelection({
@@ -170,6 +175,10 @@ class SubscriptionsModal extends PureComponent {
     resetModal();
   }
 
+  handleShowSubscribePreview = () => {
+    this.setState({ showSubscribePreview: true });
+  }
+
   handleSubscribe = () => {
     const {
       userSelection,
@@ -188,18 +197,18 @@ class SubscriptionsModal extends PureComponent {
         if (areaFound) {
           toastr.confirm(`There already exist a subscription for the selected area.
             Do you want to update it?`, {
-            onOk: () => {
-              if (!activeArea) {
-                const subscriptionToUpdate = subscriptions.find(_subscription =>
-                  _subscription.attributes.params.area === userSelection.area.areaID);
-                updateSubscription(subscriptionToUpdate);
-              } else {
-                const { subscription } = activeArea;
-                updateSubscription(subscription);
-              }
-            },
-            onCancel: () => {}
-          });
+              onOk: () => {
+                if (!activeArea) {
+                  const subscriptionToUpdate = subscriptions.find(_subscription =>
+                    _subscription.attributes.params.area === userSelection.area.areaID);
+                  updateSubscription(subscriptionToUpdate);
+                } else {
+                  const { subscription } = activeArea;
+                  updateSubscription(subscription);
+                }
+              },
+              onCancel: () => { }
+            });
         } else {
           createSubscriptionToArea();
         }
@@ -230,8 +239,14 @@ class SubscriptionsModal extends PureComponent {
       userSelection,
       loading,
       subscription,
-      setUserSelection
+      setUserSelection,
+      resetModal,
+      onRequestClose
     } = this.props;
+
+    const { selectedDataset } = this.state;
+
+    const { showSubscribePreview } = this.state;
     let headerText = 'Subscription saved!';
 
     const { success } = subscription;
@@ -242,7 +257,7 @@ class SubscriptionsModal extends PureComponent {
     const paragraphText = success ?
       (
         <p>
-            Your subscription was successfully created.
+          Your subscription was successfully created.
           <strong> Please check your email address to confirm it.</strong>
         </p>) : null;
 
@@ -252,12 +267,12 @@ class SubscriptionsModal extends PureComponent {
           className="-light"
           isLoading={loading}
         />
-        <div className="header-div">
-          <h2>{headerText}</h2>
-          {paragraphText}
-        </div>
-        {!success &&
+        {!success && !showSubscribePreview &&
           <Fragment>
+            <div className="header-div">
+              <h2>{headerText}</h2>
+              {paragraphText}
+            </div>
             <div className="selectors-container">
               <Field
                 properties={{
@@ -296,16 +311,19 @@ class SubscriptionsModal extends PureComponent {
           </Fragment>
         }
 
-        {success &&
+        {success && !showSubscribePreview &&
           <div className="icon-container">
             <img alt="" src="/static/images/components/modal/widget-saved.svg" />
           </div>
         }
 
-        {!success &&
+        {!success && !showSubscribePreview &&
           <div className="buttons">
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
               {activeArea ? 'Update' : 'Subscribe'}
+            </button>
+            <button className="c-btn -secondary" onClick={this.handleShowSubscribePreview}>
+              Preview
             </button>
             <button className="c-btn -secondary" onClick={this.handleCancel}>
               Cancel
@@ -313,7 +331,7 @@ class SubscriptionsModal extends PureComponent {
           </div>
         }
 
-        {success &&
+        {success && !showSubscribePreview &&
           <div className="buttons">
             <button className="c-btn -secondary" onClick={this.handleCancel}>
               Ok
@@ -322,6 +340,18 @@ class SubscriptionsModal extends PureComponent {
               View my subscriptions
             </button>
           </div>
+        }
+
+        {/* preview */}
+        {success && showSubscribePreview &&
+          toastr.error('Data missing', 'Please select an area and a subscription type')
+        }
+        {!success && showSubscribePreview &&
+          <SubscriptionsPreview
+            showSubscribePreview={showSubscribePreview}
+            resetModal={resetModal}
+            //handleSubscribe={handleSubscribe}
+            onRequestClose={onRequestClose} />
         }
       </div>
     );

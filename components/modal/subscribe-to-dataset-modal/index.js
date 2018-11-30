@@ -1,3 +1,3 @@
-import SubscribeToDatasetModalComponent from './component';
+// import SubscribeToDatasetModalComponent from './component';
 
-export default SubscribeToDatasetModalComponent;
+// export default SubscribeToDatasetModalComponent;

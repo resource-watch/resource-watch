@@ -25,6 +25,7 @@ export default connect(
     activeDataset: state.layerCardPulse.dataset || state.exploreDetail.data,
     subscriptions: state.subscriptions.list,
     subscription: state.subscriptions.subscriptionCreation,
+    preview: state.subscriptions.list.preview,
     loading: state.subscriptions.loading || state.subscriptions.areas.loading ||
       state.subscriptions.userAreas.loading || state.subscriptions.datasets.loading
   }),

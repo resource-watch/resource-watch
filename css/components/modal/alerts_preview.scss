@@ -1,0 +1,21 @@
+.c-subscriptions-preview {
+  .subscriptions-preview {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-height: 400px;
+    overflow-y: scroll;
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+
+  .preview-data-title,
+  .preview-data-element {
+    padding: 0 10px;
+    text-align: left;
+  }
+
+  .preview-data-row {
+    width: 100%;
+  }
+}
