@@ -222,7 +222,7 @@ export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CRE
       promises.push(promise);
     });
 
-    Promise.all(promises)
+    return Promise.all(promises)
       .then(() => {
         dispatch(setSubscriptionSuccess(false));
         dispatch(setSubscriptionLoading(true));
