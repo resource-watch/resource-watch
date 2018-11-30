@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
 
 
 import SubscriptionsModal from '../../subscriptions-modal';
@@ -30,18 +31,6 @@ class SubscriptionsPreview extends PureComponent {
     const {
       data,
     } = this.state
-  }
-  
-  handleEdit = () => {
-    this.setState({ showSubscribeModal: true });
-
-    console.log(showSubscribeModal, 'showSubscribePreview')
-  }
-
-  handleCancel = () => {
-    const { resetModal, onRequestClose } = this.props;
-    onRequestClose();
-    resetModal();
   }
 
   handleSubscribe = () => {
@@ -90,19 +79,24 @@ class SubscriptionsPreview extends PureComponent {
     }
   }
 
+  handleEdit = () => {
+    this.setState({ showSubscribeModal: true });
+  }
+
+  handleCancel = () => {
+    const { resetModal, onRequestClose } = this.props;
+
+    onRequestClose();
+    resetModal();
+  }
+
+
+
   toggleSubscribeModalPreview = (bool) => {
     this.setState({ showSubscribeModalPreview: bool });
   }
 
-  checkKey = (key, data) => {
-    if (key === 'geom') {
-      const geom = data.map((element) => JSON.parse(element.geom))
-      const coordinates = geom.map(c => c.coordinates)
-      console.log(coordinates, 'coordenadas')
-      return coordinates; //**revisar */
-    }
-    console.log('nada')
-  }
+
 
   render() {
     const {
@@ -112,7 +106,6 @@ class SubscriptionsPreview extends PureComponent {
     } = this.props;
 
     const { showSubscribeModal } = this.state;
-    console.log(loading, 'loading')
     if (loading) {
       return <Spinner
         className="-light"
@@ -131,9 +124,6 @@ class SubscriptionsPreview extends PureComponent {
     const tableTitle = datasetTitle[0].label
     const tableHeaders = Object.keys(previewDetails[0] || []);
     const tableData = previewDetails
-
-    console.log(preview)
-
 
     return (
       <div className="c-subscriptions-preview">
@@ -159,9 +149,6 @@ class SubscriptionsPreview extends PureComponent {
                 </tbody>
               </table>
             </div>
-
-
-
             <div className="buttons">
               <button className="c-btn -primary" onClick={this.handleSubscribe}>
                 Done
@@ -169,7 +156,7 @@ class SubscriptionsPreview extends PureComponent {
               <button className="c-btn -secondary" onClick={this.handleEdit}>
                 Edit
           </button>
-              <button className="c-btn -secondary" onClick={this.handleCancel}>
+              <button className="c-btn -secondary" onClick={this.handleModal}>
                 Cancel
           </button>
             </div>
