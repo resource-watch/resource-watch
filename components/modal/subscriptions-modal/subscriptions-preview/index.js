@@ -17,6 +17,8 @@ export default connect(
     activeDataset: state.layerCardPulse.dataset || state.exploreDetail.data,
     preview: state.subscriptions.preview,
     datasetTitle: state.subscriptions.userSelection.datasets,
+    activeDataset: state.layerCardPulse.dataset || state.exploreDetail.data,
+
   }),
   { getUserSubscriptionsPreview }
 )(SubscribePreview);

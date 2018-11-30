@@ -188,8 +188,10 @@ class SubscriptionsModal extends PureComponent {
       areaFound,
       createSubscriptionToArea,
       createSubscriptionOnNewArea,
-      updateSubscription
+      updateSubscription,
+      onRequestClose
     } = this.props;
+    const { showSubscribePreview } = this.state;
 
     if (userSelection.area) {
       if (userSelection.area.areaID) {
@@ -201,24 +203,29 @@ class SubscriptionsModal extends PureComponent {
                 if (!activeArea) {
                   const subscriptionToUpdate = subscriptions.find(_subscription =>
                     _subscription.attributes.params.area === userSelection.area.areaID);
-                  updateSubscription(subscriptionToUpdate);
+                  updateSubscription(subscriptionToUpdate)
                 } else {
                   const { subscription } = activeArea;
-                  updateSubscription(subscription);
+                  updateSubscription(subscription)
                 }
               },
               onCancel: () => { }
             });
         } else {
-          createSubscriptionToArea();
+          createSubscriptionToArea()
         }
         // ++++++++++ THE USER SELECTED A COUNTRY +++++++++++++++
         // Check if the user already has an area with that country
       } else if (userAreas.map(val => val.value).includes(userSelection.area.value)) {
-        createSubscriptionToArea();
+        createSubscriptionToArea()
       } else {
         // In the case there's no user area for the selected country we create one on the fly
-        createSubscriptionOnNewArea();
+        createSubscriptionOnNewArea()
+          .then(() => {
+            if (showSubscribePreview) {
+              this.setState({ showSubscribePreview: false })
+            }
+          })
       }
     } else {
       toastr.error('Data missing', 'Please select an area and a subscription type');
@@ -230,6 +237,8 @@ class SubscriptionsModal extends PureComponent {
 
     Router.pushRoute('myrw', { tab: 'areas' });
   }
+
+  handleState = (bool) => { this.setState({ showSubscribePreview: bool }) }
 
   render() {
     const {
@@ -244,9 +253,8 @@ class SubscriptionsModal extends PureComponent {
       onRequestClose
     } = this.props;
 
-    const { selectedDataset } = this.state;
+    const { selectedDataset, showSubscribePreview } = this.state;
 
-    const { showSubscribePreview } = this.state;
     let headerText = 'Subscription saved!';
 
     const { success } = subscription;
@@ -261,13 +269,22 @@ class SubscriptionsModal extends PureComponent {
           <strong> Please check your email address to confirm it.</strong>
         </p>) : null;
 
+    if (showSubscribePreview) return (
+      <SubscriptionsPreview
+        handleCancel={this.handleCancel}
+        handleSubscribe={this.handleSubscribe}
+        onRequestClose={onRequestClose}
+        handleState={this.handleState}
+      />
+    )
+
     return (
       <div className="c-subscriptions-modal">
         <Spinner
           className="-light"
           isLoading={loading}
         />
-        {!success && !showSubscribePreview &&
+        {!success &&
           <Fragment>
             <div className="header-div">
               <h2>{headerText}</h2>
@@ -311,13 +328,13 @@ class SubscriptionsModal extends PureComponent {
           </Fragment>
         }
 
-        {success && !showSubscribePreview &&
+        {success &&
           <div className="icon-container">
             <img alt="" src="/static/images/components/modal/widget-saved.svg" />
           </div>
         }
 
-        {!success && !showSubscribePreview &&
+        {!success &&
           <div className="buttons">
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
               {activeArea ? 'Update' : 'Subscribe'}
@@ -336,7 +353,7 @@ class SubscriptionsModal extends PureComponent {
           </div>
         }
 
-        {success && !showSubscribePreview &&
+        {success &&
           <div className="buttons">
             <button className="c-btn -secondary" onClick={this.handleCancel}>
               Ok
@@ -348,15 +365,8 @@ class SubscriptionsModal extends PureComponent {
         }
 
         {/* preview */}
-        {success && showSubscribePreview &&
+        {success &&
           toastr.error('Data missing', 'Please select an area and a subscription type')
-        }
-        {!success && showSubscribePreview &&
-          <SubscriptionsPreview
-            showSubscribePreview={showSubscribePreview}
-            handleModal={this.handleModal}
-            handleSubscribe={this.handleSubscribe}
-            onRequestClose={onRequestClose} />
         }
       </div>
     );
