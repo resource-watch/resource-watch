@@ -27,5 +27,10 @@ export default {
     list: [],
     loading: false,
     error: null
+  },
+  preview: {
+    list: [],
+    loading: false,
+    error: null
   }
 };

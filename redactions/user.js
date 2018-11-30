@@ -448,6 +448,7 @@ export const getUserAreas = createThunkAction(
   'user/getUserAreas',
   (payload = {}) =>
     (dispatch, getState) => {
+
       const { user, common } = getState();
       const userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
