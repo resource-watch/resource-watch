@@ -1,26 +1,25 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { toastr } from 'react-redux-toastr';
 
-
-import SubscriptionsModal from '../../subscriptions-modal';
-
-//Components
+// components
 import Spinner from 'components/ui/Spinner';
+import AlertsTable from './table';
 
 class SubscriptionsPreview extends PureComponent {
   static propTypes = {
+    data: PropTypes.array,
+    activeDataset: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     getUserSubscriptionsPreview: PropTypes.func.isRequired,
-    handleState: PropTypes.func.isRequired
+    handleState: PropTypes.func.isRequired,
+    handleCancel: PropTypes.func.isRequired,
+    handleSubscribe: PropTypes.func.isRequired
   }
 
-  static defaultProps = { activeArea: null }
+  static defaultProps = { data: [] }
 
   componentWillMount() {
-    const {
-      getUserSubscriptionsPreview,
-    } = this.props;
+    const { getUserSubscriptionsPreview } = this.props;
 
     getUserSubscriptionsPreview();
   }
@@ -33,66 +32,46 @@ class SubscriptionsPreview extends PureComponent {
   render() {
     const {
       loading,
-      preview,
-      datasetTitle,
-      activeDataset,
+      data,
       handleCancel,
-      handleSubscribe
+      handleSubscribe,
+      activeDataset
     } = this.props;
 
     if (loading) {
-      return <Spinner
-        className="-light"
-        isLoading={loading}
-      />
+      return (
+        <Spinner
+          className="-light"
+          isLoading
+        />);
     }
-    const previewDetails = preview.list
-      .map(row => ({ ...row, ...JSON.parse(row.geom) }))
-      .map(({ geom, type, coordinates, ...rest }) => ({
-        ...rest,
-        latitude: coordinates[0],
-        longitude: coordinates[1],
-      }))
-
-    const tableTitle = datasetTitle[0].label
-    const tableHeaders = Object.keys(previewDetails[0] || []);
-    const tableData = previewDetails
 
     return (
-      <div className="c-subscriptions-preview c-subscriptions-modal">
-        <Fragment>
-          <div className="header-div">
-            <h2>{tableTitle}</h2>
-            <h3>Subtítulo</h3>
-          </div>
-          {/* <div className="subscriptions-preview"> */}
-          <table className="subscriptions-preview">
-            <thead>
-              <tr className="preview-data-row">
-                {tableHeaders.map(title => <th className="preview-data-title">{title}</th>)}
-              </tr>
-            </thead>
-            <tbody>
-              {tableData.map(row =>
-                <tr className="preview-data-row">
-                  {tableHeaders.map(k => <td className="preview-data-element">{row[k]}</td>)}
-                </tr>
-              )}
-            </tbody>
-          </table>
-          {/* </div> */}
-          <div className="buttons">
-            <button className="c-btn -primary" onClick={handleSubscribe}>
-              Done
+      <div className="c-subscriptions-preview">
+        <div className="header">
+          <h2>{activeDataset.name}</h2>
+        </div>
+        {data.map(_d => (<AlertsTable alerts={_d} />))}
+        <div className="buttons">
+          <button
+            className="c-btn -primary"
+            onClick={handleSubscribe}
+          >
+            Done
           </button>
-            <button className="c-btn -secondary" onClick={this.handleEdit}>
-              Edit
+          <button
+            className="c-btn -secondary"
+            onClick={this.handleEdit}
+          >
+            Edit
           </button>
-            <button className="c-btn -secondary" onClick={handleCancel}>
-              Cancel
+          <button
+            className="c-btn -secondary"
+            onClick={handleCancel}
+          >
+            Cancel
           </button>
-          </div>
-        </Fragment>
+        </div>
       </div>
     );
   }
