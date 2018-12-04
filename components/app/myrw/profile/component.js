@@ -1,31 +1,27 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
-// Redux
-import { connect } from 'react-redux';
-
-// Components
+// components
 import Navigation from 'components/form/Navigation';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
 import FileImage from 'components/form/FileImage';
 
-// Services
+// services
 import UserService from 'services/UserService';
 
 export const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
-    const elements = this.elements;
+    const { elements } = this;
     Object.keys(elements).forEach((k) => {
       elements[k].validate();
     });
   },
   isValid() {
-    const elements = this.elements;
+    const { elements } = this;
     const valid = Object.keys(elements)
       .map(k => elements[k].isValid())
       .filter(v => v !== null)
@@ -36,31 +32,17 @@ export const FORM_ELEMENTS = {
 };
 
 
-class MyRWEditProfile extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      user: props.user,
-      step: 1,
-      stepLength: 1,
-      submitting: false,
-      loading: true
-    };
-
-    // User service
-    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
+class Profile extends PureComponent {
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+    setUser: PropTypes.func.isRequired
   }
 
-  componentDidMount() {
-    this.userService.getLoggedUser(this.props.user.token)
-      .then((response) => {
-        this.setState({
-          loading: false,
-          user: Object.assign(this.state.user, response)
-        });
-      })
-      .catch(err => console.error(err));
+  state = {
+    user: this.props.user,
+    step: 1,
+    submitting: false,
+    loading: false
   }
 
   onSubmit = (event) => {
@@ -75,40 +57,88 @@ class MyRWEditProfile extends React.Component {
       const valid = FORM_ELEMENTS.isValid(this.state.step);
 
       if (valid) {
+        const { setUser } = this.props;
         const { user } = this.state;
-        const userObj = { name: user.name, photo: user.photo || '' };
+        const { token, name, photo } = user;
+        const userObj = {
+          name,
+          photo: photo || ''
+        };
 
-        this.setState({ loading: true, submitting: true });
+        this.setState({
+          loading: true,
+          submitting: true
+        });
 
-        this.userService.updateUser(userObj, user.token)
-          .then(() => {
-            // Needs to be improved by the API
-            window.location = '/login';
+        fetch('/update-user', {
+          method: 'POST',
+          body: JSON.stringify({ userObj, token }),
+          headers: { 'Content-Type': 'application/json' }
+        })
+          .then(response => response.json())
+          .then((updatedUser) => {
+            setUser(updatedUser);
+            toastr.success('Profile updated successfully.');
           })
-          .catch((err) => {
-            toastr.error('There was a problem updating your user data');
-            this.setState({ loading: false, submitting: false });
-            console.error(err);
+          .catch(() => { toastr.error('Something went wrong', 'There was a problem updating your profile.'); })
+          .then(() => {
+            this.setState({
+              loading: false,
+              submitting: false
+            });
           });
+
+        // this.userService.updateUser(userObj, user.token)
+        //   .then((updatedUser) => {
+        //     setUser(updatedUser);
+        //     toastr.success('Profile updated successfully.');
+
+
+        //   })
+        //   .catch(() => { toastr.error('Something went wrong', 'There was a problem updating your user data'); })
+        //   .then(() => {
+        //     this.setState({
+        //       loading: false,
+        //       submitting: false
+        //     });
+        //   });
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
   }
 
-  onChange = (value) => {
-    this.setState(Object.assign(this.state.user, value));
-  }
+  onChange = (value) => { this.setState({ user: { ...this.state.user, ...value } }); }
+
+  userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 
   render() {
     const { user, loading } = this.state;
+    const {
+      name,
+      email,
+      photo
+    } = user;
+
+    if (loading) {
+      return (
+        <Spinner
+          isLoading
+          className="-light"
+        />
+      );
+    }
 
     return (
       <div className="c-myrw-edit-profile">
-        <Spinner isLoading={loading} className="-light" />
+        {/* <Spinner isLoading={loading} className="-light" /> */}
         <div className="row">
           <div className="column small-12">
-            <form className="c-form" onSubmit={this.onSubmit} noValidate>
+            <form
+              className="c-form"
+              onSubmit={this.onSubmit}
+              noValidate
+            >
               <fieldset className="c-field-container">
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
@@ -119,7 +149,7 @@ class MyRWEditProfile extends React.Component {
                     label: 'Name',
                     type: 'text',
                     required: true,
-                    default: user.name
+                    default: name
                   }}
                 >
                   {Input}
@@ -132,7 +162,7 @@ class MyRWEditProfile extends React.Component {
                     label: 'Email',
                     type: 'email',
                     required: true,
-                    default: user.email,
+                    default: email,
                     disabled: true
                   }}
                 >
@@ -144,9 +174,7 @@ class MyRWEditProfile extends React.Component {
                     <div className="column small-12 medium-2">
                       <Field
                         ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
-                        onChange={(value) => {
-                          this.onChange({ photo: value });
-                        }}
+                        onChange={(value) => { this.onChange({ photo: value }); }}
                         className="-fluid"
                         mode="url"
                         getUrlImage={file => this.userService.uploadPhoto(file, user)}
@@ -155,7 +183,7 @@ class MyRWEditProfile extends React.Component {
                           label: 'Photo',
                           placeholder: 'Browse file',
                           baseUrl: process.env.STATIC_SERVER_URL,
-                          default: this.state.user.photo
+                          default: photo
                         }}
                       >
                         {FileImage}
@@ -180,13 +208,4 @@ class MyRWEditProfile extends React.Component {
   }
 }
 
-MyRWEditProfile.propTypes = {
-  // Store
-  user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-export default connect(mapStateToProps, null)(MyRWEditProfile);
+export default Profile;
