@@ -34,7 +34,7 @@ routes.add('splash_detail', '/splash/:id', 'app/SplashDetail');
 
 // ---- ABOUT ----
 routes.add('about', '/about', 'app/About');
-routes.add('about_partners', '/about/partners', 'app/Partners');
+routes.add('about_partners', '/about/partners', 'app/partners');
 routes.add('about_faqs', '/about/faqs', 'app/Faqs');
 routes.add('about_contact-us', '/about/contact-us', 'app/ContactUs');
 routes.add('about_howto', '/about/howto', 'app/Howto');
