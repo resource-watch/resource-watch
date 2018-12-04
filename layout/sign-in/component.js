@@ -4,7 +4,6 @@ import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-
 // components
 import Layout from 'layout/layout/layout-app';
 import Field from 'components/form/Field';
