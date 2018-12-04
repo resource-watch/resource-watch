@@ -8,6 +8,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import Layout from 'layout/layout/layout-app';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
+import Spinner from 'components/ui/Spinner';
 
 // services
 import UserService from 'services/UserService';
@@ -23,7 +24,8 @@ class SigIn extends PureComponent {
     password: '',
     repeatPassword: '',
     captcha: null,
-    register: false
+    register: false,
+    loading: false
   };
 
   onSubmit = (e) => {
@@ -40,11 +42,15 @@ class SigIn extends PureComponent {
     setTimeout(() => {
       // register user
       if (register) {
-        this.userService.registerUser(userSettings)
-          .then(() => {
-            toastr.success('Confirm registration', 'You will receive an email shortly. Please confirm your registration.');
-          })
-          .catch(() => { toastr.error('Something went wrong'); });
+        this.setState({ loading: true }, () => {
+          this.userService.registerUser(userSettings)
+            .then(() => {
+              toastr.success('Confirm registration',
+                'You will receive an email shortly. Please confirm your registration.');
+            })
+            .catch(() => { toastr.error('Something went wrong'); })
+            .then(() => { this.setState({ loading: false }); });
+        });
       } else {
         // sign-in user
         this.userService.loginUser(userSettings)
@@ -70,7 +76,8 @@ class SigIn extends PureComponent {
       email,
       password,
       repeatPassword,
-      register
+      register,
+      loading
     } = this.state;
 
     return (
@@ -82,6 +89,7 @@ class SigIn extends PureComponent {
           <div className="l-container">
             <div className="content">
               <div className="log-in-container">
+                {loading && <Spinner className="-light" isLoading /> }
                 <div className="wrapper">
                   <div className="row">
                     <div className="column small-12">
