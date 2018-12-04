@@ -184,9 +184,11 @@ app.prepare().then(() => {
   server.get('/myrw*?', isAuthenticated, handleUrl);
   server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
 
-
   // local sign-in
   server.post('/local-sign-in', auth.signin);
+
+  // updates user data
+  server.post('/update-user', auth.updateUser);
 
   server.use(handle);
 

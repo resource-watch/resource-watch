@@ -8,14 +8,14 @@ import { initStore } from 'store';
 
 import { getUserAreas } from 'redactions/user';
 
-// Components
+// components
 import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 import Tabs from 'components/ui/Tabs';
 import Title from 'components/ui/Title';
 
-// My RW
-import ProfilesTab from 'components/app/myrw/profiles/ProfilesTab';
+// MyRW sections
+import Profile from 'components/app/myrw/profile';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
@@ -142,7 +142,7 @@ class MyRW extends Page {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                {tab === 'profile' && <ProfilesTab tab={tab} subtab={subtab} />}
+                {tab === 'profile' && <Profile />}
                 {tab === 'datasets' && <DatasetsTab tab={tab} subtab={subtab} />}{' '}
                 {tab === 'dashboards' && <DashboardsTab tab={tab} subtab={subtab} />}
                 {tab === 'areas' && <AreasTab tag={tab} subtab={subtab} query={url.query} />}

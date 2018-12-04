@@ -13,37 +13,6 @@ export default class UserService {
   }
 
   /**
-   * Gets the user that is currently logged
-   * @returns {Promise}
-   */
-  getLoggedUser(token) {
-    return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/auth/check-logged`, {
-        headers: {
-          Authorization: token,
-          'Upgrade-Insecure-Requests': 1
-        }
-      })
-        .then(response => resolve(response.json()));
-    });
-  }
-
-  /**
-  * Updates the user that is currently logged in
-  */
-  updateUser(user, token) {
-    return fetch(`${this.opts.apiURL}/auth/user/me`, {
-      method: 'PATCH',
-      body: JSON.stringify(user),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    })
-      .then(response => response.json());
-  }
-
-  /**
    * Register a new user based on email + password combination
    */
   registerUser({ email, password, repeatPassword }) {
