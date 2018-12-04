@@ -101,7 +101,7 @@ class PartnersPage extends Page {
               {anchorFunders.map(p =>
                 (
                   <div
-                    className="column small-12 medium-6"
+                    className="column small-12 medium-12"
                     key={p.id}
                   >
                     <PartnerBlock item={p} />
