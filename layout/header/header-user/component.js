@@ -114,7 +114,7 @@ class HeaderUser extends PureComponent {
                 </ul>
                 <ul className="header-dropdown-list user-list">
                   <li className="header-dropdown-list-item">
-                    <Link route="myrw">
+                    <Link to="myrw/profile">
                       <a>Profile</a>
                     </Link>
                   </li>

@@ -95,7 +95,7 @@ class MyRW extends Page {
     const { url, tab } = props;
 
     this.state = {
-      tab: url.query.tab || 'profile',
+      tab: url.query.tab || 'widgets',
       subtab: url.query.subtab
     };
   }
@@ -104,7 +104,7 @@ class MyRW extends Page {
     const { url } = nextProps;
 
     this.setState({
-      tab: url.query.tab || 'profile',
+      tab: url.query.tab || 'widgets',
       subtab: url.query.subtab
     });
   }

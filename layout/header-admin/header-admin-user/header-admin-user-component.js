@@ -78,7 +78,7 @@ class HeaderUser extends React.Component {
                 onMouseLeave={() => this.toggleDropdown(false)}
               >
                 <li className="header-dropdown-list-item">
-                  <Link route="myrw">
+                  <Link to="myrw/profile">
                     <a>Profile</a>
                   </Link>
                 </li>
