@@ -94,7 +94,7 @@ class PartnersPage extends Page {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <h2 className="-text-center">Anchor Funders</h2>
+                <h2 className="-text-center">Anchor funders</h2>
               </div>
             </div>
             <div className="row">
