@@ -14,7 +14,7 @@ class NewsletterModalComponent extends PureComponent {
     return (
       <div className="c-newsletter-modal">
         <h3>Sign up for the Resource Watch newsletter</h3>
-        <p>Get the latest stoires on the data that powers your world.</p>
+        <p>Get the latest stories on the data that powers your world.</p>
         <form
           className="c-form"
           acceptCharset="UTF-8"
