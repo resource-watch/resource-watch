@@ -1,33 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 
-// Utils
-import { USERREPORT_BLACKLIST } from 'utils/user-report';
-
-export default class UserReport extends React.Component {
-  static propTypes = {
-    routes: PropTypes.object
-  }
-
-  shouldComponentUpdate() {
-    // This component doesn't need to re-render because
-    // everything is static
-    return false;
+class UserReport extends PureComponent {
+  onClick = () => {
+    // eslint-disable-next-line no-underscore-dangle
+    if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') window._urq.push(['Feedback_Open']);
   }
 
   render() {
-    const { pathname } = this.props.routes;
-    if (USERREPORT_BLACKLIST.includes(pathname)) {
-      return null;
-    }
-
     return (
       <button
         className="c-user-report"
-        onClick={() => window !== 'undefined' && window._urq.push(['Feedback_Open'])}
+        onClick={this.onClick}
       >
         Feedback
       </button>
     );
   }
 }
+
+export default UserReport;

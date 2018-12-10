@@ -1,26 +1,25 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
-
-// Redux
 import { connect } from 'react-redux';
 
-// Utils
-import { USERREPORT_BLACKLIST } from 'utils/user-report';
+// constants
+import { TRANSIFEX_BLACKLIST, USERREPORT_BLACKLIST } from 'constants/app';
 
-const TRANSIFEX_BLACKLIST = [
-  '/app/embed/EmbedDashboard',
-  '/app/embed/EmbedMap',
-  '/app/embed/EmbedTable',
-  '/app/embed/EmbedText',
-  '/app/embed/EmbedWidget',
-  '/app/embed/EmbedEmbed',
-  '/app/embed/EmbedDataset',
-  '/app/embed/EmbedSimilarDatasets',
-  '/app/explore/embed'
-];
+class Head extends PureComponent {
+  static propTypes = {
+    // some pages don't have any title (think embed)
+    title: PropTypes.string,
+    description: PropTypes.string.isRequired,
+    routes: PropTypes.object.isRequired,
+    category: PropTypes.string
+  };
 
-class Head extends React.PureComponent {
+  static defaultProps = {
+    title: null,
+    category: null
+  }
+
   static getStyles() {
     return <link rel="stylesheet" type="text/css" href="/_next/static/style.css" />;
   }
@@ -33,11 +32,10 @@ class Head extends React.PureComponent {
   }
 
   getUserReport() {
-    const { pathname } = this.props.routes;
+    const { routes } = this.props;
+    const { pathname } = routes;
 
-    if (USERREPORT_BLACKLIST.includes(pathname)) {
-      return null;
-    }
+    if (USERREPORT_BLACKLIST.includes(pathname)) return null;
 
     if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
       return (
@@ -62,6 +60,7 @@ class Head extends React.PureComponent {
         />
       );
     }
+
     return null;
   }
 
@@ -209,13 +208,6 @@ class Head extends React.PureComponent {
     );
   }
 }
-
-Head.propTypes = {
-  title: PropTypes.string, // Some pages don't have any title (think embed)
-  description: PropTypes.string.isRequired,
-  routes: PropTypes.object.isRequired,
-  category: PropTypes.string
-};
 
 export default connect(
   state => ({ routes: state.routes }),
