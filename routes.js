@@ -70,17 +70,6 @@ routes.add('get_involved_detail', '/get-involved/:id', 'app/get-involved-detail'
 routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');
 routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 
-// ------ EMBED -------------
-routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');
-routes.add('embed_text', '/embed/text/:id', 'app/embed/EmbedText');
-routes.add('embed_map', '/embed/map/:id', 'app/embed/EmbedMap');
-routes.add('embed_map_swipe', '/embed/map-swipe', 'app/embed/map-swipe');
-routes.add('embed_embed', '/embed/embed/:id', 'app/embed/EmbedEmbed');
-routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
-routes.add('embed_table', '/embed/table', 'app/embed/EmbedTable');
-routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/EmbedSimilarDatasets');
-routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboard');
-
 // ------ TERMS && POLICY -------------
 routes.add('terms-of-service', '/terms-of-service', 'app/Terms');
 routes.add('privacy-policy', '/privacy-policy', 'app/Policy');
@@ -93,5 +82,19 @@ routes.add('catalog', '/catalog', 'app/catalog');
 routes.add('sign-in', '/sign-in', 'app/sign-in');
 routes.add('forgot-password', '/forgot-password', 'app/forgot-password');
 routes.add('reset-password', '/reset-password/:tokenEmail?', 'app/reset-password');
+
+// ------ EMBED -------------
+routes.add('embed_widget', '/embed/widget/:id', 'app/embed/widget');
+routes.add('embed_text', '/embed/text/:id', 'app/embed/text');
+routes.add('embed_map', '/embed/map/:id', 'app/embed/map');
+routes.add('embed_map_swipe', '/embed/map-swipe', 'app/embed/map-swipe');
+routes.add('embed_embed', '/embed/embed/:id', 'app/embed/embed');
+routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
+routes.add('embed_table', '/embed/table/:id', 'app/embed/table');
+routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/similar-datasets');
+routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboard');
+
+// ------- WEBSHOT  -------------
+routes.add('webshot', '/webshot/:id', 'app/webshot');
 
 module.exports = routes;
