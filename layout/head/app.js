@@ -20,6 +20,10 @@ class Head extends PureComponent {
     category: null
   }
 
+  static getStyles() {
+    return <link rel="stylesheet" type="text/css" href="/_next/static/style.css" />;
+  }
+
   getCrazyEgg() {
     if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
       return (
