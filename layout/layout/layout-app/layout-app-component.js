@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Progress from 'react-progress-2';
+import classnames from 'classnames';
 
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
@@ -30,23 +31,18 @@ import {
   Icons as WidgetIcons
 } from 'widget-editor';
 
-const fullScreenPages = [
-  '/app/explore',
-  '/app/pulse',
-  '/app/Splash',
-  '/app/sign-in'
-];
+// constants
+import { FULLSCREEN_PAGES, USERREPORT_BLACKLIST } from 'constants/app';
 
-class LayoutApp extends React.Component {
+class LayoutApp extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
     description: PropTypes.string,
-    routes: PropTypes.object,
+    routes: PropTypes.object.isRequired,
     pageHeader: PropTypes.bool,
     className: PropTypes.string,
     category: PropTypes.string,
-    // Store
     modal: PropTypes.object.isRequired,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
@@ -55,11 +51,17 @@ class LayoutApp extends React.Component {
     user: PropTypes.object.isRequired
   };
 
+  static defaultProps = {
+    title: null,
+    description: null,
+    className: null,
+    category: null,
+    pageHeader: false
+  }
+
   constructor(props) {
     super(props);
-    this.state = {
-      modalOpen: false
-    };
+    this.state = { modalOpen: false };
 
     // WIDGET EDITOR
     // Change the configuration according to your needs
@@ -109,19 +111,25 @@ class LayoutApp extends React.Component {
 
   render() {
     const {
-      title, description, routes, pageHeader, modal, className, category
+      title,
+      description,
+      routes,
+      pageHeader,
+      modal,
+      className,
+      category
     } = this.props;
-
-    const fullScreen = routes.pathname && fullScreenPages.indexOf(routes.pathname) !== -1;
+    const { pathname } = routes;
+    const fullScreen = pathname && FULLSCREEN_PAGES.indexOf(pathname) !== -1;
+    const componentClass = classnames('l-page', { [className]: !!className });
 
     return (
-      <div id="#main" className={`l-page ${className}`}>
+      <div id="#main" className={componentClass}>
         <Head
           title={title}
           description={description}
           category={category}
         />
-
 
         {!browserSupported() &&
           <Modal open canClose={false}>
@@ -131,9 +139,7 @@ class LayoutApp extends React.Component {
 
         <Icons />
 
-        <Header
-          pageHeader={pageHeader}
-        />
+        <Header pageHeader={pageHeader} />
 
         <Progress.Component />
 
@@ -159,7 +165,7 @@ class LayoutApp extends React.Component {
           transitionOut="fadeOut"
         />
 
-        <UserReport />
+        {!USERREPORT_BLACKLIST.includes(pathname) && <UserReport />};
 
         {/* Widget editor */}
         <WidgetModal />

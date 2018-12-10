@@ -14,7 +14,8 @@
           "utils": "./utils",
           "selectors": "./selectors",
           "static": "./static",
-          "services": "./services"
+          "services": "./services",
+          "constants": "./constants"
         },
         "cwd": "babelrc"
       }
