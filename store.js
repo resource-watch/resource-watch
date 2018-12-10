@@ -28,7 +28,7 @@ import * as similarDatasets from 'components/datasets/similar-datasets/similar-d
 import * as trySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
 // subscriptions
-import * as subscriptions from 'components/modal/subscriptions-modal';
+import * as subscriptions from 'components/modal/dataset-subscriptions-modal';
 
 // Tools
 import * as relatedTools from 'components/tools/related-tools';

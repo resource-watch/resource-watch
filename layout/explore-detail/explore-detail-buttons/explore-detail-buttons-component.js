@@ -19,7 +19,7 @@ import LoginRequired from 'components/ui/login-required';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import SubscriptionsModal from 'components/modal/subscriptions-modal';
+import DatasetSubscriptionsModal from 'components/modal/dataset-subscriptions-modal';
 
 
 class ExploreDetailButtons extends PureComponent {
@@ -166,7 +166,7 @@ class ExploreDetailButtons extends PureComponent {
           isOpen={this.state.showSubscribeModal}
           onRequestClose={() => this.handleToggleSubscribeModal(false)}
         >
-          <SubscriptionsModal
+          <DatasetSubscriptionsModal
             onRequestClose={() => this.handleToggleSubscribeModal(false)}
           />
         </Modal>

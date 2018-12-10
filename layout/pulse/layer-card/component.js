@@ -16,7 +16,7 @@ import Icon from 'components/ui/Icon';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import SubscriptionsModal from 'components/modal/subscriptions-modal';
+import SubscriptionsModal from 'components/modal/dataset-subscriptions-modal';
 
 
 class LayerCardComponent extends PureComponent {
