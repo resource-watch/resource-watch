@@ -165,7 +165,7 @@ class LayoutApp extends PureComponent {
           transitionOut="fadeOut"
         />
 
-        {!USERREPORT_BLACKLIST.includes(pathname) && <UserReport />};
+        {!USERREPORT_BLACKLIST.includes(pathname) && <UserReport />}
 
         {/* Widget editor */}
         <WidgetModal />
