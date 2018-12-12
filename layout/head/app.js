@@ -20,10 +20,6 @@ class Head extends PureComponent {
     category: null
   }
 
-  static getStyles() {
-    return <link rel="stylesheet" type="text/css" href="/_next/static/style.css" />;
-  }
-
   getCrazyEgg() {
     if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
       return (
@@ -198,7 +194,6 @@ class Head extends PureComponent {
         />
         <script src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js" crossOrigin="" />
 
-        {Head.getStyles()}
         {this.getCesiumStyles()}
         {this.getCrazyEgg()}
         {this.getUserReport()}
