@@ -13,7 +13,11 @@ export const getSuscribableDatasets = createSelector(
       label: dataset.attributes.name,
       value: dataset.attributes.name,
       subscriptions: sortBy(Object.keys(dataset.subscribable || dataset.attributes.subscribable)
-        .map(val => ({ label: val, value: val })), 'label'),
+        .map(key => ({
+          label: key,
+          value: key,
+          query: ((dataset.subscribable || dataset.attributes.subscribable)[key] || {}).dataQuery
+        })), 'label'),
       threshold: 1
     }))), 'label')
 );

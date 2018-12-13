@@ -19,7 +19,7 @@ import LoginRequired from 'components/ui/login-required';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import DatasetSubscriptionsModal from 'components/modal/dataset-subscriptions-modal';
+import DatasetSubscriptionsModal from 'components/modal/subscriptions-modal/dataset';
 
 
 class ExploreDetailButtons extends PureComponent {

@@ -1,6 +1,8 @@
 import { createAction, createThunkAction } from 'redux-tools';
 import { toastr } from 'react-redux-toastr';
+import { replace } from 'layer-manager';
 import axios from 'axios';
+import moment from 'moment';
 
 // services
 import AreasService from 'services/AreasService';
@@ -40,20 +42,36 @@ export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-S
   });
 
 // actions - user subscriptions preview
-export const getUserSubscriptionsPreview = createThunkAction('SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS-PREVIEW', sql =>
+export const getUserSubscriptionsPreview = createThunkAction('SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS-PREVIEW', () =>
   (dispatch, getState) => {
     const { user, subscriptions } = getState();
     const { token } = user;
     const { userSelection } = subscriptions;
     const { datasets } = userSelection;
-    const temporal = "SELECT frp AS value, acq_date,  ST_AsGeoJSON(the_geom) as geom     FROM VIIRS-Active-Fire-Global-1490086842549  WHERE acq_date >= '2018-11-26' AND acq_date <= '2018-11-27'  ORDER BY acq_date DESC  LIMIT 10";
-    const fetchs = datasets.map(_dataset => fetchQuery(token, temporal));
+    const yesterday = moment().subtract(1, 'day');
+    // provisionally, sets date range from yesterday to a week ago
+    const params = {
+      begin: yesterday.subtract(1, 'week').format('MM-DD-YYYY'),
+      end: yesterday.format('MM-DD-YYYY')
+    };
+    const fetchs = datasets.map((dataset) => {
+      const selectedSubscription = dataset.subscriptions.find(
+        _subscription => _subscription.selected
+      );
+
+      if (selectedSubscription) {
+        const { query } = selectedSubscription;
+        return fetchQuery(token, replace(query, params));
+      }
+
+      return null;
+    });
 
     dispatch(setSubscriptionsLoadingPreview(true));
 
     axios.all(fetchs)
       .then(axios.spread((...responses) => {
-        dispatch(setAlertsPreview(responses.map(response => response.data)));
+        dispatch(setAlertsPreview(responses.map(response => response.data.data)));
       }))
       .catch((err) => {
         dispatch(setSubscriptionsError(err));

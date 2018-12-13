@@ -8,11 +8,11 @@ import { toastr } from 'react-redux-toastr';
 import Field from 'components/form/Field';
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
-import DatasetsManager from './dataset-manager';
-import SubscriptionsPreview from './subscriptions-preview';
+import DatasetsManager from '../dataset-manager';
+import SubscriptionsPreview from '../subscriptions-preview';
 
 // constants
-import { SUBSCRIPTION_FREQUENCY_OPTIONS } from './constants';
+// import { SUBSCRIPTION_FREQUENCY_OPTIONS } from './constants';
 
 class DatasetSubscriptionsModal extends PureComponent {
   static propTypes = {
@@ -138,7 +138,6 @@ class DatasetSubscriptionsModal extends PureComponent {
       userSelection,
       loading,
       subscription,
-      setUserSelection,
       onRequestClose
     } = this.props;
 
@@ -198,7 +197,7 @@ class DatasetSubscriptionsModal extends PureComponent {
                   value={userSelection.area ? userSelection.area.value : null}
                 />
               </Field>
-              <Field
+              {/* <Field
                 properties={{
                   name: 'frequency',
                   label: 'Frequency of notifications'
@@ -212,7 +211,7 @@ class DatasetSubscriptionsModal extends PureComponent {
                   allowNonLeafSelection={false}
                   value={userSelection.frequency}
                 />
-              </Field>
+              </Field> */}
             </div>
             <div className="separator" />
             <DatasetsManager activeArea={activeArea} />
@@ -257,11 +256,6 @@ class DatasetSubscriptionsModal extends PureComponent {
               View my subscriptions
             </button>
           </div>
-        }
-
-        {/* preview */}
-        {success &&
-          toastr.error('Data missing', 'Please select an area and a subscription type')
         }
       </div>
     );

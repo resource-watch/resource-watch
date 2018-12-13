@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
-import sortBy from 'lodash/sortBy';
-import isEqual from 'lodash/isEqual';
 
 // components
 import Field from 'components/form/Field';
 import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
-import DatasetsManager from './dataset-manager';
-import SubscriptionsPreview from './subscriptions-preview';
+import DatasetsManager from '../dataset-manager';
+import SubscriptionsPreview from '../subscriptions-preview';
 
 // constants
-import { SUBSCRIPTION_FREQUENCY_OPTIONS } from './constants';
+// import { SUBSCRIPTION_FREQUENCY_OPTIONS } from './constants';
 
 class DatasetSubscriptionsModal extends PureComponent {
   static propTypes = {
@@ -27,128 +25,17 @@ class DatasetSubscriptionsModal extends PureComponent {
     subscriptions: PropTypes.array.isRequired,
     subscription: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
-    setAreas: PropTypes.func.isRequired,
-    getAreas: PropTypes.func.isRequired,
-    getUserAreas: PropTypes.func.isRequired,
-    getDatasets: PropTypes.func.isRequired,
-    getUserSubscriptions: PropTypes.func.isRequired,
     setUserSelection: PropTypes.func.isRequired,
-    clearUserSelection: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired,
     resetModal: PropTypes.func.isRequired,
     createSubscriptionToArea: PropTypes.func.isRequired,
     createSubscriptionOnNewArea: PropTypes.func.isRequired,
-    updateSubscription: PropTypes.func.isRequired,
-    clearSubscriptions: PropTypes.func.isRequired,
-    clearLocalSubscriptions: PropTypes.func.isRequired
+    updateSubscription: PropTypes.func.isRequired
   }
 
   static defaultProps = { activeArea: null }
 
-  state = {
-    showSubscribePreview: false
-  }
-  componentWillMount() {
-    const {
-      activeDataset,
-      activeArea,
-      setUserSelection,
-      setAreas,
-      getAreas,
-      getUserAreas,
-      getDatasets,
-      getUserSubscriptions
-    } = this.props;
-
-
-    if (Object.keys(activeDataset).length) {
-      setUserSelection({
-        datasets: [activeDataset].map(dataset => ({
-          id: dataset.id,
-          label: dataset.name,
-          value: dataset.name,
-          subscriptions: sortBy(Object.keys(dataset.subscribable || dataset.attributes.subscribable)
-            .map((val, index) => ({
-              label: val,
-              value: val,
-              ...index === 0 && { selected: true }
-            })), 'label'),
-          threshold: 1
-        }))
-      });
-    }
-
-    if (activeArea) {
-      const area = {
-        id: activeArea.id,
-        label: activeArea.attributes.name,
-        value: activeArea.attributes.geostore,
-        isGeostore: activeArea.attributes.geostore,
-        areaID: activeArea.id
-      };
-
-      setUserSelection({ area });
-      setAreas([{
-        id: activeArea.id,
-        ...activeArea.attributes
-      }]);
-    }
-
-    if (!activeArea) {
-      // fetchs areas to populate areas selector
-      getAreas();
-      // fetchs user areas to populate areas selector
-      getUserAreas();
-    }
-    // fetchs suscribable datasets to populate datasets selector
-    getDatasets();
-    // fetchs user subscriptions
-    getUserSubscriptions();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { subscriptions, setUserSelection, activeArea } = this.props;
-    const { subscriptions: nextSubscriptions, activeArea: nextActiveArea } = nextProps;
-    const subscriptionsChanged = !isEqual(subscriptions, nextSubscriptions);
-
-    if (nextSubscriptions.length && subscriptionsChanged) {
-      if (nextActiveArea && nextActiveArea.subscription) {
-        const currentSubscription = nextSubscriptions.find(_subscription =>
-          _subscription.id === activeArea.subscription.id);
-        const subscriptionTypes = currentSubscription.attributes.datasetsQuery
-          .filter(_datasetQuery => _datasetQuery.type)
-          .map(_datasetQuery => _datasetQuery.type);
-
-        setUserSelection({
-          datasets: activeArea.subscription.attributes.datasets.map((dataset, index) => ({
-            id: dataset.id,
-            label: dataset.name,
-            value: dataset.name,
-            subscriptions: sortBy(Object.keys(dataset.subscribable ||
-              dataset.attributes.subscribable)
-              .map(val => ({
-                label: val,
-                value: val,
-                ...subscriptionTypes.includes(val) && { selected: true }
-              })), 'label'),
-            threshold: activeArea.subscription.attributes.datasetsQuery[index].threshold
-          }))
-        });
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    const {
-      clearSubscriptions,
-      clearUserSelection,
-      clearLocalSubscriptions
-    } = this.props;
-
-    clearLocalSubscriptions();
-    clearSubscriptions();
-    clearUserSelection();
-  }
+  state = { showSubscribePreview: false }
 
   onChangeArea = (area = {}) => {
     const {
@@ -192,8 +79,7 @@ class DatasetSubscriptionsModal extends PureComponent {
       areaFound,
       createSubscriptionToArea,
       createSubscriptionOnNewArea,
-      updateSubscription,
-      onRequestClose
+      updateSubscription
     } = this.props;
     const { showSubscribePreview } = this.state;
 
@@ -252,7 +138,6 @@ class DatasetSubscriptionsModal extends PureComponent {
       userSelection,
       loading,
       subscription,
-      setUserSelection,
       onRequestClose
     } = this.props;
 
@@ -312,7 +197,7 @@ class DatasetSubscriptionsModal extends PureComponent {
                   value={userSelection.area ? userSelection.area.value : null}
                 />
               </Field>
-              <Field
+              {/* <Field
                 properties={{
                   name: 'frequency',
                   label: 'Frequency of notifications'
@@ -326,7 +211,7 @@ class DatasetSubscriptionsModal extends PureComponent {
                   allowNonLeafSelection={false}
                   value={userSelection.frequency}
                 />
-              </Field>
+              </Field> */}
             </div>
             <div className="separator" />
             <DatasetsManager activeArea={activeArea} />
@@ -335,7 +220,7 @@ class DatasetSubscriptionsModal extends PureComponent {
 
         {success &&
           <div className="icon-container">
-            <img alt="" src="/static/images/components/modal/widget-saved.svg" />
+            <img alt="success" src="/static/images/components/modal/widget-saved.svg" />
           </div>
         }
 
@@ -371,11 +256,6 @@ class DatasetSubscriptionsModal extends PureComponent {
               View my subscriptions
             </button>
           </div>
-        }
-
-        {/* preview */}
-        {success &&
-          toastr.error('Data missing', 'Please select an area and a subscription type')
         }
       </div>
     );

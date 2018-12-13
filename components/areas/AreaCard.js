@@ -19,7 +19,7 @@ import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import SubscriptionsModal from 'components/modal/dataset-subscriptions-modal';
+import SubscriptionsModal from 'components/modal/subscriptions-modal/area';
 
 // Services
 import AreasService from 'services/AreasService';

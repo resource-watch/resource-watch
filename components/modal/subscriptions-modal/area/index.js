@@ -4,16 +4,14 @@ import { connect } from 'react-redux';
 import sortBy from 'lodash/sortBy';
 import isEqual from 'lodash/isEqual';
 
-// redux
-import * as actions from './actions';
-import * as reducers from './reducers';
-import initialState from './initial-state';
+// actions
+import * as actions from '../actions';
 
 // selectors
 import {
   getAvailableAreas,
   isAreaFound
-} from './selectors';
+} from '../selectors';
 
 // component
 import DatasetSubscriptionsModal from './component';
@@ -73,6 +71,8 @@ class DatasetSubscriptionModalContainer extends Component {
             .map((val, index) => ({
               label: val,
               value: val,
+              ...(dataset.subscribable || dataset.attributes.subscribable)[val] &&
+                { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery },
               ...index === 0 && { selected: true }
             })), 'label'),
           threshold: 1
@@ -117,20 +117,39 @@ class DatasetSubscriptionModalContainer extends Component {
     const {
       clearSubscriptions,
       clearUserSelection,
-      clearLocalSubscriptions
+      clearLocalSubscriptions,
+      activeDataset,
+      setUserSelection
     } = this.props;
 
     clearLocalSubscriptions();
     clearSubscriptions();
     clearUserSelection();
+
+    if (Object.keys(activeDataset).length) {
+      setUserSelection({
+        datasets: [activeDataset].map(dataset => ({
+          id: dataset.id,
+          label: dataset.name,
+          value: dataset.name,
+          subscriptions: sortBy(Object.keys(dataset.subscribable || dataset.attributes.subscribable)
+            .map((val, index) => ({
+              label: val,
+              value: val,
+              ...(dataset.subscribable || dataset.attributes.subscribable)[val] &&
+                { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery },
+              ...index === 0 && { selected: true }
+            })), 'label'),
+          threshold: 1
+        }))
+      });
+    }
   }
 
   render() {
     return (<DatasetSubscriptionsModal {...this.props} />);
   }
 }
-
-export { actions, reducers, initialState };
 
 export default connect(
   state => ({
