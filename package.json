@@ -137,7 +137,7 @@
   },
   "betterScripts": {
     "build": {
-      "command": "next build",
+      "command": "next build --max-old-space-size=1024",
       "env": {
         "NODE_ENV": "production"
       }

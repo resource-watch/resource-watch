@@ -1,4 +1,4 @@
-FROM node:8.11.2
+FROM node:8.14.0-alpine
 
 ARG apiEnv=production
 ARG apiUrl=https://resourcewatch.org/api
@@ -23,11 +23,9 @@ ENV BLOG_API_URL https://resourcewatch.org/blog/wp-json/wp/v2
 ENV RW_GOGGLE_API_TOKEN_SHORTENER $RW_GOGGLE_API_TOKEN_SHORTENER
 ENV BITLY_TOKEN e3076fc3bfeee976efb9966f49383e1a8fb71c5f
 
-RUN apt-get update && \
-    apt-get install -y bash git build-essential \
-    automake autoconf make g++ libtool libcairo2-dev \
-    && npm install -g node-gyp --loglevel warn \
-    && mkdir -p /usr/src/app && mkdir -p /usr/src/app
+RUN apk update && apk add --no-cache \
+    build-base gcc bash git \
+    cairo-dev
 
 # Add app directory
 WORKDIR /usr/src/app
