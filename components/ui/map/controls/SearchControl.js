@@ -28,14 +28,13 @@ class SearchControl extends PureComponent {
   onSuggestSelect = (e) => {
     if (e) {
       const { gmaps, location } = e;
-
       const viewport = gmaps.geometry && gmaps.geometry.viewport;
 
       if (viewport) {
         this.props.setMapLocation({
           bbox: [
-            viewport.j.j, viewport.l.j,
-            viewport.j.l, viewport.l.l
+            viewport.ea.j, viewport.la.j,
+            viewport.ea.l, viewport.la.l
           ]
         });
       }
