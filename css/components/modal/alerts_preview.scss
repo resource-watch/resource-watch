@@ -1,4 +1,10 @@
 .c-subscriptions-preview {
+  max-height: 70vh;
+  margin-bottom: 20px;
+  .c-table {
+    margin-bottom: 20px;
+  }
+
   .subscriptions-preview {
     display: flex;
     flex-direction: column;
@@ -8,15 +14,23 @@
     overflow-y: scroll;
     width: 100%;
   }
-
-  .preview-data-title,
-  .preview-data-element {
-    padding: 0 20px 0 0;
+  .preview_table_captions,
+  .preview-table-element {
     text-align: left;
+    text-transform: capitalize;
   }
 
-  .preview-data-row {
+  .preview-table-row {
     display: flex;
     justify-content: space-around;
   }
+  .preview-buttons {
+    justify-content: flex-start;
+    margin-bottom: 50px;
+    .preview {
+      margin: 20px 10px 0 0;
+    }
+  }
 }
+
+

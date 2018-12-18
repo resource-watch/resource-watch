@@ -51,22 +51,24 @@ class SubscriptionsPreview extends PureComponent {
         <div className="header">
           <h2>{activeDataset.name}</h2>
         </div>
-        {data.map(_d => (<AlertsTable alerts={_d} />))}
-        <div className="buttons">
+        <div className="preview-table">
+          {data.map(_d => (<AlertsTable alerts={_d} />))}
+        </div>
+        <div className="preview-buttons">
           <button
-            className="c-btn -primary"
+            className="c-btn -primary preview"
             onClick={handleSubscribe}
           >
             Done
           </button>
           <button
-            className="c-btn -secondary"
+            className="c-btn -secondary preview"
             onClick={this.handleEdit}
           >
             Edit
           </button>
           <button
-            className="c-btn -secondary"
+            className="c-btn -secondary preview"
             onClick={handleCancel}
           >
             Cancel
