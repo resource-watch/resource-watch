@@ -18,7 +18,32 @@ export default {
       ...state,
       error: payload
     }),
-  [actions.clearSubscriptions]: state => ({ ...state, list: initialState.list }),
+  // user subscriptions preview
+  [actions.setAlertsPreview]: (state, { payload }) =>
+    ({
+      ...state,
+      preview: {
+        ...state.preview,
+        list: payload
+      }
+    }),
+  [actions.setSubscriptionsLoadingPreview]: (state, { payload }) =>
+    ({
+      ...state,
+      preview: {
+        ...state.preview,
+        loading: payload
+      }
+    }),
+  [actions.setSubscriptionsErrorPreview]: (state, { payload }) =>
+    ({
+      ...state,
+      preview: {
+        ...state.preview,
+        error: payload
+      }
+    }),
+  [actions.clearSubscriptionsPreview]: state => ({ ...state, list: initialState.list }),
   // areas
   [actions.setAreas]: (state, { payload }) =>
     ({
@@ -133,7 +158,6 @@ export default {
         ...payload
       }
     }),
-
   [actions.clearUserSelection]: state =>
     ({
       ...state,

@@ -34,7 +34,7 @@ routes.add('splash_detail', '/splash/:id', 'app/SplashDetail');
 
 // ---- ABOUT ----
 routes.add('about', '/about', 'app/About');
-routes.add('about_partners', '/about/partners', 'app/Partners');
+routes.add('about_partners', '/about/partners', 'app/partners');
 routes.add('about_faqs', '/about/faqs', 'app/Faqs');
 routes.add('about_contact-us', '/about/contact-us', 'app/ContactUs');
 routes.add('about_howto', '/about/howto', 'app/Howto');
@@ -51,7 +51,7 @@ routes.add('explore_detail', '/data/explore/:id', 'app/explore-detail');
 routes.add('pulse', '/data/pulse', 'app/pulse');
 
 routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
-routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/DashboardsDetail');
+routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/dashboards-detail');
 
 routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
 
@@ -88,5 +88,10 @@ routes.add('attribution-requirements', '/api-attribution-requirements', 'app/Att
 
 // ------- CATALOG -------------
 routes.add('catalog', '/catalog', 'app/catalog');
+
+// ------- USER MANAGEMENT  -------------
+routes.add('sign-in', '/sign-in', 'app/sign-in');
+routes.add('forgot-password', '/forgot-password', 'app/forgot-password');
+routes.add('reset-password', '/reset-password/:tokenEmail?', 'app/reset-password');
 
 module.exports = routes;

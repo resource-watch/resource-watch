@@ -33,12 +33,12 @@
   "layouts/footer",
   "layouts/sidebar",
   "layouts/map",
-  "layouts/static";
+  "layouts/static",
+  "layouts/log-in";
 
 // Components
 // UI
 @import '../node_modules/react-redux-toastr/src/styles/index';
-@import '../node_modules/rc-slider/assets/index';
 @import "./components/ui/aside";
 @import "./components/ui/avatar";
 @import "./components/ui/breadcrumbs";
@@ -99,6 +99,7 @@
 @import "./components/modal/subscriptions_modal";
 @import "./components/modal/layer_info_modal";
 @import "./components/modal/login_modal";
+@import "./components/modal/alerts_preview";
 
 // areas
 @import "./components/areas/areas_form";
@@ -215,7 +216,6 @@
 // COMMON
 @import "./components/app/common/banner";
 @import "./components/app/common/rating";
-@import "./components/app/common/text";
 @import "./components/app/common/viel";
 @import "./components/app/common/card_static";
 @import "./components/app/common/faq";
@@ -298,9 +298,6 @@
 // ------ SPLASH -------
 @import "./components/splash/layout/splash_header";
 
-// RC-TOOLTIP
-@import '../node_modules/rc-tooltip/assets/bootstrap_white';
-@import "./components/ui/rc-tooltip";
 
 // Foundation:
 // We are using this library only for grid system

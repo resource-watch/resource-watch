@@ -1,10 +1,14 @@
 import { createAction, createThunkAction } from 'redux-tools';
 import { toastr } from 'react-redux-toastr';
+import { replace } from 'layer-manager';
+import axios from 'axios';
+import moment from 'moment';
 
 // services
 import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
 import DatasetService from 'services/DatasetService';
+import { fetchQuery } from 'services/query';
 
 const areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
 const userService = new UserService({ apiURL: process.env.WRI_API_URL });
@@ -14,6 +18,10 @@ export const setSubscriptions = createAction('SUBSCRIPTIONS__SET-SUBSCRIPTIONS')
 export const setSubscriptionsLoading = createAction('SUBSCRIPTIONS__SET-SUBSCRIPTIONS-LOADING');
 export const setSubscriptionsError = createAction('SUBSCRIPTIONS__SET-SUBSCRIPTIONS-ERROR');
 export const clearSubscriptions = createAction('SUBSCRIPTIONS__CLEAR-SUBSCRIPTIONS');
+export const setAlertsPreview = createAction('ALERTS__SET-ALERTS-PREVIEW');
+export const setSubscriptionsLoadingPreview = createAction('ALERTS__SET-ALERTS-LOADING');
+export const setSubscriptionsErrorPreview = createAction('ALERTS__SET-ALERTS-ERROR');
+export const clearSubscriptionsPreview = createAction('ALERTS__CLEAR-ALERTS');
 
 export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS', () =>
   (dispatch, getState) => {
@@ -33,6 +41,44 @@ export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-S
       });
   });
 
+// actions - user subscriptions preview
+export const getUserSubscriptionsPreview = createThunkAction('SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS-PREVIEW', () =>
+  (dispatch, getState) => {
+    const { user, subscriptions } = getState();
+    const { token } = user;
+    const { userSelection } = subscriptions;
+    const { datasets } = userSelection;
+    const yesterday = moment().subtract(1, 'day');
+    // provisionally, sets date range from yesterday to a week ago
+    const params = {
+      begin: yesterday.subtract(1, 'week').format('MM-DD-YYYY'),
+      end: yesterday.format('MM-DD-YYYY')
+    };
+    const fetchs = datasets.map((dataset) => {
+      const selectedSubscription = dataset.subscriptions.find(
+        _subscription => _subscription.selected
+      );
+
+      if (selectedSubscription) {
+        const { query } = selectedSubscription;
+        return fetchQuery(token, replace(query, params));
+      }
+
+      return null;
+    });
+
+    dispatch(setSubscriptionsLoadingPreview(true));
+
+    axios.all(fetchs)
+      .then(axios.spread((...responses) => {
+        dispatch(setAlertsPreview(responses.map(response => response.data.data)));
+      }))
+      .catch((err) => {
+        dispatch(setSubscriptionsError(err));
+        toastr.error('Error loading preview', err);
+      })
+      .then(() => { dispatch(setSubscriptionsLoadingPreview(false)); });
+  });
 
 // actions – areas
 export const setAreas = createAction('SUBSCRIPTIONS__SET-AREAS');
@@ -200,7 +246,7 @@ export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CRE
       promises.push(promise);
     });
 
-    Promise.all(promises)
+    return Promise.all(promises)
       .then(() => {
         dispatch(setSubscriptionSuccess(false));
         dispatch(setSubscriptionLoading(true));
@@ -275,6 +321,7 @@ export default {
   setSubscriptionsLoading,
   setSubscriptionsError,
   getUserSubscriptions,
+  getUserSubscriptionsPreview,
 
   setUserAreas,
   setUserAreasLoading,

@@ -1,6 +1,7 @@
 .c-subscriptions-modal {
 
-  h2 {
+  h2,
+  h3 {
     color: $color-dark-pink;
   }
 
@@ -81,9 +82,19 @@
 
   .buttons {
     justify-content: flex-start;
+  }
 
-    button:last-of-type {
-      margin-left: 10px;
+  //preview option
+
+  .preview-data {
+    display: flex;
+    justify-content: space-between;
+  }
+  .c-btn {
+    margin-left: 10px;
+
+    &:first-child{
+      margin-left: 0;
     }
   }
 }

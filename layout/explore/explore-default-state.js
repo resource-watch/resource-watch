@@ -36,12 +36,12 @@ export default {
     }
   },
   sort: {
-    selected: 'most-viewed',
+    selected: 'most-visited',
     direction: -1,
     isSetFromDefaultState: true,
     options: [
       { value: 'updatedAt', label: 'Last modified' },
-      { value: 'most-viewed', label: 'Most viewed' },
+      { value: 'most-visited', label: 'Most viewed' },
       { value: 'most-favorited', label: 'Most favorited' },
       { value: 'relevance', label: 'Relevance' }
     ]
@@ -58,7 +58,18 @@ export default {
     layerGroups: [],
     layerGroupsInteraction: {},
     layerGroupsInteractionSelected: null,
-    layerGroupsInteractionLatLng: null
+    layerGroupsInteractionLatLng: null,
+    // contains params to be modified in the layerSpec of every layer
+    // 'layer-id': {
+    //  'key-to-modify: {
+    //    stardDate: '09-09-2018',
+    //    endDate: '12-31-2019',
+    //    zoom: 4,
+    //    ...
+    //  }
+    // }
+    //
+    parametrization: {}
   },
 
   // Sidebar

@@ -19,22 +19,25 @@ export const setStaticData = createAction('GET-INVOLVED-DETAIL/setStaticData');
 export const setStaticDataLoading = createAction('GET-INVOLVED-DETAIL/setStaticDataLoading');
 export const setStaticDataError = createAction('GET-INVOLVED-DETAIL/setStaticDataError');
 
-export const fetchStaticData = createThunkAction('GET-INVOLVED-DETAIL/fetchStaticData', payload => (dispatch) => {
-  dispatch(setStaticDataLoading(true));
-  dispatch(setStaticDataError(null));
+export const fetchStaticData = createThunkAction(
+  'GET-INVOLVED-DETAIL/fetchStaticData',
+  payload => (dispatch) => {
+    dispatch(setStaticDataLoading(true));
+    dispatch(setStaticDataError(null));
 
-  return fetch(new Request(`${process.env.API_URL}/static_pages/${lookup[payload]}`))
-    .then((response) => {
-      if (response.ok) return response.json();
-      throw new Error(response.statusText);
-    })
-    .then(({ data }) => {
-      dispatch(setStaticDataLoading(false));
-      dispatch(setStaticDataError(null));
-      dispatch(setStaticData({ name: payload, ...data.attributes }));
-    })
-    .catch((err) => {
-      dispatch(setStaticDataLoading(false));
-      dispatch(setStaticDataError(err));
-    });
-});
+    return fetch(new Request(`${process.env.API_URL}/static_pages/${lookup[payload]}`))
+      .then((response) => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(({ data }) => {
+        dispatch(setStaticDataLoading(false));
+        dispatch(setStaticDataError(null));
+        dispatch(setStaticData({ name: payload, ...data.attributes }));
+      })
+      .catch((err) => {
+        dispatch(setStaticDataLoading(false));
+        dispatch(setStaticDataError(err));
+      });
+  }
+);

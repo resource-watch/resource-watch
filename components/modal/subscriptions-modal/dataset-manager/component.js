@@ -45,7 +45,18 @@ class DatasetManager extends Component {
     const { selectedDatasets } = this.state;
 
     if (selectedDatasets[index]) {
-      selectedDatasets[index] = dataset;
+      // by default, when the user selects a dataset for first time, selects the first subscriptions
+      const updatedSubscriptions = dataset.subscriptions;
+      updatedSubscriptions[0] = {
+        ...updatedSubscriptions[0],
+        selected: true
+      };
+      const updatedDataset = {
+        ...dataset,
+        subscriptions: updatedSubscriptions
+      };
+
+      selectedDatasets[index] = updatedDataset;
 
       this.setState({ selectedDatasets: [...selectedDatasets] }, () => {
         setUserSelection({
@@ -84,7 +95,7 @@ class DatasetManager extends Component {
         ...selectedDatasets[index],
         subscriptions: selectedDatasets[index].subscriptions.map(_subscription => ({
           ..._subscription,
-          ..._subscription.value === value && { selected: true }
+          ...{ selected: _subscription.value === value }
         }))
       };
 
@@ -165,7 +176,7 @@ class DatasetManager extends Component {
                 clearable={false}
                 value={(_selectedDataset.subscriptions
                   .find(_subscription => _subscription.selected) ||
-                    _selectedDataset.subscriptions[0] || {}).value}
+                  _selectedDataset.subscriptions[0] || {}).value}
               />
             </Field>
             <Field

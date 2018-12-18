@@ -23,7 +23,7 @@ import LayerInfoModal from 'components/modal/layer-info-modal';
 import AreasService from 'services/AreasService';
 
 // Utils
-import { LayerManager, Layer } from 'layer-manager/dist/react';
+import { LayerManager, Layer } from 'layer-manager/lib/react';
 import { PluginLeaflet } from 'layer-manager';
 
 // WRI components

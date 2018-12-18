@@ -4,13 +4,14 @@ ARG apiEnv=production
 ARG apiUrl=https://resourcewatch.org/api
 ARG wriApiUrl=https://api.resourcewatch.org/v1
 ARG callbackUrl=https://resourcewatch.org/auth
+ARG controlTowerUrl=https://production-api.globalforestwatch.org
 ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 
 ENV NODE_ENV production
 ENV WRI_API_URL $wriApiUrl
 # ENV BASEMAP_TILE_URL https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
 ENV API_URL $apiUrl
-ENV CONTROL_TOWER_URL https://production-api.globalforestwatch.org
+ENV CONTROL_TOWER_URL $controlTowerUrl
 ENV CALLBACK_URL $callbackUrl
 ENV STATIC_SERVER_URL=
 ENV APPLICATIONS rw
@@ -21,6 +22,9 @@ ENV API_ENV $apiEnv
 ENV GOOGLE_ANALYTICS UA-67196006-1
 ENV BLOG_API_URL https://resourcewatch.org/blog/wp-json/wp/v2
 ENV RW_GOGGLE_API_TOKEN_SHORTENER $RW_GOGGLE_API_TOKEN_SHORTENER
+ENV BITLY_TOKEN e3076fc3bfeee976efb9966f49383e1a8fb71c5f
+
+
 
 RUN apt-get update && \
     apt-get install -y bash git build-essential \

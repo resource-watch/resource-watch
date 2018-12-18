@@ -25,8 +25,7 @@ export const STATE_DEFAULT = {
 };
 
 export const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
     const elements = this.elements;
     Object.keys(elements).forEach((k) => {
@@ -53,4 +52,7 @@ export const PARTNER_TYPES = [{
 }, {
   label: 'Funder',
   value: 'funders'
+}, {
+  label: 'Anchor Funder',
+  value: 'anchor_funder'
 }];

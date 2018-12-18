@@ -24,8 +24,7 @@ export const fetchTopics = createThunkAction('TOPIC_THUMBNAIL_LIST_FETCH_DATA', 
       dispatch(setLoading(false));
       dispatch(setError(null));
       dispatch(setTopicThumbnailList(data.map(d =>
-        ({ id: d.id, ...d.attributes })
-      )));
+        ({ id: d.id, ...d.attributes }))));
     })
     .catch((err) => {
       dispatch(setLoading(false));

@@ -24,7 +24,7 @@ $min-width-sidebar-closed: 10px;
       transform: translate(0,0);
 
       .sidebar-content {
-        padding: 32px 16px;
+        padding: 32px 16px 0 16px;
       }
     }
   }
@@ -45,6 +45,12 @@ $min-width-sidebar-closed: 10px;
       &:last-child {
         padding: 0;
       }
+    }
+
+    &:after {
+      content: "";
+      height: 32px;
+      display: block;
     }
   }
 

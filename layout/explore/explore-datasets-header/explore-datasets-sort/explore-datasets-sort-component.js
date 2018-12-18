@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { Tooltip } from 'wri-api-components';
@@ -8,18 +8,16 @@ import Icon from 'components/ui/Icon';
 import RadioGroup from 'components/form/RadioGroup';
 import classnames from 'classnames';
 
-class ExploreDatasetsSortComponent extends React.Component {
+class ExploreDatasetsSortComponent extends PureComponent {
   static propTypes = {
-    canChangeSortDirection: PropTypes.bool,
-    selected: PropTypes.string,
-    direction: PropTypes.number,
-    options: PropTypes.array,
-
-    // Actions
-    setSortSelected: PropTypes.func,
-    setSortIsUserSelected: PropTypes.func,
-    setSortDirection: PropTypes.func,
-    fetchDatasets: PropTypes.func
+    canChangeSortDirection: PropTypes.bool.isRequired,
+    selected: PropTypes.string.isRequired,
+    direction: PropTypes.number.isRequired,
+    options: PropTypes.array.isRequired,
+    setSortSelected: PropTypes.func.isRequired,
+    setSortIsUserSelected: PropTypes.func.isRequired,
+    setSortDirection: PropTypes.func.isRequired,
+    fetchDatasets: PropTypes.func.isRequired
   };
 
   onSortSelected = (selected) => {
@@ -55,7 +53,10 @@ class ExploreDatasetsSortComponent extends React.Component {
 
   render() {
     const {
-      selected, direction, options, canChangeSortDirection
+      selected,
+      direction,
+      options,
+      canChangeSortDirection
     } = this.props;
 
     return (

@@ -47,3 +47,13 @@ export function capitalizeFirstLetter(string) {
   }
   return string;
 }
+
+export function getDateConsideringTimeZone(date) {
+  if (date) {
+    const newDate = new Date(date);
+    const dateDifferenceWithLocale = newDate.getTimezoneOffset();
+    const result = new Date(newDate.getTime() + (dateDifferenceWithLocale * 60000));
+    return result.toDateString();
+  }
+  return null;
+}
