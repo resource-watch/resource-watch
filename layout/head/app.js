@@ -201,7 +201,7 @@ class Head extends PureComponent {
         <script
           src={`https://maps.googleapis.com/maps/api/js?v=3.35&key=${
             process.env.RW_GOGGLE_API_TOKEN_SHORTENER
-            }&libraries=places`}
+          }&libraries=places`}
         />
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
       </HeadNext>
