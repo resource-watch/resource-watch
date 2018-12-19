@@ -12,18 +12,19 @@ import {
   getAvailableAreas,
   isAreaFound
 } from '../selectors';
+import { getSubscriptionsByArea } from './selectors';
 
 // component
-import DatasetSubscriptionsModal from './component';
+import AreaSubscriptionsModal from './component';
 
-class DatasetSubscriptionModalContainer extends Component {
+class AreaSubscriptionsModalContainer extends Component {
   static propTypes = {
     userSelection: PropTypes.object.isRequired,
     areas: PropTypes.array.isRequired,
     userAreas: PropTypes.array.isRequired,
     areaFound: PropTypes.bool.isRequired,
-    activeDataset: PropTypes.object.isRequired,
-    subscriptions: PropTypes.array.isRequired,
+    activeArea: PropTypes.object.isRequired,
+    subscriptionsByArea: PropTypes.array.isRequired,
     subscription: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     setAreas: PropTypes.func.isRequired,
@@ -44,7 +45,7 @@ class DatasetSubscriptionModalContainer extends Component {
 
   componentWillMount() {
     const {
-      activeDataset,
+      activeArea,
       setUserSelection,
       getAreas,
       getUserAreas,
@@ -61,30 +62,32 @@ class DatasetSubscriptionModalContainer extends Component {
     // fetchs user subscriptions
     getUserSubscriptions();
 
-    if (Object.keys(activeDataset).length) {
-      setUserSelection({
-        datasets: [activeDataset].map(dataset => ({
-          id: dataset.id,
-          label: dataset.name,
-          value: dataset.name,
-          subscriptions: sortBy(Object.keys(dataset.subscribable || dataset.attributes.subscribable)
-            .map((val, index) => ({
-              label: val,
-              value: val,
-              ...(dataset.subscribable || dataset.attributes.subscribable)[val] &&
-                { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery },
-              ...index === 0 && { selected: true }
-            })), 'label'),
-          threshold: 1
-        }))
-      });
-    }
+    setUserSelection({ area: activeArea });
+
+    // if (Object.keys(activeDataset).length) {
+    //   setUserSelection({
+    //     datasets: [activeDataset].map(dataset => ({
+    //       id: dataset.id,
+    //       label: dataset.name,
+    //       value: dataset.name,
+    //       subscriptions: sortBy(Object.keys(dataset.subscribable || dataset.attributes.subscribable)
+    //         .map((val, index) => ({
+    //           label: val,
+    //           value: val,
+    //           ...(dataset.subscribable || dataset.attributes.subscribable)[val] &&
+    //             { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery },
+    //           ...index === 0 && { selected: true }
+    //         })), 'label'),
+    //       threshold: 1
+    //     }))
+    //   });
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { subscriptions, setUserSelection, activeArea } = this.props;
-    const { subscriptions: nextSubscriptions, activeArea: nextActiveArea } = nextProps;
-    const subscriptionsChanged = !isEqual(subscriptions, nextSubscriptions);
+    const { subscriptionsByArea, setUserSelection, activeArea } = this.props;
+    const { subscriptionsByArea: nextSubscriptions, activeArea: nextActiveArea } = nextProps;
+    const subscriptionsChanged = !isEqual(subscriptionsByArea, nextSubscriptions);
 
     if (nextSubscriptions.length && subscriptionsChanged) {
       if (nextActiveArea && nextActiveArea.subscription) {
@@ -118,7 +121,7 @@ class DatasetSubscriptionModalContainer extends Component {
       clearSubscriptions,
       clearUserSelection,
       clearLocalSubscriptions,
-      activeDataset,
+      // activeDataset,
       setUserSelection
     } = this.props;
 
@@ -126,28 +129,28 @@ class DatasetSubscriptionModalContainer extends Component {
     clearSubscriptions();
     clearUserSelection();
 
-    if (Object.keys(activeDataset).length) {
-      setUserSelection({
-        datasets: [activeDataset].map(dataset => ({
-          id: dataset.id,
-          label: dataset.name,
-          value: dataset.name,
-          subscriptions: sortBy(Object.keys(dataset.subscribable || dataset.attributes.subscribable)
-            .map((val, index) => ({
-              label: val,
-              value: val,
-              ...(dataset.subscribable || dataset.attributes.subscribable)[val] &&
-                { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery },
-              ...index === 0 && { selected: true }
-            })), 'label'),
-          threshold: 1
-        }))
-      });
-    }
+    // if (Object.keys(activeDataset).length) {
+    //   setUserSelection({
+    //     datasets: [activeDataset].map(dataset => ({
+    //       id: dataset.id,
+    //       label: dataset.name,
+    //       value: dataset.name,
+    //       subscriptions: sortBy(Object.keys(dataset.subscribable || dataset.attributes.subscribable)
+    //         .map((val, index) => ({
+    //           label: val,
+    //           value: val,
+    //           ...(dataset.subscribable || dataset.attributes.subscribable)[val] &&
+    //             { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery },
+    //           ...index === 0 && { selected: true }
+    //         })), 'label'),
+    //       threshold: 1
+    //     }))
+    //   });
+    // }
   }
 
   render() {
-    return (<DatasetSubscriptionsModal {...this.props} />);
+    return (<AreaSubscriptionsModal {...this.props} />);
   }
 }
 
@@ -157,8 +160,7 @@ export default connect(
     areas: getAvailableAreas(state),
     areaFound: isAreaFound(state),
     userAreas: state.subscriptions.userAreas.list,
-    activeDataset: state.layerCardPulse.dataset || state.exploreDetail.data,
-    subscriptions: state.subscriptions.list,
+    subscriptionsByArea: getSubscriptionsByArea(state),
     subscription: state.subscriptions.subscriptionCreation,
     preview: state.subscriptions.list.preview,
     loading: state.subscriptions.areas.loading ||
@@ -167,4 +169,4 @@ export default connect(
     //   state.subscriptions.userAreas.loading || state.subscriptions.datasets.loading
   }),
   actions
-)(DatasetSubscriptionModalContainer);
+)(AreaSubscriptionsModalContainer);

@@ -14,18 +14,17 @@ import SubscriptionsPreview from '../subscriptions-preview';
 // constants
 // import { SUBSCRIPTION_FREQUENCY_OPTIONS } from './constants';
 
-class DatasetSubscriptionsModal extends PureComponent {
+class AreaSubscriptionsModal extends PureComponent {
   static propTypes = {
     userSelection: PropTypes.object.isRequired,
     areas: PropTypes.array.isRequired,
     userAreas: PropTypes.array.isRequired,
     areaFound: PropTypes.bool.isRequired,
     activeArea: PropTypes.object,
-    activeDataset: PropTypes.object.isRequired,
-    subscriptions: PropTypes.array.isRequired,
+    subscriptionsByArea: PropTypes.array.isRequired,
     subscription: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
-    setUserSelection: PropTypes.func.isRequired,
+    // setUserSelection: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired,
     resetModal: PropTypes.func.isRequired,
     createSubscriptionToArea: PropTypes.func.isRequired,
@@ -37,27 +36,27 @@ class DatasetSubscriptionsModal extends PureComponent {
 
   state = { showSubscribePreview: false }
 
-  onChangeArea = (area = {}) => {
-    const {
-      activeDataset,
-      onRequestClose,
-      setUserSelection
-    } = this.props;
+  // onChangeArea = (area = {}) => {
+  //   const {
+  //     activeDataset,
+  //     onRequestClose,
+  //     setUserSelection
+  //   } = this.props;
 
-    if (area.value === 'upload_area') {
-      onRequestClose();
+  //   if (area.value === 'upload_area') {
+  //     onRequestClose();
 
-      Router.pushRoute('myrw_detail', {
-        tab: 'areas',
-        id: 'new',
-        subscriptionDataset: activeDataset.id,
-        subscriptionType: this.state.selectedType,
-        subscriptionThreshold: this.state.selectedThreshold
-      });
-    } else {
-      setUserSelection({ area });
-    }
-  }
+  //     Router.pushRoute('myrw_detail', {
+  //       tab: 'areas',
+  //       id: 'new',
+  //       subscriptionDataset: activeDataset.id,
+  //       subscriptionType: this.state.selectedType,
+  //       subscriptionThreshold: this.state.selectedThreshold
+  //     });
+  //   } else {
+  //     setUserSelection({ area });
+  //   }
+  // }
 
   handleCancel = () => {
     const { resetModal, onRequestClose } = this.props;
@@ -73,7 +72,7 @@ class DatasetSubscriptionsModal extends PureComponent {
   handleSubscribe = () => {
     const {
       userSelection,
-      subscriptions,
+      subscriptionsByArea,
       userAreas,
       activeArea,
       areaFound,
@@ -91,7 +90,7 @@ class DatasetSubscriptionsModal extends PureComponent {
             Do you want to update it?`, {
             onOk: () => {
               if (!activeArea) {
-                const subscriptionToUpdate = subscriptions.find(_subscription =>
+                const subscriptionToUpdate = subscriptionsByArea.find(_subscription =>
                   _subscription.attributes.params.area === userSelection.area.areaID);
                 updateSubscription(subscriptionToUpdate);
               } else {
@@ -134,28 +133,23 @@ class DatasetSubscriptionsModal extends PureComponent {
     const {
       areas,
       activeArea,
-      activeDataset,
+      // activeDataset,
       userSelection,
       loading,
       subscription,
       onRequestClose
     } = this.props;
-
     const { showSubscribePreview } = this.state;
-
-    let headerText = 'Subscription saved!';
-
     const { success } = subscription;
-
-    if (Object.keys(activeDataset).length) headerText = `Subscribe to ${activeDataset.name || activeDataset.attributes.name}`;
-    if (activeArea) headerText = `${activeArea.attributes.name} subscriptions`;
-
     const paragraphText = success ?
       (
         <p>
-          Your subscription was successfully created.
+            Your subscription was successfully created.
           <strong> Please check your email address to confirm it.</strong>
         </p>) : null;
+    const currentArea = areas.find(_area => _area.value === activeArea.id);
+    let headerText = `${activeArea.attributes.name} subscriptions`;
+    if (success) headerText = 'Subscription saved!';
 
     if (showSubscribePreview) {
       return (
@@ -190,11 +184,9 @@ class DatasetSubscriptionsModal extends PureComponent {
                 <CustomSelect
                   placeholder="Select area"
                   options={areas}
-                  className={classnames({ '-disabled': !!activeArea })}
-                  clearable={!activeArea}
-                  onValueChange={this.onChangeArea}
+                  className="-disabled"
                   allowNonLeafSelection={false}
-                  value={userSelection.area ? userSelection.area.value : null}
+                  value={(currentArea || {}).value}
                 />
               </Field>
               {/* <Field
@@ -234,7 +226,7 @@ class DatasetSubscriptionsModal extends PureComponent {
               className={classnames({
                 'c-btn': true,
                 '-secondary': true,
-                '-disabled': !!activeArea
+                '-disabled': !userSelection.datasets.length
               })}
               onClick={this.handleShowSubscribePreview}
               disabled={userSelection.area === null || (userSelection.datasets).length === 0}
@@ -262,4 +254,4 @@ class DatasetSubscriptionsModal extends PureComponent {
   }
 }
 
-export default DatasetSubscriptionsModal;
+export default AreaSubscriptionsModal;

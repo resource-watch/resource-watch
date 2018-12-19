@@ -1,8 +1,14 @@
 import { WRIAPI } from 'utils/axios';
 
 export const fetchQuery = (token, sql, params = {}) => {
-  if (!token) throw Error('This is an authorized endpoint. A token need to be provided.');
-  if (!sql) throw Error('A SQL query is mandatory to perform this fetching.');
+  if (!token) {
+    console.error('This is an authorized endpoint. A token need to be provided.');
+    return null;
+  }
+  if (!sql) {
+    console.error('A SQL query is mandatory to perform this fetching.');
+    return null;
+  }
 
   return WRIAPI.get('/query', {
     headers: {
