@@ -55,7 +55,7 @@ class HeaderTopics extends PureComponent {
               </li>
             ))}
           </ul>
-      }
+        }
       </TetherComponent>
     );
   }

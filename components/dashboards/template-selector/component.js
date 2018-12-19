@@ -2,6 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+import HeaderTopics from './import-selector';
+
+//import HeaderTopics from 'layout/header/header-topics';
+
+
 // constants
 import { TEMPLATES } from './constants';
 
@@ -41,15 +46,18 @@ class TemplateSelector extends PureComponent {
                     'template-list-item',
                     {
                       '-selected': _template.value === template,
-                      '-disabled': _template.disabled
                     }
                   )}
                   onClick={() => this.onChangeTemplate(_template.value)}
                 >
+
                   <h4 className="template-name">{_template.label}</h4>
+
                   <span className="template-description">{_template.description}</span>
                 </li>
               ))}
+              {/* import dashboards */}
+              <HeaderTopics />
             </ul>
           </div>
         </div>
