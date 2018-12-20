@@ -68,6 +68,8 @@ class ExploreMapComponent extends React.Component {
     setMapLayerGroupActive: PropTypes.func.isRequired,
     setMapLayerGroupsOrder: PropTypes.func.isRequired,
     setMapLayerParametrization: PropTypes.func.isRequired,
+    removeLayerParametrization: PropTypes.func.isRequired,
+    resetLayerParametrization: PropTypes.func.isRequired,
 
     setMapLayerGroupsInteraction: PropTypes.func.isRequired,
     setMapLayerGroupsInteractionLatLng: PropTypes.func.isRequired,
@@ -121,17 +123,31 @@ class ExploreMapComponent extends React.Component {
   };
 
   onChangeLayer = (l) => {
-    this.props.setMapLayerGroupActive({
+    const {
+      resetLayerParametrization,
+      setMapLayerGroupActive
+    } = this.props;
+
+    resetLayerParametrization();
+
+    setMapLayerGroupActive({
       dataset: { id: l.dataset },
       active: l.id
     });
   };
 
   onRemoveLayer = (l) => {
-    this.props.toggleMapLayerGroup({
+    const {
+      toggleMapLayerGroup,
+      removeLayerParametrization
+    } = this.props;
+
+    toggleMapLayerGroup({
       dataset: { id: l.dataset },
       toggle: false
     });
+
+    removeLayerParametrization(l.id);
   };
 
   onChangeOrder = (datasetIds) => {
@@ -144,10 +160,21 @@ class ExploreMapComponent extends React.Component {
 
     setMapLayerParametrization({
       id,
-      params: {
-        decodeParams: {
-          startDate: dates[0],
-          endDate: dates[1]
+      nextConfig: {
+        ...layer.layerConfig.decode_config && {
+          decodeParams: {
+            startDate: dates[0],
+            endDate: dates[1],
+            // these fields are used by GLAD layer, remove
+            minDate: '2015-01-01',
+            maxDate: '2018-01-31'
+          }
+        },
+        ...!layer.layerConfig.decode_config && {
+          params: {
+            startDate: dates[0],
+            endDate: dates[1]
+          }
         }
       }
     });
@@ -301,7 +328,11 @@ class ExploreMapComponent extends React.Component {
                               }
                             }
                           }
-                        }}
+                        }
+                      }
+                      {...l.params && { params: l.params }}
+                      {...l.sqlParams && { sqlParams: l.sqlParams }}
+                      {...l.decodeParams && { decodeParams: l.decodeParams }}
                     />
                     ))
                   }
@@ -343,9 +374,11 @@ class ExploreMapComponent extends React.Component {
               >
                 <LegendItemTypes />
                 {/* <LegendItemTimeline onChangeLayer={this.onChangeLayer} /> */}
-                <LegendItemTimeStep handleChange={(dates, activeLayer) => {
-                  this.onChangeLayerDate(dates, activeLayer);
-                }}
+                <LegendItemTimeStep
+                  canPlay={false}
+                  handleChange={(dates, activeLayer) => {
+                    this.onChangeLayerDate(dates, activeLayer);
+                  }}
                 />
               </LegendListItem>
             ))}

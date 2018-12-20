@@ -4251,18 +4251,6 @@ d3-scale@^2.1.0:
     d3-time "1"
     d3-time-format "2"
 
-d3-scale@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-2.1.2.tgz#4e932b7b60182aee9073ede8764c98423e5f9a94"
-  integrity sha512-bESpd64ylaKzCDzvULcmHKZTlzA/6DGSVwx7QSDj/EnX9cpSevsdiwdHFYI9ouo9tNBbV3v5xztHS2uFeOzh8Q==
-  dependencies:
-    d3-array "^1.2.0"
-    d3-collection "1"
-    d3-format "1"
-    d3-interpolate "1"
-    d3-time "1"
-    d3-time-format "2"
-
 d3-selection@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/d3-selection/-/d3-selection-1.3.0.tgz#d53772382d3dc4f7507bfb28bcd2d6aed2a0ad6d"
@@ -8336,20 +8324,6 @@ latest-version@^1.0.0:
   dependencies:
     package-json "^1.0.0"
 
-layer-manager@1.13.3-interactivity:
-  version "1.13.3-interactivity"
-  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.3-interactivity.tgz#80a836a75d3c86b1a9d9ffcb9603e21b55dbaea4"
-  integrity sha512-0yQwq8McjOSMqmqWsr7/4otbdQVISFkp/F0gncaf9vnp1mIKPABlUUPClmkVqhsIxatcHGAAC/kiDlPF50U8vg==
-  dependencies:
-    bluebird "^3.5.2"
-    d3-scale "^2.1.2"
-    lodash "^4.17.10"
-    moment "^2.22.2"
-    prop-types "^15.6.2"
-    reselect "^3.0.1"
-    supercluster "^4.1.1"
-    wri-json-api-serializer "^1.0.1"
-
 layer-manager@^1.0.4:
   version "1.0.17"
   resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.0.17.tgz#fb73ea8b2bb46f117e9e71f491296e53cd654817"
@@ -8367,6 +8341,18 @@ layer-manager@^1.10.0:
     bluebird "^3.5.2"
     lodash "^4.17.10"
     prop-types "^15.6.2"
+    wri-json-api-serializer "^1.0.1"
+
+layer-manager@^1.13.2:
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.2.tgz#28fd40054b3a22b8de4ca84c2cad5a873a9988c1"
+  integrity sha512-N/98IOLBz9TOEDsdfHYRDu7Om6ha/OtCVcAdBQtF0aUPUlMNI/0pGCfc8YvlCxym71x8YEOK+IEKmhMrXryhtQ==
+  dependencies:
+    bluebird "^3.5.2"
+    lodash "^4.17.10"
+    prop-types "^15.6.2"
+    reselect "^3.0.1"
+    supercluster "^4.1.1"
     wri-json-api-serializer "^1.0.1"
 
 lazy-cache@^0.2.3:

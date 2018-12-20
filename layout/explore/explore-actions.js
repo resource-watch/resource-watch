@@ -95,6 +95,9 @@ export const setMapLayerGroupOpacity = createAction('EXPLORE/setMapLayerGroupOpa
 export const setMapLayerGroupActive = createAction('EXPLORE/setMapLayerGroupActive');
 export const setMapLayerGroupsOrder = createAction('EXPLORE/setMapLayerGroupsOrder');
 export const setMapLayerParametrization = createAction('EXPLORE/setMapLayerParametrization');
+export const removeLayerParametrization = createAction('EXPLORE/removeLayerParametrization');
+export const resetLayerParametrization = createAction('EXPLORE/resetLayerParametrization');
+
 
 // INTERACTION
 export const setMapLayerGroupsInteraction = createAction('EXPLORE/setMapLayerGroupsInteraction');
