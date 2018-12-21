@@ -16053,10 +16053,10 @@ wri-api-components@2.0.17:
     vega-lib "^4.2.0"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@2.3.3-fix-7:
-  version "2.3.3-fix-7"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.3.3-fix-7.tgz#b0c3e25b5dee723f747fea5a66dbb21a9be4b8ee"
-  integrity sha512-Y/aK3/LBsFZ5W28P2Uap8FBdnwWe3oGMetFh5Hl19UwsOH0DFONasA2v/cZ19lBk1BQ1RNARhgo4k/XST1dGfg==
+wri-api-components@2.3.3-timeline-update-1:
+  version "2.3.3-timeline-update-1"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.3.3-timeline-update-1.tgz#377f9e00aad7cf287a6babb1d73f8143d6cc9170"
+  integrity sha512-lsU7UuLJ7d92Ot+ZEQSjCKoBVSzTSPH6Jttzskj/26nnveeGn6jetvEtiwKQkNyhLr/2awwWDi0qDXcj1I1Fkg==
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.10.0"

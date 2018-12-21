@@ -156,21 +156,18 @@ class ExploreMapComponent extends React.Component {
 
   onChangeLayerDate = (dates, layer) => {
     const { setMapLayerParametrization } = this.props;
-    const { id } = layer;
+    const { id, layerConfig: { layerConfig: decode_config } } = layer;
 
     setMapLayerParametrization({
       id,
       nextConfig: {
-        ...layer.layerConfig.decode_config && {
+        ...decode_config && {
           decodeParams: {
             startDate: dates[0],
-            endDate: dates[1],
-            // these fields are used by GLAD layer, remove
-            minDate: '2015-01-01',
-            maxDate: '2018-01-31'
+            endDate: dates[1]
           }
         },
-        ...!layer.layerConfig.decode_config && {
+        ...!decode_config && {
           params: {
             startDate: dates[0],
             endDate: dates[1]
