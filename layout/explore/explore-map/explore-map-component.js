@@ -156,7 +156,7 @@ class ExploreMapComponent extends React.Component {
 
   onChangeLayerDate = (dates, layer) => {
     const { setMapLayerParametrization } = this.props;
-    const { id, layerConfig: { layerConfig: decode_config } } = layer;
+    const { id, layerConfig: { decode_config } } = layer;
 
     setMapLayerParametrization({
       id,
