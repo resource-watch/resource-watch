@@ -21,17 +21,9 @@ import ExploreDatasets from 'layout/explore/explore-datasets';
 import ExploreMap from 'layout/explore/explore-map';
 
 class Explore extends React.Component {
-  static propTypes = {
-    responsive: PropTypes.object
-  };
+  static propTypes = { responsive: PropTypes.object.isRequired };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      mobileWarningOpened: true
-    };
-  }
+  state = { mobileWarningOpened: true }
 
   render() {
     const { responsive } = this.props;
