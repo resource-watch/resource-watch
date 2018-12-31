@@ -24,7 +24,7 @@ class HeaderTopics extends PureComponent {
 
     toastr.confirm('Are you sure you want to copy this topic?', {
       onOk: () => {
-        fetch(`${process.env.WRI_API_URL}/topics/${id}/clone`, {
+        fetch(`${process.env.WRI_API_URL}/topics/:${id}/clone-dashboard`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
