@@ -6,6 +6,7 @@ import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
 
+
 class HeaderTopics extends PureComponent {
   static propTypes = {
     topics: PropTypes.array.isRequired,
@@ -21,10 +22,9 @@ class HeaderTopics extends PureComponent {
 
 
   handleTopics = ({ id }) => {
-
     toastr.confirm('Are you sure you want to copy this topic?', {
       onOk: () => {
-        fetch(`${process.env.WRI_API_URL}/topics/:${id}/clone-dashboard`, {
+        fetch(`${process.env.WRI_API_URL}/topics/${id}/clone-dashboard`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ class HeaderTopics extends PureComponent {
           .then(() => {
             Router.pushRoute('myrw_detail', { tab: 'dashboards', id: '16', subtab: 'edit' });
           })
-      },
+      }
     })
   }
 
@@ -58,7 +58,6 @@ class HeaderTopics extends PureComponent {
           onMouseEnter={() => this.setState({ isOpen: true })}
           onMouseLeave={() => this.setState({ isOpen: false })}
         >
-
           <h4 className="template-name">Import dashboard</h4>
           <span className="template-description">Select a created dashboard</span>
         </li>

@@ -4,8 +4,6 @@ import classnames from 'classnames';
 
 import HeaderTopics from './import-selector';
 
-//import HeaderTopics from 'layout/header/header-topics';
-
 
 // constants
 import { TEMPLATES } from './constants';
@@ -50,14 +48,13 @@ class TemplateSelector extends PureComponent {
                   )}
                   onClick={() => this.onChangeTemplate(_template.value)}
                 >
-
                   <h4 className="template-name">{_template.label}</h4>
-
                   <span className="template-description">{_template.description}</span>
                 </li>
+
               ))}
-              {/* import dashboards */}
               <HeaderTopics />
+
             </ul>
           </div>
         </div>
