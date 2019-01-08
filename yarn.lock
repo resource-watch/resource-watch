@@ -7305,15 +7305,15 @@ launch-editor@2.2.1:
     chalk "^2.3.0"
     shell-quote "^1.6.1"
 
-layer-manager@1.13.3-interactivity:
-  version "1.13.3-interactivity"
-  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.3-interactivity.tgz#80a836a75d3c86b1a9d9ffcb9603e21b55dbaea4"
-  integrity sha512-0yQwq8McjOSMqmqWsr7/4otbdQVISFkp/F0gncaf9vnp1mIKPABlUUPClmkVqhsIxatcHGAAC/kiDlPF50U8vg==
+layer-manager@1.13.3-canvas-decoders:
+  version "1.13.3-canvas-decoders"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.3-canvas-decoders.tgz#c6bb382c0d6ffa07390fb5b6848593f5a48f5aea"
+  integrity sha512-9x9waW06K0ztoY/sjvg0w8ahhGsAK0zn9dZYsvkuP6smjqAmn512IchIjSVcTM9o0AkYWaipYyl+jI/0FowDXg==
   dependencies:
     bluebird "^3.5.2"
     d3-scale "^2.1.2"
     lodash "^4.17.10"
-    moment "^2.22.2"
+    moment "^2.23.0"
     prop-types "^15.6.2"
     reselect "^3.0.1"
     supercluster "^4.1.1"
@@ -8152,6 +8152,11 @@ moment@>=1.6.0, moment@^2.11.2, moment@^2.18.1, moment@^2.22.1, moment@^2.22.2:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
   integrity sha1-PCV/mDn8DpP/UxSWMiOeuQeD/2Y=
+
+moment@^2.23.0:
+  version "2.23.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
+  integrity sha512-3IE39bHVqFbWWaPOMHZF98Q9c3LDKGTmypMiTM2QygGXXElkFWIH7GxfmlwmY2vwa+wmNsoYZmG2iusf1ZjJoA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -10188,10 +10193,10 @@ react-css-modules@^4.7.1:
     lodash "^4.16.6"
     object-unfreeze "^1.1.0"
 
-react-dates@^18.1.1, react-dates@^18.2.2:
-  version "18.3.0"
-  resolved "https://registry.yarnpkg.com/react-dates/-/react-dates-18.3.0.tgz#913fd66cc0072d923d09245b1f0b130657cc5a99"
-  integrity sha512-F6cwptbGQRgqNCQ0qZHaSMpWhmNAlAb5lBgWXORgpVUZCTvPhs+eXGpI6RUIGK2IAu+fuKeWcuBpUaNrAPfzgA==
+react-dates@^18.2.2:
+  version "18.2.2"
+  resolved "https://registry.yarnpkg.com/react-dates/-/react-dates-18.2.2.tgz#77f8fc55ebd462673e0476d64ed926d98504d6a4"
+  integrity sha512-esJhsXmQdSFVKU39fzRTXD8ViXj3JT26JNWDh2STQZni8AfdWTqM2OHa2YbrHsqqhDj5mlfc8inX99WzOeJ69g==
   dependencies:
     airbnb-prop-types "^2.10.0"
     consolidated-events "^1.1.1 || ^2.0.0"
@@ -14207,10 +14212,10 @@ wri-api-components@2.0.17:
     vega-lib "^4.2.0"
     wri-json-api-serializer "^1.0.1"
 
-wri-api-components@2.3.3-fix-7:
-  version "2.3.3-fix-7"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.3.3-fix-7.tgz#b0c3e25b5dee723f747fea5a66dbb21a9be4b8ee"
-  integrity sha512-Y/aK3/LBsFZ5W28P2Uap8FBdnwWe3oGMetFh5Hl19UwsOH0DFONasA2v/cZ19lBk1BQ1RNARhgo4k/XST1dGfg==
+wri-api-components@2.3.3-timeline-update-fix-3:
+  version "2.3.3-timeline-update-fix-3"
+  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.3.3-timeline-update-fix-3.tgz#33a4b1264cef7c3f351e6777236c258271166406"
+  integrity sha512-EiO1xsS7yPejtEB/aBB6pV/ZHG40DPDpThqKo434P5TE6R3ZUcjfOmmS0SUsqe3h09EZ/BHvr3JBUxJKz5xpAw==
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.10.0"
@@ -14219,7 +14224,6 @@ wri-api-components@2.3.3-fix-7:
     prop-types "^15.6.2"
     rc-slider "^8.6.3"
     rc-tooltip "3.7.0"
-    react-dates "^18.1.1"
     react-sortable-hoc "^0.6.8"
     react-vega "^4.0.2"
     vega-tooltip "^0.13.0"
