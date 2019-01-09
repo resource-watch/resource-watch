@@ -29,14 +29,15 @@ class HeaderTopics extends PureComponent {
           headers: {
             'Content-Type': 'application/json',
             Authorization: this.props.user.token
-          }
+          },
+          credentials: 'include'
         })
           .then((response) => {
             if (response.status >= 400) throw new Error(response.statusText);
             return response.json();
           })
-          .then(() => {
-            Router.pushRoute('myrw_detail', { tab: 'dashboards', id: '16', subtab: 'edit' });
+          .then(({ data }) => {
+            Router.pushRoute('myrw_detail', { tab: 'dashboards', id: data.id, subtab: 'edit' });
           })
       }
     })
