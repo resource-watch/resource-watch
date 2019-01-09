@@ -2,11 +2,11 @@ import 'isomorphic-fetch';
 import isEmpty from 'lodash/isEmpty';
 
 // Services
-import WidgetService from 'services/WidgetService';
 import DatasetService from 'services/DatasetService';
 import RasterService from 'services/RasterService';
 import LayersService from 'services/LayersService';
 import UserService from 'services/UserService';
+import { fetchWidget } from 'services/widget';
 
 /**
  * CONSTANTS
@@ -72,37 +72,27 @@ export default function (state = initialState, action) {
     }
 
     case SET_WIDGET_DATA: {
-      const widget = {
-        data: action.payload
-      };
+      const widget = { data: action.payload };
       return Object.assign({}, state, widget);
     }
 
     case SET_WIDGET_DATASET: {
-      const widget = {
-        dataset: action.payload
-      };
+      const widget = { dataset: action.payload };
       return Object.assign({}, state, widget);
     }
 
     case SET_WIDGET_BAND_DESCRIPTION: {
-      const widget = {
-        bandDescription: action.payload
-      };
+      const widget = { bandDescription: action.payload };
       return Object.assign({}, state, widget);
     }
 
     case SET_WIDGET_BAND_STATS: {
-      const widget = {
-        bandStats: action.payload
-      };
+      const widget = { bandStats: action.payload };
       return Object.assign({}, state, widget);
     }
 
     case SET_WIDGET_LAYERGROUPS: {
-      const widget = {
-        layerGroups: action.payload
-      };
+      const widget = { layerGroups: action.payload };
       return Object.assign({}, state, widget);
     }
 
@@ -115,9 +105,7 @@ export default function (state = initialState, action) {
     }
 
     case GET_WIDGET_FAVORITE: {
-      return Object.assign({}, state, {
-        favourite: Object.assign({}, state.favourite, action.payload)
-      });
+      return Object.assign({}, state, { favourite: Object.assign({}, state.favourite, action.payload) });
     }
 
     default:
@@ -220,35 +208,33 @@ export function setLatLng(latLng) {
 }
 
 /**
- * Retrieve the list of widgets
+ * Fetchs a widget
  * @param {string} widgetId
+ * @param {object} params
  */
-export function getWidget(widgetId, includes = '') {
+export function getWidget(widgetId, params = {}) {
   return (dispatch) => {
     dispatch({ type: GET_WIDGET_LOADING });
-    const service = new WidgetService(widgetId, { apiURL: process.env.WRI_API_URL });
-    return service.fetchData(includes)
-      .then((data) => {
-        dispatch({ type: SET_WIDGET_DATA, payload: data });
-        return data;
-      })
-      .then((data) => {
-        const { widgetConfig } = data.attributes;
+
+    return fetchWidget(widgetId, params)
+      .then((widget) => {
+        dispatch({ type: SET_WIDGET_DATA, payload: widget });
+
+        const { widgetConfig } = widget;
         const isRaster = widgetConfig.paramsConfig
           && widgetConfig.paramsConfig.visualizationType === 'raster_chart';
         const isMap = widgetConfig.paramsConfig
           && widgetConfig.paramsConfig.visualizationType === 'map';
+        const datasetId = widget.dataset;
 
         if (isRaster) {
-          const datasetId = data.attributes.dataset;
           const bandName = widgetConfig.paramsConfig.band.name;
           return dispatch(fetchRasterBandInfo(datasetId, bandName));
         }
 
         if (isMap) {
-          const datasetId = data.attributes.dataset;
           const layerId = widgetConfig.paramsConfig && widgetConfig.paramsConfig.layer;
-          const zoom = widgetConfig.zoom;
+          const { zoom } = widgetConfig;
           const latLng = widgetConfig.lat && widgetConfig.lng
             && { lat: widgetConfig.lat, lng: widgetConfig.lng };
 
@@ -258,12 +244,11 @@ export function getWidget(widgetId, includes = '') {
           return dispatch(fetchLayer(datasetId, layerId));
         }
 
-        return data;
+        dispatch({ type: GET_WIDGET_SUCCESS });
+
+        return widget;
       })
-      .then(() => dispatch({ type: GET_WIDGET_SUCCESS }))
-      .catch((err) => {
-        dispatch({ type: GET_WIDGET_ERROR, payload: err.message });
-      });
+      .catch((err) => { dispatch({ type: GET_WIDGET_ERROR, payload: err.message }); });
   };
 }
 

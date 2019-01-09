@@ -1,106 +1,68 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import d3 from 'd3';
+import { VegaChart, getVegaTheme } from 'widget-editor';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import { bindActionCreators } from 'redux';
-import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
-import { setEmbed } from 'redactions/common';
-
-// Utils
-import { logEvent } from 'utils/analytics';
-
-// Components
-import Page from 'layout/page';
+// components
 import LayoutEmbed from 'layout/layout/layout-embed';
-import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/Icon';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
-// Widget editor
-import { VegaChart, getVegaTheme } from 'widget-editor';
+// utils
+import { logEvent } from 'utils/analytics';
+import { isLoadedExternally } from 'utils/embed';
 
 const defaultTheme = getVegaTheme();
 
-class EmbedWidget extends Page {
+class EmbedWidgetPage extends PureComponent {
   static propTypes = {
-    widget: PropTypes.object,
-    getWidget: PropTypes.func,
-    checkIfFavorited: PropTypes.func,
-    setIfFavorited: PropTypes.func,
+    widget: PropTypes.object.isRequired,
     bandDescription: PropTypes.string,
-    bandStats: PropTypes.object,
-    loading: PropTypes.bool,
+    bandStats: PropTypes.object.isRequired,
     error: PropTypes.string,
-    favourited: PropTypes.bool
+    favourited: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
+    webshot: PropTypes.bool.isRequired,
+    referer: PropTypes.string,
+    setIfFavorited: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    widget: {}
-  };
-
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, isServer, req } = context;
-
-    store.dispatch(setEmbed(true));
-
-    return {
-      ...props,
-      referer: isServer ? req.headers.referer : window.location.href
-    };
+    bandDescription: null,
+    error: null,
+    referer: ''
   }
 
-  isLoadedExternally() {
-    return !/localhost|(staging\.)?resourcewatch.org/.test(this.props.referer);
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: props.isLoading,
-      modalOpened: false,
-      shareWidget: null
-    };
-  }
-
-  componentDidMount() {
-    const { url } = this.props;
-    this.props.getWidget(url.query.id, 'metadata');
-    if (this.props.user.id) this.props.checkIfFavorited(url.query.id);
-  }
-
-  handleToggleShareModal(widget) {
-    this.setState({ shareWidget: widget });
+  state = {
+    modalOpened: false,
+    shareWidget: null
   }
 
   getModal() {
     const { widget, bandDescription, bandStats } = this.props;
-    const widgetAtts = widget.attributes;
+    const widgetAtts = widget;
     const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
-      widgetAtts.metadata[0].attributes.info &&
-      widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
-    const noAdditionalInfo = !widget.attributes.description && !bandDescription &&
+      widgetAtts.metadata[0].info &&
+      widgetAtts.metadata[0].info.widgetLinks) || [];
+    const noAdditionalInfo = !widget.description && !bandDescription &&
       isEmpty(bandStats) && widgetLinks.length === 0;
     return (
       <div className="widget-modal">
-        { noAdditionalInfo &&
-          <p>No additional information is available</p>
-        }
+        {noAdditionalInfo &&
+          <p>No additional information is available</p>}
 
-        { widgetLinks.length > 0 &&
+        {widgetLinks.length > 0 &&
           <div className="widget-links-container">
             <h4>Links</h4>
             <ul>
-              { widgetLinks.map(link => (
+              {widgetLinks.map(link => (
                 <li>
                   <a
                     href={link.link}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     {link.name}
                   </a>
@@ -110,73 +72,66 @@ class EmbedWidget extends Page {
           </div>
         }
 
-        { widget.attributes.description && (
+        {widget.description && (
           <div>
             <h4>Description</h4>
-            <p>{widget.attributes.description}</p>
+            <p>{widget.description}</p>
           </div>
-        ) }
+        )}
 
-        { bandDescription && (
+        {bandDescription && (
           <div>
             <h4>Band description</h4>
             <p>{bandDescription}</p>
           </div>
-        ) }
+        )}
 
-        { !isEmpty(bandStats) && (
+        {!isEmpty(bandStats) && (
           <div>
             <h4>Statistical information</h4>
             <div className="c-table">
               <table>
                 <thead>
                   <tr>
-                    { Object.keys(bandStats).map(name => <th key={name}>{name}</th>) }
+                    {Object.keys(bandStats).map(name => <th key={name}>{name}</th>)}
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    { Object.keys(bandStats).map((name) => {
+                    {Object.keys(bandStats).map((name) => {
                       const number = d3.format('.4s')(bandStats[name]);
-                      return (
-                        <td key={name}>{number}</td>
-                      );
-                    }) }
+                      return (<td key={name}>{number}</td>);
+                    })}
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
-        ) }
+        )}
       </div>
     );
   }
 
+  handleToggleLoading = (isLoading) => {
+    if (!isLoading) window.WEBSHOT_READY = true;
+  }
+
   render() {
     const {
-      widget, loading, error, favourited, user
+      widget,
+      error,
+      favourited,
+      user,
+      webshot,
+      referer
     } = this.props;
-    const { isLoading, modalOpened } = this.state;
-
+    const { modalOpened } = this.state;
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
-
-    const widgetAtts = widget && widget.attributes;
+    const widgetAtts = widget && widget;
     const widgetLinks = (widgetAtts && widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
-      widgetAtts.metadata[0].attributes.info &&
-      widgetAtts.metadata[0].attributes.info.widgetLinks) || [];
-
-    if (loading) {
-      return (
-        <LayoutEmbed
-          title="Loading widget..."
-          description=""
-        >
-          <div className="c-embed-widget">
-            <Spinner isLoading className="-light" />
-          </div>
-        </LayoutEmbed>
-      );
-    }
+      widgetAtts.metadata[0].info &&
+      widgetAtts.metadata[0].info.widgetLinks) || [];
+    const isExternal = isLoadedExternally(referer);
 
     if (error) {
       return (
@@ -193,9 +148,13 @@ class EmbedWidget extends Page {
               <p>{'Sorry, the widget couldn\'t be loaded'}</p>
             </div>
 
-            { this.isLoadedExternally() && (
+            {isExternal && (
               <div className="widget-footer">
-                <a href="/" target="_blank" rel="noopener noreferrer">
+                <a
+                  href="/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img
                     className="embed-logo"
                     src="/static/images/logo-embed.png"
@@ -203,7 +162,7 @@ class EmbedWidget extends Page {
                   />
                 </a>
               </div>
-            ) }
+            )}
           </div>
         </LayoutEmbed>
       );
@@ -211,25 +170,33 @@ class EmbedWidget extends Page {
 
     return (
       <LayoutEmbed
-        title={`${widget.attributes.name}`}
-        description={`${widget.attributes.description || ''}`}
+        title={`${widget.name}`}
+        description={`${widget.description || ''}`}
       >
         <div className="c-embed-widget">
-          <Spinner isLoading={isLoading} className="-light" />
+          {!webshot && (
           <div className="widget-title">
             {widgetLinks.length === 0 &&
-              <a href={`/data/explore/${widget.attributes.dataset}`} target="_blank" rel="noopener noreferrer">
-                <h4>{widget.attributes.name}</h4>
-              </a>
-            }
+              <a
+                href={`/data/explore/${widget.dataset}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h4>{widget.name}</h4>
+              </a>}
             {widgetLinks.length > 0 &&
-              <h4>{widget.attributes.name}</h4>
-            }
+              <h4>{widget.name}</h4>}
             <div className="buttons">
               <ul>
                 <li>
-                  <button className="c-btn -tertiary -clean" onClick={() => this.handleToggleShareModal(widget)}>
-                    <Icon name="icon-share" className="-small" />
+                  <button
+                    className="c-btn -tertiary -clean"
+                    onClick={() => this.handleToggleShareModal(widget)}
+                  >
+                    <Icon
+                      name="icon-share"
+                      className="-small"
+                    />
                   </button>
 
                   <Modal
@@ -250,8 +217,7 @@ class EmbedWidget extends Page {
                     />
                   </Modal>
                 </li>
-                {
-                  user.id && (
+                {user.id && (
                   <li>
                     <button
                       onClick={() => this.props.setIfFavorited(widget.id, !this.props.favourited)}
@@ -259,32 +225,38 @@ class EmbedWidget extends Page {
                       <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
                     </button>
                   </li>
-                  )
-                }
+                  )}
                 <li>
                   <button
                     aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
                     onClick={() => this.setState({ modalOpened: !modalOpened })}
                   >
-                    <Icon name={`icon-${modalOpened ? 'cross' : 'info'}`} className="c-icon -small" />
+                    <Icon
+                      name={`icon-${modalOpened ? 'cross' : 'info'}`}
+                      className="c-icon -small"
+                    />
                   </button>
                 </li>
               </ul>
             </div>
-          </div>
+          </div>)}
           <div className="widget-content">
             <VegaChart
-              data={widget.attributes.widgetConfig}
+              data={widget.widgetConfig}
               theme={defaultTheme}
-              toggleLoading={l => this.setState({ isLoading: l })}
+              toggleLoading={this.handleToggleLoading}
               reloadOnResize
             />
-            { modalOpened && this.getModal() }
+            {modalOpened && this.getModal()}
           </div>
-          { this.isLoadedExternally() && (
+          {(isExternal && !webshot) && (
             <div className="widget-footer">
               Powered by
-              <a href="/" target="_blank" rel="noopener noreferrer">
+              <a
+                href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img
                   className="embed-logo"
                   src="/static/images/logo-embed.png"
@@ -292,27 +264,11 @@ class EmbedWidget extends Page {
                 />
               </a>
             </div>
-          ) }
+          )}
         </div>
       </LayoutEmbed>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  widget: state.widget.data,
-  loading: state.widget.loading,
-  error: state.widget.error,
-  bandDescription: state.widget.bandDescription,
-  bandStats: state.widget.bandStats,
-  favourited: state.widget.favourite.favourited,
-  user: state.user
-});
-
-const mapDispatchToProps = dispatch => ({
-  getWidget: bindActionCreators(getWidget, dispatch),
-  checkIfFavorited: bindActionCreators(checkIfFavorited, dispatch),
-  setIfFavorited: bindActionCreators(setIfFavorited, dispatch)
-});
-
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(EmbedWidget);
+export default EmbedWidgetPage;
