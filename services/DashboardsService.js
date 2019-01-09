@@ -46,7 +46,7 @@ export default class DashboardsService {
   fetchData({ id, env = process.env.API_ENV }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/dashboards/${id}?env=${process.env.API_ENV}`,
+        url: `${process.env.WRI_API_URL}/dashboard/${id}?env=${process.env.API_ENV}`,
         headers: [{
           key: 'Upgrade-Insecure-Requests',
           value: 1
