@@ -27,6 +27,7 @@
     .header-dropdown-list-item {
       white-space: nowrap;
       margin: $margin-size-extra-small / 2 0;
+      cursor: pointer;
 
       &:first-child {
         margin-top: 0;
