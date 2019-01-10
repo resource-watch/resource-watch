@@ -92,11 +92,7 @@ export default class PagesService {
   deleteData(id) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.WRI_API_URL}/static_page/${id}`,
         headers: [{
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
         onSuccess: (response) => {
           resolve(response);
         },

@@ -24,10 +24,13 @@ class SimilarDatasets extends PureComponent {
         }
 
         {!!data.length &&
+
+
           <DatasetList
             list={data}
             mode="grid"
           />
+
         }
       </div>
     );

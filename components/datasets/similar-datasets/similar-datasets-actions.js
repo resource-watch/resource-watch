@@ -12,11 +12,11 @@ export const resetSimilarDatasets = createAction('similar-datasets/resetSimilarD
 // Async actions
 export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilarDatasets', (datasetIds, locale = 'en') => (dispatch) => {
   const service = new DatasetService(null, { apiURL: process.env.WRI_API_URL, language: 'en' });
-
   dispatch(setSimilarDatasetsLoading(true));
 
   return service.getSimilarDatasets(datasetIds)
     .then((data) => {
+
       if (data.length > 0) {
         DatasetService.getDatasets(data.map(d => d.dataset), locale, 'widget,metadata,layer,vocabulary')
           .then(response => WRISerializer({ data: response }, { locale }))

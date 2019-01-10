@@ -13,6 +13,7 @@ export default function TopicThumbnailList({
       <div className="row l-row -equal-height">
         {
           topics.map(topic => (
+
             <div
               key={topic.slug}
               className={classnames({

@@ -26,9 +26,7 @@ class TopicDetailComponent extends React.Component {
 
   getDatasetIds() {
     const { topicsDetail } = this.props;
-
     const content = JSON.parse(topicsDetail.data.content);
-
     const datasetIds = content.map((block) => {
       if (!block) {
         return null;
@@ -43,7 +41,7 @@ class TopicDetailComponent extends React.Component {
           if (!b) {
             return null;
           }
-          
+
           if (b.type === 'widget') {
             return b.content.datasetId;
           }
@@ -67,7 +65,6 @@ class TopicDetailComponent extends React.Component {
     const toolsIds = TOPICS_CONNECTIONS
       .filter(t => t.topic === topic.slug)
       .map(v => v.appId);
-
     return (
       <Layout
         title={topic.name}
@@ -127,10 +124,15 @@ class TopicDetailComponent extends React.Component {
                     Similar datasets
                   </Title>
 
-                  <SimilarDatasets
-                    datasetIds={datasetsIds}
-                    onTagSelected={this.handleTagSelected}
-                  />
+                  {!datasetsIds.length && (
+                    <p>No data available</p>
+                  )}
+
+                  {!!datasetsIds.length && (
+                    <SimilarDatasets
+                      datasetIds={datasetsIds}
+                      onTagSelected={this.handleTagSelected}
+                    />)}
                 </div>
               </div>
             </div>
