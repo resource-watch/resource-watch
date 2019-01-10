@@ -39,7 +39,7 @@ routes.add('about_faqs', '/about/faqs', 'app/Faqs');
 routes.add('about_contact-us', '/about/contact-us', 'app/ContactUs');
 routes.add('about_howto', '/about/howto', 'app/Howto');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
-routes.add('newsletter', '/about/newsletter', 'app/Newsletter');
+routes.add('newsletter', '/about/newsletter', 'app/newsletter');
 
 // ----- DATA -----
 // routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
