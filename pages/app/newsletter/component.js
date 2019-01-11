@@ -39,10 +39,12 @@ class NewsletterPage extends Page {
       .then(() => {
         // handle success
         toastr.success('Success', 'You have signed up successfully!');
+        this.setState({ loading: false });
       })
       .catch((error) => {
         // handle error
         toastr.error('Error', error);
+        this.setState({ loading: false });
       });
   }
 
@@ -60,6 +62,10 @@ class NewsletterPage extends Page {
         user={this.props.user}
         pageHeader
       >
+        <Spinner
+          isLoading={loading}
+          className="-light"
+        />
         <div className="c-page-header">
           <div className="l-container">
             <div className="row">
@@ -75,10 +81,6 @@ class NewsletterPage extends Page {
           </div>
         </div>
         <section className="l-section">
-          <Spinner
-            isLoading={loading}
-            className="-light"
-          />
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12 medium-8">
@@ -211,7 +213,11 @@ class NewsletterPage extends Page {
                   </Field>
 
                   <div className="actions-container -align-right">
-                    <button type="submit" className="c-btn -primary">
+                    <button
+                      ype="submit"
+                      className="c-btn -primary"
+                      disabled={loading}
+                    >
                       Sign up
                     </button>
                   </div>
