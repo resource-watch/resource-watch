@@ -32,8 +32,9 @@ class NewsletterPage extends Page {
         headers: { 'Content-Type': 'application/json' },
         params: { ...this.state.data }
       })
-      .then(() => { toastr.success('Success', 'You have signed up successfully!'); })
-      .catch((error) => { toastr.error('Error', error); })
+      // TO-DO: check this part
+      .then(() => {})
+      .catch(() => {})
       .then(() => { this.setState({ loading: false }); });
   }
 
