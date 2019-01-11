@@ -11,7 +11,7 @@ import Select from 'components/form/SelectInput';
 import { Link } from 'routes';
 
 // constants
-import { FORM_COUNTRIES } from 'components/modal/newsletter-modal/constants';
+import { FORM_COUNTRIES } from 'pages/app/newsletter/constants';
 
 class NewsletterPage extends Page {
   render() {
