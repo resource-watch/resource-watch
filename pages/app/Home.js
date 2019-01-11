@@ -25,10 +25,6 @@ import MediaQuery from 'react-responsive';
 import LoginRequired from 'components/ui/login-required';
 import { browserSupported } from 'utils/browser';
 
-// Modal
-import Modal from 'components/modal/modal-component';
-import NewsletterModal from 'components/modal/newsletter-modal';
-
 const exploreCards = [
   {
     tag: 'Planet Pulse',
@@ -156,16 +152,12 @@ class Home extends Page {
     super(props);
 
     this.state = {
-      showNewsletterModal: props.url.query.newsletter || false,
       videoReady: false,
       videoHeight: 0,
       videoWidth: 0
     };
   }
 
-  handleToggleShareModal = (bool) => {
-    this.setState({ showNewsletterModal: bool });
-  };
 
   onVideoStateChange = (state) => {
     const { data } = state;
@@ -244,20 +236,13 @@ class Home extends Page {
               <div className="row">
                 <div className="column small-12 medium-12">
                   <div className=" buttons">
-                    <button
-                      className="c-button -secondary join-us-button"
-                      onClick={() => this.handleToggleShareModal(true)}
-                    >
-                      Subscribe to our newsletter
-                      <Modal
-                        isOpen={this.state.showNewsletterModal}
-                        className="-medium"
-                        onRequestClose={() => this.handleToggleShareModal(false)}
+                    <Link route="newsletter" >
+                      <a
+                        className="c-button -secondary join-us-button"
                       >
-                        <NewsletterModal />
-                      </Modal>
-                    </button>
-
+                        Subscribe to our newsletter
+                      </a>
+                    </Link>
                     <a href="/blog" className="c-btn -primary">
                       More stories
                     </a>

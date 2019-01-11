@@ -68,20 +68,13 @@ class JoinCommunity extends React.Component {
                     </div>
 
                     <div className="card-footer">
-                      <button
-                        className="c-button -secondary"
-                        onClick={() => this.handleToggleShareModal(true)}
-                      >
-                        Subscribe to our newsletter
-
-                        <Modal
-                          isOpen={this.state.showNewsletterModal}
-                          className="-medium"
-                          onRequestClose={() => this.handleToggleShareModal(false)}
+                      <Link route="newsletter" >
+                        <a
+                          className="c-button -secondary"
                         >
-                          <NewsletterModal />
-                        </Modal>
-                      </button>
+                          Subscribe to our newsletter
+                        </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
