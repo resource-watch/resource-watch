@@ -1,4 +1,4 @@
-FROM node:8.9.4
+FROM node:8.14.0-alpine
 
 ARG apiEnv=production
 ARG apiUrl=https://resourcewatch.org/api
@@ -9,7 +9,6 @@ ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 
 ENV NODE_ENV production
 ENV WRI_API_URL $wriApiUrl
-# ENV BASEMAP_TILE_URL https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
 ENV API_URL $apiUrl
 ENV CONTROL_TOWER_URL $controlTowerUrl
 ENV CALLBACK_URL $callbackUrl
@@ -24,22 +23,16 @@ ENV BLOG_API_URL https://resourcewatch.org/blog/wp-json/wp/v2
 ENV RW_GOGGLE_API_TOKEN_SHORTENER $RW_GOGGLE_API_TOKEN_SHORTENER
 ENV BITLY_TOKEN e3076fc3bfeee976efb9966f49383e1a8fb71c5f
 
-
-
-RUN apt-get update && \
-    apt-get install -y bash git build-essential \
-    automake autoconf make g++ libtool libcairo2-dev \
-    && npm install -g node-gyp --loglevel warn \
-    && mkdir -p /usr/src/app && mkdir -p /usr/src/app
+RUN apk update && apk add --no-cache \
+    build-base gcc bash git \
+    cairo-dev
 
 # Add app directory
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json /usr/src/app/
-COPY yarn.lock /usr/src/app/
-RUN yarn cache clean
-RUN yarn install
+COPY package.json yarn.lock /usr/src/app/
+RUN yarn install --frozen-lockfile --no-cache --production
 
 # Bundle app source
 COPY . /usr/src/app

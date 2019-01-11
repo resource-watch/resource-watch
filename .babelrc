@@ -1,7 +1,25 @@
 {
+  "env": {
+    "development": {
+      "presets": ["next/babel"]
+    },
+    "production": {
+      "presets": ["next/babel"]
+    },
+    "test": {
+      "presets": [
+        [
+          "next/babel",
+          {
+            "preset-env": {
+              "modules": "commonjs"
+            }
+          }
+        ]
+      ]
+    }
+  },
   "plugins": [
-    "add-react-displayname",
-    "transform-decorators-legacy",
     [
       "module-resolver",
       {
@@ -19,24 +37,9 @@
         },
         "cwd": "babelrc"
       }
-    ],
-    [
-      "wrap-in-js",
-      {
-        "extensions": ["css$", "scss$"]
-      }
     ]
   ],
   "presets": [
     "next/babel"
-  ],
-  "ignore": [],
-  "env": {
-    "test": {
-      "presets": [
-        ["env", { "modules": "commonjs" }],
-        "next/babel"
-      ]
-    }
-  }
+  ]
 }
