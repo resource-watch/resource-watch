@@ -14,38 +14,27 @@ import Spinner from 'components/ui/Spinner';
 import { Link } from 'routes';
 
 // constants
-import { FORM_COUNTRIES, PARDOT_NEWSLETTER_URL } from 'pages/app/newsletter/constants';
+import { FORM_COUNTRIES } from './constants';
 
 class NewsletterPage extends Page {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: false,
-      data: {}
-    };
-
-    this.axios = axios.create({ headers: { 'Content-Type': 'application/json' } });
-
-    // ------------------- Bindings -----------------------
-    this.onSubmit = this.onSubmit.bind(this);
+  state = {
+    loading: false,
+    data: {}
   }
 
-  onSubmit(event) {
+  onSubmit = (event) => {
     event.preventDefault();
 
     this.setState({ loading: true });
 
-    this.axios.post(PARDOT_NEWSLETTER_URL, this.state.data)
-      .then(() => {
-        // handle success
-        toastr.success('Success', 'You have signed up successfully!');
-        this.setState({ loading: false });
+    axios.get(process.env.PARDOT_NEWSLETTER_URL,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        params: { ...this.state.data }
       })
-      .catch((error) => {
-        // handle error
-        toastr.error('Error', error);
-        this.setState({ loading: false });
-      });
+      .then(() => { toastr.success('Success', 'You have signed up successfully!'); })
+      .catch((error) => { toastr.error('Error', error); })
+      .then(() => { this.setState({ loading: false }); });
   }
 
   onChange(value) {
@@ -54,6 +43,7 @@ class NewsletterPage extends Page {
 
   render() {
     const { loading } = this.state;
+
     return (
       <Layout
         title="Newsletter"
@@ -214,7 +204,7 @@ class NewsletterPage extends Page {
 
                   <div className="actions-container -align-right">
                     <button
-                      ype="submit"
+                      type="submit"
                       className="c-btn -primary"
                       disabled={loading}
                     >
