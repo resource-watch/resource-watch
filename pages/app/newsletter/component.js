@@ -1,10 +1,6 @@
 import React from 'react';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
-// Components
+// components
 import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
@@ -14,17 +10,16 @@ import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 import { Link } from 'routes';
 
-// Constants
+// constants
 import { FORM_COUNTRIES } from 'components/modal/newsletter-modal/constants';
 
-class Newsletter extends Page {
+class NewsletterPage extends Page {
   render() {
     return (
       <Layout
         title="Newsletter"
         description="Sign up for the Resource Watch newsletter"
         className="p-newsletter"
-        url={this.props.url}
         user={this.props.user}
         pageHeader
       >
@@ -50,7 +45,9 @@ class Newsletter extends Page {
                   Sign up for the Resource Watch newsletter
                 </h2>
                 <p>
-                  Don’t miss our monthly newsletter, which includes information on new datasets, exclusive tips and tricks for using the platform and the latest stories on the pulse of the planet.
+                  Don’t miss our monthly newsletter, which includes information on
+                  new datasets, exclusive tips and tricks for using the platform and the
+                  latest stories on the pulse of the planet.
                 </p>
               </div>
             </div>
@@ -199,4 +196,4 @@ class Newsletter extends Page {
   }
 }
 
-export default withRedux(initStore)(Newsletter);
+export default NewsletterPage;
