@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import { toastr } from 'react-redux-toastr';
 
 // components
 import Page from 'layout/page';
@@ -8,13 +10,48 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
+import Spinner from 'components/ui/Spinner';
 import { Link } from 'routes';
 
 // constants
-import { FORM_COUNTRIES } from 'components/modal/newsletter-modal/constants';
+import { FORM_COUNTRIES, PARDOT_NEWSLETTER_URL } from 'pages/app/newsletter/constants';
 
 class NewsletterPage extends Page {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+      data: {}
+    };
+
+    this.axios = axios.create({ headers: { 'Content-Type': 'application/json' } });
+
+    // ------------------- Bindings -----------------------
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+
+    this.setState({ loading: true });
+
+    this.axios.post(PARDOT_NEWSLETTER_URL, this.state.data)
+      .then(() => {
+        // handle success
+        toastr.success('Success', 'You have signed up successfully!');
+      })
+      .catch((error) => {
+        // handle error
+        toastr.error('Error', error);
+      });
+  }
+
+  onChange(value) {
+    this.setState({ data: { ...this.state.data, ...value } });
+  }
+
   render() {
+    const { loading } = this.state;
     return (
       <Layout
         title="Newsletter"
@@ -38,6 +75,10 @@ class NewsletterPage extends Page {
           </div>
         </div>
         <section className="l-section">
+          <Spinner
+            isLoading={loading}
+            className="-light"
+          />
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12 medium-8">
@@ -55,15 +96,14 @@ class NewsletterPage extends Page {
               <div className="column small-12 medium-8">
                 <form
                   className="c-form"
-                  acceptCharset="UTF-8"
-                  method="post"
-                  action="https://go.pardot.com/l/120942/2018-01-25/3nzl13"
+                  onSubmit={this.onSubmit}
                   id="pardot-form"
                 >
                   <div className="form-row">
                     <Field
                       validations={['required']}
                       className="-fluid"
+                      onChange={value => this.onChange({ first_name: value })}
                       properties={{
                         name: 'first_name',
                         label: 'First name',
@@ -76,6 +116,7 @@ class NewsletterPage extends Page {
                     <Field
                       validations={['required']}
                       className="-fluid"
+                      onChange={value => this.onChange({ last_name: value })}
                       properties={{
                         name: 'last_name',
                         label: 'Last name',
@@ -89,6 +130,7 @@ class NewsletterPage extends Page {
                   <Field
                     validations={['required', 'email']}
                     className="-fluid"
+                    onChange={value => this.onChange({ email: value })}
                     properties={{
                       name: 'email',
                       label: 'Email',
@@ -102,6 +144,7 @@ class NewsletterPage extends Page {
                     <Field
                       validations={['required']}
                       className="-fluid"
+                      onChange={value => this.onChange({ city: value })}
                       properties={{
                         name: 'city',
                         label: 'City',
@@ -114,6 +157,7 @@ class NewsletterPage extends Page {
                     <Field
                       validations={['required']}
                       className="-fluid"
+                      onChange={value => this.onChange({ country: value })}
                       options={FORM_COUNTRIES.options}
                       properties={{
                         name: 'country',
@@ -129,6 +173,7 @@ class NewsletterPage extends Page {
                     <Field
                       validations={['required']}
                       className="-fluid"
+                      onChange={value => this.onChange({ company: value })}
                       properties={{
                         name: 'company',
                         label: 'Company',
@@ -140,6 +185,7 @@ class NewsletterPage extends Page {
                     </Field>
                     <Field
                       className="-fluid"
+                      onChange={value => this.onChange({ job_title: value })}
                       properties={{
                         name: 'job_title',
                         label: 'Job title',
