@@ -7,22 +7,12 @@ import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
 import Icon from 'components/ui/Icon';
 
-// Modal
-import Modal from 'components/modal/modal-component';
-import NewsletterModal from 'components/modal/newsletter-modal';
-
 class Footer extends React.Component {
   static propTypes = {
     header: PropTypes.object.isRequired,
     footer: PropTypes.object.isRequired,
     fetchPartners: PropTypes.func.isRequired
   };
-
-  constructor(props) {
-    super(props);
-
-    this.state = { showNewsletterModal: false };
-  }
 
   componentDidMount() {
     this.props.fetchPartners();
@@ -40,10 +30,6 @@ class Footer extends React.Component {
         </Link>
       </div>
     ));
-  }
-
-  handleToggleShareModal = (bool) => {
-    this.setState({ showNewsletterModal: bool });
   }
 
   render() {
@@ -82,19 +68,13 @@ class Footer extends React.Component {
 
                 <ul>
                   <li>
-                    <button
-                      className="c-button -secondary join-us-button"
-                      onClick={() => this.handleToggleShareModal(true)}
-                    >
-                      Subscribe to our newsletter
-                      <Modal
-                        isOpen={this.state.showNewsletterModal}
-                        className="-medium"
-                        onRequestClose={() => this.handleToggleShareModal(false)}
+                    <Link route="newsletter" >
+                      <a
+                        className="c-button -secondary join-us-button"
                       >
-                        <NewsletterModal />
-                      </Modal>
-                    </button>
+                        Subscribe to our newsletter
+                      </a>
+                    </Link>
                   </li>
                   <li>
                     <a
