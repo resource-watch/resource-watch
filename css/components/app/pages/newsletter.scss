@@ -1,0 +1,16 @@
+.p-newsletter {
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+
+      .c-field {
+        &:first-child {
+          margin-right: 20px;
+        }
+      }
+    }
+
+    .actions-container {
+      margin-top: 30px;
+    }
+}
