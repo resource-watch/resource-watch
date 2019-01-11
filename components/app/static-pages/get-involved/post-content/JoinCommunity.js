@@ -4,21 +4,8 @@ import { Link } from 'routes';
 // Components
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
-import Modal from 'components/modal/modal-component';
-import NewsletterModal from 'components/modal/newsletter-modal';
 
 class JoinCommunity extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showNewsletterModal: false
-    };
-  }
-
-  handleToggleShareModal = (bool) => {
-    this.setState({ showNewsletterModal: bool });
-  }
 
   render() {
     const cards = [
