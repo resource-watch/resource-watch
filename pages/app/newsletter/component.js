@@ -23,6 +23,7 @@ class Newsletter extends Page {
       <Layout
         title="Newsletter"
         description="Sign up for the Resource Watch newsletter"
+        className="p-newsletter"
         url={this.props.url}
         user={this.props.user}
         pageHeader
@@ -54,7 +55,7 @@ class Newsletter extends Page {
               </div>
             </div>
             <div className="row align-center">
-              <div className="column small-12 medium-8 large-6">
+              <div className="column small-12 medium-8">
                 <form
                   className="c-form"
                   acceptCharset="UTF-8"
@@ -62,30 +63,32 @@ class Newsletter extends Page {
                   action="https://go.pardot.com/l/120942/2018-01-25/3nzl13"
                   id="pardot-form"
                 >
-                  <Field
-                    validations={['required']}
-                    className="-fluid"
-                    properties={{
-                      name: 'first_name',
-                      label: 'First name',
-                      type: 'text',
-                      required: true
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                  <Field
-                    validations={['required']}
-                    className="-fluid"
-                    properties={{
-                      name: 'last_name',
-                      label: 'Last name',
-                      type: 'text',
-                      required: true
-                    }}
-                  >
-                    {Input}
-                  </Field>
+                  <div className="form-row">
+                    <Field
+                      validations={['required']}
+                      className="-fluid"
+                      properties={{
+                        name: 'first_name',
+                        label: 'First name',
+                        type: 'text',
+                        required: true
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                    <Field
+                      validations={['required']}
+                      className="-fluid"
+                      properties={{
+                        name: 'last_name',
+                        label: 'Last name',
+                        type: 'text',
+                        required: true
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                  </div>
                   <Field
                     validations={['required', 'email']}
                     className="-fluid"
@@ -98,54 +101,59 @@ class Newsletter extends Page {
                   >
                     {Input}
                   </Field>
-                  <Field
-                    validations={['required']}
-                    className="-fluid"
-                    properties={{
-                      name: 'city',
-                      label: 'City',
-                      type: 'text',
-                      required: true
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                  <Field
-                    validations={['required']}
-                    className="-fluid"
-                    options={FORM_COUNTRIES.options}
-                    properties={{
-                      name: 'country',
-                      label: 'Country',
-                      type: 'text',
-                      required: true
-                    }}
-                  >
-                    {Select}
-                  </Field>
-                  <Field
-                    validations={['required']}
-                    className="-fluid"
-                    properties={{
-                      name: 'company',
-                      label: 'Company',
-                      type: 'text',
-                      required: true
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                  <Field
-                    className="-fluid"
-                    properties={{
-                      name: 'job_title',
-                      label: 'Job title',
-                      type: 'text',
-                      required: false
-                    }}
-                  >
-                    {Input}
-                  </Field>
+                  <div className="form-row">
+                    <Field
+                      validations={['required']}
+                      className="-fluid"
+                      properties={{
+                        name: 'city',
+                        label: 'City',
+                        type: 'text',
+                        required: true
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                    <Field
+                      validations={['required']}
+                      className="-fluid"
+                      options={FORM_COUNTRIES.options}
+                      properties={{
+                        name: 'country',
+                        label: 'Country',
+                        type: 'text',
+                        required: true
+                      }}
+                    >
+                      {Select}
+                    </Field>
+                  </div>
+                  <div className="form-row">
+                    <Field
+                      validations={['required']}
+                      className="-fluid"
+                      properties={{
+                        name: 'company',
+                        label: 'Company',
+                        type: 'text',
+                        required: true
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                    <Field
+                      className="-fluid"
+                      properties={{
+                        name: 'job_title',
+                        label: 'Job title',
+                        type: 'text',
+                        required: false
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                  </div>
+
                   { /* pardot honeypot field */ }
                   <Field
                     className="-pi-hidden"
@@ -161,7 +169,7 @@ class Newsletter extends Page {
 
                   <div className="actions-container -align-right">
                     <button type="submit" className="c-btn -primary">
-                      Submit
+                      Sign up
                     </button>
                   </div>
                 </form>
