@@ -21,6 +21,8 @@ ENV API_ENV $apiEnv
 ENV GOOGLE_ANALYTICS UA-67196006-1
 ENV BLOG_API_URL https://resourcewatch.org/blog/wp-json/wp/v2
 ENV RW_GOGGLE_API_TOKEN_SHORTENER $RW_GOGGLE_API_TOKEN_SHORTENER
+ENV BITLY_TOKEN e3076fc3bfeee976efb9966f49383e1a8fb71c5f
+ENV PARDOT_NEWSLETTER_URL https://go.pardot.com/l/120942/2018-01-25/3nzl13
 
 RUN apt-get update && \
     apt-get install -y bash git build-essential \
