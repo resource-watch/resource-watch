@@ -1,8 +1,31 @@
 import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
 
+import { WRIAPI } from 'utils/axios';
+import WRISerializer from 'wri-json-api-serializer';
+
 import sortBy from 'lodash/sortBy';
 import { Deserializer } from 'jsonapi-serializer';
+
+export const fetchDashboards = (params = {}, token) =>
+  WRIAPI.get('/dashboard', {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      // TO-DO: forces the API to not cache, this should be removed at some point
+      'Upgrade-Insecure-Requests': 1,
+      Authorization: token
+    },
+    params: {
+      env: process.env.API_ENV,
+      ...Object.keys(params).reduce((x, y) => ({ ...x, ...params[y] }), {})
+    },
+    transformResponse: [].concat(
+      WRIAPI.defaults.transformResponse,
+      ({ data }) => data
+    )
+  })
+    .then(data => WRISerializer(data))
+    .catch(({ errors }) => errors);
 
 export default class DashboardsService {
   constructor(options = {}) {
@@ -21,7 +44,7 @@ export default class DashboardsService {
 
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/dashboards/?${params}`,
+        url: `${process.env.API_URL}/dashboard/?${params}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -65,7 +88,7 @@ export default class DashboardsService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.API_URL}/dashboards/${id}`,
+        url: `${process.env.API_URL}/dashboard/${id}`,
         type,
         body,
         headers: [{

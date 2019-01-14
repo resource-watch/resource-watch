@@ -59,52 +59,6 @@ export default function (state = initialState, action) {
 }
 
 /**
- * ACTIONS
- * - getDashboards
-*/
-export function getPublicDashboards() {
-  const options = {
-    fields: {
-      'fields[dashboards]': ['name', 'slug', 'photo']
-    },
-    filters: {
-      'filter[published]': 'true'
-    }
-  };
-  return (dispatch) => {
-    // Waiting for fetch from server -> Dispatch loading
-    dispatch({ type: GET_DASHBOARDS_LOADING });
-
-    service.fetchAllData(options)
-      .then((data) => {
-        dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: [...DASHBOARDS, ...data] });
-      })
-      .catch((err) => {
-        dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message });
-      });
-  };
-}
-
-/**
- * Retrieve the list of dashboards
- * @export
- * @param {string[]} applications Name of the applications to load the dashboards from
- */
-export function getDashboards(options) {
-  return (dispatch) => {
-    dispatch({ type: GET_DASHBOARDS_LOADING });
-
-    return service.fetchAllData(options)
-      .then((data) => {
-        dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: data });
-      })
-      .catch((err) => {
-        dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message });
-      });
-  };
-}
-
-/**
  * Set the filters for the list of dashboards
  * @export
  * @param {{ key: string, value: string|number }[]} filters List of filters

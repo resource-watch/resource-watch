@@ -11,7 +11,7 @@ export const fetchDashboard = createThunkAction('DASHBOARD_PREVIEW_FETCH_DATA', 
   dispatch(setLoading(true));
   dispatch(setError(null));
 
-  return fetch(new Request(`${process.env.API_URL}/dashboards/${payload.id}`))
+  return fetch(new Request(`${process.env.API_URL}/dashboard/${payload.id}`))
     .then(response => response.json())
     .then(({ data }) => {
       dispatch(setLoading(false));

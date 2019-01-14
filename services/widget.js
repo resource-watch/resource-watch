@@ -7,7 +7,7 @@ export const fetchWidget = (id, params = {}) => {
   return WRIAPI.get(`/widget/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
-      // forces the API to not cache, this should be removed at some point
+      // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
     params: {

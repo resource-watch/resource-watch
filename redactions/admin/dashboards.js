@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import DashboardsService from 'services/DashboardsService';
+import DashboardsService, { fetchDashboards } from 'services/DashboardsService';
 
 /**
  * CONSTANTS
@@ -83,19 +83,15 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the dashboards from
  */
-export function getDashboards(options) {
-  return (dispatch) => {
+export const getDashboards = options =>
+  (dispatch, getState) => {
+    const { user: { token } } = getState();
     dispatch({ type: GET_DASHBOARDS_LOADING });
 
-    service.fetchAllData(options)
-      .then((data) => {
-        dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: data });
-      })
-      .catch((err) => {
-        dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message });
-      });
+    fetchDashboards(options, token)
+      .then((data) => { dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: data }); })
+      .catch((err) => { dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message }); });
   };
-}
 
 /**
  * Set the filters for the list of dashboards
