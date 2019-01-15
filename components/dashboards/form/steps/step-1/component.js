@@ -220,7 +220,7 @@ class Step1 extends PureComponent {
                 const formData = new FormData();
                 formData.append('image', file);
 
-                fetch(`${process.env.API_URL}/temporary_content_images`, {
+                fetch(`${process.env.WRI_API_URL}/temporary_content_image`, {
                   method: 'POST',
                   headers: { Authorization: this.props.user.token },
                   body: formData

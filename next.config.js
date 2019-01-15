@@ -17,7 +17,6 @@ module.exports = withSass({
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
         'process.env.APPLICATIONS': JSON.stringify(process.env.APPLICATIONS),
-        'process.env.API_URL': JSON.stringify(process.env.API_URL),
         'process.env.BASEMAP_TILE_URL': JSON.stringify(process.env.BASEMAP_TILE_URL),
         'process.env.CALLBACK_URL': JSON.stringify(process.env.CALLBACK_URL),
         'process.env.CONTROL_TOWER_URL': JSON.stringify(process.env.CONTROL_TOWER_URL),
