@@ -38,6 +38,9 @@ import { PluginLeaflet } from 'layer-manager';
 import Modal from 'components/modal/modal-component';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
+// utils
+import CANVAS_DECODERS from 'utils/layers/canvas-decoders';
+
 class ExploreMapComponent extends React.Component {
   static propTypes = {
     embed: PropTypes.bool,
@@ -330,6 +333,8 @@ class ExploreMapComponent extends React.Component {
                       {...l.params && { params: l.params }}
                       {...l.sqlParams && { sqlParams: l.sqlParams }}
                       {...l.decodeParams && { decodeParams: l.decodeParams }}
+                      {...(l.layerConfig.decoder && CANVAS_DECODERS[l.layerConfig.decoder]) &&
+                        { decodeFunction: CANVAS_DECODERS[l.layerConfig.decoder] }}
                     />
                     ))
                   }
