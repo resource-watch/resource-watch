@@ -108,7 +108,7 @@ export const formatDatePretty = (date, dateFormat = 'YYYY-MM-DD') => {
   }`;
 };
 
-const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
 // a and b are javascript Date objects
 export const dateDiffInDays = (startDate, endDate) => {
@@ -118,5 +118,5 @@ export const dateDiffInDays = (startDate, endDate) => {
   const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
   const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
 
-  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  return Math.floor((utc2 - utc1) / MS_PER_DAY);
 };

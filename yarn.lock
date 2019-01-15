@@ -7305,24 +7305,22 @@ launch-editor@2.2.1:
     chalk "^2.3.0"
     shell-quote "^1.6.1"
 
-layer-manager@1.13.3-canvas-decoders:
-  version "1.13.3-canvas-decoders"
-  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.3-canvas-decoders.tgz#c6bb382c0d6ffa07390fb5b6848593f5a48f5aea"
-  integrity sha512-9x9waW06K0ztoY/sjvg0w8ahhGsAK0zn9dZYsvkuP6smjqAmn512IchIjSVcTM9o0AkYWaipYyl+jI/0FowDXg==
+layer-manager@^1.0.4, layer-manager@^1.10.0:
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.2.tgz#28fd40054b3a22b8de4ca84c2cad5a873a9988c1"
+  integrity sha512-N/98IOLBz9TOEDsdfHYRDu7Om6ha/OtCVcAdBQtF0aUPUlMNI/0pGCfc8YvlCxym71x8YEOK+IEKmhMrXryhtQ==
   dependencies:
     bluebird "^3.5.2"
-    d3-scale "^2.1.2"
     lodash "^4.17.10"
-    moment "^2.23.0"
     prop-types "^15.6.2"
     reselect "^3.0.1"
     supercluster "^4.1.1"
     wri-json-api-serializer "^1.0.1"
 
-layer-manager@^1.0.4, layer-manager@^1.10.0:
-  version "1.13.2"
-  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.2.tgz#28fd40054b3a22b8de4ca84c2cad5a873a9988c1"
-  integrity sha512-N/98IOLBz9TOEDsdfHYRDu7Om6ha/OtCVcAdBQtF0aUPUlMNI/0pGCfc8YvlCxym71x8YEOK+IEKmhMrXryhtQ==
+layer-manager@^1.13.5:
+  version "1.13.5"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.5.tgz#603c62ff4ceddd9f92aeccbb02bda0d25289b441"
+  integrity sha512-EiZ1fluyebSn776whdTnE2H9/x+1ETkzM4RNAdGzV3dx3yLZEykfup75Kwny1NhSi0mcyfN2QOMdo9altTVOcQ==
   dependencies:
     bluebird "^3.5.2"
     lodash "^4.17.10"
@@ -8152,11 +8150,6 @@ moment@>=1.6.0, moment@^2.11.2, moment@^2.18.1, moment@^2.22.1, moment@^2.22.2:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
   integrity sha1-PCV/mDn8DpP/UxSWMiOeuQeD/2Y=
-
-moment@^2.23.0:
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
-  integrity sha512-3IE39bHVqFbWWaPOMHZF98Q9c3LDKGTmypMiTM2QygGXXElkFWIH7GxfmlwmY2vwa+wmNsoYZmG2iusf1ZjJoA==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
