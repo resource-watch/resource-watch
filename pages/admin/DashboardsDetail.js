@@ -7,8 +7,8 @@ import { toastr } from 'react-redux-toastr';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
-// Services
-import DashboardsService from 'services/DashboardsService';
+// services
+import DashboardsService, { fetchDashboard } from 'services/DashboardsService';
 
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
@@ -56,17 +56,9 @@ class DashboardsDetail extends Page {
   componentDidMount() {
     const { id } = this.state;
 
-    if (this.service) {
-      this.service.fetchData({ id })
-        .then((data) => {
-          this.setState({
-            data: data || {}
-          });
-        })
-        .catch((err) => {
-          toastr.error('Error', err);
-        });
-    }
+    fetchDashboard(id)
+      .then((data) => { this.setState({ data }); })
+      .catch((err) => { toastr.error('Error', err.message); });
   }
 
   componentWillReceiveProps(nextProps) {

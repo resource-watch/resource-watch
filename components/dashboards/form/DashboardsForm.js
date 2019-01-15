@@ -4,7 +4,7 @@ import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
 // services
-import DashboardsService from 'services/DashboardsService';
+import DashboardsService, { fetchDashboard } from 'services/DashboardsService';
 
 import Navigation from 'components/form/Navigation';
 import Spinner from 'components/ui/Spinner';
@@ -42,17 +42,14 @@ class DashboardsForm extends PureComponent {
     // Get the dashboards and fill the
     // state form with its params if the id exists
     if (id) {
-      this.service.fetchData({ id })
+      fetchDashboard(id)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
-            // Stop the loading
             loading: false
           });
         })
-        .catch((err) => {
-          toastr.error('Error', err);
-        });
+        .catch((err) => { toastr.error(err.message); });
     }
   }
 

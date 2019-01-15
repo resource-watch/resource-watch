@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import queryString from 'query-string';
 import { createAction, createThunkAction } from 'redux-tools';
+import WRISerializer from 'wri-json-api-serializer';
 
 // Actions
 export const setTopics = createAction('TOPICS_GET');

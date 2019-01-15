@@ -1,46 +1,40 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 import TetherComponent from 'react-tether';
 import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
+// services
+import { cloneDashboard } from 'services/DashboardsService';
 
-
-class HeaderTopics extends PureComponent {
+class ImportSelector extends PureComponent {
   static propTypes = {
-    topics: PropTypes.array.isRequired,
-    setDropdownOpened: PropTypes.func.isRequired
+    user: PropTypes.object.isRequired,
+    topics: PropTypes.array.isRequired
   };
-
-  toggleDropdown = debounce((bool) => {
-    this.props.setDropdownOpened({ topics: bool });
-  }, 50)
-
 
   state = { isOpen: false }
 
+  onCloneDashboard = ({ id }) => {
+    const { user: { token } } = this.props;
 
-  handleTopics = ({ id }) => {
     toastr.confirm('Are you sure you want to copy this topic?', {
       onOk: () => {
-        fetch(`${process.env.WRI_API_URL}/topics/${id}/clone-dashboard`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: this.props.user.token
-          },
-          credentials: 'include'
-        })
-          .then((response) => {
-            if (response.status >= 400) throw new Error(response.statusText);
-            return response.json();
+        cloneDashboard(id, token)
+          .then((dashboard) => {
+            const { id: dashboardId } = dashboard;
+            Router.pushRoute('myrw_detail', {
+              tab: 'dashboards',
+              id: dashboardId,
+              subtab: 'edit'
+            });
           })
-          .then(({ data }) => {
-            Router.pushRoute('myrw_detail', { tab: 'dashboards', id: data.id, subtab: 'edit' });
-          })
+          .catch((error) => {
+            const { message } = error;
+            toastr.error(message);
+          });
       }
-    })
+    });
   }
 
   render() {
@@ -73,7 +67,7 @@ class HeaderTopics extends PureComponent {
                 className="header-dropdown-list-item"
                 key={_topic.id}
               >
-                <span onClick={() => this.handleTopics(_topic)}>{_topic.name}</span>
+                <span onClick={() => this.onCloneDashboard(_topic)}>{_topic.name}</span>
               </li>
             ))}
           </ul>
@@ -83,4 +77,4 @@ class HeaderTopics extends PureComponent {
   }
 }
 
-export default HeaderTopics;
+export default ImportSelector;

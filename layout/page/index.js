@@ -28,7 +28,7 @@ class Page extends PureComponent {
 
     // Get topics
     await store.dispatch(fetchTopics({ filters: { 'filter[published]': 'true' } }));
-    const { topics } = store.getState().topicsMenu;
+    const { topicsMenu: { topics } } = store.getState();
 
     store.dispatch(setItem(
       {
