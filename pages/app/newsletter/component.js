@@ -1,6 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-import { toastr } from 'react-redux-toastr';
+import { Link } from 'routes';
 
 // components
 import Page from 'layout/page';
@@ -10,40 +9,24 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
-import Spinner from 'components/ui/Spinner';
-import { Link } from 'routes';
+import Modal from 'components/modal/modal-component';
+import NewsletterConfirmationModal from 'components/modal/newsletter-confirmation-modal';
 
 // constants
 import { FORM_COUNTRIES } from './constants';
 
 class NewsletterPage extends Page {
   state = {
-    loading: false,
+    modal: false,
     data: {}
   }
 
-  onSubmit = (event) => {
-    event.preventDefault();
+  onSubmit = () => { this.setState({ modal: true }); }
 
-    this.setState({ loading: true });
-
-    axios.get(process.env.PARDOT_NEWSLETTER_URL,
-      {
-        headers: { 'Content-Type': 'application/json' },
-        params: { ...this.state.data }
-      })
-      // TO-DO: check this part
-      .then(() => {})
-      .catch(() => {})
-      .then(() => { this.setState({ loading: false }); });
-  }
-
-  onChange(value) {
-    this.setState({ data: { ...this.state.data, ...value } });
-  }
+  onChange = (value) => { this.setState({ data: { ...this.state.data, ...value } }); }
 
   render() {
-    const { loading } = this.state;
+    const { modal } = this.state;
 
     return (
       <Layout
@@ -53,10 +36,6 @@ class NewsletterPage extends Page {
         user={this.props.user}
         pageHeader
       >
-        <Spinner
-          isLoading={loading}
-          className="-light"
-        />
         <div className="c-page-header">
           <div className="l-container">
             <div className="row">
@@ -88,8 +67,9 @@ class NewsletterPage extends Page {
             <div className="row align-center">
               <div className="column small-12 medium-8">
                 <form
-                  className="c-form"
+                  action={`${process.env.PARDOT_NEWSLETTER_URL}`}
                   onSubmit={this.onSubmit}
+                  className="c-form"
                   id="pardot-form"
                 >
                   <div className="form-row">
@@ -207,7 +187,6 @@ class NewsletterPage extends Page {
                     <button
                       type="submit"
                       className="c-btn -primary"
-                      disabled={loading}
                     >
                       Sign up
                     </button>
@@ -234,6 +213,13 @@ class NewsletterPage extends Page {
             </div>
           </div>
         </aside>
+
+        <Modal
+          isOpen={modal}
+          onRequestClose={() => this.setState({ modal: false })}
+        >
+          <NewsletterConfirmationModal />
+        </Modal>
       </Layout>
     );
   }
