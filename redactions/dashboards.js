@@ -1,10 +1,3 @@
-/* global config */
-import 'isomorphic-fetch';
-import DASHBOARDS from 'utils/dashboards/config';
-import DashboardsService from 'services/DashboardsService';
-
-const service = new DashboardsService();
-
 /**
  * CONSTANTS
 */

@@ -22,8 +22,8 @@ import areaAlerts from 'selectors/user/areaAlerts';
 // Services
 import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
-import DashboardsService from 'services/DashboardsService';
 import UserService from 'services/UserService';
+import { fetchDashboard } from 'services/DashboardsService';
 
 // Layout
 import Page from 'layout/page';
@@ -40,6 +40,7 @@ import CollectionsTab from 'components/app/myrw/collections/CollectionsTab';
 // Components
 import Title from 'components/ui/Title';
 
+
 const subTabs = {
   datasets: 'my_datasets',
   widgets: 'my_widgets',
@@ -50,7 +51,7 @@ const subTabs = {
 class MyRWDetail extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
-    const { tab, subtab } = props.url.query;
+    const { tab } = props.url.query;
 
     if (tab === 'areas') {
       await context.store.dispatch(getUserAreas({ layerGroups: true }));
@@ -82,21 +83,13 @@ class MyRWDetail extends Page {
     switch (tab) {
       case 'datasets':
         if (id !== 'new') {
-          this.service = new DatasetsService({
-            language: props.locale
-          });
+          this.service = new DatasetsService({ language: props.locale });
         }
         break;
 
       case 'widgets':
         if (id !== 'new') {
           this.service = new WidgetsService();
-        }
-        break;
-
-      case 'dashboards':
-        if (id !== 'new') {
-          this.service = new DashboardsService();
         }
         break;
 
@@ -113,9 +106,15 @@ class MyRWDetail extends Page {
     const { id, tab } = this.state;
     const { user } = this.props;
 
+    if (tab === 'dashboards' && id !== 'new') {
+      fetchDashboard(id)
+        .then((data) => { this.setState({ data }); })
+        .catch((err) => { toastr.error('Error', err.message); });
+    }
+
     if (this.service) {
       // Fetch the dataset / layer / widget depending on the tab
-      if (tab !== 'areas') {
+      if (tab !== 'areas' && tab !== 'dashboards') {
         this.service.fetchData({ id })
           .then((data) => {
             this.setState({ data });
@@ -124,6 +123,7 @@ class MyRWDetail extends Page {
             toastr.error('Error', err);
           });
       } else {
+        if (tab === 'dashboards') return;
         this.service.getArea(id, user.token).then((data) => {
           this.setState({ data: data.data });
         })
@@ -168,16 +168,17 @@ class MyRWDetail extends Page {
 
     if (id in alerts) {
       const alert = alerts[id];
-      return alert.map((a, k) => {
-        return (<span><Link
-          route="explore_detail"
-          params={{ id: a.id }}
-        >
-          <a>
-            {getLabel(a.dataset)}
-          </a>
-        </Link>{listSeperator(alert, k)} </span>);
-      });
+      return alert.map((a, k) => (
+        <span>
+          <Link
+            route="explore_detail"
+            params={{ id: a.id }}
+          >
+            <a>
+              {getLabel(a.dataset)}
+            </a>
+          </Link>{listSeperator(alert, k)}
+        </span>));
     }
     return '';
   }
@@ -263,8 +264,6 @@ const mapStateToProps = state => ({
 });
 
 
-const mapDispatchToProps = {
-  getUserAreas
-};
+const mapDispatchToProps = { getUserAreas };
 
 export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(MyRWDetail);

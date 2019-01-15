@@ -8,7 +8,7 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
 // services
-import DashboardsService, { fetchDashboard } from 'services/DashboardsService';
+import { fetchDashboard } from 'services/DashboardsService';
 
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
@@ -25,36 +25,15 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 
 class DashboardsDetail extends Page {
-  constructor(props) {
-    super(props);
-
-    const { tab, id, subtab } = props.url.query;
-
-    this.state = {
-      tab,
-      id,
-      subtab,
-      data: {}
-    };
-
-
-    this.service = null;
-
-    switch (tab) {
-      case 'dashboards':
-        if (id !== 'new') {
-          this.service = new DashboardsService({
-            authorization: props.user.token
-          });
-        }
-        break;
-      // TODO: do the same service for widgets and layers
-      default:
-    }
+  state = {
+    ...this.props.url.query,
+    data: {}
   }
 
   componentDidMount() {
     const { id } = this.state;
+
+    if (id === 'new') return;
 
     fetchDashboard(id)
       .then((data) => { this.setState({ data }); })
@@ -66,7 +45,6 @@ class DashboardsDetail extends Page {
 
     this.setState({ tab, id, subtab });
   }
-
 
   /**
    * HELPERS

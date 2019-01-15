@@ -1,24 +1,18 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Services
-import DashboardsService, { deleteDashboard } from 'services/DashboardsService';
+import { deleteDashboard } from 'services/DashboardsService';
 import { toastr } from 'react-redux-toastr';
 
-class DeleteAction extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // BINDINGS
-    this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
-
-    // SERVICES
-    this.service = new DashboardsService({
-      authorization: props.authorization
-    });
+class DeleteAction extends PureComponent {
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    authorization: PropTypes.string.isRequired,
+    onRowDelete: PropTypes.func.isRequired
   }
 
-  handleOnClickDelete(e) {
+  handleOnClickDelete = (e) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -31,8 +25,6 @@ class DeleteAction extends React.Component {
 
     toastr.confirm(`Are you sure that you want to delete: "${name}"`, {
       onOk: () => {
-        console.log(this.props);
-        console.log(deleteDashboard);
         deleteDashboard(id, authorization)
           .then(() => {
             this.props.onRowDelete(id);
@@ -53,11 +45,5 @@ class DeleteAction extends React.Component {
     );
   }
 }
-
-DeleteAction.propTypes = {
-  data: PropTypes.object,
-  authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
-};
 
 export default DeleteAction;

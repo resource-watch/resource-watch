@@ -1,9 +1,7 @@
-import 'isomorphic-fetch';
-import { post } from 'utils/request';
-
-import { WRIAPI } from 'utils/axios';
 import WRISerializer from 'wri-json-api-serializer';
-import { Deserializer } from 'jsonapi-serializer';
+
+// utils
+import { WRIAPI } from 'utils/axios';
 
 export const fetchDashboards = (params = {}, token) =>
   WRIAPI.get('/dashboard', {
@@ -39,9 +37,21 @@ export const fetchDashboard = id =>
       return WRISerializer(data);
     });
 
+export const createDashboard = (body, token) =>
+  WRIAPI.post('/dashboard', { ...body }, {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      Authorization: token
+    }
+  })
+    .then((response) => {
+      const { status, statusText, data } = response;
+      if (status >= 400) throw new Error(statusText);
+      return WRISerializer(data);
+    });
 
-export const cloneDashboard = (id, token) =>
-  WRIAPI.post(`/topics/${id}/clone-dashboard`, {}, {
+export const updateDashboard = (id, body, token) =>
+  WRIAPI.patch(`/dashboard/${id}`, { ...body }, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token
@@ -66,36 +76,24 @@ export const deleteDashboard = (id, token) =>
       return data;
     });
 
-export default class DashboardsService {
-  constructor(options = {}) {
-    this.opts = options;
-  }
-
-  // TO-DO: move to axios
-  saveData({ type, body, id }) {
-    return new Promise((resolve, reject) => {
-      post({
-        url: `${process.env.WRI_API_URL}/dashboard/${id}`,
-        type,
-        body,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, dashboard) => {
-            resolve(dashboard);
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
+export const cloneDashboard = (id, token) =>
+  WRIAPI.post(`/topics/${id}/clone-dashboard`, {}, {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      Authorization: token
+    }
+  })
+    .then((response) => {
+      const { status, statusText, data } = response;
+      if (status >= 400) throw new Error(statusText);
+      return WRISerializer(data);
     });
-  }
-}
+
+export default {
+  fetchDashboards,
+  fetchDashboard,
+  createDashboard,
+  updateDashboard,
+  deleteDashboard,
+  cloneDashboard
+};
