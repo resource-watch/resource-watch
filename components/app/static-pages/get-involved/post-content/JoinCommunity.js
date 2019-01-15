@@ -57,9 +57,14 @@ class JoinCommunity extends React.Component {
                     <div className="card-footer">
                       <Link route="newsletter" >
                         <a
-                          className="c-button -secondary"
-                        >
-                          Subscribe to our newsletter
+                          className="c-button -secondary -fullwidth"
+                        ><span className="long-text">
+                            Subscribe to our newsletter
+                      </span>
+                          <span className="short-text">
+                            Subscribe
+                      </span>
+
                         </a>
                       </Link>
                     </div>
@@ -76,7 +81,7 @@ class JoinCommunity extends React.Component {
               <div className="column small-12">
                 <Banner className="-text-center" bgImage="/static/images/backgrounds/bg-partner-maryland.jpg">
                   <p className="-claim">
-                  Let&rsquo;s build a more sustainable<br /> world together.
+                    Let&rsquo;s build a more sustainable<br /> world together.
                   </p>
                   <Link to="about_partners">
                     <a className="c-btn -primary -alt">Partners</a>
