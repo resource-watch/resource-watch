@@ -34,7 +34,7 @@ class JoinCommunity extends PureComponent {
         description: 'Sign up for our newsletter to receive highlights and updates.',
         buttonType: null,
         link: {
-          route: 'https://twitter.com/resource_watch',
+          route: '/about/newsletter',
           label: 'Subscribe to our newsletter'
         }
       }
