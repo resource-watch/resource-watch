@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'routes';
 
-// Components
+// components
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
 
-class JoinCommunity extends React.Component {
-
+class JoinCommunity extends PureComponent {
   render() {
     const cards = [
       {
@@ -28,6 +27,16 @@ class JoinCommunity extends React.Component {
           label: '@resource_watch',
           external: true
         }
+      },
+      {
+        id: 'newsletter',
+        title: '',
+        description: 'Sign up for our newsletter to receive highlights and updates.',
+        buttonType: null,
+        link: {
+          route: 'https://twitter.com/resource_watch',
+          label: 'Subscribe to our newsletter'
+        }
       }
     ];
 
@@ -43,29 +52,10 @@ class JoinCommunity extends React.Component {
                     className="-compact"
                     description={card.description}
                     link={{ ...card.link }}
-                    buttonType="primary"
+                    buttonType={card.id === 'newsletter' ? null : 'primary'}
                   />
                 </div>
               ))}
-              <div className="column small-12 medium-4 large-4 c-card-column">
-                <div className="c-card-app -compact" >
-                  <div className="card-container">
-                    <div className="card-content">
-                      Sign up for our newsletter to receive highlights and updates.
-                    </div>
-
-                    <div className="card-footer">
-                      <Link route="newsletter" >
-                        <a
-                          className="c-button -secondary"
-                        >
-                          Subscribe to our newsletter
-                        </a>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </aside>
