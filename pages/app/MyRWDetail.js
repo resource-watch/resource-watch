@@ -23,7 +23,7 @@ import areaAlerts from 'selectors/user/areaAlerts';
 import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
 import UserService from 'services/UserService';
-import { fetchDashboard } from 'services/DashboardsService';
+import { fetchDashboard } from 'services/dashboard';
 
 // Layout
 import Page from 'layout/page';

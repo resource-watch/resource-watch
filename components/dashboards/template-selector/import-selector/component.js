@@ -5,7 +5,7 @@ import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
 // services
-import { cloneDashboard } from 'services/DashboardsService';
+import { cloneDashboard } from 'services/dashboard';
 
 class ImportSelector extends PureComponent {
   static propTypes = {

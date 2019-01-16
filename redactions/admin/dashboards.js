@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import { fetchDashboards, deleteDashboard } from 'services/DashboardsService';
+import { fetchDashboards, deleteDashboard } from 'services/dashboard';
 
 // utils
 import sortBy from 'lodash/sortBy';

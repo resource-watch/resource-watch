@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Services
-import { deleteDashboard } from 'services/DashboardsService';
+import { deleteDashboard } from 'services/dashboard';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends PureComponent {

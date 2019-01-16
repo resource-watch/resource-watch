@@ -9,7 +9,7 @@ import Spinner from 'components/ui/Spinner';
 import Step1 from 'components/dashboards/form/steps/step-1';
 
 // services
-import { fetchDashboard, createDashboard, updateDashboard } from 'services/DashboardsService';
+import { fetchDashboard, createDashboard, updateDashboard } from 'services/dashboard';
 
 // utils
 import { logEvent } from 'utils/analytics';

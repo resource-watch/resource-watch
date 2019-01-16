@@ -8,7 +8,7 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
 // services
-import { fetchDashboard } from 'services/DashboardsService';
+import { fetchDashboard } from 'services/dashboard';
 
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
