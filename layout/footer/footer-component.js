@@ -70,7 +70,7 @@ class Footer extends React.Component {
                   <li>
                     <Link route="newsletter" >
                       <a
-                        className="c-button -secondary join-us-button"
+                        className="c-button -primary join-us-button"
                       >
                         Subscribe to our newsletter
                       </a>

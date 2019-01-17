@@ -29,7 +29,8 @@
   right: auto;
   bottom: auto;
   border: none;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   border-radius: 0px;
   outline: none;
   padding: 0px;
