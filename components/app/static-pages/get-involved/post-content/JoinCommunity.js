@@ -32,7 +32,6 @@ class JoinCommunity extends PureComponent {
         id: 'newsletter',
         title: '',
         description: 'Sign up for our newsletter to receive highlights and updates.',
-        buttonType: null,
         link: {
           route: '/about/newsletter',
           label: 'Subscribe'
@@ -52,7 +51,7 @@ class JoinCommunity extends PureComponent {
                     className="-compact"
                     description={card.description}
                     link={{ ...card.link }}
-                    buttonType={card.id === 'newsletter' ? null : 'primary'}
+                    buttonType="primary"
                   />
                 </div>
               ))}

@@ -27,8 +27,7 @@ import {
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
   LegendItemTypes,
-  // LegendItemTimeline,
-  // LegendItemTimeStep
+  LegendItemTimeStep
 } from 'wri-api-components';
 
 import { LayerManager, Layer } from 'layer-manager/lib/react';
@@ -375,13 +374,12 @@ class ExploreMapComponent extends React.Component {
                 onRemoveLayer={this.onRemoveLayer}
               >
                 <LegendItemTypes />
-                {/* <LegendItemTimeline onChangeLayer={this.onChangeLayer} /> */}
-                {/* <LegendItemTimeStep
+                <LegendItemTimeStep
                   canPlay={false}
                   handleChange={(dates, activeLayer) => {
                     this.onChangeLayerDate(dates, activeLayer);
                   }}
-                /> */}
+                />
               </LegendListItem>
             ))}
           </Legend>
