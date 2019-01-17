@@ -23,11 +23,7 @@ class ImportSelector extends PureComponent {
         cloneDashboard(id, token)
           .then((dashboard) => {
             const { id: dashboardId } = dashboard;
-            Router.pushRoute('myrw_detail', {
-              tab: 'dashboards',
-              id: dashboardId,
-              subtab: 'edit'
-            });
+            window.open(`/myrw-detail/dashboards/${dashboardId}`, '_blank');
           })
           .catch((error) => {
             const { message } = error;
