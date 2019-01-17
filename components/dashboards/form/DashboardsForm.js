@@ -173,6 +173,7 @@ class DashboardsForm extends PureComponent {
             basic={basic}
             form={form}
             id={id}
+            {...this.props}
           />
         }
 

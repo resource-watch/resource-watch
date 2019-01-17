@@ -24,12 +24,14 @@ class Step1 extends PureComponent {
     form: PropTypes.object,
     basic: PropTypes.bool,
     user: PropTypes.object.isRequired,
+    mode: PropTypes.string,
     onChange: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     form: {},
-    basic: false
+    basic: false,
+    mode: 'new'
   }
 
   state = {
@@ -58,6 +60,7 @@ class Step1 extends PureComponent {
   }
 
   render() {
+    const { mode } = this.props;
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
 
@@ -193,7 +196,8 @@ class Step1 extends PureComponent {
 
         <fieldset className="c-field-container">
           {/* templates */}
-          <TemplateSelector onChange={this.onChangeTemplate} />
+          {mode === 'new' && (
+            <TemplateSelector onChange={this.onChangeTemplate} />)}
 
           {/* CONTENT */}
           <Field
