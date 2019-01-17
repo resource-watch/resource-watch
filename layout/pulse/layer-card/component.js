@@ -16,7 +16,7 @@ import Icon from 'components/ui/Icon';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import SubscribeToDatasetModal from 'components/modal/SubscribeToDatasetModal';
+import SubscriptionsModal from 'components/modal/subscriptions-modal/dataset';
 
 
 class LayerCardComponent extends PureComponent {
@@ -88,49 +88,49 @@ class LayerCardComponent extends PureComponent {
         <div>
           <h3>{layerActive && layerActive.label}</h3>
           {source &&
-          <div className="source-container">
-            {source}
-          </div>
-        }
+            <div className="source-container">
+              {source}
+            </div>
+          }
           {layerActive && layerActive.descriptionPulse}
           {layerPoints && layerPoints.length > 0 &&
-          <div className="number-of-points">
-            Number of objects: {layerPoints.length}
-          </div>
-        }
+            <div className="number-of-points">
+              Number of objects: {layerPoints.length}
+            </div>
+          }
           {rotatableGlobe &&
-          <div>
-            <button
-              className="c-button -secondary rotate-globe-button"
-              onClick={() => this.props.togglePosition()}
-            >
-              Rotate globe
+            <div>
+              <button
+                className="c-button -secondary rotate-globe-button"
+                onClick={() => this.props.togglePosition()}
+              >
+                Rotate globe
             </button>
-          </div>
-        }
+            </div>
+          }
           <div className="legends">
             {layerName &&
-            <div className="layer-container">
-              <div>{layerName}</div>
-              <button
-                type="button"
-                className="info"
-                aria-label="More information"
-                onClick={() => this.setState({ showInfoModal: true })}
-              >
-                <Icon name="icon-info" />
-
-                <Modal
-                  isOpen={showInfoModal}
-                  className="-medium"
-                  onRequestClose={() => this.setState({ showInfoModal: false })}
+              <div className="layer-container">
+                <div>{layerName}</div>
+                <button
+                  type="button"
+                  className="info"
+                  aria-label="More information"
+                  onClick={() => this.setState({ showInfoModal: true })}
                 >
-                  <LayerInfoModal
-                    layer={layerActive && layerActive.attributes}
-                  />
-                </Modal>
-              </button>
-            </div>
+                  <Icon name="icon-info" />
+
+                  <Modal
+                    isOpen={showInfoModal}
+                    className="-medium"
+                    onRequestClose={() => this.setState({ showInfoModal: false })}
+                  >
+                    <LayerInfoModal
+                      layer={layerActive && layerActive.attributes}
+                    />
+                  </Modal>
+                </button>
+              </div>
             }
             {
               lastUpdateDate &&
@@ -143,92 +143,90 @@ class LayerCardComponent extends PureComponent {
               className={{ color: '-dark' }}
             />
             {activeContextLayers.length > 0 &&
-            <div className="context-layers-legends">
-              {
-                activeContextLayers.map(ctLayer => (
-                  <div key={ctLayer.attributes.name}>
-                    <div className="layer-container">
-                      <span>{ctLayer.attributes.name}</span>
-                      <button
-                        type="button"
-                        className="info"
-                        aria-label="More information"
-                        onClick={() => this.setState({ showContextLayersInfoModal: true })}
-                      >
-                        <Icon name="icon-info" />
-
-                        <Modal
-                          isOpen={showContextLayersInfoModal}
-                          className="-medium"
-                          onRequestClose={() => this.setState({ showContextLayersInfoModal: false })}
+              <div className="context-layers-legends">
+                {
+                  activeContextLayers.map(ctLayer => (
+                    <div key={ctLayer.attributes.name}>
+                      <div className="layer-container">
+                        <span>{ctLayer.attributes.name}</span>
+                        <button
+                          type="button"
+                          className="info"
+                          aria-label="More information"
+                          onClick={() => this.setState({ showContextLayersInfoModal: true })}
                         >
-                          <LayerInfoModal
-                            layer={ctLayer.attributes}
-                          />
-                        </Modal>
-                      </button>
+                          <Icon name="icon-info" />
+
+                          <Modal
+                            isOpen={showContextLayersInfoModal}
+                            className="-medium"
+                            onRequestClose={() => this.setState({ showContextLayersInfoModal: false })}
+                          >
+                            <LayerInfoModal
+                              layer={ctLayer.attributes}
+                            />
+                          </Modal>
+                        </button>
+                      </div>
+                      <Legend
+                        layerActive={ctLayer}
+                        className={{ color: '-dark' }}
+                      />
                     </div>
-                    <Legend
-                      layerActive={ctLayer}
-                      className={{ color: '-dark' }}
-                    />
-                  </div>
-                ))
-              }
-            </div>
-          }
+                  ))
+                }
+              </div>
+            }
           </div>
           {widget &&
-          <div>
-            <h5>Similar content</h5>
-            <div
-              key={widget.id}
-              className="widget-card"
-              onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
-              onKeyDown={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
-              role="button"
-              tabIndex={-1}
-            >
-              <div className="widget-title">
-                {widget.attributes.name}
-              </div>
-
-              <WidgetChart
-                widget={widget.attributes}
-                mode="thumbnail"
-              />
-            </div>
-          </div>
-        }
-          <div className="card-buttons">
-            { datasetId &&
-            <Link
-              route="explore_detail"
-              params={{ id: datasetId }}
-            >
-              <a className="c-button -tertiary link_button" >Details</a>
-            </Link>
-          }
-            { subscribable &&
-            <LoginRequired text="Log in or sign up to subscribe to alerts from this dataset">
-              <button
-                className="c-button -secondary link_button"
-                onClick={() => this.handleToggleSubscribeToDatasetModal(true)}
+            <div>
+              <h5>Similar content</h5>
+              <div
+                key={widget.id}
+                className="widget-card"
+                onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+                onKeyDown={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+                role="button"
+                tabIndex={-1}
               >
-                Subscribe to alerts
-                <Modal
-                  isOpen={showSubscribeToDatasetModal}
-                  onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
-                >
-                  <SubscribeToDatasetModal
-                    dataset={dataset}
-                    showDatasetSelector={false}
-                    onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
-                  />
-                </Modal>
-              </button>
-            </LoginRequired>
+                <div className="widget-title">
+                  {widget.attributes.name}
+                </div>
+
+                <WidgetChart
+                  widget={widget.attributes}
+                  mode="thumbnail"
+                />
+              </div>
+            </div>
           }
+          <div className="card-buttons">
+            {datasetId &&
+              <Link
+                route="explore_detail"
+                params={{ id: datasetId }}
+              >
+                <a className="c-button -tertiary link_button" >Details</a>
+              </Link>
+            }
+            {subscribable &&
+              <LoginRequired text="Log in or sign up to subscribe to alerts from this dataset">
+                <button
+                  className="c-button -secondary link_button"
+                  onClick={() => this.handleToggleSubscribeToDatasetModal(true)}
+                >
+                  Subscribe to alerts
+                <Modal
+                    isOpen={showSubscribeToDatasetModal}
+                    onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
+                  >
+                    <SubscriptionsModal
+                      onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
+                    />
+                  </Modal>
+                </button>
+              </LoginRequired>
+            }
           </div>
         </div>
       </div>
