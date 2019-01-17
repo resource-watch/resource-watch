@@ -30,14 +30,14 @@
       padding-top: 40px;
       .long-text{
         margin: auto;
-        @media only screen and (max-width: map-get($breakpoints, large)) and (min-width: map-get($breakpoints, medium)) {
+        @media only screen and (max-width: map-get($breakpoints, large)) {
           display:none;
         }
       }
       .short-text{
         margin: auto;
         display: none;
-        @media only screen and (max-width: map-get($breakpoints, large)) and (min-width: map-get($breakpoints, medium))  {
+        @media only screen and (max-width: map-get($breakpoints, large)) {
           display:flex;
         }
       }

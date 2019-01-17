@@ -28,7 +28,7 @@ import {
   LegendItemButtonInfo,
   LegendItemTypes,
   // LegendItemTimeline,
-  LegendItemTimeStep
+  // LegendItemTimeStep
 } from 'wri-api-components';
 
 import { LayerManager, Layer } from 'layer-manager/lib/react';
@@ -306,32 +306,32 @@ class ExploreMapComponent extends React.Component {
                       zIndex={1000 - i}
                       // Interaction
                       {...!!l.interactionConfig &&
-                        !!l.interactionConfig.output &&
-                        !!l.interactionConfig.output.length && {
-                          interactivity:
-                            l.provider === 'carto' || l.provider === 'cartodb'
-                              ? l.interactionConfig.output.map(o => o.column)
-                              : true,
-                          events: {
-                            click: (e) => {
-                              if (this.props.setMapLayerGroupsInteraction) {
-                                this.props.setMapLayerGroupsInteraction({
-                                  ...e,
-                                  ...l
-                                });
-                              }
-                              if (this.props.setMapLayerGroupsInteractionLatLng) {
-                                this.props.setMapLayerGroupsInteractionLatLng(e.latlng);
-                              }
+                      !!l.interactionConfig.output &&
+                      !!l.interactionConfig.output.length && {
+                        interactivity:
+                          l.provider === 'carto' || l.provider === 'cartodb'
+                            ? l.interactionConfig.output.map(o => o.column)
+                            : true,
+                        events: {
+                          click: (e) => {
+                            if (this.props.setMapLayerGroupsInteraction) {
+                              this.props.setMapLayerGroupsInteraction({
+                                ...e,
+                                ...l
+                              });
+                            }
+                            if (this.props.setMapLayerGroupsInteractionLatLng) {
+                              this.props.setMapLayerGroupsInteractionLatLng(e.latlng);
                             }
                           }
                         }
+                      }
                       }
                       {...l.params && { params: l.params }}
                       {...l.sqlParams && { sqlParams: l.sqlParams }}
                       {...l.decodeParams && { decodeParams: l.decodeParams }}
                     />
-                    ))
+                  ))
                   }
                 </LayerManager>
               </React.Fragment>
@@ -359,8 +359,8 @@ class ExploreMapComponent extends React.Component {
                       <LegendItemButtonInfo />
                     </LegendItemToolbar>
                   ) : (
-                    <LegendItemToolbar />
-                  )
+                      <LegendItemToolbar />
+                    )
                 }
                 // Actions
                 onChangeInfo={this.onChangeInfo}
@@ -371,12 +371,12 @@ class ExploreMapComponent extends React.Component {
               >
                 <LegendItemTypes />
                 {/* <LegendItemTimeline onChangeLayer={this.onChangeLayer} /> */}
-                <LegendItemTimeStep
+                {/* <LegendItemTimeStep
                   canPlay={false}
                   handleChange={(dates, activeLayer) => {
                     this.onChangeLayerDate(dates, activeLayer);
                   }}
-                />
+                /> */}
               </LegendListItem>
             ))}
           </Legend>
