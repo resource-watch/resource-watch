@@ -106,7 +106,7 @@ class MyRWDetail extends Page {
     const { id, tab } = this.state;
     const { user } = this.props;
 
-    if (tab === 'dashboards' && id !== 'new') {
+    if (tab === 'dashboards' && (id && id !== 'new')) {
       fetchDashboard(id)
         .then((data) => { this.setState({ data }); })
         .catch((err) => { toastr.error('Error', err.message); });
