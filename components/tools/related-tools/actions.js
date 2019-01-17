@@ -11,7 +11,7 @@ export const fetchTools = createThunkAction('WIDGET-DETAIL/fetchTools', () => (d
   dispatch(setToolsError(null));
 
 
-  return fetch(new Request(`${process.env.API_URL}/tools`))
+  return fetch(new Request(`${process.env.WRI_API_URL}/tool`))
     .then((response) => {
       if (response.ok) return response.json();
       throw new Error(response.statusText);

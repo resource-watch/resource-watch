@@ -1,5 +1,8 @@
 import 'isomorphic-fetch';
-import DashboardsService from 'services/DashboardsService';
+import { fetchDashboards, deleteDashboard } from 'services/dashboard';
+
+// utils
+import sortBy from 'lodash/sortBy';
 
 /**
  * CONSTANTS
@@ -29,7 +32,7 @@ const initialState = {
   }
 };
 
-const service = new DashboardsService();
+// const service = new DashboardsService();
 
 /**
  * REDUCER
@@ -83,19 +86,14 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the dashboards from
  */
-export function getDashboards(options) {
-  return (dispatch) => {
+export const getDashboards = options =>
+  (dispatch) => {
     dispatch({ type: GET_DASHBOARDS_LOADING });
 
-    service.fetchAllData(options)
-      .then((data) => {
-        dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: data });
-      })
-      .catch((err) => {
-        dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message });
-      });
+    fetchDashboards(options)
+      .then((data) => { dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: sortBy(data, 'name') }); })
+      .catch((err) => { dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message }); });
   };
-}
 
 /**
  * Set the filters for the list of dashboards
@@ -114,11 +112,12 @@ export function setFilters(filters) {
  * @export
  * @param {string[]} applications Name of the applications to load the dashboards from
  */
-export function deleteDashboard({ id }) {
+export function onDeleteDashboard({ id }) {
   return (dispatch, getState) => {
+    const { user: { token } } = getState();
     dispatch({ type: DELETE_DASHBOARD_LOADING });
 
-    return service.deleteData({ id, auth: getState().user.token })
+    return deleteDashboard(id, token)
       .then((data) => {
         dispatch({ type: DELETE_DASHBOARD_SUCCESS, payload: data });
       })

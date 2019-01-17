@@ -136,7 +136,7 @@ const reducer = combineReducers({
   latestBlogPosts: handleModule(latestBlogPosts),
 
   // Topic
-  topics: handleModule(topics),
+  topicsMenu: handleModule(topics),
   topicsIndex: handleModule(topicsIndex),
   topicsDetail: handleModule(topicsDetail),
   topicThumbnailList: handleModule(topicThumbnailList),

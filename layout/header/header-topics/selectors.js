@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const getTopics = state => state.topics.topics;
+const getTopics = state => state.topicsMenu.topics;
 
 export const getPublishedTopics = createSelector(
   [getTopics],
