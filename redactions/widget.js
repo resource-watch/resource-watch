@@ -11,9 +11,9 @@ import { fetchWidget } from 'services/widget';
 /**
  * CONSTANTS
 */
-const GET_WIDGET_SUCCESS = 'GET_WIDGET_SUCCESS';
+const SET_WIDGET_SUCCESS = 'SET_WIDGET_SUCCESS';
 const GET_WIDGET_ERROR = 'GET_WIDGET_ERROR';
-const GET_WIDGET_LOADING = 'GET_WIDGET_LOADING';
+const SET_WIDGET_LOADING = 'SET_WIDGET_LOADING';
 const SET_WIDGET_DATA = 'SET_WIDGET_DATA';
 const SET_WIDGET_DATASET = 'SET_WIDGET_DATASET';
 const SET_WIDGET_BAND_DESCRIPTION = 'SET_WIDGET_BAND_DESCRIPTION';
@@ -47,7 +47,7 @@ const initialState = {
  */
 export default function (state = initialState, action) {
   switch (action.type) {
-    case GET_WIDGET_LOADING: {
+    case SET_WIDGET_LOADING: {
       const widget = {
         loading: true,
         error: null
@@ -55,7 +55,7 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, widget);
     }
 
-    case GET_WIDGET_SUCCESS: {
+    case SET_WIDGET_SUCCESS: {
       const widget = {
         loading: false,
         error: null
@@ -168,6 +168,7 @@ function fetchRasterBandInfo(datasetId, bandName) {
       const rasterService = new RasterService(datasetId, tableName, provider);
       const bandStats = await rasterService.getBandStatsInfo(bandName);
       dispatch({ type: SET_WIDGET_BAND_STATS, payload: bandStats });
+      dispatch({ type: SET_WIDGET_SUCCESS });
       resolve();
     } catch (err) {
       // We can't use Toastr here because an embed doesn't display a notification
@@ -196,6 +197,7 @@ function fetchLayer(datasetId, layerId) {
         }]
       }];
       dispatch({ type: SET_WIDGET_LAYERGROUPS, payload: layerGroups });
+      dispatch({ type: SET_WIDGET_SUCCESS });
     });
 }
 
@@ -214,7 +216,7 @@ export function setLatLng(latLng) {
  */
 export function getWidget(widgetId, params = {}) {
   return (dispatch) => {
-    dispatch({ type: GET_WIDGET_LOADING });
+    dispatch({ type: SET_WIDGET_LOADING });
 
     return fetchWidget(widgetId, params)
       .then((widget) => {
@@ -244,7 +246,7 @@ export function getWidget(widgetId, params = {}) {
           return dispatch(fetchLayer(datasetId, layerId));
         }
 
-        dispatch({ type: GET_WIDGET_SUCCESS });
+        dispatch({ type: SET_WIDGET_SUCCESS });
 
         return widget;
       })

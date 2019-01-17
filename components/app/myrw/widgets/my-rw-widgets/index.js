@@ -24,7 +24,9 @@ class MyRWWidgetsContainer extends PureComponent {
     setPaginationPage: PropTypes.func
   }
 
-  componentWillMount() {
+  static defaultProps = { subtab: 'my_widgets' }
+
+  componentDidMount() {
     this.props.getWidgetsByTab(this.props.subtab);
   }
 
