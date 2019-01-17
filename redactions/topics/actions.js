@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import queryString from 'query-string';
 import { createAction, createThunkAction } from 'redux-tools';
+import WRISerializer from 'wri-json-api-serializer';
 
 // Actions
 export const setTopics = createAction('TOPICS_GET');
@@ -18,7 +19,7 @@ export const fetchTopics = createThunkAction('TOPICS_FETCH_DATA', (payload = {})
     ...payload.filters
   });
 
-  return fetch(new Request(`${process.env.API_URL}/topics?${qParams}`))
+  return fetch(new Request(`${process.env.WRI_API_URL}/topic?${qParams}`))
     .then(response => response.json())
     .then(({ data }) => {
       dispatch(setLoading(false));

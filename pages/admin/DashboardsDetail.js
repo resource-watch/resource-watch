@@ -7,8 +7,8 @@ import { toastr } from 'react-redux-toastr';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
-// Services
-import DashboardsService from 'services/DashboardsService';
+// services
+import { fetchDashboard } from 'services/dashboard';
 
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
@@ -25,48 +25,19 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 
 class DashboardsDetail extends Page {
-  constructor(props) {
-    super(props);
-
-    const { tab, id, subtab } = props.url.query;
-
-    this.state = {
-      tab,
-      id,
-      subtab,
-      data: {}
-    };
-
-
-    this.service = null;
-
-    switch (tab) {
-      case 'dashboards':
-        if (id !== 'new') {
-          this.service = new DashboardsService({
-            authorization: props.user.token
-          });
-        }
-        break;
-      // TODO: do the same service for widgets and layers
-      default:
-    }
+  state = {
+    ...this.props.url.query,
+    data: {}
   }
 
   componentDidMount() {
     const { id } = this.state;
 
-    if (this.service) {
-      this.service.fetchData({ id })
-        .then((data) => {
-          this.setState({
-            data: data || {}
-          });
-        })
-        .catch((err) => {
-          toastr.error('Error', err);
-        });
-    }
+    if (id === 'new') return;
+
+    fetchDashboard(id)
+      .then((data) => { this.setState({ data }); })
+      .catch((err) => { toastr.error('Error', err.message); });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -74,7 +45,6 @@ class DashboardsDetail extends Page {
 
     this.setState({ tab, id, subtab });
   }
-
 
   /**
    * HELPERS

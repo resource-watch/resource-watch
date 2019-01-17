@@ -1,10 +1,9 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
-import * as reducers from 'redactions';
-
-// New modules
 import { handleModule } from 'redux-tools';
+
+import * as reducers from 'redactions';
 
 // Layout
 import * as header from 'layout/header';
@@ -27,6 +26,9 @@ import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-editi
 import * as datasetListItem from 'components/datasets/list/list-item';
 import * as similarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 import * as trySubscriptionModal from 'components/datasets/form/try-subscription-modal';
+
+// subscriptions
+import * as subscriptions from 'components/modal/subscriptions-modal';
 
 // Tools
 import * as relatedTools from 'components/tools/related-tools';
@@ -123,6 +125,9 @@ const reducer = combineReducers({
   similarDatasets: handleModule(similarDatasets),
   trySubscriptionModal: handleModule(trySubscriptionModal),
 
+  // subscriptions
+  subscriptions: handleModule(subscriptions),
+
   // Tools
   relatedTools: handleModule(relatedTools),
 
@@ -136,7 +141,7 @@ const reducer = combineReducers({
   latestBlogPosts: handleModule(latestBlogPosts),
 
   // Topic
-  topics: handleModule(topics),
+  topicsMenu: handleModule(topics),
   topicsIndex: handleModule(topicsIndex),
   topicsDetail: handleModule(topicsDetail),
   topicThumbnailList: handleModule(topicThumbnailList),

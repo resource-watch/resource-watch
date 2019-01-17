@@ -71,7 +71,7 @@ class DashboardsDetailPage extends Page {
                       name: 'Dashboards',
                       href: '/myrw/dashboards'
                     }
-                    ]}
+                  ]}
                   />
                   <h1>{name}</h1>
 

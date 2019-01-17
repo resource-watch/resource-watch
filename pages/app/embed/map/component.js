@@ -268,7 +268,7 @@ class EmbedMapPage extends PureComponent {
             </div>
             {modalOpened && this.getModal()}
           </div>
-          {isExternal && (
+          {(isExternal && !webshot) && (
             <div className="widget-footer -map">
               Powered by
               <a href="/" target="_blank" rel="noopener noreferrer">

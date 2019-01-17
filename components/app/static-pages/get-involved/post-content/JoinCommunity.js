@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'routes';
 
-// Components
+// components
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
 
-class JoinCommunity extends React.Component {
-
+class JoinCommunity extends PureComponent {
   render() {
     const cards = [
       {
@@ -28,6 +27,15 @@ class JoinCommunity extends React.Component {
           label: '@resource_watch',
           external: true
         }
+      },
+      {
+        id: 'newsletter',
+        title: '',
+        description: 'Sign up for our newsletter to receive highlights and updates.',
+        link: {
+          route: '/about/newsletter',
+          label: 'Subscribe'
+        }
       }
     ];
 
@@ -47,25 +55,6 @@ class JoinCommunity extends React.Component {
                   />
                 </div>
               ))}
-              <div className="column small-12 medium-4 large-4 c-card-column">
-                <div className="c-card-app -compact" >
-                  <div className="card-container">
-                    <div className="card-content">
-                      Sign up for our newsletter to receive highlights and updates.
-                    </div>
-
-                    <div className="card-footer">
-                      <Link route="newsletter" >
-                        <a
-                          className="c-button -secondary"
-                        >
-                          Subscribe to our newsletter
-                        </a>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </aside>
@@ -76,7 +65,7 @@ class JoinCommunity extends React.Component {
               <div className="column small-12">
                 <Banner className="-text-center" bgImage="/static/images/backgrounds/bg-partner-maryland.jpg">
                   <p className="-claim">
-                  Let&rsquo;s build a more sustainable<br /> world together.
+                    Let&rsquo;s build a more sustainable<br /> world together.
                   </p>
                   <Link to="about_partners">
                     <a className="c-btn -primary -alt">Partners</a>
