@@ -176,7 +176,7 @@ class DatasetManager extends Component {
                 clearable={false}
                 value={(_selectedDataset.subscriptions
                   .find(_subscription => _subscription.selected) ||
-                    _selectedDataset.subscriptions[0] || {}).value}
+                  _selectedDataset.subscriptions[0] || {}).value}
               />
             </Field>
             <Field

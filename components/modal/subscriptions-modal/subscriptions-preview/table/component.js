@@ -23,7 +23,7 @@ class AlertsTable extends PureComponent {
         {!!data.length && (
           <table className="c-table">
             <thead>
-              <tr>
+              <tr className="preview_table_captions">
                 {(keys || []).map((_key, o) => (
                   <th key={`${_key}-${o}`}>
                     {_key}
@@ -34,7 +34,7 @@ class AlertsTable extends PureComponent {
               {data.map((row, i) => (
                 <tr key={i}>
                   {(keys || []).map((k, x) => (
-                    <td key={`${row[k]}-${x}`}>
+                    <td className="preview-table-element" key={`${row[k]}-${x}`}>
                       {row[k]}
                     </td>))}
                 </tr>))}
