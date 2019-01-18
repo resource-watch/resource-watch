@@ -30,7 +30,7 @@ import {
   LegendItemTimeStep
 } from 'wri-api-components';
 
-import { LayerManager, Layer } from 'layer-manager/lib/react';
+import { LayerManager, Layer } from 'layer-manager/dist/components';
 import { PluginLeaflet } from 'layer-manager';
 
 // Modal

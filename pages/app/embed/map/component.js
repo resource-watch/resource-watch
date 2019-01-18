@@ -10,7 +10,7 @@ import {
   LegendListItem,
   LegendItemTypes
 } from 'wri-api-components';
-import { LayerManager, Layer } from 'layer-manager/lib/react';
+import { LayerManager, Layer } from 'layer-manager/dist/components';
 import { PluginLeaflet } from 'layer-manager';
 
 // components
@@ -28,7 +28,6 @@ import { isLoadedExternally } from 'utils/embed';
 class EmbedMapPage extends PureComponent {
   static propTypes = {
     widget: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     layerGroups: PropTypes.array.isRequired,
     error: PropTypes.string,
@@ -52,7 +51,7 @@ class EmbedMapPage extends PureComponent {
 
   state = { modalOpened: false }
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       getWidget,
       url,
@@ -62,6 +61,18 @@ class EmbedMapPage extends PureComponent {
 
     getWidget(query.id);
     if (user && user.id) this.props.checkIfFavorited(query.id);
+  }
+
+  componentWillUnmount() {
+    if (this.timeout) clearTimeout(this.timeout);
+  }
+
+  onLayerLoading = (isLoading) => {
+    if (!isLoading) {
+      this.timeout = setTimeout(() => {
+        window.WEBSHOT_READY = true;
+      }, 3000);
+    }
   }
 
   getModal() {
@@ -215,7 +226,13 @@ class EmbedMapPage extends PureComponent {
                       </MapControls>}
 
                     {/* LayerManager */}
-                    <LayerManager map={map} plugin={PluginLeaflet}>
+                    <LayerManager
+                      map={map}
+                      plugin={PluginLeaflet}
+                      onLayerLoading={this.onLayerLoading}
+                      // It shouldn't be here
+                      // onLayerReady={(l) => { if (!l) window.WEBSHOT_READY = true; }}
+                    >
                       {flatten(layerGroups.map(lg =>
                         lg.layers.filter(l => l.active === true))).map((l, i) => (
                           <Layer
