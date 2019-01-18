@@ -384,6 +384,7 @@ export const LAYERS_PLANET_PULSE = [
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
+              <LayerPill layerId="d87bb471-1ac0-4f79-818a-e270f04185bf" label="Historical extent" />
               <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
