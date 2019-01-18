@@ -18,7 +18,7 @@ class ImportSelector extends PureComponent {
   onCloneDashboard = ({ id }) => {
     const { user: { token } } = this.props;
 
-    toastr.confirm('Are you sure you want to copy this topic?', {
+    toastr.confirm('Are you sure you want to clone this topic?', {
       onOk: () => {
         cloneDashboard(id, token)
           .then((dashboard) => {
@@ -49,8 +49,8 @@ class ImportSelector extends PureComponent {
           onMouseEnter={() => this.setState({ isOpen: true })}
           onMouseLeave={() => this.setState({ isOpen: false })}
         >
-          <h4 className="template-name">Import dashboard</h4>
-          <span className="template-description">Select a created dashboard</span>
+          <h4 className="template-name">Clone a topic page</h4>
+          <span className="template-description">Clone a topic page into a new dashboard</span>
         </li>
         {isOpen &&
           <ul

@@ -30,8 +30,7 @@ class TemplateSelector extends PureComponent {
         <div className="row">
           <div className="column small-12 medium-6">
             <h2 className="c-title -primary -huge">Content</h2>
-            <p>Select a template, import a content from another
-              dashboard or start a new one from scratch.
+            <p>Use a template, clone a topic page into a new dashboard or start a new one from scratch.
             </p>
           </div>
           <div className="column small-12">
