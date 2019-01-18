@@ -28,7 +28,6 @@ import { isLoadedExternally } from 'utils/embed';
 class EmbedMapPage extends PureComponent {
   static propTypes = {
     widget: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     layerGroups: PropTypes.array.isRequired,
     error: PropTypes.string,
