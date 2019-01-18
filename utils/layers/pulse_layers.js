@@ -368,6 +368,31 @@ export const LAYERS_PLANET_PULSE = [
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         }
       },
+        {
+        label: 'Antarctic Sea Ice',
+        id: 'd0713c73-941e-446f-a94d-8e75951e3b03',
+        contextLayers: [],
+        contextLayersOnTop: true,
+        rotatableGlobe: true,
+        initialPosition: { latitude: -80.4157074446218, longitude: -38.67187499999999, height: 20000000 },
+        '3d': false,
+        widgets: [],
+        descriptionPulse:
+          <div className="description">
+            <div className="description-text">
+              Sea ice grows and shrinks with temperature, affecting global weather patterns and shipping routes. Sea ice extent typically peaks in September and reaches its lowest point in March in the Southern Hemisphere. Extents are measured the National Oceanic and Atmospheric Administration (NOAA) using data from the Defense Meteorological Satellite Program satellites.
+            </div>
+            <div className="view-with-container">
+              <span className="view-with-label"><strong>View with:</strong></span>
+              <LayerPill layerId="d87bb471-1ac0-4f79-818a-e270f04185bf" label="Historical extent" />
+              <LabelsPill url={LABELS.light.value} label="Labels" />
+            </div>
+          </div>,
+        basemap: {
+          name: 'default',
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+        }
+      },
       {
         label: 'Coral reef bleaching',
         id: '31429259-9a9a-4d66-a1b9-92c08aa407f3',
