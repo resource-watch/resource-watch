@@ -164,8 +164,4 @@
       top: -9999px;
       visibility: hidden;
   }
-
-  & + & {
-    margin: 0 0 0 $margin-size-extra-small;
-  }
 }

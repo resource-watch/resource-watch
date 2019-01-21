@@ -26,6 +26,10 @@
       flex: 1;
       margin-bottom: 0;
 
+      &:not(:first-child) {
+        margin: 0 0 0 $margin-size-extra-small;
+      }
+
       &:first-child {
         min-width: 340px;
       }
