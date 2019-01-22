@@ -253,6 +253,7 @@ class ExploreMapComponent extends React.Component {
                 });
               }
             }}
+            scrollZoomEnabled={!embed}
             onReady={(map) => {
               this.map = map;
               console.info(this.map);
