@@ -13,7 +13,7 @@ export default class PartnersService {
   fetchAllData() {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/partners/?published=all`,
+        url: `${process.env.API_URL}/partner/?published=all`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -42,7 +42,7 @@ export default class PartnersService {
   fetchData(id) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/partners/${id}`,
+        url: `${process.env.API_URL}/partner/${id}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -71,7 +71,7 @@ export default class PartnersService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.API_URL}/partners/${id}`,
+        url: `${process.env.API_URL}/partner/${id}`,
         type,
         body,
         headers: [{
@@ -98,7 +98,7 @@ export default class PartnersService {
   deleteData(id) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.API_URL}/partners/${id}`,
+        url: `${process.env.API_URL}/partner/${id}`,
         headers: [{
           key: 'Authorization',
           value: this.opts.authorization

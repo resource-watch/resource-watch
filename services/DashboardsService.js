@@ -21,7 +21,7 @@ export default class DashboardsService {
 
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/dashboards/?${params}`,
+        url: `${process.env.API_URL}/dashboard/?${params}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -46,7 +46,7 @@ export default class DashboardsService {
   fetchData({ id, env = process.env.API_ENV }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/dashboards/${id}?env=${process.env.API_ENV}`,
+        url: `${process.env.API_URL}/dashboard/${id}?env=${process.env.API_ENV}`,
         headers: [{
           key: 'Upgrade-Insecure-Requests',
           value: 1
@@ -65,7 +65,7 @@ export default class DashboardsService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.API_URL}/dashboards/${id}`,
+        url: `${process.env.API_URL}/dashboard/${id}`,
         type,
         body,
         headers: [{
@@ -92,7 +92,7 @@ export default class DashboardsService {
   deleteData({ id, auth }) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.API_URL}/dashboards/${id}`,
+        url: `${process.env.API_URL}/dashboard/${id}`,
         headers: [{
           key: 'Authorization',
           value: auth || this.opts.authorization

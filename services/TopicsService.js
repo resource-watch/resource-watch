@@ -20,7 +20,7 @@ export default class TopicsService {
 
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/topics/?${params}`,
+        url: `${process.env.API_URL}/topic/?${params}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -47,7 +47,7 @@ export default class TopicsService {
   fetchData({ id }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/topics/${id}`,
+        url: `${process.env.API_URL}/topic/${id}`,
         headers: [{
           key: 'Upgrade-Insecure-Requests',
           value: 1
@@ -69,7 +69,7 @@ export default class TopicsService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.API_URL}/topics/${id}`,
+        url: `${process.env.API_URL}/topic/${id}`,
         type,
         body,
         headers: [{
@@ -96,7 +96,7 @@ export default class TopicsService {
   deleteData({ id, auth }) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.API_URL}/topics/${id}`,
+        url: `${process.env.API_URL}/topic/${id}`,
         headers: [{
           key: 'Authorization',
           value: auth || this.opts.authorization

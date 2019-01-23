@@ -22,7 +22,7 @@ export const fetchDashboards = createThunkAction('DASHBOARD_THUMBNAIL_LIST_FETCH
     ...payload.filters
   });
 
-  return fetch(new Request(`${process.env.API_URL}/dashboards?${qParams}`))
+  return fetch(new Request(`${process.env.API_URL}/dashboard?${qParams}`))
     .then(response => response.json())
     .then(({ data }) => {
       dispatch(setLoading(false));
