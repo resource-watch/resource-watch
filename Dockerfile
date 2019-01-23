@@ -1,7 +1,7 @@
 FROM node:8.9.4
 
 ARG apiEnv=production
-ARG apiUrl=https://resourcewatch.org/api
+ARG apiUrl=http://api.resourcewatch.org
 ARG wriApiUrl=https://api.resourcewatch.org/v1
 ARG callbackUrl=https://resourcewatch.org/auth
 ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
