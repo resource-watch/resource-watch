@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
-import { fetchTopics, setFilters } from 'redactions/topics/actions';
-
-// Selectors
-import getFilteredTopics from 'selectors/admin/topics';
+import { getAllTopics, setFilter } from 'modules/topics/actions';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+
+// selectors
+import { getAllFilteredTopics } from './selectors';
 
 // Table components
 import EditAction from './actions/EditAction';
@@ -27,27 +27,32 @@ class TopicsTable extends PureComponent {
     authorization: PropTypes.string.isRequired,
     loading: PropTypes.bool.isRequired,
     topics: PropTypes.array.isRequired,
-    error: PropTypes.string,
-    fetchTopics: PropTypes.func.isRequired,
-    setFilters: PropTypes.func.isRequired
+    error: PropTypes.any,
+    getAllTopics: PropTypes.func.isRequired,
+    setFilter: PropTypes.func.isRequired
   };
 
   static defaultProps = { error: null }
 
   /**
-   * Event handler executed when the user search for a dataset
+   * Event handler executed when the user search for a topic
    * @param {string} { value } Search keywords
    */
   onSearch = (value) => {
     if (!value.length) {
-      this.props.setFilters([]);
+      this.props.setFilter({ key: 'all', value: [] });
     } else {
-      this.props.setFilters([{ key: 'name', value }]);
+      this.props.setFilter({ key: 'all', value: [{ key: 'name', value }] });
     }
   }
 
   render() {
-    const { loading, error, topics, authorization } = this.props;
+    const {
+      topics,
+      loading,
+      error,
+      authorization
+    } = this.props;
 
     return (
       <div className="c-topics-table">
@@ -89,7 +94,7 @@ class TopicsTable extends PureComponent {
             filters={false}
             data={topics}
             pageSize={20}
-            onRowDelete={() => this.props.fetchTopics()}
+            onRowDelete={() => this.props.getAllTopics()}
             pagination={{
               enabled: true,
               pageSize: 20,
@@ -104,12 +109,12 @@ class TopicsTable extends PureComponent {
 
 export default connect(
   state => ({
-    loading: state.topics.loading,
-    topics: getFilteredTopics(state),
-    error: state.topics.error
+    loading: state.topics.all.loading,
+    topics: getAllFilteredTopics(state),
+    error: state.topics.all.error
   }),
   {
-    fetchTopics,
-    setFilters
+    getAllTopics,
+    setFilter
   }
 )(TopicsTable);

@@ -1,40 +1,23 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
-// Layout
-import Page from 'layout/page';
+// components
 import Layout from 'layout/layout/layout-admin';
 import Tabs from 'components/ui/Tabs';
-
-// Tabs
 import TopicsTab from 'components/admin/topics/TopicsTab';
-
-// Components
 import Title from 'components/ui/Title';
 
-// Contants
-const DATA_TABS = [{
-  label: 'Topics',
-  value: 'topics',
-  route: 'admin_topics',
-  params: { tab: 'topics' }
-}];
+// constants
+import { DATA_TABS } from './constants';
 
-class Topics extends Page {
-  constructor(props) {
-    super(props);
 
-    const { url } = props;
+class AdminTopics extends PureComponent {
+  static propTypes = { url: PropTypes.object.isRequired };
 
-    this.state = {
-      tab: url.query.tab || 'topics',
-      id: url.query.id,
-      subtab: url.query.subtab
-    };
+  state = {
+    tab: this.props.url.query.tab || 'topics',
+    id: this.props.url.query.id,
+    subtab: this.props.url.query.subtab
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,17 +31,18 @@ class Topics extends Page {
   }
 
   render() {
-    const { url, user } = this.props;
-    const { tab, subtab, id } = this.state;
+    const {
+      tab,
+      subtab,
+      id
+    } = this.state;
 
     return (
       <Layout
         title="Topics"
+        // TO-DO: fill description
         description="Topics description..."
-        user={user}
-        url={url}
       >
-        {/* PAGE HEADER */}
         <div className="c-page-header -admin">
           <div className="l-container -admin">
             <div className="row">
@@ -93,10 +77,5 @@ class Topics extends Page {
   }
 }
 
-Topics.propTypes = {
-  user: PropTypes.object,
-  url: PropTypes.object
-};
 
-
-export default withRedux(initStore, null, null)(Topics);
+export default AdminTopics;

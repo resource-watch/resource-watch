@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../header-actions';
 
 // selectors
-import { getPublishedTopics } from './selectors';
+import { parseTopics } from './selectors';
 
 // component
 import HeaderTopicsComponent from './component';
@@ -12,7 +12,7 @@ import HeaderTopicsComponent from './component';
 export default connect(
   state => ({
     header: state.header,
-    topics: getPublishedTopics(state)
+    topics: parseTopics(state)
   }),
   actions
 )(HeaderTopicsComponent);

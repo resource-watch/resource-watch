@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
-import { toastr } from 'react-redux-toastr';
 
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
 // Services
-import TopicsService from 'services/TopicsService';
+import { getTopic } from 'modules/topics/actions';
 
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
@@ -24,7 +23,22 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 // Components
 import Title from 'components/ui/Title';
 
-class TopicsDetail extends Page {
+class AdminTopicsDetailPage extends Page {
+  static propTypes = { topic: PropTypes.object }
+
+  static defualtProps = { topic: null }
+
+  static async getInitialProps(context) {
+    const props = await super.getInitialProps(context);
+    const { store } = context;
+    const { url: { query: { id } } } = props;
+
+    // fetchs the topic data
+    if (id && id !== 'new') await store.dispatch(getTopic(id));
+
+    return props;
+  }
+
   constructor(props) {
     super(props);
 
@@ -36,37 +50,6 @@ class TopicsDetail extends Page {
       subtab,
       data: {}
     };
-
-
-    this.service = null;
-
-    switch (tab) {
-      case 'topics':
-        if (id !== 'new') {
-          this.service = new TopicsService({
-            authorization: props.user.token
-          });
-        }
-        break;
-      // TODO: do the same service for widgets and layers
-      default:
-    }
-  }
-
-  componentDidMount() {
-    const { id } = this.state;
-
-    if (this.service) {
-      this.service.fetchData({ id })
-        .then((data) => {
-          this.setState({
-            data: data || {}
-          });
-        })
-        .catch((err) => {
-          toastr.error('Error', err);
-        });
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -81,31 +64,29 @@ class TopicsDetail extends Page {
    * - getName
   */
   getName() {
-    const { tab, id, data } = this.state;
+    const {
+      url: { query: { id, tab } },
+      topic
+    } = this.props;
 
-    if (id === 'new') {
-      return `New ${singular(tab)}`;
-    }
+    if (id === 'new') return `New ${singular(tab)}`;
 
-    if (data.name) {
-      return data.name;
-    }
+    if (topic && topic.name) return topic.name;
 
     return '-';
   }
 
   render() {
-    const { url, user } = this.props;
-    const { tab, subtab, id } = this.state;
+    const { url } = this.props;
+    const { query: { id, tab, subtab } } = url;
 
     return (
       <Layout
         title={this.getName()}
+        // TO-DO: fill description
         description="Topics detail..."
-        user={user}
         url={url}
       >
-        {/* PAGE HEADER */}
         <div className="c-page-header -admin">
           <div className="l-container -admin">
             <div className="row">
@@ -138,9 +119,8 @@ class TopicsDetail extends Page {
   }
 }
 
-TopicsDetail.propTypes = {
-  user: PropTypes.object,
-  url: PropTypes.object
-};
-
-export default withRedux(initStore, null, null)(TopicsDetail);
+export default withRedux(
+  initStore,
+  state => ({ topic: state.topics.detail.data }),
+  null
+)(AdminTopicsDetailPage);

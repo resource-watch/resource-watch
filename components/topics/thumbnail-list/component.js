@@ -1,57 +1,66 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default function TopicThumbnailList({
-  topics = [],
-  selected = '',
-  onSelect,
-  portraitMode = false
-}) {
-  return (
-    <div className="c-topics-thumbnail-list">
-      <div className="row l-row -equal-height">
-        {
-          topics.map(topic => (
-            <div
-              key={topic.slug}
-              className={classnames({
-                column: true,
-                'small-12': true,
-                'medium-6': !portraitMode,
-                'large-3': !portraitMode,
-                'large-2': portraitMode,
-                'medium-3': portraitMode,
-                'small-4': portraitMode
-              })}
-            >
-              <button
+class TopicThumbnailList extends PureComponent {
+  static propTypes = {
+    topics: PropTypes.array.isRequired,
+    selected: PropTypes.string,
+    onSelect: PropTypes.func.isRequired,
+    portraitMode: PropTypes.bool
+  }
+
+  static defaultProps = {
+    portraitMode: false,
+    selected: null
+  }
+
+  render() {
+    const {
+      topics,
+      portraitMode,
+      selected,
+      onSelect
+    } = this.props;
+
+    return (
+      <div className="c-topics-thumbnail-list">
+        <div className="row l-row -equal-height">
+          {
+            topics.map(topic => (
+              <div
                 key={topic.slug}
-                tabIndex="0"
                 className={classnames({
-                  'thumbnail-list-item': true,
-                  '-active': topic.slug === selected
+                  column: true,
+                  'small-12': true,
+                  'medium-6': !portraitMode,
+                  'large-3': !portraitMode,
+                  'large-2': portraitMode,
+                  'medium-3': portraitMode,
+                  'small-4': portraitMode
                 })}
-                style={{
-                  backgroundImage: `url(${topic.photo.medium})`
-                }}
-                onClick={() => onSelect(topic)}
               >
-                <div className="content" htmlFor={`topic-${topic.slug}`}>
-                  {topic.name}
-                </div>
-              </button>
-            </div>
-          ))
-        }
+                <button
+                  key={topic.slug}
+                  tabIndex="0"
+                  className={classnames({
+                    'thumbnail-list-item': true,
+                    '-active': topic.slug === selected
+                  })}
+                  style={{ backgroundImage: `url(${topic.photo.medium})` }}
+                  onClick={() => onSelect(topic)}
+                >
+                  <div className="content" htmlFor={`topic-${topic.slug}`}>
+                    {topic.name}
+                  </div>
+                </button>
+              </div>
+            ))
+          }
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-TopicThumbnailList.propTypes = {
-  topics: PropTypes.array,
-  selected: PropTypes.string,
-  onSelect: PropTypes.func,
-  portraitMode: PropTypes.bool
-};
+export default TopicThumbnailList;
