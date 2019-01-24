@@ -1,6 +1,7 @@
 FROM node:8.14.0-alpine
 
 ARG apiEnv=production
+ARG apiUrl=https://api.resourcewatch.org
 ARG wriApiUrl=https://api.resourcewatch.org/v1
 ARG callbackUrl=https://resourcewatch.org/auth
 ARG controlTowerUrl=https://production-api.globalforestwatch.org

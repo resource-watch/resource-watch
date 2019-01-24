@@ -51,7 +51,7 @@ class JoinCommunity extends PureComponent {
                     className="-compact"
                     description={card.description}
                     link={{ ...card.link }}
-                    buttonType="primary"
+                    buttonType={card.id === 'newsletter' ? null : 'primary'}
                   />
                 </div>
               ))}

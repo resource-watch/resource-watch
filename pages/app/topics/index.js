@@ -26,9 +26,7 @@ class TopicsPage extends Page {
     // Dashboard thumbnail list
     context.store.dispatch(actions.setSelected(null));
 
-    await context.store.dispatch(actions.fetchTopics({
-      filters: { 'filter[published]': 'true' }
-    }));
+    await context.store.dispatch(actions.fetchTopics({ filters: { 'filter[published]': 'true' } }));
 
     await context.store.dispatch(getStaticData('topics'));
 
