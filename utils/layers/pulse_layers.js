@@ -359,7 +359,7 @@ export const LAYERS_PLANET_PULSE = [
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
-              <LayerPill layerId="d87bb471-1ac0-4f79-818a-e270f04185bf" label="Historical extent" />
+              <LayerPill layerId="d87bb471-1ac0-4f79-818a-e270f04185bf" label="Average monthly extents" />
               <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
@@ -380,11 +380,11 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Sea ice grows and shrinks with temperature, affecting global weather patterns and shipping routes. Sea ice extent typically peaks in September and reaches its lowest point in March in the Southern Hemisphere. Extents are measured the National Oceanic and Atmospheric Administration (NOAA) using data from the Defense Meteorological Satellite Program satellites.
+              Sea ice grows and shrinks with temperature, affecting global weather patterns and shipping routes. Sea ice extent typically peaks in September and reaches its lowest point in February in the Southern Hemisphere. Extents are measured the National Oceanic and Atmospheric Administration (NOAA) using data from the Defense Meteorological Satellite Program satellites.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
-              <LayerPill layerId="d87bb471-1ac0-4f79-818a-e270f04185bf" label="Historical extent" />
+              <LayerPill layerId="d87bb471-1ac0-4f79-818a-e270f04185bf" label="Average monthly extents" />
               <LabelsPill url={LABELS.light.value} label="Labels" />
             </div>
           </div>,
