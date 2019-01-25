@@ -13,7 +13,7 @@ export default class PagesService {
   fetchAllData() {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/static_pages/?published=all`,
+        url: `${process.env.API_URL}/static_page/?published=all`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -42,7 +42,7 @@ export default class PagesService {
   fetchData(id) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/static_pages/${id}`,
+        url: `${process.env.API_URL}/static_page/${id}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -71,7 +71,7 @@ export default class PagesService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.API_URL}/static_pages/${id}`,
+        url: `${process.env.API_URL}/static_page/${id}`,
         type,
         body,
         headers: [{
@@ -98,7 +98,7 @@ export default class PagesService {
   deleteData(id) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.API_URL}/static_pages/${id}`,
+        url: `${process.env.API_URL}/static_page/${id}`,
         headers: [{
           key: 'Authorization',
           value: this.opts.authorization
