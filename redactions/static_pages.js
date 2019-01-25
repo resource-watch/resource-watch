@@ -66,7 +66,7 @@ export function getStaticData(slug) {
   return (dispatch) => {
     // Waiting for fetch from server -> Dispatch loading
     dispatch({ type: GET_STATIC_LOADING });
-    return fetch(new Request(`${process.env.API_URL}/static_pages/${slug}`))
+    return fetch(new Request(`${process.env.API_URL}/static_page/${slug}`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
