@@ -11,7 +11,7 @@ export default class FaqsService {
   // GET ALL DATA
   fetchAllData() {
     return fetch(
-      `${process.env.API_URL}/faqs/?published=all`,
+      `${process.env.API_URL}/faq/?published=all`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
 
     )
@@ -34,7 +34,7 @@ export default class FaqsService {
 
   fetchData(id) {
     return fetch(
-      `${process.env.API_URL}/faqs/${id}`,
+      `${process.env.API_URL}/faq/${id}`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
 
     )
@@ -56,7 +56,7 @@ export default class FaqsService {
   }
 
   saveData({ type, body, id = '' }) {
-    return fetch(`${process.env.API_URL}/faqs/${id}`, {
+    return fetch(`${process.env.API_URL}/faq/${id}`, {
       method: type,
       body: JSON.stringify(body),
       headers: {
@@ -83,7 +83,7 @@ export default class FaqsService {
   }
 
   deleteData(id) {
-    return fetch(`${process.env.API_URL}/faqs/${id}`, {
+    return fetch(`${process.env.API_URL}/faq/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ export default class FaqsService {
   }
 
   updateFaqOrder(order, token) {
-    return fetch(`${process.env.API_URL}/faqs/reorder`, {
+    return fetch(`${process.env.API_URL}/faq/reorder`, {
       method: 'POST',
       body: JSON.stringify(order),
       headers: {
