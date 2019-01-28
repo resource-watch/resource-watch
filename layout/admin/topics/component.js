@@ -10,32 +10,11 @@ import Title from 'components/ui/Title';
 // constants
 import { DATA_TABS } from './constants';
 
-
-class AdminTopics extends PureComponent {
-  static propTypes = { url: PropTypes.object.isRequired };
-
-  state = {
-    tab: this.props.url.query.tab || 'topics',
-    id: this.props.url.query.id,
-    subtab: this.props.url.query.subtab
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { url } = nextProps;
-
-    this.setState({
-      tab: url.query.tab || 'topics',
-      id: url.query.id,
-      subtab: url.query.subtab
-    });
-  }
+class AdminTopicsLayout extends PureComponent {
+  static propTypes = { query: PropTypes.object.isRequired };
 
   render() {
-    const {
-      tab,
-      subtab,
-      id
-    } = this.state;
+    const { query: { id, tab, subtab } } = this.props;
 
     return (
       <Layout
@@ -53,7 +32,7 @@ class AdminTopics extends PureComponent {
                   </Title>
                   <Tabs
                     options={DATA_TABS}
-                    defaultSelected={tab}
+                    defaultSelected={tab || 'topics'}
                     selected={tab}
                   />
                 </div>
@@ -65,9 +44,7 @@ class AdminTopics extends PureComponent {
           <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
-                {tab === 'topics' &&
-                  <TopicsTab tab={tab} subtab={subtab} id={id} />
-                }
+                <TopicsTab tab={tab} subtab={subtab} id={id} />
               </div>
             </div>
           </div>
@@ -77,5 +54,4 @@ class AdminTopics extends PureComponent {
   }
 }
 
-
-export default AdminTopics;
+export default AdminTopicsLayout;

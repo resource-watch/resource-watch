@@ -7,7 +7,7 @@ import { getAllTopics } from 'modules/topics/actions';
 
 // layout
 import Page from 'layout/page';
-import AdminTopics from 'layout/admin/topics';
+import AdminTopicsLayout from 'layout/admin/topics';
 
 class AdminTopicsPage extends Page {
   static async getInitialProps(context) {
@@ -20,7 +20,7 @@ class AdminTopicsPage extends Page {
   }
 
   render() {
-    return (<AdminTopics {...this.props} />);
+    return (<AdminTopicsLayout {...this.props} />);
   }
 }
 
