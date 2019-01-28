@@ -54,7 +54,7 @@ class DashboardsTable extends React.Component {
 
   componentDidMount() {
     this.props.setFilters([]);
-    this.props.getDashboards({ env: 'production,preproduction' });
+    this.props.getDashboards();
   }
 
   /**

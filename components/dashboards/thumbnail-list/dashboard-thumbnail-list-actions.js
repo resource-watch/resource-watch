@@ -19,7 +19,7 @@ export const fetchDashboards = createThunkAction('DASHBOARD_THUMBNAIL_LIST_FETCH
 
   const qParams = queryString.stringify({
     sort: 'name',
-    ...payload.filters
+    ...payload
   });
 
   return fetch(new Request(`${process.env.WRI_API_URL}/dashboard?${qParams}`))
