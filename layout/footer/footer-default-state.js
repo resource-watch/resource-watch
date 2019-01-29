@@ -98,12 +98,7 @@ export default {
     {
       user: false,
       id: 'myrw',
-      label: 'Log in',
-      children: [
-        { label: 'Facebook', href: '/auth/facebook' },
-        { label: 'Google', href: '/auth/google' },
-        { label: 'Twitter', href: '/auth/twitter' }
-      ]
+      label: 'Log in'
     },
     {
       user: true,
@@ -111,8 +106,8 @@ export default {
       route: 'myrw',
       label: 'My Resource Watch',
       children: [
-        { label: 'Profile', route: '/myrw/profile' },
-        { label: 'Admin', href: '/admin', admin: true },
+        { label: 'Profile', route: 'myrw', params: { tab: 'profile' } },
+        { label: 'Admin', route: 'admin_home', admin: true },
         { label: 'Logout', id: 'logout' }
       ]
     }
