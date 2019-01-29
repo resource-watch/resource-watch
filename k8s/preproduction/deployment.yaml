@@ -48,6 +48,8 @@ spec:
             cpu: "250m"
           limits:
             memory: "1Gi"
+        args:
+          - start
         env:
           - name: SECRET
             valueFrom:

@@ -1,13 +1,12 @@
-version: "2"
+version: "3"
 services:
-  redis:
-    image: redis
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    env_file: ./.env
+    env_file: .env
     environment:
+      - BLOG_API_URL=https://resourcewatch.org/blog/wp-json/wp/v2
       - NODE_ENV=production
       - PORT=3000
       - REDIS_URL=redis://redis:6379
@@ -15,5 +14,9 @@ services:
       - "3000:3000"
     restart: always
     container_name: resource-watch
+    command: start
     depends_on:
       - redis
+
+  redis:
+    image: redis

@@ -34,7 +34,6 @@
     "express-session": "1.15.3",
     "foundation-sites": "6.3.1",
     "fuse.js": "^3.2.1",
-    "grunt": "^1.0.3",
     "isomorphic-fetch": "2.2.1",
     "json-loader": "^0.5.7",
     "jsonapi-serializer": "3.5.3",
@@ -42,6 +41,7 @@
     "leaflet-utfgrid": "^0.3.0",
     "lodash": "4.17.4",
     "lusca": "1.4.1",
+    "mocha": "^5.2.0",
     "moment": "^2.18.1",
     "moment-range": "3.0.3",
     "moveto": "1.6.1",
@@ -139,7 +139,7 @@
     "dev": "node index.js",
     "build": "better-npm-run build",
     "start": "better-npm-run start",
-    "test": "NODE_PATH=app/src node $NODE_DEBUG_OPTION ./node_modules/.bin/grunt --gruntfile app/Gruntfile.js e2eTest"
+    "test": "./node_modules/.bin/mocha test/e2e/** --timeout 50000"
   },
   "betterScripts": {
     "build": {

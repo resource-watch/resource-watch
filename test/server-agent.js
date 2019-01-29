@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 
@@ -5,7 +6,7 @@ let requester;
 
 chai.use(chaiHttp);
 
-exports.getTestAgent = async function getTestAgent(forceNew = false) {
+exports.getTestServer = async function getTestAgent(forceNew = false) {
   if (forceNew && requester) {
     await new Promise((resolve) => {
       requester.close(() => {
@@ -15,18 +16,22 @@ exports.getTestAgent = async function getTestAgent(forceNew = false) {
     });
   }
 
-  if (requester) return requester;
+  if (requester) {
+    return requester;
+  }
 
-  const serverPromise = require('../../src/app');
-  const { server } = await serverPromise();
-  requester = chai.request.agent(server);
+  const serverPromise = require('../index');
+  const { server } = await serverPromise;
+  requester = chai.request(server).keepOpen();
 
   return requester;
 };
 
-exports.closeTestAgent = function closeTestAgent() {
-  if (!requester) return;
+exports.closeTestServer = function closeTestAgent() {
+  if (!requester) {
+    return;
+  }
   requester.close();
-
   requester = null;
 };
+

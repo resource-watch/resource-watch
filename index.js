@@ -114,87 +114,95 @@ server.use((req, res, nextAction) => {
 auth.initialize(server);
 
 // Initializing next app before express server
-app.prepare().then(() => {
-  // Configuring next routes with express
-  const handleUrl = (req, res) => {
-    const parsedUrl = parse(req.url, true);
-    return handle(req, res, parsedUrl);
-  };
 
-  // Redirecting data to data/explore
-  // TODO: create data page
-  server.get('/data', (req, res) => res.redirect('/data/explore'));
+async function init() {
+  return new Promise((resolve, reject) => {
+    app.prepare().then(() => {
+      // Configuring next routes with express
+      const handleUrl = (req, res) => {
+        const parsedUrl = parse(req.url, true);
+        return handle(req, res, parsedUrl);
+      };
 
-  // Authentication
-  server.get(
-    '/auth',
-    auth.authenticate({ failureRedirect: '/sign-in' }),
-    (req, res) => {
-      if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
-      const authRedirect = req.cookies.authUrl || '/myrw';
+      // Redirecting data to data/explore
+      // TODO: create data page
+      server.get('/data', (req, res) => res.redirect('/data/explore'));
 
-      if (req.cookies.authUrl) {
-        res.clearCookie('authUrl');
-      }
+      // Authentication
+      server.get(
+        '/auth',
+        auth.authenticate({ failureRedirect: '/sign-in' }),
+        (req, res) => {
+          if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
+          const authRedirect = req.cookies.authUrl || '/myrw';
 
-      return res.redirect(authRedirect);
-    }
-  );
+          if (req.cookies.authUrl) {
+            res.clearCookie('authUrl');
+          }
 
-  // Authenticate specific service, and set authUrl cookie so we remember where we where
-  server.get('/auth/:service', (req, res) => {
-    const { service } = req.params;
+          return res.redirect(authRedirect);
+        }
+      );
 
-    // Returning user data
-    if (service === 'user') return res.json(req.user || {});
+      // Authenticate specific service, and set authUrl cookie so we remember where we where
+      server.get('/auth/:service', (req, res) => {
+        const { service } = req.params;
 
-    if (!/facebook|google|twitter/.test(service)) {
-      return res.redirect('/sign-in');
-    }
+        // Returning user data
+        if (service === 'user') return res.json(req.user || {});
 
-    if (req.cookies.authUrl) {
-      res.clearCookie('authUrl');
-    }
+        if (!/facebook|google|twitter/.test(service)) {
+          return res.redirect('/sign-in');
+        }
 
-    // save the current url for redirect if successfull, set it to expire in 5 min
-    res.cookie('authUrl', req.headers.referer, { maxAge: 3e5, httpOnly: true });
-    return res.redirect(
-      `${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${
-        process.env.CALLBACK_URL
-      }&applications=rw&token=true&origin=rw`
-    );
+        if (req.cookies.authUrl) {
+          res.clearCookie('authUrl');
+        }
+
+        // save the current url for redirect if successfull, set it to expire in 5 min
+        res.cookie('authUrl', req.headers.referer, { maxAge: 3e5, httpOnly: true });
+        return res.redirect(
+          `${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${process.env.CALLBACK_URL}&applications=rw&token=true&origin=rw`
+        );
+      });
+
+      // if the user is already logged-in, redirect it to /myrw
+      // if it tries to go to sign-in page
+      server.get('/sign-in', (req, res, nextAction) => {
+        if (req.isAuthenticated()) res.redirect('/myrw');
+        return nextAction();
+      });
+
+      server.get('/login', auth.login);
+      server.get('/logout', (req, res) => {
+        req.session.destroy();
+        req.logout();
+        res.redirect('back');
+      });
+
+      // Routes with required authentication
+      server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
+      server.get('/myrw*?', isAuthenticated, handleUrl);
+      server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
+
+
+      // local sign-in
+      server.post('/local-sign-in', auth.signin);
+
+      server.use(handle);
+
+      server.listen(port, (err) => {
+        if (err) {
+          reject(err);
+        }
+        resolve({ server });
+        console.info(
+          `> Ready on http://localhost:${port} [${process.env.NODE_ENV ||
+          'development'}]`
+        );
+      });
+    });
   });
+}
 
-  // if the user is already logged-in, redirect it to /myrw
-  // if it tries to go to sign-in page
-  server.get('/sign-in', (req, res, nextAction) => {
-    if (req.isAuthenticated()) res.redirect('/myrw');
-    return nextAction();
-  });
-
-  server.get('/login', auth.login);
-  server.get('/logout', (req, res) => {
-    req.session.destroy();
-    req.logout();
-    res.redirect('back');
-  });
-
-  // Routes with required authentication
-  server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
-  server.get('/myrw*?', isAuthenticated, handleUrl);
-  server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
-
-
-  // local sign-in
-  server.post('/local-sign-in', auth.signin);
-
-  server.use(handle);
-
-  server.listen(port, (err) => {
-    if (err) throw err;
-    console.info(
-      `> Ready on http://localhost:${port} [${process.env.NODE_ENV ||
-        'development'}]`
-    );
-  });
-});
+module.exports = init();

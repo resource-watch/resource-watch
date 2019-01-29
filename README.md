@@ -2,6 +2,61 @@
 
 # Resource Watch
 
+## Dependencies
+
+Native execution requires:
+- [Nodejs](https://nodejs.org/en/) 8.x
+- [Yarn](https://yarnpkg.com/en/)
+
+Execution using Docker requires:
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+
+
+## Configuration
+
+The project is configured through a set of [environment variables](https://en.wikipedia.org/wiki/Environment_variable):
+
+- ADD_SEARCH_KEY: 
+- API_ENV: Environments to pass to the API (comma-separated values)
+- APPLICATIONS: Is is used to select which data will be showed
+- BASEMAP_TILE_URL: It is used to set default basemap for map, it should be a valid Tile URL. Examples: https://leaflet-extras.github.io/leaflet-providers/preview/
+- BING_MAPS_API_KEY: 
+- BITLY_TOKEN: 
+- BLOG_API_URL: 
+- CALLBACK_URL: 
+- CONTROL_TOWER_URL: Control Tower's URL
+- GOOGLE_ANALYTICS: Google Analytics tracking ID
+- NODE_ENV: 
+- PARDOT_NEWSLETTER_URL: 
+- REDIS_URL: Redis URL for production mode
+- RW_GOGGLE_API_TOKEN_SHORTENER: 
+- SECRET: Your secret key is used for verifying the integrity of signed cookies. If you change this key, all old signed cookies will become invalid. Make sure the secrets in this file are kept private
+- STATIC_SERVER_URL: static assets url for this application
+- TRANSIFEX_LIVE_API: Transifex live api token
+- WRI_API_URL: API's URL: https://api.resourcewatch.org
+
+
+## Installation
+
+### Native execution
+
+- Copy `.env.sample` to `.env`
+<Add install instructions here>
+
+### Docker
+
+1 - Create and complete your `.env` file with your configuration. The meaning of the variables is available in this [section](#Configuration). You can find an example `.env.sample` file in the project root.
+
+2 - Execute the following command to run `Docker compose`:
+
+```
+./dataset.sh develop
+```
+
+The endpoints provided by this microservice should now be available through Control Tower's URL.
+
+
 ## Useful links
 
 * [RW API documentation](https://resource-watch.github.io/doc-api/)

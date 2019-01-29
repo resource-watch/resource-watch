@@ -44,6 +44,8 @@ spec:
           requests:
             memory: "0Mi"
             cpu: "0m"
+        args:
+          - start
         env:
           - name: SECRET
             valueFrom:
