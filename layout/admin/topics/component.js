@@ -1,64 +1,27 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
-// Layout
-import Page from 'layout/page';
+// components
 import Layout from 'layout/layout/layout-admin';
 import Tabs from 'components/ui/Tabs';
-
-// Tabs
 import TopicsTab from 'components/admin/topics/TopicsTab';
-
-// Components
 import Title from 'components/ui/Title';
 
-// Contants
-const DATA_TABS = [{
-  label: 'Topics',
-  value: 'topics',
-  route: 'admin_topics',
-  params: { tab: 'topics' }
-}];
+// constants
+import { DATA_TABS } from './constants';
 
-class Topics extends Page {
-  constructor(props) {
-    super(props);
-
-    const { url } = props;
-
-    this.state = {
-      tab: url.query.tab || 'topics',
-      id: url.query.id,
-      subtab: url.query.subtab
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { url } = nextProps;
-
-    this.setState({
-      tab: url.query.tab || 'topics',
-      id: url.query.id,
-      subtab: url.query.subtab
-    });
-  }
+class AdminTopicsLayout extends PureComponent {
+  static propTypes = { query: PropTypes.object.isRequired };
 
   render() {
-    const { url, user } = this.props;
-    const { tab, subtab, id } = this.state;
+    const { query: { id, tab, subtab } } = this.props;
 
     return (
       <Layout
         title="Topics"
+        // TO-DO: fill description
         description="Topics description..."
-        user={user}
-        url={url}
       >
-        {/* PAGE HEADER */}
         <div className="c-page-header -admin">
           <div className="l-container -admin">
             <div className="row">
@@ -69,7 +32,7 @@ class Topics extends Page {
                   </Title>
                   <Tabs
                     options={DATA_TABS}
-                    defaultSelected={tab}
+                    defaultSelected={tab || 'topics'}
                     selected={tab}
                   />
                 </div>
@@ -81,9 +44,7 @@ class Topics extends Page {
           <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
-                {tab === 'topics' &&
-                  <TopicsTab tab={tab} subtab={subtab} id={id} />
-                }
+                <TopicsTab tab={tab} subtab={subtab} id={id} />
               </div>
             </div>
           </div>
@@ -93,10 +54,4 @@ class Topics extends Page {
   }
 }
 
-Topics.propTypes = {
-  user: PropTypes.object,
-  url: PropTypes.object
-};
-
-
-export default withRedux(initStore, null, null)(Topics);
+export default AdminTopicsLayout;

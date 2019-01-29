@@ -5,7 +5,7 @@ import importSelector from './component';
 export default connect(
   state => ({
     user: state.user,
-    topics: state.topicsMenu.topics
+    topics: state.topics.published.data
   }),
   null
 )(importSelector);

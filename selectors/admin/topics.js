@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const topics = state => state.topicsMenu.topics;
+const topics = state => state.topics.all.data;
 const filters = state => state.topics.topics.filters;
 
 /**

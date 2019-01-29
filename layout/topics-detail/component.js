@@ -1,35 +1,30 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Router } from 'routes';
 import compact from 'lodash/compact';
 import flatten from 'lodash/flatten';
 
-import { Router } from 'routes';
-
-// Utils
-import { TOPICS_CONNECTIONS } from 'utils/topics';
-
-// Components
+// components
 import Layout from 'layout/layout/layout-app';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 import RelatedTools from 'components/tools/related-tools';
-
-// Topic Detail Component
 import TopicDetailHeader from 'layout/topics-detail/topics-detail-header';
 import TopicDetailContent from 'layout/topics-detail/topics-detail-content';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
-
 import Title from 'components/ui/Title';
 
-class TopicDetailComponent extends React.Component {
+// utils
+import { TOPICS_CONNECTIONS } from 'utils/topics';
+
+class TopicDetailLayout extends PureComponent {
   static propTypes = { topicsDetail: PropTypes.object.isRequired };
 
   getDatasetIds() {
-    const { topicsDetail } = this.props;
+    const { topicsDetail: { content } } = this.props;
 
-    const content = JSON.parse(topicsDetail.data.content);
+    const parsedContent = JSON.parse(content);
 
-    const datasetIds = content.map((block) => {
+    const datasetIds = parsedContent.map((block) => {
       if (!block) {
         return null;
       }
@@ -43,7 +38,7 @@ class TopicDetailComponent extends React.Component {
           if (!b) {
             return null;
           }
-          
+
           if (b.type === 'widget') {
             return b.content.datasetId;
           }
@@ -59,19 +54,17 @@ class TopicDetailComponent extends React.Component {
   }
 
   render() {
-    const { topicsDetail } = this.props;
-
-    const { data: topic } = topicsDetail;
+    const { topicsDetail: { name, description, slug } } = this.props;
 
     const datasetsIds = this.getDatasetIds();
     const toolsIds = TOPICS_CONNECTIONS
-      .filter(t => t.topic === topic.slug)
+      .filter(t => t.topic === slug)
       .map(v => v.appId);
 
     return (
       <Layout
-        title={topic.name}
-        description={topic.description || ''}
+        title={name}
+        description={description || ''}
         category="Topic"
         pageHeader
       >
@@ -106,12 +99,10 @@ class TopicDetailComponent extends React.Component {
                   </Title>
 
                   <TopicThumbnailList
-                    onSelect={({ slug }) => {
+                    onSelect={({ slug: _slug }) => {
                       // We need to make an amendment in the Wysiwyg to have this working
-                      Router.pushRoute('topics_detail', { id: slug })
-                        .then(() => {
-                          window.scrollTo(0, 0);
-                        });
+                      Router.pushRoute('topics_detail', { id: _slug })
+                        .then(() => { window.scrollTo(0, 0); });
                     }}
                   />
                 </div>
@@ -159,4 +150,4 @@ class TopicDetailComponent extends React.Component {
   }
 }
 
-export default TopicDetailComponent;
+export default TopicDetailLayout;
