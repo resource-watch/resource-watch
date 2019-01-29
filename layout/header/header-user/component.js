@@ -18,6 +18,7 @@ class HeaderUser extends PureComponent {
   logout(e) {
     if (e) e.preventDefault();
 
+    // TO-DO: move this to an action
     fetch(`${process.env.CONTROL_TOWER_URL}/auth/logout`, { credentials: 'include' })
       .then(() => {
         window.location.href = `/logout?callbackUrl=${window.location.href}`;
@@ -114,13 +115,15 @@ class HeaderUser extends PureComponent {
                 </ul>
                 <ul className="header-dropdown-list user-list">
                   <li className="header-dropdown-list-item">
-                    <Link to="myrw/profile">
+                    <Link route="myrw" params={{ tab: 'profile' }}>
                       <a>Profile</a>
                     </Link>
                   </li>
                   {user.role === 'ADMIN' &&
                     <li className="header-dropdown-list-item">
-                      <a href="/admin">Admin</a>
+                      <Link route="admin_home">
+                        <a>Admin</a>
+                      </Link>
                     </li>
                   }
                   <li className="header-dropdown-list-item">

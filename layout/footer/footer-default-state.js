@@ -111,9 +111,9 @@ export default {
       route: 'myrw',
       label: 'My Resource Watch',
       children: [
-        { label: 'Profile', route: 'myrw/profile' },
+        { label: 'Profile', route: '/myrw/profile' },
         { label: 'Admin', href: '/admin', admin: true },
-        { label: 'Logout', id: 'logout' } // It should make an ajax call
+        { label: 'Logout', id: 'logout' }
       ]
     }
   ]
