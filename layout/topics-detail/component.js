@@ -99,12 +99,10 @@ class TopicDetailLayout extends PureComponent {
                   </Title>
 
                   <TopicThumbnailList
-                    onSelect={({ _slug }) => {
+                    onSelect={({ slug: _slug }) => {
                       // We need to make an amendment in the Wysiwyg to have this working
                       Router.pushRoute('topics_detail', { id: _slug })
-                        .then(() => {
-                          window.scrollTo(0, 0);
-                        });
+                        .then(() => { window.scrollTo(0, 0); });
                     }}
                   />
                 </div>
