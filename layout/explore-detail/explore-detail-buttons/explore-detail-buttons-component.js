@@ -153,6 +153,7 @@ class ExploreDetailButtons extends PureComponent {
               target="_blank"
               rel="noopener noreferrer"
               href={metadata.info && metadata.info.learn_more_link}
+              onClick={() => logEvent('Explore', 'Click to data provider', dataset.provider)}
             >
               <span>
                 Learn more
