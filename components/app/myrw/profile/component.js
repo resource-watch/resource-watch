@@ -113,6 +113,7 @@ class Profile extends PureComponent {
   userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 
   render() {
+    console.log(this.props)
     const { user, loading } = this.state;
     const {
       name,

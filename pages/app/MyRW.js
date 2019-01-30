@@ -1,15 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
 import { getUserAreas } from 'redactions/user';
 
 // components
-import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 import Tabs from 'components/ui/Tabs';
 import Title from 'components/ui/Title';
@@ -63,7 +59,7 @@ const MYRW_TABS = [
   }
 ];
 
-class MyRW extends Page {
+class MyRW extends Component {
   static defaultProps = {};
 
   static propTypes = {
@@ -72,57 +68,55 @@ class MyRW extends Page {
     routes: PropTypes.object
   };
 
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { user } = props;
-    const { tab } = props.url.query;
+  static async getInitialProps({ store, query }) {
+    const { tab, subtab } = query;
 
     if (tab === 'areas') {
-      await context.store.dispatch(getUserAreas({ layerGroups: true }));
+      await store.dispatch(getUserAreas({ layerGroups: true }));
     }
 
     // If user is not logged redirect to login
-    if (!user.token && typeof window !== 'undefined') {
-      window.location.pathname = '/sign-in';
-    }
+    // if (!user.token && typeof window !== 'undefined') {
+    //   window.location.pathname = '/sign-in';
+    // }
 
-    return { ...props };
+    return { tab, subtab, query };
   }
 
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    const { url } = props;
+  //   const { tab, subtab } = props;
 
-    this.state = {
-      tab: url.query.tab || 'widgets',
-      subtab: url.query.subtab
-    };
-  }
+  //   this.state = {
+  //     tab: tab || 'widgets',
+  //     subtab
+  //   };
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    const { url } = nextProps;
+  // componentWillReceiveProps(nextProps) {
+  //   const { url } = nextProps;
 
-    this.setState({
-      tab: url.query.tab || 'widgets',
-      subtab: url.query.subtab
-    });
-  }
+  //   this.setState({
+  //     tab: url.query.tab || 'widgets',
+  //     subtab: url.query.subtab
+  //   });
+  // }
 
   render() {
-    const { url, user } = this.props;
+    console.log('>>>> PROPS >>>>', this.props);
+    const { tab, subtab, user, query } = this.props;
 
-    if (!user.token) return null;
-
-    const { tab, subtab } = this.state;
+    if (!user || !(user.userToken || user.token)) return null;
 
     const userName = user && user.name ? ` ${user.name.split(' ')[0]}` : '';
     const title = userName ? `Hi${userName}!` : 'My Resource Watch';
+
     return (
       <Layout
         title="My Resource Watch Edit Profile"
         description="My Resource Watch Edit Profile description"
-        url={url}
+        // url={url}
         user={user}
         pageHeader
       >
@@ -145,7 +139,7 @@ class MyRW extends Page {
                 {tab === 'profile' && <Profile />}
                 {tab === 'datasets' && <DatasetsTab tab={tab} subtab={subtab} />}{' '}
                 {tab === 'dashboards' && <DashboardsTab tab={tab} subtab={subtab} />}
-                {tab === 'areas' && <AreasTab tag={tab} subtab={subtab} query={url.query} />}
+                {tab === 'areas' && <AreasTab tag={tab} subtab={subtab} query={query} />}
                 {tab === 'widgets' && <WidgetsTab tab={tab} subtab={subtab} />}
                 {tab === 'collections' && <CollectionsTab tab={tab} subtab={subtab} />}
                 {tab !== ('profile' && 'datasets') && (tab !== 'widgets') && (
@@ -169,4 +163,4 @@ class MyRW extends Page {
   }
 }
 
-export default withRedux(initStore, null, null)(MyRW);
+export default MyRW;

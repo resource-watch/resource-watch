@@ -1,17 +1,16 @@
 /* eslint max-len: 0 */
-import React from 'react';
+import React, { Component } from 'react';
 import { Link, Router } from 'routes';
+import { connect } from 'react-redux';
 
 // Utils
 import { breakpoints } from 'utils/responsive';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import * as topicsActions from 'layout/topics/topics-actions';
 import * as blogActions from 'components/blog/latest-posts/actions';
 
 // Layout
-import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 
 // Components
@@ -84,15 +83,20 @@ const exploreCards = [
   }
 ];
 
-class Home extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
+class Home extends Component {
+  static async getInitialProps({ store }) {
+    // Dashboard thumbnail list
+    store.dispatch(topicsActions.setSelected(null));
+
+    await store.dispatch(
+      topicsActions.fetchTopics({ filters: { 'filter[published]': 'true' } })
+    );
 
     // Get blog posts
-    await context.store.dispatch(blogActions.fetchBlogPostsLatest());
-    await context.store.dispatch(blogActions.fetchBlogPostsSpotlightLatest());
+    await store.dispatch(blogActions.fetchBlogPostsLatest());
+    await store.dispatch(blogActions.fetchBlogPostsSpotlightLatest());
 
-    return props;
+    return {};
   }
 
   static exploreCardsStatic() {
@@ -342,4 +346,4 @@ class Home extends Page {
 
 const mapStateToProps = state => ({ responsive: state.responsive });
 
-export default withRedux(initStore, mapStateToProps, null)(Home);
+export default connect(mapStateToProps, null)(Home);
