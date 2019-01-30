@@ -151,12 +151,10 @@ const reducer = combineReducers({
   embedMapSwipe: handleModule(embedMapSwipe)
 });
 
-const composeEnhancers = composeWithDevTools({});
-
 export const initStore = (initialState = {}) => createStore(
   reducer,
   initialState,
-  composeEnhancers(
+  composeWithDevTools(
     /* The router middleware MUST be before thunk otherwise the URL changes
     * inside a thunk function won't work properly */
     applyMiddleware(thunk)

@@ -4,8 +4,9 @@ const webpack = require('webpack');
 const withSass = require('@zeit/next-sass');
 
 module.exports = withSass({
-  webpack: (config) => {
+  useFileSystemPublicRoutes: false,
 
+  webpack: (config) => {
     config.node = {
       console: true,
       fs: 'empty',
