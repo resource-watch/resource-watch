@@ -33,10 +33,6 @@ class SigIn extends PureComponent {
     if (e) e.preventDefault();
     FORM_ELEMENTS.validate();
     const isValid = FORM_ELEMENTS.isValid();
-    if (!isValid) {
-      toastr.error(`Your email and password combination is incorrect`, {
-      });
-    }
     const { setUser } = this.props;
     const { register, captcha, ...userSettings } = this.state;
 
@@ -65,11 +61,13 @@ class SigIn extends PureComponent {
             window.location.href = '/myrw';
           })
           .catch((err) => {
-            err.json()
-              .then(({ errors } = {}) => {
-                (errors || []).forEach(_error => toastr.error('Something went wrong', `${_error.status}:${_error.detail}`));
-              });
+            let message
+            err.status === 401
+            ? message = (`Your email and password combination is incorrect`)
+              : message = ('Something went wrong', `${err.status}:${err.statusText}`);
+            toastr.error(message)
           });
+
       }
     }, 0);
   }
