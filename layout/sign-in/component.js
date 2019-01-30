@@ -4,6 +4,7 @@ import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+
 // components
 import Layout from 'layout/layout/layout-app';
 import Field from 'components/form/Field';
@@ -32,6 +33,10 @@ class SigIn extends PureComponent {
     if (e) e.preventDefault();
     FORM_ELEMENTS.validate();
     const isValid = FORM_ELEMENTS.isValid();
+    if (!isValid) {
+      toastr.error(`Your email and password combination is incorrect`, {
+      });
+    }
     const { setUser } = this.props;
     const { register, captcha, ...userSettings } = this.state;
 
