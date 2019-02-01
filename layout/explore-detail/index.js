@@ -6,6 +6,9 @@ import initialState from './explore-detail-default-state';
 
 import ExploreDetailComponent from './explore-detail-component';
 
+// selectors
+import { getDatasetThumbnail } from './selectors';
+
 // Mandatory
 export {
   actions, reducers, initialState
@@ -14,7 +17,8 @@ export {
 export default connect(
   state => ({
     // Store
-    exploreDetail: state.exploreDetail
+    exploreDetail: state.exploreDetail,
+    thumbnail: getDatasetThumbnail(state)
   }),
   actions
 )(ExploreDetailComponent);
