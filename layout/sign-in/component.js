@@ -61,13 +61,12 @@ class SigIn extends PureComponent {
             window.location.href = '/myrw';
           })
           .catch((err) => {
-            let message
-            err.status === 401
-            ? message = (`Your email and password combination is incorrect`)
-              : message = ('Something went wrong', `${err.status}:${err.statusText}`);
-            toastr.error(message)
-          });
+            const message = err.status === 401 ?
+              'Your email and password combination is incorrect.' :
+              `${err.status}:${err.statusText}`;
 
+            toastr.error('Something went wrong', message);
+          });
       }
     }, 0);
   }
