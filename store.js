@@ -162,3 +162,5 @@ export const initStore = (initialState = {}) => createStore(
     applyMiddleware(thunk)
   )
 );
+
+export default initStore;
