@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 
-const getTopics = state => state.topicsMenu.topics;
+const getPublishedTopics = state => state.topics.published.data;
 
-export const getPublishedTopics = createSelector(
-  [getTopics],
-  _topics => _topics.filter(_topic => _topic.published)
+export const parseTopics = createSelector(
+  [getPublishedTopics],
+  _topics => _topics
     .map(_topic => ({
       label: _topic.name,
       route: 'topics_detail',
@@ -12,4 +12,4 @@ export const getPublishedTopics = createSelector(
     }))
 );
 
-export default { getPublishedTopics };
+export default { parseTopics };

@@ -84,3 +84,25 @@ export const TOPICS_CONNECTIONS = [
     appId: '30'
   }
 ];
+
+export const filterFunction = (topics, filters) => {
+  if (!filters) return topics;
+  if (filters && !filters.length) return topics;
+
+  return topics.filter(topic =>
+    filters.every((filter) => {
+      if (filter.key === 'id') return topic.id === filter.value;
+      if (!topic[filter.key]) return false;
+
+      if (typeof filter.value === 'string') {
+        return topic[filter.key].toLowerCase().match(filter.value.toLowerCase());
+      }
+
+      return topic[filter.key] === filter.value;
+    }));
+};
+
+export default {
+  TOPICS_CONNECTIONS,
+  filterFunction
+};

@@ -211,15 +211,16 @@ export default function (state = initialState, action) {
 */
 export function setUser(user) {
   return (dispatch) => {
-    if (!user || !user.token) {
-      // If the user isn't logged in, we set the user variable as an empty object
-      return;
-    }
+    if (!user) return;
 
     const userObj = { ...user };
 
-    userObj.token2 = userObj.token.includes('Bearer') ? userObj.token2 : userObj.token;
-    userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
+    if (user.userToken) userObj.token = user.userToken;
+
+    if (userObj.token) {
+      userObj.token2 = userObj.token.includes('Bearer') ? userObj.token2 : userObj.token;
+      userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
+    }
 
     dispatch({ type: SET_USER, payload: userObj });
   };

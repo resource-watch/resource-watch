@@ -13,24 +13,22 @@ import { breakpoints } from 'utils/responsive';
 // Next
 import { Link } from 'routes';
 
-// Components
+// components
 import Icon from 'components/ui/Icon';
 import LoginRequired from 'components/ui/login-required';
-
-// Modal
 import Modal from 'components/modal/modal-component';
 import DatasetSubscriptionsModal from 'components/modal/subscriptions-modal/dataset';
 
 
 class ExploreDetailButtons extends PureComponent {
   static propTypes = {
-    dataset: PropTypes.object,
+    dataset: PropTypes.object.isRequired,
     partner: PropTypes.object
   }
 
-  state = {
-    showSubscribeModal: false
-  }
+  static defaultProps = { partner: {} }
+
+  state = { showSubscribeModal: false }
 
   /**
    * HELPERS
@@ -56,6 +54,24 @@ class ExploreDetailButtons extends PureComponent {
 
   handleToggleSubscribeModal = (bool) => {
     this.setState({ showSubscribeModal: bool });
+  }
+
+  handleDownload = () => {
+    const { dataset } = this.props;
+
+    logEvent('Explore', 'Download data', getLabel(dataset));
+  }
+
+  handleDownloadSource = () => {
+    const { dataset } = this.props;
+
+    logEvent('Explore', 'Download data from source', getLabel(dataset));
+  }
+
+  handleLearnMore = () => {
+    const { dataset } = this.props;
+
+    logEvent('Explore', 'Click to data provider', dataset.provider);
   }
 
   render() {
@@ -107,7 +123,7 @@ class ExploreDetailButtons extends PureComponent {
               target="_blank"
               rel="noopener noreferrer"
               href={metadata.info && metadata.info.data_download_link}
-              onClick={() => logEvent('Explore', 'Download data', getLabel(dataset))}
+              onClick={this.handleDownload}
             >
               Download
             </a>
@@ -133,7 +149,7 @@ class ExploreDetailButtons extends PureComponent {
               className="c-button -secondary"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => logEvent('Explore', 'Download data from source', getLabel(dataset))}
+              onClick={this.handleDownloadSource}
               href={metadata.info && metadata.info.data_download_original_link}
             >
               <span>
@@ -153,6 +169,7 @@ class ExploreDetailButtons extends PureComponent {
               target="_blank"
               rel="noopener noreferrer"
               href={metadata.info && metadata.info.learn_more_link}
+              onClick={this.handleLearnMore}
             >
               <span>
                 Learn more

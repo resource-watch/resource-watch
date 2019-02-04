@@ -1,9 +1,9 @@
 import { PureComponent } from 'react';
 import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
-import { fetchTopics } from 'redactions/topics/actions';
+import { getPublishedTopics } from 'modules/topics/actions';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { setMobileOpened, setItem } from 'layout/header/header-actions';
+import { setMobileOpened } from 'layout/header/header-actions';
 
 import 'css/index.scss';
 
@@ -22,24 +22,13 @@ class Page extends PureComponent {
 
     // User favourites and collection
     const { user } = isServer ? req : store.getState();
+
     await store.dispatch(setUser(user));
     await store.dispatch(getUserFavourites());
     await store.dispatch(getUserCollections());
 
-    // Get topics
-    await store.dispatch(fetchTopics({ filters: { 'filter[published]': 'true' } }));
-    const { topicsMenu: { topics } } = store.getState();
-
-    store.dispatch(setItem(
-      {
-        id: 'topics',
-        label: 'Topics',
-        route: 'topics',
-        pathnames: ['/app/topics', '/app/topics-detail'],
-        children: topics.map(t => ({ label: t.name, route: 'topics_detail', params: { id: t.slug } }))
-      }
-    ));
-
+    // fetchs published topics to populate topics menu in the app header
+    await store.dispatch(getPublishedTopics());
 
     // Mobile detection
     if (isServer) {

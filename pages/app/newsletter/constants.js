@@ -248,7 +248,7 @@ export const FORM_COUNTRIES = {
     { value: '817447', label: 'Yemen' },
     { value: '817449', label: 'Zambia' },
     { value: '817451', label: 'Zimbabwe' }
-  ] 
+  ]
 };
 
 export const PARDOT_NEWSLETTER_URL = 'https://go.pardot.com/l/120942/2018-01-25/3nzl13';

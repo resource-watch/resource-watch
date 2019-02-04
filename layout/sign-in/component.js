@@ -4,6 +4,7 @@ import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+
 // components
 import Layout from 'layout/layout/layout-app';
 import Field from 'components/form/Field';
@@ -60,9 +61,11 @@ class SigIn extends PureComponent {
             window.location.href = '/myrw';
           })
           .catch((err) => {
-            const { status } = err;
-            const userMessage = status === 401 ? 'Wrong email/password combination.' : 'Something went wrong.';
-            toastr.error(userMessage);
+            const message = err.status === 401 ?
+              'Your email and password combination is incorrect.' :
+              `${err.status}:${err.statusText}`;
+
+            toastr.error('Something went wrong', message);
           });
       }
     }, 0);

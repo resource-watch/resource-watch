@@ -1,22 +1,22 @@
-/* eslint max-len: 0 */
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 
-// Components
-import Page from 'layout/page';
-import Error from 'pages/_error';
-
-// Redux
+// redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as actions from 'layout/topics-detail/topics-detail-actions';
-import TopicDetail from 'layout/topics-detail';
+import { getTopic, setSelected } from 'modules/topics/actions';
+import TopicDetailLayout from 'layout/topics-detail';
+
+// components
+import Page from 'layout/page';
+import Error from 'pages/_error';
 
 class TopicDetailPage extends Page {
   static propTypes = {
     user: PropTypes.object,
-    topicsDetail: PropTypes.object
+    topicsDetail: PropTypes.object,
+    setSelected: PropTypes.func.isRequired
   };
 
   static async getInitialProps(context) {
@@ -24,16 +24,12 @@ class TopicDetailPage extends Page {
     const { store } = context;
 
     // Fetch topic
-    await store.dispatch(actions.fetchTopic({ id: props.url.query.id }));
+    if (props.url.query.id) await store.dispatch(getTopic(props.url.query.id));
 
-    // Dashboard thumbnail list
-    context.store.dispatch(actions.setSelected(props.url.query.id));
+    // set current topic in thumbnail list
+    store.dispatch(setSelected(props.url.query.id));
 
-    await context.store.dispatch(actions.fetchTopics({
-      filters: { 'filter[published]': 'true' }
-    }));
-
-    return { ...props };
+    return props;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,22 +38,21 @@ class TopicDetailPage extends Page {
     }
   }
 
+  componentWillUnmount() {
+    this.props.setSelected(null);
+  }
+
   render() {
-    const {
-      topicsDetail
-    } = this.props;
+    const { topicsDetail } = this.props;
 
-    if (isEmpty(topicsDetail.data)) return <Error status={404} />;
+    if (isEmpty(topicsDetail)) return <Error status={404} />;
 
-    return <TopicDetail />;
+    return <TopicDetailLayout />;
   }
 }
 
 export default withRedux(
   initStore,
-  state => ({
-    // Store
-    topicsDetail: state.topicsDetail
-  }),
-  actions
+  state => ({ topicsDetail: state.topics.detail.data }),
+  { setSelected }
 )(TopicDetailPage);

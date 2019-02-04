@@ -112,7 +112,7 @@ class MyRW extends Page {
   render() {
     const { url, user } = this.props;
 
-    if (!user.token) return null;
+    // if (!user.token) return null;
 
     const { tab, subtab } = this.state;
 
