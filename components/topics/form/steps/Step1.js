@@ -161,7 +161,7 @@ class Step1 extends React.Component {
                 const formData = new FormData();
                 formData.append('image', file);
 
-                fetch(`${process.env.API_URL}/temporary_content_images`, {
+                fetch(`${process.env.WRI_API_URL}/temporary_content_image`, {
                   method: 'POST',
                   headers: {
                     Authorization: this.props.user.token
@@ -197,6 +197,7 @@ Step1.propTypes = {
 
 export default connect(
   state => ({
-    user: state.user
+    user: state.user,
+    topic: state.topics.detail.data
   })
 )(Step1);

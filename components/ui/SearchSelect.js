@@ -45,6 +45,7 @@ export default class SearchSelect extends React.Component {
 
   // Event handler for event keyup on search input
   onType(evt) {
+    console(evt)
     switch (evt.keyCode) {
       // key up
       case 38: {
@@ -178,7 +179,7 @@ export default class SearchSelect extends React.Component {
               return (
                 <li
                   className={cName}
-                  key={item.label}
+                  key={item.id || item.label}
                   onMouseEnter={() => { this.setSelectedIndex(index); }}
                   onMouseDown={() => this.selectItem(item)}
                 >

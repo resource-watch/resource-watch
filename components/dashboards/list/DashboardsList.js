@@ -4,7 +4,7 @@ import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-import { getDashboards, deleteDashboard, setFilters } from 'redactions/admin/dashboards';
+import { getDashboards, onDeleteDashboard, setFilters } from 'redactions/admin/dashboards';
 
 // Selectors
 import getFilteredDashboards from 'selectors/admin/dashboards';
@@ -37,7 +37,7 @@ class DashboardsList extends React.Component {
 
     // Actions
     getDashboards: PropTypes.func.isRequired,
-    deleteDashboard: PropTypes.func.isRequired,
+    onDeleteDashboard: PropTypes.func.isRequired,
     setFilters: PropTypes.func.isRequired
   };
 
@@ -56,7 +56,7 @@ class DashboardsList extends React.Component {
     const { getDashboardsFilters } = this.props;
 
     this.props.setFilters([]);
-    this.props.getDashboards({ filters: getDashboardsFilters });
+    this.props.getDashboards(getDashboardsFilters);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -80,16 +80,12 @@ class DashboardsList extends React.Component {
   onDelete(dashboard) {
     toastr.confirm(`Are you sure that you want to delete: "${dashboard.name}"`, {
       onOk: () => {
-        this.props.deleteDashboard({
-          id: dashboard.id
-        })
+        this.props.onDeleteDashboard({ id: dashboard.id })
           .then(() => {
             const { getDashboardsFilters } = this.props;
 
             this.props.setFilters([]);
-            this.props.getDashboards({
-              filters: getDashboardsFilters
-            });
+            this.props.getDashboards(getDashboardsFilters);
             toastr.success('Success', `The dashboard "${dashboard.id}" - "${dashboard.name}" has been removed correctly`);
           })
           .catch((err) => {
@@ -159,7 +155,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getDashboards,
-  deleteDashboard,
+  onDeleteDashboard,
   setFilters
 };
 

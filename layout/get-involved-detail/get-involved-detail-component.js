@@ -25,7 +25,9 @@ class GetInvolvedDetail extends Page {
     const { getInvolvedDetail } = this.props;
     const pageNotFound = () => null;
     const pages = {
-      'suggest-a-story': () => <SuggestStoryPost {...props} insights={getInvolvedDetail.insights} />,
+      'suggest-a-story': () => (
+        <SuggestStoryPost {...props} insights={getInvolvedDetail.insights} />
+      ),
       'contribute-data': () => <ContributeDataPostContent {...props} />,
       'join-the-community': () => <JoinCommunityPostContent {...props} />,
       'develop-your-app': () => <DevelopYourAppPostContent {...props} />,
@@ -36,12 +38,7 @@ class GetInvolvedDetail extends Page {
   }
 
   render() {
-    const {
-      getInvolvedDetail,
-      breadCrumb,
-      url,
-      user
-    } = this.props;
+    const { getInvolvedDetail, breadCrumb, url, user } = this.props;
 
     const { staticData: data } = getInvolvedDetail;
     const { id } = url.query;
@@ -49,7 +46,8 @@ class GetInvolvedDetail extends Page {
     if (!data) return null;
 
     const postContent = this.getPostContent(id, data);
-    const descriptions = data.description && data.description.split('\n').filter(line => line.length > 0);
+    const descriptions =
+      data.description && data.description.split('\n').filter(line => line.length > 0);
 
     return (
       <Layout
@@ -58,7 +56,6 @@ class GetInvolvedDetail extends Page {
         url={url}
         user={user}
       >
-
         <header className="l-page-header">
           <div className="l-container">
             <div className="row">
@@ -72,7 +69,7 @@ class GetInvolvedDetail extends Page {
           </div>
         </header>
 
-        { data.summary &&
+        {data.summary && (
           <section className="l-section -secondary">
             <header className="l-section-header">
               <div className="l-container">
@@ -81,20 +78,22 @@ class GetInvolvedDetail extends Page {
                     <h2>{data.summary}</h2>
                   </div>
                 </div>
-                { descriptions.length > 0 &&
+                {descriptions.length > 0 && (
                   <div className="row">
-                    { descriptions.map(description => (
-                      <div className={`column small-${12 / descriptions.length}`}>{description}</div>
+                    {descriptions.map(description => (
+                      <div className={`column small-${12 / descriptions.length}`}>
+                        {description}
+                      </div>
                     ))}
                   </div>
-                }
+                )}
               </div>
             </header>
-          </section> }
+          </section>
+        )}
 
         <StaticContent {...data} />
         {postContent()}
-
       </Layout>
     );
   }

@@ -57,8 +57,11 @@ class Validator {
         message(condition) {
           return `The field should be lower than ${condition}`;
         }
+      },
+      equal: {
+        validate(value, condition, data) { return value === data; },
+        message(message) { return message; }
       }
-
     };
   }
 
@@ -81,9 +84,7 @@ class Validator {
 
       return {
         valid,
-        error: (!valid) ? {
-          message
-        } : null
+        error: (!valid) ? { message } : null
       };
     });
   }

@@ -13,7 +13,7 @@ export default class PartnersService {
   fetchAllData() {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/partner/?published=all`,
+        url: `${process.env.WRI_API_URL}/partner/?published=all`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -26,9 +26,7 @@ export default class PartnersService {
           value: 1
         }],
         onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, partners) => {
+          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, partners) => {
             resolve(sortBy(partners, 'name'));
           });
         },
@@ -42,7 +40,7 @@ export default class PartnersService {
   fetchData(id) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/partner/${id}`,
+        url: `${process.env.WRI_API_URL}/partner/${id}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -55,9 +53,7 @@ export default class PartnersService {
           value: 1
         }],
         onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, partner) => {
+          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, partner) => {
             resolve(partner);
           });
         },
@@ -71,7 +67,7 @@ export default class PartnersService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.API_URL}/partner/${id}`,
+        url: `${process.env.WRI_API_URL}/partner/${id}`,
         type,
         body,
         headers: [{
@@ -82,9 +78,7 @@ export default class PartnersService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, partner) => {
+          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, partner) => {
             resolve(partner);
           });
         },
@@ -98,7 +92,7 @@ export default class PartnersService {
   deleteData(id) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.API_URL}/partner/${id}`,
+        url: `${process.env.WRI_API_URL}/partner/${id}`,
         headers: [{
           key: 'Authorization',
           value: this.opts.authorization

@@ -4,12 +4,10 @@ import { Deserializer } from 'jsonapi-serializer';
 
 export default class ContactUsService {
   saveData({ body }) {
-    return fetch(`${process.env.API_URL}/contact-us/`, {
+    return fetch(`${process.env.WRI_API_URL}/contact-us/`, {
       method: 'POST',
       body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: {'Content-Type': 'application/json'}
     }).then((response) => {
       const { status, statusText } = response;
       if (response.ok) return response;

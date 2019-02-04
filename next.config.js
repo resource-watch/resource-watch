@@ -1,19 +1,22 @@
 require('dotenv').load();
 
 const webpack = require('webpack');
-const withCSS = require('@zeit/next-css');
 const withSass = require('@zeit/next-sass');
-const commonsChunkConfig = require('@zeit/next-css/commons-chunk-config');
 
-module.exports = withCSS(withSass({
-  webpack: (originalConfig) => {
-    const config = Object.assign({}, originalConfig);
+module.exports = withSass({
+  webpack: (config) => {
+
+    config.node = {
+      console: true,
+      fs: 'empty',
+      net: 'empty',
+      tls: 'empty'
+    };
 
     config.plugins.push(
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
         'process.env.APPLICATIONS': JSON.stringify(process.env.APPLICATIONS),
-        'process.env.API_URL': JSON.stringify(process.env.API_URL),
         'process.env.BASEMAP_TILE_URL': JSON.stringify(process.env.BASEMAP_TILE_URL),
         'process.env.CALLBACK_URL': JSON.stringify(process.env.CALLBACK_URL),
         'process.env.CONTROL_TOWER_URL': JSON.stringify(process.env.CONTROL_TOWER_URL),
@@ -33,6 +36,6 @@ module.exports = withCSS(withSass({
       })
     );
 
-    return commonsChunkConfig(config, /\.(sass|scss|css)$/);
+    return config;
   }
-}));
+});

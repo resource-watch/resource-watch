@@ -13,7 +13,7 @@ export const fetchPartners = createThunkAction('FOOTER_FETCH_PARTNERS', () => (d
   dispatch(setPartnersLoading(true));
   dispatch(setPartnersError(null));
 
-  return fetch(new Request(`${process.env.API_URL}/partner?published=true`))
+  return fetch(new Request(`${process.env.WRI_API_URL}/partner?published=true`))
     .then(response => response.json())
     .then((data) => {
       dispatch(setPartnersLoading(false));

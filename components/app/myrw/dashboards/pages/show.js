@@ -19,6 +19,7 @@ function DashboardsShow(props) {
         basic
         user={user}
         onSubmit={() => Router.pushRoute('myrw', { tab: 'dashboards' })}
+        mode="edit"
       />
     </div>
   );

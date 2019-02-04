@@ -18,6 +18,7 @@ function DashboardsShow(props) {
         id={id}
         user={user}
         onSubmit={() => Router.pushRoute('admin_dashboards', { tab: 'dashboards' })}
+        mode="edit"
       />
     </div>
   );

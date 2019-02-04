@@ -32,10 +32,9 @@ class JoinCommunity extends PureComponent {
         id: 'newsletter',
         title: '',
         description: 'Sign up for our newsletter to receive highlights and updates.',
-        buttonType: null,
         link: {
           route: '/about/newsletter',
-          label: 'Subscribe to our newsletter'
+          label: 'Subscribe'
         }
       }
     ];
@@ -66,7 +65,7 @@ class JoinCommunity extends PureComponent {
               <div className="column small-12">
                 <Banner className="-text-center" bgImage="/static/images/backgrounds/bg-partner-maryland.jpg">
                   <p className="-claim">
-                  Let&rsquo;s build a more sustainable<br /> world together.
+                    Let&rsquo;s build a more sustainable<br /> world together.
                   </p>
                   <Link to="about_partners">
                     <a className="c-btn -primary -alt">Partners</a>

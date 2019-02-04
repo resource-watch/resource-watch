@@ -20,9 +20,7 @@ class Dashboards extends Page {
     context.store.dispatch(setAdd(false));
     context.store.dispatch(setSelected(null));
 
-    await context.store.dispatch(fetchDashboards({
-      filters: { 'filter[published]': 'true' }
-    }));
+    await context.store.dispatch(fetchDashboards({ 'filter[published]': 'true' }));
 
     return { ...props };
   }

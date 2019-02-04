@@ -2,17 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-function Banner({ styles, useBackground = true, className, bgImage, viel, children }) {
-  const classNamesProps = classNames({
+function Banner({ styles = {}, overlay, useBackground = true, className, bgImage, viel, children }) {
+  const classNamesProps = classNames({ 
     'c-banner': true,
     '-light': true,
     '-use-background': useBackground,
+    '-overlay': overlay,
     [className]: className
   });
 
   if (styles && bgImage) {
     styles.backgroundImage = `url(${bgImage})`;
   }
+
 
   return (
     <section

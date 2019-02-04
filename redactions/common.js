@@ -2,6 +2,7 @@ import { Router } from 'routes';
 
 const SET_LOCALE = 'common/SET_LOCALE';
 const SET_EMBED = 'common/SET_EMBED';
+const SET_WEBSHOT = 'common/SET_WEBSHOT';
 const SET_IS_LOADED_EXTERNALY = 'common/SET_IS_LOADED_EXTERNALY';
 const SET_IS_SERVER = 'common/SET_IS_SERVER';
 
@@ -9,6 +10,7 @@ const SET_IS_SERVER = 'common/SET_IS_SERVER';
 const initialState = {
   locale: 'en',
   embed: false,
+  webshot: false,
   isLoadedExternally: false,
   isServer: true
 };
@@ -20,6 +22,9 @@ export default function (state = initialState, action) {
 
     case SET_EMBED:
       return Object.assign({}, state, { embed: action.payload });
+
+    case SET_WEBSHOT:
+      return Object.assign({}, state, { webshot: action.payload });
 
     case SET_IS_LOADED_EXTERNALY:
       return Object.assign({}, state, { isLoadedExternally: action.payload });
@@ -63,6 +68,17 @@ export function setEmbed(embed) {
   return {
     type: SET_EMBED,
     payload: embed
+  };
+}
+
+/**
+ * Set if we are on webshot mode or not
+ * @param {boolean} webshot
+ */
+export function setWebshotMode(webshot) {
+  return {
+    type: SET_WEBSHOT,
+    payload: webshot
   };
 }
 

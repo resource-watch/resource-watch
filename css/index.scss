@@ -33,7 +33,8 @@
   "layouts/footer",
   "layouts/sidebar",
   "layouts/map",
-  "layouts/static";
+  "layouts/static",
+  "layouts/log-in";
 
 // Components
 // UI
@@ -95,8 +96,11 @@
 @import "./components/modal/embed_table_modal";
 @import "./components/modal/subscribe_to_dataset_modal";
 @import "./components/modal/area_subscription_modal";
+@import "./components/modal/subscriptions_modal";
 @import "./components/modal/layer_info_modal";
 @import "./components/modal/login_modal";
+@import "./components/modal/alerts_preview";
+
 
 // areas
 @import "./components/areas/areas_form";
@@ -213,7 +217,6 @@
 // COMMON
 @import "./components/app/common/banner";
 @import "./components/app/common/rating";
-@import "./components/app/common/text";
 @import "./components/app/common/viel";
 @import "./components/app/common/card_static";
 @import "./components/app/common/faq";
@@ -271,6 +274,7 @@
 @import './components/dashboards/dashboard-thumbnail-list';
 @import './components/dashboards/dashboard-card';
 @import './components/dashboards/list';
+@import './components/dashboards/template-selector';
 
 // TOPICS
 @import './components/topics/topics-thumbnail-list';

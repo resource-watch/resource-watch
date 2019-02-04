@@ -58,7 +58,18 @@ export default {
     layerGroups: [],
     layerGroupsInteraction: {},
     layerGroupsInteractionSelected: null,
-    layerGroupsInteractionLatLng: null
+    layerGroupsInteractionLatLng: null,
+    // contains params to be modified in the layerSpec of every layer
+    // 'layer-id': {
+    //  'key-to-modify: {
+    //    stardDate: '09-09-2018',
+    //    endDate: '12-31-2019',
+    //    zoom: 4,
+    //    ...
+    //  }
+    // }
+    //
+    parametrization: {}
   },
 
   // Sidebar

@@ -7,14 +7,24 @@ $banner-padding-size: 70px;
   flex-direction: column;
   padding-top: $banner-padding-size;
   padding-bottom: $banner-padding-size;
-
   color: $alt-font-color;
-
+ 
   &.-use-background {
     background-size: cover;
     background-image: url('/static/images/backgrounds/image_header.jpg');
     background-position: top center;
   }
+
+  &.-overlay:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 4px;
+    }
 
   h1, h2, h3 {
     color: $alt-font-color;

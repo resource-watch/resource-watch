@@ -64,10 +64,31 @@ export default {
       route: 'get_involved',
       pathnames: ['/app/get-involved', '/app/get-involved-detail'],
       children: [
-        { label: 'Suggest a story', route: 'get_involved_detail', params: { id: 'suggest-a-story' } },
-        { label: 'Contribute data', route: 'get_involved_detail', params: { id: 'contribute-data' } },
-        { label: 'Join the community', route: 'get_involved_detail', params: { id: 'join-the-community' } },
-        { label: 'Develop your app', route: 'get_involved_detail', params: { id: 'develop-your-app' } }
+        {
+          label: 'Suggest a story',
+          route: 'get_involved_detail',
+          params: { id: 'suggest-a-story' }
+        },
+        {
+          label: 'Contribute data',
+          route: 'get_involved_detail',
+          params: { id: 'contribute-data' }
+        },
+        {
+          label: 'Join the community',
+          route: 'get_involved_detail',
+          params: { id: 'join-the-community' }
+        },
+        {
+          label: 'Develop your app',
+          route: 'get_involved_detail',
+          params: { id: 'develop-your-app' }
+        },
+        {
+          label: 'Sign up',
+          route: 'sign-in',
+          params: {}
+        }
       ]
     },
     {
@@ -77,12 +98,7 @@ export default {
     {
       user: false,
       id: 'myrw',
-      label: 'Log in',
-      children: [
-        { label: 'Facebook', href: '/auth/facebook' },
-        { label: 'Google', href: '/auth/google' },
-        { label: 'Twitter', href: '/auth/twitter' }
-      ]
+      label: 'Log in'
     },
     {
       user: true,
@@ -90,9 +106,9 @@ export default {
       route: 'myrw',
       label: 'My Resource Watch',
       children: [
-        { label: 'Profile', route: 'myrw' },
-        { label: 'Admin', href: '/admin', admin: true },
-        { label: 'Logout', id: 'logout' } // It should make an ajax call
+        { label: 'Profile', route: 'myrw', params: { tab: 'profile' } },
+        { label: 'Admin', route: 'admin_home', admin: true },
+        { label: 'Logout', id: 'logout' }
       ]
     }
   ]

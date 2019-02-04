@@ -13,7 +13,7 @@ export default class PagesService {
   fetchAllData() {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/static_page/?published=all`,
+        url: `${process.env.WRI_API_URL}/static_page/?published=all`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -26,9 +26,7 @@ export default class PagesService {
           value: 1
         }],
         onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, pages) => {
+          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, pages) => {
             resolve(sortBy(pages, 'name'));
           });
         },
@@ -42,7 +40,7 @@ export default class PagesService {
   fetchData(id) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/static_page/${id}`,
+        url: `${process.env.WRI_API_URL}/static_page/${id}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -55,9 +53,7 @@ export default class PagesService {
           value: 1
         }],
         onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, page) => {
+          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, page) => {
             resolve(page);
           });
         },
@@ -71,7 +67,7 @@ export default class PagesService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.API_URL}/static_page/${id}`,
+        url: `${process.env.WRI_API_URL}/static_page/${id}`,
         type,
         body,
         headers: [{
@@ -82,9 +78,7 @@ export default class PagesService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, page) => {
+          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, page) => {
             resolve(page);
           });
         },
@@ -98,7 +92,7 @@ export default class PagesService {
   deleteData(id) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.API_URL}/static_page/${id}`,
+        url: `${process.env.WRI_API_URL}/static_page/${id}`,
         headers: [{
           key: 'Authorization',
           value: this.opts.authorization

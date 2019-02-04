@@ -14,26 +14,46 @@ import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
 // Modal
 import Modal from 'components/modal/modal-component';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
+import LoginModal from 'components/modal/login-modal';
 
 const defaultTheme = getVegaTheme();
 
 // Constants
 class ExploreDetailWidgetEditor extends PureComponent {
   static propTypes = {
-    dataset: PropTypes.object,
-    responsive: PropTypes.object
+    user: PropTypes.object.isRequired,
+    text: PropTypes.string,
+    dataset: PropTypes.object.isRequired,
+    responsive: PropTypes.object.isRequired
   }
 
+  static defaultProps = { text: '' }
+
   state = {
-    showSaveModal: false
+    showSaveModal: false,
+    showLoginModal: false
+  }
+
+  handleToggleModals = (bool) => {
+    const { user } = this.props;
+
+    if (!user.id) {
+      this.setState({ showLoginModal: bool });
+    } else {
+      this.setState({ showSaveModal: bool });
+    }
   }
 
   handleToggleSaveWidget = (bool) => {
     this.setState({ showSaveModal: bool });
   }
 
+  handleToggleLoginModal = (bool) => {
+    this.setState({ showLoginModal: bool });
+  }
+
   render() {
-    const { dataset, responsive } = this.props;
+    const { dataset, responsive, text } = this.props;
     const defaultEditableWidget = getDatasetDefaultEditableWidget(dataset);
 
     return (
@@ -45,11 +65,11 @@ class ExploreDetailWidgetEditor extends PureComponent {
           <WidgetEditor
             datasetId={dataset.id}
             widgetId={defaultEditableWidget && defaultEditableWidget.id}
-            saveButtonMode="auto"
+            saveButtonMode="always"
             embedButtonMode="auto"
             titleMode="auto"
             provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
-            onSave={() => this.handleToggleSaveWidget(true)}
+            onSave={() => this.handleToggleModals(true)}
           />
 
           <Modal
@@ -62,6 +82,13 @@ class ExploreDetailWidgetEditor extends PureComponent {
               getWidgetConfig={this.onGetWidgetConfig}
               onRequestClose={() => this.handleToggleSaveWidget(false)}
             />
+          </Modal>
+          <Modal
+            isOpen={this.state.showLoginModal}
+            className="-medium"
+            onRequestClose={() => this.handleToggleLoginModal(false)}
+          >
+            <LoginModal text={text} />
           </Modal>
         </MediaQuery>
 

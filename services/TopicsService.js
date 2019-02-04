@@ -3,6 +3,10 @@ import { get, post, remove } from 'utils/request';
 
 import sortBy from 'lodash/sortBy';
 import { Deserializer } from 'jsonapi-serializer';
+import WRISerializer from 'wri-json-api-serializer';
+
+// utils
+import { WRIAPI } from 'utils/axios';
 
 export default class TopicsService {
   constructor(options = {}) {
@@ -20,7 +24,7 @@ export default class TopicsService {
 
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/topic/?${params}`,
+        url: `${process.env.WRI_API_URL}/topic/?${params}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -47,7 +51,7 @@ export default class TopicsService {
   fetchData({ id }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.API_URL}/topic/${id}`,
+        url: `${process.env.WRI_API_URL}/topic/${id}`,
         headers: [{
           key: 'Upgrade-Insecure-Requests',
           value: 1
@@ -69,7 +73,7 @@ export default class TopicsService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.API_URL}/topic/${id}`,
+        url: `${process.env.WRI_API_URL}/topic/${id}`,
         type,
         body,
         headers: [{
@@ -96,7 +100,7 @@ export default class TopicsService {
   deleteData({ id, auth }) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.API_URL}/topic/${id}`,
+        url: `${process.env.WRI_API_URL}/topic/${id}`,
         headers: [{
           key: 'Authorization',
           value: auth || this.opts.authorization
@@ -111,3 +115,102 @@ export default class TopicsService {
     });
   }
 }
+
+/**
+ * Fetchs topics according to params.
+ *
+ * @param {Object[]} params - params sent to the API.
+ * @returns {Object[]} array of serialized topics.
+ */
+export const fetchTopics = (params = {}) =>
+  WRIAPI.get('/topic', {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      // TO-DO: forces the API to not cache, this should be removed at some point
+      'Upgrade-Insecure-Requests': 1
+    },
+    params: { ...Object.keys(params).reduce((x, y) => ({ ...x, ...params[y] }), {}) }
+  })
+    .then((response) => {
+      const { status, statusText, data } = response;
+      if (status >= 400) throw new Error(statusText);
+      return WRISerializer(data);
+    });
+
+/**
+ * fetchs data for a specific topic.
+ *
+ * @param {String} id - topic id.
+ * @returns {Object} serialized specified topic.
+ */
+export const fetchTopic = id =>
+  WRIAPI.get(`/topic/${id}`)
+    .then((response) => {
+      const { status, statusText, data } = response;
+      if (status >= 400) throw new Error(statusText);
+      return WRISerializer(data);
+    });
+
+/**
+ * Creates a topic with the provided data.
+ * This fetch needs authentication.
+ *
+ * @param {Object} body - data provided to create the new topic.
+ * @param {String} token - user's token.
+ * @returns {Object} serialized created topic.
+ */
+export const createTopic = (body, token) =>
+  WRIAPI.post('/topic', { ...body }, {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      Authorization: token
+    }
+  })
+    .then((response) => {
+      const { status, statusText, data } = response;
+      if (status >= 400) throw new Error(statusText);
+      return WRISerializer(data);
+    });
+
+/**
+ * Updates a specified topic with the provided data.
+ * This fetch needs authentication.
+ *
+ * @param {String} id - topic ID to be updated.
+ * @param {Object} body - data provided to update the topic.
+ * @param {String} token - user's token
+ * @returns {Object} serialized topic with updated data
+ */
+export const updateTopic = (id, body, token) =>
+  WRIAPI.patch(`/topic/${id}`, { ...body }, {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      Authorization: token
+    }
+  })
+    .then((response) => {
+      const { status, statusText, data } = response;
+      if (status >= 400) throw new Error(statusText);
+      return WRISerializer(data);
+    });
+
+/**
+ * Deletes a specified topic.
+ * This fetch needs authentication.
+ *
+ * @param {*} id - topic ID to be deleted.
+ * @param {string} token - user's token.
+ * @returns {Object} fetch response.
+ */
+export const deleteTopic = (id, token) =>
+  WRIAPI.delete(`/topic/${id}`, {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      Authorization: token
+    }
+  })
+    .then((response) => {
+      const { status, statusText } = response;
+      if (status >= 400) throw new Error(statusText);
+      return response;
+    });

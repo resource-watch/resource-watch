@@ -9,7 +9,6 @@ import Icon from 'components/ui/Icon';
 
 class Footer extends React.Component {
   static propTypes = {
-    header: PropTypes.object.isRequired,
     footer: PropTypes.object.isRequired,
     fetchPartners: PropTypes.func.isRequired
   };
@@ -69,9 +68,7 @@ class Footer extends React.Component {
                 <ul>
                   <li>
                     <Link route="newsletter" >
-                      <a
-                        className="c-button -secondary join-us-button"
-                      >
+                      <a className="c-button -primary join-us-button">
                         Subscribe to our newsletter
                       </a>
                     </Link>

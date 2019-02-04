@@ -45,7 +45,7 @@ export const fetchPartner = createThunkAction('WIDGET-DETAIL/fetchPartner', (pay
   dispatch(setPartnerError(null));
 
 
-  return fetch(new Request(`${process.env.API_URL}/partner/${payload.id}`))
+  return fetch(new Request(`${process.env.WRI_API_URL}/partner/${payload.id}`))
     .then((response) => {
       if (response.ok) return response.json();
       throw new Error(response.statusText);

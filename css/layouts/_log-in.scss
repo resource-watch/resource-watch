@@ -1,0 +1,81 @@
+.l-log-in-layout {
+  background-image: url('/static/images/pages/app/log-in-background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  .content {
+    position: relative;
+    height: calc(100vh - #{$header-main-height-mobile});
+
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      height: calc(100vh - #{$header-main-height});
+    }
+
+    .log-in-container {
+      overflow: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 880px;
+      width: 100%;
+      padding: $margin-size 0;
+      border-radius: 4px;
+      box-shadow: 0 15px 20px 0 rgba($black, .15);
+      background: $white;
+
+      @media screen and (min-width: map-get($breakpoints, medium)) {
+        max-height: auto;
+      }
+
+      > .wrapper {
+        padding: 0 $margin-size-small;
+
+        @media screen and (min-width: map-get($breakpoints, medium)) {
+          padding: 0 $margin-size-big;
+        }
+      }
+
+      .social-media-intro {
+        display: inline-block;
+        margin: $margin-size 0 0;
+
+        @media screen and (min-width: map-get($breakpoints, medium)) {
+          margin: 0;
+        }
+      }
+
+      form {
+        margin: 22px 0 0;
+
+        .forgot-password-link {
+          font-size: $font-size-small;
+          color: $dark-pink;
+        }
+
+        .recaptcha-container {
+          min-height: 78px;
+        }
+
+        .form-buttons {
+          margin: $margin-size-small 0 0;
+
+          > ul {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+
+      .social-btn-list {
+        margin: $margin-size 0 0;
+
+        > .social-btn-item {
+          &:not(:first-child) {
+            margin: $margin-size-extra-small 0 0;
+          }
+        }
+      }
+    }
+  }
+}

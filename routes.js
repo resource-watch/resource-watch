@@ -12,8 +12,8 @@ routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/DataDeta
 routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/Dashboards');
 routes.add('admin_dashboards_detail', '/admin/dashboards/:tab/:id/:subtab?', 'admin/DashboardsDetail');
 // TOPICS
-routes.add('admin_topics', '/admin/topics/:tab?', 'admin/Topics');
-routes.add('admin_topics_detail', '/admin/topics/:tab/:id/:subtab?', 'admin/TopicsDetail');
+routes.add('admin_topics', '/admin/topics/:tab?', 'admin/topics');
+routes.add('admin_topics_detail', '/admin/topics/:tab/:id/:subtab?', 'admin/topics-detail');
 // PARTNERS
 routes.add('admin_partners', '/admin/partners/:tab?', 'admin/Partners');
 routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/PartnersDetail');
@@ -51,7 +51,7 @@ routes.add('explore_detail', '/data/explore/:id', 'app/explore-detail');
 
 routes.add('pulse', '/data/pulse', 'app/pulse');
 
-routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
+routes.add('dashboards', '/data/dashboards', 'app/Dashboards');
 routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/dashboards-detail');
 
 routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
@@ -71,17 +71,6 @@ routes.add('get_involved_detail', '/get-involved/:id', 'app/get-involved-detail'
 routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');
 routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 
-// ------ EMBED -------------
-routes.add('embed_widget', '/embed/widget/:id', 'app/embed/EmbedWidget');
-routes.add('embed_text', '/embed/text/:id', 'app/embed/EmbedText');
-routes.add('embed_map', '/embed/map/:id', 'app/embed/EmbedMap');
-routes.add('embed_map_swipe', '/embed/map-swipe', 'app/embed/map-swipe');
-routes.add('embed_embed', '/embed/embed/:id', 'app/embed/EmbedEmbed');
-routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
-routes.add('embed_table', '/embed/table', 'app/embed/EmbedTable');
-routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/EmbedSimilarDatasets');
-routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboard');
-
 // ------ TERMS && POLICY -------------
 routes.add('terms-of-service', '/terms-of-service', 'app/Terms');
 routes.add('privacy-policy', '/privacy-policy', 'app/Policy');
@@ -89,5 +78,24 @@ routes.add('attribution-requirements', '/api-attribution-requirements', 'app/Att
 
 // ------- CATALOG -------------
 routes.add('catalog', '/catalog', 'app/catalog');
+
+// ------- USER MANAGEMENT  -------------
+routes.add('sign-in', '/sign-in', 'app/sign-in');
+routes.add('forgot-password', '/forgot-password', 'app/forgot-password');
+routes.add('reset-password', '/reset-password/:tokenEmail?', 'app/reset-password');
+
+// ------ EMBED -------------
+routes.add('embed_widget', '/embed/widget/:id', 'app/embed/widget');
+routes.add('embed_text', '/embed/text/:id', 'app/embed/text');
+routes.add('embed_map', '/embed/map/:id', 'app/embed/map');
+routes.add('embed_map_swipe', '/embed/map-swipe', 'app/embed/map-swipe');
+routes.add('embed_embed', '/embed/embed/:id', 'app/embed/embed');
+routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
+routes.add('embed_table', '/embed/table/:id', 'app/embed/table');
+routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/similar-datasets');
+routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboard');
+
+// ------- WEBSHOT  -------------
+routes.add('webshot', '/webshot/:id', 'app/webshot');
 
 module.exports = routes;

@@ -33,8 +33,9 @@ class MyRWWidgetsMy extends React.Component {
     this.setMode = this.setMode.bind(this);
     this.handleWidgetRemoved = this.handleWidgetRemoved.bind(this);
     this.handleOrderChange = this.handleOrderChange.bind(this);
-    this.handleSelectedWidgetCollectionChange =
-      this.handleSelectedWidgetCollectionChange.bind(this);
+    this.handleSelectedWidgetCollectionChange = this.handleSelectedWidgetCollectionChange.bind(
+      this
+    );
     this.handleUpdateWidgetCollections = this.handleUpdateWidgetCollections.bind(this);
     // ----------------------------------------------------
   }
@@ -45,30 +46,27 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   setMode(value) {
-    this.setState({
-      mode: value
-    });
+    this.setState({ mode: value });
   }
 
   loadWidgetCollections() {
-    this.widgetService.getUserWidgetCollections(this.props.user)
-      .then((response) => {
-        this.setState({ widgetCollections: response });
-      });
+    this.widgetService.getUserWidgetCollections(this.props.user).then((response) => {
+      this.setState({ widgetCollections: response });
+    });
   }
 
   loadWidgets() {
     const { orderDirection } = this.state;
-    this.setState({
-      myWidgetsLoaded: false
-    });
-    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection, 'vocabulary,metadata')
+    this.setState({ myWidgetsLoaded: false });
+    this.widgetService
+      .getUserWidgets(this.props.user.id, true, orderDirection, 'vocabulary,metadata')
       .then((response) => {
         this.setState({
           myWidgetsLoaded: true,
           myWidgets: response
         });
-      }).catch(err => toastr.error('Error', err));
+      })
+      .catch(err => toastr.error('Error', err));
   }
 
   handleWidgetRemoved() {
@@ -77,14 +75,14 @@ class MyRWWidgetsMy extends React.Component {
 
   handleWidgetClick = (w) => {
     Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: w.id });
-  }
+  };
 
   handleOrderChange() {
     const newOrder = this.state.orderDirection === 'asc' ? 'desc' : 'asc';
-    this.setState({
-      orderDirection: newOrder
-    },
-    () => this.loadWidgets());
+    this.setState(
+      { orderDirection: newOrder },
+      () => this.loadWidgets()
+    );
   }
 
   handleSelectedWidgetCollectionChange(value) {
@@ -97,12 +95,7 @@ class MyRWWidgetsMy extends React.Component {
   }
 
   render() {
-    const {
-      myWidgetsLoaded,
-      myWidgets,
-      mode,
-      orderDirection
-    } = this.state;
+    const { myWidgetsLoaded, myWidgets, mode, orderDirection } = this.state;
 
     const { user } = this.props;
 
@@ -126,26 +119,20 @@ class MyRWWidgetsMy extends React.Component {
                   className="last-modified-container"
                   onClick={this.handleOrderChange}
                 >
-                  <a>
-                    Last modified
-                  </a>
-                  {orderDirection === 'asc' &&
-                    <Icon className="-small" name="icon-arrow-up" />
-                  }
-                  {orderDirection === 'desc' &&
-                    <Icon className="-small" name="icon-arrow-down" />
-                  }
+                  <a>Last modified</a>
+                  {orderDirection === 'asc' && <Icon className="-small" name="icon-arrow-up" />}
+                  {orderDirection === 'desc' && <Icon className="-small" name="icon-arrow-down" />}
                 </div>
                 <div className="mode-buttons">
                   <button
-                    className={(mode === 'grid' ? '-active' : '')}
+                    className={mode === 'grid' ? '-active' : ''}
                     onClick={() => this.setMode('grid')}
                     title="Grid view"
                   >
                     <Icon name="icon-view-grid" />
                   </button>
                   <button
-                    className={(mode === 'list' ? '-active' : '')}
+                    className={mode === 'list' ? '-active' : ''}
                     onClick={() => this.setMode('list')}
                     title="List view"
                   >
@@ -154,25 +141,21 @@ class MyRWWidgetsMy extends React.Component {
                 </div>
               </div>
             </div>
-            <Spinner
-              isLoading={!myWidgetsLoaded}
-              className="-fixed -light"
-            />
+            <Spinner isLoading={!myWidgetsLoaded} className="-fixed -light" />
+            {myWidgets && (
+              <WidgetList
+                widgets={[]}
+                mode={mode}
+                onWidgetRemove={this.handleWidgetRemoved}
+                showActions
+                showRemove
+                onWidgetClick={this.handleWidgetClick}
+              />
+            )}
             {myWidgets &&
-            <WidgetList
-              widgets={[]}
-              mode={mode}
-              onWidgetRemove={this.handleWidgetRemoved}
-              showActions
-              showRemove
-              onWidgetClick={this.handleWidgetClick}
-            />
-            }
-            {myWidgets && myWidgets.length === 0 &&
-            <div className="no-resources">
-              You currently have no widgets
-            </div>
-            }
+              myWidgets.length === 0 && (
+                <div className="no-resources">You currently have no widgets</div>
+              )}
           </div>
         </div>
       </div>
@@ -185,8 +168,9 @@ MyRWWidgetsMy.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
-export default connect(mapStateToProps, null)(MyRWWidgetsMy);
+export default connect(
+  mapStateToProps,
+  null
+)(MyRWWidgetsMy);

@@ -1,40 +1,37 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Services
-import DashboardsService from 'services/DashboardsService';
+import { deleteDashboard } from 'services/dashboard';
 import { toastr } from 'react-redux-toastr';
 
-class DeleteAction extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // BINDINGS
-    this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
-
-    // SERVICES
-    this.service = new DashboardsService({
-      authorization: props.authorization
-    });
+class DeleteAction extends PureComponent {
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    authorization: PropTypes.string.isRequired,
+    onRowDelete: PropTypes.func.isRequired
   }
 
-  handleOnClickDelete(e) {
+  handleOnClickDelete = (e) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
 
-    const { data } = this.props;
+    const {
+      data: { name, id },
+      authorization
+    } = this.props;
 
-    toastr.confirm(`Are you sure that you want to delete: "${data.name}"`, {
+    toastr.confirm(`Are you sure that you want to delete: "${name}"`, {
       onOk: () => {
-        this.service.deleteData({ id: data.id, auth: this.props.authorization })
+        deleteDashboard(id, authorization)
           .then(() => {
-            this.props.onRowDelete(data.id);
-            toastr.success('Success', `The dashboard "${data.id}" - "${data.name}" has been removed correctly`);
+            this.props.onRowDelete(id);
+            toastr.success('Success', `The dashboard "${id}" - "${name}" has been removed correctly`);
           })
           .catch((err) => {
-            toastr.error('Error', `The dashboard "${data.id}" - "${data.name}" was not deleted. Try again. ${err}`);
+            toastr.error('Error', `The dashboard "${id}" - "${name}" was not deleted. Try again. ${err}`);
           });
       }
     });
@@ -48,11 +45,5 @@ class DeleteAction extends React.Component {
     );
   }
 }
-
-DeleteAction.propTypes = {
-  data: PropTypes.object,
-  authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
-};
 
 export default DeleteAction;

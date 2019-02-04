@@ -12,12 +12,14 @@ class Head extends PureComponent {
     title: PropTypes.string,
     description: PropTypes.string.isRequired,
     routes: PropTypes.object.isRequired,
+    thumbnail: PropTypes.string,
     category: PropTypes.string
   };
 
   static defaultProps = {
     title: null,
-    category: null
+    category: null,
+    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
 
   static getStyles() {
@@ -26,7 +28,13 @@ class Head extends PureComponent {
 
   getCrazyEgg() {
     if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
-      return <script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0069/4623.js" async="async" />;
+      return (
+        <script
+          type="text/javascript"
+          src="//script.crazyegg.com/pages/scripts/0069/4623.js"
+          async="async"
+        />
+      );
     }
     return null;
   }
@@ -124,7 +132,12 @@ class Head extends PureComponent {
   }
 
   render() {
-    const { title, description, category } = this.props;
+    const {
+      title,
+      description,
+      category,
+      thumbnail
+    } = this.props;
 
     return (
       <HeadNext>
@@ -136,7 +149,11 @@ class Head extends PureComponent {
         {category && <meta name="addsearch-category" content={category} />}
 
         <link rel="icon" href="/static/favicon.ico" />
-        <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
+        <link
+          rel="stylesheet"
+          media="screen"
+          href="https://fonts.googleapis.com/css?family=Lato:400,300,700"
+        />
         <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
 
         {/* Mobile Adress background */}
@@ -151,7 +168,10 @@ class Head extends PureComponent {
         {/* Social metadata */}
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content="https://resourcewatch.org/static/images/social-big.jpg" />
+        <meta
+          property="og:image"
+          content={thumbnail}
+        />
         <meta property="og:url" content="https://resourcewatch.org" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
@@ -183,12 +203,8 @@ class Head extends PureComponent {
           integrity="sha512-pijLQd2FbV/7+Jwa86Mk3ACxnasfIMzJRrIlVQsuPKPCfUBCDMDUoLiBQRg7dAQY6D1rkmCcR8286hVTn/wlIg=="
           crossOrigin=""
         />
-        <script
-          src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js"
-          crossOrigin=""
-        />
+        <script src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js" crossOrigin="" />
 
-        {Head.getStyles()}
         {this.getCesiumStyles()}
         {this.getCrazyEgg()}
         {this.getUserReport()}
@@ -197,7 +213,6 @@ class Head extends PureComponent {
         {this.getCesium()}
         {this.getAFrame()}
 
-        <script src={`https://maps.googleapis.com/maps/api/js?key=${process.env.RW_GOGGLE_API_TOKEN_SHORTENER}&libraries=places`} />
         <script
           src={`https://maps.googleapis.com/maps/api/js?v=3.35&key=${
             process.env.RW_GOGGLE_API_TOKEN_SHORTENER

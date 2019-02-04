@@ -66,7 +66,7 @@ class ExploreSidebarComponent extends React.Component {
 
         <div
           className="sidebar-content"
-          // onScroll={() => this.handleScroll()}
+        // onScroll={() => this.handleScroll()}
         >
           {this.props.children}
         </div>

@@ -1,16 +1,13 @@
-/* eslint max-len: 0 */
 import React from 'react';
-
-// Components
-import Page from 'layout/page';
-
-// Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
+// actions
 import * as actions from 'layout/embed/map-swipe/actions';
 import { setEmbed, setIsLoadedExternaly } from 'redactions/common';
 
+// components
+import Page from 'layout/page';
 import EmbedMapSwipe from 'layout/embed/map-swipe';
 
 class EmbedMapSwipePage extends Page {
@@ -35,14 +32,10 @@ class EmbedMapSwipePage extends Page {
     if (lat && lng) store.dispatch(actions.setLatLng({ lat: +lat, lng: +lng }));
 
     if (layers && layers.split(',').length === 2) {
-      await store.dispatch(actions.fetchLayerGroups({
-        layers: layers.split(',')
-      }));
+      await store.dispatch(actions.fetchLayerGroups({ layers: layers.split(',') }));
     }
 
-    return {
-      ...props
-    };
+    return { ...props };
   }
 
   render() {

@@ -16,6 +16,7 @@
 /dist
 .next
 .yalc
+/build
 
 # Next files
 .next

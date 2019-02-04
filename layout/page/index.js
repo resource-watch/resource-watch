@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
-import { fetchTopics } from 'redactions/topics/actions';
+import { getPublishedTopics } from 'modules/topics/actions';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { setMobileOpened } from 'layout/header/header-actions';
 
@@ -26,8 +26,8 @@ class Page extends PureComponent {
     await store.dispatch(getUserFavourites());
     await store.dispatch(getUserCollections());
 
-    // Get topics
-    await store.dispatch(fetchTopics({ filters: {} }));
+    // fetchs published topics to populate topics menu in the app header
+    await store.dispatch(getPublishedTopics());
 
     // Mobile detection
     if (isServer) {

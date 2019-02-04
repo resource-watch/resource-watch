@@ -275,8 +275,49 @@ export default {
     };
     return { ...state, map };
   },
+  //
+  // PARAMETRIZATION
+  //
+  [actions.setMapLayerParametrization]: (state, { payload }) => {
+    const { id, nextConfig } = payload;
+    const { map } = state;
+    const { parametrization } = map;
 
+    parametrization[id] = {
+      ...parametrization[id],
+      ...nextConfig
+    };
 
+    return {
+      ...state,
+      map: {
+        ...state.map,
+        parametrization: { ...parametrization }
+      }
+    };
+  },
+
+  [actions.removeLayerParametrization]: (state, { payload }) => {
+    const { map } = state;
+    const { parametrization } = map;
+
+    delete parametrization[payload];
+
+    return {
+      ...state,
+      map: {
+        ...state.map,
+        parametrization: { ...parametrization }
+      }
+    };
+  },
+  [actions.resetLayerParametrization]: state => ({
+    ...state,
+    map: {
+      ...state.map,
+      parametrization: { ...initialState.map.parametrization }
+    }
+  }),
   //
   // SIDEBAR
   //
