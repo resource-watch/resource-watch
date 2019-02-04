@@ -1,25 +1,18 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Utils
-import { logEvent } from 'utils/analytics';
-
-// Components
+// components
 import Icon from 'components/ui/Icon';
-
-// Modal
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
-// Constants
-class TopicDetailHeader extends React.Component {
-  static propTypes = {
-    topic: PropTypes.object
-  }
+// utils
+import { logEvent } from 'utils/analytics';
 
-  state = {
-    showShareModal: false
-  }
+class TopicDetailHeader extends PureComponent {
+  static propTypes = { topic: PropTypes.object.isRequired }
+
+  state = { showShareModal: false }
 
   handleToggleShareModal = (bool) => {
     this.setState({ showShareModal: bool });
@@ -27,6 +20,7 @@ class TopicDetailHeader extends React.Component {
 
   render() {
     const { topic } = this.props;
+    const { showShareModal } = this.state;
 
     return (
       <div className="page-header-content">
@@ -39,19 +33,20 @@ class TopicDetailHeader extends React.Component {
         <div className="page-header-info">
           <ul>
             <li>
-              <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
+              <button
+                className="c-btn -tertiary -alt -clean"
+                onClick={() => this.handleToggleShareModal(true)}
+              >
                 <Icon name="icon-share" className="-small" />
                 <span>Share</span>
 
                 <Modal
-                  isOpen={this.state.showShareModal}
+                  isOpen={showShareModal}
                   className="-medium"
                   onRequestClose={() => this.handleToggleShareModal(false)}
                 >
                   <ShareModal
-                    links={{
-                      link: typeof window !== 'undefined' && window.location.href
-                    }}
+                    links={{ link: typeof window !== 'undefined' && window.location.href }}
                     analytics={{
                       facebook: () => logEvent('Share', `Share topic: ${topic.name}`, 'Facebook'),
                       twitter: () => logEvent('Share', `Share topic: ${topic.name}`, 'Twitter'),

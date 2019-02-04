@@ -5,10 +5,7 @@ import initialState from './header-default-state';
 
 import HeaderComponent from './header-component';
 
-// Mandatory
-export {
-  actions, reducers, initialState
-};
+export { actions, reducers, initialState };
 
 export default connect(
   state => ({

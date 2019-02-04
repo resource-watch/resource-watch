@@ -12,12 +12,14 @@ class Head extends PureComponent {
     title: PropTypes.string,
     description: PropTypes.string.isRequired,
     routes: PropTypes.object.isRequired,
+    thumbnail: PropTypes.string,
     category: PropTypes.string
   };
 
   static defaultProps = {
     title: null,
-    category: null
+    category: null,
+    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
 
   static getStyles() {
@@ -130,7 +132,12 @@ class Head extends PureComponent {
   }
 
   render() {
-    const { title, description, category } = this.props;
+    const {
+      title,
+      description,
+      category,
+      thumbnail
+    } = this.props;
 
     return (
       <HeadNext>
@@ -163,7 +170,7 @@ class Head extends PureComponent {
         <meta property="og:description" content={description} />
         <meta
           property="og:image"
-          content="https://resourcewatch.org/static/images/social-big.jpg"
+          content={thumbnail}
         />
         <meta property="og:url" content="https://resourcewatch.org" />
         <meta property="og:type" content="website" />

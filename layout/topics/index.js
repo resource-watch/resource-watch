@@ -1,20 +1,8 @@
-// Redux
 import { connect } from 'react-redux';
-import * as actions from './topics-actions';
-import * as reducers from './topics-reducers';
-import initialState from './topics-default-state';
 
-import TopicsComponent from './topics-component';
-
-// Mandatory
-export {
-  actions, reducers, initialState
-};
+import TopicsLayout from './component';
 
 export default connect(
-  state => ({
-    // Store
-    topics: state.topicsIndex
-  }),
-  actions
-)(TopicsComponent);
+  state => ({ data: state.staticPages.topics }),
+  null
+)(TopicsLayout);

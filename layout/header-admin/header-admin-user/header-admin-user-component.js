@@ -1,28 +1,27 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
-
-// Utils
-import { get } from 'utils/request';
-
 import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
+import debounce from 'lodash/debounce';
 
-// Components
+// components
 import TetherComponent from 'react-tether';
 import Icon from 'components/ui/Icon';
 
-class HeaderUser extends React.Component {
-  /**
-   * UI EVENTS
-   * - logout
-  */
-  logout(e) {
-    if (e) {
-      e.preventDefault();
-    }
+// utils
+import { get } from 'utils/request';
 
-    // Get to logout
+class HeaderUser extends PureComponent {
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+    header: PropTypes.object.isRequired,
+    setDropdownOpened: PropTypes.func.isRequired
+  }
+
+  logout(e) {
+    if (e) e.preventDefault();
+
+    // TO-DO: move this to an action
     get({
       url: `${process.env.CONTROL_TOWER_URL}/auth/logout`,
       withCredentials: true,
@@ -49,13 +48,9 @@ class HeaderUser extends React.Component {
         <div className="c-avatar" style={{ backgroundImage: photo }}>
           <TetherComponent
             attachment="top center"
-            constraints={[{
-              to: 'window'
-            }]}
+            constraints={[{ to: 'window' }]}
             targetOffset="0 0"
-            classes={{
-              element: 'c-header-dropdown'
-            }}
+            classes={{ element: 'c-header-dropdown' }}
           >
             {/* First child: This is what the item will be tethered to */}
             <Link route="myrw">
@@ -78,13 +73,15 @@ class HeaderUser extends React.Component {
                 onMouseLeave={() => this.toggleDropdown(false)}
               >
                 <li className="header-dropdown-list-item">
-                  <Link to="myrw/profile">
+                  <Link route="myrw" params={{ tab: 'profile' }}>
                     <a>Profile</a>
                   </Link>
                 </li>
                 {user.role === 'ADMIN' &&
                   <li className="header-dropdown-list-item">
-                    <a href="/admin">Admin</a>
+                    <Link route="admin_home">
+                      <a>Admin</a>
+                    </Link>
                   </li>
                 }
                 <li className="header-dropdown-list-item">
@@ -101,13 +98,9 @@ class HeaderUser extends React.Component {
       return (
         <TetherComponent
           attachment="top center"
-          constraints={[{
-            to: 'window'
-          }]}
+          constraints={[{ to: 'window' }]}
           targetOffset="0 0"
-          classes={{
-            element: 'c-header-dropdown'
-          }}
+          classes={{ element: 'c-header-dropdown' }}
         >
           {/* First child: This is what the item will be tethered to */}
           <span
@@ -148,12 +141,5 @@ class HeaderUser extends React.Component {
     return null;
   }
 }
-
-HeaderUser.propTypes = {
-  user: PropTypes.object,
-  header: PropTypes.object,
-  setDropdownOpened: PropTypes.func
-};
-
 
 export default HeaderUser;
