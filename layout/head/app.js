@@ -138,6 +138,8 @@ class Head extends PureComponent {
       category,
       thumbnail
     } = this.props;
+    const url = (typeof window !== 'undefined') ?
+      window.location.href : 'https://resourcewatch.org';
 
     return (
       <HeadNext>
@@ -172,7 +174,7 @@ class Head extends PureComponent {
           property="og:image"
           content={thumbnail}
         />
-        <meta property="og:url" content="https://resourcewatch.org" />
+        <meta property="og:url" content={url} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@resource_watch" />
