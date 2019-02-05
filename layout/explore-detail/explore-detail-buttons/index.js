@@ -6,7 +6,8 @@ export default connect(
   state => ({
     user: state.user,
     dataset: state.exploreDetail.data,
-    partner: state.exploreDetail.partner.data
+    partner: state.exploreDetail.partner.data,
+    responsive: state.responsive
   }),
   null
 )(ExploreDetailActionsComponent);
