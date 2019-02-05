@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import isEmpty from 'lodash/isEmpty';
 
 // components
 import Field from 'components/form/Field';
@@ -43,9 +44,12 @@ class Step1 extends PureComponent {
 
   componentDidMount() {
     const { child: wysiwyg } = FORM_ELEMENTS.elements.content;
-    const { content } = TEMPLATES[0];
 
-    wysiwyg.setValue(JSON.stringify(content));
+    if (!isEmpty(this.props.form.content)) {
+      wysiwyg.setValue(this.props.form.content);
+    } else {
+      wysiwyg.setValue(JSON.stringify(TEMPLATES[0].content));
+    }
   }
 
   componentWillReceiveProps(nextProps) {
