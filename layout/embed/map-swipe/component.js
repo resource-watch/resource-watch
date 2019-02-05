@@ -86,9 +86,8 @@ class EmbedMapSwipe extends React.Component {
 
                       {/* LayerManager */}
                       <LayerManager map={map} plugin={PluginLeaflet}>
-                        {layerManager => layerGroups && flatten(layerGroups.map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
+                        {layerGroups && flatten((layerGroups).map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
                           <Layer
-                            layerManager={layerManager}
                             {...l}
                             key={l.id}
                             zIndex={1000 - i}
@@ -115,7 +114,7 @@ class EmbedMapSwipe extends React.Component {
                           />
                         ))}
                       </LayerManager>
-                      
+
                       {/* MapSideBySide */}
                       <MapSideBySide
                         map={map}

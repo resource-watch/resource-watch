@@ -225,9 +225,9 @@ class AlertWidget extends React.Component {
                   </MapControls>
 
                   <LayerManager map={map} plugin={PluginLeaflet}>
-                    {layerManager => (
+                    {
                       <React.Fragment>
-                        <Layer {...layer} layerManager={layerManager} />
+                        <Layer {...layer} />
                         {geostore &&
                           <Layer
                             id={geostore.id}
@@ -236,8 +236,7 @@ class AlertWidget extends React.Component {
                             layerConfig={{
                               type: 'geoJSON',
                               body: geostore.geojson
-                            }}            
-                            layerManager={layerManager}
+                            }}
                             // Interaction
                             interactivity
                             events={{
@@ -247,8 +246,7 @@ class AlertWidget extends React.Component {
                             }}
                           />
                         }
-                      </React.Fragment>
-                    )}
+                      </React.Fragment>}
                   </LayerManager>
 
                 </React.Fragment>
