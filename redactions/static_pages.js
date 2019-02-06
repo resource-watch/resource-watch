@@ -29,7 +29,6 @@ export default function (state = initialState, action) {
     case GET_STATIC_SUCCESS: {
       const staticData = {};
       staticData[action.payload.name] = action.payload.data;
-
       return Object.assign({}, state,
         {
           loading: false,

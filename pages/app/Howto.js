@@ -1,22 +1,15 @@
-import React from 'react';
+import React, { PureComponent }  from 'react';
 import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
-
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import { connect } from 'react-redux';
 import { getStaticData } from 'redactions/static_pages';
-
-import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 
-class Howto extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-
+class Howto extends PureComponent {
+  static async getInitialProps({ store }) {
     // Get static data
-    await context.store.dispatch(getStaticData('how-to'));
-
-    return { ...props };
+    await store.dispatch(getStaticData('how-to'));
+    return {};
   }
 
   render() {
@@ -84,4 +77,4 @@ const mapDispatchToProps = {
   getStaticData
 };
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Howto);
+export default connect(mapStateToProps, mapDispatchToProps)(Howto);
