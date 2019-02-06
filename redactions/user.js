@@ -215,7 +215,10 @@ export function setUser(user) {
 
     const userObj = { ...user };
 
-    if (user.userToken) userObj.token = user.userToken;
+    if (user.userToken) {
+      userObj.token = user.userToken;
+      delete userObj.userToken;
+    }
 
     if (userObj.token) {
       userObj.token2 = userObj.token.includes('Bearer') ? userObj.token2 : userObj.token;
