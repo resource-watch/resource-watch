@@ -105,7 +105,7 @@ class WidgetBlock extends React.Component {
     };
   }
 
-  getMapLabel(widget) {    
+  getMapLabel(widget) {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
@@ -198,7 +198,7 @@ class WidgetBlock extends React.Component {
                     />
                   </Modal>
                 </li>
-                
+
                 <li>
                   <LoginRequired text="Log in or sign up to save items in favorites">
                     <Tooltip
@@ -287,9 +287,8 @@ class WidgetBlock extends React.Component {
 
                       {/* LayerManager */}
                       <LayerManager map={map} plugin={PluginLeaflet}>
-                        {layerManager => layers && flatten(layers.map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
+                        {flatten(layers.map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
                           <Layer
-                            layerManager={layerManager}
                             {...l}
                             key={l.id}
                             zIndex={1000 - i}
@@ -300,7 +299,7 @@ class WidgetBlock extends React.Component {
                   )}
                 </Map>
               </div>
-              
+
               <div className="c-legend-map -embed">
                 <Legend
                   maxHeight={140}
