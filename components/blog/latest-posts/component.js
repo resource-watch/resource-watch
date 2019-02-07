@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from 'components/app/common/Rating';
 import Spinner from 'components/ui/Spinner';
 
-class BlogPostsLatest extends React.Component {
+class BlogPostsLatest extends PureComponent {
   static propTypes = {
     posts: PropTypes.array,
     postsLoading: PropTypes.bool,
@@ -59,7 +59,10 @@ class BlogPostsLatest extends React.Component {
 
   render() {
     const {
-      posts, postsLoading, postsSpotlight, postsSpotlightLoading
+      posts,
+      postsLoading,
+      postsSpotlight,
+      postsSpotlightLoading
     } = this.props;
 
     return (

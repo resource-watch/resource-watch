@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
@@ -7,15 +7,8 @@ import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
 import Icon from 'components/ui/Icon';
 
-class Footer extends React.Component {
-  static propTypes = {
-    footer: PropTypes.object.isRequired,
-    fetchPartners: PropTypes.func.isRequired
-  };
-
-  componentDidMount() {
-    this.props.fetchPartners();
-  }
+class Footer extends PureComponent {
+  static propTypes = { footer: PropTypes.object.isRequired };
 
   getPartners() {
     const { footer } = this.props;
@@ -98,7 +91,8 @@ class Footer extends React.Component {
             <div className="row">
               <div className="column small-12">
                 <div className="c-partners-slider">
-                  {footer.partners.list.length ? <Carousel items={this.getPartners()} /> : ''}
+                  {footer.partners.list.length && typeof window !== 'undefined' ?
+                    <Carousel items={this.getPartners()} /> : ''}
                 </div>
               </div>
             </div>

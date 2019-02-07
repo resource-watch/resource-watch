@@ -32,7 +32,10 @@ import {
 } from 'widget-editor';
 
 // constants
-import { FULLSCREEN_PAGES, USERREPORT_BLACKLIST } from 'constants/app';
+import {
+  FULLSCREEN_PAGES,
+  USERREPORT_BLACKLIST
+} from 'constants/app';
 
 class LayoutApp extends PureComponent {
   static propTypes = {
@@ -61,20 +64,20 @@ class LayoutApp extends PureComponent {
     thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
 
-  constructor(props) {
-    super(props);
-    this.state = { modalOpen: false };
+  state = { modalOpen: false }
 
-    // WIDGET EDITOR
-    // Change the configuration according to your needs
+  componentWillMount() {
+    const { user: { token2, email } } = this.props;
+
+    // WIDGET EDITOR – change the configuration according to your needs
     setConfig({
       url: process.env.WRI_API_URL,
       env: 'production,preproduction',
       applications: process.env.APPLICATIONS,
       authUrl: process.env.CONTROL_TOWER_URL,
       assetsPath: '/static/images/widget-editor/',
-      userToken: props.user.token2,
-      userEmail: props.user.email
+      userToken: token2,
+      userEmail: email
     });
   }
 
@@ -88,14 +91,14 @@ class LayoutApp extends PureComponent {
       if (Progress && Progress.Component.instance) Progress.hideAll();
     };
 
-    if (window.Transifex) {
-      window.Transifex.live.onReady(() => {
-        window.Transifex.live.onTranslatePage((locale) => {
-          this.props.setLocale(locale);
-          window.location.reload();
-        });
-      });
-    }
+    // if (window.Transifex) {
+    //   window.Transifex.live.onReady(() => {
+    //     window.Transifex.live.onTranslatePage((locale) => {
+    //       this.props.setLocale(locale);
+    //       window.location.reload();
+    //     });
+    //   });
+    // }
 
     // Google Analytics
     if (!window.GA_INITIALIZED) {
@@ -115,19 +118,23 @@ class LayoutApp extends PureComponent {
     const {
       title,
       description,
-      routes,
+      routes: { pathname },
       pageHeader,
       modal,
       className,
       category,
       thumbnail
     } = this.props;
-    const { pathname } = routes;
-    const fullScreen = pathname && FULLSCREEN_PAGES.indexOf(pathname) !== -1;
-    const componentClass = classnames('l-page', { [className]: !!className });
+    const componentClass = classnames(
+      'l-page',
+      { [className]: !!className }
+    );
 
     return (
-      <div id="#main" className={componentClass}>
+      <div
+        id="#main"
+        className={componentClass}
+      >
         <Head
           title={title}
           description={description}
@@ -136,7 +143,10 @@ class LayoutApp extends PureComponent {
         />
 
         {!browserSupported() &&
-          <Modal open canClose={false}>
+          <Modal
+            open
+            canClose={false}
+          >
             <NoBrowserSupport />
           </Modal>
         }
@@ -149,7 +159,7 @@ class LayoutApp extends PureComponent {
 
         {this.props.children}
 
-        {!fullScreen && <Footer />}
+        {!FULLSCREEN_PAGES.includes(pathname) && <Footer />}
 
         <Tooltip />
 
