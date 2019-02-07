@@ -1,86 +1,10 @@
 import React from 'react';
 import Document, { Main, NextScript, Head } from 'next/document';
-import { USERREPORT_BLACKLIST } from 'constants/app';
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
     return { ...initialProps };
-  }
-
-  getCrazyEgg() {
-    if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
-      return (
-        <script
-          type="text/javascript"
-          src="//script.crazyegg.com/pages/scripts/0069/4623.js"
-          async="async"
-        />
-      );
-    }
-    return null;
-  }
-
-  getUserReport() {
-    const { routes } = this.props;
-    const { asPath: pathname } = routes;
-
-    if (USERREPORT_BLACKLIST.includes(pathname)) return null;
-
-    if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
-      return (
-        <script
-          type="text/javascript"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{
-            __html: `
-              window._urq = window._urq || [];
-              _urq.push(['setGACode', 'UA-67196006-1']);
-              _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
-              (function() {
-              var ur = document.createElement('script');
-              ur.type = 'text/javascript';
-              ur.async = true;
-              ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
-              var s = document.getElementsByTagName('script')[0];
-              s.parentNode.insertBefore(ur, s);
-              })();
-            `
-          }}
-        />
-      );
-    }
-
-    return null;
-  }
-
-  getCesium() {
-    const { asPath: pathname } = this.props.routes;
-    if (pathname === '/app/pulse' || pathname === '/app/Splash') {
-      return (
-        <fragment>
-          <script src="/static/cesium/cesium.js" />
-          <script src="/static/cesium/cesium-navigation.js" />
-        </fragment>
-      );
-    }
-    return null;
-  }
-
-  getCesiumStyles() {
-    const { asPath: pathname } = this.props.routes;
-    if (pathname === '/app/pulse' || pathname === '/app/Splash') {
-      return <link rel="stylesheet" href="/static/cesium/Widgets/widgets.css" />;
-    }
-    return null;
-  }
-
-  getAFrame() {
-    const { asPath: pathname } = this.props.routes;
-    if (pathname === '/app/SplashDetail') {
-      return <script src="/static/aframe/aframe.min.js" />;
-    }
-    return null;
   }
 
   render() {
@@ -146,7 +70,10 @@ export default class MyDocument extends Document {
             integrity="sha512-pijLQd2FbV/7+Jwa86Mk3ACxnasfIMzJRrIlVQsuPKPCfUBCDMDUoLiBQRg7dAQY6D1rkmCcR8286hVTn/wlIg=="
             crossOrigin=""
           />
-          <script src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js" crossOrigin="" />
+          <script
+            src="https://unpkg.com/leaflet-utfgrid/L.UTFGrid-min.js"
+            crossOrigin=""
+          />
 
           {/* Google API */}
           <script
@@ -156,13 +83,8 @@ export default class MyDocument extends Document {
           />
 
           {/* Polifyll */}
+          {/* TO-DO: remove once axios is completely implemented */}
           <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
-
-          {/* {this.getCesiumStyles()}
-          {this.getCrazyEgg()}
-          {this.getUserReport()}
-          {this.getCesium()}
-          {this.getAFrame()} */}
         </Head>
         <body>
           <Main />

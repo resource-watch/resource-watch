@@ -33,7 +33,7 @@ class LayoutHome extends PureComponent {
   onVideoStateChange = ({ data }) => { this.setState({ videoReady: data === 1 }); };
 
   handleTopicSelection = ({ slug }) => {
-    // We need to make an amendment in the Wysiwyg to have this working
+    // TO-DO: we need to make an amendment in the Wysiwyg to have this working
     Router.pushRoute('topics_detail', { id: slug }).then(() => {
       window.scrollTo(0, 0);
     });

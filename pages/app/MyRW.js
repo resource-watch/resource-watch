@@ -104,7 +104,6 @@ class MyRW extends Component {
   // }
 
   render() {
-    console.log('>>>> PROPS >>>>', this.props);
     const { tab, subtab, user, query } = this.props;
 
     if (!user || !(user.userToken || user.token)) return null;

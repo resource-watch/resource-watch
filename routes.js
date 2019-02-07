@@ -33,10 +33,10 @@ routes.add('splash', '/splash', 'app/Splash');
 routes.add('splash_detail', '/splash/:id', 'app/SplashDetail');
 
 // ---- ABOUT ----
-routes.add('about', '/about', 'app/About');
+routes.add('about', '/about', 'app/about');
 routes.add('about_partners', '/about/partners', 'app/partners');
 routes.add('about_faqs', '/about/faqs', 'app/Faqs');
-routes.add('about_contact-us', '/about/contact-us', 'app/ContactUs');
+routes.add('about_contact-us', '/about/contact-us', 'app/contact-us');
 routes.add('about_howto', '/about/howto', 'app/Howto');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 routes.add('newsletter', '/about/newsletter', 'app/newsletter');
@@ -73,7 +73,7 @@ routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 
 // ------ TERMS && POLICY -------------
 routes.add('terms-of-service', '/terms-of-service', 'app/Terms');
-routes.add('privacy-policy', '/privacy-policy', 'app/Policy');
+routes.add('privacy-policy', '/privacy-policy', 'app/policy');
 routes.add('attribution-requirements', '/api-attribution-requirements', 'app/AttributionRequirements');
 
 // ------- CATALOG -------------

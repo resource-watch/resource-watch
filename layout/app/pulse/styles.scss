@@ -1,0 +1,25 @@
+@import 'css/_foundation_settings';
+@import 'css/_settings';
+
+.l-pulse {
+  background-color: black;
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+
+  .cesium-infoBox {
+    z-index: 10;
+
+    button {
+      cursor: pointer;
+    }
+  }
+
+  .c-zoom-control {
+    z-index: 9;
+
+    @media screen and (max-width: map-get($breakpoints, medium)) {
+      top: 30px;
+    }
+  }
+}

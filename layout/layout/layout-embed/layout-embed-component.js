@@ -7,7 +7,7 @@ import { Router } from 'routes';
 // Wri-api-components
 import { Icons } from 'wri-api-components';
 
-import Head from 'layout/head/app';
+import HeadApp from 'layout/head/app';
 import Tooltip from 'components/ui/Tooltip';
 
 class LayoutEmbed extends React.Component {
@@ -49,7 +49,7 @@ class LayoutEmbed extends React.Component {
 
     return (
       <div className={`l-page ${className}`}>
-        <Head
+        <HeadApp
           title={title}
           description={description}
         />

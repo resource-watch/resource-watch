@@ -42,12 +42,12 @@ import * as explore from 'layout/explore';
 import * as exploreDetail from 'layout/explore-detail';
 
 // Pulse
-import * as pulse from 'layout/pulse';
-import * as layerContainer from 'layout/pulse/layer-container';
-import * as layerMenu from 'layout/pulse/layer-menu';
-import * as layerCard from 'layout/pulse/layer-card';
-import * as layerPill from 'layout/pulse/layer-pill';
-import * as labelsPill from 'layout/pulse/labels-pill';
+import * as pulse from 'layout/app/pulse';
+import * as layerContainer from 'layout/app/pulse/layer-container';
+import * as layerMenu from 'layout/app/pulse/layer-menu';
+import * as layerCard from 'layout/app/pulse/layer-card';
+import * as layerPill from 'layout/app/pulse/layer-pill';
+import * as labelsPill from 'layout/app/pulse/labels-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
 
 // Widget

@@ -1,8 +1,8 @@
 import React from 'react';
 
 // Components
-import LayerPill from 'layout/pulse/layer-pill';
-import LabelsPill from 'layout/pulse/labels-pill';
+import LayerPill from 'layout/app/pulse/layer-pill';
+import LabelsPill from 'layout/app/pulse/labels-pill';
 
 // Util
 import { LABELS } from 'components/ui/map/constants';
