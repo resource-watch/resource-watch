@@ -23,14 +23,19 @@ export const USERREPORT_BLACKLIST = [
 ];
 
 export const FULLSCREEN_PAGES = [
-  '/app/explore',
-  '/app/pulse',
-  '/app/Splash',
-  '/app/sign-in'
+  '/explore',
+  '/pulse',
+  '/Splash',
+  '/sign-in'
+];
+
+export const PAGES_WITHOUT_TOPICS = [
+  '/sign-in'
 ];
 
 export default {
   TRANSIFEX_BLACKLIST,
   USERREPORT_BLACKLIST,
-  FULLSCREEN_PAGES
+  FULLSCREEN_PAGES,
+  PAGES_WITHOUT_TOPICS
 };

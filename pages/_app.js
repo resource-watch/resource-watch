@@ -3,12 +3,21 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
-import { setRouter } from 'redactions/routes';
-import { fetchTopics } from 'redactions/topics/actions';
-import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { setMobileOpened, setItem } from 'layout/header/header-actions';
 
+// actions
+import { setRouter } from 'redactions/routes';
+import { setUser } from 'redactions/user';
+import { setMobileDetect, mobileParser } from 'react-responsive-redux';
+import { getPublishedTopics } from 'modules/topics/actions';
+import { getPublishedPartners } from 'layout/footer/footer-actions';
+
+// constants
+import {
+  PAGES_WITHOUT_TOPICS,
+  FULLSCREEN_PAGES
+} from 'constants/app';
+
+// app styles
 import 'css/index.scss';
 
 class RWApp extends App {
@@ -17,39 +26,28 @@ class RWApp extends App {
     const { req, store, query, isServer } = ctx;
     const pathname = req ? asPath : ctx.asPath;
 
-    // Routes
+    // sets app routes
     const url = { asPath, pathname, query };
     store.dispatch(setRouter(url));
 
-    // User favourites and collection
+    // sets user data coming from a request (server) or the store (client)
     const { user } = isServer ? req : store.getState();
-    console.log(user)
-    await store.dispatch(setUser(user));
-    await store.dispatch(getUserFavourites());
-    await store.dispatch(getUserCollections());
+    if (user) store.dispatch(setUser(user));
+    // await store.dispatch(getUserFavourites());
+    // await store.dispatch(getUserCollections());
 
-    // Get topics
-    await store.dispatch(fetchTopics({ filters: { 'filter[published]': 'true' } }));
-    const { topicsMenu: { topics } } = store.getState();
+    // fetchs published topics to populate topics menu in the app header
+    // TO-DO: check if the user is in the admin zone or not to load the topics
+    if (!PAGES_WITHOUT_TOPICS.includes(pathname)) await store.dispatch(getPublishedTopics());
 
-    store.dispatch(setItem(
-      {
-        id: 'topics',
-        label: 'Topics',
-        route: 'topics',
-        pathnames: ['/app/topics', '/app/topics-detail'],
-        children: topics.map(t => ({ label: t.name, route: 'topics_detail', params: { id: t.slug } }))
-      }
-    ));
+    // fetchs partners for footer
+    if (!FULLSCREEN_PAGES.includes(pathname)) await store.dispatch(getPublishedPartners());
 
-    // Mobile detection
+    // mobile detection
     if (isServer) {
       const mobileDetect = mobileParser(req);
       store.dispatch(setMobileDetect(mobileDetect));
     }
-
-    // Hide mobile header
-    store.dispatch(setMobileOpened(false));
 
     const pageProps = Component.getInitialProps
       ? await Component.getInitialProps(ctx)
@@ -59,7 +57,11 @@ class RWApp extends App {
   }
 
   render() {
-    const { Component, pageProps, store } = this.props;
+    const {
+      Component,
+      pageProps,
+      store
+    } = this.props;
 
     return (
       <Container>
