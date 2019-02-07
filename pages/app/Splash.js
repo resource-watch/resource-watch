@@ -10,7 +10,7 @@ import { getInsights } from 'redactions/insights';
 
 // Layout
 import Page from 'layout/page';
-import Head from 'layout/head/app';
+import HeadApp from 'layout/head/app';
 import Header from 'components/splash/layout/Header';
 
 // Utils
@@ -192,8 +192,9 @@ class Splash extends Page {
         title="Resource Watch"
         className={pageClassnames}
       >
-        <Head
+        <HeadApp
           title="Splash page"
+          // TO-DO: fill description
           description="Splash page description"
         />
         <Header

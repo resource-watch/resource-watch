@@ -14,7 +14,7 @@ import { breakpoints } from 'utils/responsive';
 
 // Layout
 import Page from 'layout/page';
-import Head from 'layout/head/app';
+import HeadApp from 'layout/head/app';
 import Header from 'components/splash/layout/Header';
 import { Icons } from 'wri-api-components';
 
@@ -213,7 +213,7 @@ class SplashDetail extends Page {
             title="Resource Watch"
             className={`${pageClass} --mobile`}
           >
-            <Head
+            <HeadApp
               title="SplashDetail page"
               description="SplashDetail page description"
             />

@@ -23,8 +23,8 @@ export const USERREPORT_BLACKLIST = [
 ];
 
 export const FULLSCREEN_PAGES = [
-  '/explore',
-  '/pulse',
+  '/data/explore',
+  '/data/pulse',
   '/Splash',
   '/sign-in'
 ];
@@ -33,9 +33,15 @@ export const PAGES_WITHOUT_TOPICS = [
   '/sign-in'
 ];
 
+export const CESIUM_ROUTES = [
+  '/data/pulse',
+  '/splash'
+];
+
 export default {
   TRANSIFEX_BLACKLIST,
   USERREPORT_BLACKLIST,
   FULLSCREEN_PAGES,
-  PAGES_WITHOUT_TOPICS
+  PAGES_WITHOUT_TOPICS,
+  CESIUM_ROUTES
 };

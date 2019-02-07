@@ -226,8 +226,6 @@
 // PAGES
 @import "./components/app/pages/explore";
 @import "./components/app/pages/explore_detail";
-@import "./components/app/pages/about";
-@import "./components/app/pages/pulse";
 @import "./components/app/pages/submit_insight";
 @import "./components/app/pages/partner_detail";
 @import "./components/app/pages/getInvolved";
@@ -237,17 +235,6 @@
 @import "./components/app/pages/splash_detail";
 @import "./components/app/pages/alerts_page";
 @import "./components/app/pages/newsletter";
-
-// PULSE
-@import "./components/app/pulse/globe_cesium";
-@import "./components/app/pulse/globe_tooltip";
-@import "./components/app/pulse/layer_container";
-@import "./components/app/pulse/layer_menu_dropdown";
-@import "./components/app/pulse/layer_menu_native";
-@import "./components/app/pulse/layer_menu";
-@import "./components/app/pulse/layer_card";
-@import "./components/app/pulse/legend_type";
-@import "./components/app/pulse/legend";
 
 // EXPLORE
 // new
