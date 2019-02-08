@@ -74,7 +74,7 @@ routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 // ------ TERMS && POLICY -------------
 routes.add('terms-of-service', '/terms-of-service', 'app/Terms');
 routes.add('privacy-policy', '/privacy-policy', 'app/policy');
-routes.add('attribution-requirements', '/api-attribution-requirements', 'app/AttributionRequirements');
+routes.add('attribution-requirements', '/api-attribution-requirements', 'app/attribution-requirements');
 
 // ------- CATALOG -------------
 routes.add('catalog', '/catalog', 'app/catalog');
