@@ -220,6 +220,10 @@ export function setUser(user) {
       userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
     }
 
+    // TO-DO: this "serialization" should be done in the API
+    // eslint-disable-next-line no-underscore-dangle
+    if (userObj._id) userObj.id = userObj._id;
+
     dispatch({ type: SET_USER, payload: userObj });
   };
 }
