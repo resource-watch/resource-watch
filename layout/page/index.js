@@ -22,6 +22,7 @@ class Page extends PureComponent {
 
     // User favourites and collection
     const { user } = isServer ? req : store.getState();
+
     await store.dispatch(setUser(user));
     await store.dispatch(getUserFavourites());
     await store.dispatch(getUserCollections());

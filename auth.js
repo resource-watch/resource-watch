@@ -1,3 +1,5 @@
+require('isomorphic-fetch');
+
 const passport = require('passport');
 const Strategy = require('passport-control-tower');
 const LocalStrategy = require('passport-local').Strategy;
@@ -69,6 +71,31 @@ module.exports = (() => {
           }
           return res.json(req.user);
         });
-      })(req, res, done)
+      })(req, res, done),
+    updateUser: (req, res) => {
+      const { body } = req;
+      const { userObj, token } = body;
+
+      fetch(`${process.env.CONTROL_TOWER_URL}/auth/user/me`, {
+        method: 'PATCH',
+        body: JSON.stringify(userObj),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token
+        }
+      })
+        .then((response) => {
+          if (response.status >= 400) throw new Error(response.statusText);
+          return response.json();
+        })
+        .then(user =>
+          req.login({ ...user, token }, {}, (err) => {
+            if (err) return res.status(401).json({ status: 'error', message: err });
+            return res.json({
+              ...user,
+              token: userObj.token
+            });
+          }));
+    }
   };
 })();
