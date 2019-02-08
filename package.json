@@ -38,7 +38,7 @@
     "leaflet-utfgrid": "^0.3.0",
     "lodash": "4.17.4",
     "lusca": "1.4.1",
-    "moment": "^2.18.1",
+    "moment": "^2.24.0",
     "moment-range": "3.0.3",
     "moveto": "1.6.1",
     "next": "^7.0.2",
