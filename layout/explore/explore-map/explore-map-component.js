@@ -27,7 +27,8 @@ import {
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
   LegendItemTypes,
-  LegendItemTimeStep
+  LegendItemTimeStep,
+  LegendItemTimeline
 } from 'wri-api-components';
 
 import { LayerManager, Layer } from 'layer-manager/dist/components';
@@ -137,6 +138,10 @@ class ExploreMapComponent extends React.Component {
       active: l.id
     });
   };
+
+  onChangeLayerTimeLine = (l) => {
+    this.props.setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
+  }
 
   onRemoveLayer = (l) => {
     const {
@@ -363,7 +368,7 @@ class ExploreMapComponent extends React.Component {
                       <LegendItemButtonInfo />
                     </LegendItemToolbar>
                   ) : (
-                      <LegendItemToolbar />
+                    <LegendItemToolbar />
                     )
                 }
                 // Actions
@@ -380,6 +385,7 @@ class ExploreMapComponent extends React.Component {
                     this.onChangeLayerDate(dates, activeLayer);
                   }}
                 />
+                <LegendItemTimeline onChangeLayer={this.onChangeLayerTimeLine} />
               </LegendListItem>
             ))}
           </Legend>
