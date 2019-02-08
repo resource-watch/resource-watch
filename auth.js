@@ -89,11 +89,12 @@ module.exports = (() => {
           return response.json();
         })
         .then(user =>
-          req.login(user, {}, (err) => {
-            if (err) {
-              return res.status(401).json({ status: 'error', message: err });
-            }
-            return res.json(user);
+          req.login({ ...user, token }, {}, (err) => {
+            if (err) return res.status(401).json({ status: 'error', message: err });
+            return res.json({
+              ...user,
+              token: userObj.token
+            });
           }));
     }
   };
