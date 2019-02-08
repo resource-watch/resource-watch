@@ -1,39 +1,43 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import { toggleModal, setModalOptions } from 'redactions/modal';
+import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
-
-// Responsive
 import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
-
-// Layout
-import Page from 'layout/page';
-import HeadApp from 'layout/head/app';
-import Header from 'components/splash/layout/Header';
 import { Icons } from 'wri-api-components';
 
-// Components
+// components
+import HeadApp from 'layout/head/app';
+import Header from 'components/splash/layout/Header';
 import Spinner from 'components/ui/Spinner';
 import Modal from 'components/ui/Modal';
 import Icon from 'components/ui/Icon';
-import { Link } from 'routes';
 import Title from 'components/ui/Title';
 
-// Utils
-import { PANORAMAS } from 'utils/splash/Panoramas';
+// utils
+import { breakpoints } from 'utils/responsive';
 
-class SplashDetail extends Page {
+// constants
+import { PANORAMAS } from './constants';
+
+// styles
+import './styles.scss';
+
+class LayoutSplashDetail extends PureComponent {
+  static propTypes = {
+    routes: PropTypes.object.isRequired,
+    responsive: PropTypes.object.isRequired,
+    modal: PropTypes.object.isRequired,
+    toggleModal: PropTypes.func.isRequired,
+    setModalOptions: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
-    const panorama = PANORAMAS.find(p => p.name === props.url.query.id);
+    const { routes: { query } } = props;
+    const panorama = PANORAMAS.find(p => p.name === query.id);
     const selectedPanorama = panorama.options.find(e => e.name === panorama.default);
-    const earthMode = props.url.query.earthMode;
+    const { earthMode } = query;
 
     this.state = {
       skyLoading: true,
@@ -46,16 +50,8 @@ class SplashDetail extends Page {
       modalOpen: false,
       introOpened: true,
       hideDragHelp: false,
-      copied: { }
+      copied: {}
     };
-
-    // --------------- Bindings -----------------------
-    this.handlePanoramaChange = this.handlePanoramaChange.bind(this);
-    this.handleImageLoaded = this.handleImageLoaded.bind(this);
-    this.handleSoundChange = this.handleSoundChange.bind(this);
-    this.handleCloseRightMenu = this.handleCloseRightMenu.bind(this);
-    this.handleToggleIntro = this.handleToggleIntro.bind(this);
-    // ------------------------------------------------
   }
 
   componentDidMount() {
@@ -85,75 +81,6 @@ class SplashDetail extends Page {
     }
   }
 
-  addEventListenersToHotspots() {
-    const { selectedPanorama } = this.state;
-
-    if (selectedPanorama.hotspots) {
-      selectedPanorama.hotspots.forEach((hotspot) => {
-        const elem = document.getElementById(hotspot.id);
-        elem.addEventListener('click', () => this.handleSelectedHostpot(hotspot));
-        elem.addEventListener('mouseenter', () => this.handleMouseOverHotspot(hotspot));
-        elem.addEventListener('mouseleave', () => this.handleMouseLeavesHotspot(hotspot));
-      });
-    }
-  }
-
-  /**
-  * UI Event handlers
-  * - handlePanoramaChange
-  * - handleImageLoaded
-  * - handleSoundChange
-  * - handleSelectedHostpot
-  * - handleMouseOverHotspot
-  * - handleMouseLeavesHotspot
-  * - handleCloseRightMenu
-  */
-  handlePanoramaChange(event) {
-    const { panorama } = this.state;
-    const radioButtonId = event.target.getAttribute('id');
-    this.setState({
-      selectedPanorama: panorama.options.find(e => e.name === radioButtonId),
-      skyLoading: true,
-      introOpened: true
-    }, () => {
-      this.addEventListenersToHotspots();
-      this.setState({ skyLoading: false });
-    });
-  }
-
-  handleImageLoaded() {
-    this.setState({ skyLoading: false });
-  }
-
-  handleSoundChange() {
-    this.setState({
-      soundActivated: !this.state.soundActivated
-    });
-  }
-
-  handleSelectedHostpot(hotspot) {
-    this.setState({ selectedHotspot: hotspot });
-  }
-  handleMouseOverHotspot() {
-    this.setState({ mouseHovering: true });
-  }
-  handleMouseLeavesHotspot() {
-    this.setState({ mouseHovering: false });
-  }
-
-  handleCloseRightMenu() {
-    this.setState({ selectedHotspot: null });
-  }
-
-  handleToggleIntro() {
-    this.setState({ introOpened: !this.state.introOpened });
-  }
-
-  /**
-   * - onCopyClick
-   * @param  {string} type
-   * @return
-   */
   onCopyClick = (type) => {
     try {
       document.execCommand('copy');
@@ -178,6 +105,46 @@ class SplashDetail extends Page {
     }
   }
 
+  addEventListenersToHotspots = () => {
+    const { selectedPanorama } = this.state;
+
+    if (selectedPanorama.hotspots) {
+      selectedPanorama.hotspots.forEach((hotspot) => {
+        const elem = document.getElementById(hotspot.id);
+        elem.addEventListener('click', () => this.handleSelectedHostpot(hotspot));
+        elem.addEventListener('mouseenter', () => this.handleMouseOverHotspot(hotspot));
+        elem.addEventListener('mouseleave', () => this.handleMouseLeavesHotspot(hotspot));
+      });
+    }
+  }
+
+  handlePanoramaChange = (event) => {
+    const { panorama } = this.state;
+    const radioButtonId = event.target.getAttribute('id');
+    this.setState({
+      selectedPanorama: panorama.options.find(e => e.name === radioButtonId),
+      skyLoading: true,
+      introOpened: true
+    }, () => {
+      this.addEventListenersToHotspots();
+      this.setState({ skyLoading: false });
+    });
+  }
+
+  handleImageLoaded = () => { this.setState({ skyLoading: false }); }
+
+  handleSoundChange = () => { this.setState({ soundActivated: !this.state.soundActivated }); }
+
+  handleSelectedHostpot = (hotspot) => { this.setState({ selectedHotspot: hotspot }); }
+
+  handleMouseOverHotspot = () => { this.setState({ mouseHovering: true }); }
+
+  handleMouseLeavesHotspot = () => { this.setState({ mouseHovering: false }); }
+
+  handleCloseRightMenu = () => { this.setState({ selectedHotspot: null }); }
+
+  handleToggleIntro = () => { this.setState({ introOpened: !this.state.introOpened }); }
+
   render() {
     const { modal, responsive } = this.props;
     const {
@@ -197,21 +164,22 @@ class SplashDetail extends Page {
     const { backgroundSound } = panorama;
     const hasIntro = selectedPanorama && selectedPanorama.intro;
 
-    const pageClass = classnames({
-      'p-splash-detail': true,
-      '-hovering': mouseHovering
-    });
+    const pageClass = classnames(
+      'l-splash-detail',
+      { '-hovering': mouseHovering }
+    );
 
     return (
       <div>
-        {/* Mobile Splash details page */}
         <MediaQuery
           maxDeviceWidth={breakpoints.medium - 1}
           values={{ deviceWidth: responsive.fakeWidth }}
         >
           <div
+            // TO-DO fill title properly
             title="Resource Watch"
             className={`${pageClass} --mobile`}
+            // TO-DO: fill description
           >
             <HeadApp
               title="SplashDetail page"
@@ -269,10 +237,12 @@ class SplashDetail extends Page {
         >
 
           <div
+            // TO-DO fill title properly
             title="Resource Watch"
             className={pageClass}
+            // TO-DO fill description
           >
-            <Head
+            <HeadApp
               title="SplashDetail page"
               description="SplashDetail page description"
             />
@@ -374,7 +344,7 @@ class SplashDetail extends Page {
                   <a-sky id="panorama-sky" src={skyImage} color="#393f44" />
                 }
                 {!earthMode && !skyLoading &&
-                  <a-sky id="panorama-sky" src={skyImage}/>
+                  <a-sky id="panorama-sky" src={skyImage} />
                 }
                 {earthMode &&
                   <a-sky id="panorama-sky" src="../../static/images/splash/earthExperiment.jpg" />
@@ -428,20 +398,9 @@ class SplashDetail extends Page {
             />
           </div>
         </MediaQuery>
-
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  modal: state.modal,
-  responsive: state.responsive
-});
-
-const mapDispatchToProps = {
-  toggleModal,
-  setModalOptions
-};
-
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(SplashDetail);
+export default LayoutSplashDetail;

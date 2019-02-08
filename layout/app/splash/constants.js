@@ -1,3 +1,23 @@
+export const CAMERA_INITIAL_POSITION = {
+  lat: 46.88,
+  lon: -13,
+  height: 90000,
+  pitch: -0.3,
+  heading: 0,
+  roll: 0
+};
+export const CAMERA_FINAL_POSITION = {
+  lat: 49.2002,
+  lon: -0.1382,
+  height: 20000000,
+  pitch: 1.7,
+  heading: 0,
+  roll: 0
+};
+export const ANIMATION_DURATION = 0;
+export const INITIAL_WAIT = 0.2;
+export const FINAL_ANIMATION_DURATION = 8;
+
 export const MARKERS = [
   {
     name: 'Coral bleaching',
@@ -49,3 +69,13 @@ export const MARKERS = [
     thumbnail: '../../static/images/splash/komodromos-thumbnail.jpg'
   }
 ];
+
+
+export default {
+  CAMERA_INITIAL_POSITION,
+  CAMERA_FINAL_POSITION,
+  ANIMATION_DURATION,
+  INITIAL_WAIT,
+  FINAL_ANIMATION_DURATION,
+  MARKERS
+};

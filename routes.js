@@ -29,8 +29,8 @@ routes.add('admin_faqs_detail', '/admin/faqs/:tab/:id/:subtab?', 'admin/FaqsDeta
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/', 'app/home');
-routes.add('splash', '/splash', 'app/Splash');
-routes.add('splash_detail', '/splash/:id', 'app/SplashDetail');
+routes.add('splash', '/splash', 'app/splash');
+routes.add('splash_detail', '/splash/:id', 'app/splash-detail');
 
 // ---- ABOUT ----
 routes.add('about', '/about', 'app/about');
