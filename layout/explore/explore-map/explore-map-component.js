@@ -216,7 +216,7 @@ class ExploreMapComponent extends React.Component {
     } = this.props;
 
     return (
-      <div className="l-map -relative">
+      <div className="l-map -relative c-embed-explore">
         {/* Brand logo */}
         <div className="rw-logo">
           <img src="/static/images/logo.png" alt="Resource Watch" />
