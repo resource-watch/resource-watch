@@ -219,7 +219,7 @@ class ExploreMapComponent extends React.Component {
       <div className="l-map -relative c-embed-explore">
         {/* Brand logo */}
         <div className="rw-logo">
-          <img src="/static/images/logo.png" alt="Resource Watch" />
+          <img src="/static/images/Embed-map-logo@2x.png" alt="Resource Watch" />
         </div>
         {/* Spinner */}
         {Object.keys(this.state.loading)
