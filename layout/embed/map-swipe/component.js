@@ -77,40 +77,38 @@ class EmbedMapSwipe extends React.Component {
                 >
                   {map => (
                     <React.Fragment>
-                      {/* Controls */}
-                      <MapControls
-                        customClass="c-map-controls -embed"
-                      >
+                      <MapControls customClass="c-map-controls -embed">
                         <ZoomControl map={map} />
                       </MapControls>
 
-                      {/* LayerManager */}
-                      <LayerManager map={map} plugin={PluginLeaflet}>
+                      <LayerManager
+                        map={map}
+                        plugin={PluginLeaflet}
+                        onReady={(layers) => {
+                          const setLayers = {
+                            0: 'setLeftLayers',
+                            1: 'setRightLayers'
+                          };
+
+                          layers.forEach((lm, index) => {
+                            const { mapLayer } = lm;
+                            if (mapLayer.group) {
+                              mapLayer.getLayers().forEach((ml, j) => {
+                                if (j === 0) {
+                                  this.sideBySide[setLayers[index]](ml);
+                                }
+                              });
+                            } else {
+                              this.sideBySide[setLayers[index]](mapLayer);
+                            }
+                          });
+                        }}
+                      >
                         {layerGroups && flatten((layerGroups).map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
                           <Layer
                             {...l}
                             key={l.id}
                             zIndex={1000 - i}
-
-                            onReady={(layers) => {
-                              const setLayers = {
-                                0: 'setLeftLayers',
-                                1: 'setRightLayers'
-                              };
-
-                              layers.forEach((lm, index) => {
-                                const { mapLayer } = lm;
-                                if (mapLayer.group) {
-                                  mapLayer.getLayers().forEach((ml, j) => {
-                                    if (j === 0) {
-                                      this.sideBySide[setLayers[index]](ml);
-                                    }
-                                  });
-                                } else {
-                                  this.sideBySide[setLayers[index]](mapLayer);
-                                }
-                              });
-                            }}
                           />
                         ))}
                       </LayerManager>
