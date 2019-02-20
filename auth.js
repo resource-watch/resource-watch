@@ -84,13 +84,17 @@ module.exports = (() => {
           Authorization: token
         }
       })
-        .then(response => response.json())
+        .then((response) => {
+          if (response.status >= 400) throw new Error(response.statusText);
+          return response.json();
+        })
         .then(user =>
-          req.login(user, {}, (err) => {
-            if (err) {
-              return res.status(401).json({ status: 'error', message: err });
-            }
-            return res.json(user);
+          req.login({ ...user, token }, {}, (err) => {
+            if (err) return res.status(401).json({ status: 'error', message: err });
+            return res.json({
+              ...user,
+              token: userObj.token
+            });
           }));
     }
   };

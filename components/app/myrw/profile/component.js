@@ -87,21 +87,6 @@ class Profile extends PureComponent {
               submitting: false
             });
           });
-
-        // this.userService.updateUser(userObj, user.token)
-        //   .then((updatedUser) => {
-        //     setUser(updatedUser);
-        //     toastr.success('Profile updated successfully.');
-
-
-        //   })
-        //   .catch(() => { toastr.error('Something went wrong', 'There was a problem updating your user data'); })
-        //   .then(() => {
-        //     this.setState({
-        //       loading: false,
-        //       submitting: false
-        //     });
-        //   });
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
