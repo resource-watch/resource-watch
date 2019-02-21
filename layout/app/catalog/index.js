@@ -4,17 +4,11 @@ import * as actions from './actions';
 import * as reducers from './reducers';
 import initialState from './default-state';
 
-import CatalogComponent from './component';
+import CatalogLayout from './component';
 
-// Mandatory
-export {
-  actions, reducers, initialState
-};
+export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
-    // Store
-    ...state.catalog
-  }),
+  state => ({ ...state.catalog }),
   actions
-)(CatalogComponent);
+)(CatalogLayout);

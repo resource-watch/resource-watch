@@ -54,7 +54,7 @@ import * as globeCesium from 'components/vis/globe-cesium';
 import * as widgetDetail from 'layout/widget-detail';
 
 // Catalog
-import * as catalog from 'layout/catalog';
+import * as catalog from 'layout/app/catalog';
 
 // Blog
 import * as latestBlogPosts from 'components/blog/latest-posts';
