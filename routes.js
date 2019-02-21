@@ -12,8 +12,8 @@ routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/DataDeta
 routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/Dashboards');
 routes.add('admin_dashboards_detail', '/admin/dashboards/:tab/:id/:subtab?', 'admin/DashboardsDetail');
 // TOPICS
-routes.add('admin_topics', '/admin/topics/:tab?', 'admin/Topics');
-routes.add('admin_topics_detail', '/admin/topics/:tab/:id/:subtab?', 'admin/TopicsDetail');
+routes.add('admin_topics', '/admin/topics/:tab?', 'admin/topics');
+routes.add('admin_topics_detail', '/admin/topics/:tab/:id/:subtab?', 'admin/topics-detail');
 // PARTNERS
 routes.add('admin_partners', '/admin/partners/:tab?', 'admin/Partners');
 routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/PartnersDetail');
@@ -51,7 +51,7 @@ routes.add('explore_detail', '/data/explore/:id', 'app/explore-detail');
 
 routes.add('pulse', '/data/pulse', 'app/pulse');
 
-routes.add('dashboards', '/data/dashboards/', 'app/Dashboards');
+routes.add('dashboards', '/data/dashboards', 'app/Dashboards');
 routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/dashboards-detail');
 
 routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');

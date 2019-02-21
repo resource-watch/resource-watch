@@ -16,7 +16,10 @@ class HeaderTopics extends PureComponent {
   }, 50)
 
   render() {
-    const { header, topics } = this.props;
+    const {
+      header,
+      topics
+    } = this.props;
 
     return (
       <TetherComponent

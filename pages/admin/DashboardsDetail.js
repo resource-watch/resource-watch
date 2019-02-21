@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
 
@@ -65,17 +64,14 @@ class DashboardsDetail extends Page {
   }
 
   render() {
-    const { url, user } = this.props;
     const { tab, subtab, id } = this.state;
 
     return (
       <Layout
         title={this.getName()}
+        // TO-DO: fill description
         description="Dashboards detail..."
-        user={user}
-        url={url}
       >
-        {/* PAGE HEADER */}
         <div className="c-page-header -admin">
           <div className="l-container -admin">
             <div className="row">
@@ -107,10 +103,5 @@ class DashboardsDetail extends Page {
     );
   }
 }
-
-DashboardsDetail.propTypes = {
-  user: PropTypes.object,
-  url: PropTypes.object
-};
 
 export default withRedux(initStore, null, null)(DashboardsDetail);

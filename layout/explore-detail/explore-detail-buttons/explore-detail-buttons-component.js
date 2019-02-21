@@ -1,36 +1,30 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-// Utils
-import isEmpty from 'lodash/isEmpty';
-import { getLabel } from 'utils/datasets/dataset-helpers';
-import { logEvent } from 'utils/analytics';
-
-// Responsive
-import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
-
-// Next
 import { Link } from 'routes';
+import MediaQuery from 'react-responsive';
 
-// Components
+// components
 import Icon from 'components/ui/Icon';
 import LoginRequired from 'components/ui/login-required';
-
-// Modal
 import Modal from 'components/modal/modal-component';
 import DatasetSubscriptionsModal from 'components/modal/subscriptions-modal/dataset';
 
+// utils
+import isEmpty from 'lodash/isEmpty';
+import { breakpoints } from 'utils/responsive';
+import { getLabel } from 'utils/datasets/dataset-helpers';
+import { logEvent } from 'utils/analytics';
 
 class ExploreDetailButtons extends PureComponent {
   static propTypes = {
-    dataset: PropTypes.object,
-    partner: PropTypes.object
+    dataset: PropTypes.object.isRequired,
+    partner: PropTypes.object,
+    responsive: PropTypes.object.isRequired
   }
 
-  state = {
-    showSubscribeModal: false
-  }
+  static defaultProps = { partner: {} }
+
+  state = { showSubscribeModal: false }
 
   /**
    * HELPERS
@@ -58,8 +52,27 @@ class ExploreDetailButtons extends PureComponent {
     this.setState({ showSubscribeModal: bool });
   }
 
+  handleDownload = () => {
+    const { dataset } = this.props;
+
+    logEvent('Explore', 'Download data', getLabel(dataset));
+  }
+
+  handleDownloadSource = () => {
+    const { dataset } = this.props;
+
+    logEvent('Explore', 'Download data from source', getLabel(dataset));
+  }
+
+  handleLearnMore = () => {
+    const { dataset } = this.props;
+
+    logEvent('Explore', 'Click to data provider', dataset.provider);
+  }
+
   render() {
-    const { dataset, partner } = this.props;
+    const { dataset, partner, responsive: { fakeWidth } } = this.props;
+    const { showSubscribeModal } = this.state;
     const metadata = this.getDatasetMetadata();
 
     return (
@@ -79,6 +92,7 @@ class ExploreDetailButtons extends PureComponent {
         {!!dataset.layer.length &&
           <MediaQuery
             minDeviceWidth={breakpoints.medium - 1}
+            values={{ deviceWidth: fakeWidth }}
           >
             <div>
               <Link
@@ -92,7 +106,7 @@ class ExploreDetailButtons extends PureComponent {
                   }]))
                 }}
               >
-                <a href="/data/explore" className="c-button -primary">
+                <a className="c-button -primary">
                   Open in map
                 </a>
               </Link>
@@ -107,7 +121,7 @@ class ExploreDetailButtons extends PureComponent {
               target="_blank"
               rel="noopener noreferrer"
               href={metadata.info && metadata.info.data_download_link}
-              onClick={() => logEvent('Explore', 'Download data', getLabel(dataset))}
+              onClick={this.handleDownload}
             >
               Download
             </a>
@@ -133,7 +147,7 @@ class ExploreDetailButtons extends PureComponent {
               className="c-button -secondary"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => logEvent('Explore', 'Download data from source', getLabel(dataset))}
+              onClick={this.handleDownloadSource}
               href={metadata.info && metadata.info.data_download_original_link}
             >
               <span>
@@ -143,7 +157,6 @@ class ExploreDetailButtons extends PureComponent {
               <Icon name="icon-external" className="-smaller" />
             </a>
           </div>
-
         }
 
         {metadata.info && metadata.info.learn_more_link &&
@@ -153,6 +166,7 @@ class ExploreDetailButtons extends PureComponent {
               target="_blank"
               rel="noopener noreferrer"
               href={metadata.info && metadata.info.learn_more_link}
+              onClick={this.handleLearnMore}
             >
               <span>
                 Learn more
@@ -163,7 +177,7 @@ class ExploreDetailButtons extends PureComponent {
         }
 
         <Modal
-          isOpen={this.state.showSubscribeModal}
+          isOpen={showSubscribeModal}
           onRequestClose={() => this.handleToggleSubscribeModal(false)}
         >
           <DatasetSubscriptionsModal

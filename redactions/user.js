@@ -211,15 +211,18 @@ export default function (state = initialState, action) {
 */
 export function setUser(user) {
   return (dispatch) => {
-    if (!user || !user.token) {
-      // If the user isn't logged in, we set the user variable as an empty object
-      return;
-    }
+    if (!user) return;
 
     const userObj = { ...user };
 
-    userObj.token2 = userObj.token.includes('Bearer') ? userObj.token2 : userObj.token;
-    userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
+    if (userObj.token) {
+      userObj.token2 = userObj.token.includes('Bearer') ? userObj.token2 : userObj.token;
+      userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
+    }
+
+    // TO-DO: this "serialization" should be done in the API
+    // eslint-disable-next-line no-underscore-dangle
+    if (userObj._id) userObj.id = userObj._id;
 
     dispatch({ type: SET_USER, payload: userObj });
   };

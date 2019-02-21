@@ -3,6 +3,7 @@ import { toastr } from 'react-redux-toastr';
 import { replace } from 'layer-manager';
 import axios from 'axios';
 import moment from 'moment';
+import WRISerializer from 'wri-json-api-serializer';
 
 // services
 import AreasService from 'services/AreasService';
@@ -139,9 +140,10 @@ export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =
 
     dispatch(setDatasetsLoading(true));
 
-    dasetService.getSubscribableDatasets()
+    dasetService.getSubscribableDatasets('metadata')
       .then((datasets = []) => {
-        dispatch(setDatasets(datasets));
+        const parsedDatasets = WRISerializer({ data: datasets });
+        dispatch(setDatasets(parsedDatasets));
         dispatch(setDatasetsLoading(false));
       })
       .catch((err) => {

@@ -8,7 +8,6 @@ import { breakpoints } from 'utils/responsive';
 // Redux
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
-import * as topicsActions from 'layout/topics/topics-actions';
 import * as blogActions from 'components/blog/latest-posts/actions';
 
 // Layout
@@ -89,18 +88,11 @@ class Home extends Page {
   static async getInitialProps(context) {
     const props = await super.getInitialProps(context);
 
-    // Dashboard thumbnail list
-    context.store.dispatch(topicsActions.setSelected(null));
-
-    await context.store.dispatch(
-      topicsActions.fetchTopics({ filters: { 'filter[published]': 'true' } })
-    );
-
     // Get blog posts
     await context.store.dispatch(blogActions.fetchBlogPostsLatest());
     await context.store.dispatch(blogActions.fetchBlogPostsSpotlightLatest());
 
-    return { ...props };
+    return props;
   }
 
   static exploreCardsStatic() {

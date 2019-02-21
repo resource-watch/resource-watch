@@ -56,7 +56,7 @@ class DashboardsList extends React.Component {
     const { getDashboardsFilters } = this.props;
 
     this.props.setFilters([]);
-    this.props.getDashboards({ filters: getDashboardsFilters });
+    this.props.getDashboards(getDashboardsFilters);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -85,7 +85,7 @@ class DashboardsList extends React.Component {
             const { getDashboardsFilters } = this.props;
 
             this.props.setFilters([]);
-            this.props.getDashboards({ filters: getDashboardsFilters });
+            this.props.getDashboards(getDashboardsFilters);
             toastr.success('Success', `The dashboard "${dashboard.id}" - "${dashboard.name}" has been removed correctly`);
           })
           .catch((err) => {

@@ -44,11 +44,12 @@ class LayoutApp extends PureComponent {
     className: PropTypes.string,
     category: PropTypes.string,
     modal: PropTypes.object.isRequired,
+    setLocale: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    thumbnail: PropTypes.string,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
-    updateIsLoading: PropTypes.func.isRequired,
-    setLocale: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    updateIsLoading: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -56,7 +57,8 @@ class LayoutApp extends PureComponent {
     description: null,
     className: null,
     category: null,
-    pageHeader: false
+    pageHeader: false,
+    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
 
   constructor(props) {
@@ -117,7 +119,8 @@ class LayoutApp extends PureComponent {
       pageHeader,
       modal,
       className,
-      category
+      category,
+      thumbnail
     } = this.props;
     const { pathname } = routes;
     const fullScreen = pathname && FULLSCREEN_PAGES.indexOf(pathname) !== -1;
@@ -128,6 +131,7 @@ class LayoutApp extends PureComponent {
         <Head
           title={title}
           description={description}
+          {...thumbnail && { thumbnail }}
           category={category}
         />
 

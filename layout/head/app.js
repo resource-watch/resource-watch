@@ -12,12 +12,18 @@ class Head extends PureComponent {
     title: PropTypes.string,
     description: PropTypes.string.isRequired,
     routes: PropTypes.object.isRequired,
+    thumbnail: PropTypes.string,
     category: PropTypes.string
   };
 
   static defaultProps = {
     title: null,
-    category: null
+    category: null,
+    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
+  }
+
+  static getStyles() {
+    return <link rel="stylesheet" type="text/css" href="/_next/static/style.css" />;
   }
 
   getCrazyEgg() {
@@ -126,7 +132,14 @@ class Head extends PureComponent {
   }
 
   render() {
-    const { title, description, category } = this.props;
+    const {
+      title,
+      description,
+      category,
+      thumbnail
+    } = this.props;
+    const url = (typeof window !== 'undefined') ?
+      window.location.href : 'https://resourcewatch.org';
 
     return (
       <HeadNext>
@@ -159,9 +172,9 @@ class Head extends PureComponent {
         <meta property="og:description" content={description} />
         <meta
           property="og:image"
-          content="https://resourcewatch.org/static/images/social-big.jpg"
+          content={thumbnail}
         />
-        <meta property="og:url" content="https://resourcewatch.org" />
+        <meta property="og:url" content={url} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@resource_watch" />

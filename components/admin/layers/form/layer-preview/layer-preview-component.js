@@ -107,11 +107,10 @@ class LayerPreviewComponent extends PureComponent {
 
                   {/* LayerManager */}
                   <LayerManager map={map} plugin={PluginLeaflet}>
-                    {layerManager => activeLayers.map((l, i) => (
+                    {activeLayers.map((l, i) => (
                       <Layer
                         {...l}
                         key={l.id}
-                        layerManager={layerManager}
                         opacity={l.opacity || 1}
                         zIndex={1000 - i}
 

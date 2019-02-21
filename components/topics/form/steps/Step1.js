@@ -197,6 +197,7 @@ Step1.propTypes = {
 
 export default connect(
   state => ({
-    user: state.user
+    user: state.user,
+    topic: state.topics.detail.data
   })
 )(Step1);

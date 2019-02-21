@@ -20,7 +20,7 @@ export const fetchDashboards = (params = {}) =>
     },
     params: {
       env: process.env.API_ENV,
-      ...Object.keys(params).reduce((x, y) => ({ ...x, ...params[y] }), {})
+      ...params
     }
   })
     .then((response) => {

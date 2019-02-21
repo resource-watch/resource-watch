@@ -1,20 +1,18 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
 import { Router } from 'routes';
 
-// Redux
-import { connect } from 'react-redux';
-
-// Components
+// components
 import Layout from 'layout/layout/layout-app';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
 import Banner from 'components/app/common/Banner';
 import LoginRequired from 'components/ui/login-required';
 
+class TopicsLayout extends PureComponent {
+  static propTypes = { data: PropTypes.object }
 
-class TopicsComponent extends React.PureComponent {
+  static defaultProps = { data: {} }
+
   render() {
     const { data } = this.props;
 
@@ -70,7 +68,12 @@ class TopicsComponent extends React.PureComponent {
                     Create and share <br />custom visualizations.
                   </p>
                   <LoginRequired text="Log in to create a dashboard">
-                    <a href='/myrw/dashboards'className="c-button -alt -primary">Create a dashboard</a>
+                    <a
+                      href="/myrw/dashboards"
+                      className="c-button -alt -primary"
+                    >
+                      Create a dashboard
+                    </a>
                   </LoginRequired>
                 </Banner>
               </div>
@@ -82,12 +85,4 @@ class TopicsComponent extends React.PureComponent {
   }
 }
 
-TopicsComponent.propTypes = {
-  data: PropTypes.object
-};
-
-const mapStateToProps = state => ({
-  data: state.staticPages.topics
-});
-
-export default connect(mapStateToProps, null)(TopicsComponent);
+export default TopicsLayout;
