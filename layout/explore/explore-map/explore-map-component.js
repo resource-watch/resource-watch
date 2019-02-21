@@ -217,6 +217,17 @@ class ExploreMapComponent extends React.Component {
 
     return (
       <div className="l-map -relative">
+        {/* Brand logo */}
+        {embed && (
+          <div className="embedded-rw-logo">
+            <img
+              srcSet="/static/images/embed/embed-map-logo@2x.png 2x,
+                      /static/images/embed/embed-map-logo.png 1x"
+              alt="Resource Watch"
+              src=" /static/images/embed/embed-map-logo.png 1x"
+            />
+          </div>
+        )}
         {/* Spinner */}
         {Object.keys(this.state.loading)
           .map(k => this.state.loading[k])
