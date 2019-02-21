@@ -36,12 +36,12 @@ export default {
     }
   },
   sort: {
-    selected: 'most-visited',
+    selected: 'most-viewed',
     direction: -1,
     isSetFromDefaultState: true,
     options: [
       { value: 'updatedAt', label: 'Last modified' },
-      { value: 'most-visited', label: 'Most viewed' },
+      { value: 'most-viewed', label: 'Most viewed' },
       { value: 'most-favorited', label: 'Most favorited' },
       { value: 'relevance', label: 'Relevance' }
     ]
