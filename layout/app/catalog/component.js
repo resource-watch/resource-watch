@@ -1,39 +1,42 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-// Components
+// components
 import Layout from 'layout/layout/layout-app';
 import SearchInput from 'components/ui/SearchInput';
 import Spinner from 'components/ui/Spinner';
 import DatasetList from 'components/datasets/list';
 
-// Utils
+// utils
 import { logEvent } from 'utils/analytics';
 
-class CatalogComponent extends React.Component {
+class CatalogLayout extends PureComponent {
   static propTypes = {
-    list: PropTypes.array,
-    loading: PropTypes.bool,
-
-    fetchDatasets: PropTypes.func,
-    setDatasetsSearch: PropTypes.func
+    list: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    getDatasets: PropTypes.func.isRequired,
+    setDatasetsSearch: PropTypes.func.isRequired
   };
 
-  handleSearch = (value) => {
-    this.props.setDatasetsSearch(value);
-    this.fetchDatasets();
-  }
+  getSearchResults = debounce((value) => {
+    const { getDatasets } = this.props;
 
-  fetchDatasets = debounce((value) => {
     logEvent('Catalog page', 'search', value);
-    this.props.fetchDatasets();
+    getDatasets();
   }, 500);
 
+  handleSearch = (value) => {
+    const { setDatasetsSearch } = this.props;
+    setDatasetsSearch(value);
+    this.getSearchResults();
+  }
 
   render() {
-    const { loading, list } = this.props;
+    const {
+      loading,
+      list
+    } = this.props;
 
     return (
       <Layout
@@ -59,15 +62,16 @@ class CatalogComponent extends React.Component {
                 <div className="search-container">
                   <SearchInput
                     onSearch={this.handleSearch}
-                    input={{
-                      placeholder: 'Search dataset'
-                    }}
+                    input={{ placeholder: 'Search dataset' }}
                     escapeText={false}
                   />
                 </div>
               </div>
               <div className="column small-12">
-                <Spinner isLoading={loading} className="-light -relative" />
+                <Spinner
+                  className="-light -relative"
+                  isLoading={loading}
+                />
               </div>
             </div>
 
@@ -86,4 +90,4 @@ class CatalogComponent extends React.Component {
   }
 }
 
-export default CatalogComponent;
+export default CatalogLayout;
