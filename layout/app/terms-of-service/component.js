@@ -1,38 +1,32 @@
-import React, { PureComponent }  from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
-import { connect } from 'react-redux';
-import { getStaticData } from 'redactions/static_pages';
+
+// components
 import Layout from 'layout/layout/layout-app';
 
-class Howto extends PureComponent {
-  static async getInitialProps({ store }) {
-    // Get static data
-    await store.dispatch(getStaticData('how-to'));
-    return {};
-  }
+class LayoutTermsOfService extends PureComponent {
+  static propTypes = { data: PropTypes.object.isRequired }
 
   render() {
     const { data } = this.props;
-    const styles = {};
+    const styles = { ...(data && data.photo) && { backgroundImage: `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})` } };
 
     if (!data) return null;
 
-    if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})`;
-    }
-
     return (
       <Layout
-        title="How to"
-        description="How to description"
-        url={this.props.url}
-        user={this.props.user}
+        title="Terms of service"
+        // TO-DO: fill description
+        description="Terms of service description"
         className="l-static"
       >
         <section className="l-content">
           <header className="l-content-header">
-            <div className="cover" style={styles}>
+            <div
+              className="cover"
+              style={styles}
+            >
               <div className="row">
                 <div className="column small-12">
                   <div className="content">
@@ -50,13 +44,12 @@ class Howto extends PureComponent {
                   <div className="row align-center">
                     <div className="column small-12 medium-8">
                       <div className="c-terms">
-                        {renderHTML(data.content || '')}
+                        {renderHTML(data.content)}
                       </div>
                     </div>
                   </div>
                 </article>
-              </div>
-            }
+              </div>}
           </div>
         </section>
       </Layout>
@@ -64,17 +57,4 @@ class Howto extends PureComponent {
   }
 }
 
-Howto.propTypes = {
-  data: PropTypes.object,
-  getStaticData: PropTypes.func
-};
-
-const mapStateToProps = state => ({
-  data: state.staticPages['how-to']
-});
-
-const mapDispatchToProps = {
-  getStaticData
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Howto);
+export default LayoutTermsOfService;

@@ -37,7 +37,7 @@ routes.add('about', '/about', 'app/about');
 routes.add('about_partners', '/about/partners', 'app/partners');
 routes.add('about_faqs', '/about/faqs', 'app/Faqs');
 routes.add('about_contact-us', '/about/contact-us', 'app/contact-us');
-routes.add('about_howto', '/about/howto', 'app/Howto');
+routes.add('about_howto', '/about/howto', 'app/how-to');
 routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 routes.add('newsletter', '/about/newsletter', 'app/newsletter');
 
@@ -72,7 +72,7 @@ routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');
 routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 
 // ------ TERMS && POLICY -------------
-routes.add('terms-of-service', '/terms-of-service', 'app/Terms');
+routes.add('terms-of-service', '/terms-of-service', 'app/terms-of-service');
 routes.add('privacy-policy', '/privacy-policy', 'app/policy');
 routes.add('attribution-requirements', '/api-attribution-requirements', 'app/attribution-requirements');
 
