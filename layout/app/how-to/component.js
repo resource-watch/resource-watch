@@ -1,39 +1,24 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
 
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import { getStaticData } from 'redactions/static_pages';
-
-import Page from 'layout/page';
+// components
 import Layout from 'layout/layout/layout-app';
 
-class Terms extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-
-    // Get static data
-    await context.store.dispatch(getStaticData('terms-of-service'));
-    return { ...props };
-  }
+class LayoutHowTo extends PureComponent {
+  static propTypes = { data: PropTypes.object.isRequired }
 
   render() {
     const { data } = this.props;
-    const styles = {};
+    const styles = { ...(data && data.photo) && { backgroundImage: `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})` } };
 
     if (!data) return null;
 
-    if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})`;
-    }
-
     return (
       <Layout
-        title="Terms of service"
-        description="Terms of service description"
-        url={this.props.url}
-        user={this.props.user}
+        title="How to"
+        // TO-DO: fill description
+        description="How to description"
         className="l-static"
       >
         <section className="l-content">
@@ -56,7 +41,7 @@ class Terms extends Page {
                   <div className="row align-center">
                     <div className="column small-12 medium-8">
                       <div className="c-terms">
-                        {renderHTML(data.content || '')}
+                        {renderHTML(data.content)}
                       </div>
                     </div>
                   </div>
@@ -70,17 +55,4 @@ class Terms extends Page {
   }
 }
 
-Terms.propTypes = {
-  data: PropTypes.object,
-  getStaticData: PropTypes.func
-};
-
-const mapStateToProps = state => ({
-  data: state.staticPages['terms-of-service']
-});
-
-const mapDispatchToProps = {
-  getStaticData
-};
-
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Terms);
+export default LayoutHowTo;

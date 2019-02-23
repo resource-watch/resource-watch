@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react';
 
 // actions
-import { getStaticData } from 'redactions/static_pages';
+import { getStaticPage } from 'modules/static-pages/actions';
 
 // components
 import LayoutPolicy from 'layout/app/policy';
 
 class PolicyPage extends PureComponent {
   static async getInitialProps({ store }) {
-    // fetchs static data for policy page
-    await store.dispatch(getStaticData('privacy-policy'));
+    await store.dispatch(getStaticPage('privacy-policy'));
     return {};
   }
 

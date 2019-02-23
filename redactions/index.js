@@ -3,7 +3,6 @@ export { default as widget } from './widget';
 export { default as common } from './common';
 export { default as partnerDetail } from './partnerDetail';
 export { default as tooltip } from './tooltip';
-export { default as staticPages } from './static_pages';
 export { default as modal } from './modal';
 export { default as user } from './user';
 export { default as routes } from './routes';
