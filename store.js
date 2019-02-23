@@ -19,7 +19,6 @@ import * as search from 'layout/search';
 import * as shareModal from 'components/modal/share-modal';
 
 // Dashboard
-import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 import * as widgetBlockModule from 'components/wysiwyg/widget-block/widget-block';
 import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
@@ -98,7 +97,6 @@ const reducer = combineReducers({
   shareModal: handleModule(shareModal),
 
   // Dashboards
-  dashboardThumbnailList: handleModule(dashboardThumbnailList),
   widgetBlock: handleModule(widgetBlockModule),
   widgetBlockEdition: handleModule(widgetBlockEditionModule),
 

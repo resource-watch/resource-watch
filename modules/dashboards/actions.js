@@ -1,12 +1,31 @@
 import { createAction, createThunkAction } from 'redux-tools';
 
 // service
-import { fetchDashboard } from 'services/dashboard';
+import { fetchDashboards, fetchDashboard } from 'services/dashboard';
 
 // Actions
-export const setDashboards = createAction('DASHBOARDS__SET-DASHBOARD');
+export const setDashboards = createAction('DASHBOARDS__SET-DASHBOARDS');
+export const setDashboard = createAction('DASHBOARDS__SET-DASHBOARD');
 export const setLoading = createAction('DASHBOARDS__SET-LOADING');
 export const setError = createAction('DASHBOARDS__SET-ERROR');
+
+export const getPublishedDashboards = createThunkAction('DASHBOARDS__GET-PUBLISHED-DASHBOARDS',
+  () => (dispatch) => {
+    const params = { 'filter[published]': 'true' };
+
+    dispatch(setLoading({ key: 'published', value: true }));
+    dispatch(setError({ key: 'published', value: null }));
+
+    return fetchDashboards(params)
+      .then((dashboards) => {
+        dispatch(setDashboards({ key: 'published', value: dashboards }));
+        dispatch(setLoading({ key: 'published', value: false }));
+      })
+      .catch((err) => {
+        dispatch(setError({ key: 'published', value: err }));
+        dispatch(setLoading({ key: 'published', value: false }));
+      });
+  });
 
 export const getDashboard = createThunkAction('DASHBOARDS__GET-DASHBOARD',
   id => (dispatch) => {
@@ -16,7 +35,7 @@ export const getDashboard = createThunkAction('DASHBOARDS__GET-DASHBOARD',
 
     return fetchDashboard(id)
       .then((dashboard) => {
-        dispatch(setDashboards({ key: 'detail', value: dashboard }));
+        dispatch(setDashboard({ key: 'detail', value: dashboard }));
         dispatch(setLoading({ key: 'detail', value: false }));
       })
       .catch((err) => {
@@ -27,7 +46,9 @@ export const getDashboard = createThunkAction('DASHBOARDS__GET-DASHBOARD',
 
 export default {
   setDashboards,
+  setDashboard,
   setLoading,
   setError,
+  getPublishedDashboards,
   getDashboard
 };
