@@ -6,6 +6,14 @@ export default {
       ...state,
       [payload.key]: {
         ...state[payload.key],
+        list: payload.value
+      }
+    }),
+  [actions.setDashboard]: (state, { payload }) =>
+    ({
+      ...state,
+      [payload.key]: {
+        ...state[payload.key],
         data: payload.value
       }
     }),
