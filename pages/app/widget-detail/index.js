@@ -41,7 +41,7 @@ class WidgetDetailPage extends Page {
     } = this.props;
 
     const { data: widget } = widgetDetail;
-    if (widget && !widget.published) return <Error status={404} />;
+    if (widget && !widget.published) return <Error statusCode={404} />;
 
     return <WidgetDetail />;
   }

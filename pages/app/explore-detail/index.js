@@ -31,8 +31,7 @@ class ExploreDetailPage extends Page {
     // Check if the dataset exists and it is published
     const { exploreDetail } = store.getState();
     const dataset = exploreDetail.data;
-    if (!dataset && res) res.statusCode = 404;
-    if (dataset && res && !dataset.published) res.statusCode = 404;
+    if ((!dataset && res) || (dataset && res && !dataset.published)) res.statusCode = 404;
 
     const { id, vocabulary } = dataset;
 
@@ -51,7 +50,10 @@ class ExploreDetailPage extends Page {
       store.dispatch(actions.setPartner(null));
     }
 
-    return { ...props };
+    return {
+      ...props,
+      ...res && { statusCode: res.statusCode }
+    };
   }
 
   componentDidMount() {
@@ -73,12 +75,11 @@ class ExploreDetailPage extends Page {
   }
 
   render() {
-    const { exploreDetail } = this.props;
+    const { statusCode } = this.props;
 
-    const { data: dataset } = exploreDetail;
-    if (dataset && !dataset.published) return <Error status={404} />;
+    if (statusCode && (statusCode > 200)) return (<Error statusCode={statusCode} />);
 
-    return <ExploreDetail />;
+    return (<ExploreDetail />);
   }
 }
 
