@@ -44,7 +44,7 @@ class Error extends PureComponent {
           <h1>{statusCode}</h1>
           <p>This page could not be found</p>
           <Link route="home">
-            <a className="c-button -a">
+            <a className="c-button -primary">
               Go to Resource Watch
             </a>
           </Link>
