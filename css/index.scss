@@ -15,8 +15,6 @@
 // Editor
 @import '../node_modules/react-quill/dist/quill.snow';
 
-// 404 page
-@import './components/error';
 
 // Common files
 @import "base";
@@ -24,6 +22,7 @@
 @import "mixins";
 @import "layouts/container",
   "layouts/page",
+  "layouts/error",
   "layouts/section",
   "layouts/header",
   "layouts/header-menu-mobile",
