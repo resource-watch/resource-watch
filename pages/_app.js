@@ -9,7 +9,7 @@ import { setRouter } from 'redactions/routes';
 import { setUser } from 'redactions/user';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { getPublishedTopics } from 'modules/topics/actions';
-import { getPublishedPartners } from 'layout/footer/footer-actions';
+import { getPublishedPartners } from 'modules/partners/actions';
 
 // constants
 import {

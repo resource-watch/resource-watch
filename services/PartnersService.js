@@ -6,7 +6,6 @@ import { WRIAPI } from 'utils/axios';
 import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
 
-import sortBy from 'lodash/sortBy';
 import { Deserializer } from 'jsonapi-serializer';
 
 // API docs: TBD
@@ -14,34 +13,6 @@ import { Deserializer } from 'jsonapi-serializer';
 export default class PartnersService {
   constructor(options = {}) {
     this.opts = options;
-  }
-
-  // GET ALL DATA
-  fetchAllData() {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/partner/?published=all`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        },
-        {
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, partners) => {
-            resolve(sortBy(partners, 'name'));
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
   }
 
   fetchData(id) {
@@ -123,6 +94,26 @@ export default class PartnersService {
  */
 export const fetchPartners = (params = {}) =>
   WRIAPI.get('/partner', { params })
+    .then((response) => {
+      const { status, statusText, data } = response;
+      if (status > 200) throw new Error(statusText);
+      return WRISerializer(data);
+    });
+
+/**
+ * fetchs data for a specific partnet.
+ *
+ * @param {String} id - partnet id.
+ * @returns {Object} serialized specified partnet.
+ */
+export const fetchPartner = id =>
+  WRIAPI.get(`/partner/${id}`, {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      // TO-DO: forces the API to not cache, this should be removed at some point
+      'Upgrade-Insecure-Requests': 1
+    }
+  })
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);

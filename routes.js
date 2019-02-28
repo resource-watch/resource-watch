@@ -35,10 +35,10 @@ routes.add('splash_detail', '/splash/:id', 'app/splash-detail');
 // ---- ABOUT ----
 routes.add('about', '/about', 'app/about');
 routes.add('about_partners', '/about/partners', 'app/partners');
+routes.add('partner', '/about/partners/:id', 'app/partner-detail');
 routes.add('about_faqs', '/about/faqs', 'app/faqs');
 routes.add('about_contact-us', '/about/contact-us', 'app/contact-us');
 routes.add('about_howto', '/about/howto', 'app/how-to');
-routes.add('partner', '/about/partners/:id', 'app/PartnerDetail');
 routes.add('newsletter', '/about/newsletter', 'app/newsletter');
 
 // ----- DATA -----

@@ -1,5 +1,6 @@
-import 'isomorphic-fetch';
-import PartnersService from 'services/PartnersService';
+
+// services
+import { fetchPartners } from 'services/PartnersService';
 
 /**
  * CONSTANTS
@@ -21,7 +22,6 @@ const initialState = {
   filters: [] // Filters for the list of partners
 };
 
-const service = new PartnersService();
 /**
  * REDUCER
  * @export
@@ -78,7 +78,7 @@ export function getPartners() {
   return (dispatch) => {
     dispatch({ type: GET_PARTNERS_LOADING });
 
-    service.fetchAllData()
+    return fetchPartners({ published: 'all' })
       .then((data) => {
         dispatch({ type: GET_PARTNERS_SUCCESS, payload: data });
       })

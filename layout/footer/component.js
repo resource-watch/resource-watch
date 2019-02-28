@@ -2,22 +2,35 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
-// Components
+// components
 import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
 import Icon from 'components/ui/Icon';
 
 class Footer extends PureComponent {
-  static propTypes = { footer: PropTypes.object.isRequired };
+  static propTypes = {
+    partners: PropTypes.array.isRequired,
+    menu: PropTypes.array.isRequired
+  };
 
-  getPartners() {
-    const { footer } = this.props;
+  renderPartners() {
+    const { partners } = this.props;
 
-    return footer.partners.list.map(p => (
-      <div key={p.id} className="item">
-        <Link route="partner" params={{ id: p.id }}>
+    return partners.map(_partner => (
+      <div
+        key={_partner.id}
+        className="item"
+      >
+        <Link
+          route="partner"
+          params={{ id: _partner.id }}
+        >
           <a>
-            <img className="-img" src={`${process.env.STATIC_SERVER_URL}${p.logo.thumb}`} alt={p.name} />
+            <img
+              className="-img"
+              src={`${process.env.STATIC_SERVER_URL}${_partner.logo.thumb}`}
+              alt={_partner.name}
+            />
           </a>
         </Link>
       </div>
@@ -25,14 +38,7 @@ class Footer extends PureComponent {
   }
 
   render() {
-    const { footer } = this.props;
-    const menuData = footer.items
-      .filter(i => i.id !== 'search' && i.id !== 'myrw')
-      .map((i) => {
-        const parent = [i];
-        const { children = [] } = i;
-        return [...parent, ...children];
-      });
+    const { partners, menu } = this.props;
 
     return (
       <footer className="l-footer">
@@ -50,14 +56,13 @@ class Footer extends PureComponent {
               </div>
             </div>
           </div>
-          <CompoundMenu items={menuData} />
+          <CompoundMenu items={menu} />
         </div>
 
         <div className="footer-social">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-
                 <ul>
                   <li>
                     <Link route="newsletter" >
@@ -91,8 +96,8 @@ class Footer extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 <div className="c-partners-slider">
-                  {footer.partners.list.length && typeof window !== 'undefined' ?
-                    <Carousel items={this.getPartners()} /> : ''}
+                  {partners.length && typeof window !== 'undefined' ?
+                    <Carousel items={this.renderPartners()} /> : ''}
                 </div>
               </div>
             </div>
@@ -105,8 +110,15 @@ class Footer extends PureComponent {
               <div className="column small-12">
                 <div className="footer-container">
                   <div className="footer-item">
-                    <a href="http://www.wri.org/" target="_blank" rel="noreferrer noopener">
-                      <img src="/static/images/wri-logo.svg" alt="WRI logo" />
+                    <a
+                      href="http://www.wri.org/"
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      <img
+                        src="/static/images/wri-logo.svg"
+                        alt="WRI logo"
+                      />
                     </a>
                   </div>
                   <div className="footer-item">

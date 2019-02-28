@@ -1,39 +1,42 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
+// actions
+import { getPartners } from 'redactions/admin/partners';
+
 // components
-import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 import PartnerBlock from 'components/app/common/Partners/PartnerBlock';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
-class PartnersPage extends Page {
-  static propTypes = {
-    partners: PropTypes.object.isRequired,
-    getPartners: PropTypes.func.isRequired
-  };
+class PartnersPage extends PureComponent {
+  static propTypes = { allPartners: PropTypes.object.isRequired };
 
-  componentWillMount() {
-    const { getPartners } = this.props;
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { partners: { published } } = getState();
 
-    // fetchs partners
-    getPartners();
+    if (!published.list.length) await dispatch(getPartners());
+
+    return {};
   }
 
   render() {
-    const { allPartners } = this.props;
     const {
-      founders,
-      funders,
-      anchorFunders,
-      partners
-    } = allPartners;
+      allPartners: {
+        founders,
+        funders,
+        anchorFunders,
+        partners
+      }
+    } = this.props;
 
     return (
       <Layout
         title="Partners"
+        // TO-DO: fill description
         description="Partners description"
         pageHeader
       >
@@ -42,9 +45,7 @@ class PartnersPage extends Page {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs
-                    items={[{ name: 'About', route: 'about' }]}
-                  />
+                  <Breadcrumbs items={[{ name: 'About', route: 'about' }]} />
                   <h1>Partners</h1>
                 </div>
               </div>
@@ -78,14 +79,13 @@ class PartnersPage extends Page {
               </div>
             </div>
             <div className="row">
-              {founders.map(p =>
-                (
-                  <div
-                    className="column small-12 medium-6"
-                    key={p.id}
-                  >
-                    <PartnerBlock item={p} />
-                  </div>))}
+              {founders.map(p => (
+                <div
+                  className="column small-12 medium-6"
+                  key={p.id}
+                >
+                  <PartnerBlock item={p} />
+                </div>))}
             </div>
           </div>
         </section>
@@ -98,14 +98,13 @@ class PartnersPage extends Page {
               </div>
             </div>
             <div className="row">
-              {anchorFunders.map(p =>
-                (
-                  <div
-                    className="column small-12 medium-12"
-                    key={p.id}
-                  >
-                    <PartnerBlock item={p} />
-                  </div>))}
+              {anchorFunders.map(p => (
+                <div
+                  className="column small-12"
+                  key={p.id}
+                >
+                  <PartnerBlock item={p} />
+                </div>))}
             </div>
           </div>
         </section>
@@ -118,14 +117,13 @@ class PartnersPage extends Page {
               </div>
             </div>
             <div className="row">
-              {funders.map(p =>
-                (
-                  <div
-                    className="column small-12 medium-6"
-                    key={p.id}
-                  >
-                    <PartnerBlock item={p} />
-                  </div>))}
+              {funders.map(p => (
+                <div
+                  className="column small-12 medium-6"
+                  key={p.id}
+                >
+                  <PartnerBlock item={p} />
+                </div>))}
             </div>
           </div>
         </section>
@@ -144,14 +142,13 @@ class PartnersPage extends Page {
               </div>
             </div>
             <div className="row">
-              {partners.map(p =>
-                (
-                  <div
-                    className="column small-12 medium-6"
-                    key={p.id}
-                  >
-                    <PartnerBlock item={p} />
-                  </div>))}
+              {partners.map(p => (
+                <div
+                  className="column small-12 medium-6"
+                  key={p.id}
+                >
+                  <PartnerBlock item={p} />
+                </div>))}
             </div>
           </div>
         </section>

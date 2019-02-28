@@ -10,7 +10,6 @@ import modules from 'modules';
 // Layout
 import * as header from 'layout/header';
 import * as headerAdmin from 'layout/header-admin';
-import * as footer from 'layout/footer';
 
 // Search
 import * as search from 'layout/search';
@@ -88,7 +87,6 @@ const reducer = combineReducers({
   // Header
   header: handleModule(header),
   headerAdmin: handleModule(headerAdmin),
-  footer: handleModule(footer),
 
   // Search
   search: handleModule(search),
