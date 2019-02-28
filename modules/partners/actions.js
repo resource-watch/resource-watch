@@ -15,6 +15,7 @@ export const setPartner = createAction('PARTNERS/SET-PARTNER');
 export const setDatasets = createAction('PARTNERS/SET-DATASETS-BY-PARTNET');
 export const setLoading = createAction('PARTNERS/SET-LOADING');
 export const setError = createAction('PARTNERS/SET-ERROR');
+export const setFilters = createAction('PARTNERS/SET-FILTERS');
 
 export const getPublishedPartners = createThunkAction('PARTNERS/GET-PUBLISHED-PARTNERS',
   () => (dispatch) => {
@@ -64,6 +65,7 @@ export const getDatasetsByPartner = createThunkAction('PARTNERS/GET-PARTNER',
 
 
 export default {
+  setFilters,
   getPublishedPartners,
   getPartner,
   getDatasetsByPartner

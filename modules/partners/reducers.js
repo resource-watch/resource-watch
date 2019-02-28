@@ -32,5 +32,10 @@ export default {
         ...state[payload.key],
         error: payload.value
       }
+    }),
+  [actions.setFilters]: (state, { payload }) =>
+    ({
+      ...state,
+      filters: payload
     })
 };

@@ -1,20 +1,17 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Components
-import PartnersTable from 'components/admin/partners/table/PartnersTable';
+// components
+import PartnersTable from 'components/admin/partners/table';
 
-export default function PartnersIndex({ user = {} }) {
-  return (
-    <div className="c-partners-index">
-      <PartnersTable
-        application={[process.env.APPLICATIONS]}
-        authorization={user.token}
-      />
-    </div>
-  );
+class PartnersIndex extends PureComponent {
+  static propTypes = { user: PropTypes.object.isRequired }
+
+  render() {
+    // TO-DO: this token shouldn't be here
+    const { user: { token } } = this.props;
+    return (<PartnersTable authorization={token} />);
+  }
 }
 
-PartnersIndex.propTypes = {
-  user: PropTypes.object.isRequired
-};
+export default PartnersIndex;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
@@ -13,18 +13,13 @@ import PartnersService from 'services/PartnersService';
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
-// Layout
-import Page from 'layout/page';
+// components
 import Layout from 'layout/layout/layout-admin';
-
-// Tabs
 import PartnersTab from 'components/admin/partners/PartnersTab';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-
-// Components
 import Title from 'components/ui/Title';
 
-class PartnersDetail extends Page {
+class PartnersDetail extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -95,15 +90,13 @@ class PartnersDetail extends Page {
   }
 
   render() {
-    const { url, user } = this.props;
     const { tab, subtab, id } = this.state;
 
     return (
       <Layout
         title={this.getName()}
+        // TO-DO: fill description
         description="Partners detail..."
-        user={user}
-        url={url}
       >
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">
@@ -138,10 +131,5 @@ class PartnersDetail extends Page {
   }
 }
 
-PartnersDetail.propTypes = {
-  user: PropTypes.object,
-  url: PropTypes.object
-};
 
-
-export default withRedux(initStore, null, null)(PartnersDetail);
+export default PartnersDetail;

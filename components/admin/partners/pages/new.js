@@ -1,34 +1,31 @@
-import React from 'react';
-import { Router } from 'routes';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-// Redux
 import { connect } from 'react-redux';
+import { Router } from 'routes';
 
-
-// Components
+// components
 import PartnersForm from 'components/admin/partners/form/PartnersForm';
 
-function PartnersNew(props) {
-  const { user } = props;
+class PartnersNew extends PureComponent {
+  static propTypes = { user: PropTypes.object.isRequired }
 
-  return (
-    <div className="c-partners-new">
-      <PartnersForm
-        authorization={user.token}
-        onSubmit={() => Router.pushRoute('admin_partners', { tab: 'partners' })}
-      />
-    </div>
-  );
+  handleSubmit = () => { Router.pushRoute('admin_partners', { tab: 'partners' }); }
+
+  render() {
+    const { user: { token } } = this.props;
+
+    return (
+      <div className="c-partners-new">
+        <PartnersForm
+          authorization={token}
+          onSubmit={this.handleSubmit}
+        />
+      </div>
+    );
+  }
 }
 
-PartnersNew.propTypes = {
-  // Store
-  user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-export default connect(mapStateToProps, null)(PartnersNew);
+export default connect(
+  state => ({ user: state.user }),
+  null
+)(PartnersNew);

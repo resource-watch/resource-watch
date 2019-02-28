@@ -12,5 +12,7 @@ export default {
   datasetsByPartner: {
     list: [],
     error: null
-  }
+  },
+  // used in admin
+  filters: []
 };
