@@ -35,6 +35,22 @@ export const getPublishedPartners = createThunkAction('PARTNERS/GET-PUBLISHED-PA
       });
   });
 
+export const getAllPartners = createThunkAction('PARTNERS/GET-ALL-PARTNERS',
+  () => (dispatch) => {
+    dispatch(setLoading({ key: 'all', value: true }));
+    dispatch(setError({ key: 'all', value: null }));
+
+    return fetchPartners()
+      .then((partners) => {
+        dispatch(setPartners({ key: 'all', value: partners }));
+        dispatch(setLoading({ key: 'all', value: false }));
+      })
+      .catch((err) => {
+        dispatch(setError({ key: 'all', value: err }));
+        dispatch(setLoading({ key: 'all', value: false }));
+      });
+  });
+
 export const getPartner = createThunkAction('PARTNERS/GET-PARTNER',
   id => (dispatch) => {
     if (!id) throw new Error('A partner ID is mandatory to perform this action.');
@@ -67,6 +83,7 @@ export const getDatasetsByPartner = createThunkAction('PARTNERS/GET-PARTNER',
 export default {
   setFilters,
   getPublishedPartners,
+  getAllPartners,
   getPartner,
   getDatasetsByPartner
 };

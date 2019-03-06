@@ -83,28 +83,29 @@ class MyRW extends Component {
     return { tab, subtab, query };
   }
 
-  // constructor(props) {
-  //   super(props);
+  constructor(props) {
+    super(props);
 
-  //   const { tab, subtab } = props;
+    const { tab, subtab } = props;
 
-  //   this.state = {
-  //     tab: tab || 'widgets',
-  //     subtab
-  //   };
-  // }
+    this.state = {
+      tab: tab || 'widgets',
+      subtab
+    };
+  }
 
-  // componentWillReceiveProps(nextProps) {
-  //   const { url } = nextProps;
+  componentWillReceiveProps(nextProps) {
+    const { url } = nextProps;
 
-  //   this.setState({
-  //     tab: url.query.tab || 'widgets',
-  //     subtab: url.query.subtab
-  //   });
-  // }
+    this.setState({
+      tab: url.query.tab || 'widgets',
+      subtab: url.query.subtab
+    });
+  }
 
   render() {
-    const { tab, subtab, user, query } = this.props;
+    const { user } = this.props;
+    const { tab, subtab } = this.state;
 
     if (!user || !(user.userToken || user.token)) return null;
 
@@ -115,8 +116,6 @@ class MyRW extends Component {
       <Layout
         title="My Resource Watch Edit Profile"
         description="My Resource Watch Edit Profile description"
-        // url={url}
-        user={user}
         pageHeader
       >
         <div className="c-page-header">

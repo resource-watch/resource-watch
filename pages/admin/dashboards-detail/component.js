@@ -1,29 +1,23 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
-
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
 
 // services
 import { fetchDashboard } from 'services/dashboard';
 
+// components
+import Layout from 'layout/layout/layout-admin';
+import DashboardsTab from 'components/admin/dashboards/DashboardsTab';
+import Breadcrumbs from 'components/ui/Breadcrumbs';
+import Title from 'components/ui/Title';
+
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
-// Layout
-import Page from 'layout/page';
-import Layout from 'layout/layout/layout-admin';
+class AdminDashboardsDetailPage extends PureComponent {
+  static propTypes = { url: PropTypes.object.isRequired };
 
-// Tabs
-import DashboardsTab from 'components/admin/dashboards/DashboardsTab';
-import Breadcrumbs from 'components/ui/Breadcrumbs';
-
-// Components
-import Title from 'components/ui/Title';
-
-class DashboardsDetail extends Page {
   state = {
     ...this.props.url.query,
     data: {}
@@ -92,9 +86,7 @@ class DashboardsDetail extends Page {
           <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
-                {tab === 'dashboards' &&
-                  <DashboardsTab tab={tab} subtab={subtab} id={id} />
-                }
+                {tab === 'dashboards' && (<DashboardsTab tab={tab} subtab={subtab} id={id} />)}
               </div>
             </div>
           </div>
@@ -104,4 +96,4 @@ class DashboardsDetail extends Page {
   }
 }
 
-export default withRedux(initStore, null, null)(DashboardsDetail);
+export default AdminDashboardsDetailPage;

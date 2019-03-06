@@ -9,8 +9,8 @@ routes.add('admin_home', '/admin', 'admin/Data');
 routes.add('admin_data', '/admin/data/:tab?', 'admin/Data');
 routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/DataDetail');
 // DASHBOARDS
-routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/Dashboards');
-routes.add('admin_dashboards_detail', '/admin/dashboards/:tab/:id/:subtab?', 'admin/DashboardsDetail');
+routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/dashboards');
+routes.add('admin_dashboards_detail', '/admin/dashboards/:tab/:id/:subtab?', 'admin/dashboards-detail');
 // TOPICS
 routes.add('admin_topics', '/admin/topics/:tab?', 'admin/topics');
 routes.add('admin_topics_detail', '/admin/topics/:tab/:id/:subtab?', 'admin/topics-detail');

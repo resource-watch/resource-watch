@@ -1,22 +1,13 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
-// Layout
-import Page from 'layout/page';
+// Components
 import Layout from 'layout/layout/layout-admin';
 import Tabs from 'components/ui/Tabs';
-
-// Tabs
+import Title from 'components/ui/Title';
 import DashboardsTab from 'components/admin/dashboards/DashboardsTab';
 
-// Components
-import Title from 'components/ui/Title';
-
-// Contants
+// constants
 const DATA_TABS = [{
   label: 'Dashboards',
   value: 'dashboards',
@@ -24,7 +15,9 @@ const DATA_TABS = [{
   params: { tab: 'dashboards' }
 }];
 
-class Dashboards extends Page {
+class AdminDashboardsPage extends PureComponent {
+  static propTypes = { url: PropTypes.object.isRequired };
+
   constructor(props) {
     super(props);
 
@@ -48,15 +41,17 @@ class Dashboards extends Page {
   }
 
   render() {
-    const { url, user } = this.props;
-    const { tab, subtab, id } = this.state;
+    const {
+      tab,
+      subtab,
+      id
+    } = this.state;
 
     return (
       <Layout
         title="Dashboards"
+        // TO-DO: fill description
         description="Dashboards description..."
-        user={user}
-        url={url}
       >
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">
@@ -81,9 +76,7 @@ class Dashboards extends Page {
           <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
-                {tab === 'dashboards' &&
-                  <DashboardsTab tab={tab} subtab={subtab} id={id} />
-                }
+                {tab === 'dashboards' && (<DashboardsTab tab={tab} subtab={subtab} id={id} />)}
               </div>
             </div>
           </div>
@@ -93,10 +86,4 @@ class Dashboards extends Page {
   }
 }
 
-Dashboards.propTypes = {
-  user: PropTypes.object,
-  url: PropTypes.object
-};
-
-
-export default withRedux(initStore, null, null)(Dashboards);
+export default AdminDashboardsPage;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
@@ -7,7 +7,7 @@ import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 
 // Redux
-import withRedux from 'next-redux-wrapper';
+import { connect } from 'react-redux';
 import { initStore } from 'store';
 
 import { getUserAreas } from 'redactions/user';
@@ -26,7 +26,6 @@ import UserService from 'services/UserService';
 import { fetchDashboard } from 'services/dashboard';
 
 // Layout
-import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
@@ -40,7 +39,6 @@ import CollectionsTab from 'components/app/myrw/collections/CollectionsTab';
 // Components
 import Title from 'components/ui/Title';
 
-
 const subTabs = {
   datasets: 'my_datasets',
   widgets: 'my_widgets',
@@ -48,16 +46,21 @@ const subTabs = {
   areas: undefined
 };
 
-class MyRWDetail extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { tab } = props.url.query;
+class MyRWDetail extends PureComponent {
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+    myrwdetail: PropTypes.object.isRequired,
+    url: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired
+  }
 
-    if (tab === 'areas') {
-      await context.store.dispatch(getUserAreas({ layerGroups: true }));
-    }
+  static async getInitialProps({ store, query }) {
+    const { dispatch } = store;
+    const { tab } = query;
 
-    return { ...props };
+    if (tab === 'areas') await dispatch(getUserAreas({ layerGroups: true }));
+
+    return {};
   }
 
   constructor(props) {
@@ -249,12 +252,6 @@ class MyRWDetail extends Page {
   }
 }
 
-MyRWDetail.propTypes = {
-  user: PropTypes.object,
-  url: PropTypes.object,
-  locale: PropTypes.string.isRequired
-};
-
 const mapStateToProps = state => ({
   user: state.user,
   // Store
@@ -266,4 +263,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { getUserAreas };
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(MyRWDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(MyRWDetail);

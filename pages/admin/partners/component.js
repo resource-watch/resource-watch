@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
 
+// actions
+import { getAllPartners } from 'modules/partners/actions';
+
 // components
 import Layout from 'layout/layout/layout-admin';
 import Tabs from 'components/ui/Tabs';
@@ -15,6 +18,15 @@ const DATA_TABS = [{
 }];
 
 class AdminPartnersPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { getState, dispatch } = store;
+    const { partners: { all: { list } } } = getState();
+
+    if (!list.length) await dispatch(getAllPartners());
+
+    return {};
+  }
+
   constructor(props) {
     super(props);
 

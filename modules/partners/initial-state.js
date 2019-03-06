@@ -1,9 +1,13 @@
 export default {
+  all: {
+    list: [],
+    loading: true,
+    error: null
+  },
   published: {
     list: [],
     loading: true,
-    error: null,
-    filters: []
+    error: null
   },
   detail: {
     data: null,
