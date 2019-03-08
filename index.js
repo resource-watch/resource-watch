@@ -179,7 +179,7 @@ app.prepare().then(() => {
     res.redirect('back');
   });
 
-  // Routes with required authentication
+  // authenticated routes
   server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
   server.get('/myrw*?', isAuthenticated, handleUrl);
   server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);

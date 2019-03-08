@@ -4,9 +4,9 @@ const nextRoutes = require('next-routes');
 const routes = nextRoutes();
 
 // ========================= ADMIN ROUTES =====================
-routes.add('admin_home', '/admin', 'admin/Data');
-// DATA
-routes.add('admin_data', '/admin/data/:tab?', 'admin/Data');
+routes.add('admin_home', '/admin', 'admin/data');
+// admin - data
+routes.add('admin_data', '/admin/data/:tab?', 'admin/data');
 routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/DataDetail');
 // DASHBOARDS
 routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/dashboards');
@@ -17,14 +17,14 @@ routes.add('admin_topics_detail', '/admin/topics/:tab/:id/:subtab?', 'admin/topi
 // PARTNERS
 routes.add('admin_partners', '/admin/partners/:tab?', 'admin/partners');
 routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/PartnersDetail');
-// PAGES
-routes.add('admin_pages', '/admin/pages/:tab?', 'admin/Pages');
+// admin - pages
+routes.add('admin_pages', '/admin/pages/:tab?', 'admin/pages');
 routes.add('admin_pages_detail', '/admin/pages/:tab/:id/:subtab?', 'admin/PagesDetail');
-// TOOLS
-routes.add('admin_tools', '/admin/tools/:tab?', 'admin/Tools');
+// admin - tools
+routes.add('admin_tools', '/admin/tools/:tab?', 'admin/tools');
 routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/ToolsDetail');
-// PARTNERS
-routes.add('admin_faqs', '/admin/faqs/:tab?', 'admin/Faqs');
+// admin - faqs
+routes.add('admin_faqs', '/admin/faqs/:tab?', 'admin/faqs');
 routes.add('admin_faqs_detail', '/admin/faqs/:tab/:id/:subtab?', 'admin/FaqsDetail');
 
 // ========================= APP ROUTES =====================
