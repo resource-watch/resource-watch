@@ -8,9 +8,11 @@ class PartnersIndex extends PureComponent {
   static propTypes = { user: PropTypes.object.isRequired }
 
   render() {
-    // TO-DO: this token shouldn't be here
     const { user: { token } } = this.props;
-    return (<PartnersTable authorization={token} />);
+
+    return (
+      <PartnersTable authorization={token} />
+    );
   }
 }
 

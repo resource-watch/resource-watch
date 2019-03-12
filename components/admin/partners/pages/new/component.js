@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Router } from 'routes';
 
 // components
@@ -25,7 +24,4 @@ class PartnersNew extends PureComponent {
   }
 }
 
-export default connect(
-  state => ({ user: state.user }),
-  null
-)(PartnersNew);
+export default PartnersNew;

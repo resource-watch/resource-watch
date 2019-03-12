@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 // actions
 import {
-  getPublishedPartners,
+  getAllPartners,
   setFilters
 } from 'modules/partners/actions';
 
@@ -14,11 +14,11 @@ import AdminPartnersTable from './component';
 
 export default connect(
   state => ({
-    ...state.partners.published,
+    ...state.partners.all,
     list: getFilteredPartners(state)
   }),
   {
-    getPublishedPartners,
+    getAllPartners,
     setFilters
   }
 )(AdminPartnersTable);

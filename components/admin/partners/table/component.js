@@ -17,7 +17,7 @@ class AdminPartnersTable extends PureComponent {
     loading: PropTypes.bool.isRequired,
     list: PropTypes.array.isRequired,
     error: PropTypes.any,
-    getPublishedPartners: PropTypes.func.isRequired,
+    getAllPartners: PropTypes.func.isRequired,
     setFilters: PropTypes.func.isRequired
   };
 
@@ -36,9 +36,9 @@ class AdminPartnersTable extends PureComponent {
   }
 
   onRowDelete = () => {
-    const { getPublishedPartners } = this.props;
+    const { getAllPartners } = this.props;
 
-    getPublishedPartners();
+    getAllPartners();
   }
 
   render() {

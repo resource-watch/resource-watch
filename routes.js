@@ -16,7 +16,7 @@ routes.add('admin_topics', '/admin/topics/:tab?', 'admin/topics');
 routes.add('admin_topics_detail', '/admin/topics/:tab/:id/:subtab?', 'admin/topics-detail');
 // admin - partners
 routes.add('admin_partners', '/admin/partners/:tab?', 'admin/partners');
-routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/PartnersDetail');
+routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/partners-detail');
 // admin - pages
 routes.add('admin_pages', '/admin/pages/:tab?', 'admin/pages');
 routes.add('admin_pages_detail', '/admin/pages/:tab/:id/:subtab?', 'admin/pages-detail');
