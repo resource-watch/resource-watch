@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 // component
-import LayoutAdminFaqsDetail from './component';
+import LayoutAdminPagesDetail from './component';
 
 export default connect(
   state => ({
@@ -9,4 +9,4 @@ export default connect(
     user: state.user
   }),
   null
-)(LayoutAdminFaqsDetail);
+)(LayoutAdminPagesDetail);

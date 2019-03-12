@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // components
 import Layout from 'layout/layout/layout-admin';
 import Tabs from 'components/ui/Tabs';
-import PagesTab from 'components/admin/pages/PagesTab';
+import PagesIndex from 'components/admin/pages/pages/list';
 import Title from 'components/ui/Title';
 
 // constants
@@ -13,7 +13,7 @@ class LayoutAdminPages extends PureComponent {
   static propTypes = { query: PropTypes.object.isRequired }
 
   render() {
-    const { query: { tab, subtab, id } } = this.props;
+    const { query: { tab } } = this.props;
     // TO-DO: set properly this in express
     const currentTab = tab || 'pages';
 
@@ -39,7 +39,7 @@ class LayoutAdminPages extends PureComponent {
         </div>
         <div className="c-page-section">
           <div className="l-container -admin">
-            {currentTab === 'pages' && (<PagesTab tab={currentTab} subtab={subtab} id={id} />)}
+            <PagesIndex />
           </div>
         </div>
       </Layout>
