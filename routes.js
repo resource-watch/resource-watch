@@ -27,6 +27,10 @@ routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/tools-
 routes.add('admin_faqs', '/admin/faqs/:tab?', 'admin/faqs');
 routes.add('admin_faqs_detail', '/admin/faqs/:tab/:id/:subtab?', 'admin/faqs-detail');
 
+// ========================= MY-RW ROUTES =====================
+routes.add('myrw', '/myrw/:tab?/:subtab?', 'myrw');
+routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'myrw/detail');
+
 // ========================= APP ROUTES =====================
 routes.add('home', '/', 'app/home');
 routes.add('splash', '/splash', 'app/splash');
@@ -66,10 +70,6 @@ routes.add('topics_detail', '/topics/:id', 'app/topics-detail');
 // ----- GET INVOLVED -----
 routes.add('get_involved', '/get-involved', 'app/get-involved');
 routes.add('get_involved_detail', '/get-involved/:id', 'app/get-involved-detail');
-
-// ------ MY RW ------------
-routes.add('myrw', '/myrw/:tab?/:subtab?', 'app/MyRW');
-routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'app/MyRWDetail');
 
 // ------ TERMS && POLICY -------------
 routes.add('terms-of-service', '/terms-of-service', 'app/terms-of-service');

@@ -6,7 +6,11 @@ import { initStore } from 'store';
 
 // actions
 import { setRouter } from 'redactions/routes';
-import { setUser } from 'redactions/user';
+import {
+  setUser,
+  getUserFavourites,
+  getUserCollections
+} from 'redactions/user';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { getPublishedTopics } from 'modules/topics/actions';
 import { getPublishedPartners } from 'modules/partners/actions';
@@ -32,12 +36,14 @@ class RWApp extends App {
 
     // sets user data coming from a request (server) or the store (client)
     const { user } = isServer ? req : store.getState();
-    if (user) store.dispatch(setUser(user));
-    // await store.dispatch(getUserFavourites());
-    // await store.dispatch(getUserCollections());
+
+    if (user) {
+      store.dispatch(setUser(user));
+      await store.dispatch(getUserFavourites());
+      if (['/myrw-detail/', '/myrw/'].some(el => pathname.includes(el))) await store.dispatch(getUserCollections());
+    }
 
     // fetchs published topics to populate topics menu in the app header
-    // TO-DO: check if the user is in the admin zone or not to load the topics
     if (!PAGES_WITHOUT_TOPICS.includes(pathname)) await store.dispatch(getPublishedTopics());
 
     // fetchs partners for footer
