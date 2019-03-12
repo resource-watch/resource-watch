@@ -25,7 +25,7 @@ routes.add('admin_tools', '/admin/tools/:tab?', 'admin/tools');
 routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/ToolsDetail');
 // admin - faqs
 routes.add('admin_faqs', '/admin/faqs/:tab?', 'admin/faqs');
-routes.add('admin_faqs_detail', '/admin/faqs/:tab/:id/:subtab?', 'admin/FaqsDetail');
+routes.add('admin_faqs_detail', '/admin/faqs/:tab/:id/:subtab?', 'admin/faqs-detail');
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/', 'app/home');
