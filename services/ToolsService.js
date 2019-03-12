@@ -1,3 +1,6 @@
+import { WRIAPI } from 'utils/axios';
+import WRISerializer from 'wri-json-api-serializer';
+
 import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
 
@@ -113,3 +116,19 @@ export default class ToolsService {
     });
   }
 }
+
+/**
+ * Fetchs a specific tool.
+ *
+ * @param {String} id - tool id.
+ * @returns {Object[]} tool serialized.
+ */
+
+export const fetchTool = id =>
+  WRIAPI.get(`/tool/${id}`)
+    .then((response) => {
+      const { status, statusText, data } = response;
+      if (status >= 400) throw new Error(statusText);
+      return WRISerializer(data);
+    });
+

@@ -8,13 +8,13 @@ routes.add('admin_home', '/admin', 'admin/data');
 // admin - data
 routes.add('admin_data', '/admin/data/:tab?', 'admin/data');
 routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/DataDetail');
-// DASHBOARDS
+// admin - dashboards
 routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/dashboards');
 routes.add('admin_dashboards_detail', '/admin/dashboards/:tab/:id/:subtab?', 'admin/dashboards-detail');
-// TOPICS
+// admin - topics
 routes.add('admin_topics', '/admin/topics/:tab?', 'admin/topics');
 routes.add('admin_topics_detail', '/admin/topics/:tab/:id/:subtab?', 'admin/topics-detail');
-// PARTNERS
+// admin - partners
 routes.add('admin_partners', '/admin/partners/:tab?', 'admin/partners');
 routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/PartnersDetail');
 // admin - pages
@@ -22,7 +22,7 @@ routes.add('admin_pages', '/admin/pages/:tab?', 'admin/pages');
 routes.add('admin_pages_detail', '/admin/pages/:tab/:id/:subtab?', 'admin/pages-detail');
 // admin - tools
 routes.add('admin_tools', '/admin/tools/:tab?', 'admin/tools');
-routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/ToolsDetail');
+routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/tools-detail');
 // admin - faqs
 routes.add('admin_faqs', '/admin/faqs/:tab?', 'admin/faqs');
 routes.add('admin_faqs_detail', '/admin/faqs/:tab/:id/:subtab?', 'admin/faqs-detail');
