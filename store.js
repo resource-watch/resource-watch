@@ -61,8 +61,8 @@ import * as getInvolvedIndex from 'layout/get-involved';
 import * as getInvolvedDetail from 'layout/get-involved-detail';
 
 // Admin Interactions
-import * as adminInteractions from 'components/admin/layers/form/interactions';
-import * as adminLayerPreview from 'components/admin/layers/form/layer-preview';
+import * as adminInteractions from 'components/admin/data/layers/form/interactions';
+import * as adminLayerPreview from 'components/admin/data/layers/form/layer-preview';
 
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';

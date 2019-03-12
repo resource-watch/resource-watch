@@ -23,7 +23,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 // Tabs
 import DatasetsTab from 'components/admin/datasets/DatasetsTab';
 import WidgetsTab from 'components/admin/widgets/WidgetsTab';
-import LayersTab from 'components/admin/layers/LayersTab';
+import LayersTab from 'components/admin/data/layers/LayersTab';
 
 class DataDetail extends Page {
   constructor(props) {

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 // components
 import Layout from 'layout/layout/layout-admin';
 import Tabs from 'components/ui/Tabs';
-import DatasetsTab from 'components/admin/datasets/DatasetsTab';
-import WidgetsTab from 'components/admin/widgets/WidgetsTab';
-import LayersTab from 'components/admin/layers/LayersTab';
+import DatasetsIndex from 'components/admin/data/datasets/pages/list';
+import WidgetsIndex from 'components/admin/data/widgets/pages/list';
+import LayersIndex from 'components/admin/data/layers/pages/list';
 
 // constants
 import { DATA_TABS } from './constants';
@@ -15,7 +15,7 @@ class LayoutAdminData extends PureComponent {
   static propTypes = { query: PropTypes.object.isRequired }
 
   render() {
-    const { query: { tab, subtab, id } } = this.props;
+    const { query: { tab } } = this.props;
     // TO-DO: set properly this in express
     const currentTab = tab || 'datasets';
 
@@ -46,9 +46,9 @@ class LayoutAdminData extends PureComponent {
           <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
-                {currentTab === 'datasets' && (<DatasetsTab tab={currentTab} subtab={subtab} id={id} />)}
-                {currentTab === 'widgets' && (<WidgetsTab tab={currentTab} subtab={subtab} id={id} />)}
-                {currentTab === 'layers' && (<LayersTab tab={currentTab} subtab={subtab} id={id} />)}
+                {(currentTab === 'datasets') && (<DatasetsIndex />)}
+                {(currentTab === 'widgets') && (<WidgetsIndex />)}
+                {(currentTab === 'layers') && (<LayersIndex />)}
               </div>
             </div>
           </div>
