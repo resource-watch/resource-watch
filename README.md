@@ -177,7 +177,7 @@ Every change in the app must be documented in the `./CHANGELOG.md` file accordin
 At code level, comments must follow [JSDocs](http://usejsdoc.org/) specs.
 
 # Contributing 🎁
-Resource Watch doesn't allow any contribution at this moment but you are welcome to fork the project and develop it on your own.
+If you have any amazing idea for the project, please [tell us](https://github.com/resource-watch/resource-watch/issues) before develop it.
 
 ## Reporting an issue
 Issues can be reported [here](https://github.com/resource-watch/resource-watch/issues).
