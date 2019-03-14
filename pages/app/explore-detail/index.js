@@ -14,7 +14,7 @@ import { setIsServer } from 'redactions/common';
 import * as actions from 'layout/explore-detail/explore-detail-actions';
 import ExploreDetail from 'layout/explore-detail';
 
-import { PARTNERS_CONNECTIONS } from 'utils/partners/partnersConnections';
+import { PARTNERS_CONNECTIONS } from 'constants/partners';
 
 class ExploreDetailPage extends Page {
   static propTypes = {

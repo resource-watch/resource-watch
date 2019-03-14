@@ -3,7 +3,7 @@
 # Resource Watch 🌍👓
 Resource Watch features hundreds of data sets all in one place on the state of the planet’s resources and citizens. Users can visualize challenges facing people and the planet, from climate change to poverty, water risk to state instability, air pollution to human migration, and more.
 
-# Installation 📦
+# Installation (native) 📦
 We strongly recommend to use [yarn](https://yarnpkg.com/en/) to manage your front-end packages. Follow this, running
 ```bash
 yarn
@@ -13,6 +13,13 @@ in your terminal will install all dependencies. Once done, type:
 yarn dev
 ```
 and your app will be served in [http://localhost:9000/](http://localhost:9000/) (if you didn't change the default port in the `.env`).
+
+## Production build
+If you need a production-ready build, run:
+```bash
+yarn build
+```
+this will generate your build in `./dist` folder ready to run 
 
 Happy coding!
 
@@ -27,6 +34,9 @@ If the installation fails at the point where it installs `canvas`, you may want 
 
 ## Recommendations
 You will need a specific [Node](https://nodejs.org/en/) version to install the dependencies. We strongly recommend having [NVM](https://github.com/creationix/nvm) to manage multiple Node versions.
+
+# Installation (Docker) 🐳
+[TO-DO]
 
 # Architecture 📂
 The application is built on top of [**Next.js**](https://github.com/zeit/next.js/) - _a framework for server-rendered React apps_. _Next_ provides a zero-setup [webpack](https://webpack.js.org/) build ready to develop along a [express](https://expressjs.com/) server to run the application and [SASS](https://sass-lang.com/) styles compilation.

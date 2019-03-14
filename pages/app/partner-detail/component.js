@@ -12,7 +12,7 @@ import Layout from 'layout/layout/layout-app';
 import DatasetList from 'components/datasets/list';
 
 // constants
-import { PARTNERS_CONNECTIONS } from './constants';
+import { PARTNERS_CONNECTIONS } from 'constants/partners';
 
 class PartnerDetailPage extends PureComponent {
   static propTypes = {
