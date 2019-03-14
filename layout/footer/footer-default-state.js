@@ -41,7 +41,7 @@ export default {
     {
       id: 'blog',
       label: 'Blog',
-      href: '/blog'
+      href: 'https://blog.resourcewatch.org'
     },
     {
       id: 'about',
