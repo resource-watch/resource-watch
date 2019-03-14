@@ -31,24 +31,19 @@ import {
   Icons as WidgetIcons
 } from 'widget-editor';
 
-// constants
-import {
-  FULLSCREEN_PAGES,
-  USERREPORT_BLACKLIST
-} from 'constants/app';
-
 class LayoutApp extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
     description: PropTypes.string,
-    routes: PropTypes.object.isRequired,
     pageHeader: PropTypes.bool,
     className: PropTypes.string,
     category: PropTypes.string,
     modal: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     thumbnail: PropTypes.string,
+    isFullScreen: PropTypes.bool.isRequired,
+    showUserReport: PropTypes.bool.isRequired,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired
@@ -117,12 +112,13 @@ class LayoutApp extends PureComponent {
     const {
       title,
       description,
-      routes: { pathname },
       pageHeader,
       modal,
       className,
       category,
-      thumbnail
+      thumbnail,
+      isFullScreen,
+      showUserReport
     } = this.props;
     const componentClass = classnames(
       'l-page',
@@ -158,7 +154,7 @@ class LayoutApp extends PureComponent {
 
         {this.props.children}
 
-        {!FULLSCREEN_PAGES.includes(pathname) && <Footer />}
+        {!isFullScreen && (<Footer />)}
 
         <Tooltip />
 
@@ -178,7 +174,7 @@ class LayoutApp extends PureComponent {
           transitionOut="fadeOut"
         />
 
-        {!USERREPORT_BLACKLIST.includes(pathname) && <UserReport />}
+        {showUserReport && (<UserReport />)}
 
         {/* widget editor */}
         <WidgetModal />

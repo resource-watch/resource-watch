@@ -50,7 +50,7 @@ routes.add('newsletter', '/about/newsletter', 'app/newsletter');
 routes.add('explore', '/data/explore', 'app/explore');
 routes.add('explore_embed', '/embed/data/explore', 'app/explore/embed');
 
-routes.add('explore_detail_private', '/data/explore/private/:id', 'app/explore-detail/private');
+// routes.add('explore_detail_private', '/data/explore/private/:id', 'app/explore-detail/private');
 routes.add('explore_detail', '/data/explore/:id', 'app/explore-detail');
 
 routes.add('pulse', '/data/pulse', 'app/pulse');
