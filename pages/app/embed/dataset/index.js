@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Link } from 'routes';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
 
-// Components
+// components
 import Spinner from 'components/ui/Spinner';
 import LayoutEmbed from 'layout/layout/layout-embed';
-import Page from 'layout/page';
 import { setEmbed } from 'redactions/common';
 
 // Widget editor
@@ -18,17 +16,18 @@ import DatasetService from 'services/DatasetService';
 
 const defaultTheme = getVegaTheme();
 
-class EmbedDataset extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, isServer, req } = context;
+class EmbedDataset extends PureComponent {
+  static propTypes = {
+    routes: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired
+  }
 
-    store.dispatch(setEmbed(true));
+  static async getInitialProps({ store, isServer, req }) {
+    const { dispatch } = store;
 
-    return {
-      ...props,
-      referer: isServer ? req.headers.referer : window.location.href
-    };
+    dispatch(setEmbed(true));
+
+    return { referer: isServer ? req.headers.referer : window.location.href };
   }
 
   isLoadedExternally() {
@@ -44,8 +43,9 @@ class EmbedDataset extends Page {
       loadingDataset: true
     };
 
+    const { routes: { query: { id } } } = this.props;
     // DatasetService
-    this.datasetService = new DatasetService(this.props.url.query.id, {
+    this.datasetService = new DatasetService(id, {
       apiURL: process.env.WRI_API_URL,
       language: props.locale
     });
@@ -145,13 +145,10 @@ class EmbedDataset extends Page {
   }
 }
 
-EmbedDataset.propTypes = {
-  url: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired
-};
-
-const mapStateToProps = state => ({
-  locale: state.common.locale
-});
-
-export default withRedux(initStore, mapStateToProps, null)(EmbedDataset);
+export default connect(
+  state => ({
+    locale: state.common.locale,
+    routes: state.routes
+  }),
+  null
+)(EmbedDataset);

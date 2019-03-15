@@ -1,32 +1,34 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Router } from 'routes';
 
 // Components
-import Page from 'layout/page';
+import ExploreDetail from 'layout/explore-detail';
 import Error from 'pages/_error';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+// actions
 import { setIsServer } from 'redactions/common';
 import * as actions from 'layout/explore-detail/explore-detail-actions';
-import ExploreDetail from 'layout/explore-detail';
+
 
 import { PARTNERS_CONNECTIONS } from 'constants/partners';
 
-class ExploreDetailPage extends Page {
+class ExploreDetailPage extends PureComponent {
   static propTypes = {
-    exploreDetail: PropTypes.object,
-    setIsServer: PropTypes.func.isRequired
+    routes: PropTypes.object.isRequired,
+    statusCode: PropTypes.number.isRequired,
+    setIsServer: PropTypes.func.isRequired,
+    fetchTags: PropTypes.func.isRequired,
+    setCountView: PropTypes.func.isRequired
   };
 
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, res } = context;
+  static async getInitialProps({ store, res  }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { id: queryId } } } = getState();
 
-    await store.dispatch(actions.fetchDataset({ id: props.url.query.id }));
+
+    await dispatch(actions.fetchDataset({ id: queryId }));
 
     // Check if the dataset exists and it is published
     const { exploreDetail } = store.getState();
@@ -38,26 +40,22 @@ class ExploreDetailPage extends Page {
     // Set tags
     const tags = vocabulary && vocabulary.length > 0 && vocabulary[0].tags;
     if (tags) {
-      store.dispatch(actions.setActiveTags(tags));
+      dispatch(actions.setActiveTags(tags));
     }
 
-    // Load connected partner
-    const partnerConnection = PARTNERS_CONNECTIONS.find(pc => pc.datasetId === id);
-    if (partnerConnection) {
-      await store.dispatch(actions.fetchPartner({ id: partnerConnection.partnerId }));
+    // loads connected partner
+    if (PARTNERS_CONNECTIONS[id]) {
+      await dispatch(actions.fetchPartner({ id }));
     } else {
       // If we dont have a partner connection, make sure to remove the previous one if isset
-      store.dispatch(actions.setPartner(null));
+      dispatch(actions.setPartner(null));
     }
 
-    return {
-      ...props,
-      ...res && { statusCode: res.statusCode }
-    };
+    return { ...res && { statusCode: res.statusCode } };
   }
 
   componentDidMount() {
-    if (this.props.url.asPath === '/data/explore/Powerwatch') {
+    if (this.props.routes.asPath === '/data/explore/Powerwatch') {
       Router.replaceRoute('/data/explore/a86d906d-9862-4783-9e30-cdb68cd808b8');
     }
     this.props.fetchTags();
@@ -65,7 +63,7 @@ class ExploreDetailPage extends Page {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.url.query.id !== nextProps.url.query.id) {
+    if (this.props.routes.query.id !== nextProps.routes.query.id) {
       window.scrollTo(0, 0);
       this.props.fetchTags();
       this.props.setCountView();
@@ -83,9 +81,11 @@ class ExploreDetailPage extends Page {
   }
 }
 
-export default withRedux(
-  initStore,
-  state => ({ exploreDetail: state.exploreDetail }),
+export default connect(
+  state => ({
+    exploreDetail: state.exploreDetail,
+    routes: state.routes
+  }),
   {
     ...actions,
     setIsServer

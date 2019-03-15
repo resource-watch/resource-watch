@@ -90,10 +90,10 @@ routes.add('embed_text', '/embed/text/:id', 'app/embed/text');
 routes.add('embed_map', '/embed/map/:id', 'app/embed/map');
 routes.add('embed_map_swipe', '/embed/map-swipe', 'app/embed/map-swipe');
 routes.add('embed_embed', '/embed/embed/:id', 'app/embed/embed');
-routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/EmbedDataset');
+routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/dataset');
 routes.add('embed_table', '/embed/table/:id', 'app/embed/table');
 routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/similar-datasets');
-routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/EmbedDashboard');
+routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/dashboard');
 
 // ------- WEBSHOT  -------------
 routes.add('webshot', '/webshot/:id', 'app/webshot');
