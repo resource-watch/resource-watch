@@ -57,7 +57,8 @@ class ExplorePage extends Page {
     // Query
     if (page) store.dispatch(actions.setDatasetsPage(+page));
     if (search) store.dispatch(actions.setFiltersSearch(search));
-    if (sort) store.dispatch(actions.setSortSelected(sort));
+    // adds this extra-condition to enable backward compatibility with deprecated `most-visited` sorting filter
+    if (sort && sort !== 'most-visited') store.dispatch(actions.setSortSelected(sort));
     if (sortDirection) store.dispatch(actions.setSortDirection(+sortDirection));
     if (topics) store.dispatch(actions.setFiltersSelected({ key: 'topics', list: JSON.parse(decodeURIComponent(topics)) }));
     if (data_types) store.dispatch(actions.setFiltersSelected({ key: 'data_types', list: JSON.parse(decodeURIComponent(data_types)) }));

@@ -235,7 +235,7 @@ class Home extends Page {
                         Subscribe to our newsletter
                       </a>
                     </Link>
-                    <a href="/blog" className="c-btn -primary">
+                    <a href="https://blog.resourcewatch.org" className="c-btn -primary">
                       More stories
                     </a>
                   </div>
@@ -307,7 +307,7 @@ class Home extends Page {
 
               <Link
                 route="get_involved_detail"
-                params={{ id: 'join-community', source: 'home' }}
+                params={{ id: 'join-the-community', source: 'home' }}
               >
                 <a className="c-btn -b -alt">Join the community</a>
               </Link>

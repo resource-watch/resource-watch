@@ -45,7 +45,7 @@ class TopicDetailPage extends Page {
   render() {
     const { topicsDetail } = this.props;
 
-    if (isEmpty(topicsDetail)) return <Error status={404} />;
+    if (isEmpty(topicsDetail)) return <Error statusCode={404} />;
 
     return <TopicDetailLayout />;
   }

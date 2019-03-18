@@ -20,4 +20,10 @@
     left: 0;
     height: 100%;
   }
+
+  .embedded-rw-logo {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+  }
 }
