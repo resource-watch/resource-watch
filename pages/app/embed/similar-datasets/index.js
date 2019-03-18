@@ -1,24 +1,21 @@
-import React from 'react';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 // actions
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import Page from 'layout/page';
 import EmbedSimilarDatasetsPage from './component';
 
-class EmbedSimilarDatasetsPageContainer extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, query } = context;
-    const { webshot } = query;
+class EmbedSimilarDatasetsPageContainer extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { webshot } } } = getState();
 
-    store.dispatch(setEmbed(true));
-    if (webshot) store.dispatch(setWebshotMode(true));
+    dispatch(setEmbed(true));
+    if (webshot) dispatch(setWebshotMode(true));
 
-    return { ...props };
+    return {};
   }
 
   render() {
@@ -26,8 +23,7 @@ class EmbedSimilarDatasetsPageContainer extends Page {
   }
 }
 
-export default withRedux(
-  initStore,
+export default connect(
   state => ({ loading: state.similarDatasets.loading }),
   null
 )(EmbedSimilarDatasetsPageContainer);

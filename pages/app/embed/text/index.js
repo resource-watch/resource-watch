@@ -1,29 +1,23 @@
-import React from 'react';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
 // actions
 import { getWidget } from 'redactions/widget';
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import Page from 'layout/page';
 import EmbedTextPage from './component';
 
-class EmbedTextPageContainer extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, isServer, req, query } = context;
-    const { webshot } = query;
+class EmbedTextPageContainer extends PureComponent {
+  static async getInitialProps({ store, isServer, req }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { webshot } } } = getState();
     const referer = isServer ? req.headers.referer : window.location.href;
 
-    store.dispatch(setEmbed(true));
-    if (webshot) store.dispatch(setWebshotMode(true));
+    dispatch(setEmbed(true));
+    if (webshot) dispatch(setWebshotMode(true));
 
-    return {
-      ...props,
-      referer
-    };
+    return { referer };
   }
 
   render() {
@@ -31,8 +25,7 @@ class EmbedTextPageContainer extends Page {
   }
 }
 
-export default withRedux(
-  initStore,
+export default connect(
   state => ({
     widget: state.widget.data,
     loading: state.widget.loading,

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
-import DashboardDetail from 'components/dashboards/detail/dashboard-detail';
+import DashboardDetail from 'components/dashboards/detail';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 import Icon from 'components/ui/Icon';
@@ -23,8 +23,8 @@ class EmbedDashboardPage extends PureComponent {
 
     return (
       <LayoutEmbed
-        title={dashboard.dashboard.name}
-        description={dashboard.dashboard.summary}
+        title={dashboard.name}
+        description={dashboard.summary}
         className="page-dashboards c-page-dashboards"
         pageHeader
       >
@@ -33,7 +33,7 @@ class EmbedDashboardPage extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <h1>{dashboard.dashboard.name}</h1>
+                  <h1>{dashboard.name}</h1>
 
                   <div className="page-header-info">
                     <ul>
@@ -54,12 +54,12 @@ class EmbedDashboardPage extends PureComponent {
                           <ShareModal
                             links={{
                               link: typeof window !== 'undefined' && window.location.href,
-                              embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${dashboard.dashboard.slug}`
+                              embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${dashboard.slug}`
                             }}
                             analytics={{
-                              facebook: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.dashboard.name}`, 'Facebook'),
-                              twitter: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.dashboard.name}`, 'Twitter'),
-                              copy: type => logEvent('Share (embed)', `Share dashboard: ${dashboard.dashboard.name}`, `Copy ${type}`)
+                              facebook: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, 'Facebook'),
+                              twitter: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, 'Twitter'),
+                              copy: type => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, `Copy ${type}`)
                             }}
                           />
                         </Modal>

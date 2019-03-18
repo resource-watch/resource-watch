@@ -1,9 +1,4 @@
-
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
-// actions
-import { getPartners } from 'redactions/admin/partners';
+import { connect } from 'react-redux';
 
 // selectors
 import { getFilteredPartners } from './selectors';
@@ -11,8 +6,7 @@ import { getFilteredPartners } from './selectors';
 // component
 import PartnersPage from './component';
 
-export default withRedux(
-  initStore,
+export default connect(
   state => ({ allPartners: getFilteredPartners(state) }),
-  { getPartners }
+  null
 )(PartnersPage);

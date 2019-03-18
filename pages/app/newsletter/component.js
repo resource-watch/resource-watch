@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'routes';
 
 // components
-import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
@@ -15,7 +14,7 @@ import NewsletterConfirmationModal from 'components/modal/newsletter-confirmatio
 // constants
 import { FORM_COUNTRIES } from './constants';
 
-class NewsletterPage extends Page {
+class NewsletterPage extends PureComponent {
   state = {
     modal: false,
     data: {}
@@ -33,7 +32,6 @@ class NewsletterPage extends Page {
         title="Newsletter"
         description="Sign up for the Resource Watch newsletter"
         className="p-newsletter"
-        user={this.props.user}
         pageHeader
       >
         <div className="c-page-header">
