@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2019-03-19
+### Added
+- Replaced the modal used for sharing a widget in myRW for the same one used in the explore page
+making the sharing experience more consistent. Removed old one.
+- Now `/data/widget/{id}` route is accessible for non-published widgets .
+
 ## [2.0.1] - 2019-03-18
 ### Fixed
 - Fixed error compilation with `node-gyp` and `canvas` in Dockerfile 
