@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2019-03-18
+### Fixed
+- Fixed error compilation with `node-gyp` and `canvas` in Dockerfile 
+adding `pango-dev`, `jpeg-dev` dependencies.
 ## [2.0.0] - 2019-03-13
 ### Changed
 - Updates app pages according to Next 7.0.
