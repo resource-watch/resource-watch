@@ -1,32 +1,38 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-
+import TetherComponent from 'react-tether';
 import { Link } from 'routes';
 
-// Components
-import TetherComponent from 'react-tether';
+class HeaderAbout extends PureComponent {
+  static propTypes = {
+    header: PropTypes.object.isRequired,
+    children: PropTypes.array,
+    setDropdownOpened: PropTypes.func.isRequired
+  }
 
-export default class HeaderAbout extends React.PureComponent {
+  static defaultProps = { children: [] }
+
   toggleDropdown = debounce((bool) => {
-    this.props.setDropdownOpened({ about: bool });
+    const { setDropdownOpened } = this.props;
+
+    setDropdownOpened({ about: bool });
   }, 50)
 
   render() {
-    const { children } = this.props;
+    const {
+      header: { dropdownOpened },
+      children
+    } = this.props;
 
     return (
       <TetherComponent
         attachment="top center"
-        constraints={[{
-          to: 'window'
-        }]}
+        constraints={[{ to: 'window' }]}
         targetOffset="0 0"
-        classes={{
-          element: 'c-header-dropdown'
-        }}
+        classes={{ element: 'c-header-dropdown' }}
       >
-        {/* First child: This is what the item will be tethered to */}
+        {/* first child: this is what the item will be tethered to */}
         <Link route="about" >
           <a
             onMouseEnter={() => this.toggleDropdown(true)}
@@ -35,8 +41,8 @@ export default class HeaderAbout extends React.PureComponent {
                 About
           </a>
         </Link>
-        {/* Second child: If present, this item will be tethered to the the first child */}
-        {this.props.header.dropdownOpened.about &&
+        {/* second child: if present, this item will be tethered to the the first child */}
+        {dropdownOpened.about &&
         <ul
           className="header-dropdown-list"
           onMouseEnter={() => this.toggleDropdown(true)}
@@ -73,8 +79,4 @@ export default class HeaderAbout extends React.PureComponent {
   }
 }
 
-HeaderAbout.propTypes = {
-  header: PropTypes.object,
-  children: PropTypes.array,
-  setDropdownOpened: PropTypes.func
-};
+export default HeaderAbout;
