@@ -8,15 +8,15 @@ import Layout from 'layout/layout/layout-app';
 import Spinner from 'components/ui/Spinner';
 
 // Search components
-import SearchResults from 'components/search/search-results';
-import SearchTerm from 'components/search/search-term';
+import SearchBar from 'components/search-bar';
+import SearchResults from 'components/search-results';
 
 class SearchComponent extends React.PureComponent {
   static propTypes = {
     search: PropTypes.shape({
       term: PropTypes.string,
       loading: PropTypes.bool
-    })
+    }).isRequired
   }
 
   render() {
@@ -29,7 +29,7 @@ class SearchComponent extends React.PureComponent {
         className="page-search"
         pageHeader
       >
-        {loading && <Spinner isLoading className="-light" />}
+        {loading && (<Spinner isLoading className="-light" />)}
 
         <div className="l-page-header">
           <div className="l-container">
@@ -47,7 +47,7 @@ class SearchComponent extends React.PureComponent {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <SearchTerm />
+                <SearchBar />
                 <SearchResults />
               </div>
             </div>

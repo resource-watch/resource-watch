@@ -3,7 +3,7 @@ import { setUser, getUserFavourites, getUserCollections } from 'redactions/user'
 import { setRouter } from 'redactions/routes';
 import { getPublishedTopics } from 'modules/topics/actions';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { setMobileOpened } from 'layout/header/header-actions';
+import { setMobileOpened } from 'layout/header/actions';
 
 import 'css/index.scss';
 

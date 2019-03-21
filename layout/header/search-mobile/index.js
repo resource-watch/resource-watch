@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import * as actions from '../header-actions';
 
-import SearchMobileComponent from './component';
+// actions
+import { setSearchTerm } from '../actions';
+
+// component
+import SearchMobile from './component';
 
 export default connect(
-  state => ({
-    header: state.header
-  }),
-  actions
-)(SearchMobileComponent);
+  state => ({ header: state.header }),
+  { setSearchTerm }
+)(SearchMobile);

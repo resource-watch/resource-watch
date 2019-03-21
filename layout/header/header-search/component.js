@@ -1,29 +1,25 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Components
+// components
 import Icon from 'components/ui/Icon';
 
-class HeaderSearch extends React.PureComponent {
-  static propTypes = {
-    setSearchOpened: PropTypes.func
-  };
-
-  static defaultProps = {
-    setSearchOpened: () => {}
-  }
-
+class HeaderSearch extends PureComponent {
+  static propTypes = { setSearchOpened: PropTypes.func.isRequired };
 
   render() {
     const { setSearchOpened } = this.props;
 
     return (
-      <span
+      <button
         className="header-menu-link"
         onClick={() => setSearchOpened(true)}
       >
-        <Icon name="icon-search" className="-medium" />
-      </span>
+        <Icon
+          name="icon-search"
+          className="-medium"
+        />
+      </button>
     );
   }
 }

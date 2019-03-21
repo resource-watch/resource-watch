@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import * as actions from '../header-actions';
 
-import HeaderSearchComponent from './component';
+// actions
+import { setSearchOpened } from '../actions';
+
+// component
+import HeaderSearch from './component';
 
 export default connect(
-  state => ({
-    header: state.header,
-    routes: state.routes
-  }),
-  actions
-)(HeaderSearchComponent);
+  null,
+  { setSearchOpened }
+)(HeaderSearch);
