@@ -1,15 +1,16 @@
-/* eslint max-len: 0 */
-import { connect } from 'react-redux';
+
+import React, { PureComponent } from 'react';
 import classnames from 'classnames';
-import React from 'react';
 import PropTypes from 'prop-types';
 
+// components
 import Title from 'components/ui/Title';
 import Paginator from 'components/ui/Paginator';
 
-import { setSearchPage, setSearchUrl } from './actions';
+// styles
+import './styles.scss';
 
-class SearchResults extends React.PureComponent {
+class SearchResults extends PureComponent {
   static propTypes = {
     search: PropTypes.shape({
       list: PropTypes.array,
@@ -19,34 +20,34 @@ class SearchResults extends React.PureComponent {
       term: PropTypes.string,
       loading: PropTypes.bool,
       selected: PropTypes.number
-    }),
+    }).isRequired,
     headerSearch: PropTypes.bool,
-    // ACTIONS
-    setSearchPage: PropTypes.func,
-    setSearchUrl: PropTypes.func
+    setSearchPage: PropTypes.func.isRequired,
+    setSearchUrl: PropTypes.func.isRequired
   }
 
+  static defaultProps = { headerSearch: false }
+
   onChangePage = (page) => {
-    this.props.setSearchPage(page);
-    this.props.setSearchUrl();
+    const { setSearchPage, setSearchUrl } = this.props;
+    setSearchPage(page);
+    setSearchUrl();
   }
 
   render() {
     const {
-      term, list, total, page, limit, loading, selected
-    } = this.props.search;
-
-    const { headerSearch } = this.props;
-
-    const classNames = classnames({
-      'c-search-list--header': headerSearch
-    });
-
+      search: { term, list, total, page, limit, loading, selected },
+      headerSearch
+    } = this.props;
+    const searchListClass = classnames(
+      'c-search-list',
+      { 'c-search-list--header': headerSearch }
+    );
     const showPagination = !!total && total > limit && !loading && list.length > 0;
     const noResults = ((!term) || !total) && term.length !== 0 && !loading;
 
     return (
-      <div className={`c-search-list ${classNames}`}>
+      <div className={searchListClass}>
         {term && list.length > 0 &&
           <ul className="search-list">
             {list.map((l, k) => (
@@ -69,9 +70,7 @@ class SearchResults extends React.PureComponent {
           </ul>
         }
 
-        {noResults &&
-          <p className="c-search-list--empty">No results</p>
-        }
+        {noResults && (<p className="c-search-list--empty">No results</p>)}
 
         {!headerSearch && showPagination &&
           <Paginator
@@ -88,13 +87,4 @@ class SearchResults extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  search: state.search
-});
-
-const mapDispatchToProps = dispatch => ({
-  setSearchPage: page => dispatch(setSearchPage(page)),
-  setSearchUrl: url => dispatch(setSearchUrl(url))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
+export default SearchResults;

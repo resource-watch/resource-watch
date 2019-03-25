@@ -12,12 +12,13 @@ class HeaderTopics extends PureComponent {
   };
 
   toggleDropdown = debounce((bool) => {
-    this.props.setDropdownOpened({ topics: bool });
+    const { setDropdownOpened } = this.props;
+    setDropdownOpened({ topics: bool });
   }, 50)
 
   render() {
     const {
-      header,
+      header: { dropdownOpened },
       topics
     } = this.props;
 
@@ -37,8 +38,8 @@ class HeaderTopics extends PureComponent {
             Topics
           </a>
         </Link>
-        {/* Second child: If present, this item will be tethered to the the first child */}
-        {header.dropdownOpened.topics &&
+        {/* second child: if present, this item will be tethered to the the first child */}
+        {dropdownOpened.topics &&
           <ul
             className="header-dropdown-list"
             onMouseEnter={() => this.toggleDropdown(true)}

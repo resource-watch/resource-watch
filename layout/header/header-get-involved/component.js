@@ -1,32 +1,37 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-
+import TetherComponent from 'react-tether';
 import { Link } from 'routes';
 
-// Components
-import TetherComponent from 'react-tether';
+class HeaderGetInvolved extends PureComponent {
+  static propTypes = {
+    header: PropTypes.object.isRequired,
+    children: PropTypes.array,
+    setDropdownOpened: PropTypes.func.isRequired
+  }
 
-export default class HeaderGetInvolved extends React.PureComponent {
+  static defaultProps = { children: [] }
+
   toggleDropdown = debounce((bool) => {
-    this.props.setDropdownOpened({ get_involved: bool });
+    const { setDropdownOpened } = this.props;
+    setDropdownOpened({ get_involved: bool });
   }, 50)
 
   render() {
-    const { children } = this.props;
+    const {
+      header: { dropdownOpened },
+      children
+    } = this.props;
 
     return (
       <TetherComponent
         attachment="top center"
-        constraints={[{
-          to: 'window'
-        }]}
+        constraints={[{ to: 'window' }]}
         targetOffset="0 0"
-        classes={{
-          element: 'c-header-dropdown'
-        }}
+        classes={{ element: 'c-header-dropdown' }}
       >
-        {/* First child: This is what the item will be tethered to */}
+        {/* first child: this is what the item will be tethered to */}
         <Link route="get_involved" >
           <a
             onMouseEnter={() => this.toggleDropdown(true)}
@@ -35,8 +40,8 @@ export default class HeaderGetInvolved extends React.PureComponent {
             Get Involved
           </a>
         </Link>
-        {/* Second child: If present, this item will be tethered to the the first child */}
-        {this.props.header.dropdownOpened.get_involved &&
+        {/* second child: ff present, this item will be tethered to the the first child */}
+        {dropdownOpened.get_involved &&
         <ul
           className="header-dropdown-list"
           onMouseEnter={() => this.toggleDropdown(true)}
@@ -73,8 +78,4 @@ export default class HeaderGetInvolved extends React.PureComponent {
   }
 }
 
-HeaderGetInvolved.propTypes = {
-  header: PropTypes.object,
-  children: PropTypes.array,
-  setDropdownOpened: PropTypes.func
-};
+export default HeaderGetInvolved;

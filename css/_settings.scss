@@ -15,6 +15,9 @@ $output-bourbon-deprecation-warnings: false;
 // It should be removed
 @import "deprecated";
 
+// grid
+@import 'foundation_settings';
+
 // Colors
 $dark-pink: #c32d7b;
 $yellow: #FAB72E;

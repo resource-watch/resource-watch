@@ -133,7 +133,7 @@
     "check-layers": "NODE_ENV=test babel-node ./tasks/check-layers.js",
     "test": "yarn lint",
     "lint": "eslint .",
-    "dev": "node index.js",
+    "dev": "node $NODE_DEBUG_OPTION index.js",
     "build": "better-npm-run build",
     "start": "better-npm-run start"
   },

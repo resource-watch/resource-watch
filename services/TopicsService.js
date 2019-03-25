@@ -133,7 +133,7 @@ export const fetchTopics = (params = {}) =>
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
+      if (status >= 200) throw new Error(statusText);
       return WRISerializer(data);
     });
 
@@ -147,7 +147,7 @@ export const fetchTopic = id =>
   WRIAPI.get(`/topic/${id}`)
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
+      if (status >= 200) throw new Error(statusText);
       return WRISerializer(data);
     });
 
