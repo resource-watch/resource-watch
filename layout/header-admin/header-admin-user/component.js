@@ -11,7 +11,7 @@ import Icon from 'components/ui/Icon';
 // utils
 import { get } from 'utils/request';
 
-class HeaderUser extends PureComponent {
+class AdminHeaderUser extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
     header: PropTypes.object.isRequired,
@@ -142,4 +142,4 @@ class HeaderUser extends PureComponent {
   }
 }
 
-export default HeaderUser;
+export default AdminHeaderUser;

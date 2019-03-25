@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import * as actions from '../header-actions';
 
-import HeaderGetInvolvedComponent from './component';
+// actions
+import { setDropdownOpened } from '../actions';
+
+// component
+import HeaderGetInvolved from './component';
 
 export default connect(
-  state => ({
-    header: state.header
-  }),
-  actions
-)(HeaderGetInvolvedComponent);
+  state => ({ header: state.header }),
+  { setDropdownOpened }
+)(HeaderGetInvolved);

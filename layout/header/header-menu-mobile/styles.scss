@@ -1,15 +1,18 @@
+@import 'css/settings';
+
 .c-header-menu-mobile {
 
   .header-menu-mobile-content {
+    z-index: 4;
+    visibility: hidden;
     position: fixed;
     top: 0;
     right: 0;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    visibility: hidden;
     transition: all $animation-time-2;
 
     &.-opened {
@@ -17,17 +20,14 @@
     }
 
     .header-menu-mobile-nav {
-      position: relative;
-      z-index: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
       width: calc(100% - #{$header-main-height-mobile});
       max-width: 400px;
       height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
-      padding: $margin-size-small;
-      padding-top: 60px;
-      background: $color-white;
+      padding: 60px $margin-size-small $margin-size-small;
       transform: translate(100%, 0);
+      background: $color-white;
       transition: transform $animation-time-2 $ease-in-out-cubic;
 
       h2 {
@@ -50,7 +50,7 @@
     }
 
     .header-menu-mobile-backdrop {
-      background: rgba($color-black, 0.15);
+      background: rgba($color-black, .15);
       position: absolute;
       width: 100%;
       height: 100%;
@@ -66,7 +66,6 @@
         opacity: 1;
         transform: translate(0, 0);
       }
-
     }
   }
 
