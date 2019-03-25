@@ -133,7 +133,10 @@ export const fetchTopics = (params = {}) =>
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 200) throw new Error(statusText);
+      if (status > 200) {
+        console.warn('fetchs topics', statusText);
+        throw new Error(statusText);
+      }
       return WRISerializer(data);
     });
 
@@ -147,7 +150,10 @@ export const fetchTopic = id =>
   WRIAPI.get(`/topic/${id}`)
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 200) throw new Error(statusText);
+      if (status > 200) {
+        console.warn(`fetchs topic: ${id}:`, statusText);
+        throw new Error(statusText);
+      }
       return WRISerializer(data);
     });
 
@@ -190,7 +196,10 @@ export const updateTopic = (id, body, token) =>
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
+      if (status >= 400) {
+        console.warn(`updates topic: ${id}:`, statusText);
+        throw new Error(statusText);
+      }
       return WRISerializer(data);
     });
 
@@ -211,6 +220,9 @@ export const deleteTopic = (id, token) =>
   })
     .then((response) => {
       const { status, statusText } = response;
-      if (status >= 400) throw new Error(statusText);
+      if (status >= 400) {
+        console.warn(`deletes topic: ${id}:`, statusText);
+        throw new Error(statusText);
+      }
       return response;
     });
