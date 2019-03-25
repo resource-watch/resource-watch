@@ -6350,7 +6350,7 @@ launch-editor@2.2.1:
     chalk "^2.3.0"
     shell-quote "^1.6.1"
 
-layer-manager@^1.0.4, layer-manager@^1.10.0:
+layer-manager@^1.0.4:
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.2.tgz#28fd40054b3a22b8de4ca84c2cad5a873a9988c1"
   dependencies:
@@ -6361,7 +6361,7 @@ layer-manager@^1.0.4, layer-manager@^1.10.0:
     supercluster "^4.1.1"
     wri-json-api-serializer "^1.0.1"
 
-layer-manager@^1.15.2:
+layer-manager@^1.10.0, layer-manager@^1.15.2:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.15.2.tgz#45f3003cd4dc60420d8ff37c035722f5fc8d6eb2"
   integrity sha512-cmm/3CTy9stXIUI8OjOh5Fbi2PuDv+Hi3jh8v8ejnQHdn6uo40821+scHSBcJmeOA1Hf4Bz3GY6RGTqOTs0OYQ==
@@ -7072,7 +7072,7 @@ moment-range@3.0.3:
   dependencies:
     es6-symbol "^3.1.0"
 
-moment@>=1.6.0, moment@^2.11.2, moment@^2.18.1, moment@^2.22.1, moment@^2.22.2:
+moment@>=1.6.0, moment@^2.11.2, moment@^2.18.1, moment@^2.22.1:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
@@ -8788,7 +8788,7 @@ rc-slider@7.0.8:
     rc-util "^4.0.4"
     warning "^3.0.0"
 
-rc-slider@^8.4.0, rc-slider@^8.6.1, rc-slider@^8.6.3:
+rc-slider@^8.4.0, rc-slider@^8.6.1:
   version "8.6.4"
   resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.6.4.tgz#b9d9000180f2b89bb71b58717753164b479fc75f"
   dependencies:
@@ -8799,6 +8799,19 @@ rc-slider@^8.4.0, rc-slider@^8.6.1, rc-slider@^8.6.3:
     rc-util "^4.0.4"
     shallowequal "^1.0.1"
     warning "^3.0.0"
+
+rc-slider@^8.6.3:
+  version "8.6.7"
+  resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.6.7.tgz#fa0cbbd0251394c7cda8dd1b62d10bb7e9b1b840"
+  integrity sha512-QIFWMnK1VLc4TtJSZJgjhI6UOhN8eg53EM2La+eRa8rSPZwJT3rIWfZnTZs7OV7zXG/AiLWN4G+oGxuMcEFpsg==
+  dependencies:
+    babel-runtime "6.x"
+    classnames "^2.2.5"
+    prop-types "^15.5.4"
+    rc-tooltip "^3.7.0"
+    rc-util "^4.0.4"
+    shallowequal "^1.0.1"
+    warning "^4.0.3"
 
 rc-tooltip@3.7.0:
   version "3.7.0"
@@ -11747,6 +11760,7 @@ vega-statistics@^1.2, vega-statistics@^1.2.1, vega-statistics@^1.2.3:
 vega-tooltip@^0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/vega-tooltip/-/vega-tooltip-0.13.0.tgz#008d06a1c8f94ba3f23f52bb2498661b21dbf5e6"
+  integrity sha512-NbeHzpxwKZ+yk+CION3wRH66rx9XGx5v6M82LT6qSIAnUrH8eh+sFtjK6pO7ErXGF5AieAhg8Hfb/NvC8uNMuA==
   dependencies:
     vega-util "^1.7.0"
 
@@ -12084,6 +12098,22 @@ vizz-wysiwyg@^2.1.1:
     uuid "3.0.1"
     validate.js "^0.12.0"
 
+vizzuality-components@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vizzuality-components/-/vizzuality-components-1.0.0.tgz#8fb328d79fc4013bb0928dcd094dca2d3efbc6fd"
+  integrity sha512-IBCW+Rxpuyk3PqK3l0UZzXUDq4CxulJBjlHyDfgauzIaLyE1z7jGNAFiFjnkoFsNCFHINxDk2eYMLn2RJGRXvg==
+  dependencies:
+    classnames "^2.2.6"
+    layer-manager "^1.10.0"
+    lodash "^4.17.10"
+    prop-types "^15.6.2"
+    rc-slider "^8.6.3"
+    rc-tooltip "3.7.0"
+    react-sortable-hoc "^0.6.8"
+    react-vega "^4.0.2"
+    vega-tooltip "^0.13.0"
+    wri-json-api-serializer "^1.0.1"
+
 vm-browserify@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
@@ -12109,6 +12139,13 @@ walk@^2.3.9:
 warning@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
+  dependencies:
+    loose-envify "^1.0.0"
+
+warning@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
   dependencies:
     loose-envify "^1.0.0"
 
@@ -12419,23 +12456,6 @@ wri-api-components@2.0.17:
     react-sortable-hoc "^0.6.8"
     react-vega "^4.0.2"
     vega-lib "^4.2.0"
-    wri-json-api-serializer "^1.0.1"
-
-wri-api-components@2.3.3-rw-timeline:
-  version "2.3.3-rw-timeline"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.3.3-rw-timeline.tgz#3a2e7d4326377b0e926cce53e27b652dbb633d6a"
-  integrity sha512-2P5CXcZzHXmPQLBGp9jSMuqudbwQn6s06PKgMyomK8WE7pnv4DALS5Z+rXUEz1RxxFuC0Dlpw/x5BPXrDCR5aA==
-  dependencies:
-    classnames "^2.2.6"
-    layer-manager "^1.10.0"
-    lodash "^4.17.10"
-    moment "^2.22.2"
-    prop-types "^15.6.2"
-    rc-slider "^8.6.3"
-    rc-tooltip "3.7.0"
-    react-sortable-hoc "^0.6.8"
-    react-vega "^4.0.2"
-    vega-tooltip "^0.13.0"
     wri-json-api-serializer "^1.0.1"
 
 wri-json-api-serializer@1.0.1, wri-json-api-serializer@^1.0.1:

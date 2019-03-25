@@ -7,8 +7,8 @@ import classnames from 'classnames';
 import { initGA, logPageView } from 'utils/analytics';
 import { browserSupported } from 'utils/browser';
 
-// Wri-api-components
-import { Icons } from 'wri-api-components';
+// vizzuality-components
+import { Icons } from 'vizzuality-components';
 
 // Components
 import { Router } from 'routes';

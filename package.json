@@ -106,11 +106,11 @@
     "vega": "3.1.0",
     "vega-lib": "^4.2.0",
     "vizz-wysiwyg": "^2.1.1",
+    "vizzuality-components": "^1.0.0",
     "webpack": "^4.27.1",
     "webpackbar": "^2.6.3",
     "whatwg-fetch": "2.0.2",
     "widget-editor": "^1.3.6",
-    "wri-api-components": "2.3.3-rw-timeline",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {
