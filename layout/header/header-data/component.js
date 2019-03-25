@@ -1,35 +1,40 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-
+import TetherComponent from 'react-tether';
 import { Link } from 'routes';
 
-// Components
-import TetherComponent from 'react-tether';
-
-// Utils
+// utils
 import { logEvent } from 'utils/analytics';
 
-export default class HeaderData extends React.PureComponent {
+class HeaderData extends PureComponent {
+  static propTypes = {
+    header: PropTypes.object.isRequired,
+    children: PropTypes.array,
+    setDropdownOpened: PropTypes.func.isRequired
+  }
+
+  static defaultProps = { children: [] }
+
   toggleDropdown = debounce((bool) => {
-    this.props.setDropdownOpened({ data: bool });
+    const { setDropdownOpened } = this.props;
+    setDropdownOpened({ data: bool });
   }, 50)
 
   render() {
-    const { children } = this.props;
+    const {
+      header: { dropdownOpened },
+      children
+    } = this.props;
 
     return (
       <TetherComponent
         attachment="top center"
-        constraints={[{
-          to: 'window'
-        }]}
+        constraints={[{ to: 'window' }]}
         targetOffset="0 0"
-        classes={{
-          element: 'c-header-dropdown'
-        }}
+        classes={{ element: 'c-header-dropdown' }}
       >
-        {/* First child: This is what the item will be tethered to */}
+        {/* first child: this is what the item will be tethered to */}
         <a
           href="/data"
           onMouseEnter={() => this.toggleDropdown(true)}
@@ -38,7 +43,7 @@ export default class HeaderData extends React.PureComponent {
           Data
         </a>
         {/* Second child: If present, this item will be tethered to the the first child */}
-        {this.props.header.dropdownOpened.data &&
+        {dropdownOpened.data &&
         <ul
           className="header-dropdown-list"
           onMouseEnter={() => this.toggleDropdown(true)}
@@ -51,18 +56,17 @@ export default class HeaderData extends React.PureComponent {
               role="button"
               tabIndex={-1}
               onKeyPress={() => {
-                if (c.logEvent) {
-                  logEvent(`${c.label} link clicked`, 'Header');
-                }
+                if (c.logEvent) logEvent(`${c.label} link clicked`, 'Header');
               }}
               onClick={() => {
-                if (c.logEvent) {
-                  logEvent(`${c.label} link clicked`, 'Header');
-                }
+                if (c.logEvent) logEvent(`${c.label} link clicked`, 'Header');
               }}
             >
               {!!c.route &&
-                <Link route={c.route} params={c.params}>
+                <Link
+                  route={c.route}
+                  params={c.params}
+                >
                   <a>
                     {c.label}
                   </a>
@@ -89,8 +93,4 @@ export default class HeaderData extends React.PureComponent {
   }
 }
 
-HeaderData.propTypes = {
-  header: PropTypes.object,
-  children: PropTypes.array,
-  setDropdownOpened: PropTypes.func
-};
+export default HeaderData;

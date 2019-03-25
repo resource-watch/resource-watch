@@ -1,39 +1,34 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-// Next
 import { Link } from 'routes';
 
-// Components
+// components
 import Icon from 'components/ui/Icon';
 
-export default class HeaderMenuMobile extends React.PureComponent {
-  static propTypes = {
-    header: PropTypes.object,
-    routes: PropTypes.object,
-    // Actions
-    setMobileOpened: PropTypes.func
-  }
+// constants
+import { ADMIN_HEADER_ITEMS } from 'layout/header-admin/constants';
 
-  static defaultProps = {
-    header: {},
-    routes: {},
-    setMobileOpened: () => {}
+class AdminHeaderMenuMobile extends PureComponent {
+  static propTypes = {
+    header: PropTypes.object.isRequired,
+    routes: PropTypes.object.isRequired,
+    setMobileOpened: PropTypes.func.isRequired
   }
 
   componentDidUpdate() {
-    const { header } = this.props;
+    const { header: { mobileOpened } } = this.props;
 
-    document.body.classList.toggle('no-scroll', header.mobileOpened);
+    document.body.classList.toggle('no-scroll', mobileOpened);
   }
 
   render() {
-    const { header, routes, setMobileOpened } = this.props;
-
-    const classNames = classnames({
-      '-opened': header.mobileOpened
-    });
+    const {
+      header: { mobileOpened },
+      routes: { pathname },
+      setMobileOpened
+    } = this.props;
+    const classNames = classnames({ '-opened': mobileOpened });
 
     return (
       <div className="c-header-menu-mobile">
@@ -61,10 +56,8 @@ export default class HeaderMenuMobile extends React.PureComponent {
             </button>
 
             <ul>
-              {header.items.map((item) => {
-                const activeClassName = classnames({
-                  '-active': item.pathnames && item.pathnames.includes(routes.pathname)
-                });
+              {ADMIN_HEADER_ITEMS.map((item) => {
+                const activeClassName = classnames({ '-active': item.pathnames && item.pathnames.includes(pathname) });
 
                 return (
                   <li
@@ -83,13 +76,9 @@ export default class HeaderMenuMobile extends React.PureComponent {
                     }
 
                     {item.href &&
-                      <a
-                        href={item.href}
-                      >
+                      <a href={item.href}>
                         {item.label}
-                      </a>
-                    }
-
+                      </a>}
 
                     {item.children &&
                       <ul>
@@ -105,9 +94,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
                             }
 
                             {!!c.href &&
-                              <a
-                                href={c.href}
-                              >
+                              <a href={c.href}>
                                 {c.label}
                               </a>
                             }
@@ -125,3 +112,5 @@ export default class HeaderMenuMobile extends React.PureComponent {
     );
   }
 }
+
+export default AdminHeaderMenuMobile;

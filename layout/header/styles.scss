@@ -1,6 +1,6 @@
-.l-header {
-  position: relative;
+@import 'css/settings';
 
+.l-header {
   background-color: $header-bg-color;
   background-image: $header-bg-image,
     linear-gradient(
@@ -29,7 +29,6 @@
     }
   }
 
-  // Logo
   .header-logo {
     position: relative;
 
@@ -51,45 +50,35 @@
     }
 
     .brand-beta {
-      font-size: 10px;
-      color: $color-white;
-      text-transform: uppercase;
       position: absolute;
-      right: 0px;
       top: -6px;
+      right: 0px;
+      font-size: 10px;
+      text-transform: uppercase;
+      color: $color-white;
     }
   }
 
-  // Menu
   .header-menu {
     ul {
       display: flex;
       align-items: center;
-      margin: 0;
-      padding: 0;
-      list-style: none;
 
       > li {
-        position: relative;
-        margin-left: $margin-size-extra-small;
-        color: $alt-font-color;
+
+        &:not(:first-child) {
+          margin-left: $margin-size-extra-small;
+        }
 
         > a,
         > span,
         > button {
-          position: relative;
-          display: flex;
+          display: inline-flex;
           align-items: center;
-          justify-content: flex-start;
+          padding: 7px 10px;
           color: $alt-font-color;
           fill: $alt-font-color;
-          padding: 7px 10px;
           cursor: pointer;
-
-          &.-bordered {
-            border: 1px solid rgba($alt-border-color, 0.5);
-            border-radius: 4px;
-          }
 
           &:hover {
             color: $active-font-color;
@@ -99,6 +88,7 @@
         }
 
         &.-active > a {
+          position: relative;
           color: $active-font-color;
           fill: $active-font-color;
           font-weight: bold;
@@ -109,21 +99,12 @@
             position: absolute;
             bottom: 0;
             left: 50%;
-            transform: translate(-50%,0);
+            transform: translate(-50%, 0);
             width: calc(100% - 20px);
             height: 2px;
             background: $active-font-color;
           }
         }
-      }
-    }
-  }
-
-  .header-menu-link {
-    .user-icon {
-      fill: $white;
-      &:hover {
-        fill: $yellow;
       }
     }
   }
