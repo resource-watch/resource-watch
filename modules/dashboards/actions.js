@@ -22,7 +22,7 @@ export const getPublishedDashboards = createThunkAction('DASHBOARDS__GET-PUBLISH
         dispatch(setLoading({ key: 'published', value: false }));
       })
       .catch((err) => {
-        dispatch(setError({ key: 'published', value: err }));
+        dispatch(setError({ key: 'published', value: err.message }));
         dispatch(setLoading({ key: 'published', value: false }));
       });
   });
@@ -39,7 +39,7 @@ export const getDashboard = createThunkAction('DASHBOARDS__GET-DASHBOARD',
         dispatch(setLoading({ key: 'detail', value: false }));
       })
       .catch((err) => {
-        dispatch(setError({ key: 'detail', value: err }));
+        dispatch(setError({ key: 'detail', value: err.message }));
         dispatch(setLoading({ key: 'detail', value: false }));
       });
   });
