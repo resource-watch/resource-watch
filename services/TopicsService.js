@@ -8,6 +8,8 @@ import WRISerializer from 'wri-json-api-serializer';
 // utils
 import { WRIAPI } from 'utils/axios';
 
+import { logger } from 'logger';
+
 export default class TopicsService {
   constructor(options = {}) {
     this.opts = options;
@@ -117,28 +119,33 @@ export default class TopicsService {
 }
 
 /**
- * Fetchs topics according to params.
+ * Fetches topics according to params.
  *
  * @param {Object[]} params - params sent to the API.
  * @returns {Object[]} array of serialized topics.
  */
-export const fetchTopics = (params = {}) =>
-  WRIAPI.get('/topic', {
+export const fetchTopics = (params = {}) => {
+  logger.info('Fetching topics');
+  return WRIAPI.get('/topic', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
     params: { ...Object.keys(params).reduce((x, y) => ({ ...x, ...params[y] }), {}) }
-  })
-    .then((response) => {
-      const { status, statusText, data } = response;
-      if (status > 200) {
-        console.warn('fetchs topics', statusText);
-        throw new Error(statusText);
-      }
-      return WRISerializer(data);
-    });
+  }).then((response) => {
+    const { status, statusText, data } = response;
+    logger.debug(`Topics fetch returned with code ${status}`);
+    if (status < 300) {
+      logger.warn('Error fetching topics', statusText);
+      throw new Error(statusText);
+    }
+    return WRISerializer(data);
+  }).catch((err) => {
+    logger.warn(`Topics fetch failed with error: ${err.message}`);
+    return WRISerializer({});
+  });
+};
 
 /**
  * fetchs data for a specific topic.
