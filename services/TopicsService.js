@@ -135,6 +135,11 @@ export const fetchTopics = (params = {}) =>
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);
       return WRISerializer(data);
+    })
+    .catch((response) => {
+      const { status, statusText, data } = response;
+      if (status >= 400) throw new Error(statusText);
+      return WRISerializer(data);
     });
 
 /**
