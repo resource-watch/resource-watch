@@ -11,7 +11,7 @@ import {
   Legend,
   LegendListItem,
   LegendItemTypes
-} from 'wri-api-components';
+} from 'vizzuality-components';
 
 // Map Popups
 import LayerPopup from 'components/ui/map/popup/LayerPopup';

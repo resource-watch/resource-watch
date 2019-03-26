@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
 import MediaQuery from 'react-responsive';
-import { Icons } from 'wri-api-components';
+import { Icons } from 'vizzuality-components';
 
 // components
 import HeadApp from 'layout/head/app';

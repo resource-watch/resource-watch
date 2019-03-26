@@ -6,7 +6,7 @@ import { Link } from 'routes';
 // Components
 import Title from 'components/ui/Title';
 import Icon from 'components/ui/Icon';
-import { Tooltip } from 'wri-api-components';
+import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
 
 // helpers
