@@ -7,8 +7,7 @@ import WRISerializer from 'wri-json-api-serializer';
 
 // utils
 import { WRIAPI } from 'utils/axios';
-
-import { logger } from 'logger';
+import { logger } from 'utils/logs';
 
 export default class TopicsService {
   constructor(options = {}) {
@@ -126,43 +125,54 @@ export default class TopicsService {
  */
 export const fetchTopics = (params = {}) => {
   logger.info('Fetching topics');
+  
   return WRIAPI.get('/topic', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
-    params: { ...Object.keys(params).reduce((x, y) => ({ ...x, ...params[y] }), {}) }
+    params
   }).then((response) => {
     const { status, statusText, data } = response;
     logger.debug(`Topics fetch returned with code ${status}`);
-    if (status < 300) {
-      logger.warn('Error fetching topics', statusText);
+
+    if (status >= 300) {
+      logger.error('Error fetching topics:', `${status}: ${statusText}`);
       throw new Error(statusText);
     }
     return WRISerializer(data);
-  }).catch((err) => {
-    logger.warn(`Topics fetch failed with error: ${err.message}`);
+  }).catch(({ response }) => {
+    const { status, statusText } = response
+    logger.error('Error fetching topics:', `${status}: ${statusText}`);
     return WRISerializer({});
   });
 };
 
 /**
- * fetchs data for a specific topic.
+ * fetches data for a specific topic.
  *
  * @param {String} id - topic id.
  * @returns {Object} serialized specified topic.
  */
-export const fetchTopic = id =>
-  WRIAPI.get(`/topic/${id}`)
+export const fetchTopic = id => {
+  logger.info(`Fetches topic: ${id}`);
+
+  return WRIAPI.get(`/topic/${id}`)
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status > 200) {
-        console.warn(`fetchs topic: ${id}:`, statusText);
+      if (status >= 300) {
+        logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
         throw new Error(statusText);
       }
       return WRISerializer(data);
+    }).catch(({ response }) => {
+      const { status, statusText } = response
+      logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
+      return WRISerializer({});
     });
+}
+  
 
 /**
  * Creates a topic with the provided data.
@@ -204,7 +214,7 @@ export const updateTopic = (id, body, token) =>
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) {
-        console.warn(`updates topic: ${id}:`, statusText);
+        // console.warn(`updates topic: ${id}:`, statusText);
         throw new Error(statusText);
       }
       return WRISerializer(data);

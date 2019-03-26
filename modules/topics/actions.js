@@ -36,10 +36,8 @@ export const getPublishedTopics = createThunkAction('TOPICS/GET-PUBLISHED-TOPICS
     dispatch(setError({ key: 'published', value: null }));
 
     const queryParams = {
-      filters: {
-        'filter[published]': 'true',
-        sort: 'name'
-      }
+      'filter[published]': 'true',
+      sort: 'name'
     };
 
     return fetchTopics(queryParams)
