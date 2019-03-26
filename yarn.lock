@@ -7076,7 +7076,7 @@ moment@>=1.6.0, moment@^2.11.2, moment@^2.18.1, moment@^2.22.1:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
-moment@^2.24.0:
+moment@^2.22.2, moment@^2.24.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
@@ -12098,14 +12098,15 @@ vizz-wysiwyg@^2.1.1:
     uuid "3.0.1"
     validate.js "^0.12.0"
 
-vizzuality-components@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vizzuality-components/-/vizzuality-components-1.0.0.tgz#8fb328d79fc4013bb0928dcd094dca2d3efbc6fd"
-  integrity sha512-IBCW+Rxpuyk3PqK3l0UZzXUDq4CxulJBjlHyDfgauzIaLyE1z7jGNAFiFjnkoFsNCFHINxDk2eYMLn2RJGRXvg==
+vizzuality-components@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vizzuality-components/-/vizzuality-components-1.1.0.tgz#80a7908e509772d3d7224178e87d53e48647a51d"
+  integrity sha512-ytrXMbu4bM8lBYCALFbPkl/36CeBVseymNheKttV3I9wpAofW0BCIAg0KNqPRKY4soKJif25ak6XNtdH8a30Iw==
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.10.0"
     lodash "^4.17.10"
+    moment "^2.22.2"
     prop-types "^15.6.2"
     rc-slider "^8.6.3"
     rc-tooltip "3.7.0"
