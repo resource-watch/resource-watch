@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2019-03-26
+### Fixed
+- Fixed bad alignment of user icon in app header.
+- Cross-browsing: header search result suffered from crippling in Firefox 66.
+
+### Changed
+- Moved from `wri-api-components` to `vizzuality-components`. `wri-api-components` will be deprecated at some point.
+- Removed header items from store. There was no need to keep them there. Now they are stored in a 
+component-level `constants` file. This also applies for admin header.
+- Styling: removed white border from embed maps (explore, map, map-swipe).
+
+
 ## [2.0.1] - 2019-03-18
 ### Fixed
 - Fixed error compilation with `node-gyp` and `canvas` in Dockerfile 
