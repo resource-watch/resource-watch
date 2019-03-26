@@ -12,7 +12,7 @@ import Icon from 'components/ui/Icon';
 import LoginRequired from 'components/ui/login-required';
 
 // Tooltip
-import { Tooltip } from 'wri-api-components';
+import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
 
 // Modal

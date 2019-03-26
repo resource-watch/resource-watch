@@ -9,7 +9,7 @@ import {
   Legend,
   LegendListItem,
   LegendItemTypes
-} from 'wri-api-components';
+} from 'vizzuality-components';
 import { LayerManager, Layer } from 'layer-manager/dist/components';
 import { PluginLeaflet } from 'layer-manager';
 
@@ -124,7 +124,7 @@ class EmbedMapPage extends PureComponent {
           title="Loading widget..."
           description=""
         >
-          <div className="c-embed-widget">
+          <div className="c-embed-widget -map">
             <Spinner isLoading={loading} className="-light" />
           </div>
         </LayoutEmbed>
@@ -137,7 +137,7 @@ class EmbedMapPage extends PureComponent {
           title="Resource Watch"
           description=""
         >
-          <div className="c-embed-widget">
+          <div className="c-embed-widget -map">
             <div className="widget-title">
               <h4>–</h4>
             </div>
@@ -172,7 +172,7 @@ class EmbedMapPage extends PureComponent {
         title={`${name}`}
         description={`${description || ''}`}
       >
-        <div className="c-embed-widget">
+        <div className="c-embed-widget -map">
           {!webshot && (
             <div className="widget-title">
               <a href={`/data/explore/${dataset}`} target="_blank" rel="noopener noreferrer">

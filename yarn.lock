@@ -2548,16 +2548,6 @@ builtins@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/builtins/-/builtins-1.0.3.tgz#cb94faeb61c8696451db36534e1422f94f0aee88"
 
-bunyan@^1.8.12:
-  version "1.8.12"
-  resolved "https://registry.yarnpkg.com/bunyan/-/bunyan-1.8.12.tgz#f150f0f6748abdd72aeae84f04403be2ef113797"
-  integrity sha1-8VDw9nSKvdcq6uhPBEA74u8RN5c=
-  optionalDependencies:
-    dtrace-provider "~0.8"
-    moment "^2.10.6"
-    mv "~2"
-    safe-json-stringify "~1"
-
 bytes@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.4.0.tgz#7d97196f9d5baf7f6935e25985549edd2a6c2339"
@@ -3875,13 +3865,6 @@ dotenv@^2.0.0:
 double-ended-queue@^2.1.0-0:
   version "2.1.0-0"
   resolved "https://registry.yarnpkg.com/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz#103d3527fd31528f40188130c841efdd78264e5c"
-
-dtrace-provider@~0.8:
-  version "0.8.7"
-  resolved "https://registry.yarnpkg.com/dtrace-provider/-/dtrace-provider-0.8.7.tgz#dc939b4d3e0620cfe0c1cd803d0d2d7ed04ffd04"
-  integrity sha1-3JObTT4GIM/gwc2APQ0tftBP/QQ=
-  dependencies:
-    nan "^2.10.0"
 
 duplexer2@0.0.2:
   version "0.0.2"
@@ -6382,7 +6365,7 @@ launch-editor@2.2.1:
     chalk "^2.3.0"
     shell-quote "^1.6.1"
 
-layer-manager@^1.0.4, layer-manager@^1.10.0:
+layer-manager@^1.0.4:
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.13.2.tgz#28fd40054b3a22b8de4ca84c2cad5a873a9988c1"
   dependencies:
@@ -6393,7 +6376,7 @@ layer-manager@^1.0.4, layer-manager@^1.10.0:
     supercluster "^4.1.1"
     wri-json-api-serializer "^1.0.1"
 
-layer-manager@^1.15.2:
+layer-manager@^1.10.0, layer-manager@^1.15.2:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-1.15.2.tgz#45f3003cd4dc60420d8ff37c035722f5fc8d6eb2"
   integrity sha512-cmm/3CTy9stXIUI8OjOh5Fbi2PuDv+Hi3jh8v8ejnQHdn6uo40821+scHSBcJmeOA1Hf4Bz3GY6RGTqOTs0OYQ==
@@ -7104,11 +7087,11 @@ moment-range@3.0.3:
   dependencies:
     es6-symbol "^3.1.0"
 
-moment@>=1.6.0, moment@^2.11.2, moment@^2.18.1, moment@^2.22.1, moment@^2.22.2:
+moment@>=1.6.0, moment@^2.11.2, moment@^2.18.1, moment@^2.22.1:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
-moment@^2.10.6, moment@^2.24.0:
+moment@^2.22.2, moment@^2.24.0:
   version "2.24.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
@@ -7154,7 +7137,7 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
-mv@2.1.1, mv@~2:
+mv@2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/mv/-/mv-2.1.1.tgz#ae6ce0d6f6d5e0a4f7d893798d03c1ea9559b6a2"
   dependencies:
@@ -8842,7 +8825,7 @@ rc-slider@7.0.8:
     rc-util "^4.0.4"
     warning "^3.0.0"
 
-rc-slider@^8.4.0, rc-slider@^8.6.1, rc-slider@^8.6.3:
+rc-slider@^8.4.0, rc-slider@^8.6.1:
   version "8.6.4"
   resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.6.4.tgz#b9d9000180f2b89bb71b58717753164b479fc75f"
   dependencies:
@@ -8853,6 +8836,19 @@ rc-slider@^8.4.0, rc-slider@^8.6.1, rc-slider@^8.6.3:
     rc-util "^4.0.4"
     shallowequal "^1.0.1"
     warning "^3.0.0"
+
+rc-slider@^8.6.3:
+  version "8.6.7"
+  resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.6.7.tgz#fa0cbbd0251394c7cda8dd1b62d10bb7e9b1b840"
+  integrity sha512-QIFWMnK1VLc4TtJSZJgjhI6UOhN8eg53EM2La+eRa8rSPZwJT3rIWfZnTZs7OV7zXG/AiLWN4G+oGxuMcEFpsg==
+  dependencies:
+    babel-runtime "6.x"
+    classnames "^2.2.5"
+    prop-types "^15.5.4"
+    rc-tooltip "^3.7.0"
+    rc-util "^4.0.4"
+    shallowequal "^1.0.1"
+    warning "^4.0.3"
 
 rc-tooltip@3.7.0:
   version "3.7.0"
@@ -10017,11 +10013,6 @@ rx-lite@*, rx-lite@^4.0.8:
 safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
-
-safe-json-stringify@~1:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/safe-json-stringify/-/safe-json-stringify-1.2.0.tgz#356e44bc98f1f93ce45df14bcd7c01cda86e0afd"
-  integrity sha512-gH8eh2nZudPQO6TytOvbxnuhYBOvDBBLW52tz5q6X58lJcd/tkmqFR+5Z9adS8aJtURSXWThWy/xJtJwixErvg==
 
 safe-regex@^1.1.0:
   version "1.1.0"
@@ -11813,6 +11804,7 @@ vega-statistics@^1.2, vega-statistics@^1.2.1, vega-statistics@^1.2.3:
 vega-tooltip@^0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/vega-tooltip/-/vega-tooltip-0.13.0.tgz#008d06a1c8f94ba3f23f52bb2498661b21dbf5e6"
+  integrity sha512-NbeHzpxwKZ+yk+CION3wRH66rx9XGx5v6M82LT6qSIAnUrH8eh+sFtjK6pO7ErXGF5AieAhg8Hfb/NvC8uNMuA==
   dependencies:
     vega-util "^1.7.0"
 
@@ -12150,6 +12142,23 @@ vizz-wysiwyg@^2.1.1:
     uuid "3.0.1"
     validate.js "^0.12.0"
 
+vizzuality-components@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vizzuality-components/-/vizzuality-components-1.1.0.tgz#80a7908e509772d3d7224178e87d53e48647a51d"
+  integrity sha512-ytrXMbu4bM8lBYCALFbPkl/36CeBVseymNheKttV3I9wpAofW0BCIAg0KNqPRKY4soKJif25ak6XNtdH8a30Iw==
+  dependencies:
+    classnames "^2.2.6"
+    layer-manager "^1.10.0"
+    lodash "^4.17.10"
+    moment "^2.22.2"
+    prop-types "^15.6.2"
+    rc-slider "^8.6.3"
+    rc-tooltip "3.7.0"
+    react-sortable-hoc "^0.6.8"
+    react-vega "^4.0.2"
+    vega-tooltip "^0.13.0"
+    wri-json-api-serializer "^1.0.1"
+
 vm-browserify@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
@@ -12175,6 +12184,13 @@ walk@^2.3.9:
 warning@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
+  dependencies:
+    loose-envify "^1.0.0"
+
+warning@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.3.tgz#16e9e077eb8a86d6af7d64aa1e05fd85b4678ca3"
+  integrity sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==
   dependencies:
     loose-envify "^1.0.0"
 
@@ -12485,23 +12501,6 @@ wri-api-components@2.0.17:
     react-sortable-hoc "^0.6.8"
     react-vega "^4.0.2"
     vega-lib "^4.2.0"
-    wri-json-api-serializer "^1.0.1"
-
-wri-api-components@2.3.3-rw-timeline:
-  version "2.3.3-rw-timeline"
-  resolved "https://registry.yarnpkg.com/wri-api-components/-/wri-api-components-2.3.3-rw-timeline.tgz#3a2e7d4326377b0e926cce53e27b652dbb633d6a"
-  integrity sha512-2P5CXcZzHXmPQLBGp9jSMuqudbwQn6s06PKgMyomK8WE7pnv4DALS5Z+rXUEz1RxxFuC0Dlpw/x5BPXrDCR5aA==
-  dependencies:
-    classnames "^2.2.6"
-    layer-manager "^1.10.0"
-    lodash "^4.17.10"
-    moment "^2.22.2"
-    prop-types "^15.6.2"
-    rc-slider "^8.6.3"
-    rc-tooltip "3.7.0"
-    react-sortable-hoc "^0.6.8"
-    react-vega "^4.0.2"
-    vega-tooltip "^0.13.0"
     wri-json-api-serializer "^1.0.1"
 
 wri-json-api-serializer@1.0.1, wri-json-api-serializer@^1.0.1:
