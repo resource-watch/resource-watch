@@ -1,5 +1,4 @@
-@import 'css/_foundation_settings';
-@import 'css/_settings';
+@import 'css/settings';
 
 .c-layer-container {
   @media screen and (max-width: map-get($breakpoints, medium)) {
@@ -18,6 +17,6 @@
 
     &.-displayed {
       transform: translateY(0);
-    } 
+    }
   }
 }

@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
 import { toastr } from 'react-redux-toastr';
 
-// Components
+// components
 import Icon from 'components/ui/Icon';
 import Spinner from 'components/ui/Spinner';
+
+// styles
+import './styles.scss';
 
 class ShareModalComponent extends PureComponent {
   static propTypes = {

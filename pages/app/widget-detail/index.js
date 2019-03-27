@@ -20,8 +20,7 @@ class WidgetDetailPage extends PureComponent {
     const { dispatch, getState } = store;
     const { routes: { query: { id } } } = getState();
 
-
-    // Fetch widget
+    // fetchs widget
     await dispatch(actions.fetchWidget({ id }));
 
     return {};
@@ -35,9 +34,9 @@ class WidgetDetailPage extends PureComponent {
 
   render() {
     const { widgetDetail } = this.props;
-
     const { data: widget } = widgetDetail;
-    if (widget && !widget.published) return <Error statusCode={404} />;
+
+    if (!widget || !widget.id) return (<Error statusCode={404} />);
 
     return (<WidgetDetail />);
   }
