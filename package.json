@@ -55,6 +55,7 @@
     "passport-google-oauth": "1.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "1.0.4",
+    "pino": "^5.11.3",
     "pluralize": "5.0.0",
     "postcss-easy-import": "2.0.0",
     "postcss-loader": "^3.0.0",
