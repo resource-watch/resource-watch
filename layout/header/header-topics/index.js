@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 // actions
-import * as actions from '../header-actions';
+import { setDropdownOpened } from '../actions';
 
 // selectors
 import { parseTopics } from './selectors';
@@ -14,5 +14,5 @@ export default connect(
     header: state.header,
     topics: parseTopics(state)
   }),
-  actions
+  { setDropdownOpened }
 )(HeaderTopicsComponent);

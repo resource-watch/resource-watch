@@ -36,7 +36,7 @@ import {
   LegendItemToolbar,
   LegendItemButtonInfo,
   LegendItemTypes
-} from 'wri-api-components';
+} from 'vizzuality-components';
 
 class AlertWidget extends React.Component {
   constructor(props) {

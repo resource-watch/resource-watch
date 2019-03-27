@@ -30,7 +30,7 @@ export const getPublishedPartners = createThunkAction('PARTNERS/GET-PUBLISHED-PA
         dispatch(setLoading({ key: 'published', value: false }));
       })
       .catch((err) => {
-        dispatch(setError({ key: 'published', value: err }));
+        dispatch(setError({ key: 'published', value: err.message }));
         dispatch(setLoading({ key: 'published', value: false }));
       });
   });
@@ -46,7 +46,7 @@ export const getAllPartners = createThunkAction('PARTNERS/GET-ALL-PARTNERS',
         dispatch(setLoading({ key: 'all', value: false }));
       })
       .catch((err) => {
-        dispatch(setError({ key: 'all', value: err }));
+        dispatch(setError({ key: 'all', value: err.message }));
         dispatch(setLoading({ key: 'all', value: false }));
       });
   });
@@ -63,7 +63,7 @@ export const getPartner = createThunkAction('PARTNERS/GET-PARTNER',
         dispatch(setLoading({ key: 'detail', value: false }));
       })
       .catch((err) => {
-        dispatch(setError({ key: 'detail', value: err }));
+        dispatch(setError({ key: 'detail', value: err.message }));
         dispatch(setLoading({ key: 'detail', value: false }));
       });
   });
@@ -76,7 +76,7 @@ export const getDatasetsByPartner = createThunkAction('PARTNERS/GET-PARTNER',
 
     return DatasetService.getDatasets(datasetIds, locale, includes)
       .then((response) => { dispatch(setPartner({ key: 'datasetsByPartner', value: WRISerializer({ data: response, locale }) })); })
-      .catch((err) => { dispatch(setError({ key: 'datasetsByPartner', value: err })); });
+      .catch((err) => { dispatch(setError({ key: 'datasetsByPartner', value: err.message })); });
   });
 
 

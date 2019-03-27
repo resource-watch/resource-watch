@@ -122,8 +122,6 @@ class LayoutMyRWDetail extends PureComponent {
       query: { tab, subtab, id }
     } = this.props;
 
-    console.log(this.props);
-
     return (
       <Layout
         title={this.getName()}

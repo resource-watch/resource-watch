@@ -8,7 +8,7 @@
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/rc-slider/assets/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
-@import '../node_modules/wri-api-components/dist/bundle';
+@import '../node_modules/vizzuality-components/dist/bundle';
 
 
 // Editor
@@ -23,8 +23,6 @@
   "layouts/page",
   "layouts/error",
   "layouts/section",
-  "layouts/header",
-  "layouts/header-menu-mobile",
   "layouts/content",
   "layouts/postcontent",
   "layouts/row",
@@ -59,7 +57,6 @@
 @import "./components/ui/read-more";
 @import "./components/ui/related-content";
 @import "./components/ui/search";
-@import "./components/ui/search-list";
 @import "./components/ui/search-input";
 @import "./components/ui/slider-tooltip";
 @import "./components/ui/spinner";

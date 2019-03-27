@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
-import * as actions from '../header-actions';
 
-import HeaderMenuMobileComponent from './component';
+// actions
+import { setMobileOpened } from '../actions';
+
+// component
+import HeaderMenuMobile from './component';
 
 export default connect(
   state => ({
@@ -9,5 +12,5 @@ export default connect(
     user: state.user,
     routes: state.routes
   }),
-  actions
-)(HeaderMenuMobileComponent);
+  { setMobileOpened }
+)(HeaderMenuMobile);

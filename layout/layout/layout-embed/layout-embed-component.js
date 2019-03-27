@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 // Components
 import { Router } from 'routes';
 
-// Wri-api-components
-import { Icons } from 'wri-api-components';
+// vizzuality-components
+import { Icons } from 'vizzuality-components';
 
 import HeadApp from 'layout/head/app';
 import Tooltip from 'components/ui/Tooltip';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { LegendItemTypes } from 'wri-api-components';
+import { LegendItemTypes } from 'vizzuality-components';
 
 // styles
 import './styles.scss';

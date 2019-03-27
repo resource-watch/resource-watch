@@ -1,37 +1,31 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-// Next
 import { Link } from 'routes';
-
 import { toastr } from 'react-redux-toastr';
 
-// Components
+// components
 import Icon from 'components/ui/Icon';
 import SearchMobile from 'layout/header/search-mobile';
 
-export default class HeaderMenuMobile extends React.PureComponent {
+// constants
+import { APP_HEADER_ITEMS } from 'layout/header/constants';
+
+// styles
+import './styles.scss';
+
+class HeaderMenuMobile extends PureComponent {
   static propTypes = {
-    header: PropTypes.object,
-    routes: PropTypes.object,
-    user: PropTypes.object,
-
-    // Actions
-    setMobileOpened: PropTypes.func
-  }
-
-  static defaultProps = {
-    header: {},
-    routes: {},
-    user: {},
-    setMobileOpened: () => {}
+    header: PropTypes.object.isRequired,
+    routes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    setMobileOpened: PropTypes.func.isRequired
   }
 
   componentDidUpdate() {
-    const { header } = this.props;
+    const { header: { mobileOpened } } = this.props;
 
-    document.body.classList.toggle('no-scroll', header.mobileOpened);
+    document.body.classList.toggle('no-scroll', mobileOpened);
   }
 
   /**
@@ -39,30 +33,22 @@ export default class HeaderMenuMobile extends React.PureComponent {
    * - logout
   */
   logout(e) {
-    if (e) {
-      e.preventDefault();
-    }
+    if (e) e.preventDefault();
 
     // Get to logout
-    fetch(`${process.env.CONTROL_TOWER_URL}/auth/logout`, {
-      credentials: 'include'
-    })
-      .then(() => {
-        window.location.href = `/logout?callbackUrl=${window.location.href}`;
-      })
-      .catch((err) => {
-        toastr.error('Error', err);
-      });
+    fetch(`${process.env.CONTROL_TOWER_URL}/auth/logout`, { credentials: 'include' })
+      .then(() => { window.location.href = `/logout?callbackUrl=${window.location.href}`; })
+      .catch((err) => { toastr.error('Error', err); });
   }
 
   render() {
     const {
-      header, routes, user, setMobileOpened
+      header: { mobileOpened },
+      routes: { pathname },
+      user: { role, token },
+      setMobileOpened
     } = this.props;
-
-    const classNames = classnames({
-      '-opened': header.mobileOpened
-    });
+    const classNames = classnames({ '-opened': mobileOpened });
 
     return (
       <div className="c-header-menu-mobile">
@@ -92,24 +78,17 @@ export default class HeaderMenuMobile extends React.PureComponent {
             <SearchMobile />
 
             <ul>
-              {header.items.map((item) => {
-                const isUserLogged = !!user.token;
-                const isUserAdmin = isUserLogged && user.role === 'ADMIN';
+              {APP_HEADER_ITEMS.map((item) => {
+                const isUserLogged = !!token;
+                const isUserAdmin = isUserLogged && role === 'ADMIN';
 
                 // If user is defined and is not equal to the current token
-                if (typeof item.user !== 'undefined' && item.user !== isUserLogged) {
-                  return null;
-                }
+                if (typeof item.user !== 'undefined' && item.user !== isUserLogged) return null;
 
                 // If admin user is defined and is not equal to the current token
-                if (typeof item.admin !== 'undefined' && item.admin !== isUserAdmin) {
-                  return null;
-                }
+                if (typeof item.admin !== 'undefined' && item.admin !== isUserAdmin) return null;
 
-
-                const activeClassName = classnames({
-                  '-active': item.pathnames && item.pathnames.includes(routes.pathname)
-                });
+                const activeClassName = classnames({ '-active': item.pathnames && item.pathnames.includes(pathname) });
 
                 return (
                   <li
@@ -137,10 +116,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
                       </h2>
                     }
 
-                    {!item.route && !item.href &&
-                      <h2>{item.label}</h2>
-                    }
-
+                    {!item.route && !item.href && (<h2>{item.label}</h2>)}
 
                     {item.children &&
                       <ul>
@@ -167,9 +143,7 @@ export default class HeaderMenuMobile extends React.PureComponent {
                               }
 
                               {!!c.href &&
-                                <a
-                                  href={c.href}
-                                >
+                                <a href={c.href}>
                                   {c.label}
                                 </a>
                               }
@@ -197,3 +171,5 @@ export default class HeaderMenuMobile extends React.PureComponent {
     );
   }
 }
+
+export default HeaderMenuMobile;
