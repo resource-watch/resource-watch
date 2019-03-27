@@ -26,13 +26,15 @@ class EmbedWidgetPage extends PureComponent {
     user: PropTypes.object.isRequired,
     webshot: PropTypes.bool.isRequired,
     referer: PropTypes.string,
-    setIfFavorited: PropTypes.func.isRequired
+    setIfFavorited: PropTypes.func.isRequired,
+    thumbnailUrl: PropTypes.string.isRequired
   };
 
   static defaultProps = {
     bandDescription: null,
     error: null,
-    referer: ''
+    referer: '',
+    thumbnailUrl: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
 
   state = {
@@ -52,7 +54,6 @@ class EmbedWidgetPage extends PureComponent {
       <div className="widget-modal">
         {noAdditionalInfo &&
           <p>No additional information is available</p>}
-
         {widgetLinks.length > 0 &&
           <div className="widget-links-container">
             <h4>Links</h4>
@@ -71,7 +72,6 @@ class EmbedWidgetPage extends PureComponent {
             </ul>
           </div>
         }
-
         {widget.description && (
           <div>
             <h4>Description</h4>
@@ -172,6 +172,7 @@ class EmbedWidgetPage extends PureComponent {
       <LayoutEmbed
         title={`${widget.name}`}
         description={`${widget.description || ''}`}
+        thumbnailUrl={`${widget.thumbnailUrl}` ? `${widget.thumbnailUrl}` : {thumbnailUrl}}
       >
         <div className="c-embed-widget">
           {!webshot && (

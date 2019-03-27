@@ -12,12 +12,14 @@ class HeadApp extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
+    thumbailUrl: PropTypes.string,
     routes: PropTypes.object.isRequired
   };
 
   static defaultProps = {
     title: null,
-    description: null
+    description: null,
+    thumbnailUrl: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
 
   getCrazyEgg() {
@@ -90,15 +92,20 @@ class HeadApp extends PureComponent {
   render() {
     const {
       title,
-      description
+      description,
+      thumbnailUrl
     } = this.props;
-
     return (
       <HeadNext>
         <title>{title ? `${title} | Resource Watch` : 'Resource Watch'}</title>
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
+        <meta property="fb:app_id" content="Resource Watch" />
+        <meta name="twitter:site" content="@resource_watch" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="og:image:url" content={thumbnailUrl} />
+        <meta name="og:image:alt" content={`${title}_widget`} />
 
         {this.getCesium()}
         {this.getCrazyEgg()}
