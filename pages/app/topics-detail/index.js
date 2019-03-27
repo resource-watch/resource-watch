@@ -21,7 +21,7 @@ class TopicDetailPage extends PureComponent {
     const { dispatch, getState } = store;
     const { routes: { query: { id } } } = getState();
 
-    // fetchs topic
+    // fetches topic
     if (id) await dispatch(getTopic(id));
 
     // sets current topic in thumbnail list
