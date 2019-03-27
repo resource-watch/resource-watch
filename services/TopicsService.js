@@ -214,7 +214,6 @@ export const updateTopic = (id, body, token) =>
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) {
-        // console.warn(`updates topic: ${id}:`, statusText);
         throw new Error(statusText);
       }
       return WRISerializer(data);

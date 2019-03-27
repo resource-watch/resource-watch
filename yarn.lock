@@ -12142,10 +12142,10 @@ vizz-wysiwyg@^2.1.1:
     uuid "3.0.1"
     validate.js "^0.12.0"
 
-vizzuality-components@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/vizzuality-components/-/vizzuality-components-1.1.0.tgz#80a7908e509772d3d7224178e87d53e48647a51d"
-  integrity sha512-ytrXMbu4bM8lBYCALFbPkl/36CeBVseymNheKttV3I9wpAofW0BCIAg0KNqPRKY4soKJif25ak6XNtdH8a30Iw==
+vizzuality-components@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vizzuality-components/-/vizzuality-components-1.1.1.tgz#9fb1ede4dc1bbc97c2e095b3c3afa7f0fd12b48d"
+  integrity sha512-cdDv2BxR4UuOPHZjanBHolzENGz+03R6Z8HwyuAYLVOTLu3ltpmWQ3GFiWeUVF6eh69SM2IvcIjU4Jmns0Ij5A==
   dependencies:
     classnames "^2.2.6"
     layer-manager "^1.10.0"

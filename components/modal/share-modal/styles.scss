@@ -1,3 +1,5 @@
+@import 'css/settings';
+
 .c-share-modal {
   .share-input-container {
     position: relative;
@@ -20,18 +22,17 @@
       }
     }
 
-
     .share-input {
-      border: none;
       flex-grow: 1;
-      height: 45px;
-      max-width: 300px;
-      min-width: 250px;
-      border: 1px solid $border-color-1;
-      border-radius: 4px;
+      overflow: hidden;
       width: 100%;
+      height: 45px;
       padding: 0 15px;
       margin-bottom: 10px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      border: 1px solid $border-color-1;
+      border-radius: 4px;
 
       @media screen and (min-width: map-get($breakpoints, medium)) {
         border: 0;
