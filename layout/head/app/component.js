@@ -12,7 +12,7 @@ class HeadApp extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
-    thumbailUrl: PropTypes.string,
+    thumbnailUrl: PropTypes.string,
     routes: PropTypes.object.isRequired
   };
 
@@ -101,11 +101,11 @@ class HeadApp extends PureComponent {
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
+        <meta name="og:image:url" content={thumbnailUrl} />
+        <meta name="og:image:alt" content={`${title}_widget`} />
         <meta property="fb:app_id" content="Resource Watch" />
         <meta name="twitter:site" content="@resource_watch" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="og:image:url" content={thumbnailUrl} />
-        <meta name="og:image:alt" content={`${title}_widget`} />
 
         {this.getCesium()}
         {this.getCrazyEgg()}

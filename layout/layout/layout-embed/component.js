@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -10,16 +10,18 @@ import { Icons } from 'vizzuality-components';
 import HeadApp from 'layout/head/app';
 import Tooltip from 'components/ui/Tooltip';
 
-class LayoutEmbed extends React.Component {
+class LayoutEmbed extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    thumbnailUrl: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    thumbnailUrl: PropTypes.string.isRequired,
     className: PropTypes.string,
-    toggleTooltip: PropTypes.func,
-    updateIsLoading: PropTypes.func
+    toggleTooltip: PropTypes.func.isRequired,
+    updateIsLoading: PropTypes.func.isRequired
   };
+
+  static defaultProps = { className: null }
 
   componentWillMount() {
     // When a tooltip is shown and the router navigates to
