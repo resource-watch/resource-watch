@@ -26,8 +26,7 @@ class Navigation extends React.Component {
 
   onBack(e) {
     e.preventDefault();
-
-    window.history.back();
+    window.history.go(-1);
   }
 
   render() {
