@@ -52,7 +52,6 @@ class EmbedWidgetPage extends PureComponent {
       <div className="widget-modal">
         {noAdditionalInfo &&
           <p>No additional information is available</p>}
-
         {widgetLinks.length > 0 &&
           <div className="widget-links-container">
             <h4>Links</h4>
@@ -71,7 +70,6 @@ class EmbedWidgetPage extends PureComponent {
             </ul>
           </div>
         }
-
         {widget.description && (
           <div>
             <h4>Description</h4>
@@ -170,8 +168,9 @@ class EmbedWidgetPage extends PureComponent {
 
     return (
       <LayoutEmbed
-        title={`${widget.name}`}
+        title={widget.name}
         description={`${widget.description || ''}`}
+        {...widget.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl }}
       >
         <div className="c-embed-widget">
           {!webshot && (

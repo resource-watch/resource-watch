@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Components
+// components
 import { Router } from 'routes';
 
 // vizzuality-components
@@ -10,19 +10,24 @@ import { Icons } from 'vizzuality-components';
 import HeadApp from 'layout/head/app';
 import Tooltip from 'components/ui/Tooltip';
 
-class LayoutEmbed extends React.Component {
+class LayoutEmbed extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    title: PropTypes.string,
-    description: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    thumbnailUrl: PropTypes.string,
     className: PropTypes.string,
-    // Store
-    toggleTooltip: PropTypes.func,
-    updateIsLoading: PropTypes.func
+    toggleTooltip: PropTypes.func.isRequired,
+    updateIsLoading: PropTypes.func.isRequired
   };
 
+  static defaultProps = {
+    thumbnailUrl: null,
+    className: null
+  }
+
   componentWillMount() {
-    // When a tooltip is shown and the router navigates to a
+    // When a tooltip is shown and the router navigates to
     // another page, the tooltip stays in place because it is
     // managed in Redux
     // The way we prevent this is by listening to the router
@@ -45,13 +50,13 @@ class LayoutEmbed extends React.Component {
   }
 
   render() {
-    const { title, description, className } = this.props;
-
+    const { title, description, className, thumbnailUrl } = this.props;
     return (
       <div className={`l-page ${className}`}>
         <HeadApp
           title={title}
           description={description}
+          thumbnailUrl={thumbnailUrl}
         />
 
         <Icons />
