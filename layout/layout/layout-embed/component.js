@@ -15,13 +15,16 @@ class LayoutEmbed extends PureComponent {
     children: PropTypes.node.isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    thumbnailUrl: PropTypes.string.isRequired,
+    thumbnailUrl: PropTypes.string,
     className: PropTypes.string,
     toggleTooltip: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired
   };
 
-  static defaultProps = { className: null }
+  static defaultProps = {
+    thumbnailUrl: null,
+    className: null
+  }
 
   componentWillMount() {
     // When a tooltip is shown and the router navigates to
