@@ -115,7 +115,8 @@ class EmbedMapPage extends PureComponent {
       description,
       dataset,
       widgetConfig,
-      id
+      id,
+      thumbnailUrl
     } = widget;
 
     if (loading) {
@@ -123,6 +124,7 @@ class EmbedMapPage extends PureComponent {
         <LayoutEmbed
           title="Loading widget..."
           description=""
+
         >
           <div className="c-embed-widget -map">
             <Spinner isLoading={loading} className="-light" />
@@ -163,7 +165,7 @@ class EmbedMapPage extends PureComponent {
     }
 
 
-    // Widget loaded
+    // widget loaded
     const basemap = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.basemap) ? widgetConfig.basemapLayers.basemap : 'dark';
     const label = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.labels) ? widgetConfig.basemapLayers.labels : 'light';
 
@@ -171,6 +173,7 @@ class EmbedMapPage extends PureComponent {
       <LayoutEmbed
         title={`${name}`}
         description={`${description || ''}`}
+        {...thumbnailUrl && { thumbnailUrl }}
       >
         <div className="c-embed-widget -map">
           {!webshot && (
