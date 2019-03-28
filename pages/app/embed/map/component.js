@@ -171,7 +171,7 @@ class EmbedMapPage extends PureComponent {
 
     return (
       <LayoutEmbed
-        title={`${name}`}
+        title={name}
         description={`${description || ''}`}
         {...thumbnailUrl && { thumbnailUrl }}
       >
