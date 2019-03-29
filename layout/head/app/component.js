@@ -99,11 +99,10 @@ class HeadApp extends PureComponent {
       <HeadNext>
         <title>{title ? `${title} | Resource Watch` : 'Resource Watch'}</title>
 
-        <meta property="og:image" content="https://resourcewatch.org/static/images/social-big.jpg" />
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta name="og:image:url" content={thumbnailUrl} />
+        <meta name="og:image" content={thumbnailUrl} />
         <meta name="og:image:alt" content={`${title}_widget`} />
 
         {this.getCesium()}
