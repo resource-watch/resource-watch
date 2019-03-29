@@ -23,9 +23,9 @@ class TopicsLayout extends PureComponent {
 
     return (
       <Layout
-        title="Topics — Resource Watch"
+        title="Dashboards — Resource Watch"
         description="The latest facts and figures on cities, energy, food and more."
-        className="l-static p-topics"
+        className="l-static c-page-dashboards"
       >
         <div className="l-content">
           <div className="l-content-header">
@@ -33,7 +33,7 @@ class TopicsLayout extends PureComponent {
               <div className="row">
                 <div className="column small-12">
                   <div className="content">
-                    <h1>{data.title || 'Topics'}</h1>
+                    <h1>{data.title || 'Dashboards'}</h1>
                     <p>{data.summary || ''}</p>
                   </div>
                 </div>
@@ -44,6 +44,11 @@ class TopicsLayout extends PureComponent {
 
         <div className="l-section -small">
           <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <h2>Featured dashboards</h2>
+              </div>
+            </div>
             <div className="row">
               <div className="column small-12">
                 <TopicThumbnailList
@@ -57,8 +62,14 @@ class TopicsLayout extends PureComponent {
                 />
               </div>
             </div>
+            <div className="row">
+              <div className="column small-12">
+                <h2>Dashboards gallery</h2>
+              </div>
+            </div>
           </div>
         </div>
+
         <aside className="l-postcontent">
           <div className="l-container">
             <div className="row align-center">

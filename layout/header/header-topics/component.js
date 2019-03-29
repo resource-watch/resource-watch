@@ -35,7 +35,7 @@ class HeaderTopics extends PureComponent {
             onMouseEnter={() => this.toggleDropdown(true)}
             onMouseLeave={() => this.toggleDropdown(false)}
           >
-            Topics
+            Dashboards
           </a>
         </Link>
         {/* second child: if present, this item will be tethered to the the first child */}
