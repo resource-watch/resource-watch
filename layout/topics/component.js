@@ -5,6 +5,7 @@ import { Router } from 'routes';
 // components
 import Layout from 'layout/layout/layout-app';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
+import TopicThumbnail from 'components/topics/thumbnail';
 import Banner from 'components/app/common/Banner';
 import LoginRequired from 'components/ui/login-required';
 
@@ -65,6 +66,32 @@ class TopicsLayout extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 <h2>Dashboards gallery</h2>
+              </div>
+            </div>
+            <div className="row">
+              <div className="column small-12">
+                {
+                  // IMPORTANT!! THIS IS A TEMPORAL FIX!!!
+                }
+                <TopicThumbnail
+                  topic={{
+                    slug: 'land-use-and-land-cover-change',
+                    name: 'Land Use and Land Cover Change',
+                    photo: {
+                      cover: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/topics/photos/000/000/028/cover/data?1550869295',
+                      thumb: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/topics/photos/000/000/028/thumb/data?1550869295',
+                      medium: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/topics/photos/000/000/028/medium/data?1550869295',
+                      original: 'https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/topics/photos/000/000/028/original/data?1550869295'
+                    }
+                  }}
+                  onSelect={({ slug }) => {
+                    // We need to make an amendment in the Wysiwyg to have this working
+                    Router.pushRoute('dashboards_detail', { id: slug })
+                      .then(() => {
+                        window.scrollTo(0, 0);
+                      });
+                  }}
+                />
               </div>
             </div>
           </div>
