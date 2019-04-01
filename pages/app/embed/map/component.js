@@ -58,7 +58,6 @@ class EmbedMapPage extends PureComponent {
       user
     } = this.props;
     const { query } = url;
-
     getWidget(query.id);
     if (user && user.id) this.props.checkIfFavorited(query.id);
   }
@@ -78,6 +77,7 @@ class EmbedMapPage extends PureComponent {
   getModal() {
     const { widget } = this.props;
     const { description } = widget;
+
 
     return (
       <div className="widget-modal">

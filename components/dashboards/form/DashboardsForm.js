@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
+import { Router } from 'routes';
+
 
 // components
 import Navigation from 'components/form/Navigation';
@@ -121,6 +123,10 @@ class DashboardsForm extends PureComponent {
 
   onStepChange = (step) => { this.setState({ step }); }
 
+  onCancel = () => {
+    Router.pushRoute('myrw-detail', { tab: 'dashboards' });
+  }
+
   // HELPERS
   setFormFromParams(params) {
     const newForm = {};
@@ -183,6 +189,7 @@ class DashboardsForm extends PureComponent {
             stepLength={stepLength}
             submitting={submitting}
             onStepChange={this.onStepChange}
+            cancel={this.onCancel}
           />
         }
       </form>
