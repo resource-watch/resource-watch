@@ -38,11 +38,10 @@ class Navigation extends React.Component {
   }
 
   onBack(e) {
-    const { cancel } = this.props;
-    e.preventDefault();
-    if (!cancel) {
-      window.history.go(-1);
-    }
+    const { onBack } = this.props;
+    if (onBack) return onBack();
+
+    window.history.goBack();
   }
 
   render() {
