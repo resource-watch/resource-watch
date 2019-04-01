@@ -14,6 +14,7 @@ import { setEmbed, setWebshotMode } from 'redactions/common';
 import EmbedMapPage from './component';
 
 class EmbedMapPageContainer extends PureComponent {
+
   static async getInitialProps({ store, isServer, req }) {
     const { dispatch, getState } = store;
     const { routes: { query: { webshot } } } = getState();
@@ -21,9 +22,9 @@ class EmbedMapPageContainer extends PureComponent {
 
     dispatch(setEmbed(true));
     if (webshot) dispatch(setWebshotMode(true));
-
     return { referer };
   }
+
 
   render() {
     return (<EmbedMapPage {...this.props} />);

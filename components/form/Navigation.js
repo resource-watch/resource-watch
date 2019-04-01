@@ -6,6 +6,19 @@ import Button from 'components/ui/Button';
 import Spinner from 'components/ui/Spinner';
 
 class Navigation extends React.Component {
+  static propTypes = {
+    step: PropTypes.number.isRequired,
+    stepLength: PropTypes.number.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    hideCancel: PropTypes.bool,
+    onStepChange: PropTypes.func.isRequired,
+    cancel: PropTypes.func
+  }
+
+  static defaultProps = {
+    hideCancel: false,
+    cancel: null
+  }
   constructor(props) {
     super(props);
 
@@ -25,18 +38,17 @@ class Navigation extends React.Component {
   }
 
   onBack(e) {
+    const { cancel } = this.props;
     e.preventDefault();
-    window.history.go(-1);
+    if (!cancel) {
+      window.history.go(-1);
+    }
   }
 
   render() {
-    const {
-      step, stepLength, submitting, hideCancel
-    } = this.props;
+    const { step, stepLength, submitting, hideCancel } = this.props;
 
-    const submittingClassName = classnames({
-      '-submitting': submitting
-    });
+    const submittingClassName = classnames({ '-submitting': submitting });
 
     return (
       <ul className="c-field-buttons">
@@ -101,13 +113,5 @@ class Navigation extends React.Component {
     );
   }
 }
-
-Navigation.propTypes = {
-  step: PropTypes.number,
-  stepLength: PropTypes.number,
-  submitting: PropTypes.bool,
-  hideCancel: PropTypes.bool,
-  onStepChange: PropTypes.func
-};
 
 export default Navigation;
