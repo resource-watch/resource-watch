@@ -124,7 +124,7 @@ class DashboardsForm extends PureComponent {
   onStepChange = (step) => { this.setState({ step }); }
 
   onCancel = () => {
-    Router.pushRoute('myrw-detail', { tab: 'dashboards' });
+    Router.pushRoute('myrw_detail', { tab: 'dashboards', id: 'new' });
   }
 
   // HELPERS
@@ -189,7 +189,7 @@ class DashboardsForm extends PureComponent {
             stepLength={stepLength}
             submitting={submitting}
             onStepChange={this.onStepChange}
-            cancel={this.onCancel}
+            onBack={this.onCancel}
           />
         }
       </form>
