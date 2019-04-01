@@ -163,7 +163,7 @@ export const fetchTopic = (id) => {
       const { status, statusText, data } = response;
       if (status >= 300) {
         if (status === 404) {
-          logger.debug(`Topic '${id}' not found, ${status}: ${statusText}`);
+          logger.debug(`${status}: topics with id: ${id} not found`);
         } else {
           logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
         }
