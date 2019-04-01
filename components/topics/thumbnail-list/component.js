@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import TopicThumbnail from 'components/topics/thumbnail/component';
 
 class TopicThumbnailList extends PureComponent {
