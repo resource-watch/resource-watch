@@ -2,7 +2,11 @@ import 'isomorphic-fetch';
 import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
 import { get, post, remove } from 'utils/request';
+import WRISerializer from 'wri-json-api-serializer';
 
+// utils
+import { WRIAPI } from 'utils/axios';
+import { logger } from 'utils/logs';
 
 export default class LayersService {
   constructor(options = {}) {
@@ -129,9 +133,7 @@ export default class LayersService {
     });
   }
 
-  saveData({
-    type, body, id, dataset
-  }) {
+  saveData({ type, body, id, dataset }) {
     return new Promise((resolve, reject) => {
       post({
         url: `${process.env.WRI_API_URL}/dataset/${dataset}/layer/${id}`,
@@ -175,3 +177,45 @@ export default class LayersService {
     });
   }
 }
+
+/**
+ * Fetches a layer according to widget id and params.
+ *
+ * @param {String} id - widget id.
+ * @param {Object[]} params - params sent to the API.
+ * @returns {Object[]} array of serialized topics.
+ */
+
+export const fetchLayer = (id, params = {}) => {
+  if (!id) throw Error('layer id is mandatory to perform this fetching.');
+  logger.info(`'Fetching layer id (${id}) '`);
+  return WRIAPI.get(`/layer/${id}`, {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      // TO-DO: forces the API to not cache, this should be removed at some point
+      'Upgrade-Insecure-Requests': 1
+    },
+    params: {
+      application: process.env.APPLICATIONS,
+      ...params
+    },
+    transformResponse: [].concat(
+      WRIAPI.defaults.transformResponse,
+      ({ data }) => data
+    )
+  }).then((response) => {
+    const { status, statusText, data } = response;
+    logger.debug(`Widget layer fetch returned with code ${status}`);
+
+    if (status >= 300) {
+      logger.error('Error fetching layer:', `${status}: ${statusText}`);
+      throw new Error(statusText);
+    }
+    return WRISerializer({ data });
+  }).catch(({ response }) => {
+    const { status, statusText } = response;
+    logger.error('Error fetching layer:', `${status}: ${statusText}`);
+    return WRISerializer({});
+  });
+};
+
