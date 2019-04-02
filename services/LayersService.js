@@ -76,33 +76,6 @@ export default class LayersService {
     });
   }
 
-  fetchData({ id }) {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/layer/${id}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }, {
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: (response) => {
-          resolve({
-            ...response.data.attributes,
-            id: response.data.id
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
   getColumns({ dataset }) {
     return new Promise((resolve, reject) => {
       get({
