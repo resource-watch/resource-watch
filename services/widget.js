@@ -3,7 +3,6 @@ import WRISerializer from 'wri-json-api-serializer';
 
 export const fetchWidget = (id, params = {}) => {
   if (!id) throw Error('widget id is mandatory to perform this fetching.');
-
   return WRIAPI.get(`/widget/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,

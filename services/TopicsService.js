@@ -125,7 +125,7 @@ export default class TopicsService {
  */
 export const fetchTopics = (params = {}) => {
   logger.info('Fetching topics');
-  
+
   return WRIAPI.get('/topic', {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -172,7 +172,7 @@ export const fetchTopic = id => {
       return WRISerializer({});
     });
 }
-  
+
 
 /**
  * Creates a topic with the provided data.
