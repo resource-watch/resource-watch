@@ -4,7 +4,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 
 // Services
-import LayersService from 'services/LayersService';
+import fetchLayer from 'services/LayersService';
 
 export const setContextLayers = createAction('layer-pill/setContextLayers');
 export const setContextActiveLayers = createAction('layer-pill/setContextActiveLayers');
@@ -24,8 +24,7 @@ export const toggleContextualLayer = createThunkAction('layer-pill/toggleContext
 
     if (!layerFound) {
       dispatch(setContextLayersLoading(true));
-      const layersService = new LayersService();
-      await layersService.fetchData({ id })
+      await dispatch(fetchLayer({ id }))
         .then((response) => {
           const manager = new LayerGlobeManager();
           manager.addLayer(
