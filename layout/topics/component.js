@@ -12,7 +12,7 @@ import LoginRequired from 'components/ui/login-required';
 class TopicsLayout extends PureComponent {
   static propTypes = { data: PropTypes.object }
 
-  static defaultProps = { data: {} }
+  static defaultProps = { data: {} };
 
   render() {
     const { data } = this.props;
@@ -85,11 +85,9 @@ class TopicsLayout extends PureComponent {
                     }
                   }}
                   onSelect={({ slug }) => {
-                    // We need to make an amendment in the Wysiwyg to have this working
-                    Router.pushRoute('dashboards_detail', { id: slug })
-                      .then(() => {
-                        window.scrollTo(0, 0);
-                      });
+                    // There was an issue when using Router.push instead
+                    // TO-DO this needs to be updated so that Router is used instead.
+                    window.location = `/data/dashboards/${slug}`;
                   }}
                 />
               </div>
