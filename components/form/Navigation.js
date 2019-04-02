@@ -1,23 +1,23 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import Button from 'components/ui/Button';
 import Spinner from 'components/ui/Spinner';
 
-class Navigation extends React.Component {
+class Navigation extends PureComponent {
   static propTypes = {
     step: PropTypes.number.isRequired,
     stepLength: PropTypes.number.isRequired,
     submitting: PropTypes.bool.isRequired,
     hideCancel: PropTypes.bool,
     onStepChange: PropTypes.func.isRequired,
-    cancel: PropTypes.func
+    onBack: PropTypes.func
   }
 
   static defaultProps = {
     hideCancel: false,
-    cancel: null
+    onBack: null
   }
   constructor(props) {
     super(props);
@@ -38,10 +38,11 @@ class Navigation extends React.Component {
   }
 
   onBack(e) {
+    e.preventDefault();
     const { onBack } = this.props;
     if (onBack) return onBack();
 
-    window.history.goBack();
+    return window.history.go(-1);
   }
 
   render() {
