@@ -4,6 +4,9 @@ import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from 'store';
 
+// es6 shim for .finally() in promises
+import finallyShim from 'promise.prototype.finally';
+
 // actions
 import { setRouter } from 'redactions/routes';
 import {
@@ -23,6 +26,9 @@ import {
 
 // app styles
 import 'css/index.scss';
+
+
+finallyShim.shim();
 
 class RWApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
