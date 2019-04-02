@@ -87,7 +87,7 @@ class TopicsLayout extends PureComponent {
                   onSelect={({ slug }) => {
                     // There was an issue when using Router.push instead
                     // TO-DO this needs to be updated so that Router is used instead.
-                    window.location = `/data/dashboards/${slug}`;
+                    window.location = `/data/dashboards/${slug}?goTo=topics`;
                   }}
                 />
               </div>
