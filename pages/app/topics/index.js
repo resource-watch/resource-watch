@@ -10,7 +10,7 @@ class TopicsPage extends PureComponent {
   static async getInitialProps({ store }) {
     const { dispatch } = store;
 
-    await dispatch(getStaticPage('topics'));
+    await dispatch(getStaticPage('dashboards'));
 
     return {};
   }

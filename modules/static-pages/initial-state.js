@@ -10,5 +10,6 @@ export default {
   'join-community': {},
   'submit-an-insight': {},
   'terms-of-service': {},
-  topics: {}
+  topics: {},
+  dashboards: {}
 };
