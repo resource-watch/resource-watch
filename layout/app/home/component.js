@@ -119,7 +119,7 @@ class LayoutHome extends PureComponent {
             <header>
               <div className="row">
                 <div className="column small-12 medium-8">
-                  <h2>Topics</h2>
+                  <h2>Dashboards</h2>
                   <p>
                     Find facts and figures on people and the environment, <br />
                     or visualize the latest data on the world today.
