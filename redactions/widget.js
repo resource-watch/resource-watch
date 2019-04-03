@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 // Services
 import DatasetService from 'services/DatasetService';
 import RasterService from 'services/RasterService';
-import { fetchLayer as getLayer } from 'services/LayersService';
+import { fetchLayer } from 'services/LayersService';
 import UserService from 'services/UserService';
 import { fetchWidget } from 'services/widget';
 
@@ -185,8 +185,8 @@ function fetchRasterBandInfo(datasetId, bandName) {
  * @param {string} datasetId Dataset ID
  * @param {string} layerId Layer ID
  */
-function fetchLayer(datasetId, layerId) {
-  return dispatch => getLayer(layerId)
+function getLayer(datasetId, layerId) {
+  return dispatch => fetchLayer(layerId)
     .then((layer) => {
       const layerGroups = [{
         dataset: datasetId,
@@ -240,7 +240,7 @@ export function getWidget(widgetId, params = {}) {
           if (zoom) dispatch(setZoom(zoom));
           if (latLng) dispatch(setLatLng(latLng));
 
-          return dispatch(fetchLayer(datasetId, layerId));
+          return dispatch(getLayer(datasetId, layerId));
         }
 
         dispatch({ type: SET_WIDGET_SUCCESS });

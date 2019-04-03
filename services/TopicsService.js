@@ -143,7 +143,7 @@ export const fetchTopics = (params = {}) => {
     }
     return WRISerializer(data);
   }).catch(({ response }) => {
-    const { status, statusText } = response
+    const { status, statusText } = response;
     logger.error('Error fetching topics:', `${status}: ${statusText}`);
     return WRISerializer({});
   });
