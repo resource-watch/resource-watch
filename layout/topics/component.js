@@ -95,30 +95,28 @@ class TopicsLayout extends PureComponent {
           </div>
         </div>
 
-        <aside className="l-postcontent">
-          <div className="l-container">
-            <div className="row align-center">
-              <div className="column small-12">
-                <Banner
-                  className="-text-center"
-                  bgImage="static/images/pages/app/dashboards-bg@2x.jpg"
-                >
-                  <p className="-claim">
-                  Create and share custom visualizations <br /> using our collections of datasets.
-                  </p>
-                  <LoginRequired text="Log in to create a dashboard">
-                    <a
-                      href="/myrw/dashboards"
-                      className="c-button -alt -primary"
-                    >
-                      Create your dashboard
-                    </a>
-                  </LoginRequired>
-                </Banner>
-              </div>
+        <div className="l-container create-dashboard-banner">
+          <div className="row align-center">
+            <div className="column small-12">
+              <Banner
+                className="-text-center"
+                bgImage="static/images/pages/app/dashboards-bg@2x.jpg"
+              >
+                <p className="-claim">
+                Create and share custom visualizations <br /> using our collections of datasets.
+                </p>
+                <LoginRequired text="Log in to create a dashboard">
+                  <a
+                    href="/myrw/dashboards"
+                    className="c-button -alt -primary"
+                  >
+                    Create your dashboard
+                  </a>
+                </LoginRequired>
+              </Banner>
             </div>
           </div>
-        </aside>
+        </div>
       </Layout>
     );
   }
