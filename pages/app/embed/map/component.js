@@ -72,7 +72,7 @@ class EmbedMapPage extends PureComponent {
   }
 
   getModal() {
-    const { widget: description } = this.props;
+    const { widget: { description } } = this.props;
 
 
     return (
