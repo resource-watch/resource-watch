@@ -99,16 +99,19 @@ class TopicsLayout extends PureComponent {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
-                <Banner className="-text-center">
+                <Banner
+                  className="-text-center"
+                  bgImage="static/images/pages/app/dashboards-bg@2x.jpg"
+                >
                   <p className="-claim">
-                    Create and share <br />custom visualizations.
+                  Create and share custom visualizations <br /> using our collections of datasets.
                   </p>
                   <LoginRequired text="Log in to create a dashboard">
                     <a
                       href="/myrw/dashboards"
                       className="c-button -alt -primary"
                     >
-                      Create a dashboard
+                      Create your dashboard
                     </a>
                   </LoginRequired>
                 </Banner>
