@@ -17,6 +17,8 @@
 .next
 .yalc
 /build
+# Images added at build time
+static/images/widget-editor
 
 # Next files
 .next

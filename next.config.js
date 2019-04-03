@@ -1,7 +1,9 @@
 require('dotenv').load();
 
+const path = require('path');
 const webpack = require('webpack');
 const withSass = require('@zeit/next-sass');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = withSass({
   useFileSystemPublicRoutes: false,
@@ -35,6 +37,16 @@ module.exports = withSass({
         'process.env.BITLY_TOKEN': JSON.stringify(process.env.BITLY_TOKEN),
         'process.env.PARDOT_NEWSLETTER_URL': JSON.stringify(process.env.PARDOT_NEWSLETTER_URL)
       })
+    );
+
+    // Copy the images of the widget-editor
+    config.plugins.push(
+      new CopyWebpackPlugin([
+        {
+          from: path.join(__dirname, 'node_modules/widget-editor/dist/images'),
+          to: path.join(__dirname, 'static/images/widget-editor/')
+        }
+      ])
     );
 
     return config;
