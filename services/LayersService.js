@@ -154,9 +154,9 @@ export default class LayersService {
 /**
  * Fetches a layer according to widget id and params.
  *
- * @param {String} id - widget id.
+ * @param {String} id - layer id.
  * @param {Object[]} params - params sent to the API.
- * @returns {Object[]} array of serialized topics.
+ * @returns {Object[]} - serialized specific layer.
  */
 
 export const fetchLayer = (id, params = {}) => {
@@ -179,7 +179,9 @@ export const fetchLayer = (id, params = {}) => {
   }).then((response) => {
     const { status, statusText, data } = response;
     logger.debug(`Widget layer fetch returned with code ${status}`);
-
+    if (status === 404) {
+      logger.debug(`Layer corresponding to id: ${id} not found, ${status}: ${statusText}`);
+    }
     if (status >= 300) {
       logger.error('Error fetching layer:', `${status}: ${statusText}`);
       throw new Error(statusText);
