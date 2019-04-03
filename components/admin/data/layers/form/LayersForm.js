@@ -67,7 +67,7 @@ class LayersForm extends React.Component {
 
     // Add the dashboard promise if the id exists
     if (id) {
-      promises.push(fetchLayer(id));
+      promises.push(fetchLayer({ id }));
     }
 
     Promise.all(promises)
