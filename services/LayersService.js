@@ -178,11 +178,13 @@ export const fetchLayer = (id, params = {}) => {
     )
   }).then((response) => {
     const { status, statusText, data } = response;
-    if (status === 404) {
-      logger.debug(`Layer corresponding to id: ${id} not found, ${status}: ${statusText}`);
-    }
+
     if (status >= 300) {
-      logger.error('Error fetching layer:', `${status}: ${statusText}`);
+      if (status === 404) {
+        logger.debug(`Layer '${id}' not found, ${status}: ${statusText}`);
+      } else {
+        logger.error('Error fetching layer:', `${status}: ${statusText}`);
+      }
       throw new Error(statusText);
     }
     return WRISerializer({ data });
