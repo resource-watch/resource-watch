@@ -24,7 +24,7 @@ export const toggleContextualLayer = createThunkAction('layer-pill/toggleContext
 
     if (!layerFound) {
       dispatch(setContextLayersLoading(true));
-      await dispatch(fetchLayer(id))
+      await fetchLayer(id)
         .then((response) => {
           const manager = new LayerGlobeManager();
           manager.addLayer(

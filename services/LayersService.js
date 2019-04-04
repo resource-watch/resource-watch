@@ -178,7 +178,6 @@ export const fetchLayer = (id, params = {}) => {
     )
   }).then((response) => {
     const { status, statusText, data } = response;
-    logger.debug(`Widget layer fetch returned with code ${status}`);
     if (status === 404) {
       logger.debug(`Layer corresponding to id: ${id} not found, ${status}: ${statusText}`);
     }
