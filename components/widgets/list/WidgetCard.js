@@ -41,7 +41,7 @@ import LoginRequired from 'components/ui/login-required';
 // Services
 import WidgetService from 'services/WidgetService';
 import UserService from 'services/UserService';
-import LayersService from 'services/LayersService';
+import { fetchLayer } from 'services/LayersService';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -155,10 +155,7 @@ class WidgetCard extends PureComponent {
 
     // Services
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
-    this.widgetService = new WidgetService(null, {
-      apiURL: process.env.WRI_API_URL
-    });
-    this.layersService = new LayersService();
+    this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
 
     this.state = {
       loading: false,
@@ -183,7 +180,7 @@ class WidgetCard extends PureComponent {
         && this.props.widget.widgetConfig.paramsConfig.layer)
         || this.props.widget.widgetConfig.layer_id;
 
-      this.fetchLayer(layer);
+      this.getLayer(layer);
     }
   }
 
@@ -194,7 +191,7 @@ class WidgetCard extends PureComponent {
         && nextProps.widget.widgetConfig.paramsConfig.layer)
         || nextProps.widget.widgetConfig.layer_id;
 
-      this.fetchLayer(layer);
+      this.getLayer(layer);
     }
   }
 
@@ -354,9 +351,9 @@ class WidgetCard extends PureComponent {
    * Fetch the information about the layer and store it in the state
    * @param {string} layerId
    */
-  fetchLayer(layerId) {
+  getLayer({ id: layerId }) {
     this.setState({ loading: true, error: null });
-    this.layersService.fetchData({ id: layerId })
+    fetchLayer(layerId)
       .then((layer) => {
         this.setState({
           layer,

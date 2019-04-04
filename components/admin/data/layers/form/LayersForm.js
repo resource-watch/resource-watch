@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 // Services
 import DatasetsService from 'services/DatasetsService';
-import LayersService from 'services/LayersService';
+import { fetchLayer } from 'services/LayersService';
 import { toastr } from 'react-redux-toastr';
 
 
@@ -29,9 +29,7 @@ class LayersForm extends React.Component {
     const formObj = props.dataset ?
       Object.assign({}, STATE_DEFAULT.form,
         { dataset: props.dataset, application: props.application }) :
-      Object.assign({}, STATE_DEFAULT.form, {
-        application: props.application
-      });
+      Object.assign({}, STATE_DEFAULT.form, { application: props.application });
 
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
@@ -45,10 +43,6 @@ class LayersForm extends React.Component {
     this.datasetsService = new DatasetsService({
       authorization: props.authorization,
       language: props.locale
-    });
-
-    this.service = new LayersService({
-      authorization: props.authorization
     });
 
     this.layerManager = new LayerManager(null, {
@@ -73,7 +67,7 @@ class LayersForm extends React.Component {
 
     // Add the dashboard promise if the id exists
     if (id) {
-      promises.push(this.service.fetchData({ id }));
+      promises.push(fetchLayer(id));
     }
 
     Promise.all(promises)

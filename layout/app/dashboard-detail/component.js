@@ -53,6 +53,12 @@ class DashboardsDetailPage extends PureComponent {
       slug
     } = dashboard;
 
+    // TEMPORARY FIX!!
+    // TO-DO: Remove this once the Topics page has been fully refactored and has dissapeared
+    // and has been replaced by the new public dashboards page
+    const goToTopics = (typeof window !== 'undefined' &&
+      window.location.href.indexOf('goTo=topics')) >= 0;
+
     return (
       <Layout
         title={name}
@@ -68,7 +74,7 @@ class DashboardsDetailPage extends PureComponent {
                   <Breadcrumbs items={[
                     {
                       name: 'Dashboards',
-                      href: '/myrw/dashboards'
+                      href: goToTopics ? '/topics' : '/myrw/dashboards'
                     }
                   ]}
                   />

@@ -13,7 +13,7 @@ import LayersTab from 'components/admin/data/layers';
 // services
 import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
-import LayersService from 'services/LayersService';
+import { fetchLayer } from 'services/LayersService';
 
 // utils
 import { capitalizeFirstLetter } from 'utils/utils';
@@ -29,16 +29,6 @@ class LayoutAdminDataDetail extends PureComponent {
   componentWillMount() {
     this.getData();
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   const { tab, id, subtab, dataset } = nextProps.url.query;
-
-  //   this.setState({
-  //     tab, id, subtab, dataset
-  //   }, () => {
-  //     this.getData();
-  //   });
-  // }
 
   getName() {
     const { query: { tab, id } } = this.props;
@@ -67,16 +57,13 @@ class LayoutAdminDataDetail extends PureComponent {
       case 'widgets':
         this.service = new WidgetsService();
         break;
-      case 'layers':
-        this.service = new LayersService();
-        break;
       default:
         this.service = new DatasetsService({ language: locale });
     }
 
     if (this.service) {
       // Fetch the dataset / layer / widget depending on the tab
-      this.service.fetchData({ id })
+      fetchLayer(id)
         .then((data) => { this.setState({ data }); })
         .catch((err) => { toastr.error('Error', err); });
     }
