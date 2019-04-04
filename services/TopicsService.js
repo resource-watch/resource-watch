@@ -155,19 +155,23 @@ export const fetchTopics = (params = {}) => {
  * @param {String} id - topic id.
  * @returns {Object} serialized specified topic.
  */
-export const fetchTopic = id => {
+export const fetchTopic = (id) => {
   logger.info(`Fetches topic: ${id}`);
 
   return WRIAPI.get(`/topic/${id}`)
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 300) {
-        logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
+        if (status === 404) {
+          logger.debug(`Topic '${id}' not found, ${status}: ${statusText}`);
+        } else {
+          logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
+        }
         throw new Error(statusText);
       }
       return WRISerializer(data);
     }).catch(({ response }) => {
-      const { status, statusText } = response
+      const { status, statusText } = response;
       logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
       return WRISerializer({});
     });
