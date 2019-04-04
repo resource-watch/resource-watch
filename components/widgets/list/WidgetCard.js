@@ -348,8 +348,8 @@ class WidgetCard extends PureComponent {
 
 
   /**
-   * Fetch the information about the layer and store it in the state
-   * @param {string} layerId
+   * Fetches the information of the layer and store it in the state
+   * @param {string} id - id layer
    */
   getLayer(id) {
     this.setState({ loading: true, error: null });
