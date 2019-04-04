@@ -176,22 +176,22 @@ class WidgetCard extends PureComponent {
 
   componentDidMount() {
     if (WidgetCard.isMapWidget(this.props.widget)) {
-      const layer = (this.props.widget.widgetConfig.paramsConfig
+      const layerId = (this.props.widget.widgetConfig.paramsConfig
         && this.props.widget.widgetConfig.paramsConfig.layer)
         || this.props.widget.widgetConfig.layer_id;
 
-      this.getLayer(layer);
+      this.getLayer(layerId);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.widget, this.props.widget)
       && WidgetCard.isMapWidget(nextProps.widget)) {
-      const layer = (nextProps.widget.widgetConfig.paramsConfig
+      const layerId = (nextProps.widget.widgetConfig.paramsConfig
         && nextProps.widget.widgetConfig.paramsConfig.layer)
         || nextProps.widget.widgetConfig.layer_id;
 
-      this.getLayer(layer);
+      this.getLayer(layerId);
     }
   }
 
@@ -351,9 +351,9 @@ class WidgetCard extends PureComponent {
    * Fetch the information about the layer and store it in the state
    * @param {string} layerId
    */
-  getLayer({ id: layerId }) {
+  getLayer(id) {
     this.setState({ loading: true, error: null });
-    fetchLayer(layerId)
+    fetchLayer(id)
       .then((layer) => {
         this.setState({
           layer,
