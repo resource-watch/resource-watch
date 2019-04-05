@@ -13,9 +13,7 @@ class LoginRequired extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.state = {
-      isOpen: false
-    };
+    this.state = { isOpen: false };
   }
 
   promptLogin = (e) => {
@@ -42,7 +40,7 @@ class LoginRequired extends PureComponent {
         </div>
         <Modal
           isOpen={isOpen}
-          className="-medium"
+          className="-large -login"
           onRequestClose={this.closePrompt}
         >
           <LoginModal text={ text || ''} />
