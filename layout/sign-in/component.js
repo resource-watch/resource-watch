@@ -19,7 +19,9 @@ class SigIn extends PureComponent {
         description="Resource Watch Sign-in/Register"
       >
         <div className="l-container">
-          <LoginModal text={text || ' '} />
+          <div className="content">
+            <LoginModal text={text || ' '} />
+          </div>
         </div>
       </Layout>
     );
