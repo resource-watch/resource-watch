@@ -87,6 +87,10 @@
     max-width: $max-width-modal-medium;
   }
 
+  &.-large {
+    max-width: $max-width-modal-large;
+  }
+
   // PADDING
   &.-no-padding {
     .modal-content {

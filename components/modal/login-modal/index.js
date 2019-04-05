@@ -1,3 +1,3 @@
-import LoginModalComponent from './login-modal-component';
+import LoginModalComponent from './component';
 
 export default LoginModalComponent;
