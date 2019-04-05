@@ -161,7 +161,8 @@ export default class LayersService {
 
 export const fetchLayer = (id, params = {}) => {
   if (!id) throw Error('layer id is mandatory to perform this fetching.');
-  logger.info(`'Fetching layer id (${id}) '`);
+  logger.info(`Fetches layer: ${id}`);
+
   return WRIAPI.get(`/layer/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
