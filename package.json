@@ -112,7 +112,7 @@
     "webpack": "^4.27.1",
     "webpackbar": "^2.6.3",
     "whatwg-fetch": "2.0.2",
-    "widget-editor": "^1.4.3",
+    "widget-editor": "^1.4.4",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {
