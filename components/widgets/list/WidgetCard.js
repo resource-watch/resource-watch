@@ -41,7 +41,7 @@ import LoginRequired from 'components/ui/login-required';
 // Services
 import WidgetService from 'services/WidgetService';
 import UserService from 'services/UserService';
-import LayersService from 'services/LayersService';
+import { fetchLayer } from 'services/LayersService';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -155,10 +155,7 @@ class WidgetCard extends PureComponent {
 
     // Services
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
-    this.widgetService = new WidgetService(null, {
-      apiURL: process.env.WRI_API_URL
-    });
-    this.layersService = new LayersService();
+    this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
 
     this.state = {
       loading: false,
@@ -179,22 +176,22 @@ class WidgetCard extends PureComponent {
 
   componentDidMount() {
     if (WidgetCard.isMapWidget(this.props.widget)) {
-      const layer = (this.props.widget.widgetConfig.paramsConfig
+      const layerId = (this.props.widget.widgetConfig.paramsConfig
         && this.props.widget.widgetConfig.paramsConfig.layer)
         || this.props.widget.widgetConfig.layer_id;
 
-      this.fetchLayer(layer);
+      this.getLayer(layerId);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.widget, this.props.widget)
       && WidgetCard.isMapWidget(nextProps.widget)) {
-      const layer = (nextProps.widget.widgetConfig.paramsConfig
+      const layerId = (nextProps.widget.widgetConfig.paramsConfig
         && nextProps.widget.widgetConfig.paramsConfig.layer)
         || nextProps.widget.widgetConfig.layer_id;
 
-      this.fetchLayer(layer);
+      this.getLayer(layerId);
     }
   }
 
@@ -351,12 +348,12 @@ class WidgetCard extends PureComponent {
 
 
   /**
-   * Fetch the information about the layer and store it in the state
-   * @param {string} layerId
+   * Fetches the information of the layer and store it in the state
+   * @param {string} id - id layer
    */
-  fetchLayer(layerId) {
+  getLayer(id) {
     this.setState({ loading: true, error: null });
-    this.layersService.fetchData({ id: layerId })
+    fetchLayer(id)
       .then((layer) => {
         this.setState({
           layer,

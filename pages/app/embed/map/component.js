@@ -40,8 +40,7 @@ class EmbedMapPage extends PureComponent {
     webshot: PropTypes.bool.isRequired,
     toggleLayerGroupVisibility: PropTypes.func.isRequired,
     checkIfFavorited: PropTypes.func.isRequired,
-    setIfFavorited: PropTypes.func.isRequired,
-    getWidget: PropTypes.func.isRequired
+    setIfFavorited: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -53,13 +52,10 @@ class EmbedMapPage extends PureComponent {
 
   componentDidMount() {
     const {
-      getWidget,
       url,
       user
     } = this.props;
     const { query } = url;
-
-    getWidget(query.id);
     if (user && user.id) this.props.checkIfFavorited(query.id);
   }
 
@@ -76,8 +72,8 @@ class EmbedMapPage extends PureComponent {
   }
 
   getModal() {
-    const { widget } = this.props;
-    const { description } = widget;
+    const { widget: { description } } = this.props;
+
 
     return (
       <div className="widget-modal">
@@ -132,7 +128,6 @@ class EmbedMapPage extends PureComponent {
         </LayoutEmbed>
       );
     }
-
     if (error) {
       return (
         <LayoutEmbed
@@ -143,7 +138,6 @@ class EmbedMapPage extends PureComponent {
             <div className="widget-title">
               <h4>–</h4>
             </div>
-
             <div className="widget-content">
               <p>{'Sorry, the widget couldn\'t be loaded'}</p>
             </div>
