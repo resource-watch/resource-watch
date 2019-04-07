@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 // actions
 import { getDashboard } from 'modules/dashboards/actions';
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import EmbedDashboardPage from './component';
+import LayoutEmbedDashboard from 'layout/embed/dashboard';
 
-class EmbedDashboardPageContainer extends PureComponent {
+class EmbedDashboardPage extends PureComponent {
   static async getInitialProps({ store }) {
     const { dispatch, getState } = store;
     const { routes: { query: { slug, webshot } } } = getState();
@@ -23,12 +22,8 @@ class EmbedDashboardPageContainer extends PureComponent {
   }
 
   render() {
-    return (<EmbedDashboardPage {...this.props} />);
+    return (<LayoutEmbedDashboard />);
   }
 }
 
-
-export default connect(
-  state => ({ dashboard: state.dashboards.detail.data }),
-  null
-)(EmbedDashboardPageContainer);
+export default EmbedDashboardPage;

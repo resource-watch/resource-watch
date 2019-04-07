@@ -4,9 +4,9 @@ import React, { PureComponent } from 'react';
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import EmbedTablePage from './component';
+import LayoutEmbedTable from 'layout/embed/table';
 
-class EmbedTablePageContainer extends PureComponent {
+class EmbedTablePage extends PureComponent {
   static async getInitialProps({ store, isServer, req }) {
     const { dispatch, getState } = store;
     const { routes: { query: { webshot } } } = getState();
@@ -19,8 +19,8 @@ class EmbedTablePageContainer extends PureComponent {
   }
 
   render() {
-    return (<EmbedTablePage {...this.props} />);
+    return (<LayoutEmbedTable {...this.props} />);
   }
 }
 
-export default EmbedTablePageContainer;
+export default EmbedTablePage;

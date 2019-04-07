@@ -1,10 +1,24 @@
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // actions
 import { getUserAreas } from 'redactions/user';
 
-// component
-import MyRWDetailPage from './component';
+// components
+import LayoutMyRWDetail from 'layout/myrw/detail';
+
+class MyRWDetailPage extends PureComponent {
+  static propTypes = { getUserAreas: PropTypes.func.isRequired }
+
+  componentWillMount() {
+    this.props.getUserAreas();
+  }
+
+  render() {
+    return (<LayoutMyRWDetail />);
+  }
+}
 
 export default connect(
   null,
