@@ -18,7 +18,7 @@
       transform: translate(-50%, -50%);
       max-width: 880px;
       width: 100%;
-      padding: $margin-size 0;
+      padding: $margin-size;
       border-radius: 4px;
       box-shadow: 0 15px 20px 0 rgba($black, .15);
       background: $white;
@@ -26,12 +26,6 @@
       @media screen and (min-width: map-get($breakpoints, medium)) {
         max-height: auto;
       }
-
-      > .wrapper {
-        padding: 0 $margin-size-small;
-
-        @media screen and (min-width: map-get($breakpoints, medium)) {
-          padding: 0 $margin-size-big;
-        }
-      }
-}}}
+    }
+  }
+}
