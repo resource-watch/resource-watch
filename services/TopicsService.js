@@ -175,8 +175,7 @@ export const fetchTopic = (id) => {
       logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
       return WRISerializer({});
     });
-}
-
+};
 
 /**
  * Creates a topic with the provided data.
