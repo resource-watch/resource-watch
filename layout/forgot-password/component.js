@@ -48,18 +48,18 @@ class ForgotPassword extends PureComponent {
         title="Resource Watch Sign-in/Register"
         description="Resource Watch Sign-in/Register"
       >
-        <div className="l-log-in-layout">
+        <div className="l-log-in">
           <div className="l-container">
             <div className="content">
               <div className="log-in-container">
                 <div className="wrapper">
-                  <div className="column small-12">
+                  <div className="column">
                     <h2 className="c-title">Reset your password</h2>
                   </div>
-                  <div className="column small-12">
+                  <div className="column">
                     <span>To reset your password, type your email address:</span>
                   </div>
-                  <div className="column small-12 medium-6">
+                  <div className="column medium-6">
                     <form onSubmit={this.onSubmit}>
                       <Field
                         ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
