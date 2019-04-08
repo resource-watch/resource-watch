@@ -1,6 +1,4 @@
 .c-login-modal {
-  padding: 0 $margin-size ;
-
   .social-media-intro {
     display: inline-block;
     margin: $margin-size 0 0;
@@ -38,6 +36,15 @@
     > .social-btn-item {
       &:not(:first-child) {
         margin: $margin-size-extra-small 0 0;
+      }
+    }
+  }
+  .log-in-container {
+    > .wrapper {
+      padding: 0 $margin-size-big;
+
+      @media screen and (min-width: map-get($breakpoints, medium)) {
+        padding: 0 $margin-size;
       }
     }
   }
