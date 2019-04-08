@@ -11,10 +11,7 @@ class LoginRequired extends PureComponent {
     user: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { isOpen: false };
-  }
+  state = { isOpen: false };
 
   promptLogin = (e) => {
     e.stopPropagation();
