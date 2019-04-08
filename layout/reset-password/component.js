@@ -73,16 +73,16 @@ class ResetPassword extends PureComponent {
         title="Resource Watch Sign-in/Register"
         description="Resource Watch Sign-in/Register"
       >
-        <div className="l-log-in-layout">
+        <div className="l-log-in">
           <div className="l-container">
             <div className="content">
               <div className="log-in-container">
                 <div className="wrapper">
                   <div className="row">
-                    <div className="column small-12">
+                    <div className="column">
                       <h2 className="c-title">Reset Password</h2>
                     </div>
-                    <div className="column small-12 medium-5">
+                    <div className="column medium-5">
                       <span>Type your new password:</span>
                       <form onSubmit={this.onSubmit}>
                         <Field
