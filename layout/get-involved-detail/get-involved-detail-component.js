@@ -1,24 +1,21 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Components
-import Page from 'layout/page';
+// components
 import Layout from 'layout/layout/layout-app';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import StaticContent from 'layout/static-content';
-
-// Post-content components
 import SuggestStoryPost from 'components/app/static-pages/get-involved/post-content/SuggestStoryPost';
 import ContributeDataPostContent from 'components/app/static-pages/get-involved/post-content/ContributeData';
 import JoinCommunityPostContent from 'components/app/static-pages/get-involved/post-content/JoinCommunity';
 import DevelopYourAppPostContent from 'components/app/static-pages/get-involved/post-content/DevelopYourApp';
 import AppsPostContent from 'components/app/static-pages/get-involved/post-content/Apps';
 
-class GetInvolvedDetail extends Page {
+class GetInvolvedDetail extends PureComponent {
   static propTypes = {
-    getInvolvedDetail: PropTypes.object,
-    user: PropTypes.object,
-    url: PropTypes.string
+    routes: PropTypes.object.isRequired,
+    data: PropTypes.object.isRequired,
+    insights: PropTypes.array.isRequired
   };
 
   getPostContent(id, props = {}) {
@@ -38,10 +35,11 @@ class GetInvolvedDetail extends Page {
   }
 
   render() {
-    const { getInvolvedDetail, breadCrumb, url, user } = this.props;
-
-    const { staticData: data } = getInvolvedDetail;
-    const { id } = url.query;
+    const {
+      getInvolvedDetail: { staticData: data },
+      breadCrumb,
+      routes: { query: { id } }
+    } = this.props;
 
     if (!data) return null;
 
@@ -53,8 +51,6 @@ class GetInvolvedDetail extends Page {
       <Layout
         title={data.title || 'Get Involved'}
         description={data.summary || ''}
-        url={url}
-        user={user}
       >
         <header className="l-page-header">
           <div className="l-container">
@@ -98,11 +94,5 @@ class GetInvolvedDetail extends Page {
     );
   }
 }
-
-GetInvolvedDetail.propTypes = {
-  url: PropTypes.object,
-  data: PropTypes.object,
-  insights: PropTypes.array
-};
 
 export default GetInvolvedDetail;

@@ -14,7 +14,7 @@ import MediaQuery from 'react-responsive';
 import { breakpoints } from 'utils/responsive';
 
 // Tooltip
-import { Tooltip } from 'wri-api-components';
+import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
 
 // helpers

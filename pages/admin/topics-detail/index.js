@@ -1,28 +1,20 @@
-import React from 'react';
-
-// redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
 // actions
 import { getTopic } from 'modules/topics/actions';
 
-// layout
-import Page from 'layout/page';
-
 // components
 import AdminTopicsDetailLayout from 'layout/admin/topics-detail';
 
-class AdminTopicsDetailPage extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store } = context;
-    const { url: { query: { id } } } = props;
+class AdminTopicsDetailPage extends PureComponent {
+  static async getInitialProps({ store, query }) {
+    const { dispatch } = store;
+    const { id } = query;
 
     // fetchs the topic data
-    if (id && id !== 'new') await store.dispatch(getTopic(id));
+    if (id && id !== 'new') await dispatch(getTopic(id));
 
-    return props;
+    return {};
   }
 
   render() {
@@ -30,8 +22,4 @@ class AdminTopicsDetailPage extends Page {
   }
 }
 
-export default withRedux(
-  initStore,
-  null,
-  null
-)(AdminTopicsDetailPage);
+export default AdminTopicsDetailPage;

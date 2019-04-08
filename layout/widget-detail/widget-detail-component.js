@@ -1,26 +1,16 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Components
-import Page from 'layout/page';
+// components
 import Layout from 'layout/layout/layout-app';
-
-// Widget Detail Component
 import WidgetDetailHeader from 'layout/widget-detail/widget-detail-header';
 import WidgetCard from 'components/widgets/list/WidgetCard';
 
-class WidgetDetailComponent extends Page {
-  static propTypes = {
-    widgetDetail: PropTypes.object
-  };
+class WidgetDetailComponent extends PureComponent {
+  static propTypes = { widgetDetail: PropTypes.object.isRequired };
 
   render() {
-    const {
-      widgetDetail
-    } = this.props;
-
-    const { data: widget } = widgetDetail;
+    const { widgetDetail: { data: widget } } = this.props;
 
     return (
       <Layout

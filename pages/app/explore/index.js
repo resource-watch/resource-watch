@@ -1,26 +1,19 @@
-/* eslint max-len: 0 */
-/* eslint-disable camelcase */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-
-// Utils
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
-
-// Components
-import Page from 'layout/page';
-
-// Next
+import { connect } from 'react-redux';
 import { Router } from 'routes';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+// actions
 import { setIsServer } from 'redactions/common';
 import * as actions from 'layout/explore/explore-actions';
+
+// components
 import Explore from 'layout/explore';
 
-class ExplorePage extends Page {
+// constants
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+
+class ExplorePage extends PureComponent {
   static propTypes = {
     explore: PropTypes.object.isRequired,
     resetExplore: PropTypes.func.isRequired,
@@ -31,10 +24,9 @@ class ExplorePage extends Page {
     this.props.setIsServer(false);
   }
 
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store } = context;
-    const { routes } = store.getState();
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { routes: { query } } = getState();
     const {
       page,
       search,
@@ -44,7 +36,6 @@ class ExplorePage extends Page {
       data_types,
       frequencies,
       time_periods,
-
       zoom,
       lat,
       lng,
@@ -52,36 +43,43 @@ class ExplorePage extends Page {
       labels,
       boundaries,
       layers
-    } = routes.query;
+    } = query;
 
     // Query
-    if (page) store.dispatch(actions.setDatasetsPage(+page));
-    if (search) store.dispatch(actions.setFiltersSearch(search));
-    // adds this extra-condition to enable backward compatibility with deprecated `most-visited` sorting filter
-    if (sort && sort !== 'most-visited') store.dispatch(actions.setSortSelected(sort));
-    if (sortDirection) store.dispatch(actions.setSortDirection(+sortDirection));
-    if (topics) store.dispatch(actions.setFiltersSelected({ key: 'topics', list: JSON.parse(decodeURIComponent(topics)) }));
-    if (data_types) store.dispatch(actions.setFiltersSelected({ key: 'data_types', list: JSON.parse(decodeURIComponent(data_types)) }));
-    if (frequencies) store.dispatch(actions.setFiltersSelected({ key: 'frequencies', list: JSON.parse(decodeURIComponent(frequencies)) }));
-    if (time_periods) store.dispatch(actions.setFiltersSelected({ key: 'time_periods', list: JSON.parse(decodeURIComponent(time_periods)) }));
+    if (page) dispatch(actions.setDatasetsPage(+page));
+    if (search) dispatch(actions.setFiltersSearch(search));
+    // adds this extra-condition to enable backward compatibility
+    // with deprecated `most-visited` sorting filter
+    if (sort && sort !== 'most-visited') dispatch(actions.setSortSelected(sort));
+    if (sortDirection) dispatch(actions.setSortDirection(+sortDirection));
+    if (topics) dispatch(actions.setFiltersSelected({ key: 'topics', list: JSON.parse(decodeURIComponent(topics)) }));
+    if (data_types) dispatch(actions.setFiltersSelected({ key: 'data_types', list: JSON.parse(decodeURIComponent(data_types)) }));
+    if (frequencies) dispatch(actions.setFiltersSelected({ key: 'frequencies', list: JSON.parse(decodeURIComponent(frequencies)) }));
+    if (time_periods) dispatch(actions.setFiltersSelected({ key: 'time_periods', list: JSON.parse(decodeURIComponent(time_periods)) }));
 
     // Map
-    if (zoom) store.dispatch(actions.setMapZoom(+zoom));
-    if (lat && lng) store.dispatch(actions.setMapLatLng({ lat: +lat, lng: +lng }));
-    if (basemap) store.dispatch(actions.setMapBasemap(BASEMAPS[basemap]));
-    if (labels) store.dispatch(actions.setMapLabels(LABELS[labels]));
-    if (boundaries) store.dispatch(actions.setMapBoundaries(!!boundaries));
+    if (zoom) dispatch(actions.setMapZoom(+zoom));
+    if (lat && lng) dispatch(actions.setMapLatLng({ lat: +lat, lng: +lng }));
+    if (basemap) dispatch(actions.setMapBasemap(BASEMAPS[basemap]));
+    if (labels) dispatch(actions.setMapLabels(LABELS[labels]));
+    if (boundaries) dispatch(actions.setMapBoundaries(!!boundaries));
 
     // Fetch layers
-    if (layers) await store.dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
+    if (layers) await dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
 
     // Fetch datasets
-    await store.dispatch(actions.fetchDatasets());
+    await dispatch(actions.fetchDatasets());
 
     // Fetch tags
-    await store.dispatch(actions.fetchFiltersTags());
+    await dispatch(actions.fetchFiltersTags());
 
-    return { ...props };
+    return {};
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.shouldUpdateUrl(prevProps)) {
+      this.setExploreURL();
+    }
   }
 
   componentWillUnmount() {
@@ -90,9 +88,40 @@ class ExplorePage extends Page {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.shouldUpdateUrl(prevProps)) {
-      this.setExploreURL();
+  setExploreURL() {
+    const { datasets, filters, sort, map } = this.props.explore;
+
+    const query = {
+      // Map
+      zoom: map.zoom,
+      lat: map.latLng.lat,
+      lng: map.latLng.lng,
+      basemap: map.basemap.id,
+      labels: map.labels.id,
+      ...!!map.boundaries && { boundaries: map.boundaries },
+      ...!!map.layerGroups.length &&
+        {
+          layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
+            dataset: lg.dataset,
+            opacity: lg.opacity || 1,
+            visible: lg.visible,
+            layer: lg.layers.find(l => l.active === true).id
+          }))))
+        },
+
+      // Datasets
+      page: datasets.page,
+      sort: sort.selected,
+      sortDirection: sort.direction,
+      ...filters.search && { search: filters.search },
+      ...!!filters.selected.topics.length && { topics: encodeURIComponent(JSON.stringify(filters.selected.topics)) },
+      ...!!filters.selected.data_types.length && { data_types: encodeURIComponent(JSON.stringify(filters.selected.data_types)) },
+      ...!!filters.selected.frequencies.length && { frequencies: encodeURIComponent(JSON.stringify(filters.selected.frequencies)) },
+      ...!!filters.selected.time_periods.length && { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) }
+    };
+
+    if (typeof window !== 'undefined') {
+      Router.replaceRoute('explore', query, { shallow: true });
     }
   }
 
@@ -141,57 +170,13 @@ class ExplorePage extends Page {
     );
   }
 
-  setExploreURL() {
-    // URL
-    const {
-      datasets, filters, sort, map
-    } = this.props.explore;
-
-    const query = {
-      // Map
-      zoom: map.zoom,
-      lat: map.latLng.lat,
-      lng: map.latLng.lng,
-      basemap: map.basemap.id,
-      labels: map.labels.id,
-      ...!!map.boundaries && { boundaries: map.boundaries },
-      ...!!map.layerGroups.length &&
-        {
-          layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
-            dataset: lg.dataset,
-            opacity: lg.opacity || 1,
-            visible: lg.visible,
-            layer: lg.layers.find(l => l.active === true).id
-          }))))
-        },
-
-      // Datasets
-      page: datasets.page,
-      sort: sort.selected,
-      sortDirection: sort.direction,
-      ...filters.search && { search: filters.search },
-      ...!!filters.selected.topics.length && { topics: encodeURIComponent(JSON.stringify(filters.selected.topics)) },
-      ...!!filters.selected.data_types.length && { data_types: encodeURIComponent(JSON.stringify(filters.selected.data_types)) },
-      ...!!filters.selected.frequencies.length && { frequencies: encodeURIComponent(JSON.stringify(filters.selected.frequencies)) },
-      ...!!filters.selected.time_periods.length && { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) }
-    };
-
-    if (typeof window !== 'undefined') {
-      Router.replaceRoute('explore', query, { shallow: true });
-    }
-  }
-
   render() {
-    return <Explore />;
+    return (<Explore />);
   }
 }
 
-export default withRedux(
-  initStore,
-  state => ({
-    // Store
-    explore: state.explore
-  }),
+export default connect(
+  state => ({ explore: state.explore }),
   {
     ...actions,
     setIsServer

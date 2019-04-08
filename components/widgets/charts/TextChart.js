@@ -30,11 +30,10 @@ class TextChart extends React.Component {
    * Fetch the data of the widget
    */
   getData() {
+    const { url } = this.props.widgetConfig.data;
     // We let the parent component we're loading
     this.props.toggleLoading(true);
     this.setState({ loading: true });
-
-    const url = this.props.widgetConfig.data.url;
 
     fetch(url)
       .then((res) => {

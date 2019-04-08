@@ -1,5 +1,4 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 
@@ -11,7 +10,6 @@ import ExploreDetailTags from 'layout/explore-detail/explore-detail-tags';
 import ExploreDetailWidgetEditor from 'layout/explore-detail/explore-detail-widget-editor';
 
 // Components
-import Page from 'layout/page';
 import Layout from 'layout/layout/layout-app';
 
 import Title from 'components/ui/Title';
@@ -28,9 +26,9 @@ import {
 
 import { TOOLS_CONNECTIONS } from 'utils/apps/toolsConnections';
 
-class ExploreDetail extends Page {
+class ExploreDetail extends PureComponent {
   static propTypes = {
-    exploreDetail: PropTypes.object,
+    exploreDetail: PropTypes.object.isRequired,
     thumbnail: PropTypes.string
   };
 

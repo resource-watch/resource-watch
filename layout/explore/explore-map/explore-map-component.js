@@ -29,7 +29,7 @@ import {
   LegendItemTypes,
   LegendItemTimeStep,
   LegendItemTimeline
-} from 'wri-api-components';
+} from 'vizzuality-components';
 
 import { LayerManager, Layer } from 'layer-manager/dist/components';
 import { PluginLeaflet } from 'layer-manager';
@@ -269,6 +269,7 @@ class ExploreMapComponent extends React.Component {
                 });
               }
             }}
+            scrollZoomEnabled={!embed}
             onReady={(map) => {
               this.map = map;
               console.info(this.map);

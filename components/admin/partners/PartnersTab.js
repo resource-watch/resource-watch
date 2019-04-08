@@ -15,13 +15,8 @@ function PartnersTab(props) {
 
   return (
     <div className="c-partners-tab">
-      {user.token && !id &&
-        <PartnersIndex tab={tab} subtab={subtab} id={id} user={user} />
-      }
-
-      {user.token && id && id === 'new' &&
-        <PartnersNew tab={tab} subtab={subtab} id={id} user={user} />
-      }
+      {user.token && !id && (<PartnersIndex user={user} />)}
+      {user.token && id && id === 'new' && (<PartnersNew user={user} />)}
 
       {user.token && id && id !== 'new' &&
         <PartnersShow tab={tab} subtab={subtab} id={id} user={user} />
@@ -31,7 +26,7 @@ function PartnersTab(props) {
 }
 
 PartnersTab.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.object.isRequired,
   tab: PropTypes.string,
   id: PropTypes.string,
   subtab: PropTypes.string

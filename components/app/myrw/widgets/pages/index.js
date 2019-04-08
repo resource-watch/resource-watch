@@ -23,16 +23,13 @@ const WIDGET_SUBTABS = [{
 }];
 
 class WidgetsIndex extends PureComponent {
-  static defaultProps = {
-    subtab: 'my_widgets'
-  };
+  static propTypes = { subtab: PropTypes.string };
 
-  static propTypes = {
-    subtab: PropTypes.string
-  };
+  static defaultProps = { subtab: 'my_widgets' };
 
   render() {
     const { subtab } = this.props;
+
     return (
       <div className="c-widgets-index">
         <StickyContainer>

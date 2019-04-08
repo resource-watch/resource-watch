@@ -1,32 +1,23 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-// Components
-import Page from 'layout/page';
+// actions
+import { getStaticPage } from 'modules/static-pages/actions';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
-import { getStaticData } from 'redactions/static_pages';
-
+// components
 import Topics from 'layout/topics';
 
-class TopicsPage extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
+class TopicsPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { dispatch } = store;
 
-    await context.store.dispatch(getStaticData('topics'));
+    await dispatch(getStaticPage('topics'));
 
-    return props;
+    return {};
   }
 
   render() {
-    return <Topics />;
+    return (<Topics />);
   }
 }
 
-export default withRedux(
-  initStore,
-  null,
-  null
-)(TopicsPage);
+export default TopicsPage;

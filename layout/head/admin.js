@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
 
-export default class Head extends React.Component {
+export default class HeadAdmin extends React.Component {
   render() {
     const { title, description } = this.props;
 
@@ -36,7 +36,7 @@ export default class Head extends React.Component {
   }
 }
 
-Head.propTypes = {
+HeadAdmin.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired
 };

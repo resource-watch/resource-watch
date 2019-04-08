@@ -18,7 +18,7 @@ import {
   Legend,
   LegendListItem,
   LegendItemTypes
-} from 'wri-api-components';
+} from 'vizzuality-components';
 
 import { LayerManager, Layer } from 'layer-manager/dist/components';
 import { PluginLeaflet } from 'layer-manager';

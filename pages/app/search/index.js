@@ -1,37 +1,33 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-// Components
-import Page from 'layout/page';
-
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+// actions
 import * as actions from 'layout/search/search-actions';
+
+// components
 import Search from 'layout/search';
 
-class SearchPage extends Page {
+class SearchPage extends PureComponent {
   static propTypes = {
-    user: PropTypes.object,
-    term: PropTypes.string,
-    page: PropTypes.number
+    term: PropTypes.string.isRequired,
+    page: PropTypes.number.isRequired,
+    setSearchTerm: PropTypes.func.isRequired,
+    fetchSearch: PropTypes.func.isRequired
   };
 
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { term, page } = props.url.query;
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { term, page } } } = getState();
 
-    if (page) {
-      context.store.dispatch(actions.setSearchPage(page));
-    }
+    if (page) dispatch(actions.setSearchPage(page));
 
     if (term) {
-      context.store.dispatch(actions.setSearchTerm(term));
-      await context.store.dispatch(actions.fetchSearch());
+      dispatch(actions.setSearchTerm(term));
+      await dispatch(actions.fetchSearch());
     }
 
-    return { ...props };
+    return {};
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,21 +43,18 @@ class SearchPage extends Page {
     }
   }
 
-  // Clear search results if we unmount the search view
   componentWillUnmount() {
+    // clears search results if we unmount the search view
     this.props.setSearchTerm('');
     this.props.fetchSearch();
   }
 
   render() {
-    return <Search />;
+    return (<Search />);
   }
 }
 
-export default withRedux(
-  initStore,
-  state => ({
-    ...state.search
-  }),
+export default connect(
+  state => ({ ...state.search }),
   actions
 )(SearchPage);

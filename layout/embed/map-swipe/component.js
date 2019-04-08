@@ -14,7 +14,7 @@ import {
   Legend,
   LegendListItem,
   LegendItemTypes
-} from 'wri-api-components';
+} from 'vizzuality-components';
 
 import { LayerManager, Layer } from 'layer-manager/dist/components';
 import { PluginLeaflet } from 'layer-manager';
@@ -48,7 +48,7 @@ class EmbedMapSwipe extends React.Component {
         title="Map comparison"
         description=""
       >
-        <div className="c-embed-widget">
+        <div className="c-embed-widget -map">
           {/* <div className="widget-title">
             Map comparison
           </div> */}

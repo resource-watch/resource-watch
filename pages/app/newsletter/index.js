@@ -1,9 +1,12 @@
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
-// component
-import NewsletterPage from './component';
+// components
+import LayoutNewsletter from 'layout/app/newsletter';
 
-export default withRedux(
-  initStore
-)(NewsletterPage);
+class NewsletterPage extends PureComponent {
+  render() {
+    return (<LayoutNewsletter />);
+  }
+}
+
+export default NewsletterPage;

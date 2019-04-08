@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 // Services
 import DatasetService from 'services/DatasetService';
 import RasterService from 'services/RasterService';
-import LayersService from 'services/LayersService';
+import { fetchLayer } from 'services/LayersService';
 import UserService from 'services/UserService';
 import { fetchWidget } from 'services/widget';
 
@@ -185,8 +185,8 @@ function fetchRasterBandInfo(datasetId, bandName) {
  * @param {string} datasetId Dataset ID
  * @param {string} layerId Layer ID
  */
-function fetchLayer(datasetId, layerId) {
-  return dispatch => new LayersService().fetchData({ id: layerId })
+function getLayer(datasetId, layerId) {
+  return dispatch => fetchLayer(layerId)
     .then((layer) => {
       const layerGroups = [{
         dataset: datasetId,
@@ -217,18 +217,15 @@ export function setLatLng(latLng) {
 export function getWidget(widgetId, params = {}) {
   return (dispatch) => {
     dispatch({ type: SET_WIDGET_LOADING });
-
     return fetchWidget(widgetId, params)
       .then((widget) => {
         dispatch({ type: SET_WIDGET_DATA, payload: widget });
-
         const { widgetConfig } = widget;
         const isRaster = widgetConfig.paramsConfig
           && widgetConfig.paramsConfig.visualizationType === 'raster_chart';
         const isMap = widgetConfig.paramsConfig
           && widgetConfig.paramsConfig.visualizationType === 'map';
         const datasetId = widget.dataset;
-
         if (isRaster) {
           const bandName = widgetConfig.paramsConfig.band.name;
           return dispatch(fetchRasterBandInfo(datasetId, bandName));
@@ -243,7 +240,7 @@ export function getWidget(widgetId, params = {}) {
           if (zoom) dispatch(setZoom(zoom));
           if (latLng) dispatch(setLatLng(latLng));
 
-          return dispatch(fetchLayer(datasetId, layerId));
+          return dispatch(getLayer(datasetId, layerId));
         }
 
         dispatch({ type: SET_WIDGET_SUCCESS });

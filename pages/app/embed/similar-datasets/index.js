@@ -1,33 +1,25 @@
-import React from 'react';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
 // actions
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import Page from 'layout/page';
-import EmbedSimilarDatasetsPage from './component';
+import LayoutEmbedSimilarDatasets from 'layout/embed/similar-datasets';
 
-class EmbedSimilarDatasetsPageContainer extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, query } = context;
-    const { webshot } = query;
+class EmbedSimilarDatasetsPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { webshot } } } = getState();
 
-    store.dispatch(setEmbed(true));
-    if (webshot) store.dispatch(setWebshotMode(true));
+    dispatch(setEmbed(true));
+    if (webshot) dispatch(setWebshotMode(true));
 
-    return { ...props };
+    return {};
   }
 
   render() {
-    return (<EmbedSimilarDatasetsPage {...this.props} />);
+    return (<LayoutEmbedSimilarDatasets />);
   }
 }
 
-export default withRedux(
-  initStore,
-  state => ({ loading: state.similarDatasets.loading }),
-  null
-)(EmbedSimilarDatasetsPageContainer);
+export default EmbedSimilarDatasetsPage;

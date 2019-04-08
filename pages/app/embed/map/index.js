@@ -1,58 +1,28 @@
-import React from 'react';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
 // actions
-import {
-  getWidget,
-  toggleLayerGroupVisibility,
-  checkIfFavorited,
-  setIfFavorited
-} from 'redactions/widget';
 import { setEmbed, setWebshotMode } from 'redactions/common';
+import { getWidget } from 'redactions/widget';
 
 // components
-import Page from 'layout/page';
-import EmbedMapPage from './component';
+import LayoutEmbedMap from 'layout/embed/map';
 
-class EmbedMapPageContainer extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, isServer, req, query } = context;
-    const { webshot } = query;
+class EmbedMapPage extends PureComponent {
+  static async getInitialProps({ store, isServer, req }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { webshot, id } } } = getState();
     const referer = isServer ? req.headers.referer : window.location.href;
 
-    store.dispatch(setEmbed(true));
-    if (webshot) store.dispatch(setWebshotMode(true));
+    dispatch(setEmbed(true));
+    if (webshot) dispatch(setWebshotMode(true));
+    await dispatch(getWidget(id, { includes: ['metadata'].join(',') }));
 
-    return {
-      ...props,
-      referer
-    };
+    return { referer };
   }
 
   render() {
-    return (<EmbedMapPage {...this.props} />);
+    return (<LayoutEmbedMap {...this.props} />);
   }
 }
 
-export default withRedux(
-  initStore,
-  state => ({
-    widget: state.widget.data,
-    loading: state.widget.loading,
-    error: state.widget.error,
-    layerGroups: state.widget.layerGroups,
-    zoom: state.widget.zoom,
-    favourited: state.widget.favourite.favourited,
-    latLng: state.widget.latLng,
-    user: state.user,
-    webshot: state.common.webshot
-  }),
-  {
-    getWidget,
-    toggleLayerGroupVisibility,
-    checkIfFavorited,
-    setIfFavorited
-  }
-)(EmbedMapPageContainer);
+export default EmbedMapPage;

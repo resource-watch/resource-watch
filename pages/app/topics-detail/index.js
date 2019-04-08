@@ -1,39 +1,37 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
-// redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+// actions
 import { getTopic, setSelected } from 'modules/topics/actions';
-import TopicDetailLayout from 'layout/topics-detail';
 
 // components
-import Page from 'layout/page';
+import TopicDetailLayout from 'layout/topics-detail';
 import Error from 'pages/_error';
 
-class TopicDetailPage extends Page {
+class TopicDetailPage extends PureComponent {
   static propTypes = {
-    user: PropTypes.object,
-    topicsDetail: PropTypes.object,
+    topicsDetail: PropTypes.object.isRequired,
+    routes: PropTypes.object.isRequired,
     setSelected: PropTypes.func.isRequired
   };
 
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store } = context;
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { id } } } = getState();
 
-    // Fetch topic
-    if (props.url.query.id) await store.dispatch(getTopic(props.url.query.id));
+    // fetches topic
+    if (id) await dispatch(getTopic(id));
 
-    // set current topic in thumbnail list
-    store.dispatch(setSelected(props.url.query.id));
+    // sets current topic in thumbnail list
+    dispatch(setSelected(id));
 
-    return props;
+    return {};
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.url.query.id !== nextProps.url.query.id) {
+    if (this.props.routes.query.id !== nextProps.routes.query.id) {
       window.scrollTo(0, 0);
     }
   }
@@ -47,12 +45,14 @@ class TopicDetailPage extends Page {
 
     if (isEmpty(topicsDetail)) return <Error statusCode={404} />;
 
-    return <TopicDetailLayout />;
+    return (<TopicDetailLayout />);
   }
 }
 
-export default withRedux(
-  initStore,
-  state => ({ topicsDetail: state.topics.detail.data }),
+export default connect(
+  state => ({
+    topicsDetail: state.topics.detail.data,
+    routes: state.routes
+  }),
   { setSelected }
 )(TopicDetailPage);

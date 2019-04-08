@@ -1,43 +1,29 @@
-/* eslint max-len: 0 */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-// Components
-import Page from 'layout/page';
-
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-
+// actions
 import * as actions from 'layout/get-involved/get-involved-actions';
 
+// components
 import GetInvolved from 'layout/get-involved';
 
-class GetInvolvedPage extends Page {
-  static propTypes = {
-    user: PropTypes.object,
-    url: PropTypes.object,
-    locale: PropTypes.string
-  };
-
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
+class GetInvolvedPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { dispatch } = store;
 
     // Get static data
-    await context.store.dispatch(actions.fetchStaticData('get-involved'));
+    await dispatch(actions.fetchStaticData('get-involved'));
 
-    return { ...props };
+    return {};
   }
 
   render() {
-    return <GetInvolved />;
+    return (<GetInvolved />);
   }
 }
 
-export default withRedux(
-  initStore,
+export default connect(
   state => ({
-    // Store
     getInvolvedIndex: state.getInvolvedIndex,
     user: state.user
   }),

@@ -1,28 +1,12 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-// Components
-import Page from 'layout/page';
+// components
+import LayoutPulse from 'layout/app/pulse';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import * as actions from 'layout/pulse/actions';
-import Pulse from 'layout/pulse';
-import { setIsServer } from 'redactions/common';
-
-class PulsePage extends Page {
-  componentDidMount() {
-    this.props.setIsServer(false);
-  }
-
+class PulsePage extends PureComponent {
   render() {
-    return <Pulse />;
+    return (<LayoutPulse />);
   }
 }
 
-export default withRedux(
-  initStore,
-  null,
-  { ...actions, setIsServer }
-)(PulsePage);
+export default PulsePage;

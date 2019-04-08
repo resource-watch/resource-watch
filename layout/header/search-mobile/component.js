@@ -1,42 +1,41 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-// Next
 import { Router } from 'routes';
 
-// Components
+// components
 import SearchInput from 'components/ui/SearchInput';
 
-export default class SearchMobileComponent extends React.PureComponent {
+class SearchMobile extends PureComponent {
   static propTypes = {
-    header: PropTypes.object,
-
-    // Actions
-    setSearchTerm: PropTypes.func
+    header: PropTypes.object.isRequired,
+    setSearchTerm: PropTypes.func.isRequired
   }
 
   render() {
     const {
-      header
+      header: { searchTerm },
+      setSearchTerm
     } = this.props;
 
     return (
       <form
         className="c-search-mobile"
         onSubmit={(e) => {
-          e && e.preventDefault();
-          Router.pushRoute('search', { term: header.searchTerm });
-          this.props.setSearchTerm('');
+          if (e) e.preventDefault();
+          Router.pushRoute('search', { term: searchTerm });
+          setSearchTerm('');
         }}
       >
         <SearchInput
           input={{
             placeholder: 'Search',
-            value: header.searchTerm
+            value: searchTerm
           }}
-          onSearch={this.props.setSearchTerm}
+          onSearch={setSearchTerm}
         />
       </form>
     );
   }
 }
+
+export default SearchMobile;

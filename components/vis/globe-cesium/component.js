@@ -5,7 +5,8 @@ import compact from 'lodash/compact';
 // Redux
 import { connect } from 'react-redux';
 
-// Components
+// styles
+import './styles.scss';
 
 let Cesium;
 

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const dashboards = state => state.dashboards.dashboards.list;
-const filters = state => state.dashboards.dashboards.filters;
+const dashboards = state => state.adminDashboards.dashboards.list;
+const filters = state => state.adminDashboards.dashboards.filters;
 
 /**
  * Return the dashboards that comply with the filters
