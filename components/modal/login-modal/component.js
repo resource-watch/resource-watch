@@ -15,6 +15,9 @@ import UserService from 'services/UserService';
 // constants
 import { FORM_ELEMENTS } from './constants';
 
+// styles
+import './styles.scss';
+
 class LoginModal extends PureComponent {
   static propTypes = { setUser: PropTypes.func.isRequired }
 
