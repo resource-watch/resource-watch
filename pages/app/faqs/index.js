@@ -1,9 +1,24 @@
-import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
 
-// component
-import FaqsPage from './component';
+// actions
+import { getFaqs } from 'redactions/admin/faqs';
 
-export default connect(
-  state => ({ faqs: state.faqs.list }),
-  null
-)(FaqsPage);
+// components
+import LayoutFaqs from 'layout/app/faqs';
+
+class FaqsPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { getState, dispatch } = store;
+    const { faqs: { list } } = getState();
+
+    if (!list.length) await dispatch(getFaqs());
+
+    return {};
+  }
+
+  render() {
+    return (<LayoutFaqs />);
+  }
+}
+
+export default FaqsPage;
