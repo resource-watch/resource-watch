@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 // components
 import Layout from 'layout/layout/layout-app';
-import WidgetDetailHeader from 'layout/widget-detail/widget-detail-header';
 import WidgetCard from 'components/widgets/list/WidgetCard';
+import WidgetDetailHeader from './widget-detail-header';
 
 class LayoutWidgetDetail extends PureComponent {
   static propTypes = { widget: PropTypes.object };

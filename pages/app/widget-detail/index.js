@@ -2,17 +2,14 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // components
-import WidgetDetail from 'layout/widget-detail';
+import WidgetDetail from 'layout/app/widget-detail';
 import Error from 'pages/_error';
 
 // services
 import { fetchWidget } from 'services/widget';
 
 class WidgetDetailPage extends PureComponent {
-  static propTypes = {
-    routes: PropTypes.object.isRequired,
-    widget: PropTypes.object
-  };
+  static propTypes = { widget: PropTypes.object };
 
   static defaultProps = { widget: {} }
 
