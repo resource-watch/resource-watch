@@ -1,5 +1,4 @@
 import 'isomorphic-fetch';
-import Promise from 'bluebird';
 
 export default class UserService {
   constructor(options) {
