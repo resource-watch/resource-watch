@@ -1,11 +1,8 @@
 import { connect } from 'react-redux';
 
-import WidgetDetailHeaderComponent from './widget-detail-header-component';
+import WidgetDetailHeader from './component';
 
 export default connect(
-  state => ({
-    widget: state.widgetDetail.data,
-    user: state.user
-  }),
+  state => ({ user: state.user }),
   null
-)(WidgetDetailHeaderComponent);
+)(WidgetDetailHeader);
