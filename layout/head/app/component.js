@@ -103,6 +103,7 @@ class HeadApp extends PureComponent {
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta name="og:image" content={thumbnailUrl} />
+        <meta property="og:image:secure_url" content={thumbnailUrl} />
         <meta name="og:image:alt" content={`${title}_widget`} />
 
         {this.getCesium()}
