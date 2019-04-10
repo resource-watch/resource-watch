@@ -84,141 +84,136 @@ class LoginModal extends PureComponent {
     } = this.state;
 
     return (
-      <Fragment>
-        <div className="c-login-modal">
-          <div className="content">
-            <div className="log-in-container">
-              {loading && <Spinner className="-light" isLoading />}
-              <div className="wrapper">
-                <div className="row">
-                  <div className="column small-12">
-                    <h2 className="c-title">{register ? 'Sign up' : 'Sign in'}</h2>
-                  </div>
-                  <div className="column small-12 medium-5">
-                    <span>Access with your email</span>
-                    <form onSubmit={this.onSubmit}>
+      <div className="c-login-modal">
+        <div className="content">
+          <div className="log-in-container">
+            {loading && <Spinner className="-light" isLoading />}
+            <div className="row">
+              <div className="column small-12">
+                <h2 className="c-title">{register ? 'Sign up' : 'Sign in'}</h2>
+              </div>
+              <div className="column small-12 medium-5">
+                <span>Access with your email</span>
+                <form onSubmit={this.onSubmit}>
+                  <Field
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
+                    onChange={value => this.setState({ email: value })}
+                    className="-fluid"
+                    validations={['required', 'email']}
+                    properties={{
+                      name: 'email',
+                      label: 'Email',
+                      required: true,
+                      default: email,
+                      placeholder: 'example@resourcewatch.org'
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                  <Field
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.password = c; }}
+                    onChange={value => this.setState({ password: value })}
+                    className="-fluid"
+                    validations={['required']}
+                    properties={{
+                      name: 'password',
+                      label: 'Password',
+                      required: true,
+                      default: password,
+                      type: 'password',
+                      placeholder: '*********'
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                  {!register && (
+                    <Link to="forgot-password">
+                      <a className="forgot-password-link">Have you forgotten your password?</a>
+                    </Link>)}
+
+                  {register &&
+                    <Fragment>
                       <Field
-                        ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
-                        onChange={value => this.setState({ email: value })}
+                        ref={(c) => { if (c) FORM_ELEMENTS.elements.repeatPassword = c; }}
+                        onChange={(value) => { this.setState({ repeatPassword: value }); }}
                         className="-fluid"
-                        validations={['required', 'email']}
+                        validations={['required', {
+                          type: 'equal',
+                          data: password,
+                          condition: 'Passwords don\'t match'
+                        }]}
                         properties={{
-                          name: 'email',
-                          label: 'Email',
+                          name: 'repeat-password',
+                          label: 'Repeat Password',
                           required: true,
-                          default: email,
-                          placeholder: 'example@resourcewatch.org'
-                        }}
-                      >
-                        {Input}
-                      </Field>
-                      <Field
-                        ref={(c) => { if (c) FORM_ELEMENTS.elements.password = c; }}
-                        onChange={value => this.setState({ password: value })}
-                        className="-fluid"
-                        validations={['required']}
-                        properties={{
-                          name: 'password',
-                          label: 'Password',
-                          required: true,
-                          default: password,
+                          default: repeatPassword,
                           type: 'password',
                           placeholder: '*********'
                         }}
                       >
                         {Input}
                       </Field>
-                      {!register && (
-                        <Link to="forgot-password">
-                          <a className="forgot-password-link">Have you forgotten your password?</a>
-                        </Link>)}
-
-                      {register &&
-                        <Fragment>
-                          <Field
-                            ref={(c) => { if (c) FORM_ELEMENTS.elements.repeatPassword = c; }}
-                            onChange={(value) => { this.setState({ repeatPassword: value }); }}
-                            className="-fluid"
-                            validations={['required', {
-                              type: 'equal',
-                              data: password,
-                              condition: 'Passwords don\'t match'
-                            }]}
-                            properties={{
-                              name: 'repeat-password',
-                              label: 'Repeat Password',
-                              required: true,
-                              default: repeatPassword,
-                              type: 'password',
-                              placeholder: '*********'
-                            }}
-                          >
-                            {Input}
-                          </Field>
-                          <div className="recaptcha-container">
-                            <ReCAPTCHA
-                              sitekey="6LeBy3YUAAAAACLNnSGCnvok_tRDnQut-Mc7SBh8"
-                              onChange={(value) => { this.setState({ captcha: value }); }}
-                            />
-                          </div>
-                        </Fragment>
-                      }
-                      <div className="c-button-container form-buttons">
-                        <ul>
-                          <li>
-                            <button className="c-button -primary">
-                              {register ? 'Register' : 'Log in'}
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              type="button"
-                              className="c-button -tertirary"
-                              onClick={() => { this.setState({ register: !register }); }}
-                            >
-                              {!register ? 'Register' : 'I have an account'}
-                            </button>
-                          </li>
-                        </ul>
+                      <div className="recaptcha-container">
+                        <ReCAPTCHA
+                          sitekey="6LeBy3YUAAAAACLNnSGCnvok_tRDnQut-Mc7SBh8"
+                          onChange={(value) => { this.setState({ captcha: value }); }}
+                        />
                       </div>
-                    </form>
-                  </div>
-                  <div className="column small-12 medium-6 large-5 large-offset-2">
-                    <span className="social-media-intro">...or with your social media account</span>
-                    <ul className="social-btn-list">
-                      <li className="social-btn-item">
-                        <a
-                          href="/auth/google"
-                          className="c-button -google -fullwidth"
-                        >
-                          Google
-                          </a>
+                    </Fragment>
+                  }
+                  <div className="c-button-container form-buttons">
+                    <ul>
+                      <li>
+                        <button className="c-button -primary">
+                          {register ? 'Register' : 'Log in'}
+                        </button>
                       </li>
-                      <li className="social-btn-item">
-                        <a
-                          href="/auth/facebook"
-                          className="c-button -facebook -fullwidth"
+                      <li>
+                        <button
+                          type="button"
+                          className="c-button -tertirary"
+                          onClick={() => { this.setState({ register: !register }); }}
                         >
-                          facebook
-                          </a>
-                      </li>
-                      <li className="social-btn-item">
-                        <a
-                          href="/auth/twitter"
-                          className="c-button -twitter -fullwidth"
-                        >
-                          Twitter
-                          </a>
+                          {!register ? 'Register' : 'I have an account'}
+                        </button>
                       </li>
                     </ul>
                   </div>
-                </div>
+                </form>
+              </div>
+              <div className="column small-12 medium-6 large-5 large-offset-2">
+                <span className="social-media-intro">...or with your social media account</span>
+                <ul className="social-btn-list">
+                  <li className="social-btn-item">
+                    <a
+                      href="/auth/google"
+                      className="c-button -google -fullwidth"
+                    >
+                      Google
+                    </a>
+                  </li>
+                  <li className="social-btn-item">
+                    <a
+                      href="/auth/facebook"
+                      className="c-button -facebook -fullwidth"
+                    >
+                      facebook
+                    </a>
+                  </li>
+                  <li className="social-btn-item">
+                    <a
+                      href="/auth/twitter"
+                      className="c-button -twitter -fullwidth"
+                    >
+                      Twitter
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-
-      </Fragment>
+      </div>
     );
   }
 }

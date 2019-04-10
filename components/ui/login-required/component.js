@@ -1,20 +1,17 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-// Components
+// components
 import Modal from 'components/modal/modal-component';
 import LoginModal from 'components/modal/login-modal';
 
 class LoginRequired extends PureComponent {
   static propTypes = {
-    children: PropTypes.object,
+    children: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { isOpen: false };
-  }
+  state = { isOpen: false };
 
   promptLogin = (e) => {
     e.stopPropagation();
@@ -22,30 +19,27 @@ class LoginRequired extends PureComponent {
     this.setState({ isOpen: true });
   }
 
-  closePrompt = () => {
-    this.setState({ isOpen: false });
-  }
+  closePrompt = () => { this.setState({ isOpen: false }); }
 
   render() {
-    const { user, text } = this.props;
+    const { user, children } = this.props;
     const { isOpen } = this.state;
 
-    return user.token ? this.props.children : (
-      <fragment>
+    return user.token ? children : (
+      <Fragment>
         <div
           className="c-login-required"
           onClickCapture={this.promptLogin}
         >
-          {this.props.children}
+          {children}
         </div>
         <Modal
           isOpen={isOpen}
-          className="-large -login"
           onRequestClose={this.closePrompt}
         >
-          <LoginModal text={ text || ''} />
+          <LoginModal />
         </Modal>
-      </fragment>
+      </Fragment>
     );
   }
 }
