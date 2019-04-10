@@ -181,7 +181,7 @@ class LoginModal extends PureComponent {
                   </div>
                 </form>
               </div>
-              <div className="column small-12 medium-6 large-5 large-offset-2">
+              <div className="column small-12 medium-5 medium-offset-2">
                 <span className="social-media-intro">...or with your social media account</span>
                 <ul className="social-btn-list">
                   <li className="social-btn-item">
