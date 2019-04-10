@@ -7,12 +7,13 @@ import { connect } from 'react-redux';
 // Selectors
 import areaAlerts from 'selectors/user/areaAlerts';
 
-// Components
+// components
 import { getLabel } from 'utils/datasets/dataset-helpers';
 import AlertWidget from 'components/areas/AlertWidget';
 
 // Services
 import UserService from 'services/UserService';
+import { fetchSubscription } from 'services/subscription';
 
 class AreasAlerts extends React.Component {
   constructor(props) {
@@ -23,10 +24,12 @@ class AreasAlerts extends React.Component {
 
     this.state = { subscriptionData: null };
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
+    debugger
 
-    this.userService.getSubscription(subscription.id, user.token).then(((data) => {
-      this.setState({ subscriptionData: data });
-    }));
+    fetchSubscription(subscription.id, user.token)
+      .then(((data) => {
+        this.setState({ subscriptionData: data });
+      }));
   }
 
   render() {

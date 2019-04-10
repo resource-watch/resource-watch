@@ -217,13 +217,13 @@ export default class UserService {
   /**
    *  Get Subscriptions
    */
-  getSubscriptions(token) {
-    return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/subscriptions?application=${process.env.APPLICATIONS}`, { headers: { Authorization: token } })
-        .then(response => response.json())
-        .then(jsonData => resolve(jsonData.data));
-    });
-  }
+  // getSubscriptions(token) {
+  //   return new Promise((resolve) => {
+  //     fetch(`${this.opts.apiURL}/subscriptions?application=${process.env.APPLICATIONS}`, { headers: { Authorization: token } })
+  //       .then(response => response.json())
+  //       .then(jsonData => resolve(jsonData.data));
+  //   });
+  // }
 
   /**
    *  Get Subscription

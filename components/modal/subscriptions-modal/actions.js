@@ -6,6 +6,7 @@ import moment from 'moment';
 import WRISerializer from 'wri-json-api-serializer';
 
 // services
+import { fetchSubscriptions } from 'services/subscription';
 import AreasService from 'services/AreasService';
 import UserService from 'services/UserService';
 import DatasetService from 'services/DatasetService';
@@ -31,7 +32,7 @@ export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-S
 
     dispatch(setSubscriptionsLoading(true));
 
-    userService.getSubscriptions(token)
+    return fetchSubscriptions(token)
       .then((subscriptions = []) => {
         dispatch(setSubscriptions(subscriptions));
         dispatch(setSubscriptionsLoading(false));

@@ -15,6 +15,7 @@ import FavouritesService from 'services/favourites-service';
 import CollectionsService from 'services/collections-service';
 import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
+import { fetchSubscriptions } from 'services/subscription';
 
 /**
  * CONSTANTS
@@ -460,7 +461,7 @@ export const getUserAreas = createThunkAction(
           // 1. fetch subscriptions then merge them with the area
           // 2. Get datasets
           // 3. Merge the 2 of them into the area
-          return userService.getSubscriptions(user.token).then((subs) => {
+          return fetchSubscriptions(user.token).then((subs) => {
             subs = subs.filter(sub => sub.attributes.params.area);
             const datasetsSet = new Set();
             subs.forEach(sub => sub.attributes.datasets
