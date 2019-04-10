@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
-import LoginRequiredComponent from './login-required-component';
+
+// component
+import LoginRequired from './component';
 
 export default connect(
-  state => ({
-    user: state.user,
-    isOpen: state.isOpen
-  }),
+  state => ({ user: state.user }),
   null
-)(LoginRequiredComponent);
+)(LoginRequired);

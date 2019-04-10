@@ -1,3 +1,12 @@
-import LoginModalComponent from './login-modal-component';
+import { connect } from 'react-redux';
 
-export default LoginModalComponent;
+// actions
+import { setUser } from 'redactions/user';
+
+// component
+import LoginModal from './component';
+
+export default connect(
+  null,
+  { setUser }
+)(LoginModal);

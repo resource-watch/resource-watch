@@ -18,6 +18,9 @@ class ModalComponent extends PureComponent {
   };
 
   static defaultProps = {
+    onAfterOpen: null,
+    className: null,
+    header: null
   };
 
   // eslint-disable-line react/prefer-stateless-function
@@ -29,11 +32,7 @@ class ModalComponent extends PureComponent {
       onAfterOpen,
       onRequestClose
     } = this.props;
-
-    const classNames = classnames({
-      [className]: !!className
-    });
-
+    const classNames = classnames({ [className]: !!className });
     return (
       <Modal
         className={`c-modal2 ${classNames}`}
@@ -41,14 +40,14 @@ class ModalComponent extends PureComponent {
         bodyOpenClassName="-no-scroll"
         isOpen={isOpen}
         ariaHideApp={false}
-        onAfterOpen={onAfterOpen}
+        {...onAfterOpen && { onAfterOpen }}
         onRequestClose={onRequestClose}
       >
         {header}
 
         <button
           className="modal-close"
-          onClick={(e) => e.stopPropagation() || onRequestClose()}
+          onClick={e => e.stopPropagation() || onRequestClose()}
         >
           <Icon name="icon-cross" className="-small" />
         </button>
