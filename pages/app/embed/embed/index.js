@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 // actions
-import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import EmbedEmbedPage from './component';
+import LayoutEmbedEmbed from 'layout/embed/embed';
 
-class EmbedEmbedPageContainer extends PureComponent {
+class EmbedEmbedPage extends PureComponent {
   static async getInitialProps({ store, isServer, req }) {
     const { dispatch, getState } = store;
     const { routes: { query: { webshot } } } = getState();
@@ -21,21 +19,8 @@ class EmbedEmbedPageContainer extends PureComponent {
   }
 
   render() {
-    return (<EmbedEmbedPage {...this.props} />);
+    return (<LayoutEmbedEmbed {...this.props} />);
   }
 }
 
-export default connect(
-  state => ({
-    widget: state.widget.data,
-    loading: state.widget.loading,
-    error: state.widget.error,
-    favourited: state.widget.favourite.favourited,
-    user: state.user
-  }),
-  {
-    getWidget,
-    checkIfFavorited,
-    setIfFavorited
-  }
-)(EmbedEmbedPageContainer);
+export default EmbedEmbedPage;

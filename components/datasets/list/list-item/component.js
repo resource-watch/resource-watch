@@ -159,7 +159,7 @@ class DatasetListItem extends React.Component {
                 </Link>
 
                 {/* Favorite dataset icon */}
-                <LoginRequired text="Log in or sign up to save items in favorites">
+                <LoginRequired>
                   <Tooltip
                     overlay={
                       <CollectionsPanel

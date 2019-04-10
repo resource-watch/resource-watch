@@ -1,51 +1,35 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-// actions
-import * as actions from 'layout/widget-detail/widget-detail-actions';
-
 
 // components
-import WidgetDetail from 'layout/widget-detail';
+import WidgetDetail from 'layout/app/widget-detail';
 import Error from 'pages/_error';
 
+// services
+import { fetchWidget } from 'services/widget';
+
 class WidgetDetailPage extends PureComponent {
-  static propTypes = {
-    widgetDetail: PropTypes.object.isRequired,
-    routes: PropTypes.object.isRequired
-  };
+  static propTypes = { widget: PropTypes.object };
+
+  static defaultProps = { widget: {} }
 
   static async getInitialProps({ store }) {
-    const { dispatch, getState } = store;
+    const { getState } = store;
     const { routes: { query: { id } } } = getState();
 
     // fetchs widget
-    await dispatch(actions.fetchWidget({ id }));
+    const widget = await fetchWidget(id);
 
-    return {};
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.routes.query.id !== nextProps.routes.query.id) {
-      window.scrollTo(0, 0);
-    }
+    return { widget };
   }
 
   render() {
-    const { widgetDetail } = this.props;
-    const { data: widget } = widgetDetail;
+    const { widget } = this.props;
 
     if (!widget || !widget.id) return (<Error statusCode={404} />);
 
-    return (<WidgetDetail />);
+    return (<WidgetDetail {...this.props} />);
   }
 }
 
-export default connect(
-  state => ({
-    widgetDetail: state.widgetDetail,
-    routes: state.routes
-  }),
-  actions
-)(WidgetDetailPage);
+export default WidgetDetailPage;

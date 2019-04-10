@@ -23,6 +23,7 @@
     "classnames": "2.2.5",
     "connect-redis": "3.3.0",
     "cookie-parser": "1.4.3",
+    "copy-webpack-plugin": "^5.0.2",
     "d3": "3.5.17",
     "d3-scale": "^2.1.2",
     "dotenv": "4.0.0",
@@ -112,7 +113,7 @@
     "webpack": "^4.27.1",
     "webpackbar": "^2.6.3",
     "whatwg-fetch": "2.0.2",
-    "widget-editor": "^1.3.6",
+    "widget-editor": "^1.4.4",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {

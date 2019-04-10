@@ -103,7 +103,7 @@ class TopicsLayout extends PureComponent {
                   <p className="-claim">
                     Create and share <br />custom visualizations.
                   </p>
-                  <LoginRequired text="Log in to create a dashboard">
+                  <LoginRequired>
                     <a
                       href="/myrw/dashboards"
                       className="c-button -alt -primary"

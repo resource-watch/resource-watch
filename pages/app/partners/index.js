@@ -1,12 +1,24 @@
-import { connect } from 'react-redux';
+import React, { PureComponent } from 'react';
 
-// selectors
-import { getFilteredPartners } from './selectors';
+// actions
+import { getPartners } from 'redactions/admin/partners';
 
-// component
-import PartnersPage from './component';
+// components
+import LayoutPartners from 'layout/app/partners';
 
-export default connect(
-  state => ({ allPartners: getFilteredPartners(state) }),
-  null
-)(PartnersPage);
+class PartnersPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { partners: { published } } = getState();
+
+    if (!published.list.length) await dispatch(getPartners());
+
+    return {};
+  }
+
+  render() {
+    return (<LayoutPartners />);
+  }
+}
+
+export default PartnersPage;

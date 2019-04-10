@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 
 // actions
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import EmbedSimilarDatasetsPage from './component';
+import LayoutEmbedSimilarDatasets from 'layout/embed/similar-datasets';
 
-class EmbedSimilarDatasetsPageContainer extends PureComponent {
+class EmbedSimilarDatasetsPage extends PureComponent {
   static async getInitialProps({ store }) {
     const { dispatch, getState } = store;
     const { routes: { query: { webshot } } } = getState();
@@ -19,11 +18,8 @@ class EmbedSimilarDatasetsPageContainer extends PureComponent {
   }
 
   render() {
-    return (<EmbedSimilarDatasetsPage {...this.props} />);
+    return (<LayoutEmbedSimilarDatasets />);
   }
 }
 
-export default connect(
-  state => ({ loading: state.similarDatasets.loading }),
-  null
-)(EmbedSimilarDatasetsPageContainer);
+export default EmbedSimilarDatasetsPage;
