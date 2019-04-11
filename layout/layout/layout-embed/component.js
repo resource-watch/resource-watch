@@ -18,7 +18,8 @@ class LayoutEmbed extends PureComponent {
     thumbnailUrl: PropTypes.string,
     className: PropTypes.string,
     toggleTooltip: PropTypes.func.isRequired,
-    updateIsLoading: PropTypes.func.isRequired
+    updateIsLoading: PropTypes.func.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -50,13 +51,14 @@ class LayoutEmbed extends PureComponent {
   }
 
   render() {
-    const { title, description, className, thumbnailUrl } = this.props;
+    const { title, description, className, thumbnailUrl, hostname } = this.props;
     return (
       <div className={`l-page ${className}`}>
         <HeadApp
           title={title}
           description={description}
           thumbnailUrl={thumbnailUrl}
+          hostname={hostname}
         />
 
         <Icons />

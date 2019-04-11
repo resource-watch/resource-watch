@@ -11,10 +11,13 @@ import Title from 'components/ui/Title';
 import { PARTNERS_TABS } from './constants';
 
 class LayoutAdminPartners extends PureComponent {
-  static propTypes = { query: PropTypes.object.isRequired }
+  static propTypes = {
+    query: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
+  }
 
   render() {
-    const { query: { tab } } = this.props;
+    const { query: { tab }, hostname } = this.props;
     const currentTab = tab || 'partners';
 
     return (
@@ -22,6 +25,7 @@ class LayoutAdminPartners extends PureComponent {
         title="Partners"
         // TO-DO: fill description
         description="Partners description..."
+        hostname={hostname}
       >
         <div className="c-page-header -admin">
           <div className="l-container -admin">

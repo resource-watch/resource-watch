@@ -36,7 +36,6 @@ class RWApp extends App {
     const { asPath } = router;
     const { req, store, query, isServer } = ctx;
     const pathname = req ? asPath : ctx.asPath;
-
     // sets app routes
     const url = { asPath, pathname, query };
     store.dispatch(setRouter(url));

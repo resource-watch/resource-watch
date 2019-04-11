@@ -37,6 +37,7 @@ class LayoutEmbedMap extends PureComponent {
     referer: PropTypes.string,
     user: PropTypes.object.isRequired,
     url: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired,
     webshot: PropTypes.bool.isRequired,
     toggleLayerGroupVisibility: PropTypes.func.isRequired,
     checkIfFavorited: PropTypes.func.isRequired,
@@ -100,7 +101,8 @@ class LayoutEmbedMap extends PureComponent {
       user,
       url,
       referer,
-      webshot
+      webshot,
+      hostname
     } = this.props;
     const { modalOpened } = this.state;
     const { disableZoom, legendExpanded } = url.query;
@@ -114,12 +116,12 @@ class LayoutEmbedMap extends PureComponent {
       id,
       thumbnailUrl
     } = widget;
-
     if (loading) {
       return (
         <LayoutEmbed
           title="Loading widget..."
           description=""
+          hostname={hostname}
 
         >
           <div className="c-embed-widget -map">
@@ -133,6 +135,7 @@ class LayoutEmbedMap extends PureComponent {
         <LayoutEmbed
           title="Resource Watch"
           description=""
+          hostname={hostname}
         >
           <div className="c-embed-widget -map">
             <div className="widget-title">
@@ -168,6 +171,7 @@ class LayoutEmbedMap extends PureComponent {
         title={name}
         description={`${description || ''}`}
         {...thumbnailUrl && { thumbnailUrl }}
+        hostname={hostname}
       >
         <div className="c-embed-widget -map">
           {!webshot && (

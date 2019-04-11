@@ -26,6 +26,7 @@ class LayoutEmbedWidget extends PureComponent {
     user: PropTypes.object.isRequired,
     webshot: PropTypes.bool.isRequired,
     referer: PropTypes.string,
+    hostname: PropTypes.string.isRequired,
     setIfFavorited: PropTypes.func.isRequired
   };
 
@@ -121,8 +122,10 @@ class LayoutEmbedWidget extends PureComponent {
       favourited,
       user,
       webshot,
-      referer
+      referer,
+      hostname
     } = this.props;
+
     const { modalOpened } = this.state;
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
     const widgetAtts = widget && widget;
@@ -171,6 +174,7 @@ class LayoutEmbedWidget extends PureComponent {
         title={widget.name}
         description={`${widget.description || ''}`}
         {...widget.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl }}
+        hostname={hostname}
       >
         <div className="c-embed-widget">
           {!webshot && (

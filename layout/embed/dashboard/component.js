@@ -12,19 +12,23 @@ import Icon from 'components/ui/Icon';
 import { logEvent } from 'utils/analytics';
 
 class LayoutEmbedDashboard extends PureComponent {
-  static propTypes = { dashboard: PropTypes.object.isRequired }
+  static propTypes = {
+    dashboard: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
+  }
 
   state = { showShareModal: false }
 
   handleToggleShareModal = (bool) => { this.setState({ showShareModal: bool }); }
 
   render() {
-    const { dashboard } = this.props;
+    const { dashboard, hostname } = this.props;
 
     return (
       <LayoutEmbed
         title={dashboard.name}
         description={dashboard.summary}
+        hostname={hostname}
         className="page-dashboards c-page-dashboards"
         pageHeader
       >

@@ -16,7 +16,10 @@ import Title from 'components/ui/Title';
 import { capitalizeFirstLetter } from 'utils/utils';
 
 class AdminDashboardsDetailPage extends PureComponent {
-  static propTypes = { url: PropTypes.object.isRequired };
+  static propTypes = {
+    url: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
+  };
 
   state = {
     ...this.props.url.query,
@@ -59,12 +62,14 @@ class AdminDashboardsDetailPage extends PureComponent {
 
   render() {
     const { tab, subtab, id } = this.state;
+    const { hostname } = this.props;
 
     return (
       <Layout
         title={this.getName()}
         // TO-DO: fill description
         description="Dashboards detail..."
+        hostname={hostname}
       >
         <div className="c-page-header -admin">
           <div className="l-container -admin">

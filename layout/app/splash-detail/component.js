@@ -29,7 +29,8 @@ class LayoutSplashDetail extends PureComponent {
     responsive: PropTypes.object.isRequired,
     modal: PropTypes.object.isRequired,
     toggleModal: PropTypes.func.isRequired,
-    setModalOptions: PropTypes.func.isRequired
+    setModalOptions: PropTypes.func.isRequired,
+    hostname: PropTypes.string.isRequired
   }
 
   constructor(props) {
@@ -146,7 +147,7 @@ class LayoutSplashDetail extends PureComponent {
   handleToggleIntro = () => { this.setState({ introOpened: !this.state.introOpened }); }
 
   render() {
-    const { modal, responsive } = this.props;
+    const { modal, responsive, hostname } = this.props;
     const {
       selectedPanorama,
       skyLoading,
@@ -245,6 +246,7 @@ class LayoutSplashDetail extends PureComponent {
             <HeadApp
               title="SplashDetail page"
               description="SplashDetail page description"
+              hostname={hostname}
             />
             <Icons />
             <Header

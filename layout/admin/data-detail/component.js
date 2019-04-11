@@ -21,7 +21,8 @@ import { capitalizeFirstLetter } from 'utils/utils';
 class LayoutAdminDataDetail extends PureComponent {
   static propTypes = {
     query: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired
+    locale: PropTypes.string.isRequired,
+    hostname: PropTypes.string.isRequired
   }
 
   state= { data: null }
@@ -71,13 +72,14 @@ class LayoutAdminDataDetail extends PureComponent {
 
 
   render() {
-    const { query: { tab, dataset } } = this.props;
+    const { query: { tab, dataset }, hostname } = this.props;
 
     return (
       <Layout
         title={this.getName()}
         // TO-DO: fill description
         description="Data detail..."
+        hostname={hostname}
       >
         <div className="c-page-header -admin">
           <div className="l-container -admin">

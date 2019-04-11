@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import { Router } from 'routes';
+import PropTypes from 'prop-types';
 
 // components
 import HeadApp from 'layout/head/app';
@@ -23,6 +24,8 @@ import './styles.scss';
 let Cesium;
 
 class SplashPage extends PureComponent {
+  static propTypes = { hostname: PropTypes.string.isRequired }
+
   state = {
     billboardHover: false,
     selectedMarker: null,
@@ -155,6 +158,7 @@ class SplashPage extends PureComponent {
       selectedMarker,
       hideSkip
     } = this.state;
+    const { hostname } = this.props;
     const pageClassnames = classnames(
       'l-splash',
       { '-cursor-pointer': billboardHover }
@@ -170,6 +174,7 @@ class SplashPage extends PureComponent {
           title="Splash page"
           // TO-DO: fill description
           description="Splash page description"
+          hostname={hostname}
         />
         <Header
           showEarthViewLink={false}

@@ -12,12 +12,13 @@ class EmbedMapPage extends PureComponent {
     const { dispatch, getState } = store;
     const { routes: { query: { webshot, id } } } = getState();
     const referer = isServer ? req.headers.referer : window.location.href;
+    const hostname = isServer ? req.headers.host : window.location.origin;
 
     dispatch(setEmbed(true));
     if (webshot) dispatch(setWebshotMode(true));
     await dispatch(getWidget(id, { includes: ['metadata'].join(',') }));
 
-    return { referer };
+    return { referer, hostname };
   }
 
   render() {

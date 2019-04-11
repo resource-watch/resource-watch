@@ -118,7 +118,8 @@ class LayoutApp extends PureComponent {
       category,
       thumbnail,
       isFullScreen,
-      showUserReport
+      showUserReport,
+      hostname
     } = this.props;
     const componentClass = classnames(
       'l-page',
@@ -135,6 +136,7 @@ class LayoutApp extends PureComponent {
           description={description}
           {...thumbnail && { thumbnail }}
           category={category}
+          hostname={hostname}
         />
 
         {!browserSupported() &&

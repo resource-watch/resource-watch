@@ -14,7 +14,8 @@ import { capitalizeFirstLetter } from 'utils/utils';
 class AdminTopicsDetailLayout extends PureComponent {
   static propTypes = {
     url: PropTypes.object.isRequired,
-    topic: PropTypes.object.isRequired
+    topic: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   getName() {
@@ -31,7 +32,7 @@ class AdminTopicsDetailLayout extends PureComponent {
   }
 
   render() {
-    const { url } = this.props;
+    const { url, hostname } = this.props;
     const { query: { id, tab, subtab } } = url;
 
     return (
@@ -39,6 +40,7 @@ class AdminTopicsDetailLayout extends PureComponent {
         title={this.getName()}
         // TO-DO: fill description
         description="Topics detail..."
+        hostname={hostname}
       >
         <div className="c-page-header -admin">
           <div className="l-container -admin">

@@ -16,7 +16,8 @@ class CatalogLayout extends PureComponent {
     list: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     getDatasets: PropTypes.func.isRequired,
-    setDatasetsSearch: PropTypes.func.isRequired
+    setDatasetsSearch: PropTypes.func.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   getSearchResults = debounce((value) => {
@@ -35,13 +36,15 @@ class CatalogLayout extends PureComponent {
   render() {
     const {
       loading,
-      list
+      list,
+      hostname
     } = this.props;
 
     return (
       <Layout
         title="Resource Watch Catalog"
         description="Check the whole list of datasets available in RW"
+        hostname={hostname}
       >
         <div className="l-page-header">
           <div className="l-container">

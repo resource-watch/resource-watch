@@ -13,7 +13,10 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import FaqBlock from 'components/app/common/Faqs/FaqBlock';
 
 class LayoutFaqs extends PureComponent {
-  static propTypes = { faqs: PropTypes.array.isRequired };
+  static propTypes = {
+    faqs: PropTypes.array.isRequired,
+    hostname: PropTypes.string.isRequired
+  };
 
   static async getInitialProps({ store }) {
     const { getState, dispatch } = store;
@@ -25,7 +28,7 @@ class LayoutFaqs extends PureComponent {
   }
 
   render() {
-    const { faqs } = this.props;
+    const { faqs, hostname } = this.props;
     // TO-DO: move this from here
     const orderedFaqs = sortBy(faqs, faq => faq.order);
 
@@ -35,6 +38,7 @@ class LayoutFaqs extends PureComponent {
         // TO-DO: fill description
         description="Faqs description"
         pageHeader
+        hostname={hostname}
       >
         <div className="c-page-header">
           <div className="l-container">

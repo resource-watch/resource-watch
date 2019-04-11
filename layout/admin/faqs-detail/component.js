@@ -14,7 +14,8 @@ import { capitalizeFirstLetter } from 'utils/utils';
 class LayoutAdminFaqsDetail extends PureComponent {
   static propTypes = {
     query: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
   }
 
   getName() {
@@ -29,7 +30,8 @@ class LayoutAdminFaqsDetail extends PureComponent {
   render() {
     const {
       query: { tab, id },
-      user: { token }
+      user: { token },
+      hostname
     } = this.props;
 
     return (
@@ -37,6 +39,7 @@ class LayoutAdminFaqsDetail extends PureComponent {
         title={this.getName()}
         // TO-DO: fill description
         description="Faqs detail..."
+        hostname={hostname}
       >
         <div className="c-page-header -admin">
           <div className="l-container -admin">

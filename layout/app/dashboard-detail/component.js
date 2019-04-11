@@ -19,7 +19,8 @@ import { logEvent } from 'utils/analytics';
 class DashboardsDetailPage extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    datasetIds: PropTypes.array.isRequired
+    datasetIds: PropTypes.array.isRequired,
+    hostname: PropTypes.string.isRequired
   }
 
   state = { showShareModal: false }
@@ -43,7 +44,8 @@ class DashboardsDetailPage extends PureComponent {
   render() {
     const {
       data: dashboard,
-      datasetIds
+      datasetIds,
+      hostname
     } = this.props;
     const { showShareModal } = this.state;
     const {
@@ -59,6 +61,7 @@ class DashboardsDetailPage extends PureComponent {
         description={summary}
         pageHeader
         className="page-dashboards c-page-dashboards"
+        hostname={hostname}
       >
         <header className="l-page-header">
           <div className="l-container">

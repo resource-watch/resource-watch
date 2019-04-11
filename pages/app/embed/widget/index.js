@@ -15,6 +15,7 @@ class EmbedWidgetPage extends PureComponent {
       user
     } = getState();
     const referer = isServer ? req.headers.referer : window.location.href;
+    const hostname = isServer ? req.headers.host : window.location.origin;
 
     dispatch(setEmbed(true));
     if (webshot) dispatch(setWebshotMode(true));
@@ -25,7 +26,7 @@ class EmbedWidgetPage extends PureComponent {
       if (user && user.id) dispatch(checkIfFavorited(id));
     }
 
-    return { referer };
+    return { referer, hostname };
   }
 
   render() {

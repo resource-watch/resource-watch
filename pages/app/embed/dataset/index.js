@@ -13,7 +13,10 @@ class EmbedDatasetPage extends PureComponent {
 
     dispatch(setEmbed(true));
 
-    return { referer: isServer ? req.headers.referer : window.location.href };
+    const referer = isServer ? req.headers.referer : window.location.href;
+    const hostname = isServer ? req.headers.host : window.location.origin;
+
+    return { referer, hostname };
   }
 
   render() {

@@ -15,7 +15,8 @@ class LayoutEmbedText extends PureComponent {
     loading: PropTypes.bool.isRequired,
     routes: PropTypes.object.isRequired,
     referer: PropTypes.string,
-    getWidget: PropTypes.func.isRequired
+    getWidget: PropTypes.func.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   static defaultProps = { referer: '' }
@@ -36,7 +37,7 @@ class LayoutEmbedText extends PureComponent {
   }
 
   render() {
-    const { widget, referer, loading } = this.props;
+    const { widget, referer, loading, hostname } = this.props;
     const { isLoading } = this.state;
     const isExternal = isLoadedExternally(referer);
     const {
@@ -50,6 +51,7 @@ class LayoutEmbedText extends PureComponent {
         <LayoutEmbed
           title="Loading widget..."
           description=""
+          hostname={hostname}
         >
           <Spinner isLoading className="-light" />
         </LayoutEmbed>
@@ -60,6 +62,7 @@ class LayoutEmbedText extends PureComponent {
       <LayoutEmbed
         title={name}
         description={description || ''}
+        hostname={hostname}
       >
         <div className="c-embed-widget">
           <div className="visualization">

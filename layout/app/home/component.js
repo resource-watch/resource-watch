@@ -26,7 +26,10 @@ import {
 import './styles.scss';
 
 class LayoutHome extends PureComponent {
-  static propTypes = { responsive: PropTypes.object.isRequired }
+  static propTypes = {
+    responsive: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
+  }
 
   state = { videoReady: false }
 
@@ -40,7 +43,7 @@ class LayoutHome extends PureComponent {
   }
 
   render() {
-    const { responsive: { fakeWidth } } = this.props;
+    const { responsive: { fakeWidth }, hostname } = this.props;
     const { videoReady } = this.state;
     const videoForegroundClass = classnames(
       'video-foreground',
@@ -52,6 +55,7 @@ class LayoutHome extends PureComponent {
         title="Monitoring the Planet’s Pulse — Resource Watch"
         description="Trusted and timely data for a sustainable future."
         className="l-home"
+        hostname={hostname}
       >
         <div className="video-intro">
           <MediaQuery

@@ -10,7 +10,8 @@ import DatasetList from 'components/datasets/list';
 class LayoutPartnerDetail extends PureComponent {
   static propTypes = {
     partner: PropTypes.object,
-    datasets: PropTypes.array
+    datasets: PropTypes.array,
+    hostname: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -25,7 +26,8 @@ class LayoutPartnerDetail extends PureComponent {
   render() {
     const {
       partner,
-      datasets
+      datasets,
+      hostname
     } = this.props;
     const {
       name,
@@ -63,6 +65,7 @@ class LayoutPartnerDetail extends PureComponent {
         title="Partner detail"
         // TO-DO: fill description
         description="Partner detail description"
+        hostname={hostname}
       >
         <div className="c-page partner-detail">
           <Banner

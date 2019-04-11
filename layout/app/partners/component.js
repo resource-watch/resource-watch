@@ -9,7 +9,10 @@ import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
 class LayoutPartners extends PureComponent {
-  static propTypes = { allPartners: PropTypes.object.isRequired };
+  static propTypes = {
+    allPartners: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
+  };
 
   render() {
     const {
@@ -18,7 +21,8 @@ class LayoutPartners extends PureComponent {
         funders,
         anchorFunders,
         partners
-      }
+      },
+      hostname
     } = this.props;
 
     return (
@@ -27,6 +31,7 @@ class LayoutPartners extends PureComponent {
         // TO-DO: fill description
         description="Partners description"
         pageHeader
+        hostname={hostname}
       >
         <div className="c-page-header">
           <div className="l-container">

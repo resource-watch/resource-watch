@@ -3,12 +3,24 @@ import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
 
 export default class HeadAdmin extends React.Component {
+  static propTypes = {
+    title: PropTypes.string,
+    description: PropTypes.string,
+    hostname: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    title: null,
+    description: null
+  }
+
   render() {
-    const { title, description } = this.props;
+    const { title, description, hostname } = this.props;
 
     return (
       <HeadNext>
         <title>{title} | RW Content Manager</title>
+        <meta property="og:url" content={hostname} />
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="Vizzuality" />
@@ -44,7 +56,3 @@ export default class HeadAdmin extends React.Component {
   }
 }
 
-HeadAdmin.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
-};

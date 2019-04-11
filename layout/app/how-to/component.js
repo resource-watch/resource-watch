@@ -6,10 +6,13 @@ import renderHTML from 'react-render-html';
 import Layout from 'layout/layout/layout-app';
 
 class LayoutHowTo extends PureComponent {
-  static propTypes = { data: PropTypes.object.isRequired }
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
+  }
 
   render() {
-    const { data } = this.props;
+    const { data, hostname } = this.props;
     const styles = { ...(data && data.photo) && { backgroundImage: `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})` } };
 
     if (!data) return null;
@@ -20,6 +23,7 @@ class LayoutHowTo extends PureComponent {
         // TO-DO: fill description
         description="How to description"
         className="l-static"
+        hostname={hostname}
       >
         <section className="l-content">
           <header className="l-content-header">

@@ -6,12 +6,15 @@ import renderHTML from 'react-render-html';
 import Layout from 'layout/layout/layout-app';
 
 class LayoutPolicy extends PureComponent {
-  static propTypes = { data: PropTypes.object }
+  static propTypes = {
+    data: PropTypes.object,
+    hostname: PropTypes.string.isRequired
+  }
 
   static defaultProps = { data: null }
 
   render() {
-    const { data } = this.props;
+    const { data, hostname } = this.props;
     const styles = {};
 
     // TO-DO: do a proper redirect in server, remove this.
@@ -27,6 +30,7 @@ class LayoutPolicy extends PureComponent {
         // TO-DO: fill description
         description="Privacy policy description"
         className="l-static"
+        hostname={hostname}
       >
         <section className="l-content">
           <header className="l-content-header">

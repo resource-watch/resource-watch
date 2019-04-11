@@ -13,7 +13,8 @@ class LayoutEmbedTable extends PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool,
     referer: PropTypes.string,
-    routes: PropTypes.object.isRequired
+    routes: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -46,7 +47,7 @@ class LayoutEmbedTable extends PureComponent {
   }
 
   render() {
-    const { referer } = this.props;
+    const { referer, hostname } = this.props;
     const {
       isLoading,
       tableData
@@ -60,6 +61,7 @@ class LayoutEmbedTable extends PureComponent {
         <LayoutEmbed
           title="Loading widget..."
           description=""
+          hostname={hostname}
         >
           <Spinner isLoading className="-light" />
         </LayoutEmbed>
@@ -67,7 +69,9 @@ class LayoutEmbedTable extends PureComponent {
     }
 
     return (
-      <LayoutEmbed>
+      <LayoutEmbed
+        hostname={hostname}
+      >
         <div className="c-embed-table">
           <div className="visualization">
             <Spinner isLoading={isLoading} className="-light" />

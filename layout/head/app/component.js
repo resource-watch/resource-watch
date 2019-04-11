@@ -13,7 +13,8 @@ class HeadApp extends PureComponent {
     title: PropTypes.string,
     description: PropTypes.string,
     thumbnailUrl: PropTypes.string,
-    routes: PropTypes.object.isRequired
+    routes: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -93,12 +94,15 @@ class HeadApp extends PureComponent {
     const {
       title,
       description,
-      thumbnailUrl
+      thumbnailUrl,
+      hostname
     } = this.props;
+    console.log(hostname, '-----------hostname')
     return (
       <HeadNext>
         <title>{title ? `${title} | Resource Watch` : 'Resource Watch'}</title>
 
+        <meta property="og:url" content={hostname} />
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -124,6 +128,7 @@ class HeadApp extends PureComponent {
         {this.getCrazyEgg()}
         {this.getUserReport()}
         {this.getAFrame()}
+
       </HeadNext>
     );
   }

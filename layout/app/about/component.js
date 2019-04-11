@@ -9,12 +9,15 @@ import Banner from 'components/app/common/Banner';
 import CardApp from 'components/app/common/CardApp';
 
 class AboutPage extends PureComponent {
-  static propTypes = { data: PropTypes.object }
+  static propTypes = {
+    data: PropTypes.object,
+    hostname: PropTypes.string.isRequired
+  }
 
   static defaultProps = { data: null }
 
   render() {
-    const { data } = this.props;
+    const { data, hostname } = this.props;
 
     // TO-DO: do a proper redirect in server, remove this.
     if (!data) return null;
@@ -102,6 +105,7 @@ class AboutPage extends PureComponent {
         title="About"
         description="About description..."
         className="l-static p-about"
+        hostname={hostname}
       >
 
         <section className="l-content">
