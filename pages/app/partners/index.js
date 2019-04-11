@@ -1,18 +1,24 @@
-
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
 // actions
 import { getPartners } from 'redactions/admin/partners';
 
-// selectors
-import { getFilteredPartners } from './selectors';
+// components
+import LayoutPartners from 'layout/app/partners';
 
-// component
-import PartnersPage from './component';
+class PartnersPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { partners: { published } } = getState();
 
-export default withRedux(
-  initStore,
-  state => ({ allPartners: getFilteredPartners(state) }),
-  { getPartners }
-)(PartnersPage);
+    if (!published.list.length) await dispatch(getPartners());
+
+    return {};
+  }
+
+  render() {
+    return (<LayoutPartners />);
+  }
+}
+
+export default PartnersPage;

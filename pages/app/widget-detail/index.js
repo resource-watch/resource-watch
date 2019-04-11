@@ -1,57 +1,51 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-// Components
-import Page from 'layout/page';
+// actions
+import * as actions from 'layout/widget-detail/widget-detail-actions';
+
+
+// components
+import WidgetDetail from 'layout/widget-detail';
 import Error from 'pages/_error';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import * as actions from 'layout/widget-detail/widget-detail-actions';
-import WidgetDetail from 'layout/widget-detail';
-
-class WidgetDetailPage extends Page {
+class WidgetDetailPage extends PureComponent {
   static propTypes = {
-    user: PropTypes.object,
-    widgetDetail: PropTypes.object,
-    locale: PropTypes.string.isRequired
+    widgetDetail: PropTypes.object.isRequired,
+    routes: PropTypes.object.isRequired
   };
 
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store } = context;
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { id } } } = getState();
 
-    // Fetch widget
-    await store.dispatch(actions.fetchWidget({ id: props.url.query.id }));
+    // fetchs widget
+    await dispatch(actions.fetchWidget({ id }));
 
-    return { ...props };
+    return {};
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.url.query.id !== nextProps.url.query.id) {
+    if (this.props.routes.query.id !== nextProps.routes.query.id) {
       window.scrollTo(0, 0);
     }
   }
 
   render() {
-    const {
-      widgetDetail
-    } = this.props;
-
+    const { widgetDetail } = this.props;
     const { data: widget } = widgetDetail;
-    if (widget && !widget.published) return <Error statusCode={404} />;
 
-    return <WidgetDetail />;
+    if (!widget || !widget.id) return (<Error statusCode={404} />);
+
+    return (<WidgetDetail />);
   }
 }
 
-export default withRedux(
-  initStore,
+export default connect(
   state => ({
-    // Store
-    widgetDetail: state.widgetDetail
+    widgetDetail: state.widgetDetail,
+    routes: state.routes
   }),
   actions
 )(WidgetDetailPage);

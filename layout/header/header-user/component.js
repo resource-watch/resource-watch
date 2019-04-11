@@ -33,13 +33,16 @@ class HeaderUser extends PureComponent {
   }, 50)
 
   render() {
-    const { user } = this.props;
+    const {
+      user: { token, photo, role, email },
+      header: { dropdownOpened }
+    } = this.props;
 
-    if (user.token) {
-      const photo = (user.photo) ? `url(${user.photo})` : 'none';
+    if (token) {
+      const userAvatar = photo ? `url(${photo})` : 'none';
 
       return (
-        <div className="c-avatar" style={{ backgroundImage: photo }}>
+        <div className="c-avatar" style={{ backgroundImage: userAvatar }}>
           <TetherComponent
             attachment="top center"
             constraints={[{ to: 'window' }]}
@@ -52,15 +55,15 @@ class HeaderUser extends PureComponent {
                 onMouseEnter={() => this.toggleDropdown(true)}
                 onMouseLeave={() => this.toggleDropdown(false)}
               >
-                {(!user.photo && user.email) &&
+                {(!photo && email) &&
                   <span className="avatar-letter" >
-                    {user.email.split('')[0]}
+                    {email.split('')[0]}
                   </span>
                 }
               </a>
             </Link>
             {/* Second child: If present, this item will be tethered to the the first child */}
-            {this.props.header.dropdownOpened.myrw &&
+            {dropdownOpened.myrw &&
               <div
                 onMouseEnter={() => this.toggleDropdown(true)}
                 onMouseLeave={() => this.toggleDropdown(false)}
@@ -119,7 +122,7 @@ class HeaderUser extends PureComponent {
                       <a>Profile</a>
                     </Link>
                   </li>
-                  {user.role === 'ADMIN' &&
+                  {role === 'ADMIN' &&
                     <li className="header-dropdown-list-item">
                       <Link route="admin_home">
                         <a>Admin</a>
@@ -138,11 +141,14 @@ class HeaderUser extends PureComponent {
     }
 
     return (
-      <span className="header-menu-link">
-        <Link route="sign-in">
-          <a><Icon name="icon-user" className="-medium user-icon" /></a>
-        </Link>
-      </span>);
+      <Link route="sign-in">
+        <a className="header-menu-link">
+          <Icon
+            name="icon-user"
+            className="-medium user-icon"
+          />
+        </a>
+      </Link>);
   }
 }
 

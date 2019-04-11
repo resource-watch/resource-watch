@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import { Tooltip } from 'wri-api-components';
+import { Tooltip } from 'vizzuality-components';
 
 // Components
 import Icon from 'components/ui/Icon';

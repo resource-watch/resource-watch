@@ -1,58 +1,36 @@
-import React from 'react';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
 // actions
-import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
+import { getWidget, checkIfFavorited } from 'redactions/widget';
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import Page from 'layout/page';
-import EmbedWidgetPage from './component';
+import LayoutEmbedWidget from 'layout/embed/widget';
 
-class EmbedWidgetPageContainer extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, isServer, req, query } = context;
-    const { webshot, id } = query;
-    const { user } = store;
+class EmbedWidgetPage extends PureComponent {
+  static async getInitialProps({ store, isServer, req }) {
+    const { dispatch, getState } = store;
+    const {
+      routes: { query: { id, webshot } },
+      user
+    } = getState();
     const referer = isServer ? req.headers.referer : window.location.href;
 
-    store.dispatch(setEmbed(true));
-    if (webshot) store.dispatch(setWebshotMode(true));
+    dispatch(setEmbed(true));
+    if (webshot) dispatch(setWebshotMode(true));
 
-    await store.dispatch(getWidget(id, { includes: ['metadata'].join(',') }));
+    await dispatch(getWidget(id, { includes: ['metadata'].join(',') }));
 
     if (!webshot) {
-      if (user && user.id) store.dispatch(checkIfFavorited(query.id));
+      if (user && user.id) dispatch(checkIfFavorited(id));
     }
 
-    return {
-      ...props,
-      referer
-    };
+    return { referer };
   }
 
   render() {
-    return (<EmbedWidgetPage {...this.props} />);
+    return (<LayoutEmbedWidget {...this.props} />);
   }
 }
 
-export default withRedux(
-  initStore,
-  state => ({
-    widget: state.widget.data,
-    loading: state.widget.loading,
-    error: state.widget.error,
-    bandDescription: state.widget.bandDescription,
-    bandStats: state.widget.bandStats,
-    favourited: state.widget.favourite.favourited,
-    user: state.user,
-    webshot: state.common.webshot
-  }),
-  {
-    getWidget,
-    checkIfFavorited,
-    setIfFavorited
-  }
-)(EmbedWidgetPageContainer);
+export default EmbedWidgetPage;

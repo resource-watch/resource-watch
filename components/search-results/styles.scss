@@ -1,0 +1,39 @@
+@import 'css/settings';
+
+.c-search-list {
+
+  .search-list {
+    &-item {
+      padding: 10px 20px;
+      margin: 0;
+
+      &:first-child {
+        margin: 0;
+      }
+
+      &--selected {
+        background:rgba(00,00,00,0.1);
+      }
+    }
+  }
+
+  &--header {
+    position: absolute;
+    top: 75px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    max-height: calc(100vh - 110px);
+    background: #FFF;
+    overflow-y: auto;
+    border-radius: 0 0 5px 5px;
+  }
+
+  &--empty {
+    padding: 10px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: rgba($black, .4);
+    text-align: center;
+  }
+}

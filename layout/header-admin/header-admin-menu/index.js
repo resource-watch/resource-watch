@@ -1,12 +1,9 @@
 import { connect } from 'react-redux';
-import * as actions from '../header-admin-actions';
 
-import HeaderMenuComponent from './header-admin-menu-component';
+// component
+import AdminHeaderMenu from './component';
 
 export default connect(
-  state => ({
-    header: state.headerAdmin,
-    routes: state.routes
-  }),
-  actions
-)(HeaderMenuComponent);
+  state => ({ routes: state.routes }),
+  null
+)(AdminHeaderMenu);

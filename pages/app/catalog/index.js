@@ -1,34 +1,20 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-// Components
-import Page from 'layout/page';
+// actions
+import { getDatasets } from 'layout/app/catalog/actions';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import * as actions from 'layout/catalog/actions';
-import Catalog from 'layout/catalog';
+// components
+import LayoutCatalog from 'layout/app/catalog';
 
-class CatalogPage extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store } = context;
-
-    // Fetch datasets
-    await store.dispatch(actions.fetchDatasets());
-
-    return { ...props };
+class CatalogPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    await store.dispatch(getDatasets());
+    return {};
   }
 
-
   render() {
-    return <Catalog />;
+    return (<LayoutCatalog />);
   }
 }
 
-export default withRedux(
-  initStore,
-  null,
-  actions
-)(CatalogPage);
+export default CatalogPage;

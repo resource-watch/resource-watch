@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+// states
 const getPublishedTopics = state => state.topics.published.data;
 
 export const parseTopics = createSelector(

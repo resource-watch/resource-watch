@@ -1,29 +1,18 @@
-import React from 'react';
-
-// redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
 // components
-import Page from 'layout/page';
 import ResetPassword from 'layout/reset-password';
 
-class ResetPasswordPage extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store } = context;
-    const { routes } = store.getState();
-    const { tokenEmail } = routes.query;
+class ResetPasswordPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { getState } = store;
+    const { routes: { query: { tokenEmail } } } = getState();
 
-    return { ...props, tokenEmail };
+    return { tokenEmail };
   }
   render() {
     return (<ResetPassword {...this.props} />);
   }
 }
 
-export default withRedux(
-  initStore,
-  null,
-  null
-)(ResetPasswordPage);
+export default ResetPasswordPage;

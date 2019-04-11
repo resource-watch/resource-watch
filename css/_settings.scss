@@ -7,6 +7,7 @@
 */
 
 // Bourbon settings
+@import 'foundation_settings';
 $output-bourbon-deprecation-warnings: false;
 @import "../node_modules/bourbon/app/assets/stylesheets/settings/px-to-em";
 @import "../node_modules/bourbon/app/assets/stylesheets/functions/strip-units";
@@ -14,6 +15,9 @@ $output-bourbon-deprecation-warnings: false;
 
 // It should be removed
 @import "deprecated";
+
+// grid
+@import 'foundation_settings';
 
 // Colors
 $dark-pink: #c32d7b;

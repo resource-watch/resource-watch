@@ -1,28 +1,19 @@
-/* eslint max-len: 0 */
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
-
-// Components
-import Page from 'layout/page';
-
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+// actions
 import * as actions from 'layout/explore/explore-actions';
 import { setEmbed } from 'redactions/common';
+
+// components
 import Explore from 'layout/explore/embed';
 
-class ExplorePage extends Page {
-  static propTypes = {
-    explore: PropTypes.object
-  };
+// constants
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store } = context;
-    const { routes } = store.getState();
+class ExplorePage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { routes: { query } } = getState();
     const {
       zoom,
       lat,
@@ -31,33 +22,31 @@ class ExplorePage extends Page {
       labels,
       boundaries,
       layers
-    } = routes.query;
+    } = query;
 
     // Embed
-    store.dispatch(setEmbed(true));
+    dispatch(setEmbed(true));
 
     // Map
-    if (zoom) store.dispatch(actions.setMapZoom(+zoom));
-    if (lat && lng) store.dispatch(actions.setMapLatLng({ lat: +lat, lng: +lng }));
-    if (basemap) store.dispatch(actions.setMapBasemap(BASEMAPS[basemap]));
-    if (labels) store.dispatch(actions.setMapLabels(LABELS[labels]));
-    if (boundaries) store.dispatch(actions.setMapBoundaries(!!boundaries));
+    if (zoom) dispatch(actions.setMapZoom(+zoom));
+    if (lat && lng) dispatch(actions.setMapLatLng({ lat: +lat, lng: +lng }));
+    if (basemap) dispatch(actions.setMapBasemap(BASEMAPS[basemap]));
+    if (labels) dispatch(actions.setMapLabels(LABELS[labels]));
+    if (boundaries) dispatch(actions.setMapBoundaries(!!boundaries));
 
     // Fetch layers
-    if (layers) await store.dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
+    if (layers) await dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
 
-    return { ...props };
+    return {};
   }
 
   render() {
-    return <Explore />;
+    return (<Explore />);
   }
 }
 
-export default withRedux(
-  initStore,
+export default connect(
   state => ({
-    // Store
     explore: state.explore,
     routes: state.routes
   }),

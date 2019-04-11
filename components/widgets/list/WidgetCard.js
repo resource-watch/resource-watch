@@ -16,7 +16,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 import Title from 'components/ui/Title';
 import WidgetChart from 'components/charts/widget-chart';
 import LayerChart from 'components/charts/layer-chart';
-import EmbedMyWidgetModal from 'components/modal/EmbedMyWidgetModal';
+import ShareModal from 'components/modal/share-modal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
 import Icon from 'components/ui/Icon';
 import Spinner from 'components/ui/Spinner';
@@ -30,7 +30,7 @@ import {
   Legend,
   LegendListItem,
   LegendItemTypes
-} from 'wri-api-components';
+} from 'vizzuality-components';
 
 import { LayerManager, Layer } from 'layer-manager/dist/components';
 import { PluginLeaflet } from 'layer-manager';
@@ -41,10 +41,13 @@ import LoginRequired from 'components/ui/login-required';
 // Services
 import WidgetService from 'services/WidgetService';
 import UserService from 'services/UserService';
-import LayersService from 'services/LayersService';
+import { fetchLayer } from 'services/LayersService';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+
+// utils
+import { logEvent } from 'utils/analytics';
 
 class WidgetCard extends PureComponent {
   static defaultProps = {
@@ -152,10 +155,7 @@ class WidgetCard extends PureComponent {
 
     // Services
     this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
-    this.widgetService = new WidgetService(null, {
-      apiURL: process.env.WRI_API_URL
-    });
-    this.layersService = new LayersService();
+    this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
 
     this.state = {
       loading: false,
@@ -176,22 +176,22 @@ class WidgetCard extends PureComponent {
 
   componentDidMount() {
     if (WidgetCard.isMapWidget(this.props.widget)) {
-      const layer = (this.props.widget.widgetConfig.paramsConfig
+      const layerId = (this.props.widget.widgetConfig.paramsConfig
         && this.props.widget.widgetConfig.paramsConfig.layer)
         || this.props.widget.widgetConfig.layer_id;
 
-      this.fetchLayer(layer);
+      this.getLayer(layerId);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.widget, this.props.widget)
       && WidgetCard.isMapWidget(nextProps.widget)) {
-      const layer = (nextProps.widget.widgetConfig.paramsConfig
+      const layerId = (nextProps.widget.widgetConfig.paramsConfig
         && nextProps.widget.widgetConfig.paramsConfig.layer)
         || nextProps.widget.widgetConfig.layer_id;
 
-      this.fetchLayer(layer);
+      this.getLayer(layerId);
     }
   }
 
@@ -348,12 +348,12 @@ class WidgetCard extends PureComponent {
 
 
   /**
-   * Fetch the information about the layer and store it in the state
-   * @param {string} layerId
+   * Fetches the information of the layer and store it in the state
+   * @param {string} id - id layer
    */
-  fetchLayer(layerId) {
+  getLayer(id) {
     this.setState({ loading: true, error: null });
-    this.layersService.fetchData({ id: layerId })
+    fetchLayer(id)
       .then((layer) => {
         this.setState({
           layer,
@@ -389,17 +389,26 @@ class WidgetCard extends PureComponent {
   }
 
   handleEmbed() {
+    const { widget: { id, widgetConfig } } = this.props;
+    const widgetType = widgetConfig.type || 'widget';
+    const location = typeof window !== 'undefined' && window.location;
+    const { origin } = location;
     const options = {
-      children: EmbedMyWidgetModal,
+      children: ShareModal,
       childrenProps: {
-        widget: this.props.widget,
-        visualizationType: (this.props.widget.widgetConfig
-          && this.props.widget.widgetConfig.paramsConfig
-          && this.props.widget.widgetConfig.paramsConfig.visualizationType)
-          || 'chart',
+        links: {
+          link: `${origin}/data/widget/${id}`,
+          embed: location && `${origin}/embed/${widgetType}/${id}`
+        },
+        analytics: {
+          facebook: () => logEvent('Share', `Share widget: ${id}`, 'Facebook'),
+          twitter: () => logEvent('Share', `Share widget: ${id}`, 'Twitter'),
+          copy: type => logEvent('Share', `Share widget: ${id}`, `Copy ${type}`)
+        },
         toggleModal: this.props.toggleModal
       }
     };
+
     this.props.toggleModal(true);
     this.props.setModalOptions(options);
   }
@@ -419,10 +428,10 @@ class WidgetCard extends PureComponent {
   handleDownloadPDF() {
     toastr.info('Widget download', 'The file is being generated...');
 
-    const id = this.props.widget.id;
-    const type = this.props.widget.widgetConfig.type || 'widget';
+    const { widget: { id, name, widgetConfig } } = this.props;
+    const type = widgetConfig.type || 'widget';
     const { origin } = window.location;
-    const filename = encodeURIComponent(this.props.widget.name);
+    const filename = encodeURIComponent(name);
 
     const link = document.createElement('a');
     link.setAttribute('download', '');
@@ -464,7 +473,6 @@ class WidgetCard extends PureComponent {
       showRemove,
       showActions,
       showEmbed,
-      showFavourite,
       user,
       limitChar
     } = this.props;
@@ -477,7 +485,7 @@ class WidgetCard extends PureComponent {
     });
 
     return (
-      <div className={'c-widget-card'}>
+      <div className="c-widget-card">
         {/* Actual widget */}
         <div
           tabIndex={-1}
@@ -510,9 +518,7 @@ class WidgetCard extends PureComponent {
                   />
                 }
                 overlayClassName="c-rc-tooltip"
-                overlayStyle={{
-                  color: '#fff'
-                }}
+                overlayStyle={{ color: '#fff' }}
                 placement="bottomLeft"
                 trigger="click"
               >
@@ -527,7 +533,6 @@ class WidgetCard extends PureComponent {
                 </button>
               </Tooltip>
             </LoginRequired>
-
           </div>
 
           {(showActions || showRemove || showEmbed) &&

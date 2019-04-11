@@ -11,26 +11,29 @@ export const TRANSIFEX_BLACKLIST = [
 ];
 
 export const USERREPORT_BLACKLIST = [
-  '/app/embed/EmbedDashboard',
-  '/app/embed/EmbedMap',
-  '/app/embed/EmbedTable',
-  '/app/embed/EmbedText',
-  '/app/embed/EmbedWidget',
-  '/app/embed/EmbedEmbed',
-  '/app/embed/EmbedDataset',
-  '/app/embed/EmbedSimilarDatasets',
-  '/app/Splash'
+  '/app/splash'
 ];
 
 export const FULLSCREEN_PAGES = [
-  '/app/explore',
-  '/app/pulse',
-  '/app/Splash',
-  '/app/sign-in'
+  '/data/explore',
+  '/data/pulse',
+  '/splash',
+  '/sign-in'
+];
+
+export const PAGES_WITHOUT_TOPICS = [
+  '/sign-in'
+];
+
+export const CESIUM_ROUTES = [
+  '/data/pulse',
+  '/splash'
 ];
 
 export default {
   TRANSIFEX_BLACKLIST,
   USERREPORT_BLACKLIST,
-  FULLSCREEN_PAGES
+  FULLSCREEN_PAGES,
+  PAGES_WITHOUT_TOPICS,
+  CESIUM_ROUTES
 };

@@ -1,17 +1,15 @@
 import { connect } from 'react-redux';
-import * as actions from './footer-actions';
-import * as reducers from './footer-reducers';
-import initialState from './footer-default-state';
 
-import FooterComponent from './footer-component';
+// selectors
+import { getFeaturedPartners, getMenu } from './selectors';
 
-// Mandatory
-export { actions, reducers, initialState };
+// component
+import Footer from './component';
 
 export default connect(
   state => ({
-    header: state.header,
-    footer: state.footer
+    partners: getFeaturedPartners(state),
+    menu: getMenu()
   }),
-  actions
-)(FooterComponent);
+  null
+)(Footer);

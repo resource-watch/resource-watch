@@ -10,7 +10,6 @@ import modules from 'modules';
 // Layout
 import * as header from 'layout/header';
 import * as headerAdmin from 'layout/header-admin';
-import * as footer from 'layout/footer';
 
 // Search
 import * as search from 'layout/search';
@@ -19,8 +18,6 @@ import * as search from 'layout/search';
 import * as shareModal from 'components/modal/share-modal';
 
 // Dashboard
-import * as dashboardDetail from 'components/dashboards/detail/dashboard-detail';
-import * as dashboardThumbnailList from 'components/dashboards/thumbnail-list/dashboard-thumbnail-list';
 import * as widgetBlockModule from 'components/wysiwyg/widget-block/widget-block';
 import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
@@ -42,19 +39,19 @@ import * as explore from 'layout/explore';
 import * as exploreDetail from 'layout/explore-detail';
 
 // Pulse
-import * as pulse from 'layout/pulse';
-import * as layerContainer from 'layout/pulse/layer-container';
-import * as layerMenu from 'layout/pulse/layer-menu';
-import * as layerCard from 'layout/pulse/layer-card';
-import * as layerPill from 'layout/pulse/layer-pill';
-import * as labelsPill from 'layout/pulse/labels-pill';
+import * as pulse from 'layout/app/pulse';
+import * as layerContainer from 'layout/app/pulse/layer-container';
+import * as layerMenu from 'layout/app/pulse/layer-menu';
+import * as layerCard from 'layout/app/pulse/layer-card';
+import * as layerPill from 'layout/app/pulse/layer-pill';
+import * as labelsPill from 'layout/app/pulse/labels-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
 
 // Widget
 import * as widgetDetail from 'layout/widget-detail';
 
 // Catalog
-import * as catalog from 'layout/catalog';
+import * as catalog from 'layout/app/catalog';
 
 // Blog
 import * as latestBlogPosts from 'components/blog/latest-posts';
@@ -64,8 +61,8 @@ import * as getInvolvedIndex from 'layout/get-involved';
 import * as getInvolvedDetail from 'layout/get-involved-detail';
 
 // Admin Interactions
-import * as adminInteractions from 'components/admin/layers/form/interactions';
-import * as adminLayerPreview from 'components/admin/layers/form/layer-preview';
+import * as adminInteractions from 'components/admin/data/layers/form/interactions';
+import * as adminLayerPreview from 'components/admin/data/layers/form/layer-preview';
 
 // Widget editor
 import { reducers as widgetEditorModules } from 'widget-editor';
@@ -90,7 +87,6 @@ const reducer = combineReducers({
   // Header
   header: handleModule(header),
   headerAdmin: handleModule(headerAdmin),
-  footer: handleModule(footer),
 
   // Search
   search: handleModule(search),
@@ -99,8 +95,6 @@ const reducer = combineReducers({
   shareModal: handleModule(shareModal),
 
   // Dashboards
-  dashboardDetail: handleModule(dashboardDetail),
-  dashboardThumbnailList: handleModule(dashboardThumbnailList),
   widgetBlock: handleModule(widgetBlockModule),
   widgetBlockEdition: handleModule(widgetBlockEditionModule),
 
@@ -151,12 +145,10 @@ const reducer = combineReducers({
   embedMapSwipe: handleModule(embedMapSwipe)
 });
 
-const composeEnhancers = composeWithDevTools({});
-
 export const initStore = (initialState = {}) => createStore(
   reducer,
   initialState,
-  composeEnhancers(
+  composeWithDevTools(
     /* The router middleware MUST be before thunk otherwise the URL changes
     * inside a thunk function won't work properly */
     applyMiddleware(thunk)

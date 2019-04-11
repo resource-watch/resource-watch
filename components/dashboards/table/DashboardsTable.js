@@ -138,10 +138,10 @@ class DashboardsTable extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  loading: state.dashboards.dashboards.loading,
-  dashboards: state.dashboards.dashboards.list,
+  loading: state.adminDashboards.dashboards.loading,
+  dashboards: state.adminDashboards.dashboards.list,
   filteredDashboards: getFilteredDashboards(state),
-  error: state.dashboards.dashboards.error
+  error: state.adminDashboards.dashboards.error
 });
 const mapDispatchToProps = {
   getDashboards,
