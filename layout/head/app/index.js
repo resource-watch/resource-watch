@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import HeadApp from './component';
 
 export default connect(
-  state => ({ routes: state.routes }),
+  state => ({
+    routes: state.routes,
+    hostname: state.common.hostname
+  }),
   null
 )(HeadApp);

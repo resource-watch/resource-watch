@@ -4,6 +4,7 @@ import { setRouter } from 'redactions/routes';
 import { getPublishedTopics } from 'modules/topics/actions';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { setMobileOpened } from 'layout/header/actions';
+import { setHostname } from 'redactions/common';
 
 import 'css/index.scss';
 
@@ -19,6 +20,10 @@ class Page extends PureComponent {
     // Routes
     const url = { asPath, pathname, query };
     store.dispatch(setRouter(url));
+
+    // Hostname
+    const hostname = isServer ? req.headers.host : window.location.origin;
+    await store.dispatch(setHostname(hostname));
 
     // User favourites and collection
     const { user } = isServer ? req : store.getState();
