@@ -15,7 +15,8 @@ class GetInvolvedDetail extends PureComponent {
   static propTypes = {
     routes: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
-    insights: PropTypes.array.isRequired
+    insights: PropTypes.array.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   getPostContent(id, props = {}) {
@@ -38,7 +39,8 @@ class GetInvolvedDetail extends PureComponent {
     const {
       getInvolvedDetail: { staticData: data },
       breadCrumb,
-      routes: { query: { id } }
+      routes: { query: { id } },
+      hostname
     } = this.props;
 
     if (!data) return null;
@@ -51,6 +53,7 @@ class GetInvolvedDetail extends PureComponent {
       <Layout
         title={data.title || 'Get Involved'}
         description={data.summary || ''}
+        hostname={hostname}
       >
         <header className="l-page-header">
           <div className="l-container">

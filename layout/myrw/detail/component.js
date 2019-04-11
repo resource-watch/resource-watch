@@ -33,7 +33,8 @@ class LayoutMyRWDetail extends PureComponent {
     user: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
     myrwdetail: PropTypes.object.isRequired,
-    alerts: PropTypes.object.isRequired
+    alerts: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
   }
 
   state = { data: null }
@@ -119,7 +120,8 @@ class LayoutMyRWDetail extends PureComponent {
   render() {
     const {
       myrwdetail,
-      query: { tab, subtab, id }
+      query: { tab, subtab, id },
+      hostname
     } = this.props;
 
     return (
@@ -127,6 +129,7 @@ class LayoutMyRWDetail extends PureComponent {
         title={this.getName()}
         // TO-DO: fill description
         description="Data detail..."
+        hostname={hostname}
       >
         <div className="c-page-header">
           <div className="l-container">

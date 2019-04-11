@@ -49,7 +49,7 @@ class EmbedMapSwipe extends React.Component {
       <LayoutEmbed
         title="Map comparison"
         description=""
-        hostnmae={hostname}
+        hostname={hostname}
       >
         <div className="c-embed-widget -map">
           {/* <div className="widget-title">

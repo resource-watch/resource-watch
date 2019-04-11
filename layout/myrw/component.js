@@ -19,13 +19,15 @@ import { MYRW_TABS } from './constants';
 class LayoutMyRW extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    query: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   render() {
     const {
       user,
-      query: { tab, subtab }
+      query: { tab, subtab },
+      hostname
     } = this.props;
     const userName = user.name ? ` ${user.name.split(' ')[0]}` : '';
     const title = userName ? `Hi${userName}!` : 'My Resource Watch';
@@ -37,6 +39,7 @@ class LayoutMyRW extends PureComponent {
         // TO-DO: fill description
         description="My Resource Watch Edit Profile description"
         pageHeader
+        hostname={hostname}
       >
         <div className="c-page-header">
           <div className="l-container">

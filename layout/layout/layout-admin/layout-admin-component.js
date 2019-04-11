@@ -40,7 +40,8 @@ class LayoutAdmin extends PureComponent {
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired,
     setLocale: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   static defaultProps = { className: null }
@@ -110,7 +111,7 @@ class LayoutAdmin extends PureComponent {
   }
 
   render() {
-    const { title, description, pageHeader, modal, className } = this.props;
+    const { title, description, pageHeader, modal, className, hostname } = this.props;
     const componentClass = classnames(
       'l-page',
       { [className]: !!className }
@@ -124,6 +125,7 @@ class LayoutAdmin extends PureComponent {
         <Head
           title={title}
           description={description}
+          hostname={hostname}
         />
 
         <Icons />

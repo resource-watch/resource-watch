@@ -16,11 +16,13 @@ class SearchComponent extends React.PureComponent {
     search: PropTypes.shape({
       term: PropTypes.string,
       loading: PropTypes.bool
-    }).isRequired
+    }).isRequired,
+    hostname: PropTypes.string.isRequired
   }
 
   render() {
     const { term, loading } = this.props.search;
+    const { hostname } = this.props;
 
     return (
       <Layout
@@ -28,6 +30,7 @@ class SearchComponent extends React.PureComponent {
         description="Resource Watch Search"
         className="page-search"
         pageHeader
+        hostname={hostname}
       >
         {loading && (<Spinner isLoading className="-light" />)}
 
@@ -60,8 +63,6 @@ class SearchComponent extends React.PureComponent {
 }
 
 export default connect(
-  state => ({
-    search: state.search
-  }),
+  state => ({ search: state.search }),
   null
 )(SearchComponent);

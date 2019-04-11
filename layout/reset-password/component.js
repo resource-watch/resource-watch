@@ -15,7 +15,10 @@ import UserService from 'services/UserService';
 import { FORM_ELEMENTS, TOKEN_ERROR_MESSAGE } from './constants';
 
 class ResetPassword extends PureComponent {
-  static propTypes = { tokenEmail: PropTypes.string }
+  static propTypes = {
+    tokenEmail: PropTypes.string,
+    hostname: PropTypes.string.isRequired
+  }
 
   static defaultProps = { tokenEmail: null }
 
@@ -68,10 +71,13 @@ class ResetPassword extends PureComponent {
       saving
     } = this.state;
 
+    const { hostname } = this.props;
+
     return (
       <Layout
         title="Resource Watch Sign-in/Register"
         description="Resource Watch Sign-in/Register"
+        hostname={hostname}
       >
         <div className="l-log-in">
           <div className="l-container">

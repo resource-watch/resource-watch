@@ -14,11 +14,12 @@ class GetInvolvedComponent extends React.PureComponent {
   static propTypes = {
     getInvolvedIndex: PropTypes.object,
     user: PropTypes.object,
-    url: PropTypes.string
+    url: PropTypes.string,
+    hostname: PropTypes.string.isRequired
   };
 
   render() {
-    const { getInvolvedIndex, user, url } = this.props;
+    const { getInvolvedIndex, user, url, hostname } = this.props;
 
     const { staticData: data, cards } = getInvolvedIndex;
 
@@ -62,6 +63,7 @@ class GetInvolvedComponent extends React.PureComponent {
         className="l-static p-get-involved"
         url={url}
         user={user}
+        hostname={hostname}
       >
 
         <section className="l-content">
