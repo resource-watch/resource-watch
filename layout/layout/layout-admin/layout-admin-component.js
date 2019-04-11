@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Progress from 'react-progress-2';
 
 // Utils
@@ -26,15 +27,13 @@ import {
   Icons as WidgetIcons
 } from 'widget-editor';
 
-class LayoutAdmin extends React.Component {
+class LayoutAdmin extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
     description: PropTypes.string,
     pageHeader: PropTypes.bool,
     className: PropTypes.string,
-    category: PropTypes.string,
-    // Store
     modal: PropTypes.object.isRequired,
     toggleModal: PropTypes.func.isRequired,
     toggleTooltip: PropTypes.func.isRequired,
@@ -44,11 +43,11 @@ class LayoutAdmin extends React.Component {
     user: PropTypes.object.isRequired
   };
 
+  static defaultProps = { className: null }
+
   constructor(props) {
     super(props);
-    this.state = {
-      modalOpen: false
-    };
+    this.state = { modalOpen: false };
 
     // WIDGET EDITOR
     // Change the configuration according to your needs
@@ -111,16 +110,20 @@ class LayoutAdmin extends React.Component {
   }
 
   render() {
-    const {
-      title, description, pageHeader, modal, className, category
-    } = this.props;
+    const { title, description, pageHeader, modal, className } = this.props;
+    const componentClass = classnames(
+      'l-page',
+      { [className]: !!className }
+    );
 
     return (
-      <div id="#main" className={`l-page ${className}`}>
+      <div
+        id="#main"
+        className={componentClass}
+      >
         <Head
           title={title}
           description={description}
-          category={category}
         />
 
         <Icons />

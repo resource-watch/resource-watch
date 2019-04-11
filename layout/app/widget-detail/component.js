@@ -3,14 +3,20 @@ import PropTypes from 'prop-types';
 
 // components
 import Layout from 'layout/layout/layout-app';
-import WidgetDetailHeader from 'layout/widget-detail/widget-detail-header';
 import WidgetCard from 'components/widgets/list/WidgetCard';
+import WidgetDetailHeader from './widget-detail-header';
 
-class WidgetDetailComponent extends PureComponent {
-  static propTypes = { widgetDetail: PropTypes.object.isRequired };
+class LayoutWidgetDetail extends PureComponent {
+  static propTypes = { widget: PropTypes.object };
+
+  static defaultProps = { widget: {} }
+
+  componentWillMount() {
+    if (typeof window !== 'undefined') window.scrollTo(0, 0);
+  }
 
   render() {
-    const { widgetDetail: { data: widget } } = this.props;
+    const { widget } = this.props;
 
     return (
       <Layout
@@ -25,8 +31,8 @@ class WidgetDetailComponent extends PureComponent {
           <div className="c-page-header">
             <div className="l-container">
               <div className="row">
-                <div className="column small-12">
-                  <WidgetDetailHeader />
+                <div className="column">
+                  <WidgetDetailHeader widget={widget} />
                 </div>
               </div>
             </div>
@@ -35,11 +41,9 @@ class WidgetDetailComponent extends PureComponent {
           <div className="l-section">
             <div className="l-container">
               <div className="row">
-                <div className="column small-12">
+                <div className="column">
                   {/* I'm using this component but we need to create a proper one */}
-                  <WidgetCard
-                    widget={widget}
-                  />
+                  <WidgetCard widget={widget} />
                 </div>
               </div>
             </div>
@@ -50,4 +54,4 @@ class WidgetDetailComponent extends PureComponent {
   }
 }
 
-export default WidgetDetailComponent;
+export default LayoutWidgetDetail;
