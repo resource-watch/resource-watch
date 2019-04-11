@@ -10,15 +10,11 @@ import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
 import Modal from 'components/modal/modal-component';
 import NewsletterConfirmationModal from 'components/modal/newsletter-confirmation-modal';
-import PropTypes from 'prop-types';
 
 // constants
 import { FORM_COUNTRIES } from './constants';
 
 class LayoutNewsletter extends PureComponent {
-  static propTypes = {
-    hostname: PropTypes.string.isRequired
-  }
   state = {
     modal: false,
     data: {}

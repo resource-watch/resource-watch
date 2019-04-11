@@ -6,15 +6,12 @@ import renderHTML from 'react-render-html';
 import Layout from 'layout/layout/layout-app';
 
 class LayoutAttributionRequirements extends PureComponent {
-  static propTypes = {
-    data: PropTypes.object,
-    hostname: PropTypes.string.isRequired
-  }
+  static propTypes = { data: PropTypes.object }
 
   static defaultProps = { data: null }
 
   render() {
-    const { data, hostname } = this.props;
+    const { data } = this.props;
     const styles = {};
 
     if (!data) return null;
@@ -29,7 +26,6 @@ class LayoutAttributionRequirements extends PureComponent {
         // TO-DO: fill description
         description="Attribution requirements description"
         className="l-static"
-        hostname={hostname}
       >
         <section className="l-content">
           <header className="l-content-header">

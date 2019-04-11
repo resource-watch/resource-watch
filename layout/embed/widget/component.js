@@ -26,8 +26,8 @@ class LayoutEmbedWidget extends PureComponent {
     user: PropTypes.object.isRequired,
     webshot: PropTypes.bool.isRequired,
     referer: PropTypes.string,
-    hostname: PropTypes.string.isRequired,
-    setIfFavorited: PropTypes.func.isRequired
+    setIfFavorited: PropTypes.func.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -125,7 +125,6 @@ class LayoutEmbedWidget extends PureComponent {
       referer,
       hostname
     } = this.props;
-
     const { modalOpened } = this.state;
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
     const widgetAtts = widget && widget;
@@ -139,6 +138,7 @@ class LayoutEmbedWidget extends PureComponent {
         <LayoutEmbed
           title="Resource Watch"
           description=""
+          hostname={hostname}
         >
           <div className="c-embed-widget">
             <div className="widget-title">

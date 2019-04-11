@@ -122,7 +122,6 @@ class LayoutEmbedMap extends PureComponent {
           title="Loading widget..."
           description=""
           hostname={hostname}
-
         >
           <div className="c-embed-widget -map">
             <Spinner isLoading={loading} className="-light" />

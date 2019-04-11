@@ -40,8 +40,7 @@ class LayoutAdmin extends PureComponent {
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired,
     setLocale: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    hostname: PropTypes.string.isRequired
+    user: PropTypes.object.isRequired
   };
 
   static defaultProps = { className: null }

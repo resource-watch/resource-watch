@@ -12,10 +12,7 @@ import LayersIndex from 'components/admin/data/layers/pages/list';
 import { DATA_TABS } from './constants';
 
 class LayoutAdminData extends PureComponent {
-  static propTypes = {
-    query: PropTypes.object.isRequired,
-    hostname: PropTypes.string.isRequired
-  }
+  static propTypes = { query: PropTypes.object.isRequired }
 
   render() {
     const { query: { tab } } = this.props;
@@ -27,7 +24,6 @@ class LayoutAdminData extends PureComponent {
         title="Data"
         // TO-DO: fill description
         description="Data description..."
-        hostname={hostname}
       >
         <div className="c-page-header -admin">
           <div className="l-container -admin">

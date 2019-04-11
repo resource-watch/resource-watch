@@ -11,20 +11,16 @@ import Title from 'components/ui/Title';
 import { DATA_TABS } from './constants';
 
 class AdminTopicsLayout extends PureComponent {
-  static propTypes = {
-    query: PropTypes.object.isRequired,
-    hostname: PropTypes.string.isRequired
-  };
+  static propTypes = { query: PropTypes.object.isRequired };
 
   render() {
-    const { query: { id, tab, subtab }, hostname } = this.props;
+    const { query: { id, tab, subtab } } = this.props;
 
     return (
       <Layout
         title="Topics"
         // TO-DO: fill description
         description="Topics description..."
-        hostname={hostname}
       >
         <div className="c-page-header -admin">
           <div className="l-container -admin">

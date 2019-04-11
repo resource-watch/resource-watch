@@ -19,9 +19,9 @@ class LayoutEmbedEmbed extends PureComponent {
     user: PropTypes.object.isRequired,
     referer: PropTypes.string,
     getWidget: PropTypes.func.isRequired,
-    hostname: PropTypes.string.isRequired,
     checkIfFavorited: PropTypes.func.isRequired,
-    setIfFavorited: PropTypes.func.isRequired
+    setIfFavorited: PropTypes.func.isRequired,
+    hostname: PropTypes.string.isRequired
   };
 
   static defaultProps = {
@@ -89,6 +89,7 @@ class LayoutEmbedEmbed extends PureComponent {
         <LayoutEmbed
           title="Loading widget..."
           description=""
+          hostname={hostname}
         >
           <div className="c-embed-widget">
             <Spinner isLoading className="-light" />
@@ -102,6 +103,7 @@ class LayoutEmbedEmbed extends PureComponent {
         <LayoutEmbed
           title="Resource Watch"
           description=""
+          hostname={hostname}
         >
           <div className="c-embed-widget">
             <div className="widget-title">

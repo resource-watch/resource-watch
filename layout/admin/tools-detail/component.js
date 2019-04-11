@@ -19,8 +19,7 @@ import { fetchTool } from 'services/ToolsService';
 class LayoutAdminToolsDetail extends PureComponent {
   static propTypes = {
     query: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    hostname: PropTypes.string.isRequired
+    user: PropTypes.object.isRequired
   }
 
   state = { data: null }
@@ -52,8 +51,7 @@ class LayoutAdminToolsDetail extends PureComponent {
   render() {
     const {
       query: { tab, id },
-      user: { token },
-      hostname
+      user: { token }
     } = this.props;
 
     return (
@@ -61,7 +59,6 @@ class LayoutAdminToolsDetail extends PureComponent {
         title={this.getName()}
         // TO-DO: fill description
         description="Tools detail..."
-        hostname={hostname}
       >
         <div className="c-page-header -admin">
           <div className="l-container -admin">

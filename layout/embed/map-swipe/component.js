@@ -26,8 +26,7 @@ class EmbedMapSwipe extends React.Component {
     layerGroups: PropTypes.array,
     zoom: PropTypes.number,
     latLng: PropTypes.object,
-    isLoadedExternally: PropTypes.bool,
-    hostname: PropTypes.string.isRequired
+    isLoadedExternally: PropTypes.bool
   };
 
   static defaultProps = {
@@ -41,15 +40,13 @@ class EmbedMapSwipe extends React.Component {
       zoom,
       latLng,
       layerGroups,
-      isLoadedExternally,
-      hostname
+      isLoadedExternally
     } = this.props;
 
     return (
       <LayoutEmbed
         title="Map comparison"
         description=""
-        hostname={hostname}
       >
         <div className="c-embed-widget -map">
           {/* <div className="widget-title">

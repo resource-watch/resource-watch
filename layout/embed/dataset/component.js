@@ -19,8 +19,7 @@ class LayoutEmbedDataset extends PureComponent {
   static propTypes = {
     routes: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
-    referer: PropTypes.string.isRequired,
-    hostname: PropTypes.string.isRequired
+    referer: PropTypes.string.isRequired
   }
 
   constructor(props) {
@@ -52,7 +51,7 @@ class LayoutEmbedDataset extends PureComponent {
   triggerToggleLoading = () => { this.setState({ loadingWidget: false }); }
 
   render() {
-    const { referer, hostname } = this.props;
+    const { referer } = this.props;
     const { dataset, loadingDataset, loadingWidget } = this.state;
     const widgets = dataset && dataset.attributes.widget;
     const metadataObj = dataset && dataset.attributes.metadata[0];
@@ -72,7 +71,6 @@ class LayoutEmbedDataset extends PureComponent {
         <LayoutEmbed
           title="Loading dataset..."
           description=""
-          hostname={hostname}
         >
           <div className="c-embed-widget">
             <Spinner
@@ -88,7 +86,6 @@ class LayoutEmbedDataset extends PureComponent {
       <LayoutEmbed
         title={datasetName}
         description={datasetDescription}
-        hostname={hostname}
       >
         <div className="c-embed-dataset">
           {widget &&

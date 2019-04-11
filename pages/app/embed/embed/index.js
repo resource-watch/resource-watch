@@ -11,11 +11,12 @@ class EmbedEmbedPage extends PureComponent {
     const { dispatch, getState } = store;
     const { routes: { query: { webshot } } } = getState();
     const referer = isServer ? req.headers.referer : window.location.href;
+    const hostname = isServer ? req.headers.host : window.location.origin;
 
     dispatch(setEmbed(true));
     if (webshot) dispatch(setWebshotMode(true));
 
-    return { referer };
+    return { referer, hostname };
   }
 
   render() {

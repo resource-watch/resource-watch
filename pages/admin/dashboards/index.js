@@ -16,10 +16,7 @@ const DATA_TABS = [{
 }];
 
 class AdminDashboardsPage extends PureComponent {
-  static propTypes = {
-    url: PropTypes.object.isRequired,
-    hostname: PropTypes.string.isRequired
-  };
+  static propTypes = { url: PropTypes.object.isRequired };
 
   constructor(props) {
     super(props);
@@ -47,8 +44,7 @@ class AdminDashboardsPage extends PureComponent {
     const {
       tab,
       subtab,
-      id,
-      hostname
+      id
     } = this.state;
 
     return (
@@ -56,7 +52,6 @@ class AdminDashboardsPage extends PureComponent {
         title="Dashboards"
         // TO-DO: fill description
         description="Dashboards description..."
-        hostname={hostname}
       >
         {/* PAGE HEADER */}
         <div className="c-page-header -admin">

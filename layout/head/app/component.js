@@ -97,11 +97,9 @@ class HeadApp extends PureComponent {
       thumbnailUrl,
       hostname
     } = this.props;
-    console.log(hostname, '-----------hostname')
     return (
       <HeadNext>
         <title>{title ? `${title} | Resource Watch` : 'Resource Watch'}</title>
-
         <meta property="og:url" content={hostname} />
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
@@ -128,7 +126,6 @@ class HeadApp extends PureComponent {
         {this.getCrazyEgg()}
         {this.getUserReport()}
         {this.getAFrame()}
-
       </HeadNext>
     );
   }

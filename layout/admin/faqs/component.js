@@ -11,13 +11,10 @@ import Title from 'components/ui/Title';
 import { FAQS_TABS } from './constants';
 
 class LayoutAdminFaqs extends PureComponent {
-  static propTypes = {
-    query: PropTypes.object.isRequired,
-    hostname: PropTypes.string.isRequired
-  }
+  static propTypes = { query: PropTypes.object.isRequired }
 
   render() {
-    const { query: { tab }, hostname } = this.props;
+    const { query: { tab } } = this.props;
     // TO-DO: set properly this in express
     const currentTab = tab || 'faqs';
 
@@ -26,7 +23,6 @@ class LayoutAdminFaqs extends PureComponent {
         title="FAQs"
         // TO-DO: fill description
         description="Faqs description..."
-        hostname={hostname}
       >
         <div className="c-page-header -admin">
           <div className="l-container -admin">

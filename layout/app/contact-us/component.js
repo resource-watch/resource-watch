@@ -6,13 +6,9 @@ import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import ContactUsForm from 'components/app/common/ContactUs/ContactUsForm';
 import { Link } from 'routes';
-import PropTypes from 'prop-types';
 
 class LayoutContactUs extends PureComponent {
-  static propTypes = { hostname: PropTypes.string.isRequired };
-
   render() {
-    const { hostname } = this.props;
     return (
       <Layout
         title="Contact us"
@@ -20,7 +16,6 @@ class LayoutContactUs extends PureComponent {
         description="Contact us description"
         className="l-contact-us"
         pageHeader
-        hostname={hostname}
       >
         <div className="c-page-header">
           <div className="l-container">

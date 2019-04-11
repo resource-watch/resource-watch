@@ -10,14 +10,12 @@ import {
 import LayoutHome from 'layout/app/home';
 
 class HomePage extends PureComponent {
-  static async getInitialProps({ store, req, isServer }) {
+  static async getInitialProps({ store }) {
     // fetchs latest posts from blog
     await store.dispatch(fetchBlogPostsLatest());
     await store.dispatch(fetchBlogPostsSpotlightLatest());
 
-    const hostname = isServer ? req.headers.host : window.location.origin;
-
-    return { hostname };
+    return {};
   }
 
   render() {

@@ -18,13 +18,9 @@ import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { getPublishedTopics } from 'modules/topics/actions';
 import { getPublishedPartners } from 'modules/partners/actions';
 
-// utils
-import { containsString } from 'utils/string';
-
 // constants
 import {
   PAGES_WITHOUT_TOPICS,
-  PAGES_WITH_USER_COLLECTIONS,
   FULLSCREEN_PAGES
 } from 'constants/app';
 
@@ -36,6 +32,7 @@ class RWApp extends App {
     const { asPath } = router;
     const { req, store, query, isServer } = ctx;
     const pathname = req ? asPath : ctx.asPath;
+
     // sets app routes
     const url = { asPath, pathname, query };
     store.dispatch(setRouter(url));
@@ -46,18 +43,14 @@ class RWApp extends App {
     if (user) {
       store.dispatch(setUser(user));
       await store.dispatch(getUserFavourites());
-
-      // fetches user's collections
-      if (containsString(pathname, PAGES_WITH_USER_COLLECTIONS)) {
-        await store.dispatch(getUserCollections());
-      }
+      if (['/myrw-detail/', '/myrw/'].some(el => pathname.includes(el))) await store.dispatch(getUserCollections());
     }
 
-    // fetches published topics to populate topics menu in the app header
-    if (!containsString(pathname, PAGES_WITHOUT_TOPICS)) await store.dispatch(getPublishedTopics());
+    // fetchs published topics to populate topics menu in the app header
+    if (!PAGES_WITHOUT_TOPICS.includes(pathname)) await store.dispatch(getPublishedTopics());
 
-    // fetches partners for footer
-    if (!containsString(pathname, FULLSCREEN_PAGES)) await store.dispatch(getPublishedPartners());
+    // fetchs partners for footer
+    if (!FULLSCREEN_PAGES.includes(pathname)) await store.dispatch(getPublishedPartners());
 
     // mobile detection
     if (isServer) {

@@ -7,10 +7,7 @@ import WidgetCard from 'components/widgets/list/WidgetCard';
 import WidgetDetailHeader from './widget-detail-header';
 
 class LayoutWidgetDetail extends PureComponent {
-  static propTypes = {
-    widget: PropTypes.object,
-    hostname: PropTypes.string.isRequired
-  };
+  static propTypes = { widget: PropTypes.object };
 
   static defaultProps = { widget: {} }
 
@@ -19,7 +16,7 @@ class LayoutWidgetDetail extends PureComponent {
   }
 
   render() {
-    const { widget, hostname } = this.props;
+    const { widget } = this.props;
 
     return (
       <Layout
@@ -28,7 +25,6 @@ class LayoutWidgetDetail extends PureComponent {
         thumbnail={widget.thumbnailUrl}
         category="Widget"
         pageHeader
-        hostname={hostname}
       >
         <div className="c-page-explore-detail">
           {/* PAGE HEADER */}

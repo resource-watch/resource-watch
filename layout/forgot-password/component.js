@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
-import PropTypes from 'prop-types';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -15,8 +14,6 @@ import UserService from 'services/UserService';
 import { FORM_ELEMENTS } from './constants';
 
 class ForgotPassword extends PureComponent {
-  static propTypes = { hostname: PropTypes.string.isRequired };
-
   state ={ email: '' };
 
   onSubmit = (e) => {
@@ -45,13 +42,11 @@ class ForgotPassword extends PureComponent {
 
   render() {
     const { email } = this.state;
-    const { hostname } = this.props;
 
     return (
       <Layout
         title="Resource Watch Sign-in/Register"
         description="Resource Watch Sign-in/Register"
-        hostname={hostname}
       >
         <div className="l-log-in">
           <div className="l-container">
