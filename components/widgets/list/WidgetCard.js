@@ -509,7 +509,7 @@ class WidgetCard extends PureComponent {
             <p>
               {truncate(widget.description, { length: limitChar, separator: ' ', omission: '...' })}
             </p>
-            <LoginRequired text="Log in or sign up to save items in favorites">
+            <LoginRequired>
               <Tooltip
                 overlay={
                   <CollectionsPanel

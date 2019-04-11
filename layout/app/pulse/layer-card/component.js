@@ -212,7 +212,7 @@ class LayerCardComponent extends PureComponent {
               </Link>
             }
             {subscribable &&
-              <LoginRequired text="Log in or sign up to subscribe to alerts from this dataset">
+              <LoginRequired>
                 <button
                   className="c-button -secondary link_button"
                   onClick={() => this.handleToggleSubscribeToDatasetModal(true)}
