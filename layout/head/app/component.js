@@ -12,7 +12,7 @@ class HeadApp extends PureComponent {
   static propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
-    thumbnailUrl: PropTypes.string,
+    thumbnail: PropTypes.string,
     routes: PropTypes.object.isRequired,
     hostname: PropTypes.string.isRequired
   };
@@ -20,7 +20,7 @@ class HeadApp extends PureComponent {
   static defaultProps = {
     title: null,
     description: null,
-    thumbnailUrl: 'https://resourcewatch.org/static/images/social-big.jpg'
+    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
 
   getCrazyEgg() {
@@ -94,7 +94,7 @@ class HeadApp extends PureComponent {
     const {
       title,
       description,
-      thumbnailUrl,
+      thumbnail,
       hostname
     } = this.props;
     return (
@@ -105,8 +105,8 @@ class HeadApp extends PureComponent {
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta name="og:image" content={thumbnailUrl} />
-        <meta property="og:image:secure_url" content={thumbnailUrl} />
+        <meta name="og:image" content={thumbnail} />
+        <meta property="og:image:secure_url" content={thumbnail} />
         <meta name="og:image:alt" content={`${title}_widget`} />
 
         {/* leaflet styles */}
