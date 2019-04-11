@@ -28,9 +28,6 @@ import {
   FULLSCREEN_PAGES
 } from 'constants/app';
 
-// app styles
-import 'css/index.scss';
-
 
 finallyShim.shim();
 
