@@ -35,7 +35,6 @@ export default class MyDocument extends Document {
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
           {/* Social metadata */}
-          <meta property="og:url" content="https://resourcewatch.org" />
           <meta property="og:type" content="website" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="@resource_watch" />
