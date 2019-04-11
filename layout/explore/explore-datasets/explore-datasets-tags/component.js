@@ -7,7 +7,7 @@ import upperFirst from 'lodash/upperFirst';
 import { TAGS_BLACKLIST } from 'utils/tags';
 
 // Components
-import { Tooltip } from 'wri-api-components';
+import { Tooltip } from 'vizzuality-components';
 import Tag from 'components/ui/Tag';
 import TagsTooltip from './tooltip';
 

@@ -1,22 +1,27 @@
 import { connect } from 'react-redux';
+
+// actions
 import { toggleModal, setModalOptions } from 'redactions/modal';
 import { toggleTooltip } from 'redactions/tooltip';
 import { updateIsLoading } from 'redactions/page';
-import { setLocale } from 'redactions/common';
 
-import LayoutAppComponent from './layout-app-component';
+// selectors
+import { isFullScreen, hasUserReport } from './selectors';
+
+// component
+import LayoutApp from './component';
 
 export default connect(
   state => ({
     modal: state.modal,
     user: state.user,
-    routes: state.routes
+    isFullScreen: isFullScreen(state),
+    showUserReport: hasUserReport(state)
   }),
   {
     toggleModal,
     setModalOptions,
     toggleTooltip,
-    updateIsLoading,
-    setLocale
+    updateIsLoading
   }
-)(LayoutAppComponent);
+)(LayoutApp);

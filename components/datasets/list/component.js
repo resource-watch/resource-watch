@@ -53,7 +53,8 @@ class DatasetList extends PureComponent {
                     dataset={dataset}
                     widget={dataset.widget ? dataset.widget.find(w => w.default) : null}
                     layer={dataset.layer ? dataset.layer.find(l => l.default) : null}
-                    metadata={dataset.metadata}
+                    metadata={dataset.metadata && Array.isArray(dataset.metadata) ?
+                      dataset.metadata[0] : dataset.metadata}
                     vocabulary={dataset.vocabulary ?
                       dataset.vocabulary.find(v => v.name === 'knowledge_graph') || {} : null}
                     mode={mode}

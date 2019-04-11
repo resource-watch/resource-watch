@@ -147,9 +147,9 @@ class DashboardsList extends React.Component {
 
 const mapStateToProps = state => ({
   user: state.user,
-  loading: state.dashboards.dashboards.loading,
+  loading: state.adminDashboards.dashboards.loading,
   dashboards: getFilteredDashboards(state),
-  error: state.dashboards.dashboards.error,
+  error: state.adminDashboards.dashboards.error,
   filters: state.clientDashboards.filters
 });
 

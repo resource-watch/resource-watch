@@ -14,7 +14,7 @@ import MediaQuery from 'react-responsive';
 import { breakpoints } from 'utils/responsive';
 
 // Tooltip
-import { Tooltip } from 'wri-api-components';
+import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
 
 // helpers
@@ -159,7 +159,7 @@ class DatasetListItem extends React.Component {
                 </Link>
 
                 {/* Favorite dataset icon */}
-                <LoginRequired text="Log in or sign up to save items in favorites">
+                <LoginRequired>
                   <Tooltip
                     overlay={
                       <CollectionsPanel

@@ -1,21 +1,12 @@
-import React from 'react';
-
-// redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
 // components
-import Page from 'layout/page';
 import ForgotPassword from 'layout/forgot-password';
 
-class ForgotPasswordPage extends Page {
+class ForgotPasswordPage extends PureComponent {
   render() {
     return (<ForgotPassword />);
   }
 }
 
-export default withRedux(
-  initStore,
-  null,
-  null
-)(ForgotPasswordPage);
+export default ForgotPasswordPage;

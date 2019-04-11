@@ -130,7 +130,7 @@ class ExploreDetailButtons extends PureComponent {
 
         {this.isSubscribable() &&
           <div>
-            <LoginRequired text="Log in to subscribe to dataset changes">
+            <LoginRequired>
               <button
                 className="c-button -secondary"
                 onClick={() => this.handleToggleSubscribeModal(true)}

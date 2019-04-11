@@ -1,57 +1,35 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Components
-import Page from 'layout/page';
+// components
+import WidgetDetail from 'layout/app/widget-detail';
 import Error from 'pages/_error';
 
-// Redux
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
-import * as actions from 'layout/widget-detail/widget-detail-actions';
-import WidgetDetail from 'layout/widget-detail';
+// services
+import { fetchWidget } from 'services/widget';
 
-class WidgetDetailPage extends Page {
-  static propTypes = {
-    user: PropTypes.object,
-    widgetDetail: PropTypes.object,
-    locale: PropTypes.string.isRequired
-  };
+class WidgetDetailPage extends PureComponent {
+  static propTypes = { widget: PropTypes.object };
 
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store } = context;
+  static defaultProps = { widget: {} }
 
-    // Fetch widget
-    await store.dispatch(actions.fetchWidget({ id: props.url.query.id }));
+  static async getInitialProps({ store }) {
+    const { getState } = store;
+    const { routes: { query: { id } } } = getState();
 
-    return { ...props };
-  }
+    // fetchs widget
+    const widget = await fetchWidget(id);
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.url.query.id !== nextProps.url.query.id) {
-      window.scrollTo(0, 0);
-    }
+    return { widget };
   }
 
   render() {
-    const {
-      widgetDetail
-    } = this.props;
+    const { widget } = this.props;
 
-    const { data: widget } = widgetDetail;
-    if (widget && !widget.published) return <Error statusCode={404} />;
+    if (!widget || !widget.id) return (<Error statusCode={404} />);
 
-    return <WidgetDetail />;
+    return (<WidgetDetail {...this.props} />);
   }
 }
 
-export default withRedux(
-  initStore,
-  state => ({
-    // Store
-    widgetDetail: state.widgetDetail
-  }),
-  actions
-)(WidgetDetailPage);
+export default WidgetDetailPage;

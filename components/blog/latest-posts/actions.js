@@ -50,7 +50,6 @@ export const fetchBlogPostsLatest = createThunkAction('BLOG_POSTS_LATEST_FETCH_D
       dispatch(setPosts(posts));
     })
     .catch((err) => {
-      console.log(err);
       dispatch(setPostsLoading(false));
       dispatch(setPostsError(err));
     });

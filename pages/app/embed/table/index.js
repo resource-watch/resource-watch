@@ -1,33 +1,26 @@
-import React from 'react';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
 // actions
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import Page from 'layout/page';
-import EmbedTablePage from './component';
+import LayoutEmbedTable from 'layout/embed/table';
 
-class EmbedTablePageContainer extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, isServer, req, query } = context;
-    const { webshot } = query;
+class EmbedTablePage extends PureComponent {
+  static async getInitialProps({ store, isServer, req }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { webshot } } } = getState();
     const referer = isServer ? req.headers.referer : window.location.href;
 
-    store.dispatch(setEmbed(true));
-    if (webshot) store.dispatch(setWebshotMode(true));
+    dispatch(setEmbed(true));
+    if (webshot) dispatch(setWebshotMode(true));
 
-    return {
-      ...props,
-      referer
-    };
+    return { referer };
   }
 
   render() {
-    return (<EmbedTablePage {...this.props} />);
+    return (<LayoutEmbedTable {...this.props} />);
   }
 }
 
-export default withRedux(initStore, null, null)(EmbedTablePageContainer);
+export default EmbedTablePage;

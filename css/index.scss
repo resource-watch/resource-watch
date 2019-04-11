@@ -1,7 +1,6 @@
 // Reset
 // Project settings (it doesn't include Grid system)
 @import "settings";
-@import 'foundation_settings';
 
 @import "../node_modules/normalize.css/normalize";
 
@@ -9,7 +8,7 @@
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/rc-slider/assets/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
-@import '../node_modules/wri-api-components/dist/bundle';
+@import '../node_modules/vizzuality-components/dist/bundle';
 
 
 // Editor
@@ -24,8 +23,6 @@
   "layouts/page",
   "layouts/error",
   "layouts/section",
-  "layouts/header",
-  "layouts/header-menu-mobile",
   "layouts/content",
   "layouts/postcontent",
   "layouts/row",
@@ -60,7 +57,6 @@
 @import "./components/ui/read-more";
 @import "./components/ui/related-content";
 @import "./components/ui/search";
-@import "./components/ui/search-list";
 @import "./components/ui/search-input";
 @import "./components/ui/slider-tooltip";
 @import "./components/ui/spinner";
@@ -85,7 +81,6 @@
 
 
 // Modal
-@import "./components/modal/share-modal";
 @import "./components/modal/credits_modal";
 @import "./components/modal/save_widget_modal";
 @import "./components/modal/how_to_widget_editor_modal";
@@ -97,7 +92,6 @@
 @import "./components/modal/area_subscription_modal";
 @import "./components/modal/subscriptions_modal";
 @import "./components/modal/layer_info_modal";
-@import "./components/modal/login_modal";
 @import "./components/modal/alerts_preview";
 
 
@@ -225,29 +219,13 @@
 // PAGES
 @import "./components/app/pages/explore";
 @import "./components/app/pages/explore_detail";
-@import "./components/app/pages/about";
-@import "./components/app/pages/pulse";
-@import "./components/app/pages/home";
 @import "./components/app/pages/submit_insight";
 @import "./components/app/pages/partner_detail";
 @import "./components/app/pages/getInvolved";
 @import "./components/app/pages/develop_app";
 @import "./components/app/pages/apps";
-@import "./components/app/pages/splash";
-@import "./components/app/pages/splash_detail";
 @import "./components/app/pages/alerts_page";
 @import "./components/app/pages/newsletter";
-
-// PULSE
-@import "./components/app/pulse/globe_cesium";
-@import "./components/app/pulse/globe_tooltip";
-@import "./components/app/pulse/layer_container";
-@import "./components/app/pulse/layer_menu_dropdown";
-@import "./components/app/pulse/layer_menu_native";
-@import "./components/app/pulse/layer_menu";
-@import "./components/app/pulse/layer_card";
-@import "./components/app/pulse/legend_type";
-@import "./components/app/pulse/legend";
 
 // EXPLORE
 // new
@@ -270,7 +248,6 @@
 @import "./components/explore-detail/explore-detail-info";
 
 // DASHBOARDS
-@import './components/dashboards/dashboard-thumbnail-list';
 @import './components/dashboards/dashboard-card';
 @import './components/dashboards/list';
 @import './components/dashboards/template-selector';

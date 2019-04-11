@@ -25,7 +25,8 @@ ENV PARDOT_NEWSLETTER_URL https://go.pardot.com/l/120942/2018-01-25/3nzl13
 
 RUN apk update && apk add --no-cache \
     build-base gcc bash git \
-    cairo-dev
+    cairo-dev pango-dev jpeg-dev
+
 
 # Add app directory
 WORKDIR /usr/src/app

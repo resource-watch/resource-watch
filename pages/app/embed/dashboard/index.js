@@ -1,38 +1,29 @@
-import React from 'react';
-import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import React, { PureComponent } from 'react';
 
 // actions
-import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-actions';
+import { getDashboard } from 'modules/dashboards/actions';
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
 // components
-import Page from 'layout/page';
-import EmbedDashboardPage from './component';
+import LayoutEmbedDashboard from 'layout/embed/dashboard';
 
-class EmbedDashboardPageContainer extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-    const { store, query } = context;
-    const { webshot } = query;
+class EmbedDashboardPage extends PureComponent {
+  static async getInitialProps({ store }) {
+    const { dispatch, getState } = store;
+    const { routes: { query: { slug, webshot } } } = getState();
 
     // fetchs dashboard
-    await store.dispatch(fetchDashboard({ id: query.slug }));
+    await dispatch(getDashboard(slug));
 
-    store.dispatch(setEmbed(true));
-    if (webshot) store.dispatch(setWebshotMode(true));
+    dispatch(setEmbed(true));
+    if (webshot) dispatch(setWebshotMode(true));
 
-    return { ...props };
+    return {};
   }
 
   render() {
-    return (<EmbedDashboardPage {...this.props} />);
+    return (<LayoutEmbedDashboard />);
   }
 }
 
-
-export default withRedux(
-  initStore,
-  state => ({ dashboard: state.dashboardDetail }),
-  null
-)(EmbedDashboardPageContainer);
+export default EmbedDashboardPage;

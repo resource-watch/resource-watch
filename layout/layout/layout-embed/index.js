@@ -4,7 +4,7 @@ import { toggleTooltip } from 'redactions/tooltip';
 import { updateIsLoading } from 'redactions/page';
 import { setLocale } from 'redactions/common';
 
-import LayoutEmbedComponent from './layout-embed-component';
+import LayoutEmbedComponent from './component';
 
 export default connect(
   state => ({

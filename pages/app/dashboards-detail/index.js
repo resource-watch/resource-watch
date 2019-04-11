@@ -1,36 +1,21 @@
-import React from 'react';
-import withRedux from 'next-redux-wrapper';
+import React, { PureComponent } from 'react';
 
 // actions
-import { initStore } from 'store';
-import { fetchDashboard } from 'components/dashboards/detail/dashboard-detail-actions';
+import { getDashboard } from 'modules/dashboards/actions';
 
 // components
-import Page from 'layout/page';
-import DashboardDetail from './component';
+import LayoutDashboardDetail from 'layout/app/dashboard-detail';
 
-// selectors
-import { getDatasetIds } from './selectors';
-
-class DashboardsDetail extends Page {
-  static async getInitialProps(context) {
-    const props = await super.getInitialProps(context);
-
-    await context.store.dispatch(fetchDashboard({ id: props.url.query.slug }));
-
-    return { ...props };
+class DashboardsDetailPage extends PureComponent {
+  static async getInitialProps({ store, query }) {
+    const { slug } = query;
+    await store.dispatch(getDashboard(slug));
+    return {};
   }
 
   render() {
-    return (<DashboardDetail {...this.props} />);
+    return (<LayoutDashboardDetail />);
   }
 }
 
-export default withRedux(
-  initStore,
-  state => ({
-    dashboardDetail: state.dashboardDetail.dashboard,
-    datasetIds: getDatasetIds(state)
-  }),
-  null
-)(DashboardsDetail);
+export default DashboardsDetailPage;

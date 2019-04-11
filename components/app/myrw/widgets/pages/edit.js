@@ -94,9 +94,6 @@ class WidgetsEdit extends React.Component {
     if (event) event.preventDefault();
 
     this.setState({ loading: true });
-
-
-
     const { widget, name } = this.state;
     const widgetAtts = widget.attributes;
     const { dataset } = widgetAtts;

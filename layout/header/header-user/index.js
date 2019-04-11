@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
-import * as actions from '../header-actions';
 
+// actions
+import { setDropdownOpened } from '../actions';
+
+// component
 import HeaderUserComponent from './component';
 
 export default connect(
   state => ({
     header: state.header,
-    user: state.user,
-    routes: state.routes
+    user: state.user
   }),
-  actions
+  { setDropdownOpened }
 )(HeaderUserComponent);
