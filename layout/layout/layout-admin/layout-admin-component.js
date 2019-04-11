@@ -40,6 +40,7 @@ class LayoutAdmin extends PureComponent {
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired,
     setLocale: PropTypes.func.isRequired,
+    setHostname: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired
   };
 
