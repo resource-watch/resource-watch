@@ -12,7 +12,7 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Land',
     layers: [
       {
-        label: 'Crop and vegetation health',
+        label: 'Crop and Vegetation Health',
         id: 'e9f9d20c-1924-48b2-97ed-6936e233adb2',
         '3d': false,
         descriptionPulse:
@@ -36,7 +36,7 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
       {
-        label: 'Forest clearing',
+        label: 'Forest Clearing',
         id: 'f4897107-5ae5-4685-8eee-cd1a5745a384',
         '3d': false,
         descriptionPulse:
@@ -66,7 +66,7 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
       {
-        label: 'Satellite imagery',
+        label: 'Satellite Imagery',
         id: '275dcc83-673b-44e4-b7db-253ff1d2d867',
         '3d': false,
         descriptionPulse:
@@ -89,7 +89,7 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
       {
-        label: 'Nighttime imagery',
+        label: 'Nighttime Imagery',
         id: '91642712-916c-4b03-9d3c-1924a998ea98',
         '3d': false,
         descriptionPulse:
@@ -167,10 +167,10 @@ export const LAYERS_PLANET_PULSE = [
     ]
   },
   {
-    label: 'Air quality',
+    label: 'Air Quality',
     layers: [
       {
-        label: 'Particulate matter (PM 10)',
+        label: 'Particulate Matter (PM 10)',
         id: '73cc7325-a62c-4a8d-9724-af697d3f7072',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         contextLayersOnTop: false,
@@ -178,7 +178,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Dust particles less than 10 microns in diameter from road dust, industrial pollution and other sources affect human health. These air quality measurements are collected from government and research sources by OpenAQ.
+              Dust particles less than 10 microns in diameter from road dust, industrial pollution and other sources affect human health. These air quality measurements are collected from government and research stations by OpenAQ.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -194,12 +194,12 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
       {
-        label: 'Fine particulate matter (PM 2.5)',
+        label: 'Fine Particulate Matter (PM 2.5)',
         id: 'a5136895-9aab-4f2c-8a33-d22b833724ec',
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Fine particles less than 2.5 microns in diameter are known to have more severe health impacts than their larger cousins. Air quality measurements are collected from government and research sources by OpenAQ.
+              Fine particles less than 2.5 microns in diameter are known to have more severe health impacts than their larger cousins. Air quality measurements are collected from government and research stations by OpenAQ.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -219,7 +219,7 @@ export const LAYERS_PLANET_PULSE = [
       },
 
         {
-        label: 'Air Quality Measurements (SO₂)',
+        label: 'Sulfur Dioxide (SO₂)',
         id: '509c71b2-9c68-4acd-88a6-f64015494001',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         contextLayersOnTop: false,
@@ -227,7 +227,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Sufur dioxide (SO₂) is released into the air from the burning of fossil fuels.  It contributes to particulate matter concentrations and can cause acid rain.  These air quality measurements are collected from government and research sources by OpenAQ.
+              Sufur dioxide (SO₂) is released into the air from the burning of fossil fuels.  It contributes to particulate matter concentrations and can cause acid rain.  These air quality measurements are collected from government and research stations by OpenAQ.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -243,7 +243,7 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
         {
-        label: 'Air Quality Measurements (NO₂)',
+        label: 'Nitrogen Dioxide (NO₂)',
         id: '99f02e72-c59d-4d3d-880f-922bff7b7f39',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         contextLayersOnTop: false,
@@ -251,7 +251,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Nitrogen dioxide (NO₂) is released into the atmosphere from the burning of fossil fuels.  Breathing air with high concentrations of NO₂ can result in respiratory symptoms.  These air quality measurements are collected from government and research sources by OpenAQ.
+              Nitrogen dioxide (NO₂) is released into the atmosphere from the burning of fossil fuels.  Breathing air with high concentrations of NO₂ can result in respiratory symptoms.  These air quality measurements are collected from government and research stations by OpenAQ.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -267,7 +267,7 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
         {
-        label: 'Air Quality Measurements (Tropospheric/Ground-level O3)',
+        label: 'Ozone (Tropospheric/Ground-level O₃)',
         id: '39524ca8-e1e3-4e9f-8b77-6682064bd176',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         contextLayersOnTop: false,
@@ -275,7 +275,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Unlike stratospheric ozone that protects from ultraviolet rays, ground-level, or tropospheric ozone (O3) is created through the interactions of the emissions of volatile organic compounds (from gasoline burning engines) and nitrogen oxides (from the burning of fossil fuels) in the presence of heat and sunlight. These air quality measurements are collected from government and research sources by OpenAQ.
+              Unlike stratospheric ozone that protects from ultraviolet rays, ground-level, or tropospheric ozone (O3) is created through the interactions of the emissions of volatile organic compounds (from gasoline burning engines) and nitrogen oxides (from the burning of fossil fuels) in the presence of heat and sunlight. These air quality measurements are collected from government and research stations by OpenAQ.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -291,7 +291,7 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
         {
-        label: 'Air Quality Measurements (CO)',
+        label: 'Carbon Monoxide (CO)',
         id: '8f73075e-80b8-4176-86f2-88c0c4af129c',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         contextLayersOnTop: false,
@@ -299,7 +299,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              Carbon monoxide (CO) is a colorless, odorless gas released into the atmosphere when burning materials.  It can be harmful to human health if inhaled in high concentrations.  These air quality measurements are collected from government and research sources by OpenAQ.
+              Carbon monoxide (CO) is a colorless, odorless gas released into the atmosphere when burning materials.  It can be harmful to human health if inhaled in high concentrations.  These air quality measurements are collected from government and research stations by OpenAQ.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -315,7 +315,7 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
          {
-        label: 'Air Quality Measurements (BC)',
+        label: 'Black Carbon (BC)',
         id: 'd40902f3-4948-48b0-a847-675d40222a55',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         contextLayersOnTop: false,
@@ -323,7 +323,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
           <div className="description">
             <div className="description-text">
-              High black carbon (BC) concentrations have negative implications for both human health and the climate, and are caused by the burning of fossil fuels. These air quality measurements are collected from government and research sources by OpenAQ.
+              High black carbon (BC) concentrations have negative implications for both human health and the climate, and are caused by the burning of fossil fuels. These air quality measurements are collected from government and research stations by OpenAQ.
             </div>
             <div className="view-with-container">
               <span className="view-with-label"><strong>View with:</strong></span>
@@ -344,7 +344,7 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Climate',
     layers: [
       {
-        label: 'Arctic sea ice',
+        label: 'Arctic Sea Ice',
         id: 'b92c01ee-eb2c-4835-8625-d138db75a1cd',
         contextLayers: [],
         contextLayersOnTop: true,
@@ -394,7 +394,7 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
       {
-        label: 'Coral reef bleaching',
+        label: 'Coral Reef Bleaching',
         id: '31429259-9a9a-4d66-a1b9-92c08aa407f3',
         '3d': false,
         descriptionPulse:
@@ -423,7 +423,7 @@ export const LAYERS_PLANET_PULSE = [
     label: 'Humanitarian',
     layers: [
       {
-        label: 'Food insecurity',
+        label: 'Food Insecurity',
         id: 'a2eccfd8-de7e-4fb8-93c4-22f119994f3e',
         contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
         contextLayersOnTop: true,
@@ -445,7 +445,7 @@ export const LAYERS_PLANET_PULSE = [
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
-        label: 'Conflicts and protests',
+        label: 'Conflicts and Protests',
         id: '2da3bbb8-a8b7-47b7-b3bc-823ddc330960',
         descriptionPulse:
           <div className="description">
@@ -491,7 +491,7 @@ export const LAYERS_PLANET_PULSE = [
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       },
       {
-        label: 'Asylum requests',
+        label: 'Asylum Requests',
         id: 'd0ec0531-9241-407c-bbae-d3dc55c7d6ea',
         descriptionPulse:
           <div className="description">
@@ -547,7 +547,7 @@ export const LAYERS_PLANET_PULSE = [
         }
       },
       {
-        label: 'Landslide warnings',
+        label: 'Landslide Warnings',
         id: '61067a0d-b2a3-441e-85c1-2eef5a18e4a5',
         '3d': false,
         descriptionPulse:
