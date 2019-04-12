@@ -5,6 +5,7 @@ const SET_EMBED = 'common/SET_EMBED';
 const SET_WEBSHOT = 'common/SET_WEBSHOT';
 const SET_IS_LOADED_EXTERNALY = 'common/SET_IS_LOADED_EXTERNALY';
 const SET_IS_SERVER = 'common/SET_IS_SERVER';
+const SET_HOSTNAME = 'common/SET_HOSTNAME';
 
 
 const initialState = {
@@ -12,7 +13,8 @@ const initialState = {
   embed: false,
   webshot: false,
   isLoadedExternally: false,
-  isServer: true
+  isServer: true,
+  hostname: 'http://www.resourcewatch.org'
 };
 
 export default function (state = initialState, action) {
@@ -31,6 +33,9 @@ export default function (state = initialState, action) {
 
     case SET_IS_SERVER:
       return Object.assign({}, state, { isServer: action.payload });
+
+    case SET_HOSTNAME:
+      return Object.assign({}, state, { hostname: action.payload });
 
     default:
       return state;
@@ -101,5 +106,16 @@ export function setIsServer(isServer) {
   return {
     type: SET_IS_SERVER,
     payload: isServer
+  };
+}
+
+/**
+ * Set hostname
+ * @param {string} hostname
+ */
+export function setHostname(hostname) {
+  return {
+    type: SET_HOSTNAME,
+    payload: hostname
   };
 }

@@ -25,7 +25,7 @@ export default class MyDocument extends Document {
           />
           <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
 
-          {/* Mobile Adress background */}
+          {/* Mobile address background */}
           {/* Chrome, Firefox OS and Opera */}
           <meta name="theme-color" content="#c32d7b" />
           {/* Windows Phone */}
@@ -35,24 +35,12 @@ export default class MyDocument extends Document {
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
           {/* Social metadata */}
-          <meta property="og:url" content="https://resourcewatch.org" />
           <meta property="og:type" content="website" />
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="@resource_watch" />
           <meta property="fb:app_id" content="Resource Watch" />
 
           {/* Leaflet CDN */}
-          <link
-            rel="stylesheet"
-            href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
-            integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
-            crossOrigin=""
-          />
-          <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"
-            crossOrigin=""
-          />
           <script
             src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
             integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="

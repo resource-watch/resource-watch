@@ -17,6 +17,7 @@ import {
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { getPublishedTopics } from 'modules/topics/actions';
 import { getPublishedPartners } from 'modules/partners/actions';
+import { setHostname } from 'redactions/common';
 
 // utils
 import { containsString } from 'utils/string';
@@ -27,9 +28,6 @@ import {
   PAGES_WITH_USER_COLLECTIONS,
   FULLSCREEN_PAGES
 } from 'constants/app';
-
-// app styles
-import 'css/index.scss';
 
 
 finallyShim.shim();
@@ -43,6 +41,10 @@ class RWApp extends App {
     // sets app routes
     const url = { asPath, pathname, query };
     store.dispatch(setRouter(url));
+
+    //sets hostname
+    const hostname = isServer ? req.headers.host : window.origin;
+    store.dispatch(setHostname(hostname));
 
     // sets user data coming from a request (server) or the store (client)
     const { user } = isServer ? req : store.getState();

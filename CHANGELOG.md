@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2019-04-11
+### Added
+- Unifies sign-up modal across the application.
+- Open Graph tags to display a thumbnail when a user shares/embeds a widget.
+- Better page handling error when the app crashes or don't found a resource.
+### Fixed
+- Fixes override styling with NextJS `7.0`
+
+### Changed
+- Updated `og:image` in `/data/wigdet/${id}` with widget's thumbnail.
+- Updated `widget-editor` dependency to latest version (`1.4.4`).
+- Updated pages structure to be monofile and reduce compilation times.
+- Added loggers to services to catch errors better.
+- Updated `lodash` to fix a critical vulnerability.
+- Renamed `wri-api-components` to `vizzuality-components`.
+
+### Removed
+- Removed `widgetDetail` module. Now the widget is passed as a prop.
+
 ## [2.0.3] - 2019-03-27
 ### Added
 - Replaced the modal used for sharing a widget in myRW for the same one used in the explore page
