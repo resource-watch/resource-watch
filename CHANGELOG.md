@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2019-04-17
+### Fixed
+- Fixed an error preventing a user save/update a layer in the admin [[code]](https://github.com/resource-watch/resource-watch/pull/969/commits/18ddf6c9bfee1e84b5d512479e26c71c3a3c9d44)
+### Changed
+- Updated Pulse's layers texts according Amelia's suggestions [[code]](https://github.com/resource-watch/resource-watch/commit/d31bccb107b64c2f8356ba8d7a5a2bcb69caf879)
+
 ## [2.1.0] - 2019-04-11
 ### Added
 - Unifies sign-up modal across the application.
