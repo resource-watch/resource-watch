@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 // Services
 import DatasetsService from 'services/DatasetsService';
-import { fetchLayer } from 'services/LayersService';
+import LayersService, { fetchLayer } from 'services/LayersService';
 import { toastr } from 'react-redux-toastr';
 
 
@@ -39,7 +39,11 @@ class LayersForm extends React.Component {
       loading: !!props.id
     });
 
-    // Service
+    // services
+    this.layerService = new LayersService({
+      authorization: props.authorization,
+      language: props.locale
+    });
     this.datasetsService = new DatasetsService({
       authorization: props.authorization,
       language: props.locale
@@ -242,7 +246,7 @@ class LayersForm extends React.Component {
 
   saveLayer(form) {
     const { id, dataset } = this.state;
-    this.service.saveData({
+    this.layerService.saveData({
       dataset,
       id: id || '',
       type: (id) ? 'PATCH' : 'POST',
