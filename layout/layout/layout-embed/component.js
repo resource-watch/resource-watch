@@ -56,7 +56,7 @@ class LayoutEmbed extends PureComponent {
         <HeadApp
           title={title}
           description={description}
-          thumbnailUrl={thumbnailUrl}
+          thumbnail={thumbnailUrl}
         />
 
         <Icons />
