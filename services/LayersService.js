@@ -192,7 +192,7 @@ export const fetchLayer = (id, params = {}) => {
   }).catch(({ response }) => {
     const { status, statusText } = response;
     logger.error('Error fetching layer:', `${status}: ${statusText}`);
-    return WRISerializer({});
+    throw new Error('Error fetching layer:', `${status}: ${statusText}`);
   });
 };
 

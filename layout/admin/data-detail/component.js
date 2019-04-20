@@ -11,22 +11,23 @@ import WidgetsTab from 'components/admin/data/widgets';
 import LayersTab from 'components/admin/data/layers';
 
 // services
-import DatasetsService from 'services/DatasetsService';
-import WidgetsService from 'services/WidgetsService';
+import { fetchDataset } from 'services/dataset';
 import { fetchLayer } from 'services/LayersService';
+import { fetchWidget } from 'services/widget';
 
 // utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
 class LayoutAdminDataDetail extends PureComponent {
-  static propTypes = {
-    query: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired
-  }
+  static propTypes = { query: PropTypes.object.isRequired }
 
   state= { data: null }
 
   componentWillMount() {
+    const { query: { id } } = this.props;
+
+    if (id === 'new') return;
+
     this.getData();
   }
 
@@ -41,31 +42,24 @@ class LayoutAdminDataDetail extends PureComponent {
   }
 
   getData() {
-    const {
-      query: { tab, id },
-      locale
-    } = this.props;
+    const { query: { tab, id } } = this.props;
 
-    if (id === 'new') return;
-
-    this.service = null;
-
-    switch (tab) {
-      case 'datasets':
-        this.service = new DatasetsService({ language: locale });
-        break;
-      case 'widgets':
-        this.service = new WidgetsService();
-        break;
-      default:
-        this.service = new DatasetsService({ language: locale });
+    if (tab === 'datasets') {
+      fetchDataset(id)
+        .then((dataset) => { this.setState({ data: dataset }); })
+        .catch((err) => { toastr.error('Error', err.message); });
     }
 
-    if (this.service) {
-      // Fetch the dataset / layer / widget depending on the tab
+    if (tab === 'widgets') {
+      fetchWidget(id)
+        .then((widget) => { this.setState({ data: widget }); })
+        .catch((err) => { toastr.error('Error', err.message); });
+    }
+
+    if (tab === 'layers') {
       fetchLayer(id)
-        .then((data) => { this.setState({ data }); })
-        .catch((err) => { toastr.error('Error', err); });
+        .then((layer) => { this.setState({ data: layer }); })
+        .catch((err) => { toastr.error('Error', err.message); });
     }
   }
 
