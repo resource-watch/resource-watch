@@ -38,8 +38,9 @@ export const fetchWidget = (id, params = {}) => {
     })
     .catch(({ response }) => {
       const { status, statusText } = response;
+
       logger.error(`Error fetching widget ${id}: ${status}: ${statusText}`);
-      return WRISerializer({});
+      throw new Error(`Error fetching widget ${id}: ${status}: ${statusText}`);
     });
 };
 
