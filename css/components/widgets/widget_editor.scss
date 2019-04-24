@@ -1,138 +1,27 @@
-.c-widget-editor {
+.c-we-widget-editor {
   display: flex;
   position: relative;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 0 10px;
   background-color: $ui-bg-color;
-
-  .customize-visualization {
-    position: relative;
-    min-height: 620px;
-    max-height: 740px;
-    margin: -20px 0;
-    flex-basis: 522px;
-    flex-shrink: 0;
-    flex-grow: 0;
-    padding: $margin-size-small;
-    border: 1px solid $border-color-1;
-    box-shadow: 0 1px 2px 0 rgba($color-black, .09);
-    background-color: $body-bg-color;
-
-    > .title {
-      color: $color-dark-pink;
-      font-weight: $font-weight-light;
-    }
-
-    // h5 {
-    //   margin: 0 0 10px;
-    //   font-size: $font-size-extra-small;
-    // }
-
-    .visualization-type-selector {
-      max-width: none;
-    }
-
-  }
 
   .visualization {
     position: relative;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-shrink: 1;
     flex-basis: 100%;
     overflow-x: hidden;
-    padding: #{$margin-size-extra-small + 25px} $margin-size-extra-small $margin-size-extra-small;
+    padding: 15px;
     padding-right: 0;
-
-    &.-error {
-      text-align: center;
-
-      span {
-        display: block;
-        margin-top: 10px;
-        font-size: $font-size-small;
-        font-weight: $font-weight-bold;
-      }
-    }
-
-    > .c-we-chart {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      padding-top: 20px; // Space for the legend
-
-      .chart {
-        // The height will be set either by VegaChart or Vega itself
-        height: auto;
-        overflow-x: auto;
-
-        .vega {
-          // We can't use display: flex; here otherwise
-          // the user won't be able to see all of the
-          // widgets with scrolling (especially the left
-          // hand side which will be cut)
-          text-align: center;
-        }
-      }
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      padding-top: 20px; // Space between the iframe and the title
-    }
+    justify-content: left;
+    align-items: flex-start;
 
     .chart-title {
+      position: relative;
+      top: 0;
+      left: 0;
       width: 100%;
-      max-width: calc(100% - 150px); // Avoid the title to overlap the legend (when collapsed)
-      position: absolute;
-      top: 15px;
-      left: 15px;
+      max-width: calc(100% - 60px); // Avoid the title to overlap the legend (when collapsed)
       z-index: 2; // At least 2 to be on top of the map
-
-      > div { // Override a property of the library
-        display: block !important;
-      }
-
-      input {
-        max-width: 100%; // Make the input respect its container width
-        font-family: $body-font-family;
-        font-size: $font-size-big;
-      }
     }
-
-    // Share button of the map
-    .share-button {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      top: 90px;
-      right: 30px;
-      width: 30px;
-      height: 30px;
-      background-color: $color-white;
-      border-radius: 3px;
-      cursor: pointer;
-      z-index: 999;
-
-      &:hover {
-        background-color: mix($color-primary, $color-white, 5%);
-      }
-
-      a {
-        color: $color-white;
-      }
-
-      svg {
-        fill: $color-black;
-      }
-    }
-  }
-
-  // We want the visualisation and the editor to be at the same level
-  > .l-container > .row {
-    flex-wrap: nowrap;
   }
 }
