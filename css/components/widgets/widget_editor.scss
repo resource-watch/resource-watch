@@ -15,6 +15,10 @@
     justify-content: left;
     align-items: flex-start;
 
+    &.-reduced {
+      padding: 15px;
+    }
+
     .chart-title {
       position: relative;
       top: 0;
