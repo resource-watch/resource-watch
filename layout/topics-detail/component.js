@@ -65,7 +65,6 @@ class TopicDetailLayout extends PureComponent {
       <Layout
         title={name}
         description={description || ''}
-        category="Topic"
         pageHeader
       >
         <div className="c-page-explore-detail">
