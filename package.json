@@ -67,7 +67,6 @@
     "rc-tooltip": "^3.7.0",
     "react": "16.4.2",
     "react-ace": "6.0.0",
-    "react-css-modules": "^4.7.1",
     "react-dates": "^18.2.2",
     "react-dnd": "2.6.0",
     "react-dnd-html5-backend": "2.4.1",
