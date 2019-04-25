@@ -33,7 +33,6 @@ class Explore extends React.Component {
         title="Explore Data Sets — Resource Watch"
         description="Browse more than 200 global data sets on the state of our planet."
         className="-fullscreen"
-        category="Dataset"
       >
         <div className="c-page-explore">
           <ExploreSidebar>
