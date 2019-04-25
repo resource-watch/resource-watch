@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-// Redux
+import WidgetEditor, { VegaChart } from 'widget-editor';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-
-// Constants
-import { FORM_ELEMENTS, CONFIG_TEMPLATE, CONFIG_TEMPLATE_OPTIONS } from 'components/admin/data/widgets/form/constants';
 
 // Components
 import Field from 'components/form/Field';
@@ -19,10 +15,13 @@ import Checkbox from 'components/form/Checkbox';
 import SwitchOptions from 'components/ui/SwitchOptions';
 import Spinner from 'components/ui/Spinner';
 
-// Widget editor
-import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
+// constants
+import { FORM_ELEMENTS, CONFIG_TEMPLATE, CONFIG_TEMPLATE_OPTIONS } from 'components/admin/data/widgets/form/constants';
 
-const defaultTheme = getVegaTheme();
+// utils
+import { getDefaultTheme } from 'utils/widget';
+
+const defaultTheme = getDefaultTheme();
 
 class Step1 extends Component {
   static propTypes = {
@@ -45,7 +44,7 @@ class Step1 extends Component {
     this.state = {
       id: props.id,
       form: props.form,
-      loadingVegaChart: false,
+      loadingVegaChart: false
     };
 
     // ------------------- BINDINGS ---------------------------

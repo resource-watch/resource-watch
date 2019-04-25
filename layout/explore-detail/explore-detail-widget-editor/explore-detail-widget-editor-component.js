@@ -1,24 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-// Utils
-import { getDatasetDefaultEditableWidget } from 'layout/explore-detail/explore-detail-helpers';
-import { breakpoints } from 'utils/responsive';
-
-// Components
+import WidgetEditor, { VegaChart } from 'widget-editor';
 import MediaQuery from 'react-responsive';
 
-// Widget editor
-import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
-
-// Modal
+// components
 import Modal from 'components/modal/modal-component';
 import SaveWidgetModal from 'components/modal/SaveWidgetModal';
 import LoginModal from 'components/modal/login-modal';
 
-const defaultTheme = getVegaTheme();
+// utils
+import { getDatasetDefaultEditableWidget } from 'layout/explore-detail/explore-detail-helpers';
+import { getDefaultTheme } from 'utils/widget';
+import { breakpoints } from 'utils/responsive';
 
-// Constants
+const defaultTheme = getDefaultTheme();
+
 class ExploreDetailWidgetEditor extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,

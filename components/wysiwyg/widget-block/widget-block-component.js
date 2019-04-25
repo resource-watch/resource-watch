@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
-import { VegaChart, getVegaTheme } from 'widget-editor';
+import { VegaChart } from 'widget-editor';
 import {
   Map,
   MapControls,
@@ -13,7 +13,6 @@ import {
   LegendListItem,
   LegendItemTypes
 } from 'vizzuality-components';
-
 import { LayerManager, Layer } from 'layer-manager/dist/components';
 import { PluginLeaflet } from 'layer-manager';
 
@@ -34,9 +33,10 @@ import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 // utils
+import { getDefaultTheme } from 'utils/widget';
 import { logEvent } from 'utils/analytics';
 
-const defaultTheme = getVegaTheme();
+const defaultTheme = getDefaultTheme();
 
 class WidgetBlock extends PureComponent {
   static propTypes = {

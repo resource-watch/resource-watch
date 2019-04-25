@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { VegaChart } from 'widget-editor';
 
-// Widget editor
-import { VegaChart, getVegaTheme } from 'widget-editor';
-
-// Components
+// components
 import Spinner from 'components/ui/Spinner';
-import DatasetPlaceholderChart from '../placeholder-chart';
+import DatasetPlaceholderChart from 'components/charts/placeholder-chart';
 
-const defaultTheme = getVegaTheme();
-const defaultThumbnailTheme = getVegaTheme(true);
+// utils
+import { getDefaultTheme } from 'utils/widget';
+
+const defaultTheme = getDefaultTheme();
+const defaultThumbnailTheme = getDefaultTheme(true);
 
 class DatasetWidgetChart extends React.Component {
   static propTypes = {

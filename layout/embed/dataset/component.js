@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
-import { VegaChart, getVegaTheme } from 'widget-editor';
+import { VegaChart } from 'widget-editor';
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -12,8 +12,9 @@ import DatasetService from 'services/DatasetService';
 
 // utils
 import { isLoadedExternally } from 'utils/embed';
+import { getDefaultTheme } from 'utils/widget';
 
-const defaultTheme = getVegaTheme();
+const defaultTheme = getDefaultTheme();
 
 class LayoutEmbedDataset extends PureComponent {
   static propTypes = {

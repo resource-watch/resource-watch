@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import d3 from 'd3';
-import { VegaChart, getVegaTheme } from 'widget-editor';
+import { VegaChart } from 'widget-editor';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
@@ -11,10 +11,11 @@ import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
 // utils
+import { getDefaultTheme } from 'utils/widget';
 import { logEvent } from 'utils/analytics';
 import { isLoadedExternally } from 'utils/embed';
 
-const defaultTheme = getVegaTheme();
+const defaultTheme = getDefaultTheme();
 
 class LayoutEmbedWidget extends PureComponent {
   static propTypes = {
