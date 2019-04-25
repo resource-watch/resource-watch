@@ -78,9 +78,7 @@ class WidgetBlock extends PureComponent {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
-    if (widgetConfig.bbox) {
-      return { bbox: widgetConfig.bbox };
-    }
+    if (widgetConfig.bbox) return { bbox: widgetConfig.bbox };
 
     return {};
   }
@@ -257,7 +255,7 @@ class WidgetBlock extends PureComponent {
           }
 
           {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && (
-            <div>
+            <Fragment>
               <div className="c-map">
                 <Map
                   mapOptions={this.getMapOptions(widget)}
@@ -305,7 +303,7 @@ class WidgetBlock extends PureComponent {
                   ))}
                 </Legend>
               </div>
-            </div>
+            </Fragment>
           )}
 
           {!widgetError && !layersError && !item && !item.content.widgetId &&
