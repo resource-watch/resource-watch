@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const withSass = require('@zeit/next-sass');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = withSass({
   useFileSystemPublicRoutes: false,
@@ -15,6 +16,7 @@ module.exports = withSass({
       net: 'empty',
       tls: 'empty'
     };
+
 
     config.plugins.push(
       new webpack.DefinePlugin({
@@ -48,6 +50,8 @@ module.exports = withSass({
         }
       ])
     );
+
+    if (process.env.BUNDLE_ANALYZER) config.plugins.push(new BundleAnalyzerPlugin());
 
     return config;
   }
