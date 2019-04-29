@@ -63,7 +63,10 @@ class DatasetsTable extends React.Component {
 
   componentDidMount() {
     this.props.setFilters({});
-    this.props.getDatasets({ includes: 'widget,layer,metadata,vocabulary,user' });
+    this.props.getDatasets({
+      includes: 'widget,layer,metadata,vocabulary,user',
+      page: 1
+    });
   }
 
   /**
@@ -90,6 +93,12 @@ class DatasetsTable extends React.Component {
     //     page
     //   }
     // });
+  }
+  getPagination() {
+    const { datasets } = this.props;
+    if (datasets.length ===0 ) return null;
+    const { meta } = this.props.datasets;
+    const { 'total-items': totalItems, size, 'total-pages': totalPages } = meta
   }
 
   getDatasets() {
