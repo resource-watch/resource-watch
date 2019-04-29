@@ -145,16 +145,14 @@ export const resetDatasets = createAction(RESET_DATASETS);
  * @export
  * @param {string[]} applications Name of the applications to load the datasets from
  */
-export function getDatasets(options) {
+export function getDatasets(options, meta) {
   return (dispatch, getState) => {
     dispatch({ type: GET_DATASETS_LOADING });
-
     const { user, common } = getState();
     const service = new DatasetsService({ language: common.locale, authorization: user.token });
-
-    service.fetchAdminData(options)
-      .then(({ data, meta }) => {
-        dispatch({ type: GET_DATASETS_SUCCESS, payload: { data, meta } });
+    service.fetchAdminData(options, meta)
+      .then((data) => {
+        dispatch({ type: GET_DATASETS_SUCCESS, payload: data });
       })
       .catch((err) => {
         dispatch({ type: GET_DATASETS_ERROR, payload: err.message });
