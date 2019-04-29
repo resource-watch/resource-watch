@@ -25,29 +25,39 @@ export default class TableFooter extends React.Component {
   // UI EVENTS
   // - onChangePage
   onChangePage(page) {
-    this.props.onChangePage && this.props.onChangePage(page - 1);
+    this.props.onChangePage && this.props.onChangePage(page);
   }
 
   render() {
-    const { pagination, showTotalPages } = this.props;
-    const maxPage = Math.ceil(pagination.total / pagination.pageSize) || 1;
+    const { pagination, showTotalPages, meta } = this.props;
+    if (meta) {
 
-    return (
-      <div className="table-footer">
-        <Paginator
-          options={{
-            page: pagination.page + 1,
-            size: pagination.total,
-            limit: pagination.pageSize
-          }}
-          onChange={page => this.onChangePage(page)}
-        />
 
-        {/* Page locator */}
-        {pagination.enabled && showTotalPages &&
-          <div>Page <span>{pagination.page + 1}</span> of <span>{maxPage}</span></div>
-        }
-      </div>
-    );
+      const { totalPages, size } = this.props.meta;
+
+      //   const { totalItems } =this.props.meta;
+      //   const maxPage = Math.ceil(totalItems / pagination.pageSize) || 1;
+      return (
+        <div className="table-footer">
+          <Paginator
+            options={{
+              page: pagination.page,
+              size: totalPages,
+              limit: size
+            }}
+            onChange={page => this.onChangePage(page)}
+          />
+
+
+          {pagination.enabled && showTotalPages &&
+            <div>Page <span>{pagination.page + 1}</span> of <span>{totalPages}</span></div>
+
+          }
+
+        </div>
+      );
+    }
+
+    return null;
   }
 }
