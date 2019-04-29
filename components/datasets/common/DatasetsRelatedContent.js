@@ -57,9 +57,9 @@ class DatasetsRelatedContent extends React.Component {
     let knowledgeGraphVoc = null;
     // Calculate the number of tags for the current dataset
     if (dataset.vocabulary && dataset.vocabulary.length) {
-      knowledgeGraphVoc = dataset.vocabulary.find(voc => voc.attributes.name === 'knowledge_graph');
+      knowledgeGraphVoc = dataset.vocabulary.find(voc => voc.name === 'knowledge_graph');
       if (knowledgeGraphVoc) {
-        numberOfTags = knowledgeGraphVoc.attributes.tags.length;
+        numberOfTags = knowledgeGraphVoc.tags.length;
       }
     }
 

@@ -140,28 +140,6 @@ export const setPaginationTotal = createAction(SET_DATASETS_PAGINATION_TOTAL);
 export const setPaginationLimit = createAction(SET_DATASETS_PAGINATION_LIMIT);
 export const resetDatasets = createAction(RESET_DATASETS);
 
-/**
- * Retrieve the list of datasets
- * @export
- * @param {string[]} applications Name of the applications to load the datasets from
- */
-export function getDatasets(options) {
-  return (dispatch, getState) => {
-    dispatch({ type: GET_DATASETS_LOADING });
-
-    const { user, common } = getState();
-    const service = new DatasetsService({ language: common.locale, authorization: user.token });
-
-    service.fetchAdminData(options)
-      .then((data) => {
-        dispatch({ type: GET_DATASETS_SUCCESS, payload: data });
-      })
-      .catch((err) => {
-        dispatch({ type: GET_DATASETS_ERROR, payload: err.message });
-      });
-  };
-}
-
 export const getAllDatasets = createThunkAction('datasets/getAllDatasets', options =>
   (dispatch, getState) => {
     dispatch({ type: GET_DATASETS_LOADING });
