@@ -41,7 +41,6 @@ class Paginator extends React.Component {
 
   render() {
     const { size, page, limit } = this.state;
-
     return (
       <div className="c-paginator">
         <Pagination
