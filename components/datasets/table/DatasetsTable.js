@@ -77,25 +77,39 @@ class DatasetsTable extends React.Component {
     }
   }
 
-  getDatasets() {
-    return this.props.datasets
-      .map((d) => {
-        const user = d.user || {};
+  onChangePage(page) {
+    console.log(page, 'datasets table')
+    this.props.getDatasets({
+      includes: 'widget,layer,metadata,vocabulary,user',
+      page
+    });
 
-        const metadata = d.metadata.length && d.metadata.length > 0 && d.metadata[0];
-        const metadataInfo = (metadata && metadata.attributes) && (metadata.attributes.info || {});
-
-        return {
-          ...d,
-          owner: user.email || '',
-          role: user.role || '',
-          code: metadataInfo.rwId || ''
-        };
-      });
+    // this.props.onChangePage(page);
+    // this.setState({
+    //   pagination: {
+    //     ...this.state.pagination,
+    //     page
+    //   }
+    // });
+  }
+  getPagination() {
+    const { datasets } = this.props;
+    if (datasets.length === 0) return null;
+    const { meta } = this.props.datasets;
+    const { 'total-items': totalItems, size, 'total-pages': totalPages } = meta;
+    return {
+      totalItems,
+      totalPages,
+      size
+    };
   }
 
+  getDatasets() {
+    const { data } = this.props.datasets;
+    return data;
+  }
   render() {
-    const { routes, getDatasetsFilters } = this.props;
+    const { routes, getDatasetsFilters, datasets } = this.props;
 
     return (
       <div className="c-dataset-table">
@@ -106,9 +120,7 @@ class DatasetsTable extends React.Component {
         )}
 
         <SearchInput
-          input={{
-            placeholder: 'Search dataset'
-          }}
+          input={{ placeholder: 'Search dataset' }}
           link={{
             label: 'New dataset',
             route: routes.detail,
@@ -117,8 +129,7 @@ class DatasetsTable extends React.Component {
           onSearch={this.onSearch}
         />
 
-
-        {!this.props.error && (
+        {!this.props.error && datasets !== [] && (
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD, tdProps: { route: routes.detail } },
@@ -143,6 +154,7 @@ class DatasetsTable extends React.Component {
             }}
             filters={false}
             data={this.getDatasets()}
+            meta={this.getPagination()}
             onRowDelete={() => this.props.getDatasets({
               includes: 'widget,layer,metadata,vocabulary,user',
               filters: getDatasetsFilters

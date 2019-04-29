@@ -29,16 +29,13 @@ class Paginator extends React.Component {
    * - triggerChangePage (page, size)
   */
   triggerChangePage(page) {
-    this.setState({
-      page
-    }, () => {
+    this.setState({ page: page - 1 }, () => {
       if (this.props.onChange) this.props.onChange(this.state.page);
     });
   }
 
   render() {
     const { size, page, limit } = this.state;
-
     return (
       <div className="c-paginator">
         <Pagination

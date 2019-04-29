@@ -153,8 +153,8 @@ export function getDatasets(options) {
     const service = new DatasetsService({ language: common.locale, authorization: user.token });
 
     service.fetchAdminData(options)
-      .then((data) => {
-        dispatch({ type: GET_DATASETS_SUCCESS, payload: data });
+      .then(({ data, meta }) => {
+        dispatch({ type: GET_DATASETS_SUCCESS, payload: { data, meta } });
       })
       .catch((err) => {
         dispatch({ type: GET_DATASETS_ERROR, payload: err.message });
