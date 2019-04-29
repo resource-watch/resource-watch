@@ -58,6 +58,7 @@ class DatasetsTable extends React.Component {
     super(props);
 
     this.onSearch = this.onSearch.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
   }
 
   componentDidMount() {
@@ -78,20 +79,24 @@ class DatasetsTable extends React.Component {
   }
 
   onChangePage(page) {
-    console.log(page, 'datasets table')
     this.props.getDatasets({
       includes: 'widget,layer,metadata,vocabulary,user',
       page
     });
 
-    // this.props.onChangePage(page);
-    // this.setState({
+    //   this.setState({
     //   pagination: {
     //     ...this.state.pagination,
     //     page
     //   }
     // });
   }
+
+  getDatasets() {
+    const { data } = this.props.datasets;
+    return data;
+  }
+
   getPagination() {
     const { datasets } = this.props;
     if (datasets.length === 0) return null;
@@ -104,13 +109,8 @@ class DatasetsTable extends React.Component {
     };
   }
 
-  getDatasets() {
-    const { data } = this.props.datasets;
-    return data;
-  }
   render() {
     const { routes, getDatasetsFilters, datasets } = this.props;
-
     return (
       <div className="c-dataset-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -128,7 +128,6 @@ class DatasetsTable extends React.Component {
           }}
           onSearch={this.onSearch}
         />
-
         {!this.props.error && datasets !== [] && (
           <CustomTable
             columns={[
@@ -154,11 +153,13 @@ class DatasetsTable extends React.Component {
             }}
             filters={false}
             data={this.getDatasets()}
+            page
             meta={this.getPagination()}
             onRowDelete={() => this.props.getDatasets({
               includes: 'widget,layer,metadata,vocabulary,user',
               filters: getDatasetsFilters
             })}
+            onChangePage={this.onChangePage}
             pageSize={20}
             pagination={{
               enabled: true,
