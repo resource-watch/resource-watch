@@ -219,7 +219,7 @@ export default class CustomTable extends React.Component {
     this.setState({
       pagination: {
         ...this.state.pagination,
-        page: page + 1
+        page
       }
     });
     this.props.onChangePage(page);
