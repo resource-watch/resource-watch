@@ -138,6 +138,7 @@ class DatasetsTable extends React.Component {
           onSearch={this.onSearch}
         />
         {!this.props.error && datasets !== [] && (
+
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD, tdProps: { route: routes.detail } },
