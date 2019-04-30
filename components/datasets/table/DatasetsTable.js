@@ -82,10 +82,12 @@ class DatasetsTable extends React.Component {
   }
 
   onChangePage(page) {
+    console.log('dataser')
     this.props.getDatasets({
       includes: 'widget,layer,metadata,vocabulary,user',
       page
     });
+
 
     //   this.setState({
     //   pagination: {
@@ -96,7 +98,7 @@ class DatasetsTable extends React.Component {
   }
   getPagination() {
     const { datasets } = this.props;
-    if (datasets.length ===0 ) return null;
+    if (datasets.length === 0 ) return null;
     const { meta } = this.props.datasets;
     const { 'total-items': totalItems, size, 'total-pages': totalPages } = meta
   }

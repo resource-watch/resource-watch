@@ -25,7 +25,7 @@ export default class TableFooter extends React.Component {
   // UI EVENTS
   // - onChangePage
   onChangePage(page) {
-    this.props.onChangePage && this.props.onChangePage(page);
+    this.props.onChangePage && this.props.onChangePage(page + 1);
   }
 
   render() {
@@ -50,7 +50,7 @@ export default class TableFooter extends React.Component {
 
 
           {pagination.enabled && showTotalPages &&
-            <div>Page <span>{pagination.page + 1}</span> of <span>{totalPages}</span></div>
+            <div>Page <span>{pagination.page}</span> of <span>{totalPages}</span></div>
 
           }
 
