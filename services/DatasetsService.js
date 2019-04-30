@@ -48,6 +48,7 @@ class DatasetsService {
 
   // GET ALL DATA
   fetchAdminData({ applications = [process.env.APPLICATIONS], includes, filters, page } = {}) {
+    console.log(page, 'fetchAdmin')
     const qParams = {
       application: applications.join(','),
       language: this.opts.language,

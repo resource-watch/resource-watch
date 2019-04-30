@@ -248,6 +248,7 @@ export default class CustomTable extends React.Component {
         page
       }
     });
+    this.props.onChangePage(page);
   }
 
   /**
