@@ -290,6 +290,7 @@ export default class CustomTable extends React.Component {
 
   /* Render */
   render() {
+    console.log(this.props,'this table')
     return (
       <div className="c-table">
         {/* Table */}

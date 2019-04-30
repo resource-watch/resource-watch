@@ -82,7 +82,7 @@ class DatasetsTable extends React.Component {
   }
 
   onChangePage(page) {
-    console.log('dataser')
+    console.log(page, 'dataser')
     this.props.getDatasets({
       includes: 'widget,layer,metadata,vocabulary,user',
       page
