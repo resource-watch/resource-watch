@@ -34,13 +34,8 @@ class Paginator extends React.Component {
    * - triggerChangePage (page, size)
   */
   triggerChangePage(page) {
-<<<<<<< HEAD
     this.setState({ page }, () => {
       this.props.onChange(this.state.page);
-=======
-    this.setState({ page: page - 1 }, () => {
-      if (this.props.onChange) this.props.onChange(this.state.page);
->>>>>>> WIP - page number admin datasets
     });
   }
 

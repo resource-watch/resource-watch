@@ -8,7 +8,6 @@ import isEqual from 'lodash/isEqual';
 import TableHeader from './header/TableHeader';
 import TableContent from './content/TableContent';
 import TableFooter from './footer/TableFooter';
-import { timingSafeEqual } from 'crypto';
 
 export default class CustomTable extends React.Component {
   /* Property typing */
