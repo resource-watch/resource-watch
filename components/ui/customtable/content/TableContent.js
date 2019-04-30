@@ -28,18 +28,8 @@ export default class TableContent extends React.Component {
     onToggleSelectedRow: null
   };
 
-  getPageBounds() {
-    const { pagination } = this.props;
-
-    return {
-      bottom: pagination.page * pagination.pageSize,
-      top: (pagination.page * pagination.pageSize) + pagination.pageSize
-    };
-  }
-
   render() {
     const { actions, columns, sort, rowSelection } = this.props;
-    const { bottom, top } = this.getPageBounds();
     const actionsShowed = actions.list.filter(ac => ac.show || ac.component);
 
     let data = this.props.filteredData;
@@ -74,9 +64,6 @@ export default class TableContent extends React.Component {
           sort.value * -1;
       });
     }
-
-    /* Apply pagination to data */
-    data = data.slice(bottom, top);
 
     return (
       <tbody>
