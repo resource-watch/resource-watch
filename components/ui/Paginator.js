@@ -7,7 +7,6 @@ class Paginator extends React.Component {
     options: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired
   };
-
   constructor(props) {
     super(props);
 

@@ -13,7 +13,7 @@ class TableFooter extends PureComponent {
     pagination: {
       enabled: true,
       pageSize: 20,
-      page: 1,
+      page: 0,
       total: null
     },
     showTotalPages: false
