@@ -2,6 +2,8 @@ import { createAction, createThunkAction } from 'redux-tools';
 
 import DatasetsService from 'services/DatasetsService';
 
+import { fetchDatasets } from 'services/dataset';
+
 /**
  * CONSTANTS
 */
@@ -145,14 +147,18 @@ export const resetDatasets = createAction(RESET_DATASETS);
  * @export
  * @param {string[]} applications Name of the applications to load the datasets from
  */
-export function getDatasets(options, meta) {
+export function getDatasets(options) {
   return (dispatch, getState) => {
     dispatch({ type: GET_DATASETS_LOADING });
-    const { user, common } = getState();
-    const service = new DatasetsService({ language: common.locale, authorization: user.token });
-    service.fetchAdminData(options, meta)
+    const { common } = getState();
+    // const service = new DatasetsService({ language: common.locale, authorization: user.token });
+    fetchDatasets({
+      ...options,
+      language: common.locale
+    }, true)
       .then((data) => {
-        dispatch({ type: GET_DATASETS_SUCCESS, payload: data });
+        const { datasets } = data;
+        dispatch({ type: GET_DATASETS_SUCCESS, payload: datasets });
       })
       .catch((err) => {
         dispatch({ type: GET_DATASETS_ERROR, payload: err.message });
