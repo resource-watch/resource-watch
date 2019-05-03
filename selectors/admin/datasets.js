@@ -8,20 +8,24 @@ const filters = state => state.datasets.datasets.filters;
  * @param {object[]} datasets Datasets to filter
  * @param {{ key: string, value: string|number }[]} filters Filters to apply to the datasets
  */
-const getFilteredDatasets = (datasets, filters) => { // eslint-disable-line no-shadow
-  if (!filters.length) return datasets;
+const getFilteredDatasets = (_datasets, filters) => { // eslint-disable-line no-shadow
+  if (!filters.length) return _datasets;
+  const { data, meta } = _datasets;
 
-  return datasets.filter(dataset =>
+  const filteredDatasets = data.filter(dataset =>
     filters.every((filter) => {
       if (filter.key === 'id') return dataset.id === filter.value;
-      if (!dataset[filter.key]) return false;
 
+      if (!dataset[filter.key]) return false;
       if (typeof filter.value === 'string') {
         return dataset[filter.key].toLowerCase().match(filter.value.toLowerCase());
       }
-
-      return dataset[filter.key] === filter.value;
+      return filter.value;
     }));
+  return {
+    data: filteredDatasets,
+    meta
+  };
 };
 
 
