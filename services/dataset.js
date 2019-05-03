@@ -10,7 +10,7 @@ import { logger } from 'utils/logs';
  * @param {Object[]} params - params sent to the API.
  * @returns {Object[]} array of serialized datasets.
  */
-export const fetchDatasets = (params = {}) => {
+export const fetchDatasets = (params = {}, _meta = false) => {
   logger.info('fetches datasets');
 
   return WRIAPI.get('/dataset', {
@@ -22,17 +22,31 @@ export const fetchDatasets = (params = {}) => {
     params: {
       env: process.env.API_ENV,
       ...params
-    }
+    },
+    transformResponse: [].concat(
+      WRIAPI.defaults.transformResponse,
+      (({ data, meta }) => ({ datasets: data, meta }))
+    )
   })
     .then((response) => {
       const { status, statusText, data } = response;
+      const { datasets, meta } = data;
+
       if (status >= 300) {
         logger.error('Error fetching datasets:', `${status}: ${statusText}`);
         throw new Error(statusText);
       }
-      return WRISerializer(data);
+
+      if (_meta) {
+        return {
+          datasets: WRISerializer({ data: datasets }),
+          meta
+        };
+      }
+
+      return WRISerializer({ data: datasets });
     })
-    .catch(({ response }) => {
+    .catch((response) => {
       const { status, statusText } = response;
 
       logger.error(`Error fetching datasets: ${status}: ${statusText}`);
