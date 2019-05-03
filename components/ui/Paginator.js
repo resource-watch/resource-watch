@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import Pagination from 'rc-pagination';
 
 class Paginator extends React.Component {
+  static propTypes = {
+    options: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
+  };
   constructor(props) {
     super(props);
 
@@ -29,8 +33,7 @@ class Paginator extends React.Component {
    * - triggerChangePage (page, size)
   */
   triggerChangePage(page) {
-    console.log(page)
-    this.setState({ page: page - 1 }, () => {
+    this.setState({ page }, () => {
       if (this.props.onChange) this.props.onChange(this.state.page);
     });
   }
@@ -49,10 +52,5 @@ class Paginator extends React.Component {
     );
   }
 }
-
-Paginator.propTypes = {
-  options: PropTypes.object,
-  onChange: PropTypes.func
-};
 
 export default Paginator;

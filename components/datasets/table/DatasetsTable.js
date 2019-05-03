@@ -86,20 +86,6 @@ class DatasetsTable extends React.Component {
       includes: 'widget,layer,metadata,vocabulary,user',
       page
     });
-
-
-    //   this.setState({
-    //   pagination: {
-    //     ...this.state.pagination,
-    //     page
-    //   }
-    // });
-  }
-  getPagination() {
-    const { datasets } = this.props;
-    if (datasets.length === 0 ) return null;
-    const { meta } = this.props.datasets;
-    const { 'total-items': totalItems, size, 'total-pages': totalPages } = meta
   }
 
   getDatasets() {
