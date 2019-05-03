@@ -114,6 +114,8 @@ class LayoutEmbedWidget extends PureComponent {
     if (!isLoading) window.WEBSHOT_READY = true;
   }
 
+  handleToggleShareModal = (shareWidget) => { this.setState({ shareWidget }); }
+
   render() {
     const {
       widget,

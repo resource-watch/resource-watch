@@ -23,7 +23,6 @@ class LayoutWidgetDetail extends PureComponent {
         title={widget.name}
         description={widget.description || ''}
         thumbnail={widget.thumbnailUrl}
-        category="Widget"
         pageHeader
       >
         <div className="c-page-explore-detail">

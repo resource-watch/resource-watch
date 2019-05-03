@@ -13,7 +13,6 @@ class Explore extends React.Component {
         title="Explore"
         description="Explore description"
         className="-fullscreen"
-        category="Dataset"
       >
         <div className="c-embed-widget -map">
           {/* Desktop map */}

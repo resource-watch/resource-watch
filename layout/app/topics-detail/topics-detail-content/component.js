@@ -1,30 +1,13 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-// VizzWysiwyg
 import VizzWysiwyg from 'vizz-wysiwyg';
+
+// components
 import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
 import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
 
-export default class TopicsDetailContentComponent extends React.Component {
-  static propTypes = {
-    topic: PropTypes.object
-  };
-
-  static defaultProps = {
-    topic: {}
-  };
-
-  shouldComponentUpdate(nextProps) {
-    const { id: nextTopicId } = nextProps.topic;
-    const { id: oldTopicId } = this.props.topic;
-
-    if (nextTopicId !== oldTopicId) {
-      return true;
-    }
-
-    return false;
-  }
+class TopicsDetailContentComponent extends PureComponent {
+  static propTypes = { topic: PropTypes.object.isRequired };
 
   getItems = () => {
     const { topic } = this.props;
@@ -57,3 +40,5 @@ export default class TopicsDetailContentComponent extends React.Component {
     );
   }
 }
+
+export default TopicsDetailContentComponent;

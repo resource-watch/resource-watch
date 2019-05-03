@@ -38,7 +38,6 @@ class LayoutApp extends PureComponent {
     description: PropTypes.string,
     pageHeader: PropTypes.bool,
     className: PropTypes.string,
-    category: PropTypes.string,
     modal: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     thumbnail: PropTypes.string,
@@ -53,7 +52,6 @@ class LayoutApp extends PureComponent {
     title: null,
     description: null,
     className: null,
-    category: null,
     pageHeader: false,
     thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
@@ -115,7 +113,6 @@ class LayoutApp extends PureComponent {
       pageHeader,
       modal,
       className,
-      category,
       thumbnail,
       isFullScreen,
       showUserReport
@@ -134,7 +131,6 @@ class LayoutApp extends PureComponent {
           title={title}
           description={description}
           {...thumbnail && { thumbnail }}
-          category={category}
         />
 
         {!browserSupported() &&

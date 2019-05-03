@@ -51,7 +51,6 @@ class ExploreDetail extends PureComponent {
         title={datasetName}
         description={metadata.description || ''}
         thumbnail={thumbnail}
-        category="Dataset"
         pageHeader
       >
         <div className="c-page-explore-detail">
