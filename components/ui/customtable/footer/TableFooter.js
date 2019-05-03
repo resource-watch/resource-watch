@@ -6,14 +6,24 @@ class TableFooter extends PureComponent {
   static propTypes = {
     pagination: PropTypes.object,
     showTotalPages: PropTypes.bool,
+<<<<<<< HEAD
     onChangePage: PropTypes.func.isRequired
+=======
+    // FUNCTIONS
+    onChangePage: PropTypes.func,
+    meta: PropTypes.shape({
+      totalItems: PropTypes.number.isRequired,
+      totalPages: PropTypes.number.isRequired,
+      size: PropTypes.number.isRequired
+    }).isRequired
+>>>>>>> propTypes
   };
 
   static defaultProps = {
     pagination: {
       enabled: true,
       pageSize: 20,
-      page: 1,
+      page: 0,
       total: null
     },
     showTotalPages: false

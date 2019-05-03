@@ -7,7 +7,6 @@ class Paginator extends React.Component {
     options: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired
   };
-
   constructor(props) {
     super(props);
 
@@ -35,7 +34,11 @@ class Paginator extends React.Component {
   */
   triggerChangePage(page) {
     this.setState({ page }, () => {
+<<<<<<< HEAD
       this.props.onChange(this.state.page);
+=======
+      if (this.props.onChange) this.props.onChange(this.state.page);
+>>>>>>> propTypes
     });
   }
 
