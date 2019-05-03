@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import { getTopic, setSelected } from 'modules/topics/actions';
 
 // components
-import TopicDetailLayout from 'layout/topics-detail';
+import TopicDetailLayout from 'layout/app/topics-detail';
 import Error from 'pages/_error';
 
 class TopicDetailPage extends PureComponent {
