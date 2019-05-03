@@ -1,10 +1,6 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-
-// Services
-import WidgetsService from 'services/WidgetsService';
-import DatasetsService from 'services/DatasetsService';
 
 import { toastr } from 'react-redux-toastr';
 
@@ -19,30 +15,36 @@ import Navigation from 'components/form/Navigation';
 import Step1 from 'components/admin/data/widgets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
-// Utils
+// services
+import WidgetsService from 'services/WidgetsService';
+import { fetchDatasets } from 'services/dataset';
+import { fetchWidget } from 'services/widget';
+
+// utils
 import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
 
-class WidgetsForm extends React.Component {
-  static defaultProps = {
-    showEditor: true
-  };
-
+class WidgetsForm extends PureComponent {
   static propTypes = {
-    authorization: PropTypes.string,
+    authorization: PropTypes.string.isRequired,
     id: PropTypes.string,
-    onSubmit: PropTypes.func,
+    onSubmit: PropTypes.func.isRequired,
     dataset: PropTypes.string, // ID of the dataset that should be pre-selected
     showEditor: PropTypes.bool,
-    // Store
-    widgetEditor: PropTypes.object,
+    widgetEditor: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired
+  };
+
+  static defaultProps = {
+    id: null,
+    dataset: null,
+    showEditor: true
   };
 
   constructor(props) {
     super(props);
 
     const formObj = props.dataset ?
-      Object.assign({}, STATE_DEFAULT.form, { dataset: props.dataset !== 'new' ? props.dataset : null }) :
+      Object.assign({}, STATE_DEFAULT.form, { dataset: this.props.dataset !== 'new' ? this.props.dataset : null }) :
       STATE_DEFAULT.form;
 
     this.state = Object.assign({}, STATE_DEFAULT, {
@@ -58,27 +60,26 @@ class WidgetsForm extends React.Component {
     this.handleModeChange = this.handleModeChange.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
 
-    this.service = new WidgetsService({
-      authorization: props.authorization
-    });
-
-    this.datasetsService = new DatasetsService({
-      authorization: props.authorization,
-      language: props.locale
-    });
+    this.service = new WidgetsService({ authorization: props.authorization });
   }
 
   componentDidMount() {
+    const { locale } = this.props;
     const { id } = this.state;
 
     const promises = [
-      this.datasetsService.fetchAllData({})
+      // TO-DO: replace this for a dynamic search or lazy loading
+      fetchDatasets({
+        application: [process.env.APPLICATIONS].join(','),
+        language: locale,
+        'page[size]': 9999999,
+        sort: 'name',
+        env: process.env.API_ENV
+      })
     ];
 
-    // Add the dashboard promise if the id exists
-    if (id) {
-      promises.push(this.service.fetchData({ id }));
-    }
+    // fetchs the widget if exists
+    if (id) promises.push(fetchWidget(id));
 
     Promise.all(promises)
       .then((response) => {
@@ -95,7 +96,6 @@ class WidgetsForm extends React.Component {
           form: (id) ? this.setFormFromParams(current) : this.state.form,
           loading: false,
           mode,
-          dataset: current,
           // OPTIONS
           datasets: datasets.map(p => ({
             label: p.name,
