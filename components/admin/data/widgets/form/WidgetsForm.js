@@ -42,7 +42,7 @@ class WidgetsForm extends React.Component {
     super(props);
 
     const formObj = props.dataset ?
-      Object.assign({}, STATE_DEFAULT.form, { dataset: props.dataset }) :
+      Object.assign({}, STATE_DEFAULT.form, { dataset: props.dataset !== 'new' ? props.dataset : null }) :
       STATE_DEFAULT.form;
 
     this.state = Object.assign({}, STATE_DEFAULT, {
