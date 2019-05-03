@@ -264,7 +264,6 @@ export default class CustomTable extends React.Component {
         {/* Table */}
         <div className="table-header" />
         <table className="table">
-
           {/* Table header */}
           <TableHeader
             actions={this.props.actions}

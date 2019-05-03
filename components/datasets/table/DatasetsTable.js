@@ -95,7 +95,7 @@ class DatasetsTable extends React.Component {
 
   getPagination() {
     const { datasets } = this.props;
-    if (datasets.length === 0) return null;
+    if ((!datasets) || (datasets.length === 0)) return null;
     const { meta } = this.props.datasets;
     const { 'total-items': totalItems, size, 'total-pages': totalPages } = meta;
     return {
