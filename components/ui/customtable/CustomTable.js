@@ -64,17 +64,13 @@ export default class CustomTable extends React.Component {
         .map(d => d && d.toString());
       columns[key] = values;
     });
-
     return columns;
   }
 
   static setTableData(props) {
-    const data = props.data;
-
+    const { data } = props;
     return {
-      // Data
       data,
-      // Columns
       columnValues: CustomTable.getColumnValues(data)
     };
   }
@@ -84,14 +80,10 @@ export default class CustomTable extends React.Component {
 
     this.state = {
       pagination: props.pagination,
-      // Sort
       sort: props.sort,
       initialSort: props.sort,
-      // Search
       search: {},
-      // Columns
       columnQueries: {},
-      // Rows
       rowSelection: []
     };
 
@@ -100,15 +92,10 @@ export default class CustomTable extends React.Component {
     this.onFilter = this.onFilter.bind(this);
     this.onSort = this.onSort.bind(this);
     this.onSearch = this.onSearch.bind(this);
-
     this.onRowDelete = this.onRowDelete.bind(this);
     this.onToggleSelectedRow = this.onToggleSelectedRow.bind(this);
   }
 
-  /**
-   * COMPONENT LIFECYCLE
-   * - componentWillMount
-  */
   componentWillMount() {
     this.setState(CustomTable.setTableData(this.props), () => {
       this.filter();
@@ -116,33 +103,18 @@ export default class CustomTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const currentLength = this.state.data.length;
     const currentColumnsKeys = CustomTable.getColumnKeys(this.state.data).sort();
-
-    const nextLength = nextProps.data.length;
     const nextColumnsKeys = CustomTable.getColumnKeys(nextProps.data).sort();
-
-
-    // TODO: check if the data has changed to reload all the data or only to filter it
-    // if you only check the length, sometimes you have only edited one dataset,
-    // so the table will not render the new values
-
-    // if (currentLength !== nextLength) {
     this.setState(CustomTable.setTableData(nextProps), () => {
       this.filter();
     });
-    // }
 
     if (!isEqual(currentColumnsKeys, nextColumnsKeys)) {
       this.setState({
         ...CustomTable.setTableData(nextProps),
-        // Sort
         sort: nextProps.sort,
-        // Search
         search: {},
-        // Columns
         columnQueries: {},
-        // Rows
         rowSelection: []
       });
     }
@@ -193,7 +165,7 @@ export default class CustomTable extends React.Component {
   }
 
   onFilter(q) {
-    let columnQueries = this.state.columnQueries;
+    let { columnQueries } = this.state;
 
     // Let's use null when you select all the values, so whenever you add more points to
     // the map they will be selected because you will remove the filter from the columnQueries
@@ -206,9 +178,7 @@ export default class CustomTable extends React.Component {
       delete columnQueries[q.field];
     }
 
-    this.setState({
-      columnQueries
-    }, () => {
+    this.setState({ columnQueries }, () => {
       this.filter();
       this.onChangePage(0);
     });
