@@ -180,7 +180,7 @@ export default class CustomTable extends React.Component {
 
     this.setState({ columnQueries }, () => {
       this.filter();
-      this.onChangePage(0);
+      // this.onChangePage(0);
     });
   }
 
@@ -189,13 +189,17 @@ export default class CustomTable extends React.Component {
 
     // check if we are trying to sort on the same as before, then return to initial sorting
     if (isEqual(s, sort)) {
-      this.setState({ sort: initialSort }, () => this.onChangePage(0));
+      this.setState({ sort: initialSort },
+        // () => this.onChangePage(0)
+      );
     } else {
       const newSortingRule = {
         field: s.field,
         value: s.value
       };
-      this.setState({ sort: newSortingRule }, () => this.onChangePage(0));
+      this.setState({ sort: newSortingRule },
+        // () => this.onChangePage(0)
+      );
     }
   }
 
@@ -225,7 +229,7 @@ export default class CustomTable extends React.Component {
    * - filter
   */
   filter() {
-    const { columnQueries, search, pagination } = this.state;
+    const { columnQueries, search } = this.state;
 
     const filteredData = this.state.data.filter((row) => {
       let filteredBySearch = true;
@@ -242,23 +246,12 @@ export default class CustomTable extends React.Component {
       return filteredByQuery && filteredBySearch;
     });
 
-    const maxPage = Math.ceil(filteredData.length / pagination.pageSize);
-    // Check if the page is equal to the total
-    const page = (pagination.page !== 0 && pagination.page === maxPage) ?
-      pagination.page - 1 : pagination.page;
-
-    this.setState({
-      filteredData,
-      pagination: {
-        ...pagination,
-        page,
-        total: filteredData.length
-      }
-    });
+    this.setState({ filteredData });
   }
 
-  /* Render */
   render() {
+    const { pagination } = this.props;
+
     return (
       <div className="c-table">
         {/* Table */}
@@ -290,8 +283,7 @@ export default class CustomTable extends React.Component {
         </table>
         {/* Table footer */}
         <TableFooter
-          meta={this.props.meta}
-          pagination={this.state.pagination}
+          pagination={pagination}
           onChangePage={this.onChangePage}
           showTotalPages
         />
