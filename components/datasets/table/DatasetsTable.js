@@ -33,9 +33,7 @@ class DatasetsTable extends React.Component {
     },
     columns: [],
     actions: {},
-    getDatasetsFilters: {},
-    // Store
-    datasets: []
+    getDatasetsFilters: {}
   };
 
   static propTypes = {
@@ -43,7 +41,7 @@ class DatasetsTable extends React.Component {
     getDatasetsFilters: PropTypes.object,
 
     // Store
-    user: PropTypes.object,
+    user: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     datasets: PropTypes.array.isRequired,
     error: PropTypes.string,
@@ -89,8 +87,21 @@ class DatasetsTable extends React.Component {
   }
 
   getDatasets() {
-    const { data } = this.props.datasets;
-    return data;
+    const { datasets } = this.props.datasets;
+    return datasets;
+    // .map((d) => {
+    //   const user = d.user || {};
+
+    //   const metadata = d.metadata.length && d.metadata.length > 0 && d.metadata[0];
+    //   const metadataInfo = (metadata && metadata.attributes) && (metadata.attributes.info || {});
+
+    //   return {
+    //     ...d,
+    //     owner: user.email || '',
+    //     role: user.role || '',
+    //     code: metadataInfo.rwId || ''
+    //   };
+    // });
   }
 
   getPagination() {
