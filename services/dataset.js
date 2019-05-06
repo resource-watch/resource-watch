@@ -11,7 +11,7 @@ import { logger } from 'utils/logs';
  * @returns {Object[]} array of serialized datasets.
  */
 export const fetchDatasets = (params = {}) => {
-  logger('fetches datasets');
+  logger.info('fetches datasets');
 
   return WRIAPI.get('/dataset', {
     headers: {
