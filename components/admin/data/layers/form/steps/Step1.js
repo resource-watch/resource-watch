@@ -122,7 +122,6 @@ class Step1 extends React.Component {
             label: 'Do you want to set this widget as published?',
             value: 'published',
             title: 'Published',
-            defaultChecked: this.props.form.published,
             checked: this.props.form.published
           }}
         >
