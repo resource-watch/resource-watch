@@ -2,8 +2,6 @@ import { createAction, createThunkAction } from 'redux-tools';
 
 import DatasetsService from 'services/DatasetsService';
 
-import { fetchDatasets } from 'services/dataset';
-
 /**
  * CONSTANTS
 */
