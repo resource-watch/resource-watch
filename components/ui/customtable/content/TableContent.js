@@ -33,7 +33,6 @@ export default class TableContent extends React.Component {
     const actionsShowed = actions.list.filter(ac => ac.show || ac.component);
 
     let data = this.props.filteredData;
-
     if (!data.length) {
       const length = (actions.show) ? columns.length + 1 : columns.length;
 
