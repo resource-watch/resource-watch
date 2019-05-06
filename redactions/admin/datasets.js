@@ -157,8 +157,7 @@ export function getDatasets(options) {
       language: common.locale
     }, true)
       .then((data) => {
-        const { datasets } = data;
-        dispatch({ type: GET_DATASETS_SUCCESS, payload: datasets });
+        dispatch({ type: GET_DATASETS_SUCCESS, payload: data });
       })
       .catch((err) => {
         dispatch({ type: GET_DATASETS_ERROR, payload: err.message });

@@ -19,7 +19,7 @@ export default class TableFooter extends React.Component {
     pagination: {
       enabled: true,
       pageSize: 20,
-      page: 0,
+      page: 1,
       total: null
     },
     showTotalPages: false,

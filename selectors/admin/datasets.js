@@ -10,9 +10,8 @@ const filters = state => state.datasets.datasets.filters;
  */
 const getFilteredDatasets = (_datasets, filters) => { // eslint-disable-line no-shadow
   if (!filters.length) return _datasets;
-  const { data, meta } = _datasets;
-
-  const filteredDatasets = data.filter(dataset =>
+  const { datasets: list, meta } = _datasets;
+  const filteredDatasets = (list || []).filter(dataset =>
     filters.every((filter) => {
       if (filter.key === 'id') return dataset.id === filter.value;
 
@@ -23,7 +22,7 @@ const getFilteredDatasets = (_datasets, filters) => { // eslint-disable-line no-
       return filter.value;
     }));
   return {
-    data: filteredDatasets,
+    datasets: filteredDatasets,
     meta
   };
 };
