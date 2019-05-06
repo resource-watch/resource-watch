@@ -151,7 +151,6 @@ export function getDatasets(options) {
   return (dispatch, getState) => {
     dispatch({ type: GET_DATASETS_LOADING });
     const { common } = getState();
-    // const service = new DatasetsService({ language: common.locale, authorization: user.token });
     fetchDatasets({
       ...options,
       language: common.locale

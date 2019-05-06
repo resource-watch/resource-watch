@@ -13,6 +13,9 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
+//Utils
+import debounce from 'lodash/debounce';
+
 // Table components
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
@@ -51,19 +54,11 @@ class DatasetsTable extends React.Component {
     setFilters: PropTypes.func.isRequired
   };
 
-
-  constructor(props) {
-    super(props);
-
-    this.onSearch = this.onSearch.bind(this);
-    this.onChangePage = this.onChangePage.bind(this);
-  }
-
   componentDidMount() {
     this.props.setFilters({});
     this.props.getDatasets({
       includes: 'widget,layer,metadata,vocabulary,user',
-      page: 1
+      'page[number]': 1
     });
   }
 
@@ -71,37 +66,27 @@ class DatasetsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
+  onSearch = debounce((value) => {
     if (!value.length) {
-      this.props.setFilters([]);
+      this.props.getDatasets();
     } else {
-      this.props.setFilters([{ key: 'name', value }]);
+      const { datasets } = this.props.datasets;
+      datasets.map(dataset => {
+        this.props.getDatasets({ sort: value, name: dataset.name });
+      })
     }
-  }
+  }, 250)
 
-  onChangePage(page) {
+  onChangePage = (page) => {
     this.props.getDatasets({
       includes: 'widget,layer,metadata,vocabulary,user',
-      page
+      'page[number]': page
     });
   }
 
   getDatasets() {
     const { datasets } = this.props.datasets;
     return datasets;
-    // .map((d) => {
-    //   const user = d.user || {};
-
-    //   const metadata = d.metadata.length && d.metadata.length > 0 && d.metadata[0];
-    //   const metadataInfo = (metadata && metadata.attributes) && (metadata.attributes.info || {});
-
-    //   return {
-    //     ...d,
-    //     owner: user.email || '',
-    //     role: user.role || '',
-    //     code: metadataInfo.rwId || ''
-    //   };
-    // });
   }
 
   getPagination() {
@@ -172,7 +157,7 @@ class DatasetsTable extends React.Component {
             pagination={{
               enabled: true,
               pageSize: 20,
-              page: 0
+              page: 1
             }}
           />
         )}
