@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDatasets, setFilters } from 'redactions/admin/datasets';
 
-// Selectors
-import getFilteredDatasets from 'selectors/admin/datasets';
-
 // Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
@@ -36,12 +33,10 @@ class DatasetsTable extends React.Component {
     },
     columns: [],
     actions: {},
-    getDatasetsFilters: {}
   };
 
   static propTypes = {
     routes: PropTypes.object,
-    getDatasetsFilters: PropTypes.object,
 
     // Store
     user: PropTypes.object.isRequired,
@@ -70,10 +65,7 @@ class DatasetsTable extends React.Component {
     if (!value.length) {
       this.props.getDatasets();
     } else {
-      const { datasets } = this.props.datasets;
-      datasets.map(dataset => {
-        this.props.getDatasets({ sort: value, name: dataset.name });
-      })
+      this.props.getDatasets({ sort: value, name: value });
     }
   }, 250)
 
@@ -169,7 +161,7 @@ class DatasetsTable extends React.Component {
 const mapStateToProps = state => ({
   user: state.user,
   loading: state.datasets.datasets.loading,
-  datasets: getFilteredDatasets(state),
+  datasets: state.datasets.datasets.list,
   error: state.datasets.datasets.error
 });
 const mapDispatchToProps = {
