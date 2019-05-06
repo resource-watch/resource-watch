@@ -65,7 +65,7 @@ class WidgetsTable extends React.Component {
     this.props.getWidgets({
       filters: {
         ...this.props.dataset && { dataset: this.props.dataset },
-        'page[size]': 9999
+        'page[number]': 1
       }
     });
   }
@@ -93,6 +93,25 @@ class WidgetsTable extends React.Component {
 
   getFilteredWidgets() {
     return this.props.filteredWidgets;
+  }
+
+  getPagination() {
+    const { widgets } = this.props.widgets;
+    if ((!widgets) || (widgets.length === 0)) return null;
+    const { meta } = this.props.widgets;
+    const { 'total-items': totalItems, size, 'total-pages': totalPages } = meta;
+    return {
+      totalItems,
+      totalPages,
+      size
+    };
+  }
+
+  onChangePage = (page) => {
+    this.props.getWidgets({
+      includes: 'widget,layer,metadata,vocabulary,user',
+      'page[number]': page
+    });
   }
 
   render() {
@@ -143,18 +162,21 @@ class WidgetsTable extends React.Component {
             }}
             filters={false}
             data={this.getFilteredWidgets()}
+            page
             pageSize={20}
+            meta={this.getPagination()}
+            onChangePage={this.onChangePage}
+            pagination={{
+              enabled: true,
+              pageSize: 20,
+              page: 1
+            }}
             onRowDelete={() => this.props.getWidgets({
               filters: {
                 ...this.props.dataset && { dataset: this.props.dataset },
                 'page[size]': 9999
               }
             })}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
           />
         )}
       </div>
