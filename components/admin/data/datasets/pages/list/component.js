@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 // components
-import DatasetsTable from 'components/datasets/table/DatasetsTable';
+import DatasetsTable from 'components/datasets/table';
 
 class DatasetsIndex extends PureComponent {
   render() {

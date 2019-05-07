@@ -1,18 +1,12 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Paginator from 'components/ui/Paginator';
 
-export default class TableFooter extends React.Component {
+class TableFooter extends PureComponent {
   static propTypes = {
     pagination: PropTypes.object,
     showTotalPages: PropTypes.bool,
-    // FUNCTIONS
-    onChangePage: PropTypes.func,
-    meta: PropTypes.shape({
-      totalItems: PropTypes.number.isRequired,
-      totalPages: PropTypes.number.isRequired,
-      size: PropTypes.number.isRequired
-    }).isRequired
+    onChangePage: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -22,41 +16,28 @@ export default class TableFooter extends React.Component {
       page: 1,
       total: null
     },
-    showTotalPages: false,
-    // FUNCTIONS
-    onChangePage: null
+    showTotalPages: false
   };
 
-  // UI EVENTS
-  // - onChangePage
-  onChangePage(page) {
-    this.props.onChangePage && this.props.onChangePage(page);
-  }
+  onChangePage(page) { this.props.onChangePage(page); }
 
   render() {
-    const { pagination, showTotalPages, meta } = this.props;
-    if (meta) {
-      const { totalPages, size } = this.props.meta;
+    const { pagination, showTotalPages } = this.props;
 
-      return (
-        <div className="table-footer">
-          <Paginator
-            options={{
-              page: pagination.page,
-              size: totalPages,
-              limit: size
-            }}
-            onChange={page => this.onChangePage(page)}
-          />
+    return (
+      <div className="table-footer">
+        <Paginator
+          options={pagination}
+          onChange={page => this.onChangePage(page)}
+        />
 
-          {pagination.enabled && showTotalPages &&
-            <div>Page <span>{pagination.page}</span> of <span>{totalPages}</span></div>
-          }
+        {(pagination.enabled && showTotalPages && pagination.pages) &&
+          <div>Page <span>{pagination.page}</span> of <span>{pagination.pages}</span></div>
+        }
 
-        </div>
-      );
-    }
-
-    return null;
+      </div>
+    );
   }
 }
+
+export default TableFooter;
