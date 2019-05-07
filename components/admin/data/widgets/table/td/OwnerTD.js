@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-function OwnerTD(props) {
-  const { value, index } = props;
+class OwnerTD extends PureComponent {
+  static propTypes = { row: PropTypes.object.isRequired }
 
-  return (
-    <td key={index}>
-      {value && value.split('@')[0]}
-    </td>
-  );
+  render() {
+    const { row: { user } } = this.props;
+    const userName = user ? user.name || (user.email || '').split('@')[0] : '';
+
+    return (
+      <td>
+        {userName}
+      </td>
+    );
+  }
 }
-
-OwnerTD.propTypes = {
-  value: PropTypes.string,
-  index: PropTypes.string
-};
 
 export default OwnerTD;
