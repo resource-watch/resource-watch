@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // components
-import LayersTable from 'components/admin/data/layers/table/LayersTable';
+import LayersTable from 'components/admin/data/layers/table';
 
 class LayersIndex extends PureComponent {
   static propTypes = {
