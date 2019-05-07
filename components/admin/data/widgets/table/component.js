@@ -147,8 +147,7 @@ class WidgetsTable extends React.Component {
     fetchWidgets({
       includes: 'widget,layer,metadata,vocabulary,user',
       'page[number]': pagination.page,
-      'page[size]': pagination.limit,
-      ...this.props.dataset && { dataset: this.props.dataset }
+      'page[size]': pagination.limit
     }, true)
       .then(({ widgets, meta }) => {
         const {
