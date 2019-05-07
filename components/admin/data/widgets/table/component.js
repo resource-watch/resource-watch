@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 // utils
 import debounce from 'lodash/debounce';
@@ -25,10 +24,6 @@ import PublishedTD from './td/PublishedTD';
 import OwnerTD from './td/OwnerTD';
 
 class WidgetsTable extends React.Component {
-  static propTypes = { dataset: PropTypes.string };
-
-  static defaultProps = { dataset: '' };
-
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
@@ -42,8 +37,7 @@ class WidgetsTable extends React.Component {
     fetchWidgets({
       includes: 'widget,layer,metadata,vocabulary,user',
       'page[number]': pagination.page,
-      'page[size]': pagination.limit,
-      ...this.props.dataset && { dataset: this.props.dataset }
+      'page[size]': pagination.limit
     }, true)
       .then(({ widgets, meta }) => {
         const {
@@ -184,8 +178,6 @@ class WidgetsTable extends React.Component {
       error
     } = this.state;
 
-    const { dataset } = this.props;
-
     return (
       <div className="c-widgets-table">
         <Spinner className="-light" isLoading={loading} />
@@ -210,14 +202,14 @@ class WidgetsTable extends React.Component {
         {!error && (
           <CustomTable
             columns={[
-              { label: 'Title', value: 'name', td: TitleTD, tdProps: { dataset } },
+              { label: 'Title', value: 'name', td: TitleTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Owner', value: 'owner', td: OwnerTD }
             ]}
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}', ...!!dataset && { dataset } }, show: true, component: EditAction },
+                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
                 { name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
               ]
             }}
