@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 // utils
 import debounce from 'lodash/debounce';
 
-import { fetchWidgets } from 'services/widget';
+// constants
+import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
 
-// Selectors
+// services
+import { fetchWidgets } from 'services/widget';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -22,17 +24,10 @@ import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 import OwnerTD from './td/OwnerTD';
 
-// constants
-import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
-
 class WidgetsTable extends React.Component {
-  static propTypes = {
-    user: PropTypes.object.isRequired,
-    dataset: PropTypes.string
-  };
+  static propTypes = { dataset: PropTypes.string };
 
   static defaultProps = { dataset: '' };
-
 
   state = {
     pagination: INITIAL_PAGINATION,
@@ -71,7 +66,7 @@ class WidgetsTable extends React.Component {
   }
 
   /**
-   * Event handler executed when the user search for a dataset
+   * Event handler executed when the user search for a widget
    * @param {string} { value } Search keywords
    */
   onSearch = debounce((value) => {
@@ -216,7 +211,6 @@ class WidgetsTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Title', value: 'name', td: TitleTD, tdProps: { dataset } },
-              // { label: 'Dataset', value: 'dataset', td: DatasetTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Owner', value: 'owner', td: OwnerTD }
             ]}
