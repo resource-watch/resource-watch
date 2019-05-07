@@ -4,7 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const withSass = require('@zeit/next-sass');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = process.env.NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER ? require('webpack-bundle-analyzer') : {};
 
 module.exports = withSass({
   useFileSystemPublicRoutes: false,
