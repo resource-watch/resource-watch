@@ -6,7 +6,7 @@ export const INITIAL_PAGINATION = {
   // current page
   page: 1,
   // total of pages
-  pages: 1,
+  pages: null,
   // total of items to display
   size: null
 };

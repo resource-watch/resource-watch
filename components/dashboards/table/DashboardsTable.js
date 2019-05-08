@@ -85,8 +85,6 @@ class DashboardsTable extends PureComponent {
     const { filteredDashboards } = this.props;
     const { pagination } = this.state;
 
-    console.log(pagination)
-
     return (
       <div className="c-dashboards-table">
         <Spinner className="-light" isLoading={this.props.loading} />
