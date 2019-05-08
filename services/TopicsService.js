@@ -124,7 +124,7 @@ export default class TopicsService {
  * @returns {Object[]} array of serialized topics.
  */
 export const fetchTopics = (params = {}) => {
-  logger.info('Fetching topics');
+  logger.info('fetches topics');
 
   return WRIAPI.get('/topic', {
     headers: {
