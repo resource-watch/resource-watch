@@ -9,13 +9,13 @@ import { setUserCollectionsFilter } from 'redactions/user';
 // Selectors
 import getUserCollections from 'selectors/myrw/collections';
 
-// constants
-import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
-
 // Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+
+// constants
+import { INITIAL_PAGINATION } from './constants';
 
 // Table components
 import EditAction from './actions/EditAction';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
@@ -13,6 +13,9 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
+// constants
+import { INITIAL_PAGINATION } from './constants';
+
 // Table components
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
@@ -22,7 +25,7 @@ import NameTD from './td/NameTD';
 import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
 
-class DashboardsTable extends React.Component {
+class DashboardsTable extends PureComponent {
   static defaultProps = {
     columns: [],
     actions: {},
@@ -44,13 +47,7 @@ class DashboardsTable extends React.Component {
     setFilters: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    // ------------------- Bindings -----------------------
-    this.onSearch = this.onSearch.bind(this);
-    // ----------------------------------------------------
-  }
+  state = { pagination: INITIAL_PAGINATION }
 
   componentDidMount() {
     this.props.setFilters([]);
@@ -61,7 +58,7 @@ class DashboardsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
+  onSearch = (value) => {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
@@ -83,6 +80,7 @@ class DashboardsTable extends React.Component {
   }
 
   render() {
+    const { pagination } = this.state;
     return (
       <div className="c-dashboards-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -125,11 +123,7 @@ class DashboardsTable extends React.Component {
             data={this.getFilteredDashboards()}
             pageSize={20}
             onRowDelete={() => this.props.getDashboards({ env: 'production,preproduction' })}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            pagination={pagination}
           />
         )}
       </div>

@@ -15,7 +15,7 @@ import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
 // constants
-import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
+import { INITIAL_PAGINATION } from 'components/adminpages/table/constants';
 
 // Table components
 import EditAction from './actions/EditAction';

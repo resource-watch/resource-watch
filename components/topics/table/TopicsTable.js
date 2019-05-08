@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAllTopics, setFilter } from 'modules/topics/actions';
 
-// constants
-import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
-
 // Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+
+// constants
+import { INITIAL_PAGINATION } from './constants';
 
 // selectors
 import { getAllFilteredTopics } from './selectors';

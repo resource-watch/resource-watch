@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // constants
-import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
+import { INITIAL_PAGINATION } from 'components/admin/partners/table/constants';
 
 // components
 import Spinner from 'components/ui/Spinner';
