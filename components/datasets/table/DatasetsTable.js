@@ -24,6 +24,8 @@ import StatusTD from './td/StatusTD';
 import RelatedContentTD from './td/RelatedContentTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
 import OwnerTD from './td/OwnerTD';
+import RoleTD from './td/RoleTD';
+
 
 class DatasetsTable extends React.Component {
   static defaultProps = {
@@ -96,7 +98,6 @@ class DatasetsTable extends React.Component {
 
   render() {
     const { routes, getDatasetsFilters } = this.props;
-
     return (
       <div className="c-dataset-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -127,6 +128,7 @@ class DatasetsTable extends React.Component {
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Owner', value: 'owner', td: OwnerTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
               { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: routes.detail } }
             ]}

@@ -21,6 +21,7 @@ import DeleteAction from './actions/DeleteAction';
 import NameTD from './td/NameTD';
 import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
+import RoleTD from './td/RoleTD';
 
 class TopicsTable extends PureComponent {
   static propTypes = {
@@ -77,6 +78,7 @@ class TopicsTable extends PureComponent {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Preview', value: 'slug', td: PreviewTD },
               { label: 'Published', value: 'published', td: PublishedTD }
             ]}

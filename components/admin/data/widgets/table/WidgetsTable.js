@@ -23,7 +23,7 @@ import DeleteAction from './actions/DeleteAction';
 import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 import OwnerTD from './td/OwnerTD';
-
+import RoleTD from './td/RoleTD';
 
 class WidgetsTable extends React.Component {
   static defaultProps = {
@@ -128,7 +128,8 @@ class WidgetsTable extends React.Component {
               { label: 'Title', value: 'name', td: TitleTD, tdProps: { dataset } },
               // { label: 'Dataset', value: 'dataset', td: DatasetTD },
               { label: 'Published', value: 'published', td: PublishedTD },
-              { label: 'Owner', value: 'owner', td: OwnerTD }
+              { label: 'Owner', value: 'owner', td: OwnerTD },
+              { label: 'Role', value: 'role', td: RoleTD }
             ]}
             actions={{
               show: true,

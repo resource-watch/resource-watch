@@ -24,6 +24,7 @@ import GoToDatasetAction from './actions/GoToDatasetAction';
 import NameTD from './td/NameTD';
 import UpdatedAtTD from './td/UpdatedAtTD';
 import OwnerTD from './td/OwnerTD';
+import RoleTD from './td/RoleTD';
 
 class LayersTable extends PureComponent {
   static defaultProps = {
@@ -44,20 +45,11 @@ class LayersTable extends PureComponent {
     loading: PropTypes.bool.isRequired,
     layers: PropTypes.array.isRequired,
     error: PropTypes.string,
-    user: PropTypes.object,
 
     // Actions
     getLayers: PropTypes.func.isRequired,
     setFilters: PropTypes.func.isRequired
   };
-
-  constructor(props) {
-    super(props);
-
-    // ---------------- Bindings ---------------------
-    this.onSearch = this.onSearch.bind(this);
-    // -----------------------------------------------
-  }
 
   componentDidMount() {
     const { dataset, application } = this.props;
@@ -69,7 +61,7 @@ class LayersTable extends PureComponent {
    * Event handler executed when the user search for a layer
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
+  onSearch = (value) => {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
@@ -82,7 +74,7 @@ class LayersTable extends PureComponent {
   }
 
   render() {
-    const { dataset, application, user } = this.props;
+    const { dataset, application } = this.props;
 
     return (
       <div className="c-layer-table">
@@ -93,9 +85,7 @@ class LayersTable extends PureComponent {
         )}
 
         <SearchInput
-          input={{
-            placeholder: 'Search layer'
-          }}
+          input={{ placeholder: 'Search layer' }}
           link={{
             label: 'New layer',
             route: 'admin_data_detail',
@@ -114,6 +104,7 @@ class LayersTable extends PureComponent {
               { label: 'Name', value: 'name', td: NameTD, tdProps: { dataset } },
               { label: 'Provider', value: 'provider' },
               { label: 'Owner', value: 'owner', td: OwnerTD, tdProps: { dataset } },
+              { label: 'Role', value: 'role', td: RoleTD, tdProps: { dataset } },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD }
             ]}
             actions={{
@@ -148,7 +139,6 @@ const mapStateToProps = state => ({
   loading: state.layers.layers.loading,
   layers: getFilteredLayers(state),
   error: state.layers.layers.error,
-  user: state.user
 });
 const mapDispatchToProps = dispatch => ({
   getLayers: ({ dataset, application }) => dispatch(getLayers({ dataset, application })),

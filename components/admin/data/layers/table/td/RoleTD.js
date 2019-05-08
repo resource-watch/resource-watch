@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function OwnerTD(props) {
+function RoleTD(props) {
   const { value, index } = props;
   return (
     <td key={index}>
-      {value && value.split('@')[0]}
+      {value}
     </td>
   );
 }
 
-OwnerTD.propTypes = {
+RoleTD.propTypes = {
   value: PropTypes.string,
   index: PropTypes.string
 };
 
-export default OwnerTD;
+export default RoleTD;

@@ -27,6 +27,7 @@ export default class UserService {
       headers: { 'Content-Type': 'application/json' }
     })
       .then((response) => {
+        console.log(response)
         if (response.ok) return response.json();
         throw response;
       });
