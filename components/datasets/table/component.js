@@ -11,6 +11,7 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 import NameTD from './td/name';
+import CodeTD from './td/code';
 import StatusTD from './td/status';
 import PublishedTD from './td/published';
 import OwnerTD from './td/owner';
@@ -208,7 +209,7 @@ class DatasetsTable extends PureComponent {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD, tdProps: { route: 'admin_data_detail' } },
-              { label: 'Code', value: 'code' },
+              { label: 'Code', value: 'code', td: CodeTD },
               { label: 'Status', value: 'status', td: StatusTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
