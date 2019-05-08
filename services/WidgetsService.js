@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 
 // Utils
-import { get, post, remove } from 'utils/request';
+import { get, post } from 'utils/request';
 
 export default class WidgetsService {
   constructor(options = {}) {
@@ -90,29 +90,11 @@ export default class WidgetsService {
     });
   }
 
-  deleteData({ id, dataset }) {
-    return new Promise((resolve, reject) => {
-      remove({
-        url: `${process.env.WRI_API_URL}/dataset/${dataset}/widget/${id}`,
-        headers: [{
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: () => {
-          resolve();
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
   /**
   * This method freezes a widget and returns the URL of the corresponding JSON
   * file that was created on the cloud
   */
-  freezeWidget(sqlQuery, freeze=true) {
+  freezeWidget(sqlQuery, freeze = true) {
     return new Promise((resolve, reject) => {
       get({
         url: `${process.env.WRI_API_URL}/query?sql=${sqlQuery}&freeze=${freeze}`,

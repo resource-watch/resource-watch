@@ -9,19 +9,15 @@ import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
 // services
 import { fetchWidgets } from 'services/widget';
 
-// Components
+// components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
-
-// Table components
-import EditAction from './actions/EditAction';
-import DeleteAction from './actions/DeleteAction';
-
-// TDs
-import TitleTD from './td/TitleTD';
-import PublishedTD from './td/PublishedTD';
-import OwnerTD from './td/OwnerTD';
+import TitleTD from './td/title';
+import PublishedTD from './td/published';
+import OwnerTD from './td/owner';
+import EditAction from './actions/edit';
+import DeleteAction from './actions/delete';
 
 class WidgetsTable extends React.Component {
   state = {
@@ -35,7 +31,7 @@ class WidgetsTable extends React.Component {
     const { pagination } = this.state;
 
     fetchWidgets({
-      includes: 'dataset,layer,metadata,vocabulary,user',
+      includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit
     }, true)
@@ -76,7 +72,7 @@ class WidgetsTable extends React.Component {
       }
     }, () => {
       const params = {
-        includes: 'dataset,layer,metadata,vocabulary,user',
+        includes: 'user',
         ...!value.length && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit
@@ -125,7 +121,7 @@ class WidgetsTable extends React.Component {
       const { pagination: { page } } = this.state;
 
       fetchWidgets({
-        includes: 'dataset,layer,metadata,vocabulary,user',
+        includes: 'user',
         'page[number]': page,
         'page[size]': pagination.limit,
         ...filters
@@ -141,13 +137,14 @@ class WidgetsTable extends React.Component {
   }
 
   onRemoveWidget = () => {
-    const { pagination } = this.state;
+    const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
     fetchWidgets({
-      includes: 'dataset,layer,metadata,vocabulary,user',
+      includes: 'user',
       'page[number]': pagination.page,
-      'page[size]': pagination.limit
+      'page[size]': pagination.limit,
+      ...filters
     }, true)
       .then(({ widgets, meta }) => {
         const {

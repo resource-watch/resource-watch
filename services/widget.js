@@ -93,4 +93,46 @@ export const fetchWidget = (id, params = {}) => {
     });
 };
 
-export default { fetchWidget };
+/**
+ * Deletes a specified widget.
+ * This fetch needs authentication.
+ *
+ * @param {*} id - widget ID to be deleted.
+ * @param {string} token - user's token.
+ * @returns {Object} fetch response.
+ */
+export const deleteWidget = (widgetId, datasetId, token) => {
+  logger.info(`deletes widget: ${widgetId}`);
+
+  return WRIAPI.delete(`/dataset/${datasetId}/widget/${widgetId}`, {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      Authorization: token
+    }
+  })
+    .then((response) => {
+      const { status, statusText } = response;
+
+      if (status >= 300) {
+        if (status === 404) {
+          logger.debug(`Widget '${widgetId}' not found, ${status}: ${statusText}`);
+        } else {
+          logger.error(`Error deleting widget: ${widgetId}: ${status}: ${statusText}`);
+        }
+        throw new Error(statusText);
+      }
+      return response;
+    })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+
+      logger.error(`Error deleting widget ${widgetId}: ${status}: ${statusText}`);
+      throw new Error(`Error deleting widget ${widgetId}: ${status}: ${statusText}`);
+    });
+};
+
+export default {
+  fetchWidgets,
+  fetchWidget,
+  deleteWidget
+};
