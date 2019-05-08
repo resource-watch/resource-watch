@@ -28,6 +28,22 @@ class AdminPartnersTable extends PureComponent {
 
   state = { pagination: INITIAL_PAGINATION }
 
+  componentWillReceiveProps(nextProps) {
+    const { list: partners } = this.props;
+    const { list: nextPartners } = nextProps;
+    const { pagination } = this.state;
+    const partnersChanged = partners.length !== nextPartners.length;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: nextPartners.length,
+        ...partnersChanged && { page: 1 },
+        pages: Math.ceil(nextPartners.length / pagination.limit)
+      }
+    });
+  }
+
   /**
    * Event handler executed when the user search for a partner
    * @param {string} { value } Search keywords
@@ -38,6 +54,17 @@ class AdminPartnersTable extends PureComponent {
     } else {
       this.props.setFilters([{ key: 'name', value }]);
     }
+  }
+
+  onChangePage = (page) => {
+    const { pagination } = this.state;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        page
+      }
+    });
   }
 
   onRowDelete = () => {
@@ -54,6 +81,7 @@ class AdminPartnersTable extends PureComponent {
       authorization
     } = this.props;
     const { pagination } = this.state;
+
     return (
       <div className="c-partners-table">
         <Spinner className="-light" isLoading={loading} />
@@ -91,7 +119,8 @@ class AdminPartnersTable extends PureComponent {
             }}
             filters={false}
             data={partners}
-            pageSize={20}
+            manualPagination
+            onChangePage={this.onChangePage}
             onRowDelete={this.onRowDelete}
             pagination={pagination}
           />

@@ -26,23 +26,12 @@ import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 
 class ToolsTable extends PureComponent {
-  static defaultProps = {
-    columns: [],
-    actions: {},
-    // Store
-    tools: [],
-    filteredTools: []
-  };
-
   static propTypes = {
     authorization: PropTypes.string,
-    // Store
     loading: PropTypes.bool.isRequired,
     tools: PropTypes.array.isRequired,
     filteredTools: PropTypes.array.isRequired,
     error: PropTypes.string,
-
-    // Actions
     getTools: PropTypes.func.isRequired,
     setFilters: PropTypes.func.isRequired
   };
@@ -54,6 +43,22 @@ class ToolsTable extends PureComponent {
     this.props.getTools();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { filteredTools: tools } = this.props;
+    const { filteredTools: nextTools } = nextProps;
+    const { pagination } = this.state;
+    const toolsChanged = tools.length !== nextTools.length;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: nextTools.length,
+        ...toolsChanged && { page: 1 },
+        pages: Math.ceil(nextTools.length / pagination.limit)
+      }
+    });
+  }
+
   /**
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
@@ -62,8 +67,19 @@ class ToolsTable extends PureComponent {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
-      this.props.setFilters([{ key: 'name', value }]);
+      this.props.setFilters([{ key: 'title', value }]);
     }
+  }
+
+  onChangePage = (page) => {
+    const { pagination } = this.state;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        page
+      }
+    });
   }
 
   /**
@@ -80,7 +96,9 @@ class ToolsTable extends PureComponent {
   }
 
   render() {
+    const { filteredTools } = this.props;
     const { pagination } = this.state;
+
     return (
       <div className="c-tools-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -90,9 +108,7 @@ class ToolsTable extends PureComponent {
         )}
 
         <SearchInput
-          input={{
-            placeholder: 'Search tool'
-          }}
+          input={{ placeholder: 'Search tool' }}
           link={{
             label: 'New tool',
             route: 'admin_tools_detail',
@@ -119,8 +135,9 @@ class ToolsTable extends PureComponent {
               value: 1
             }}
             filters={false}
-            data={this.getFilteredTools()}
-            pageSize={20}
+            data={filteredTools}
+            manualPagination
+            onChangePage={this.onChangePage}
             onRowDelete={() => this.props.getTools()}
             pagination={pagination}
           />

@@ -26,23 +26,11 @@ import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
 
 class DashboardsTable extends PureComponent {
-  static defaultProps = {
-    columns: [],
-    actions: {},
-    // Store
-    dashboards: [],
-    filteredDashboards: []
-  };
-
   static propTypes = {
     authorization: PropTypes.string,
-    // Store
     loading: PropTypes.bool.isRequired,
-    dashboards: PropTypes.array.isRequired,
     filteredDashboards: PropTypes.array.isRequired,
     error: PropTypes.string,
-
-    // Actions
     getDashboards: PropTypes.func.isRequired,
     setFilters: PropTypes.func.isRequired
   };
@@ -52,6 +40,22 @@ class DashboardsTable extends PureComponent {
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getDashboards();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { filteredDashboards: dashboards } = this.props;
+    const { filteredDashboards: nextDashboards } = nextProps;
+    const { pagination } = this.state;
+    const dashboardsChanged = dashboards.length !== nextDashboards.length;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: nextDashboards.length,
+        ...dashboardsChanged && { page: 1 },
+        pages: Math.ceil(nextDashboards.length / pagination.limit)
+      }
+    });
   }
 
   /**
@@ -66,21 +70,23 @@ class DashboardsTable extends PureComponent {
     }
   }
 
-  /**
-   * HELPERS
-   * - getDashboards
-   * - getFilteredDashboards
-  */
-  getDashboards() {
-    return this.props.dashboards;
-  }
+  onChangePage = (page) => {
+    const { pagination } = this.state;
 
-  getFilteredDashboards() {
-    return this.props.filteredDashboards;
+    this.setState({
+      pagination: {
+        ...pagination,
+        page
+      }
+    });
   }
 
   render() {
+    const { filteredDashboards } = this.props;
     const { pagination } = this.state;
+
+    console.log(pagination)
+
     return (
       <div className="c-dashboards-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -90,9 +96,7 @@ class DashboardsTable extends PureComponent {
         )}
 
         <SearchInput
-          input={{
-            placeholder: 'Search dashboard'
-          }}
+          input={{ placeholder: 'Search dashboard' }}
           link={{
             label: 'New dashboard',
             route: 'admin_dashboards_detail',
@@ -120,8 +124,9 @@ class DashboardsTable extends PureComponent {
               value: 1
             }}
             filters={false}
-            data={this.getFilteredDashboards()}
-            pageSize={20}
+            data={filteredDashboards}
+            manualPagination
+            onChangePage={this.onChangePage}
             onRowDelete={() => this.props.getDashboards({ env: 'production,preproduction' })}
             pagination={pagination}
           />

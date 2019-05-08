@@ -26,25 +26,45 @@ import NameTD from './td/NameTD';
 import RelatedContentTD from './td/RelatedContentTD';
 
 class CollectionsList extends PureComponent {
-  static defaultProps = {
-    routes: {
-      index: '',
-      detail: ''
-    }
-  };
-
   static propTypes = {
-    routes: PropTypes.object,
-    user: PropTypes.object,
-    collections: PropTypes.object,
-    filteredCollections: PropTypes.array,
-    setUserCollectionsFilter: PropTypes.func
+    routes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    collections: PropTypes.object.isRequired,
+    filteredCollections: PropTypes.array.isRequired,
+    setUserCollectionsFilter: PropTypes.func.isRequired
   };
 
   state = { pagination: INITIAL_PAGINATION }
 
+  componentWillReceiveProps(nextProps) {
+    const { filteredCollections } = this.props;
+    const { filteredCollections: nextCollections } = nextProps;
+    const { pagination } = this.state;
+    const collectionsChanged = filteredCollections.length !== nextCollections.length;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: nextCollections.length,
+        ...collectionsChanged && { page: 1 },
+        pages: Math.ceil(nextCollections.length / pagination.limit)
+      }
+    });
+  }
+
   onSearch = (value) => {
     this.props.setUserCollectionsFilter(value);
+  }
+
+  onChangePage = (page) => {
+    const { pagination } = this.state;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        page
+      }
+    });
   }
 
   render() {
@@ -107,7 +127,8 @@ class CollectionsList extends PureComponent {
             filters={false}
             data={filteredCollections}
             onRowDelete={() => this.getCollections()}
-            pageSize={20}
+            manualPagination
+            onChangePage={this.onChangePage}
             pagination={pagination}
           />
         )}

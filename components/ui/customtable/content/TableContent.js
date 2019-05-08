@@ -11,7 +11,7 @@ export default class TableContent extends React.Component {
     pagination: PropTypes.object,
     rowSelection: PropTypes.array,
     sort: PropTypes.object,
-    // FUNCTIONS
+    manualPagination: PropTypes.bool,
     onRowDelete: PropTypes.func,
     onToggleSelectedRow: PropTypes.func
   };
@@ -23,13 +23,22 @@ export default class TableContent extends React.Component {
     pagination: {},
     rowSelection: [],
     sort: {},
-    // FUNCTIONS
+    manualPagination: false,
     onRowDelete: null,
     onToggleSelectedRow: null
   };
 
+  getPageBounds() {
+    const { pagination: { page, limit } } = this.props;
+
+    return {
+      bottom: page === 1 ? 0 : (page - 1) * limit,
+      top: page === 1 ? limit : (page * limit)
+    };
+  }
+
   render() {
-    const { actions, columns, sort, rowSelection } = this.props;
+    const { actions, columns, sort, rowSelection, manualPagination } = this.props;
     const actionsShowed = actions.list.filter(ac => ac.show || ac.component);
 
     let data = this.props.filteredData;
@@ -62,6 +71,12 @@ export default class TableContent extends React.Component {
           sort.value :
           sort.value * -1;
       });
+    }
+
+    /* Apply pagination to data */
+    if (manualPagination) {
+      const { bottom, top } = this.getPageBounds();
+      data = data.slice(bottom, top);
     }
 
     return (

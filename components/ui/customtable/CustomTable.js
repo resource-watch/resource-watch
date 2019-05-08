@@ -17,6 +17,7 @@ export default class CustomTable extends PureComponent {
     data: PropTypes.array,
     pagination: PropTypes.object,
     filters: PropTypes.bool,
+    manualPagination: PropTypes.bool,
     sort: PropTypes.object,
     onToggleSelectedRow: PropTypes.func,
     onRowDelete: PropTypes.func
@@ -32,6 +33,7 @@ export default class CustomTable extends PureComponent {
       page: 1,
       total: null
     },
+    manualPagination: false,
     sort: {},
     actions: {
       show: true,
@@ -196,6 +198,7 @@ export default class CustomTable extends PureComponent {
       field: s.field,
       value: s.value
     };
+
     this.setState({ search }, () => {
       this.filter();
       this.onChangePage(0);
@@ -217,6 +220,7 @@ export default class CustomTable extends PureComponent {
    * - filter
   */
   filter() {
+    const { manualPagination, pagination } = this.props;
     const { columnQueries, search } = this.state;
 
     const filteredData = this.state.data.filter((row) => {
@@ -234,11 +238,29 @@ export default class CustomTable extends PureComponent {
       return filteredByQuery && filteredBySearch;
     });
 
+    if (manualPagination) {
+      const maxPage = Math.ceil(filteredData.length / pagination.pageSize);
+      // Check if the page is equal to the total
+      const page = (pagination.page !== 0 && pagination.page === maxPage) ?
+        pagination.page - 1 : pagination.page;
+
+      this.setState({
+        filteredData,
+        pagination: {
+          ...pagination,
+          // page,
+          ...search && (search.value || '').length > 0 ? { page: 1 } : { page },
+          total: filteredData.length
+        }
+      });
+    }
+
     this.setState({ filteredData });
   }
 
   render() {
     const { pagination } = this.props;
+
     return (
       <div className="c-table">
         {/* Table */}
