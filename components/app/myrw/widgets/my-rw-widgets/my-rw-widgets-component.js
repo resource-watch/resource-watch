@@ -84,7 +84,6 @@ class MyRWWidgets extends PureComponent {
     const { widgets, loading, orderDirection, routes, pagination, filters } = this.props;
     const { page, total, limit } = pagination;
     const nameSearchValue = (filters.find(filter => filter.key === 'name') || {}).value || '';
-
     const iconName = classnames({
       'icon-arrow-up': orderDirection === 'asc',
       'icon-arrow-down': orderDirection !== 'asc'
@@ -133,7 +132,7 @@ class MyRWWidgets extends PureComponent {
                 </div>
               </div>
               {loading && <Spinner isLoading className="-fixed -light" />}
-              {!!widgets.length && (
+              {widgets && widgets.length && (
                 <WidgetList
                   isLoading={loading}
                   widgets={widgets}
@@ -156,7 +155,7 @@ class MyRWWidgets extends PureComponent {
               )}
             </div>
           </div>
-          {!widgets.length && (
+          {widgets && !widgets.length && (
             <div className="no-data-div">You currently have no visualizations</div>
           )}
           <div className="c-button-container -j-center c-field-buttons">
