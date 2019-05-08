@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Paginator from '../../Paginator';
+import Paginator from 'components/ui/Paginator';
 
-export default class TableFooter extends React.Component {
+class TableFooter extends PureComponent {
   static propTypes = {
     pagination: PropTypes.object,
     showTotalPages: PropTypes.bool,
-    // FUNCTIONS
-    onChangePage: PropTypes.func
+    onChangePage: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -17,37 +16,28 @@ export default class TableFooter extends React.Component {
       page: 1,
       total: null
     },
-    showTotalPages: false,
-    // FUNCTIONS
-    onChangePage: null
+    showTotalPages: false
   };
 
-  // UI EVENTS
-  // - onChangePage
-  onChangePage(page) {
-    this.props.onChangePage && this.props.onChangePage(page - 1);
-  }
+  onChangePage(page) { this.props.onChangePage(page); }
 
   render() {
     const { pagination, showTotalPages } = this.props;
-    const maxPage = Math.ceil(pagination.total / pagination.pageSize) || 1;
 
     return (
       <div className="table-footer">
         <Paginator
-          options={{
-            page: pagination.page + 1,
-            size: pagination.total,
-            limit: pagination.pageSize
-          }}
+          options={pagination}
           onChange={page => this.onChangePage(page)}
         />
 
-        {/* Page locator */}
-        {pagination.enabled && showTotalPages &&
-          <div>Page <span>{pagination.page + 1}</span> of <span>{maxPage}</span></div>
+        {(pagination.enabled && showTotalPages && pagination.pages) &&
+          <div>Page <span>{pagination.page}</span> of <span>{pagination.pages}</span></div>
         }
+
       </div>
     );
   }
 }
+
+export default TableFooter;
