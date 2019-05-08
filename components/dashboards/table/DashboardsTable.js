@@ -18,10 +18,10 @@ import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
-import NameTD from './td/NameTD';
+import NameTD from './td/name';
 import RoleTD from './td/role';
-import PublishedTD from './td/PublishedTD';
-import PreviewTD from './td/PreviewTD';
+import PublishedTD from './td/published';
+import PreviewTD from './td/preview';
 
 class DashboardsTable extends React.Component {
   static defaultProps = {

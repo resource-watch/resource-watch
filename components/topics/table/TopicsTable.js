@@ -18,9 +18,9 @@ import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
-import NameTD from './td/NameTD';
-import PublishedTD from './td/PublishedTD';
-import PreviewTD from './td/PreviewTD';
+import NameTD from './td/name';
+import PublishedTD from './td/published';
+import PreviewTD from './td/preview';
 import RoleTD from './td/role';
 
 class TopicsTable extends PureComponent {

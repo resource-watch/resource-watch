@@ -9,9 +9,9 @@ import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
-import NameTD from './td/NameTD';
-import PublishedTD from './td/PublishedTD';
-import FeaturedTD from './td/FeaturedTD';
+import NameTD from './td/name';
+import PublishedTD from './td/published';
+import FeaturedTD from './td/featured';
 import RoleTD from './td/role';
 
 class AdminPartnersTable extends PureComponent {

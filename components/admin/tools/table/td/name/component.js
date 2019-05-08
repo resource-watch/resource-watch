@@ -5,9 +5,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 class NameTD extends React.Component {
+  static propTypes = {
+    row: PropTypes.object.isRequired,
+    value: PropTypes.string.isRequired,
+    index: PropTypes.string.isRequired
+  }
+
   render() {
     const { row, value, index } = this.props;
-
     return (
       <td key={index} className="main">
         <Link route="admin_tools_detail" params={{ tab: 'tools', id: row.id }}>
@@ -17,11 +22,5 @@ class NameTD extends React.Component {
     );
   }
 }
-
-NameTD.propTypes = {
-  row: PropTypes.object,
-  value: PropTypes.string,
-  index: PropTypes.string
-};
 
 export default NameTD;
