@@ -35,7 +35,7 @@ class WidgetsTable extends React.Component {
     const { pagination } = this.state;
 
     fetchWidgets({
-      includes: 'widget,layer,metadata,vocabulary,user',
+      includes: 'dataset,layer,metadata,vocabulary,user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit
     }, true)
@@ -76,7 +76,7 @@ class WidgetsTable extends React.Component {
       }
     }, () => {
       const params = {
-        includes: 'widget,layer,metadata,vocabulary,user',
+        includes: 'dataset,layer,metadata,vocabulary,user',
         ...!value.length && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit
@@ -125,7 +125,7 @@ class WidgetsTable extends React.Component {
       const { pagination: { page } } = this.state;
 
       fetchWidgets({
-        includes: 'widget,layer,metadata,vocabulary,user',
+        includes: 'dataset,layer,metadata,vocabulary,user',
         'page[number]': page,
         'page[size]': pagination.limit,
         ...filters
@@ -145,7 +145,7 @@ class WidgetsTable extends React.Component {
 
     this.setState({ loading: true });
     fetchWidgets({
-      includes: 'widget,layer,metadata,vocabulary,user',
+      includes: 'dataset,layer,metadata,vocabulary,user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit
     }, true)
