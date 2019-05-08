@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Pagination from 'rc-pagination';
 
-class Paginator extends React.Component {
+class Paginator extends PureComponent {
   static propTypes = {
     options: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired
@@ -41,7 +41,6 @@ class Paginator extends React.Component {
 
   render() {
     const { size, page, limit } = this.state;
-
     return (
       <div className="c-paginator">
         <Pagination

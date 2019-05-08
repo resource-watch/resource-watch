@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
@@ -9,7 +9,7 @@ import TableHeader from './header/TableHeader';
 import TableContent from './content/TableContent';
 import TableFooter from './footer/TableFooter';
 
-export default class CustomTable extends React.Component {
+export default class CustomTable extends PureComponent {
   /* Property typing */
   static propTypes = {
     actions: PropTypes.object,
@@ -86,14 +86,6 @@ export default class CustomTable extends React.Component {
       columnQueries: {},
       rowSelection: []
     };
-
-    // Bindings
-    this.onChangePage = this.onChangePage.bind(this);
-    this.onFilter = this.onFilter.bind(this);
-    this.onSort = this.onSort.bind(this);
-    this.onSearch = this.onSearch.bind(this);
-    this.onRowDelete = this.onRowDelete.bind(this);
-    this.onToggleSelectedRow = this.onToggleSelectedRow.bind(this);
   }
 
   componentWillMount() {
@@ -128,7 +120,7 @@ export default class CustomTable extends React.Component {
    * - onSort
    * - onChangePage
   */
-  onToggleSelectedRow(id) {
+  onToggleSelectedRow = (id) => {
     const rowSelection = this.state.rowSelection.slice();
     const index = rowSelection.indexOf(id);
 
@@ -146,7 +138,7 @@ export default class CustomTable extends React.Component {
     });
   }
 
-  onRowDelete(id) {
+  onRowDelete = (id) => {
     const data = this.state.data.slice();
     const index = data.findIndex(row => row.id === id);
     data.splice(index, 1);
@@ -164,7 +156,7 @@ export default class CustomTable extends React.Component {
     });
   }
 
-  onFilter(q) {
+  onFilter = (q) => {
     let { columnQueries } = this.state;
 
     // Let's use null when you select all the values, so whenever you add more points to
@@ -184,26 +176,22 @@ export default class CustomTable extends React.Component {
     });
   }
 
-  onSort(s) {
+  onSort = (s) => {
     const { sort, initialSort } = this.state;
 
     // check if we are trying to sort on the same as before, then return to initial sorting
     if (isEqual(s, sort)) {
-      this.setState({ sort: initialSort },
-        // () => this.onChangePage(0)
-      );
+      this.setState({ sort: initialSort });
     } else {
       const newSortingRule = {
         field: s.field,
         value: s.value
       };
-      this.setState({ sort: newSortingRule },
-        // () => this.onChangePage(0)
-      );
+      this.setState({ sort: newSortingRule });
     }
   }
 
-  onSearch(s) {
+  onSearch = (s) => {
     const search = {
       field: s.field,
       value: s.value
@@ -214,7 +202,7 @@ export default class CustomTable extends React.Component {
     });
   }
 
-  onChangePage(page) {
+  onChangePage = (page) => {
     this.setState({
       pagination: {
         ...this.state.pagination,
@@ -251,7 +239,6 @@ export default class CustomTable extends React.Component {
 
   render() {
     const { pagination } = this.props;
-
     return (
       <div className="c-table">
         {/* Table */}

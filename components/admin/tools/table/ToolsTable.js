@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
@@ -14,6 +14,9 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
+// constants
+import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
+
 // Table components
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
@@ -22,7 +25,7 @@ import DeleteAction from './actions/DeleteAction';
 import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
 
-class ToolsTable extends React.Component {
+class ToolsTable extends PureComponent {
   static defaultProps = {
     columns: [],
     actions: {},
@@ -44,13 +47,7 @@ class ToolsTable extends React.Component {
     setFilters: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    // ------------------ Bindings ------------------------
-    this.onSearch = this.onSearch.bind(this);
-    // ----------------------------------------------------
-  }
+  state = { pagination: INITIAL_PAGINATION }
 
   componentDidMount() {
     this.props.setFilters([]);
@@ -61,7 +58,7 @@ class ToolsTable extends React.Component {
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
+  onSearch = (value) => {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
@@ -83,6 +80,7 @@ class ToolsTable extends React.Component {
   }
 
   render() {
+    const { pagination } = this.state;
     return (
       <div className="c-tools-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -124,11 +122,7 @@ class ToolsTable extends React.Component {
             data={this.getFilteredTools()}
             pageSize={20}
             onRowDelete={() => this.props.getTools()}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            pagination={pagination}
           />
         )}
       </div>
