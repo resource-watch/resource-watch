@@ -95,8 +95,47 @@ export const fetchDataset = (id, params = {}) => {
     });
 };
 
+/**
+ * Deletes a specified dataset.
+ * This fetch needs authentication.
+ *
+ * @param {*} id - dataset ID to be deleted.
+ * @param {string} token - user's token.
+ * @returns {Object} fetch response.
+ */
+export const deleteDataset = (id, token) => {
+  logger.info(`deletes dataset: ${id}`);
+
+  return WRIAPI.delete(`/dataset/${id}`, {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      Authorization: token
+    }
+  })
+    .then((response) => {
+      const { status, statusText } = response;
+
+      if (status >= 300) {
+        if (status === 404) {
+          logger.debug(`Dataset '${id}' not found, ${status}: ${statusText}`);
+        } else {
+          logger.error(`Error deleting dataset: ${id}: ${status}: ${statusText}`);
+        }
+        throw new Error(statusText);
+      }
+      return response;
+    })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+
+      logger.error(`Error deleting dataset ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error deleting dataset ${id}: ${status}: ${statusText}`);
+    });
+};
+
 export default {
   fetchDatasets,
-  fetchDataset
+  fetchDataset,
+  deleteDataset
 };
 

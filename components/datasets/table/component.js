@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 // utils
 import debounce from 'lodash/debounce';
@@ -11,21 +10,19 @@ import { fetchDatasets } from 'services/dataset';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
-import EditAction from './actions/EditAction';
-import DeleteAction from './actions/DeleteAction';
-import NameTD from './td/NameTD';
-import PublishedTD from './td/PublishedTD';
-import StatusTD from './td/StatusTD';
-import RelatedContentTD from './td/RelatedContentTD';
-import UpdatedAtTD from './td/UpdatedAtTD';
-import OwnerTD from './td/OwnerTD';
+import NameTD from './td/name';
+import StatusTD from './td/status';
+import PublishedTD from './td/published';
+import OwnerTD from './td/owner';
+import UpdatedAtTD from './td/updated-at';
+import RelatedContentTD from './td/related-content';
+import EditAction from './actions/edit';
+import DeleteAction from './actions/delete';
 
 // constants
 import { INITIAL_PAGINATION } from './constants';
 
 class DatasetsTable extends PureComponent {
-  static propTypes = { user: PropTypes.object.isRequired };
-
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
@@ -39,7 +36,8 @@ class DatasetsTable extends PureComponent {
     fetchDatasets({
       includes: 'widget,layer,metadata,vocabulary,user',
       'page[number]': pagination.page,
-      'page[size]': pagination.limit
+      'page[size]': pagination.limit,
+      application: process.env.APPLICATIONS
     }, true)
       .then(({ datasets, meta }) => {
         const {
@@ -81,11 +79,13 @@ class DatasetsTable extends PureComponent {
         includes: 'widget,layer,metadata,vocabulary,user',
         ...!value.length && {
           'page[number]': INITIAL_PAGINATION.page,
-          'page[size]': INITIAL_PAGINATION.limit
+          'page[size]': INITIAL_PAGINATION.limit,
+          application: process.env.APPLICATIONS
         },
         ...value.length > 2 && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
+          application: process.env.APPLICATIONS,
           sort: 'name',
           name: value
         }
@@ -131,6 +131,7 @@ class DatasetsTable extends PureComponent {
         includes: 'widget,layer,metadata,vocabulary,user',
         'page[number]': page,
         'page[size]': pagination.limit,
+        application: process.env.APPLICATIONS,
         ...filters
       })
         .then((datasets) => {
@@ -144,14 +145,16 @@ class DatasetsTable extends PureComponent {
   }
 
   onRemoveDataset = () => {
-    const { pagination } = this.state;
+    const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
 
     fetchDatasets({
       includes: 'widget,layer,metadata,vocabulary,user',
       'page[number]': pagination.page,
-      'page[size]': pagination.limit
+      'page[size]': pagination.limit,
+      application: process.env.APPLICATIONS,
+      ...filters
     }, true)
       .then(({ datasets, meta }) => {
         const {
@@ -217,7 +220,7 @@ class DatasetsTable extends PureComponent {
               show: true,
               list: [
                 { name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction, componentProps: { route: 'admin_data_detail' } },
-                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.user.token } }
+                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
               ]
             }}
             sort={{
