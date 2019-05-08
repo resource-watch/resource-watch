@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
@@ -14,6 +14,9 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
+// constants
+import { INITIAL_PAGINATION } from './constants';
+
 // Table components
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
@@ -22,7 +25,7 @@ import DeleteAction from './actions/DeleteAction';
 import NameTD from './td/NameTD';
 import RelatedContentTD from './td/RelatedContentTD';
 
-class CollectionsList extends React.Component {
+class CollectionsList extends PureComponent {
   static defaultProps = {
     routes: {
       index: '',
@@ -38,17 +41,15 @@ class CollectionsList extends React.Component {
     setUserCollectionsFilter: PropTypes.func
   };
 
-  constructor(props) {
-    super(props);
-    this.onSearch = this.onSearch.bind(this);
-  }
+  state = { pagination: INITIAL_PAGINATION }
 
-  onSearch(value) {
+  onSearch = (value) => {
     this.props.setUserCollectionsFilter(value);
   }
 
   render() {
     const { routes, collections, filteredCollections, user } = this.props;
+    const { pagination } = this.state;
 
     return (
       <div className="c-dataset-table">
@@ -107,11 +108,7 @@ class CollectionsList extends React.Component {
             data={filteredCollections}
             onRowDelete={() => this.getCollections()}
             pageSize={20}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            pagination={pagination}
           />
         )}
       </div>

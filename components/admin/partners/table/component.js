@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+// constants
+import { INITIAL_PAGINATION } from 'components/admin/partners/table/constants';
+
 // components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
@@ -22,6 +25,8 @@ class AdminPartnersTable extends PureComponent {
   };
 
   static defaultProps = { error: null }
+
+  state = { pagination: INITIAL_PAGINATION }
 
   /**
    * Event handler executed when the user search for a partner
@@ -48,7 +53,7 @@ class AdminPartnersTable extends PureComponent {
       error,
       authorization
     } = this.props;
-
+    const { pagination } = this.state;
     return (
       <div className="c-partners-table">
         <Spinner className="-light" isLoading={loading} />
@@ -88,11 +93,7 @@ class AdminPartnersTable extends PureComponent {
             data={partners}
             pageSize={20}
             onRowDelete={this.onRowDelete}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            pagination={pagination}
           />
         )}
       </div>

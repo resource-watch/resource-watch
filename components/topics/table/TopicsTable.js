@@ -10,6 +10,9 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
+// constants
+import { INITIAL_PAGINATION } from './constants';
+
 // selectors
 import { getAllFilteredTopics } from './selectors';
 
@@ -34,6 +37,8 @@ class TopicsTable extends PureComponent {
 
   static defaultProps = { error: null }
 
+  state = { pagination: INITIAL_PAGINATION }
+
   /**
    * Event handler executed when the user search for a topic
    * @param {string} { value } Search keywords
@@ -54,6 +59,7 @@ class TopicsTable extends PureComponent {
       authorization
     } = this.props;
 
+    const { pagination } = this.state;
     return (
       <div className="c-topics-table">
         {loading &&
@@ -95,11 +101,7 @@ class TopicsTable extends PureComponent {
             data={topics}
             pageSize={20}
             onRowDelete={() => this.props.getAllTopics()}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            pagination={pagination}
           />
         )}
       </div>
