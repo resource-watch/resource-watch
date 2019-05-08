@@ -21,7 +21,7 @@ import DeleteAction from './actions/DeleteAction';
 import NameTD from './td/NameTD';
 import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
-import RoleTD from './td/RoleTD';
+import RoleTD from './td/role';
 
 class TopicsTable extends PureComponent {
   static propTypes = {

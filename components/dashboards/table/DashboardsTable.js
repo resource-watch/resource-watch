@@ -19,6 +19,7 @@ import DeleteAction from './actions/DeleteAction';
 
 // TDs
 import NameTD from './td/NameTD';
+import RoleTD from './td/role';
 import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
 
@@ -107,6 +108,7 @@ class DashboardsTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Preview', value: 'slug', td: PreviewTD },
               { label: 'Published', value: 'published', td: PublishedTD }
             ]}

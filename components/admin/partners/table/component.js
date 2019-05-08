@@ -7,9 +7,12 @@ import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
+
+// TDs
 import NameTD from './td/NameTD';
 import PublishedTD from './td/PublishedTD';
 import FeaturedTD from './td/FeaturedTD';
+import RoleTD from './td/role';
 
 class AdminPartnersTable extends PureComponent {
   static propTypes = {
@@ -69,6 +72,7 @@ class AdminPartnersTable extends PureComponent {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Partner type', value: 'partner-type' },
               { label: 'Featured', value: 'featured', td: FeaturedTD },
               { label: 'Published', value: 'published', td: PublishedTD }

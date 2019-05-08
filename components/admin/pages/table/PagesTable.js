@@ -21,6 +21,7 @@ import DeleteAction from './actions/DeleteAction';
 // TDs
 import TitleTD from './td/TitleTD';
 import PublishedTD from './td/PublishedTD';
+import RoleTD from './td/role';
 
 class PagesTable extends React.Component {
   static defaultProps = {
@@ -107,6 +108,7 @@ class PagesTable extends React.Component {
           <CustomTable
             columns={[
               { label: 'Name', value: 'title', td: TitleTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Published', value: 'published', td: PublishedTD }
             ]}
             actions={{

@@ -1,5 +1,5 @@
 import { createAction, createThunkAction } from 'redux-tools';
-import WidgetsService from 'services/WidgetsService';
+import { fetchWidgets } from 'services/widget';
 
 /**
  * CONSTANTS
@@ -136,14 +136,9 @@ export const getWidgets = createThunkAction('widgets/getWidgets', options =>
     dispatch({ type: GET_WIDGETS_LOADING });
     const { user } = getState();
 
-    return WidgetsService.getAllWidgets(user.token, { ...options })
-      .then(({ data, meta }) => {
-        const { 'total-items': totalItems } = meta;
-        dispatch({
-          type: GET_WIDGETS_SUCCESS,
-          payload: data.map(d => ({ ...{ id: d.id, type: d.type }, ...d.attributes }))
-        });
-        dispatch(setPaginationTotal(totalItems));
+    return fetchWidgets(user.token, { ...options })
+      .then((data) => {
+        dispatch({ type: GET_WIDGETS_SUCCESS, payload: data });
       })
       .catch((err) => {
         dispatch({ type: GET_WIDGETS_ERROR, payload: err.message });
