@@ -33,7 +33,8 @@ class WidgetsTable extends React.Component {
     fetchWidgets({
       includes: 'user',
       'page[number]': pagination.page,
-      'page[size]': pagination.limit
+      'page[size]': pagination.limit,
+      application: process.env.APPLICATIONS
     }, true)
       .then(({ widgets, meta }) => {
         const {
@@ -75,11 +76,13 @@ class WidgetsTable extends React.Component {
         includes: 'user',
         ...!value.length && {
           'page[number]': INITIAL_PAGINATION.page,
-          'page[size]': INITIAL_PAGINATION.limit
+          'page[size]': INITIAL_PAGINATION.limit,
+          application: process.env.APPLICATIONS
         },
         ...value.length > 2 && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
+          application: process.env.APPLICATIONS,
           sort: 'name',
           name: value
         }
@@ -124,6 +127,7 @@ class WidgetsTable extends React.Component {
         includes: 'user',
         'page[number]': page,
         'page[size]': pagination.limit,
+        application: process.env.APPLICATIONS,
         ...filters
       })
         .then((widgets) => {
@@ -144,6 +148,7 @@ class WidgetsTable extends React.Component {
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
+      application: process.env.APPLICATIONS,
       ...filters
     }, true)
       .then(({ widgets, meta }) => {
