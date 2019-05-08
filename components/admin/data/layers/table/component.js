@@ -32,7 +32,8 @@ class LayersTable extends PureComponent {
     fetchLayers({
       includes: 'user',
       'page[number]': pagination.page,
-      'page[size]': pagination.limit
+      'page[size]': pagination.limit,
+      application: process.env.APPLICATIONS
     }, true)
       .then(({ layers, meta }) => {
         const {
@@ -74,11 +75,13 @@ class LayersTable extends PureComponent {
         includes: 'user',
         ...!value.length && {
           'page[number]': INITIAL_PAGINATION.page,
-          'page[size]': INITIAL_PAGINATION.limit
+          'page[size]': INITIAL_PAGINATION.limit,
+          application: process.env.APPLICATIONS
         },
         ...value.length > 2 && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
+          application: process.env.APPLICATIONS,
           sort: 'name',
           name: value
         }
@@ -124,6 +127,7 @@ class LayersTable extends PureComponent {
         includes: 'user',
         'page[number]': page,
         'page[size]': pagination.limit,
+        application: process.env.APPLICATIONS,
         ...filters
       })
         .then((layers) => {
@@ -145,6 +149,7 @@ class LayersTable extends PureComponent {
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
+      application: process.env.APPLICATIONS,
       ...filters
     }, true)
       .then(({ layers, meta }) => {
