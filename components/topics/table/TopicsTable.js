@@ -39,6 +39,19 @@ class TopicsTable extends PureComponent {
 
   state = { pagination: INITIAL_PAGINATION }
 
+  componentWillMount() {
+    const { topics } = this.props;
+    const { pagination } = this.state;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: topics.length,
+        pages: Math.ceil(topics.length / pagination.limit)
+      }
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     const { topics } = this.props;
     const { topics: nextTopics } = nextProps;
