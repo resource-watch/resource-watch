@@ -137,14 +137,15 @@ class LayersTable extends PureComponent {
   }
 
   onRemoveLayer = () => {
-    const { pagination } = this.state;
+    const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
 
     fetchLayers({
       includes: 'user',
       'page[number]': pagination.page,
-      'page[size]': pagination.limit
+      'page[size]': pagination.limit,
+      ...filters
     }, true)
       .then(({ layers, meta }) => {
         const {
