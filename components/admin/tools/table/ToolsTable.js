@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
@@ -23,7 +23,7 @@ import TitleTD from './td/name';
 import PublishedTD from './td/published';
 import RoleTD from './td/role';
 
-class ToolsTable extends React.Component {
+class ToolsTable extends PureComponent {
   static defaultProps = {
     columns: [],
     actions: {},

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Next components
 import { Link } from 'routes';
 
-class NameTD extends React.Component {
+class NameTD extends PureComponent {
   static propTypes = {
     row: PropTypes.object.isRequired,
     value: PropTypes.string.isRequired,

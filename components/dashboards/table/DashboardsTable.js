@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
@@ -23,7 +23,7 @@ import RoleTD from './td/role';
 import PublishedTD from './td/published';
 import PreviewTD from './td/preview';
 
-class DashboardsTable extends React.Component {
+class DashboardsTable extends PureComponent {
   static defaultProps = {
     columns: [],
     actions: {},
