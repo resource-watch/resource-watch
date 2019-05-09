@@ -391,13 +391,13 @@ export const logout = () => CTAPI.get('/auth/logout', {
   }
 }).then((response) => {
   const { status, statusText } = response;
-  window.location.href = `/logout?callbackUrl=${window.location.href}`;
   if (status >= 300) {
     logger.error('Error trying to log out:', `${status}: ${statusText}`);
     throw new Error(statusText);
   }
-}).catch(({ response }) => {
-  const { status, statusText } = response;
+  return response;
+}).catch((err) => {
+  const { status, statusText } = err;
   logger.error('Error login out:', `${status}: ${statusText}`);
   throw new Error('Error login out:', `${status}: ${statusText}`);
 });
