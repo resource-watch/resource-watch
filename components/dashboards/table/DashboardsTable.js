@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
@@ -13,6 +13,9 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
+// constants
+import { INITIAL_PAGINATION } from './constants';
+
 // Table components
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
@@ -22,46 +25,44 @@ import NameTD from './td/NameTD';
 import PublishedTD from './td/PublishedTD';
 import PreviewTD from './td/PreviewTD';
 
-class DashboardsTable extends React.Component {
-  static defaultProps = {
-    columns: [],
-    actions: {},
-    // Store
-    dashboards: [],
-    filteredDashboards: []
-  };
-
+class DashboardsTable extends PureComponent {
   static propTypes = {
     authorization: PropTypes.string,
-    // Store
     loading: PropTypes.bool.isRequired,
-    dashboards: PropTypes.array.isRequired,
     filteredDashboards: PropTypes.array.isRequired,
     error: PropTypes.string,
-
-    // Actions
     getDashboards: PropTypes.func.isRequired,
     setFilters: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    // ------------------- Bindings -----------------------
-    this.onSearch = this.onSearch.bind(this);
-    // ----------------------------------------------------
-  }
+  state = { pagination: INITIAL_PAGINATION }
 
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getDashboards();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { filteredDashboards: dashboards } = this.props;
+    const { filteredDashboards: nextDashboards } = nextProps;
+    const { pagination } = this.state;
+    const dashboardsChanged = dashboards.length !== nextDashboards.length;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: nextDashboards.length,
+        ...dashboardsChanged && { page: 1 },
+        pages: Math.ceil(nextDashboards.length / pagination.limit)
+      }
+    });
+  }
+
   /**
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
+  onSearch = (value) => {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
@@ -69,20 +70,21 @@ class DashboardsTable extends React.Component {
     }
   }
 
-  /**
-   * HELPERS
-   * - getDashboards
-   * - getFilteredDashboards
-  */
-  getDashboards() {
-    return this.props.dashboards;
-  }
+  onChangePage = (page) => {
+    const { pagination } = this.state;
 
-  getFilteredDashboards() {
-    return this.props.filteredDashboards;
+    this.setState({
+      pagination: {
+        ...pagination,
+        page
+      }
+    });
   }
 
   render() {
+    const { filteredDashboards } = this.props;
+    const { pagination } = this.state;
+
     return (
       <div className="c-dashboards-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -92,9 +94,7 @@ class DashboardsTable extends React.Component {
         )}
 
         <SearchInput
-          input={{
-            placeholder: 'Search dashboard'
-          }}
+          input={{ placeholder: 'Search dashboard' }}
           link={{
             label: 'New dashboard',
             route: 'admin_dashboards_detail',
@@ -122,14 +122,11 @@ class DashboardsTable extends React.Component {
               value: 1
             }}
             filters={false}
-            data={this.getFilteredDashboards()}
-            pageSize={20}
+            data={filteredDashboards}
+            manualPagination
+            onChangePage={this.onChangePage}
             onRowDelete={() => this.props.getDashboards({ env: 'production,preproduction' })}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            pagination={pagination}
           />
         )}
       </div>
