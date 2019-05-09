@@ -5,4 +5,9 @@ export const WRIAPI = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
-export default { WRIAPI };
+export const CTAPI = axios.create({
+  baseURL: process.env.CONTROL_TOWER_URL,
+  headers: { 'Content-Type': 'application/json' }
+});
+
+export default { WRIAPI, CTAPI };

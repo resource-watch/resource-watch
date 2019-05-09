@@ -171,7 +171,6 @@ app.prepare().then(() => {
     if (req.isAuthenticated()) res.redirect('/myrw');
     return nextAction();
   });
-
   server.get('/login', auth.login);
   server.get('/logout', (req, res) => {
     req.session.destroy();

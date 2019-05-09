@@ -5,6 +5,8 @@ import { toastr } from 'react-redux-toastr';
 import TetherComponent from 'react-tether';
 import debounce from 'lodash/debounce';
 
+import { logout } from 'services/UserService';
+
 // components
 import Icon from 'components/ui/Icon';
 
@@ -15,18 +17,13 @@ class HeaderUser extends PureComponent {
     setDropdownOpened: PropTypes.func.isRequired
   }
 
-  logout(e) {
-    if (e) e.preventDefault();
-
-    // TO-DO: move this to an action
-    fetch(`${process.env.CONTROL_TOWER_URL}/auth/logout`, { credentials: 'include' })
-      .then(() => {
-        window.location.href = `/logout?callbackUrl=${window.location.href}`;
-      })
-      .catch((err) => {
-        toastr.error('Error', err);
+  onLogout = () => {
+    logout()
+      .catch(({ response }) => {
+        const { statusText } = response;
+        toastr.error('Error: ', statusText);
       });
-  }
+  };
 
   toggleDropdown = debounce((bool) => {
     this.props.setDropdownOpened({ myrw: bool });
@@ -130,7 +127,7 @@ class HeaderUser extends PureComponent {
                     </li>
                   }
                   <li className="header-dropdown-list-item">
-                    <a onClick={this.logout} href="/logout">Logout</a>
+                    <a onClick={this.onLogout} href="/logout">Logout</a>
                   </li>
                 </ul>
               </div>

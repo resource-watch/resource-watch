@@ -1,5 +1,8 @@
 import 'isomorphic-fetch';
 import Promise from 'bluebird';
+import { CTAPI } from 'utils/axios';
+import { logger } from 'utils/logs';
+
 
 export default class UserService {
   constructor(options) {
@@ -375,3 +378,26 @@ export default class UserService {
     });
   }
 }
+
+
+/**
+ * User log out.
+ */
+export const logout = () => CTAPI.get('/auth/logout', {
+  headers: {
+    ...CTAPI.defaults.headers,
+    // TO-DO: forces the API to not cache, this should be removed at some point
+    'Upgrade-Insecure-Requests': 1
+  }
+}).then((response) => {
+  const { status, statusText } = response;
+  window.location.href = `/logout?callbackUrl=${window.location.href}`;
+  if (status >= 300) {
+    logger.error('Error trying to log out:', `${status}: ${statusText}`);
+    throw new Error(statusText);
+  }
+}).catch(({ response }) => {
+  const { status, statusText } = response;
+  logger.error('Error login out:', `${status}: ${statusText}`);
+  throw new Error('Error login out:', `${status}: ${statusText}`);
+});
