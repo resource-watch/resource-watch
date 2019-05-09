@@ -291,11 +291,13 @@ export default class CustomTable extends PureComponent {
 
         </table>
         {/* Table footer */}
-        <TableFooter
-          pagination={pagination}
-          onChangePage={this.onChangePage}
-          showTotalPages
-        />
+        {pagination.size > 0 && (
+          <TableFooter
+            pagination={pagination}
+            onChangePage={this.onChangePage}
+            showTotalPages
+          />
+          )}
       </div>
     );
   }
