@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Services
-import { fetchDatasets } from 'services/datasets;
+import { fetchDatasets } from 'services/dataset';
 import LayersService, { fetchLayer } from 'services/LayersService';
 import { toastr } from 'react-redux-toastr';
 
