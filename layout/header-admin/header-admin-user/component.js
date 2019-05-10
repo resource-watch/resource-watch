@@ -8,8 +8,8 @@ import debounce from 'lodash/debounce';
 import TetherComponent from 'react-tether';
 import Icon from 'components/ui/Icon';
 
-// utils
-import { get } from 'utils/request';
+// services
+import { logout } from 'services/UserService';
 
 class AdminHeaderUser extends PureComponent {
   static propTypes = {
@@ -18,21 +18,20 @@ class AdminHeaderUser extends PureComponent {
     setDropdownOpened: PropTypes.func.isRequired
   }
 
-  logout(e) {
-    if (e) e.preventDefault();
+  onLogout = () => {
+    logout()
+      .then((response) => {
+        const { status } = response;
 
-    // TO-DO: move this to an action
-    get({
-      url: `${process.env.CONTROL_TOWER_URL}/auth/logout`,
-      withCredentials: true,
-      onSuccess: () => {
-        window.location.href = `/logout?callbackUrl=${window.location.href}`;
-      },
-      onError: (err) => {
-        toastr.error('Error', err);
-      }
-    });
-  }
+        if (status === 200) {
+          window.location.href = `/logout?callbackUrl=${window.location.href}`;
+        }
+      })
+      .catch((err) => {
+        const { statusText } = err;
+        toastr.error('Error: ', statusText);
+      });
+  };
 
   toggleDropdown = debounce((bool) => {
     this.props.setDropdownOpened({ myrw: bool });
@@ -85,7 +84,7 @@ class AdminHeaderUser extends PureComponent {
                   </li>
                 }
                 <li className="header-dropdown-list-item">
-                  <a onClick={this.logout} href="/logout">Logout</a>
+                  <button onClick={this.onLogout} href="/logout">Logout</button>
                 </li>
               </ul>
             }

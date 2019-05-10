@@ -8,6 +8,9 @@ import { toastr } from 'react-redux-toastr';
 import Icon from 'components/ui/Icon';
 import SearchMobile from 'layout/header/search-mobile';
 
+// services
+import { logout } from 'services/UserService';
+
 // constants
 import { APP_HEADER_ITEMS } from 'layout/header/constants';
 
@@ -32,14 +35,20 @@ class HeaderMenuMobile extends PureComponent {
    * UI EVENTS
    * - logout
   */
-  logout(e) {
-    if (e) e.preventDefault();
+  onLogout = () => {
+    logout()
+      .then((response) => {
+        const { status } = response;
 
-    // Get to logout
-    fetch(`${process.env.CONTROL_TOWER_URL}/auth/logout`, { credentials: 'include' })
-      .then(() => { window.location.href = `/logout?callbackUrl=${window.location.href}`; })
-      .catch((err) => { toastr.error('Error', err); });
-  }
+        if (status === 200) {
+          window.location.href = `/logout?callbackUrl=${window.location.href}`;
+        }
+      })
+      .catch((err) => {
+        const { statusText } = err;
+        toastr.error('Error: ', statusText);
+      });
+  };
 
   render() {
     const {
@@ -150,7 +159,7 @@ class HeaderMenuMobile extends PureComponent {
 
                               {c.id === 'logout' &&
                                 <a
-                                  onClick={this.logout}
+                                  onClick={this.onLogout}
                                   href={c.href}
                                 >
                                   {c.label}

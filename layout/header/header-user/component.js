@@ -19,8 +19,12 @@ class HeaderUser extends PureComponent {
 
   onLogout = () => {
     logout()
-      .then(() => {
-        window.location.href = `/logout?callbackUrl=${window.location.href}`;
+      .then((response) => {
+        const { status } = response;
+
+        if (status === 200) {
+          window.location.href = `/logout?callbackUrl=${window.location.href}`;
+        }
       })
       .catch((err) => {
         const { statusText } = err;
@@ -130,7 +134,7 @@ class HeaderUser extends PureComponent {
                     </li>
                   }
                   <li className="header-dropdown-list-item">
-                    <a onClick={this.onLogout}>Logout</a>
+                    <button type="button" onClick={this.onLogout}>Logout</button>
                   </li>
                 </ul>
               </div>

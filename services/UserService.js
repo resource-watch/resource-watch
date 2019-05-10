@@ -391,6 +391,7 @@ export const logout = () => CTAPI.get('/auth/logout', {
   }
 }).then((response) => {
   const { status, statusText } = response;
+
   if (status >= 300) {
     logger.error('Error trying to log out:', `${status}: ${statusText}`);
     throw new Error(statusText);
