@@ -48,45 +48,6 @@ class DatasetsService {
   }
 
 
-  fetchAllData({
-    applications = [process.env.APPLICATIONS],
-    includes,
-    filters,
-    env = process.env.API_ENV
-  } = {}) {
-    const qParams = {
-      application: applications.join(','),
-      language: this.opts.language,
-      ...!!includes && { includes },
-      'page[size]': 9999999,
-      ...filters,
-      env
-    };
-
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/dataset?${Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&')}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }, {
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: ({ data }) => {
-          const datasets = data.map(dataset => ({ ...dataset.attributes, id: dataset.id }));
-          resolve(sortBy(datasets, 'name'));
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
   fetchData({ id, applications = [process.env.APPLICATIONS], includes, filters }) {
     const qParams = {
       application: applications.join(','),

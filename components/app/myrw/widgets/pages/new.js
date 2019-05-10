@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 // Services
 import WidgetService from 'services/WidgetService';
-import DatasetsService from 'services/DatasetsService';
+import { fetchDatasets } from 'services/dataset';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -57,9 +57,6 @@ class WidgetsNew extends React.Component {
 
     // Services
     this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
-    this.datasetsService = new DatasetsService({
-      language: props.locale
-    });
 
     // ------------------- Bindings -----------------------
     this.onSubmit = this.onSubmit.bind(this);
@@ -122,7 +119,7 @@ class WidgetsNew extends React.Component {
   }
 
   loadDatasets() {
-    this.datasetsService.fetchAllData({ filters: { published: true }, includes: 'metadata' }).then((response) => {
+    fetchDatasets({ filters: { published: true }, includes: 'metadata' }).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
@@ -141,7 +138,7 @@ class WidgetsNew extends React.Component {
       });
     });
 
-    this.datasetsService.fetchAllData(
+    fetchDatasets(
       { filters: { userId: this.props.user.id }, includes: 'metadata' }).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map((dataset) => {

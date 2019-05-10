@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Services
-import DatasetsService from 'services/DatasetsService';
+import { fetchDatasets } from 'services/datasets';
 import LayersService, { fetchLayer } from 'services/LayersService';
 import { toastr } from 'react-redux-toastr';
 
@@ -44,10 +44,6 @@ class LayersForm extends React.Component {
       authorization: props.authorization,
       language: props.locale
     });
-    this.datasetsService = new DatasetsService({
-      authorization: props.authorization,
-      language: props.locale
-    });
 
     this.layerManager = new LayerManager(null, {
       layersUpdated: (valid, err) => {
@@ -66,7 +62,7 @@ class LayersForm extends React.Component {
     const { id } = this.state;
 
     const promises = [
-      this.datasetsService.fetchAllData({})
+      fetchDatasets({ })
     ];
 
     // Add the dashboard promise if the id exists
