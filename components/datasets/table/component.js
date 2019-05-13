@@ -15,6 +15,7 @@ import CodeTD from './td/code';
 import StatusTD from './td/status';
 import PublishedTD from './td/published';
 import OwnerTD from './td/owner';
+import ApplicationsTD from './td/applications';
 import UpdatedAtTD from './td/updated-at';
 import RelatedContentTD from './td/related-content';
 import EditAction from './actions/edit';
@@ -215,6 +216,7 @@ class DatasetsTable extends PureComponent {
               { label: 'Provider', value: 'provider' },
               { label: 'Owner', value: 'owner', td: OwnerTD },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
+              { label: 'Applications', value: 'applications', td: ApplicationsTD },
               { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: 'admin_data_detail' } }
             ]}
             actions={{
