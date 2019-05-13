@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
+import classnames from 'classnames';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -64,7 +65,10 @@ class ForgotPassword extends PureComponent {
                       <Field
                         ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
                         onChange={value => this.setState({ email: value })}
-                        className="-fluid"
+                        className={classnames({
+                          '-fluid': true,
+                          '-log-in': true
+                        })}
                         validations={['required', 'email']}
                         properties={{
                           name: 'email',
@@ -77,7 +81,7 @@ class ForgotPassword extends PureComponent {
                         {Input}
                       </Field>
                       <div className="c-button-container form-buttons">
-                        <ul>
+                        <ul className="-log-in">
                           <li>
                             <button className="c-button -primary">
                               Reset
@@ -85,7 +89,7 @@ class ForgotPassword extends PureComponent {
                           </li>
                           <li>
                             <Link route="sign-in">
-                              <a className="c-button -tertirary">Sign in</a>
+                              <a className="c-button -tertirary">Log in</a>
                             </Link>
                           </li>
                         </ul>
