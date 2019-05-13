@@ -22,8 +22,7 @@ import Select from 'components/form/SelectInput';
 import { logEvent } from 'utils/analytics';
 
 const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
     const elements = this.elements;
     Object.keys(elements).forEach((k) => {
@@ -57,19 +56,13 @@ class WidgetsNew extends React.Component {
 
     // Services
     this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
-
-    // ------------------- Bindings -----------------------
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleDatasetSelected = this.handleDatasetSelected.bind(this);
-    // ----------------------------------------------------
   }
 
   componentDidMount() {
     this.loadDatasets();
   }
 
-  async onSubmit(event) {
+  onSubmit = async (event) => {
     if (event) event.preventDefault();
 
     const { widget, selectedDataset } = this.state;
@@ -159,15 +152,14 @@ class WidgetsNew extends React.Component {
     });
   }
 
-  handleChange(value) {
+  handleChange = (value) => {
     const newWidgetObj = Object.assign({}, this.state.widget, value);
     this.setState({ widget: newWidgetObj });
+    this.loadDatasets();
   }
 
-  handleDatasetSelected(value) {
-    this.setState({
-      selectedDataset: value
-    });
+  handleDatasetSelected = (value) => {
+    this.setState({ selectedDataset: value });
   }
 
   render() {
