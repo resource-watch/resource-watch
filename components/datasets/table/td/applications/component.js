@@ -9,7 +9,7 @@ class ApplicationsTD extends PureComponent {
 
     return (
       <td>
-        {application.map(app => <span className="applications">{app}</span>)}
+        <span>{application.join(', ')}</span>
       </td>
     );
   }
