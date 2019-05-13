@@ -65,10 +65,7 @@ class ForgotPassword extends PureComponent {
                       <Field
                         ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
                         onChange={value => this.setState({ email: value })}
-                        className={classnames({
-                          '-fluid': true,
-                          '-log-in': true
-                        })}
+                        className="-fluid -log-in"
                         validations={['required', 'email']}
                         properties={{
                           name: 'email',
@@ -89,7 +86,7 @@ class ForgotPassword extends PureComponent {
                           </li>
                           <li>
                             <Link route="sign-in">
-                              <a className="c-button -tertirary">Log in</a>
+                              <a className="c-button -tertirary">Sign in</a>
                             </Link>
                           </li>
                         </ul>
