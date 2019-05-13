@@ -104,7 +104,6 @@ class SearchInput extends PureComponent {
             {!isHeader && <Icon name="icon-search" className="-small" />}
           </div>
         </div>
-
         {link.route &&
           <Link route={link.route} params={link.params}>
             <a className={linkClassNames}>{link.label}</a>

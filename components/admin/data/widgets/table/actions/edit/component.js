@@ -16,13 +16,11 @@ class EditAction extends PureComponent {
       data: { id },
       action: { params }
     } = this.props;
-
     return JSON.parse(substitution(JSON.stringify(params), [{ key: 'id', value: id }]));
   }
 
   render() {
     const { action: { route } } = this.props;
-
     return (
       <Link
         route={route}
