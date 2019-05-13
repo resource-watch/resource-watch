@@ -1,15 +1,9 @@
-import React from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
-
-// Utils
-import { logEvent } from 'utils/analytics';
-
-// Components
-import TextChart from 'components/widgets/charts/TextChart';
-
+import { VegaChart, getVegaTheme } from 'widget-editor';
 import {
   Map,
   MapControls,
@@ -23,10 +17,9 @@ import {
 import { LayerManager, Layer } from 'layer-manager/dist/components';
 import { PluginLeaflet } from 'layer-manager';
 
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
-
+// components
+import TextChart from 'components/widgets/charts/TextChart';
 import LoginRequired from 'components/ui/login-required';
-
 import Icon from 'components/ui/Icon';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
@@ -34,17 +27,20 @@ import CollectionsPanel from 'components/collections-panel';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
-// Widget editor
-import { VegaChart, getVegaTheme } from 'widget-editor';
+// constants
+import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
+// utils
+import { logEvent } from 'utils/analytics';
+
 const defaultTheme = getVegaTheme();
 
-class WidgetBlock extends React.Component {
+class WidgetBlock extends PureComponent {
   static propTypes = {
-    user: PropTypes.object,
+    user: PropTypes.object.isRequired,
     data: PropTypes.object,
     item: PropTypes.object,
     onToggleModal: PropTypes.func,
@@ -52,17 +48,13 @@ class WidgetBlock extends React.Component {
   };
 
   static defaultProps = {
-    user: {},
     data: {},
     item: {},
     onToggleModal: null,
     onToggleLoading: null
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { shareWidget: null };
-  }
+  state = { shareWidget: null }
 
   getMapOptions(widget) {
     const { widgetConfig } = widget;
@@ -86,9 +78,7 @@ class WidgetBlock extends React.Component {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
-    if (widgetConfig.bbox) {
-      return { bbox: widgetConfig.bbox };
-    }
+    if (widgetConfig.bbox) return { bbox: widgetConfig.bbox };
 
     return {};
   }
@@ -148,23 +138,24 @@ class WidgetBlock extends React.Component {
     } = data[id];
 
     const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0 &&
-      widget.metadata[0].attributes.info)) || {};
+      widget.metadata[0].info)) || {};
 
     const widgetLinks = metadataInfo.widgetLinks || [];
     const widgetIsEmbed = widget && widget.widgetConfig && widget.widgetConfig.type === 'embed';
     const widgetEmbedUrl = widgetIsEmbed && widget.widgetConfig.url;
-
     const caption = metadataInfo && metadataInfo.caption;
-
     const classNames = classnames({
       'c-widget-block-card': true,
       [`-${widgetType}`]: true
     });
-
     const isInACollection = belongsToACollection(user, widget);
     const starIconName = classnames({
       'icon-star-full': isInACollection,
       'icon-star-empty': !isInACollection
+    });
+    const modalIcon = classnames({
+      'icon-cross': widgetModal,
+      'icon-info': !widgetModal
     });
 
     return (
@@ -177,7 +168,10 @@ class WidgetBlock extends React.Component {
               <ul>
                 <li>
                   <button className="c-btn -tertiary -clean" onClick={() => this.handleToggleShareModal(widget)}>
-                    <Icon name="icon-share" className="-small" />
+                    <Icon
+                      name="icon-share"
+                      className="-small"
+                    />
                   </button>
 
                   <Modal
@@ -187,8 +181,8 @@ class WidgetBlock extends React.Component {
                   >
                     <ShareModal
                       links={{
-                        link: typeof window !== 'undefined' && `${window.location.origin}/embed/widget/${widget.id}`,
-                        embed: typeof window !== 'undefined' && `${window.location.origin}/embed/widget/${widget.id}`
+                        link: typeof window !== 'undefined' && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
+                        embed: typeof window !== 'undefined' && `${window.location.origin}/embed/${widgetType}/${widget.id}`
                       }}
                       analytics={{
                         facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
@@ -228,13 +222,7 @@ class WidgetBlock extends React.Component {
                     type="button"
                     onClick={() => onToggleModal(!widgetModal)}
                   >
-                    {!widgetModal &&
-                      <Icon name="icon-info" className="-small" />
-                    }
-
-                    {widgetModal &&
-                      <Icon name="icon-cross" className="-small" />
-                    }
+                    <Icon name={modalIcon} className="-small" />
                   </button>
                 </li>
               </ul>
@@ -253,7 +241,7 @@ class WidgetBlock extends React.Component {
             />
           }
 
-          {!widgetError && widgetType === 'vega' && widget.widgetConfig && widget &&
+          {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget &&
             <VegaChart
               data={widget.widgetConfig}
               theme={defaultTheme}
@@ -267,7 +255,7 @@ class WidgetBlock extends React.Component {
           }
 
           {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && (
-            <div>
+            <Fragment>
               <div className="c-map">
                 <Map
                   mapOptions={this.getMapOptions(widget)}
@@ -277,25 +265,24 @@ class WidgetBlock extends React.Component {
                   scrollZoomEnabled={false}
                 >
                   {map => (
-                    <React.Fragment>
+                    <Fragment>
                       {/* Controls */}
-                      <MapControls
-                        customClass="c-map-controls -embed"
-                      >
+                      <MapControls customClass="c-map-controls -embed">
                         <ZoomControl map={map} />
                       </MapControls>
 
                       {/* LayerManager */}
                       <LayerManager map={map} plugin={PluginLeaflet}>
-                        {flatten(layers.map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
-                          <Layer
-                            {...l}
-                            key={l.id}
-                            zIndex={1000 - i}
-                          />
-                        ))}
+                        {flatten(layers.map(layerGroup =>
+                          layerGroup.layers.filter(l => l.active === true))).map((l, i) => (
+                            <Layer
+                              {...l}
+                              key={l.id}
+                              zIndex={1000 - i}
+                            />
+                          ))}
                       </LayerManager>
-                    </React.Fragment>
+                    </Fragment>
                   )}
                 </Map>
               </div>
@@ -316,7 +303,7 @@ class WidgetBlock extends React.Component {
                   ))}
                 </Legend>
               </div>
-            </div>
+            </Fragment>
           )}
 
           {!widgetError && !layersError && !item && !item.content.widgetId &&
@@ -353,6 +340,7 @@ class WidgetBlock extends React.Component {
                         <a
                           href={link.link}
                           target="_blank"
+                          rel="noopener noreferrer"
                         >
                           {link.name}
                         </a>
@@ -374,6 +362,5 @@ class WidgetBlock extends React.Component {
     );
   }
 }
-
 
 export default WidgetBlock;

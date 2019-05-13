@@ -174,6 +174,15 @@ The example above shows an `index.js` separating the logic from the component la
 # Authentication 🚫
 Authentication is based on [Control Tower](https://github.com/Skydipper/control-tower) plugins and several custom [passport](http://www.passportjs.org/) middlewares.
 
+# Optimization 🔎
+## Bundle Analyzer
+[Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) is a development tool that creates an interactive treemap visualization of the contents of all your bundles.
+
+To run it: `yarn bundle-analyzer`.
+
+It will run the application in production build (makes a `yarn build` internally) and open a tab in your browser displaying the bundles treemap.
+
+
 # Deploy 🛫
 You will need access to [Resource Watch Jenkins](https://jenkins.resourcewatch.org/).
 

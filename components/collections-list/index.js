@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Redux
@@ -14,6 +14,9 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
+// constants
+import { INITIAL_PAGINATION } from './constants';
+
 // Table components
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
@@ -22,33 +25,51 @@ import DeleteAction from './actions/DeleteAction';
 import NameTD from './td/NameTD';
 import RelatedContentTD from './td/RelatedContentTD';
 
-class CollectionsList extends React.Component {
-  static defaultProps = {
-    routes: {
-      index: '',
-      detail: ''
-    }
-  };
-
+class CollectionsList extends PureComponent {
   static propTypes = {
-    routes: PropTypes.object,
-    user: PropTypes.object,
-    collections: PropTypes.object,
-    filteredCollections: PropTypes.array,
-    setUserCollectionsFilter: PropTypes.func
+    routes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    collections: PropTypes.object.isRequired,
+    filteredCollections: PropTypes.array.isRequired,
+    setUserCollectionsFilter: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.onSearch = this.onSearch.bind(this);
+  state = { pagination: INITIAL_PAGINATION }
+
+  componentWillReceiveProps(nextProps) {
+    const { filteredCollections } = this.props;
+    const { filteredCollections: nextCollections } = nextProps;
+    const { pagination } = this.state;
+    const collectionsChanged = filteredCollections.length !== nextCollections.length;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: nextCollections.length,
+        ...collectionsChanged && { page: 1 },
+        pages: Math.ceil(nextCollections.length / pagination.limit)
+      }
+    });
   }
 
-  onSearch(value) {
+  onSearch = (value) => {
     this.props.setUserCollectionsFilter(value);
+  }
+
+  onChangePage = (page) => {
+    const { pagination } = this.state;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        page
+      }
+    });
   }
 
   render() {
     const { routes, collections, filteredCollections, user } = this.props;
+    const { pagination } = this.state;
 
     return (
       <div className="c-dataset-table">
@@ -106,12 +127,9 @@ class CollectionsList extends React.Component {
             filters={false}
             data={filteredCollections}
             onRowDelete={() => this.getCollections()}
-            pageSize={20}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            manualPagination
+            onChangePage={this.onChangePage}
+            pagination={pagination}
           />
         )}
       </div>

@@ -4,17 +4,17 @@ import { Router } from 'routes';
 import compact from 'lodash/compact';
 import flatten from 'lodash/flatten';
 
+// utils
+import { TOPICS_CONNECTIONS } from 'utils/topics';
+
 // components
 import Layout from 'layout/layout/layout-app';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
-import RelatedTools from 'components/tools/related-tools';
-import TopicDetailHeader from 'layout/topics-detail/topics-detail-header';
-import TopicDetailContent from 'layout/topics-detail/topics-detail-content';
+import RelatedTools from 'components/tools/related-tlayout/topics-detailools';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
 import Title from 'components/ui/Title';
-
-// utils
-import { TOPICS_CONNECTIONS } from 'utils/topics';
+import TopicDetailHeader from './topics-detail-header';
+import TopicDetailContent from './topics-detail-content';
 
 class TopicDetailLayout extends PureComponent {
   static propTypes = { topicsDetail: PropTypes.object.isRequired };

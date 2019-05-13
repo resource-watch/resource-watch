@@ -1,4 +1,4 @@
-import React, { createElement } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // helpers
@@ -12,17 +12,13 @@ import initialState from './widget-block-default-state';
 
 import WidgetBlockComponent from './widget-block-component';
 
-// Mandatory
-export {
-  actions, reducers, initialState
-};
+// mandatory
+export { actions, reducers, initialState };
 
-class WidgetBlock extends React.Component {
+class WidgetBlock extends PureComponent {
   static propTypes = {
     item: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
-
-    // Redux
     setWidgetLoading: PropTypes.func.isRequired,
     setWidgetModal: PropTypes.func.isRequired,
     removeWidget: PropTypes.func.isRequired,
@@ -44,11 +40,10 @@ class WidgetBlock extends React.Component {
   }
 
   componentWillUnmount() {
-    const { item } = this.props;
-    // Reset widget
-    this.props.removeWidget({
-      id: `${item.content.widgetId}/${item.id}`
-    });
+    const { item, removeWidget } = this.props;
+
+    // resets widget
+    removeWidget({ id: `${item.content.widgetId}/${item.id}` });
   }
 
   /**
@@ -66,7 +61,7 @@ class WidgetBlock extends React.Component {
     });
   }
 
-  triggerFetch = props => props.fetchWidget({
+  triggerFetch = props => props.getWidget({
     id: props.item.content.widgetId,
     itemId: props.item.id,
     includes: 'metadata'

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const widgets = state => state.widgets.widgets.list;
+const widgets = state => state.widgets.widgets.list.widgets;
 const filters = state => state.widgets.widgets.filters;
 
 /**
@@ -10,11 +10,7 @@ const filters = state => state.widgets.widgets.filters;
  */
 const getFilteredWidgets = (widgets, filters) => { // eslint-disable-line no-shadow
   if (!filters.length) {
-    return widgets.map(widget => ({
-      ...widget,
-      owner: widget.user && widget.user.email,
-      role: widget.user && widget.user.role
-    }));
+    return widgets;
   }
 
   const cleanFilters = filters.filter(filter => !filter.orderDirection);

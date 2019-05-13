@@ -189,7 +189,6 @@ class Step1 extends Component {
               label: 'Do you want to set this widget as published?',
               value: 'published',
               title: 'Published',
-              defaultChecked: this.props.form.published,
               checked: this.props.form.published
             }}
           >
@@ -205,7 +204,6 @@ class Step1 extends Component {
               label: 'Do you want to set this widget as default?',
               value: 'default',
               title: 'Default',
-              defaultChecked: this.props.form.default,
               checked: this.props.form.default
             }}
           >
@@ -221,7 +219,6 @@ class Step1 extends Component {
               label: 'Do you want to set this widget as the default editable widget?',
               value: 'defaultEditableWidget',
               title: 'Default editable widget',
-              defaultChecked: this.props.form.defaultEditableWidget,
               checked: this.props.form.defaultEditableWidget
             }}
           >
@@ -238,7 +235,6 @@ class Step1 extends Component {
                 label: this.props.id ? '' : 'Do you want to freeze this widget?',
                 value: 'freeze',
                 title: 'Freeze',
-                defaultChecked: this.props.form.freeze,
                 checked: this.props.form.freeze
               }}
             >
