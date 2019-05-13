@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
 
 // components
 import Layout from 'layout/layout/layout-admin';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import DatasetsTab from 'components/admin/data/datasets';
-import WidgetsTab from 'components/admin/data/widgets';
-import LayersTab from 'components/admin/data/layers';
+// import DatasetsTab from 'components/admin/data/datasets';
+// import WidgetsTab from 'components/admin/data/widgets';
+// import LayersTab from 'components/admin/data/layers';
 
 // services
 import { fetchDataset } from 'services/dataset';
@@ -17,6 +18,28 @@ import { fetchWidget } from 'services/widget';
 
 // utils
 import { capitalizeFirstLetter } from 'utils/utils';
+
+// const DatasetsTab = dynamic(() => import('../../../components/admin/data/datasets'));
+// const WidgetsTab = dynamic(() => import('../../../components/admin/data/widgets'));
+// const LayersTab = dynamic(() => import('../../../components/admin/data/layers'));
+const AdminTabs = dynamic({
+  modules: () => {
+    const components = {
+      DatasetsTab: () => import('../../../components/admin/data/datasets').then(module => module.default),
+      WidgetsTab: () => import('../../../components/admin/data/widgets').then(module => module.default),
+      LayersTab: () => import('../../../components/admin/data/layers').then(module => module.default)
+    };
+
+    return components;
+  },
+  render: ({ tab }, { DatasetsTab, WidgetsTab, LayersTab }) => (
+    <div>
+      {(tab === 'datasets') && (<DatasetsTab />)}
+      {(tab === 'widgets') && (<WidgetsTab />)}
+      {(tab === 'layers') && (<LayersTab />)}
+    </div>
+  )
+});
 
 class LayoutAdminDataDetail extends PureComponent {
   static propTypes = { query: PropTypes.object.isRequired }
@@ -99,9 +122,7 @@ class LayoutAdminDataDetail extends PureComponent {
           <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
-                {(tab === 'datasets') && (<DatasetsTab />)}
-                {(tab === 'widgets') && (<WidgetsTab />)}
-                {(tab === 'layers') && (<LayersTab />)}
+                <AdminTabs tab={tab} />
               </div>
             </div>
           </div>
