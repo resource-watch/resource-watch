@@ -54,12 +54,6 @@ class WidgetsForm extends PureComponent {
       mode: 'editor'
     });
 
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.handleModeChange = this.handleModeChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
-
     this.service = new WidgetsService({ authorization: props.authorization });
   }
 
@@ -117,7 +111,7 @@ class WidgetsForm extends PureComponent {
    * - onChange
    * - handleModeChange
   */
-  onSubmit(event) {
+  onSubmit = (event) => {
     const { submitting, stepLength, step, form, mode } = this.state;
     const { widgetEditor } = this.props;
     event.preventDefault();
@@ -207,12 +201,12 @@ class WidgetsForm extends PureComponent {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
@@ -295,7 +289,7 @@ class WidgetsForm extends PureComponent {
     }
   }
 
-  handleModeChange(value) {
+  handleModeChange = (value) => {
     // We have to set the defaultEditableWidget to false if the mode has been changed
     // to 'advanced'
     const newForm = (value === 'advanced') ?
