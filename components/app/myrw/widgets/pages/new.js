@@ -22,8 +22,7 @@ import Select from 'components/form/SelectInput';
 import { logEvent } from 'utils/analytics';
 
 const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
     const elements = this.elements;
     Object.keys(elements).forEach((k) => {
@@ -119,7 +118,8 @@ class WidgetsNew extends React.Component {
   }
 
   loadDatasets() {
-    fetchDatasets({ published: true, includes: 'metadata' }).then((response) => {
+    const { locale } = this.props;
+    fetchDatasets({ published: true, includes: 'metadata', language: locale }).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
@@ -139,7 +139,8 @@ class WidgetsNew extends React.Component {
     });
 
     fetchDatasets(
-      { filters: { userId: this.props.user.id }, includes: 'metadata' }).then((response) => {
+      { userId: this.props.user.id, includes: 'metadata' }
+    ).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
@@ -165,9 +166,7 @@ class WidgetsNew extends React.Component {
   }
 
   handleDatasetSelected(value) {
-    this.setState({
-      selectedDataset: value
-    });
+    this.setState({ selectedDataset: value });
   }
 
   render() {
@@ -206,59 +205,59 @@ class WidgetsNew extends React.Component {
           </div>
         }
         {selectedDataset &&
-        <div>
-          <WidgetEditor
-            datasetId={selectedDataset}
-            widgetId={null}
-            saveButtonMode="never"
-            embedButtonMode="never"
-            titleMode="never"
-            provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
-          />
-          <div className="form-container">
-            <form className="form-container" onSubmit={this.onSubmit}>
-              <fieldset className="c-field-container">
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                  onChange={value => this.handleChange({ name: value })}
-                  validations={['required']}
-                  properties={{
-                    title: 'title',
-                    label: 'Title',
-                    type: 'text',
-                    required: true,
-                    placeholder: 'Widget title'
-                  }}
-                >
-                  {Input}
-                </Field>
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-                  onChange={value => this.handleChange({ description: value })}
-                  properties={{
-                    title: 'description',
-                    label: 'Description',
-                    type: 'text',
-                    placeholder: 'Widget description'
-                  }}
-                >
-                  {Input}
-                </Field>
-              </fieldset>
-              <div className="buttons-container">
-                <Button
-                  properties={{
-                    type: 'submit',
-                    disabled: submitting,
-                    className: '-a'
-                  }}
-                >
-                  Save
-                </Button>
-              </div>
-            </form>
+          <div>
+            <WidgetEditor
+              datasetId={selectedDataset}
+              widgetId={null}
+              saveButtonMode="never"
+              embedButtonMode="never"
+              titleMode="never"
+              provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
+            />
+            <div className="form-container">
+              <form className="form-container" onSubmit={this.onSubmit}>
+                <fieldset className="c-field-container">
+                  <Field
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
+                    onChange={value => this.handleChange({ name: value })}
+                    validations={['required']}
+                    properties={{
+                      title: 'title',
+                      label: 'Title',
+                      type: 'text',
+                      required: true,
+                      placeholder: 'Widget title'
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                  <Field
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
+                    onChange={value => this.handleChange({ description: value })}
+                    properties={{
+                      title: 'description',
+                      label: 'Description',
+                      type: 'text',
+                      placeholder: 'Widget description'
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                </fieldset>
+                <div className="buttons-container">
+                  <Button
+                    properties={{
+                      type: 'submit',
+                      disabled: submitting,
+                      className: '-a'
+                    }}
+                  >
+                    Save
+                  </Button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
         }
       </div>
     );
