@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Services
-import { fetchDatasets } from 'services/datasets';
+import { fetchDatasets } from 'services/dataset';
 import LayersService, { fetchLayer } from 'services/LayersService';
 import { toastr } from 'react-redux-toastr';
 
@@ -36,7 +36,8 @@ class LayersForm extends React.Component {
       dataset: props.dataset,
       datasets: [],
       form: formObj,
-      loading: !!props.id
+      loading: !!props.id,
+      application: props.application.join(',')
     });
 
     // services
@@ -62,7 +63,13 @@ class LayersForm extends React.Component {
     const { id } = this.state;
 
     const promises = [
-      fetchDatasets({ })
+      fetchDatasets({
+        application: this.props.application.join(','),
+        language: this.opts.language,
+        ...!!includes && { includes },
+        'page[size]': 9999999,
+        env
+      })
     ];
 
     // Add the dashboard promise if the id exists
@@ -178,7 +185,7 @@ class LayersForm extends React.Component {
       switch (f) {
         default: {
           if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
-              (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+            (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
