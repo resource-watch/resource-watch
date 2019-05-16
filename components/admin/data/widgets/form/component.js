@@ -1,16 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
-
+import isEmpty from 'react-fast-compare';
 import { toastr } from 'react-redux-toastr';
 
-// Redux
-import { connect } from 'react-redux';
-
-// Constants
-import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/data/widgets/form/constants';
-
-// Components
+// components
 import Navigation from 'components/form/Navigation';
 import Step1 from 'components/admin/data/widgets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
@@ -23,12 +16,15 @@ import { fetchWidget } from 'services/widget';
 // utils
 import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
 
-class WidgetsForm extends PureComponent {
+// constants
+import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
+
+
+class WidgetForm extends PureComponent {
   static propTypes = {
     authorization: PropTypes.string.isRequired,
     id: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
-    dataset: PropTypes.string, // ID of the dataset that should be pre-selected
     showEditor: PropTypes.bool,
     widgetEditor: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired
@@ -36,21 +32,17 @@ class WidgetsForm extends PureComponent {
 
   static defaultProps = {
     id: null,
-    dataset: null,
+    // dataset: null,
     showEditor: true
   };
 
   constructor(props) {
     super(props);
 
-    const formObj = props.dataset ?
-      Object.assign({}, STATE_DEFAULT.form, { dataset: this.props.dataset !== 'new' ? this.props.dataset : null }) :
-      STATE_DEFAULT.form;
-
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
       loading: !!props.id,
-      form: formObj,
+      form: STATE_DEFAULT.form,
       mode: 'editor'
     });
 
@@ -107,7 +99,7 @@ class WidgetsForm extends PureComponent {
         });
       })
       .catch((err) => {
-        toastr.error(err);
+        this.setState({ loading: false }, () => { toastr.error('Something went wrong', err.message); });
       });
   }
 
@@ -193,9 +185,7 @@ class WidgetsForm extends PureComponent {
             this.saveWidget(obj);
           }
         } else {
-          this.setState({
-            step: this.state.step + 1
-          });
+          this.setState({ step: this.state.step + 1 });
         }
       } else {
         if (!validWidgetConfig && mode === 'editor') {
@@ -241,20 +231,20 @@ class WidgetsForm extends PureComponent {
   }
 
   saveWidget(obj) {
+    const { onSubmit } = this.props;
     // Save data
     this.service.saveData(obj)
-      .then((data) => {
-        toastr.success('Success', `The widget "${data.id}" - "${data.name}" has been uploaded correctly`);
+      .then((widget) => {
+        const { id, name } = widget;
+        toastr.success('Success', `The widget "${id}" - "${name}" has been uploaded correctly`);
 
-        if (this.props.onSubmit) this.props.onSubmit();
+        if (onSubmit) onSubmit(widget);
       })
       .catch((errors) => {
         this.setState({ submitting: false });
 
         try {
-          errors.forEach(er =>
-            toastr.error('Error', er.detail)
-          );
+          errors.forEach(er => toastr.error('Error', er.detail));
         } catch (e) {
           toastr.error('Error', 'Oops! There was an error, try again.');
         }
@@ -340,9 +330,5 @@ class WidgetsForm extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  widgetEditor: state.widgetEditor,
-  locale: state.common.locale
-});
 
-export default connect(mapStateToProps, null)(WidgetsForm);
+export default WidgetForm;
