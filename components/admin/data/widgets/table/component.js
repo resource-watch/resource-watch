@@ -1,10 +1,6 @@
-import React from 'react';
-
-// utils
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-
-// constants
-import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
 
 // services
 import { fetchWidgets } from 'services/widget';
@@ -19,7 +15,14 @@ import OwnerTD from './td/owner';
 import EditAction from './actions/edit';
 import DeleteAction from './actions/delete';
 
-class WidgetsTable extends React.Component {
+// constants
+import { INITIAL_PAGINATION } from './constants';
+
+class WidgetsTable extends PureComponent {
+  static propTypes = { dataset: PropTypes.string }
+
+  static defaultProps = { dataset: null }
+
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
@@ -28,13 +31,15 @@ class WidgetsTable extends React.Component {
   }
 
   componentDidMount() {
+    const { dataset } = this.props;
     const { pagination } = this.state;
 
     fetchWidgets({
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS
+      application: process.env.APPLICATIONS,
+      ...dataset && { dataset }
     }, true)
       .then(({ widgets, meta }) => {
         const {
@@ -61,6 +66,7 @@ class WidgetsTable extends React.Component {
    * @param {string} { value } Search keywords
    */
   onSearch = debounce((value) => {
+    const { dataset } = this.props;
     const { pagination, filters } = this.state;
 
     if (value.length > 0 && value.length < 3) return;
@@ -77,14 +83,17 @@ class WidgetsTable extends React.Component {
         ...!value.length && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
-          application: process.env.APPLICATIONS
+          application: process.env.APPLICATIONS,
+          ...dataset && { dataset }
+
         },
         ...value.length > 2 && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
           application: process.env.APPLICATIONS,
           sort: 'name',
-          name: value
+          name: value,
+          ...dataset && { dataset }
         }
       };
       fetchWidgets(params, true)
@@ -112,6 +121,7 @@ class WidgetsTable extends React.Component {
   }, 250)
 
   onChangePage = (nextPage) => {
+    const { dataset } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({
@@ -128,7 +138,8 @@ class WidgetsTable extends React.Component {
         'page[number]': page,
         'page[size]': pagination.limit,
         application: process.env.APPLICATIONS,
-        ...filters
+        ...filters,
+        ...dataset && { dataset }
       })
         .then((widgets) => {
           this.setState({
@@ -211,7 +222,7 @@ class WidgetsTable extends React.Component {
               show: true,
               list: [
                 { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
+                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
               ]
             }}
             sort={{
