@@ -1,3 +1,5 @@
+@import 'css/settings';
+
 .l-log-in {
   background-image: url('/static/images/pages/app/log-in-background.jpg');
   background-size: cover;
@@ -18,7 +20,7 @@
       transform: translate(-50%, -50%);
       max-width: 880px;
       width: 100%;
-      padding: 90px 70px;;
+      padding: $margin-size;
       border-radius: 4px;
       box-shadow: 0 15px 20px 0 rgba($black, .15);
       background: $white;

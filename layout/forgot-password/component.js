@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
-import classnames from 'classnames';
 
 // components
 import Layout from 'layout/layout/layout-app';
