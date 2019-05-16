@@ -3,37 +3,30 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 
 // components
-import WidgetsForm from 'components/admin/data/widgets/form/WidgetsForm';
+import WidgetForm from 'components/admin/data/widgets/form';
 
 class WidgetsNew extends PureComponent {
-  static propTypes = {
-    dataset: PropTypes.string,
-    user: PropTypes.object.isRequired
-  }
+  static propTypes = { user: PropTypes.object.isRequired }
 
-  static defaultProps = { dataset: null }
-
-  handleSubmit = () => {
-    const { dataset } = this.props;
-
-    if (dataset) {
-      Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'widgets', id: dataset });
+  handleSubmit = (widget) => {
+    if (widget) {
+      Router.pushRoute('admin_data_detail', {
+        tab: 'datasets',
+        subtab: 'widgets',
+        id: widget.dataset
+      });
     } else {
       Router.pushRoute('admin_data', { tab: 'widgets' });
     }
   }
 
   render() {
-    const {
-      user: { token },
-      dataset
-    } = this.props;
+    const { user: { token } } = this.props;
 
     return (
       <div className="c-widgets-new">
-        <WidgetsForm
+        <WidgetForm
           authorization={token}
-          dataset={dataset}
           onSubmit={this.handleSubmit}
         />
       </div>

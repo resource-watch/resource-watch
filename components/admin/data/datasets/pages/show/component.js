@@ -73,8 +73,8 @@ class DatasetsShow extends PureComponent {
                 </div>
               }
 
-              {(currentSubtab === 'widgets') && (<WidgetsIndex />)}
-              {(currentSubtab === 'layers') && (<LayersIndex />)}
+              {(currentSubtab === 'widgets') && (<WidgetsIndex dataset={id} />)}
+              {(currentSubtab === 'layers') && (<LayersIndex dataset={id} />)}
             </div>
 
           </div>
