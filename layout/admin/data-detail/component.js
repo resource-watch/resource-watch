@@ -37,7 +37,7 @@ class LayoutAdminDataDetail extends PureComponent {
     const { query: prevQuery } = prevProps;
     const queryChanged = !isEqual(query, prevQuery);
 
-    if (queryChanged && query.id) this.getData();
+    if (queryChanged && query.id && query.id !== 'new') this.getData();
   }
 
   getName() {
