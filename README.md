@@ -193,7 +193,7 @@ To deploy [Resource Watch (production)](http://resourcewatch.org) you will need 
 # Documentation 📝
 Every change in the app must be documented in the `./CHANGELOG.md` file according to [keep a changelog](https://keepachangelog.com/en/1.0.0/) specs.
 
-At code level, comments must follow [JSDocs](http://usejsdoc.org/) specs.
+At code level, comments must follow [JSDocs](https://jsdoc.app) specs.
 
 # Contributing 🎁
 If you have any amazing idea for the project, please [tell us](https://github.com/resource-watch/resource-watch/issues) before develop it.
