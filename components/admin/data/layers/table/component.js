@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 // services
@@ -19,6 +20,10 @@ import GoToDatasetAction from './actions/go-to-dataset';
 import { INITIAL_PAGINATION } from './constants';
 
 class LayersTable extends PureComponent {
+  static propTypes = { dataset: PropTypes.string }
+
+  static defaultProps = { dataset: null }
+
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
@@ -27,13 +32,15 @@ class LayersTable extends PureComponent {
   }
 
   componentDidMount() {
+    const { dataset } = this.props;
     const { pagination } = this.state;
 
     fetchLayers({
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS
+      application: process.env.APPLICATIONS,
+      ...dataset && { dataset }
     }, true)
       .then(({ layers, meta }) => {
         const {
@@ -60,6 +67,7 @@ class LayersTable extends PureComponent {
    * @param {string} { value } Search keywords
    */
   onSearch = debounce((value) => {
+    const { dataset } = this.props;
     const { pagination, filters } = this.state;
 
     if (value.length > 0 && value.length < 3) return;
@@ -76,14 +84,16 @@ class LayersTable extends PureComponent {
         ...!value.length && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
-          application: process.env.APPLICATIONS
+          application: process.env.APPLICATIONS,
+          ...dataset && { dataset }
         },
         ...value.length > 2 && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
           application: process.env.APPLICATIONS,
           sort: 'name',
-          name: value
+          name: value,
+          ...dataset && { dataset }
         }
       };
 
@@ -112,6 +122,7 @@ class LayersTable extends PureComponent {
   }, 250)
 
   onChangePage = (nextPage) => {
+    const { dataset } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({
@@ -128,7 +139,8 @@ class LayersTable extends PureComponent {
         'page[number]': page,
         'page[size]': pagination.limit,
         application: process.env.APPLICATIONS,
-        ...filters
+        ...filters,
+        ...dataset && { dataset }
       })
         .then((layers) => {
           this.setState({
@@ -141,6 +153,7 @@ class LayersTable extends PureComponent {
   }
 
   onRemoveLayer = () => {
+    const { dataset } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
@@ -150,7 +163,8 @@ class LayersTable extends PureComponent {
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
-      ...filters
+      ...filters,
+      ...dataset && { dataset }
     }, true)
       .then(({ layers, meta }) => {
         const {

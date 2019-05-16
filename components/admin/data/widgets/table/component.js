@@ -152,6 +152,7 @@ class WidgetsTable extends PureComponent {
   }
 
   onRemoveWidget = () => {
+    const { dataset } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
@@ -160,7 +161,8 @@ class WidgetsTable extends PureComponent {
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
-      ...filters
+      ...filters,
+      ...dataset && { dataset }
     }, true)
       .then(({ widgets, meta }) => {
         const {
