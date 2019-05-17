@@ -10,14 +10,15 @@ import { logger } from 'utils/logs';
  * @param {Object[]} params - params sent to the API.
  * @returns {Object[]} array of serialized datasets.
  */
-export const fetchDatasets = (params = {}, _meta = false) => {
+export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
   logger.info('fetches datasets');
 
   return WRIAPI.get('/dataset', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1
+      'Upgrade-Insecure-Requests': 1,
+      ...headers
     },
     params: {
       env: process.env.API_ENV,

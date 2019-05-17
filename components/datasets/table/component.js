@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
-
-// utils
+import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 // services
@@ -25,6 +24,8 @@ import DeleteAction from './actions/delete';
 import { INITIAL_PAGINATION } from './constants';
 
 class DatasetsTable extends PureComponent {
+  static propTypes = { user: PropTypes.object.isRequired }
+
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
@@ -33,6 +34,7 @@ class DatasetsTable extends PureComponent {
   }
 
   componentDidMount() {
+    const { user: { token } } = this.props;
     const { pagination } = this.state;
 
     fetchDatasets({
@@ -40,7 +42,7 @@ class DatasetsTable extends PureComponent {
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS
-    }, true)
+    }, { Authorization: token }, true)
       .then(({ datasets, meta }) => {
         const {
           'total-pages': pages,
@@ -58,7 +60,7 @@ class DatasetsTable extends PureComponent {
           datasets
         });
       })
-      .catch((error) => { this.setState({ error }); });
+      .catch(({ message }) => { this.setState({ error: message }); });
   }
 
   /**
@@ -66,6 +68,7 @@ class DatasetsTable extends PureComponent {
    * @param {string} { value } Search keywords
    */
   onSearch = debounce((value) => {
+    const { user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     if (value.length > 0 && value.length < 3) return;
@@ -93,7 +96,7 @@ class DatasetsTable extends PureComponent {
         }
       };
 
-      fetchDatasets(params, true)
+      fetchDatasets(params, { Authorization: token }, true)
         .then(({ datasets, meta }) => {
           const {
             'total-pages': pages,
@@ -106,18 +109,18 @@ class DatasetsTable extends PureComponent {
             page: INITIAL_PAGINATION.page
           };
 
-
           this.setState({
             loading: false,
             pagination: nextPagination,
             datasets
           });
         })
-        .catch((error) => { this.setState({ error }); });
+        .catch(({ message }) => { this.setState({ error: message }); });
     });
   }, 250)
 
   onChangePage = (nextPage) => {
+    const { user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({
@@ -135,18 +138,19 @@ class DatasetsTable extends PureComponent {
         'page[size]': pagination.limit,
         application: process.env.APPLICATIONS,
         ...filters
-      })
+      }, { Authorization: token })
         .then((datasets) => {
           this.setState({
             loading: false,
             datasets
           });
         })
-        .catch((error) => { this.setState({ error }); });
+        .catch(({ message }) => { this.setState({ error: message }); });
     });
   }
 
   onRemoveDataset = () => {
+    const { user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
@@ -157,7 +161,7 @@ class DatasetsTable extends PureComponent {
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
       ...filters
-    }, true)
+    }, { Authorization: token }, true)
       .then(({ datasets, meta }) => {
         const {
           'total-pages': pages,
@@ -175,7 +179,7 @@ class DatasetsTable extends PureComponent {
           datasets
         });
       })
-      .catch((error) => { this.setState({ error }); });
+      .catch(({ message }) => { this.setState({ error: message }); });
   }
 
   render() {
