@@ -57,7 +57,10 @@ class DatasetsTable extends PureComponent {
         this.setState({
           loading: false,
           pagination: nextPagination,
-          datasets
+          datasets: datasets.map(_dataset => ({
+            ..._dataset,
+            owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+          }))
         });
       })
       .catch(({ message }) => { this.setState({ error: message }); });
@@ -112,7 +115,10 @@ class DatasetsTable extends PureComponent {
           this.setState({
             loading: false,
             pagination: nextPagination,
-            datasets
+            datasets: datasets.map(_dataset => ({
+              ..._dataset,
+              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+            }))
           });
         })
         .catch(({ message }) => { this.setState({ error: message }); });
@@ -142,7 +148,10 @@ class DatasetsTable extends PureComponent {
         .then((datasets) => {
           this.setState({
             loading: false,
-            datasets
+            datasets: datasets.map(_dataset => ({
+              ..._dataset,
+              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+            }))
           });
         })
         .catch(({ message }) => { this.setState({ error: message }); });
@@ -176,7 +185,10 @@ class DatasetsTable extends PureComponent {
         this.setState({
           loading: false,
           pagination: nextPagination,
-          datasets
+          datasets: datasets.map(_dataset => ({
+            ..._dataset,
+            owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+          }))
         });
       })
       .catch(({ message }) => { this.setState({ error: message }); });
