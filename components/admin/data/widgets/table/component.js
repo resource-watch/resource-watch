@@ -19,7 +19,10 @@ import DeleteAction from './actions/delete';
 import { INITIAL_PAGINATION } from './constants';
 
 class WidgetsTable extends PureComponent {
-  static propTypes = { dataset: PropTypes.string }
+  static propTypes = {
+    dataset: PropTypes.string,
+    user: PropTypes.object.isRequired
+  }
 
   static defaultProps = { dataset: null }
 
@@ -31,7 +34,7 @@ class WidgetsTable extends PureComponent {
   }
 
   componentDidMount() {
-    const { dataset } = this.props;
+    const { dataset, user: { token } } = this.props;
     const { pagination } = this.state;
 
     fetchWidgets({
@@ -40,7 +43,7 @@ class WidgetsTable extends PureComponent {
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
       ...dataset && { dataset }
-    }, true)
+    }, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
         const {
           'total-pages': pages,
@@ -55,7 +58,10 @@ class WidgetsTable extends PureComponent {
         this.setState({
           loading: false,
           pagination: nextPagination,
-          widgets
+          widgets: widgets.map(_widget => ({
+            ..._widget,
+            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+          }))
         });
       })
       .catch((error) => { this.setState({ error }); });
@@ -66,7 +72,7 @@ class WidgetsTable extends PureComponent {
    * @param {string} { value } Search keywords
    */
   onSearch = debounce((value) => {
-    const { dataset } = this.props;
+    const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     if (value.length > 0 && value.length < 3) return;
@@ -85,7 +91,6 @@ class WidgetsTable extends PureComponent {
           'page[size]': INITIAL_PAGINATION.limit,
           application: process.env.APPLICATIONS,
           ...dataset && { dataset }
-
         },
         ...value.length > 2 && {
           'page[number]': INITIAL_PAGINATION.page,
@@ -96,7 +101,8 @@ class WidgetsTable extends PureComponent {
           ...dataset && { dataset }
         }
       };
-      fetchWidgets(params, true)
+
+      fetchWidgets(params, { Authorization: token }, true)
         .then(({ widgets, meta }) => {
           const {
             'total-pages': pages,
@@ -109,19 +115,21 @@ class WidgetsTable extends PureComponent {
             page: INITIAL_PAGINATION.page
           };
 
-
           this.setState({
             loading: false,
             pagination: nextPagination,
-            widgets
+            widgets: widgets.map(_widget => ({
+              ..._widget,
+              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+            }))
           });
         })
-        .catch((error) => { this.setState({ error }); });
+        .catch(({ message }) => { this.setState({ error: message }); });
     });
   }, 250)
 
   onChangePage = (nextPage) => {
-    const { dataset } = this.props;
+    const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({
@@ -140,22 +148,26 @@ class WidgetsTable extends PureComponent {
         application: process.env.APPLICATIONS,
         ...filters,
         ...dataset && { dataset }
-      })
+      }, { Authorization: token })
         .then((widgets) => {
           this.setState({
             loading: false,
-            widgets
+            widgets: widgets.map(_widget => ({
+              ..._widget,
+              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+            }))
           });
         })
-        .catch((error) => { this.setState({ error }); });
+        .catch(({ message }) => { this.setState({ error: message }); });
     });
   }
 
   onRemoveWidget = () => {
-    const { dataset } = this.props;
+    const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
+
     fetchWidgets({
       includes: 'user',
       'page[number]': pagination.page,
@@ -163,7 +175,7 @@ class WidgetsTable extends PureComponent {
       application: process.env.APPLICATIONS,
       ...filters,
       ...dataset && { dataset }
-    }, true)
+    }, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
         const {
           'total-pages': pages,
@@ -178,10 +190,13 @@ class WidgetsTable extends PureComponent {
         this.setState({
           loading: false,
           pagination: nextPagination,
-          widgets
+          widgets: widgets.map(_widget => ({
+            ..._widget,
+            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+          }))
         });
       })
-      .catch((error) => { this.setState({ error }); });
+      .catch(({ message }) => { this.setState({ error: message }); });
   }
 
   render() {
