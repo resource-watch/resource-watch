@@ -10,13 +10,14 @@ import { logger } from 'utils/logs';
  * @param {Object[]} params - params sent to the API.
  * @returns {Object[]} array of serialized widgets.
  */
-export const fetchWidgets = (params = {}, _meta = false) => {
+export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
   logger.info('fetches widgets');
   return WRIAPI.get('/widget', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1
+      'Upgrade-Insecure-Requests': 1,
+      ...headers
     },
     params: {
       env: process.env.API_ENV,

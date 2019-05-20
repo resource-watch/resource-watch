@@ -5,12 +5,11 @@ class OwnerTD extends PureComponent {
   static propTypes = { row: PropTypes.object.isRequired }
 
   render() {
-    const { row: { user } } = this.props;
-    const userName = user ? user.name || (user.email || '').split('@')[0] : '';
+    const { row: { owner } } = this.props;
 
     return (
       <td>
-        {userName}
+        {owner}
       </td>
     );
   }
