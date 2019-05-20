@@ -20,7 +20,10 @@ import GoToDatasetAction from './actions/go-to-dataset';
 import { INITIAL_PAGINATION } from './constants';
 
 class LayersTable extends PureComponent {
-  static propTypes = { dataset: PropTypes.string }
+  static propTypes = {
+    dataset: PropTypes.string,
+    user: PropTypes.object.isRequired
+  }
 
   static defaultProps = { dataset: null }
 
@@ -32,7 +35,7 @@ class LayersTable extends PureComponent {
   }
 
   componentDidMount() {
-    const { dataset } = this.props;
+    const { dataset, user: { token } } = this.props;
     const { pagination } = this.state;
 
     fetchLayers({
@@ -41,7 +44,7 @@ class LayersTable extends PureComponent {
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
       ...dataset && { dataset }
-    }, true)
+    }, { Authorization: token }, true)
       .then(({ layers, meta }) => {
         const {
           'total-pages': pages,
@@ -56,10 +59,13 @@ class LayersTable extends PureComponent {
         this.setState({
           loading: false,
           pagination: nextPagination,
-          layers
+          layers: layers.map(_layer => ({
+            ..._layer,
+            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+          }))
         });
       })
-      .catch((error) => { this.setState({ error: error.message }); });
+      .catch(({ message }) => { this.setState({ error: message }); });
   }
 
   /**
@@ -67,7 +73,7 @@ class LayersTable extends PureComponent {
    * @param {string} { value } Search keywords
    */
   onSearch = debounce((value) => {
-    const { dataset } = this.props;
+    const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     if (value.length > 0 && value.length < 3) return;
@@ -97,7 +103,7 @@ class LayersTable extends PureComponent {
         }
       };
 
-      fetchLayers(params, true)
+      fetchLayers(params, { Authorization: token }, true)
         .then(({ layers, meta }) => {
           const {
             'total-pages': pages,
@@ -110,19 +116,21 @@ class LayersTable extends PureComponent {
             page: INITIAL_PAGINATION.page
           };
 
-
           this.setState({
             loading: false,
             pagination: nextPagination,
-            layers
+            layers: layers.map(_layer => ({
+              ..._layer,
+              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+            }))
           });
         })
-        .catch((error) => { this.setState({ error }); });
+        .catch(({ message }) => { this.setState({ error: message }); });
     });
   }, 250)
 
   onChangePage = (nextPage) => {
-    const { dataset } = this.props;
+    const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({
@@ -141,19 +149,22 @@ class LayersTable extends PureComponent {
         application: process.env.APPLICATIONS,
         ...filters,
         ...dataset && { dataset }
-      })
+      }, { Authorization: token })
         .then((layers) => {
           this.setState({
             loading: false,
-            layers
+            layers: layers.map(_layer => ({
+              ..._layer,
+              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+            }))
           });
         })
-        .catch((error) => { this.setState({ error }); });
+        .catch(({ message }) => { this.setState({ error: message }); });
     });
   }
 
   onRemoveLayer = () => {
-    const { dataset } = this.props;
+    const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
@@ -165,7 +176,7 @@ class LayersTable extends PureComponent {
       application: process.env.APPLICATIONS,
       ...filters,
       ...dataset && { dataset }
-    }, true)
+    }, { Authorization: token }, true)
       .then(({ layers, meta }) => {
         const {
           'total-pages': pages,
@@ -180,10 +191,13 @@ class LayersTable extends PureComponent {
         this.setState({
           loading: false,
           pagination: nextPagination,
-          layers
+          layers: layers.map(_layer => ({
+            ..._layer,
+            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+          }))
         });
       })
-      .catch((error) => { this.setState({ error }); });
+      .catch(({ message }) => { this.setState({ error: message }); });
   }
 
   render() {
