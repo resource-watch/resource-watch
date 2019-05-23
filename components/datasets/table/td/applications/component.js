@@ -1,18 +1,18 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class OwnerTD extends PureComponent {
+class ApplicationsTD extends PureComponent {
   static propTypes = { row: PropTypes.object.isRequired }
 
   render() {
-    const { row: { owner } } = this.props;
+    const { row: { application } } = this.props;
 
     return (
       <td>
-        {owner}
+        <span>{application.join(', ')}</span>
       </td>
     );
   }
 }
 
-export default OwnerTD;
+export default ApplicationsTD;
