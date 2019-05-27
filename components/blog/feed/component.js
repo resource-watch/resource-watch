@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 // components
 import CardStatic from 'components/app/common/CardStatic';
-import Rating from 'components/app/common/Rating';
+import Rating from '../rating';
 
 class BlogFeed extends PureComponent {
   static propTypes = {
