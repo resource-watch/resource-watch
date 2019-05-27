@@ -1,27 +1,28 @@
 import React, { PureComponent } from 'react';
 
 // actions
-import {
-  fetchBlogPostsLatest,
-  fetchBlogPostsSpotlightLatest
-} from 'components/blog/latest-posts/actions';
+import { getLatestPosts, getSpotlightPosts } from 'modules/blog/actions';
 
 // components
 import LayoutHome from 'layout/app/home';
 
 class HomePage extends PureComponent {
   static async getInitialProps({ store }) {
-    // fetchs latest posts from blog
-    await store.dispatch(fetchBlogPostsLatest());
-    await store.dispatch(fetchBlogPostsSpotlightLatest());
+    const { getState, dispatch } = store;
+    const { blog: { latestPosts, spotlightPosts } } = getState();
+
+
+    // fetches posts from blog
+    if (!latestPosts.length && !spotlightPosts.length) {
+      await dispatch(getLatestPosts());
+      await dispatch(getSpotlightPosts());
+    }
 
     return {};
   }
 
   render() {
-    return (
-      <LayoutHome />
-    );
+    return (<LayoutHome />);
   }
 }
 
