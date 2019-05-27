@@ -14,10 +14,20 @@ class GetInvolvedDetailPage extends PureComponent {
 
   static async getInitialProps({ store }) {
     const { dispatch, getState } = store;
-    const { routes: { query: { id, source } } } = getState();
-    const { blog: { latestPosts, spotlightPosts } } = getState();
+    const {
+      routes: { query: { id, source } },
+      blog: {
+        latestPosts,
+        spotlightPosts,
+        latestPostsError,
+        spotlightPostsError
+      }
+    } = getState();
 
-    if (id === 'suggest-a-story' && (!latestPosts.length && !spotlightPosts.length)) {
+    // fetches posts from blog when there are no posts
+    // to display or when an error happened previously
+    if (id === 'suggest-a-story' && ((!latestPosts.length && !spotlightPosts.length) ||
+    (latestPostsError || spotlightPostsError))) {
       // fetches posts from blog
       await dispatch(getLatestPosts());
       await dispatch(getSpotlightPosts());
