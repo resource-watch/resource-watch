@@ -50,8 +50,6 @@ import * as globeCesium from 'components/vis/globe-cesium';
 // Catalog
 import * as catalog from 'layout/app/catalog';
 
-// Blog
-import * as latestBlogPosts from 'components/blog/latest-posts';
 
 // Get Involved
 import * as getInvolvedIndex from 'layout/get-involved';
@@ -121,9 +119,6 @@ const reducer = combineReducers({
 
   // Catalog
   catalog: handleModule(catalog),
-
-  // Blog
-  latestBlogPosts: handleModule(latestBlogPosts),
 
   // Get Involved
   getInvolvedIndex: handleModule(getInvolvedIndex),

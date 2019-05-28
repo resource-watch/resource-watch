@@ -9,7 +9,7 @@ import YouTube from 'react-youtube';
 import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
-import BlogLatestPosts from 'components/blog/latest-posts';
+import BlogFeed from 'components/blog/feed';
 import ExploreCards from 'layout/app/home/explore-cards';
 
 // utils
@@ -93,7 +93,7 @@ class LayoutHome extends PureComponent {
               </div>
             </header>
 
-            <BlogLatestPosts />
+            <BlogFeed />
 
             <div className="-text-center">
               <div className="row">
