@@ -76,21 +76,22 @@ class BlogFeed extends PureComponent {
           </div>
         )}
         {!errors && (!!latestPosts.length && !!spotlightPosts.length) && (
-          <div className="row">
-            <div className="column small-12 medium-8">
-              {spotlightPosts.length ?
-                this.getCard(spotlightPosts[0]) :
-                this.getCard(latestPosts[2])
-              }
-            </div>
-            <div className="column small-12 medium-4">
-              <div className="dual">
-                {this.getCard(latestPosts[0])}
-                {this.getCard(latestPosts[1])}
+          <div className="insight-cards">
+            <div className="row">
+              <div className="column small-12 medium-8">
+                {spotlightPosts.length ?
+                  this.getCard(spotlightPosts[0]) :
+                  this.getCard(latestPosts[2])
+                }
+              </div>
+              <div className="column small-12 medium-4">
+                <div className="dual">
+                  {this.getCard(latestPosts[0])}
+                  {this.getCard(latestPosts[1])}
+                </div>
               </div>
             </div>
-          </div>)
-        }
+          </div>)}
       </div>
     );
   }
