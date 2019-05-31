@@ -40,7 +40,7 @@ function ContributeData() {
         <div className="l-container">
           <div className="row">
             <div className="column small-12">
-              <div className="c-terms">
+              <div className="c-static-content">
                 <h3>Guiding principles</h3>
                 <p>
                   We seek to develop and acquire data that cover a diverse range of themes for a

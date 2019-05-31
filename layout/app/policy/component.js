@@ -47,7 +47,7 @@ class LayoutPolicy extends PureComponent {
                 <article>
                   <div className="row align-center">
                     <div className="column small-12 medium-8">
-                      <div className="c-terms">
+                      <div className="c-static-content">
                         {renderHTML(data.content || '')}
                       </div>
                     </div>

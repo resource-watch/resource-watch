@@ -145,7 +145,7 @@ class LayoutPartners extends PureComponent {
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12 medium-8">
-                <div className="c-terms">
+                <div className="c-static-content">
                   <h2 className="-text-center">About the partnership</h2>
                   <p>Partners support Resource Watch by</p>
                   <ul>

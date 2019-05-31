@@ -1,0 +1,41 @@
+.c-static-content {
+  ol, ul {
+    margin: 0 0 1rem $space * 8;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  * + h2 {
+    margin-top: $space * 6;
+  }
+
+  p {
+    margin: 0;
+
+    & + p {
+      margin-top: $space * 5;
+    }
+  }
+
+  iframe {
+    height: 255px;
+
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      height: 325px;
+    }
+
+    & + * {
+      margin-top: $space * 5;
+    }
+  }
+
+  * + iframe {
+    margin-top: $space * 5;
+  }
+}
