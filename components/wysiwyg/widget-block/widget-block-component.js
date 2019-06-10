@@ -56,17 +56,16 @@ class WidgetBlock extends PureComponent {
 
   state = { shareWidget: null }
 
-  getMapOptions(widget) {
-    const { widgetConfig } = widget;
-    if (!widgetConfig) return {};
+  getMapOptions(widget = {}) {
+    if (!widget.widgetConfig) return {};
+    const { widgetConfig: { lat, lng, zoom } } = widget;
 
-
-    if (widgetConfig.lat && widgetConfig.lng && widgetConfig.zoom) {
+    if (lat && lng && zoom) {
       return {
-        zoom: widgetConfig.zoom,
-        latLng: {
-          lat: widgetConfig.lat,
-          lng: widgetConfig.lng
+        zoom,
+        center: {
+          lat,
+          lng
         }
       };
     }
@@ -74,7 +73,7 @@ class WidgetBlock extends PureComponent {
     return {};
   }
 
-  getMapBounds(widget) {
+  getMapBounds(widget = {}) {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
@@ -83,7 +82,7 @@ class WidgetBlock extends PureComponent {
     return {};
   }
 
-  getMapBasemap(widget) {
+  getMapBasemap(widget = {}) {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
@@ -95,7 +94,7 @@ class WidgetBlock extends PureComponent {
     };
   }
 
-  getMapLabel(widget) {
+  getMapLabel(widget = {}) {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
