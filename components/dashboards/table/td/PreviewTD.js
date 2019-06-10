@@ -13,9 +13,6 @@ function PreviewTD(props) {
   );
 }
 
-PreviewTD.propTypes = {
-  value: PropTypes.bool,
-  index: PropTypes.string
-};
+PreviewTD.propTypes = { value: PropTypes.string.isRequired };
 
 export default PreviewTD;

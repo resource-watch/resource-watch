@@ -29,6 +29,8 @@ import {
   FULLSCREEN_PAGES
 } from 'constants/app';
 
+// global styles
+import 'css/index.scss';
 
 finallyShim.shim();
 
@@ -42,7 +44,7 @@ class RWApp extends App {
     const url = { asPath, pathname, query };
     store.dispatch(setRouter(url));
 
-    //sets hostname
+    // sets hostname
     const hostname = isServer ? req.headers.host : window.origin;
     store.dispatch(setHostname(hostname));
 

@@ -133,6 +133,10 @@
     }
   }
 
+  &.-log-in {
+    margin: 30px 0;
+  }
+
   &.-disabled {
     .field-container {
       > input,

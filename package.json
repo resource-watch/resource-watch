@@ -38,15 +38,13 @@
     "layer-manager": "^1.15.2",
     "leaflet-utfgrid": "^0.3.0",
     "lodash": "^4.17.11",
-    "lusca": "1.4.1",
     "moment": "^2.24.0",
     "moment-range": "3.0.3",
     "moveto": "1.6.1",
-    "next": "^7.0.2",
+    "next": "^8.1.0",
     "next-progressbar": "^1.0.0",
     "next-redux-wrapper": "^2.0.0",
     "next-routes": "^1.4.2",
-    "node-sass": "^4.11.0",
     "normalize.css": "7.0.0",
     "nuka-carousel": "^4.4.0",
     "numeral": "^2.0.6",
@@ -66,15 +64,15 @@
     "rc-pagination": "1.8.8",
     "rc-slider": "7.0.8",
     "rc-tooltip": "^3.7.0",
-    "react": "16.4.2",
+    "react": "^16.8.6",
     "react-ace": "6.0.0",
-    "react-css-modules": "^4.7.1",
     "react-dates": "^18.2.2",
     "react-dnd": "2.6.0",
     "react-dnd-html5-backend": "2.4.1",
-    "react-dom": "16.4.2",
+    "react-dom": "^16.8.6",
     "react-dropdown-tree-select": "1.9.2",
     "react-dropzone": "4.2.9",
+    "react-fast-compare": "^2.0.4",
     "react-ga": "^2.3.5",
     "react-geosuggest": "^2.7.0",
     "react-google-recaptcha": "^1.0.4",
@@ -96,7 +94,6 @@
     "react-sticky": "6.0.2",
     "react-tether": "0.6.1",
     "react-upload-file": "2.0.0-beta.6",
-    "react-vega": "3.1.2",
     "react-youtube": "7.5.0",
     "redis": "2.8.0",
     "redux": "3.7.2",
@@ -129,7 +126,8 @@
     "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.1",
-    "eslint-plugin-react": "^7.4.0"
+    "eslint-plugin-react": "^7.4.0",
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "scripts": {
     "check-datasets": "NODE_ENV=test babel-node ./tasks/check-datasets.js",
@@ -138,7 +136,8 @@
     "lint": "eslint .",
     "dev": "node $NODE_DEBUG_OPTION index.js",
     "build": "better-npm-run build",
-    "start": "better-npm-run start"
+    "start": "better-npm-run start",
+    "bundle-analyzer": "better-npm-run bundle-analyzer"
   },
   "betterScripts": {
     "build": {
@@ -152,6 +151,12 @@
       "command": "node index.js",
       "env": {
         "NODE_ENV": "production"
+      }
+    },
+    "bundle-analyzer": {
+      "command": "yarn build",
+      "env": {
+        "BUNDLE_ANALYZER": "1"
       }
     }
   },

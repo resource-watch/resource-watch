@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
@@ -9,7 +9,7 @@ import TableHeader from './header/TableHeader';
 import TableContent from './content/TableContent';
 import TableFooter from './footer/TableFooter';
 
-export default class CustomTable extends React.Component {
+export default class CustomTable extends PureComponent {
   /* Property typing */
   static propTypes = {
     actions: PropTypes.object,
@@ -17,6 +17,7 @@ export default class CustomTable extends React.Component {
     data: PropTypes.array,
     pagination: PropTypes.object,
     filters: PropTypes.bool,
+    manualPagination: PropTypes.bool,
     sort: PropTypes.object,
     onToggleSelectedRow: PropTypes.func,
     onRowDelete: PropTypes.func
@@ -29,9 +30,10 @@ export default class CustomTable extends React.Component {
     pagination: {
       enabled: true,
       pageSize: 20,
-      page: 0,
+      page: 1,
       total: null
     },
+    manualPagination: false,
     sort: {},
     actions: {
       show: true,
@@ -64,17 +66,13 @@ export default class CustomTable extends React.Component {
         .map(d => d && d.toString());
       columns[key] = values;
     });
-
     return columns;
   }
 
   static setTableData(props) {
-    const data = props.data;
-
+    const { data } = props;
     return {
-      // Data
       data,
-      // Columns
       columnValues: CustomTable.getColumnValues(data)
     };
   }
@@ -84,31 +82,14 @@ export default class CustomTable extends React.Component {
 
     this.state = {
       pagination: props.pagination,
-      // Sort
       sort: props.sort,
       initialSort: props.sort,
-      // Search
       search: {},
-      // Columns
       columnQueries: {},
-      // Rows
       rowSelection: []
     };
-
-    // Bindings
-    this.onChangePage = this.onChangePage.bind(this);
-    this.onFilter = this.onFilter.bind(this);
-    this.onSort = this.onSort.bind(this);
-    this.onSearch = this.onSearch.bind(this);
-
-    this.onRowDelete = this.onRowDelete.bind(this);
-    this.onToggleSelectedRow = this.onToggleSelectedRow.bind(this);
   }
 
-  /**
-   * COMPONENT LIFECYCLE
-   * - componentWillMount
-  */
   componentWillMount() {
     this.setState(CustomTable.setTableData(this.props), () => {
       this.filter();
@@ -116,33 +97,18 @@ export default class CustomTable extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const currentLength = this.state.data.length;
     const currentColumnsKeys = CustomTable.getColumnKeys(this.state.data).sort();
-
-    const nextLength = nextProps.data.length;
     const nextColumnsKeys = CustomTable.getColumnKeys(nextProps.data).sort();
-
-
-    // TODO: check if the data has changed to reload all the data or only to filter it
-    // if you only check the length, sometimes you have only edited one dataset,
-    // so the table will not render the new values
-
-    // if (currentLength !== nextLength) {
     this.setState(CustomTable.setTableData(nextProps), () => {
       this.filter();
     });
-    // }
 
     if (!isEqual(currentColumnsKeys, nextColumnsKeys)) {
       this.setState({
         ...CustomTable.setTableData(nextProps),
-        // Sort
         sort: nextProps.sort,
-        // Search
         search: {},
-        // Columns
         columnQueries: {},
-        // Rows
         rowSelection: []
       });
     }
@@ -156,7 +122,7 @@ export default class CustomTable extends React.Component {
    * - onSort
    * - onChangePage
   */
-  onToggleSelectedRow(id) {
+  onToggleSelectedRow = (id) => {
     const rowSelection = this.state.rowSelection.slice();
     const index = rowSelection.indexOf(id);
 
@@ -174,7 +140,7 @@ export default class CustomTable extends React.Component {
     });
   }
 
-  onRowDelete(id) {
+  onRowDelete = (id) => {
     const data = this.state.data.slice();
     const index = data.findIndex(row => row.id === id);
     data.splice(index, 1);
@@ -192,8 +158,8 @@ export default class CustomTable extends React.Component {
     });
   }
 
-  onFilter(q) {
-    let columnQueries = this.state.columnQueries;
+  onFilter = (q) => {
+    let { columnQueries } = this.state;
 
     // Let's use null when you select all the values, so whenever you add more points to
     // the map they will be selected because you will remove the filter from the columnQueries
@@ -206,47 +172,47 @@ export default class CustomTable extends React.Component {
       delete columnQueries[q.field];
     }
 
-    this.setState({
-      columnQueries
-    }, () => {
+    this.setState({ columnQueries }, () => {
       this.filter();
-      this.onChangePage(0);
+      // this.onChangePage(0);
     });
   }
 
-  onSort(s) {
+  onSort = (s) => {
     const { sort, initialSort } = this.state;
 
     // check if we are trying to sort on the same as before, then return to initial sorting
     if (isEqual(s, sort)) {
-      this.setState({ sort: initialSort }, () => this.onChangePage(0));
+      this.setState({ sort: initialSort });
     } else {
       const newSortingRule = {
         field: s.field,
         value: s.value
       };
-      this.setState({ sort: newSortingRule }, () => this.onChangePage(0));
+      this.setState({ sort: newSortingRule });
     }
   }
 
-  onSearch(s) {
+  onSearch = (s) => {
     const search = {
       field: s.field,
       value: s.value
     };
+
     this.setState({ search }, () => {
       this.filter();
       this.onChangePage(0);
     });
   }
 
-  onChangePage(page) {
+  onChangePage = (page) => {
     this.setState({
       pagination: {
         ...this.state.pagination,
         page
       }
     });
+    this.props.onChangePage(page);
   }
 
   /**
@@ -254,7 +220,8 @@ export default class CustomTable extends React.Component {
    * - filter
   */
   filter() {
-    const { columnQueries, search, pagination } = this.state;
+    const { manualPagination, pagination } = this.props;
+    const { columnQueries, search } = this.state;
 
     const filteredData = this.state.data.filter((row) => {
       let filteredBySearch = true;
@@ -271,29 +238,34 @@ export default class CustomTable extends React.Component {
       return filteredByQuery && filteredBySearch;
     });
 
-    const maxPage = Math.ceil(filteredData.length / pagination.pageSize);
-    // Check if the page is equal to the total
-    const page = (pagination.page !== 0 && pagination.page === maxPage) ?
-      pagination.page - 1 : pagination.page;
+    if (manualPagination) {
+      const maxPage = Math.ceil(filteredData.length / pagination.pageSize);
+      // Check if the page is equal to the total
+      const page = (pagination.page !== 0 && pagination.page === maxPage) ?
+        pagination.page - 1 : pagination.page;
 
-    this.setState({
-      filteredData,
-      pagination: {
-        ...pagination,
-        page,
-        total: filteredData.length
-      }
-    });
+      this.setState({
+        filteredData,
+        pagination: {
+          ...pagination,
+          // page,
+          ...search && (search.value || '').length > 0 ? { page: 1 } : { page },
+          total: filteredData.length
+        }
+      });
+    }
+
+    this.setState({ filteredData });
   }
 
-  /* Render */
   render() {
+    const { pagination } = this.props;
+
     return (
       <div className="c-table">
         {/* Table */}
         <div className="table-header" />
         <table className="table">
-
           {/* Table header */}
           <TableHeader
             actions={this.props.actions}
@@ -309,6 +281,7 @@ export default class CustomTable extends React.Component {
           />
 
           {/* Table content */}
+
           <TableContent
             {...this.props}
             {...this.state}
@@ -319,7 +292,7 @@ export default class CustomTable extends React.Component {
         </table>
         {/* Table footer */}
         <TableFooter
-          pagination={this.state.pagination}
+          pagination={pagination}
           onChangePage={this.onChangePage}
           showTotalPages
         />

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
+import isEqual from 'react-fast-compare';
 
 // components
 import Layout from 'layout/layout/layout-admin';
@@ -29,6 +30,14 @@ class LayoutAdminDataDetail extends PureComponent {
     if (id === 'new') return;
 
     this.getData();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { query } = this.props;
+    const { query: prevQuery } = prevProps;
+    const queryChanged = !isEqual(query, prevQuery);
+
+    if (queryChanged && query.id && query.id !== 'new') this.getData();
   }
 
   getName() {
@@ -79,14 +88,14 @@ class LayoutAdminDataDetail extends PureComponent {
               <div className="column small-12">
                 <div className="page-header-content">
                   {dataset && tab !== 'datasets' &&
-                    <Breadcrumbs
+                    (<Breadcrumbs
                       items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data_detail', params: { tab: 'datasets', subtab: tab, id: dataset } }]}
-                    />
+                    />)
                   }
                   {!dataset &&
-                    <Breadcrumbs
+                    (<Breadcrumbs
                       items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data', params: { tab } }]}
-                    />
+                    />)
                   }
                   <h1>{this.getName()}</h1>
                 </div>

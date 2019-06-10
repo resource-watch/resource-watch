@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 import WidgetsIndex from './component';
 
 export default connect(
-  state => ({
-    user: state.user,
-    dataset: state.routes.query.id
-  }),
+  state => ({ user: state.user }),
   null
 )(WidgetsIndex);

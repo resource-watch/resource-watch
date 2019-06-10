@@ -54,7 +54,6 @@ class MyRWDatasets extends PureComponent {
     const { page, total, limit } = pagination;
     const nameSearchValue = (filters.find(filter => filter.key === 'name') || {}).value || '';
 
-
     const iconName = classnames({
       'icon-arrow-up': orderDirection === 'asc',
       'icon-arrow-down': orderDirection !== 'asc'

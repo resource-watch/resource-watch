@@ -174,6 +174,15 @@ The example above shows an `index.js` separating the logic from the component la
 # Authentication 🚫
 Authentication is based on [Control Tower](https://github.com/Skydipper/control-tower) plugins and several custom [passport](http://www.passportjs.org/) middlewares.
 
+# Optimization 🔎
+## Bundle Analyzer
+[Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) is a development tool that creates an interactive treemap visualization of the contents of all your bundles.
+
+To run it: `yarn bundle-analyzer`.
+
+It will run the application in production build (makes a `yarn build` internally) and open a tab in your browser displaying the bundles treemap.
+
+
 # Deploy 🛫
 You will need access to [Resource Watch Jenkins](https://jenkins.resourcewatch.org/).
 
@@ -184,7 +193,7 @@ To deploy [Resource Watch (production)](http://resourcewatch.org) you will need 
 # Documentation 📝
 Every change in the app must be documented in the `./CHANGELOG.md` file according to [keep a changelog](https://keepachangelog.com/en/1.0.0/) specs.
 
-At code level, comments must follow [JSDocs](http://usejsdoc.org/) specs.
+At code level, comments must follow [JSDocs](https://jsdoc.app) specs.
 
 # Contributing 🎁
 If you have any amazing idea for the project, please [tell us](https://github.com/resource-watch/resource-watch/issues) before develop it.

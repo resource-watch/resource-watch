@@ -22,7 +22,7 @@ export const FULLSCREEN_PAGES = [
 ];
 
 export const PAGES_WITHOUT_TOPICS = [
-  '/sign-in',
+  '/admin',
   '/embed'
 ];
 

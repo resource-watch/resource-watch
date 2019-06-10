@@ -64,7 +64,7 @@ class ForgotPassword extends PureComponent {
                       <Field
                         ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
                         onChange={value => this.setState({ email: value })}
-                        className="-fluid"
+                        className="-fluid -log-in"
                         validations={['required', 'email']}
                         properties={{
                           name: 'email',
@@ -77,7 +77,7 @@ class ForgotPassword extends PureComponent {
                         {Input}
                       </Field>
                       <div className="c-button-container form-buttons">
-                        <ul>
+                        <ul className="-log-in">
                           <li>
                             <button className="c-button -primary">
                               Reset
