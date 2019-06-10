@@ -13,13 +13,20 @@ import Checkbox from 'components/form/Checkbox';
 import Wysiwyg from 'components/form/Wysiwyg';
 
 class Step1 extends React.Component {
+  static propTypes = {
+    form: PropTypes.object,
+    onChange: PropTypes.func
+  };
+
+  static defaultProps = {
+    onChange: null,
+    form: {}
+  };
+
   constructor(props) {
     super(props);
 
-    this.state = {
-      id: props.id,
-      form: props.form
-    };
+    this.state = { form: props.form };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,7 +42,9 @@ class Step1 extends React.Component {
         <fieldset className="c-field-container">
           {/* TITLE */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.title = c;
+            }}
             onChange={value => this.props.onChange({ title: value })}
             validations={['required']}
             className="-fluid"
@@ -52,7 +61,9 @@ class Step1 extends React.Component {
 
           {/* SUMMARY */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.summary = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.summary = c;
+            }}
             onChange={value => this.props.onChange({ summary: value })}
             className="-fluid"
             properties={{
@@ -66,7 +77,9 @@ class Step1 extends React.Component {
 
           {/* DESCRIPTION */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.description = c;
+            }}
             onChange={value => this.props.onChange({ description: value })}
             className="-fluid"
             properties={{
@@ -83,7 +96,9 @@ class Step1 extends React.Component {
             <div className="row l-row">
               <div className="column small-12 medium-6">
                 <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
+                  ref={(c) => {
+                    if (c) FORM_ELEMENTS.elements.photo = c;
+                  }}
                   onChange={(value) => {
                     this.props.onChange({ photo: value });
                   }}
@@ -105,8 +120,12 @@ class Step1 extends React.Component {
 
           {/* PUBLISHED */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-            onChange={value => this.props.onChange({ published: value.checked })}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.published = c;
+            }}
+            onChange={value =>
+              this.props.onChange({ published: value.checked })
+            }
             properties={{
               name: 'published',
               label: 'Do you want to set this dasboard as published?',
@@ -123,7 +142,9 @@ class Step1 extends React.Component {
         <fieldset className="c-field-container">
           {/* CONTENT */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.content = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.content = c;
+            }}
             onChange={value => this.props.onChange({ content: value })}
             validations={['required']}
             className="-fluid"
@@ -144,9 +165,7 @@ class Step1 extends React.Component {
 }
 
 Step1.propTypes = {
-  id: PropTypes.string,
-  form: PropTypes.object,
-  onChange: PropTypes.func
+
 };
 
 export default Step1;
