@@ -36,6 +36,9 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 // utils
 import { logEvent } from 'utils/analytics';
 
+// styles
+import './styles.scss';
+
 const defaultTheme = getVegaTheme();
 
 class WidgetBlock extends PureComponent {
@@ -143,10 +146,7 @@ class WidgetBlock extends PureComponent {
     const widgetIsEmbed = widget && widget.widgetConfig && widget.widgetConfig.type === 'embed';
     const widgetEmbedUrl = widgetIsEmbed && widget.widgetConfig.url;
     const caption = metadataInfo && metadataInfo.caption;
-    const classNames = classnames({
-      'c-widget-block-card': true,
-      [`-${widgetType}`]: true
-    });
+    const componentClass = classnames('c-widget-block', { [`-${widgetType}`]: !!widgetType });
     const isInACollection = belongsToACollection(user, widget);
     const starIconName = classnames({
       'icon-star-full': isInACollection,
@@ -158,7 +158,7 @@ class WidgetBlock extends PureComponent {
     });
 
     return (
-      <div className={classNames}>
+      <div className={componentClass}>
         <header>
           <div className="header-container">
             <Title className="-default">{widget ? widget.name : '–'}</Title>
