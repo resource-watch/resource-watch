@@ -4,5 +4,6 @@ import { connect } from 'react-redux';
 import BlogFeed from './component';
 
 export default connect(
-  state => ({ ...state.blog }), null
+  state => ({ ...state.blog }),
+  null
 )(BlogFeed);
