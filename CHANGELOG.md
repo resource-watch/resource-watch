@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.3] - 2019-05-10
+### Added
+- Updates application to `next@8.1.0` [[code]](https://github.com/resource-watch/resource-watch/commit/348401322f70b3b3d88d5afdf4b190ce394ce3b0)
+### Fixed
+- Fixes a bug where topics weren't fetched landing to `/sign-in`. [[code]](https://github.com/resource-watch/resource-watch/pull/989)
+- Fixes wrong styles in forgotten password page [[code]](https://github.com/resource-watch/resource-watch/commit/7e21220a5e5935c3a90be1b0e4f3e5a0a4afaa1d)
+- Admin backoffice: fixes layers and widgets filtering  in dataset view [[code]](https://github.com/resource-watch/resource-watch/commit/b22244b4528e6f10ae83e7add4b43b6ac47443e7)
+- Admin backoffice: fixes an issue loading dataset title after widget edition [[code]](https://github.com/resource-watch/resource-watch/commit/b22244b4528e6f10ae83e7add4b43b6ac47443e7)
+- Admin backoffice: fixes an issue where owner column values weren't displayed properly. Also, fixes sorting by owner. [[code]](https://github.com/resource-watch/resource-watch/commit/254bc2606f359ba48b5743f68f528b15297a07a6)
+
+### Changed
+- Admin backoffice: changes pagination: now it renders dynamically instead of fetching all resources at the same time reducing waiting times. [[code]](https://github.com/resource-watch/resource-watch/pull/981) [[code]](https://github.com/resource-watch/resource-watch/pull/984) [[code]](https://github.com/resource-watch/resource-watch/pull/985)
+
+
 ## [2.1.2] - 2019-04-25
 ### Fixed
 - Fixed wrong fetch preventing to display the current resource name in the admin edition [[code]](https://github.com/resource-watch/resource-watch/commit/19782d29fa7b813d502bb9ac68559ef9b608084f)
@@ -61,6 +75,7 @@ component-level `constants` file. This also applies for admin header.
 ### Fixed
 - Fixed error compilation with `node-gyp` and `canvas` in Dockerfile
 adding `pango-dev`, `jpeg-dev` dependencies.
+
 ## [2.0.0] - 2019-03-13
 ### Changed
 - Updates app pages according to Next 7.0.
