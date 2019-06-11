@@ -7,7 +7,9 @@
 // Libraries
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/rc-slider/assets/index';
+@import '../node_modules/react-redux-toastr/src/styles/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
+@import '../node_modules/widget-editor/dist/styles.min';
 @import '../node_modules/vizzuality-components/dist/bundle';
 
 
@@ -33,7 +35,7 @@
 
 // Components
 // UI
-@import '../node_modules/react-redux-toastr/src/styles/index';
+
 @import "./components/ui/aside";
 @import "./components/ui/avatar";
 @import "./components/ui/breadcrumbs";
@@ -142,7 +144,6 @@
 
 
 // WIDGETS
-@import '../node_modules/widget-editor/dist/styles.min';
 @import "./components/widgets/add_widget_to_collection_tooltip";
 @import "./components/widgets/text_chart";
 @import "./components/widgets/widget_editor";
