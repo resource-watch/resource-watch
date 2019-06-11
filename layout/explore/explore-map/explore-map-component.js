@@ -41,6 +41,12 @@ import LayerInfoModal from 'components/modal/layer-info-modal';
 // utils
 import CANVAS_DECODERS from 'utils/layers/canvas-decoders';
 
+// constants
+import { LEGEND_TIMELINE_PROPERTIES } from './constants';
+
+// styles
+import './styles.scss';
+
 class ExploreMapComponent extends React.Component {
   static propTypes = {
     embed: PropTypes.bool,
@@ -383,7 +389,6 @@ class ExploreMapComponent extends React.Component {
                     <LegendItemToolbar />
                     )
                 }
-                // Actions
                 onChangeInfo={this.onChangeInfo}
                 onChangeOpacity={this.onChangeOpacity}
                 onChangeVisibility={this.onChangeVisibility}
@@ -397,7 +402,11 @@ class ExploreMapComponent extends React.Component {
                     this.onChangeLayerDate(dates, activeLayer);
                   }}
                 />
-                <LegendItemTimeline onChangeLayer={this.onChangeLayerTimeLine} />
+                <LegendItemTimeline
+                  onChangeLayer={this.onChangeLayerTimeLine}
+                  customClass="rw-legend-timeline"
+                  {...LEGEND_TIMELINE_PROPERTIES}
+                />
               </LegendListItem>
             ))}
           </Legend>
