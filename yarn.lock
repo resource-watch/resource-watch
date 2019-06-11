@@ -9080,17 +9080,6 @@ rc-pagination@1.8.8:
   dependencies:
     prop-types "^15.5.7"
 
-rc-slider@7.0.8:
-  version "7.0.8"
-  resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-7.0.8.tgz#1bdd7cbfd8ec1b6418ba55e506888bbb50159556"
-  dependencies:
-    babel-runtime "6.x"
-    classnames "^2.2.5"
-    prop-types "^15.5.4"
-    rc-tooltip "^3.4.2"
-    rc-util "^4.0.4"
-    warning "^3.0.0"
-
 rc-slider@^8.4.0:
   version "8.6.4"
   resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.6.4.tgz#b9d9000180f2b89bb71b58717753164b479fc75f"
@@ -9124,7 +9113,7 @@ rc-tooltip@3.7.0:
     prop-types "^15.5.8"
     rc-trigger "^2.2.2"
 
-rc-tooltip@^3.4.2, rc-tooltip@^3.7.0:
+rc-tooltip@^3.7.0:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/rc-tooltip/-/rc-tooltip-3.7.3.tgz#280aec6afcaa44e8dff0480fbaff9e87fc00aecc"
   dependencies:

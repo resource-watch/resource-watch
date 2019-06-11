@@ -62,7 +62,6 @@
     "prop-types": "^15.6.0",
     "query-string": "5.0.1",
     "rc-pagination": "1.8.8",
-    "rc-slider": "7.0.8",
     "rc-tooltip": "^3.7.0",
     "react": "^16.8.6",
     "react-ace": "6.0.0",
