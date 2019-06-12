@@ -1,5 +1,4 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import debounce from 'lodash/debounce';
 
 // components
@@ -7,42 +6,88 @@ import Layout from 'layout/layout/layout-app';
 import SearchInput from 'components/ui/SearchInput';
 import Spinner from 'components/ui/Spinner';
 import DatasetList from 'components/datasets/list';
+import Paginator from 'components/ui/Paginator';
+
+// services
+import { fetchDatasets } from 'services/dataset';
 
 // utils
 import { logEvent } from 'utils/analytics';
+import { DATASETS_PER_PAGE } from './constants';
 
-class CatalogLayout extends PureComponent {
-  static propTypes = {
-    list: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
-    getDatasets: PropTypes.func.isRequired,
-    setDatasetsSearch: PropTypes.func.isRequired
-  };
+class CatalogLayout extends Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    list: [],
-    loading: true
-  };
+    this.state = {
+      datasets: [],
+      loading: true,
+      search: null,
+      page: 1,
+      totalItems: 0
+    };
 
-  componentDidMount() {
-
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
-  getSearchResults = debounce((value) => {
-    const { getDatasets } = this.props;
+  componentDidMount() {
+    this.getDatasets();
+  }
 
-    logEvent('Catalog page', 'search', value);
-    getDatasets();
-  }, 500);
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.page !== nextState.page || this.state.search !== nextState.search) {
+      this.getDatasets();
+    }
+  }
 
-  handleSearch = (value) => {
-    const { setDatasetsSearch } = this.props;
-    setDatasetsSearch(value);
-    this.getSearchResults();
-  };
+  getDatasets() {
+    const { page, search } = this.state;
+
+    this.setState({ loading: true });
+
+    fetchDatasets(
+      {
+        'page[size]': DATASETS_PER_PAGE,
+        'page[number]': page,
+        status: 'saved',
+        published: true,
+        application: process.env.APPLICATIONS,
+        language: 'en',
+        includes: ['metadata', 'widget', 'layer', 'vocabulary'].join(','),
+        search,
+        sort: 'name,description'
+      },
+      {},
+      true
+    )
+      .then((result) => {
+        const { datasets, meta } = result;
+        this.setState({
+          datasets,
+          totalItems: meta['total-items'],
+          loading: false
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          loading: false
+        });
+      });
+  }
+
+  handleSearch() {
+    debounce((value) => {
+      this.setState({ search: value });
+      logEvent('Catalog page', 'search', value);
+    }, 500);
+  }
+
+  handlePageChange(page) {
+    this.setState({ page });
+  }
 
   render() {
-    const { loading, list } = this.state;
+    const { loading, datasets, page, totalItems } = this.state;
 
     return (
       <Layout
@@ -80,7 +125,17 @@ class CatalogLayout extends PureComponent {
 
             <div className="row">
               <div className="column small-12">
-                <DatasetList list={list} mode="list" />
+                <DatasetList list={datasets} mode="list" />
+              </div>
+              <div className="column small-12">
+                <Paginator
+                  options={{
+                    page,
+                    limit: DATASETS_PER_PAGE,
+                    size: totalItems
+                  }}
+                  onChange={this.handlePageChange}
+                />
               </div>
             </div>
           </div>
