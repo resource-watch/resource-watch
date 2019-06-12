@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import debounce from 'lodash/debounce';
+import { toastr } from 'react-redux-toastr';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -34,7 +35,7 @@ class CatalogLayout extends Component {
     this.getDatasets();
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentDidUpdate(nextProps, nextState) {
     if (this.state.page !== nextState.page || this.state.search !== nextState.search) {
       this.getDatasets();
     }
@@ -42,7 +43,6 @@ class CatalogLayout extends Component {
 
   getDatasets() {
     const { page, search } = this.state;
-
     this.setState({ loading: true });
 
     fetchDatasets(
@@ -69,18 +69,15 @@ class CatalogLayout extends Component {
         });
       })
       .catch((error) => {
-        this.setState({
-          loading: false
-        });
+        toastr.error('There was an error with the request', error);
+        this.setState({ loading: false });
       });
   }
 
-  handleSearch() {
-    debounce((value) => {
-      this.setState({ search: value });
-      logEvent('Catalog page', 'search', value);
-    }, 500);
-  }
+  handleSearch = debounce((value) => {
+    this.setState({ search: value });
+    logEvent('Catalog page', 'search', value);
+  }, 500);
 
   handlePageChange(page) {
     this.setState({ page });
