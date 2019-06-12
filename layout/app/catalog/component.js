@@ -19,6 +19,15 @@ class CatalogLayout extends PureComponent {
     setDatasetsSearch: PropTypes.func.isRequired
   };
 
+  state = {
+    list: [],
+    loading: true
+  };
+
+  componentDidMount() {
+
+  }
+
   getSearchResults = debounce((value) => {
     const { getDatasets } = this.props;
 
@@ -30,13 +39,10 @@ class CatalogLayout extends PureComponent {
     const { setDatasetsSearch } = this.props;
     setDatasetsSearch(value);
     this.getSearchResults();
-  }
+  };
 
   render() {
-    const {
-      loading,
-      list
-    } = this.props;
+    const { loading, list } = this.state;
 
     return (
       <Layout
@@ -68,19 +74,13 @@ class CatalogLayout extends PureComponent {
                 </div>
               </div>
               <div className="column small-12">
-                <Spinner
-                  className="-light -relative"
-                  isLoading={loading}
-                />
+                <Spinner className="-light -relative" isLoading={loading} />
               </div>
             </div>
 
             <div className="row">
               <div className="column small-12">
-                <DatasetList
-                  list={list}
-                  mode="list"
-                />
+                <DatasetList list={list} mode="list" />
               </div>
             </div>
           </div>

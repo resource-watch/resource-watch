@@ -113,9 +113,6 @@ const reducer = combineReducers({
   // Tools
   relatedTools: handleModule(relatedTools),
 
-  // Catalog
-  catalog: handleModule(catalog),
-
   // Get Involved
   getInvolvedIndex: handleModule(getInvolvedIndex),
   getInvolvedDetail: handleModule(getInvolvedDetail),
