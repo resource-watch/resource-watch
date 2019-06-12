@@ -7,7 +7,7 @@ import { fetchPosts } from 'services/blog';
 import { postParser } from 'utils/blog';
 
 // constants
-import { SPOTLIGHT_CATEGORY, ERROR_MESSAGE_FETCH_POSTS } from 'constants/blog';
+import { SPOTLIGHT_CATEGORY, ERROR_MESSAGE_FETCH_POSTS, UNCATEGORIZED_CATEGORY } from 'constants/blog';
 
 export const setLatestPosts = createAction('BLOG/SET_LATEST_POSTS');
 export const setLatestPostsError = createAction('BLOG/SET_LATEST_POSTS_ERROR');
@@ -20,7 +20,7 @@ export const getLatestPosts = createThunkAction('BLOG/GET_LATEST_POSTS', () => (
   return fetchPosts({
     _embed: true,
     per_page: 3,
-    categories_exclude: SPOTLIGHT_CATEGORY
+    categories_exclude: [SPOTLIGHT_CATEGORY, UNCATEGORIZED_CATEGORY]
   })
     .then((posts) => { dispatch(setLatestPosts(postParser(posts))); })
     .catch(() => { dispatch(setLatestPostsError(ERROR_MESSAGE_FETCH_POSTS)); });
