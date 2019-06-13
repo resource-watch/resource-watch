@@ -48,7 +48,7 @@ class CatalogLayout extends PureComponent {
         application: process.env.APPLICATIONS,
         language: 'en',
         includes: 'metadata',
-        search,
+        name: search,
         env: process.env.API_ENV,
         sort: 'name,description'
       },
