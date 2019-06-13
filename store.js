@@ -47,10 +47,6 @@ import * as layerPill from 'layout/app/pulse/layer-pill';
 import * as labelsPill from 'layout/app/pulse/labels-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
 
-// Catalog
-import * as catalog from 'layout/app/catalog';
-
-
 // Get Involved
 import * as getInvolvedIndex from 'layout/get-involved';
 import * as getInvolvedDetail from 'layout/get-involved-detail';
@@ -116,9 +112,6 @@ const reducer = combineReducers({
 
   // Tools
   relatedTools: handleModule(relatedTools),
-
-  // Catalog
-  catalog: handleModule(catalog),
 
   // Get Involved
   getInvolvedIndex: handleModule(getInvolvedIndex),
