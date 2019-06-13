@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import debounce from 'lodash/debounce';
 import { toastr } from 'react-redux-toastr';
 
@@ -16,22 +16,16 @@ import { fetchDatasets } from 'services/dataset';
 import { logEvent } from 'utils/analytics';
 import { DATASETS_PER_PAGE } from './constants';
 
-class CatalogLayout extends Component {
-  constructor(props) {
-    super(props);
+class CatalogLayout extends PureComponent {
+  state = {
+    datasets: [],
+    loading: true,
+    search: null,
+    page: 1,
+    totalItems: 0
+  };
 
-    this.state = {
-      datasets: [],
-      loading: true,
-      search: null,
-      page: 1,
-      totalItems: 0
-    };
-
-    this.handlePageChange = this.handlePageChange.bind(this);
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     this.getDatasets();
   }
 
@@ -53,8 +47,9 @@ class CatalogLayout extends Component {
         published: true,
         application: process.env.APPLICATIONS,
         language: 'en',
-        includes: ['metadata', 'widget', 'layer', 'vocabulary'].join(','),
+        includes: 'metadata',
         search,
+        env: process.env.API_ENV,
         sort: 'name,description'
       },
       {},
@@ -69,19 +64,22 @@ class CatalogLayout extends Component {
         });
       })
       .catch((error) => {
-        toastr.error('There was an error with the request', error);
+        toastr.error('There was an error with the request', error && error.message);
         this.setState({ loading: false });
       });
   }
 
   handleSearch = debounce((value) => {
-    this.setState({ search: value });
+    this.setState({
+      search: value,
+      page: 1
+    });
     logEvent('Catalog page', 'search', value);
   }, 500);
 
-  handlePageChange(page) {
+  handlePageChange = (page) => {
     this.setState({ page });
-  }
+  };
 
   render() {
     const { loading, datasets, page, totalItems } = this.state;
