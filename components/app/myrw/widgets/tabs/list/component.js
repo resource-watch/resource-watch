@@ -51,7 +51,7 @@ class MyRWWidgets extends PureComponent {
       handleWidgetRemoved,
       handleRefresh
     } = this.props;
-    const { page, size, limit } = pagination;
+    const { page, size, limit, pages } = pagination;
     const sortIcon = classnames({
       'icon-arrow-up': sort === 'asc',
       'icon-arrow-down': sort !== 'asc'
@@ -145,7 +145,7 @@ class MyRWWidgets extends PureComponent {
                         showActions
                         showRemove
                       />
-                      {!!size && (
+                      {!!size && pages > 1 && (
                         <Paginator
                           options={{
                             size,

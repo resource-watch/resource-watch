@@ -34,7 +34,7 @@ class CollectionsList extends PureComponent {
     setUserCollectionsFilter: PropTypes.func.isRequired
   };
 
-  state = { pagination: INITIAL_PAGINATION }
+  state = { pagination: INITIAL_PAGINATION };
 
   componentWillReceiveProps(nextProps) {
     const { filteredCollections } = this.props;
@@ -54,7 +54,7 @@ class CollectionsList extends PureComponent {
 
   onSearch = (value) => {
     this.props.setUserCollectionsFilter(value);
-  }
+  };
 
   onChangePage = (page) => {
     const { pagination } = this.state;
@@ -65,7 +65,7 @@ class CollectionsList extends PureComponent {
         page
       }
     });
-  }
+  };
 
   render() {
     const { routes, collections, filteredCollections, user } = this.props;

@@ -23,16 +23,18 @@ class TableFooter extends PureComponent {
 
   render() {
     const { pagination, showTotalPages } = this.props;
-    if (pagination.size > 0) {
+    const { size, pages, page, enabled } = pagination;
+
+    if (size > 0 && pages > 1) {
       return (
         <div className="table-footer">
           <Paginator
             options={pagination}
-            onChange={page => this.onChangePage(page)}
+            onChange={pageValue => this.onChangePage(pageValue)}
           />
 
-          {(pagination.enabled && showTotalPages && pagination.pages) &&
-            <div>Page <span>{pagination.page}</span> of <span>{pagination.pages}</span></div>
+          {(enabled && showTotalPages && pages) &&
+            <div>Page <span>{page}</span> of <span>{pages}</span></div>
           }
 
         </div>
