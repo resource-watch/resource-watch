@@ -155,8 +155,11 @@ class MyRWWidgets extends PureComponent {
                           onChange={(nextPage) => { handlePageChange(nextPage); }}
                         />
                       )}
-                      {(!_widgets.length && !loading && !error) && (
+                      {(!_widgets.length && !loading && !error && !search) && (
                         <div className="user-message-container">You currently have no visualizations</div>
+                      )}
+                      {(!_widgets.length && !loading && !error && search) && (
+                        <div className="user-message-container">Your search didn&apos;t return any results</div>
                       )}
 
                       {error && (
