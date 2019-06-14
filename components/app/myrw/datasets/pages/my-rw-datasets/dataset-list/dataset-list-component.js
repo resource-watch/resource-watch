@@ -18,7 +18,10 @@ class DatasetsList extends PureComponent {
     },
     datasets: [],
     filters: [],
-    loading: true
+    loading: true,
+    user: {},
+    currentTab: '',
+    getDatasetsByTab: () => null
   };
 
   static propTypes = {
@@ -47,7 +50,7 @@ class DatasetsList extends PureComponent {
 
     toastr.confirm(
       `Are you sure you want to delete the dataset: ${
-      metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name
+        metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name
       }?`,
       {
         onOk: () => {
@@ -89,17 +92,13 @@ class DatasetsList extends PureComponent {
           )}
         </div>
 
-        {!datasets.length &&
-          !loading &&
-          !filters.length && (
-            <div className="no-data-div">There are no datasets added in this collection yet</div>
-          )}
+        {!datasets.length && !loading && !filters.length && (
+          <div className="no-data-div">There are no datasets added in this collection yet</div>
+        )}
 
         <div className="c-button-container -j-center c-field-buttons">
           <Link route="explore">
-            <a className="c-button -secondary">
-              {'Explore Datasets'}
-            </a>
+            <a className="c-button -secondary">Explore Datasets</a>
           </Link>
         </div>
       </div>
