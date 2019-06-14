@@ -79,17 +79,17 @@ class DatasetsList extends PureComponent {
               />
             </div>
           ))}
-
-          {!datasets.length && (
-            <div className="text-container">
-              {!!filters.length && 'There were no datasets found with the current filter'}
-            </div>
-          )}
         </div>
-
-        {!datasets.length && !loading && !filters.length && (
-          <div className="no-data-div">There are no datasets added in this collection yet</div>
-        )}
+        {!datasets.length && (
+          <div className="no-data-div">
+            {!!filters.length && `Your search '${filters[0].value}' didn't return any results`}
+          </div>
+          )}
+        {!datasets.length &&
+          !loading &&
+          !filters.length && (
+            <div className="no-data-div">There are no datasets added in this collection yet</div>
+          )}
 
         <div className="c-button-container -j-center c-field-buttons">
           <Link route="explore">

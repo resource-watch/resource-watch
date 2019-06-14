@@ -136,7 +136,7 @@ class DashboardsList extends React.Component {
           }
           {!loading && dashboards.length === 0 && filters.length > 0 &&
             <div className="text-container">
-              There were no dashboards found with the text provided
+              { `There were no dashboards found with the text provided: '${filters[0].value}'` }
             </div>
           }
         </div>

@@ -159,7 +159,7 @@ class MyRWWidgets extends PureComponent {
                         <div className="user-message-container">You currently have no visualizations</div>
                       )}
                       {(!_widgets.length && !loading && !error && search) && (
-                        <div className="user-message-container">Your search &apos;{search}&apos; didn&apos;t return any results</div>
+                        <div className="user-message-container">{`Your search '${search}' didn't return any results`}</div>
                       )}
 
                       {error && (
