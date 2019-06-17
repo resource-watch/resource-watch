@@ -145,7 +145,7 @@ class MyRWWidgets extends PureComponent {
                         showActions
                         showRemove
                       />
-                      {!!size && pages > 1 && (
+                      {(pages > 1) && (
                         <Paginator
                           options={{
                             size,

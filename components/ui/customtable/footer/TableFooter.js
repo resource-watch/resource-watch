@@ -30,12 +30,11 @@ class TableFooter extends PureComponent {
         <div className="table-footer">
           <Paginator
             options={pagination}
-            onChange={pageValue => this.onChangePage(pageValue)}
+            onChange={(pageValue) => { this.onChangePage(pageValue); }}
           />
 
-          {(enabled && showTotalPages && pages) &&
-            <div>Page <span>{page}</span> of <span>{pages}</span></div>
-          }
+          {(enabled && showTotalPages) &&
+            (<div>Page <span>{page}</span> of <span>{pages}</span></div>)}
 
         </div>
       );
