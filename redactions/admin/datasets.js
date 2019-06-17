@@ -1,10 +1,10 @@
 import { createAction, createThunkAction } from 'redux-tools';
 
-import DatasetsService from 'services/DatasetsService';
+import { fetchDatasets } from 'services/dataset';
 
 /**
  * CONSTANTS
-*/
+ */
 const GET_DATASETS_SUCCESS = 'datasets/getDatasetsSuccess';
 const GET_DATASETS_ERROR = 'datasets/getDatasetsError';
 const GET_DATASETS_LOADING = 'datasets/getDatasetsLoading';
@@ -140,12 +140,19 @@ export const setPaginationTotal = createAction(SET_DATASETS_PAGINATION_TOTAL);
 export const setPaginationLimit = createAction(SET_DATASETS_PAGINATION_LIMIT);
 export const resetDatasets = createAction(RESET_DATASETS);
 
-export const getAllDatasets = createThunkAction('datasets/getAllDatasets', options =>
-  (dispatch, getState) => {
+export const getAllDatasets = createThunkAction(
+  'datasets/getAllDatasets',
+  options => (dispatch, getState) => {
     dispatch({ type: GET_DATASETS_LOADING });
     const { user } = getState();
 
-    return DatasetsService.getAllDatasets(user.token, { ...options })
+    return fetchDatasets(
+      { ...options.filters, includes: options.includes },
+      {
+        Authorization: user.token,
+        'Upgrade-Insecure-Requests': 1
+      }
+    )
       .then(({ data, meta }) => {
         const { 'total-items': totalItems } = meta;
         dispatch({
@@ -157,10 +164,12 @@ export const getAllDatasets = createThunkAction('datasets/getAllDatasets', optio
       .catch((err) => {
         dispatch({ type: GET_DATASETS_ERROR, payload: err.message });
       });
-  });
+  }
+);
 
-export const getDatasetsByTab = createThunkAction('datasets/getDatasetsByTab', tab =>
-  (dispatch, getState) => {
+export const getDatasetsByTab = createThunkAction(
+  'datasets/getDatasetsByTab',
+  tab => (dispatch, getState) => {
     const { user, datasets } = getState();
     const { id } = user;
     const { orderDirection, pagination, filters } = datasets.datasets;
@@ -169,7 +178,7 @@ export const getDatasetsByTab = createThunkAction('datasets/getDatasetsByTab', t
       filters: {
         'page[size]': limit,
         'page[number]': page,
-        sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt',
+        sort: orderDirection === 'asc' ? 'updatedAt' : '-updatedAt',
         name: (filters.find(filter => filter.key === 'name') || {}).value
       },
       includes: ['widget', 'layer', 'metadata', 'vocabulary'].join(',')
@@ -211,4 +220,5 @@ export const getDatasetsByTab = createThunkAction('datasets/getDatasetsByTab', t
     }
 
     dispatch(getAllDatasets({ ...options }));
-  });
+  }
+);
