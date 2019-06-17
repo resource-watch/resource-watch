@@ -19,7 +19,7 @@ export default function WidgetBlockEdition({
 
   const { tab, loading, total, page, pages, pageSize, widgets } = data;
   return (
-    <div className="c-topic-widget-edition">
+    <div className="c-dashboard-widget-edition">
       <div className="l-page">
         <div className="c-page-header -admin">
           <div className="l-container">
