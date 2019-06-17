@@ -16,20 +16,18 @@ class DatasetsList extends PureComponent {
       index: '',
       detail: ''
     },
-    datasets: [],
-    filters: [],
-    loading: true
+    currentTab: ''
   };
 
   static propTypes = {
     routes: PropTypes.object,
-    datasets: PropTypes.array,
-    filters: PropTypes.array,
-    loading: PropTypes.bool,
-    user: PropTypes.object,
+    datasets: PropTypes.array.isRequired,
+    filters: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
     currentTab: PropTypes.string,
-    getDatasetsByTab: PropTypes.func
+    getDatasetsByTab: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -47,7 +45,7 @@ class DatasetsList extends PureComponent {
 
     toastr.confirm(
       `Are you sure you want to delete the dataset: ${
-      metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name
+        metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name
       }?`,
       {
         onOk: () => {
@@ -89,17 +87,13 @@ class DatasetsList extends PureComponent {
           )}
         </div>
 
-        {!datasets.length &&
-          !loading &&
-          !filters.length && (
-            <div className="no-data-div">There are no datasets added in this collection yet</div>
-          )}
+        {!datasets.length && !loading && !filters.length && (
+          <div className="no-data-div">There are no datasets added in this collection yet</div>
+        )}
 
         <div className="c-button-container -j-center c-field-buttons">
           <Link route="explore">
-            <a className="c-button -secondary">
-              {'Explore Datasets'}
-            </a>
+            <a className="c-button -secondary">Explore Datasets</a>
           </Link>
         </div>
       </div>
