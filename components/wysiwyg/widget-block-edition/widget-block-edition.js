@@ -1,4 +1,4 @@
-import React, { createElement } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
@@ -10,9 +10,7 @@ import initialState from './widget-block-edition-default-state';
 import WidgetBlockEditionComponent from './widget-block-edition-component';
 
 // Mandatory
-export {
-  actions, reducers, initialState
-};
+export { actions, reducers, initialState };
 
 class WidgetBlockEdition extends React.Component {
   static propTypes = {

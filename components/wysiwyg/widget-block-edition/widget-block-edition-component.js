@@ -16,6 +16,8 @@ export default function WidgetBlockEdition({
   onChangeSearch = null,
   onSelectWidget = null
 }) {
+
+  const { tab, loading, total, page, pages, pageSize, widgets } = data;
   return (
     <div className="c-topic-widget-edition">
       <div className="l-page">
@@ -31,8 +33,8 @@ export default function WidgetBlockEdition({
                       { label: 'My favourites', value: 'my-favourites' },
                       { label: 'All visualizations', value: 'all-widgets' }
                     ]}
-                    defaultSelected={data.tab}
-                    selected={data.tab}
+                    defaultSelected={tab}
+                    selected={tab}
                     onChange={onChangeTab}
                   />
                 </div>
@@ -54,24 +56,26 @@ export default function WidgetBlockEdition({
                   onSearch={onChangeSearch}
                 />
 
-                <Spinner isLoading={data.loading} className="-relative -small -light" />
+                <Spinner isLoading={loading} className="-relative -small -light" />
 
                 <WidgetList
-                  widgets={data.widgets}
+                  widgets={widgets}
                   mode="grid"
                   onWidgetClick={onSelectWidget}
                   showFavourite={false}
                 />
 
-                <Paginator
-                  options={{
-                    size: data.total,
-                    page: data.page,
-                    limit: data.pageSize || 9
-                  }}
-                  onChange={onChangePage}
-                />
-
+                { pages >= 2 &&
+                  <Paginator
+                    options={{
+                      size: total,
+                      page,
+                      pages,
+                      limit: pageSize || 9
+                    }}
+                    onChange={onChangePage}
+                  />
+                }
               </div>
             </div>
           </div>
