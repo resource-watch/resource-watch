@@ -9452,12 +9452,6 @@ react-popper@^0.7.4:
     popper.js "^1.12.5"
     prop-types "^15.5.10"
 
-react-portal@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-3.2.0.tgz#4224e19b2b05d5cbe730a7ba0e34ec7585de0043"
-  dependencies:
-    prop-types "^15.5.8"
-
 react-portal@^4.1.5:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-4.2.0.tgz#5400831cdb0ae64dccb8128121cf076089ab1afd"
@@ -12341,9 +12335,10 @@ vis@^4.18.1:
     moment "^2.18.1"
     propagating-hammerjs "^1.4.6"
 
-vizz-wysiwyg@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-2.1.1.tgz#8abc929d58d9e8c7fc77e8e045109e4b2543b786"
+vizz-wysiwyg@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/vizz-wysiwyg/-/vizz-wysiwyg-2.1.2.tgz#c996399635a91191749b00ec23db6cc735bdf51d"
+  integrity sha512-uI38kc9SnC3pJMVl4++YScqCSIetV0UNnt8p2NCyP0HhRdEAKDhw1NEQog4HhkjTRL4R0Z0H0JnRugpledbrJg==
   dependencies:
     autoprefixer "6.7.6"
     babel-core "^6.26.0"
@@ -12392,7 +12387,6 @@ vizz-wysiwyg@^2.1.1:
     react-medium-editor "^1.8.1"
     react-player "^0.24.6"
     react-popper "^0.7.4"
-    react-portal "3.2.0"
     react-quill "1.1.0"
     react-redux "5.0.5"
     react-sortable-hoc "^0.6.8"
