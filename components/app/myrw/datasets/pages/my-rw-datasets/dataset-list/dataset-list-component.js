@@ -16,23 +16,18 @@ class DatasetsList extends PureComponent {
       index: '',
       detail: ''
     },
-    datasets: [],
-    filters: [],
-    loading: true,
-    user: {},
-    currentTab: '',
-    getDatasetsByTab: () => null
+    currentTab: ''
   };
 
   static propTypes = {
     routes: PropTypes.object,
-    datasets: PropTypes.array,
-    filters: PropTypes.array,
-    loading: PropTypes.bool,
-    user: PropTypes.object,
+    datasets: PropTypes.array.isRequired,
+    filters: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
     currentTab: PropTypes.string,
-    getDatasetsByTab: PropTypes.func
+    getDatasetsByTab: PropTypes.func.isRequired
   };
 
   constructor(props) {
