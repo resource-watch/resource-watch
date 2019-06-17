@@ -4,7 +4,7 @@ import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 
 // Services
-import DatasetsService from 'services/DatasetsService';
+import { deleteDataset } from 'services/dataset';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -30,18 +30,9 @@ class DatasetsList extends PureComponent {
     getDatasetsByTab: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    // service shouldn't be here.
-    this.service = new DatasetsService({
-      authorization: props.user.token,
-      language: props.locale
-    });
-  }
-
   handleDatasetDelete = (dataset) => {
     const metadata = dataset.metadata[0];
+    const { user, currentTab } = this.props;
 
     toastr.confirm(
       `Are you sure you want to delete the dataset: ${
@@ -49,11 +40,10 @@ class DatasetsList extends PureComponent {
       }?`,
       {
         onOk: () => {
-          this.service
-            .deleteData(dataset.id)
+          deleteDataset(dataset.id, user.token)
             .then(() => {
               toastr.success('Success', 'Dataset removed successfully');
-              this.props.getDatasetsByTab(this.props.currentTab);
+              this.props.getDatasetsByTab(currentTab);
             })
             .catch(err => toastr.error('Error deleting the dataset', err));
         }
