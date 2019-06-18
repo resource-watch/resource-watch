@@ -145,19 +145,21 @@ export const getAllDatasets = createThunkAction(
   options => (dispatch, getState) => {
     dispatch({ type: GET_DATASETS_LOADING });
     const { user } = getState();
-
     return fetchDatasets(
       { ...options.filters, includes: options.includes },
       {
         Authorization: user.token,
         'Upgrade-Insecure-Requests': 1
-      }
+      },
+      true
     )
-      .then(({ data, meta }) => {
+      .then((result) => {
+        const { datasets, meta } = result;
         const { 'total-items': totalItems } = meta;
+
         dispatch({
           type: GET_DATASETS_SUCCESS,
-          payload: data.map(d => ({ ...{ id: d.id, type: d.type }, ...d.attributes }))
+          payload: datasets
         });
         dispatch(setPaginationTotal(totalItems));
       })
