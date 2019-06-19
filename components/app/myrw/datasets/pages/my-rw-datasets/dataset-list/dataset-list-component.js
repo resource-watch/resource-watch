@@ -16,7 +16,7 @@ class DatasetsList extends PureComponent {
       index: '',
       detail: ''
     },
-    currentTab: ''
+    subtab: ''
   };
 
   static propTypes = {
@@ -26,13 +26,13 @@ class DatasetsList extends PureComponent {
     loading: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
-    currentTab: PropTypes.string,
+    subtab: PropTypes.string,
     getDatasetsByTab: PropTypes.func.isRequired
   };
 
   handleDatasetDelete = (dataset) => {
     const metadata = dataset.metadata[0];
-    const { user, currentTab } = this.props;
+    const { user, subtab } = this.props;
 
     toastr.confirm(
       `Are you sure you want to delete the dataset: ${
@@ -43,7 +43,7 @@ class DatasetsList extends PureComponent {
           deleteDataset(dataset.id, user.token)
             .then(() => {
               toastr.success('Success', 'Dataset removed successfully');
-              this.props.getDatasetsByTab(currentTab);
+              this.props.getDatasetsByTab(subtab);
             })
             .catch(err => toastr.error('Error deleting the dataset', err));
         }
