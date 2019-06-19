@@ -11,9 +11,7 @@ class BlogFeed extends PureComponent {
     latestPosts: PropTypes.array.isRequired,
     spotlightPosts: PropTypes.array.isRequired,
     latestPostsError: PropTypes.string,
-    spotlightPostsError: PropTypes.string,
-    getLatestPosts: PropTypes.func.isRequired,
-    getSpotlightPosts: PropTypes.func.isRequired
+    spotlightPostsError: PropTypes.string
   };
 
   static defaultProps = {

@@ -122,7 +122,6 @@ app.prepare().then(() => {
   };
 
   // Redirecting data to data/explore
-  // TODO: create data page
   server.get('/data', (req, res) => res.redirect('/data/explore'));
 
   // Authentication
@@ -131,7 +130,7 @@ app.prepare().then(() => {
     auth.authenticate({ failureRedirect: '/sign-in' }),
     (req, res) => {
       if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
-      const authRedirect = req.cookies.authUrl || '/myrw';
+      const authRedirect = req.cookies.authUrl || '/myrw/widgets/my_widgets';
 
       if (req.cookies.authUrl) {
         res.clearCookie('authUrl');
@@ -180,6 +179,9 @@ app.prepare().then(() => {
   });
 
   // authenticated routes
+  server.get('/myrw', isAuthenticated, (req, res) => {
+    res.redirect('/myrw/widgets/my_widgets');
+  });
   server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
   server.get('/myrw*?', isAuthenticated, handleUrl);
   server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
