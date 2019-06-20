@@ -19,7 +19,6 @@ import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/metadata/form/
 import Navigation from 'components/form/Navigation';
 import Step1 from 'components/datasets/metadata/form/steps/Step1';
 
-
 class MetadataForm extends React.Component {
   constructor(props) {
     super(props);
@@ -48,16 +47,13 @@ class MetadataForm extends React.Component {
     const { form } = this.state;
 
     if (dataset) {
-      fetchDataset(dataset,
-        { 
-          includes: 'metadata, layer'
-        })
+      fetchDataset(dataset, { includes: 'metadata, layer' })
         .then((result) => {
-          const { metadata, type, provider, tableName } = result;
+          const { metadata, type, provider, tableName, layer } = result;
           this.setState({
-            form: (metadata && metadata.length) ?
-              this.setFormFromParams(metadata[0]) : form,
+            form: metadata && metadata.length ? this.setFormFromParams(metadata[0]) : form,
             metadata,
+            publishedLayers: layer.filter(l => l.published),
             type: type || 'tabular',
             // Stop the loading
             loading: false
@@ -84,7 +80,7 @@ class MetadataForm extends React.Component {
               .catch((err) => {
                 this.setState({ loadingColumns: false });
               });
-          } else {
+          } else {
             this.setState({ loadingColumns: false });
           }
         })
@@ -103,7 +99,7 @@ class MetadataForm extends React.Component {
    * UI EVENTS
    * - onSubmit
    * - onChange
-  */
+   */
   onSubmit(event) {
     event.preventDefault();
 
@@ -121,25 +117,28 @@ class MetadataForm extends React.Component {
         this.setState({ submitting: true });
 
         // Check if the metadata alerady exists
-        const thereIsMetadata = Boolean(metadata.find((m) => {
-          const hasLang = m.attributes.language === form.language;
-          const hasApp = m.attributes.application === form.application;
+        const thereIsMetadata = Boolean(
+          metadata.find((m) => {
+            const hasLang = m.attributes.language === form.language;
+            const hasApp = m.attributes.application === form.application;
 
-          return hasLang && hasApp;
-        }));
+            return hasLang && hasApp;
+          })
+        );
 
         // Set the request
         const requestOptions = {
-          type: (dataset && thereIsMetadata) ? 'PATCH' : 'POST',
+          type: dataset && thereIsMetadata ? 'PATCH' : 'POST',
           omit: ['authorization']
         };
 
         // Save the data
-        this.service.saveMetadata({
-          type: requestOptions.type,
-          id: dataset,
-          body: omit(this.state.form, requestOptions.omit)
-        })
+        this.service
+          .saveMetadata({
+            type: requestOptions.type,
+            id: dataset,
+            body: omit(this.state.form, requestOptions.omit)
+          })
           .then(() => {
             toastr.success('Success', 'Metadata has been uploaded correctly');
             if (this.props.onSubmit) {
@@ -180,29 +179,40 @@ class MetadataForm extends React.Component {
   }
 
   render() {
-    const { loading, columns, type, form, loadingColumns, stepLength, submitting, step } = this.state;
+    const {
+      loading,
+      columns,
+      type,
+      form,
+      loadingColumns,
+      stepLength,
+      submitting,
+      step,
+      publishedLayers
+    } = this.state;
     return (
       <div className="c-metadata-form">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
           {loading && 'loading'}
-          {!loading &&
+          {!loading && (
             <Step1
               onChange={value => this.onChange(value)}
               columns={columns}
               type={type}
               form={form}
+              publishedLayers={publishedLayers}
               loadingColumns={loadingColumns}
             />
-          }
+          )}
 
-          {!loading &&
+          {!loading && (
             <Navigation
               step={step}
               stepLength={stepLength}
               submitting={submitting}
               onStepChange={this.onStepChange}
             />
-          }
+          )}
         </form>
       </div>
     );
@@ -219,13 +229,14 @@ MetadataForm.propTypes = {
   locale: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({
-  locale: state.common.locale
-});
+const mapStateToProps = state => ({ locale: state.common.locale });
 
 const mapDispatchToProps = {
   setSources,
   resetSources
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MetadataForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MetadataForm);

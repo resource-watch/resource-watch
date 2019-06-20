@@ -32,11 +32,14 @@ class Step1 extends React.Component {
     type: PropTypes.string,
     loadingColumns: PropTypes.bool,
     onChange: PropTypes.func,
-    toggleModal: PropTypes.func
+    toggleModal: PropTypes.func,
+    publishedLayers: PropTypes.array,
+    sources: PropTypes.array
   };
 
   static defaultProps = {
-    type: 'tabular'
+    type: 'tabular',
+    publishedLayers: []
   };
 
   componentWillReceiveProps(nextProps) {
@@ -70,7 +73,7 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { form, columns, type, sources, loadingColumns, layersOrder } = this.props;
+    const { form, columns, type, sources, loadingColumns, layersOrder, publishedLayers } = this.props;
     const isRaster = type === 'raster';
 
     const aliasColumnClass = classnames('columns', {
@@ -584,6 +587,14 @@ class Step1 extends React.Component {
           <Title className="-default -secondary">
               Published layers sorting
           </Title>
+          <div>
+            {publishedLayers.map(layer => (
+              <div>
+                <h5>{layer.name}</h5>
+                <p>{layer.description}</p>
+              </div>
+            ))}
+          </div>
         </fieldset>
       </div>
     );
