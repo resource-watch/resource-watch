@@ -1,35 +1,44 @@
 export const LEGEND_TIMELINE_PROPERTIES = {
   trackStyle: [
     { backgroundColor: 'transparent' },
-    { backgroundColor: '#F0F1F2' }
+    { backgroundColor: '#caccd0' }
   ],
-  railStyle: { backgroundColor: '#F0F1F2' },
+  railStyle: {
+    backgroundColor: '#caccd0',
+    height: 2,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
   handleStyle: [
     {
       backgroundColor: '#c32d7b',
-      width: '14px',
-      height: '14px',
-      border: 0,
-      transform: 'translate(calc(50% - 4px), 0px)'
+      width: 21,
+      height: 21,
+      borderWidth: 3,
+      borderColor: '#fff',
+      transform: 'translate(calc(-50% + 6px), calc(-50% + 12px))',
+      top: 0
     }
   ],
   dotStyle: {
-    width: 14,
-    height: 14,
-    borderColor: '#F0F1F2',
-    transform: 'translate(0, 50%)',
+    width: 16,
+    height: 16,
+    borderColor: '#caccd0',
+    transform: 'translate(calc(-50% + 4px), 50%)',
     bottom: '50%',
-    borderWidth: 3
+    borderWidth: 2
   },
   activeDotStyle: {
-    width: 14,
-    height: 14,
-    borderColor: '#F0F1F2',
-    transform: 'translate(0, 50%)',
-    bottom: '50%',
-    borderWidth: 3
+    width: 16,
+    height: 16,
+    borderColor: '#caccd0',
+    transform: 'translate(calc(-50% + 4px), 50%)',
+    bottom: '50%'
   },
   markStyle: {
+    width: 'auto',
+    margin: 0,
     fontFamily: '\'Lato\', \'Helvetica Neue\', Helvetica, Arial, sans',
     color: '#393f44'
   }
