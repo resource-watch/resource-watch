@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { setSources, resetSources } from 'redactions/admin/sources';
 
 // Service
-import DatasetsService from 'services/DatasetsService';
+import { fetchDataset } from 'services/dataset';
 
 // Contants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/metadata/form/constants';
@@ -40,22 +40,24 @@ class MetadataForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
 
-    this.service = new DatasetsService({
-      authorization: props.authorization,
-      language: props.locale
-    });
-
     this.state = newState;
   }
 
   componentDidMount() {
-    if (this.props.dataset) {
-      this.service.fetchData({ id: this.props.dataset, includes: 'metadata' })
-        .then(({ metadata, type, provider, tableName }) => {
+    const { dataset, serSources } = this.props;
+    const { form } = this.state;
+
+    if (dataset) {
+      fetchDataset(dataset,
+        { 
+          includes: 'metadata, layer'
+        })
+        .then((result) => {
+          console.log('result', result);
+          const { metadata, type, provider, tableName } = result;
           this.setState({
             form: (metadata && metadata.length) ?
-              this.setFormFromParams(metadata[0].attributes) :
-              this.state.form,
+              this.setFormFromParams(metadata[0]) : form,
             metadata,
             type: type || 'tabular',
             // Stop the loading
@@ -63,13 +65,13 @@ class MetadataForm extends React.Component {
           });
 
           if (metadata[0]) {
-            this.props.setSources(metadata[0].attributes.info.sources || []);
+            setSources(metadata[0].info.sources || []);
           }
 
           if (provider !== 'wms') {
             // fetchs column fields based on dataset type
             this.service.fetchFields({
-              id: this.props.dataset,
+              id: dataset,
               type,
               provider,
               tableName

@@ -70,7 +70,7 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { form, columns, type, sources, loadingColumns } = this.props;
+    const { form, columns, type, sources, loadingColumns, layersOrder } = this.props;
     const isRaster = type === 'raster';
 
     const aliasColumnClass = classnames('columns', {
@@ -579,6 +579,11 @@ class Step1 extends React.Component {
               ))}
             </div>
           }
+        </fieldset>
+        <fieldset className="c-field-container">
+          <Title className="-default -secondary">
+              Published layers sorting
+          </Title>
         </fieldset>
       </div>
     );
