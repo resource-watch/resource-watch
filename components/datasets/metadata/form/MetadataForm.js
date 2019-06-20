@@ -180,25 +180,26 @@ class MetadataForm extends React.Component {
   }
 
   render() {
+    const { loading, columns, type, form, loadingColumns, stepLength, submitting, step } = this.state;
     return (
       <div className="c-metadata-form">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
-          {this.state.loading && 'loading'}
-          {!this.state.loading &&
+          {loading && 'loading'}
+          {!loading &&
             <Step1
               onChange={value => this.onChange(value)}
-              columns={this.state.columns}
-              type={this.state.type}
-              form={this.state.form}
-              loadingColumns={this.state.loadingColumns}
+              columns={columns}
+              type={type}
+              form={form}
+              loadingColumns={loadingColumns}
             />
           }
 
-          {!this.state.loading &&
+          {!loading &&
             <Navigation
-              step={this.state.step}
-              stepLength={this.state.stepLength}
-              submitting={this.state.submitting}
+              step={step}
+              stepLength={stepLength}
+              submitting={submitting}
               onStepChange={this.onStepChange}
             />
           }

@@ -105,7 +105,7 @@ class Step1 extends React.Component {
               type: 'text',
               maxLength: '75',
               required: true,
-              default: this.props.form.info.name
+              default: form.info.name
             }}
           >
             {Input}
@@ -118,7 +118,7 @@ class Step1 extends React.Component {
               name: 'subtitle',
               label: 'Subtitle',
               type: 'text',
-              default: this.props.form.subtitle
+              default: form.subtitle
             }}
           >
             {Input}
@@ -133,7 +133,7 @@ class Step1 extends React.Component {
               label: 'Description',
               rows: '6',
               required: true,
-              default: this.props.form.description
+              default: form.description
             }}
           >
             {TextArea}
@@ -149,7 +149,7 @@ class Step1 extends React.Component {
               label: 'Resource Watch ID',
               type: 'text',
               required: false,
-              default: this.props.form.info.rwId
+              default: form.info.rwId
             }}
           >
             {Input}
@@ -166,7 +166,7 @@ class Step1 extends React.Component {
               type: 'text',
               disabled: true,
               required: true,
-              default: this.props.form.language || 'en',
+              default: form.language || 'en',
               instanceId: 'selectLanguage'
             }}
           >
@@ -189,7 +189,7 @@ class Step1 extends React.Component {
               label: 'Technical title',
               type: 'text',
               required: true,
-              default: this.props.form.info.technical_title
+              default: form.info.technical_title
             }}
           >
             {Input}
@@ -204,7 +204,7 @@ class Step1 extends React.Component {
               type: 'text',
               rows: '6',
               maxLength: '200',
-              default: this.props.form.info.functions
+              default: form.info.functions
             }}
           >
             {TextArea}
@@ -219,7 +219,7 @@ class Step1 extends React.Component {
               label: 'Cautions',
               type: 'text',
               rows: '6',
-              default: this.props.form.info.cautions
+              default: form.info.cautions
             }}
           >
             {TextArea}
@@ -234,7 +234,7 @@ class Step1 extends React.Component {
               label: 'Citation',
               type: 'text',
               rows: '6',
-              default: this.props.form.info.citation
+              default: form.info.citation
             }}
           >
             {TextArea}
@@ -249,7 +249,7 @@ class Step1 extends React.Component {
               label: 'Geographic Coverage',
               type: 'text',
               rows: '6',
-              default: this.props.form.info.geographic_coverage
+              default: form.info.geographic_coverage
             }}
           >
             {TextArea}
@@ -265,7 +265,7 @@ class Step1 extends React.Component {
               label: 'Spatial Resolution',
               type: 'text',
               rows: '6',
-              default: this.props.form.info.spatial_resolution
+              default: form.info.spatial_resolution
             }}
           >
             {TextArea}
@@ -279,7 +279,7 @@ class Step1 extends React.Component {
               name: 'date_of_content',
               label: 'Date of Content',
               type: 'text',
-              default: this.props.form.info.date_of_content
+              default: form.info.date_of_content
             }}
           >
             {Input}
@@ -293,7 +293,7 @@ class Step1 extends React.Component {
               name: 'frequency_of_updates',
               label: 'Frequency of Updates',
               type: 'text',
-              default: this.props.form.info.frequency_of_updates
+              default: form.info.frequency_of_updates
             }}
           >
             {Input}
@@ -307,7 +307,7 @@ class Step1 extends React.Component {
               name: 'license',
               label: 'License',
               type: 'text',
-              default: this.props.form.info.license
+              default: form.info.license
             }}
           >
             {Input}
@@ -321,7 +321,7 @@ class Step1 extends React.Component {
               name: 'license_link',
               label: 'License link',
               type: 'text',
-              default: this.props.form.info.license_link
+              default: form.info.license_link
             }}
           >
             {Input}
@@ -372,7 +372,7 @@ class Step1 extends React.Component {
               name: 'translated_title',
               label: 'Translated Title',
               type: 'text',
-              default: this.props.form.info.translated_title
+              default: form.info.translated_title
             }}
           >
             {Input}
@@ -387,7 +387,7 @@ class Step1 extends React.Component {
               label: 'Translated Function',
               type: 'text',
               rows: '6',
-              default: this.props.form.info.translated_function
+              default: form.info.translated_function
             }}
           >
             {TextArea}
@@ -402,7 +402,7 @@ class Step1 extends React.Component {
               label: 'Translated Description',
               type: 'text',
               rows: '6',
-              default: this.props.form.info.translated_description
+              default: form.info.translated_description
             }}
           >
             {TextArea}
@@ -423,7 +423,7 @@ class Step1 extends React.Component {
               name: 'learn_more_link',
               label: 'Learn More link',
               type: 'text',
-              default: this.props.form.info.learn_more_link
+              default: form.info.learn_more_link
             }}
           >
             {Input}
@@ -437,7 +437,7 @@ class Step1 extends React.Component {
               name: 'data_download_link',
               label: 'Data Download link',
               type: 'text',
-              default: this.props.form.info.data_download_link
+              default: form.info.data_download_link
             }}
           >
             {Input}
@@ -452,7 +452,7 @@ class Step1 extends React.Component {
               name: 'data_download_original_link',
               label: 'Download from Original Source link',
               type: 'text',
-              default: this.props.form.info.data_download_original_link
+              default: form.info.data_download_original_link
             }}
           >
             {Input}
@@ -511,7 +511,7 @@ class Step1 extends React.Component {
                         name: 'alias',
                         label: 'Alias',
                         type: 'text',
-                        default: (this.props.form.columns[column.name]) ? this.props.form.columns[column.name].alias : ''
+                        default: (form.columns[column.name]) ? form.columns[column.name].alias : ''
                       }}
                     >
                       {Input}
@@ -539,7 +539,7 @@ class Step1 extends React.Component {
                         name: 'description',
                         label: 'Description',
                         type: 'text',
-                        default: (this.props.form.columns[column.name]) ? this.props.form.columns[column.name].description : ''
+                        default: (form.columns[column.name]) ? form.columns[column.name].description : ''
                       }}
                     >
                       {Input}
@@ -568,7 +568,7 @@ class Step1 extends React.Component {
                         properties={{
                           name: 'type',
                           label: 'Type',
-                          default: (this.props.form.columns[column.name]) ? this.props.form.columns[column.name].type : 'continuous'
+                          default: (form.columns[column.name]) ? form.columns[column.name].type : 'continuous'
                         }}
                       >
                         {Select}
