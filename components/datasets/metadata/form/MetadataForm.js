@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { setSources, resetSources } from 'redactions/admin/sources';
 
 // Service
-import { fetchDataset } from 'services/dataset';
+import { fetchDataset, fetchFields } from 'services/dataset';
 
 // Contants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/metadata/form/constants';
@@ -53,7 +53,6 @@ class MetadataForm extends React.Component {
           includes: 'metadata, layer'
         })
         .then((result) => {
-          console.log('result', result);
           const { metadata, type, provider, tableName } = result;
           this.setState({
             form: (metadata && metadata.length) ?
@@ -70,7 +69,7 @@ class MetadataForm extends React.Component {
 
           if (provider !== 'wms') {
             // fetchs column fields based on dataset type
-            this.service.fetchFields({
+            fetchFields({
               id: dataset,
               type,
               provider,

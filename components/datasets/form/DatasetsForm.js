@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 
 // Service
 import DatasetsService from 'services/DatasetsService';
+import { fetchDataset, fetchFields } from 'services/dataset';
+
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/form/constants';
 
@@ -59,7 +61,7 @@ class DatasetsForm extends React.Component {
 
           if (provider !== 'wms') {
             // fetchs column fields based on dataset type
-            this.service.fetchFields({
+            fetchFields({
               id: this.props.dataset,
               type,
               provider,

@@ -38,7 +38,6 @@ function getFields(data = {}, provider, type) {
         type: (data.fields[field] || {}).type
       }));
   }
-
   return fields;
 }
 
