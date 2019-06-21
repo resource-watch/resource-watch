@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+// styles
+import 'components/wysiwyg/widget-block-edition/styles.scss';
+
 // components
 import Tabs from 'components/ui/Tabs';
 import Spinner from 'components/ui/Spinner';
 import Paginator from 'components/ui/Paginator';
 import SearchInput from 'components/ui/SearchInput';
 import WidgetList from 'components/widgets/list/WidgetList';
-
-// styles
-import './styles.scss';
 
 class WidgetBlockEdition extends PureComponent {
   static propTypes = {
