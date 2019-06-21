@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import compact from 'lodash/compact';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 // redux
 import { connect } from 'react-redux';
@@ -48,6 +49,10 @@ class Step1 extends React.Component {
     }
   }
 
+  onDragEndPublishedLayer() {
+
+  }
+
   changeMetadata(obj) {
     const { form } = this.props;
     let newMetadata;
@@ -73,7 +78,7 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { form, columns, type, sources, loadingColumns, layersOrder, publishedLayers } = this.props;
+    const { form, columns, type, sources, loadingColumns, publishedLayers } = this.props;
     const isRaster = type === 'raster';
 
     const aliasColumnClass = classnames('columns', {
@@ -588,12 +593,32 @@ class Step1 extends React.Component {
               Published layers sorting
           </Title>
           <div>
-            {publishedLayers.map(layer => (
-              <div>
-                <h5>{layer.name}</h5>
-                <p>{layer.description}</p>
-              </div>
-            ))}
+            <DragDropContext onDragEnd={this.onDragEndPublishedLayer}>
+              <Droppable droppableId="publishedLayersDroppable">
+                {provided => (
+                  <div
+                    innerRef={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {publishedLayers.map((layer, index) => (
+                      <Draggable draggableId={layer.id} index={index}>
+                        {prov => (
+                          <div
+                            innerRef={prov.innerRef}
+                            {...prov.draggableProps}
+                            {...prov.dragHandleProps}
+                          >
+                            <h5>{layer.name}</h5>
+                            <p>{layer.description}</p>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+
           </div>
         </fieldset>
       </div>
