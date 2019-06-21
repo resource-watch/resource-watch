@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import compact from 'lodash/compact';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+// react-dnd
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 // redux
 import { connect } from 'react-redux';
@@ -22,6 +25,7 @@ import TextArea from 'components/form/TextArea';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 import SourcesContentModal from 'components/datasets/metadata/form/SourcesContentModal';
+import PublishedLayersList from 'components/datasets/metadata/form/PublishedLayersList';
 
 // constants
 import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/datasets/metadata/form/constants';
@@ -49,7 +53,7 @@ class Step1 extends React.Component {
     }
   }
 
-  onDragEndPublishedLayer() {
+  onDragEndPublishedLayer = (result) => {
 
   }
 
@@ -593,32 +597,9 @@ class Step1 extends React.Component {
               Published layers sorting
           </Title>
           <div>
-            <DragDropContext onDragEnd={this.onDragEndPublishedLayer}>
-              <Droppable droppableId="publishedLayersDroppable">
-                {provided => (
-                  <div
-                    innerRef={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    {publishedLayers.map((layer, index) => (
-                      <Draggable draggableId={layer.id} index={index}>
-                        {prov => (
-                          <div
-                            innerRef={prov.innerRef}
-                            {...prov.draggableProps}
-                            {...prov.dragHandleProps}
-                          >
-                            <h5>{layer.name}</h5>
-                            <p>{layer.description}</p>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-
+            <DndProvider backend={HTML5Backend}>
+              <PublishedLayersList layers={publishedLayers} />
+            </DndProvider>
           </div>
         </fieldset>
       </div>

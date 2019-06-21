@@ -21,15 +21,13 @@ export const STATE_DEFAULT = {
     description: '',
     name: '',
     language: 'en',
-    info: {
-    },
+    info: {},
     columns: {}
   }
 };
 
 export const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
     const elements = this.elements;
     Object.keys(elements).forEach((k) => {
@@ -48,8 +46,7 @@ export const FORM_ELEMENTS = {
 };
 
 export const SOURCE_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
     const elements = this.elements;
     Object.keys(elements).forEach((k) => {
@@ -66,3 +63,5 @@ export const SOURCE_ELEMENTS = {
     return valid;
   }
 };
+
+export const ITEM_TYPES = { PUBLISHED_LAYER: 'published_layer' };
