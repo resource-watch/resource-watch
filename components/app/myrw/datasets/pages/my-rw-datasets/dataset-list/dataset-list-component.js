@@ -25,27 +25,26 @@ class DatasetsList extends PureComponent {
     filters: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired,
     subtab: PropTypes.string,
     getDatasetsByTab: PropTypes.func.isRequired
   };
 
   handleDatasetDelete = (dataset) => {
     const metadata = dataset.metadata[0];
-    const { user, subtab } = this.props;
+    const { user, subtab, getDatasetsByTab } = this.props;
 
     toastr.confirm(
       `Are you sure you want to delete the dataset: ${
-        metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name
+        metadata && metadata.info ? metadata.info.name : dataset.name
       }?`,
       {
         onOk: () => {
           deleteDataset(dataset.id, user.token)
             .then(() => {
               toastr.success('Success', 'Dataset removed successfully');
-              this.props.getDatasetsByTab(subtab);
+              getDatasetsByTab(subtab);
             })
-            .catch(err => toastr.error('Error deleting the dataset', err));
+            .catch(({ message }) => toastr.error('Error deleting the dataset', message));
         }
       }
     );
@@ -55,7 +54,7 @@ class DatasetsList extends PureComponent {
     const { datasets, routes, user, filters, loading } = this.props;
 
     return (
-      <div className="c-datasets-list">
+      <div className="c-myrw-datasets-list">
         {loading && <Spinner className="-light" isLoading={loading} />}
 
         <div className="l-row row list -equal-height">
