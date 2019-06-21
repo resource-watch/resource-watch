@@ -28,7 +28,8 @@ export const PAGES_WITHOUT_TOPICS = [
 
 export const PAGES_WITH_USER_COLLECTIONS = [
   '/myrw-detail/',
-  '/myrw/'
+  '/myrw/',
+  '/data/explore'
 ];
 
 export const CESIUM_ROUTES = [
