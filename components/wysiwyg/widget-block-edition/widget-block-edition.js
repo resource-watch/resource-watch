@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
@@ -12,11 +12,10 @@ import WidgetBlockEditionComponent from './widget-block-edition-component';
 // Mandatory
 export { actions, reducers, initialState };
 
-class WidgetBlockEdition extends React.Component {
+class WidgetBlockEdition extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    // Redux
     setWidgets: PropTypes.func.isRequired,
     setTab: PropTypes.func.isRequired,
     setPage: PropTypes.func.isRequired,
