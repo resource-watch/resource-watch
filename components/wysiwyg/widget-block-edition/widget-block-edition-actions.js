@@ -8,6 +8,7 @@ export const setLoading = createAction('WIDGET_BLOCK_EDITION_LOADING');
 export const setError = createAction('WIDGET_BLOCK_EDITION_ERROR');
 export const setTab = createAction('WIDGET_BLOCK_EDITION_TAB');
 export const setPage = createAction('WIDGET_BLOCK_EDITION_PAGE');
+export const setPages = createAction('WIDGET_BLOCK_EDITION_PAGES');
 export const setPageSize = createAction('WIDGET_BLOCK_EDITION_PAGE_SIZE');
 export const setTotal = createAction('WIDGET_BLOCK_EDITION_TOTAL');
 export const setSearch = createAction('WIDGET_BLOCK_EDITION_SEARCH');
@@ -41,6 +42,7 @@ export const fetchWidgets = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA',
       dispatch(setError(null));
       dispatch(setWidgets(data.map(d => ({ id: d.id, ...d.attributes }))));
       dispatch(setTotal(meta['total-items']));
+      dispatch(setPages(meta['total-pages']));
     })
     .catch((err) => {
       dispatch(setLoading(false));
