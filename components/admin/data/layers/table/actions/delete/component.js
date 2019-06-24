@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
 // services
@@ -13,7 +12,7 @@ class DeleteAction extends PureComponent {
     onRowDelete: PropTypes.func.isRequired
   };
 
-  static defaultProps = { data: {} }
+  static defaultProps = { data: {} };
 
   handleOnClickDelete = () => {
     const {
@@ -29,31 +28,22 @@ class DeleteAction extends PureComponent {
             onRowDelete(id);
             toastr.success('Success', `The layer "${id}" - "${name}" has been removed correctly`);
           })
-          .catch((err) => { toastr.error('Error', `The layer "${id}" - "${name}" was not deleted. Try again. ${err}`); });
+          .catch((err) => {
+            toastr.error(
+              'Error',
+              `The layer "${id}" - "${name}" was not deleted. Try again. ${err}`
+            );
+          });
       }
     });
-  }
+  };
 
   render() {
-    const { data: { id } } = this.props;
-
     return (
       <span>
-        <Link
-          route="admin_data_detail"
-          params={{
-            tab: 'layers',
-            id,
-            subtab: 'remove'
-          }}
-        >
-          <button
-            className="c-btn"
-            onClick={this.handleOnClickDelete}
-          >
-            Remove
-          </button>
-        </Link>
+        <button className="c-btn" onClick={this.handleOnClickDelete}>
+          Remove
+        </button>
       </span>
     );
   }
