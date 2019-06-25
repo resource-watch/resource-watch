@@ -53,7 +53,8 @@ class Step1 extends React.Component {
     const {
       user,
       layerPreview,
-      verifyLayerConfig
+      verifyLayerConfig,
+      query
     } = this.props;
 
     const { form, id } = this.state;
@@ -71,7 +72,8 @@ class Step1 extends React.Component {
               label: 'Dataset',
               type: 'text',
               required: true,
-              default: form.dataset
+              default: form.dataset || query.dataset,
+              value: form.dataset || query.dataset
             }}
           >
             {Select}
@@ -254,9 +256,13 @@ Step1.propTypes = {
   layerPreview: PropTypes.object,
   onChange: PropTypes.func,
   onChangeDataset: PropTypes.func,
-  verifyLayerConfig: PropTypes.func
+  verifyLayerConfig: PropTypes.func,
+  query: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({
+  user: state.user,
+  query: state.routes.query
+});
 
 export default connect(mapStateToProps, null)(Step1);

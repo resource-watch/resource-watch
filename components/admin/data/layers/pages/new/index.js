@@ -6,7 +6,7 @@ import LayersNew from './component';
 export default connect(
   state => ({
     user: state.user,
-    dataset: state.routes.query.id
+    dataset: state.routes.query.dataset
   }),
   null
 )(LayersNew);

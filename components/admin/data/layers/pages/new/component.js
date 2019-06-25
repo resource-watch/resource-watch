@@ -27,6 +27,7 @@ class LayersNew extends PureComponent {
       user: { token },
       dataset
     } = this.props;
+
     return (
       <div className="c-layers-new">
         <LayersForm
