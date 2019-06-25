@@ -50,12 +50,12 @@ class MetadataForm extends React.Component {
       fetchDataset(dataset, { includes: 'metadata, layer' })
         .then((result) => {
           const { metadata, type, provider, tableName, layer } = result;
-          const { publishedLayers } = metadata;
+          const { publishedLayersOrder } = metadata;
           let layers = layer.filter(l => l.published);
           // We are doing this check since most metadata objects might not have yet
           // this field initialized
-          if (publishedLayers && publishedLayers.length === layer.length) {
-            layers = publishedLayers.map(l => layers.find(e => e.id === l.id));
+          if (publishedLayersOrder && publishedLayersOrder.length === layer.length) {
+            layers = publishedLayersOrder.map(l => layers.find(e => e.id === l.id));
           }
           this.setState({
             form: metadata && metadata.length ? this.setFormFromParams(metadata[0]) : form,
@@ -117,7 +117,7 @@ class MetadataForm extends React.Component {
     setTimeout(() => {
       const valid = FORM_ELEMENTS.isValid();
       if (valid) {
-        const { dataset, onSubmit } = this.props;
+        const { dataset } = this.props;
         const { metadata, form } = this.state;
 
         // Start the submitting
@@ -148,8 +148,8 @@ class MetadataForm extends React.Component {
         })
           .then(() => {
             toastr.success('Success', 'Metadata has been uploaded correctly');
-            if (onSubmit) {
-              onSubmit();
+            if (this.props.onSubmit) {
+              this.props.onSubmit();
             }
           })
           .catch((err) => {

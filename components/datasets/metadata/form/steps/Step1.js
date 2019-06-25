@@ -620,7 +620,7 @@ class Step1 extends React.Component {
           <div>
             <PublishedLayersList
               layers={publishedLayers}
-              onChange={layers => this.changeMetadata({ publishedLayers: layers })}
+              onChange={layers => this.changeMetadata({ publishedLayersOrder: layers.map(l => l.id) })}
             />
           </div>
         </fieldset>
