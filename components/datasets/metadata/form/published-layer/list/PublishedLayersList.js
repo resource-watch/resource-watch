@@ -22,8 +22,7 @@ class PublishedLayersList extends PureComponent {
   }
 
   handleOnDragOver = (index) => {
-    const { layers } = this.state;
-    const draggedOverLayer = layers[index];
+    const draggedOverLayer = this.state.layers[index];
 
     // if the layer is dragged over itself, ignore
     if (this.draggedLayer === draggedOverLayer) {
@@ -31,12 +30,12 @@ class PublishedLayersList extends PureComponent {
     }
 
     // filter out the currently dragged item
-    const newLayers = layers.filter(layer => layer !== this.draggedLayer);
+    const layers = this.state.layers.filter(layer => layer !== this.draggedLayer);
 
     // add the dragged layer after the dragged over layer
     layers.splice(index, 0, this.draggedLayer);
 
-    this.setState({ newLayers }, () => this.props.onChange(newLayers));
+    this.setState({ layers }, () => this.props.onChange(layers));
   }
 
   render() {

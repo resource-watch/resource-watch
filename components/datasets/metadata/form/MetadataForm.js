@@ -43,17 +43,24 @@ class MetadataForm extends React.Component {
   }
 
   componentDidMount() {
-    const { dataset, serSources } = this.props;
+    const { dataset, setSources } = this.props;
     const { form } = this.state;
 
     if (dataset) {
       fetchDataset(dataset, { includes: 'metadata, layer' })
         .then((result) => {
           const { metadata, type, provider, tableName, layer } = result;
+          const { publishedLayers } = metadata;
+          let layers = layer.filter(l => l.published);
+          // We are doing this check since most metadata objects might not have yet
+          // this field initialized
+          if (publishedLayers && publishedLayers.length === layer.length) {
+            layers = publishedLayers.map(l => layers.find(e => e.id === l.id));
+          }
           this.setState({
             form: metadata && metadata.length ? this.setFormFromParams(metadata[0]) : form,
             metadata,
-            publishedLayers: layer.filter(l => l.published),
+            publishedLayers: layers,
             type: type || 'tabular',
             // Stop the loading
             loading: false
@@ -119,8 +126,8 @@ class MetadataForm extends React.Component {
         // Check if the metadata alerady exists
         const thereIsMetadata = Boolean(
           metadata.find((m) => {
-            const hasLang = m.attributes.language === form.language;
-            const hasApp = m.attributes.application === form.application;
+            const hasLang = m.language === form.language;
+            const hasApp = m.application === form.application;
 
             return hasLang && hasApp;
           })
