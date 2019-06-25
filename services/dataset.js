@@ -118,10 +118,10 @@ export const fetchFields = ({ id, provider, type, tableName }) => {
         // TO-DO: forces the API to not cache, this should be removed at some point
         'Upgrade-Insecure-Requests': 1
       }
-    })
-    .then((response) => {
-      return getFields(response.data, provider, type);
-    }).catch(({ response }) => {
+    }
+  )
+    .then(response => getFields(response.data, provider, type))
+    .catch(({ response }) => {
       const { status, statusText } = response;
 
       logger.error(`Error fetching fields ${id}: ${status}: ${statusText}`);
@@ -168,6 +168,16 @@ export const deleteDataset = (id, token) => {
     });
 };
 
+/**
+ * Updates or creates a metadata object
+ * This methods requires authentication.
+ *
+ * @param {string} type - one of the following: 'PATCH', 'POST'
+ * @param {Object} data - metadata object
+ * @param {*} id - dataset ID
+ * @param {string} token - user's token.
+ * @returns {Object} New or updated metadata object.
+ */
 export const saveMetadata = ({ type, data, id = '', token }) => {
   const headers = {
     headers: {
