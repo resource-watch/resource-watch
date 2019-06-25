@@ -63,5 +63,3 @@ export const SOURCE_ELEMENTS = {
     return valid;
   }
 };
-
-export const ITEM_TYPES = { PUBLISHED_LAYER: 'published_layer' };

@@ -4,10 +4,6 @@ import classnames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import compact from 'lodash/compact';
 
-// react-dnd
-import { DndProvider } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-
 // redux
 import { connect } from 'react-redux';
 
@@ -25,7 +21,7 @@ import TextArea from 'components/form/TextArea';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 import SourcesContentModal from 'components/datasets/metadata/form/SourcesContentModal';
-import PublishedLayersList from 'components/datasets/metadata/form/PublishedLayersList';
+import PublishedLayersList from 'components/datasets/metadata/form/published-layer/list/PublishedLayersList';
 
 // constants
 import { FORM_ELEMENTS, LANGUAGE_OPTIONS, RASTER_COLUMN_TYPES } from 'components/datasets/metadata/form/constants';
@@ -597,9 +593,7 @@ class Step1 extends React.Component {
               Published layers sorting
           </Title>
           <div>
-            <DndProvider backend={HTML5Backend}>
-              <PublishedLayersList layers={publishedLayers} />
-            </DndProvider>
+            <PublishedLayersList layers={publishedLayers} />
           </div>
         </fieldset>
       </div>
