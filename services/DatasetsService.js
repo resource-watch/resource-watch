@@ -147,32 +147,6 @@ class DatasetsService {
     });
   }
 
-  saveMetadata({ type, body, id = '' }) {
-    return new Promise((resolve, reject) => {
-      post({
-        url: `${process.env.WRI_API_URL}/dataset/${id}/metadata`,
-        type,
-        body,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: (response) => {
-          resolve({
-            ...response.data.attributes,
-            id: response.data.id
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
   deleteData(id) {
     return new Promise((resolve, reject) => {
       remove({

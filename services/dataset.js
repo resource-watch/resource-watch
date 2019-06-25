@@ -168,10 +168,39 @@ export const deleteDataset = (id, token) => {
     });
 };
 
+export const saveMetadata = ({ type, data, id = '', token }) => {
+  const headers = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    }
+  };
+  const url = `${process.env.WRI_API_URL}/dataset/${id}/metadata`;
+
+  if (type === 'POST') {
+    return WRIAPI.post(url, data, headers)
+      .then(({ response }) => response.data)
+      .catch(({ response }) => {
+        const { status, statusText } = response;
+        logger.error(`Error creating metadata for dataset ${id}: ${status}: ${statusText}`);
+        throw new Error(`Error creating metadata for dataset ${id}: ${status}: ${statusText}`);
+      });
+  } else if (type === 'PATCH') {
+    return WRIAPI.patch(url, data, headers)
+      .then(({ response }) => response.data)
+      .catch(({ response }) => {
+        const { status, statusText } = response;
+        logger.error(`Error saving metadata from dataset ${id}: ${status}: ${statusText}`);
+        throw new Error(`Error saving metadata from dataset ${id}: ${status}: ${statusText}`);
+      });
+  }
+};
+
 export default {
   fetchDatasets,
   fetchDataset,
   fetchFields,
-  deleteDataset
+  deleteDataset,
+  saveMetadata
 };
 

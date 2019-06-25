@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { setSources, resetSources } from 'redactions/admin/sources';
 
 // Service
-import { fetchDataset, fetchFields } from 'services/dataset';
+import { fetchDataset, fetchFields, saveMetadata } from 'services/dataset';
 
 // Contants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/metadata/form/constants';
@@ -117,7 +117,7 @@ class MetadataForm extends React.Component {
     setTimeout(() => {
       const valid = FORM_ELEMENTS.isValid();
       if (valid) {
-        const { dataset } = this.props;
+        const { dataset, onSubmit } = this.props;
         const { metadata, form } = this.state;
 
         // Start the submitting
@@ -140,16 +140,16 @@ class MetadataForm extends React.Component {
         };
 
         // Save the data
-        this.service
-          .saveMetadata({
-            type: requestOptions.type,
-            id: dataset,
-            body: omit(this.state.form, requestOptions.omit)
-          })
+        saveMetadata({
+          type: requestOptions.type,
+          id: dataset,
+          data: omit(form, requestOptions.omit),
+          token: form.authorization
+        })
           .then(() => {
             toastr.success('Success', 'Metadata has been uploaded correctly');
-            if (this.props.onSubmit) {
-              this.props.onSubmit();
+            if (onSubmit) {
+              onSubmit();
             }
           })
           .catch((err) => {
