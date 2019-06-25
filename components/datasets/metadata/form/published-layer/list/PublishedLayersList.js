@@ -8,20 +8,39 @@ import PublishedLayerCard from 'components/datasets/metadata/form/published-laye
 import './styles.scss';
 
 class PublishedLayersList extends PureComponent {
-
-
-  handleOnDragStart(e, index) {
-    console.log('handleDragStart', e, index);
-
+  constructor(props) {
+    super(props);
+    this.state = { layers: props.layers };
   }
 
-  handleOnDragEnd() {
-    console.log('handleOnDragEnd');
+  handleOnDragStart = (e, index) => {
+    this.draggedLayer = this.state.layers[index];
+  };
 
+  handleOnDragEnd = () => {
+    this.draggedLayer = null;
+  }
+
+  handleOnDragOver = (index) => {
+    const { layers } = this.state;
+    const draggedOverLayer = layers[index];
+
+    // if the layer is dragged over itself, ignore
+    if (this.draggedLayer === draggedOverLayer) {
+      return;
+    }
+
+    // filter out the currently dragged item
+    const newLayers = layers.filter(layer => layer !== this.draggedLayer);
+
+    // add the dragged layer after the dragged over layer
+    layers.splice(index, 0, this.draggedLayer);
+
+    this.setState({ newLayers }, () => this.props.onChange(newLayers));
   }
 
   render() {
-    const { layers } = this.props;
+    const { layers } = this.state;
     return (
       <div className="c-published-layer-list">
         {layers.map((layer, index) => (
@@ -31,6 +50,7 @@ class PublishedLayersList extends PureComponent {
             layer={layer}
             onDragStart={this.handleOnDragStart}
             onDragEnd={this.handleOnDragEnd}
+            onDragOver={this.handleOnDragOver}
           />
         ))}
       </div>
@@ -38,6 +58,9 @@ class PublishedLayersList extends PureComponent {
   }
 }
 
-PublishedLayersList.propTypes = { layers: PropTypes.array.isRequired };
+PublishedLayersList.propTypes = {
+  layers: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired
+};
 
 export default PublishedLayersList;
