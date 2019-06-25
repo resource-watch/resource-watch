@@ -1574,6 +1574,14 @@ axios@^0.18.0:
     follow-redirects "^1.3.0"
     is-buffer "^1.1.5"
 
+axios@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.0.tgz#8e09bff3d9122e133f7b8101c8fbdd00ed3d2ab8"
+  integrity sha512-1uvKqKQta3KBxIz14F2v06AEHZ/dIoeKfbTRkK1E5oqjDnuEerLmYTgJB5AiQZHJcljpg1TuRzdjDR06qNk0DQ==
+  dependencies:
+    follow-redirects "1.5.10"
+    is-buffer "^2.0.2"
+
 axobject-query@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.0.2.tgz#ea187abe5b9002b377f925d8bf7d1c561adf38f9"
@@ -5023,7 +5031,7 @@ follow-redirects@1.2.6:
   dependencies:
     debug "^3.1.0"
 
-follow-redirects@^1.3.0:
+follow-redirects@1.5.10, follow-redirects@^1.3.0:
   version "1.5.10"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
   dependencies:
@@ -6138,6 +6146,11 @@ is-binary-path@^1.0.0:
 is-buffer@^1.0.2, is-buffer@^1.1.4, is-buffer@^1.1.5:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
+
+is-buffer@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-2.0.3.tgz#4ecf3fcf749cbd1e472689e109ac66261a25e725"
+  integrity sha512-U15Q7MXTuZlrbymiz95PJpZxu8IlipAp4dtS3wOdgPXx3mqBnslrWU14kxfHB+Py/+2PVKSr37dMAgM2A4uArw==
 
 is-builtin-module@^1.0.0:
   version "1.0.0"
@@ -9146,17 +9159,6 @@ rc-pagination@1.8.8:
   dependencies:
     prop-types "^15.5.7"
 
-rc-slider@7.0.8:
-  version "7.0.8"
-  resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-7.0.8.tgz#1bdd7cbfd8ec1b6418ba55e506888bbb50159556"
-  dependencies:
-    babel-runtime "6.x"
-    classnames "^2.2.5"
-    prop-types "^15.5.4"
-    rc-tooltip "^3.4.2"
-    rc-util "^4.0.4"
-    warning "^3.0.0"
-
 rc-slider@^8.4.0:
   version "8.6.4"
   resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.6.4.tgz#b9d9000180f2b89bb71b58717753164b479fc75f"
@@ -9190,7 +9192,7 @@ rc-tooltip@3.7.0:
     prop-types "^15.5.8"
     rc-trigger "^2.2.2"
 
-rc-tooltip@^3.4.2, rc-tooltip@^3.7.0:
+rc-tooltip@^3.7.0:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/rc-tooltip/-/rc-tooltip-3.7.3.tgz#280aec6afcaa44e8dff0480fbaff9e87fc00aecc"
   dependencies:
@@ -12491,11 +12493,29 @@ vizz-wysiwyg@^2.1.2:
     uuid "3.0.1"
     validate.js "^0.12.0"
 
-vizzuality-components@^1.0.0, vizzuality-components@^1.1.1:
+vizzuality-components@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/vizzuality-components/-/vizzuality-components-1.1.1.tgz#9fb1ede4dc1bbc97c2e095b3c3afa7f0fd12b48d"
   integrity sha512-cdDv2BxR4UuOPHZjanBHolzENGz+03R6Z8HwyuAYLVOTLu3ltpmWQ3GFiWeUVF6eh69SM2IvcIjU4Jmns0Ij5A==
   dependencies:
+    classnames "^2.2.6"
+    layer-manager "^1.10.0"
+    lodash "^4.17.10"
+    moment "^2.22.2"
+    prop-types "^15.6.2"
+    rc-slider "^8.6.3"
+    rc-tooltip "3.7.0"
+    react-sortable-hoc "^0.6.8"
+    react-vega "^4.0.2"
+    vega-tooltip "^0.13.0"
+    wri-json-api-serializer "^1.0.1"
+
+vizzuality-components@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/vizzuality-components/-/vizzuality-components-1.3.0.tgz#61a7b208929dfad0035cbead87ff45da32026b07"
+  integrity sha512-+g4/I5qj742mqeXmZF5/T/ONraDQ9+ffJ6aaiIdp1LHNJM7SuMzItoCBsb6WRd0ajNOja7xzuosH+VFfGpqKUg==
+  dependencies:
+    axios "^0.19.0"
     classnames "^2.2.6"
     layer-manager "^1.10.0"
     lodash "^4.17.10"

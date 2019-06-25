@@ -16,6 +16,9 @@ export default {
   [actions.setPage]: (state, action) =>
     ({ ...state, page: action.payload }),
 
+  [actions.setPages]: (state, action) =>
+    ({ ...state, pages: action.payload }),
+
   [actions.setPageSize]: (state, action) =>
     ({ ...state, pageSize: action.payload }),
 

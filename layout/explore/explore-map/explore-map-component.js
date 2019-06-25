@@ -41,6 +41,12 @@ import LayerInfoModal from 'components/modal/layer-info-modal';
 // utils
 import CANVAS_DECODERS from 'utils/layers/canvas-decoders';
 
+// constants
+import { LEGEND_TIMELINE_PROPERTIES } from './constants';
+
+// styles
+import './styles.scss';
+
 class ExploreMapComponent extends React.Component {
   static propTypes = {
     embed: PropTypes.bool,
@@ -216,7 +222,7 @@ class ExploreMapComponent extends React.Component {
     } = this.props;
 
     return (
-      <div className="l-map -relative">
+      <div className="l-explore-map -relative">
         {/* Brand logo */}
         {embed && (
           <div className="embedded-rw-logo">
@@ -234,131 +240,129 @@ class ExploreMapComponent extends React.Component {
           .some(l => !!l) && <Spinner isLoading />}
 
         {/* Map */}
-        <div className="c-map">
-          <Map
-            mapOptions={{
-              zoom,
-              center: latLng
-            }}
-            basemap={{
-              url: basemap.value,
-              options: basemap.options
-            }}
-            label={{
-              url: labels.value,
-              options: labels.options
-            }}
-            bounds={{
-              bbox: location.bbox,
-              options: {}
-            }}
-            events={{
-              resize: debounce((e, map) => {
-                map.invalidateSize();
-              }, 250),
-              zoomend: (e, map) => {
-                this.onMapParams({
-                  zoom: map.getZoom(),
-                  latLng: map.getCenter()
-                });
-              },
-              dragend: (e, map) => {
-                this.onMapParams({
-                  zoom: map.getZoom(),
-                  latLng: map.getCenter()
-                });
-              }
-            }}
-            scrollZoomEnabled={!embed}
-            onReady={(map) => {
-              this.map = map;
-              console.info(this.map);
-            }}
-          >
-            {map => (
-              <React.Fragment>
-                {/* Controls */}
-                <MapControls customClass="c-map-controls">
-                  <ZoomControl map={map} />
+        <Map
+          mapOptions={{
+            zoom,
+            center: latLng
+          }}
+          basemap={{
+            url: basemap.value,
+            options: basemap.options
+          }}
+          label={{
+            url: labels.value,
+            options: labels.options
+          }}
+          bounds={{
+            bbox: location.bbox,
+            options: {}
+          }}
+          events={{
+            resize: debounce((e, map) => {
+              map.invalidateSize();
+            }, 250),
+            zoomend: (e, map) => {
+              this.onMapParams({
+                zoom: map.getZoom(),
+                latLng: map.getCenter()
+              });
+            },
+            dragend: (e, map) => {
+              this.onMapParams({
+                zoom: map.getZoom(),
+                latLng: map.getCenter()
+              });
+            }
+          }}
+          scrollZoomEnabled={!embed}
+          onReady={(map) => {
+            this.map = map;
+            console.info(this.map);
+          }}
+        >
+          {map => (
+            <React.Fragment>
+              {/* Controls */}
+              <MapControls customClass="c-map-controls">
+                <ZoomControl map={map} />
 
-                  {!embed && <ShareControl />}
+                {!embed && <ShareControl />}
 
-                  <BasemapControl
-                    basemap={basemap}
-                    labels={labels}
-                    boundaries={boundaries}
-                    onChangeBasemap={this.props.setMapBasemap}
-                    onChangeLabels={this.props.setMapLabels}
-                    onChangeBoundaries={this.props.setMapBoundaries}
-                  />
-                  <SearchControl />
-                </MapControls>
+                <BasemapControl
+                  basemap={basemap}
+                  labels={labels}
+                  boundaries={boundaries}
+                  onChangeBasemap={this.props.setMapBasemap}
+                  onChangeLabels={this.props.setMapLabels}
+                  onChangeBoundaries={this.props.setMapBoundaries}
+                />
+                <SearchControl />
+              </MapControls>
 
-                {/* Popup */}
-                <MapPopup
-                  map={map}
-                  latlng={layerGroupsInteractionLatLng}
-                  data={{
-                    layers: activeLayers.filter(l =>
-                      !!l.interactionConfig && !!l.interactionConfig.output
-                      && !!l.interactionConfig.output.length),
-                    layersInteraction: layerGroupsInteraction,
-                    layersInteractionSelected: layerGroupsInteractionSelected
-                  }}
-                  onReady={(popup) => {
-                    this.popup = popup;
-                  }}
-                >
-                  <LayerPopup
-                    onChangeInteractiveLayer={selected =>
-                      this.props.setMapLayerGroupsInteractionSelected(selected)}
-                  />
-                </MapPopup>
+              {/* Popup */}
+              <MapPopup
+                map={map}
+                latlng={layerGroupsInteractionLatLng}
+                data={{
+                  layers: activeLayers.filter(l =>
+                    !!l.interactionConfig && !!l.interactionConfig.output
+                    && !!l.interactionConfig.output.length),
+                  layersInteraction: layerGroupsInteraction,
+                  layersInteractionSelected: layerGroupsInteractionSelected
+                }}
+                onReady={(popup) => {
+                  this.popup = popup;
+                }}
+              >
+                <LayerPopup
+                  onChangeInteractiveLayer={selected =>
+                    this.props.setMapLayerGroupsInteractionSelected(selected)}
+                />
+              </MapPopup>
 
-                {/* LayerManager */}
-                <LayerManager map={map} plugin={PluginLeaflet}>
-                  {(activeLayers || []).map((l, i) => (
-                    <Layer
-                      {...l}
-                      key={l.id}
-                      opacity={l.opacity}
-                      zIndex={1000 - i}
-                      // Interaction
-                      {...!!l.interactionConfig &&
-                      !!l.interactionConfig.output &&
-                      !!l.interactionConfig.output.length && {
-                        interactivity:
-                          l.provider === 'carto' || l.provider === 'cartodb'
-                            ? l.interactionConfig.output.map(o => o.column)
-                            : true,
-                        events: {
-                          click: (e) => {
-                            if (this.props.setMapLayerGroupsInteraction) {
-                              this.props.setMapLayerGroupsInteraction({
-                                ...e,
-                                ...l
-                              });
-                            }
-                            if (this.props.setMapLayerGroupsInteractionLatLng) {
-                              this.props.setMapLayerGroupsInteractionLatLng(e.latlng);
-                            }
+              {/* LayerManager */}
+              <LayerManager map={map} plugin={PluginLeaflet}>
+                {(activeLayers || []).map((l, i) => (
+                  <Layer
+                    {...l}
+                    key={l.id}
+                    opacity={l.opacity}
+                    zIndex={1000 - i}
+                    // Interaction
+                    {...!!l.interactionConfig &&
+                    !!l.interactionConfig.output &&
+                    !!l.interactionConfig.output.length && {
+                      interactivity:
+                        l.provider === 'carto' || l.provider === 'cartodb'
+                          ? l.interactionConfig.output.map(o => o.column)
+                          : true,
+                      events: {
+                        click: (e) => {
+                          if (this.props.setMapLayerGroupsInteraction) {
+                            this.props.setMapLayerGroupsInteraction({
+                              ...e,
+                              ...l
+                            });
+                          }
+                          if (this.props.setMapLayerGroupsInteractionLatLng) {
+                            this.props.setMapLayerGroupsInteractionLatLng(e.latlng);
                           }
                         }
                       }
-                      }
-                      {...l.params && { params: l.params }}
-                      {...l.sqlParams && { sqlParams: l.sqlParams }}
-                      {...l.decodeParams && { decodeParams: l.decodeParams }}
-                      {...(l.layerConfig.decoder && CANVAS_DECODERS[l.layerConfig.decoder]) &&
-                        { decodeFunction: CANVAS_DECODERS[l.layerConfig.decoder] }}
-                    />
-                  ))
-                  }
-                </LayerManager>
-              </React.Fragment>
-            )}
-          </Map>
-        </div>
+                    }
+                    }
+                    {...l.params && { params: l.params }}
+                    {...l.sqlParams && { sqlParams: l.sqlParams }}
+                    {...l.decodeParams && { decodeParams: l.decodeParams }}
+                    {...(l.layerConfig.decoder && CANVAS_DECODERS[l.layerConfig.decoder]) &&
+                      { decodeFunction: CANVAS_DECODERS[l.layerConfig.decoder] }}
+                  />
+                ))
+                }
+              </LayerManager>
+            </React.Fragment>
+          )}
+        </Map>
 
         {/* LEGEND */}
         <div className="c-legend-map">
@@ -383,7 +387,6 @@ class ExploreMapComponent extends React.Component {
                     <LegendItemToolbar />
                     )
                 }
-                // Actions
                 onChangeInfo={this.onChangeInfo}
                 onChangeOpacity={this.onChangeOpacity}
                 onChangeVisibility={this.onChangeVisibility}
@@ -397,7 +400,11 @@ class ExploreMapComponent extends React.Component {
                     this.onChangeLayerDate(dates, activeLayer);
                   }}
                 />
-                <LegendItemTimeline onChangeLayer={this.onChangeLayerTimeLine} />
+                <LegendItemTimeline
+                  onChangeLayer={this.onChangeLayerTimeLine}
+                  customClass="rw-legend-timeline"
+                  {...LEGEND_TIMELINE_PROPERTIES}
+                />
               </LegendListItem>
             ))}
           </Legend>
