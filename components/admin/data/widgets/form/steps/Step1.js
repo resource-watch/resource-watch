@@ -34,7 +34,8 @@ class Step1 extends Component {
     onChange: PropTypes.func,
     onModeChange: PropTypes.func,
     showEditor: PropTypes.bool,
-    onGetWidgetConfig: PropTypes.func
+    onGetWidgetConfig: PropTypes.func,
+    query: PropTypes.object.isRequired
   };
 
   static defaultProps = { showEditor: true }
@@ -45,7 +46,7 @@ class Step1 extends Component {
     this.state = {
       id: props.id,
       form: props.form,
-      loadingVegaChart: false,
+      loadingVegaChart: false
     };
 
     // ------------------- BINDINGS ---------------------------
@@ -94,7 +95,7 @@ class Step1 extends Component {
 
   render() {
     const { id, loadingVegaChart } = this.state;
-    const { user, showEditor } = this.props;
+    const { user, showEditor, query } = this.props;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -118,8 +119,8 @@ class Step1 extends Component {
             properties={{
               name: 'dataset',
               label: 'Dataset',
-              default: this.state.form.dataset,
-              value: this.state.form.dataset,
+              default: query.dataset,
+              value: this.state.form.dataset || query.dataset,
               disabled: !!id,
               required: true,
               instanceId: 'selectDataset'
@@ -359,6 +360,9 @@ class Step1 extends Component {
   }
 }
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({
+  user: state.user,
+  query: state.routes.query
+});
 
 export default connect(mapStateToProps, null)(Step1);
