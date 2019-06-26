@@ -15,17 +15,7 @@ class WidgetsShow extends PureComponent {
     user: PropTypes.object.isRequired
   }
 
-  handleSubmit = (widget) => {
-    if (widget) {
-      Router.pushRoute('admin_data_detail', {
-        tab: 'datasets',
-        subtab: 'widgets',
-        id: widget.dataset
-      });
-    } else {
-      Router.pushRoute('admin_data', { tab: 'widgets' });
-    }
-  }
+  handleSubmit = () => { window.scrollTo(0, 0); }
 
   render() {
     const {
