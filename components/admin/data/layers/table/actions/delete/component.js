@@ -12,7 +12,7 @@ class DeleteAction extends PureComponent {
     onRowDelete: PropTypes.func.isRequired
   };
 
-  static defaultProps = { data: {} };
+  static defaultProps = { data: {} }
 
   handleOnClickDelete = () => {
     const {
@@ -31,20 +31,22 @@ class DeleteAction extends PureComponent {
           .catch((err) => {
             toastr.error(
               'Error',
-              `The layer "${id}" - "${name}" was not deleted. Try again. ${err}`
+              `The layer "${id}" - "${name}" was not deleted. Try again. ${err.message}`
             );
           });
       }
     });
-  };
+  }
 
   render() {
     return (
-      <span>
-        <button className="c-btn" onClick={this.handleOnClickDelete}>
-          Remove
-        </button>
-      </span>
+      <button
+        type="button"
+        className="c-btn"
+        onClick={this.handleOnClickDelete}
+      >
+        Remove
+      </button>
     );
   }
 }
