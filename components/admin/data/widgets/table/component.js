@@ -208,8 +208,6 @@ class WidgetsTable extends PureComponent {
     } = this.state;
     const { dataset } = this.props;
 
-    const { dataset } = this.props;
-
     return (
       <div className="c-widgets-table">
         <Spinner className="-light" isLoading={loading} />
