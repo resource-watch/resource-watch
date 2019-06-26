@@ -8,6 +8,11 @@ import PublishedLayerCard from 'components/datasets/metadata/form/published-laye
 import './styles.scss';
 
 class PublishedLayersList extends PureComponent {
+  propTypes = {
+    layers: PropTypes.array.isRequired,
+    onChange: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.state = { layers: props.layers };
@@ -56,10 +61,5 @@ class PublishedLayersList extends PureComponent {
     );
   }
 }
-
-PublishedLayersList.propTypes = {
-  layers: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired
-};
 
 export default PublishedLayersList;
