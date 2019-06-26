@@ -209,6 +209,8 @@ class LayersTable extends PureComponent {
     } = this.state;
     const { dataset } = this.props;
 
+    const { dataset } = this.props;
+
     return (
       <div className="c-layer-table">
         <Spinner
@@ -245,7 +247,7 @@ class LayersTable extends PureComponent {
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
+                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'edit', id: '{{id}}', dataset }, show: true, component: EditAction },
                 { name: 'Remove', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'remove', id: '{{id}}' }, component: DeleteAction },
                 { name: 'Go to dataset', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, component: GoToDatasetAction }
               ]
