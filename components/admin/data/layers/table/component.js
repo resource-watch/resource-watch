@@ -207,6 +207,7 @@ class LayersTable extends PureComponent {
       layers,
       error
     } = this.state;
+    const { dataset } = this.props;
 
     return (
       <div className="c-layer-table">
@@ -226,7 +227,8 @@ class LayersTable extends PureComponent {
             route: 'admin_data_detail',
             params: {
               tab: 'layers',
-              id: 'new'
+              id: 'new',
+              dataset
             }
           }}
           onSearch={this.onSearch}
