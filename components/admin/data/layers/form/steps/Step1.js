@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -19,7 +19,24 @@ import Code from 'components/form/Code';
 import InteractionsComponent from '../interactions/interactions-component';
 import LayerPreviewComponent from '../layer-preview';
 
-class Step1 extends React.Component {
+class Step1 extends PureComponent {
+  static propTypes = {
+    id: PropTypes.string,
+    user: PropTypes.object.isRequired,
+    form: PropTypes.object.isRequired,
+    layerPreview: PropTypes.object.isRequired,
+    datasets: PropTypes.array,
+    onChange: PropTypes.func.isRequired,
+    onChangeDataset: PropTypes.func.isRequired,
+    verifyLayerConfig: PropTypes.func.isRequired,
+    query: PropTypes.object.isRequired
+  }
+
+  static defaultProps = {
+    id: null,
+    datasets: []
+  }
+
   constructor(props) {
     super(props);
 
@@ -237,28 +254,10 @@ class Step1 extends React.Component {
         >
           {Checkbox}
         </Field>
-
-
       </fieldset>
     );
   }
 }
-
-Step1.defaultPropTypes = {
-  datasets: []
-};
-
-Step1.propTypes = {
-  id: PropTypes.string,
-  user: PropTypes.object,
-  datasets: PropTypes.array,
-  form: PropTypes.object,
-  layerPreview: PropTypes.object,
-  onChange: PropTypes.func,
-  onChangeDataset: PropTypes.func,
-  verifyLayerConfig: PropTypes.func,
-  query: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
   user: state.user,
