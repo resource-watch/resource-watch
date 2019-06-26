@@ -84,17 +84,16 @@ class WidgetForm extends PureComponent {
             ? 'advanced'
             : 'editor';
         this.setState({
-          // CURRENT DASHBOARD
+          // current widget
           form: id ? this.setFormFromParams(current) : this.state.form,
           loading: false,
           mode,
-          // OPTIONS
-          datasets: datasets.map(p => ({
-            label: p.name,
-            value: p.id,
-            type: p.type,
-            tableName: p.tableName,
-            slug: p.slug
+          datasets: datasets.map(_dataset => ({
+            label: _dataset.name,
+            value: _dataset.id,
+            type: _dataset.type,
+            tableName: _dataset.tableName,
+            slug: _dataset.slug
           }))
         });
       })
