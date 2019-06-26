@@ -209,9 +209,6 @@ class LayersTable extends PureComponent {
     } = this.state;
 
     const { dataset } = this.props;
-    console.log('dataset', dataset
-    );
-
 
     return (
       <div className="c-layer-table">
