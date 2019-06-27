@@ -84,12 +84,6 @@ class HeadApp extends PureComponent {
     return null;
   }
 
-  getAFrame() {
-    const { routes: { pathname } } = this.props;
-    if (pathname === '/splash') return <script src="/static/aframe/aframe.min.js" />;
-    return null;
-  }
-
   render() {
     const {
       title,
@@ -126,7 +120,6 @@ class HeadApp extends PureComponent {
         {this.getCesium()}
         {this.getCrazyEgg()}
         {this.getUserReport()}
-        {this.getAFrame()}
       </HeadNext>
     );
   }

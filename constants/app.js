@@ -11,13 +11,11 @@ export const TRANSIFEX_BLACKLIST = [
 ];
 
 export const USERREPORT_BLACKLIST = [
-  '/app/splash'
 ];
 
 export const FULLSCREEN_PAGES = [
   '/data/explore',
   '/data/pulse',
-  '/splash',
   '/sign-in'
 ];
 
@@ -33,8 +31,7 @@ export const PAGES_WITH_USER_COLLECTIONS = [
 ];
 
 export const CESIUM_ROUTES = [
-  '/data/pulse',
-  '/splash'
+  '/data/pulse'
 ];
 
 export default {
