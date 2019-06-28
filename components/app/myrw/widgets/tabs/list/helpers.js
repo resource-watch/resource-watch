@@ -4,7 +4,10 @@ export const getQueryParams = (state = {}, props) => {
     pagination,
     search
   } = state;
-  const { subtab } = props;
+  const {
+    user: { id },
+    subtab
+  } = props;
   const { page, limit } = pagination;
   const isCollection = !['my_widgets', 'favourites'].includes(subtab);
 
@@ -14,6 +17,7 @@ export const getQueryParams = (state = {}, props) => {
     sort: sort === 'asc' ? 'updatedAt' : '-updatedAt',
     ...search && search.length && { name: search },
     ...subtab === 'favourites' && { favourite: true },
+    ...(subtab !== 'favourites' && !isCollection) && { userId: id },
     ...isCollection && { collection: subtab }
   });
 };
