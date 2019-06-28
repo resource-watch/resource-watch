@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
 
 // constants
-import {
-  CESIUM_ROUTES,
-  USERREPORT_BLACKLIST
-} from 'constants/app';
+import { CESIUM_ROUTES } from 'constants/app';
 
 class HeadApp extends PureComponent {
   static propTypes = {
@@ -37,10 +34,6 @@ class HeadApp extends PureComponent {
   }
 
   getUserReport() {
-    const { routes: { pathname } } = this.props;
-
-    if (USERREPORT_BLACKLIST.includes(pathname)) return null;
-
     if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
       return (
         <script

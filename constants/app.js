@@ -10,9 +10,6 @@ export const TRANSIFEX_BLACKLIST = [
   '/app/explore/embed'
 ];
 
-export const USERREPORT_BLACKLIST = [
-];
-
 export const FULLSCREEN_PAGES = [
   '/data/explore',
   '/data/pulse',
@@ -36,7 +33,6 @@ export const CESIUM_ROUTES = [
 
 export default {
   TRANSIFEX_BLACKLIST,
-  USERREPORT_BLACKLIST,
   FULLSCREEN_PAGES,
   PAGES_WITHOUT_TOPICS,
   PAGES_WITH_USER_COLLECTIONS,
