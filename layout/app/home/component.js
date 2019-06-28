@@ -187,7 +187,7 @@ class LayoutHome extends PureComponent {
 
               <Link
                 route="get_involved_detail"
-                params={{ id: 'submit-an-insight', source: 'home' }}
+                params={{ id: 'suggest-a-story', source: 'home' }}
               >
                 <a className="c-btn -b -alt">Suggest a story</a>
               </Link>
