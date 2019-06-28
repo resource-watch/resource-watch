@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
 
 // constants
-import {
-  CESIUM_ROUTES,
-  USERREPORT_BLACKLIST
-} from 'constants/app';
+import { CESIUM_ROUTES } from 'constants/app';
 
 class HeadApp extends PureComponent {
   static propTypes = {
@@ -37,10 +34,6 @@ class HeadApp extends PureComponent {
   }
 
   getUserReport() {
-    const { routes: { pathname } } = this.props;
-
-    if (USERREPORT_BLACKLIST.includes(pathname)) return null;
-
     if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
       return (
         <script
@@ -84,12 +77,6 @@ class HeadApp extends PureComponent {
     return null;
   }
 
-  getAFrame() {
-    const { routes: { pathname } } = this.props;
-    if (pathname === '/splash') return <script src="/static/aframe/aframe.min.js" />;
-    return null;
-  }
-
   render() {
     const {
       title,
@@ -126,7 +113,6 @@ class HeadApp extends PureComponent {
         {this.getCesium()}
         {this.getCrazyEgg()}
         {this.getUserReport()}
-        {this.getAFrame()}
       </HeadNext>
     );
   }
