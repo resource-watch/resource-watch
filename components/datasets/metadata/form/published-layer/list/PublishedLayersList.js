@@ -13,10 +13,7 @@ class PublishedLayersList extends PureComponent {
     onChange: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props);
-    this.state = { layers: props.layers };
-  }
+  state = { layers: this.props.layers }
 
   handleOnDragStart = (e, index) => {
     this.draggedLayer = this.state.layers[index];
