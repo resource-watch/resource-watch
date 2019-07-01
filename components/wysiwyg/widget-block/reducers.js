@@ -1,4 +1,4 @@
-import * as actions from './widget-block-actions';
+import * as actions from './actions';
 
 const defaultWidget = {
   widget: {},

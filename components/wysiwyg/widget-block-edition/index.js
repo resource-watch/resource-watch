@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 import { connect } from 'react-redux';
-import * as actions from './widget-block-edition-actions';
-import * as reducers from './widget-block-edition-reducers';
-import initialState from './widget-block-edition-default-state';
+import * as actions from './actions';
+import * as reducers from './reducers';
+import initialState from './default-state';
 
-import WidgetBlockEditionComponent from './widget-block-edition-component';
+import WidgetBlockEditionComponent from './component';
 
 // Mandatory
 export { actions, reducers, initialState };

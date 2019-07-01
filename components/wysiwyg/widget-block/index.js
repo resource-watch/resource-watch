@@ -6,11 +6,11 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 
 import { connect } from 'react-redux';
 
-import * as actions from './widget-block-actions';
-import * as reducers from './widget-block-reducers';
-import initialState from './widget-block-default-state';
+import * as actions from './actions';
+import * as reducers from './reducers';
+import initialState from './default-state';
 
-import WidgetBlockComponent from './widget-block-component';
+import WidgetBlockComponent from './component';
 
 // mandatory
 export { actions, reducers, initialState };

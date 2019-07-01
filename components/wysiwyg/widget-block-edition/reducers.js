@@ -1,4 +1,4 @@
-import * as actions from './widget-block-edition-actions';
+import * as actions from './actions';
 
 export default {
   [actions.setWidgets]: (state, action) =>
