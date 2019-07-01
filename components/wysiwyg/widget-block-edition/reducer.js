@@ -1,32 +1,37 @@
-import * as actions from './actions';
+import {
+  SET_WIDGETS,
+  SET_LOADING,
+  SET_ERROR,
+  SET_TAB,
+  SET_PAGE,
+  SET_PAGES,
+  SET_PAGE_SIZE,
+  SET_TOTAL,
+  SET_SEARCH
+} from './actions';
 
-export default {
-  [actions.setWidgets]: (state, action) =>
-    ({ ...state, widgets: action.payload }),
+export default (state, { type, payload }) => {
+  switch (type) {
+    case SET_WIDGETS:
+      return { ...state, widgets: payload };
+    case SET_LOADING:
+      return { ...state, loading: payload };
+    case SET_ERROR:
+      return { ...state, error: payload };
+    case SET_TAB:
+      return { ...state, tab: payload };
+    case SET_PAGE:
+      return { ...state, page: payload };
+    case SET_PAGES:
+      return { ...state, pages: payload };
+    case SET_PAGE_SIZE:
+      return { ...state, pageSize: payload };
+    case SET_TOTAL:
+      return { ...state, total: payload };
+    case SET_SEARCH:
+      return { ...state, search: payload };
 
-  [actions.setLoading]: (state, action) =>
-    ({ ...state, loading: action.payload }),
-
-  [actions.setError]: (state, action) =>
-    ({ ...state, error: action.payload }),
-
-  [actions.setTab]: (state, action) =>
-    ({ ...state, tab: action.payload }),
-
-  [actions.setPage]: (state, action) =>
-    ({ ...state, page: action.payload }),
-
-  [actions.setPages]: (state, action) =>
-    ({ ...state, pages: action.payload }),
-
-  [actions.setPageSize]: (state, action) =>
-    ({ ...state, pageSize: action.payload }),
-
-  [actions.setTotal]: (state, action) =>
-    ({ ...state, total: action.payload }),
-
-  [actions.setSearch]: (state, action) =>
-    ({ ...state, search: action.payload })
-
-
+    default:
+      throw new Error('action not found');
+  }
 };
