@@ -18,8 +18,8 @@ import * as search from 'layout/search';
 import * as shareModal from 'components/modal/share-modal';
 
 // Dashboard
-import * as widgetBlockModule from 'components/wysiwyg/widget-block/widget-block';
-import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-edition/widget-block-edition';
+import * as widgetBlockModule from 'components/wysiwyg/widget-block';
+import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-edition';
 
 // Dataset
 import * as datasetListItem from 'components/datasets/list/list-item';
