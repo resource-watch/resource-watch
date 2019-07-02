@@ -59,3 +59,15 @@ export const fetchWidgets = createThunkAction('WIDGET_BLOCK_EDITION_FETCH_DATA',
       dispatch(setError(err));
     });
 });
+
+export default {
+  setWidgets,
+  setLoading,
+  setError,
+  setTab,
+  setPage,
+  setPages,
+  setPageSize,
+  setTotal,
+  setSearch
+};
