@@ -11,6 +11,7 @@ import {
 } from './actions';
 
 export default (state, { type, payload }) => {
+  console.log('type', type, 'payload', payload);
   switch (type) {
     case SET_WIDGETS:
       return { ...state, widgets: payload };

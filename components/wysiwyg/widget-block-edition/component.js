@@ -13,21 +13,29 @@ import WidgetList from 'components/widgets/list/WidgetList';
 
 class WidgetBlockEdition extends PureComponent {
   static propTypes = {
-    data: PropTypes.object.isRequired,
     onChangeTab: PropTypes.func.isRequired,
     onChangePage: PropTypes.func.isRequired,
     onChangeSearch: PropTypes.func.isRequired,
     onSelectWidget: PropTypes.func.isRequired
-  }
+  };
 
   render() {
     const {
-      data: { tab, loading, total, page, pages, pageSize, widgets },
+      tab,
+      loading,
+      total,
+      page,
+      pages,
+      pageSize,
+      widgets,
       onChangeTab,
       onChangePage,
       onChangeSearch,
       onSelectWidget
     } = this.props;
+
+    console.log('this.props', this.props);
+
 
     return (
       <div className="c-dashboard-widget-edition">
@@ -74,7 +82,7 @@ class WidgetBlockEdition extends PureComponent {
                       showFavourite={false}
                     />
 
-                    {pages > 1 &&
+                    {pages > 1 && (
                       <Paginator
                         options={{
                           size: total,
@@ -84,7 +92,7 @@ class WidgetBlockEdition extends PureComponent {
                         }}
                         onChange={onChangePage}
                       />
-                    }
+                    )}
                   </div>
                 </div>
               </div>
