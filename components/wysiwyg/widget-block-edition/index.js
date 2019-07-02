@@ -30,14 +30,12 @@ const WidgetBlockEdition = (props) => {
   useEffect(() => {
     fetchWidgets(
       {
-        filters: {
-          ...(tab === 'my-widgets' && { userId: user.id }),
-          ...(tab === 'my-favourites' && { favourite: true }),
-          ...(!!search && { name: search }),
-          'page[number]': page
-        }
+        ...(tab === 'my-widgets' && { userId: user.id }),
+        ...(tab === 'my-favourites' && { favourite: true }),
+        ...(!!search && { name: search }),
+        'page[number]': page
       },
-      { Authorization: user.id },
+      { Authorization: user.token },
       true
     )
       .then(({ widgets, meta }) => {
