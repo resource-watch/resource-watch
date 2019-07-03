@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { Router, Link } from 'routes';
 import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
 import truncate from 'lodash/truncate';
@@ -40,7 +40,6 @@ import LoginRequired from 'components/ui/login-required';
 
 // Services
 import WidgetService from 'services/WidgetService';
-import UserService from 'services/UserService';
 import { fetchLayer } from 'services/LayersService';
 
 // helpers
@@ -64,8 +63,9 @@ class WidgetCard extends PureComponent {
     showEmbed: PropTypes.bool,
     showFavourite: PropTypes.bool,
     mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
-    onWidgetClick: PropTypes.func,
-    onWidgetRemove: PropTypes.func,
+    onWidgetClick: PropTypes.func.isRequired,
+    onWidgetRemove: PropTypes.func.isRequired,
+    limitChar: PropTypes.number,
     user: PropTypes.object.isRequired,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
@@ -154,24 +154,14 @@ class WidgetCard extends PureComponent {
     super(props);
 
     // Services
-    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
     this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
+  }
 
-    this.state = {
-      loading: false,
-      error: null,
-      layer: null, // Info about the eventual layer
-      layerGroups: []
-    };
-
-    // ---------------------- Bindings --------------------------
-    this.handleRemoveWidget = this.handleRemoveWidget.bind(this);
-    this.handleEmbed = this.handleEmbed.bind(this);
-    this.handleAddToDashboard = this.handleAddToDashboard.bind(this);
-    this.handleEditWidget = this.handleEditWidget.bind(this);
-    this.handleGoToDataset = this.handleGoToDataset.bind(this);
-    this.handleDownloadPDF = this.handleDownloadPDF.bind(this);
-    // ----------------------------------------------------------
+  state = {
+    loading: false,
+    error: null,
+    layer: null, // Info about the eventual layer
+    layerGroups: []
   }
 
   componentDidMount() {
@@ -377,18 +367,19 @@ class WidgetCard extends PureComponent {
   * - handleRemoveWidget
   * - handleClick
   */
-  handleRemoveWidget() {
-    const widgetId = this.props.widget.id;
-    const widgetName = this.props.widget.name;
+  handleRemoveVisualization = () => {
+    const { widget, user, onWidgetRemove } = this.props;
+    const widgetId = widget.id;
+    const widgetName = widget.name;
     // eslint-disable-next-line no-alert
     if (confirm(`Are you sure you want to remove the visualization: ${widgetName}?`)) {
-      this.widgetService.removeUserWidget(widgetId, this.props.user.token)
-        .then(() => this.props.onWidgetRemove())
+      this.widgetService.removeUserWidget(widgetId, user.token)
+        .then(() => onWidgetRemove())
         .catch(err => toastr.error('Error', err));
     }
   }
 
-  handleEmbed() {
+  handleEmbed = () => {
     const { widget: { id, widgetConfig } } = this.props;
     const widgetType = widgetConfig.type || 'widget';
     const location = typeof window !== 'undefined' && window.location;
@@ -413,19 +404,19 @@ class WidgetCard extends PureComponent {
     this.props.setModalOptions(options);
   }
 
-  handleAddToDashboard() { // eslint-disable-line class-methods-use-this
+  handleAddToDashboard = () => { // eslint-disable-line class-methods-use-this
     // TO-DO implement this
   }
 
-  handleEditWidget() {
+  handleEditWidget = () => {
     Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: this.props.widget.id });
   }
 
-  handleGoToDataset() {
+  handleGoToDataset = () => {
     Router.pushRoute('explore_detail', { id: this.props.widget.dataset });
   }
 
-  handleDownloadPDF() {
+  handleDownloadPDF = () => {
     toastr.info('Widget download', 'The file is being generated...');
 
     const { widget: { id, name, widgetConfig } } = this.props;
@@ -443,7 +434,7 @@ class WidgetCard extends PureComponent {
     link.dispatchEvent(event);
   }
 
-  handleWidgetActionsClick(event, isWidgetOwner) {
+  handleWidgetActionsClick = (event, isWidgetOwner) => {
     const { widget } = this.props;
     const widgetAtts = widget;
     const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
@@ -461,6 +452,7 @@ class WidgetCard extends PureComponent {
         onGoToDataset: this.handleGoToDataset,
         onEditWidget: this.handleEditWidget,
         onDownloadPDF: this.handleDownloadPDF,
+        onRemove: this.handleRemoveVisualization,
         widgetLinks,
         isWidgetOwner
       }
@@ -542,25 +534,15 @@ class WidgetCard extends PureComponent {
                   className="c-button -secondary widget-actions"
                   onClick={e => this.handleWidgetActionsClick(e, (widget.userId === user.id))}
                 >
-                  Visualization actions
+                  Options
                 </button>
               }
-              {showRemove && (widget.userId === user.id) &&
-                <button
-                  className="c-button -tertiary"
-                  onClick={this.handleRemoveWidget}
-                >
-                  Delete
-                </button>
-              }
-              {showEmbed &&
-                <button
-                  className="c-button -tertiary"
-                  onClick={this.handleEmbed}
-                >
-                  Embed
-                </button>
-              }
+              <Link
+                route="myrw_detail"
+                params={{ tab: 'widgets', subtab: 'edit', id: this.props.widget.id }}
+              >
+                <a className="c-button">Edit</a>
+              </Link>
             </div>
           }
         </div>
@@ -569,9 +551,7 @@ class WidgetCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
 const mapDispatchToProps = dispatch => ({
   toggleModal: (open) => { dispatch(toggleModal(open)); },
