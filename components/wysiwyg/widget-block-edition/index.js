@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
+import { useDebouncedCallback } from 'use-debounce';
 
 // services
 import { fetchWidgets } from 'services/widget';
@@ -23,7 +23,14 @@ import WidgetBlockEditionComponent from './component';
 const WidgetBlockEdition = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { search, tab, page } = state;
+  const { page: initialPage } = initialState;
   const { user, onSubmit } = props;
+  const [debouncedSearch] = useDebouncedCallback(
+    (searchTerm) => {
+      dispatch(setPage(initialPage));
+      dispatch(setSearch(searchTerm));
+    }, 250
+  );
 
   useEffect(() => {
     fetchWidgets(
@@ -47,7 +54,7 @@ const WidgetBlockEdition = (props) => {
         dispatch(setLoading(false));
         dispatch(setError(err.message));
       });
-  }, [search, tab, page, user]);
+  }, [search, tab, page]);
 
   return (
     <WidgetBlockEditionComponent
@@ -61,21 +68,19 @@ const WidgetBlockEdition = (props) => {
       }}
       onChangeTab={(newTab) => {
         dispatch(setTab(newTab));
-        dispatch(setPage(1));
+        dispatch(setPage(initialPage));
       }}
       onChangePage={(newPage) => {
         dispatch(setPage(newPage));
       }}
-      onChangeSearch={debounce((newSearch) => {
-        dispatch(setSearch(newSearch));
-      }, 250)}
+      onChangeSearch={(searchTerm) => { debouncedSearch(searchTerm); }}
       {...props}
     />
   );
 };
 
 WidgetBlockEdition.propTypes = {
-  data: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired
 };
 

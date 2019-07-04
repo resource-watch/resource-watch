@@ -1,6 +1,6 @@
 export default {
   widgets: [],
-  loading: false,
+  loading: true,
   error: null,
   tab: 'my-widgets',
   page: 1,
