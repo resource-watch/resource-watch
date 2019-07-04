@@ -51,15 +51,6 @@ const WidgetBlockEdition = (props) => {
       });
   }, [search, tab, page, user]);
 
-  useEffect(
-    () => () => {
-      dispatch(setWidgets([]));
-      dispatch(setPage(1));
-      dispatch(setSearch(''));
-    },
-    []
-  );
-
   return (
     <WidgetBlockEditionComponent
       {...state}
