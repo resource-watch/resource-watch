@@ -1,12 +1,11 @@
 import React, { useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import { connect } from 'react-redux';
 
 // services
 import { fetchWidgets } from 'services/widget';
 
-// store
-import { connect } from 'react-redux';
 import {
   setWidgets,
   setTab,
@@ -19,13 +18,12 @@ import {
 } from './actions';
 import reducer from './reducer';
 import initialState from './initial-state';
-
 import WidgetBlockEditionComponent from './component';
 
 const WidgetBlockEdition = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { search, tab, page } = state;
-  const { user } = props;
+  const { user, onSubmit } = props;
 
   useEffect(() => {
     fetchWidgets(
@@ -47,7 +45,7 @@ const WidgetBlockEdition = (props) => {
       })
       .catch((err) => {
         dispatch(setLoading(false));
-        dispatch(setError(err));
+        dispatch(setError(err.message));
       });
   }, [search, tab, page, user]);
 
@@ -55,7 +53,7 @@ const WidgetBlockEdition = (props) => {
     <WidgetBlockEditionComponent
       {...state}
       onSelectWidget={(widget) => {
-        this.props.onSubmit({
+        onSubmit({
           widgetId: widget.id,
           datasetId: widget.dataset,
           categories: []

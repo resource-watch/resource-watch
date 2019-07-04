@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
-import { connect } from 'react-redux';
 
 import * as actions from './actions';
 import * as reducers from './reducers';
-import initialState from './default-state';
+import initialState from './initial-state';
 
 import WidgetBlockComponent from './component';
 
