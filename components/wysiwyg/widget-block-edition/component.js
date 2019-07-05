@@ -13,16 +13,28 @@ import WidgetList from 'components/widgets/list/WidgetList';
 
 class WidgetBlockEdition extends PureComponent {
   static propTypes = {
-    data: PropTypes.object.isRequired,
     onChangeTab: PropTypes.func.isRequired,
     onChangePage: PropTypes.func.isRequired,
     onChangeSearch: PropTypes.func.isRequired,
-    onSelectWidget: PropTypes.func.isRequired
-  }
+    onSelectWidget: PropTypes.func.isRequired,
+    tab: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired,
+    total: PropTypes.number.isRequired,
+    page: PropTypes.number.isRequired,
+    pages: PropTypes.number.isRequired,
+    pageSize: PropTypes.number.isRequired,
+    widgets: PropTypes.array.isRequired
+  };
 
   render() {
     const {
-      data: { tab, loading, total, page, pages, pageSize, widgets },
+      tab,
+      loading,
+      total,
+      page,
+      pages,
+      pageSize,
+      widgets,
       onChangeTab,
       onChangePage,
       onChangeSearch,
@@ -74,7 +86,7 @@ class WidgetBlockEdition extends PureComponent {
                       showFavourite={false}
                     />
 
-                    {pages > 1 &&
+                    {pages > 1 && (
                       <Paginator
                         options={{
                           size: total,
@@ -84,7 +96,7 @@ class WidgetBlockEdition extends PureComponent {
                         }}
                         onChange={onChangePage}
                       />
-                    }
+                    )}
                   </div>
                 </div>
               </div>

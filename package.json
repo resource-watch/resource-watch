@@ -102,6 +102,7 @@
     "reselect": "3.0.1",
     "serve-static": "^1.13.2",
     "three": "0.83.0",
+    "use-debounce": "^2.1.0",
     "vega": "3.1.0",
     "vega-lib": "^4.2.0",
     "vizz-wysiwyg": "^2.1.2",

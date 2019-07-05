@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
-import { connect } from 'react-redux';
 
-import * as actions from './widget-block-actions';
-import * as reducers from './widget-block-reducers';
-import initialState from './widget-block-default-state';
+import * as actions from './actions';
+import * as reducers from './reducers';
+import initialState from './initial-state';
 
-import WidgetBlockComponent from './widget-block-component';
+import WidgetBlockComponent from './component';
 
 // mandatory
 export { actions, reducers, initialState };
