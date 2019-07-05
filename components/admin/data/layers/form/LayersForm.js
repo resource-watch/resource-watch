@@ -9,7 +9,6 @@ import DatasetsService from 'services/DatasetsService';
 import LayersService, { fetchLayer } from 'services/LayersService';
 import { toastr } from 'react-redux-toastr';
 
-
 import { setLayerInteractionError } from 'components/admin/data/layers/form/layer-preview/layer-preview-actions';
 
 // Components
@@ -26,10 +25,12 @@ class LayersForm extends React.Component {
   constructor(props) {
     super(props);
 
-    const formObj = props.dataset ?
-      Object.assign({}, STATE_DEFAULT.form,
-        { dataset: props.dataset, application: props.application }) :
-      Object.assign({}, STATE_DEFAULT.form, { application: props.application });
+    const formObj = props.dataset
+      ? Object.assign({}, STATE_DEFAULT.form, {
+        dataset: props.dataset,
+        application: props.application
+      })
+      : Object.assign({}, STATE_DEFAULT.form, { application: props.application });
 
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
@@ -54,20 +55,12 @@ class LayersForm extends React.Component {
         this.props.dispatch(setLayerInteractionError(valid ? false : err));
       }
     });
-
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onChangeDataset = this.onChangeDataset.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
   }
 
   componentDidMount() {
     const { id } = this.state;
 
-    const promises = [
-      this.datasetsService.fetchAllData({})
-    ];
+    const promises = [this.datasetsService.fetchAllData({})];
 
     // Add the dashboard promise if the id exists
     if (id) {
@@ -79,7 +72,7 @@ class LayersForm extends React.Component {
         const datasets = response[0];
         const current = response[1];
 
-        const formState = (id) ? this.setFormFromParams(current) : this.state.form;
+        const formState = id ? this.setFormFromParams(current) : this.state.form;
 
         this.setState({
           // CURRENT LAYER
@@ -101,8 +94,8 @@ class LayersForm extends React.Component {
    * - onSubmit
    * - onChange
    * - onChangeDataset
-  */
-  onSubmit(event) {
+   */
+  onSubmit = (event) => {
     if (event) event.preventDefault();
 
     const { step, form } = this.state;
@@ -119,11 +112,7 @@ class LayersForm extends React.Component {
       let interactionConfig = form.interactionConfig;
       // Grab all the interactions from the redux store
       if (form.provider === 'cartodb') {
-        interactionConfig = Object.assign(
-          {},
-          form.interactionConfig,
-          { output: interactions.added }
-        );
+        interactionConfig = Object.assign({}, form.interactionConfig, { output: interactions.added });
       }
 
       const newForm = Object.assign({}, form, { interactionConfig });
@@ -131,8 +120,10 @@ class LayersForm extends React.Component {
       // Verify that layers are valid, otherwise render error
       const { adminLayerPreview } = this.props;
       const { layerGroups } = adminLayerPreview;
-      const cartoLayer = layerGroups.length && 'layers' in layerGroups[0] ?
-        layerGroups[0].layers.filter(layer => layer.provider === 'cartodb') : [];
+      const cartoLayer =
+        layerGroups.length && 'layers' in layerGroups[0]
+          ? layerGroups[0].layers.filter(layer => layer.provider === 'cartodb')
+          : [];
 
       if (valid) {
         // Start the submitting
@@ -141,18 +132,17 @@ class LayersForm extends React.Component {
 
         if (cartoLayer.length) {
           // If we have carto layers, make sure they work
-          this.layerManager.verifyCartoLayer(Object.assign(
-            {},
-            cartoLayer[0],
-            { layerConfig: newForm.layerConfig }
-          ), (cartoLayerValid) => {
-            if (cartoLayerValid) {
-              this.saveLayer(newForm);
-            } else {
-              toastr.error('Error', 'Layer config contains errors');
-              this.setState({ submitting: false });
+          this.layerManager.verifyCartoLayer(
+            Object.assign({}, cartoLayer[0], { layerConfig: newForm.layerConfig }),
+            (cartoLayerValid) => {
+              if (cartoLayerValid) {
+                this.saveLayer(newForm);
+              } else {
+                toastr.error('Error', 'Layer config contains errors');
+                this.setState({ submitting: false });
+              }
             }
-          });
+          );
           return;
         }
 
@@ -163,17 +153,35 @@ class LayersForm extends React.Component {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onChangeDataset(dataset) {
+  onChangeDataset = (dataset) => {
     this.setState({ dataset });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
+  }
+
+  onDelete = () => {
+    const { form: { name } } = this.state;
+    toastr.confirm(`Are you sure that you want to delete the layer: "${name}"`, {
+      // onOk: () => {
+      //   deleteLayer(id, dataset, token)
+      //     .then(() => {
+      //       toastr.success('Success', `The layer "${id}" - "${name}" has been removed correctly`);
+      //     })
+      //     .catch((err) => {
+      //       toastr.error(
+      //         'Error',
+      //         `The layer "${id}" - "${name}" was not deleted. Try again. ${err.message}`
+      //       );
+      //     });
+      // }
+    });
   }
 
   // HELPERS
@@ -183,8 +191,11 @@ class LayersForm extends React.Component {
     Object.keys(params).forEach((f) => {
       switch (f) {
         default: {
-          if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
-              (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+          if (
+            typeof params[f] !== 'undefined' ||
+            params[f] !== null ||
+            (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)
+          ) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -217,7 +228,6 @@ class LayersForm extends React.Component {
     };
   }
 
-
   setLayerInteractionLatLng(latlng) {
     return (dispatch) => {
       dispatch({
@@ -233,54 +243,64 @@ class LayersForm extends React.Component {
 
     const { form } = this.state;
 
-    const cartoLayer = layerGroups.length && 'layers' in layerGroups[0] ?
-      layerGroups[0].layers.filter(layer => layer.provider === 'cartodb') : [];
+    const cartoLayer =
+      layerGroups.length && 'layers' in layerGroups[0]
+        ? layerGroups[0].layers.filter(layer => layer.provider === 'cartodb')
+        : [];
 
     if (cartoLayer.length) {
       // If we have carto layers, make sure they work
-      this.layerManager.verifyCartoLayer(Object.assign(
-        {},
-        cartoLayer[0],
-        { layerConfig: form.layerConfig }
-      ));
+      this.layerManager.verifyCartoLayer(
+        Object.assign({}, cartoLayer[0], { layerConfig: form.layerConfig })
+      );
     }
   }
 
   saveLayer(form) {
     const { id, dataset } = this.state;
     const { onSubmit } = this.props;
-    this.layerService.saveData({
-      dataset,
-      id: id || '',
-      type: (id) ? 'PATCH' : 'POST',
-      body: form
-    }).then((data) => {
-      toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
-      if (onSubmit) onSubmit(data.id);
-      this.setState({ submitting: false, form: data });
-    }).catch((errors) => {
-      this.setState({ submitting: false });
-      try {
-        errors.forEach(er => toastr.error('Error', er.detail));
-      } catch (e) {
-        toastr.error('Error', 'Oops! There was an error, try again.');
-      }
-    });
+    this.layerService
+      .saveData({
+        dataset,
+        id: id || '',
+        type: id ? 'PATCH' : 'POST',
+        body: form
+      })
+      .then((data) => {
+        toastr.success(
+          'Success',
+          `The layer "${data.id}" - "${data.name}" has been uploaded correctly`
+        );
+        if (onSubmit) onSubmit(data.id);
+        this.setState({ submitting: false, form: data });
+      })
+      .catch((errors) => {
+        this.setState({ submitting: false });
+        try {
+          errors.forEach(er => toastr.error('Error', er.detail));
+        } catch (e) {
+          toastr.error('Error', 'Oops! There was an error, try again.');
+        }
+      });
   }
 
   render() {
+    const { loading, step, form, id, dataset, datasets, stepLength, submitting } = this.state;
+    const { adminLayerPreview } = this.props;
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
-        <Spinner isLoading={this.state.loading} className="-light" />
+        <Spinner isLoading={loading} className="-light" />
 
-        {(this.state.step === 1 && !this.state.loading) &&
+        {step === 1 && !loading && (
           <Step1
-            ref={(c) => { this.step = c; }}
-            form={this.state.form}
-            id={this.state.id}
-            layerPreview={this.props.adminLayerPreview}
-            dataset={this.state.dataset}
-            datasets={this.state.datasets}
+            ref={(c) => {
+              this.step = c;
+            }}
+            form={form}
+            id={id}
+            layerPreview={adminLayerPreview}
+            dataset={dataset}
+            datasets={datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
             setLayerInteraction={this.setLayerInteraction}
@@ -288,16 +308,18 @@ class LayersForm extends React.Component {
             setLayerInteractionLatLng={this.setLayerInteractionLatLng}
             verifyLayerConfig={() => this.verifyLayerConfig()}
           />
-        }
+        )}
 
-        {!this.state.loading &&
+        {!loading && (
           <Navigation
-            step={this.state.step}
-            stepLength={this.state.stepLength}
-            submitting={this.state.submitting}
+            step={step}
+            stepLength={stepLength}
+            submitting={submitting}
             onStepChange={this.onStepChange}
+            showDelete
+            onDelete={this.onDelete}
           />
-        }
+        )}
       </form>
     );
   }
@@ -320,4 +342,7 @@ const mapStateToProps = state => ({
   adminLayerPreview: state.adminLayerPreview
 });
 
-export default connect(mapStateToProps, null)(LayersForm);
+export default connect(
+  mapStateToProps,
+  null
+)(LayersForm);
