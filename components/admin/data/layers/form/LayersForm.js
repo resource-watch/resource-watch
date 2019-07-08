@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
 
 // Services
 import DatasetsService from 'services/DatasetsService';
-import LayersService, { fetchLayer } from 'services/LayersService';
+import LayersService, { fetchLayer, deleteLayer } from 'services/LayersService';
 import { toastr } from 'react-redux-toastr';
 
 import { setLayerInteractionError } from 'components/admin/data/layers/form/layer-preview/layer-preview-actions';
@@ -22,6 +23,17 @@ import LayerManager from 'utils/layers/LayerManager';
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
 class LayersForm extends React.Component {
+  propTypes = {
+    id: PropTypes.string.isRequired,
+    dataset: PropTypes.string.isRequired,
+    authorization: PropTypes.string,
+    application: PropTypes.array,
+    onSubmit: PropTypes.func,
+    locale: PropTypes.string.isRequired,
+    interactions: PropTypes.object.isRequired,
+    adminLayerPreview: PropTypes.object.isRequired
+  }
+
   constructor(props) {
     super(props);
 
@@ -167,20 +179,23 @@ class LayersForm extends React.Component {
   }
 
   onDelete = () => {
-    const { form: { name } } = this.state;
+    const { form: { name }, id, dataset } = this.state;
+    const { authorization } = this.props;
+
     toastr.confirm(`Are you sure that you want to delete the layer: "${name}"`, {
-      // onOk: () => {
-      //   deleteLayer(id, dataset, token)
-      //     .then(() => {
-      //       toastr.success('Success', `The layer "${id}" - "${name}" has been removed correctly`);
-      //     })
-      //     .catch((err) => {
-      //       toastr.error(
-      //         'Error',
-      //         `The layer "${id}" - "${name}" was not deleted. Try again. ${err.message}`
-      //       );
-      //     });
-      // }
+      onOk: () => {
+        deleteLayer(id, dataset, authorization)
+          .then(() => {
+            toastr.success('Success', `The layer "${id}" - "${name}" has been removed correctly`);
+            Router.pushRoute('admin_data', { tab: 'layers' });
+          })
+          .catch((err) => {
+            toastr.error(
+              'Error',
+              `The layer "${id}" - "${name}" was not deleted. Try again. ${err.message}`
+            );
+          });
+      }
     });
   }
 
@@ -324,17 +339,6 @@ class LayersForm extends React.Component {
     );
   }
 }
-
-LayersForm.propTypes = {
-  id: PropTypes.string,
-  dataset: PropTypes.string,
-  authorization: PropTypes.string,
-  application: PropTypes.array,
-  onSubmit: PropTypes.func,
-  locale: PropTypes.string.isRequired,
-  interactions: PropTypes.object.isRequired,
-  adminLayerPreview: PropTypes.object.isRequired
-};
 
 const mapStateToProps = state => ({
   locale: state.common.locale,
