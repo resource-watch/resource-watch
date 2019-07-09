@@ -8,12 +8,10 @@ import { initGA, logPageView } from 'utils/analytics';
 
 // Components
 import { Router } from 'routes';
+import IconsRW from 'components/icons';
 
 // vizzuality-components
 import { Icons } from 'vizzuality-components';
-// RW icons
-import IconsRW from 'components/icons';
-
 
 import Head from 'layout/head/admin';
 import Header from 'layout/header-admin';
