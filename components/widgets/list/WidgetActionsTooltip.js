@@ -7,7 +7,6 @@ class WidgetActionsTooltip extends PureComponent {
     widgetLinks: PropTypes.array,
     toggleTooltip: PropTypes.func.isRequired,
     onGoToDataset: PropTypes.func.isRequired,
-    onAddToDashboard: PropTypes.func.isRequired,
     onShareEmbed: PropTypes.func.isRequired,
     onEditWidget: PropTypes.func.isRequired,
     onDownloadPDF: PropTypes.func.isRequired,
@@ -34,7 +33,6 @@ class WidgetActionsTooltip extends PureComponent {
     const {
       onEditWidget,
       onGoToDataset,
-      onAddToDashboard,
       onShareEmbed,
       onDownloadPDF,
       onRemove,
@@ -47,9 +45,6 @@ class WidgetActionsTooltip extends PureComponent {
         break;
       case 'go_to_dataset':
         onGoToDataset();
-        break;
-      case 'add_to_dashboard':
-        onAddToDashboard();
         break;
       case 'share_embed':
         onShareEmbed();
@@ -90,14 +85,6 @@ class WidgetActionsTooltip extends PureComponent {
               onClick={() => this.handleClick('share_embed')}
             >
               Share/Embed
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              onClick={() => this.handleClick('add_to_dashboard')}
-            >
-              Add to dashboard
             </button>
           </li>
           {widgetLinks.length === 0 && (

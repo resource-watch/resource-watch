@@ -404,10 +404,6 @@ class WidgetCard extends PureComponent {
     this.props.setModalOptions(options);
   }
 
-  handleAddToDashboard = () => { // eslint-disable-line class-methods-use-this
-    // TO-DO implement this
-  }
-
   handleEditWidget = () => {
     Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: this.props.widget.id });
   }
@@ -448,7 +444,6 @@ class WidgetCard extends PureComponent {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onShareEmbed: this.handleEmbed,
-        onAddToDashboard: this.handleAddToDashboard,
         onGoToDataset: this.handleGoToDataset,
         onEditWidget: this.handleEditWidget,
         onDownloadPDF: this.handleDownloadPDF,
