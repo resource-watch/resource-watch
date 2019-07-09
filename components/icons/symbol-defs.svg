@@ -1,0 +1,8 @@
+<svg aria-hidden="true" style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<symbol id="icon-share-email" viewBox="0 0 43 32">
+<title>share-email</title>
+<path fill="#c32d7b" style="fill: var(--color1, #c32d7b)" d="M0.748 0h41.17l-20.585 16.468-20.585-16.468zM42.667 4.865v23.728l-8.24-10.259-3.326 2.672 8.83 10.994h-37.201l8.781-11.003-3.335-2.661-8.176 10.245v-23.715l21.333 17.067 21.333-17.067z"></path>
+</symbol>
+</defs>
+</svg>

@@ -6,6 +6,8 @@ import { Router } from 'routes';
 
 // vizzuality-components
 import { Icons } from 'vizzuality-components';
+// RW icons
+import IconsRW from 'components/icons';
 
 import HeadApp from 'layout/head/app';
 import Tooltip from 'components/ui/Tooltip';
@@ -60,6 +62,7 @@ class LayoutEmbed extends PureComponent {
         />
 
         <Icons />
+        <IconsRW />
 
         {this.props.children}
 

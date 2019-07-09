@@ -9,6 +9,8 @@ import { browserSupported } from 'utils/browser';
 
 // vizzuality-components
 import { Icons } from 'vizzuality-components';
+// RW icons
+import IconsRW from 'components/icons';
 
 // Components
 import { Router } from 'routes';
@@ -132,6 +134,7 @@ class LayoutApp extends PureComponent {
         }
 
         <Icons />
+        <IconsRW />
 
         <Header pageHeader={pageHeader} />
 
