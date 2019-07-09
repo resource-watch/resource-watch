@@ -38,8 +38,8 @@ import { PluginLeaflet } from 'layer-manager';
 import CollectionsPanel from 'components/collections-panel';
 import LoginRequired from 'components/ui/login-required';
 
-// Services
-import WidgetService from 'services/WidgetService';
+// services
+import { deleteWidget } from 'services/widget';
 import { fetchLayer } from 'services/LayersService';
 
 // helpers
@@ -150,13 +150,6 @@ class WidgetCard extends PureComponent {
       && widget.widgetConfig.type
       && widget.widgetConfig.type === 'text'
     );
-  }
-
-  constructor(props) {
-    super(props);
-
-    // Services
-    this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
   }
 
   state = {
@@ -366,11 +359,11 @@ class WidgetCard extends PureComponent {
   handleRemoveVisualization = () => {
     const { widget, user, onWidgetRemove } = this.props;
     const { token } = user;
-    const { id, name } = widget;
+    const { id, name, dataset } = widget;
 
     toastr.confirm(`Are you sure you want to remove the visualization: ${name}?`, {
       onOk: () => {
-        this.widgetService.removeUserWidget(id, token)
+        deleteWidget(id, dataset, token)
           .then(() => { onWidgetRemove(); })
           .catch(({ message }) => toastr.error('Something went wrong deleting the widget', message));
       }

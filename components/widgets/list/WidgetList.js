@@ -25,7 +25,7 @@ class WidgetList extends PureComponent {
     onWidgetRemove: PropTypes.func
   };
 
-  handleWidgetRemoved = () => this.props.onWidgetRemove();
+  handleWidgetRemoved = () => { this.props.onWidgetRemove(); }
 
   render() {
     const {
@@ -37,7 +37,6 @@ class WidgetList extends PureComponent {
       mode,
       loading
     } = this.props;
-
     const newClassName = classNames({
       column: true,
       'list-item': true,
@@ -50,7 +49,6 @@ class WidgetList extends PureComponent {
       <div className="c-widget-list">
         {loading && <Spinner className="-light" isLoading />}
         <ul className="row list">
-          {/* REMOVE THIS!! */ }
           {widgets.map(widget => (
             <li
               key={widget.id}
