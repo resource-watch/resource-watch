@@ -10,7 +10,7 @@ import DatasetsService from 'services/DatasetsService';
 import LayersService, { fetchLayer, deleteLayer } from 'services/LayersService';
 import { toastr } from 'react-redux-toastr';
 
-import { setLayerInteractionError } from 'components/admin/data/layers/form/layer-preview/layer-preview-actions';
+import { setLayerInteractionError } from 'components/admin/data/layers/form/layer-preview/actions';
 
 // Components
 import Step1 from 'components/admin/data/layers/form/steps/Step1';
