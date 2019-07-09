@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Router, Link } from 'routes';
-import isEqual from 'lodash/isEqual';
+import isEqual from 'react-fast-compare';
 import flatten from 'lodash/flatten';
 import truncate from 'lodash/truncate';
 import classnames from 'classnames';
@@ -49,20 +49,14 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 import { logEvent } from 'utils/analytics';
 
 class WidgetCard extends PureComponent {
-  static defaultProps = {
-    showActions: false,
-    showRemove: false,
-    showFavourite: true,
-    limitChar: 70
-  };
-
   static propTypes = {
     widget: PropTypes.object.isRequired,
     showActions: PropTypes.bool,
     showRemove: PropTypes.bool,
     showEmbed: PropTypes.bool,
     showFavourite: PropTypes.bool,
-    mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
+    // how to show the graph
+    mode: PropTypes.oneOf(['thumbnail', 'full']).isRequired,
     onWidgetClick: PropTypes.func.isRequired,
     onWidgetRemove: PropTypes.func.isRequired,
     limitChar: PropTypes.number,
@@ -70,6 +64,14 @@ class WidgetCard extends PureComponent {
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     toggleTooltip: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    showActions: false,
+    showRemove: false,
+    showFavourite: true,
+    limitChar: 70,
+    showEmbed: false
   };
 
   /**
@@ -361,22 +363,18 @@ class WidgetCard extends PureComponent {
       .then(() => this.setState({ loading: false }));
   }
 
-  /*
-  * UI EVENTS
-  *
-  * - handleRemoveWidget
-  * - handleClick
-  */
   handleRemoveVisualization = () => {
     const { widget, user, onWidgetRemove } = this.props;
-    const widgetId = widget.id;
-    const widgetName = widget.name;
-    // eslint-disable-next-line no-alert
-    if (confirm(`Are you sure you want to remove the visualization: ${widgetName}?`)) {
-      this.widgetService.removeUserWidget(widgetId, user.token)
-        .then(() => onWidgetRemove())
-        .catch(err => toastr.error('Error', err));
-    }
+    const { token } = user;
+    const { id, name } = widget;
+
+    toastr.confirm(`Are you sure you want to remove the visualization: ${name}?`, {
+      onOk: () => {
+        this.widgetService.removeUserWidget(id, token)
+          .then(() => { onWidgetRemove(); })
+          .catch(({ message }) => toastr.error('Something went wrong deleting the widget', message));
+      }
+    });
   }
 
   handleEmbed = () => {

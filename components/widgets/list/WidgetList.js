@@ -51,8 +51,8 @@ class WidgetList extends PureComponent {
         {loading && <Spinner className="-light" isLoading />}
         <ul className="row list">
           {/* REMOVE THIS!! */ }
-          {widgets.map(widget =>
-            (<li
+          {widgets.map(widget => (
+            <li
               key={widget.id}
               className={newClassName}
             >
@@ -66,8 +66,8 @@ class WidgetList extends PureComponent {
                 showFavourite={showFavourite}
                 mode={mode === 'grid' ? 'thumbnail' : 'full'}
               />
-            </li>)
-          )}
+            </li>
+            ))}
         </ul>
       </div>
     );
