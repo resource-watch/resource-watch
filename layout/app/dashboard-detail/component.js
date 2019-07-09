@@ -101,6 +101,7 @@ class DashboardsDetailPage extends PureComponent {
                             analytics={{
                               facebook: () => logEvent('Share', `Share dashboard: ${name}`, 'Facebook'),
                               twitter: () => logEvent('Share', `Share dashboard: ${name}`, 'Twitter'),
+                              email: () => logEvent('Share',  `Share dashboard: ${name}`, 'Email'),
                               copy: type => logEvent('Share', `Share dashboard: ${name}`, `Copy ${type}`)
                             }}
                           />

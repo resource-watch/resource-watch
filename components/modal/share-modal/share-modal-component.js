@@ -21,6 +21,7 @@ class ShareModalComponent extends PureComponent {
     analytics: PropTypes.shape({
       facebook: PropTypes.func.isRequired,
       twitter: PropTypes.func.isRequired,
+      email: PropTypes.func.isRequired,
       copy: PropTypes.func.isRequired
     }),
 
@@ -35,6 +36,7 @@ class ShareModalComponent extends PureComponent {
     analytics: {
       facebook: () => {},
       twitter: () => {},
+      email: () => {},
       copy: () => {}
     }
   };
@@ -124,6 +126,16 @@ class ShareModalComponent extends PureComponent {
                       />
 
                       <div className="share-buttons">
+                        <a
+                          className="c-btn -secondary -compressed -square"
+                          href={`mailto:?body=I+would+like+to+share+this+link+with+you+${url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => this.props.analytics.email(type)}
+                        >
+                          <Icon name="icon-share-email" className="-small" />
+                        </a>
+
                         <a
                           className="c-btn -secondary -compressed -square"
                           href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}
