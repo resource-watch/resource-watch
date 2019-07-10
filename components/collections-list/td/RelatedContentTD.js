@@ -12,8 +12,6 @@ function RelatedContentTD(props) {
   );
 }
 
-RelatedContentTD.propTypes = {
-  index: PropTypes.number
-};
+RelatedContentTD.propTypes = { index: PropTypes.number };
 
 export default RelatedContentTD;
