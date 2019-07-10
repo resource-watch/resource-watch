@@ -16,6 +16,7 @@ import HeadApp from 'layout/head/app';
 import Header from 'layout/header';
 import Footer from 'layout/footer';
 import UserReport from 'layout/user-report';
+import IconsRW from 'components/icons';
 
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
@@ -42,7 +43,6 @@ class LayoutApp extends PureComponent {
     user: PropTypes.object.isRequired,
     thumbnail: PropTypes.string,
     isFullScreen: PropTypes.bool.isRequired,
-    showUserReport: PropTypes.bool.isRequired,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired
@@ -83,15 +83,6 @@ class LayoutApp extends PureComponent {
       if (Progress && Progress.Component.instance) Progress.hideAll();
     };
 
-    // if (window.Transifex) {
-    //   window.Transifex.live.onReady(() => {
-    //     window.Transifex.live.onTranslatePage((locale) => {
-    //       this.props.setLocale(locale);
-    //       window.location.reload();
-    //     });
-    //   });
-    // }
-
     // Google Analytics
     if (!window.GA_INITIALIZED) {
       initGA();
@@ -114,8 +105,7 @@ class LayoutApp extends PureComponent {
       modal,
       className,
       thumbnail,
-      isFullScreen,
-      showUserReport
+      isFullScreen
     } = this.props;
     const componentClass = classnames(
       'l-page',
@@ -143,6 +133,7 @@ class LayoutApp extends PureComponent {
         }
 
         <Icons />
+        <IconsRW />
 
         <Header pageHeader={pageHeader} />
 
@@ -170,7 +161,7 @@ class LayoutApp extends PureComponent {
           transitionOut="fadeOut"
         />
 
-        {showUserReport && (<UserReport />)}
+        <UserReport />
 
         {/* widget editor */}
         <WidgetModal />

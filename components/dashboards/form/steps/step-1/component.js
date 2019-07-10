@@ -13,8 +13,8 @@ import TemplateSelector from 'components/dashboards/template-selector';
 
 // Wysiwyg
 import Wysiwyg from 'components/form/VizzWysiwyg';
-import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
-import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
+import WidgetBlock from 'components/wysiwyg/widget-block';
+import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition';
 
 // constants
 import { FORM_ELEMENTS } from 'components/dashboards/form/constants';

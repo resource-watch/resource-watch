@@ -87,17 +87,6 @@ export default class WidgetService {
       .then(response => response.json());
   }
 
-  removeUserWidget(widgetId, token) {
-    return fetch(`${this.opts.apiURL}/widget/${widgetId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    })
-      .then(response => response.json());
-  }
-
   getUserWidgets(userId, sortByUpdatedAt = true, direction = 'asc', includes = '') {
     const directionPart = (direction === 'asc') ? '&sort=updatedAt' : '&sort=-updatedAt';
     const sortSt = sortByUpdatedAt ? directionPart : '';

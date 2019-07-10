@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import VizzWysiwyg from 'vizz-wysiwyg';
 
 // components
-import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
-import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
+import WidgetBlock from 'components/wysiwyg/widget-block';
+import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition';
 
 class TopicsDetailContentComponent extends PureComponent {
   static propTypes = { topic: PropTypes.object.isRequired };

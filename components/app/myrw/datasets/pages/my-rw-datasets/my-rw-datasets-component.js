@@ -92,7 +92,7 @@ class MyRWDatasets extends PureComponent {
                 detail: 'myrw_detail'
               }}
             />
-            {!!total && <Paginator
+            {!!total && total >= 2 && <Paginator
               options={{
                 size: total,
                 page,

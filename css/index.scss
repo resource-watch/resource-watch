@@ -6,7 +6,6 @@
 
 // Libraries
 @import '../node_modules/react-progress-2/main';
-@import '../node_modules/rc-slider/assets/index';
 @import '../node_modules/react-redux-toastr/src/styles/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
 @import '../node_modules/widget-editor/dist/styles.min';
@@ -30,7 +29,6 @@
   "layouts/row",
   "layouts/footer",
   "layouts/sidebar",
-  "layouts/map",
   "layouts/static";
 
 // Components
@@ -269,10 +267,6 @@
 
 // Subscriptions
 @import "./components/app/subscriptions/subscription_card";
-
-// ------ SPLASH -------
-@import "./components/splash/layout/splash_header";
-
 
 // Foundation:
 // We are using this library only for grid system

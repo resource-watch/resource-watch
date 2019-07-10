@@ -105,26 +105,28 @@ class LayersForm extends React.Component {
   onSubmit(event) {
     if (event) event.preventDefault();
 
+    const { step, form } = this.state;
+
     // Validate the form
-    FORM_ELEMENTS.validate(this.state.step);
+    FORM_ELEMENTS.validate(step);
 
     // Set a timeout due to the setState function of react
     setTimeout(() => {
       // Validate all the inputs on the current step
-      const valid = FORM_ELEMENTS.isValid(this.state.step);
+      const valid = FORM_ELEMENTS.isValid(step);
       const { interactions } = this.props;
 
-      let interactionConfig = this.state.form.interactionConfig;
+      let interactionConfig = form.interactionConfig;
       // Grab all the interactions from the redux store
-      if (this.state.form.provider === 'cartodb') {
+      if (form.provider === 'cartodb') {
         interactionConfig = Object.assign(
           {},
-          this.state.form.interactionConfig,
+          form.interactionConfig,
           { output: interactions.added }
         );
       }
 
-      const form = Object.assign({}, this.state.form, { interactionConfig });
+      const newForm = Object.assign({}, form, { interactionConfig });
 
       // Verify that layers are valid, otherwise render error
       const { adminLayerPreview } = this.props;
@@ -142,10 +144,10 @@ class LayersForm extends React.Component {
           this.layerManager.verifyCartoLayer(Object.assign(
             {},
             cartoLayer[0],
-            { layerConfig: form.layerConfig }
+            { layerConfig: newForm.layerConfig }
           ), (cartoLayerValid) => {
             if (cartoLayerValid) {
-              this.saveLayer(form);
+              this.saveLayer(newForm);
             } else {
               toastr.error('Error', 'Layer config contains errors');
               this.setState({ submitting: false });
@@ -154,7 +156,7 @@ class LayersForm extends React.Component {
           return;
         }
 
-        this.saveLayer(form);
+        this.saveLayer(newForm);
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
@@ -246,6 +248,7 @@ class LayersForm extends React.Component {
 
   saveLayer(form) {
     const { id, dataset } = this.state;
+    const { onSubmit } = this.props;
     this.layerService.saveData({
       dataset,
       id: id || '',
@@ -253,7 +256,7 @@ class LayersForm extends React.Component {
       body: form
     }).then((data) => {
       toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
-      if (this.props.onSubmit) this.props.onSubmit();
+      if (onSubmit) onSubmit(data.id);
       this.setState({ submitting: false, form: data });
     }).catch((errors) => {
       this.setState({ submitting: false });

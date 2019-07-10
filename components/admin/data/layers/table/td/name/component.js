@@ -10,7 +10,7 @@ class NameTD extends PureComponent {
 
   render() {
     const {
-      row: { id },
+      row: { id, dataset },
       value
     } = this.props;
 
@@ -21,7 +21,8 @@ class NameTD extends PureComponent {
           params={{
             tab: 'layers',
             subtab: 'edit',
-            id
+            id,
+            dataset
           }}
         >
           <a>{value}</a>
