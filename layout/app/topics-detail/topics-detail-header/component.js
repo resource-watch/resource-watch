@@ -50,6 +50,7 @@ class TopicDetailHeader extends PureComponent {
                     analytics={{
                       facebook: () => logEvent('Share', `Share topic: ${topic.name}`, 'Facebook'),
                       twitter: () => logEvent('Share', `Share topic: ${topic.name}`, 'Twitter'),
+                      email: () => logEvent('Share', `Share topic: ${topic.name}`, 'Email'),
                       copy: type => logEvent('Share', `Share topic: ${topic.name}`, `Copy ${type}`)
                     }}
                   />
