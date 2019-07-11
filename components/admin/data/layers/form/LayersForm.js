@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Router } from 'routes';
 
@@ -22,8 +22,8 @@ import LayerManager from 'utils/layers/LayerManager';
 // constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
-class LayersForm extends React.Component {
-  propTypes = {
+class LayersForm extends PureComponent {
+  static propTypes = {
     id: PropTypes.string.isRequired,
     dataset: PropTypes.string.isRequired,
     authorization: PropTypes.string,
