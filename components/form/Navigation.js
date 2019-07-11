@@ -71,21 +71,6 @@ class Navigation extends PureComponent {
             </Button>
           </li>
         }
-        {showDelete &&
-          <li>
-            <Button
-              properties={{
-                type: 'button',
-                name: 'commit',
-                className: '-secondary -expanded'
-              }}
-              onClick={onDelete}
-            >
-              Delete
-            </Button>
-          </li>
-        }
-
         {step !== 1 &&
           <li>
             <Button
@@ -120,11 +105,25 @@ class Navigation extends PureComponent {
               properties={{
                 type: 'button',
                 name: 'commit',
-                className: '-secondary -expanded'
+                className: '-tertiary -expanded'
               }}
               onClick={this.onBack}
             >
               Cancel
+            </Button>
+          </li>
+        }
+        {showDelete &&
+          <li>
+            <Button
+              properties={{
+                type: 'button',
+                name: 'commit',
+                className: '-tertiary -expanded'
+              }}
+              onClick={onDelete}
+            >
+              Delete
             </Button>
           </li>
         }
