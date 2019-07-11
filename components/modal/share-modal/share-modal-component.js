@@ -129,8 +129,6 @@ class ShareModalComponent extends PureComponent {
                         <a
                           className="c-btn -secondary -compressed -square"
                           href={`mailto:?body=I+would+like+to+share+this+link+with+you+${url}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
                           onClick={() => this.props.analytics.email(type)}
                         >
                           <Icon name="icon-share-email" className="-small" />
