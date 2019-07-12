@@ -163,9 +163,8 @@ class LayersForm extends React.Component {
   }
 
   onChangeDataset = (dataset) => {
-    console.log('dataset', dataset);
-
-    this.setState({ dataset });
+    const form = Object.assign({}, this.state.form, { dataset });
+    this.setState({ dataset, form });
   }
 
   onStepChange = (step) => {
@@ -266,6 +265,8 @@ class LayersForm extends React.Component {
 
   render() {
     const { form, id, dataset, datasets, loading, step, stepLength, submitting } = this.state;
+    console.log('this.state', this.state);
+
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={loading} className="-light" />
@@ -276,7 +277,6 @@ class LayersForm extends React.Component {
             form={form}
             id={id}
             layerPreview={this.props.adminLayerPreview}
-            dataset={dataset}
             datasets={datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
