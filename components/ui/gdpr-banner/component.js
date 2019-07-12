@@ -1,39 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// util
-import { setGDPRAccepted } from 'utils/gdpr';
+import { Link } from 'routes';
 
 // styles
 import './styles.scss';
 
-function GDPRBannerComponent(props) {
-  return (
-    <div className="gdpr-banner">
-      <div className="l-container">
-        <div className="row">
-          <div className="column small-10">
-            <div>
-              This website uses cookies to provide you with an improved user experience. By
-              continuing to browse this site, you consent to the use of cookies and similar
-              technologies. Please visit our{' '}
-              <a
-                href="https://resourcewatch.org/privacy-policy"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                privacy policy
-              </a>{' '}
-              for further details.
-            </div>
-          </div>
-          <div className="column small-2 button-container">
+const GDPRBanner = ({ handleGDPR }) => (
+  <div className="c-gdpr-banner">
+    <div className="l-container">
+      <div className="row">
+        <div className="column small-9 medium-10">
+          This website uses cookies to provide you with an improved user experience. By
+          continuing to browse this site, you consent to the use of cookies and similar
+          technologies. Please visit our{' '}
+          <Link route="privacy-policy">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              privacy policy
+            </a>
+          </Link>{' '}
+          for further details.
+        </div>
+        <div className="column small-3 medium-2">
+          <div className="c-button-container -j-end -a-center -full-height">
             <button
-              className="c-button -secondary -compressed"
-              onClick={() => {
-                setGDPRAccepted(true);
-                props.onAccept();
-              }}
+              type="button"
+              className="c-button -secondary -compressed -fs-medium"
+              onClick={handleGDPR}
             >
               I agree
             </button>
@@ -41,9 +36,9 @@ function GDPRBannerComponent(props) {
         </div>
       </div>
     </div>
-  );
-}
+  </div>
+);
 
-GDPRBannerComponent.propTypes = { onAccept: PropTypes.func.isRequired };
+GDPRBanner.propTypes = { handleGDPR: PropTypes.func.isRequired };
 
-export default GDPRBannerComponent;
+export default GDPRBanner;

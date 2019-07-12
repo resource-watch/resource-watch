@@ -6,7 +6,6 @@ import classnames from 'classnames';
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
 import { browserSupported } from 'utils/browser';
-import { getGDPRAccepted } from 'utils/gdpr';
 
 // vizzuality-components
 import { Icons } from 'vizzuality-components';
@@ -57,7 +56,7 @@ class LayoutApp extends Component {
     thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
 
-  state = { modalOpen: false, gdprAccepted: false }
+  state = { modalOpen: false }
 
   componentWillMount() {
     const { user: { token2, email } } = this.props;
@@ -98,10 +97,6 @@ class LayoutApp extends Component {
     }
   }
 
-  handleAcceptGDPR = () => {
-    this.setState({ gdprAccepted: false });
-  }
-
   render() {
     const {
       title,
@@ -115,13 +110,11 @@ class LayoutApp extends Component {
       toggleModal,
       setModalOptions
     } = this.props;
-    const { gdprAccepted, modalOpen } = this.state;
+    const { modalOpen } = this.state;
     const componentClass = classnames(
       'l-page',
       { [className]: !!className }
     );
-
-    const showGDPRBanner = !gdprAccepted && !getGDPRAccepted();
 
     return (
       <div
@@ -134,9 +127,7 @@ class LayoutApp extends Component {
           {...thumbnail && { thumbnail }}
         />
 
-        {showGDPRBanner &&
-          <GDPRBanner onAccept={this.handleAcceptGDPR} />
-        }
+        <GDPRBanner />
 
         {!browserSupported() &&
           <Modal

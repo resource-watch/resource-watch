@@ -1,4 +1,4 @@
-const GDPR_KEY = 'GDPR_accepted';
+const GDPR_KEY = 'rw_GDPR_accepted';
 
 export const getGDPRAccepted = () => {
   if (typeof window !== 'undefined') {
@@ -7,8 +7,8 @@ export const getGDPRAccepted = () => {
   return true;
 };
 
-export const setGDPRAccepted = (value) => {
+export const setGDPRAccepted = () => {
   if (typeof window !== 'undefined') {
-    window.localStorage.setItem(GDPR_KEY, value);
+    window.localStorage.setItem(GDPR_KEY, 'true');
   }
 };

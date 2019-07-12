@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Progress from 'react-progress-2';
 
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
-import { getGDPRAccepted } from 'utils/gdpr';
 
 // Components
 import { Router } from 'routes';
@@ -30,7 +29,7 @@ import {
   Icons as WidgetIcons
 } from 'widget-editor';
 
-class LayoutAdmin extends Component {
+class LayoutAdmin extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
@@ -50,7 +49,6 @@ class LayoutAdmin extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { modalOpen: false, gdprAccepted: false };
 
     // WIDGET EDITOR
     // Change the configuration according to your needs
@@ -64,6 +62,8 @@ class LayoutAdmin extends Component {
       userEmail: props.user.email
     });
   }
+
+  state = { modalOpen: false }
 
   componentWillMount() {
     // When a tooltip is shown and the router navigates to a
@@ -112,10 +112,6 @@ class LayoutAdmin extends Component {
     }
   }
 
-  handleAcceptGDPR = () => {
-    this.setState({ gdprAccepted: false });
-  };
-
   render() {
     const {
       title,
@@ -126,16 +122,14 @@ class LayoutAdmin extends Component {
       toggleModal,
       setModalOptions
     } = this.props;
-    const { gdprAccepted, modalOpen } = this.state;
+    const { modalOpen } = this.state;
     const componentClass = classnames('l-page', { [className]: !!className });
-
-    const showGDPRBanner = !gdprAccepted && !getGDPRAccepted();
 
     return (
       <div id="#main" className={componentClass}>
         <Head title={title} description={description} />
 
-        {showGDPRBanner && <GDPRBanner onAccept={this.handleAcceptGDPR} />}
+        <GDPRBanner />
 
         <Icons />
         <IconsRW />

@@ -1,23 +1,18 @@
 @import 'css/settings';
 
-// GDPR banner
-.gdpr-banner {
-  width: 100%;
-  height: 70px;
-  background-color: $charcoal-grey;
-  color: white;
+.c-gdpr-banner {
   display: flex;
   align-items: center;
-  padding: 10px 0 10px 0;
+  padding: $space-1 0;
+  background-color: $charcoal-grey;
+  color: $white;
 
-  a {
-    color: white;
-    text-decoration: underline;
+  @media screen and (min-width: map-get($breakpoints, large)) {
+    max-height: 70px;
   }
 
-  .button-container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  a {
+    color: $white;
+    text-decoration: underline;
   }
 }
