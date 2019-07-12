@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import CollectionsForm from 'components/app/myrw/collections/form/CollectionsForm';
 
 function CollectionsEdit(props) {
+
   const { user, id } = props;
 
   const { collections } = user;
@@ -25,8 +26,6 @@ CollectionsEdit.propTypes = {
   id: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(CollectionsEdit);

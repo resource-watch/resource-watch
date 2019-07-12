@@ -71,12 +71,12 @@ class LayoutMyRWDetail extends PureComponent {
 
     if (this.service) {
       // Fetch the dataset / layer / widget depending on the tab
-      if (tab !== 'areas' && tab !== 'dashboards') {
+      if (tab !== 'areas' && tab !== 'dashboards' && tab !== 'collections') {
         this.service.fetchData({ id })
           .then((data) => { this.setState({ data }); })
           .catch((err) => { toastr.error('Error', err); });
       } else {
-        if (tab === 'dashboards') return;
+        if (tab === 'dashboards' || tab === 'collections') return;
         this.service.getArea(id, user.token)
           .then((data) => { this.setState({ data: data.data }); })
           .catch((err) => { toastr.error('Error', err); });

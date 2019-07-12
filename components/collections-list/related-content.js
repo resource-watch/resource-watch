@@ -1,13 +1,7 @@
 import React from 'react';
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
-
-import { connect } from 'react-redux';
-
 import TetherComponent from 'react-tether';
-
-import { Link } from 'routes';
-
 
 // Components
 import Icon from 'components/ui/Icon';
@@ -40,58 +34,61 @@ class CollectionsRelatedContent extends React.Component {
   }
 
   render() {
-    const { row, value, index, route } = this.props;
+    const { row } = this.props;
+    const { datasets, widgets, widgetsActive, datasetsActive } = this.state;
+
     return (
       <div className="c-related-content">
         <ul>
-
           <li>
             <TetherComponent
               attachment="bottom center"
-              constraints={[{
-                to: 'window'
-              }]}
+              constraints={[
+                { to: 'window' }
+              ]}
               targetOffset="-4px 0"
-              classes={{
-                element: 'c-tooltip'
-              }}
+              classes={{ element: 'c-tooltip' }}
             >
-              <Link route="myrw" params={{ tab: 'datasets', subtab: row.id }}>
+
                 <a
                   onMouseEnter={() => this.toggleTooltip('datasetsActive', true)}
-                  onMouseLeave={() => this.toggleTooltip('datasetsActive', false)}>
-                  <Icon name="icon-table2" className="c-icon -small" /> <span>{this.state.datasets.length}</span>
+                  onMouseLeave={() => this.toggleTooltip('datasetsActive', false)}
+                >
+                  <Icon name="icon-table2" className="c-icon -small" />{' '}
+                  <span>{datasets.length}</span>
                 </a>
-              </Link>
 
-              {this.state.datasetsActive &&
-                <div><span>Datasets {this.state.datasets.length}</span></div>}
+              {datasetsActive && (
+                <div>
+                  <span>Datasets {datasets.length}</span>
+                </div>
+              )}
             </TetherComponent>
           </li>
 
           <li>
             <TetherComponent
               attachment="bottom center"
-              constraints={[{
-                to: 'window'
-              }]}
+              constraints={[
+                { to: 'window' }
+              ]}
               targetOffset="-4px 0"
-              classes={{
-                element: 'c-tooltip'
-              }}
+              classes={{ element: 'c-tooltip' }}
             >
-              <Link route="myrw" params={{ tab: 'widgets', subtab: row.id }}>
                 <a
                   onMouseEnter={() => this.toggleTooltip('widgetsActive', true)}
-                  onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}>
-                  <Icon name="icon-widgets" className="c-icon -small" /> <span>{this.state.widgets.length}</span>
+                  onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}
+                >
+                  <Icon name="icon-widgets" className="c-icon -small" />{' '}
+                  <span>{widgets.length}</span>
                 </a>
-              </Link>
-              {this.state.widgetsActive &&
-                <div><span>Widgets {this.state.widgets.length}</span></div>}
+              {widgetsActive && (
+                <div>
+                  <span>Widgets {widgets.length}</span>
+                </div>
+              )}
             </TetherComponent>
           </li>
-
         </ul>
       </div>
     );
@@ -99,11 +96,8 @@ class CollectionsRelatedContent extends React.Component {
 }
 
 CollectionsRelatedContent.propTypes = {
-  value: PropTypes.object.isRequired
+  value: PropTypes.object.isRequired,
+  row: PropTypes.object.isRequired
 };
 
-export default connect(
-  state => ({
-    user: state.user
-  })
-)(CollectionsRelatedContent);
+export default CollectionsRelatedContent;
