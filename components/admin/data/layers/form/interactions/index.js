@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import * as actions from './interactions-actions';
-import * as reducers from './interactions-reducer';
-import initialState from './interactions-default-state';
+import * as actions from './actions';
+import * as reducers from './reducer';
+import initialState from './initial-state';
 
-import InteractionsComponent from './interactions-component';
+import InteractionsComponent from './component';
 
 // Mandatory
 export {
