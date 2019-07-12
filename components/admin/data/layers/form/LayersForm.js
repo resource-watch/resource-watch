@@ -251,7 +251,7 @@ class LayersForm extends React.Component {
       body: form
     }).then((data) => {
       toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
-      if (onSubmit) onSubmit(data.id);
+      if (onSubmit) onSubmit(data.id, dataset);
       this.setState({ submitting: false, form: data });
     }).catch((errors) => {
       this.setState({ submitting: false });
@@ -264,8 +264,7 @@ class LayersForm extends React.Component {
   }
 
   render() {
-    const { form, id, dataset, datasets, loading, step, stepLength, submitting } = this.state;
-    console.log('this.state', this.state);
+    const { form, id, datasets, loading, step, stepLength, submitting } = this.state;
 
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
