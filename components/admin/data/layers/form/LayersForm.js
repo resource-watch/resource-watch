@@ -54,12 +54,6 @@ class LayersForm extends React.Component {
         this.props.dispatch(setLayerInteractionError(valid ? false : err));
       }
     });
-
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onChangeDataset = this.onChangeDataset.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
   }
 
   componentDidMount() {
@@ -102,7 +96,7 @@ class LayersForm extends React.Component {
    * - onChange
    * - onChangeDataset
   */
-  onSubmit(event) {
+  onSubmit = (event) => {
     if (event) event.preventDefault();
 
     const { step, form } = this.state;
@@ -163,16 +157,16 @@ class LayersForm extends React.Component {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onChangeDataset(dataset) {
+  onChangeDataset = (dataset) => {
     this.setState({ dataset });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
