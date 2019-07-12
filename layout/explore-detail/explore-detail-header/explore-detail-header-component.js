@@ -93,6 +93,7 @@ class ExploreDetailHeader extends PureComponent {
                     analytics={{
                       facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
                       twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
+                      email: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Email'),
                       copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
                     }}
                   />

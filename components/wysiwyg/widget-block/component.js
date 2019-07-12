@@ -186,6 +186,7 @@ class WidgetBlock extends PureComponent {
                       analytics={{
                         facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
                         twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
+                        email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
                         copy: type => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`)
                       }}
                     />

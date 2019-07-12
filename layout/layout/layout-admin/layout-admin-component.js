@@ -8,6 +8,7 @@ import { initGA, logPageView } from 'utils/analytics';
 
 // Components
 import { Router } from 'routes';
+import IconsRW from 'components/icons';
 
 // vizzuality-components
 import { Icons } from 'vizzuality-components';
@@ -127,6 +128,7 @@ class LayoutAdmin extends PureComponent {
         />
 
         <Icons />
+        <IconsRW />
 
         <Progress.Component />
 
