@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Progress from 'react-progress-2';
 import classnames from 'classnames';
@@ -6,6 +6,7 @@ import classnames from 'classnames';
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
 import { browserSupported } from 'utils/browser';
+import { getGDPRAccepted } from 'utils/gdpr';
 
 // vizzuality-components
 import { Icons } from 'vizzuality-components';
@@ -15,15 +16,15 @@ import { Router } from 'routes';
 import HeadApp from 'layout/head/app';
 import Header from 'layout/header';
 import Footer from 'layout/footer';
+
 import UserReport from 'layout/user-report';
 import IconsRW from 'components/icons';
-
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Search from 'layout/header/search';
-
 import NoBrowserSupport from 'components/app/common/Browser';
+import GDPRBanner from 'components/ui/gdpr-banner';
 
 import {
   setConfig,
@@ -32,7 +33,7 @@ import {
   Icons as WidgetIcons
 } from 'widget-editor';
 
-class LayoutApp extends PureComponent {
+class LayoutApp extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
@@ -56,7 +57,7 @@ class LayoutApp extends PureComponent {
     thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
   }
 
-  state = { modalOpen: false }
+  state = { modalOpen: false, gdprAccepted: false }
 
   componentWillMount() {
     const { user: { token2, email } } = this.props;
@@ -97,6 +98,10 @@ class LayoutApp extends PureComponent {
     }
   }
 
+  handleAcceptGDPR = () => {
+    this.setState({ gdprAccepted: false });
+  }
+
   render() {
     const {
       title,
@@ -105,12 +110,18 @@ class LayoutApp extends PureComponent {
       modal,
       className,
       thumbnail,
-      isFullScreen
+      isFullScreen,
+      children,
+      toggleModal,
+      setModalOptions
     } = this.props;
+    const { gdprAccepted, modalOpen } = this.state;
     const componentClass = classnames(
       'l-page',
       { [className]: !!className }
     );
+
+    const showGDPRBanner = !gdprAccepted && !getGDPRAccepted();
 
     return (
       <div
@@ -122,6 +133,10 @@ class LayoutApp extends PureComponent {
           description={description}
           {...thumbnail && { thumbnail }}
         />
+
+        {showGDPRBanner &&
+          <GDPRBanner onAccept={this.handleAcceptGDPR} />
+        }
 
         {!browserSupported() &&
           <Modal
@@ -139,7 +154,7 @@ class LayoutApp extends PureComponent {
 
         <Progress.Component />
 
-        {this.props.children}
+        {children}
 
         {!isFullScreen && (<Footer />)}
 
@@ -148,11 +163,11 @@ class LayoutApp extends PureComponent {
         <Search />
 
         <Modal
-          open={this.state.modalOpen}
+          open={modalOpen}
           options={modal.options}
           loading={modal.loading}
-          toggleModal={this.props.toggleModal}
-          setModalOptions={this.props.setModalOptions}
+          toggleModal={toggleModal}
+          setModalOptions={setModalOptions}
         />
 
         <Toastr

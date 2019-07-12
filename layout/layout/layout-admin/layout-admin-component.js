@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Progress from 'react-progress-2';
 
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
+import { getGDPRAccepted } from 'utils/gdpr';
 
 // Components
 import { Router } from 'routes';
@@ -20,6 +21,7 @@ import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Search from 'layout/header/search';
+import GDPRBanner from 'components/ui/gdpr-banner';
 
 import {
   setConfig,
@@ -28,7 +30,7 @@ import {
   Icons as WidgetIcons
 } from 'widget-editor';
 
-class LayoutAdmin extends PureComponent {
+class LayoutAdmin extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
@@ -44,11 +46,11 @@ class LayoutAdmin extends PureComponent {
     user: PropTypes.object.isRequired
   };
 
-  static defaultProps = { className: null }
+  static defaultProps = { className: null };
 
   constructor(props) {
     super(props);
-    this.state = { modalOpen: false };
+    this.state = { modalOpen: false, gdprAccepted: false };
 
     // WIDGET EDITOR
     // Change the configuration according to your needs
@@ -110,31 +112,37 @@ class LayoutAdmin extends PureComponent {
     }
   }
 
+  handleAcceptGDPR = () => {
+    this.setState({ gdprAccepted: false });
+  };
+
   render() {
-    const { title, description, pageHeader, modal, className } = this.props;
-    const componentClass = classnames(
-      'l-page',
-      { [className]: !!className }
-    );
+    const {
+      title,
+      description,
+      pageHeader,
+      modal,
+      className,
+      toggleModal,
+      setModalOptions
+    } = this.props;
+    const { gdprAccepted, modalOpen } = this.state;
+    const componentClass = classnames('l-page', { [className]: !!className });
+
+    const showGDPRBanner = !gdprAccepted && !getGDPRAccepted();
 
     return (
-      <div
-        id="#main"
-        className={componentClass}
-      >
-        <Head
-          title={title}
-          description={description}
-        />
+      <div id="#main" className={componentClass}>
+        <Head title={title} description={description} />
+
+        {showGDPRBanner && <GDPRBanner onAccept={this.handleAcceptGDPR} />}
 
         <Icons />
         <IconsRW />
 
         <Progress.Component />
 
-        <Header
-          pageHeader={pageHeader}
-        />
+        <Header pageHeader={pageHeader} />
 
         {this.props.children}
 
@@ -143,18 +151,14 @@ class LayoutAdmin extends PureComponent {
         <Search />
 
         <Modal
-          open={this.state.modalOpen}
+          open={modalOpen}
           options={modal.options}
           loading={modal.loading}
-          toggleModal={this.props.toggleModal}
-          setModalOptions={this.props.setModalOptions}
+          toggleModal={toggleModal}
+          setModalOptions={setModalOptions}
         />
 
-        <Toastr
-          preventDuplicates
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-        />
+        <Toastr preventDuplicates transitionIn="fadeIn" transitionOut="fadeOut" />
 
         {/* Widget editor */}
         <WidgetModal />
