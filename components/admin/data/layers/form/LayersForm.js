@@ -163,6 +163,8 @@ class LayersForm extends React.Component {
   }
 
   onChangeDataset = (dataset) => {
+    console.log('dataset', dataset);
+
     this.setState({ dataset });
   }
 
@@ -263,18 +265,19 @@ class LayersForm extends React.Component {
   }
 
   render() {
+    const { form, id, dataset, datasets, loading, step, stepLength, submitting } = this.state;
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
-        <Spinner isLoading={this.state.loading} className="-light" />
+        <Spinner isLoading={loading} className="-light" />
 
-        {(this.state.step === 1 && !this.state.loading) &&
+        {(step === 1 && !loading) &&
           <Step1
             ref={(c) => { this.step = c; }}
-            form={this.state.form}
-            id={this.state.id}
+            form={form}
+            id={id}
             layerPreview={this.props.adminLayerPreview}
-            dataset={this.state.dataset}
-            datasets={this.state.datasets}
+            dataset={dataset}
+            datasets={datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
             setLayerInteraction={this.setLayerInteraction}
@@ -284,11 +287,11 @@ class LayersForm extends React.Component {
           />
         }
 
-        {!this.state.loading &&
+        {!loading &&
           <Navigation
-            step={this.state.step}
-            stepLength={this.state.stepLength}
-            submitting={this.state.submitting}
+            step={step}
+            stepLength={stepLength}
+            submitting={submitting}
             onStepChange={this.onStepChange}
           />
         }
