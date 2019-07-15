@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 
 import { fetchDataset } from 'services/dataset';
 
+// Styles
+import './styles.scss';
+
 function LayerInfoModal(props) {
   const { embed, layer } = props;
   const [slug, setSlug] = useState(' ');
@@ -19,7 +22,7 @@ function LayerInfoModal(props) {
   }, []);
 
   return (
-    <div className="layer-info-modal">
+    <div className="c-layer-info-modal">
       <div className="layer-info-content">
         <h2>{layer.name}</h2>
         <p>{layer.description}</p>
@@ -27,7 +30,7 @@ function LayerInfoModal(props) {
           {embed && (
             <a
               className="c-btn -primary"
-              href={`${window.location.origin}/data/explore/${layer.dataset}`}
+              href={`${window.location.origin}/data/explore/${slug}`}
               target="_blank"
               rel="noopener noreferrer"
             >
