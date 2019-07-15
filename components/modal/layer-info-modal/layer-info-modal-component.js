@@ -7,9 +7,6 @@ import { connect } from 'react-redux';
 
 import { fetchDataset } from 'services/dataset';
 
-// Styles
-import './styles.scss';
-
 function LayerInfoModal(props) {
   const { embed, layer } = props;
   const [slug, setSlug] = useState(' ');
@@ -26,7 +23,7 @@ function LayerInfoModal(props) {
       <div className="layer-info-content">
         <h2>{layer.name}</h2>
         <p>{layer.description}</p>
-        <div className="buttons">
+        <div className="c-button-container -j-end">
           {embed && (
             <a
               className="c-btn -primary"
