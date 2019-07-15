@@ -315,7 +315,7 @@ class LayersForm extends PureComponent {
             setLayerInteractionLatLng={this.setLayerInteractionLatLng}
             verifyLayerConfig={() => this.verifyLayerConfig()}
           />
-        )
+        }
 
         {!loading &&
           <Navigation
