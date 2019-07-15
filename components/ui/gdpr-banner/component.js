@@ -27,7 +27,7 @@ const GDPRBanner = ({ handleGDPR }) => (
           <div className="c-button-container -j-end -a-center -full-height">
             <button
               type="button"
-              className="c-button -secondary -compressed -fs-medium"
+              className="c-button -primary -alt -compressed -fs-medium"
               onClick={handleGDPR}
             >
               I agree
