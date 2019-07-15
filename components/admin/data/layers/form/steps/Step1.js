@@ -37,19 +37,7 @@ class Step1 extends PureComponent {
     datasets: []
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      id: props.id,
-      form: props.form
-    };
-
-    // ------------------- BINDINGS -------------------------
-    this.handleRefreshPreview = this.handleRefreshPreview.bind(this);
-  }
-
-  handleRefreshPreview() {
+  handleRefreshPreview = () => {
     this.setLayerGroups();
   }
 
@@ -71,10 +59,10 @@ class Step1 extends PureComponent {
       user,
       layerPreview,
       verifyLayerConfig,
-      query
+      query,
+      form,
+      id
     } = this.props;
-
-    const { form, id } = this.state;
 
     return (
       <fieldset className="c-field-container">

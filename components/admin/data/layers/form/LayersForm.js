@@ -171,7 +171,8 @@ class LayersForm extends PureComponent {
   }
 
   onChangeDataset = (dataset) => {
-    this.setState({ dataset });
+    const form = Object.assign({}, this.state.form, { dataset });
+    this.setState({ dataset, form });
   }
 
   onStepChange = (step) => {
@@ -274,47 +275,38 @@ class LayersForm extends PureComponent {
   saveLayer(form) {
     const { id, dataset } = this.state;
     const { onSubmit } = this.props;
-    this.layerService
-      .saveData({
-        dataset,
-        id: id || '',
-        type: id ? 'PATCH' : 'POST',
-        body: form
-      })
-      .then((data) => {
-        toastr.success(
-          'Success',
-          `The layer "${data.id}" - "${data.name}" has been uploaded correctly`
-        );
-        if (onSubmit) onSubmit(data.id);
-        this.setState({ submitting: false, form: data });
-      })
-      .catch((errors) => {
-        this.setState({ submitting: false });
-        try {
-          errors.forEach(er => toastr.error('Error', er.detail));
-        } catch (e) {
-          toastr.error('Error', 'Oops! There was an error, try again.');
-        }
-      });
+    this.layerService.saveData({
+      dataset,
+      id: id || '',
+      type: (id) ? 'PATCH' : 'POST',
+      body: form
+    }).then((data) => {
+      toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
+      if (onSubmit) onSubmit(data.id, dataset);
+      this.setState({ submitting: false, form: data });
+    }).catch((errors) => {
+      this.setState({ submitting: false });
+      try {
+        errors.forEach(er => toastr.error('Error', er.detail));
+      } catch (e) {
+        toastr.error('Error', 'Oops! There was an error, try again.');
+      }
+    });
   }
 
   render() {
-    const { loading, step, form, id, dataset, datasets, stepLength, submitting } = this.state;
-    const { adminLayerPreview } = this.props;
+    const { form, id, datasets, loading, step, stepLength, submitting } = this.state;
+
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={loading} className="-light" />
 
-        {step === 1 && !loading && (
+        {(step === 1 && !loading) &&
           <Step1
-            ref={(c) => {
-              this.step = c;
-            }}
+            ref={(c) => { this.step = c; }}
             form={form}
             id={id}
-            layerPreview={adminLayerPreview}
-            dataset={dataset}
+            layerPreview={this.props.adminLayerPreview}
             datasets={datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
@@ -323,9 +315,9 @@ class LayersForm extends PureComponent {
             setLayerInteractionLatLng={this.setLayerInteractionLatLng}
             verifyLayerConfig={() => this.verifyLayerConfig()}
           />
-        )}
+        }
 
-        {!loading && (
+        {!loading &&
           <Navigation
             step={step}
             stepLength={stepLength}
@@ -334,7 +326,7 @@ class LayersForm extends PureComponent {
             showDelete
             onDelete={this.onDelete}
           />
-        )}
+        }
       </form>
     );
   }
