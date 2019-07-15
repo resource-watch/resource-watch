@@ -4,7 +4,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 import LayersService from 'services/LayersService';
 
 // Actions
-import { generateLayerGroups } from 'components/admin/data/layers/form/layer-preview/layer-preview-actions';
+import { generateLayerGroups } from 'components/admin/data/layers/form/layer-preview/actions';
 
 // Constants
 import { FORMAT } from '../constants';

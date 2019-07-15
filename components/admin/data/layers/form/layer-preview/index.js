@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import * as actions from './layer-preview-actions';
-import * as reducers from './layer-preview-reducer';
-import initialState from './layer-preview-default-state';
+import * as actions from './actions';
+import * as reducers from './reducer';
+import initialState from './initial-state';
 
-import LayerPreviewComponent from './layer-preview-component';
+import LayerPreviewComponent from './component';
 
 // Mandatory
 export {

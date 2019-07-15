@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'react-fast-compare';
 import { toastr } from 'react-redux-toastr';
+import { Router } from 'routes';
 
 // components
 import Navigation from 'components/form/Navigation';
@@ -11,7 +12,7 @@ import Spinner from 'components/ui/Spinner';
 // services
 import WidgetsService from 'services/WidgetsService';
 import { fetchDatasets } from 'services/dataset';
-import { fetchWidget } from 'services/widget';
+import { fetchWidget, deleteWidget } from 'services/widget';
 
 // utils
 import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
@@ -300,6 +301,27 @@ class WidgetForm extends PureComponent {
     });
   }
 
+  handleDelete = () => {
+    const { form: { name, dataset, id } } = this.state;
+    const { authorization } = this.props;
+
+    toastr.confirm(`Are you sure that you want to delete the widget: "${name}"`, {
+      onOk: () => {
+        deleteWidget(id, dataset, authorization)
+          .then(() => {
+            toastr.success('Success', `The widget "${id}" - "${name}" has been removed correctly`);
+            Router.pushRoute('admin_data', { tab: 'widgets' });
+          })
+          .catch((err) => {
+            toastr.error(
+              'Error',
+              `The widget "${id}" - "${name}" was not deleted. Try again. ${err.message}`
+            );
+          });
+      }
+    });
+  }
+
   render() {
     const {
       submitting,
@@ -338,6 +360,8 @@ class WidgetForm extends PureComponent {
             stepLength={stepLength}
             submitting={submitting}
             onStepChange={this.onStepChange}
+            showDelete
+            onDelete={this.handleDelete}
           />
         )}
       </form>

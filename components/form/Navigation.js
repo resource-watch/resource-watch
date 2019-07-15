@@ -11,13 +11,17 @@ class Navigation extends PureComponent {
     stepLength: PropTypes.number.isRequired,
     submitting: PropTypes.bool.isRequired,
     hideCancel: PropTypes.bool,
+    showDelete: PropTypes.bool,
     onStepChange: PropTypes.func.isRequired,
-    onBack: PropTypes.func
+    onBack: PropTypes.func,
+    onDelete: PropTypes.func
   }
 
   static defaultProps = {
     hideCancel: false,
-    onBack: null
+    showDelete: false,
+    onBack: null,
+    onDelete: null
   }
   constructor(props) {
     super(props);
@@ -46,12 +50,27 @@ class Navigation extends PureComponent {
   }
 
   render() {
-    const { step, stepLength, submitting, hideCancel } = this.props;
+    const { step, stepLength, submitting, hideCancel, showDelete, onDelete } = this.props;
 
     const submittingClassName = classnames({ '-submitting': submitting });
 
     return (
       <ul className="c-field-buttons">
+        {step === stepLength &&
+          <li>
+            <Button
+              properties={{
+                type: 'submit',
+                name: 'commit',
+                disabled: submitting,
+                className: `-primary -expanded ${submittingClassName}`
+              }}
+            >
+              {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
+              Save
+            </Button>
+          </li>
+        }
         {step !== 1 &&
           <li>
             <Button
@@ -79,13 +98,14 @@ class Navigation extends PureComponent {
             </Button>
           </li>
         }
+
         {stepLength === 1 && !hideCancel &&
           <li>
             <Button
               properties={{
                 type: 'button',
                 name: 'commit',
-                className: '-secondary -expanded'
+                className: '-tertiary -expanded'
               }}
               onClick={this.onBack}
             >
@@ -93,19 +113,17 @@ class Navigation extends PureComponent {
             </Button>
           </li>
         }
-
-        {step === stepLength &&
+        {showDelete &&
           <li>
             <Button
               properties={{
-                type: 'submit',
+                type: 'button',
                 name: 'commit',
-                disabled: submitting,
-                className: `-primary -expanded ${submittingClassName}`
+                className: '-tertiary -expanded'
               }}
+              onClick={onDelete}
             >
-              {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
-              Save
+              Delete
             </Button>
           </li>
         }

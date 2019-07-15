@@ -16,7 +16,7 @@ import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
 
-import InteractionsComponent from '../interactions/interactions-component';
+import InteractionsComponent from '../interactions';
 import LayerPreviewComponent from '../layer-preview';
 
 class Step1 extends PureComponent {
