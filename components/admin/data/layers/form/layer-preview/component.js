@@ -153,7 +153,7 @@ class LayerPreviewComponent extends PureComponent {
             </Legend>
           </div>
         </div>
-        <div className="actions">
+        <div className="c-button-container -j-end layer-preview-actions">
           <button
             type="button"
             className="c-button -primary"

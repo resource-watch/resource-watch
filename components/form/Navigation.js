@@ -51,13 +51,12 @@ class Navigation extends PureComponent {
 
   render() {
     const { step, stepLength, submitting, hideCancel, showDelete, onDelete } = this.props;
-
     const submittingClassName = classnames({ '-submitting': submitting });
 
     return (
       <ul className="c-field-buttons">
         {showDelete &&
-          <li className="delete-container">
+          <li className="c-button-container -full-width">
             <Button
               properties={{
                 type: 'button',

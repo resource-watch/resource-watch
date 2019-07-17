@@ -183,7 +183,7 @@ class Step1 extends PureComponent {
           this.layerConfigStatus('Layer config valid')}
 
         {form.provider === 'cartodb' &&
-          <div className="verify-config-container">
+          <div className="c-button-container -full-width -j-end">
             <button
               type="button"
               className="c-button -primary"

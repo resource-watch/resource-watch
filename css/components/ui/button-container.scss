@@ -6,6 +6,10 @@
     height: 100%;
   }
 
+  &.-full-width {
+    width: 100%;
+  }
+
   // Justify
   &.-j-start { justify-content: flex-start; }
   &.-j-center { justify-content: center; }
