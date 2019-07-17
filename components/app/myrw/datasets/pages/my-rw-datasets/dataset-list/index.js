@@ -28,8 +28,7 @@ class DatasetListContainer extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const { pathname, subtab, orderDirection, pagination } = this.props;
     const { page } = pagination;
-
-    const isMyRW = pathname === '/app/MyRW';
+    const isMyRW = pathname.startsWith('/myrw');
     const tabChanged = subtab !== nextProps.subtab;
     const paginationPageChanged = page !== nextProps.pagination.page;
     const orderDirectionChanged = orderDirection !== nextProps.orderDirection;

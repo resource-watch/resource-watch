@@ -32,8 +32,8 @@ class DatasetsListCard extends PureComponent {
     const { dataset } = this.props;
     const metadata = dataset.metadata[0];
 
-    if (metadata && metadata.attributes.info && metadata.attributes.info.name) {
-      return metadata.attributes.info.name;
+    if (metadata && metadata.info && metadata.info.name) {
+      return metadata.info.name;
     }
 
     return dataset.name;
