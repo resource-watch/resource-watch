@@ -27,7 +27,8 @@ class WidgetForm extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     showEditor: PropTypes.bool,
     widgetEditor: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired
+    locale: PropTypes.string.isRequired,
+    newState: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -310,7 +311,7 @@ class WidgetForm extends PureComponent {
         deleteWidget(id, dataset, authorization)
           .then(() => {
             toastr.success('Success', `The widget "${id}" - "${name}" has been removed correctly`);
-            Router.pushRoute('admin_data', { tab: 'widgets' });
+            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'widgets', id: dataset });
           })
           .catch((err) => {
             toastr.error(
