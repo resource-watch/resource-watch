@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 // Components
 import Dropzone from 'react-dropzone';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 import FormElement from './FormElement';
 

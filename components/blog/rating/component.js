@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import Icon from 'components/ui/Icon';
+
+// components
+import Icon from 'components/ui/icon';
 
 // styles
 import './styles.scss';
@@ -15,10 +17,7 @@ class Rating extends PureComponent {
   static defaultProps = { className: null }
 
   render() {
-    const {
-      className,
-      rating
-    } = this.props;
+    const { className, rating } = this.props;
     const componentClass = classnames('c-rating', { [className]: !!className });
 
     return (

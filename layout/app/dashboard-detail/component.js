@@ -7,7 +7,7 @@ import { Router } from 'routes';
 import Layout from 'layout/layout/layout-app';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import DashboardDetail from 'components/dashboards/detail';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 import Modal from 'components/modal/modal-component';

@@ -5,7 +5,7 @@ import { Link } from 'routes';
 import { StickyContainer, Sticky } from 'react-sticky';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 import SearchInput from 'components/ui/SearchInput';
 import CollectionListAside from 'components/collection-list-aside';

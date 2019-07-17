@@ -5,7 +5,7 @@ import TetherComponent from 'react-tether';
 import { Link } from 'routes';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 class CollectionsRelatedContent extends React.Component {
   constructor(props) {

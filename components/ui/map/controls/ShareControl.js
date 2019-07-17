@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // Utils
 import { logEvent } from 'utils/analytics';

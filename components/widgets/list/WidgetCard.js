@@ -18,7 +18,7 @@ import WidgetChart from 'components/charts/widget-chart';
 import LayerChart from 'components/charts/layer-chart';
 import ShareModal from 'components/modal/share-modal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
 

@@ -3,7 +3,7 @@ import React from 'react';
 import { SortableHandle } from 'react-sortable-hoc';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 const FaqListItemHandle = () => (
   <span className="handler">

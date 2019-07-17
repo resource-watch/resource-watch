@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 

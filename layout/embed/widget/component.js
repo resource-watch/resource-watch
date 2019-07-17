@@ -6,7 +6,7 @@ import { VegaChart, getVegaTheme } from 'widget-editor';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 

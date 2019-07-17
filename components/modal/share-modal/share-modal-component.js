@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 
 // styles

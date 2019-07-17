@@ -6,7 +6,7 @@ import LayoutEmbed from 'layout/layout/layout-embed';
 import DashboardDetail from 'components/dashboards/detail';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // utils
 import { logEvent } from 'utils/analytics';

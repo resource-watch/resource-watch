@@ -4,7 +4,7 @@ import { Link } from 'routes';
 import MediaQuery from 'react-responsive';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import LoginRequired from 'components/ui/login-required';
 import Modal from 'components/modal/modal-component';
 import DatasetSubscriptionsModal from 'components/modal/subscriptions-modal/dataset';

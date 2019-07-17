@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // utils
 import { isLoadedExternally } from 'utils/embed';

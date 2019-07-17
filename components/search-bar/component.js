@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 
 // components
 import SearchInput from 'components/ui/SearchInput';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 class SearchBar extends PureComponent {
   static propTypes = {

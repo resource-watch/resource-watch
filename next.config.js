@@ -4,21 +4,33 @@ const path = require('path');
 const webpack = require('webpack');
 const withSass = require('@zeit/next-sass');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const cssnano = require('cssnano');
 const { BundleAnalyzerPlugin } = process.env.NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER ? require('webpack-bundle-analyzer') : {};
 
 module.exports = withSass({
   useFileSystemPublicRoutes: false,
 
   webpack: (config) => {
-    config.node = {
+    const _config = Object.assign({}, config);
+
+    _config.node = {
       console: true,
       fs: 'empty',
       net: 'empty',
       tls: 'empty'
     };
 
+    _config.plugins.push(
+      // optimizes any css file generated
+      new OptimizeCssAssetsPlugin({
+        cssProcessor: cssnano,
+        cssProcessorPluginOptions: { preset: ['default', { discardComments: { removeAll: true } }] }
+      })
+    );
 
-    config.plugins.push(
+
+    _config.plugins.push(
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
         'process.env.APPLICATIONS': JSON.stringify(process.env.APPLICATIONS),
@@ -42,7 +54,7 @@ module.exports = withSass({
     );
 
     // Copy the images of the widget-editor
-    config.plugins.push(
+    _config.plugins.push(
       new CopyWebpackPlugin([
         {
           from: path.join(__dirname, 'node_modules/widget-editor/dist/images'),
@@ -51,8 +63,8 @@ module.exports = withSass({
       ])
     );
 
-    if (process.env.BUNDLE_ANALYZER) config.plugins.push(new BundleAnalyzerPlugin());
+    if (process.env.BUNDLE_ANALYZER) _config.plugins.push(new BundleAnalyzerPlugin());
 
-    return config;
+    return _config;
   }
 });
