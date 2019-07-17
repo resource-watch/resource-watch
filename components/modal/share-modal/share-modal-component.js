@@ -128,7 +128,7 @@ class ShareModalComponent extends PureComponent {
                       <div className="share-buttons">
                         <a
                           className="c-btn -secondary -compressed -square"
-                          href={`mailto:?body=I+would+like+to+share+this+link+with+you+${url}`}
+                          href={`mailto:?subject=Shared from Resource Watch&body= I thought you'd be interested in what I found on Resource Watch: ${url}`}
                           onClick={() => this.props.analytics.email(type)}
                         >
                           <Icon name="icon-share-email" className="-small" />
