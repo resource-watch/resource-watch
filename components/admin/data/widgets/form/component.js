@@ -334,6 +334,7 @@ class WidgetForm extends PureComponent {
       datasets,
       mode
     } = this.state;
+    const { newState } = this.props;
     return (
       <form className="c-form c-widgets-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={loading} className="-light" />
@@ -360,7 +361,7 @@ class WidgetForm extends PureComponent {
             stepLength={stepLength}
             submitting={submitting}
             onStepChange={this.onStepChange}
-            showDelete
+            showDelete={!newState}
             onDelete={this.handleDelete}
           />
         )}

@@ -17,6 +17,12 @@
     }
   }
 
+  .verify-config-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
   .preview-container {
     display: flex;
     flex-direction: column;
@@ -28,7 +34,7 @@
 
     .actions {
       display: flex;
-      justify-content: flex-start;
+      justify-content: flex-end;
       margin-top: 20px;
     }
   }

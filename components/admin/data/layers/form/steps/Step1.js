@@ -183,13 +183,15 @@ class Step1 extends PureComponent {
           this.layerConfigStatus('Layer config valid')}
 
         {form.provider === 'cartodb' &&
-          <button
-            type="button"
-            className="c-button -primary"
-            onClick={() => verifyLayerConfig()}
-          >
-            Verify config
-          </button>
+          <div className="verify-config-container">
+            <button
+              type="button"
+              className="c-button -primary"
+              onClick={() => verifyLayerConfig()}
+            >
+              Verify config
+            </button>
+          </div>
         }
 
         <Field
