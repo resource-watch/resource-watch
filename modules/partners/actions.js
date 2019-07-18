@@ -5,7 +5,7 @@ import WRISerializer from 'wri-json-api-serializer';
 import {
   fetchPartners,
   fetchPartner
-} from 'services/PartnersService';
+} from 'services/partners';
 // TO-DO: get rid of this at some point
 import DatasetService from 'services/DatasetService';
 

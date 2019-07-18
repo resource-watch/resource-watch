@@ -11,7 +11,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 
 // services
-import { fetchPartner } from 'services/PartnersService';
+import { fetchPartner } from 'services/partners';
 
 // utils
 import { capitalizeFirstLetter } from 'utils/utils';

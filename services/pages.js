@@ -13,7 +13,7 @@ export default class PagesService {
   fetchAllData() {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/static_page/?published=all`,
+        url: `${process.env.WRI_API_URL}/static_page/?published=all&application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -40,7 +40,7 @@ export default class PagesService {
   fetchData(id) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/static_page/${id}`,
+        url: `${process.env.WRI_API_URL}/static_page/${id}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -69,7 +69,11 @@ export default class PagesService {
       post({
         url: `${process.env.WRI_API_URL}/static_page/${id}`,
         type,
-        body,
+        body: {
+          ...body,
+          application: [process.env.APPLICATIONS],
+          env: process.env.API_ENV
+        },
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
