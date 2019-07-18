@@ -51,23 +51,21 @@ class Navigation extends PureComponent {
 
   render() {
     const { step, stepLength, submitting, hideCancel, showDelete, onDelete } = this.props;
-
     const submittingClassName = classnames({ '-submitting': submitting });
 
     return (
       <ul className="c-field-buttons">
-        {step === stepLength &&
-          <li>
+        {showDelete &&
+          <li className="c-button-container -full-width">
             <Button
               properties={{
-                type: 'submit',
+                type: 'button',
                 name: 'commit',
-                disabled: submitting,
-                className: `-primary -expanded ${submittingClassName}`
+                className: '-secondary -expanded'
               }}
+              onClick={onDelete}
             >
-              {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
-              Save
+              Delete
             </Button>
           </li>
         }
@@ -105,7 +103,7 @@ class Navigation extends PureComponent {
               properties={{
                 type: 'button',
                 name: 'commit',
-                className: '-tertiary -expanded'
+                className: '-secondary -expanded'
               }}
               onClick={this.onBack}
             >
@@ -113,17 +111,19 @@ class Navigation extends PureComponent {
             </Button>
           </li>
         }
-        {showDelete &&
+
+        {step === stepLength &&
           <li>
             <Button
               properties={{
-                type: 'button',
+                type: 'submit',
                 name: 'commit',
-                className: '-tertiary -expanded'
+                disabled: submitting,
+                className: `-primary -expanded ${submittingClassName}`
               }}
-              onClick={onDelete}
             >
-              Delete
+              {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
+              Save
             </Button>
           </li>
         }

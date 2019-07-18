@@ -31,7 +31,8 @@ class LayersForm extends PureComponent {
     onSubmit: PropTypes.func,
     locale: PropTypes.string.isRequired,
     interactions: PropTypes.object.isRequired,
-    adminLayerPreview: PropTypes.object.isRequired
+    adminLayerPreview: PropTypes.object.isRequired,
+    newState: PropTypes.bool.isRequired
   }
 
   constructor(props) {
@@ -188,7 +189,7 @@ class LayersForm extends PureComponent {
         deleteLayer(id, dataset, authorization)
           .then(() => {
             toastr.success('Success', `The layer "${id}" - "${name}" has been removed correctly`);
-            Router.pushRoute('admin_data', { tab: 'layers' });
+            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'layers', id: dataset });
           })
           .catch((err) => {
             toastr.error(
@@ -296,6 +297,7 @@ class LayersForm extends PureComponent {
 
   render() {
     const { form, id, datasets, loading, step, stepLength, submitting } = this.state;
+    const { newState } = this.props;
 
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
@@ -323,7 +325,7 @@ class LayersForm extends PureComponent {
             stepLength={stepLength}
             submitting={submitting}
             onStepChange={this.onStepChange}
-            showDelete
+            showDelete={!newState}
             onDelete={this.onDelete}
           />
         }
@@ -335,7 +337,8 @@ class LayersForm extends PureComponent {
 const mapStateToProps = state => ({
   locale: state.common.locale,
   interactions: state.interactions,
-  adminLayerPreview: state.adminLayerPreview
+  adminLayerPreview: state.adminLayerPreview,
+  newState: state.routes.query.id === 'new'
 });
 
 export default connect(
