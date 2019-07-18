@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 // Services
 import DatasetsService from 'services/DatasetsService';
-import LayersService, { fetchLayer, deleteLayer } from 'services/LayersService';
+import LayersService, { fetchLayer, deleteLayer } from 'services/layer';
 import { toastr } from 'react-redux-toastr';
 
 import { setLayerInteractionError } from 'components/admin/data/layers/form/layer-preview/actions';

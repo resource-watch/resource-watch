@@ -4,7 +4,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 
 // Services
-import { fetchLayer } from 'services/LayersService';
+import { fetchLayer } from 'services/layer';
 
 export const setContextLayers = createAction('layer-pill/setContextLayers');
 export const setContextActiveLayers = createAction('layer-pill/setContextActiveLayers');
