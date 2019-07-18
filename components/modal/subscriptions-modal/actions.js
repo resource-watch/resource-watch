@@ -133,14 +133,14 @@ export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =
   (dispatch, getState) => {
     const { common } = getState();
     const { locale } = common;
-    const dasetService = new DatasetService(null, {
+    const datasetService = new DatasetService(null, {
       apiURL: process.env.WRI_API_URL,
       language: locale
     });
 
     dispatch(setDatasetsLoading(true));
 
-    dasetService.getSubscribableDatasets('metadata')
+    datasetService.getSubscribableDatasets('metadata')
       .then((datasets = []) => {
         const parsedDatasets = WRISerializer({ data: datasets });
         dispatch(setDatasets(parsedDatasets));

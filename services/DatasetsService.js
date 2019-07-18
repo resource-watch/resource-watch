@@ -92,6 +92,7 @@ class DatasetsService {
       application: applications.join(','),
       language: this.opts.language,
       includes,
+      env: process.env.API_ENV,
       ...filters
     };
 
