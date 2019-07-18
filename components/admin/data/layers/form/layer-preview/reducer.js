@@ -1,4 +1,4 @@
-import * as actions from './layer-preview-actions';
+import * as actions from './actions';
 
 export default {
   [actions.setLayerGroups]: (state, { payload }) => ({ ...state, ...payload, interaction: {} }),

@@ -59,6 +59,7 @@ class LayoutEmbedDashboard extends PureComponent {
                             analytics={{
                               facebook: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, 'Facebook'),
                               twitter: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, 'Twitter'),
+                              email: () => logEvent('Share', `Share dashboard: ${dashboard.name}`, 'Email'),
                               copy: type => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, `Copy ${type}`)
                             }}
                           />

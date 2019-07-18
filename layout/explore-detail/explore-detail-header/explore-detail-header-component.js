@@ -77,7 +77,9 @@ class ExploreDetailHeader extends PureComponent {
         <div className="page-header-info">
           <ul>
             <li>Source: {(metadata.source) || '-'}</li>
-            <li>Last update: {dataset.dateLastUpdated || '-'}</li>
+            {dataset.dateLastUpdated &&
+              <li>Last update: {dataset.dateLastUpdated}</li>
+            }
             <li>
               <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
                 <Icon name="icon-share" className="-small" />
@@ -93,6 +95,7 @@ class ExploreDetailHeader extends PureComponent {
                     analytics={{
                       facebook: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Facebook'),
                       twitter: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Twitter'),
+                      email: () => logEvent('Share', `Share dataset: ${datasetName}`, 'Email'),
                       copy: type => logEvent('Share', `Share dataset: ${datasetName}`, `Copy ${type}`)
                     }}
                   />

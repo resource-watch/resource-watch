@@ -13,7 +13,7 @@ import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
 import { FORM_ELEMENTS, FORMAT } from 'components/admin/data/layers/form/constants';
-import { getInteractions, modifyInteractions } from './interactions-actions';
+import { getInteractions, modifyInteractions } from './actions';
 
 import InteractionsItems from './interactions-items';
 

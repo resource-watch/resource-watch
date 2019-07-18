@@ -72,6 +72,7 @@ class WidgetDetailHeader extends PureComponent {
                     analytics={{
                       facebook: () => logEvent('Share', `Share widget: ${widget.name}`, 'Facebook'),
                       twitter: () => logEvent('Share', `Share widget: ${widget.name}`, 'Twitter'),
+                      email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
                       copy: type => logEvent('Share', `Share widget: ${widget.name}`, `Copy ${type}`)
                     }}
                   />

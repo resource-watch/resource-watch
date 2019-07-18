@@ -221,6 +221,8 @@ class ExploreMapComponent extends React.Component {
       layerGroupsInteractionLatLng
     } = this.props;
 
+    const { loading, layer } = this.state;
+
     return (
       <div className="l-explore-map -relative">
         {/* Brand logo */}
@@ -235,8 +237,8 @@ class ExploreMapComponent extends React.Component {
           </div>
         )}
         {/* Spinner */}
-        {Object.keys(this.state.loading)
-          .map(k => this.state.loading[k])
+        {Object.keys(loading)
+          .map(k => loading[k])
           .some(l => !!l) && <Spinner isLoading />}
 
         {/* Map */}
@@ -410,13 +412,13 @@ class ExploreMapComponent extends React.Component {
           </Legend>
         </div>
 
-        {!!this.state.layer && (
+        {!!layer && (
           <Modal
-            isOpen={!!this.state.layer}
+            isOpen={!!layer}
             className="-medium"
             onRequestClose={() => this.onChangeInfo(null)}
           >
-            <LayerInfoModal layer={this.state.layer} />
+            <LayerInfoModal layer={layer} />
           </Modal>
         )}
       </div>

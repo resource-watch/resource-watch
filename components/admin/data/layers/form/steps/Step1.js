@@ -16,7 +16,7 @@ import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
 
-import InteractionsComponent from '../interactions/interactions-component';
+import InteractionsComponent from '../interactions';
 import LayerPreviewComponent from '../layer-preview';
 
 class Step1 extends PureComponent {
@@ -37,19 +37,7 @@ class Step1 extends PureComponent {
     datasets: []
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      id: props.id,
-      form: props.form
-    };
-
-    // ------------------- BINDINGS -------------------------
-    this.handleRefreshPreview = this.handleRefreshPreview.bind(this);
-  }
-
-  handleRefreshPreview() {
+  handleRefreshPreview = () => {
     this.setLayerGroups();
   }
 
@@ -71,10 +59,10 @@ class Step1 extends PureComponent {
       user,
       layerPreview,
       verifyLayerConfig,
-      query
+      query,
+      form,
+      id
     } = this.props;
-
-    const { form, id } = this.state;
 
     return (
       <fieldset className="c-field-container">
@@ -195,13 +183,15 @@ class Step1 extends PureComponent {
           this.layerConfigStatus('Layer config valid')}
 
         {form.provider === 'cartodb' &&
-          <button
-            type="button"
-            className="c-button -primary"
-            onClick={() => verifyLayerConfig()}
-          >
-            Verify config
-          </button>
+          <div className="c-button-container -full-width -j-end">
+            <button
+              type="button"
+              className="c-button -primary"
+              onClick={() => verifyLayerConfig()}
+            >
+              Verify config
+            </button>
+          </div>
         }
 
         <Field

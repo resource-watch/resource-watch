@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'react-fast-compare';
 import { toastr } from 'react-redux-toastr';
+import { Router } from 'routes';
 
 // components
 import Navigation from 'components/form/Navigation';
@@ -11,7 +12,7 @@ import Spinner from 'components/ui/Spinner';
 // services
 import WidgetsService from 'services/WidgetsService';
 import { fetchDatasets } from 'services/dataset';
-import { fetchWidget } from 'services/widget';
+import { fetchWidget, deleteWidget } from 'services/widget';
 
 // utils
 import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
@@ -26,7 +27,8 @@ class WidgetForm extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     showEditor: PropTypes.bool,
     widgetEditor: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired
+    locale: PropTypes.string.isRequired,
+    newState: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -44,12 +46,6 @@ class WidgetForm extends PureComponent {
       form: STATE_DEFAULT.form,
       mode: 'editor'
     });
-
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.handleModeChange = this.handleModeChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
 
     this.service = new WidgetsService({ authorization: props.authorization });
   }
@@ -110,7 +106,7 @@ class WidgetForm extends PureComponent {
    * - onChange
    * - handleModeChange
    */
-  onSubmit(event) {
+  onSubmit = (event) => {
     const { submitting, stepLength, step, form, mode } = this.state;
     const { widgetEditor } = this.props;
     event.preventDefault();
@@ -194,12 +190,12 @@ class WidgetForm extends PureComponent {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
@@ -292,7 +288,7 @@ class WidgetForm extends PureComponent {
     }
   }
 
-  handleModeChange(value) {
+  handleModeChange = (value) => {
     // We have to set the defaultEditableWidget to false if the mode has been changed
     // to 'advanced'
     const newForm =
@@ -303,6 +299,27 @@ class WidgetForm extends PureComponent {
     this.setState({
       form: newForm,
       mode: value
+    });
+  }
+
+  handleDelete = () => {
+    const { form: { name, dataset, id } } = this.state;
+    const { authorization } = this.props;
+
+    toastr.confirm(`Are you sure that you want to delete the widget: "${name}"`, {
+      onOk: () => {
+        deleteWidget(id, dataset, authorization)
+          .then(() => {
+            toastr.success('Success', `The widget "${id}" - "${name}" has been removed correctly`);
+            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'widgets', id: dataset });
+          })
+          .catch((err) => {
+            toastr.error(
+              'Error',
+              `The widget "${id}" - "${name}" was not deleted. Try again. ${err.message}`
+            );
+          });
+      }
     });
   }
 
@@ -318,6 +335,7 @@ class WidgetForm extends PureComponent {
       datasets,
       mode
     } = this.state;
+    const { newState } = this.props;
     return (
       <form className="c-form c-widgets-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={loading} className="-light" />
@@ -344,6 +362,8 @@ class WidgetForm extends PureComponent {
             stepLength={stepLength}
             submitting={submitting}
             onStepChange={this.onStepChange}
+            showDelete={!newState}
+            onDelete={this.handleDelete}
           />
         )}
       </form>
