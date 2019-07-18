@@ -3,7 +3,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 import WRISerializer from 'wri-json-api-serializer';
 
 // Services
-import GraphService from 'services/GraphService';
+import GraphService from 'services/graph';
 
 // Helpers
 import { TAGS_BLACKLIST } from 'utils/tags';

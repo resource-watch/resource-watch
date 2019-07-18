@@ -10,7 +10,7 @@ import { getDatasetsByTab } from 'redactions/admin/datasets';
 
 // services
 import UserService from 'services/UserService';
-import FavouritesService from 'services/favourites-service';
+import FavouritesService from 'services/favourites';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
