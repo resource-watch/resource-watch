@@ -7,7 +7,8 @@ class CollectionsService {
    */
   static getAllCollections(token) {
     const queryParams = queryString.stringify({
-      application: [process.env.APPLICATIONS]
+      application: [process.env.APPLICATIONS],
+      env: process.env.API_ENV
     });
 
     return new Promise((resolve, reject) => {
@@ -41,8 +42,13 @@ class CollectionsService {
    * @param {*} collectionId Id of the collection we are asking for.
    */
   static getCollection(token, collectionId) {
+    const queryParams = queryString.stringify({
+      application: [process.env.APPLICATIONS],
+      env: process.env.API_ENV
+    });
+
     return new Promise((resolve, reject) => {
-      fetch(`${process.env.WRI_API_URL}/collection/${collectionId}`, {
+      fetch(`${process.env.WRI_API_URL}/collection/${collectionId}?${queryParams}`, {
         method: 'GET',
         headers: {
           Authorization: token,
@@ -82,6 +88,7 @@ class CollectionsService {
         },
         body: JSON.stringify({
           application: process.env.APPLICATIONS,
+          env: process.env.API_ENV,
           name,
           resources
         })
@@ -113,9 +120,7 @@ class CollectionsService {
     return new Promise((resolve, reject) => {
       fetch(`${process.env.WRI_API_URL}/collection/${collectionId}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: token
-        }
+        headers: { Authorization: token }
       })
         .then((response) => {
           const { status, statusText } = response;

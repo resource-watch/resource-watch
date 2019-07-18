@@ -11,7 +11,7 @@ import { getDatasetsByTab } from 'redactions/admin/datasets';
 // services
 import UserService from 'services/UserService';
 import FavouritesService from 'services/favourites-service';
-import CollectionsService from 'services/collections-service';
+import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
 
