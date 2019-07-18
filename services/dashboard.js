@@ -20,6 +20,7 @@ export const fetchDashboards = (params = {}) =>
     },
     params: {
       env: process.env.API_ENV,
+      application: [process.env.APPLICATIONS],
       ...params
     }
   })
@@ -42,7 +43,7 @@ export const fetchDashboard = id =>
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
-    params: { env: process.env.API_ENV }
+    params: { env: process.env.API_ENV, application: [process.env.APPLICATIONS] }
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -59,7 +60,11 @@ export const fetchDashboard = id =>
  * @returns {Object} serialized created dashboard.
  */
 export const createDashboard = (body, token) =>
-  WRIAPI.post('/dashboard', { ...body }, {
+  WRIAPI.post('/dashboard', {
+    ...body,
+    application: [process.env.APPLICATIONS],
+    env: process.env.API_ENV
+  }, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token
