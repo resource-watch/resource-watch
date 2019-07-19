@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import RasterService from 'services/RasterService';
+import RasterService from 'services/raster';
 import { fetchLayer } from 'services/layer';
 import UserService from 'services/UserService';
 import { fetchWidget } from 'services/widget';

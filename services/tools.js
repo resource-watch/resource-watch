@@ -16,7 +16,7 @@ export default class ToolsService {
   fetchAllData() {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/tool/?published=all`,
+        url: `${process.env.WRI_API_URL}/tool/?published=all&env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -45,7 +45,7 @@ export default class ToolsService {
   fetchData(id) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/tool/${id}`,
+        url: `${process.env.WRI_API_URL}/tool/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -76,7 +76,11 @@ export default class ToolsService {
       post({
         url: `${process.env.WRI_API_URL}/tool/${id}`,
         type,
-        body,
+        body: {
+          ...body,
+          env: process.env.API_ENV,
+          application: process.env.APPLICATIONS
+        },
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -125,7 +129,7 @@ export default class ToolsService {
  */
 
 export const fetchTool = id =>
-  WRIAPI.get(`/tool/${id}`)
+  WRIAPI.get(`/tool/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`)
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);
