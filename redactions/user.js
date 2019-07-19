@@ -9,7 +9,7 @@ import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/are
 import { getDatasetsByTab } from 'redactions/admin/datasets';
 
 // services
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 import FavouritesService from 'services/favourites';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';

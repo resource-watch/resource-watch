@@ -7,7 +7,7 @@ import WRISerializer from 'wri-json-api-serializer';
 
 // services
 import AreasService from 'services/AreasService';
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 import DatasetService from 'services/DatasetService';
 import { fetchQuery } from 'services/query';
 
