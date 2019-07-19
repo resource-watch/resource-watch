@@ -22,6 +22,7 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
     },
     params: {
       env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
       ...params
     },
     transformResponse: [].concat(
