@@ -16,7 +16,7 @@
         "isMulticolor2": false,
         "grid": 0,
         "tags": [
-          "share-email"
+          "email"
         ]
       },
       "attrs": [
@@ -27,7 +27,7 @@
       "properties": {
         "order": 3,
         "id": 0,
-        "name": "share-email",
+        "name": "email",
         "prevSize": 32
       },
       "setIdx": 0,
