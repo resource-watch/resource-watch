@@ -10,6 +10,6 @@ export default function Icon({ name, className }) {
 }
 
 Icon.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
   className: PropTypes.string
 };

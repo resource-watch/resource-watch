@@ -131,7 +131,7 @@ class ShareModalComponent extends PureComponent {
                           href={`mailto:?subject=Shared from Resource Watch&body= I thought you'd be interested in what I found on Resource Watch: ${url}`}
                           onClick={() => this.props.analytics.email(type)}
                         >
-                          <Icon name="icon-share-email" className="-small" />
+                          <Icon name="icon-email" className="-small" />
                         </a>
 
                         <a
