@@ -81,7 +81,7 @@ if (prod && (RW_USERNAME && RW_PASSWORD)) {
     checkBasicAuth({
       name: RW_USERNAME,
       pass: RW_PASSWORD
-    });
+    })
   );
 }
 
