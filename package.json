@@ -48,6 +48,7 @@
     "normalize.css": "7.0.0",
     "nuka-carousel": "^4.4.0",
     "numeral": "^2.0.6",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "passport": "0.3.2",
     "passport-control-tower": "0.1.8",
     "passport-facebook": "2.1.1",
@@ -128,7 +129,6 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-react": "^7.4.0",
-    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "scripts": {
