@@ -1,7 +1,7 @@
 import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
 
-import LayersService from 'services/LayersService';
+import LayersService from 'services/layer';
 
 // Actions
 import { generateLayerGroups } from 'components/admin/data/layers/form/layer-preview/actions';
@@ -12,7 +12,7 @@ import { FORMAT } from '../constants';
 export const toggleLoading = createAction('ADMIN_TOGGLE_INTERACTIONS_LOADING');
 export const setInteractions = createAction('ADMIN_SET_INTERACTIONS');
 
-export const modifyInteractions = createThunkAction('ADMIN_MODIFY_INTERACTION', (props, added) => (dispatch, getState) => {
+export const modifyInteractions = createThunkAction('ADMIN_MODIFY_INTERACTION', props => (dispatch, getState) => {
   const { interactions } = getState();
   const { form } = props;
   dispatch(generateLayerGroups({ form, interactions }));
@@ -22,9 +22,7 @@ export const modifyInteractions = createThunkAction('ADMIN_MODIFY_INTERACTION', 
 export const getInteractions = createThunkAction('ADMIN_GET_INTERACTIONS', props => (dispatch) => {
   dispatch(toggleLoading());
   const { user, form } = props;
-  const layerService = new LayersService({
-    authorization: user.token
-  });
+  const layerService = new LayersService({ authorization: user.token });
 
   if (form && form.provider !== 'wms') {
     layerService.getColumns({ dataset: form.dataset })

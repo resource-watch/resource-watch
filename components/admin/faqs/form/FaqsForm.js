@@ -4,7 +4,7 @@ import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
 // Services
-import FaqsService from 'services/FaqsService';
+import FaqsService from 'services/faqs';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/faqs/form/constants';
 

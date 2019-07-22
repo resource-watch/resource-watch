@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
 // services
-import { deleteLayer } from 'services/LayersService';
+import { deleteLayer } from 'services/layer';
 
 class DeleteAction extends PureComponent {
   static propTypes = {

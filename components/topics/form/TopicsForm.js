@@ -7,7 +7,7 @@ import { toastr } from 'react-redux-toastr';
 import { logEvent } from 'utils/analytics';
 
 // Services
-import TopicsService from 'services/TopicsService';
+import TopicsService from 'services/topics';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/topics/form/constants';
 

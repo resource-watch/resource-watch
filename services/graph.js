@@ -10,7 +10,7 @@ export default class GraphService {
    */
   getAllTags() {
     return fetch(
-      `${process.env.WRI_API_URL}/graph/query/list-concepts?application=${process.env.APPLICATIONS}`,
+      `${process.env.WRI_API_URL}/graph/query/list-concepts?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
 
     )
@@ -22,7 +22,7 @@ export default class GraphService {
    */
   getInferredTags(tags) {
     return fetch(
-      `${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`,
+      `${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
 
     )
@@ -35,7 +35,7 @@ export default class GraphService {
   */
   getDatasetTags(datasetId) {
     return fetch(
-      `${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary?application=${process.env.APPLICATIONS}`,
+      `${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
 
     )
@@ -50,7 +50,8 @@ export default class GraphService {
     let bodyObj = {
       knowledge_graph: {
         tags,
-        application: process.env.APPLICATIONS
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV
       }
     };
     let method = tags.length > 0 ? 'PUT' : 'DELETE';
@@ -92,7 +93,7 @@ export default class GraphService {
       headers.Authorization = token;
     }
 
-    return fetch(`${process.env.WRI_API_URL}/graph/dataset/${datasetId}/visited?application=${process.env.APPLICATIONS}`, {
+    return fetch(`${process.env.WRI_API_URL}/graph/dataset/${datasetId}/visited?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
       method: 'POST',
       headers
     })
@@ -105,7 +106,7 @@ export default class GraphService {
    */
   getMostViewedDatasets() {
     return fetch(
-      `${process.env.WRI_API_URL}/graph/query/most-viewed?application=${process.env.APPLICATIONS}`,
+      `${process.env.WRI_API_URL}/graph/query/most-viewed?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
 
     )
@@ -122,7 +123,7 @@ export default class GraphService {
    */
   getMostFavoritedDatasets() {
     return fetch(
-      `${process.env.WRI_API_URL}/graph/query/most-liked-datasets?application=${process.env.APPLICATIONS}`,
+      `${process.env.WRI_API_URL}/graph/query/most-liked-datasets?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
 
     )

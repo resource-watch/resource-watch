@@ -40,7 +40,7 @@ import LoginRequired from 'components/ui/login-required';
 
 // services
 import { deleteWidget } from 'services/widget';
-import { fetchLayer } from 'services/LayersService';
+import { fetchLayer } from 'services/layer';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';

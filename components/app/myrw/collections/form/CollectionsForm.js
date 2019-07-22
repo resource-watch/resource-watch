@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
-import CollectionsService from 'services/collections-service';
+import CollectionsService from 'services/collections';
 
 // Redux
 import { connect } from 'react-redux';

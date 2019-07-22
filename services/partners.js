@@ -18,7 +18,7 @@ export default class PartnersService {
   fetchData(id) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/partner/${id}`,
+        url: `${process.env.WRI_API_URL}/partner/${id}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -31,7 +31,7 @@ export default class PartnersService {
           value: 1
         }],
         onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, partner) => {
+          new Deserializer({ keyForAttribute: 'underscore_case' }).deserialize(response, (err, partner) => {
             resolve(partner);
           });
         },
@@ -47,7 +47,11 @@ export default class PartnersService {
       post({
         url: `${process.env.WRI_API_URL}/partner/${id}`,
         type,
-        body,
+        body: {
+          ...body,
+          env: process.env.API_ENV,
+          application: [process.env.APPLICATIONS]
+        },
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -93,7 +97,13 @@ export default class PartnersService {
  * @returns {Object[]} array of serialized partners.
  */
 export const fetchPartners = (params = {}) =>
-  WRIAPI.get('/partner', { params })
+  WRIAPI.get('/partner', {
+    params: {
+      ...params,
+      env: process.env.API_ENV,
+      application: [process.env.APPLICATIONS]
+    }
+  })
     .then((response) => {
       const { status, statusText, data } = response;
       if (status > 200) throw new Error(statusText);
@@ -107,7 +117,7 @@ export const fetchPartners = (params = {}) =>
  * @returns {Object} serialized specified partnet.
  */
 export const fetchPartner = id =>
-  WRIAPI.get(`/partner/${id}`, {
+  WRIAPI.get(`/partner/${id}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point

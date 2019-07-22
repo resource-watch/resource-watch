@@ -105,7 +105,7 @@ export default class UserService {
    */
   setFavourites(token, resourceType = null, include = true) {
     const resourceTypeSt = (resourceType !== null) ? `&resource-type=${resourceType}` : '';
-    return fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}&application=${process.env.APPLICATIONS}`, {
+    return fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}&application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
       headers: {
         Authorization: token,
         'Upgrade-Insecure-Requests': 1
@@ -144,7 +144,9 @@ export default class UserService {
   createFavourite(resourceType, resourceId, token) {
     const bodyObj = {
       resourceType,
-      resourceId
+      resourceId,
+      application: process.env.APPLICATIONS,
+      env: process.env.API_ENV
     };
     return fetch(`${this.opts.apiURL}/favourite`, {
       method: 'POST',
@@ -171,6 +173,7 @@ export default class UserService {
     const bodyObj = {
       name,
       application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
       language: language || 'en',
       datasets,
       datasetsQuery,
@@ -198,6 +201,7 @@ export default class UserService {
   updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user, language) {
     const bodyObj = {
       application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
       language: language || 'en',
       datasets,
       datasetsQuery
@@ -219,7 +223,7 @@ export default class UserService {
    */
   getSubscriptions(token) {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/subscriptions?application=${process.env.APPLICATIONS}`, { headers: { Authorization: token } })
+      fetch(`${this.opts.apiURL}/subscriptions?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, { headers: { Authorization: token } })
         .then(response => response.json())
         .then(jsonData => resolve(jsonData.data));
     });
@@ -230,7 +234,7 @@ export default class UserService {
    */
   getSubscription(subscriptionId, token) {
     return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/v1/subscriptions/${subscriptionId}/data`, { headers: { Authorization: token } })
+      fetch(`${this.opts.apiURL}/v1/subscriptions/${subscriptionId}/data?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, { headers: { Authorization: token } })
         .then(response => response.json())
         .then(jsonData => resolve(jsonData.data));
     });
@@ -255,7 +259,7 @@ export default class UserService {
    */
   getUserAreas(token) {
     return new Promise((resolve, reject) => {
-      fetch(`${this.opts.apiURL}/area?application=${process.env.APPLICATIONS}`, {
+      fetch(`${this.opts.apiURL}/area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
         headers: {
           Authorization: token,
           'Upgrade-Insecure-Requests': 1
@@ -277,6 +281,7 @@ export default class UserService {
     const bodyObj = {
       name,
       application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
       geostore
     };
 
@@ -298,6 +303,7 @@ export default class UserService {
     const bodyObj = {
       name,
       application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
       geostore
     };
 
@@ -329,7 +335,7 @@ export default class UserService {
    * Get area
    */
   getArea(id, token) {
-    return fetch(`${this.opts.apiURL}/area/${id}`, {
+    return fetch(`${this.opts.apiURL}/area/${id}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 // services
-import { fetchLayers } from 'services/LayersService';
+import { fetchLayers } from 'services/layer';
 
 // components
 import Spinner from 'components/ui/Spinner';

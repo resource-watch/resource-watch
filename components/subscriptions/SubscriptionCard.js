@@ -13,7 +13,7 @@ import Map from 'components/widgets/map/Map';
 // Services
 import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
