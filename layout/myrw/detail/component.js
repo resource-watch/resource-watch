@@ -17,7 +17,7 @@ import Title from 'components/ui/Title';
 // services
 import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 import { fetchDashboard } from 'services/dashboard';
 
 // utils

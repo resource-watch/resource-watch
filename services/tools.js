@@ -1,10 +1,13 @@
+import { WRIAPI } from 'utils/axios';
+import WRISerializer from 'wri-json-api-serializer';
+
 import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
 
 import sortBy from 'lodash/sortBy';
 import { Deserializer } from 'jsonapi-serializer';
 
-export default class PagesService {
+export default class ToolsService {
   constructor(options = {}) {
     this.opts = options;
   }
@@ -13,7 +16,7 @@ export default class PagesService {
   fetchAllData() {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/static_page/?published=all`,
+        url: `${process.env.WRI_API_URL}/tool/?published=all&env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -26,8 +29,10 @@ export default class PagesService {
           value: 1
         }],
         onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, pages) => {
-            resolve(sortBy(pages, 'name'));
+          new Deserializer({
+            keyForAttribute: 'underscore_case'
+          }).deserialize(response, (err, tools) => {
+            resolve(sortBy(tools, 'name'));
           });
         },
         onError: (error) => {
@@ -40,7 +45,7 @@ export default class PagesService {
   fetchData(id) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/static_page/${id}`,
+        url: `${process.env.WRI_API_URL}/tool/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -53,8 +58,10 @@ export default class PagesService {
           value: 1
         }],
         onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, page) => {
-            resolve(page);
+          new Deserializer({
+            keyForAttribute: 'underscore_case'
+          }).deserialize(response, (err, tool) => {
+            resolve(tool);
           });
         },
         onError: (error) => {
@@ -67,9 +74,13 @@ export default class PagesService {
   saveData({ type, body, id }) {
     return new Promise((resolve, reject) => {
       post({
-        url: `${process.env.WRI_API_URL}/static_page/${id}`,
+        url: `${process.env.WRI_API_URL}/tool/${id}`,
         type,
-        body,
+        body: {
+          ...body,
+          env: process.env.API_ENV,
+          application: process.env.APPLICATIONS
+        },
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -78,8 +89,10 @@ export default class PagesService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, page) => {
-            resolve(page);
+          new Deserializer({
+            keyForAttribute: 'underscore_case'
+          }).deserialize(response, (err, tool) => {
+            resolve(tool);
           });
         },
         onError: (error) => {
@@ -92,7 +105,7 @@ export default class PagesService {
   deleteData(id) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.WRI_API_URL}/static_page/${id}`,
+        url: `${process.env.WRI_API_URL}/tool/${id}`,
         headers: [{
           key: 'Authorization',
           value: this.opts.authorization
@@ -107,3 +120,19 @@ export default class PagesService {
     });
   }
 }
+
+/**
+ * Fetchs a specific tool.
+ *
+ * @param {String} id - tool id.
+ * @returns {Object[]} tool serialized.
+ */
+
+export const fetchTool = id =>
+  WRIAPI.get(`/tool/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`)
+    .then((response) => {
+      const { status, statusText, data } = response;
+      if (status >= 400) throw new Error(statusText);
+      return WRISerializer(data);
+    });
+

@@ -19,7 +19,9 @@ export default class TopicsService {
     const qParams = {
       ...!!includes && { includes },
       ...filters,
-      ...fields
+      ...fields,
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS
     };
     const params = Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&');
 
@@ -52,7 +54,7 @@ export default class TopicsService {
   fetchData({ id }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/topic/${id}`,
+        url: `${process.env.WRI_API_URL}/topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
         headers: [{
           key: 'Upgrade-Insecure-Requests',
           value: 1
@@ -76,7 +78,11 @@ export default class TopicsService {
       post({
         url: `${process.env.WRI_API_URL}/topic/${id}`,
         type,
-        body,
+        body: {
+          ...body,
+          env: process.env.API_ENV,
+          application: process.env.APPLICATIONS
+        },
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -101,7 +107,7 @@ export default class TopicsService {
   deleteData({ id, auth }) {
     return new Promise((resolve, reject) => {
       remove({
-        url: `${process.env.WRI_API_URL}/topic/${id}`,
+        url: `${process.env.WRI_API_URL}/topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
         headers: [{
           key: 'Authorization',
           value: auth || this.opts.authorization
@@ -132,7 +138,11 @@ export const fetchTopics = (params = {}) => {
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
-    params
+    params: {
+      ...params,
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS
+    }
   }).then((response) => {
     const { status, statusText, data } = response;
     logger.debug(`Topics fetch returned with code ${status}`);
@@ -158,7 +168,7 @@ export const fetchTopics = (params = {}) => {
 export const fetchTopic = (id) => {
   logger.info(`Fetches topic: ${id}`);
 
-  return WRIAPI.get(`/topic/${id}`)
+  return WRIAPI.get(`/topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`)
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 300) {
@@ -187,7 +197,11 @@ export const fetchTopic = (id) => {
  * @returns {Object} serialized created topic.
  */
 export const createTopic = (body, token) =>
-  WRIAPI.post('/topic', { ...body }, {
+  WRIAPI.post('/topic', {
+    ...body,
+    env: process.env.API_ENV,
+    application: process.env.APPLICATIONS
+  }, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token
@@ -209,7 +223,11 @@ export const createTopic = (body, token) =>
  * @returns {Object} serialized topic with updated data
  */
 export const updateTopic = (id, body, token) =>
-  WRIAPI.patch(`/topic/${id}`, { ...body }, {
+  WRIAPI.patch(`/topic/${id}`, {
+    ...body,
+    env: process.env.API_ENV,
+    application: process.env.APPLICATIONS
+  }, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token

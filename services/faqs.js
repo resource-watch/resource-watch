@@ -11,7 +11,7 @@ export default class FaqsService {
   // GET ALL DATA
   fetchAllData() {
     return fetch(
-      `${process.env.WRI_API_URL}/faq/?published=all`,
+      `${process.env.WRI_API_URL}/faq/?published=all&env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
 
     )

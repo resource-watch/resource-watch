@@ -3,7 +3,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 
 // services
 import { fetchWidget } from 'services/widget';
-import { fetchLayer } from 'services/LayersService';
+import { fetchLayer } from 'services/layer';
 
 // Widget actions
 export const setWidget = createAction('WIDGET_BLOCK_GET');

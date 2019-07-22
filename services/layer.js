@@ -14,7 +14,7 @@ export default class LayersService {
   getColumns({ dataset }) {
     return new Promise((resolve, reject) => {
       get({
-        url: `${process.env.WRI_API_URL}/fields/${dataset}`,
+        url: `${process.env.WRI_API_URL}/fields/${dataset}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -46,7 +46,11 @@ export default class LayersService {
       post({
         url: `${process.env.WRI_API_URL}/dataset/${dataset}/layer/${id}`,
         type,
-        body,
+        body: {
+          ...body,
+          application: [process.env.APPLICATIONS],
+          env: process.env.API_ENV
+        },
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -86,6 +90,7 @@ export const fetchLayers = (params = {}, headers = {}, _meta = false) => {
     },
     params: {
       env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
       ...params
     },
     transformResponse: [].concat(
@@ -139,6 +144,7 @@ export const fetchLayer = (id, params = {}) => {
     },
     params: {
       application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
       ...params
     },
     transformResponse: [].concat(

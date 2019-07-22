@@ -8,7 +8,7 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 
 // Components
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import LoginRequired from 'components/ui/login-required';
 
 // Tooltip

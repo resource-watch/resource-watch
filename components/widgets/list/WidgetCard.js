@@ -18,7 +18,7 @@ import WidgetChart from 'components/charts/widget-chart';
 import LayerChart from 'components/charts/layer-chart';
 import ShareModal from 'components/modal/share-modal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
 
@@ -40,7 +40,7 @@ import LoginRequired from 'components/ui/login-required';
 
 // services
 import { deleteWidget } from 'services/widget';
-import { fetchLayer } from 'services/LayersService';
+import { fetchLayer } from 'services/layer';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';

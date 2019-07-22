@@ -5,7 +5,7 @@ import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
 // Components
 import TetherComponent from 'react-tether';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import RadioGroup from 'components/form/RadioGroup';
 import Checkbox from 'components/form/Checkbox';
 

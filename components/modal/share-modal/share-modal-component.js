@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 
 // styles
@@ -131,7 +131,7 @@ class ShareModalComponent extends PureComponent {
                           href={`mailto:?subject=Shared from Resource Watch&body= I thought you'd be interested in what I found on Resource Watch: ${url}`}
                           onClick={() => this.props.analytics.email(type)}
                         >
-                          <Icon name="icon-share-email" className="-small" />
+                          <Icon name="icon-email" className="-small" />
                         </a>
 
                         <a

@@ -14,7 +14,7 @@ import Title from 'components/ui/Title';
 import { capitalizeFirstLetter } from 'utils/utils';
 
 // services
-import { fetchTool } from 'services/ToolsService';
+import { fetchTool } from 'services/tools';
 
 class LayoutAdminToolsDetail extends PureComponent {
   static propTypes = {

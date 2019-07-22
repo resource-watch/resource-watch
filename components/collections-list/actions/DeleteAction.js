@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // SERVICES
-import CollectionsService from 'services/collections-service';
+import CollectionsService from 'services/collections';
 import { toastr } from 'react-redux-toastr';
 
 // Redux

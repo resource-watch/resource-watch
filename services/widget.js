@@ -21,6 +21,7 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
     },
     params: {
       env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
       ...params
     },
     transformResponse: [].concat(
@@ -71,7 +72,11 @@ export const fetchWidget = (id, params = {}) => {
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
-    params
+    params: {
+      ...params,
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS
+    }
   })
     .then((response) => {
       const { status, statusText, data } = response;

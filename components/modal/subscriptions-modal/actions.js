@@ -7,7 +7,7 @@ import WRISerializer from 'wri-json-api-serializer';
 
 // services
 import AreasService from 'services/AreasService';
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 import DatasetService from 'services/DatasetService';
 import { fetchQuery } from 'services/query';
 
@@ -133,14 +133,14 @@ export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =
   (dispatch, getState) => {
     const { common } = getState();
     const { locale } = common;
-    const dasetService = new DatasetService(null, {
+    const datasetService = new DatasetService(null, {
       apiURL: process.env.WRI_API_URL,
       language: locale
     });
 
     dispatch(setDatasetsLoading(true));
 
-    dasetService.getSubscribableDatasets('metadata')
+    datasetService.getSubscribableDatasets('metadata')
       .then((datasets = []) => {
         const parsedDatasets = WRISerializer({ data: datasets });
         dispatch(setDatasets(parsedDatasets));

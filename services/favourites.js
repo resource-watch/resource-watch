@@ -7,7 +7,8 @@ class FavouritesService {
    */
   static getFavourites(token) {
     const queryParams = queryString.stringify({
-      application: process.env.APPLICATIONS
+      application: process.env.APPLICATIONS,
+      env: process.env.API_ENV
     });
 
     return new Promise((resolve, reject) => {
@@ -53,6 +54,7 @@ class FavouritesService {
         },
         body: JSON.stringify({
           application: process.env.APPLICATIONS,
+          env: process.env.API_ENV,
           resourceId,
           resourceType
         })

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // styles
 import './styles.scss';

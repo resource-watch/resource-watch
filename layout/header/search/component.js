@@ -5,7 +5,7 @@ import classnames from 'classnames';
 // components
 import SearchBar from 'components/search-bar';
 import SearchResults from 'components/search-results';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 
 class HeaderSearch extends PureComponent {

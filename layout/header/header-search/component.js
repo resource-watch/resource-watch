@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 class HeaderSearch extends PureComponent {
   static propTypes = { setSearchOpened: PropTypes.func.isRequired };

@@ -12,7 +12,7 @@ import Legend from 'layout/app/pulse/legend';
 import WidgetChart from 'components/charts/widget-chart';
 import LoginRequired from 'components/ui/login-required';
 import LayerInfoModal from 'components/modal/layer-info-modal';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // Modal
 import Modal from 'components/modal/modal-component';

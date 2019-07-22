@@ -20,7 +20,7 @@ import { PluginLeaflet } from 'layer-manager';
 // components
 import TextChart from 'components/widgets/charts/TextChart';
 import LoginRequired from 'components/ui/login-required';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 import CollectionsPanel from 'components/collections-panel';

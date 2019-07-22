@@ -6,7 +6,7 @@ import * as actions from 'layout/explore/explore-actions';
 
 // Components
 import Geosuggest from 'react-geosuggest';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // Utils
 import { logEvent } from 'utils/analytics';

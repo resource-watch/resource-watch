@@ -10,7 +10,7 @@ import Spinner from 'components/ui/Spinner';
 import FileImage from 'components/form/FileImage';
 
 // services
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 
 export const FORM_ELEMENTS = {
   elements: {},
