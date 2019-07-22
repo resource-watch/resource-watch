@@ -132,8 +132,6 @@
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "scripts": {
-    "check-datasets": "NODE_ENV=test babel-node ./tasks/check-datasets.js",
-    "check-layers": "NODE_ENV=test babel-node ./tasks/check-layers.js",
     "test": "yarn lint",
     "lint": "eslint .",
     "dev": "node $NODE_DEBUG_OPTION index.js",
