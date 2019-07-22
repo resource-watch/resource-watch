@@ -68,12 +68,12 @@ spec:
             valueFrom:
                 secretKeyRef:
                   name: appsecrets
-                  key: RW_USERNAME
+                  key: RW_PREPROD_AUTH_USER
           - name: RW_PASSWORD
             valueFrom:
                 secretKeyRef:
                   name: appsecrets
-                  key: RW_PASSWORD
+                  key: RW_PREPROD_AUTH_PASSWORD
 
         ports:
           - containerPort: 3000
