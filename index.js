@@ -26,16 +26,12 @@ const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
 // Express app creation
 const server = express();
 
-function checkBasicAuth(users) {
+function checkBasicAuth(credentials) {
   return function authMiddleware(req, res, nextAction) {
     if (!/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       let authorized = false;
-      if (
-        user &&
-        ((user.name === users[0].name && user.pass === users[0].pass) ||
-          (user.name === users[1].name && user.pass === users[1].pass))
-      ) {
+      if (user && (user.name === credentials.name && user.pass === credentials.pass)) {
         authorized = true;
       }
 
@@ -79,19 +75,13 @@ if (prod) {
 }
 
 // Using basic auth in prod mode
-const { USERNAME, PASSWORD, RW_USERNAME, RW_PASSWORD } = process.env;
-if (prod && ((USERNAME && PASSWORD) || (RW_USERNAME && RW_PASSWORD))) {
+const { RW_USERNAME, RW_PASSWORD } = process.env;
+if (prod && (RW_USERNAME && RW_PASSWORD)) {
   server.use(
-    checkBasicAuth([
-      {
-        name: USERNAME,
-        pass: PASSWORD
-      },
-      {
-        name: RW_USERNAME,
-        pass: RW_PASSWORD
-      }
-    ])
+    checkBasicAuth({
+      name: RW_USERNAME,
+      pass: RW_PASSWORD
+    });
   );
 }
 
