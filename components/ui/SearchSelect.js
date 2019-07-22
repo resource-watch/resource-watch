@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 export default class SearchSelect extends React.Component {
   constructor(props) {

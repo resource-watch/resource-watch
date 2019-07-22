@@ -7,7 +7,7 @@ import { logEvent } from 'utils/analytics';
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // Tooltip
 import { Tooltip } from 'vizzuality-components';

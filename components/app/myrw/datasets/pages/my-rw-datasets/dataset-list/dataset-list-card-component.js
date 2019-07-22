@@ -5,7 +5,7 @@ import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
 

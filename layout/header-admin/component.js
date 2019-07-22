@@ -7,7 +7,7 @@ import MediaQuery from 'react-responsive';
 // components
 import HeaderMenu from 'layout/header-admin/header-admin-menu';
 import HeaderMenuMobile from 'layout/header-admin/header-admin-menu-mobile';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // utils
 import { breakpoints } from 'utils/responsive';

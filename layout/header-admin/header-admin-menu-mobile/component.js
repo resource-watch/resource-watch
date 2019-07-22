@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Link } from 'routes';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // constants
 import { ADMIN_HEADER_ITEMS } from 'layout/header-admin/constants';

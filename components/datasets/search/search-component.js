@@ -10,7 +10,7 @@ import Fuse from 'fuse.js';
 // Components
 import Tabs from 'components/ui/Tabs';
 import Tag from 'components/ui/Tag';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 import CheckboxGroup from 'components/form/CheckboxGroup';
 

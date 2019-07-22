@@ -12,7 +12,7 @@ import WidgetService from 'services/WidgetService';
 // Components
 import Spinner from 'components/ui/Spinner';
 import WidgetList from 'components/widgets/list/WidgetList';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 class DatasetWidgets extends React.Component {
   constructor(props) {

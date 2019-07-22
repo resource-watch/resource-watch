@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { logEvent } from 'utils/analytics';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 
 class ExploreSidebarComponent extends React.Component {

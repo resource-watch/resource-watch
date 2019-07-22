@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import { Link } from 'routes';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import LoginRequired from 'components/ui/login-required';
 
 // Responsive
