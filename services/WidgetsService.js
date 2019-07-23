@@ -47,7 +47,6 @@ export default class WidgetsService {
         type,
         body: {
           ...body,
-          env: process.env.API_ENV,
           application: process.env.APPLICATIONS
         },
         headers: [{
@@ -77,7 +76,6 @@ export default class WidgetsService {
         type,
         body: {
           ...body,
-          env: process.env.API_ENV,
           application: process.env.APPLICATIONS
         },
         headers: [{
