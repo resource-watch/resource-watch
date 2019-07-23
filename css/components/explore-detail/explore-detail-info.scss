@@ -8,4 +8,13 @@
       margin-top: 30px;
     }
   }
+
+  ul, ol {
+    list-style: disc outside none;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 30px;
+  }
 }
