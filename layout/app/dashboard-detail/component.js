@@ -120,7 +120,7 @@ class DashboardsDetailPage extends PureComponent {
             <div className="row">
               {description && (
                 <div className="column small-12">
-                  <ReactMarkdown source={description} />
+                  <ReactMarkdown linkTarget="_blank" source={description} />
                 </div>)}
               <div className="column small-12">
                 <DashboardDetail />
