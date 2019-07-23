@@ -48,8 +48,7 @@ export default class LayersService {
         type,
         body: {
           ...body,
-          application: [process.env.APPLICATIONS],
-          env: process.env.API_ENV
+          application: [process.env.APPLICATIONS]
         },
         headers: [{
           key: 'Content-Type',
