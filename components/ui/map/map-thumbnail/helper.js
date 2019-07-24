@@ -105,7 +105,7 @@ export const getImageForLeaflet = ({ layerSpec }) => {
     return null;
   }
 
-  if (!layerConfig.url && !layerConfig.body && !layerConfig.body.url) {
+  if (!layerConfig.url || (layerConfig.body && !layerConfig.body.url)) {
     return null;
   }
 
