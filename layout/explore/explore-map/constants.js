@@ -44,4 +44,6 @@ export const LEGEND_TIMELINE_PROPERTIES = {
   }
 };
 
+export const TIMELINE_THRESHOLD = 5;
+
 export default { LEGEND_TIMELINE_PROPERTIES };

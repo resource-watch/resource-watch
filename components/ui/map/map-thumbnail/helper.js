@@ -105,7 +105,13 @@ export const getImageForLeaflet = ({ layerSpec }) => {
     return null;
   }
 
-  const tile = layerConfig.url.replace('{z}', '0').replace('{x}', '0').replace('{y}', '0');
+  if (!layerConfig.url && !layerConfig.body && !layerConfig.body.url) {
+    return null;
+  }
+
+  const url = layerConfig.url || layerConfig.body.url;
+
+  const tile = url.replace('{z}', '0').replace('{x}', '0').replace('{y}', '0');
 
   return tile;
 };

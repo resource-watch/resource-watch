@@ -42,7 +42,7 @@ import LayerInfoModal from 'components/modal/layer-info-modal';
 import CANVAS_DECODERS from 'utils/layers/canvas-decoders';
 
 // constants
-import { LEGEND_TIMELINE_PROPERTIES } from './constants';
+import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
 
 // styles
 import './styles.scss';
@@ -406,6 +406,7 @@ class ExploreMapComponent extends React.Component {
                   onChangeLayer={this.onChangeLayerTimeLine}
                   customClass="rw-legend-timeline"
                   {...LEGEND_TIMELINE_PROPERTIES}
+                  { ...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
                 />
               </LegendListItem>
             ))}
