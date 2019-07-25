@@ -5,7 +5,7 @@ import { Link } from 'routes';
 // components
 import CompoundMenu from 'components/ui/CompoundMenu';
 import Carousel from 'components/ui/Carousel';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 class Footer extends PureComponent {
   static propTypes = {

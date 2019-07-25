@@ -206,6 +206,7 @@ class WidgetsTable extends PureComponent {
       widgets,
       error
     } = this.state;
+    const { dataset } = this.props;
 
     return (
       <div className="c-widgets-table">
@@ -222,7 +223,8 @@ class WidgetsTable extends PureComponent {
             route: 'admin_data_detail',
             params: {
               tab: 'widgets',
-              id: 'new'
+              id: 'new',
+              dataset
             }
           }}
           onSearch={this.onSearch}
@@ -238,7 +240,7 @@ class WidgetsTable extends PureComponent {
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
+                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}', dataset }, show: true, component: EditAction },
                 { name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
               ]
             }}

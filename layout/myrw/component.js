@@ -64,7 +64,7 @@ class LayoutMyRW extends PureComponent {
                 {(currentTab === 'areas') && (<AreasTab tag={currentTab} subtab={currentTab} />)}
                 {(currentTab === 'widgets') && (<WidgetsTab tab={currentTab} subtab={subtab} />)}
                 {(currentTab === 'collections') && (<CollectionsTab tab={currentTab} subtab={subtab} />)}
-                {(currentTab !== 'profile' && 'datasets') && (tab !== 'widgets') && (
+                {(currentTab !== 'profile') && (currentTab !== 'datasets') && (tab !== 'widgets') && (
                   <div className="c-button-container -j-center explore c-field-buttons">
                     <ul className="c-field-buttons">
                       <li />

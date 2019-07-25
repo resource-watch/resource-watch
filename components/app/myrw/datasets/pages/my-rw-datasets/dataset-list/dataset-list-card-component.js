@@ -5,7 +5,7 @@ import { Link } from 'routes';
 
 // Components
 import Title from 'components/ui/Title';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
 
@@ -32,8 +32,8 @@ class DatasetsListCard extends PureComponent {
     const { dataset } = this.props;
     const metadata = dataset.metadata[0];
 
-    if (metadata && metadata.attributes.info && metadata.attributes.info.name) {
-      return metadata.attributes.info.name;
+    if (metadata && metadata.info && metadata.info.name) {
+      return metadata.info.name;
     }
 
     return dataset.name;
@@ -50,7 +50,7 @@ class DatasetsListCard extends PureComponent {
     const isOwnerOrAdmin = (dataset.userId === user.id || user.role === 'ADMIN');
     const isInACollection = belongsToACollection(user, dataset);
 
-    const classNames = classnames({'-owner': isOwnerOrAdmin});
+    const classNames = classnames({ '-owner': isOwnerOrAdmin });
 
     const starIconName = classnames({
       'icon-star-full': isInACollection,
@@ -99,7 +99,7 @@ class DatasetsListCard extends PureComponent {
                 />
               }
               overlayClassName="c-rc-tooltip"
-              overlayStyle={{color: '#fff'}}
+              overlayStyle={{ color: '#fff' }}
               placement="bottomLeft"
               trigger="click"
             >

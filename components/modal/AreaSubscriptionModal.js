@@ -15,7 +15,7 @@ import areaAlerts from 'selectors/user/areaAlerts';
 
 // Services
 import AreasService from 'services/AreasService';
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 import DatasetService from 'services/DatasetService';
 
 // Components

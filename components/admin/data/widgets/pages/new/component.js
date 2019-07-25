@@ -11,9 +11,10 @@ class WidgetsNew extends PureComponent {
   handleSubmit = (widget) => {
     if (widget) {
       Router.pushRoute('admin_data_detail', {
-        tab: 'datasets',
-        subtab: 'widgets',
-        id: widget.dataset
+        tab: 'widgets',
+        subtab: 'edit',
+        id: widget.id,
+        dataset: widget.dataset
       });
     } else {
       Router.pushRoute('admin_data', { tab: 'widgets' });

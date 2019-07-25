@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // Utils
 import { logEvent } from 'utils/analytics';
@@ -44,6 +44,7 @@ class ShareControl extends React.Component {
             analytics={{
               facebook: () => logEvent('Share', 'Share explore', 'Facebook'),
               twitter: () => logEvent('Share', 'Share explore', 'Twitter'),
+              email: () => logEvent('Share', 'Share explore', 'Email'),
               copy: type => logEvent('Share', 'Share explore', `Copy ${type}`)
             }}
           />

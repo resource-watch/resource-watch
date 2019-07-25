@@ -1,55 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
-// Redux
-import { connect } from 'react-redux';
+import { fetchDataset } from 'services/dataset';
 
-class LayerInfoModal extends React.Component {
-  static propTypes = {
-    layer: PropTypes.object,
-    embed: PropTypes.bool
-  };
+function LayerInfoModal(props) {
+  const { layer } = props;
+  const [slug, setSlug] = useState(' ');
 
-  render() {
-    const { embed, layer } = this.props;
+  useEffect(() => {
+    fetchDataset(layer.dataset)
+      .then((dataset) => {
+        setSlug(dataset.slug);
+      });
+  }, []);
 
-    return (
-      <div className="layer-info-modal">
-        <div className="layer-info-content">
-          <h2>{layer.name}</h2>
-          <p>{layer.description}</p>
-          <div className="buttons">
-            {embed &&
-              <a
-                className="c-btn -primary"
-                href={`${window.location.origin}/data/explore/${layer.dataset}`}
-                target="_blank"
-              >
-                More info
-              </a>
-            }
-
-            {!embed &&
-              <Link
-                route="explore_detail"
-                params={{ id: layer.dataset }}
-              >
-                <a className="c-btn -primary">
-                  More info
-                </a>
-              </Link>
-            }
-          </div>
+  return (
+    <div className="c-layer-info-modal">
+      <div className="layer-info-content">
+        <h2>{layer.name}</h2>
+        <p>{layer.description}</p>
+        <div className="c-button-container -j-end">
+          <Link route="explore_detail" params={{ id: slug }}>
+            <a className="c-btn -primary">More info</a>
+          </Link>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default connect(
-  state => ({
-    embed: state.common.embed
-  }),
-  null
-)(LayerInfoModal);
+LayerInfoModal.propTypes = { layer: PropTypes.object.isRequired };
+
+export default LayerInfoModal;

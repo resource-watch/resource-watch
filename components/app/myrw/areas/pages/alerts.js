@@ -12,7 +12,7 @@ import { getLabel } from 'utils/datasets/dataset-helpers';
 import AlertWidget from 'components/areas/AlertWidget';
 
 // Services
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 
 class AreasAlerts extends React.Component {
   constructor(props) {

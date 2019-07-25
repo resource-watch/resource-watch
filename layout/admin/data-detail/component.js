@@ -13,7 +13,7 @@ import LayersTab from 'components/admin/data/layers';
 
 // services
 import { fetchDataset } from 'services/dataset';
-import { fetchLayer } from 'services/LayersService';
+import { fetchLayer } from 'services/layer';
 import { fetchWidget } from 'services/widget';
 
 // utils

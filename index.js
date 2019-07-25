@@ -26,16 +26,12 @@ const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
 // Express app creation
 const server = express();
 
-function checkBasicAuth(users) {
+function checkBasicAuth(credentials) {
   return function authMiddleware(req, res, nextAction) {
     if (!/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])) {
       const user = basicAuth(req);
       let authorized = false;
-      if (
-        user &&
-        ((user.name === users[0].name && user.pass === users[0].pass) ||
-          (user.name === users[1].name && user.pass === users[1].pass))
-      ) {
+      if (user && (user.name === credentials.name && user.pass === credentials.pass)) {
         authorized = true;
       }
 
@@ -79,19 +75,13 @@ if (prod) {
 }
 
 // Using basic auth in prod mode
-const { USERNAME, PASSWORD, RW_USERNAME, RW_PASSWORD } = process.env;
-if (prod && ((USERNAME && PASSWORD) || (RW_USERNAME && RW_PASSWORD))) {
+const { RW_USERNAME, RW_PASSWORD } = process.env;
+if (prod && (RW_USERNAME && RW_PASSWORD)) {
   server.use(
-    checkBasicAuth([
-      {
-        name: USERNAME,
-        pass: PASSWORD
-      },
-      {
-        name: RW_USERNAME,
-        pass: RW_PASSWORD
-      }
-    ])
+    checkBasicAuth({
+      name: RW_USERNAME,
+      pass: RW_PASSWORD
+    })
   );
 }
 
@@ -122,7 +112,6 @@ app.prepare().then(() => {
   };
 
   // Redirecting data to data/explore
-  // TODO: create data page
   server.get('/data', (req, res) => res.redirect('/data/explore'));
 
   // Authentication
@@ -131,7 +120,7 @@ app.prepare().then(() => {
     auth.authenticate({ failureRedirect: '/sign-in' }),
     (req, res) => {
       if (req.user.role === 'ADMIN' && /admin/.test(req.session.referrer)) return res.redirect('/admin');
-      const authRedirect = req.cookies.authUrl || '/myrw';
+      const authRedirect = req.cookies.authUrl || '/myrw/widgets/my_widgets';
 
       if (req.cookies.authUrl) {
         res.clearCookie('authUrl');
@@ -180,6 +169,9 @@ app.prepare().then(() => {
   });
 
   // authenticated routes
+  server.get('/myrw', isAuthenticated, (req, res) => {
+    res.redirect('/myrw/widgets/my_widgets');
+  });
   server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
   server.get('/myrw*?', isAuthenticated, handleUrl);
   server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);

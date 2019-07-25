@@ -10,7 +10,7 @@ class TitleTD extends PureComponent {
 
   render() {
     const {
-      row: { id },
+      row: { id, dataset },
       value
     } = this.props;
 
@@ -21,7 +21,8 @@ class TitleTD extends PureComponent {
           params={{
             tab: 'widgets',
             subtab: 'edit',
-            id
+            id,
+            dataset
           }}
         >
           <a>{value}</a>

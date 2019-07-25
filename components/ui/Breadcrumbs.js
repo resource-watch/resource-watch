@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 function Breadcrumbs({ items = [] }) {
   return (

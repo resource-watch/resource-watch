@@ -4,7 +4,7 @@ import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
 
 // Services
-import DatasetsService from 'services/DatasetsService';
+import { deleteDataset } from 'services/dataset';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -16,48 +16,35 @@ class DatasetsList extends PureComponent {
       index: '',
       detail: ''
     },
-    datasets: [],
-    filters: [],
-    loading: true
+    subtab: ''
   };
 
   static propTypes = {
     routes: PropTypes.object,
-    datasets: PropTypes.array,
-    filters: PropTypes.array,
-    loading: PropTypes.bool,
-    user: PropTypes.object,
-    locale: PropTypes.string.isRequired,
-    currentTab: PropTypes.string,
-    getDatasetsByTab: PropTypes.func
+    datasets: PropTypes.array.isRequired,
+    filters: PropTypes.array.isRequired,
+    loading: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
+    subtab: PropTypes.string,
+    getDatasetsByTab: PropTypes.func.isRequired
   };
-
-  constructor(props) {
-    super(props);
-
-    // service shouldn't be here.
-    this.service = new DatasetsService({
-      authorization: props.user.token,
-      language: props.locale
-    });
-  }
 
   handleDatasetDelete = (dataset) => {
     const metadata = dataset.metadata[0];
+    const { user, subtab, getDatasetsByTab } = this.props;
 
     toastr.confirm(
       `Are you sure you want to delete the dataset: ${
-      metadata && metadata.attributes.info ? metadata.attributes.info.name : dataset.name
+        metadata && metadata.info ? metadata.info.name : dataset.name
       }?`,
       {
         onOk: () => {
-          this.service
-            .deleteData(dataset.id)
+          deleteDataset(dataset.id, user.token)
             .then(() => {
               toastr.success('Success', 'Dataset removed successfully');
-              this.props.getDatasetsByTab(this.props.currentTab);
+              getDatasetsByTab(subtab);
             })
-            .catch(err => toastr.error('Error deleting the dataset', err));
+            .catch(({ message }) => toastr.error('Error deleting the dataset', message));
         }
       }
     );
@@ -67,7 +54,7 @@ class DatasetsList extends PureComponent {
     const { datasets, routes, user, filters, loading } = this.props;
 
     return (
-      <div className="c-datasets-list">
+      <div className="c-myrw-datasets-list">
         {loading && <Spinner className="-light" isLoading={loading} />}
 
         <div className="l-row row list -equal-height">
@@ -81,14 +68,12 @@ class DatasetsList extends PureComponent {
               />
             </div>
           ))}
-
-          {!datasets.length && (
-            <div className="text-container">
-              {!!filters.length && 'There were no datasets found with the current filter'}
-            </div>
-          )}
         </div>
-
+        {!datasets.length && (
+          <div className="no-data-div">
+            {!!filters.length && `Your search '${filters[0].value}' didn't return any results`}
+          </div>
+          )}
         {!datasets.length &&
           !loading &&
           !filters.length && (
@@ -97,9 +82,7 @@ class DatasetsList extends PureComponent {
 
         <div className="c-button-container -j-center c-field-buttons">
           <Link route="explore">
-            <a className="c-button -secondary">
-              {'Explore Datasets'}
-            </a>
+            <a className="c-button -secondary">Explore Datasets</a>
           </Link>
         </div>
       </div>

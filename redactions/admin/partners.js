@@ -1,6 +1,6 @@
 
 // services
-import { fetchPartners } from 'services/PartnersService';
+import { fetchPartners } from 'services/partners';
 
 /**
  * CONSTANTS

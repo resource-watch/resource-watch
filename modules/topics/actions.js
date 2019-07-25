@@ -5,7 +5,7 @@ import {
   fetchTopics,
   fetchTopic,
   updateTopic
-} from 'services/TopicsService';
+} from 'services/topics';
 
 // Actions
 export const setTopics = createAction('TOPICS/SET-TOPICS');

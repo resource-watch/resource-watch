@@ -64,6 +64,16 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
+          - name: RW_USERNAME
+            valueFrom:
+                secretKeyRef:
+                  name: appsecrets
+                  key: RW_PREPROD_AUTH_USER
+          - name: RW_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: appsecrets
+                  key: RW_PREPROD_AUTH_PASSWORD
 
         ports:
           - containerPort: 3000

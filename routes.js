@@ -33,8 +33,6 @@ routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'myrw/detail');
 
 // ========================= APP ROUTES =====================
 routes.add('home', '/', 'app/home');
-routes.add('splash', '/splash', 'app/splash');
-routes.add('splash_detail', '/splash/:id', 'app/splash-detail');
 
 // ---- ABOUT ----
 routes.add('about', '/about', 'app/about');

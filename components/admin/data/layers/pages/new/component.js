@@ -13,10 +13,9 @@ class LayersNew extends PureComponent {
 
   static defaultProps = { dataset: null }
 
-  handleSubmit = () => {
-    const { dataset } = this.props;
-    if (dataset) {
-      Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'layers', id: dataset });
+  handleSubmit = (layerID, datasetID) => {
+    if (layerID && datasetID) {
+      Router.pushRoute('admin_data_detail', { tab: 'layers', id: layerID, subtab: 'edit', dataset: datasetID });
     } else {
       Router.pushRoute('admin_data', { tab: 'layers' });
     }
@@ -27,6 +26,7 @@ class LayersNew extends PureComponent {
       user: { token },
       dataset
     } = this.props;
+
     return (
       <div className="c-layers-new">
         <LayersForm

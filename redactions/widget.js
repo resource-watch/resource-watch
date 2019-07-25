@@ -3,9 +3,9 @@ import isEmpty from 'lodash/isEmpty';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import RasterService from 'services/RasterService';
-import { fetchLayer } from 'services/LayersService';
-import UserService from 'services/UserService';
+import RasterService from 'services/raster';
+import { fetchLayer } from 'services/layer';
+import UserService from 'services/user';
 import { fetchWidget } from 'services/widget';
 
 /**

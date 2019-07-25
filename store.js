@@ -18,8 +18,7 @@ import * as search from 'layout/search';
 import * as shareModal from 'components/modal/share-modal';
 
 // Dashboard
-import * as widgetBlockModule from 'components/wysiwyg/widget-block/widget-block';
-import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-edition/widget-block-edition';
+import * as widgetBlockModule from 'components/wysiwyg/widget-block';
 
 // Dataset
 import * as datasetListItem from 'components/datasets/list/list-item';
@@ -46,12 +45,6 @@ import * as layerCard from 'layout/app/pulse/layer-card';
 import * as layerPill from 'layout/app/pulse/layer-pill';
 import * as labelsPill from 'layout/app/pulse/labels-pill';
 import * as globeCesium from 'components/vis/globe-cesium';
-
-// Catalog
-import * as catalog from 'layout/app/catalog';
-
-// Blog
-import * as latestBlogPosts from 'components/blog/latest-posts';
 
 // Get Involved
 import * as getInvolvedIndex from 'layout/get-involved';
@@ -93,7 +86,6 @@ const reducer = combineReducers({
 
   // Dashboards
   widgetBlock: handleModule(widgetBlockModule),
-  widgetBlockEdition: handleModule(widgetBlockEditionModule),
 
   // Explore
   explore: handleModule(explore),
@@ -118,12 +110,6 @@ const reducer = combineReducers({
 
   // Tools
   relatedTools: handleModule(relatedTools),
-
-  // Catalog
-  catalog: handleModule(catalog),
-
-  // Blog
-  latestBlogPosts: handleModule(latestBlogPosts),
 
   // Get Involved
   getInvolvedIndex: handleModule(getInvolvedIndex),

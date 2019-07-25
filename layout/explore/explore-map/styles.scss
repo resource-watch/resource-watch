@@ -1,0 +1,56 @@
+@import 'css/settings';
+
+.l-explore-map {
+  position: absolute;
+  top: $header-main-height-mobile;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100% - #{$header-main-height-mobile});
+  overflow: hidden;
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    top: $header-main-height;
+    height: calc(100% - #{$header-main-height});
+  }
+
+  &.-relative {
+    position: relative;
+    flex: 1;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+
+  .embedded-rw-logo {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .rw-legend-timeline {
+    margin: 20px 0;
+    padding: 0 8px;
+
+    > .rc-slider {
+      > .rc-slider-mark {
+        width: 100%;
+        margin-left: 0;
+
+        > .rc-slider-mark-text {
+          &:first-child {
+            left: 0 !important;
+            transform: translate(-9px, 0);
+          }
+
+          &:last-child {
+            right: 0 !important;
+            left: auto !important;
+            transform: translate(9px, 0);
+          }
+        }
+      }
+    }
+  }
+}

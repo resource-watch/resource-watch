@@ -16,7 +16,7 @@ import { PluginLeaflet } from 'layer-manager';
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // constants
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';

@@ -5,4 +5,12 @@ export const WRIAPI = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
-export default { WRIAPI };
+export const blogAPI = axios.create({
+  baseURL: process.env.BLOG_API_URL,
+  headers: { 'Content-Type': 'application/json' }
+});
+
+export default {
+  WRIAPI,
+  blogAPI
+};

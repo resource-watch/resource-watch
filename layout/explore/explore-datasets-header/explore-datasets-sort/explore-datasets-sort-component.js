@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Tooltip } from 'vizzuality-components';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import RadioGroup from 'components/form/RadioGroup';
 import classnames from 'classnames';
 
