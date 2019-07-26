@@ -57,7 +57,7 @@ export default class WidgetService {
       body: JSON.stringify({
         ...widget,
         env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
+        application: widget.application
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -86,7 +86,8 @@ export default class WidgetService {
       body: JSON.stringify({
         ...metadata,
         env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
+        ...isPatch && { application: widget.application.join(',') },
+        ...!isPatch && { application: process.env.APPLICATIONS }
       }),
       headers: {
         'Content-Type': 'application/json',
