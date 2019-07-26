@@ -66,7 +66,7 @@ export default class UserService {
   // NOTE:this is NOT implemented in the API to be done from the app.
   // right now the only way it's through the email link pointing to Control Tower.
   resetPassword(tokenEmail, { password, repeatPassword }) {
-    return fetch(`${this.opts.apiURL}/auth/reset-password/${tokenEmail}`, {
+    return fetch(`${this.opts.apiURL}/auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`, {
       method: 'POST',
       body: JSON.stringify({ password, repeatPassword }),
       headers: { 'Content-Type': 'application/json' }
