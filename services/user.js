@@ -50,7 +50,7 @@ export default class UserService {
   // sends a request to reset password.
   // It generates a token to use in resetPassword
   forgotPassword({ email }) {
-    return fetch(`${this.opts.apiURL}/auth/reset-password`, {
+    return fetch(`${this.opts.apiURL}/auth/reset-password?origin=${process.env.APPLICATIONS}`, {
       method: 'POST',
       body: JSON.stringify({ email }),
       headers: { 'Content-Type': 'application/json' }
