@@ -39,7 +39,7 @@ class ExploreDetailInfo extends PureComponent {
     const datasetName = this.getDatasetName();
 
     return (
-      <div className="c-explore-detail-info">
+      <div className="c-explore-detail-info c-markdown">
         <div className="first-row-container">
           {metadata.info && metadata.info.technical_title ? (
             <div className="l-section-mod medium-7">

@@ -5,8 +5,6 @@ import ReactMarkdown from 'react-markdown';
 
 import { fetchDataset } from 'services/dataset';
 
-import './styles.scss';
-
 function LayerInfoModal(props) {
   const { layer } = props;
   const [slug, setSlug] = useState(' ');
@@ -20,7 +18,7 @@ function LayerInfoModal(props) {
 
   return (
     <div className="c-layer-info-modal">
-      <div className="layer-info-content">
+      <div className="layer-info-content c-markdown">
         <h2>{layer.name}</h2>
         <ReactMarkdown linkTarget="_blank" source={layer.description} />
         <div className="c-button-container -j-end">
