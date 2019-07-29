@@ -54,11 +54,7 @@ export default class WidgetService {
   updateUserWidget(widget, datasetId, token) {
     return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}`, {
       method: 'PATCH',
-      body: JSON.stringify({
-        ...widget,
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
-      }),
+      body: JSON.stringify(widget),
       headers: {
         'Content-Type': 'application/json',
         Authorization: token
@@ -85,8 +81,9 @@ export default class WidgetService {
       method: isPatch ? 'PATCH' : 'POST',
       body: JSON.stringify({
         ...metadata,
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
+        ...!isPatch && { env: process.env.API_ENV },
+        ...isPatch && { application: widget.application.join(',') },
+        ...!isPatch && { application: process.env.APPLICATIONS }
       }),
       headers: {
         'Content-Type': 'application/json',

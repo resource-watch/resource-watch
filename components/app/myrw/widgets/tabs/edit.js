@@ -106,7 +106,7 @@ class WidgetsEdit extends React.Component {
         caption: this.state.caption,
         widgetLinks: []
       },
-      application: 'rw'
+      application: process.env.APPLICATIONS
     };
 
     const widgetObj = Object.assign(
