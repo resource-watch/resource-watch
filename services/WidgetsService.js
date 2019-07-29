@@ -47,7 +47,6 @@ export default class WidgetsService {
         type,
         body: {
           ...body,
-          ...type === 'PATCH' && { application: [body.application] },
           ...type !== 'PATCH' && { application: [process.env.APPLICATIONS] }
         },
         headers: [{
@@ -77,7 +76,6 @@ export default class WidgetsService {
         type,
         body: {
           ...body,
-          ...type === 'PATCH' && { application: [body.application] },
           ...type !== 'PATCH' && { application: [process.env.APPLICATIONS] }
         },
         headers: [{
