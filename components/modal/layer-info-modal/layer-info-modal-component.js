@@ -5,6 +5,8 @@ import ReactMarkdown from 'react-markdown';
 
 import { fetchDataset } from 'services/dataset';
 
+import './styles.scss';
+
 function LayerInfoModal(props) {
   const { layer } = props;
   const [slug, setSlug] = useState(' ');
