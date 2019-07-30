@@ -29,12 +29,7 @@ class ForgotPassword extends PureComponent {
         .then(() => {
           toastr.success('Reset password requested', 'Please, check your inbox and follow instructions to reset your password.');
         })
-        .catch((err) => {
-          err.json()
-            .then(({ errors } = {}) => {
-              (errors || []).forEach(_error => toastr.error('Something went wrong', `${_error.status}:${_error.detail}`));
-            });
-        });
+        .catch(({ message }) => { toastr.error('Something went wrong', `${message}`); });
     }, 0);
   }
 

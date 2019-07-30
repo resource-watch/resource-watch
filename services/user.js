@@ -50,7 +50,7 @@ export default class UserService {
   // sends a request to reset password.
   // It generates a token to use in resetPassword
   forgotPassword({ email }) {
-    return fetch(`${this.opts.apiURL}/auth/reset-password`, {
+    return fetch(`${this.opts.apiURL}/auth/reset-password?origin=${process.env.APPLICATIONS}`, {
       method: 'POST',
       body: JSON.stringify({ email }),
       headers: { 'Content-Type': 'application/json' }
@@ -66,7 +66,7 @@ export default class UserService {
   // NOTE:this is NOT implemented in the API to be done from the app.
   // right now the only way it's through the email link pointing to Control Tower.
   resetPassword(tokenEmail, { password, repeatPassword }) {
-    return fetch(`${this.opts.apiURL}/auth/reset-password/${tokenEmail}`, {
+    return fetch(`${this.opts.apiURL}/auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`, {
       method: 'POST',
       body: JSON.stringify({ password, repeatPassword }),
       headers: { 'Content-Type': 'application/json' }

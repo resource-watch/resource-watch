@@ -71,7 +71,7 @@ class ExploreDetail extends PureComponent {
               <div className="row">
                 <div className="column small-12 large-7">
                   {metadata.description &&
-                    <ReactMarkdown source={metadata.description} />}
+                    <ReactMarkdown linkTarget="_blank" source={metadata.description} />}
                 </div>
 
                 <div className="column small-12 large-4 large-offset-1">

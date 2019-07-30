@@ -48,7 +48,7 @@ export default class LayersService {
         type,
         body: {
           ...body,
-          application: [process.env.APPLICATIONS]
+          ...type !== 'PATCH' && { application: [process.env.APPLICATIONS] }
         },
         headers: [{
           key: 'Content-Type',
