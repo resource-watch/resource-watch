@@ -66,29 +66,35 @@ class ExploreDetailInfo extends PureComponent {
             </Modal>
           </button>
         </div>
-        <div className="c-markdown">
-          {metadata.info && metadata.info.cautions && (
+        {metadata.info && metadata.info.cautions && (
+          <div className="c-markdown">
             <div className="l-section-mod medium-7">
               <h3>Cautions</h3>
               <ReactMarkdown linkTarget="_blank" source={metadata.info.cautions} />
             </div>
-          )}
+          </div>
+        )}
 
-          {metadata.info && metadata.info.citation && (
+        {metadata.info && metadata.info.citation && (
+          <div className="c-markdown">
             <div className="l-section-mod medium-7">
               <h3>Suggested citation</h3>
               <ReactMarkdown linkTarget="_blank" source={metadata.info.citation} />
             </div>
-          )}
+          </div>
+        )}
 
-          {dataset && dataset.attributes && dataset.attributes.type && (
+        {dataset && dataset.attributes && dataset.attributes.type && (
+          <div className="c-markdown">
             <div className="l-section-mod">
               <h3>Data type</h3>
               <ReactMarkdown linkTarget="_blank" source={dataset.attributes.type} />
             </div>
-          )}
+          </div>
+        )}
 
-          {metadata.info && metadata.info.sources ? (
+        {metadata.info && metadata.info.sources ? (
+          <div className="c-markdown">
             <div className="l-section-mod">
               <h3>Sources</h3>
               {metadata.info.sources.map(source => (
@@ -98,40 +104,50 @@ class ExploreDetailInfo extends PureComponent {
                 </div>
               ))}
             </div>
-          ) : null}
+          </div>
+        ) : null}
 
-          <div className="l-section-mod row">
-            {metadata.info && metadata.info.geographic_coverage ? (
+        <div className="l-section-mod row">
+          {metadata.info && metadata.info.geographic_coverage ? (
+            <div className="c-markdown">
               <div className="column small-6 medium-4 large-3">
                 <h3>Geographic coverage</h3>
                 <ReactMarkdown linkTarget="_blank" source={metadata.info.geographic_coverage} />
               </div>
-            ) : null}
+            </div>
+          ) : null}
 
-            {metadata.info && metadata.info.spatial_resolution ? (
+          {metadata.info && metadata.info.spatial_resolution ? (
+            <div className="c-markdown">
               <div className="column small-6 medium-4 large-3">
                 <h3>Spatial resolution</h3>
                 <ReactMarkdown linkTarget="_blank" source={metadata.info.spatial_resolution} />
               </div>
-            ) : null}
+            </div>
+          ) : null}
 
-            {metadata.info && metadata.info.date_of_content ? (
+          {metadata.info && metadata.info.date_of_content ? (
+            <div className="c-markdown">
               <div className="column small-6 medium-4 large-3">
                 <h3>Date of content</h3>
                 <ReactMarkdown linkTarget="_blank" source={metadata.info.date_of_content} />
               </div>
-            ) : null}
+            </div>
+          ) : null}
 
-            {metadata.info && metadata.info.frequency_of_updates ? (
+          {metadata.info && metadata.info.frequency_of_updates ? (
+            <div className="c-markdown">
               <div className="column small-6 medium-4 large-3">
                 <h3>Frequency of updates</h3>
                 <ReactMarkdown linkTarget="_blank" source={metadata.info.frequency_of_updates} />
               </div>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
+        </div>
 
-          <div className="l-section-mod row">
-            {metadata.info && metadata.info.license ? (
+        <div className="l-section-mod row">
+          {metadata.info && metadata.info.license ? (
+            <div className="c-markdown">
               <div className="column small-6 medium-4 large-3">
                 <h3>License</h3>
                 {!!metadata.info.license_link && (
@@ -145,35 +161,43 @@ class ExploreDetailInfo extends PureComponent {
                   <ReactMarkdown linkTarget="_blank" source={metadata.info.license} />
                 )}
               </div>
-            ) : null}
+            </div>
+          ) : null}
 
-            {metadata.info && metadata.info.summary_of_license ? (
+          {metadata.info && metadata.info.summary_of_license ? (
+            <div className="c-markdown">
               <div className="column small-6 medium-4 large-3">
                 <h3>Summary of license</h3>
                 <ReactMarkdown linkTarget="_blank" source={metadata.info.summary_of_license} />
               </div>
-            ) : null}
+            </div>
+          ) : null}
 
-            {metadata.info && metadata.info.link_to_license ? (
+          {metadata.info && metadata.info.link_to_license ? (
+            <div className="c-markdown">
               <div className="column small-6 medium-4 large-3">
                 <h3>Link to full license</h3>
                 <a href={metadata.info.link_to_license} target="_blank" rel="noopener noreferrer">
                   {metadata.info.link_to_license}
                 </a>
               </div>
-            ) : null}
+            </div>
+          ) : null}
 
-            {metadata && metadata.language ? (
+          {metadata && metadata.language ? (
+            <div className="c-markdown">
               <div className="column small-6 medium-4 large-3">
                 <h3>Published language</h3>
                 <ReactMarkdown linkTarget="_blank" source={metadata.language} />
               </div>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
+        </div>
 
-          {metadata.info &&
-          metadata.info.language &&
-          metadata.info.language.toLowerCase() !== 'en' ? (
+        {metadata.info &&
+        metadata.info.language &&
+        metadata.info.language.toLowerCase() !== 'en' ? (
+          <div className="c-markdown">
             <div className="l-section-mod">
               <h3>Translated title</h3>
               <ReactMarkdown
@@ -181,8 +205,8 @@ class ExploreDetailInfo extends PureComponent {
                 source={metadata.info && metadata.info.translated_title}
               />
             </div>
-          ) : null}
-        </div>
+          </div>
+        ) : null}
       </div>
     );
   }

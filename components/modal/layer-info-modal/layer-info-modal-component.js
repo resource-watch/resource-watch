@@ -18,9 +18,11 @@ function LayerInfoModal(props) {
 
   return (
     <div className="c-layer-info-modal">
-      <div className="layer-info-content c-markdown">
+      <div className="layer-info-content">
         <h2>{layer.name}</h2>
-        <ReactMarkdown linkTarget="_blank" source={layer.description} />
+        <div className="c-markdown">
+          <ReactMarkdown linkTarget="_blank" source={layer.description} />
+        </div>
         <div className="c-button-container -j-end">
           <Link route="explore_detail" params={{ id: slug }}>
             <a className="c-btn -primary">More info</a>
