@@ -1,6 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
+  namespace: rw
   labels:
     name: {name}
   name: {name}
@@ -14,57 +15,57 @@ spec:
         name: {name}
     spec:
       tolerations:
-      - key: "type"
-        operator: "Equal"
-        value: "webapps"
-        effect: "NoSchedule"
+        - key: "type"
+          operator: "Equal"
+          value: "webapps"
+          effect: "NoSchedule"
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: type
-                operator: In
-                values:
-                - webapps
+              - matchExpressions:
+                  - key: type
+                    operator: In
+                    values:
+                      - webapps
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: name
-                  operator: In
-                  values:
-                  - {name}
-              topologyKey: kubernetes.io/hostname
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: name
+                      operator: In
+                      values:
+                        - {name}
+                topologyKey: kubernetes.io/hostname
       containers:
-      - name: {name}
-        image: vizzuality/{name}
-        imagePullPolicy: Always
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
-          limits:
-            memory: "1Gi"
-        env:
-          - name: SECRET
-            valueFrom:
+        - name: {name}
+          image: vizzuality/{name}
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+          env:
+            - name: SECRET
+              valueFrom:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_SECRET
-          - name: REDIS_URL
-            valueFrom:
+            - name: REDIS_URL
+              valueFrom:
                 secretKeyRef:
                   name: dbsecrets
                   key: REDIS_URI
-          - name: RW_GOGGLE_API_TOKEN_SHORTENER
-            valueFrom:
+            - name: RW_GOGGLE_API_TOKEN_SHORTENER
+              valueFrom:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
 
-        ports:
-          - containerPort: 3000
+          ports:
+            - containerPort: 3000
       restartPolicy: Always
