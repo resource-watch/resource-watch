@@ -1,0 +1,17 @@
+.c-markdown {
+  ul, ol {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 30px;
+  }
+
+  ul {
+    list-style: disc outside none;
+  }
+
+  ol {
+    list-style: decimal outside none;
+  }
+}

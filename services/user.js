@@ -1,5 +1,7 @@
+import axios from 'axios';
 import 'isomorphic-fetch';
 import Promise from 'bluebird';
+import { logger } from 'utils/logs';
 
 export default class UserService {
   constructor(options) {
@@ -50,14 +52,25 @@ export default class UserService {
   // sends a request to reset password.
   // It generates a token to use in resetPassword
   forgotPassword({ email }) {
-    return fetch(`${this.opts.apiURL}/auth/reset-password`, {
-      method: 'POST',
-      body: JSON.stringify({ email }),
-      headers: { 'Content-Type': 'application/json' }
-    })
+    return axios.post(
+      `${this.opts.apiURL}/auth/reset-password`,
+      { email },
+      { params: { origin: process.env.APPLICATIONS } }
+    )
       .then((response) => {
-        if (response.ok) return response.json();
-        throw response;
+        const { status, statusText, data } = response;
+
+        if (status >= 300) {
+          logger.error('Error requesting token for password reset:', `${status}: ${statusText}`);
+          console.error(statusText);
+          throw new Error(statusText);
+        }
+
+        return data;
+      })
+      .catch(({ message }) => {
+        console.error(message);
+        throw new Error(message);
       });
   }
 
@@ -66,7 +79,7 @@ export default class UserService {
   // NOTE:this is NOT implemented in the API to be done from the app.
   // right now the only way it's through the email link pointing to Control Tower.
   resetPassword(tokenEmail, { password, repeatPassword }) {
-    return fetch(`${this.opts.apiURL}/auth/reset-password/${tokenEmail}`, {
+    return fetch(`${this.opts.apiURL}/auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`, {
       method: 'POST',
       body: JSON.stringify({ password, repeatPassword }),
       headers: { 'Content-Type': 'application/json' }
