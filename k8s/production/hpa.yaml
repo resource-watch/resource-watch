@@ -1,8 +1,8 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
+  namespace: rw
   name: {name}
-  namespace: default
 spec:
   scaleTargetRef:
     apiVersion: apps/v1beta1
