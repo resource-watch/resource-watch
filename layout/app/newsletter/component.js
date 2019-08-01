@@ -198,7 +198,7 @@ class LayoutNewsletter extends PureComponent {
                     {Input}
                   </Field>
 
-                  <div className="actions-container -align-right">
+                  <div className="c-button-container -j-end">
                     <button
                       type="submit"
                       className="c-btn -primary"
