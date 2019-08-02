@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.5] - 2019-08-01
+### Added
+- Explore detail: markdown related improvements [[code]](https://github.com/resource-watch/resource-watch/pull/1070)
+
+### Fixed
+- Fix for: "Array error when saving widget" [[code]](https://github.com/resource-watch/resource-watch/pull/1075)
+- Fix for issue: Backoffice widget creator only appears when dataset manually selected [[code]](https://github.com/resource-watch/resource-watch/pull/1077)
+
+### Changed
+- Adds origin param to reset password [[code]](https://github.com/resource-watch/resource-watch/pull/1074)
+- Adds origin in reset-password token generation [[code]](https://github.com/resource-watch/resource-watch/pull/1076)
+- Encapsulate CSS for markdown lists into a separate CSS class - Adds origin in reset-password token generation [[code]](https://github.com/resource-watch/resource-watch/pull/1078)
+- forgotten password - moves to axios and logger [code]](https://github.com/resource-watch/resource-watch/pull/1079)
+
 ## [2.1.4] - 2019-07-25
 ### Added
 - Prevent blog feed from loading "UNCATEGORIZED" blog posts. [[code]](https://github.com/resource-watch/resource-watch/pull/1015)
