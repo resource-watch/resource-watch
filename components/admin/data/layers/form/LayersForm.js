@@ -213,7 +213,7 @@ class LayersForm extends PureComponent {
             params[f] !== null ||
             (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)
           ) {
-            newForm[f] = params[f] || this.state.form[f];
+            newForm[f] = (f in params) ? params[f] : this.state.form[f];
           }
         }
       }
