@@ -21,9 +21,6 @@ import AreaActionsTooltip from 'components/areas/AreaActionsTooltip';
 import Modal from 'components/modal/modal-component';
 import SubscriptionsModal from 'components/modal/subscriptions-modal/area';
 
-// Services
-import AreasService from 'services/AreasService';
-
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
 
@@ -52,33 +49,19 @@ class AreaCard extends React.Component {
     };
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      modal: {
-        open: false,
-        mode: 'new'
-      }
-    };
-
-    // Services
-    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-
-    // ------------------- Bindings -----------------------
-    this.handleEditSubscription = this.handleEditSubscription.bind(this);
-    this.handleDeleteArea = this.handleDeleteArea.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.handleEditArea = this.handleEditArea.bind(this);
-    // ----------------------------------------------------
-  }
+  state = {
+    loading: false,
+    modal: {
+      open: false,
+      mode: 'new'
+    }
+  };
 
   handleEditArea() {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 
-  handleEditSubscription(modalState = true) {
+  handleEditSubscription = (modalState = true) => {
     this.setState({
       modal: {
         open: modalState,
@@ -87,7 +70,7 @@ class AreaCard extends React.Component {
     });
   }
 
-  handleDeleteArea() {
+  handleDeleteArea = () => {
     const { area } = this.props;
     const toastrConfirmOptions = {
       onOk: () => {
@@ -98,7 +81,7 @@ class AreaCard extends React.Component {
       Deleting an area will delete all the subscriptions associated to it`, toastrConfirmOptions);
   }
 
-  handleEdit(event) {
+  handleEdit = (event) => {
     const position = AreaCard.getClickPosition(event);
     this.props.toggleTooltip(true, {
       follow: false,
@@ -197,7 +180,7 @@ class AreaCard extends React.Component {
                     {!subscriptionConfirmed &&
                       <div className="pending-label">
                         Pending email confirmation
-                    </div>
+                      </div>
                     }
                   </div>
                 </div>
