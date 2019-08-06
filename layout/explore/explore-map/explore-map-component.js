@@ -15,7 +15,7 @@ import Spinner from 'components/ui/Spinner';
 
 // WRI components
 import {
-  Map,
+  // Map,
   MapPopup,
   MapControls,
   ZoomControl,
@@ -31,12 +31,11 @@ import {
   LegendItemTimeline
 } from 'vizzuality-components';
 
-import { LayerManager, Layer } from 'layer-manager/dist/components';
-import { PluginLeaflet } from 'layer-manager';
-
 // Modal
 import Modal from 'components/modal/modal-component';
 import LayerInfoModal from 'components/modal/layer-info-modal';
+import Map from 'components/map';
+import LayerManager from 'components/map/layer-manager';
 
 // utils
 import CANVAS_DECODERS from 'utils/layers/canvas-decoders';
@@ -243,175 +242,17 @@ class ExploreMapComponent extends React.Component {
 
         {/* Map */}
         <Map
-          mapOptions={{
-            zoom,
-            center: latLng
-          }}
-          basemap={{
-            url: basemap.value,
-            options: basemap.options
-          }}
-          label={{
-            url: labels.value,
-            options: labels.options
-          }}
-          bounds={{
-            bbox: location.bbox,
-            options: {}
-          }}
-          events={{
-            resize: debounce((e, map) => {
-              map.invalidateSize();
-            }, 250),
-            zoomend: (e, map) => {
-              this.onMapParams({
-                zoom: map.getZoom(),
-                latLng: map.getCenter()
-              });
-            },
-            dragend: (e, map) => {
-              this.onMapParams({
-                zoom: map.getZoom(),
-                latLng: map.getCenter()
-              });
-            }
-          }}
-          scrollZoomEnabled={!embed}
-          onReady={(map) => {
-            this.map = map;
-            console.info(this.map);
-          }}
+          mapboxApiAccessToken="pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w"
+          mapStyle="mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek"
+          onClick={l => console.log(l)}
         >
-          {map => (
-            <React.Fragment>
-              {/* Controls */}
-              <MapControls customClass="c-map-controls">
-                <ZoomControl map={map} />
-
-                {!embed && <ShareControl />}
-
-                <BasemapControl
-                  basemap={basemap}
-                  labels={labels}
-                  boundaries={boundaries}
-                  onChangeBasemap={this.props.setMapBasemap}
-                  onChangeLabels={this.props.setMapLabels}
-                  onChangeBoundaries={this.props.setMapBoundaries}
-                />
-                <SearchControl setMapLocation={this.props.setMapBoundaries} />
-              </MapControls>
-
-              {/* Popup */}
-              <MapPopup
-                map={map}
-                latlng={layerGroupsInteractionLatLng}
-                data={{
-                  layers: activeLayers.filter(l =>
-                    !!l.interactionConfig && !!l.interactionConfig.output
-                    && !!l.interactionConfig.output.length),
-                  layersInteraction: layerGroupsInteraction,
-                  layersInteractionSelected: layerGroupsInteractionSelected
-                }}
-                onReady={(popup) => {
-                  this.popup = popup;
-                }}
-              >
-                <LayerPopup
-                  onChangeInteractiveLayer={selected =>
-                    this.props.setMapLayerGroupsInteractionSelected(selected)}
-                />
-              </MapPopup>
-
-              {/* LayerManager */}
-              <LayerManager map={map} plugin={PluginLeaflet}>
-                {(activeLayers || []).map((l, i) => (
-                  <Layer
-                    {...l}
-                    key={l.id}
-                    opacity={l.opacity}
-                    zIndex={1000 - i}
-                    // Interaction
-                    {...!!l.interactionConfig &&
-                    !!l.interactionConfig.output &&
-                    !!l.interactionConfig.output.length && {
-                      interactivity:
-                        l.provider === 'carto' || l.provider === 'cartodb'
-                          ? l.interactionConfig.output.map(o => o.column)
-                          : true,
-                      events: {
-                        click: (e) => {
-                          if (this.props.setMapLayerGroupsInteraction) {
-                            this.props.setMapLayerGroupsInteraction({
-                              ...e,
-                              ...l
-                            });
-                          }
-                          if (this.props.setMapLayerGroupsInteractionLatLng) {
-                            this.props.setMapLayerGroupsInteractionLatLng(e.latlng);
-                          }
-                        }
-                      }
-                    }
-                    }
-                    {...l.params && { params: l.params }}
-                    {...l.sqlParams && { sqlParams: l.sqlParams }}
-                    {...l.decodeParams && { decodeParams: l.decodeParams }}
-                    {...(l.layerConfig.decoder && CANVAS_DECODERS[l.layerConfig.decoder]) &&
-                      { decodeFunction: CANVAS_DECODERS[l.layerConfig.decoder] }}
-                  />
-                ))
-                }
-              </LayerManager>
-            </React.Fragment>
+          {_map => (
+            <LayerManager
+              map={_map}
+              layers={activeLayers}
+            />
           )}
         </Map>
-
-        {/* LEGEND */}
-        <div className="c-legend-map">
-          <Legend
-            maxHeight={embed ? 100 : 300}
-            onChangeOrder={this.onChangeOrder}
-          >
-            {layerGroups.map((lg, i) => (
-              <LegendListItem
-                index={i}
-                key={lg.dataset}
-                layerGroup={lg}
-                toolbar={
-                  embed ? (
-                    <LegendItemToolbar>
-                      <LegendItemButtonLayers />
-                      <LegendItemButtonOpacity />
-                      <LegendItemButtonVisibility />
-                      <LegendItemButtonInfo />
-                    </LegendItemToolbar>
-                  ) : (
-                    <LegendItemToolbar />
-                    )
-                }
-                onChangeInfo={this.onChangeInfo}
-                onChangeOpacity={this.onChangeOpacity}
-                onChangeVisibility={this.onChangeVisibility}
-                onChangeLayer={this.onChangeLayer}
-                onRemoveLayer={this.onRemoveLayer}
-              >
-                <LegendItemTypes />
-                <LegendItemTimeStep
-                  canPlay={false}
-                  handleChange={(dates, activeLayer) => {
-                    this.onChangeLayerDate(dates, activeLayer);
-                  }}
-                />
-                <LegendItemTimeline
-                  onChangeLayer={this.onChangeLayerTimeLine}
-                  customClass="rw-legend-timeline"
-                  {...LEGEND_TIMELINE_PROPERTIES}
-                  { ...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
-                />
-              </LegendListItem>
-            ))}
-          </Legend>
-        </div>
 
         {!!layer && (
           <Modal
