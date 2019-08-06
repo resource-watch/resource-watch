@@ -7,7 +7,8 @@ export default connect(
   state => ({
     widgetEditor: state.widgetEditor,
     locale: state.common.locale,
-    newState: state.routes.query.id === 'new'
+    newState: state.routes.query.id === 'new',
+    dataset: state.routes.query.dataset
   }),
   null
 )(WidgetForm);
