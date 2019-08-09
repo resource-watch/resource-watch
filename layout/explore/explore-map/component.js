@@ -443,6 +443,51 @@ class ExploreMap extends PureComponent {
     });
   }
 
+  handleViewport = debounce((viewport) => {
+    const { setViewport } = this.props;
+
+    setViewport(viewport);
+  }, 250)
+
+  handleZoom = (zoom) => {
+    const { setViewport } = this.props;
+
+    setViewport({
+      zoom,
+      // transitionDuration is always set to avoid mixing
+      // durations of other actions (like flying)
+      transitionDuration: 250
+    });
+  }
+
+  handleBasemap = (basemap) => {
+    const { setBasemap } = this.props;
+    const { id } = basemap;
+
+    setBasemap(id);
+  }
+
+  handleLabels = (labels) => {
+    const { setLabels } = this.props;
+
+    setLabels(labels);
+  }
+
+  handleBoundaries = (boundaries) => {
+    const { setBoundaries } = this.props;
+
+    setBoundaries(boundaries);
+  }
+
+  handleSearch = (locationParams) => {
+    const { setBounds } = this.props;
+
+    setBounds({
+      ...locationParams,
+      options: { zoom: 2 }
+    });
+  }
+
   render() {
     const {
       embed,
