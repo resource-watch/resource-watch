@@ -1,0 +1,25 @@
+@import 'css/settings';
+
+.c-share-control {
+  > .share-control--btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: $space / 2;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px 0 rgba($black, .5);
+    background-color: $white;
+    cursor: pointer;
+
+    > svg {
+      fill: $charcoal-grey;
+    }
+
+    &:hover {
+      background: $porcelain;
+    }
+  }
+}
