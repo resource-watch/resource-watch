@@ -1,27 +1,23 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-
-import isEqual from 'lodash/isEqual';
+import ReactMapGL, { FlyToInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
+import WebMercatorViewport from 'viewport-mercator-project';
+import isEqual from 'react-fast-compare';
 import isEmpty from 'lodash/isEmpty';
 
-import ReactMapGL, { FlyToInterpolator } from 'react-map-gl';
+// constants
+import { DEFAULT_VIEWPORT } from './constants';
 
-// import 'mapbox-gl/dist/mapbox-gl.css';
+// styles
 import './styles.scss';
 
-const DEFAULT_VIEWPORT = {
-  zoom: 2,
-  lat: 0,
-  lng: 0
-};
-
-class Map extends Component {
+class Map extends PureComponent {
   static propTypes = {
     /** A function that returns the map instance */
     children: PropTypes.func,
 
-    /** Custom css class for styling */
+    /** Custom CSS class for styling */
     customClass: PropTypes.string,
 
     /** An object that defines the viewport
@@ -41,7 +37,21 @@ class Map extends Component {
     /** A boolean that allows rotating */
     dragRotate: PropTypes.bool,
 
-    /** A function that exposes when the map is loaded. It returns and object with the `this.map` and `this.mapContainer` reference. */
+    /** A boolean that allows zooming */
+    scrollZoom: PropTypes.bool,
+
+    /** A boolean that allows zooming */
+    touchZoom: PropTypes.bool,
+
+    /** A boolean that allows touch rotating */
+    touchRotate: PropTypes.bool,
+
+    /** A boolean that allows double click zooming */
+    doubleClickZoom: PropTypes.bool,
+
+    /** A function that exposes when the map is loaded.
+     * It returns and object with the `this.map` and `this.mapContainer`
+     * reference. */
     onLoad: PropTypes.func,
 
     /** A function that exposes the viewport */
@@ -58,6 +68,10 @@ class Map extends Component {
     bounds: {},
     dragPan: true,
     dragRotate: true,
+    scrollZoom: true,
+    touchZoom: true,
+    touchRotate: true,
+    doubleClickZoom: true,
 
     onViewportChange: () => {},
     onLoad: () => {},
@@ -86,11 +100,11 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { viewport: prevVieport, bounds: prevBounds } = prevProps;
+    const { viewport: prevViewport, bounds: prevBounds } = prevProps;
     const { viewport, bounds } = this.props;
     const { viewport: stateViewport } = this.state;
 
-    if (!isEqual(viewport, prevVieport)) {
+    if (!isEqual(viewport, prevViewport)) {
       this.setState({ // eslint-disable-line
         viewport: {
           ...stateViewport,
@@ -114,77 +128,75 @@ class Map extends Component {
     });
   }
 
-  onViewportChange = (v) => {
+  onViewportChange = (_viewport) => {
     const { onViewportChange } = this.props;
 
-    this.setState({ viewport: v });
-    onViewportChange(v);
+    this.setState({ viewport: _viewport },
+      () => { onViewportChange(_viewport); });
   }
 
-  onResize = (v) => {
+  onResize = (_viewport) => {
     const { onViewportChange } = this.props;
     const { viewport } = this.state;
     const newViewport = {
       ...viewport,
-      ...v
+      ..._viewport
     };
 
     this.setState({ viewport: newViewport });
     onViewportChange(newViewport);
   }
 
-  onMoveEnd = () => {
-    const { onViewportChange } = this.props;
-    const { viewport } = this.state;
-
-    if (this.map) {
-      const bearing = this.map.getBearing();
-      const pitch = this.map.getPitch();
-      const zoom = this.map.getZoom();
-      const { lng, lat } = this.map.getCenter();
-
-      const newViewport = {
-        ...viewport,
-        bearing,
-        pitch,
-        zoom,
-        latitude: lat,
-        longitude: lng
-      };
-
-      // Publish new viewport and save it into the state
-      this.setState({
-        viewport: newViewport,
-        flying: false
-      });
-      onViewportChange(newViewport);
-    }
-  }
-
-  // REVIEW
   fitBounds = () => {
-    const { flying } = this.state;
-    const { bounds } = this.props;
+    const { viewport: currentViewport } = this.state;
+    const { bounds, onViewportChange } = this.props;
     const { bbox, options } = bounds;
 
-    if (flying) {
-      this.map.off('moveend', this.onMoveEnd);
-    }
+    const viewport = {
+      width: this.mapContainer.offsetWidth,
+      height: this.mapContainer.offsetHeight,
+      ...currentViewport
+    };
 
-    this.setState({ flying: true });
+    const { longitude, latitude, zoom } = new WebMercatorViewport(viewport).fitBounds(
+      [[bbox[0], bbox[1]], [bbox[2], bbox[3]]],
+      options
+    );
 
-    requestAnimationFrame(() => {
-      this.map.fitBounds(
-        [[bbox[0], bbox[1]], [bbox[2], bbox[3]]],
-        options
-      );
+    const newViewport = {
+      ...currentViewport,
+      longitude,
+      latitude,
+      zoom,
+      transitionDuration: 1500,
+      transitionInterruption: TRANSITION_EVENTS.UPDATE
+    };
 
-      this.map.once('moveend', this.onMoveEnd);
+    this.setState({
+      flying: true,
+      viewport: newViewport
     });
+    onViewportChange(newViewport);
+
+    setTimeout(() => {
+      this.setState({ flying: false });
+    }, 1500);
   };
 
   render() {
-    const { customClass, children, getCursor, dragPan, dragRotate, ...mapboxProps } = this.props;
+    const {
+      customClass,
+      children,
+      getCursor,
+      dragPan,
+      dragRotate,
+      scrollZoom,
+      touchZoom,
+      touchRotate,
+      doubleClickZoom,
+      disableEventsOnFly,
+      ...mapboxProps
+    } = this.props;
     const { viewport, flying, loaded } = this.state;
 
     return (
@@ -207,14 +219,17 @@ class Map extends Component {
           height="100%"
 
           // INTERACTIVE
-          dragPan={dragPan && !flying}
-          dragRotate={dragRotate && !flying}
+          dragPan={!flying && dragPan}
+          dragRotate={!flying && dragRotate}
+          scrollZoom={!flying && scrollZoom}
+          touchZoom={!flying && touchZoom}
+          touchRotate={!flying && touchRotate}
+          doubleClickZoom={!flying && doubleClickZoom}
 
           // DEFAULT FUC IMPLEMENTATIONS
-          onViewportChange={!flying ? this.onViewportChange : null}
+          onViewportChange={this.onViewportChange}
           onResize={this.onResize}
           onLoad={this.onLoad}
-          // getCursor={getCursor}
 
           transitionInterpolator={new FlyToInterpolator()}
         >

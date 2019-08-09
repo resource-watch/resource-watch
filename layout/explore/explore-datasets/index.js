@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import * as actions from 'layout/explore/explore-actions';
+import * as actions from 'layout/explore/actions';
 
 // selectors
 import { getUpdatedDatasets } from './selectors';

@@ -5,13 +5,13 @@ import { Router } from 'routes';
 
 // actions
 import { setIsServer } from 'redactions/common';
-import * as actions from 'layout/explore/explore-actions';
+import * as actions from 'layout/explore/actions';
 
 // components
 import Explore from 'layout/explore';
 
 // constants
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+import { BASEMAPS, LABELS } from 'components/map/constants';
 
 class ExplorePage extends PureComponent {
   static propTypes = {
@@ -60,9 +60,9 @@ class ExplorePage extends PureComponent {
     // Map
     if (zoom) dispatch(actions.setMapZoom(+zoom));
     if (lat && lng) dispatch(actions.setMapLatLng({ lat: +lat, lng: +lng }));
-    if (basemap) dispatch(actions.setMapBasemap(BASEMAPS[basemap]));
-    if (labels) dispatch(actions.setMapLabels(LABELS[labels]));
-    if (boundaries) dispatch(actions.setMapBoundaries(!!boundaries));
+    if (basemap) dispatch(actions.setBasemap(BASEMAPS[basemap]));
+    if (labels) dispatch(actions.setLabels(LABELS[labels]));
+    if (boundaries) dispatch(actions.setBoundaries(!!boundaries));
 
     // Fetch layers
     if (layers) await dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
