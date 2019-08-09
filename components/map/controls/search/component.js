@@ -24,8 +24,13 @@ class SearchControls extends PureComponent {
       const viewport = gmaps.geometry && gmaps.geometry.viewport;
 
       if (viewport) {
-        const { south, west, north, east } = viewport.toJSON();
-        this.props.setMapLocation({ bbox: [east, south, west, north] });
+        const viewPortKeys = Object.keys(viewport);
+        onSelectLocation({
+          bbox: [
+            viewport[viewPortKeys[1]].j, viewport[viewPortKeys[0]].j,
+            viewport[viewPortKeys[1]].l, viewport[viewPortKeys[0]].l
+          ]
+        });
       }
 
       if (!viewport && location) {
