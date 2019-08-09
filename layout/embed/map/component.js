@@ -19,7 +19,7 @@ import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/icon';
 
 // constants
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+import { BASEMAPS, LABELS } from 'components/map/constants';
 
 // utils
 import { paramIsTrue } from 'utils/utils';

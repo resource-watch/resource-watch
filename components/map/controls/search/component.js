@@ -1,38 +1,31 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import * as actions from 'layout/explore/explore-actions';
-
-// Components
 import Geosuggest from 'react-geosuggest';
+
+// components
 import Icon from 'components/ui/icon';
 
-// Utils
+// utils
 import { logEvent } from 'utils/analytics';
 
-class SearchControl extends PureComponent {
-  static propTypes = { setMapLocation: PropTypes.func.isRequired };
+// styles
+import './styles.scss';
+
+class SearchControls extends PureComponent {
+  static propTypes = { onSelectLocation: PropTypes.func.isRequired };
 
   state = { showSearchInput: false };
 
-  // UI EVENTS
-  onToggleSearchInput = (to) => {
-    this.setState({ showSearchInput: to }, () => {
-      if (this.state.showSearchInput) {
-        this.geosuggest.focus();
-      }
-    });
-  }
-
   onSuggestSelect = (e) => {
+    const { onSelectLocation } = this.props;
+
     if (e) {
       const { gmaps, location } = e;
       const viewport = gmaps.geometry && gmaps.geometry.viewport;
 
       if (viewport) {
         const viewPortKeys = Object.keys(viewport);
-        this.props.setMapLocation({
+        onSelectLocation({
           bbox: [
             viewport[viewPortKeys[1]].j, viewport[viewPortKeys[0]].j,
             viewport[viewPortKeys[1]].l, viewport[viewPortKeys[0]].l
@@ -41,33 +34,33 @@ class SearchControl extends PureComponent {
       }
 
       if (!viewport && location) {
-        this.props.setMapLocation({
+        onSelectLocation({
           ...location,
           zoom: 7
         });
       }
 
-      if ('label' in e) {
-        logEvent('Explore map', ' Search for a place', e.label);
-      }
+      if ('label' in e) logEvent('Explore map', ' Search for a place', e.label);
 
-      this.onToggleSearchInput(false);
+      this.handleSearchInput(false);
     }
   }
 
   onKeyDown = (e) => {
-    if (e.keyCode === 27) {
-      this.onToggleSearchInput(false);
-    }
+    if (e.keyCode === 27) this.handleSearchInput(false);
   }
 
-  // RENDER
+  handleSearchInput = (to) => {
+    this.setState({ showSearchInput: to }, () => {
+      if (this.state.showSearchInput) this.geosuggest.focus();
+    });
+  }
+
   render() {
     const { showSearchInput } = this.state;
-    const className = classNames({ 'c-map-search-control': true });
 
     return (
-      <div className={className}>
+      <div className="c-search-control">
         {showSearchInput &&
           <Geosuggest
             ref={(r) => { this.geosuggest = r; }}
@@ -77,14 +70,17 @@ class SearchControl extends PureComponent {
         }
         <button
           type="button"
-          className="search-button"
-          onClick={() => this.onToggleSearchInput(!showSearchInput)}
+          className="search-control--btn"
+          onClick={() => this.handleSearchInput(!showSearchInput)}
         >
-          <Icon name="icon-search" className="-small" />
+          <Icon
+            name="icon-search"
+            className="-small"
+          />
         </button>
       </div>
     );
   }
 }
 
-export default connect(null, actions)(SearchControl);
+export default SearchControls;
