@@ -4,7 +4,7 @@ import flatten from 'lodash/flatten';
 import compact from 'lodash/compact';
 
 // constants
-import { BOUNDARIES } from 'components/ui/map/constants';
+import { BASEMAPS, BOUNDARIES } from 'components/map/constants';
 
 // utils
 import { reduceParams, reduceSqlParams } from 'utils/layers/params-parser';
@@ -12,6 +12,7 @@ import { reduceParams, reduceSqlParams } from 'utils/layers/params-parser';
 const getLayerGroups = state => state.explore.map.layerGroups;
 const getParametrization = state => state.explore.map.parametrization;
 const getBoundaries = state => state.explore.map.boundaries;
+const getBasemapId = state => state.explore.map.basemap;
 
 export const getActiveLayers = createSelector(
   [getLayerGroups, getBoundaries],
@@ -129,8 +130,14 @@ export const getUpdatedLayers = createSelector(
   }
 );
 
+export const getBasemap = createSelector(
+  [getBasemapId],
+  _basemapId => BASEMAPS[_basemapId]
+);
+
 
 export default {
   getUpdatedLayers,
-  getActiveInteractiveLayers
+  getActiveInteractiveLayers,
+  getBasemap
 };
