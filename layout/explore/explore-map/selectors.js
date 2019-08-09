@@ -2,47 +2,20 @@ import { createSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import compact from 'lodash/compact';
-import moment from 'moment';
 
 // constants
 import { BASEMAPS, BOUNDARIES } from 'components/map/constants';
 
 // utils
-import { reduceParams, reduceSqlParams, getTimelineParams } from 'utils/layers/params-parser';
+import { reduceParams, reduceSqlParams } from 'utils/layers/params-parser';
 
 const getLayerGroups = state => state.explore.map.layerGroups;
 const getParametrization = state => state.explore.map.parametrization;
 const getBoundaries = state => state.explore.map.boundaries;
 const getBasemapId = state => state.explore.map.basemap;
 
-export const getUpdatedLayerGroups = createSelector(
-  [getLayerGroups],
-  _layerGroups => _layerGroups.map(_layerGroup => ({
-    ..._layerGroup,
-    layers: _layerGroup.layers.map((_layer) => {
-      const timelineParams = getTimelineParams({
-        ..._layer.layerConfig.timeline_config,
-        ..._layer.layerConfig.decode_config && (
-          _layer.layerConfig.decode_config.reduce((acc, curr) => ({
-            ...acc,
-            [curr.key]: curr.default
-          }), {}))
-      });
-
-      return ({
-        ..._layer,
-        ..._layer.layerConfig.timeline_config &&
-          {
-            // all params should go under timeline_config attribute
-            timelineParams
-          }
-      });
-    })
-  }))
-);
-
 export const getActiveLayers = createSelector(
-  [getUpdatedLayerGroups, getBoundaries],
+  [getLayerGroups, getBoundaries],
   (_layerGroups = [], _boundaries) => {
     const activeLayers = _layerGroups.map(lg => ({
       ...lg.layers.find(l => l.active),
@@ -96,37 +69,17 @@ export const getUpdatedLayers = createSelector(
   [getActiveLayers, getParametrization],
   (_activeLayers = [], _parametrization) => {
     if (!(Object.keys(_parametrization).length)) {
-      return _activeLayers.map((_activeLayer) => {
-        const reducedDecodeParams = reduceParams(_activeLayer.layerConfig.decode_config);
-        const { startDate, endDate } = reducedDecodeParams || {};
-
-        return {
-          ..._activeLayer,
-          ..._activeLayer.layerConfig.params_config && {
-            params: {
-              ...reduceParams(_activeLayer.layerConfig.params_config),
-              ...!!_activeLayer.layerConfig.body.url && { url: _activeLayer.layerConfig.body.url }
-            }
-          },
-          ..._activeLayer.layerConfig.sql_config &&
-            { sqlParams: reduceSqlParams(_activeLayer.layerConfig.sql_config) },
-          ..._activeLayer.layerConfig.decode_config && {
-            decodeParams: {
-              ...reducedDecodeParams,
-              ...(startDate && {
-                startYear: moment(startDate).year(),
-                startMonth: moment(startDate).month(),
-                startDay: moment(startDate).dayOfYear()
-              }),
-              ...(endDate && {
-                endYear: moment(endDate).year(),
-                endMonth: moment(endDate).month(),
-                endDay: moment(endDate).dayOfYear()
-              })
-            }
+      return _activeLayers.map(_activeLayer => ({
+        ..._activeLayer,
+        ..._activeLayer.layerConfig.params_config && {
+          params: {
+            ...reduceParams(_activeLayer.layerConfig.params_config),
+            ...!!_activeLayer.layerConfig.body.url && { url: _activeLayer.layerConfig.body.url }
           }
-        };
-      });
+        },
+        ..._activeLayer.layerConfig.sql_config && { sqlParams: reduceSqlParams(_activeLayer.layerConfig.sql_config) },
+        ..._activeLayer.layerConfig.decode_config && { decodeParams: reduceParams(_activeLayer.layerConfig.decode_config) }
+      }));
     }
 
     Object.keys(_parametrization).forEach((layerId) => {
@@ -139,16 +92,13 @@ export const getUpdatedLayers = createSelector(
       const {
         params_config: paramsConfig,
         decode_config: decodeConfig,
-        sql_config: sqlConfig,
-        timeline_config: timelineConfig
+        sql_config: sqlConfig
       } = layerConfig;
       const {
         params: newParams,
         decodeParams: newDecodeParams,
-        sqlParams: newSQLParams,
-        timeline_config: newTimelineConfig
+        sqlParams: newSQLParams
       } = _parametrization[layerId];
-      const { startDate, endDate } = newDecodeParams || {};
 
       currentLayer = {
         ...currentLayer,
@@ -168,26 +118,15 @@ export const getUpdatedLayers = createSelector(
         ...decodeConfig && {
           decodeParams: {
             ...reduceParams(decodeConfig),
-            ...newDecodeParams,
-            ...(startDate && {
-              startYear: moment(startDate).year(),
-              startMonth: moment(startDate).month(),
-              startDay: moment(startDate).dayOfYear()
-            }),
-            ...(endDate && {
-              endYear: moment(endDate).year(),
-              endMonth: moment(endDate).month(),
-              endDay: moment(endDate).dayOfYear()
-            })
+            ...newDecodeParams
           }
-        },
-        ...timelineConfig && { timelineParams: { ...newTimelineConfig } }
+        }
       };
 
       _activeLayers[indexLayer] = currentLayer;
     });
 
-    return [..._activeLayers];
+    return _activeLayers;
   }
 );
 
@@ -200,6 +139,5 @@ export const getBasemap = createSelector(
 export default {
   getUpdatedLayers,
   getActiveInteractiveLayers,
-  getUpdatedLayerGroups,
   getBasemap
 };
