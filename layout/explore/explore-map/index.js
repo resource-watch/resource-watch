@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
 
 // actions
-import * as actions from 'layout/explore/explore-actions';
+import * as actions from 'layout/explore/actions';
 
 // selectors
-import { getUpdatedLayers, getActiveInteractiveLayers } from './explore-map-selectors';
+import { getBasemap, getUpdatedLayers, getActiveInteractiveLayers } from './selectors';
 
 // components
-import ExploreMapComponent from './explore-map-component';
+import ExploreMap from './component';
 
 export default connect(
   state => ({
-    // Store
     ...state.explore.sidebar,
     ...state.explore.map,
     activeLayers: getUpdatedLayers(state),
-    activeInteractiveLayers: getActiveInteractiveLayers(state)
+    activeInteractiveLayers: getActiveInteractiveLayers(state),
+    basemap: getBasemap(state)
   }),
   actions
-)(ExploreMapComponent);
+)(ExploreMap);
