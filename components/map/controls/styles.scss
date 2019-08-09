@@ -1,0 +1,37 @@
+@import 'css/settings';
+
+.c-map-controls {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 1;
+
+  &.-embed {
+    top: $space-1 * 2 !important;
+    right: $space-1 * 2 !important;
+  }
+
+  &.-left {
+    top: $space-1 * 2;
+    left: $space-1 * 2;
+    right: auto;
+  }
+
+  .map-controls--list {
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+
+  .map-controls--list-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+
+    &:not(:first-child) {
+      margin: $space-1 / 2 0 0 0;
+    }
+  }
+}
