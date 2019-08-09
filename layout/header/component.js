@@ -51,7 +51,6 @@ class Header extends PureComponent {
                     <a>
                       <Icon name="icon-rw-logo" className="brand-logo" />
                       <h1 className="brand-title">Resource Watch</h1>
-                      <span className="brand-beta">beta</span>
                     </a>
                   </Link>
                 </div>
