@@ -208,7 +208,7 @@ class Step1 extends PureComponent {
 
         {form.provider === 'cartodb' &&
           <InteractionsComponent
-            form={form}
+            layer={form}
           />
         }
 
@@ -227,7 +227,7 @@ class Step1 extends PureComponent {
         }
 
         <LayerPreviewComponent
-          form={form}
+          layer={form}
         />
 
         <Field

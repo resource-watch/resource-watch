@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import flatten from 'lodash/flatten';
-
-// Components
+import isEqual from 'react-fast-compare';
+import { LayerManager, Layer } from 'layer-manager/dist/components';
+import { PluginLeaflet } from 'layer-manager';
 import {
   Map,
   MapPopup,
@@ -13,15 +13,12 @@ import {
   LegendItemTypes
 } from 'vizzuality-components';
 
-// Map Popups
+// components
 import LayerPopup from 'components/ui/map/popup/LayerPopup';
 
-import { LayerManager, Layer } from 'layer-manager/dist/components';
-import { PluginLeaflet } from 'layer-manager';
-
+// constants
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
-// Constants
 const MAP_CONFIG = {
   zoom: 3,
   center: {
@@ -30,25 +27,43 @@ const MAP_CONFIG = {
   }
 };
 
-
 class LayerPreviewComponent extends PureComponent {
   static propTypes = {
     adminLayerPreview: PropTypes.object.isRequired,
-    form: PropTypes.object.isRequired,
-    interactions: PropTypes.object.isRequired,
+    layer: PropTypes.object.isRequired,
+    interactions: PropTypes.array.isRequired,
     setLayerInteraction: PropTypes.func.isRequired,
     setLayerInteractionLatLng: PropTypes.func.isRequired,
     setLayerInteractionSelected: PropTypes.func.isRequired,
     generateLayerGroups: PropTypes.func.isRequired
   };
 
+  componentWillMount() {
+    this.handleRefreshPreview();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { interactions } = this.props;
+    const { interactions: nextInteractions } = nextProps;
+    const interactionesChanged = !isEqual(interactions, nextInteractions);
+
+    if (interactionesChanged) this.handleRefreshPreview();
+  }
+
   handleRefreshPreview() {
-    const { form, interactions } = this.props;
-    this.props.generateLayerGroups({ form, interactions });
+    const { layer, interactions, generateLayerGroups } = this.props;
+
+    generateLayerGroups({ layer, interactions });
   }
 
   render() {
-    const { adminLayerPreview, interactions } = this.props;
+    const {
+      adminLayerPreview,
+      interactions,
+      layers,
+      setLayerInteraction,
+      setLayerInteractionLatLng
+    } = this.props;
 
     const {
       layerGroups,
@@ -56,11 +71,6 @@ class LayerPreviewComponent extends PureComponent {
       interactionLatLng,
       interactionSelected
     } = adminLayerPreview;
-
-
-    const { added } = interactions;
-
-    const activeLayers = flatten(layerGroups.map(lg => lg.layers.filter(l => l.active)));
 
     return (
       <div className="c-field preview-container">
@@ -81,7 +91,7 @@ class LayerPreviewComponent extends PureComponent {
               onReady={(map) => { this.map = map; }}
             >
               {map => (
-                <React.Fragment>
+                <Fragment>
                   {/* Controls */}
                   <MapControls
                     customClass="c-map-controls"
@@ -94,20 +104,22 @@ class LayerPreviewComponent extends PureComponent {
                     map={map}
                     latlng={interactionLatLng}
                     data={{
-                      layers: activeLayers,
+                      layers,
                       layersInteraction: interaction,
                       layersInteractionSelected: interactionSelected
                     }}
                     onReady={(popup) => { this.popup = popup; }}
                   >
                     <LayerPopup
-                      onChangeInteractiveLayer={selected => this.props.setLayerInteractionSelected(selected)}
+                      onChangeInteractiveLayer={(selected) => {
+                        this.props.setLayerInteractionSelected(selected);
+                      }}
                     />
                   </MapPopup>
 
                   {/* LayerManager */}
                   <LayerManager map={map} plugin={PluginLeaflet}>
-                    {activeLayers.map((l, i) => (
+                    {layers.map((l, i) => (
                       <Layer
                         {...l}
                         key={l.id}
@@ -115,23 +127,20 @@ class LayerPreviewComponent extends PureComponent {
                         zIndex={1000 - i}
 
                         // Interaction
-                        {...!!added && !!added.length && {
-                          interactivity: (l.provider === 'carto' || l.provider === 'cartodb') ? added.map(o => o.column) : true,
-                          params: { update: added.map(o => o.column) },
+                        {...!!interactions && !!interactions.length && {
+                          interactivity: (l.provider === 'carto' || l.provider === 'cartodb') ? interactions.map(o => o.column) : true,
+                          params: { update: interactions.map(o => o.column) },
                           events: {
                             click: (e) => {
-                              if (this.props.setLayerInteraction) this.props.setLayerInteraction({ ...e, ...l });
-                              if (this.props.setLayerInteractionLatLng) this.props.setLayerInteractionLatLng(e.latlng);
+                              setLayerInteraction({ id: l.id, data: e.data });
+                              setLayerInteractionLatLng(e.latlng);
                             }
                           }
                         }}
-
-                      // There is a bug here... Too many setState
-                      // onLayerLoading={bool => this.onLayerLoading(l.id, bool)}
                       />
                     ))}
                   </LayerManager>
-                </React.Fragment>
+                </Fragment>
               )}
             </Map>
           </div>

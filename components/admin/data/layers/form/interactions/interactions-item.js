@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import classnames from 'classnames';
-
-// Drag and drop
 import { SortableElement } from 'react-sortable-hoc';
 
+// constants
 import { FORM_ELEMENTS, FORMAT } from 'components/admin/data/layers/form/constants';
 
-// Components
+// components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
@@ -63,7 +61,9 @@ const InteractionsItem = (props) => {
         return (
           <Field
             key={interaction.column + label}
-            ref={(c) => { if (c) FORM_ELEMENTS.elements[label.toLowerCase() + interaction.column] = c; }}
+            ref={(c) => {
+                if (c) FORM_ELEMENTS.elements[label.toLowerCase() + interaction.column] = c;
+            }}
             onChange={value => editInteraction({ value, key: label, field: interaction })}
             validations={validations}
             properties={{
@@ -107,5 +107,7 @@ InteractionsItem.propTypes = {
   removeInteraction: PropTypes.func.isRequired,
   custom: PropTypes.bool
 };
+
+InteractionsItem.defaultProps = { custom: false };
 
 export default SortableElement(InteractionsItem);

@@ -25,7 +25,7 @@ import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 class LayersForm extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    dataset: PropTypes.string.isRequired,
+    dataset: PropTypes.string,
     authorization: PropTypes.string,
     application: PropTypes.array,
     onSubmit: PropTypes.func,
@@ -33,6 +33,11 @@ class LayersForm extends PureComponent {
     interactions: PropTypes.object.isRequired,
     adminLayerPreview: PropTypes.object.isRequired,
     newState: PropTypes.bool.isRequired
+  }
+
+  static defaultProps = {
+    dataset: null,
+    onSubmit: null
   }
 
   constructor(props) {

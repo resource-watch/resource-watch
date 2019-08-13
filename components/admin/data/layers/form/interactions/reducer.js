@@ -1,12 +1,9 @@
 import * as actions from './actions';
-
-export const initialState = {
-  added: [],
-  available: [],
-  loading: false
-};
+import initialState from './initial-state';
 
 export default {
-  [actions.setInteractions]: (state, { payload }) => ({ ...state, ...payload }),
-  [actions.toggleLoading]: state => ({ ...state, loading: !state.loading })
+  [actions.setCurrentInteractions]: (state, { payload }) => ({ ...state, added: payload }),
+  [actions.setAvailabletInteractions]: (state, { payload }) => ({ ...state, available: payload }),
+  [actions.setLoading]: (state, { payload }) => ({ ...state, loading: payload }),
+  [actions.resetInteractions]: () => ({ ...initialState })
 };

@@ -9,6 +9,9 @@ import FaqListItemHandle from './FaqListItemHandle';
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
+// styles
+import './styles.scss';
+
 const FaqsListItem = (props) => {
   const { data, editAction, removeAction } = props;
 

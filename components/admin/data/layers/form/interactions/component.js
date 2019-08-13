@@ -1,35 +1,58 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
+import { toastr } from 'react-redux-toastr';
 import findIndex from 'lodash/findIndex';
-
 import { arrayMove } from 'react-sortable-hoc';
 
-// Redux
-import { connect } from 'react-redux';
+// constants
+import { FORM_ELEMENTS, FORMAT } from 'components/admin/data/layers/form/constants';
 
-// Components
+// components
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
-
-import { FORM_ELEMENTS, FORMAT } from 'components/admin/data/layers/form/constants';
-import { getInteractions, modifyInteractions } from './actions';
-
 import InteractionsItems from './interactions-items';
 
-class InteractionsComponent extends PureComponent {
+// styles
+import './styles.scss';
+
+class InteractionManager extends PureComponent {
+  static propTypes = {
+    layer: PropTypes.object.isRequired,
+    interactions: PropTypes.object.isRequired,
+    setCurrentInteractions: PropTypes.func.isRequired,
+    getCurrentLayerInteractions: PropTypes.func.isRequired,
+    getAvailableLayerInteractions: PropTypes.func.isRequired,
+    resetInteractions: PropTypes.func.isRequired
+  }
+
   componentWillMount() {
-    this.props.dispatch(getInteractions({ ...this.props }));
+    const {
+      layer,
+      getCurrentLayerInteractions,
+      getAvailableLayerInteractions
+    } = this.props;
+    // gets interaction from interactionConfig layer attribute
+    getCurrentLayerInteractions({ ...this.props });
+
+    // fetchs for all available fields available in the dataset
+    getAvailableLayerInteractions({ ...this.props })
+      .catch(() => toastr.error('Something went wrong', `Error fetching fields for dataset ${layer.id} `));
+  }
+
+  componentWillUnmount() {
+    const { resetInteractions } = this.props;
+    resetInteractions();
   }
 
   onSortInteractions = ({ oldIndex, newIndex }) => {
-    const { interactions } = this.props;
+    const { interactions, setCurrentInteractions } = this.props;
+
     interactions.added = arrayMove(interactions.added, oldIndex, newIndex);
-    this.props.dispatch(modifyInteractions({ ...this.props }, interactions.added));
+    setCurrentInteractions(interactions.added);
   }
 
   addInteractions(options) {
-    const { interactions } = this.props;
+    const { interactions, setCurrentInteractions } = this.props;
 
     // Check if we are removing interactions, then remove the reference(es) to it
     if (options.length < interactions.added.length) {
@@ -54,42 +77,42 @@ class InteractionsComponent extends PureComponent {
         column: selected.label,
         format: null,
         prefix: '',
-        property: '',
+        property: selected.label,
         suffix: '',
         type: selected.type
       });
     }
 
-    this.props.dispatch(modifyInteractions({ ...this.props }, interactions.added));
+    setCurrentInteractions(interactions.added);
   }
 
   editInteraction(data) {
-    const { interactions } = this.props;
+    const { interactions, setCurrentInteractions } = this.props;
 
     if (data.key.toLowerCase() === 'label') {
       data.field.property = data.value;
     } else {
       data.field[data.key.toLowerCase()] = data.value;
     }
-    interactions.added[findIndex(interactions.added, data.field)] =
-      Object.assign({}, data.field);
-    this.props.dispatch(modifyInteractions({ ...this.props }, interactions.added));
+    interactions.added[findIndex(interactions.added, data.field)] = Object.assign({}, data.field);
+    setCurrentInteractions(interactions.added);
   }
 
   removeInteraction(interaction) {
-    const { interactions } = this.props;
+    const { interactions, setCurrentInteractions } = this.props;
     interactions.added = interactions.added.filter(item => item.column !== interaction.column);
 
     // Remove interaction references from validation
     FORM_ELEMENTS.removeInteraction(interaction);
 
-    this.props.dispatch(modifyInteractions({ ...this.props }, interactions.added));
+    setCurrentInteractions(interactions.added);
   }
 
   render() {
     const { interactions } = this.props;
+
     return (
-      <div>
+      <div className="c-interactions">
         {interactions.available &&
           <Field
             options={interactions.available}
@@ -125,14 +148,4 @@ class InteractionsComponent extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.user,
-  interactions: state.interactions
-});
-
-InteractionsComponent.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  interactions: PropTypes.object.isRequired
-};
-
-export default connect(mapStateToProps, null)(InteractionsComponent);
+export default InteractionManager;
