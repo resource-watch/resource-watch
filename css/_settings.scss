@@ -31,6 +31,7 @@ $white: #ffffff;
 $black: #000;
 $sea-blue: #2C75B0;
 $blue-grey: #9AA2A9;
+$color-12: #f0f1f2;
 
 // Theme
 $body-font-color: $charcoal-grey;
@@ -59,11 +60,15 @@ $font-size-medium: 16px;
 $font-size-big: 21px;
 $body-font-size: 14px;
 
-
 $font-size-h1: 64px;
 $font-size-h2: 42px;
 $font-size-h3: 26px;
 $font-size-h4: 16px;
+
+// Typography – weights
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
 
 $body-background: $body-bg-color;
 $body-font-size: $body-font-color;
