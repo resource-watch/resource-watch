@@ -24,7 +24,6 @@
     "cookie-parser": "1.4.3",
     "copy-webpack-plugin": "^5.0.2",
     "d3": "3.5.17",
-    "d3-scale": "^2.1.2",
     "deck.gl": "^7.1.10",
     "dotenv": "4.0.0",
     "eventemitter3": "2.0.3",
