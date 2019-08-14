@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import * as actions from 'layout/explore/actions';
 
 // selectors
-import { getBasemap, getUpdatedLayers, getActiveInteractiveLayers } from './selectors';
+import {
+  getBasemap,
+  getUpdatedLayers,
+  getUpdatedLayerGroups,
+  getActiveInteractiveLayers
+} from './selectors';
 
 // components
 import ExploreMap from './component';
@@ -15,7 +20,8 @@ export default connect(
     ...state.explore.map,
     activeLayers: getUpdatedLayers(state),
     activeInteractiveLayers: getActiveInteractiveLayers(state),
-    basemap: getBasemap(state)
+    basemap: getBasemap(state),
+    layerGroups: getUpdatedLayerGroups(state)
   }),
   actions
 )(ExploreMap);
