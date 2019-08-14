@@ -30,26 +30,16 @@
   }
 
   .rw-legend-timeline {
-    margin: 20px 0;
-    padding: 0 8px;
+    margin: $space * 4 0;
 
-    > .rc-slider {
-      > .rc-slider-mark {
-        width: 100%;
+    .rc-slider {
+
+      .rc-slider-track {
+        background-color: $light-grey;
+      }
+
+      .rc-slider-mark {
         margin-left: 0;
-
-        > .rc-slider-mark-text {
-          &:first-child {
-            left: 0 !important;
-            transform: translate(-9px, 0);
-          }
-
-          &:last-child {
-            right: 0 !important;
-            left: auto !important;
-            transform: translate(9px, 0);
-          }
-        }
       }
     }
   }
