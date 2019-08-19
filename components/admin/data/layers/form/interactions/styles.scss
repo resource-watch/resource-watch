@@ -1,0 +1,32 @@
+@import 'css/settings';
+
+@import 'css/components/ui/sortable-row';
+
+.c-interactions {
+  display: block;
+
+  &__field {
+    position: relative;
+
+    &--custom {
+      padding-top: $space * 12;
+      background: rgba($color-12, .5);
+    }
+  }
+
+  &__warning {
+    position: absolute;
+    padding: $space $space * 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: $yellow;
+    color: $white;
+
+    strong {
+      padding: 0 0 $space 0;
+      font-size: $font-size-normal;
+      font-weight: $font-weight-bold;
+    }
+  }
+}

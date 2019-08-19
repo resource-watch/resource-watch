@@ -16,7 +16,7 @@ import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
 
-import InteractionsComponent from '../interactions';
+import InteractionManager from '../interactions';
 import LayerPreviewComponent from '../layer-preview';
 
 class Step1 extends PureComponent {
@@ -206,11 +206,8 @@ class Step1 extends PureComponent {
           {Code}
         </Field>
 
-        {form.provider === 'cartodb' &&
-          <InteractionsComponent
-            form={form}
-          />
-        }
+        {form.provider === 'cartodb' && (
+          <InteractionManager layer={form} />)}
 
         {form.provider !== 'cartodb' &&
           <Field
@@ -227,7 +224,7 @@ class Step1 extends PureComponent {
         }
 
         <LayerPreviewComponent
-          form={form}
+          layer={form}
         />
 
         <Field
