@@ -12,7 +12,7 @@ export const getCurrentLayerInteractions = createThunkAction('LAYER-INTERACTIONS
   const { layer } = props;
   const { interactionConfig: { output } } = layer;
 
-  dispatch(setCurrentInteractions(output));
+  if (output) dispatch(setCurrentInteractions(output));
 });
 
 export const getAvailableLayerInteractions = createThunkAction('LAYER-INTERACTIONS__GET-AVAILABLE-LAYER-INTERACTIONS', props => (dispatch, getState) => {
