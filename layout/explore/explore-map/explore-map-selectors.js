@@ -1,4 +1,7 @@
 import { createSelector } from 'reselect';
+import isEmpty from 'lodash/isEmpty';
+import flatten from 'lodash/flatten';
+import compact from 'lodash/compact';
 
 // constants
 import { BOUNDARIES } from 'components/ui/map/constants';
@@ -36,6 +39,29 @@ export const getActiveLayers = createSelector(
 
     return activeLayers;
   }
+);
+
+export const getActiveInteractiveLayers = createSelector(
+  [getActiveLayers],
+  _activeLayers => flatten(compact(_activeLayers.map((_activeLayer) => {
+    const { id, layerConfig, interactionConfig } = _activeLayer;
+    if (isEmpty(layerConfig) || isEmpty(interactionConfig)) return null;
+
+    const { body = {} } = layerConfig;
+    const { vectorLayers } = body;
+
+    if (vectorLayers) {
+      return vectorLayers.map((l, i) => {
+        const {
+          id: vectorLayerId,
+          type: vectorLayerType
+        } = l;
+        return vectorLayerId || `${id}-${vectorLayerType}-${i}`;
+      });
+    }
+
+    return null;
+  })))
 );
 
 export const getUpdatedLayers = createSelector(
@@ -104,4 +130,7 @@ export const getUpdatedLayers = createSelector(
 );
 
 
-export default { getUpdatedLayers };
+export default {
+  getUpdatedLayers,
+  getActiveInteractiveLayers
+};
