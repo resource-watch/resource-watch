@@ -1,27 +1,27 @@
-// TO-DO: replace with components/map/popup
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
+import { replace } from 'layer-manager';
 import isEmpty from 'lodash/isEmpty';
-
+import isEqual from 'react-fast-compare';
 import moment from 'moment';
 import numeral from 'numeral';
+import axios from 'axios';
 
-import { replace } from 'layer-manager';
-
+// components
 import Spinner from 'components/ui/Spinner';
 
-class LayerPopup extends React.Component {
+// styles
+import './styles.scss';
+
+class LayerPopup extends PureComponent {
   static propTypes = {
     latlng: PropTypes.object,
-    popup: PropTypes.object,
     data: PropTypes.object,
     onChangeInteractiveLayer: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     latlng: {},
-    popup: {},
     data: {}
   };
 
@@ -30,38 +30,76 @@ class LayerPopup extends React.Component {
     interaction: {}
   }
 
-  componentDidMount() {
-    const { latlng, data } = this.props;
-
+  componentWillMount() {
+    const { latlng, data: popupData } = this.props;
     const {
       layers,
       layersInteractionSelected
-    } = data;
+    } = popupData;
+    const layer = layers.find(_layer => _layer.id === layersInteractionSelected) || layers[0];
 
-    const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
+    if (layer) {
+      const { interactionConfig } = layer;
 
-    if (!layer) return false;
+      if (
+        !isEmpty(latlng) &&
+        !!layers.length &&
+        !!interactionConfig.config &&
+        !!interactionConfig.config.url
+      ) {
+        this.fetchDataUrl(layer, latlng);
+      }
+    }
+  }
 
+  componentWillReceiveProps(nextProps) {
+    const { data: { layersInteractionSelected: nextLayersInteractionSelected } } = nextProps;
+    const {
+      data: { layersInteractionSelected },
+      data: popupData,
+      latlng
+    } = this.props;
+    const layerChanged = !isEqual(nextLayersInteractionSelected, layersInteractionSelected);
+
+    if (layerChanged) {
+      const { layers } = popupData;
+      const layer = layers.find(_layer => _layer.id === nextLayersInteractionSelected) || layers[0];
+
+      if (layer) {
+        const { interactionConfig } = layer;
+
+        if (
+          !isEmpty(latlng) &&
+          !!layers.length &&
+          !!interactionConfig.config &&
+          !!interactionConfig.config.url
+        ) {
+          this.fetchDataUrl(layer, latlng);
+        }
+      }
+    }
+  }
+
+  fetchDataUrl(layer, latlng) {
     const { interactionConfig } = layer;
-
-    if (
-      !isEmpty(latlng) &&
-      !!layers.length &&
-      !!interactionConfig.config &&
-      !!interactionConfig.config.url
-    ) {
-      fetch(replace(interactionConfig.config.url, latlng))
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw response;
-        })
+    const { interaction } = this.state;
+    this.setState({
+      loading: true,
+      interaction: {
+        ...interaction,
+        [layer.id]: {}
+      }
+    }, () => {
+      axios.get(replace(interactionConfig.config.url, latlng))
         .then(({ data }) => {
+          const { data: _data } = data;
+          const { interaction: newInteraction } = this.state;
           this.setState({
             interaction: {
-              ...this.state.interaction,
+              ...newInteraction,
               [layer.id]: {
                 ...layer,
-                data: data[0]
+                data: _data[0]
               }
             },
             loading: false
@@ -71,15 +109,11 @@ class LayerPopup extends React.Component {
           this.setState({ loading: false });
           if (err && err.json && typeof err.json === 'function') {
             err.json()
-              .then((er) => {
-                console.error(er);
-              });
+              .then((er) => { console.error(er); });
           }
         })
-        .finally(() => {
-          this.setState({ loading: false });
-        });
-    }
+        .finally(() => { this.setState({ loading: false }); });
+    });
   }
 
   formatValue(item, data) {
@@ -98,12 +132,7 @@ class LayerPopup extends React.Component {
   }
 
   render() {
-    const {
-      data,
-      popup
-    } = this.props;
-
-    if (!data) return null;
+    const { data } = this.props;
 
     const {
       layers,
@@ -113,10 +142,7 @@ class LayerPopup extends React.Component {
 
     const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
 
-    if (!layer) {
-      popup.remove();
-      return null;
-    }
+    if (!layer) return null;
 
     const { interactionConfig } = layer;
     const { output } = interactionConfig;
@@ -126,7 +152,7 @@ class LayerPopup extends React.Component {
     const interactionState = this.state.interaction[layer.id] || {};
 
     return (
-      <div className="c-map-popup">
+      <div className="c-layer-popup">
         <header className="popup-header">
           <select
             className="popup-header-select"
@@ -159,26 +185,25 @@ class LayerPopup extends React.Component {
                         <td className="dd">{this.formatValue(outputItem, value)}</td>
                       </tr>
                     );
-                  }
-              )}
+                  })}
               </tbody>
             </table>
           }
 
-          {this.state.loading && (!interaction.data || !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
+          {this.state.loading && (!interaction.data || !interactionState.data) &&
+            interactionConfig.config && interactionConfig.config.url &&
             <div className="popup-loader">
               <Spinner isLoading className="-tiny -inline -pink-color" />
-            </div>
-          }
+            </div>}
 
-          {!this.state.loading && (!interaction.data && !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
-            'No data available'
-          }
+          {!this.state.loading && (!interaction.data && !interactionState.data) &&
+            interactionConfig.config && interactionConfig.config.url &&
+            'No data available'}
 
 
-          {(!interaction.data && !interactionState.data) && (!interactionConfig.config || !interactionConfig.config.url) &&
-            'No data available'
-          }
+          {(!interaction.data && !interactionState.data) &&
+            (!interactionConfig.config || !interactionConfig.config.url) &&
+            'No data available'}
         </div>
       </div>
     );
