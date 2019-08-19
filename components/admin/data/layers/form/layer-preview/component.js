@@ -42,10 +42,10 @@ class LayerPreviewComponent extends PureComponent {
     this.handleRefreshPreview();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
     const { interactions } = this.props;
-    const { interactions: nextInteractions } = nextProps;
-    const interactionesChanged = !isEqual(interactions, nextInteractions);
+    const { interactions: prevInteractions } = prevProps;
+    const interactionesChanged = !isEqual(interactions, prevInteractions);
 
     if (interactionesChanged) this.handleRefreshPreview();
   }

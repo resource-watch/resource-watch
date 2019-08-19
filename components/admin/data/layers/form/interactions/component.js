@@ -51,13 +51,13 @@ class InteractionManager extends PureComponent {
     setCurrentInteractions(interactions.added);
   }
 
-  addInteractions(options) {
+  addInteractions(options = []) {
     const { interactions, setCurrentInteractions } = this.props;
 
     // Check if we are removing interactions, then remove the reference(es) to it
     if (options.length < interactions.added.length) {
       let interactionsRemoved = interactions.added;
-      options.map((item) => {
+      options.forEach((item) => {
         interactionsRemoved = interactionsRemoved.filter(t => t.column !== item);
       });
       interactionsRemoved.forEach(interaction => FORM_ELEMENTS.removeInteraction(interaction));
