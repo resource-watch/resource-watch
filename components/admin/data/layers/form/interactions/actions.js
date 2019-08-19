@@ -1,40 +1,47 @@
-import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
 
-import LayersService from 'services/layer';
+// services
+import { getFields } from 'services/fields';
 
-// Actions
-import { generateLayerGroups } from 'components/admin/data/layers/form/layer-preview/actions';
+export const setCurrentInteractions = createAction('LAYER-INTERACTIONS__SET_CURRENT_INTERACTIONS');
+export const setAvailabletInteractions = createAction('LAYER-INTERACTIONS__SET_AVAILABLE_INTERACTIONS');
+export const setLoading = createAction('LAYER-INTERACTIONS__SET-LOADING');
+export const resetInteractions = createAction('LAYER-INTERACTIONS__RESET_INTERACTIONS');
 
-// Constants
-import { FORMAT } from '../constants';
+export const getCurrentLayerInteractions = createThunkAction('LAYER-INTERACTIONS__GET-CURRENT-LAYER-INTERACTIONS', props => (dispatch) => {
+  const { layer } = props;
+  const { interactionConfig: { output } } = layer;
 
-export const toggleLoading = createAction('ADMIN_TOGGLE_INTERACTIONS_LOADING');
-export const setInteractions = createAction('ADMIN_SET_INTERACTIONS');
-
-export const modifyInteractions = createThunkAction('ADMIN_MODIFY_INTERACTION', props => (dispatch, getState) => {
-  const { interactions } = getState();
-  const { form } = props;
-  dispatch(generateLayerGroups({ form, interactions }));
-  dispatch(setInteractions(interactions));
+  if (output) dispatch(setCurrentInteractions(output));
 });
 
-export const getInteractions = createThunkAction('ADMIN_GET_INTERACTIONS', props => (dispatch) => {
-  dispatch(toggleLoading());
-  const { user, form } = props;
-  const layerService = new LayersService({ authorization: user.token });
+export const getAvailableLayerInteractions = createThunkAction('LAYER-INTERACTIONS__GET-AVAILABLE-LAYER-INTERACTIONS', props => (dispatch, getState) => {
+  const { user: { token } } = getState();
+  const { layer } = props;
 
-  if (form && form.provider !== 'wms') {
-    layerService.getColumns({ dataset: form.dataset })
-      .then((data) => {
-        const interactions = {
-          added: FORMAT.mapInteractionTypes(data, form.interactionConfig.output),
-          available: data.fields
-        };
+  dispatch(setLoading(true));
 
-        dispatch(setInteractions(interactions));
-        dispatch(generateLayerGroups({ form, interactions }));
-        dispatch(toggleLoading());
+  if (layer && layer.provider !== 'wms') {
+    return getFields(layer.dataset, token)
+      .then(({ fields }) => {
+        const parsedFields = ((fields && Object.keys(fields)) || []).map((fKey) => {
+          const { type } = fields[fKey] || null;
+          return { label: fKey || '', value: fKey || '', type };
+        });
+
+        dispatch(setAvailabletInteractions(parsedFields));
+        dispatch(setLoading(false));
       });
   }
+
+  return new Promise((reject) => { reject('Layer provider not supported for getting fields'); });
 });
+
+export default {
+  setCurrentInteractions,
+  setAvailabletInteractions,
+  setLoading,
+  resetInteractions,
+  getCurrentLayerInteractions,
+  getAvailableLayerInteractions
+};

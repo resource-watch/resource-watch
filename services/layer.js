@@ -11,35 +11,35 @@ export default class LayersService {
     this.opts = options;
   }
 
-  getColumns({ dataset }) {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/fields/${dataset}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: (response) => {
-          const fieldsObj = response.fields;
+  // getColumns({ dataset }) {
+  //   return new Promise((resolve, reject) => {
+  //     get({
+  //       url: `${process.env.WRI_API_URL}/fields/${dataset}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
+  //       headers: [{
+  //         key: 'Content-Type',
+  //         value: 'application/json'
+  //       }, {
+  //         key: 'Authorization',
+  //         value: this.opts.authorization
+  //       }],
+  //       onSuccess: (response) => {
+  //         const fieldsObj = response.fields;
 
-          const parsedData = {
-            tableName: response.tableName,
-            fields: ((fieldsObj && Object.keys(fieldsObj)) || []).map((fKey) => {
-              const { type } = fieldsObj[fKey] || null;
-              return { label: fKey || '', value: fKey || '', type };
-            })
-          };
-          resolve({ ...parsedData });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
+  //         const parsedData = {
+  //           tableName: response.tableName,
+  //           fields: ((fieldsObj && Object.keys(fieldsObj)) || []).map((fKey) => {
+  //             const { type } = fieldsObj[fKey] || null;
+  //             return { label: fKey || '', value: fKey || '', type };
+  //           })
+  //         };
+  //         resolve({ ...parsedData });
+  //       },
+  //       onError: (error) => {
+  //         reject(error);
+  //       }
+  //     });
+  //   });
+  // }
 
   saveData({ type, body, id, dataset }) {
     return new Promise((resolve, reject) => {
