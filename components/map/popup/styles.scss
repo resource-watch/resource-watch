@@ -1,0 +1,51 @@
+@import 'css/settings';
+@import 'css/mapbox';
+
+.c-layer-popup {
+  width: 100%;
+
+  > .popup-header {
+    border-bottom: 1px solid $light-grey;
+
+    > .popup-header-select {
+      width: calc(100% - #{$space * 9});
+      height: $space * 9;
+      border: none;
+      outline: none;
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  > .popup-content {
+    padding: 20px;
+    max-height: 290px;
+
+    overflow-y: auto;
+
+    font-family: $body-font-family;
+    font-size: $font-size-small;
+    color: $charcoal-grey;
+  }
+
+  .popup-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .popup-table {
+    width: inherit;
+
+    .dt {
+      padding: 2px;
+      font-weight: $font-weight-bold;
+      vertical-align: baseline;
+    }
+
+    .dd {
+      width: 60%; // Make sure data in tooltip always have 60% of the free space
+      padding: 0 0 0 $space * 2;
+      vertical-align: baseline;
+    }
+  }
+}
