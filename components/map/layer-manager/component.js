@@ -6,19 +6,23 @@ import { PluginMapboxGl } from 'layer-manager';
 class LayerManager extends PureComponent {
   static propTypes = {
     map: PropTypes.object.isRequired,
-    layers: PropTypes.array.isRequired
+    layers: PropTypes.array
   }
 
+  static defaultProps = { layers: [] }
+
   render() {
-    const { map, layers } = this.props;
+    const {
+      map,
+      layers
+    } = this.props;
 
     return (
       <VizzLayerManager
         map={map}
         plugin={PluginMapboxGl}
-        // onLayerLoading={loading => setMapLoading(loading)}
       >
-        {!!layers && layers.map(_layer => (
+        {layers.map(_layer => (
           <Layer
             key={_layer.id}
             {..._layer}
