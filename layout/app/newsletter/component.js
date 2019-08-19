@@ -7,7 +7,6 @@ import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
-import RadioGroup from 'components/form/RadioGroup';
 import Select from 'components/form/SelectInput';
 import Modal from 'components/modal/modal-component';
 import NewsletterConfirmationModal from 'components/modal/newsletter-confirmation-modal';
@@ -168,22 +167,6 @@ class LayoutNewsletter extends PureComponent {
                       {Input}
                     </Field>
                   </div>
-
-                  <RadioGroup
-                    options={[
-                      {
-                        value: 'sign_up_for_all_news',
-                        label: "I want to receive all of Resource Watch's news. This includes our monthly newsletter as well as exciting updates, insights and announcements."
-                      },
-                      {
-                        value: 'sign_up_only_for_newsletter',
-                        label: 'I only want to receive the Resource Watch newsletter. Just our newsletter, once a month.'
-                      }
-                    ]}
-                    name="newsletter_options"
-                    properties={{ default: 'sign_up_for_all_news' }}
-                    onChange={value => this.onChange({ sign_up_mode: value })}
-                  />
 
                   { /* pardot honeypot field */}
                   <Field

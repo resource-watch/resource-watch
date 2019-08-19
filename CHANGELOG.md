@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.6] - 2019-08-19
+### Added
+- Alert preview improvements [[code]](https://github.com/resource-watch/resource-watch/pull/1089)
+
+### Fixed
+- Fix for Markdown link styles [[code]](https://github.com/resource-watch/resource-watch/pull/1083)
+- Fix issue with Layer form (published checkbox was always checked) [[code]]https://github.com/resource-watch/resource-watch/pull/1087)
+- Fix "Dataset not found" error when saving widgets [[code]]https://github.com/resource-watch/resource-watch/pull/1090)
+
 ## [2.1.5] - 2019-08-01
 ### Added
 - Explore detail: markdown related improvements [[code]](https://github.com/resource-watch/resource-watch/pull/1070)
