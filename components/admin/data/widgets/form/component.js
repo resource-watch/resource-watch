@@ -28,12 +28,13 @@ class WidgetForm extends PureComponent {
     showEditor: PropTypes.bool,
     widgetEditor: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
-    newState: PropTypes.bool.isRequired
+    newState: PropTypes.bool.isRequired,
+    dataset: PropTypes.string
   };
 
   static defaultProps = {
     id: null,
-    // dataset: null,
+    dataset: null,
     showEditor: true
   };
 
@@ -43,7 +44,10 @@ class WidgetForm extends PureComponent {
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
       loading: !!props.id,
-      form: STATE_DEFAULT.form,
+      form: {
+        ...STATE_DEFAULT.form,
+        dataset: props.dataset
+      },
       mode: 'editor'
     });
 

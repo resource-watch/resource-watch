@@ -14,4 +14,9 @@
   ol {
     list-style: decimal outside none;
   }
+
+  a {
+    color: $sea-blue;
+    text-decoration: underline;
+  }
 }
