@@ -279,7 +279,7 @@ export default {
   [actions.setMapLayerGroupsInteraction]: (state, action) => {
     const layerGroupsInteraction = {
       ...state.map.layerGroupsInteraction,
-      [action.payload.id]: action.payload
+      ...action.payload
     };
 
     const map = { ...state.map, layerGroupsInteraction };

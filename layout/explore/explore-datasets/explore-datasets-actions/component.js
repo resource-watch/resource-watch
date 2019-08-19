@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-// Next
 import { Link } from 'routes';
 
-class ExploreDatasetsActionsComponent extends React.Component {
+class ExploreDatasetsActionsComponent extends PureComponent {
   static propTypes = {
     dataset: PropTypes.object,
     layer: PropTypes.object,
     layerGroups: PropTypes.array,
-
-    // Actions
-    toggleMapLayerGroup: PropTypes.func
+    toggleMapLayerGroup: PropTypes.func.isRequired,
+    resetMapLayerGroupsInteraction: PropTypes.func.isRequired
   };
 
   isActive = () => {
     const { dataset, layerGroups } = this.props;
     return !!layerGroups.find(l => l.dataset === dataset.id);
+  }
+
+  handleToggleLayerGroup = () => {
+    const { dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction } = this.props;
+    const isActive = this.isActive();
+
+    toggleMapLayerGroup({ dataset, toggle: !isActive });
+    resetMapLayerGroupsInteraction();
   }
 
   render() {
@@ -35,7 +40,7 @@ class ExploreDatasetsActionsComponent extends React.Component {
             '-disable': !layer
           })}
           disabled={!layer}
-          onClick={() => this.props.toggleMapLayerGroup({ dataset, toggle: !isActive })}
+          onClick={this.handleToggleLayerGroup}
         >
           {isActive ? 'Remove from map' : 'Add to map'}
         </button>
