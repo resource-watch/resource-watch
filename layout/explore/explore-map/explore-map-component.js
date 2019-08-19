@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import isEmpty from 'lodash/isEmpty';
+import { Popup } from 'react-map-gl';
 
 // Map Controls
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
@@ -8,7 +10,7 @@ import ShareControl from 'components/ui/map/controls/ShareControl';
 import SearchControl from 'components/ui/map/controls/SearchControl';
 
 // Map Popups
-import LayerPopup from 'components/ui/map/popup/LayerPopup';
+import LayerPopup from 'components/map/popup';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -204,6 +206,36 @@ class ExploreMapComponent extends React.Component {
     });
   };
 
+  onClickLayer = ({ features, lngLat }) => {
+    const {
+      setMapLayerGroupsInteractionLatLng,
+      setMapLayerGroupsInteraction
+    } = this.props;
+    const _features = features.reduce((accumulator, currentValue) => ({
+      ...accumulator,
+      [currentValue.layer.source]: { data: currentValue.properties }
+    }), {});
+    const _lngLat = {
+      longitude: lngLat[0],
+      latitude: lngLat[1]
+    };
+
+    setMapLayerGroupsInteractionLatLng(_lngLat);
+    setMapLayerGroupsInteraction(_features);
+  }
+
+  onChangeInteractiveLayer = (selected) => {
+    const { setMapLayerGroupsInteractionSelected } = this.props;
+
+    setMapLayerGroupsInteractionSelected(selected);
+  }
+
+  handleClosePopup = () => {
+    const { resetMapLayerGroupsInteraction } = this.props;
+
+    resetMapLayerGroupsInteraction();
+  }
+
   render() {
     const {
       embed,
@@ -214,6 +246,7 @@ class ExploreMapComponent extends React.Component {
       labels,
       boundaries,
       activeLayers,
+      activeInteractiveLayers,
       layerGroups,
       layerGroupsInteraction,
       layerGroupsInteractionSelected,
@@ -244,13 +277,43 @@ class ExploreMapComponent extends React.Component {
         <Map
           mapboxApiAccessToken="pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w"
           mapStyle="mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek"
-          onClick={l => console.log(l)}
+          onClick={this.onClickLayer}
+          interactiveLayerIds={activeInteractiveLayers}
         >
           {_map => (
-            <LayerManager
-              map={_map}
-              layers={activeLayers}
-            />
+            <Fragment>
+              <LayerManager
+                map={_map}
+                layers={activeLayers}
+              />
+
+              {!isEmpty(layerGroupsInteractionLatLng) &&
+                <Popup
+                  {...layerGroupsInteractionLatLng}
+                  closeButton
+                  closeOnClick={false}
+                  onClose={this.handleClosePopup}
+                  className="rw-popup-layer"
+                  maxWidth="250px"
+                >
+                  <LayerPopup
+                    data={{
+                      // data available in certain point
+                      layersInteraction: layerGroupsInteraction,
+                      // ID of the layer will display data (defualts into the first layer)
+                      layersInteractionSelected: layerGroupsInteractionSelected,
+                      // current active layers to get their layerConfig attributes
+                      layers: activeLayers
+                    }}
+                    latlng={{
+                      lat: layerGroupsInteractionLatLng.latitude,
+                      lng: layerGroupsInteractionLatLng.longitude
+                    }}
+                    onChangeInteractiveLayer={this.onChangeInteractiveLayer}
+                  />
+                </Popup>
+              }
+            </Fragment>
           )}
         </Map>
 
