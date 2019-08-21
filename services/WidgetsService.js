@@ -76,7 +76,7 @@ export default class WidgetsService {
         type,
         body: {
           ...body,
-          ...type !== 'PATCH' && { application: [process.env.APPLICATIONS] }
+          ...type !== 'PATCH' && { application: process.env.APPLICATIONS }
         },
         headers: [{
           key: 'Content-Type',
