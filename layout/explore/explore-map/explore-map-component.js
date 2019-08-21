@@ -207,6 +207,10 @@ class ExploreMapComponent extends React.Component {
   };
 
   onClickLayer = ({ features, lngLat }) => {
+    const { activeInteractiveLayers } = this.props;
+    // if there are no interactive layers, we ignore the onclick layer callback
+    if (!activeInteractiveLayers.length) return null;
+
     const {
       setMapLayerGroupsInteractionLatLng,
       setMapLayerGroupsInteraction
@@ -222,6 +226,8 @@ class ExploreMapComponent extends React.Component {
 
     setMapLayerGroupsInteractionLatLng(_lngLat);
     setMapLayerGroupsInteraction(_features);
+
+    return true;
   }
 
   onChangeInteractiveLayer = (selected) => {
