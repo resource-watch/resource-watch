@@ -7,10 +7,7 @@ import { setEmbed } from 'redactions/common';
 // components
 import Explore from 'layout/explore/embed';
 
-// constants
-import { BASEMAPS, LABELS } from 'components/map/constants';
-
-class ExplorePage extends PureComponent {
+class EmbedExplorePage extends PureComponent {
   static async getInitialProps({ store }) {
     const { dispatch, getState } = store;
     const { routes: { query } } = getState();
@@ -27,11 +24,16 @@ class ExplorePage extends PureComponent {
     // Embed
     dispatch(setEmbed(true));
 
-    // Map
-    if (zoom) dispatch(actions.setMapZoom(+zoom));
-    if (lat && lng) dispatch(actions.setMapLatLng({ lat: +lat, lng: +lng }));
-    if (basemap) dispatch(actions.setBasemap(BASEMAPS[basemap]));
-    if (labels) dispatch(actions.setLabels(LABELS[labels]));
+    // sets map params from URL
+    dispatch(actions.setViewport({
+      ...zoom && { zoom: +zoom },
+      ...(lat && lng) && {
+        latitude: +lat,
+        longitude: +lng
+      }
+    }));
+    if (basemap) dispatch(actions.setBasemap(basemap));
+    if (labels) dispatch(actions.setLabels(labels));
     if (boundaries) dispatch(actions.setBoundaries(!!boundaries));
 
     // Fetch layers
@@ -51,4 +53,4 @@ export default connect(
     routes: state.routes
   }),
   actions
-)(ExplorePage);
+)(EmbedExplorePage);
