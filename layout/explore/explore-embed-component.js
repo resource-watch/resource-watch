@@ -1,21 +1,18 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-// Components
+// components
 import Layout from 'layout/layout/layout-embed';
-
 import ExploreMap from 'layout/explore/explore-map';
 
-class Explore extends React.Component {
+class EmbedExplore extends PureComponent {
   render() {
     return (
       <Layout
-        title="Explore"
-        description="Explore description"
+        title="Explore Data Sets — Resource Watch"
+        description="Browse more than 200 global data sets on the state of our planet."
         className="-fullscreen"
       >
         <div className="c-embed-widget -map">
-          {/* Desktop map */}
           <ExploreMap embed />
         </div>
       </Layout>
@@ -23,4 +20,4 @@ class Explore extends React.Component {
   }
 }
 
-export default Explore;
+export default EmbedExplore;

@@ -1,10 +1,6 @@
-/* eslint max-len: 0 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-// Responsive
 import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
 
 // Components
 import Layout from 'layout/layout/layout-app';
@@ -17,10 +13,12 @@ import ExploreSidebar from 'layout/explore/explore-sidebar';
 import ExploreHeader from 'layout/explore/explore-header';
 import ExploreDatasetsHeader from 'layout/explore/explore-datasets-header';
 import ExploreDatasets from 'layout/explore/explore-datasets';
-
 import ExploreMap from 'layout/explore/explore-map';
 
-class Explore extends React.Component {
+// utils
+import { breakpoints } from 'utils/responsive';
+
+class Explore extends PureComponent {
   static propTypes = { responsive: PropTypes.object.isRequired };
 
   state = { mobileWarningOpened: true }
@@ -55,7 +53,10 @@ class Explore extends React.Component {
               onRequestClose={() => this.setState({ mobileWarningOpened: false })}
             >
               <div>
-                <p>The mobile version of Explore has limited functionality, please check the desktop version to have access to the full list of features available.</p>
+                <p>The mobile version of Explore has limited functionality,
+                  please check the desktop version to have access to the
+                  full list of features available.
+                </p>
               </div>
             </Modal>
           </MediaQuery>
