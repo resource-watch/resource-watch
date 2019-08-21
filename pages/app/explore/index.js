@@ -69,8 +69,8 @@ class ExplorePage extends PureComponent {
       ...pitch && { pitch: +pitch },
       ...bearing && { bearing: +bearing }
     }));
-    if (basemap) dispatch(actions.setBasemap(BASEMAPS[basemap]));
-    if (labels) dispatch(actions.setLabels(LABELS[labels]));
+    if (basemap) dispatch(actions.setBasemap(basemap));
+    if (labels) dispatch(actions.setLabels(labels));
     if (boundaries) dispatch(actions.setBoundaries(!!boundaries));
 
     // Fetch layers

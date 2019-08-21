@@ -31,6 +31,15 @@ class Map extends PureComponent {
       options: PropTypes.shape({})
     }),
 
+    /** A string that defines the basemap to display */
+    basemap: PropTypes.string.isRequired,
+
+    /** A string that defines the type of label to display */
+    labels: PropTypes.string,
+
+    /** A string that defines if boundaries should be displayed */
+    boundaries: PropTypes.bool,
+
     /** A boolean that allows panning */
     dragPan: PropTypes.bool,
 
@@ -66,6 +75,8 @@ class Map extends PureComponent {
     customClass: null,
     viewport: DEFAULT_VIEWPORT,
     bounds: {},
+    labels: null,
+    boundaries: false,
     dragPan: true,
     dragRotate: true,
     scrollZoom: true,
@@ -100,9 +111,25 @@ class Map extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { viewport: prevViewport, bounds: prevBounds } = prevProps;
-    const { viewport, bounds } = this.props;
+    const {
+      viewport: prevViewport,
+      bounds: prevBounds,
+      basemap: prevBasemap,
+      labels: prevLabels,
+      boundaries: prevBoundaries
+    } = prevProps;
+    const {
+      viewport,
+      bounds,
+      labels,
+      basemap,
+      boundaries
+    } = this.props;
     const { viewport: stateViewport } = this.state;
+    const basemapChanged = prevBasemap !== basemap;
+    const labelsChanged = prevLabels !== labels;
+    const boundariesChanged = prevBoundaries !== boundaries;
+    const boundsChanged = !isEqual(bounds, prevBounds);
 
     if (!isEqual(viewport, prevViewport)) {
       this.setState({ // eslint-disable-line
@@ -113,14 +140,19 @@ class Map extends PureComponent {
       });
     }
 
-    if (!isEmpty(bounds) && !isEqual(bounds, prevBounds)) {
-      this.fitBounds();
-    }
+    if (basemapChanged) this.setBasemap();
+    if (labelsChanged) this.setLabels();
+    if (boundariesChanged) this.setBoundaries();
+    if (!isEmpty(bounds) && boundsChanged) this.fitBounds();
   }
 
   onLoad = () => {
     const { onLoad } = this.props;
     this.setState({ loaded: true });
+
+    this.setBasemap();
+    this.setLabels();
+    this.setBoundaries();
 
     onLoad({
       map: this.map,
@@ -145,6 +177,109 @@ class Map extends PureComponent {
 
     this.setState({ viewport: newViewport });
     onViewportChange(newViewport);
+  }
+
+  setBasemap = () => {
+    const { basemap } = this.props;
+    const BASEMAP_GROUPS = ['basemap'];
+    const { layers, metadata } = this.map.getStyle();
+
+    const basemapGroups = Object.keys(metadata['mapbox:groups']).filter((k) => {
+      const { name } = metadata['mapbox:groups'][k];
+
+      const matchedGroups = BASEMAP_GROUPS.map(rgr => name.toLowerCase().includes(rgr));
+
+      return matchedGroups.some(bool => bool);
+    });
+
+    const basemapsWithMeta = basemapGroups.map(_groupId => ({
+      ...metadata['mapbox:groups'][_groupId],
+      id: _groupId
+    }));
+    const basemapToDisplay = basemapsWithMeta.find(_basemap => _basemap.name.includes(basemap));
+
+    const basemapLayers = layers.filter((l) => {
+      const { metadata: layerMetadata } = l;
+      if (!layerMetadata) return false;
+
+      const gr = layerMetadata['mapbox:group'];
+      return basemapGroups.includes(gr);
+    });
+
+    if (!basemapToDisplay) return false;
+
+    basemapLayers.forEach((_layer) => {
+      const match = _layer.metadata['mapbox:group'] === basemapToDisplay.id;
+      if (!match) {
+        this.map.setLayoutProperty(_layer.id, 'visibility', 'none');
+      } else {
+        this.map.setLayoutProperty(_layer.id, 'visibility', 'visible');
+      }
+    });
+
+    return true;
+  }
+
+  setLabels = () => {
+    const { labels } = this.props;
+
+    const LABELS_GROUP = ['labels'];
+    const { layers, metadata } = this.map.getStyle();
+
+    const labelGroups = Object.keys(metadata['mapbox:groups']).filter((k) => {
+      const { name } = metadata['mapbox:groups'][k];
+
+      const matchedGroups = LABELS_GROUP.filter(rgr => name.toLowerCase().includes(rgr));
+
+      return matchedGroups.some(bool => bool);
+    });
+
+    const labelsWithMeta = labelGroups.map(_groupId => ({
+      ...metadata['mapbox:groups'][_groupId],
+      id: _groupId
+    }));
+    const labelsToDisplay = labelsWithMeta.find(_basemap => _basemap.name.includes(labels)) || {};
+
+    const labelLayers = layers.filter((l) => {
+      const { metadata: layerMetadata } = l;
+      if (!layerMetadata) return false;
+
+      const gr = layerMetadata['mapbox:group'];
+      return labelGroups.includes(gr);
+    });
+
+    labelLayers.forEach((_layer) => {
+      const match = _layer.metadata['mapbox:group'] === labelsToDisplay.id;
+      this.map.setLayoutProperty(_layer.id, 'visibility', match ? 'visible' : 'none');
+    });
+
+    return true;
+  }
+
+  setBoundaries = () => {
+    const { boundaries } = this.props;
+    const LABELS_GROUP = ['boundaries'];
+    const { layers, metadata } = this.map.getStyle();
+
+    const boundariesGroups = Object.keys(metadata['mapbox:groups']).filter((k) => {
+      const { name } = metadata['mapbox:groups'][k];
+
+      const labelsGroup = LABELS_GROUP.map(rgr => name.toLowerCase().includes(rgr));
+
+      return labelsGroup.some(bool => bool);
+    });
+
+    const boundariesLayers = layers.filter((l) => {
+      const { metadata: layerMetadata } = l;
+      if (!layerMetadata) return false;
+
+      const gr = layerMetadata['mapbox:group'];
+      return boundariesGroups.includes(gr);
+    });
+
+    boundariesLayers.forEach((l) => {
+      this.map.setLayoutProperty(l.id, 'visibility', boundaries ? 'visible' : 'none');
+    });
   }
 
   fitBounds = () => {

@@ -293,7 +293,7 @@ class ExploreMap extends PureComponent {
   handleLabels = (labels) => {
     const { setLabels } = this.props;
 
-    setLabels(labels);
+    setLabels(labels.id);
   }
 
   handleBoundaries = (boundaries) => {
@@ -367,11 +367,13 @@ class ExploreMap extends PureComponent {
           mapboxApiAccessToken="pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w"
           onClick={this.onClickLayer}
           interactiveLayerIds={activeInteractiveLayers}
-          mapStyle={basemap.value}
+          mapStyle="mapbox://styles/resourcewatch/cjzmw480d00z41cp2x81gm90h"
           viewport={viewport}
           bounds={bounds}
+          basemap={basemap.value}
+          labels={labels.value}
+          boundaries={boundaries}
           onViewportChange={this.handleViewport}
-          preventStyleDiffing={false}
         >
           {_map => (
             <Fragment>
@@ -418,6 +420,7 @@ class ExploreMap extends PureComponent {
           <ShareControls />
           <BasemapControls
             basemap={basemap}
+            labels={labels}
             boundaries={boundaries}
             onChangeBasemap={this.handleBasemap}
             onChangeLabels={this.handleLabels}

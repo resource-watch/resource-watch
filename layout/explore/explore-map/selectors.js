@@ -1,42 +1,53 @@
-import { createSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import compact from 'lodash/compact';
 
 // constants
-import { BASEMAPS, BOUNDARIES } from 'components/map/constants';
+import { BASEMAPS, LABELS } from 'components/map/constants';
 
 // utils
-import { reduceParams, reduceSqlParams } from 'utils/layers/params-parser';
+import { reduceParams, reduceSqlParams, getTimelineParams } from 'utils/layers/params-parser';
 
 const getLayerGroups = state => state.explore.map.layerGroups;
 const getParametrization = state => state.explore.map.parametrization;
-const getBoundaries = state => state.explore.map.boundaries;
 const getBasemapId = state => state.explore.map.basemap;
+const getLabelId = state => state.explore.map.labels;
+
+export const getUpdatedLayerGroups = createSelector(
+  [getLayerGroups],
+  _layerGroups => _layerGroups.map(_layerGroup => ({
+    ..._layerGroup,
+    layers: _layerGroup.layers.map((_layer) => {
+      const timelineParams = getTimelineParams({
+        ..._layer.layerConfig.timeline_config,
+        ..._layer.layerConfig.decode_config && (
+          _layer.layerConfig.decode_config.reduce((acc, curr) => ({
+            ...acc,
+            [curr.key]: curr.default
+          }), {}))
+      });
+
+      return ({
+        ..._layer,
+        ..._layer.layerConfig.timeline_config &&
+          {
+            // all params should go under timeline_config attribute
+            timelineParams
+          }
+      });
+    })
+  }))
+);
 
 export const getActiveLayers = createSelector(
-  [getLayerGroups, getBoundaries],
-  (_layerGroups = [], _boundaries) => {
+  [getUpdatedLayerGroups],
+  (_layerGroups = []) => {
     const activeLayers = _layerGroups.map(lg => ({
       ...lg.layers.find(l => l.active),
       opacity: (typeof lg.opacity !== 'undefined') ? lg.opacity : 1,
       visibility: (typeof lg.visibility !== 'undefined') ? lg.visibility : true
     }));
-
-    if (_boundaries) {
-      activeLayers.unshift({
-        id: 'dark-boundaries',
-        active: true,
-        provider: 'leaflet',
-        opacity: 1,
-        visibility: true,
-        layerConfig: {
-          type: 'tileLayer',
-          url: BOUNDARIES.dark.value,
-          body: {}
-        }
-      });
-    }
 
     return activeLayers;
   }
@@ -77,8 +88,10 @@ export const getUpdatedLayers = createSelector(
             ...!!_activeLayer.layerConfig.body.url && { url: _activeLayer.layerConfig.body.url }
           }
         },
-        ..._activeLayer.layerConfig.sql_config && { sqlParams: reduceSqlParams(_activeLayer.layerConfig.sql_config) },
-        ..._activeLayer.layerConfig.decode_config && { decodeParams: reduceParams(_activeLayer.layerConfig.decode_config) }
+        ..._activeLayer.layerConfig.sql_config &&
+          { sqlParams: reduceSqlParams(_activeLayer.layerConfig.sql_config) },
+        ..._activeLayer.layerConfig.decode_config &&
+          { decodeParams: reduceParams(_activeLayer.layerConfig.decode_config) }
       }));
     }
 
@@ -134,6 +147,16 @@ export const getBasemap = createSelector(
   [getBasemapId],
   _basemapId => BASEMAPS[_basemapId]
 );
+
+export const getLabel = createSelector(
+  [getLabelId],
+  _labelId => LABELS[_labelId]
+);
+
+export const getMapProps = createStructuredSelector({
+  basemap: getBasemap,
+  labels: getLabel
+});
 
 
 export default {

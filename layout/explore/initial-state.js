@@ -49,12 +49,10 @@ export default {
 
   // Map
   map: {
-    zoom: 3,
-    latLng: { lat: 0, lng: 0 },
     viewport: {
       zoom: 3,
-      lat: 0,
-      lng: 0,
+      latitude: 0,
+      longitude: 0,
       pitch: 0,
       bearing: 0,
       transitionDuration: 250

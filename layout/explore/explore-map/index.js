@@ -5,7 +5,7 @@ import * as actions from 'layout/explore/actions';
 
 // selectors
 import {
-  getBasemap,
+  getMapProps,
   getUpdatedLayers,
   getUpdatedLayerGroups,
   getActiveInteractiveLayers
@@ -20,8 +20,8 @@ export default connect(
     ...state.explore.map,
     activeLayers: getUpdatedLayers(state),
     activeInteractiveLayers: getActiveInteractiveLayers(state),
-    basemap: getBasemap(state),
-    layerGroups: getUpdatedLayerGroups(state)
+    layerGroups: getUpdatedLayerGroups(state),
+    ...getMapProps(state)
   }),
   actions
 )(ExploreMap);
