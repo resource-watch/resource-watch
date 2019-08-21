@@ -62,7 +62,7 @@ export default {
       options: {}
     },
     basemap: BASEMAPS.dark.id,
-    labels: LABELS.light,
+    labels: LABELS.light.id,
     boundaries: false,
     layerGroups: [],
     layerGroupsInteraction: {},
