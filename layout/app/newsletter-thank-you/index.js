@@ -1,3 +1,1 @@
-import LayoutNewsletterThankYou from './component';
-
-export default LayoutNewsletterThankYou;
+export { default } from './component';
