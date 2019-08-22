@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { replace } from 'layer-manager';
 import isEmpty from 'lodash/isEmpty';
-import isEqual from 'react-fast-compare';
 import moment from 'moment';
 import numeral from 'numeral';
 import axios from 'axios';
