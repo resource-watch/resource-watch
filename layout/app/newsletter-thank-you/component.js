@@ -6,11 +6,14 @@ import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
+// styles
+import './styles.scss';
+
 const LayoutNewsletter = () => (
   <Layout
     title="Newsletter"
     description="Sign up for Resource Watch news"
-    className="p-newsletter-thank-you"
+    className="l-newsletter-thank-you"
     pageHeader
   >
     <div className="c-page-header">
@@ -37,7 +40,7 @@ const LayoutNewsletter = () => (
               further information about how we use personal data.
             </p>
             <div className="image-container">
-              <img src="/static/images/pages/app/thankyou.jpg" alt="" />
+              {/* <img src="/static/images/pages/app/thankyou.jpg" alt="" /> */}
             </div>
             <div className="c-button-container -j-between">
               <Link to="myrw" params={{ tab: 'areas' }}>
