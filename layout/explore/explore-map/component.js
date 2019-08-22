@@ -4,7 +4,6 @@ import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import { Popup } from 'react-map-gl';
 import {
-  MapPopup,
   Legend,
   LegendListItem,
   LegendItemToolbar,
@@ -169,7 +168,11 @@ class ExploreMap extends PureComponent {
   }
 
   onClickLayer = ({ features, lngLat }) => {
-    const { activeInteractiveLayers } = this.props;
+    const {
+      activeInteractiveLayers,
+      layerGroupsInteraction
+    } = this.props;
+
     // if there are no interactive layers, we ignore the onclick layer callback
     if (!activeInteractiveLayers.length) return null;
 
@@ -177,17 +180,30 @@ class ExploreMap extends PureComponent {
       setMapLayerGroupsInteractionLatLng,
       setMapLayerGroupsInteraction
     } = this.props;
-    const _features = features.reduce((accumulator, currentValue) => ({
-      ...accumulator,
-      [currentValue.layer.source]: { data: currentValue.properties }
-    }), {});
+
+    let newinteractions = {};
+
+    // if the user clicks on a zone where there is no data in any current layer
+    // we will reset the current interaction of those layers to display "no data available" message
+    if (!features.length) {
+      newinteractions = Object.keys(layerGroupsInteraction).reduce((accumulator, currentValue) => ({
+        ...accumulator,
+        [currentValue]: {}
+      }), {});
+    } else {
+      newinteractions = features.reduce((accumulator, currentValue) => ({
+        ...accumulator,
+        [currentValue.layer.source]: { data: currentValue.properties }
+      }), {});
+    }
+
     const _lngLat = {
       longitude: lngLat[0],
       latitude: lngLat[1]
     };
 
     setMapLayerGroupsInteractionLatLng(_lngLat);
-    setMapLayerGroupsInteraction(_features);
+    setMapLayerGroupsInteraction(newinteractions);
 
     return true;
   }
