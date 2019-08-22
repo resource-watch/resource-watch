@@ -62,7 +62,9 @@ export const BOUNDARIES = {
 export const DEFAULT_VIEWPORT = {
   zoom: 2,
   lat: 0,
-  lng: 0
+  lng: 0,
+  pitch: 0,
+  bearing: 0
 };
 
 export default { BASEMAPS, LABELS, BOUNDARIES };
