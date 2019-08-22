@@ -36,13 +36,9 @@ const LayoutNewsletter = () => (
               You may wish to read our <a href="/privacy-policy">privacy policy</a>, which provides
               further information about how we use personal data.
             </p>
-          </div>
-          <div className="column small-8">
             <div className="image-container">
               <img src="/static/images/pages/app/thankyou.jpg" alt="" />
             </div>
-          </div>
-          <div className="column small-12 medium-8">
             <div className="c-button-container -j-between">
               <Link to="myrw" params={{ tab: 'areas' }}>
                 <a className="c-btn -secondary">Check my subscriptions</a>
