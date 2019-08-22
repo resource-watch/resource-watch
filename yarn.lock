@@ -10417,9 +10417,10 @@ react-ga@^2.3.5:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.5.6.tgz#5a2e2fa78ae298e5b0a4498210eeec631ef1b562"
 
-react-geosuggest@^2.7.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/react-geosuggest/-/react-geosuggest-2.9.0.tgz#9fde3d6c8331f75cd73561e885907076121cd310"
+react-geosuggest@^2.12.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/react-geosuggest/-/react-geosuggest-2.12.0.tgz#dcbc799708383c89701fcb6d307d9537df239a4d"
+  integrity sha512-9zlZ4t+O41kmNRi6Ap3RiLOsIduSjraLPbhbWotDTE3lBsTMgu3zAXO7pgCnM0gnxi8+gRX/F0wTyInWX9tHSQ==
   dependencies:
     classnames "^2.2.6"
     lodash.debounce "^4.0.6"
