@@ -336,6 +336,7 @@ class ExploreMap extends PureComponent {
           viewport={viewport}
           bounds={bounds}
           onViewportChange={this.handleViewport}
+          preventStyleDiffing={false}
         >
           {_map => (
             <Fragment>
