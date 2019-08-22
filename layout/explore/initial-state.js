@@ -55,6 +55,8 @@ export default {
       zoom: 3,
       lat: 0,
       lng: 0,
+      pitch: 0,
+      bearing: 0,
       transitionDuration: 250
     },
     bounds: {
