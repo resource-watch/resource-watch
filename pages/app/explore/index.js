@@ -36,6 +36,8 @@ class ExplorePage extends PureComponent {
       zoom,
       lat,
       lng,
+      pitch,
+      bearing,
       basemap,
       labels,
       boundaries,
@@ -60,7 +62,9 @@ class ExplorePage extends PureComponent {
       ...(lat && lng) && {
         latitude: +lat,
         longitude: +lng
-      }
+      },
+      ...pitch && { pitch: +pitch },
+      ...bearing && { bearing: +bearing }
     }));
     if (basemap) dispatch(actions.setBasemap(basemap));
     if (labels) dispatch(actions.setLabels(labels));
@@ -111,6 +115,8 @@ class ExplorePage extends PureComponent {
       zoom: viewport.zoom,
       lat: viewport.latitude,
       lng: viewport.longitude,
+      pitch: viewport.pitch,
+      bearing: viewport.bearing,
       basemap,
       labels,
       ...!!boundaries && { boundaries },
@@ -175,6 +181,8 @@ class ExplorePage extends PureComponent {
       map.viewport.zoom !== prevMap.zoom ||
       map.viewport.latitude !== prevMap.viewport.latitude ||
       map.viewport.longitude !== prevMap.viewport.longitude ||
+      map.viewport.pitch !== prevMap.viewport.pitch ||
+      map.viewport.bearing !== prevMap.viewport.bearing ||
       map.basemap !== prevMap.basemap ||
       map.labels.id !== prevMap.labels.id ||
       map.boundaries !== prevMap.boundaries ||
