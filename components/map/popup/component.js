@@ -53,29 +53,28 @@ class LayerPopup extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { data: { layersInteractionSelected: nextLayersInteractionSelected } } = nextProps;
     const {
-      data: { layersInteractionSelected },
+      data: { layersInteractionSelected: nextLayersInteractionSelected },
+      latlng: nextLatLng
+    } = nextProps;
+    const {
       data: popupData,
       latlng
     } = this.props;
-    const layerChanged = !isEqual(nextLayersInteractionSelected, layersInteractionSelected);
 
-    if (layerChanged) {
-      const { layers } = popupData;
-      const layer = layers.find(_layer => _layer.id === nextLayersInteractionSelected) || layers[0];
+    const { layers } = popupData;
+    const layer = layers.find(_layer => _layer.id === nextLayersInteractionSelected) || layers[0];
 
-      if (layer) {
-        const { interactionConfig } = layer;
+    if (layer) {
+      const { interactionConfig } = layer;
 
-        if (
-          !isEmpty(latlng) &&
-          !!layers.length &&
-          !!interactionConfig.config &&
-          !!interactionConfig.config.url
-        ) {
-          this.fetchDataUrl(layer, latlng);
-        }
+      if (
+        !isEmpty(latlng) &&
+        !!layers.length &&
+        !!interactionConfig.config &&
+        !!interactionConfig.config.url
+      ) {
+        this.fetchDataUrl(layer, nextLatLng);
       }
     }
   }
@@ -93,14 +92,11 @@ class LayerPopup extends PureComponent {
       axios.get(replace(interactionConfig.config.url, latlng))
         .then(({ data }) => {
           const { data: _data } = data;
-          const { interaction: newInteraction } = this.state;
+          const { interaction: currentInteractions } = this.state;
           this.setState({
             interaction: {
-              ...newInteraction,
-              [layer.id]: {
-                ...layer,
-                data: _data[0]
-              }
+              ...currentInteractions,
+              [layer.id]: { data: _data[0] }
             },
             loading: false
           });
