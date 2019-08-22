@@ -1,26 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import { Popup } from 'react-map-gl';
-
-// Map Controls
-import BasemapControl from 'components/ui/map/controls/BasemapControl';
-import ShareControl from 'components/ui/map/controls/ShareControl';
-import SearchControl from 'components/ui/map/controls/SearchControl';
-
-// Map Popups
-import LayerPopup from 'components/map/popup';
-
-// Components
-import Spinner from 'components/ui/Spinner';
-
-// WRI components
 import {
-  // Map,
   MapPopup,
-  MapControls,
-  ZoomControl,
   Legend,
   LegendListItem,
   LegendItemToolbar,
@@ -29,18 +13,21 @@ import {
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
   LegendItemTypes,
-  LegendItemTimeStep,
-  LegendItemTimeline
+  LegendItemTimeStep
 } from 'vizzuality-components';
 
-// Modal
+// components
 import Modal from 'components/modal/modal-component';
 import LayerInfoModal from 'components/modal/layer-info-modal';
+import Spinner from 'components/ui/Spinner';
 import Map from 'components/map';
 import LayerManager from 'components/map/layer-manager';
-
-// utils
-import CANVAS_DECODERS from 'utils/layers/canvas-decoders';
+import MapControls from 'components/map/controls';
+import ZoomControls from 'components/map/controls/zoom';
+import ShareControls from 'components/map/controls/share';
+import BasemapControls from 'components/map/controls/basemap';
+import SearchControls from 'components/map/controls/search';
+import LayerPopup from 'components/map/popup';
 
 // constants
 import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
@@ -48,15 +35,12 @@ import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
 // styles
 import './styles.scss';
 
-class ExploreMapComponent extends React.Component {
+class ExploreMap extends PureComponent {
   static propTypes = {
     embed: PropTypes.bool,
-
     open: PropTypes.bool.isRequired,
-
-    zoom: PropTypes.number.isRequired,
-    latLng: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
+    viewport: PropTypes.shape({}).isRequired,
+    bounds: PropTypes.object.isRequired,
     basemap: PropTypes.object.isRequired,
     labels: PropTypes.object.isRequired,
     boundaries: PropTypes.bool.isRequired,
@@ -65,13 +49,11 @@ class ExploreMapComponent extends React.Component {
     layerGroupsInteraction: PropTypes.object.isRequired,
     layerGroupsInteractionSelected: PropTypes.string,
     layerGroupsInteractionLatLng: PropTypes.object,
-
-    setMapZoom: PropTypes.func.isRequired,
-    setMapLatLng: PropTypes.func.isRequired,
-    setMapBasemap: PropTypes.func.isRequired,
-    setMapLabels: PropTypes.func.isRequired,
-    setMapBoundaries: PropTypes.func.isRequired,
-
+    setViewport: PropTypes.func.isRequired,
+    setBounds: PropTypes.func.isRequired,
+    setBasemap: PropTypes.func.isRequired,
+    setLabels: PropTypes.func.isRequired,
+    setBoundaries: PropTypes.func.isRequired,
     toggleMapLayerGroup: PropTypes.func.isRequired,
     setMapLayerGroupVisibility: PropTypes.func.isRequired,
     setMapLayerGroupOpacity: PropTypes.func.isRequired,
@@ -80,7 +62,6 @@ class ExploreMapComponent extends React.Component {
     setMapLayerParametrization: PropTypes.func.isRequired,
     removeLayerParametrization: PropTypes.func.isRequired,
     resetLayerParametrization: PropTypes.func.isRequired,
-
     setMapLayerGroupsInteraction: PropTypes.func.isRequired,
     setMapLayerGroupsInteractionLatLng: PropTypes.func.isRequired,
     setMapLayerGroupsInteractionSelected: PropTypes.func.isRequired,
@@ -105,15 +86,6 @@ class ExploreMapComponent extends React.Component {
 
     if (!!this.popup && prevLayerGroups.length !== nextLayerGroups.length) {
       this.popup.remove();
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { open: prevOpen } = prevProps;
-    const { open: nextOpen } = this.props;
-
-    if (prevOpen !== nextOpen) {
-      this.map.invalidateSize();
     }
   }
 
@@ -146,10 +118,6 @@ class ExploreMapComponent extends React.Component {
     });
   };
 
-  onChangeLayerTimeLine = (l) => {
-    this.props.setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
-  }
-
   onRemoveLayer = (l) => {
     const {
       toggleMapLayerGroup,
@@ -170,18 +138,18 @@ class ExploreMapComponent extends React.Component {
 
   onChangeLayerDate = (dates, layer) => {
     const { setMapLayerParametrization } = this.props;
-    const { id, layerConfig: { decode_config } } = layer;
+    const { id, layerConfig: { decode_config: decodeConfig } } = layer;
 
     setMapLayerParametrization({
       id,
       nextConfig: {
-        ...decode_config && {
+        ...decodeConfig && {
           decodeParams: {
             startDate: dates[0],
             endDate: dates[1]
           }
         },
-        ...!decode_config && {
+        ...!decodeConfig && {
           params: {
             startDate: dates[0],
             endDate: dates[1]
@@ -191,12 +159,6 @@ class ExploreMapComponent extends React.Component {
     });
   }
 
-  // Map params
-  onMapParams = debounce(({ zoom, latLng }) => {
-    this.props.setMapZoom(zoom);
-    this.props.setMapLatLng(latLng);
-  }, 250);
-
   onLayerLoading = (id, bool) => {
     this.setState({
       loading: {
@@ -204,7 +166,7 @@ class ExploreMapComponent extends React.Component {
         [id]: bool
       }
     });
-  };
+  }
 
   onClickLayer = ({ features, lngLat }) => {
     const { activeInteractiveLayers } = this.props;
@@ -241,14 +203,102 @@ class ExploreMapComponent extends React.Component {
 
     resetMapLayerGroupsInteraction();
   }
+  handleViewport = debounce((viewport) => {
+    const { setViewport } = this.props;
+
+    setViewport(viewport);
+  }, 250)
+
+  handleZoom = (zoom) => {
+    const { setViewport } = this.props;
+
+    setViewport({
+      zoom,
+      // transitionDuration is always set to avoid mixing
+      // durations of other actions (like flying)
+      transitionDuration: 250
+    });
+  }
+
+  handleBasemap = (basemap) => {
+    const { setBasemap } = this.props;
+    const { id } = basemap;
+
+    setBasemap(id);
+  }
+
+  handleLabels = (labels) => {
+    const { setLabels } = this.props;
+
+    setLabels(labels);
+  }
+
+  handleBoundaries = (boundaries) => {
+    const { setBoundaries } = this.props;
+
+    setBoundaries(boundaries);
+  }
+
+  handleSearch = (locationParams) => {
+    const { setBounds } = this.props;
+
+    setBounds({
+      ...locationParams,
+      options: { zoom: 2 }
+    });
+  }
+
+  handleViewport = debounce((viewport) => {
+    const { setViewport } = this.props;
+
+    setViewport(viewport);
+  }, 250)
+
+  handleZoom = (zoom) => {
+    const { setViewport } = this.props;
+
+    setViewport({
+      zoom,
+      // transitionDuration is always set to avoid mixing
+      // durations of other actions (like flying)
+      transitionDuration: 250
+    });
+  }
+
+  handleBasemap = (basemap) => {
+    const { setBasemap } = this.props;
+    const { id } = basemap;
+
+    setBasemap(id);
+  }
+
+  handleLabels = (labels) => {
+    const { setLabels } = this.props;
+
+    setLabels(labels);
+  }
+
+  handleBoundaries = (boundaries) => {
+    const { setBoundaries } = this.props;
+
+    setBoundaries(boundaries);
+  }
+
+  handleSearch = (locationParams) => {
+    const { setBounds } = this.props;
+
+    setBounds({
+      ...locationParams,
+      options: { zoom: 2 }
+    });
+  }
 
   render() {
     const {
       embed,
-      zoom,
-      latLng,
-      location,
+      viewport,
       basemap,
+      bounds,
       labels,
       boundaries,
       activeLayers,
@@ -258,7 +308,6 @@ class ExploreMapComponent extends React.Component {
       layerGroupsInteractionSelected,
       layerGroupsInteractionLatLng
     } = this.props;
-
     const { loading, layer } = this.state;
 
     return (
@@ -274,17 +323,20 @@ class ExploreMapComponent extends React.Component {
             />
           </div>
         )}
-        {/* Spinner */}
+
         {Object.keys(loading)
           .map(k => loading[k])
           .some(l => !!l) && <Spinner isLoading />}
 
-        {/* Map */}
         <Map
           mapboxApiAccessToken="pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w"
-          mapStyle="mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek"
           onClick={this.onClickLayer}
           interactiveLayerIds={activeInteractiveLayers}
+          mapStyle={basemap.value}
+          viewport={viewport}
+          bounds={bounds}
+          onViewportChange={this.handleViewport}
+          preventStyleDiffing={false}
         >
           {_map => (
             <Fragment>
@@ -323,6 +375,64 @@ class ExploreMapComponent extends React.Component {
           )}
         </Map>
 
+        <MapControls>
+          <ZoomControls
+            viewport={viewport}
+            onClick={this.handleZoom}
+          />
+          <ShareControls />
+          <BasemapControls
+            basemap={basemap}
+            boundaries={boundaries}
+            onChangeBasemap={this.handleBasemap}
+            onChangeLabels={this.handleLabels}
+            onChangeBoundaries={this.handleBoundaries}
+          />
+          <SearchControls onSelectLocation={this.handleSearch} />
+        </MapControls>
+
+        <div className="c-legend-map">
+          <Legend
+            maxHeight={embed ? 100 : 300}
+            onChangeOrder={this.onChangeOrder}
+          >
+            {layerGroups.map((lg, i) => (
+              <LegendListItem
+                index={i}
+                key={lg.dataset}
+                layerGroup={lg}
+                toolbar={
+                  embed ? (
+                    <LegendItemToolbar>
+                      <LegendItemButtonLayers />
+                      <LegendItemButtonOpacity />
+                      <LegendItemButtonVisibility />
+                      <LegendItemButtonInfo />
+                    </LegendItemToolbar>
+                  ) : (
+                    <LegendItemToolbar />
+                    )
+                }
+                onChangeInfo={this.onChangeInfo}
+                onChangeOpacity={this.onChangeOpacity}
+                onChangeVisibility={this.onChangeVisibility}
+                onChangeLayer={this.onChangeLayer}
+                onRemoveLayer={this.onRemoveLayer}
+              >
+                <LegendItemTypes />
+                <LegendItemTimeStep
+                  handleChange={this.onChangeLayerDate}
+                  customClass="rw-legend-timeline"
+                  defaultStyles={LEGEND_TIMELINE_PROPERTIES}
+                  dots={false}
+                  {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
+                />
+              </LegendListItem>
+            ))}
+          </Legend>
+        </div>
+
+
         {!!layer && (
           <Modal
             isOpen={!!layer}
@@ -337,4 +447,4 @@ class ExploreMapComponent extends React.Component {
   }
 }
 
-export default ExploreMapComponent;
+export default ExploreMap;

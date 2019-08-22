@@ -1,5 +1,5 @@
 import { TOPICS, DATA_TYPES, FREQUENCIES, TIME_PERIODS } from 'utils/concepts';
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+import { BASEMAPS, LABELS } from 'components/map/constants';
 
 export default {
   // Datasets
@@ -51,9 +51,18 @@ export default {
   map: {
     zoom: 3,
     latLng: { lat: 0, lng: 0 },
-    location: {},
-    basemap: BASEMAPS.dark,
-    labels: LABELS.light,
+    viewport: {
+      zoom: 3,
+      lat: 0,
+      lng: 0,
+      transitionDuration: 250
+    },
+    bounds: {
+      box: null,
+      options: {}
+    },
+    basemap: BASEMAPS.dark.id,
+    labels: LABELS.light.id,
     boundaries: false,
     layerGroups: [],
     layerGroupsInteraction: {},

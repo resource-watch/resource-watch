@@ -1,9 +1,7 @@
-// TO-DO: deprecated. Replaced by components/map/constants
-
-const BASEMAPS = {
+export const BASEMAPS = {
   dark: {
     id: 'dark',
-    value: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqgjq1908ar2smep2wd7wf7/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+    value: 'mapbox://styles/resourcewatch/cjlhtst4i0m7e2rmijubkv4y9',
     label: 'Dark',
     options: {
       attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>'
@@ -11,7 +9,7 @@ const BASEMAPS = {
   },
   light: {
     id: 'light',
-    value: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqgk77j0r7h2sqw220p7imy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+    value: 'mapbox://styles/resourcewatch/cjhqgk77j0r7h2sqw220p7imy',
     label: 'Light',
     options: {
       attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>'
@@ -19,7 +17,7 @@ const BASEMAPS = {
   },
   satellite: {
     id: 'satellite',
-    value: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+    value: 'mapbox://styles/resourcewatch/cjhqiecof53wv2rl9gw4cehmy',
     label: 'Satellite',
     options: {
       attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>'
@@ -27,7 +25,7 @@ const BASEMAPS = {
   },
   terrain: {
     id: 'terrain',
-    value: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqi456h02pg2rp6w2mwp61c/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+    value: 'mapbox://styles/resourcewatch/cjhqi456h02pg2rp6w2mwp61c',
     label: 'Terrain',
     options: {
       attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>'
@@ -35,7 +33,7 @@ const BASEMAPS = {
   }
 };
 
-const LABELS = {
+export const LABELS = {
   none: {
     id: 'none',
     label: 'No labels',
@@ -53,7 +51,7 @@ const LABELS = {
   }
 };
 
-const BOUNDARIES = {
+export const BOUNDARIES = {
   dark: {
     id: 'dark',
     label: 'Boundaries',
@@ -61,4 +59,10 @@ const BOUNDARIES = {
   }
 };
 
-export { BASEMAPS, LABELS, BOUNDARIES };
+export const DEFAULT_VIEWPORT = {
+  zoom: 2,
+  lat: 0,
+  lng: 0
+};
+
+export default { BASEMAPS, LABELS, BOUNDARIES };

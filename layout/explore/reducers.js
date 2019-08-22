@@ -1,7 +1,7 @@
 import { logEvent } from 'utils/analytics';
 
-import * as actions from './explore-actions';
-import initialState from './explore-default-state';
+import * as actions from './actions';
+import initialState from './initial-state';
 
 
 export default {
@@ -120,6 +120,16 @@ export default {
   //
   // MAP
   //
+  [actions.setViewport]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      viewport: {
+        ...state.map.viewport,
+        ...payload
+      }
+    }
+  }),
   [actions.setMapZoom]: (state, action) => {
     const map = { ...state.map, zoom: action.payload };
     return { ...state, map };
@@ -128,23 +138,34 @@ export default {
     const map = { ...state.map, latLng: action.payload };
     return { ...state, map };
   },
-  [actions.setMapBasemap]: (state, action) => {
-    const map = { ...state.map, basemap: action.payload };
-    return { ...state, map };
-  },
-  [actions.setMapLabels]: (state, action) => {
-    const map = { ...state.map, labels: action.payload };
-    return { ...state, map };
-  },
-  [actions.setMapBoundaries]: (state, action) => {
-    const map = { ...state.map, boundaries: action.payload };
-    return { ...state, map };
-  },
-  [actions.setMapLocation]: (state, action) => {
-    const map = { ...state.map, location: action.payload };
-    return { ...state, map };
-  },
-
+  [actions.setBasemap]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      basemap: payload
+    }
+  }),
+  [actions.setLabels]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      labels: payload
+    }
+  }),
+  [actions.setBoundaries]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      boundaries: payload
+    }
+  }),
+  [actions.setBounds]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      bounds: payload
+    }
+  }),
 
   // LAYERS
   [actions.toggleMapLayerGroup]: (state, action) => {

@@ -81,12 +81,14 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
 
 
 // MAP
+export const setViewport = createAction('EXPLORE-MAP__SET-VIEWPORT');
+export const setBasemap = createAction('EXPLORE-MAP__SET-BASEMAP');
+export const setLabels = createAction('EXPLORE-MAP__SET-LABELS');
+export const setBounds = createAction('EXPLORE-MAP__SET-BOUNDS');
+export const setBoundaries = createAction('EXPLORE-MAP__SET-BOUNDARIES');
+// TO-DO: REMOVE
 export const setMapZoom = createAction('EXPLORE/setMapZoom');
 export const setMapLatLng = createAction('EXPLORE/setMapLatLng');
-export const setMapBasemap = createAction('EXPLORE/setMapBasemap');
-export const setMapLabels = createAction('EXPLORE/setMapLabels');
-export const setMapBoundaries = createAction('EXPLORE/setMapBoundaries');
-export const setMapLocation = createAction('EXPLORE/setMapLocation');
 
 // LAYERS
 export const toggleMapLayerGroup = createAction('EXPLORE/toggleMapLayerGroup');
@@ -107,14 +109,14 @@ export const resetMapLayerGroupsInteraction = createAction('EXPLORE/resetMapLaye
 
 
 export const setMapLayerGroups = createAction('EXPLORE/setMapLayerGroups');
-export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', payload => (dispatch, getState) => {
+export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', layer => (dispatch, getState) => {
   const { common } = getState();
 
   const qParams = queryString.stringify({
     application: process.env.APPLICATIONS,
     language: common.locale,
     includes: 'layer',
-    ids: payload.map(lg => lg.dataset).join(','),
+    ids: layer.map(lg => lg.dataset).join(','),
     'page[size]': 999,
     env: process.env.API_ENV
   });
@@ -128,7 +130,7 @@ export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', p
     .then((data) => {
       dispatch(setMapLayerGroups({
         datasets: data,
-        params: payload
+        params: layer
       }));
     })
     .catch((err) => {
