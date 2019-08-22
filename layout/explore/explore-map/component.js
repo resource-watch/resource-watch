@@ -13,8 +13,7 @@ import {
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
   LegendItemTypes,
-  LegendItemTimeStep,
-  LegendItemTimeline
+  LegendItemTimeStep
 } from 'vizzuality-components';
 
 // components
@@ -29,9 +28,6 @@ import ShareControls from 'components/map/controls/share';
 import BasemapControls from 'components/map/controls/basemap';
 import SearchControls from 'components/map/controls/search';
 import LayerPopup from 'components/map/popup';
-
-// utils
-import CANVAS_DECODERS from 'utils/layers/canvas-decoders';
 
 // constants
 import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
@@ -122,10 +118,6 @@ class ExploreMap extends PureComponent {
     });
   };
 
-  onChangeLayerTimeLine = (l) => {
-    this.props.setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
-  }
-
   onRemoveLayer = (l) => {
     const {
       toggleMapLayerGroup,
@@ -146,18 +138,18 @@ class ExploreMap extends PureComponent {
 
   onChangeLayerDate = (dates, layer) => {
     const { setMapLayerParametrization } = this.props;
-    const { id, layerConfig: { decode_config } } = layer;
+    const { id, layerConfig: { decode_config: decodeConfig } } = layer;
 
     setMapLayerParametrization({
       id,
       nextConfig: {
-        ...decode_config && {
+        ...decodeConfig && {
           decodeParams: {
             startDate: dates[0],
             endDate: dates[1]
           }
         },
-        ...!decode_config && {
+        ...!decodeConfig && {
           params: {
             startDate: dates[0],
             endDate: dates[1]
@@ -211,6 +203,51 @@ class ExploreMap extends PureComponent {
 
     resetMapLayerGroupsInteraction();
   }
+  handleViewport = debounce((viewport) => {
+    const { setViewport } = this.props;
+
+    setViewport(viewport);
+  }, 250)
+
+  handleZoom = (zoom) => {
+    const { setViewport } = this.props;
+
+    setViewport({
+      zoom,
+      // transitionDuration is always set to avoid mixing
+      // durations of other actions (like flying)
+      transitionDuration: 250
+    });
+  }
+
+  handleBasemap = (basemap) => {
+    const { setBasemap } = this.props;
+    const { id } = basemap;
+
+    setBasemap(id);
+  }
+
+  handleLabels = (labels) => {
+    const { setLabels } = this.props;
+
+    setLabels(labels);
+  }
+
+  handleBoundaries = (boundaries) => {
+    const { setBoundaries } = this.props;
+
+    setBoundaries(boundaries);
+  }
+
+  handleSearch = (locationParams) => {
+    const { setBounds } = this.props;
+
+    setBounds({
+      ...locationParams,
+      options: { zoom: 2 }
+    });
+  }
+
   handleViewport = debounce((viewport) => {
     const { setViewport } = this.props;
 
@@ -353,6 +390,47 @@ class ExploreMap extends PureComponent {
           />
           <SearchControls onSelectLocation={this.handleSearch} />
         </MapControls>
+
+        <div className="c-legend-map">
+          <Legend
+            maxHeight={embed ? 100 : 300}
+            onChangeOrder={this.onChangeOrder}
+          >
+            {layerGroups.map((lg, i) => (
+              <LegendListItem
+                index={i}
+                key={lg.dataset}
+                layerGroup={lg}
+                toolbar={
+                  embed ? (
+                    <LegendItemToolbar>
+                      <LegendItemButtonLayers />
+                      <LegendItemButtonOpacity />
+                      <LegendItemButtonVisibility />
+                      <LegendItemButtonInfo />
+                    </LegendItemToolbar>
+                  ) : (
+                    <LegendItemToolbar />
+                    )
+                }
+                onChangeInfo={this.onChangeInfo}
+                onChangeOpacity={this.onChangeOpacity}
+                onChangeVisibility={this.onChangeVisibility}
+                onChangeLayer={this.onChangeLayer}
+                onRemoveLayer={this.onRemoveLayer}
+              >
+                <LegendItemTypes />
+                <LegendItemTimeStep
+                  handleChange={this.onChangeLayerDate}
+                  customClass="rw-legend-timeline"
+                  defaultStyles={LEGEND_TIMELINE_PROPERTIES}
+                  dots={false}
+                  {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
+                />
+              </LegendListItem>
+            ))}
+          </Legend>
+        </div>
 
 
         {!!layer && (
