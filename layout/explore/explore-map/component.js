@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import { Popup } from 'react-map-gl';
@@ -26,6 +27,7 @@ import ZoomControls from 'components/map/controls/zoom';
 import ShareControls from 'components/map/controls/share';
 import BasemapControls from 'components/map/controls/basemap';
 import SearchControls from 'components/map/controls/search';
+import ResetViewControls from 'components/map/controls/reset-view';
 import LayerPopup from 'components/map/popup';
 
 // constants
@@ -362,6 +364,18 @@ class ExploreMap extends PureComponent {
     });
   }
 
+  handleResetView = () => {
+    const { setViewport } = this.props;
+
+    setViewport({
+      bearing: 0,
+      pitch: 0,
+      // transitionDuration is always set to avoid mixing
+      // durations of other actions (like flying)
+      transitionDuration: 250
+    });
+  }
+
   render() {
     const {
       embed,
@@ -378,6 +392,11 @@ class ExploreMap extends PureComponent {
       layerGroupsInteractionLatLng
     } = this.props;
     const { loading, layer } = this.state;
+    const { pitch, bearing } = viewport;
+    const resetViewBtnClass = classnames({
+      '-with-transition': true,
+      '-visible': pitch !== 0 || bearing !== 0
+    });
 
     return (
       <div className="l-explore-map -relative">
@@ -458,6 +477,10 @@ class ExploreMap extends PureComponent {
             onChangeBoundaries={this.handleBoundaries}
           />
           <SearchControls onSelectLocation={this.handleSearch} />
+          <ResetViewControls
+            className={resetViewBtnClass}
+            onResetView={this.handleResetView}
+          />
         </MapControls>
 
         <div className="c-legend-map">
