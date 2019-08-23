@@ -41,32 +41,6 @@ export const getUpdatedLayerGroups = createSelector(
   }))
 );
 
-export const getUpdatedLayerGroups = createSelector(
-  [getLayerGroups],
-  _layerGroups => _layerGroups.map(_layerGroup => ({
-    ..._layerGroup,
-    layers: _layerGroup.layers.map((_layer) => {
-      const timelineParams = getTimelineParams({
-        ..._layer.layerConfig.timeline_config,
-        ..._layer.layerConfig.decode_config && (
-          _layer.layerConfig.decode_config.reduce((acc, curr) => ({
-            ...acc,
-            [curr.key]: curr.default
-          }), {}))
-      });
-
-      return ({
-        ..._layer,
-        ..._layer.layerConfig.timeline_config &&
-          {
-            // all params should go under timeline_config attribute
-            timelineParams
-          }
-      });
-    })
-  }))
-);
-
 export const getActiveLayers = createSelector(
   [getUpdatedLayerGroups],
   (_layerGroups = []) => {
