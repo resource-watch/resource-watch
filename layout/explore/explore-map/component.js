@@ -172,24 +172,13 @@ class ExploreMap extends PureComponent {
   onClickLayer = ({ features, lngLat }) => {
     const {
       activeInteractiveLayers,
-      layerGroupsInteraction
-    } = this.props;
-
-    // if there are no interactive layers, we ignore the onclick layer callback
-    if (!activeInteractiveLayers.length) return null;
-
-    const {
-      activeInteractiveLayers,
-      layerGroupsInteraction
-    } = this.props;
-
-    // if there are no interactive layers, we ignore the onclick layer callback
-    if (!activeInteractiveLayers.length) return null;
-
-    const {
+      layerGroupsInteraction,
       setMapLayerGroupsInteractionLatLng,
       setMapLayerGroupsInteraction
     } = this.props;
+
+    // if there are no interactive layers, we ignore the onclick layer callback
+    if (!activeInteractiveLayers.length) return null;
 
     let newinteractions = {};
 
