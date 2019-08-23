@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
+import {
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel
+} from 'react-accessible-accordion';
 
 function FaqBlock(props) {
   const faq = props.item;
@@ -10,15 +16,19 @@ function FaqBlock(props) {
   }
 
   return (
-    <article className="c-faq">
-      <h3>{faq.question}</h3>
-      <p>{renderHTML(faq.answer)}</p>
-    </article>
+    <AccordionItem className="c-faq">
+      <AccordionItemHeading>
+        <AccordionItemButton>
+          {faq.question}
+        </AccordionItemButton>
+      </AccordionItemHeading>
+      <AccordionItemPanel>
+        {renderHTML(faq.answer)}
+      </AccordionItemPanel>
+    </AccordionItem>
   );
 }
 
-FaqBlock.propTypes = {
-  item: PropTypes.object
-};
+FaqBlock.propTypes = { item: PropTypes.object.isRequired };
 
 export default FaqBlock;
