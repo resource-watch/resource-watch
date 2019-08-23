@@ -13,17 +13,10 @@ import CollectionsPanel from 'components/collections-panel';
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 class DatasetsListCard extends PureComponent {
-  static defaultProps = {
-    routes: {
-      index: '',
-      detail: ''
-    },
-    dataset: {}
-  };
+  static defaultProps = { dataset: {} };
 
   static propTypes = {
     dataset: PropTypes.object,
-    routes: PropTypes.object,
     user: PropTypes.object.isRequired,
     onDatasetRemoved: PropTypes.func.isRequired
   };
@@ -45,12 +38,13 @@ class DatasetsListCard extends PureComponent {
   }
 
   render() {
-    const { dataset, routes, user } = this.props;
+    const { dataset, user } = this.props;
 
-    const isOwnerOrAdmin = (dataset.userId === user.id || user.role === 'ADMIN');
+    const isOwner = dataset.userId === user.id;
+    const isAdmin = user.role === 'ADMIN';
     const isInACollection = belongsToACollection(user, dataset);
 
-    const classNames = classnames({ '-owner': isOwnerOrAdmin });
+    const classNames = classnames({ '-owner': isOwner && !isAdmin });
 
     const starIconName = classnames({
       'icon-star-full': isInACollection,
@@ -61,9 +55,9 @@ class DatasetsListCard extends PureComponent {
       <div className={`c-card c-datasets-list-card ${classNames}`}>
         <div className="card-container">
           <header className="card-header">
-            {isOwnerOrAdmin &&
+            {isAdmin &&
               <Link
-                route={routes.detail}
+                route="admin_data_detail"
                 params={{ tab: 'datasets', id: dataset.id }}
               >
                 <a>
@@ -74,10 +68,23 @@ class DatasetsListCard extends PureComponent {
               </Link>
             }
 
-            {!isOwnerOrAdmin &&
+            {!isAdmin && !isOwner &&
               <Link
                 route="explore_detail"
                 params={{ id: dataset.id }}
+              >
+                <a>
+                  <Title className="-default">
+                    {this.getDatasetName()}
+                  </Title>
+                </a>
+              </Link>
+            }
+
+            {!isAdmin && isOwner &&
+              <Link
+                route="myrw_detail"
+                params={{ tab: 'datasets', id: dataset.id }}
               >
                 <a>
                   <Title className="-default">
@@ -121,7 +128,7 @@ class DatasetsListCard extends PureComponent {
             }
           </div>
 
-          {isOwnerOrAdmin &&
+          {isOwner && !isAdmin &&
             <div className="actions">
               <a
                 onKeyPress={this.handleDelete}
