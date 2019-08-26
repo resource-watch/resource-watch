@@ -14,7 +14,6 @@ module.exports = withSass({
   env: {
     RW_NODE_ENV: process.env.RW_NODE_ENV || 'development',
     APPLICATIONS: process.env.APPLICATIONS,
-    BASEMAP_TILE_URL: process.env.BASEMAP_TILE_URL,
     CALLBACK_URL: process.env.CALLBACK_URL,
     CONTROL_TOWER_URL: process.env.CONTROL_TOWER_URL,
     WRI_API_URL: process.env.WRI_API_URL,
