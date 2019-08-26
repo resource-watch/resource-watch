@@ -51,48 +51,23 @@ class DatasetsListCard extends PureComponent {
       'icon-star-empty': !isInACollection
     });
 
+    const linkProps = {
+      ...isAdmin && { route: 'admin_data_detail', params: { tab: 'datasets', id: dataset.id } },
+      ...!isAdmin && (isOwner ? { route: 'myrw_detail', params: { tab: 'datasets', id: dataset.id } }
+        : { route: 'explore_detail', params: { id: dataset.id } })
+    };
+
     return (
       <div className={`c-card c-datasets-list-card ${classNames}`}>
         <div className="card-container">
           <header className="card-header">
-            {isAdmin &&
-              <Link
-                route="admin_data_detail"
-                params={{ tab: 'datasets', id: dataset.id }}
-              >
-                <a>
-                  <Title className="-default">
-                    {this.getDatasetName()}
-                  </Title>
-                </a>
-              </Link>
-            }
-
-            {!isAdmin && !isOwner &&
-              <Link
-                route="explore_detail"
-                params={{ id: dataset.id }}
-              >
-                <a>
-                  <Title className="-default">
-                    {this.getDatasetName()}
-                  </Title>
-                </a>
-              </Link>
-            }
-
-            {!isAdmin && isOwner &&
-              <Link
-                route="myrw_detail"
-                params={{ tab: 'datasets', id: dataset.id }}
-              >
-                <a>
-                  <Title className="-default">
-                    {this.getDatasetName()}
-                  </Title>
-                </a>
-              </Link>
-            }
+            <Link {...linkProps}>
+              <a>
+                <Title className="-default">
+                  {this.getDatasetName()}
+                </Title>
+              </a>
+            </Link>
 
             <Title className="-small">
               {dataset.provider}
