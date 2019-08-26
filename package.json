@@ -65,6 +65,7 @@
     "rc-pagination": "1.8.8",
     "rc-tooltip": "^3.7.0",
     "react": "^16.8.6",
+    "react-accessible-accordion": "^3.0.0",
     "react-ace": "6.0.0",
     "react-dates": "^18.2.2",
     "react-dnd": "2.6.0",
