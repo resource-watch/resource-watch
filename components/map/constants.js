@@ -2,7 +2,7 @@
 export const BASEMAPS = {
   dark: {
     id: 'dark',
-    value: 'darker',
+    value: 'dark',
     label: 'Dark',
     options: { attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>' }
   },
