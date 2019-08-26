@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
+import classnames from 'classnames';
 
 import {
   Accordion,
@@ -23,12 +24,15 @@ class AccordionComponent extends PureComponent {
   static defaultProps = { allowZeroExpanded: true, allowMultipleExpanded: true };
 
   render() {
-    const { allowMultipleExpanded, allowZeroExpanded, items } = this.props;
+    const { items, className, ...accordionProps } = this.props;
+    const classNameValue = classnames({
+      'c-accordion': true,
+      ...[className] && true
+    });
     return (
       <Accordion
-        className="c-accordion"
-        allowMultipleExpanded={allowMultipleExpanded}
-        allowZeroExpanded={allowZeroExpanded}
+        className={classNameValue}
+        {...accordionProps}
       >
         {items.map(item => (
           <div
