@@ -16,18 +16,17 @@ import './styles.scss';
 
 class AccordionComponent extends PureComponent {
   static propTypes = {
-    allowZeroExpanded: PropTypes.bool,
-    allowMultipleExpanded: PropTypes.bool,
+    className: PropTypes.string,
     items: PropTypes.array.isRequired
   }
 
-  static defaultProps = { allowZeroExpanded: true, allowMultipleExpanded: true };
+  static defaultProps = { className: null };
 
   render() {
     const { items, className, ...accordionProps } = this.props;
     const classNameValue = classnames({
       'c-accordion': true,
-      ...[className] && true
+      [className]: !!className
     });
     return (
       <Accordion
