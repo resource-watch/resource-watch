@@ -242,12 +242,6 @@ class ExploreMap extends PureComponent {
     setBasemap(id);
   }
 
-  handleLabels = (labels) => {
-    const { setLabels } = this.props;
-
-    setLabels(labels);
-  }
-
   handleBoundaries = (boundaries) => {
     const { setBoundaries } = this.props;
 
@@ -330,12 +324,6 @@ class ExploreMap extends PureComponent {
     const { id } = basemap;
 
     setBasemap(id);
-  }
-
-  handleLabels = (labels) => {
-    const { setLabels } = this.props;
-
-    setLabels(labels);
   }
 
   handleBoundaries = (boundaries) => {
