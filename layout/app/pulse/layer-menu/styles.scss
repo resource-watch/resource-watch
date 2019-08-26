@@ -7,12 +7,20 @@
   width: 100%;
   z-index: 8;
 
+  .description-box {
+    position: absolute;
+    width: 350px;
+    h2, p {
+      color: $white;
+    }
+  }
+
   // List
   .layer-menu-list {
     display: flex;
     justify-content: flex-start;
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 350px;
     list-style: none;
 
     > li {

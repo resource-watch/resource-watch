@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'routes';
 
 // Utils
 import { logEvent } from 'utils/analytics';
@@ -83,6 +84,20 @@ class LayerMenuComponent extends PureComponent {
           >
             <div className="c-layer-menu">
               <div className="l-container">
+                <div className="description-box">
+                  <h2>Planet Pulse</h2>
+                  <p>ABOUT</p>
+                  <p>
+                    Track natural disasters, monitor the changing environment, and observe human
+                     events with this selection of Resource Watch&apos;s most timely data.
+                     All data visualized on the globe are frequently updated by the data provider,
+                     from multiple times a day to monthly. Subscribe to alerts to get updates
+                     on world events as they unfold.
+                  </p>
+                  <p>
+                    See these and more near real-time data on <Link to="explore" params={{ frequencies: 'near_real_time' }}><a>Explore</a></Link>
+                  </p>
+                </div>
                 <ul className="layer-menu-list">
                   {layersGroup[0].layers.map(g => this.createItemGroup(g))}
                 </ul>
