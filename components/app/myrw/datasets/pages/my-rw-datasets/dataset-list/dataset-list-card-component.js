@@ -105,15 +105,13 @@ class DatasetsListCard extends PureComponent {
 
           {isOwner && !isAdmin &&
             <div className="actions">
-              <a
-                onKeyPress={this.handleDelete}
-                role="button"
+              <button
                 className="c-button -secondary -compressed"
-                tabIndex={0}
                 onClick={this.handleDelete}
+                type="button"
               >
                 Delete
-              </a>
+              </button>
             </div>
           }
         </div>
