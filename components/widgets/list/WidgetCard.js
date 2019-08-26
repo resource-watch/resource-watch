@@ -396,7 +396,17 @@ class WidgetCard extends PureComponent {
   }
 
   handleEditWidget = () => {
-    Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: this.props.widget.id });
+    const { user: { role, id }, widget } = this.props;
+    const isOwner = widget.userId === id;
+    const isAdmin = role === 'ADMIN';
+
+    if (isAdmin) {
+      Router.pushRoute('admin_data_detail', { tab: 'widgets', subtab: 'edit', id: widget.id, dataset: widget.dataset });
+    } else if (isOwner) {
+      Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
+    } else {
+      Router.pushRoute('myrw_detail', { tab: 'widget_detail', id: widget.id });
+    }
   }
 
   handleGoToDataset = () => {
