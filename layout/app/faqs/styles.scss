@@ -31,6 +31,7 @@
 
 .accordion__panel {
   padding: 20px;
+  margin-left: 3 * $space;
   animation: fadein 0.35s ease-in;
 }
 
