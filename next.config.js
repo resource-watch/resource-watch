@@ -48,7 +48,8 @@ module.exports = withSass({
           process.env.RW_GOGGLE_API_TOKEN_SHORTENER
         ),
         'process.env.BITLY_TOKEN': JSON.stringify(process.env.BITLY_TOKEN),
-        'process.env.PARDOT_NEWSLETTER_URL': JSON.stringify(process.env.PARDOT_NEWSLETTER_URL)
+        'process.env.PARDOT_NEWSLETTER_URL': JSON.stringify(process.env.PARDOT_NEWSLETTER_URL),
+        'process.env.MAPBOX_API_TOKEN': JSON.stringify(process.env.MAPBOX_API_TOKEN)
       })
     );
 
