@@ -75,7 +75,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: appsecrets
-                  key: MAPBOX_API_TOKEN
+                  key: RW_MAPBOX_API_TOKEN
           ports:
             - containerPort: 3000
       restartPolicy: Always
