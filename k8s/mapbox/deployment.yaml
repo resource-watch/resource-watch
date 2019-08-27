@@ -71,6 +71,11 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
+            - name: MAPBOX_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets
+                  key: MAPBOX_API_TOKEN
           ports:
             - containerPort: 3000
       restartPolicy: Always
