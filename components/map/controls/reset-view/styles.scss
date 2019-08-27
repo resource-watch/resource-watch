@@ -1,12 +1,26 @@
 @import 'css/settings';
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  99% {
+    opacity: 1;
+  }
+}
+
 .c-reset-view-control {
   &.-with-transition {
-    opacity: 0;
-    transition: opacity $ease-in-cubic $animation-time-2;
+    display: none;
 
     &.-visible {
-      opacity: 1;
+      display: inline-block;
+      animation: fadeIn $animation-time-3;
     }
   }
 
