@@ -65,7 +65,7 @@ node {
     stage ("Deploy Application") {
       switch ("${env.BRANCH_NAME}") {
 
-        // Roll out to staging
+        // Roll out to production
         case "develop":
           sh("echo Deploying to STAGING cluster")
           sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
@@ -86,6 +86,18 @@ node {
             sh("kubectl apply -f k8s/preproduction/")
           }
           sh("kubectl set image deployment ${appName}-preproduction ${appName}-preproduction=${imageTag} --namespace=rw --record")
+          break
+
+        // Roll out to production
+        case "feature/mapbox-map":
+          sh("echo Deploying to STAGING cluster")
+          sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
+          def service = sh([returnStdout: true, script: "kubectl get deploy ${appName}-mapbox --namespace=rw || echo NotFound"]).trim()
+          if ((service && service.indexOf("NotFound") > -1) || (forceCompleteDeploy)){
+            sh("sed -i -e 's/{name}/${appName}/g' k8s/mapbox/*.yaml")
+            sh("kubectl apply -f k8s/mapbox/")
+          }
+          sh("kubectl set image deployment ${appName}-mapbox ${appName}-mapbox=${imageTag} --namespace=rw --record")
           break
 
         // Roll out to production
