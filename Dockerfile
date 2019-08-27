@@ -6,7 +6,7 @@ ARG wriApiUrl=https://api.resourcewatch.org/v1
 ARG callbackUrl=https://resourcewatch.org/auth
 ARG controlTowerUrl=https://production-api.globalforestwatch.org
 ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
-ARG MAPBOX_API_TOKEN=not_valid
+ARG RW_MAPBOX_API_TOKEN=not_valid
 
 ENV NODE_ENV production
 ENV WRI_API_URL $wriApiUrl
@@ -23,7 +23,7 @@ ENV BLOG_API_URL https://blog.resourcewatch.org/wp-json/wp/v2
 ENV RW_GOGGLE_API_TOKEN_SHORTENER $RW_GOGGLE_API_TOKEN_SHORTENER
 ENV BITLY_TOKEN e3076fc3bfeee976efb9966f49383e1a8fb71c5f
 ENV PARDOT_NEWSLETTER_URL https://go.pardot.com/l/120942/2018-01-25/3nzl13
-ENV MAPBOX_API_TOKEN $MAPBOX_API_TOKEN
+ENV RW_MAPBOX_API_TOKEN $RW_MAPBOX_API_TOKEN
 
 RUN apk update && apk add --no-cache \
     build-base gcc bash git \
