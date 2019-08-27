@@ -49,7 +49,7 @@ module.exports = withSass({
         ),
         'process.env.BITLY_TOKEN': JSON.stringify(process.env.BITLY_TOKEN),
         'process.env.PARDOT_NEWSLETTER_URL': JSON.stringify(process.env.PARDOT_NEWSLETTER_URL),
-        'process.env.MAPBOX_API_TOKEN': JSON.stringify(process.env.MAPBOX_API_TOKEN)
+        'process.env.RW_MAPBOX_API_TOKEN': JSON.stringify(process.env.RW_MAPBOX_API_TOKEN)
       })
     );
 
