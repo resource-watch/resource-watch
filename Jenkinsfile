@@ -89,7 +89,7 @@ node {
           break
 
         // Roll out to production
-        case "feature/mapbox-map":
+        case "mapbox":
           sh("echo Deploying to STAGING cluster")
           sh("kubectl config use-context gke_${GCLOUD_PROJECT}_${GCLOUD_GCE_ZONE}_${KUBE_PROD_CLUSTER}")
           def service = sh([returnStdout: true, script: "kubectl get deploy ${appName}-mapbox --namespace=rw || echo NotFound"]).trim()
