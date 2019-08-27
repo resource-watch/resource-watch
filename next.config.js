@@ -26,7 +26,8 @@ module.exports = withSass({
     GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
     RW_GOGGLE_API_TOKEN_SHORTENER: process.env.RW_GOGGLE_API_TOKEN_SHORTENER,
     BITLY_TOKEN: process.env.BITLY_TOKEN,
-    PARDOT_NEWSLETTER_URL: process.env.PARDOT_NEWSLETTER_URL
+    PARDOT_NEWSLETTER_URL: process.env.PARDOT_NEWSLETTER_URL,
+    RW_MAPBOX_API_TOKEN: process.env.RW_MAPBOX_API_TOKEN
   },
 
   webpack: (config) => {
