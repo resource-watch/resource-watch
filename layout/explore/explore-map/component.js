@@ -394,7 +394,7 @@ class ExploreMap extends PureComponent {
           .some(l => !!l) && <Spinner isLoading />}
 
         <Map
-          mapboxApiAccessToken="pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w"
+          mapboxApiAccessToken={process.env.MAPBOX_API_TOKEN}
           onClick={this.onClickLayer}
           interactiveLayerIds={activeInteractiveLayers}
           mapStyle="mapbox://styles/resourcewatch/cjzmw480d00z41cp2x81gm90h"
