@@ -71,7 +71,7 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
-            - name: MAPBOX_API_TOKEN
+            - name: RW_MAPBOX_API_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: appsecrets
