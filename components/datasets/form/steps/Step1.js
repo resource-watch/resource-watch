@@ -144,7 +144,7 @@ class Step1 extends React.Component {
   render() {
     const { user, columns, loadingColumns, basic } = this.props;
     const { dataset, subscribableSelected } = this.state;
-    const { provider, columnFields } = this.state.form;
+    const { provider, columnFields, application } = this.state.form;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -184,6 +184,22 @@ class Step1 extends React.Component {
               }}
             >
               {Select}
+            </Field>}
+
+          {(user.role === 'ADMIN' && !basic && !!dataset) &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.applications = c; }}
+              className="-fluid"
+              properties={{
+                name: 'applications',
+                label: 'Applications',
+                disabled: true,
+                readOnly: true,
+                default: application,
+                value: application
+              }}
+            >
+              {Input}
             </Field>}
 
           {user.role === 'ADMIN' && !basic &&
