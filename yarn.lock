@@ -896,10 +896,6 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@esri/arcgis-to-geojson-utils@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@esri/arcgis-to-geojson-utils/-/arcgis-to-geojson-utils-1.3.0.tgz#79ab65bf3e40c039dbdebceff4b3b0ec088b189c"
-
 "@gulp-sourcemaps/identity-map@1.X":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@gulp-sourcemaps/identity-map/-/identity-map-1.0.2.tgz#1e6fe5d8027b1f285dc0d31762f566bccd73d5a9"
@@ -5074,14 +5070,6 @@ esrecurse@^4.1.0:
   dependencies:
     estraverse "^4.1.0"
 
-esri-leaflet@^2.1.1:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/esri-leaflet/-/esri-leaflet-2.2.3.tgz#858d9b84641d121d9115753db45aeffb67ad72e8"
-  dependencies:
-    "@esri/arcgis-to-geojson-utils" "^1.3.0"
-    leaflet-virtual-grid "^1.0.7"
-    tiny-binary-search "^1.0.3"
-
 estraverse@^4.0.0, estraverse@^4.1.0, estraverse@^4.1.1:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-4.2.0.tgz#0dee3fed31fcd469618ce7342099fc1afa0bdb13"
@@ -7314,16 +7302,6 @@ leaflet-utfgrid@^0.3.0:
   resolved "https://registry.yarnpkg.com/leaflet-utfgrid/-/leaflet-utfgrid-0.3.0.tgz#6b87bede198e8050a988972185285633023406d9"
   dependencies:
     corslite "0.0.7"
-
-leaflet-virtual-grid@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/leaflet-virtual-grid/-/leaflet-virtual-grid-1.0.7.tgz#0dbb0dacd506b6e6d291314da5022d348729f8ad"
-  dependencies:
-    leaflet "^1.0.0"
-
-leaflet@^1.0.0:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.4.tgz#7f006ea5832603b53d7269ef5c595fd773060a40"
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
@@ -12487,10 +12465,6 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
-tiny-binary-search@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/tiny-binary-search/-/tiny-binary-search-1.0.3.tgz#9d52e3d16dd1171eb74486caf704ba08c0c62186"
-
 tmp@0.0.33, tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -13924,17 +13898,16 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2 || 2"
 
-widget-editor@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.4.4.tgz#28d9751eef6ccfc6f4a85662ed1f8ff39bb417d0"
-  integrity sha512-1wpDqWVSGFo0neVXnQnQ+FAYVHdXn40I+146OMBZxDdMgDvTiDkkfjEh3DeCY+N5Y8kra1BGsyP+3uyNj/a0Rw==
+widget-editor@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.4.5.tgz#0359edc84b377981950640ce0c538d2f1fba4edd"
+  integrity sha512-O0RGflX6fz+dlSGp0teaUUOkXtVFI6nw1ErLMDHR0P/z8Hu5KRbIRVOy6atN49Q0cvuPoTa4hBE1sKm1U2E8Ow==
   dependencies:
     autobind-decorator "^2.1.0"
     babel-runtime "^6.26.0"
     classnames "^2.2.5"
     d3-format "^1.2.1"
     d3-time-format "^2.1.1"
-    esri-leaflet "^2.1.1"
     lodash "^4.17.4"
     peer-deps-externals-webpack-plugin "^1.0.2"
     rc-slider "^8.4.0"
