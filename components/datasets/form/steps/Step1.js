@@ -194,7 +194,8 @@ class Step1 extends React.Component {
                 name: 'applications',
                 label: 'Applications',
                 disabled: true,
-                default: '-',
+                readOnly: true,
+                default: application,
                 value: application
               }}
             >
