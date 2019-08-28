@@ -375,6 +375,9 @@ class ExploreMap extends PureComponent {
       '-visible': pitch !== 0 || bearing !== 0
     });
 
+    console.log('---ACTIVE LAYERS---');
+    console.log(activeLayers);
+
     return (
       <div className="l-explore-map -relative">
         {/* Brand logo */}
