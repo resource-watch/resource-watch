@@ -80,16 +80,6 @@ class ExploreMap extends PureComponent {
     loading: {}
   };
 
-  componentWillReceiveProps(nextProps) {
-    const { layerGroups: prevLayerGroups } = this.props;
-
-    const { layerGroups: nextLayerGroups } = nextProps;
-
-    if (!!this.popup && prevLayerGroups.length !== nextLayerGroups.length) {
-      this.popup.remove();
-    }
-  }
-
   onChangeInfo = (layer) => {
     this.setState({ layer });
   };
@@ -171,26 +161,22 @@ class ExploreMap extends PureComponent {
 
   onClickLayer = ({ features, lngLat }) => {
     const {
-      activeInteractiveLayers,
       layerGroupsInteraction,
       setMapLayerGroupsInteractionLatLng,
       setMapLayerGroupsInteraction
     } = this.props;
 
-    // if there are no interactive layers, we ignore the onclick layer callback
-    if (!activeInteractiveLayers.length) return null;
-
-    let newinteractions = {};
+    let interactions = {};
 
     // if the user clicks on a zone where there is no data in any current layer
     // we will reset the current interaction of those layers to display "no data available" message
     if (!features.length) {
-      newinteractions = Object.keys(layerGroupsInteraction).reduce((accumulator, currentValue) => ({
+      interactions = Object.keys(layerGroupsInteraction).reduce((accumulator, currentValue) => ({
         ...accumulator,
         [currentValue]: {}
       }), {});
     } else {
-      newinteractions = features.reduce((accumulator, currentValue) => ({
+      interactions = features.reduce((accumulator, currentValue) => ({
         ...accumulator,
         [currentValue.layer.source]: { data: currentValue.properties }
       }), {});
@@ -202,7 +188,7 @@ class ExploreMap extends PureComponent {
     };
 
     setMapLayerGroupsInteractionLatLng(_lngLat);
-    setMapLayerGroupsInteraction(newinteractions);
+    setMapLayerGroupsInteraction(interactions);
 
     return true;
   }
@@ -224,29 +210,7 @@ class ExploreMap extends PureComponent {
     setViewport(viewport);
   }, 250)
 
-  handleZoom = (zoom) => {
-    const { setViewport } = this.props;
 
-    setViewport({
-      zoom,
-      // transitionDuration is always set to avoid mixing
-      // durations of other actions (like flying)
-      transitionDuration: 250
-    });
-  }
-
-  handleBasemap = (basemap) => {
-    const { setBasemap } = this.props;
-    const { id } = basemap;
-
-    setBasemap(id);
-  }
-
-  handleBoundaries = (boundaries) => {
-    const { setBoundaries } = this.props;
-
-    setBoundaries(boundaries);
-  }
 
   handleSearch = (locationParams) => {
     const { setBounds } = this.props;
@@ -255,30 +219,6 @@ class ExploreMap extends PureComponent {
       ...locationParams,
       options: { zoom: 2 }
     });
-  }
-
-  handleViewport = debounce((viewport) => {
-    const { setViewport } = this.props;
-
-    setViewport(viewport);
-  }, 250)
-
-  handleZoom = (zoom) => {
-    const { setViewport } = this.props;
-
-    setViewport({
-      zoom,
-      // transitionDuration is always set to avoid mixing
-      // durations of other actions (like flying)
-      transitionDuration: 250
-    });
-  }
-
-  handleBasemap = (basemap) => {
-    const { setBasemap } = this.props;
-    const { id } = basemap;
-
-    setBasemap(id);
   }
 
   handleLabels = (labels) => {
@@ -293,21 +233,6 @@ class ExploreMap extends PureComponent {
     setBoundaries(boundaries);
   }
 
-  handleSearch = (locationParams) => {
-    const { setBounds } = this.props;
-
-    setBounds({
-      ...locationParams,
-      options: { zoom: 2 }
-    });
-  }
-
-  handleViewport = debounce((viewport) => {
-    const { setViewport } = this.props;
-
-    setViewport(viewport);
-  }, 250)
-
   handleZoom = (zoom) => {
     const { setViewport } = this.props;
 
@@ -324,21 +249,6 @@ class ExploreMap extends PureComponent {
     const { id } = basemap;
 
     setBasemap(id);
-  }
-
-  handleBoundaries = (boundaries) => {
-    const { setBoundaries } = this.props;
-
-    setBoundaries(boundaries);
-  }
-
-  handleSearch = (locationParams) => {
-    const { setBounds } = this.props;
-
-    setBounds({
-      ...locationParams,
-      options: { zoom: 2 }
-    });
   }
 
   handleResetView = () => {
@@ -415,7 +325,7 @@ class ExploreMap extends PureComponent {
                 layers={activeLayers}
               />
 
-              {!isEmpty(layerGroupsInteractionLatLng) &&
+              {!isEmpty(layerGroupsInteractionLatLng) && activeLayers.length &&
                 <Popup
                   {...layerGroupsInteractionLatLng}
                   closeButton
