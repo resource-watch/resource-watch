@@ -1,13 +1,8 @@
 import axios from 'axios';
 import 'isomorphic-fetch';
-import WRISerializer from 'wri-json-api-serializer';
 import { logger } from 'utils/logs';
 
-// utils
-import { controlTowerAPI, localAPI } from 'utils/axios';
-
-
-export class UserService {
+export default class UserService {
   constructor(options) {
     if (!options) {
       throw new Error('options params is required.');
@@ -385,22 +380,3 @@ export class UserService {
     });
   }
 }
-
-/**
- * Logs in a user based on email + password combination
- */
-export const loginUser = ({ email, password }) => {
-  localAPI.post('local-sign-in',
-    { email, password },
-    { headers: { 'Content-Type': 'application/json' } })
-    .then((response) => {
-      const { status, statusText } = response;
-      if (status >= 400) throw new Error(statusText);
-      return response.data;
-    });
-};
-
-export default {
-  loginUser,
-  UserService
-};

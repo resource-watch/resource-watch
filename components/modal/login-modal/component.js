@@ -10,7 +10,8 @@ import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import { loginUser, UserService } from 'services/user';
+import UserService from 'services/user';
+import { loginUser } from 'services/newuser';
 
 // constants
 import { FORM_ELEMENTS } from './constants';
@@ -55,22 +56,21 @@ class LoginModal extends PureComponent {
         });
       } else {
         // sign-in user
-        const resp = loginUser(userSettings);
-        console.log('resp', resp);
+        loginUser(userSettings)
+          .then((data) => {
+            setUser(data);
+            // redirects the user to /myrw once logged-in
+            window.location.href = '/myrw';
+          })
+          .catch((err) => {
+            const { status, statusText } = err.response;
 
-        // loginUser(userSettings)
-        //   .then((data) => {
-        //     setUser(data);
-        //     // redirects the user to /myrw once logged-in
-        //     window.location.href = '/myrw';
-        //   })
-        //   .catch((err) => {
-        //     const message = err.status === 401 ?
-        //       'Your email and password combination is incorrect.' :
-        //       `${err.status}:${err.statusText}`;
+            const message = status === 401 ?
+              'Your email and password combination is incorrect.' :
+              `${status}:${statusText}`;
 
-        //     toastr.error('Something went wrong', message);
-        //   });
+            toastr.error(message);
+          });
       }
     }, 0);
   }
