@@ -1,9 +1,13 @@
 import axios from 'axios';
 import 'isomorphic-fetch';
-import Promise from 'bluebird';
+import WRISerializer from 'wri-json-api-serializer';
 import { logger } from 'utils/logs';
 
-export default class UserService {
+// utils
+import { controlTowerAPI, localAPI } from 'utils/axios';
+
+
+export class UserService {
   constructor(options) {
     if (!options) {
       throw new Error('options params is required.');
@@ -34,20 +38,7 @@ export default class UserService {
       });
   }
 
-  /**
-   * Logs in a user based on email + password combination
-   */
-  loginUser({ email, password }) {
-    return fetch('/local-sign-in', {
-      method: 'POST',
-      body: JSON.stringify({ email, password }),
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw response;
-      });
-  }
+
 
   // sends a request to reset password.
   // It generates a token to use in resetPassword
@@ -394,3 +385,22 @@ export default class UserService {
     });
   }
 }
+
+/**
+ * Logs in a user based on email + password combination
+ */
+export const loginUser = ({ email, password }) => {
+  localAPI.post('local-sign-in',
+    { email, password },
+    { headers: { 'Content-Type': 'application/json' } })
+    .then((response) => {
+      const { status, statusText } = response;
+      if (status >= 400) throw new Error(statusText);
+      return response.data;
+    });
+};
+
+export default {
+  loginUser,
+  UserService
+};
