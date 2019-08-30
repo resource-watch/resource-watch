@@ -8,7 +8,7 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 
 // services
-import UserService from 'services/user';
+import { forgotPassword } from 'services/newuser';
 
 // constants
 import { FORM_ELEMENTS } from './constants';
@@ -25,15 +25,13 @@ class ForgotPassword extends PureComponent {
     if (!isValid) return;
 
     setTimeout(() => {
-      this.userService.forgotPassword({ email })
+      forgotPassword({ email })
         .then(() => {
           toastr.success('Reset password requested', 'Please, check your inbox and follow instructions to reset your password.');
         })
         .catch(() => { toastr.error('Reset password', 'Something went wrong during the process. Please, try again.'); });
     }, 0);
   }
-
-  userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 
   render() {
     const { email } = this.state;

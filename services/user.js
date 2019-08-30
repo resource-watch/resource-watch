@@ -1,6 +1,4 @@
-import axios from 'axios';
 import 'isomorphic-fetch';
-import { logger } from 'utils/logs';
 
 export default class UserService {
   constructor(options) {
@@ -30,33 +28,6 @@ export default class UserService {
       .then((response) => {
         if (response.ok) return response.json();
         throw response;
-      });
-  }
-
-
-
-  // sends a request to reset password.
-  // It generates a token to use in resetPassword
-  forgotPassword({ email }) {
-    return axios.post(
-      `${this.opts.apiURL}/auth/reset-password`,
-      { email },
-      { params: { origin: process.env.APPLICATIONS } }
-    )
-      .then((response) => {
-        const { status, statusText, data } = response;
-
-        if (status >= 300) {
-          logger.error('Error requesting token for password reset:', `${status}: ${statusText}`);
-          console.error(statusText);
-          throw new Error(statusText);
-        }
-
-        return data;
-      })
-      .catch(({ message }) => {
-        console.error(message);
-        throw new Error(message);
       });
   }
 
