@@ -224,11 +224,21 @@ export default {
       .map((d) => {
         const dParams = params.find(p => p.dataset === d.id);
 
+        const env = process.env.APPLICATIONS;
+        const publishedLayersOrder = d.applicationConfig && d.applicationConfig[env] &&
+          d.applicationConfig[env].publishedLayersOrder;
+        const publishedLayers = d.layer.filter(l => l.published);
+        const publishedLayersSorted = publishedLayersOrder.map(
+          l => publishedLayers.find(value => value.id === l)
+        );
+        const layers = publishedLayersSorted || publishedLayers;
+
         return {
           dataset: d.id,
           opacity: dParams.opacity,
           visibility: dParams.visibility,
-          layers: d.layer.filter(l => l.published).map(l => ({
+          publishedLayersOrder,
+          layers: layers.map(l => ({
             ...l,
             active: dParams.layer === l.id,
             opacity: dParams.opacity,
