@@ -49,11 +49,13 @@ class DatasetsForm extends React.Component {
           const { provider, type, tableName, applicationConfig, layer } = data || {};
           const appConfigRW = applicationConfig && applicationConfig[process.env.APPLICATIONS];
           const publishedLayersOrder = appConfigRW && appConfigRW.publishedLayersOrder;
+
           let layers = layer.filter(l => l.published);
+
           // We are doing this check since most metadata objects might not have yet
           // this field initialized
-          if (publishedLayersOrder && publishedLayersOrder.length === layer.length) {
-            layers = publishedLayersOrder.map(l => layers.find(e => e.id === l.id));
+          if (publishedLayersOrder && publishedLayersOrder.length > 0) {
+            layers = publishedLayersOrder.map(l => layers.find(e => e.id === l));
           }
 
           this.setState({
