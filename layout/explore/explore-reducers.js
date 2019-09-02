@@ -228,7 +228,7 @@ export default {
           dataset: d.id,
           opacity: dParams.opacity,
           visibility: dParams.visibility,
-          layers: d.layer.map(l => ({
+          layers: d.layer.filter(l => l.published).map(l => ({
             ...l,
             active: dParams.layer === l.id,
             opacity: dParams.opacity,

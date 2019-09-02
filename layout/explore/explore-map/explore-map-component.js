@@ -215,7 +215,7 @@ class ExploreMapComponent extends React.Component {
       labels,
       boundaries,
       activeLayers,
-      publishedSortedLayers,
+      layerGroups,
       layerGroupsInteraction,
       layerGroupsInteractionSelected,
       layerGroupsInteractionLatLng
@@ -372,7 +372,7 @@ class ExploreMapComponent extends React.Component {
             maxHeight={embed ? 100 : 300}
             onChangeOrder={this.onChangeOrder}
           >
-            {publishedSortedLayers.map((lg, i) => (
+            {layerGroups.map((lg, i) => (
               <LegendListItem
                 index={i}
                 key={lg.dataset}
