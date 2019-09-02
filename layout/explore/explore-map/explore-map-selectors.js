@@ -38,6 +38,18 @@ export const getActiveLayers = createSelector(
   }
 );
 
+export const getPublishedSortedLayers = createSelector(
+  [getLayerGroups],
+  (_layerGroups = []) => {
+    const publishedSortedLayers = _layerGroups.map(lg => ({
+      ...lg,
+      layers: lg.layers.filter(l => l.published)
+    }));
+
+    return publishedSortedLayers;
+  }
+);
+
 export const getUpdatedLayers = createSelector(
   [getActiveLayers, getParametrization],
   (_activeLayers = [], _parametrization) => {

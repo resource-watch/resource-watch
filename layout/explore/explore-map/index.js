@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from 'layout/explore/explore-actions';
 
 // selectors
-import { getUpdatedLayers } from './explore-map-selectors';
+import { getUpdatedLayers, getPublishedSortedLayers } from './explore-map-selectors';
 
 // components
 import ExploreMapComponent from './explore-map-component';
@@ -14,7 +14,8 @@ export default connect(
     // Store
     ...state.explore.sidebar,
     ...state.explore.map,
-    activeLayers: getUpdatedLayers(state)
+    activeLayers: getUpdatedLayers(state),
+    publishedSortedLayers: getPublishedSortedLayers(state)
   }),
   actions
 )(ExploreMapComponent);
