@@ -1,24 +1,41 @@
 @import 'css/settings';
 
 .l-pulse {
+
   background-color: black;
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
 
-  .cesium-infoBox {
-    z-index: 10;
+  .pulse-container {
+    position: absolute;
+    top: $header-main-height-mobile;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100% - #{$header-main-height-mobile});
+    overflow: hidden;
 
-    button {
-      cursor: pointer;
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      top: $header-main-height;
+      height: calc(100% - #{$header-main-height});
     }
-  }
 
-  .c-zoom-control {
-    z-index: 9;
+    .cesium-infoBox {
+      z-index: 10;
 
-    @media screen and (max-width: map-get($breakpoints, medium)) {
-      top: 30px;
+      button {
+        cursor: pointer;
+      }
+    }
+
+    .c-zoom-control {
+      z-index: 9;
+
+      @media screen and (max-width: map-get($breakpoints, medium)) {
+        top: 30px;
+      }
     }
   }
 }

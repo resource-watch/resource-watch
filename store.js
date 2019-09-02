@@ -18,8 +18,7 @@ import * as search from 'layout/search';
 import * as shareModal from 'components/modal/share-modal';
 
 // Dashboard
-import * as widgetBlockModule from 'components/wysiwyg/widget-block/widget-block';
-import * as widgetBlockEditionModule from 'components/wysiwyg/widget-block-edition/widget-block-edition';
+import * as widgetBlockModule from 'components/wysiwyg/widget-block';
 
 // Dataset
 import * as datasetListItem from 'components/datasets/list/list-item';
@@ -87,7 +86,6 @@ const reducer = combineReducers({
 
   // Dashboards
   widgetBlock: handleModule(widgetBlockModule),
-  widgetBlockEdition: handleModule(widgetBlockEditionModule),
 
   // Explore
   explore: handleModule(explore),

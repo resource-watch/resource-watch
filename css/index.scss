@@ -46,9 +46,9 @@
 @import "./components/ui/custom_select";
 @import "./components/ui/dock";
 @import "./components/ui/header-dropdown";
-@import "./components/ui/icon";
 @import "./components/ui/legend";
 @import "./components/ui/legend-timeline";
+@import "./components/ui/markdown";
 @import "./components/ui/modal";
 @import "./components/ui/modal2";
 @import "./components/ui/paginator";
@@ -59,7 +59,6 @@
 @import "./components/ui/search-input";
 @import "./components/ui/slider-tooltip";
 @import "./components/ui/spinner";
-@import "./components/ui/sortable-row";
 @import "./components/ui/switch-options";
 @import "./components/ui/switch";
 @import "./components/ui/table";
@@ -90,7 +89,6 @@
 @import "./components/modal/subscribe_to_dataset_modal";
 @import "./components/modal/area_subscription_modal";
 @import "./components/modal/subscriptions_modal";
-@import "./components/modal/layer_info_modal";
 @import "./components/modal/alerts_preview";
 
 
@@ -195,7 +193,6 @@
 // Layers
 @import "./components/admin/layer/layers_new";
 @import "./components/admin/layer/form";
-@import "./components/admin/layer/interactions";
 
 // Tags
 @import "./components/admin/tags/tags_form";
@@ -209,7 +206,6 @@
 @import "./components/app/common/banner";
 @import "./components/app/common/viel";
 @import "./components/app/common/card_static";
-@import "./components/app/common/faq";
 @import "./components/app/common/partner_block";
 @import "./components/app/common/partners_slider";
 
@@ -267,10 +263,6 @@
 
 // Subscriptions
 @import "./components/app/subscriptions/subscription_card";
-
-// ------ SPLASH -------
-@import "./components/splash/layout/splash_header";
-
 
 // Foundation:
 // We are using this library only for grid system

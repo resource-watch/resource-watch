@@ -17,7 +17,7 @@ import UploadArea from 'components/areas/UploadArea';
 
 // Services
 import AreasService from 'services/AreasService';
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 
 // Utils
 import { logEvent } from 'utils/analytics';

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'react-fast-compare';
 import { toastr } from 'react-redux-toastr';
+import { Router } from 'routes';
 
 // components
 import Navigation from 'components/form/Navigation';
@@ -11,14 +12,13 @@ import Spinner from 'components/ui/Spinner';
 // services
 import WidgetsService from 'services/WidgetsService';
 import { fetchDatasets } from 'services/dataset';
-import { fetchWidget } from 'services/widget';
+import { fetchWidget, deleteWidget } from 'services/widget';
 
 // utils
 import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
 
 // constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
-
 
 class WidgetForm extends PureComponent {
   static propTypes = {
@@ -27,12 +27,14 @@ class WidgetForm extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     showEditor: PropTypes.bool,
     widgetEditor: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired
+    locale: PropTypes.string.isRequired,
+    newState: PropTypes.bool.isRequired,
+    dataset: PropTypes.string
   };
 
   static defaultProps = {
     id: null,
-    // dataset: null,
+    dataset: null,
     showEditor: true
   };
 
@@ -42,15 +44,12 @@ class WidgetForm extends PureComponent {
     this.state = Object.assign({}, STATE_DEFAULT, {
       id: props.id,
       loading: !!props.id,
-      form: STATE_DEFAULT.form,
+      form: {
+        ...STATE_DEFAULT.form,
+        dataset: props.dataset
+      },
       mode: 'editor'
     });
-
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.handleModeChange = this.handleModeChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
 
     this.service = new WidgetsService({ authorization: props.authorization });
   }
@@ -79,27 +78,29 @@ class WidgetForm extends PureComponent {
         const current = response[1];
 
         // Set advanced mode if paramsConfig doesn't exist or if it's empty
-        const mode = (
+        const mode =
           current &&
           (!current.widgetConfig.paramsConfig || isEmpty(current.widgetConfig.paramsConfig))
-        ) ? 'advanced' : 'editor';
+            ? 'advanced'
+            : 'editor';
         this.setState({
-          // CURRENT DASHBOARD
-          form: (id) ? this.setFormFromParams(current) : this.state.form,
+          // current widget
+          form: id ? this.setFormFromParams(current) : this.state.form,
           loading: false,
           mode,
-          // OPTIONS
-          datasets: datasets.map(p => ({
-            label: p.name,
-            value: p.id,
-            type: p.type,
-            tableName: p.tableName,
-            slug: p.slug
+          datasets: datasets.map(_dataset => ({
+            label: _dataset.name,
+            value: _dataset.id,
+            type: _dataset.type,
+            tableName: _dataset.tableName,
+            slug: _dataset.slug
           }))
         });
       })
       .catch((err) => {
-        this.setState({ loading: false }, () => { toastr.error('Something went wrong', err.message); });
+        this.setState({ loading: false }, () => {
+          toastr.error('Something went wrong', err.message);
+        });
       });
   }
 
@@ -108,8 +109,8 @@ class WidgetForm extends PureComponent {
    * - onSubmit
    * - onChange
    * - handleModeChange
-  */
-  onSubmit(event) {
+   */
+  onSubmit = (event) => {
     const { submitting, stepLength, step, form, mode } = this.state;
     const { widgetEditor } = this.props;
     event.preventDefault();
@@ -119,9 +120,9 @@ class WidgetForm extends PureComponent {
 
     // Set a timeout due to the setState function of react
     setTimeout(async () => {
-      const widgetConfig = (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {};
+      const widgetConfig = this.onGetWidgetConfig ? await this.getWidgetConfig() : {};
       // Validate all the inputs on the current step
-      const validWidgetConfig = (mode === 'editor') ? this.validateWidgetConfig() : true;
+      const validWidgetConfig = mode === 'editor' ? this.validateWidgetConfig() : true;
       const valid = FORM_ELEMENTS.isValid(step) && validWidgetConfig;
       if (valid) {
         // if we are in the last step we will submit the form
@@ -130,12 +131,12 @@ class WidgetForm extends PureComponent {
 
           // Start the submission
           this.setState({ submitting: true });
-          const formObj = (mode === 'editor') ? { ...form, widgetConfig } : form;
+          const formObj = mode === 'editor' ? { ...form, widgetConfig } : form;
 
           const obj = {
             dataset: form.dataset,
             id: id || '',
-            type: (id) ? 'PATCH' : 'POST',
+            type: id ? 'PATCH' : 'POST',
             body: formObj
           };
 
@@ -146,20 +147,16 @@ class WidgetForm extends PureComponent {
           // The widget has to be "frozen" first
           if (formObj.freeze) {
             const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
-            const tempBand = formObj.widgetConfig.paramsConfig ?
-              formObj.widgetConfig.paramsConfig.band : null;
+            const tempBand = formObj.widgetConfig.paramsConfig
+              ? formObj.widgetConfig.paramsConfig.band
+              : null;
             getDataURL(
               datasetObj.value,
               datasetObj.type,
               datasetObj.tableName,
               tempBand,
               datasetObj.provider,
-              getChartInfo(
-                datasetObj.value,
-                datasetObj.type,
-                datasetObj.provider,
-                widgetEditor
-              ),
+              getChartInfo(datasetObj.value, datasetObj.type, datasetObj.provider, widgetEditor),
               false,
               datasetObj.slug
             ).then((dataURL) => {
@@ -197,12 +194,12 @@ class WidgetForm extends PureComponent {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
@@ -213,8 +210,11 @@ class WidgetForm extends PureComponent {
     Object.keys(params).forEach((f) => {
       switch (f) {
         default: {
-          if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
-              (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+          if (
+            typeof params[f] !== 'undefined' ||
+            params[f] !== null ||
+            (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)
+          ) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -233,11 +233,12 @@ class WidgetForm extends PureComponent {
   saveWidget(obj) {
     const { onSubmit } = this.props;
     // Save data
-    this.service.saveData(obj)
+    this.service
+      .saveData(obj)
       .then((widget) => {
         const { id, name } = widget;
         toastr.success('Success', `The widget "${id}" - "${name}" has been uploaded correctly`);
-
+        this.setState({ submitting: false });
         if (onSubmit) onSubmit(widget);
       })
       .catch((errors) => {
@@ -273,9 +274,15 @@ class WidgetForm extends PureComponent {
 
     switch (visualizationType) {
       case 'chart':
-        return toastr.error('Error', 'Value, Category and Chart type are mandatory fields for a widget visualization.');
+        return toastr.error(
+          'Error',
+          'Value, Category and Chart type are mandatory fields for a widget visualization.'
+        );
       case 'table':
-        return toastr.error('Error', 'Value, Category and Chart type are mandatory fields for a widget visualization.');
+        return toastr.error(
+          'Error',
+          'Value, Category and Chart type are mandatory fields for a widget visualization.'
+        );
       case 'map':
         return toastr.error('Error', 'Layer is mandatory field for a widget visualization.');
       case 'embed':
@@ -285,12 +292,13 @@ class WidgetForm extends PureComponent {
     }
   }
 
-  handleModeChange(value) {
+  handleModeChange = (value) => {
     // We have to set the defaultEditableWidget to false if the mode has been changed
     // to 'advanced'
-    const newForm = (value === 'advanced') ?
-      Object.assign({}, this.state.form, { defaultEditableWidget: false })
-      : this.state.form;
+    const newForm =
+      value === 'advanced'
+        ? Object.assign({}, this.state.form, { defaultEditableWidget: false })
+        : this.state.form;
 
     this.setState({
       form: newForm,
@@ -298,37 +306,73 @@ class WidgetForm extends PureComponent {
     });
   }
 
+  handleDelete = () => {
+    const { form: { name, dataset, id } } = this.state;
+    const { authorization } = this.props;
+
+    toastr.confirm(`Are you sure that you want to delete the widget: "${name}"`, {
+      onOk: () => {
+        deleteWidget(id, dataset, authorization)
+          .then(() => {
+            toastr.success('Success', `The widget "${id}" - "${name}" has been removed correctly`);
+            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'widgets', id: dataset });
+          })
+          .catch((err) => {
+            toastr.error(
+              'Error',
+              `The widget "${id}" - "${name}" was not deleted. Try again. ${err.message}`
+            );
+          });
+      }
+    });
+  }
+
   render() {
+    const {
+      submitting,
+      stepLength,
+      step,
+      loading,
+      id,
+      form,
+      partners,
+      datasets,
+      mode
+    } = this.state;
+    const { newState } = this.props;
     return (
       <form className="c-form c-widgets-form" onSubmit={this.onSubmit} noValidate>
-        <Spinner isLoading={this.state.loading} className="-light" />
+        <Spinner isLoading={loading} className="-light" />
 
-        {(this.state.step === 1 && !this.state.loading) &&
+        {step === 1 && !loading && (
           <Step1
-            id={this.state.id}
-            form={this.state.form}
-            partners={this.state.partners}
-            datasets={this.state.datasets}
-            mode={this.state.mode}
+            id={id}
+            form={form}
+            partners={partners}
+            datasets={datasets}
+            mode={mode}
             onChange={value => this.onChange(value)}
             onModeChange={this.handleModeChange}
             showEditor={this.props.showEditor}
-            onGetWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
+            onGetWidgetConfig={(func) => {
+              this.onGetWidgetConfig = func;
+            }}
           />
-        }
+        )}
 
-        {!this.state.loading &&
+        {!loading && (
           <Navigation
-            step={this.state.step}
-            stepLength={this.state.stepLength}
-            submitting={this.state.submitting}
+            step={step}
+            stepLength={stepLength}
+            submitting={submitting}
             onStepChange={this.onStepChange}
+            showDelete={!newState}
+            onDelete={this.handleDelete}
           />
-        }
+        )}
       </form>
     );
   }
 }
-
 
 export default WidgetForm;

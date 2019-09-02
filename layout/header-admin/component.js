@@ -7,7 +7,7 @@ import MediaQuery from 'react-responsive';
 // components
 import HeaderMenu from 'layout/header-admin/header-admin-menu';
 import HeaderMenuMobile from 'layout/header-admin/header-admin-menu-mobile';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // utils
 import { breakpoints } from 'utils/responsive';
@@ -46,10 +46,8 @@ class AdminHeader extends PureComponent {
                 <div className="header-logo">
                   <Link route="home">
                     <a>
-                      <Icon name="icon-logo" className="brand-logo" />
-                      {/* <svg className="brand-logo"><use xlinkHref="#icon-logo" /></svg> */}
+                      <Icon name="icon-rw-logo" className="brand-logo" />
                       <h1 className="brand-title">Resource Watch</h1>
-                      <div className="brand-beta">beta</div>
                     </a>
                   </Link>
                 </div>

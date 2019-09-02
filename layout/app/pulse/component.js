@@ -237,7 +237,7 @@ class LayoutPulse extends PureComponent {
         className="l-pulse"
       >
         <div
-          className="l-map -dark"
+          className="pulse-container -dark"
         >
           <Spinner
             isLoading={

@@ -11,7 +11,9 @@ export default class WidgetsService {
   fetchData({ id, includes = '' }) {
     return new Promise((resolve, reject) => {
       const qParams = queryString.stringify({
-        includes
+        includes,
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS
       });
       get({
         url: `${process.env.WRI_API_URL}/widget/${id}?${qParams}`,
@@ -43,7 +45,10 @@ export default class WidgetsService {
       post({
         url: `${process.env.WRI_API_URL}/dataset/${dataset}/widget/${id}`,
         type,
-        body,
+        body: {
+          ...body,
+          ...type !== 'PATCH' && { application: [process.env.APPLICATIONS] }
+        },
         headers: [{
           key: 'Content-Type',
           value: 'application/json'
@@ -69,7 +74,10 @@ export default class WidgetsService {
       post({
         url: `${process.env.WRI_API_URL}/dataset/${dataset}/widget/${id}/metadata`,
         type,
-        body,
+        body: {
+          ...body,
+          ...type !== 'PATCH' && { application: process.env.APPLICATIONS }
+        },
         headers: [{
           key: 'Content-Type',
           value: 'application/json'

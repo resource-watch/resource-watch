@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Serializer } from 'jsonapi-serializer';
 
 // Services
-import PagesService from 'services/PagesService';
+import PagesService from 'services/pages';
 import { toastr } from 'react-redux-toastr';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/pages/form/constants';

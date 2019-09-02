@@ -30,7 +30,7 @@ class LayoutNewsletter extends PureComponent {
     return (
       <Layout
         title="Newsletter"
-        description="Sign up for the Resource Watch newsletter"
+        description="Sign up for Resource Watch news"
         className="p-newsletter"
         pageHeader
       >
@@ -53,12 +53,12 @@ class LayoutNewsletter extends PureComponent {
             <div className="row align-center">
               <div className="column small-12 medium-8">
                 <h2>
-                  Sign up for the Resource Watch newsletter
+                  Sign up for Resource Watch news
                 </h2>
                 <p>
-                  Don’t miss our monthly newsletter, which includes information on
-                  new datasets, exclusive tips and tricks for using the platform and the
-                  latest stories on the pulse of the planet.
+                  Don’t miss out on training announcements, our monthly newsletter,
+                   exclusive tips for using the platform,
+                   and the latest stories on the pulse of the planet.
                 </p>
               </div>
             </div>
@@ -181,7 +181,7 @@ class LayoutNewsletter extends PureComponent {
                     {Input}
                   </Field>
 
-                  <div className="actions-container -align-right">
+                  <div className="c-button-container -j-end">
                     <button
                       type="submit"
                       className="c-btn -primary"

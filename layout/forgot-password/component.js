@@ -8,7 +8,7 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 
 // services
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 
 // constants
 import { FORM_ELEMENTS } from './constants';
@@ -29,12 +29,7 @@ class ForgotPassword extends PureComponent {
         .then(() => {
           toastr.success('Reset password requested', 'Please, check your inbox and follow instructions to reset your password.');
         })
-        .catch((err) => {
-          err.json()
-            .then(({ errors } = {}) => {
-              (errors || []).forEach(_error => toastr.error('Something went wrong', `${_error.status}:${_error.detail}`));
-            });
-        });
+        .catch(() => { toastr.error('Reset password', 'Something went wrong during the process. Please, try again.'); });
     }, 0);
   }
 

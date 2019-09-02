@@ -11,7 +11,7 @@ export default class WidgetService {
 
   fetchData(includes = '') {
     return fetch(
-      `${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999&application=${process.env.APPLICATIONS}`,
+      `${this.opts.apiURL}/widget/${this.widgetId}?includes=${includes}&page[size]=999&application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
       {
         method: 'GET',
         headers: { 'Upgrade-Insecure-Requests': 1 }
@@ -34,6 +34,8 @@ export default class WidgetService {
   saveUserWidget(widget, datasetId, token) {
     const widgetObj = {
       application: [process.env.APPLICATIONS],
+      // env: process.env.API_ENV, This is commented out since otherwise the widget ends up
+      // having a env value equals to `production,preproduction`, which is not allowed.
       published: false,
       default: false,
       dataset: datasetId
@@ -63,7 +65,7 @@ export default class WidgetService {
   }
 
   userWidgetMetadata(widget, datasetId, token) {
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}/metadata`, {
+    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}/metadata?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -78,18 +80,12 @@ export default class WidgetService {
   updateUserWidgetMetadata(widget, datasetId, metadata, token, isPatch) {
     return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}/metadata`, {
       method: isPatch ? 'PATCH' : 'POST',
-      body: JSON.stringify(metadata),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    })
-      .then(response => response.json());
-  }
-
-  removeUserWidget(widgetId, token) {
-    return fetch(`${this.opts.apiURL}/widget/${widgetId}`, {
-      method: 'DELETE',
+      body: JSON.stringify({
+        ...metadata,
+        ...!isPatch && { env: process.env.API_ENV },
+        ...isPatch && { application: widget.application.join(',') },
+        ...!isPatch && { application: process.env.APPLICATIONS }
+      }),
       headers: {
         'Content-Type': 'application/json',
         Authorization: token
@@ -114,7 +110,7 @@ export default class WidgetService {
 
   getUserWidgetCollections(user) {
     return fetch(
-      `${this.opts.apiURL}/vocabulary/widget_collections?application=${process.env.APPLICATIONS}`,
+      `${this.opts.apiURL}/vocabulary/widget_collections?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
       {
         method: 'GET',
         headers: { 'Upgrade-Insecure-Requests': 1 }
@@ -137,7 +133,9 @@ export default class WidgetService {
 
   updateWidgetCollections(user, widget, widgetCollections, method = 'PATCH') {
     const bodyObj = {
-      tags: widgetCollections.map(val => `${user.id}-${val}`)
+      tags: widgetCollections.map(val => `${user.id}-${val}`),
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS
     };
     return fetch(`${this.opts.apiURL}/dataset/${widget.attributes.dataset}/widget/${widget.id}/vocabulary/widget_collections`, {
       method,

@@ -34,35 +34,32 @@ class Step1 extends Component {
     onChange: PropTypes.func,
     onModeChange: PropTypes.func,
     showEditor: PropTypes.bool,
-    onGetWidgetConfig: PropTypes.func
+    onGetWidgetConfig: PropTypes.func,
+    query: PropTypes.object.isRequired
   };
 
   static defaultProps = { showEditor: true }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      id: props.id,
-      form: props.form,
-      loadingVegaChart: false,
-    };
-
-    // ------------------- BINDINGS ---------------------------
-    this.triggerChangeMode = this.triggerChangeMode.bind(this);
-    this.triggerToggleLoadingVegaChart = this.triggerToggleLoadingVegaChart.bind(this);
-    this.refreshWidgetPreview = this.refreshWidgetPreview.bind(this);
-  }
+  state = {
+    id: this.props.id,
+    form: this.props.form,
+    loadingVegaChart: false
+  };
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ form: nextProps.form });
+    this.setState({
+      form: {
+        ...nextProps.form,
+        dataset: nextProps.form.dataset || nextProps.query.dataset
+      }
+    });
   }
 
   /**
    * HELPERS
    * - triggerChangeMode
   */
-  triggerChangeMode(mode) {
+  triggerChangeMode = (mode) => {
     if (mode === 'editor') {
       toastr.confirm('By switching you will start editing from scratch', {
         onOk: () => {
@@ -84,17 +81,17 @@ class Step1 extends Component {
     }
   }
 
-  triggerToggleLoadingVegaChart(loading) {
+  triggerToggleLoadingVegaChart = (loading) => {
     this.setState({ loadingVegaChart: loading });
   }
 
-  refreshWidgetPreview() {
+  refreshWidgetPreview = () => {
     this.forceChartUpdate();
   }
 
   render() {
     const { id, loadingVegaChart } = this.state;
-    const { user, showEditor } = this.props;
+    const { user, showEditor, query } = this.props;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -118,8 +115,8 @@ class Step1 extends Component {
             properties={{
               name: 'dataset',
               label: 'Dataset',
-              default: this.state.form.dataset,
-              value: this.state.form.dataset,
+              default: query.dataset,
+              value: this.state.form.dataset || query.dataset,
               disabled: !!id,
               required: true,
               instanceId: 'selectDataset'
@@ -359,6 +356,9 @@ class Step1 extends Component {
   }
 }
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({
+  user: state.user,
+  query: state.routes.query
+});
 
 export default connect(mapStateToProps, null)(Step1);

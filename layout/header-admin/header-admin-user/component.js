@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 
 // components
 import TetherComponent from 'react-tether';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // utils
 import { get } from 'utils/request';

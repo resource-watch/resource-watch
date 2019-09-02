@@ -6,7 +6,7 @@ import { VegaChart, getVegaTheme } from 'widget-editor';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
@@ -213,6 +213,7 @@ class LayoutEmbedWidget extends PureComponent {
                       analytics={{
                         facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
                         twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
+                        email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
                         copy: type => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`)
                       }}
                     />

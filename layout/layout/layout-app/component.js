@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Progress from 'react-progress-2';
 import classnames from 'classnames';
@@ -15,14 +15,15 @@ import { Router } from 'routes';
 import HeadApp from 'layout/head/app';
 import Header from 'layout/header';
 import Footer from 'layout/footer';
-import UserReport from 'layout/user-report';
 
+import UserReport from 'layout/user-report';
+import IconsRW from 'components/icons';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Search from 'layout/header/search';
-
 import NoBrowserSupport from 'components/app/common/Browser';
+import GDPRBanner from 'components/ui/gdpr-banner';
 
 import {
   setConfig,
@@ -31,7 +32,7 @@ import {
   Icons as WidgetIcons
 } from 'widget-editor';
 
-class LayoutApp extends PureComponent {
+class LayoutApp extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string,
@@ -42,7 +43,6 @@ class LayoutApp extends PureComponent {
     user: PropTypes.object.isRequired,
     thumbnail: PropTypes.string,
     isFullScreen: PropTypes.bool.isRequired,
-    showUserReport: PropTypes.bool.isRequired,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired
@@ -83,15 +83,6 @@ class LayoutApp extends PureComponent {
       if (Progress && Progress.Component.instance) Progress.hideAll();
     };
 
-    // if (window.Transifex) {
-    //   window.Transifex.live.onReady(() => {
-    //     window.Transifex.live.onTranslatePage((locale) => {
-    //       this.props.setLocale(locale);
-    //       window.location.reload();
-    //     });
-    //   });
-    // }
-
     // Google Analytics
     if (!window.GA_INITIALIZED) {
       initGA();
@@ -115,8 +106,11 @@ class LayoutApp extends PureComponent {
       className,
       thumbnail,
       isFullScreen,
-      showUserReport
+      children,
+      toggleModal,
+      setModalOptions
     } = this.props;
+    const { modalOpen } = this.state;
     const componentClass = classnames(
       'l-page',
       { [className]: !!className }
@@ -133,6 +127,8 @@ class LayoutApp extends PureComponent {
           {...thumbnail && { thumbnail }}
         />
 
+        <GDPRBanner />
+
         {!browserSupported() &&
           <Modal
             open
@@ -143,12 +139,13 @@ class LayoutApp extends PureComponent {
         }
 
         <Icons />
+        <IconsRW />
 
         <Header pageHeader={pageHeader} />
 
         <Progress.Component />
 
-        {this.props.children}
+        {children}
 
         {!isFullScreen && (<Footer />)}
 
@@ -157,11 +154,11 @@ class LayoutApp extends PureComponent {
         <Search />
 
         <Modal
-          open={this.state.modalOpen}
+          open={modalOpen}
           options={modal.options}
           loading={modal.loading}
-          toggleModal={this.props.toggleModal}
-          setModalOptions={this.props.setModalOptions}
+          toggleModal={toggleModal}
+          setModalOptions={setModalOptions}
         />
 
         <Toastr
@@ -170,7 +167,7 @@ class LayoutApp extends PureComponent {
           transitionOut="fadeOut"
         />
 
-        {showUserReport && (<UserReport />)}
+        <UserReport />
 
         {/* widget editor */}
         <WidgetModal />

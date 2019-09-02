@@ -7,7 +7,7 @@ import MediaQuery from 'react-responsive';
 // components
 import HeaderMenu from 'layout/header/header-menu';
 import HeaderMenuMobile from 'layout/header/header-menu-mobile';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // utils
 import { breakpoints } from 'utils/responsive';
@@ -49,9 +49,8 @@ class Header extends PureComponent {
                 <div className="header-logo">
                   <Link route="home">
                     <a>
-                      <Icon name="icon-logo" className="brand-logo" />
+                      <Icon name="icon-rw-logo" className="brand-logo" />
                       <h1 className="brand-title">Resource Watch</h1>
-                      <span className="brand-beta">beta</span>
                     </a>
                   </Link>
                 </div>

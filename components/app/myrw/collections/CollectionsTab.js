@@ -32,8 +32,6 @@ CollectionsTab.propTypes = {
   subtab: PropTypes.string
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(CollectionsTab);

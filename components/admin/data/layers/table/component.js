@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 // services
-import { fetchLayers } from 'services/LayersService';
+import { fetchLayers } from 'services/layer';
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -207,6 +207,7 @@ class LayersTable extends PureComponent {
       layers,
       error
     } = this.state;
+    const { dataset } = this.props;
 
     return (
       <div className="c-layer-table">
@@ -226,7 +227,8 @@ class LayersTable extends PureComponent {
             route: 'admin_data_detail',
             params: {
               tab: 'layers',
-              id: 'new'
+              id: 'new',
+              dataset
             }
           }}
           onSearch={this.onSearch}
@@ -243,7 +245,7 @@ class LayersTable extends PureComponent {
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
+                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'edit', id: '{{id}}', dataset }, show: true, component: EditAction },
                 { name: 'Remove', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'remove', id: '{{id}}' }, component: DeleteAction },
                 { name: 'Go to dataset', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, component: GoToDatasetAction }
               ]

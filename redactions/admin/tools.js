@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import ToolsService from 'services/ToolsService';
+import ToolsService from 'services/tools';
 
 /**
  * CONSTANTS

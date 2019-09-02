@@ -21,7 +21,6 @@ import TextArea from 'components/form/TextArea';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
 import SourcesContentModal from 'components/datasets/metadata/form/SourcesContentModal';
-import PublishedLayersList from 'components/datasets/metadata/form/published-layer/list/PublishedLayersList';
 
 // constants
 import {
@@ -38,14 +37,10 @@ class Step1 extends React.Component {
     loadingColumns: PropTypes.bool,
     onChange: PropTypes.func,
     toggleModal: PropTypes.func,
-    publishedLayers: PropTypes.array,
     sources: PropTypes.array
   };
 
-  static defaultProps = {
-    type: 'tabular',
-    publishedLayers: []
-  };
+  static defaultProps = { type: 'tabular' };
 
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.sources, nextProps.sources)) {
@@ -78,7 +73,7 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { form, columns, type, sources, loadingColumns, publishedLayers } = this.props;
+    const { form, columns, type, sources, loadingColumns } = this.props;
     const isRaster = type === 'raster';
 
     const aliasColumnClass = classnames('columns', {
@@ -614,15 +609,6 @@ class Step1 extends React.Component {
               ))}
             </div>
           )}
-        </fieldset>
-        <fieldset className="c-field-container">
-          <Title className="-default -secondary">Published layers sorting</Title>
-          <div>
-            <PublishedLayersList
-              layers={publishedLayers}
-              onChange={layers => this.changeMetadata({ publishedLayersOrder: layers.map(l => l.id) })}
-            />
-          </div>
         </fieldset>
       </div>
     );

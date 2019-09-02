@@ -2,9 +2,6 @@ import * as queryString from 'query-string';
 import { get, post, remove } from 'utils/request';
 import sortBy from 'lodash/sortBy';
 
-
-import { getFieldUrl, getFields } from 'utils/datasets/fields';
-
 class DatasetsService {
   static getAllDatasets(token, options) {
     const { filters, includes } = options;
@@ -92,6 +89,7 @@ class DatasetsService {
       application: applications.join(','),
       language: this.opts.language,
       includes,
+      env: process.env.API_ENV,
       ...filters
     };
 

@@ -7,7 +7,7 @@ import { logEvent } from 'utils/analytics';
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 // Tooltip
 import { Tooltip } from 'vizzuality-components';
@@ -72,6 +72,7 @@ class WidgetDetailHeader extends PureComponent {
                     analytics={{
                       facebook: () => logEvent('Share', `Share widget: ${widget.name}`, 'Facebook'),
                       twitter: () => logEvent('Share', `Share widget: ${widget.name}`, 'Twitter'),
+                      email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
                       copy: type => logEvent('Share', `Share widget: ${widget.name}`, `Copy ${type}`)
                     }}
                   />

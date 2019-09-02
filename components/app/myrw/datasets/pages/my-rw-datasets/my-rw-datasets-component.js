@@ -8,7 +8,7 @@ import { Router } from 'routes';
 import debounce from 'lodash/debounce';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import SearchInput from 'components/ui/SearchInput';
 import Paginator from 'components/ui/Paginator';
 import DatasetsList from './dataset-list';

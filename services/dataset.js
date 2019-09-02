@@ -25,6 +25,7 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
     },
     params: {
       env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
       ...params
     },
     transformResponse: [].concat(
@@ -76,7 +77,11 @@ export const fetchDataset = (id, params = {}) => {
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
-    params
+    params: {
+      ...params,
+      application: [process.env.APPLICATIONS],
+      env: process.env.API_ENV
+    }
   })
     .then((response) => {
       const { status, statusText, data } = response;

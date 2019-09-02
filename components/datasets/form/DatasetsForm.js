@@ -8,8 +8,7 @@ import { connect } from 'react-redux';
 
 // Service
 import DatasetsService from 'services/DatasetsService';
-import { fetchDataset, fetchFields } from 'services/dataset';
-
+import { fetchFields, fetchDataset } from 'services/dataset';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/form/constants';
 
@@ -38,31 +37,37 @@ class DatasetsForm extends React.Component {
       authorization: props.authorization,
       language: props.locale
     });
-
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
   }
 
   componentDidMount() {
+    const { dataset } = this.props;
     // Get the dataset and fill the
     // state with its params if it exists
-    if (this.props.dataset) {
-      this.service.fetchData({ id: this.props.dataset })
+    if (dataset) {
+      fetchDataset(dataset, { includes: 'layer' })
         .then((data) => {
-          const { provider, type, tableName } = data || {};
+          const { provider, type, tableName, applicationConfig, layer } = data || {};
+          const appConfigRW = applicationConfig && applicationConfig[process.env.APPLICATIONS];
+          const publishedLayersOrder = appConfigRW && appConfigRW.publishedLayersOrder;
+          let layers = layer.filter(l => l.published);
+          // We are doing this check since most metadata objects might not have yet
+          // this field initialized
+          if (publishedLayersOrder && publishedLayersOrder.length === layer.length) {
+            layers = publishedLayersOrder.map(l => layers.find(e => e.id === l.id));
+          }
+
           this.setState({
             form: this.setFormFromParams(data),
             // Stop the loading
             loading: false,
-            loadingColumns: true
+            loadingColumns: true,
+            publishedLayers: layers
           });
 
           if (provider !== 'wms') {
             // fetchs column fields based on dataset type
             fetchFields({
-              id: this.props.dataset,
+              id: dataset,
               type,
               provider,
               tableName
@@ -92,8 +97,9 @@ class DatasetsForm extends React.Component {
    * UI EVENTS
    * - onSubmit
    * - onChange
-  */
-  onSubmit(event) {
+   * - onStepChange
+   */
+  onSubmit = (event) => {
     event.preventDefault();
 
     // Validate the form
@@ -116,28 +122,37 @@ class DatasetsForm extends React.Component {
 
           // Set the request
           const requestOptions = {
-            type: (dataset) ? 'PATCH' : 'POST',
-            omit: (dataset) ? ['connectorUrlHint', 'authorization', 'connectorType', 'provider'] : ['connectorUrlHint', 'authorization']
+            type: dataset ? 'PATCH' : 'POST',
+            omit: dataset
+              ? ['connectorUrlHint', 'authorization', 'connectorType', 'provider']
+              : ['connectorUrlHint', 'authorization']
           };
 
           const bodyObj = omit(form, requestOptions.omit);
 
           bodyObj.subscribable = {};
           form.subscribable.map((s) => {
-            bodyObj.subscribable[s.type] = Object.assign({}, {
-              dataQuery: s.dataQuery,
-              subscriptionQuery: s.subscriptionQuery
-            });
+            bodyObj.subscribable[s.type] = Object.assign(
+              {},
+              {
+                dataQuery: s.dataQuery,
+                subscriptionQuery: s.subscriptionQuery
+              }
+            );
           });
 
           // Save the data
-          this.service.saveData({
-            type: requestOptions.type,
-            id: dataset,
-            body: bodyObj
-          })
+          this.service
+            .saveData({
+              type: requestOptions.type,
+              id: dataset,
+              body: bodyObj
+            })
             .then((data) => {
-              toastr.success('Success', `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`);
+              toastr.success(
+                'Success',
+                `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`
+              );
               if (this.props.onSubmit) {
                 this.props.onSubmit();
               }
@@ -157,9 +172,7 @@ class DatasetsForm extends React.Component {
               }
             });
         } else {
-          this.setState({
-            step: this.state.step + 1
-          });
+          this.setState({ step: this.state.step + 1 });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
@@ -167,12 +180,12 @@ class DatasetsForm extends React.Component {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
@@ -185,13 +198,12 @@ class DatasetsForm extends React.Component {
       if (params[f] || this.state.form[f]) {
         if (f === 'subscribable') {
           const subscribable = params[f] || this.state.form[f];
-          newForm.subscribable = Object.keys(subscribable)
-            .map((prop, i) => ({
-              type: prop,
-              dataQuery: subscribable[prop].dataQuery,
-              subscriptionQuery: subscribable[prop].subscriptionQuery,
-              id: i
-            }));
+          newForm.subscribable = Object.keys(subscribable).map((prop, i) => ({
+            type: prop,
+            dataQuery: subscribable[prop].dataQuery,
+            subscriptionQuery: subscribable[prop].subscriptionQuery,
+            id: i
+          }));
         } else {
           newForm[f] = params[f] || this.state.form[f];
         }
@@ -201,29 +213,42 @@ class DatasetsForm extends React.Component {
   }
 
   render() {
+    const {
+      publishedLayers,
+      loading,
+      step,
+      form,
+      loadingColumns,
+      columns,
+      stepLength,
+      submitting
+    } = this.state;
+    const { dataset, basic } = this.props;
+
     return (
       <form className="c-form c-datasets-form" onSubmit={this.onSubmit} noValidate>
-        <Spinner isLoading={this.state.loading} className="-light" />
+        <Spinner isLoading={loading} className="-light" />
 
-        {(this.state.step === 1 && !this.state.loading) &&
+        {step === 1 && !loading && (
           <Step1
             onChange={value => this.onChange(value)}
-            basic={this.props.basic}
-            form={this.state.form}
-            dataset={this.props.dataset}
-            columns={this.state.columns}
-            loadingColumns={this.state.loadingColumns}
+            basic={basic}
+            form={form}
+            dataset={dataset}
+            columns={columns}
+            loadingColumns={loadingColumns}
+            publishedLayers={publishedLayers}
           />
-        }
+        )}
 
-        {!this.state.loading &&
+        {!loading && (
           <Navigation
-            step={this.state.step}
-            stepLength={this.state.stepLength}
-            submitting={this.state.submitting}
+            step={step}
+            stepLength={stepLength}
+            submitting={submitting}
             onStepChange={this.onStepChange}
           />
-        }
+        )}
       </form>
     );
   }
@@ -238,8 +263,9 @@ DatasetsForm.propTypes = {
   locale: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({
-  locale: state.common.locale
-});
+const mapStateToProps = state => ({ locale: state.common.locale });
 
-export default connect(mapStateToProps, null)(DatasetsForm);
+export default connect(
+  mapStateToProps,
+  null
+)(DatasetsForm);

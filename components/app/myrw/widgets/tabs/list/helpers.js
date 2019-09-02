@@ -12,12 +12,13 @@ export const getQueryParams = (state = {}, props) => {
   const isCollection = !['my_widgets', 'favourites'].includes(subtab);
 
   return ({
+    application: process.env.APPLICATIONS,
     'page[size]': limit,
     'page[number]': page,
     sort: sort === 'asc' ? 'updatedAt' : '-updatedAt',
-    userId: id,
     ...search && search.length && { name: search },
     ...subtab === 'favourites' && { favourite: true },
+    ...(subtab !== 'favourites' && !isCollection) && { userId: id },
     ...isCollection && { collection: subtab }
   });
 };

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 
 // styles
@@ -21,6 +21,7 @@ class ShareModalComponent extends PureComponent {
     analytics: PropTypes.shape({
       facebook: PropTypes.func.isRequired,
       twitter: PropTypes.func.isRequired,
+      email: PropTypes.func.isRequired,
       copy: PropTypes.func.isRequired
     }),
 
@@ -35,6 +36,7 @@ class ShareModalComponent extends PureComponent {
     analytics: {
       facebook: () => {},
       twitter: () => {},
+      email: () => {},
       copy: () => {}
     }
   };
@@ -124,6 +126,14 @@ class ShareModalComponent extends PureComponent {
                       />
 
                       <div className="share-buttons">
+                        <a
+                          className="c-btn -secondary -compressed -square"
+                          href={`mailto:?subject=Shared from Resource Watch&body= I thought you'd be interested in what I found on Resource Watch: ${url}`}
+                          onClick={() => this.props.analytics.email(type)}
+                        >
+                          <Icon name="icon-email" className="-small" />
+                        </a>
+
                         <a
                           className="c-btn -secondary -compressed -square"
                           href={`http://www.facebook.com/sharer/sharer.php?u=${url}`}

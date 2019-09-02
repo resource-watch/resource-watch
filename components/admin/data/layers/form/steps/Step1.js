@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -16,23 +16,28 @@ import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
 
-import InteractionsComponent from '../interactions/interactions-component';
+import InteractionManager from '../interactions';
 import LayerPreviewComponent from '../layer-preview';
 
-class Step1 extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      id: props.id,
-      form: props.form
-    };
-
-    // ------------------- BINDINGS -------------------------
-    this.handleRefreshPreview = this.handleRefreshPreview.bind(this);
+class Step1 extends PureComponent {
+  static propTypes = {
+    id: PropTypes.string,
+    user: PropTypes.object.isRequired,
+    form: PropTypes.object.isRequired,
+    layerPreview: PropTypes.object.isRequired,
+    datasets: PropTypes.array,
+    onChange: PropTypes.func.isRequired,
+    onChangeDataset: PropTypes.func.isRequired,
+    verifyLayerConfig: PropTypes.func.isRequired,
+    query: PropTypes.object.isRequired
   }
 
-  handleRefreshPreview() {
+  static defaultProps = {
+    id: null,
+    datasets: []
+  }
+
+  handleRefreshPreview = () => {
     this.setLayerGroups();
   }
 
@@ -53,10 +58,11 @@ class Step1 extends React.Component {
     const {
       user,
       layerPreview,
-      verifyLayerConfig
+      verifyLayerConfig,
+      query,
+      form,
+      id
     } = this.props;
-
-    const { form, id } = this.state;
 
     return (
       <fieldset className="c-field-container">
@@ -71,7 +77,8 @@ class Step1 extends React.Component {
               label: 'Dataset',
               type: 'text',
               required: true,
-              default: form.dataset
+              default: form.dataset || query.dataset,
+              value: form.dataset || query.dataset
             }}
           >
             {Select}
@@ -96,16 +103,15 @@ class Step1 extends React.Component {
         {(user.role === 'ADMIN') &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
-            hint={'Choose "preproduction" to see this dataset it only as admin, "production" option will show it in public site.'}
+            hint={'Choose "preproduction" to see this dataset only as admin, "production" option will show it in the public site.'}
             className="-fluid"
             options={[{ label: 'Pre-production', value: 'preproduction' }, { label: 'Production', value: 'production' }]}
             onChange={value => this.props.onChange({ env: value })}
             properties={{
               name: 'env',
               label: 'Environment',
-              placeholder: 'Type the columns...',
-              noResultsText: 'Please, type the name of the columns and press enter',
-              promptTextCreator: label => `The name of the column is "${label}"`,
+              placeholder: 'Choose an environment...',
+              noResultsText: 'Please, choose an environment for this layer',
               default: 'preproduction',
               value: this.props.form.env
             }}
@@ -176,13 +182,15 @@ class Step1 extends React.Component {
           this.layerConfigStatus('Layer config valid')}
 
         {form.provider === 'cartodb' &&
-          <button
-            type="button"
-            className="c-button -primary"
-            onClick={() => verifyLayerConfig()}
-          >
-            Verify config
-          </button>
+          <div className="c-button-container -full-width -j-end">
+            <button
+              type="button"
+              className="c-button -primary"
+              onClick={() => verifyLayerConfig()}
+            >
+              Verify config
+            </button>
+          </div>
         }
 
         <Field
@@ -197,11 +205,8 @@ class Step1 extends React.Component {
           {Code}
         </Field>
 
-        {form.provider === 'cartodb' &&
-          <InteractionsComponent
-            form={form}
-          />
-        }
+        {form.provider === 'cartodb' && (
+          <InteractionManager layer={form} />)}
 
         {form.provider !== 'cartodb' &&
           <Field
@@ -218,7 +223,7 @@ class Step1 extends React.Component {
         }
 
         <LayerPreviewComponent
-          form={form}
+          layer={form}
         />
 
         <Field
@@ -235,28 +240,14 @@ class Step1 extends React.Component {
         >
           {Checkbox}
         </Field>
-
-
       </fieldset>
     );
   }
 }
 
-Step1.defaultPropTypes = {
-  datasets: []
-};
-
-Step1.propTypes = {
-  id: PropTypes.string,
-  user: PropTypes.object,
-  datasets: PropTypes.array,
-  form: PropTypes.object,
-  layerPreview: PropTypes.object,
-  onChange: PropTypes.func,
-  onChangeDataset: PropTypes.func,
-  verifyLayerConfig: PropTypes.func
-};
-
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({
+  user: state.user,
+  query: state.routes.query
+});
 
 export default connect(mapStateToProps, null)(Step1);

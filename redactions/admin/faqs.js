@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import FaqsService from 'services/FaqsService';
+import FaqsService from 'services/faqs';
 
 /**
  * CONSTANTS

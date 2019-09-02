@@ -8,6 +8,7 @@ import { initGA, logPageView } from 'utils/analytics';
 
 // Components
 import { Router } from 'routes';
+import IconsRW from 'components/icons';
 
 // vizzuality-components
 import { Icons } from 'vizzuality-components';
@@ -19,6 +20,7 @@ import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Search from 'layout/header/search';
+import GDPRBanner from 'components/ui/gdpr-banner';
 
 import {
   setConfig,
@@ -43,11 +45,10 @@ class LayoutAdmin extends PureComponent {
     user: PropTypes.object.isRequired
   };
 
-  static defaultProps = { className: null }
+  static defaultProps = { className: null };
 
   constructor(props) {
     super(props);
-    this.state = { modalOpen: false };
 
     // WIDGET EDITOR
     // Change the configuration according to your needs
@@ -61,6 +62,8 @@ class LayoutAdmin extends PureComponent {
       userEmail: props.user.email
     });
   }
+
+  state = { modalOpen: false }
 
   componentWillMount() {
     // When a tooltip is shown and the router navigates to a
@@ -110,29 +113,30 @@ class LayoutAdmin extends PureComponent {
   }
 
   render() {
-    const { title, description, pageHeader, modal, className } = this.props;
-    const componentClass = classnames(
-      'l-page',
-      { [className]: !!className }
-    );
+    const {
+      title,
+      description,
+      pageHeader,
+      modal,
+      className,
+      toggleModal,
+      setModalOptions
+    } = this.props;
+    const { modalOpen } = this.state;
+    const componentClass = classnames('l-page', { [className]: !!className });
 
     return (
-      <div
-        id="#main"
-        className={componentClass}
-      >
-        <Head
-          title={title}
-          description={description}
-        />
+      <div id="#main" className={componentClass}>
+        <Head title={title} description={description} />
+
+        <GDPRBanner />
 
         <Icons />
+        <IconsRW />
 
         <Progress.Component />
 
-        <Header
-          pageHeader={pageHeader}
-        />
+        <Header pageHeader={pageHeader} />
 
         {this.props.children}
 
@@ -141,18 +145,14 @@ class LayoutAdmin extends PureComponent {
         <Search />
 
         <Modal
-          open={this.state.modalOpen}
+          open={modalOpen}
           options={modal.options}
           loading={modal.loading}
-          toggleModal={this.props.toggleModal}
-          setModalOptions={this.props.setModalOptions}
+          toggleModal={toggleModal}
+          setModalOptions={setModalOptions}
         />
 
-        <Toastr
-          preventDuplicates
-          transitionIn="fadeIn"
-          transitionOut="fadeOut"
-        />
+        <Toastr preventDuplicates transitionIn="fadeIn" transitionOut="fadeOut" />
 
         {/* Widget editor */}
         <WidgetModal />

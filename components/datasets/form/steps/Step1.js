@@ -16,27 +16,35 @@ import Select from 'components/form/SelectInput';
 import Checkbox from 'components/form/Checkbox';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
+import PublishedLayersList from 'components/datasets/metadata/form/published-layer/list/PublishedLayersList';
 
 // Modal
 import Modal from 'components/modal/modal-component';
 import TrySubscriptionModal from 'components/datasets/form/try-subscription-modal';
 
 class Step1 extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      dataset: props.dataset,
-      form: props.form,
-      carto: {},
-      subscribableSelected: props.form.subscribable.length > 0,
-      activeSubscriptionModal: null
-    };
+  static propTypes = {
+    dataset: PropTypes.string,
+    form: PropTypes.object,
+    columns: PropTypes.array,
+    loadingColumns: PropTypes.bool,
+    basic: PropTypes.bool,
+    onChange: PropTypes.func,
+    publishedLayers: PropTypes.array,
+    // Store
+    user: PropTypes.object.isRequired
+  };
 
-    // BINDINGS
-    this.onCartoFieldsChange = this.onCartoFieldsChange.bind(this);
-    this.handleAddSubscription = this.handleAddSubscription.bind(this);
-  }
+  static defaultProps = { publishedLayers: [] };
+
+  state = {
+    dataset: this.props.dataset,
+    form: this.props.form,
+    carto: {},
+    subscribableSelected: this.props.form.subscribable.length > 0,
+    activeSubscriptionModal: null
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({ form: nextProps.form });
@@ -51,13 +59,11 @@ class Step1 extends React.Component {
     * - handleRemoveSubscription
     * - handleAddSubscription
   */
-  onCartoFieldsChange() {
+  onCartoFieldsChange = () => {
     const { cartoAccountUsername, tableName } = this.state.carto;
     const connectorUrl = `https://${cartoAccountUsername}.carto.com/tables/${tableName}/public`;
 
-    this.props.onChange({
-      connectorUrl
-    });
+    this.props.onChange({ connectorUrl });
   }
 
   onLegendChange(obj) {
@@ -128,7 +134,7 @@ class Step1 extends React.Component {
     this.props.onChange({ subscribable });
   }
 
-  handleAddSubscription() {
+  handleAddSubscription = () => {
     const { subscribable } = this.state.form;
     subscribable.push({ type: '', value: '', id: Date.now() });
     this.props.onChange({ subscribable });
@@ -142,9 +148,9 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { user, columns, loadingColumns, basic } = this.props;
+    const { user, columns, loadingColumns, basic, publishedLayers } = this.props;
     const { dataset, subscribableSelected } = this.state;
-    const { provider, columnFields } = this.state.form;
+    const { provider, columnFields, application } = this.state.form;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -184,6 +190,22 @@ class Step1 extends React.Component {
               }}
             >
               {Select}
+            </Field>}
+
+          {(user.role === 'ADMIN' && !basic && !!dataset) &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.applications = c; }}
+              className="-fluid"
+              properties={{
+                name: 'applications',
+                label: 'Applications',
+                disabled: true,
+                readOnly: true,
+                default: application,
+                value: application
+              }}
+            >
+              {Input}
             </Field>}
 
           {user.role === 'ADMIN' && !basic &&
@@ -937,25 +959,29 @@ class Step1 extends React.Component {
             }
           </fieldset>
         }
+
+        {this.state.form.provider && dataset && publishedLayers.length > 0 &&
+          <fieldset className="c-field-container">
+            <Title className="-default -secondary">Published layers sorting</Title>
+            <div>
+              <PublishedLayersList
+                layers={publishedLayers}
+                onChange={layers => this.props.onChange(
+                  {
+                    applicationConfig: {
+                      [process.env.APPLICATIONS]: { publishedLayersOrder: layers.map(l => l.id) }
+                    }
+                  }
+                )}
+              />
+            </div>
+          </fieldset>
+        }
       </div>
     );
   }
 }
 
-Step1.propTypes = {
-  dataset: PropTypes.string,
-  form: PropTypes.object,
-  columns: PropTypes.array,
-  loadingColumns: PropTypes.bool,
-  basic: PropTypes.bool,
-  onChange: PropTypes.func,
-
-  // Store
-  user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(Step1);

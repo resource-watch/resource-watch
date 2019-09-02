@@ -42,7 +42,7 @@ import LayerInfoModal from 'components/modal/layer-info-modal';
 import CANVAS_DECODERS from 'utils/layers/canvas-decoders';
 
 // constants
-import { LEGEND_TIMELINE_PROPERTIES } from './constants';
+import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
 
 // styles
 import './styles.scss';
@@ -221,6 +221,8 @@ class ExploreMapComponent extends React.Component {
       layerGroupsInteractionLatLng
     } = this.props;
 
+    const { loading, layer } = this.state;
+
     return (
       <div className="l-explore-map -relative">
         {/* Brand logo */}
@@ -235,8 +237,8 @@ class ExploreMapComponent extends React.Component {
           </div>
         )}
         {/* Spinner */}
-        {Object.keys(this.state.loading)
-          .map(k => this.state.loading[k])
+        {Object.keys(loading)
+          .map(k => loading[k])
           .some(l => !!l) && <Spinner isLoading />}
 
         {/* Map */}
@@ -296,7 +298,7 @@ class ExploreMapComponent extends React.Component {
                   onChangeLabels={this.props.setMapLabels}
                   onChangeBoundaries={this.props.setMapBoundaries}
                 />
-                <SearchControl />
+                <SearchControl setMapLocation={this.props.setMapBoundaries} />
               </MapControls>
 
               {/* Popup */}
@@ -404,19 +406,20 @@ class ExploreMapComponent extends React.Component {
                   onChangeLayer={this.onChangeLayerTimeLine}
                   customClass="rw-legend-timeline"
                   {...LEGEND_TIMELINE_PROPERTIES}
+                  { ...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
                 />
               </LegendListItem>
             ))}
           </Legend>
         </div>
 
-        {!!this.state.layer && (
+        {!!layer && (
           <Modal
-            isOpen={!!this.state.layer}
+            isOpen={!!layer}
             className="-medium"
             onRequestClose={() => this.onChangeInfo(null)}
           >
-            <LayerInfoModal layer={this.state.layer} />
+            <LayerInfoModal layer={layer} />
           </Modal>
         )}
       </div>

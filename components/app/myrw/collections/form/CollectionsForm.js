@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
-import CollectionsService from 'services/collections-service';
+import CollectionsService from 'services/collections';
 
 // Redux
 import { connect } from 'react-redux';
@@ -17,8 +17,7 @@ import Navigation from 'components/form/Navigation';
 import { logEvent } from 'utils/analytics';
 
 export const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
     const { elements } = this;
     Object.keys(elements).forEach((k) => {
@@ -35,7 +34,6 @@ export const FORM_ELEMENTS = {
     return valid;
   }
 };
-
 
 class CollectionsForm extends React.Component {
   constructor(props) {
@@ -54,19 +52,25 @@ class CollectionsForm extends React.Component {
     this.setState({ submitting: true });
 
     if (isNew) {
-      CollectionsService.createCollection(user.token, name).then(() => {
-        logEvent('Myrw Collections', 'Edit collection', collection.id);
-        toastr.success('Success', 'Collection successully Created');
-        Router.pushRoute('myrw', { tab: 'collections' });
-        this.setState({ submitting: false });
-      }, () => toastr.error('Error', `Could not create Collection ${collection.attributes.name}`));
+      CollectionsService.createCollection(user.token, name).then(
+        () => {
+          logEvent('Myrw Collections', 'Edit collection', collection.id);
+          toastr.success('Success', 'Collection successully Created');
+          Router.pushRoute('myrw', { tab: 'collections' });
+          this.setState({ submitting: false });
+        },
+        () => toastr.error('Error', `Could not create Collection ${collection.attributes.name}`)
+      );
     } else {
-      CollectionsService.editCollection(user.token, collection.id, name).then(() => {
-        logEvent('Myrw Collections', 'Edit collection', collection.id);
-        toastr.success('Success', 'Collection successully updated');
-        Router.pushRoute('myrw', { tab: 'collections' });
-        this.setState({ submitting: false });
-      }, () => toastr.error('Error', `Could not edit Collection ${collection.attributes.name}`));
+      CollectionsService.editCollection(user.token, collection.id, name).then(
+        () => {
+          logEvent('Myrw Collections', 'Edit collection', collection.id);
+          toastr.success('Success', 'Collection successully updated');
+          Router.pushRoute('myrw', { tab: 'collections' });
+          this.setState({ submitting: false });
+        },
+        () => toastr.error('Error', `Could not edit Collection ${collection.attributes.name}`)
+      );
     }
   }
 
@@ -76,11 +80,14 @@ class CollectionsForm extends React.Component {
 
   render() {
     const { collection } = this.props;
+    const { submitting } = this.state;
+
     return (
       <form className="c-form c-collections-form" onSubmit={e => this.onSubmit(e)} noValidate>
-
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
+          ref={(c) => {
+            if (c) FORM_ELEMENTS.elements.name = c;
+          }}
           onChange={value => this.onChange({ name: value })}
           validations={['required']}
           properties={{
@@ -94,12 +101,7 @@ class CollectionsForm extends React.Component {
           {Input}
         </Field>
 
-        <Navigation
-          step={1}
-          stepLength={1}
-          submitting={this.state.submitting}
-        />
-
+        <Navigation step={1} stepLength={1} submitting={submitting} />
       </form>
     );
   }
@@ -111,8 +113,9 @@ CollectionsForm.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
-export default connect(mapStateToProps, null)(CollectionsForm);
+export default connect(
+  mapStateToProps,
+  null
+)(CollectionsForm);

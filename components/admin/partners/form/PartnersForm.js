@@ -4,7 +4,7 @@ import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
 // Services
-import PartnersService from 'services/PartnersService';
+import PartnersService from 'services/partners';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/partners/form/constants';
 

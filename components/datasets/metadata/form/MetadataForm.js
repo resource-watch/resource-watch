@@ -47,20 +47,12 @@ class MetadataForm extends React.Component {
     const { form } = this.state;
 
     if (dataset) {
-      fetchDataset(dataset, { includes: 'metadata, layer' })
+      fetchDataset(dataset, { includes: 'metadata' })
         .then((result) => {
-          const { metadata, type, provider, tableName, layer } = result;
-          const { publishedLayersOrder } = metadata;
-          let layers = layer.filter(l => l.published);
-          // We are doing this check since most metadata objects might not have yet
-          // this field initialized
-          if (publishedLayersOrder && publishedLayersOrder.length === layer.length) {
-            layers = publishedLayersOrder.map(l => layers.find(e => e.id === l.id));
-          }
+          const { metadata, type, provider, tableName } = result;
           this.setState({
             form: metadata && metadata.length ? this.setFormFromParams(metadata[0]) : form,
             metadata,
-            publishedLayers: layers,
             type: type || 'tabular',
             // Stop the loading
             loading: false
@@ -139,6 +131,9 @@ class MetadataForm extends React.Component {
           omit: ['authorization']
         };
 
+        console.log('data', form);
+
+
         // Save the data
         saveMetadata({
           type: requestOptions.type,
@@ -194,8 +189,7 @@ class MetadataForm extends React.Component {
       loadingColumns,
       stepLength,
       submitting,
-      step,
-      publishedLayers
+      step
     } = this.state;
     return (
       <div className="c-metadata-form">
@@ -207,7 +201,6 @@ class MetadataForm extends React.Component {
               columns={columns}
               type={type}
               form={form}
-              publishedLayers={publishedLayers}
               loadingColumns={loadingColumns}
             />
           )}
