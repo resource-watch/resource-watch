@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Services
-import PartnersService from 'services/PartnersService';
+import PartnersService from 'services/partners';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {

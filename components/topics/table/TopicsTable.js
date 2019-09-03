@@ -10,6 +10,9 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
+// constants
+import { INITIAL_PAGINATION } from './constants';
+
 // selectors
 import { getAllFilteredTopics } from './selectors';
 
@@ -35,6 +38,48 @@ class TopicsTable extends PureComponent {
 
   static defaultProps = { error: null }
 
+  state = { pagination: INITIAL_PAGINATION }
+
+  componentWillMount() {
+    const { topics } = this.props;
+    const { pagination } = this.state;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: topics.length,
+        pages: Math.ceil(topics.length / pagination.limit)
+      }
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { topics } = this.props;
+    const { topics: nextTopics } = nextProps;
+    const { pagination } = this.state;
+    const topicsChanged = topics.length !== nextTopics.length;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: nextTopics.length,
+        ...topicsChanged && { page: 1 },
+        pages: Math.ceil(nextTopics.length / pagination.limit)
+      }
+    });
+  }
+
+  onChangePage = (page) => {
+    const { pagination } = this.state;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        page
+      }
+    });
+  }
+
   /**
    * Event handler executed when the user search for a topic
    * @param {string} { value } Search keywords
@@ -54,6 +99,7 @@ class TopicsTable extends PureComponent {
       error,
       authorization
     } = this.props;
+    const { pagination } = this.state;
 
     return (
       <div className="c-topics-table">
@@ -95,13 +141,10 @@ class TopicsTable extends PureComponent {
             }}
             filters={false}
             data={topics}
-            pageSize={20}
+            manualPagination
+            onChangePage={this.onChangePage}
             onRowDelete={() => this.props.getAllTopics()}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            pagination={pagination}
           />
         )}
       </div>

@@ -6,7 +6,7 @@ import TetherComponent from 'react-tether';
 import debounce from 'lodash/debounce';
 
 // components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 class HeaderUser extends PureComponent {
   static propTypes = {

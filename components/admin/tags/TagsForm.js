@@ -10,7 +10,7 @@ import Select from 'components/form/SelectInput';
 import Navigation from 'components/form/Navigation';
 
 // Services
-import GraphService from 'services/GraphService';
+import GraphService from 'services/graph';
 
 const graphOptions = {
   height: '100%',

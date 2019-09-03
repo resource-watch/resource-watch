@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 // components
 import { Router } from 'routes';
+import IconsRW from 'components/icons';
+import HeadApp from 'layout/head/app';
+import Tooltip from 'components/ui/Tooltip';
 
 // vizzuality-components
 import { Icons } from 'vizzuality-components';
-
-import HeadApp from 'layout/head/app';
-import Tooltip from 'components/ui/Tooltip';
 
 class LayoutEmbed extends PureComponent {
   static propTypes = {
@@ -60,6 +60,7 @@ class LayoutEmbed extends PureComponent {
         />
 
         <Icons />
+        <IconsRW />
 
         {this.props.children}
 

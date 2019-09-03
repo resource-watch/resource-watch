@@ -9,7 +9,7 @@ import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import UserService from 'services/UserService';
+import UserService from 'services/user';
 
 // constants
 import { FORM_ELEMENTS, TOKEN_ERROR_MESSAGE } from './constants';

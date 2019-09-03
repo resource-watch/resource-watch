@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Components
-import WidgetsIndex from 'components/app/myrw/widgets/pages/index';
-import WidgetsEdit from 'components/app/myrw/widgets/pages/edit';
-import WidgetsNew from 'components/app/myrw/widgets/pages/new';
+import WidgetsIndex from 'components/app/myrw/widgets/tabs/list';
+import WidgetsEdit from 'components/app/myrw/widgets/tabs/edit';
+import WidgetsNew from 'components/app/myrw/widgets/tabs/new';
 
 function WidgetsTab(props) {
   const { tab, subtab, id, user, dataset } = props;

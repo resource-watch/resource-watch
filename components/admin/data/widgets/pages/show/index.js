@@ -10,8 +10,7 @@ export default connect(
   state => ({
     user: state.user,
     query: state.routes.query,
-    tabs: parseTabs(state),
-    dataset: state.routes.query.id
+    tabs: parseTabs(state)
   }),
   null
 )(WidgetsShow);

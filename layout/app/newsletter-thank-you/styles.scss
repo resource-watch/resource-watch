@@ -1,0 +1,13 @@
+@import 'css/settings';
+
+.l-newsletter-thank-you {
+
+  .image-container {
+    margin: ($space * 6) 0px;
+    min-height: 330px;
+    background: url('/static/images/pages/app/thankyou.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}

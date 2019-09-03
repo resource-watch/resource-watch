@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 // components
 import Wysiwyg from 'vizz-wysiwyg';
-import WidgetBlock from 'components/wysiwyg/widget-block/widget-block';
-import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition/widget-block-edition';
+import WidgetBlock from 'components/wysiwyg/widget-block';
+import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition';
 
 class DashboardDetail extends PureComponent {
   static propTypes = { dashboard: PropTypes.object.isRequired }

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
-import isEqual from 'lodash/isEqual';
+import { Router, Link } from 'routes';
+import isEqual from 'react-fast-compare';
 import flatten from 'lodash/flatten';
 import truncate from 'lodash/truncate';
 import classnames from 'classnames';
@@ -18,7 +18,7 @@ import WidgetChart from 'components/charts/widget-chart';
 import LayerChart from 'components/charts/layer-chart';
 import ShareModal from 'components/modal/share-modal';
 import WidgetActionsTooltip from 'components/widgets/list/WidgetActionsTooltip';
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 import TextChart from 'components/widgets/charts/TextChart';
 
@@ -38,10 +38,9 @@ import { PluginLeaflet } from 'layer-manager';
 import CollectionsPanel from 'components/collections-panel';
 import LoginRequired from 'components/ui/login-required';
 
-// Services
-import WidgetService from 'services/WidgetService';
-import UserService from 'services/UserService';
-import { fetchLayer } from 'services/LayersService';
+// services
+import { deleteWidget } from 'services/widget';
+import { fetchLayer } from 'services/layer';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -50,26 +49,29 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 import { logEvent } from 'utils/analytics';
 
 class WidgetCard extends PureComponent {
-  static defaultProps = {
-    showActions: false,
-    showRemove: false,
-    showFavourite: true,
-    limitChar: 70
-  };
-
   static propTypes = {
     widget: PropTypes.object.isRequired,
     showActions: PropTypes.bool,
     showRemove: PropTypes.bool,
     showEmbed: PropTypes.bool,
     showFavourite: PropTypes.bool,
-    mode: PropTypes.oneOf(['thumbnail', 'full']), // How to show the graph
-    onWidgetClick: PropTypes.func,
-    onWidgetRemove: PropTypes.func,
+    // how to show the graph
+    mode: PropTypes.oneOf(['thumbnail', 'full']).isRequired,
+    onWidgetClick: PropTypes.func.isRequired,
+    onWidgetRemove: PropTypes.func.isRequired,
+    limitChar: PropTypes.number,
     user: PropTypes.object.isRequired,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     toggleTooltip: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    showActions: false,
+    showRemove: false,
+    showFavourite: true,
+    limitChar: 70,
+    showEmbed: false
   };
 
   /**
@@ -95,19 +97,8 @@ class WidgetCard extends PureComponent {
    */
   static isMapWidget(widget) {
     return !!(widget && widget.widgetConfig
-      // Some widgets have not been created with the widget editor
-      // so the paramsConfig attribute doesn't exist
-      && (
-        (
-          widget.widgetConfig.paramsConfig
-          && widget.widgetConfig.paramsConfig.layer
-        )
-        || (
-          // Case of a widget created outside of the widget editor
-          widget.widgetConfig.type
-          && widget.widgetConfig.type === 'map'
-        )
-      )
+      && widget.widgetConfig.type
+      && widget.widgetConfig.type === 'map'
     );
   }
 
@@ -150,28 +141,11 @@ class WidgetCard extends PureComponent {
     );
   }
 
-  constructor(props) {
-    super(props);
-
-    // Services
-    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
-    this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
-
-    this.state = {
-      loading: false,
-      error: null,
-      layer: null, // Info about the eventual layer
-      layerGroups: []
-    };
-
-    // ---------------------- Bindings --------------------------
-    this.handleRemoveWidget = this.handleRemoveWidget.bind(this);
-    this.handleEmbed = this.handleEmbed.bind(this);
-    this.handleAddToDashboard = this.handleAddToDashboard.bind(this);
-    this.handleEditWidget = this.handleEditWidget.bind(this);
-    this.handleGoToDataset = this.handleGoToDataset.bind(this);
-    this.handleDownloadPDF = this.handleDownloadPDF.bind(this);
-    // ----------------------------------------------------------
+  state = {
+    loading: false,
+    error: null,
+    layer: null, // Info about the eventual layer
+    layerGroups: []
   }
 
   componentDidMount() {
@@ -371,24 +345,21 @@ class WidgetCard extends PureComponent {
       .then(() => this.setState({ loading: false }));
   }
 
-  /*
-  * UI EVENTS
-  *
-  * - handleRemoveWidget
-  * - handleClick
-  */
-  handleRemoveWidget() {
-    const widgetId = this.props.widget.id;
-    const widgetName = this.props.widget.name;
-    // eslint-disable-next-line no-alert
-    if (confirm(`Are you sure you want to remove the visualization: ${widgetName}?`)) {
-      this.widgetService.removeUserWidget(widgetId, this.props.user.token)
-        .then(() => this.props.onWidgetRemove())
-        .catch(err => toastr.error('Error', err));
-    }
+  handleRemoveVisualization = () => {
+    const { widget, user, onWidgetRemove } = this.props;
+    const { token } = user;
+    const { id, name, dataset } = widget;
+
+    toastr.confirm(`Are you sure you want to remove the visualization: ${name}?`, {
+      onOk: () => {
+        deleteWidget(id, dataset, token)
+          .then(() => { onWidgetRemove(); })
+          .catch(({ message }) => toastr.error('Something went wrong deleting the widget', message));
+      }
+    });
   }
 
-  handleEmbed() {
+  handleEmbed = () => {
     const { widget: { id, widgetConfig } } = this.props;
     const widgetType = widgetConfig.type || 'widget';
     const location = typeof window !== 'undefined' && window.location;
@@ -413,19 +384,25 @@ class WidgetCard extends PureComponent {
     this.props.setModalOptions(options);
   }
 
-  handleAddToDashboard() { // eslint-disable-line class-methods-use-this
-    // TO-DO implement this
+  handleEditWidget = () => {
+    const { user: { role, id }, widget } = this.props;
+    const isOwner = widget.userId === id;
+    const isAdmin = role === 'ADMIN';
+
+    if (isAdmin) {
+      Router.pushRoute('admin_data_detail', { tab: 'widgets', subtab: 'edit', id: widget.id, dataset: widget.dataset });
+    } else if (isOwner) {
+      Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
+    } else {
+      Router.pushRoute('myrw_detail', { tab: 'widget_detail', id: widget.id });
+    }
   }
 
-  handleEditWidget() {
-    Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: this.props.widget.id });
-  }
-
-  handleGoToDataset() {
+  handleGoToDataset = () => {
     Router.pushRoute('explore_detail', { id: this.props.widget.dataset });
   }
 
-  handleDownloadPDF() {
+  handleDownloadPDF = () => {
     toastr.info('Widget download', 'The file is being generated...');
 
     const { widget: { id, name, widgetConfig } } = this.props;
@@ -443,7 +420,7 @@ class WidgetCard extends PureComponent {
     link.dispatchEvent(event);
   }
 
-  handleWidgetActionsClick(event, isWidgetOwner) {
+  handleWidgetActionsClick = (event, isWidgetOwner) => {
     const { widget } = this.props;
     const widgetAtts = widget;
     const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
@@ -457,10 +434,10 @@ class WidgetCard extends PureComponent {
       childrenProps: {
         toggleTooltip: this.props.toggleTooltip,
         onShareEmbed: this.handleEmbed,
-        onAddToDashboard: this.handleAddToDashboard,
         onGoToDataset: this.handleGoToDataset,
         onEditWidget: this.handleEditWidget,
         onDownloadPDF: this.handleDownloadPDF,
+        onRemove: this.handleRemoveVisualization,
         widgetLinks,
         isWidgetOwner
       }
@@ -542,25 +519,15 @@ class WidgetCard extends PureComponent {
                   className="c-button -secondary widget-actions"
                   onClick={e => this.handleWidgetActionsClick(e, (widget.userId === user.id))}
                 >
-                  Visualization actions
+                  Options
                 </button>
               }
-              {showRemove && (widget.userId === user.id) &&
-                <button
-                  className="c-button -tertiary"
-                  onClick={this.handleRemoveWidget}
-                >
-                  Delete
-                </button>
-              }
-              {showEmbed &&
-                <button
-                  className="c-button -tertiary"
-                  onClick={this.handleEmbed}
-                >
-                  Embed
-                </button>
-              }
+              <Link
+                route="myrw_detail"
+                params={{ tab: 'widgets', subtab: 'edit', id: this.props.widget.id }}
+              >
+                <a className="c-button">Edit</a>
+              </Link>
             </div>
           }
         </div>
@@ -569,9 +536,7 @@ class WidgetCard extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
 const mapDispatchToProps = dispatch => ({
   toggleModal: (open) => { dispatch(toggleModal(open)); },

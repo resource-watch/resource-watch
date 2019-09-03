@@ -5,6 +5,110 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.7] - 2019-08-19
+### Fixed
+- Fixes interactions layer issue in admin [[code]](https://github.com/resource-watch/resource-watch/pull/1094)
+- Fixes edge case for layer interactions [[code]](https://github.com/resource-watch/resource-watch/pull/1095)
+
+## [2.1.6] - 2019-08-19
+### Added
+- Alert preview improvements [[code]](https://github.com/resource-watch/resource-watch/pull/1089)
+
+### Fixed
+- Fix for Markdown link styles [[code]](https://github.com/resource-watch/resource-watch/pull/1083)
+- Fix issue with Layer form (published checkbox was always checked) [[code]](https://github.com/resource-watch/resource-watch/pull/1087)
+- Fix "Dataset not found" error when saving widgets [[code]](https://github.com/resource-watch/resource-watch/pull/1090)
+
+## [2.1.5] - 2019-08-01
+### Added
+- Explore detail: markdown related improvements [[code]](https://github.com/resource-watch/resource-watch/pull/1070)
+
+### Fixed
+- Fix for: "Array error when saving widget" [[code]](https://github.com/resource-watch/resource-watch/pull/1075)
+- Fix for issue: Backoffice widget creator only appears when dataset manually selected [[code]](https://github.com/resource-watch/resource-watch/pull/1077)
+
+### Changed
+- Adds origin param to reset password [[code]](https://github.com/resource-watch/resource-watch/pull/1074)
+- Adds origin in reset-password token generation [[code]](https://github.com/resource-watch/resource-watch/pull/1076)
+- Encapsulate CSS for markdown lists into a separate CSS class - Adds origin in reset-password token generation [[code]](https://github.com/resource-watch/resource-watch/pull/1078)
+- forgotten password - moves to axios and logger [code]](https://github.com/resource-watch/resource-watch/pull/1079)
+
+## [2.1.4] - 2019-07-25
+### Added
+- Prevent blog feed from loading "UNCATEGORIZED" blog posts. [[code]](https://github.com/resource-watch/resource-watch/pull/1015)
+- Catalog page: pagination and other improvements. [[code]](https://github.com/resource-watch/resource-watch/pull/1017)
+- MyRW: Improvements to search results messages in MyRW. [[code]](https://github.com/resource-watch/resource-watch/pull/1019)
+- Improved styles and pagination in Dashboards "Add visualization" modal. [[code]](https://github.com/resource-watch/resource-watch/pull/1023)
+- Improvements for MyRWDatasets and DatasetList components. [[code]](https://github.com/resource-watch/resource-watch/pull/1024)
+- Re-enable the pre-populating of the dataset name when creating widget and layers. [[code]](https://github.com/resource-watch/resource-watch/pull/1030)
+- Handle icons that are RW specific using Icomoon directly from the RW app. [[code]](https://github.com/resource-watch/resource-watch/pull/1039)
+- Implement "remove" buttons in back office detail pages (widget + layer). [[code]](https://github.com/resource-watch/resource-watch/pull/1041)
+- Share by email functionality added to all share modals. [[code]](https://github.com/resource-watch/resource-watch/pull/1042)
+- Layer info pop-up "more info" button leads to `resourcewatch.org/data/explore/[slug]`. [[code]](https://github.com/resource-watch/resource-watch/pull/1047)
+- GDPR banner added both to the app and the back office. [[code]](https://github.com/resource-watch/resource-watch/pull/1049)
+- Surface the Last update date in Explore detail only when this field has a value. [[code]](https://github.com/resource-watch/resource-watch/pull/1054)
+- Icon component-level styles. Adds optimize-css-assets-webpack-plugin / cssnano [[code]](https://github.com/resource-watch/resource-watch/pull/1056)
+- Add application and environment parameters to services. [[code]](https://github.com/resource-watch/resource-watch/pull/1058)
+- removes unused tasks. [[code]](https://github.com/resource-watch/resource-watch/pull/1061)
+- adds auth in preproduction environment. [[code]](https://github.com/resource-watch/resource-watch/pull/1064)
+- Timeline appearance improved when there are many time steps. [[code]](https://github.com/resource-watch/resource-watch/pull/1071)
+
+### Fixed
+- Fixes posts fetching. [[code]](https://github.com/resource-watch/resource-watch/pull/1004)
+- Removes default meta viewport. [[code]](https://github.com/resource-watch/resource-watch/pull/1005)
+- Fixes issue setting map center in widget-block. [[code]](https://github.com/resource-watch/resource-watch/pull/1012)
+- Reorganizes styles to avoid override. [[code]](https://github.com/resource-watch/resource-watch/pull/1016)
+- Fixes fetching widgets in MyRW. [[code]](https://github.com/resource-watch/resource-watch/pull/1018)
+- MyRW fix: redundant "Explore datasets" button removed from Datasets section. [[code]](https://github.com/resource-watch/resource-watch/pull/1020)
+- MyRW fix: show pagination tool only when there is more than one page. [[code]](https://github.com/resource-watch/resource-watch/pull/1021)
+- Fix user collections not being loaded in Explore. [[code]](https://github.com/resource-watch/resource-watch/pull/1026)
+- Fix back office navigation on save. [[code]](https://github.com/resource-watch/resource-watch/pull/1028)
+- Fix issue when clicking on Remove layer in the back office. [[code]](https://github.com/resource-watch/resource-watch/pull/1029)
+- Back office fix: clicking on widgets/layers breadcrumbs leads to the corresponding dataset page. [[code]](https://github.com/resource-watch/resource-watch/pull/1031)
+- Fix "Suggest a story" link from button in homepage banner. [[code]](https://github.com/resource-watch/resource-watch/pull/1033)
+- Fix for favorite widgets not loading in MyRW. [[code]](https://github.com/resource-watch/resource-watch/pull/1034)
+- Fix error thrown on Collections page load. [[code]](https://github.com/resource-watch/resource-watch/pull/1046)
+- Fix for layer creation (breadcrumbs + bug when selecting dataset). [[code]](https://github.com/resource-watch/resource-watch/pull/1048)
+- Fix issues with collections, myrw datasets tabs and collections links to datasets + widgets. [[code]](https://github.com/resource-watch/resource-watch/pull/1050)
+- Prevent widgets from other apps to be loaded in MyRW. [[code]](https://github.com/resource-watch/resource-watch/pull/1051)
+- Fix issue with dependency. [[code]](https://github.com/resource-watch/resource-watch/pull/1062)
+- Fix issue with layers and widgets having two environments associated at once. [[code]](https://github.com/resource-watch/resource-watch/pull/1068)
+
+### Changed
+- Bump fstream from 1.0.11 to 1.0.12. [[code]](https://github.com/resource-watch/resource-watch/pull/1006)
+- Upgrades autoprefixer. [[code]](https://github.com/resource-watch/resource-watch/pull/1008)
+- Bump js-yaml from 3.12.0 to 3.13.1. [[code]](https://github.com/resource-watch/resource-watch/pull/1009)
+- Bump handlebars from 4.0.12 to 4.1.2. [[code]](https://github.com/resource-watch/resource-watch/pull/1010)
+- Updates legend timeline styles. [[code]](https://github.com/resource-watch/resource-watch/pull/1014)
+- vizz-wysiwyg version upgraded to 2.1.2. [[code]](https://github.com/resource-watch/resource-watch/pull/1022)
+- Clean up of obsolete/unused images plus Splash page related code. [[code]](https://github.com/resource-watch/resource-watch/pull/1032)
+- Refactor widget block edition. [[code]](https://github.com/resource-watch/resource-watch/pull/1036)
+- Update MyRW with new design to remove elements. [[code]](https://github.com/resource-watch/resource-watch/pull/1037)
+- Leaflet styles updated to 1.3.4. [[code]](https://github.com/resource-watch/resource-watch/pull/1038)
+- Bump jquery from 3.3.1 to 3.4.1. [[code]](https://github.com/resource-watch/resource-watch/pull/1040)
+- Bump lodash-es from 4.17.11 to 4.17.14. [[code]](https://github.com/resource-watch/resource-watch/pull/1044)
+- Bump lodash.mergewith from 4.6.1 to 4.6.2. [[code]](https://github.com/resource-watch/resource-watch/pull/1045)
+- Email share fields updated. [[code]](https://github.com/resource-watch/resource-watch/pull/1052)
+- Back office layer+widget form updates. [[code]](https://github.com/resource-watch/resource-watch/pull/1053)
+- next@9. [[code]](https://github.com/resource-watch/resource-watch/pull/1055)
+- Share email icon renamed to email. [[code]](https://github.com/resource-watch/resource-watch/pull/1059)
+- simplifies auth and variables involved. [[code]](https://github.com/resource-watch/resource-watch/pull/1065)
+- Updates key names. [[code]](https://github.com/resource-watch/resource-watch/pull/1066)
+
+## [2.1.3] - 2019-05-10
+### Added
+- Updates application to `next@8.1.0` [[code]](https://github.com/resource-watch/resource-watch/commit/348401322f70b3b3d88d5afdf4b190ce394ce3b0)
+### Fixed
+- Fixes a bug where topics weren't fetched landing to `/sign-in`. [[code]](https://github.com/resource-watch/resource-watch/pull/989)
+- Fixes wrong styles in forgotten password page [[code]](https://github.com/resource-watch/resource-watch/commit/7e21220a5e5935c3a90be1b0e4f3e5a0a4afaa1d)
+- Admin backoffice: fixes layers and widgets filtering  in dataset view [[code]](https://github.com/resource-watch/resource-watch/commit/b22244b4528e6f10ae83e7add4b43b6ac47443e7)
+- Admin backoffice: fixes an issue loading dataset title after widget edition [[code]](https://github.com/resource-watch/resource-watch/commit/b22244b4528e6f10ae83e7add4b43b6ac47443e7)
+- Admin backoffice: fixes an issue where owner column values weren't displayed properly. Also, fixes sorting by owner. [[code]](https://github.com/resource-watch/resource-watch/commit/254bc2606f359ba48b5743f68f528b15297a07a6)
+
+### Changed
+- Admin backoffice: changes pagination: now it renders dynamically instead of fetching all resources at the same time reducing waiting times. [[code]](https://github.com/resource-watch/resource-watch/pull/981) [[code]](https://github.com/resource-watch/resource-watch/pull/984) [[code]](https://github.com/resource-watch/resource-watch/pull/985)
+
+
 ## [2.1.2] - 2019-04-25
 ### Fixed
 - Fixed wrong fetch preventing to display the current resource name in the admin edition [[code]](https://github.com/resource-watch/resource-watch/commit/19782d29fa7b813d502bb9ac68559ef9b608084f)
@@ -61,6 +165,7 @@ component-level `constants` file. This also applies for admin header.
 ### Fixed
 - Fixed error compilation with `node-gyp` and `canvas` in Dockerfile
 adding `pango-dev`, `jpeg-dev` dependencies.
+
 ## [2.0.0] - 2019-03-13
 ### Changed
 - Updates app pages according to Next 7.0.

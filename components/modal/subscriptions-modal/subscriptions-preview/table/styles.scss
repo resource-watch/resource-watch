@@ -1,0 +1,11 @@
+@import 'css/settings';
+
+.c-subscription-preview-table {
+  .disclaimer-container {
+    width: 100%;
+    background-color: rgba($yellow, 0.1);
+    border-radius: 4px;
+    padding: $space * 2;
+    margin-bottom: $space * 3;
+  }
+}

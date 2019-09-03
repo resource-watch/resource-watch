@@ -10,16 +10,15 @@ import DatasetList from './dataset-list-component';
 
 class DatasetListContainer extends PureComponent {
   static propTypes = {
-    pathname: PropTypes.string,
-    tab: PropTypes.string,
-    subtab: PropTypes.string,
-    orderDirection: PropTypes.string,
-    pagination: PropTypes.object,
-    getDatasetsByTab: PropTypes.func,
-    setFilters: PropTypes.func,
-    setPaginationPage: PropTypes.func,
-    setPaginationTotal: PropTypes.func,
-    resetDatasets: PropTypes.func
+    pathname: PropTypes.string.isRequired,
+    tab: PropTypes.string.isRequired,
+    subtab: PropTypes.string.isRequired,
+    orderDirection: PropTypes.string.isRequired,
+    pagination: PropTypes.object.isRequired,
+    getDatasetsByTab: PropTypes.func.isRequired,
+    setPaginationPage: PropTypes.func.isRequired,
+    setPaginationTotal: PropTypes.func.isRequired,
+    resetDatasets: PropTypes.func.isRequired
   }
 
   componentWillMount() {
@@ -29,8 +28,7 @@ class DatasetListContainer extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const { pathname, subtab, orderDirection, pagination } = this.props;
     const { page } = pagination;
-
-    const isMyRW = pathname === '/app/MyRW';
+    const isMyRW = pathname.startsWith('/myrw');
     const tabChanged = subtab !== nextProps.subtab;
     const paginationPageChanged = page !== nextProps.pagination.page;
     const orderDirectionChanged = orderDirection !== nextProps.orderDirection;

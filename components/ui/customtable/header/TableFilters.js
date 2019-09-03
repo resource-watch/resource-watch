@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TetherComponent from 'react-tether';
 import classnames from 'classnames';
-import Icon from '../../Icon';
+import Icon from 'components/ui/icon';
 import CheckboxGroup from '../../../form/CheckboxGroup';
 
 export default class TableFilters extends React.Component {

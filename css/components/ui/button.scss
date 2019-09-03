@@ -174,6 +174,11 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     line-height: normal;
   }
 
+  // font-sizes
+  &.-fs-medium {
+    font-size: $font-size-medium;
+  }
+
   &.-facebook {
     display: inline-flex;
     background: #3b5998;
@@ -205,6 +210,10 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     &:hover {
       background: darken(#D62D20, 10%);
     }
+  }
+
+  &.-underline {
+    text-decoration: underline;
   }
 }
 

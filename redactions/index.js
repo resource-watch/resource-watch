@@ -12,7 +12,6 @@ export { default as myrwdetail } from './myrwdetail';
 
 // Admin
 export { default as datasets } from './admin/datasets';
-export { default as widgets } from './admin/widgets';
 export { default as adminDashboards } from './admin/dashboards';
 export { default as pages } from './admin/pages';
 export { default as tools } from './admin/tools';

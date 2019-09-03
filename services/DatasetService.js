@@ -35,7 +35,7 @@ export default class DatasetService {
    */
   getSubscribableDatasets(includes = '') {
     return fetch(
-      `${this.opts.apiURL}/dataset?application=${process.env.APPLICATIONS}&language=${this.opts.language}&includes=${includes}&subscribable=true&page[size]=999`,
+      `${this.opts.apiURL}/dataset?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}&language=${this.opts.language}&includes=${includes}&subscribable=true&page[size]=999`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
     )
       .then(response => response.json())
@@ -47,7 +47,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchData(includes = '', applications = [process.env.APPLICATIONS]) {
-    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
+    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&env=${process.env.API_ENV}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
     return fetch(
       url,
       {
@@ -67,7 +67,7 @@ export default class DatasetService {
    * @returns {Promise}
    */
   fetchDataset(includes = '', applications = [process.env.APPLICATIONS]) {
-    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
+    const url = `${this.opts.apiURL}/dataset/${this.datasetId}?application=${applications.join(',')}&env=${process.env.API_ENV}&language=${this.opts.language}&includes=${includes}&page[size]=999`;
     return fetch(
       url,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
@@ -77,157 +77,6 @@ export default class DatasetService {
         return response.json();
       })
       .then(body => WRISerializer(body));
-  }
-
-  /**
-   * Get filtered data
-   * @returns {Promise}
-   */
-  fetchFilteredData(query) {
-    return fetch(
-      `${this.opts.apiURL}/query/${this.datasetId}?sql=${query}`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-    ).then((response) => {
-      if (response.status >= 400) throw new Error(response.statusText);
-      return response.json();
-    })
-      .then(jsonData => jsonData.data);
-  }
-
-  /**
-   * Get Jiminy chart suggestions
-   * NOTE: the API might be really slow to give a result (or even fail
-   * to do so) so a timeout is necessary
-   * @param {string} query - SQL query to pass to Jiminy
-   * @returns {Promise<any>}
-   */
-  fetchJiminy(query) {
-    fetch(`${this.opts.apiURL}/jiminy`, {
-      method: 'POST',
-      body: JSON.stringify({ sql: query }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response) => {
-        if (response.status >= 400) throw new Error(response.statusText);
-        return response.json();
-      })
-      .then(jsonData => jsonData.data);
-  }
-
-
-  /**
-   *  Get max and min or values depending on field type
-   *  @returns {Promise}
-   */
-  getFilter(fieldData) {
-    return new Promise((resolve) => {
-      const newFieldData = fieldData;
-      if (fieldData === 'number' || fieldData === 'date') {
-        this.getMinAndMax(fieldData.columnName, fieldData.tableName).then((data) => {
-          newFieldData.properties = data;
-          resolve(newFieldData);
-        });
-      } else {
-        this.getValues(fieldData.columnName, fieldData.tableName).then((data) => {
-          newFieldData.properties = data;
-          resolve(newFieldData);
-        });
-      }
-    });
-  }
-
-  getFields() {
-    return fetch(
-      `${this.opts.apiURL}/fields/${this.datasetId}`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-    )
-      .then(response => response.json())
-      .then((jsonData) => {
-        const fieldsObj = jsonData.fields;
-        const parsedData = {
-          tableName: jsonData.tableName,
-          fields: (Object.keys(fieldsObj) || []).map(key => ({
-            columnName: key,
-            columnType: fieldsObj[key].type
-          }))
-        };
-        return parsedData;
-      });
-  }
-
-  getMinAndMax(columnName, tableName) {
-    if (!this.tableName && !tableName) {
-      throw Error('tableName was not specified.');
-    }
-    const table = tableName || this.tableName;
-    const query = `SELECT Min(${columnName}) AS min, Max(${columnName}) AS max FROM ${table}`;
-    return new Promise((resolve) => {
-      // TODO: remove cache param
-      fetch(
-        `https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`,
-        { headers: { 'Upgrade-Insecure-Requests': 1 } }
-      )
-        .then((response) => {
-          if (response.status >= 400) throw new Error(response.statusText);
-          return response.json();
-        })
-        .then((jsonData) => {
-          if (jsonData.data) {
-            resolve(jsonData.data[0]);
-          } else {
-            resolve({});
-          }
-        });
-    });
-  }
-
-  getValues(columnName, tableName, uniqs = true) {
-    if (!this.tableName && !tableName) {
-      throw Error('tableName was not specified.');
-    }
-    const table = tableName || this.tableName;
-    const uniqQueryPart = uniqs ? `GROUP BY ${columnName}` : '';
-    const query = `SELECT ${columnName} FROM ${table} ${uniqQueryPart} ORDER BY ${columnName}`;
-    return new Promise((resolve) => {
-      // TODO: remove cache param
-      fetch(
-        `https://api.resourcewatch.org/v1/query/${this.datasetId}?sql=${query}`,
-        { headers: { 'Upgrade-Insecure-Requests': 1 } }
-      )
-        .then((response) => {
-          if (response.status >= 400) throw new Error(response.statusText);
-          return response.json();
-        })
-        .then((jsonData) => {
-          const parsedData = (jsonData.data || []).map(data => data[columnName]);
-          resolve(parsedData);
-        });
-    });
-  }
-
-  getLayers() {
-    return fetch(
-      `${this.opts.apiURL}/dataset/${this.datasetId}/layer?app=rw`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-    )
-      .then((response) => {
-        if (response.status >= 400) throw new Error(response.statusText);
-        return response.json();
-      })
-      .then(jsonData => jsonData.data);
-  }
-
-  getDownloadURI(tableName, datasetName) {
-    // emulates trigger of download creating a link in memory and clicking on it
-    const a = document.createElement('a');
-    a.href = `${this.opts.apiURL}/download/${this.datasetId}?sql=SELECT * FROM ${tableName}`;
-    a.style.display = 'none';
-    a.download = datasetName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
   }
 
   getSimilarDatasets(datasetIds, withAncestors = true) {
@@ -255,7 +104,7 @@ export default class DatasetService {
    */
   static getDatasets(datasetIDs, language, includes = '', applications = [process.env.APPLICATIONS]) {
     return fetch(
-      `${process.env.WRI_API_URL}/dataset/?ids=${datasetIDs}&language=${language}&includes=${includes}&application=${applications.join(',')}&page[size]=999`,
+      `${process.env.WRI_API_URL}/dataset/?ids=${datasetIDs}&language=${language}&includes=${includes}&env=${process.env.API_ENV}&application=${applications.join(',')}&page[size]=999`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } }
 
     )

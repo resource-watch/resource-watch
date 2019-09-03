@@ -1,0 +1,23 @@
+import 'isomorphic-fetch';
+
+export default class ContactUsService {
+  saveData({ body }) {
+    return fetch(`${process.env.WRI_API_URL}/contact-us/`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' }
+    }).then((response) => {
+      const { status, statusText } = response;
+      if (response.ok) return response;
+
+      const errorObject = {
+        errors: {
+          status,
+          details: statusText
+        }
+      };
+      throw errorObject;
+    });
+  }
+}
+

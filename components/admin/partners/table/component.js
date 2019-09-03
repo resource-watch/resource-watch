@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+// constants
+import { INITIAL_PAGINATION } from 'components/admin/partners/table/constants';
+
 // components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
@@ -26,6 +29,24 @@ class AdminPartnersTable extends PureComponent {
 
   static defaultProps = { error: null }
 
+  state = { pagination: INITIAL_PAGINATION }
+
+  componentWillReceiveProps(nextProps) {
+    const { list: partners } = this.props;
+    const { list: nextPartners } = nextProps;
+    const { pagination } = this.state;
+    const partnersChanged = partners.length !== nextPartners.length;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: nextPartners.length,
+        ...partnersChanged && { page: 1 },
+        pages: Math.ceil(nextPartners.length / pagination.limit)
+      }
+    });
+  }
+
   /**
    * Event handler executed when the user search for a partner
    * @param {string} { value } Search keywords
@@ -36,6 +57,17 @@ class AdminPartnersTable extends PureComponent {
     } else {
       this.props.setFilters([{ key: 'name', value }]);
     }
+  }
+
+  onChangePage = (page) => {
+    const { pagination } = this.state;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        page
+      }
+    });
   }
 
   onRowDelete = () => {
@@ -51,6 +83,7 @@ class AdminPartnersTable extends PureComponent {
       error,
       authorization
     } = this.props;
+    const { pagination } = this.state;
 
     return (
       <div className="c-partners-table">
@@ -90,13 +123,10 @@ class AdminPartnersTable extends PureComponent {
             }}
             filters={false}
             data={partners}
-            pageSize={20}
+            manualPagination
+            onChangePage={this.onChangePage}
             onRowDelete={this.onRowDelete}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            pagination={pagination}
           />
         )}
       </div>

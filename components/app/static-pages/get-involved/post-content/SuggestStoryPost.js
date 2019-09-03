@@ -4,7 +4,7 @@ import { Link } from 'routes';
 
 // Components
 import Banner from 'components/app/common/Banner';
-import BlogLatestPosts from 'components/blog/latest-posts';
+import BlogFeed from 'components/blog/feed';
 
 function SuggestStoryPost({ insights = [] }) {
   return (
@@ -34,7 +34,7 @@ function SuggestStoryPost({ insights = [] }) {
               <h2>Latest stories</h2>
             </div>
           </div>
-          <BlogLatestPosts />
+          <BlogFeed />
         </div>
       </aside>
       <aside className="l-postcontent">

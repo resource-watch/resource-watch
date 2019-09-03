@@ -2,7 +2,7 @@ import React from 'react';
 
 // Services
 import { toastr } from 'react-redux-toastr';
-import ContactUsService from 'services/ContactUsService';
+import ContactUsService from 'services/contact-us';
 
 // Components
 import Spinner from 'components/ui/Spinner';

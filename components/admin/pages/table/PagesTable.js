@@ -14,6 +14,9 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 
+// constants
+import { INITIAL_PAGINATION } from 'components/admin/pages/table/constants';
+
 // Table components
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
@@ -45,45 +48,56 @@ class PagesTable extends PureComponent {
     setFilters: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    // ------------------ Bindings ------------------------
-    this.onSearch = this.onSearch.bind(this);
-    // ----------------------------------------------------
-  }
+  state = { pagination: INITIAL_PAGINATION }
 
   componentDidMount() {
     this.props.setFilters([]);
     this.props.getPages();
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { filteredPages: pages } = this.props;
+    const { filteredPages: nextPages } = nextProps;
+    const { pagination } = this.state;
+    const pagesChanged = pages.length !== nextPages.length;
+
+    this.setState({
+      pagination: {
+        ...pagination,
+        size: nextPages.length,
+        ...pagesChanged && { page: 1 },
+        pages: Math.ceil(nextPages.length / pagination.limit)
+      }
+    });
+  }
+
   /**
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch(value) {
+  onSearch = (value) => {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
-      this.props.setFilters([{ key: 'name', value }]);
+      this.props.setFilters([{ key: 'title', value }]);
     }
   }
 
-  /**
-   * HELPERS
-   * - getPages
-   * - getFilteredPages
-  */
-  getPages() {
-    return this.props.pages;
-  }
+  onChangePage = (page) => {
+    const { pagination } = this.state;
 
-  getFilteredPages() {
-    return this.props.filteredPages;
+    this.setState({
+      pagination: {
+        ...pagination,
+        page
+      }
+    });
   }
 
   render() {
+    const { filteredPages } = this.props;
+    const { pagination } = this.state;
+
     return (
       <div className="c-pages-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -93,9 +107,7 @@ class PagesTable extends PureComponent {
         )}
 
         <SearchInput
-          input={{
-            placeholder: 'Search page'
-          }}
+          input={{ placeholder: 'Search page' }}
           link={{
             label: 'New page',
             route: 'admin_pages_detail',
@@ -123,14 +135,11 @@ class PagesTable extends PureComponent {
               value: 1
             }}
             filters={false}
-            data={this.getFilteredPages()}
-            pageSize={20}
+            data={filteredPages}
+            manualPagination
+            onChangePage={this.onChangePage}
             onRowDelete={() => this.props.getPages()}
-            pagination={{
-              enabled: true,
-              pageSize: 20,
-              page: 0
-            }}
+            pagination={pagination}
           />
         )}
       </div>

@@ -4,23 +4,23 @@ import { Router } from 'routes';
 import PropTypes from 'prop-types';
 
 // components
-import WidgetsForm from 'components/admin/data/widgets/form/WidgetsForm';
 import Aside from 'components/ui/Aside';
+import WidgetForm from 'components/admin/data/widgets/form';
 import MetadataForm from 'components/widgets/metadata/form/MetadataForm';
 
 class WidgetsShow extends PureComponent {
   static propTypes = {
     tabs: PropTypes.array.isRequired,
     query: PropTypes.object.isRequired,
-    dataset: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired
   }
+
+  handleSubmit = () => { window.scrollTo(0, 0); }
 
   render() {
     const {
       query: { id, subtab },
       tabs,
-      dataset,
       user: { token }
     } = this.props;
     const currentSubTab = subtab || 'edit';
@@ -46,17 +46,11 @@ class WidgetsShow extends PureComponent {
 
             <div className="columns small-12 medium-9">
               {(subtab === 'edit') &&
-              (<WidgetsForm
+              (<WidgetForm
                 id={id}
                 authorization={token}
                 showEditor
-                onSubmit={() => {
-                  if (dataset) {
-                    Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'widgets', id: dataset });
-                  } else {
-                    Router.pushRoute('admin_data', { tab: 'widgets' });
-                  }
-                }}
+                onSubmit={this.handleSubmit}
               />)}
 
               {(subtab === 'metadata') &&

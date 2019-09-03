@@ -6,8 +6,9 @@
 
 // Libraries
 @import '../node_modules/react-progress-2/main';
-@import '../node_modules/rc-slider/assets/index';
+@import '../node_modules/react-redux-toastr/src/styles/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
+@import '../node_modules/widget-editor/dist/styles.min';
 @import '../node_modules/vizzuality-components/dist/bundle';
 
 
@@ -28,13 +29,11 @@
   "layouts/row",
   "layouts/footer",
   "layouts/sidebar",
-  "layouts/map",
-  "layouts/static",
-  "layouts/log-in";
+  "layouts/static";
 
 // Components
 // UI
-@import '../node_modules/react-redux-toastr/src/styles/index';
+
 @import "./components/ui/aside";
 @import "./components/ui/avatar";
 @import "./components/ui/breadcrumbs";
@@ -47,9 +46,9 @@
 @import "./components/ui/custom_select";
 @import "./components/ui/dock";
 @import "./components/ui/header-dropdown";
-@import "./components/ui/icon";
 @import "./components/ui/legend";
 @import "./components/ui/legend-timeline";
+@import "./components/ui/markdown";
 @import "./components/ui/modal";
 @import "./components/ui/modal2";
 @import "./components/ui/paginator";
@@ -60,7 +59,6 @@
 @import "./components/ui/search-input";
 @import "./components/ui/slider-tooltip";
 @import "./components/ui/spinner";
-@import "./components/ui/sortable-row";
 @import "./components/ui/switch-options";
 @import "./components/ui/switch";
 @import "./components/ui/table";
@@ -91,7 +89,6 @@
 @import "./components/modal/subscribe_to_dataset_modal";
 @import "./components/modal/area_subscription_modal";
 @import "./components/modal/subscriptions_modal";
-@import "./components/modal/layer_info_modal";
 @import "./components/modal/alerts_preview";
 
 
@@ -143,7 +140,6 @@
 
 
 // WIDGETS
-@import '../node_modules/widget-editor/dist/styles.min';
 @import "./components/widgets/add_widget_to_collection_tooltip";
 @import "./components/widgets/text_chart";
 @import "./components/widgets/widget_editor";
@@ -197,7 +193,6 @@
 // Layers
 @import "./components/admin/layer/layers_new";
 @import "./components/admin/layer/form";
-@import "./components/admin/layer/interactions";
 
 // Tags
 @import "./components/admin/tags/tags_form";
@@ -209,10 +204,8 @@
 
 // COMMON
 @import "./components/app/common/banner";
-@import "./components/app/common/rating";
 @import "./components/app/common/viel";
 @import "./components/app/common/card_static";
-@import "./components/app/common/faq";
 @import "./components/app/common/partner_block";
 @import "./components/app/common/partners_slider";
 
@@ -248,7 +241,6 @@
 @import "./components/explore-detail/explore-detail-info";
 
 // DASHBOARDS
-@import './components/dashboards/dashboard-card';
 @import './components/dashboards/list';
 @import './components/dashboards/template-selector';
 
@@ -262,7 +254,6 @@
 @import "./components/app/pages/myrw/myrw_common";
 @import "./components/app/pages/myrw/myrw_widgets_edit";
 @import "./components/app/pages/myrw/myrw_widgets_new";
-@import "./components/app/pages/myrw/myrw_widgets_my";
 @import "./components/app/pages/myrw/myrw_dataset_widgets";
 
 // Embed
@@ -272,10 +263,6 @@
 
 // Subscriptions
 @import "./components/app/subscriptions/subscription_card";
-
-// ------ SPLASH -------
-@import "./components/splash/layout/splash_header";
-
 
 // Foundation:
 // We are using this library only for grid system

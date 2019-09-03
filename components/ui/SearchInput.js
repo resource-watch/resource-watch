@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import { Link } from 'routes';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 class SearchInput extends PureComponent {
   static defaultProps = {

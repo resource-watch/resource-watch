@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { Tooltip } from 'vizzuality-components';
 
 // Components
-import Icon from 'components/ui/Icon';
+import Icon from 'components/ui/icon';
 
 class ExploreDatasetsSortComponent extends PureComponent {
   static propTypes = {

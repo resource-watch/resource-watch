@@ -1,10 +1,6 @@
-import React from 'react';
-
-// utils
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-
-// constants
-import { INITIAL_PAGINATION } from 'components/datasets/table/constants';
 
 // services
 import { fetchWidgets } from 'services/widget';
@@ -24,7 +20,17 @@ import RoleTD from './td/role';
 import EditAction from './actions/edit';
 import DeleteAction from './actions/delete';
 
-class WidgetsTable extends React.Component {
+// constants
+import { INITIAL_PAGINATION } from './constants';
+
+class WidgetsTable extends PureComponent {
+  static propTypes = {
+    dataset: PropTypes.string,
+    user: PropTypes.object.isRequired
+  }
+
+  static defaultProps = { dataset: null }
+
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
@@ -33,14 +39,16 @@ class WidgetsTable extends React.Component {
   }
 
   componentDidMount() {
+    const { dataset, user: { token } } = this.props;
     const { pagination } = this.state;
 
     fetchWidgets({
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS
-    }, true)
+      application: process.env.APPLICATIONS,
+      ...dataset && { dataset }
+    }, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
         const {
           'total-pages': pages,
@@ -55,7 +63,10 @@ class WidgetsTable extends React.Component {
         this.setState({
           loading: false,
           pagination: nextPagination,
-          widgets
+          widgets: widgets.map(_widget => ({
+            ..._widget,
+            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+          }))
         });
       })
       .catch((error) => { this.setState({ error }); });
@@ -66,6 +77,7 @@ class WidgetsTable extends React.Component {
    * @param {string} { value } Search keywords
    */
   onSearch = debounce((value) => {
+    const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     if (value.length > 0 && value.length < 3) return;
@@ -82,17 +94,20 @@ class WidgetsTable extends React.Component {
         ...!value.length && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
-          application: process.env.APPLICATIONS
+          application: process.env.APPLICATIONS,
+          ...dataset && { dataset }
         },
         ...value.length > 2 && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
           application: process.env.APPLICATIONS,
           sort: 'name',
-          name: value
+          name: value,
+          ...dataset && { dataset }
         }
       };
-      fetchWidgets(params, true)
+
+      fetchWidgets(params, { Authorization: token }, true)
         .then(({ widgets, meta }) => {
           const {
             'total-pages': pages,
@@ -105,18 +120,21 @@ class WidgetsTable extends React.Component {
             page: INITIAL_PAGINATION.page
           };
 
-
           this.setState({
             loading: false,
             pagination: nextPagination,
-            widgets
+            widgets: widgets.map(_widget => ({
+              ..._widget,
+              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+            }))
           });
         })
-        .catch((error) => { this.setState({ error }); });
+        .catch(({ message }) => { this.setState({ error: message }); });
     });
   }, 250)
 
   onChangePage = (nextPage) => {
+    const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({
@@ -133,29 +151,36 @@ class WidgetsTable extends React.Component {
         'page[number]': page,
         'page[size]': pagination.limit,
         application: process.env.APPLICATIONS,
-        ...filters
-      })
+        ...filters,
+        ...dataset && { dataset }
+      }, { Authorization: token })
         .then((widgets) => {
           this.setState({
             loading: false,
-            widgets
+            widgets: widgets.map(_widget => ({
+              ..._widget,
+              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+            }))
           });
         })
-        .catch((error) => { this.setState({ error }); });
+        .catch(({ message }) => { this.setState({ error: message }); });
     });
   }
 
   onRemoveWidget = () => {
+    const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
+
     fetchWidgets({
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
-      ...filters
-    }, true)
+      ...filters,
+      ...dataset && { dataset }
+    }, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
         const {
           'total-pages': pages,
@@ -170,10 +195,13 @@ class WidgetsTable extends React.Component {
         this.setState({
           loading: false,
           pagination: nextPagination,
-          widgets
+          widgets: widgets.map(_widget => ({
+            ..._widget,
+            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+          }))
         });
       })
-      .catch((error) => { this.setState({ error }); });
+      .catch(({ message }) => { this.setState({ error: message }); });
   }
 
   render() {
@@ -183,6 +211,7 @@ class WidgetsTable extends React.Component {
       widgets,
       error
     } = this.state;
+    const { dataset } = this.props;
 
     return (
       <div className="c-widgets-table">
@@ -199,7 +228,8 @@ class WidgetsTable extends React.Component {
             route: 'admin_data_detail',
             params: {
               tab: 'widgets',
-              id: 'new'
+              id: 'new',
+              dataset
             }
           }}
           onSearch={this.onSearch}
@@ -216,8 +246,8 @@ class WidgetsTable extends React.Component {
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
+                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}', dataset }, show: true, component: EditAction },
+                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
               ]
             }}
             sort={{

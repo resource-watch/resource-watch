@@ -26,16 +26,15 @@ export const STATE_DEFAULT = {
 };
 
 export const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
-    const elements = this.elements;
+    const { elements } = this;
     Object.keys(elements).forEach((k) => {
       elements[k].validate();
     });
   },
   isValid() {
-    const elements = this.elements;
+    const { elements } = this;
     const valid = Object.keys(elements)
       .map(k => elements[k].isValid())
       .filter(v => v !== null)

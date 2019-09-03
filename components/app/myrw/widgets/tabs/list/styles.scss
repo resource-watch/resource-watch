@@ -1,0 +1,16 @@
+.c-myrw-widgets-list {
+
+  .widget-list-container {
+    position: relative;
+    min-height: 150px;
+
+    > .user-message-container {
+      display: flex;
+      min-height: 150px;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

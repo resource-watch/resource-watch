@@ -7,12 +7,11 @@ import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/are
 
 // actions
 import { getDatasetsByTab } from 'redactions/admin/datasets';
-import { getWidgetsByTab } from 'redactions/admin/widgets';
 
 // services
-import UserService from 'services/UserService';
-import FavouritesService from 'services/favourites-service';
-import CollectionsService from 'services/collections-service';
+import UserService from 'services/user';
+import FavouritesService from 'services/favourites';
+import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
 
@@ -378,7 +377,6 @@ export const addResourceToCollection = createThunkAction(
           dispatch(getUserCollections());
 
           if (resource.type === 'dataset') dispatch(getDatasetsByTab(subtab));
-          if (resource.type === 'widget') dispatch(getWidgetsByTab(subtab));
         })
         .catch(({ errors }) => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
@@ -404,7 +402,6 @@ export const removeResourceFromCollection = createThunkAction(
           dispatch(getUserCollections());
 
           if (resource.type === 'dataset') dispatch(getDatasetsByTab(subtab));
-          if (resource.type === 'widget') dispatch(getWidgetsByTab(subtab));
         })
         .catch(({ errors }) => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));

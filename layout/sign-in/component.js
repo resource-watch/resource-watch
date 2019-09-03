@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 
 // components
 import Layout from 'layout/layout/layout-app';
 import LoginModal from 'components/modal/login-modal';
+
+// styles
+import './styles.scss';
 
 class SigIn extends PureComponent {
   render() {
