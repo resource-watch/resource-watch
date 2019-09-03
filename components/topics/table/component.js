@@ -25,6 +25,7 @@ import NameTD from './td/name';
 import PublishedTD from './td/published';
 import PreviewTD from './td/preview';
 import RoleTD from './td/role';
+import OwnerTD from './td/owner';
 
 class TopicsTable extends PureComponent {
   static propTypes = {
@@ -124,6 +125,7 @@ class TopicsTable extends PureComponent {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
+              { label: 'Owner', value: 'owner', td: OwnerTD },
               { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Preview', value: 'slug', td: PreviewTD },
               { label: 'Published', value: 'published', td: PublishedTD }
