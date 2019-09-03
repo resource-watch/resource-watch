@@ -1,4 +1,4 @@
-function getFieldUrl(id, provider, type, tableName) {
+export const getFieldUrl = ({ id, provider, type, tableName }) => {
   let url;
 
   switch (`${provider}-${type}`) {
@@ -14,9 +14,9 @@ function getFieldUrl(id, provider, type, tableName) {
   }
 
   return url;
-}
+};
 
-function getFields(data = {}, provider, type) {
+export const getFields = (data = {}, provider, type) => {
   let fields = [];
 
   switch (`${provider}-${type}`) {
@@ -39,6 +39,9 @@ function getFields(data = {}, provider, type) {
       }));
   }
   return fields;
-}
+};
 
-export { getFieldUrl, getFields };
+export default {
+  getFieldUrl,
+  getFields
+};

@@ -1,14 +1,14 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Components
-import PublishedLayerCard from 'components/datasets/metadata/form/published-layer/card/PublishedLayerCard';
+// components
+import LayerCard from './layer-card';
 
 // styles
 import './styles.scss';
 
-class PublishedLayersList extends PureComponent {
-  propTypes = {
+class SortingLayerManager extends PureComponent {
+  static propTypes = {
     layers: PropTypes.array.isRequired,
     onChange: PropTypes.func.isRequired
   }
@@ -42,21 +42,24 @@ class PublishedLayersList extends PureComponent {
 
   render() {
     const { layers } = this.state;
+
     return (
-      <div className="c-published-layer-list">
-        {layers.map((layer, index) => (
-          <PublishedLayerCard
-            key={layer.id}
-            index={index}
-            layer={layer}
-            onDragStart={this.handleOnDragStart}
-            onDragEnd={this.handleOnDragEnd}
-            onDragOver={this.handleOnDragOver}
-          />
-        ))}
+      <div className="c-sorting-layer-manager">
+        <ul className="sorting-layer-manager-list">
+          {layers.map((layer, index) => (
+            <LayerCard
+              key={layer.id}
+              index={index}
+              layer={layer}
+              onDragStart={this.handleOnDragStart}
+              onDragEnd={this.handleOnDragEnd}
+              onDragOver={this.handleOnDragOver}
+            />
+          ))}
+        </ul>
       </div>
     );
   }
 }
 
-export default PublishedLayersList;
+export default SortingLayerManager;

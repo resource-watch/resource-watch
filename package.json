@@ -68,7 +68,6 @@
     "react-accessible-accordion": "^3.0.0",
     "react-ace": "6.0.0",
     "react-dates": "^18.2.2",
-    "react-dnd-html5-backend": "^8.0.2",
     "react-dom": "^16.8.6",
     "react-dropdown-tree-select": "1.9.2",
     "react-dropzone": "4.2.9",

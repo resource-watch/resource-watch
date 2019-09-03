@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import { setSources, resetSources } from 'redactions/admin/sources';
 
 // Service
-import { fetchDataset, fetchFields, saveMetadata } from 'services/dataset';
+import { fetchDataset, saveMetadata } from 'services/dataset';
+import { fetchFields } from 'services/fields';
 
 // Contants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/metadata/form/constants';
@@ -18,6 +19,9 @@ import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/metadata/form/
 // Components
 import Navigation from 'components/form/Navigation';
 import Step1 from 'components/datasets/metadata/form/steps/Step1';
+
+// utils
+import { getFieldUrl, getFields } from 'utils/fields';
 
 class MetadataForm extends React.Component {
   constructor(props) {
@@ -64,19 +68,16 @@ class MetadataForm extends React.Component {
 
           if (provider !== 'wms') {
             // fetchs column fields based on dataset type
-            fetchFields({
-              id: dataset,
-              type,
-              provider,
-              tableName
-            })
-              .then((columns) => {
+            const url = getFieldUrl(result);
+            fetchFields(url)
+              .then((rawFields) => {
+                const columns = getFields(rawFields, provider, type);
                 this.setState({
                   columns,
                   loadingColumns: false
                 });
               })
-              .catch((err) => {
+              .catch(() => {
                 this.setState({ loadingColumns: false });
               });
           } else {
@@ -130,9 +131,6 @@ class MetadataForm extends React.Component {
           type: dataset && thereIsMetadata ? 'PATCH' : 'POST',
           omit: ['authorization']
         };
-
-        console.log('data', form);
-
 
         // Save the data
         saveMetadata({

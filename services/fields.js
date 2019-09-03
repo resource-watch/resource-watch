@@ -1,5 +1,6 @@
+import axios from 'axios';
+
 // utils
-import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 // API docs: https://resource-watch.github.io/doc-api/index-rw.html#fields
@@ -7,20 +8,18 @@ import { logger } from 'utils/logs';
 /**
  * fetches fields for a specific dataset.
  *
- * @param {String} dataset - dataset id.
- * @param {string} token - user's token.
+ * @param {String} url - URL to get fields.
  * @returns {Object} array of dataset fields.
  */
-export const getFields = (dataset, token) => {
-  if (!dataset) throw Error('dataset id is mandatory to perform this fetching.');
-  logger.info(`Fetches fields for dataset: ${dataset}`);
+export const fetchFields = (url) => {
+  if (!url) throw Error('an URL is mandatory to perform this fetching.');
+  logger.info(`Fetches fields (${url})`);
 
-  return WRIAPI.get(`/fields/${dataset}`, {
+  return axios.get(url, {
     headers: {
-      ...WRIAPI.defaults.headers,
+      ...axios.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1,
-      Authorization: token
+      'Upgrade-Insecure-Requests': 1
     }
   })
     .then((response) => {
@@ -28,9 +27,9 @@ export const getFields = (dataset, token) => {
 
       if (status >= 300) {
         if (status === 404) {
-          logger.debug(`Fields for dataset '${dataset}' not found, ${status}: ${statusText}`);
+          logger.debug(`Fields for (${url}) not found, ${status}: ${statusText}`);
         } else {
-          logger.error(`Error fetching fields for dataset: ${dataset}: ${status}: ${statusText}`);
+          logger.error(`Error fetching fields for (${url}): ${status}: ${statusText}`);
         }
         throw new Error(statusText);
       }
@@ -40,9 +39,9 @@ export const getFields = (dataset, token) => {
     .catch(({ response }) => {
       const { status, statusText } = response;
 
-      logger.error(`Error fetching fields for dataset ${dataset}: ${status}: ${statusText}`);
-      throw new Error(`Error fetching fields for dataset ${dataset}: ${status}: ${statusText}`);
+      logger.error(`Error fetching fields for (${url}): ${status}: ${statusText}`);
+      throw new Error(`Error fetching fields for (${url}): ${status}: ${statusText}`);
     });
 };
 
-export default { getFields };
+export default { fetchFields };

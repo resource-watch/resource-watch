@@ -962,16 +962,6 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@types/asap@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@types/asap/-/asap-2.0.0.tgz#d529e9608c83499a62ae08c871c5e62271aa2963"
-  integrity sha512-upIS0Gt9Mc8eEpCbYMZ1K8rhNosfKUtimNcINce+zLwJF5UpM3Vv7yz3S5l/1IX+DxTa8lTkUjqynvjRXyJzsg==
-
-"@types/invariant@^2.2.29":
-  version "2.2.29"
-  resolved "https://registry.yarnpkg.com/@types/invariant/-/invariant-2.2.29.tgz#aa845204cd0a289f65d47e0de63a6a815e30cc66"
-  integrity sha512-lRVw09gOvgviOfeUrKc/pmTiRZ7g7oDOU6OAutyuSHpm1/o2RaBQvRhgK8QEdu+FFuw/wnWb29A/iuxv9i8OpQ==
-
 "@types/json-stable-stringify@^1.0.32":
   version "1.0.32"
   resolved "https://registry.yarnpkg.com/@types/json-stable-stringify/-/json-stable-stringify-1.0.32.tgz#121f6917c4389db3923640b2e68de5fa64dda88e"
@@ -4490,17 +4480,6 @@ dnd-core@^2.6.0:
     invariant "^2.0.0"
     lodash "^4.2.0"
     redux "^3.7.1"
-
-dnd-core@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-8.0.2.tgz#9d5a47a38548761439274ea435e4905801e5c1c6"
-  integrity sha512-nJle3+NThoqrL6lXx2nflmtVWMKpzmrTxNDOfccGYtDqHnLukylmFI0TTURnv6gBjlk/sm7uQJVxSKO0Y2lK1g==
-  dependencies:
-    "@types/asap" "^2.0.0"
-    "@types/invariant" "^2.2.29"
-    asap "^2.0.6"
-    invariant "^2.2.4"
-    redux "^4.0.1"
 
 doctrine@1.5.0:
   version "1.5.0"
@@ -10327,13 +10306,6 @@ react-dnd-html5-backend@^2.5.4:
   dependencies:
     lodash "^4.2.0"
 
-react-dnd-html5-backend@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-8.0.2.tgz#77da15edd61a90c559853d6267a131449733d997"
-  integrity sha512-9Y5Yn6lBi9kbMbKMnHWiN6QqFMBe/BC6dfxmYpSk+IOoMf0342FjxqzOEjgGWezl9wndeBLasl9neYhoxTAnWg==
-  dependencies:
-    dnd-core "^8.0.2"
-
 react-dnd@^2.5.4:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-2.6.0.tgz#7fa25676cf827d58a891293e3c1ab59da002545a"
@@ -11003,14 +10975,6 @@ redux@3.7.2, redux@^3.7.1, redux@^3.7.2:
     lodash-es "^4.2.1"
     loose-envify "^1.1.0"
     symbol-observable "^1.0.3"
-
-redux@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.1.tgz#436cae6cc40fbe4727689d7c8fae44808f1bfef5"
-  integrity sha512-R7bAtSkk7nY6O/OYMVR9RiBI+XghjF9rlbl5806HJbQph0LJVHZrU5oaO4q70eUKiqMRqm4y07KLTlMZ2BlVmg==
-  dependencies:
-    loose-envify "^1.4.0"
-    symbol-observable "^1.2.0"
 
 reflect.ownkeys@^0.2.0:
   version "0.2.0"
@@ -12309,7 +12273,7 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-symbol-observable@^1.0.2, symbol-observable@^1.0.3, symbol-observable@^1.0.4, symbol-observable@^1.2.0:
+symbol-observable@^1.0.2, symbol-observable@^1.0.3, symbol-observable@^1.0.4:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
 

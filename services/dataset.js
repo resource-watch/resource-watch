@@ -1,8 +1,7 @@
 import WRISerializer from 'wri-json-api-serializer';
 
-// Utils
+// utils
 import { WRIAPI } from 'utils/axios';
-import { getFieldUrl, getFields } from 'utils/datasets/fields';
 import { logger } from 'utils/logs';
 
 // API docs: https://resource-watch.github.io/doc-api/index-rw.html#dataset
@@ -105,37 +104,6 @@ export const fetchDataset = (id, params = {}) => {
 };
 
 /**
- * Fetches fields for a specific dataset.
- *
- * @param {String} id - dataset id.
- * @param {String} provider - dataset provider.
- * @param {String} type - dataset type.
- * @param {String} provider - dataset table name.
- * @returns {Object} serialized specified dataset.
- */
-export const fetchFields = ({ id, provider, type, tableName }) => {
-  const url = getFieldUrl(id, provider, type, tableName);
-  return WRIAPI.get(
-    url,
-    {
-      headers: {
-        ...WRIAPI.defaults.headers,
-        // TO-DO: forces the API to not cache, this should be removed at some point
-        'Upgrade-Insecure-Requests': 1
-      }
-    }
-  )
-    .then(response => getFields(response.data, provider, type))
-    .catch(({ response }) => {
-      const { status, statusText } = response;
-
-      logger.error(`Error fetching fields ${id}: ${status}: ${statusText}`);
-      throw new Error(`Error fetching fields ${id}: ${status}: ${statusText}`);
-    });
-};
-
-
-/**
  * Deletes a specified dataset.
  * This fetch needs authentication.
  *
@@ -214,7 +182,6 @@ export const saveMetadata = ({ type, data, id = '', token }) => {
 export default {
   fetchDatasets,
   fetchDataset,
-  fetchFields,
   deleteDataset,
   saveMetadata
 };
