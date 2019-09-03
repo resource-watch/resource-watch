@@ -97,19 +97,8 @@ class WidgetCard extends PureComponent {
    */
   static isMapWidget(widget) {
     return !!(widget && widget.widgetConfig
-      // Some widgets have not been created with the widget editor
-      // so the paramsConfig attribute doesn't exist
-      && (
-        (
-          widget.widgetConfig.paramsConfig
-          && widget.widgetConfig.paramsConfig.layer
-        )
-        || (
-          // Case of a widget created outside of the widget editor
-          widget.widgetConfig.type
-          && widget.widgetConfig.type === 'map'
-        )
-      )
+      && widget.widgetConfig.type
+      && widget.widgetConfig.type === 'map'
     );
   }
 
