@@ -65,7 +65,8 @@ class WidgetsTable extends PureComponent {
           pagination: nextPagination,
           widgets: widgets.map(_widget => ({
             ..._widget,
-            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
+            role: _widget.user ? _widget.user.role || '' : ''
           }))
         });
       })
@@ -125,7 +126,8 @@ class WidgetsTable extends PureComponent {
             pagination: nextPagination,
             widgets: widgets.map(_widget => ({
               ..._widget,
-              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
+              role: _widget.user ? _widget.user.role || '' : ''
             }))
           });
         })
@@ -159,7 +161,8 @@ class WidgetsTable extends PureComponent {
             loading: false,
             widgets: widgets.map(_widget => ({
               ..._widget,
-              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
+              role: _widget.user ? _widget.user.role || '' : ''
             }))
           });
         })
@@ -197,7 +200,8 @@ class WidgetsTable extends PureComponent {
           pagination: nextPagination,
           widgets: widgets.map(_widget => ({
             ..._widget,
-            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
+            role: _widget.user ? _widget.user.role || '' : ''
           }))
         });
       })

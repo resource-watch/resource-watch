@@ -66,7 +66,8 @@ class LayersTable extends PureComponent {
           pagination: nextPagination,
           layers: layers.map(_layer => ({
             ..._layer,
-            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
+            role: _layer.user ? _layer.user.role || '' : ''
           }))
         });
       })
@@ -126,7 +127,8 @@ class LayersTable extends PureComponent {
             pagination: nextPagination,
             layers: layers.map(_layer => ({
               ..._layer,
-              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
+              role: _layer.user ? _layer.user.role || '' : ''
             }))
           });
         })
@@ -160,7 +162,8 @@ class LayersTable extends PureComponent {
             loading: false,
             layers: layers.map(_layer => ({
               ..._layer,
-              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
+              role: _layer.user ? _layer.user.role || '' : ''
             }))
           });
         })
@@ -198,7 +201,8 @@ class LayersTable extends PureComponent {
           pagination: nextPagination,
           layers: layers.map(_layer => ({
             ..._layer,
-            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
+            role: _layer.user ? _layer.user.role || '' : ''
           }))
         });
       })

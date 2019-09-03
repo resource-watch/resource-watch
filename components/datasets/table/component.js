@@ -60,7 +60,8 @@ class DatasetsTable extends PureComponent {
           pagination: nextPagination,
           datasets: datasets.map(_dataset => ({
             ..._dataset,
-            owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+            owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
+            role: _dataset.user ? _dataset.user.role || '' : ''
           }))
         });
       })
@@ -118,7 +119,8 @@ class DatasetsTable extends PureComponent {
             pagination: nextPagination,
             datasets: datasets.map(_dataset => ({
               ..._dataset,
-              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
+              role: _dataset.user ? _dataset.user.role || '' : ''
             }))
           });
         })
@@ -151,7 +153,8 @@ class DatasetsTable extends PureComponent {
             loading: false,
             datasets: datasets.map(_dataset => ({
               ..._dataset,
-              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
+              role: _dataset.user ? _dataset.user.role || '' : ''
             }))
           });
         })
