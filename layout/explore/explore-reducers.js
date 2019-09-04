@@ -152,12 +152,25 @@ export default {
   [actions.toggleMapLayerGroup]: (state, action) => {
     const layerGroups = [...state.map.layerGroups];
     const { dataset, toggle } = action.payload;
+    const { applicationConfig, layer: layers } = dataset;
+
+    let _layers = layers;
+
+    // sorts layers if applies
+    if (
+      applicationConfig &&
+      applicationConfig[process.env.APPLICATIONS] &&
+      applicationConfig[process.env.APPLICATIONS].layerOrder &&
+      layers.length > 1) {
+      const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
+      _layers = sortLayers(_layers, layerOrder);
+    }
 
     if (toggle) {
       layerGroups.unshift({
         dataset: dataset.id,
         visibility: true,
-        layers: dataset.layer.map(l => ({ ...l, active: l.default }))
+        layers: _layers.map(l => ({ ...l, active: l.default }))
       });
       if (layerGroups[0].layers.length) {
         logEvent('Explore Map', 'Add layer', layerGroups[0].layers[0].name);
