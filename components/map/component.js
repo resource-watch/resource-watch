@@ -102,14 +102,6 @@ class Map extends PureComponent {
     loaded: false
   }
 
-  componentDidMount() {
-    const { bounds } = this.props;
-
-    if (!isEmpty(bounds) && !!bounds.bbox) {
-      this.fitBounds();
-    }
-  }
-
   componentDidUpdate(prevProps) {
     const {
       viewport: prevViewport,
@@ -147,12 +139,16 @@ class Map extends PureComponent {
   }
 
   onLoad = () => {
-    const { onLoad } = this.props;
+    const { onLoad, bounds } = this.props;
     this.setState({ loaded: true });
 
     this.setBasemap();
     this.setLabels();
     this.setBoundaries();
+
+    if (!isEmpty(bounds) && !!bounds.bbox) {
+      this.fitBounds(0);
+    }
 
     onLoad({
       map: this.map,
@@ -282,7 +278,7 @@ class Map extends PureComponent {
     });
   }
 
-  fitBounds = () => {
+  fitBounds = (transitionDuration = 1500) => {
     const { viewport: currentViewport } = this.state;
     const { bounds, onViewportChange } = this.props;
     const { bbox, options } = bounds;
@@ -303,7 +299,7 @@ class Map extends PureComponent {
       longitude,
       latitude,
       zoom,
-      transitionDuration: 1500,
+      transitionDuration,
       transitionInterruption: TRANSITION_EVENTS.UPDATE
     };
 

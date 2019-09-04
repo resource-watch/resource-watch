@@ -1,3 +1,4 @@
+export const MAPSTYLES = 'mapbox://styles/resourcewatch/cjzmw480d00z41cp2x81gm90h';
 
 export const BASEMAPS = {
   dark: {
@@ -60,10 +61,16 @@ export const BOUNDARIES = {
 
 export const DEFAULT_VIEWPORT = {
   zoom: 2,
-  lat: 0,
-  lng: 0,
+  latitude: 0,
+  longitude: 0,
   pitch: 0,
-  bearing: 0
+  bearing: 0,
+  transitionDuration: 250
 };
 
-export default { BASEMAPS, LABELS, BOUNDARIES };
+export default {
+  MAPSTYLES,
+  BASEMAPS,
+  LABELS,
+  BOUNDARIES
+};
