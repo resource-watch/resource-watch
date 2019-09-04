@@ -15,6 +15,8 @@ class EmbedExplorePage extends PureComponent {
       zoom,
       lat,
       lng,
+      pitch,
+      bearing,
       basemap,
       labels,
       boundaries,
@@ -30,7 +32,9 @@ class EmbedExplorePage extends PureComponent {
       ...(lat && lng) && {
         latitude: +lat,
         longitude: +lng
-      }
+      },
+      ...pitch && { pitch: +pitch },
+      ...bearing && { bearing: +bearing }
     }));
     if (basemap) dispatch(actions.setBasemap(basemap));
     if (labels) dispatch(actions.setLabels(labels));
