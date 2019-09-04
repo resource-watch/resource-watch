@@ -31,6 +31,7 @@ import ResetViewControls from 'components/map/controls/reset-view';
 import LayerPopup from 'components/map/popup';
 
 // constants
+import { MAPSTYLES } from 'components/map/constants';
 import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
 
 // styles
@@ -204,13 +205,12 @@ class ExploreMap extends PureComponent {
 
     resetMapLayerGroupsInteraction();
   }
+
   handleViewport = debounce((viewport) => {
     const { setViewport } = this.props;
 
     setViewport(viewport);
   }, 250)
-
-
 
   handleSearch = (locationParams) => {
     const { setBounds } = this.props;
@@ -310,7 +310,7 @@ class ExploreMap extends PureComponent {
           mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
           onClick={this.onClickLayer}
           interactiveLayerIds={activeInteractiveLayers}
-          mapStyle="mapbox://styles/resourcewatch/cjzmw480d00z41cp2x81gm90h"
+          mapStyle={MAPSTYLES}
           viewport={viewport}
           bounds={bounds}
           basemap={basemap.value}
