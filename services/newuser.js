@@ -29,7 +29,26 @@ export const forgotPassword = ({ email }) => (
     })
 );
 
+/**
+ * Register a new user based on email + password combination
+ */
+export const registerUser = ({ email, password, repeatPassword }) => (
+  controlTowerAPI.post('auth/sign-up',
+    {
+      email,
+      password,
+      repeatPassword,
+      apps: [process.env.APPLICATIONS]
+    },
+    { headers: { 'Content-Type': 'application/json' } })
+    .then((response) => {
+      if (response.ok) return response.json();
+      throw response;
+    })
+);
+
 export default {
   loginUser,
-  forgotPassword
+  forgotPassword,
+  registerUser
 };

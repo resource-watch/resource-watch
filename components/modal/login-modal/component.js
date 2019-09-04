@@ -10,8 +10,7 @@ import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import UserService from 'services/user';
-import { loginUser } from 'services/newuser';
+import { loginUser, registerUser } from 'services/newuser';
 
 // constants
 import { FORM_ELEMENTS } from './constants';
@@ -46,7 +45,7 @@ class LoginModal extends PureComponent {
       // register user
       if (register) {
         this.setState({ loading: true }, () => {
-          this.userService.registerUser(userSettings)
+          registerUser(userSettings)
             .then(() => {
               toastr.success('Confirm registration',
                 'You will receive an email shortly. Please confirm your registration.');
@@ -74,8 +73,6 @@ class LoginModal extends PureComponent {
       }
     }, 0);
   }
-
-  userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 
   render() {
     const {

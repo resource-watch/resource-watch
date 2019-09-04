@@ -11,25 +11,6 @@ export default class UserService {
     this.opts = options;
   }
 
-  /**
-   * Register a new user based on email + password combination
-   */
-  registerUser({ email, password, repeatPassword }) {
-    return fetch(`${this.opts.apiURL}/auth/sign-up`, {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password,
-        repeatPassword,
-        apps: ['rw']
-      }),
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw response;
-      });
-  }
 
   // resets the password of the user.
   // Needs the token hosted in the email sent in forgotPassword
