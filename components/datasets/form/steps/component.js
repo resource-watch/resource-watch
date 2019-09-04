@@ -129,15 +129,10 @@ class Step1 extends PureComponent {
 
     onChange({
       applicationConfig: {
-        ...!applicationConfig && { // eslint-disable-line object-curly-newline
-          [process.env.APPLICATIONS]: { layerOrder: layers.map(_layer => _layer.id) }
-        },
-        ...applicationConfig && {
-          ...applicationConfig,
-          [process.env.APPLICATIONS]: {
-            ...applicationConfig[process.env.APPLICATIONS],
-            layerOrder: layers.map(_layer => _layer.id)
-          }
+        ...applicationConfig,
+        [process.env.APPLICATIONS]: {
+          ...applicationConfig && applicationConfig[process.env.APPLICATIONS],
+          layerOrder: layers.map(_layer => _layer.id)
         }
       }
     });

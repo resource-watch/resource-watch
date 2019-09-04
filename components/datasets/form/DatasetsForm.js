@@ -172,15 +172,10 @@ class DatasetsForm extends PureComponent {
             bodyObj = {
               ...bodyObj,
               applicationConfig: {
-                ...!form.applicationConfig && { // eslint-disable-line object-curly-newline
-                  [process.env.APPLICATIONS]: { layerOrder: layers.map(_layer => _layer.id) }
-                },
-                ...form.applicationConfig && {
-                  ...form.applicationConfig,
-                  [process.env.APPLICATIONS]: {
-                    ...form.applicationConfig[process.env.APPLICATIONS],
-                    layerOrder: layers.map(_layer => _layer.id)
-                  }
+                ...form.applicationConfig,
+                [process.env.APPLICATIONS]: {
+                  ...form.applicationConfig && form.applicationConfig[process.env.APPLICATIONS],
+                  layerOrder: layers.map(_layer => _layer.id)
                 }
               }
             };
