@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import { checkIfFavorited, setIfFavorited } from 'redactions/widget';
 
 // selectors
-import { getMapProps, getUpdatedLayers, getActiveInteractiveLayers } from './selectors';
+import {
+  getMapProps,
+  embedWidgetMapGetUpdatedLayerGroups,
+  embedWidgetMapGetUpdatedLayers,
+  embedWidgetMapGetActiveInteractiveLayers
+} from './selectors';
 
 // component
 import LayoutEmbedMap from './component';
@@ -18,9 +23,9 @@ export default connect(
     user: state.user,
     webshot: state.common.webshot,
     mapProps: getMapProps(state),
-    activeLayers: getUpdatedLayers(state),
-    layerGroups: state.widget.layerGroups,
-    activeInteractiveLayers: getActiveInteractiveLayers(state)
+    activeLayers: embedWidgetMapGetUpdatedLayers(state),
+    layerGroups: embedWidgetMapGetUpdatedLayerGroups(state),
+    activeInteractiveLayers: embedWidgetMapGetActiveInteractiveLayers(state)
   }),
   {
     checkIfFavorited,
