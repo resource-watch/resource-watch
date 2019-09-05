@@ -33,6 +33,7 @@ class ExploreDetailPage extends PureComponent {
     // Check if the dataset exists and it is published
     const { exploreDetail } = store.getState();
     const dataset = exploreDetail.data;
+    // This line has temporarily been commented out meanwhile we implement a more robust and structured approach for this
     // if ((!dataset && res) || (dataset && res && !dataset.published)) res.statusCode = 404;
 
     const { id, vocabulary } = dataset;
