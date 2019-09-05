@@ -8,7 +8,7 @@ import DatasetsForm from 'components/datasets/form/DatasetsForm';
 class DatasetsNew extends PureComponent {
   static propTypes = { user: PropTypes.object.isRequired }
 
-  handleSubmit = () => { Router.pushRoute('admin_data', { tab: 'datasets' }); }
+  handleSubmit = (id) => { Router.pushRoute('admin_data_detail', { tab: 'datasets', id }); }
 
   render() {
     const { user: { token } } = this.props;
