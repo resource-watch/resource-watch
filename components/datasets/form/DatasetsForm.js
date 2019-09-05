@@ -192,7 +192,7 @@ class DatasetsForm extends PureComponent {
                 'Success',
                 `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`
               );
-              if (this.props.onSubmit) this.props.onSubmit();
+              if (this.props.onSubmit) this.props.onSubmit(data.id);
             })
             .catch((err) => {
               this.setState({ submitting: false });
