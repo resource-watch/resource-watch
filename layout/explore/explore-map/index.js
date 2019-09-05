@@ -6,9 +6,9 @@ import * as actions from 'layout/explore/actions';
 // selectors
 import {
   getMapProps,
-  getUpdatedLayers,
-  getUpdatedLayerGroups,
-  getActiveInteractiveLayers
+  exploreMapGetUpdatedLayerGroups,
+  exploreMapGetUpdatedLayers,
+  exploreMapGetActiveInteractiveLayers
 } from './selectors';
 
 // components
@@ -18,9 +18,9 @@ export default connect(
   state => ({
     ...state.explore.sidebar,
     ...state.explore.map,
-    activeLayers: getUpdatedLayers(state),
-    activeInteractiveLayers: getActiveInteractiveLayers(state),
-    layerGroups: getUpdatedLayerGroups(state),
+    activeLayers: exploreMapGetUpdatedLayers(state),
+    activeInteractiveLayers: exploreMapGetActiveInteractiveLayers(state),
+    layerGroups: exploreMapGetUpdatedLayerGroups(state),
     ...getMapProps(state)
   }),
   actions
