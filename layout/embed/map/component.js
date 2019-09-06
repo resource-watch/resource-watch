@@ -17,6 +17,7 @@ import Map from 'components/map';
 import LayerManager from 'components/map/layer-manager';
 import MapControls from 'components/map/controls';
 import ZoomControls from 'components/map/controls/zoom';
+import ResetViewControls from 'components/map/controls/reset-view';
 import LayerPopup from 'components/map/popup';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/icon';
@@ -157,6 +158,18 @@ class LayoutEmbedMap extends PureComponent {
     });
   }
 
+  handleResetView = () => {
+    this.setState({
+      viewport: {
+        bearing: 0,
+        pitch: 0,
+        // transitionDuration is always set to avoid mixing
+        // durations of other actions (like flying)
+        transitionDuration: 250
+      }
+    });
+  }
+
   handleClosePopup = () => {
     this.setState({
       interaction: {
@@ -197,6 +210,11 @@ class LayoutEmbedMap extends PureComponent {
       id,
       thumbnailUrl
     } = widget;
+    const { pitch, bearing } = viewport;
+    const resetViewBtnClass = classnames({
+      '-with-transition': true,
+      '-visible': pitch !== 0 || bearing !== 0
+    });
 
     if (loading) {
       return (
@@ -345,6 +363,10 @@ class LayoutEmbedMap extends PureComponent {
                     viewport={viewport}
                     onClick={this.handleZoom}
                   />)}
+                <ResetViewControls
+                  className={resetViewBtnClass}
+                  onResetView={this.handleResetView}
+                />
               </MapControls>
             )}
 
