@@ -11,23 +11,6 @@ export default class UserService {
     this.opts = options;
   }
 
-
-  // resets the password of the user.
-  // Needs the token hosted in the email sent in forgotPassword
-  // NOTE:this is NOT implemented in the API to be done from the app.
-  // right now the only way it's through the email link pointing to Control Tower.
-  resetPassword(tokenEmail, { password, repeatPassword }) {
-    return fetch(`${this.opts.apiURL}/auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`, {
-      method: 'POST',
-      body: JSON.stringify({ password, repeatPassword }),
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw response;
-      });
-  }
-
   /**
    * Gets the widgets that have been starred/favourited by the user that is
    * currently logged

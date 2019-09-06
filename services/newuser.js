@@ -47,8 +47,23 @@ export const registerUser = ({ email, password, repeatPassword }) => (
     })
 );
 
+// resets the password of the user.
+// Needs the token hosted in the email sent in forgotPassword
+// NOTE:this is NOT implemented in the API to be done from the app.
+// right now the only way it's through the email link pointing to Control Tower.
+export const resetPassword = ({ tokenEmail, password, repeatPassword }) => (
+  controlTowerAPI.post(`auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`,
+    { password, repeatPassword },
+    { headers: { 'Content-Type': 'application/json' }})
+    .then((response) => {
+      if (response.ok) return response.json();
+      throw response;
+    })
+);
+
 export default {
   loginUser,
   forgotPassword,
-  registerUser
+  registerUser,
+  resetPassword
 };
