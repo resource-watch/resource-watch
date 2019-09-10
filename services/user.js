@@ -186,7 +186,6 @@ export default class UserService {
     const bodyObj = {
       name,
       application: process.env.APPLICATIONS,
-      env: process.env.API_ENV,
       language: language || 'en',
       datasets,
       datasetsQuery,
@@ -214,7 +213,6 @@ export default class UserService {
   updateSubscriptionToArea(subscriptionId, datasets, datasetsQuery, user, language) {
     const bodyObj = {
       application: process.env.APPLICATIONS,
-      env: process.env.API_ENV,
       language: language || 'en',
       datasets,
       datasetsQuery
