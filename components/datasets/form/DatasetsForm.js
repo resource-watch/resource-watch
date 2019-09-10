@@ -38,7 +38,7 @@ class DatasetsForm extends PureComponent {
   static defaultProps = {
     dataset: null,
     basic: true,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: null
   }
 
   constructor(props) {
@@ -188,10 +188,12 @@ class DatasetsForm extends PureComponent {
               body: bodyObj
             })
             .then((data) => {
+              this.setState({ submitting: false });
               toastr.success(
                 'Success',
                 `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`
               );
+
               if (this.props.onSubmit) this.props.onSubmit(data.id);
             })
             .catch((err) => {
