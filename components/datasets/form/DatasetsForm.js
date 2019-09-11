@@ -184,7 +184,7 @@ class DatasetsForm extends PureComponent {
           this.service
             .saveData({
               type: requestOptions.type,
-              id: dataset,
+              id: dataset || '',
               body: bodyObj
             })
             .then((data) => {
