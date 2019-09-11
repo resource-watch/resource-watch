@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import compact from 'lodash/compact';
-
-// Redux
-import { connect } from 'react-redux';
 
 // Constants
 import { PROVIDER_TYPES_DICTIONARY, FORM_ELEMENTS, DATASET_TYPES } from 'components/datasets/form/constants';
 
-// Components
+// components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import File from 'components/form/File';
@@ -16,48 +13,46 @@ import Select from 'components/form/SelectInput';
 import Checkbox from 'components/form/Checkbox';
 import Title from 'components/ui/Title';
 import Spinner from 'components/ui/Spinner';
-
-// Modal
 import Modal from 'components/modal/modal-component';
 import TrySubscriptionModal from 'components/datasets/form/try-subscription-modal';
+import SortingLayerManager from '../sorting-layer-manager';
 
-class Step1 extends React.Component {
-  constructor(props) {
-    super(props);
+class Step1 extends PureComponent {
+  static propTypes = {
+    dataset: PropTypes.string,
+    dataDataset: PropTypes.object,
+    form: PropTypes.object,
+    columns: PropTypes.array,
+    loadingColumns: PropTypes.bool,
+    basic: PropTypes.bool,
+    onChange: PropTypes.func.isRequired,
+    sortedLayers: PropTypes.array,
+    user: PropTypes.object.isRequired
+  };
 
-    this.state = {
-      dataset: props.dataset,
-      form: props.form,
-      carto: {},
-      subscribableSelected: props.form.subscribable.length > 0,
-      activeSubscriptionModal: null
-    };
+  static defaultProps = {
+    dataDataset: null,
+    sortedLayers: []
+  };
 
-    // BINDINGS
-    this.onCartoFieldsChange = this.onCartoFieldsChange.bind(this);
-    this.handleAddSubscription = this.handleAddSubscription.bind(this);
-  }
+  state = {
+    dataset: this.props.dataset,
+    dataDataset: this.props.dataDataset,
+    form: this.props.form,
+    carto: {},
+    subscribableSelected: this.props.form.subscribable.length > 0,
+    activeSubscriptionModal: null
+  };
 
   componentWillReceiveProps(nextProps) {
     this.setState({ form: nextProps.form });
   }
 
-  /**
-    * UI EVENTS
-    * - onCartoFieldsChange
-    * - onLegendChange
-    * - onSubscribableChange
-    * - onSubscribableCheckboxChange
-    * - handleRemoveSubscription
-    * - handleAddSubscription
-  */
-  onCartoFieldsChange() {
+  onCartoFieldsChange = () => {
     const { cartoAccountUsername, tableName } = this.state.carto;
     const connectorUrl = `https://${cartoAccountUsername}.carto.com/tables/${tableName}/public`;
 
-    this.props.onChange({
-      connectorUrl
-    });
+    this.props.onChange({ connectorUrl });
   }
 
   onLegendChange(obj) {
@@ -79,9 +74,7 @@ class Step1 extends React.Component {
   }
 
   onSubscribableCheckboxChange(checked) {
-    this.setState({
-      subscribableSelected: checked
-    });
+    this.setState({ subscribableSelected: checked });
     if (checked) {
       this.props.onChange({ subscribable: [{ type: '', value: '', id: 0 }] });
     } else {
@@ -93,10 +86,6 @@ class Step1 extends React.Component {
     this.setState({ activeSubscriptionModal: id });
   }
 
-  /**
-   * HELPERS
-   * - setProviderOptions
-  */
   setProviderOptions() {
     const { basic, dataset } = this.props;
 
@@ -128,10 +117,25 @@ class Step1 extends React.Component {
     this.props.onChange({ subscribable });
   }
 
-  handleAddSubscription() {
+  handleAddSubscription = () => {
     const { subscribable } = this.state.form;
     subscribable.push({ type: '', value: '', id: Date.now() });
     this.props.onChange({ subscribable });
+  }
+
+  handleSortLayer = (layers) => {
+    const { dataDataset: { applicationConfig } } = this.state;
+    const { onChange } = this.props;
+
+    onChange({
+      applicationConfig: {
+        ...applicationConfig,
+        [process.env.APPLICATIONS]: {
+          ...applicationConfig && applicationConfig[process.env.APPLICATIONS],
+          layerOrder: layers.map(_layer => _layer.id)
+        }
+      }
+    });
   }
 
   renderMainDateOptions(option) {
@@ -142,9 +146,9 @@ class Step1 extends React.Component {
   }
 
   render() {
-    const { user, columns, loadingColumns, basic } = this.props;
+    const { user, columns, loadingColumns, basic, sortedLayers } = this.props;
     const { dataset, subscribableSelected } = this.state;
-    const { provider, columnFields } = this.state.form;
+    const { provider, columnFields, application } = this.state.form;
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -184,6 +188,22 @@ class Step1 extends React.Component {
               }}
             >
               {Select}
+            </Field>}
+
+          {(user.role === 'ADMIN' && !basic && !!dataset) &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements.applications = c; }}
+              className="-fluid"
+              properties={{
+                name: 'applications',
+                label: 'Applications',
+                disabled: true,
+                readOnly: true,
+                default: application,
+                value: application
+              }}
+            >
+              {Input}
             </Field>}
 
           {user.role === 'ADMIN' && !basic &&
@@ -292,8 +312,7 @@ class Step1 extends React.Component {
               value: 'geoInfo',
               title: 'Yes',
               disabled: (this.state.form.type === 'raster'),
-              defaultChecked: this.props.form.geoInfo,
-              checked: this.props.form.geoInfo
+              defaultChecked: this.props.form.geoInfo
             }}
           >
             {Checkbox}
@@ -937,25 +956,19 @@ class Step1 extends React.Component {
             }
           </fieldset>
         }
+
+        {this.state.form.provider && dataset && sortedLayers.length > 0 &&
+          <fieldset className="c-field-container">
+            <Title className="-default -secondary">Layer Sorting</Title>
+            <SortingLayerManager
+              layers={sortedLayers}
+              onChange={this.handleSortLayer}
+            />
+          </fieldset>
+        }
       </div>
     );
   }
 }
 
-Step1.propTypes = {
-  dataset: PropTypes.string,
-  form: PropTypes.object,
-  columns: PropTypes.array,
-  loadingColumns: PropTypes.bool,
-  basic: PropTypes.bool,
-  onChange: PropTypes.func,
-
-  // Store
-  user: PropTypes.object.isRequired
-};
-
-const mapStateToProps = state => ({
-  user: state.user
-});
-
-export default connect(mapStateToProps, null)(Step1);
+export default Step1;

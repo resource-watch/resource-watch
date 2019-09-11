@@ -51,7 +51,7 @@ class DatasetsShow extends PureComponent {
                   application={[process.env.APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}
-                  onSubmit={() => { Router.pushRoute('admin_data', { tab: 'datasets' }); }}
+                  basic={false}
                 />)
               }
 
@@ -60,7 +60,6 @@ class DatasetsShow extends PureComponent {
                   application={process.env.APPLICATIONS}
                   authorization={user.token}
                   dataset={id}
-                  onSubmit={() => { Router.pushRoute('admin_data', { tab: 'datasets', id }); }}
                 />)
               }
 

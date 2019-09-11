@@ -170,7 +170,7 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
     const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
     const { area, datasets } = userSelection;
-    const { areaId } = area;
+    const areaId = area.id;
     const { locale } = common;
 
     const datasetIds = datasets.map(dataset => dataset.id);

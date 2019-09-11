@@ -10,7 +10,7 @@ import { getFaqs } from 'redactions/admin/faqs';
 import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import FaqBlock from 'components/app/common/Faqs/FaqBlock';
+import Accordion from 'components/ui/accordion';
 
 class LayoutFaqs extends PureComponent {
   static propTypes = { faqs: PropTypes.array.isRequired };
@@ -51,15 +51,11 @@ class LayoutFaqs extends PureComponent {
 
         <section className="l-section">
           <div className="l-container">
-            {orderedFaqs.map(faq => (
-              <div
-                className="row align-center"
-                key={faq.id}
-              >
-                <div className="column small-12 medium-8">
-                  <FaqBlock item={faq} />
-                </div>
-              </div>))}
+            <Accordion
+              allowMultipleExpanded
+              allowZeroExpanded
+              items={orderedFaqs.map(e => ({ id: e.id, content: e.answer, title: e.question }))}
+            />
           </div>
         </section>
 

@@ -1,0 +1,52 @@
+@import 'css/settings';
+
+.c-sorting-layer-manager {
+  > .sorting-layer-manager-list {
+    > .sorting-layer-manager-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: $space $space * 2;
+      border: 1px solid $light-grey;
+      border-radius: 5px;
+      cursor: grab;
+
+      &:not(:first-child) {
+        margin-top: $space * 2;
+      }
+
+      > .card-name {
+        > .unpublished {
+          font-style: italic;
+          color: $dove-grey;
+        }
+      }
+
+      > .draggable-symbol {
+        > .square-container {
+          display: flex;
+
+          &:before,
+          &:after {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 3px;
+            background: $dark-pink;
+          }
+
+          &:after {
+            margin: 0 0 0 $space / 2;
+          }
+
+          &:not(:first-child) {
+            &:before,
+            &:after {
+              margin-top: $space / 2;
+            }
+          }
+        }
+      }
+    }
+  }
+}

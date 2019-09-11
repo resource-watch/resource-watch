@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import { setSources, resetSources } from 'redactions/admin/sources';
 
 // Service
-import DatasetsService from 'services/DatasetsService';
+import { fetchDataset, saveMetadata } from 'services/dataset';
+import { fetchFields } from 'services/fields';
 
 // Contants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/metadata/form/constants';
@@ -19,6 +20,8 @@ import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/metadata/form/
 import Navigation from 'components/form/Navigation';
 import Step1 from 'components/datasets/metadata/form/steps/Step1';
 
+// utils
+import { getFieldUrl, getFields } from 'utils/fields';
 
 class MetadataForm extends React.Component {
   constructor(props) {
@@ -40,22 +43,19 @@ class MetadataForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
 
-    this.service = new DatasetsService({
-      authorization: props.authorization,
-      language: props.locale
-    });
-
     this.state = newState;
   }
 
   componentDidMount() {
-    if (this.props.dataset) {
-      this.service.fetchData({ id: this.props.dataset, includes: 'metadata' })
-        .then(({ metadata, type, provider, tableName }) => {
+    const { dataset, setSources } = this.props;
+    const { form } = this.state;
+
+    if (dataset) {
+      fetchDataset(dataset, { includes: 'metadata' })
+        .then((result) => {
+          const { metadata, type, provider, tableName } = result;
           this.setState({
-            form: (metadata && metadata.length) ?
-              this.setFormFromParams(metadata[0].attributes) :
-              this.state.form,
+            form: metadata && metadata.length ? this.setFormFromParams(metadata[0]) : form,
             metadata,
             type: type || 'tabular',
             // Stop the loading
@@ -63,27 +63,24 @@ class MetadataForm extends React.Component {
           });
 
           if (metadata[0]) {
-            this.props.setSources(metadata[0].attributes.info.sources || []);
+            setSources(metadata[0].info.sources || []);
           }
 
           if (provider !== 'wms') {
             // fetchs column fields based on dataset type
-            this.service.fetchFields({
-              id: this.props.dataset,
-              type,
-              provider,
-              tableName
-            })
-              .then((columns) => {
+            const url = getFieldUrl(result);
+            fetchFields(url)
+              .then((rawFields) => {
+                const columns = getFields(rawFields, provider, type);
                 this.setState({
                   columns,
                   loadingColumns: false
                 });
               })
-              .catch((err) => {
+              .catch(() => {
                 this.setState({ loadingColumns: false });
               });
-          } else {
+          } else {
             this.setState({ loadingColumns: false });
           }
         })
@@ -102,7 +99,7 @@ class MetadataForm extends React.Component {
    * UI EVENTS
    * - onSubmit
    * - onChange
-  */
+   */
   onSubmit(event) {
     event.preventDefault();
 
@@ -120,24 +117,27 @@ class MetadataForm extends React.Component {
         this.setState({ submitting: true });
 
         // Check if the metadata alerady exists
-        const thereIsMetadata = Boolean(metadata.find((m) => {
-          const hasLang = m.attributes.language === form.language;
-          const hasApp = m.attributes.application === form.application;
+        const thereIsMetadata = Boolean(
+          metadata.find((m) => {
+            const hasLang = m.language === form.language;
+            const hasApp = m.application === form.application;
 
-          return hasLang && hasApp;
-        }));
+            return hasLang && hasApp;
+          })
+        );
 
         // Set the request
         const requestOptions = {
-          type: (dataset && thereIsMetadata) ? 'PATCH' : 'POST',
+          type: dataset && thereIsMetadata ? 'PATCH' : 'POST',
           omit: ['authorization']
         };
 
         // Save the data
-        this.service.saveMetadata({
+        saveMetadata({
           type: requestOptions.type,
           id: dataset,
-          body: omit(this.state.form, requestOptions.omit)
+          data: omit(form, requestOptions.omit),
+          token: form.authorization
         })
           .then(() => {
             toastr.success('Success', 'Metadata has been uploaded correctly');
@@ -179,28 +179,38 @@ class MetadataForm extends React.Component {
   }
 
   render() {
+    const {
+      loading,
+      columns,
+      type,
+      form,
+      loadingColumns,
+      stepLength,
+      submitting,
+      step
+    } = this.state;
     return (
       <div className="c-metadata-form">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
-          {this.state.loading && 'loading'}
-          {!this.state.loading &&
+          {loading && 'loading'}
+          {!loading && (
             <Step1
               onChange={value => this.onChange(value)}
-              columns={this.state.columns}
-              type={this.state.type}
-              form={this.state.form}
-              loadingColumns={this.state.loadingColumns}
+              columns={columns}
+              type={type}
+              form={form}
+              loadingColumns={loadingColumns}
             />
-          }
+          )}
 
-          {!this.state.loading &&
+          {!loading && (
             <Navigation
-              step={this.state.step}
-              stepLength={this.state.stepLength}
-              submitting={this.state.submitting}
+              step={step}
+              stepLength={stepLength}
+              submitting={submitting}
               onStepChange={this.onStepChange}
             />
-          }
+          )}
         </form>
       </div>
     );
@@ -217,13 +227,14 @@ MetadataForm.propTypes = {
   locale: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({
-  locale: state.common.locale
-});
+const mapStateToProps = state => ({ locale: state.common.locale });
 
 const mapDispatchToProps = {
   setSources,
   resetSources
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MetadataForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MetadataForm);

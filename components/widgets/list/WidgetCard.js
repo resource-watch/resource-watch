@@ -97,19 +97,8 @@ class WidgetCard extends PureComponent {
    */
   static isMapWidget(widget) {
     return !!(widget && widget.widgetConfig
-      // Some widgets have not been created with the widget editor
-      // so the paramsConfig attribute doesn't exist
-      && (
-        (
-          widget.widgetConfig.paramsConfig
-          && widget.widgetConfig.paramsConfig.layer
-        )
-        || (
-          // Case of a widget created outside of the widget editor
-          widget.widgetConfig.type
-          && widget.widgetConfig.type === 'map'
-        )
-      )
+      && widget.widgetConfig.type
+      && widget.widgetConfig.type === 'map'
     );
   }
 
@@ -396,7 +385,17 @@ class WidgetCard extends PureComponent {
   }
 
   handleEditWidget = () => {
-    Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: this.props.widget.id });
+    const { user: { role, id }, widget } = this.props;
+    const isOwner = widget.userId === id;
+    const isAdmin = role === 'ADMIN';
+
+    if (isAdmin) {
+      Router.pushRoute('admin_data_detail', { tab: 'widgets', subtab: 'edit', id: widget.id, dataset: widget.dataset });
+    } else if (isOwner) {
+      Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
+    } else {
+      Router.pushRoute('myrw_detail', { tab: 'widget_detail', id: widget.id });
+    }
   }
 
   handleGoToDataset = () => {

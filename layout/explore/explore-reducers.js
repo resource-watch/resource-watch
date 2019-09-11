@@ -1,4 +1,6 @@
+// utils
 import { logEvent } from 'utils/analytics';
+import { sortLayers } from 'utils/layers';
 
 import * as actions from './explore-actions';
 import initialState from './explore-default-state';
@@ -150,12 +152,25 @@ export default {
   [actions.toggleMapLayerGroup]: (state, action) => {
     const layerGroups = [...state.map.layerGroups];
     const { dataset, toggle } = action.payload;
+    const { applicationConfig, layer: layers } = dataset;
+
+    let _layers = layers;
+
+    // sorts layers if applies
+    if (
+      applicationConfig &&
+      applicationConfig[process.env.APPLICATIONS] &&
+      applicationConfig[process.env.APPLICATIONS].layerOrder &&
+      layers.length > 1) {
+      const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
+      _layers = sortLayers(_layers, layerOrder);
+    }
 
     if (toggle) {
       layerGroups.unshift({
         dataset: dataset.id,
         visibility: true,
-        layers: dataset.layer.map(l => ({ ...l, active: l.default }))
+        layers: _layers.map(l => ({ ...l, active: l.default }))
       });
       if (layerGroups[0].layers.length) {
         logEvent('Explore Map', 'Add layer', layerGroups[0].layers[0].name);
@@ -218,19 +233,31 @@ export default {
 
   [actions.setMapLayerGroups]: (state, action) => {
     const { datasets, params } = action.payload;
-    // const paramsDatasetsIds = params.map(p => p.dataset);
 
     const layerGroups = datasets
-      .map((d) => {
-        const dParams = params.find(p => p.dataset === d.id);
+      .map((_dataset) => {
+        const { id, layer: layers, applicationConfig } = _dataset;
+        const dParams = params.find(p => p.dataset === id);
+        // gets only pusblished layers
+        let _layers = layers.filter(_layer => _layer.published);
+
+        // sorts layers if applies
+        if (
+          applicationConfig &&
+          applicationConfig[process.env.APPLICATIONS] &&
+          applicationConfig[process.env.APPLICATIONS].layerOrder &&
+          layers.length > 1) {
+          const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
+          _layers = sortLayers(_layers, layerOrder);
+        }
 
         return {
-          dataset: d.id,
+          dataset: id,
           opacity: dParams.opacity,
           visibility: dParams.visibility,
-          layers: d.layer.map(l => ({
-            ...l,
-            active: dParams.layer === l.id,
+          layers: _layers.map(_layer => ({
+            ..._layer,
+            active: dParams.layer === _layer.id,
             opacity: dParams.opacity,
             visibility: dParams.visibility
           }))

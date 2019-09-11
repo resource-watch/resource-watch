@@ -896,10 +896,6 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@esri/arcgis-to-geojson-utils@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@esri/arcgis-to-geojson-utils/-/arcgis-to-geojson-utils-1.3.0.tgz#79ab65bf3e40c039dbdebceff4b3b0ec088b189c"
-
 "@gulp-sourcemaps/identity-map@1.X":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@gulp-sourcemaps/identity-map/-/identity-map-1.0.2.tgz#1e6fe5d8027b1f285dc0d31762f566bccd73d5a9"
@@ -5074,14 +5070,6 @@ esrecurse@^4.1.0:
   dependencies:
     estraverse "^4.1.0"
 
-esri-leaflet@^2.1.1:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/esri-leaflet/-/esri-leaflet-2.2.3.tgz#858d9b84641d121d9115753db45aeffb67ad72e8"
-  dependencies:
-    "@esri/arcgis-to-geojson-utils" "^1.3.0"
-    leaflet-virtual-grid "^1.0.7"
-    tiny-binary-search "^1.0.3"
-
 estraverse@^4.0.0, estraverse@^4.1.0, estraverse@^4.1.1:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/estraverse/-/estraverse-4.2.0.tgz#0dee3fed31fcd469618ce7342099fc1afa0bdb13"
@@ -6835,6 +6823,7 @@ is-extendable@^0.1.0, is-extendable@^0.1.1:
 is-extendable@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-extendable/-/is-extendable-1.0.1.tgz#a7470f9e426733d81bd81e1155264e3a3507cab4"
+  integrity sha512-arnXMxT1hhoKo9k1LZdmlNyJdDDfy2v0fXjFlmok4+i8ul/6WlbVge9bhM74OpNPQPMGUToDtz+KXa1PneJxOA==
   dependencies:
     is-plain-object "^2.0.4"
 
@@ -7036,6 +7025,7 @@ isobject@^2.0.0:
 isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
+  integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
 
 isomorphic-fetch@2.2.1, isomorphic-fetch@^2.1.1:
   version "2.2.1"
@@ -7314,16 +7304,6 @@ leaflet-utfgrid@^0.3.0:
   resolved "https://registry.yarnpkg.com/leaflet-utfgrid/-/leaflet-utfgrid-0.3.0.tgz#6b87bede198e8050a988972185285633023406d9"
   dependencies:
     corslite "0.0.7"
-
-leaflet-virtual-grid@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/leaflet-virtual-grid/-/leaflet-virtual-grid-1.0.7.tgz#0dbb0dacd506b6e6d291314da5022d348729f8ad"
-  dependencies:
-    leaflet "^1.0.0"
-
-leaflet@^1.0.0:
-  version "1.3.4"
-  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.3.4.tgz#7f006ea5832603b53d7269ef5c595fd773060a40"
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
@@ -8005,8 +7985,9 @@ mississippi@^3.0.0:
     through2 "^2.0.0"
 
 mixin-deep@^1.2.0:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.1.tgz#a49e7268dce1a0d9698e45326c5626df3543d0fe"
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.2.tgz#1120b43dc359a785dce65b55b82e257ccf479566"
+  integrity sha512-WRoDn//mXBiJ1H40rqa3vH0toePwSsGb45iInWlTySa+Uu4k3tYUSxa2v1KqAiLtvlrSzaExqS1gtk96A9zvEA==
   dependencies:
     for-in "^1.0.2"
     is-extendable "^1.0.1"
@@ -10263,6 +10244,11 @@ rc@^1.1.7, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-accessible-accordion@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-accessible-accordion/-/react-accessible-accordion-3.0.0.tgz#7f058ee3afcfdbad8066e11811ddd1593a3ef5db"
+  integrity sha512-pRfqyPFdCZlYuICYerLznzve/+Jmcah1RFFLDF4kOyWJijoa1Eo9bLYea/+4yJwAdTLj69xzcS8j4L704zMuAQ==
+
 react-ace@6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/react-ace/-/react-ace-6.0.0.tgz#c211c21825f27343a7392f102493dc3ae099886d"
@@ -10314,19 +10300,13 @@ react-deep-force-update@^2.1.1:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.1.3.tgz#740612322e617bcced38f61794a4af75dc3d98e7"
 
-react-dnd-html5-backend@2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-2.4.1.tgz#439d2bcaf8bd8b87a51386beb51c128826182ddd"
-  dependencies:
-    lodash "^4.2.0"
-
 react-dnd-html5-backend@^2.5.4:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-dnd-html5-backend/-/react-dnd-html5-backend-2.6.0.tgz#590cd1cca78441bb274edd571fef4c0b16ddcf8e"
   dependencies:
     lodash "^4.2.0"
 
-react-dnd@2.6.0, react-dnd@^2.5.4:
+react-dnd@^2.5.4:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-2.6.0.tgz#7fa25676cf827d58a891293e3c1ab59da002545a"
   dependencies:
@@ -10417,9 +10397,10 @@ react-ga@^2.3.5:
   version "2.5.6"
   resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.5.6.tgz#5a2e2fa78ae298e5b0a4498210eeec631ef1b562"
 
-react-geosuggest@^2.7.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/react-geosuggest/-/react-geosuggest-2.9.0.tgz#9fde3d6c8331f75cd73561e885907076121cd310"
+react-geosuggest@^2.12.0:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/react-geosuggest/-/react-geosuggest-2.12.0.tgz#dcbc799708383c89701fcb6d307d9537df239a4d"
+  integrity sha512-9zlZ4t+O41kmNRi6Ap3RiLOsIduSjraLPbhbWotDTE3lBsTMgu3zAXO7pgCnM0gnxi8+gRX/F0wTyInWX9tHSQ==
   dependencies:
     classnames "^2.2.6"
     lodash.debounce "^4.0.6"
@@ -12481,10 +12462,6 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
-tiny-binary-search@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/tiny-binary-search/-/tiny-binary-search-1.0.3.tgz#9d52e3d16dd1171eb74486caf704ba08c0c62186"
-
 tmp@0.0.33, tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -13918,17 +13895,16 @@ wide-align@^1.1.0:
   dependencies:
     string-width "^1.0.2 || 2"
 
-widget-editor@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.4.4.tgz#28d9751eef6ccfc6f4a85662ed1f8ff39bb417d0"
-  integrity sha512-1wpDqWVSGFo0neVXnQnQ+FAYVHdXn40I+146OMBZxDdMgDvTiDkkfjEh3DeCY+N5Y8kra1BGsyP+3uyNj/a0Rw==
+widget-editor@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/widget-editor/-/widget-editor-1.4.5.tgz#0359edc84b377981950640ce0c538d2f1fba4edd"
+  integrity sha512-O0RGflX6fz+dlSGp0teaUUOkXtVFI6nw1ErLMDHR0P/z8Hu5KRbIRVOy6atN49Q0cvuPoTa4hBE1sKm1U2E8Ow==
   dependencies:
     autobind-decorator "^2.1.0"
     babel-runtime "^6.26.0"
     classnames "^2.2.5"
     d3-format "^1.2.1"
     d3-time-format "^2.1.1"
-    esri-leaflet "^2.1.1"
     lodash "^4.17.4"
     peer-deps-externals-webpack-plugin "^1.0.2"
     rc-slider "^8.4.0"

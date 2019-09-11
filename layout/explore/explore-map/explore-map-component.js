@@ -298,7 +298,7 @@ class ExploreMapComponent extends React.Component {
                   onChangeLabels={this.props.setMapLabels}
                   onChangeBoundaries={this.props.setMapBoundaries}
                 />
-                <SearchControl />
+                <SearchControl setMapLocation={this.props.setMapBoundaries} />
               </MapControls>
 
               {/* Popup */}
