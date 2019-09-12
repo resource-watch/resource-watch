@@ -187,26 +187,6 @@ export default class UserService {
   }
 
   /**
-   * Get user areas
-   */
-  getUserAreas(token) {
-    return new Promise((resolve, reject) => {
-      fetch(`${this.opts.apiURL}/area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
-        headers: {
-          Authorization: token,
-          'Upgrade-Insecure-Requests': 1
-        }
-      })
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then(jsonData => resolve(jsonData.data))
-        .catch(err => reject(err.message));
-    });
-  }
-
-  /**
    * Create new area
    */
   createNewArea(name, geostore, token) {

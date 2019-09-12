@@ -10,6 +10,7 @@ import { getDatasetsByTab } from 'redactions/admin/datasets';
 
 // services
 import UserService from 'services/user';
+import { getUserAreas as getUserAreasService } from 'services/newuser';
 import FavouritesService from 'services/favourites';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
@@ -452,7 +453,7 @@ export const getUserAreas = createThunkAction(
       const { user, common } = getState();
       const userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
-      return userService.getUserAreas(user.token)
+      return getUserAreasService(user.token)
         .then((areas) => {
           // 1. fetch subscriptions then merge them with the area
           // 2. Get datasets

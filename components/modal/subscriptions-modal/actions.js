@@ -8,6 +8,7 @@ import WRISerializer from 'wri-json-api-serializer';
 // services
 import AreasService from 'services/AreasService';
 import UserService from 'services/user';
+import { getUserAreas as getUserAreasService} from 'services/newuser';
 import DatasetService from 'services/DatasetService';
 import { fetchQuery } from 'services/query';
 
@@ -113,7 +114,7 @@ export const getUserAreas = createThunkAction('SUBSCRIPTIONS__GET-USER-AREAS', (
 
     dispatch(setUserAreasLoading(true));
 
-    userService.getUserAreas(token)
+    getUserAreasService(token)
       .then((userAreas = []) => {
         dispatch(setUserAreas(userAreas));
         dispatch(setUserAreasLoading(false));

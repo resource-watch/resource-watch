@@ -1,22 +1,21 @@
 import { logger } from 'utils/logs';
-import { localAPI, controlTowerAPI } from 'utils/axios';
+import { localAPI, controlTowerAPI, WRIAPI } from 'utils/axios';
 
 /**
- * Logs in a user based on email + password combination
+ * Logs in a user based on the email + password combination
  */
-export const loginUser = ({ email, password }) => (
-  localAPI.post('local-sign-in',
-    { email, password },
-    { headers: { 'Content-Type': 'application/json' } })
-    .then(response => response.data)
-);
+export const loginUser = ({ email, password }) =>
+  localAPI
+    .post('local-sign-in', { email, password }, { headers: { 'Content-Type': 'application/json' } })
+    .then(response => response.data);
 
-// sends a request to reset password.
-// It generates a token to use in resetPassword
-export const forgotPassword = ({ email }) => (
-  controlTowerAPI.post('auth/reset-password',
-    { email },
-    { params: { origin: process.env.APPLICATIONS } })
+/**
+ * This function sends a request to reset the user's password.
+ * It generates a token to be used in resetPassword
+ */
+export const forgotPassword = ({ email }) =>
+  controlTowerAPI
+    .post('auth/reset-password', { email }, { params: { origin: process.env.APPLICATIONS } })
     .then(response => response.data)
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -26,44 +25,62 @@ export const forgotPassword = ({ email }) => (
         console.error(statusText);
         throw new Error(statusText);
       }
-    })
-);
+    });
 
 /**
- * Register a new user based on email + password combination
+ * Register a new user based on the email + password combination
  */
-export const registerUser = ({ email, password, repeatPassword }) => (
-  controlTowerAPI.post('auth/sign-up',
-    {
-      email,
-      password,
-      repeatPassword,
-      apps: [process.env.APPLICATIONS]
-    },
-    { headers: { 'Content-Type': 'application/json' } })
+export const registerUser = ({ email, password, repeatPassword }) =>
+  controlTowerAPI
+    .post(
+      'auth/sign-up',
+      {
+        email,
+        password,
+        repeatPassword,
+        apps: [process.env.APPLICATIONS]
+      },
+      { headers: { 'Content-Type': 'application/json' } }
+    )
     .then((response) => {
       if (response.ok) return response.json();
       throw response;
-    })
-);
+    });
 
-// resets the password of the user.
-// Needs the token hosted in the email sent in forgotPassword
-// NOTE:this is NOT implemented in the API to be done from the app.
-// right now the only way it's through the email link pointing to Control Tower.
-export const resetPassword = ({ tokenEmail, password, repeatPassword }) => (
-  controlTowerAPI.post(`auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`,
-    { password, repeatPassword },
-    { headers: { 'Content-Type': 'application/json' }})
+/**
+ * Resets the user's password.
+ * Needs the token hosted in the email sent in forgotPassword
+ * NOTE:this is NOT implemented in the API to be done from the app.
+ * right now the only way it's through the email link pointing to Control Tower.
+ */
+export const resetPassword = ({ tokenEmail, password, repeatPassword }) =>
+  controlTowerAPI
+    .post(
+      `auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`,
+      { password, repeatPassword },
+      { headers: { 'Content-Type': 'application/json' } }
+    )
     .then((response) => {
       if (response.ok) return response.json();
       throw response;
-    })
-);
+    });
+
+/**
+ * Get user areas
+ */
+export const getUserAreas = token =>
+  WRIAPI.get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
+    headers: {
+      Authorization: token,
+      'Upgrade-Insecure-Requests': 1
+    }
+  })
+    .then(response => response.data.data);
 
 export default {
   loginUser,
   forgotPassword,
   registerUser,
-  resetPassword
+  resetPassword,
+  getUserAreas
 };
