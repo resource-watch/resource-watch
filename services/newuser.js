@@ -131,6 +131,7 @@ export const updateArea = (id, name, token, geostore) => {
     });
 };
 
+
 export default {
   loginUser,
   forgotPassword,

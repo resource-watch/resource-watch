@@ -14,7 +14,11 @@ import {
   getUserAreas as getUserAreasService,
   deleteArea
 } from 'services/newuser';
-import FavouritesService from 'services/favourites';
+import {
+  deleteFavourite,
+  createFavourite,
+  getFavourites
+} from 'services/favourites';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
 import AreasService from 'services/AreasService';
@@ -246,7 +250,7 @@ export const getUserFavourites = createThunkAction('user/getUserFavourites', () 
 
     dispatch(setFavouriteLoading(true));
 
-    return FavouritesService.getFavourites(token)
+    return getFavourites(token)
       .then(({ data }) => {
         dispatch(setFavouriteLoading(false));
         dispatch({ type: SET_USER_FAVOURITES, payload: data });
@@ -267,7 +271,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
 
     if (favourite.id) {
       const { id } = favourite;
-      FavouritesService.deleteFavourite(token, id)
+      deleteFavourite(token, id)
         .then(() => {
           // asks for the new updated list of favourites
           dispatch(getUserFavourites());
@@ -280,7 +284,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
       return;
     }
 
-    FavouritesService.createFavourite(token, resource)
+    createFavourite(token, resource)
       .then(() => {
         // asks for the new updated list of favourites
         dispatch(getUserFavourites());

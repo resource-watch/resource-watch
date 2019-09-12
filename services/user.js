@@ -52,51 +52,6 @@ export default class UserService {
   }
 
   /**
-   * Deletes a favourite
-   * @param {resourceId} ID of the resource that will be unfavourited
-   * @param {token} User token
-   * @returns {Promise}
-   */
-  deleteFavourite(resourceId, token) {
-    return fetch(`${this.opts.apiURL}/favourite/${resourceId}`, {
-      method: 'DELETE',
-      headers: { Authorization: token }
-    })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      });
-  }
-
-  /**
-   * Creates a new favourite for a resource
-   * @param {resourceType} Type of the resource (dataset|layer|widget)
-   * @param {resourceId} Resource ID
-   * @param {token} User token
-   * @returns {Promise}
-   */
-  createFavourite(resourceType, resourceId, token) {
-    const bodyObj = {
-      resourceType,
-      resourceId,
-      application: process.env.APPLICATIONS,
-      env: process.env.API_ENV
-    };
-    return fetch(`${this.opts.apiURL}/favourite`, {
-      method: 'POST',
-      body: JSON.stringify(bodyObj),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      });
-  }
-
-  /**
    * Creates a subscription for a pair of dataset and country
    * @param {datasetID} ID of the dataset
    * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}

@@ -1,110 +1,57 @@
 import * as queryString from 'query-string';
+import { WRIAPI } from 'utils/axios';
 
-class FavouritesService {
-  /**
-   * Retrieve all favourites items of the user
-   * @param {*} token User's token
-   */
-  static getFavourites(token) {
-    const queryParams = queryString.stringify({
+/**
+ * Retrieve all favourites items of the user
+ * @param {*} token User's token
+ */
+export const getFavourites = (token) => {
+  const queryParams = queryString.stringify({
+    application: process.env.APPLICATIONS,
+    env: process.env.API_ENV
+  });
+
+  return WRIAPI.get(`favourite?${queryParams}`,
+    {
+      headers: {
+        Authorization: token,
+        'Upgrade-Insecure-Requests': 1
+      }
+    })
+    .then(response => response.data);
+};
+
+/**
+ * Creates a new favourite item attached to the current user
+ * @param {*} token User's token
+ * @param {*} resourceId Id of the resource
+ * @param {*} resourceType Resource's type (can be dataset, layer or widget)
+ */
+export const createFavourite = (token, { resourceId, resourceType }) =>
+  WRIAPI.post('favourite',
+    {
       application: process.env.APPLICATIONS,
-      env: process.env.API_ENV
+      resourceId,
+      resourceType
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
     });
 
-    return new Promise((resolve, reject) => {
-      fetch(`${process.env.WRI_API_URL}/favourite?${queryParams}`, {
-        method: 'GET',
-        headers: {
-          Authorization: token,
-          'Upgrade-Insecure-Requests': 1
-        }
-      })
-        .then((response) => {
-          const { status, statusText } = response;
-          if (status === 200) return response.json();
+/**
+ * Deletes an existing favourite item attached to the current user
+ * @param {*} token User's token
+ * @param {*} resourceId Id of the resource
+ */
+export const deleteFavourite = (token, resourceId) =>
+  WRIAPI.delete(`/favourite/${resourceId}`,
+    { headers: { Authorization: token } });
 
-          const errorObject = {
-            errors: {
-              status,
-              details: statusText
-            }
-          };
-          throw errorObject;
-        })
-        .then(data => resolve(data))
-        .catch(errors => reject(errors));
-    });
-  }
-
-  /**
-   * Creates a new favourite item attached to the current user
-   * @param {*} token User's token
-   * @param {*} resourceId Id of the resource
-   * @param {*} resourceType Resource's type (can be dataset, layer or widget)
-   */
-  static createFavourite(token, resource = {}) {
-    const { resourceId, resourceType } = resource;
-
-    return new Promise((resolve, reject) => {
-      fetch(`${process.env.WRI_API_URL}/favourite`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token
-        },
-        body: JSON.stringify({
-          application: process.env.APPLICATIONS,
-          env: process.env.API_ENV,
-          resourceId,
-          resourceType
-        })
-      })
-        .then((response) => {
-          const { status, statusText } = response;
-
-          if (status === 200) return resolve();
-
-          const errorObject = {
-            errors: {
-              status,
-              details: statusText
-            }
-          };
-          throw errorObject;
-        })
-        .then(data => resolve(data))
-        .catch((errors) => { reject(errors); });
-    });
-  }
-
-  /**
-   * Deletes an existing favourite item attached to the current user
-   * @param {*} token User's token
-   * @param {*} resourceId Id of the resource
-   */
-  static deleteFavourite(token, resourceId) {
-    return new Promise((resolve, reject) => {
-      fetch(`${process.env.WRI_API_URL}/favourite/${resourceId}`, {
-        method: 'DELETE',
-        headers: { Authorization: token }
-      })
-        .then((response) => {
-          const { status, statusText } = response;
-
-          if (status === 200) return resolve();
-
-          const errorObject = {
-            errors: {
-              status,
-              details: statusText
-            }
-          };
-          throw errorObject;
-        })
-        .then(data => resolve(data))
-        .catch((errors) => { reject(errors); });
-    });
-  }
-}
-
-export default FavouritesService;
+export default {
+  getFavourites,
+  deleteFavourite,
+  createFavourite
+};
