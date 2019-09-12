@@ -23,7 +23,7 @@ class ExploreDetailPage extends PureComponent {
     setCountView: PropTypes.func.isRequired
   };
 
-  static async getInitialProps({ store, res  }) {
+  static async getInitialProps({ store, res }) {
     const { dispatch, getState } = store;
     const { routes: { query: { id: queryId } } } = getState();
 
@@ -33,7 +33,8 @@ class ExploreDetailPage extends PureComponent {
     // Check if the dataset exists and it is published
     const { exploreDetail } = store.getState();
     const dataset = exploreDetail.data;
-    if ((!dataset && res) || (dataset && res && !dataset.published)) res.statusCode = 404;
+    // This line has temporarily been commented out meanwhile we implement a more robust and structured approach for this
+    // if ((!dataset && res) || (dataset && res && !dataset.published)) res.statusCode = 404;
 
     const { id, vocabulary } = dataset;
 

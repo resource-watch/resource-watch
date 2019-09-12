@@ -217,14 +217,6 @@ class AreaCard extends React.Component {
               activeArea={area}
               onRequestClose={() => this.handleEditSubscription(false)}
             />
-            {/* <AreaSubscriptionModal
-              area={this.props.area}
-              mode={this.state.modal.mode}
-              onRequestClose={() => this.handleEditSubscription(false)}
-              subscriptionDataset
-              subscriptionType
-              subscriptionThreshold
-            /> */}
           </Modal>}
 
       </div>
