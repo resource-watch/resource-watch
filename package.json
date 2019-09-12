@@ -37,7 +37,7 @@
     "jsonapi-serializer": "3.5.3",
     "layer-manager": "^1.15.2",
     "leaflet-utfgrid": "^0.3.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "moment": "^2.24.0",
     "moment-range": "3.0.3",
     "moveto": "1.6.1",
