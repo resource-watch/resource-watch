@@ -8,7 +8,9 @@ import WRISerializer from 'wri-json-api-serializer';
 // services
 import AreasService from 'services/AreasService';
 import UserService from 'services/user';
-import { getUserAreas as getUserAreasService} from 'services/newuser';
+import { getUserAreas as getUserAreasService, createArea } from 'services/newuser';
+import { getSubscriptions } from 'services/subscriptions';
+
 import DatasetService from 'services/DatasetService';
 import { fetchQuery } from 'services/query';
 
@@ -32,7 +34,7 @@ export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-S
 
     dispatch(setSubscriptionsLoading(true));
 
-    userService.getSubscriptions(token)
+    getSubscriptions(token)
       .then((subscriptions = []) => {
         dispatch(setSubscriptions(subscriptions));
         dispatch(setSubscriptionsLoading(false));
@@ -221,7 +223,7 @@ export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CRE
         threshold: _dataset.threshold
       });
 
-      const promise = userService.createNewArea(label, isGeostore, token)
+      const promise = createArea(label, isGeostore, token)
         .then(({ data }) => {
           const areaID = data.id;
 

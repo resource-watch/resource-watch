@@ -13,6 +13,7 @@ import AlertWidget from 'components/areas/AlertWidget';
 
 // Services
 import UserService from 'services/user';
+import { getSubscriptions } from 'services/subscriptions';
 
 class AreasAlerts extends React.Component {
   constructor(props) {

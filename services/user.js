@@ -66,17 +66,6 @@ export default class UserService {
   }
 
   /**
-   *  Get Subscriptions
-   */
-  getSubscriptions(token) {
-    return new Promise((resolve) => {
-      fetch(`${this.opts.apiURL}/subscriptions?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, { headers: { Authorization: token } })
-        .then(response => response.json())
-        .then(jsonData => resolve(jsonData.data));
-    });
-  }
-
-  /**
    *  Get Subscription
    */
   getSubscription(subscriptionId, token) {
