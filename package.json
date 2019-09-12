@@ -7,6 +7,8 @@
   "main": "index.js",
   "dependencies": {
     "@babel/core": "^7.2.0",
+    "@mapbox/mapbox-gl-draw": "^1.1.2",
+    "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "autoprefixer": "^9.4.2",
     "axios": "^0.18.0",
@@ -79,6 +81,7 @@
     "react-hammerjs": "^1.0.1",
     "react-input-autosize": "2.0.1",
     "react-input-range": "^1.2.1",
+    "react-intersection-observer": "^8.24.2",
     "react-map-gl": "^5.0.7",
     "react-markdown": "^4.0.3",
     "react-modal": "3.1.13",
@@ -143,6 +146,17 @@
     "start": "better-npm-run start",
     "bundle-analyzer": "better-npm-run bundle-analyzer"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
   "betterScripts": {
     "build": {
       "command": "next build",
@@ -163,17 +177,6 @@
         "BUNDLE_ANALYZER": "1"
       }
     }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --fix",
-      "git add"
-    ]
   },
   "engines": {
     "node": "8.x.x"

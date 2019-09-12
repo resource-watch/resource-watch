@@ -1,0 +1,12 @@
+@import 'css/settings';
+
+.c-areas-index {
+  position: relative;
+  min-height: 390px;
+
+  > .no-areas-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}

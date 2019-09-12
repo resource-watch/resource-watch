@@ -1,0 +1,22 @@
+@import 'css/settings';
+
+.c-area-actions-tooltip {
+  padding: $space * 3;
+  background: $white;
+
+  > ul {
+    > li {
+      > button {
+        padding: 0;
+        margin: 0;
+        font-size: $font-size-medium;
+        color: $charcoal-grey;
+        cursor: pointer;
+      }
+
+      &:not(:first-child) {
+        margin: $space * 2 0 0 0;
+      }
+    }
+  }
+}

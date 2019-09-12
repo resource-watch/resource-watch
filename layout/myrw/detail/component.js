@@ -7,7 +7,7 @@ import { singular } from 'pluralize';
 // components
 import Layout from 'layout/layout/layout-app';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import AreasTab from 'components/app/myrw/areas/AreasTab';
+import AreasTabs from 'components/app/myrw/areas';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
@@ -154,7 +154,7 @@ class LayoutMyRWDetail extends PureComponent {
               <div className="column small-12">
                 <div className="page-header-content">
                   {(tab === 'datasets') && (<DatasetsTab tab={tab} subtab={subtab} id={id} />)}
-                  {(tab === 'areas') && (<AreasTab tab={tab} subtab={subtab} id={id} />)}
+                  {(tab === 'areas') && (<AreasTabs tab={tab} subtab={subtab} id={id} />)}
                   {(tab === 'widgets') && (<WidgetsTab tab={tab} subtab={subtab} id={id} dataset={id} />)}
                   {(tab === 'dashboards') && (<DashboardsTab tab={tab} subtab={subtab} id={id} />)}
                   {(tab === 'collections') && (<CollectionsTab tab={tab} subtab={subtab} id={id} />)}
