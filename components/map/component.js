@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, createRef } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import ReactMapGL, { FlyToInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
@@ -18,7 +18,7 @@ class Map extends PureComponent {
     children: PropTypes.func,
 
     /** Custom CSS class for styling */
-    customClass: PropTypes.string,
+    className: PropTypes.string,
 
     /** An object that defines the viewport
      * @see https://uber.github.io/react-map-gl/#/Documentation/api-reference/interactive-map?section=initialization
@@ -30,6 +30,9 @@ class Map extends PureComponent {
       bbox: PropTypes.array,
       options: PropTypes.shape({})
     }),
+
+    /** An object that defines how fitting bounds behaves */
+    fitBoundsOptions: PropTypes.object,
 
     /** A string that defines the basemap to display */
     basemap: PropTypes.string.isRequired,
@@ -72,7 +75,7 @@ class Map extends PureComponent {
 
   static defaultProps = {
     children: null,
-    customClass: null,
+    className: null,
     viewport: DEFAULT_VIEWPORT,
     bounds: {},
     labels: null,
@@ -83,6 +86,7 @@ class Map extends PureComponent {
     touchZoom: true,
     touchRotate: true,
     doubleClickZoom: true,
+    fitBoundsOptions: { transitionDuration: 1500 },
 
     onViewportChange: () => {},
     onLoad: () => {},
@@ -151,8 +155,8 @@ class Map extends PureComponent {
     }
 
     onLoad({
-      map: this.map,
-      mapContainer: this.mapContainer
+      map: this.map.current.getMap(),
+      mapContainer: this.mapContainer.current
     });
   }
 
@@ -178,7 +182,7 @@ class Map extends PureComponent {
   setBasemap = () => {
     const { basemap } = this.props;
     const BASEMAP_GROUPS = ['basemap'];
-    const { layers, metadata } = this.map.getStyle();
+    const { layers, metadata } = this.map.current.getMap().getStyle();
 
     const basemapGroups = Object.keys(metadata['mapbox:groups']).filter((k) => {
       const { name } = metadata['mapbox:groups'][k];
@@ -207,9 +211,9 @@ class Map extends PureComponent {
     basemapLayers.forEach((_layer) => {
       const match = _layer.metadata['mapbox:group'] === basemapToDisplay.id;
       if (!match) {
-        this.map.setLayoutProperty(_layer.id, 'visibility', 'none');
+        this.map.current.getMap().setLayoutProperty(_layer.id, 'visibility', 'none');
       } else {
-        this.map.setLayoutProperty(_layer.id, 'visibility', 'visible');
+        this.map.current.getMap().setLayoutProperty(_layer.id, 'visibility', 'visible');
       }
     });
 
@@ -220,7 +224,7 @@ class Map extends PureComponent {
     const { labels } = this.props;
 
     const LABELS_GROUP = ['labels'];
-    const { layers, metadata } = this.map.getStyle();
+    const { layers, metadata } = this.map.current.getMap().getStyle();
 
     const labelGroups = Object.keys(metadata['mapbox:groups']).filter((k) => {
       const { name } = metadata['mapbox:groups'][k];
@@ -246,7 +250,7 @@ class Map extends PureComponent {
 
     labelLayers.forEach((_layer) => {
       const match = _layer.metadata['mapbox:group'] === labelsToDisplay.id;
-      this.map.setLayoutProperty(_layer.id, 'visibility', match ? 'visible' : 'none');
+      this.map.current.getMap().setLayoutProperty(_layer.id, 'visibility', match ? 'visible' : 'none');
     });
 
     return true;
@@ -255,7 +259,7 @@ class Map extends PureComponent {
   setBoundaries = () => {
     const { boundaries } = this.props;
     const LABELS_GROUP = ['boundaries'];
-    const { layers, metadata } = this.map.getStyle();
+    const { layers, metadata } = this.map.current.getMap().getStyle();
 
     const boundariesGroups = Object.keys(metadata['mapbox:groups']).filter((k) => {
       const { name } = metadata['mapbox:groups'][k];
@@ -274,18 +278,22 @@ class Map extends PureComponent {
     });
 
     boundariesLayers.forEach((l) => {
-      this.map.setLayoutProperty(l.id, 'visibility', boundaries ? 'visible' : 'none');
+      this.map.current.getMap().setLayoutProperty(l.id, 'visibility', boundaries ? 'visible' : 'none');
     });
   }
 
-  fitBounds = (transitionDuration = 1500) => {
+  map = createRef();
+
+  mapContainer = createRef();
+
+  fitBounds = () => {
     const { viewport: currentViewport } = this.state;
-    const { bounds, onViewportChange } = this.props;
+    const { bounds, onViewportChange, fitBoundsOptions } = this.props;
     const { bbox, options } = bounds;
 
     const viewport = {
-      width: this.mapContainer.offsetWidth,
-      height: this.mapContainer.offsetHeight,
+      width: this.mapContainer.current.offsetWidth,
+      height: this.mapContainer.current.offsetHeight,
       ...currentViewport
     };
 
@@ -299,7 +307,7 @@ class Map extends PureComponent {
       longitude,
       latitude,
       zoom,
-      transitionDuration,
+      ...fitBoundsOptions,
       transitionInterruption: TRANSITION_EVENTS.UPDATE
     };
 
@@ -316,7 +324,7 @@ class Map extends PureComponent {
 
   render() {
     const {
-      customClass,
+      className,
       children,
       getCursor,
       dragPan,
@@ -332,14 +340,14 @@ class Map extends PureComponent {
 
     return (
       <div
-        ref={(r) => { this.mapContainer = r; }}
+        ref={this.mapContainer}
         className={classnames({
           'c-map': true,
-          [customClass]: !!customClass
+          [className]: !!className
         })}
       >
         <ReactMapGL
-          ref={(map) => { this.map = map && map.getMap(); }}
+          ref={this.map}
 
           // CUSTOM PROPS FROM REACT MAPBOX API
           {...mapboxProps}
@@ -356,6 +364,7 @@ class Map extends PureComponent {
           touchZoom={!flying && touchZoom}
           touchRotate={!flying && touchRotate}
           doubleClickZoom={!flying && doubleClickZoom}
+          getCursor={getCursor}
 
           // DEFAULT FUC IMPLEMENTATIONS
           onViewportChange={this.onViewportChange}
@@ -364,7 +373,7 @@ class Map extends PureComponent {
 
           transitionInterpolator={new FlyToInterpolator()}
         >
-          {loaded && !!this.map && typeof children === 'function' && children(this.map)}
+          {loaded && !!this.map && typeof children === 'function' && children(this.map.current.getMap())}
         </ReactMapGL>
       </div>
     );

@@ -2,13 +2,14 @@ require('dotenv').load();
 
 const path = require('path');
 const withSass = require('@zeit/next-sass');
+const withCSS = require('@zeit/next-css')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssnano = require('cssnano');
 const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER) ?
   require('webpack-bundle-analyzer') : {};
 
-module.exports = withSass({
+module.exports = withCSS(withSass({
   useFileSystemPublicRoutes: false,
 
   env: {
@@ -62,4 +63,4 @@ module.exports = withSass({
 
     return _config;
   }
-});
+}));
