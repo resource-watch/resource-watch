@@ -78,7 +78,7 @@ export const getUserAreas = token =>
     })
     .then(response => response.data.data);
 
- /**
+/**
  * Deletes an area
  * @param {areaId} ID of the area that will be deleted
  * @param {token} User token
@@ -87,11 +87,34 @@ export const getUserAreas = token =>
 export const deleteArea = (areaId, token) =>
   WRIAPI.delete(`area/${areaId}`, { headers: { Authorization: token } });
 
+
+/**
+ * Create new area
+ */
+export const createArea = (name, geostore, token) => {
+  const bodyObj = {
+    name,
+    application: process.env.APPLICATIONS,
+    env: process.env.API_ENV,
+    geostore
+  };
+
+  return WRIAPI.post('area',
+    bodyObj,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    });
+};
+
 export default {
   loginUser,
   forgotPassword,
   registerUser,
   resetPassword,
   getUserAreas,
-  deleteArea
+  deleteArea,
+  createArea
 };

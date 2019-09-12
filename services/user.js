@@ -187,28 +187,6 @@ export default class UserService {
   }
 
   /**
-   * Create new area
-   */
-  createNewArea(name, geostore, token) {
-    const bodyObj = {
-      name,
-      application: process.env.APPLICATIONS,
-      env: process.env.API_ENV,
-      geostore
-    };
-
-    return fetch(`${this.opts.apiURL}/area`, {
-      method: 'POST',
-      body: JSON.stringify(bodyObj),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    })
-      .then(response => response.json());
-  }
-
-  /**
   * Update area
   */
   updateArea(id, name, token, geostore) {

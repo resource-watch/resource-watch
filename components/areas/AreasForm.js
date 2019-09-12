@@ -18,6 +18,7 @@ import UploadArea from 'components/areas/UploadArea';
 // Services
 import AreasService from 'services/AreasService';
 import UserService from 'services/user';
+import { createArea } from 'services/newuser';
 
 // Utils
 import { logEvent } from 'utils/analytics';
@@ -119,7 +120,7 @@ class AreasForm extends React.Component {
       this.setState({ loading: true });
 
       if (mode === 'new') {
-        this.userService.createNewArea(name, geostore, user.token)
+        createArea(name, geostore, user.token)
           .then(() => {
             Router.pushRoute('myrw', {
               tab: 'areas',
