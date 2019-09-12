@@ -213,7 +213,6 @@ export default function (state = initialState, action) {
 /**
  * ACTIONS
  * - setUser
- * - setFavourites
  * - toggleFavourite
 */
 export function setUser(user) {

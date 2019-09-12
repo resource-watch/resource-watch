@@ -12,46 +12,6 @@ export default class UserService {
   }
 
   /**
-   * Gets the widgets that have been starred/favourited by the user that is
-   * currently logged
-   * @param {token} User token
-   * @returns {Promise}
-   */
-  getFavouriteWidgets(token) {
-    return this.setFavourites(token, 'widget', true);
-  }
-
-  /**
-   * Gets the datasets that have been starred/favourited by the user that is
-   * currently logged
-   * @param {token} User token
-   * @returns {Promise}
-   */
-  getFavouriteDatasets(token) {
-    return this.setFavourites(token, 'dataset', true);
-  }
-
-  /**
-   * Gets the contents that have been starred/favourited by the user that is
-   * currently logged
-    * @param {token} User token
-   * @returns {Promise}
-   */
-  setFavourites(token, resourceType = null, include = true) {
-    const resourceTypeSt = (resourceType !== null) ? `&resource-type=${resourceType}` : '';
-    return fetch(`${this.opts.apiURL}/favourite?include=${include}${resourceTypeSt}&application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
-      headers: {
-        Authorization: token,
-        'Upgrade-Insecure-Requests': 1
-      }
-    })
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      });
-  }
-
-  /**
    * Creates a subscription for a pair of dataset and country
    * @param {datasetID} ID of the dataset
    * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}
