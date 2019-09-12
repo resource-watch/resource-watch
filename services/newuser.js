@@ -69,14 +69,12 @@ export const resetPassword = ({ tokenEmail, password, repeatPassword }) =>
  * Get user areas
  */
 export const getUserAreas = token =>
-  WRIAPI
-    .get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
-      headers: {
-        Authorization: token,
-        'Upgrade-Insecure-Requests': 1
-      }
-    })
-    .then(response => response.data.data);
+  WRIAPI.get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
+    headers: {
+      Authorization: token,
+      'Upgrade-Insecure-Requests': 1
+    }
+  }).then(response => response.data.data);
 
 /**
  * Deletes an area
@@ -86,7 +84,6 @@ export const getUserAreas = token =>
  */
 export const deleteArea = (areaId, token) =>
   WRIAPI.delete(`area/${areaId}`, { headers: { Authorization: token } });
-
 
 /**
  * Create new area
@@ -99,20 +96,17 @@ export const createArea = (name, geostore, token) => {
     geostore
   };
 
-  return WRIAPI.post('area',
-    bodyObj,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    });
+  return WRIAPI.post('area', bodyObj, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    }
+  });
 };
 
-
 /**
-* Update area
-*/
+ * Update area
+ */
 export const updateArea = (id, name, token, geostore) => {
   const bodyObj = {
     name,
@@ -121,18 +115,16 @@ export const updateArea = (id, name, token, geostore) => {
     geostore
   };
 
-  return WRIAPI.patch(`area/${id}`,
-    bodyObj,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    });
+  return WRIAPI.patch(`area/${id}`, bodyObj, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    }
+  });
 };
 
-export const uploadPhoto = (file, user) => {
-  return new Promise((resolve, reject) => {
+export const uploadPhoto = (file, user) =>
+  new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
@@ -164,8 +156,6 @@ export const uploadPhoto = (file, user) => {
       reject(error);
     };
   });
-}
-
 
 export default {
   loginUser,
