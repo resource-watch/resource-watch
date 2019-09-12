@@ -57,7 +57,7 @@ class AreaCard extends React.Component {
     }
   };
 
-  handleEditArea() {
+  handleEditArea = () => {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 

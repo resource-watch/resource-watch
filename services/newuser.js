@@ -109,6 +109,28 @@ export const createArea = (name, geostore, token) => {
     });
 };
 
+
+/**
+* Update area
+*/
+export const updateArea = (id, name, token, geostore) => {
+  const bodyObj = {
+    name,
+    application: process.env.APPLICATIONS,
+    env: process.env.API_ENV,
+    geostore
+  };
+
+  return WRIAPI.patch(`area/${id}`,
+    bodyObj,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      }
+    });
+};
+
 export default {
   loginUser,
   forgotPassword,
@@ -116,5 +138,6 @@ export default {
   resetPassword,
   getUserAreas,
   deleteArea,
-  createArea
+  createArea,
+  updateArea
 };

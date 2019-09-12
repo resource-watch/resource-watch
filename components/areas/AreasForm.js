@@ -17,8 +17,7 @@ import UploadArea from 'components/areas/UploadArea';
 
 // Services
 import AreasService from 'services/AreasService';
-import UserService from 'services/user';
-import { createArea } from 'services/newuser';
+import { createArea, updateArea } from 'services/newuser';
 
 // Utils
 import { logEvent } from 'utils/analytics';
@@ -86,7 +85,6 @@ class AreasForm extends React.Component {
 
     // Services
     this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ---------------- Bindings --------------------
     this.onSubmit = this.onSubmit.bind(this);
@@ -105,7 +103,8 @@ class AreasForm extends React.Component {
 
   async onSubmit(e) {
     e.preventDefault();
-    const drawedGeoJson = this.state.geojson ? await this.areasService.createGeostore(this.state.geojson) : null;
+    const drawedGeoJson = this.state.geojson ?
+      await this.areasService.createGeostore(this.state.geojson) : null;
 
     if (drawedGeoJson && 'id' in drawedGeoJson) {
       this.setState({ geostore: drawedGeoJson.id });
@@ -132,7 +131,7 @@ class AreasForm extends React.Component {
 
         logEvent('My RW', 'Create area', name);
       } else if (mode === 'edit') {
-        this.userService.updateArea(id, name, user.token, geostore)
+        updateArea(id, name, user.token, geostore)
           .then(() => {
             Router.pushRoute('myrw', { tab: 'areas' });
             toastr.success('Success', 'Area successfully updated!');
