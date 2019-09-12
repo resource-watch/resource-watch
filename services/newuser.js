@@ -69,18 +69,29 @@ export const resetPassword = ({ tokenEmail, password, repeatPassword }) =>
  * Get user areas
  */
 export const getUserAreas = token =>
-  WRIAPI.get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
-    headers: {
-      Authorization: token,
-      'Upgrade-Insecure-Requests': 1
-    }
-  })
+  WRIAPI
+    .get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
+      headers: {
+        Authorization: token,
+        'Upgrade-Insecure-Requests': 1
+      }
+    })
     .then(response => response.data.data);
+
+ /**
+ * Deletes an area
+ * @param {areaId} ID of the area that will be deleted
+ * @param {token} User token
+ * @returns {Promise}
+ */
+export const deleteArea = (areaId, token) =>
+  WRIAPI.delete(`area/${areaId}`, { headers: { Authorization: token } });
 
 export default {
   loginUser,
   forgotPassword,
   registerUser,
   resetPassword,
-  getUserAreas
+  getUserAreas,
+  deleteArea
 };

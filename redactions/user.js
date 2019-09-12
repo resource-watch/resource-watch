@@ -10,7 +10,10 @@ import { getDatasetsByTab } from 'redactions/admin/datasets';
 
 // services
 import UserService from 'services/user';
-import { getUserAreas as getUserAreasService } from 'services/newuser';
+import {
+  getUserAreas as getUserAreasService,
+  deleteArea
+} from 'services/newuser';
 import FavouritesService from 'services/favourites';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
@@ -503,14 +506,14 @@ export const removeUserArea = createThunkAction(
 
     if (area.subscription) {
       return userService.deleteSubscription(area.subscription.id, user.token).then(() => {
-        return userService.deleteArea(area.id, user.token).then(() => {
+        return deleteArea(area.id, user.token).then(() => {
           toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
           dispatch(getUserAreas());
         });
       });
     }
 
-    return userService.deleteArea(area.id, user.token).then(() => {
+    return deleteArea(area.id, user.token).then(() => {
       toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
       dispatch(getUserAreas());
     });

@@ -231,19 +231,6 @@ export default class UserService {
   }
 
   /**
-   * Deletes an area
-   * @param {areaId} ID of the area that will be deleted
-   * @param {token} User token
-   * @returns {Promise}
-   */
-  deleteArea(areaId, token) {
-    return fetch(`${this.opts.apiURL}/area/${areaId}`, {
-      method: 'DELETE',
-      headers: { Authorization: token }
-    });
-  }
-
-  /**
    * Get area
    */
   getArea(id, token) {
