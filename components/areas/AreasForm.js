@@ -16,7 +16,7 @@ import Input from 'components/form/Input';
 import UploadArea from 'components/areas/UploadArea';
 
 // Services
-import AreasService from 'services/AreasService';
+import { fetchCountries, createGeostore } from 'services/areas';
 import { createArea, updateArea } from 'services/newuser';
 
 // Utils
@@ -83,9 +83,6 @@ class AreasForm extends React.Component {
 
     this.map = null;
 
-    // Services
-    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-
     // ---------------- Bindings --------------------
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeSelectedArea = this.onChangeSelectedArea.bind(this);
@@ -104,7 +101,7 @@ class AreasForm extends React.Component {
   async onSubmit(e) {
     e.preventDefault();
     const drawedGeoJson = this.state.geojson ?
-      await this.areasService.createGeostore(this.state.geojson) : null;
+      await createGeostore(this.state.geojson) : null;
 
     if (drawedGeoJson && 'id' in drawedGeoJson) {
       this.setState({ geostore: drawedGeoJson.id });
@@ -179,7 +176,7 @@ class AreasForm extends React.Component {
 
   loadAreas() {
     this.setState({ loadingAreaOptions: true });
-    this.areasService.fetchCountries().then((response) => {
+    fetchCountries().then((response) => {
       let geoCountrySelected = false;
       this.setState({
         areaOptions: response.filter(elem => typeof elem.name !== 'undefined')

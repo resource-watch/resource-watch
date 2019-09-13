@@ -12,7 +12,7 @@ import Map from 'components/widgets/map/Map';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import AreasService from 'services/AreasService';
+import { getCountry, getGeostore } from 'services/areas';
 import UserService from 'services/user';
 
 // Utils
@@ -43,7 +43,6 @@ class SubscriptionCard extends React.Component {
       apiURL: process.env.WRI_API_URL,
       language: props.locale
     });
-    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ------------------- Bindings ---------------------------
@@ -65,7 +64,7 @@ class SubscriptionCard extends React.Component {
         const paramsObj = this.props.subscription.attributes.params;
 
         if (paramsObj.geostore) {
-          this.areasService.getGeostore(paramsObj.geostore)
+          getGeostore(paramsObj.geostore)
             .then((res) => {
               const obj = res.data;
               const fakeLayer = {
@@ -85,7 +84,7 @@ class SubscriptionCard extends React.Component {
               });
             });
         } else if (paramsObj.iso.country) {
-          this.areasService.getCountry(paramsObj.iso.country)
+          getCountry(paramsObj.iso.country)
             .then((res) => {
               const country = res.data[0];
 

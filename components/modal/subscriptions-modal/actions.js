@@ -6,16 +6,19 @@ import moment from 'moment';
 import WRISerializer from 'wri-json-api-serializer';
 
 // services
-import AreasService from 'services/AreasService';
-import UserService from 'services/user';
-import { getUserAreas as getUserAreasService, createArea } from 'services/newuser';
-import { getSubscriptions } from 'services/subscriptions';
+import { fetchCountries } from 'services/areas';
+import {
+  getUserAreas as getUserAreasService,
+  createArea
+} from 'services/newuser';
+import {
+  getSubscriptions,
+  createSubscriptionToArea as createSubscriptionToAreaService
+} from 'services/subscriptions';
 
 import DatasetService from 'services/DatasetService';
 import { fetchQuery } from 'services/query';
 
-const areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-const userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
 // actions – user subscriptions
 export const setSubscriptions = createAction('SUBSCRIPTIONS__SET-SUBSCRIPTIONS');
@@ -93,7 +96,7 @@ export const getAreas = createThunkAction('SUBSCRIPTIONS__GET-AREAS', () =>
   (dispatch) => {
     dispatch(setAreasLoading(true));
 
-    areasService.fetchCountries()
+    fetchCountries()
       .then((areas = []) => {
         dispatch(setAreas(areas));
         dispatch(setAreasLoading(false));
@@ -186,7 +189,7 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
     dispatch(setSubscriptionSuccess(false));
     dispatch(setSubscriptionLoading(true));
 
-    return userService.createSubscriptionToArea(
+    return createSubscriptionToAreaService(
       areaId,
       datasetIds,
       datasetsQuery,
@@ -227,7 +230,7 @@ export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CRE
         .then(({ data }) => {
           const areaID = data.id;
 
-          userService.createSubscriptionToArea(
+          createSubscriptionToAreaService(
             areaID,
             datasetId,
             datasetQuery,

@@ -14,9 +14,12 @@ import { getUserAreas } from 'redactions/user';
 import areaAlerts from 'selectors/user/areaAlerts';
 
 // Services
-import AreasService from 'services/AreasService';
 import UserService from 'services/user';
 import DatasetService from 'services/DatasetService';
+import {
+  createSubscriptionToArea,
+  updateSubscriptionToArea
+} from 'services/subscriptions';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -43,7 +46,6 @@ class AreaSubscriptionModal extends React.Component {
       apiURL: process.env.WRI_API_URL,
       language: props.locale
     });
-    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
     this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ------------------- Bindings -----------------------
@@ -144,7 +146,7 @@ class AreaSubscriptionModal extends React.Component {
         return;
       }
 
-      userService.createSubscriptionToArea(
+      createSubscriptionToArea(
         area.id,
         datasets,
         datasetsQuery,
@@ -166,7 +168,7 @@ class AreaSubscriptionModal extends React.Component {
         return;
       }
 
-      userService.updateSubscriptionToArea(
+      updateSubscriptionToArea(
         area.subscription.id,
         datasets,
         datasetsQuery,

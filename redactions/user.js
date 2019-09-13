@@ -22,7 +22,10 @@ import {
 import { getSubscriptions } from 'services/subscriptions';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
-import AreasService from 'services/AreasService';
+import {
+  getCountry,
+  getGeostore
+} from 'services/areas';
 
 /**
  * CONSTANTS
@@ -439,14 +442,13 @@ export const getUserAreaLayerGroups = createThunkAction(
   (area = {}) =>
     (dispatch) => {
       const { attributes } = area;
-      const areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
       if (attributes.geostore) {
-        return areasService.getGeostore(attributes.geostore).then((geo) => {
+        return getGeostore(attributes.geostore).then((geo) => {
           dispatch(setUserAreaLayerGroup({ area, layerGroups: [setGeoLayer(geo)] }));
         });
       }
 
-      return areasService.getCountry(attributes.iso.country).then((country) => {
+      return getCountry(attributes.iso.country).then((country) => {
         dispatch(setUserAreaLayerGroup({ area, layerGroups: [setCountryLayer(country)] }));
       });
     }
@@ -456,7 +458,6 @@ export const getUserAreas = createThunkAction(
   'user/getUserAreas',
   (payload = {}) =>
     (dispatch, getState) => {
-
       const { user, common } = getState();
 
       return getUserAreasService(user.token)

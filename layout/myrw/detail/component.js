@@ -17,8 +17,8 @@ import Title from 'components/ui/Title';
 // services
 import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
-import UserService from 'services/user';
 import { fetchDashboard } from 'services/dashboard';
+import { getArea } from 'services/areas';
 
 // utils
 import { capitalizeFirstLetter, listSeperator } from 'utils/utils';
@@ -56,9 +56,6 @@ class LayoutMyRWDetail extends PureComponent {
       case 'widgets':
         this.service = new WidgetsService();
         break;
-      case 'areas':
-        this.service = new UserService({ apiURL: process.env.WRI_API_URL });
-        break;
       default:
         this.service = new DatasetsService({ language: locale });
     }
@@ -77,7 +74,7 @@ class LayoutMyRWDetail extends PureComponent {
           .catch((err) => { toastr.error('Error', err); });
       } else {
         if (tab === 'dashboards' || tab === 'collections') return;
-        this.service.getArea(id, user.token)
+        getArea(id, user.token)
           .then((data) => { this.setState({ data: data.data }); })
           .catch((err) => { toastr.error('Error', err); });
       }
