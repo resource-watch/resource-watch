@@ -32,7 +32,7 @@ export const createGeostore = async (geojson) => {
     geojson,
     { headers: { 'Content-Type': 'application/json' } })
     .catch(() => { throw new Error("The file couldn't be processed correctly. Try again in a few minutes."); });
-  return response.data;
+  return response.data.data;
 };
 
 /**
