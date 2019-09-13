@@ -9,17 +9,19 @@ import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/are
 import { getDatasetsByTab } from 'redactions/admin/datasets';
 
 // services
-import UserService from 'services/user';
 import {
   getUserAreas as getUserAreasService,
   deleteArea
-} from 'services/newuser';
+} from 'services/user';
 import {
   deleteFavourite,
   createFavourite,
   getFavourites
 } from 'services/favourites';
-import { getSubscriptions } from 'services/subscriptions';
+import {
+  getSubscriptions,
+  deleteSubscription
+} from 'services/subscriptions';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
 import {
@@ -506,10 +508,9 @@ export const removeUserArea = createThunkAction(
   'user/removeUserArea',
   (area = {}) => (dispatch, getState) => {
     const { user } = getState();
-    const userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     if (area.subscription) {
-      return userService.deleteSubscription(area.subscription.id, user.token).then(() => {
+      return deleteSubscription(area.subscription.id, user.token).then(() => {
         return deleteArea(area.id, user.token).then(() => {
           toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
           dispatch(getUserAreas());

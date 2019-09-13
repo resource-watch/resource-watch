@@ -8,7 +8,7 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 
 // services
-import { forgotPassword } from 'services/newuser';
+import { forgotPassword } from 'services/user';
 
 // constants
 import { FORM_ELEMENTS } from './constants';

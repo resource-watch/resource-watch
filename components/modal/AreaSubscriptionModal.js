@@ -14,11 +14,11 @@ import { getUserAreas } from 'redactions/user';
 import areaAlerts from 'selectors/user/areaAlerts';
 
 // Services
-import UserService from 'services/user';
 import DatasetService from 'services/DatasetService';
 import {
   createSubscriptionToArea,
-  updateSubscriptionToArea
+  updateSubscriptionToArea,
+  deleteSubscription
 } from 'services/subscriptions';
 
 // Components
@@ -46,7 +46,6 @@ class AreaSubscriptionModal extends React.Component {
       apiURL: process.env.WRI_API_URL,
       language: props.locale
     });
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ------------------- Bindings -----------------------
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -119,7 +118,6 @@ class AreaSubscriptionModal extends React.Component {
   handleSubmit() {
     const { area, user, locale, mode } = this.props;
     const { alerts } = this.state;
-    const { userService } = this;
 
     let missingValues = false;
 
@@ -159,7 +157,7 @@ class AreaSubscriptionModal extends React.Component {
       }).catch(err => toastr.error('Error creating the subscription', err));
     } else {
       if (!datasets.length) {
-        userService.deleteSubscription(area.subscription.id, user.token)
+        deleteSubscription(area.subscription.id, user.token)
           .then(() => {
             toastr.success('Success!', 'Subscription updated successfully');
             this.props.dispatch(getUserAreas());

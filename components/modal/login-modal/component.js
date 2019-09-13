@@ -10,7 +10,7 @@ import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import { loginUser, registerUser } from 'services/newuser';
+import { loginUser, registerUser } from 'services/user';
 
 // constants
 import { FORM_ELEMENTS } from './constants';

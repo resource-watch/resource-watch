@@ -10,7 +10,7 @@ import Spinner from 'components/ui/Spinner';
 import FileImage from 'components/form/FileImage';
 
 // services
-import { uploadPhoto } from 'services/newuser';
+import { uploadPhoto } from 'services/user';
 
 export const FORM_ELEMENTS = {
   elements: {},

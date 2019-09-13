@@ -69,8 +69,28 @@ export const updateSubscriptionToArea = (
     });
 };
 
+/**
+ *  Get Subscription
+ */
+export const getSubscription = (subscriptionId, token) =>
+  WRIAPI.get(`subscriptions/${subscriptionId}/data?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
+    { headers: { Authorization: token } })
+    .then(response => response.data);
+
+/**
+ * Deletes a subscription
+ * @param {subscriptionId} ID of the subscription that will be deleted
+ * @param {token} User token
+ * @returns {Promise}
+ */
+export const deleteSubscription = (subscriptionId, token) =>
+  WRIAPI.delete(`subscriptions/${subscriptionId}`,
+    { headers: { Authorization: token } });
+
 export default {
   getSubscriptions,
   createSubscriptionToArea,
-  updateSubscriptionToArea
+  updateSubscriptionToArea,
+  getSubscription,
+  deleteSubscription
 };

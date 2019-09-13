@@ -10,10 +10,11 @@ import { fetchCountries } from 'services/areas';
 import {
   getUserAreas as getUserAreasService,
   createArea
-} from 'services/newuser';
+} from 'services/user';
 import {
   getSubscriptions,
-  createSubscriptionToArea as createSubscriptionToAreaService
+  createSubscriptionToArea as createSubscriptionToAreaService,
+  updateSubscriptionToArea
 } from 'services/subscriptions';
 
 import DatasetService from 'services/DatasetService';
@@ -286,7 +287,7 @@ export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSC
         threshold: _dataset.threshold
       };
 
-      const promise = userService.updateSubscriptionToArea(
+      const promise = updateSubscriptionToArea(
         id,
         datasetId,
         datasetQuery,

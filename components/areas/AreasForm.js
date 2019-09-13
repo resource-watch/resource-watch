@@ -17,7 +17,7 @@ import UploadArea from 'components/areas/UploadArea';
 
 // Services
 import { fetchCountries, createGeostore } from 'services/areas';
-import { createArea, updateArea } from 'services/newuser';
+import { createArea, updateArea } from 'services/user';
 
 // Utils
 import { logEvent } from 'utils/analytics';
