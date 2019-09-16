@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.1.8] - 2019-09-16
 ### Added
+- Specify order in which layers should appear on Explore [[code]](https://github.com/resource-watch/resource-watch/pull/1027)
 - Newsletter thank you page [[code]](https://github.com/resource-watch/resource-watch/pull/1103)
 - Expandable table of contents in FAQs [[code]](https://github.com/resource-watch/resource-watch/pull/1107)
 - Applications read-only field added to dataset form in the back office [[code]](https://github.com/resource-watch/resource-watch/pull/1113)
