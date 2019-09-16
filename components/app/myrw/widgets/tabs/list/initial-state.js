@@ -1,6 +1,6 @@
 export default {
   display: 'grid',
-  sort: 'asc',
+  sort: 'desc',
   search: '',
   pagination: {
     page: 1,

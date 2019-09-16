@@ -34,7 +34,8 @@ export default class WidgetService {
   saveUserWidget(widget, datasetId, token) {
     const widgetObj = {
       application: [process.env.APPLICATIONS],
-      env: process.env.API_ENV,
+      // env: process.env.API_ENV, This is commented out since otherwise the widget ends up
+      // having a env value equals to `production,preproduction`, which is not allowed.
       published: false,
       default: false,
       dataset: datasetId
