@@ -69,6 +69,7 @@ class HeadApp extends PureComponent {
         <Fragment>
           <script src="/static/cesium/cesium.js" />
           <script src="/static/cesium/cesium-navigation.js" />
+          <link rel="stylesheet" href="/static/cesium/navigation.css" />
           <link rel="stylesheet" href="/static/cesium/Widgets/widgets.css" />
         </Fragment>
       );
