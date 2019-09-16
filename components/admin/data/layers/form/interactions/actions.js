@@ -1,7 +1,10 @@
 import { createAction, createThunkAction } from 'redux-tools';
 
 // services
-import { getFields } from 'services/fields';
+import { fetchFields } from 'services/fields';
+
+// utils
+import { getFieldUrl } from 'utils/fields';
 
 export const setCurrentInteractions = createAction('LAYER-INTERACTIONS__SET_CURRENT_INTERACTIONS');
 export const setAvailabletInteractions = createAction('LAYER-INTERACTIONS__SET_AVAILABLE_INTERACTIONS');
@@ -15,17 +18,17 @@ export const getCurrentLayerInteractions = createThunkAction('LAYER-INTERACTIONS
   if (output) dispatch(setCurrentInteractions(output));
 });
 
-export const getAvailableLayerInteractions = createThunkAction('LAYER-INTERACTIONS__GET-AVAILABLE-LAYER-INTERACTIONS', props => (dispatch, getState) => {
-  const { user: { token } } = getState();
+export const getAvailableLayerInteractions = createThunkAction('LAYER-INTERACTIONS__GET-AVAILABLE-LAYER-INTERACTIONS', props => (dispatch) => {
   const { layer } = props;
 
   dispatch(setLoading(true));
 
   if (layer && layer.provider !== 'wms') {
-    return getFields(layer.dataset, token)
-      .then(({ fields }) => {
-        const parsedFields = ((fields && Object.keys(fields)) || []).map((fKey) => {
-          const { type } = fields[fKey] || null;
+    const url = getFieldUrl({ id: layer.dataset });
+    return fetchFields(url)
+      .then((rawFields) => {
+        const parsedFields = ((rawFields && Object.keys(rawFields)) || []).map((fKey) => {
+          const { type } = rawFields[fKey] || null;
           return { label: fKey || '', value: fKey || '', type };
         });
 
