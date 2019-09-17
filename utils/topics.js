@@ -102,6 +102,13 @@ export const filterFunction = (topics, filters) => {
     }));
 };
 
+export const addOwnerAndRole = topics =>
+  topics.map(_topic => ({
+    ..._topic,
+    owner: _topic.user ? _topic.user.name || (_topic.user.email || '').split('@')[0] : '',
+    role: _topic.user ? _topic.user.role || '' : ''
+  }));
+
 export default {
   TOPICS_CONNECTIONS,
   filterFunction

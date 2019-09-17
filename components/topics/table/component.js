@@ -32,14 +32,7 @@ class TopicsTable extends PureComponent {
 
   static defaultProps = { error: null }
 
-  state = {
-    pagination: INITIAL_PAGINATION,
-    topics: this.props.topics.map(_topic => ({
-      ..._topic,
-      owner: _topic.user ? _topic.user.name || (_topic.user.email || '').split('@')[0] : '',
-      role: _topic.user ? _topic.user.role || '' : ''
-    }))
-  };
+  state = { pagination: INITIAL_PAGINATION };
 
   componentWillMount() {
     const { getAllTopics, authorization } = this.props;
@@ -58,12 +51,7 @@ class TopicsTable extends PureComponent {
         size: nextTopics.length,
         ...topicsChanged && { page: 1 },
         pages: Math.ceil(nextTopics.length / pagination.limit)
-      },
-      topics: nextTopics.map(_topic => ({
-        ..._topic,
-        owner: _topic.user ? _topic.user.name || (_topic.user.email || '').split('@')[0] : '',
-        role: _topic.user ? _topic.user.role || '' : ''
-      }))
+      }
     });
   }
 
@@ -94,9 +82,10 @@ class TopicsTable extends PureComponent {
     const {
       loading,
       error,
-      authorization
+      authorization,
+      topics
     } = this.props;
-    const { pagination, topics } = this.state;
+    const { pagination } = this.state;
 
     return (
       <div className="c-topics-table">
