@@ -11,10 +11,11 @@ import { WRIAPI } from 'utils/axios';
  * @param {Object[]} params - params sent to the API.
  * @returns {Object[]} array of serialized dashboards.
  */
-export const fetchDashboards = (params = {}) =>
+export const fetchDashboards = (params = {}, headers = {}) =>
   WRIAPI.get('/dashboard', {
     headers: {
       ...WRIAPI.defaults.headers,
+      ...headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
@@ -27,7 +28,7 @@ export const fetchDashboards = (params = {}) =>
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);
-      return WRISerializer(data);
+      return data;
     });
 
 /**
@@ -48,7 +49,7 @@ export const fetchDashboard = id =>
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);
-      return WRISerializer(data);
+      return data;
     });
 
 /**
@@ -73,7 +74,7 @@ export const createDashboard = (body, token) =>
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);
-      return WRISerializer(data);
+      return data;
     });
 
 /**
@@ -95,7 +96,7 @@ export const updateDashboard = (id, body, token) =>
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);
-      return WRISerializer(data);
+      return data;
     });
 
 /**
@@ -137,7 +138,7 @@ export const cloneDashboard = (id, token) =>
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);
-      return WRISerializer(data);
+      return data;
     });
 
 export default {
