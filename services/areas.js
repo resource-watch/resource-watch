@@ -1,19 +1,21 @@
 import { WRIAPI } from 'utils/axios';
+import WRISerializer from 'wri-json-api-serializer';
 
 /**
  * Get area
  */
-export const fetchArea = (id, token) =>
+export const fetchArea = (id, params = {}, headers = {}) =>
   WRIAPI.get(
-    `area/${id}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
+    `area/${id}`,
     {
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
+        ...headers,
         'Upgrade-Insecure-Requests': 1
-      }
+      },
+      params: { ...params }
     }
-  );
+  )
+    .then(response => WRISerializer(response.data));
 
 
 /**
@@ -25,7 +27,7 @@ export const getUserAreas = token =>
       Authorization: token,
       'Upgrade-Insecure-Requests': 1
     }
-  }).then(response => response.data.data);
+  }).then(response => WRISerializer(response.data));
 
 /**
  * Deletes an area

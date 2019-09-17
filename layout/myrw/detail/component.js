@@ -74,8 +74,14 @@ class LayoutMyRWDetail extends PureComponent {
           .catch((err) => { toastr.error('Error', err); });
       } else {
         if (tab === 'dashboards' || tab === 'collections') return;
-        fetchArea(id, user.token)
-          .then((data) => { this.setState({ data: data.data }); })
+
+        fetchArea(id,
+          {
+            application: process.env.APPLICATIONS,
+            env: process.env.API_ENV
+          },
+          { Authorization: user.token })
+          .then((data) => { this.setState({ data }); })
           .catch((err) => { toastr.error('Error', err); });
       }
     }

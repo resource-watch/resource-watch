@@ -88,7 +88,7 @@ class AreasForm extends React.Component {
     const { query } = this.props.routes;
 
     if (query.id) {
-      this.loadAreas();
+      this.loadAreaOptions();
     }
   }
 
@@ -171,7 +171,7 @@ class AreasForm extends React.Component {
     this.setState({ name: value });
   }
 
-  loadAreas() {
+  loadAreaOptions() {
     this.setState({ loadingAreaOptions: true });
     fetchCountries().then((response) => {
       let geoCountrySelected = false;
