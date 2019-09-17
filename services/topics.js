@@ -1,7 +1,6 @@
 import 'isomorphic-fetch';
-import { get, post, remove } from 'utils/request';
+import { post, remove } from 'utils/request';
 
-import sortBy from 'lodash/sortBy';
 import { Deserializer } from 'jsonapi-serializer';
 import WRISerializer from 'wri-json-api-serializer';
 
@@ -12,28 +11,6 @@ import { logger } from 'utils/logs';
 export default class TopicsService {
   constructor(options = {}) {
     this.opts = options;
-  }
-
-  fetchData({ id }) {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
-        headers: [{
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, topic) => {
-            resolve(topic);
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
   }
 
   saveData({ type, body, id }) {
@@ -132,7 +109,7 @@ export const fetchTopics = (params = {}, headers = {}) => {
 export const fetchTopic = (id) => {
   logger.info(`Fetches topic: ${id}`);
 
-  return WRIAPI.get(`/topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`)
+  return WRIAPI.get(`topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`)
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 300) {
@@ -143,11 +120,11 @@ export const fetchTopic = (id) => {
         }
         throw new Error(statusText);
       }
-      return WRISerializer(data);
+      return data;
     }).catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
-      return WRISerializer({});
+      return (response);
     });
 };
 

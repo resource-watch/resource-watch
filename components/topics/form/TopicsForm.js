@@ -8,6 +8,7 @@ import { logEvent } from 'utils/analytics';
 
 // Services
 import TopicsService from 'services/topics';
+import { fetchTopic } from 'services/topics';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/topics/form/constants';
 
@@ -28,11 +29,6 @@ class TopicsForm extends React.Component {
       }
     });
 
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
-
     this.service = new TopicsService({
       authorization: props.user.token
     });
@@ -43,7 +39,7 @@ class TopicsForm extends React.Component {
     // Get the topics and fill the
     // state form with its params if the id exists
     if (id) {
-      this.service.fetchData({ id })
+      fetchTopic(id)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
@@ -62,7 +58,7 @@ class TopicsForm extends React.Component {
    * - onSubmit
    * - onChange
   */
-  onSubmit(event) {
+  onSubmit = (event) => {
     event.preventDefault();
 
     // Validate the form
@@ -112,12 +108,12 @@ class TopicsForm extends React.Component {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
