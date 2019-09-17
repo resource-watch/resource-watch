@@ -10,7 +10,7 @@ import { fetchCountries } from 'services/geostore';
 import {
   getUserAreas as getUserAreasService,
   createArea
-} from 'services/user';
+} from 'services/areas';
 import {
   getSubscriptions,
   createSubscriptionToArea as createSubscriptionToAreaService,

@@ -12,7 +12,7 @@ import { getDatasetsByTab } from 'redactions/admin/datasets';
 import {
   getUserAreas as getUserAreasService,
   deleteArea
-} from 'services/user';
+} from 'services/areas';
 import {
   deleteFavourite,
   createFavourite,

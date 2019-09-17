@@ -1,5 +1,5 @@
 import { logger } from 'utils/logs';
-import { localAPI, controlTowerAPI, WRIAPI } from 'utils/axios';
+import { localAPI, controlTowerAPI } from 'utils/axios';
 
 /**
  * Logs in a user based on the email + password combination
@@ -65,64 +65,6 @@ export const resetPassword = ({ tokenEmail, password, repeatPassword }) =>
       throw response;
     });
 
-/**
- * Get user areas
- */
-export const getUserAreas = token =>
-  WRIAPI.get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
-    headers: {
-      Authorization: token,
-      'Upgrade-Insecure-Requests': 1
-    }
-  }).then(response => response.data.data);
-
-/**
- * Deletes an area
- * @param {areaId} ID of the area that will be deleted
- * @param {token} User token
- * @returns {Promise}
- */
-export const deleteArea = (areaId, token) =>
-  WRIAPI.delete(`area/${areaId}`, { headers: { Authorization: token } });
-
-/**
- * Create new area
- */
-export const createArea = (name, geostore, token) => {
-  const bodyObj = {
-    name,
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV,
-    geostore
-  };
-
-  return WRIAPI.post('area', bodyObj, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    }
-  });
-};
-
-/**
- * Update area
- */
-export const updateArea = (id, name, token, geostore) => {
-  const bodyObj = {
-    name,
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV,
-    geostore
-  };
-
-  return WRIAPI.patch(`area/${id}`, bodyObj, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    }
-  });
-};
-
 export const uploadPhoto = (file, user) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -162,9 +104,5 @@ export default {
   forgotPassword,
   registerUser,
   resetPassword,
-  getUserAreas,
-  deleteArea,
-  createArea,
-  updateArea,
   uploadPhoto
 };
