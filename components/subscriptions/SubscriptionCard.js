@@ -12,7 +12,8 @@ import Map from 'components/widgets/map/Map';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import { getCountry, getGeostore } from 'services/areas';
+import { getCountry } from 'services/areas';
+import { getGeostore } from 'services/geostore';
 import { deleteSubscription } from 'services/subscriptions';
 
 // Utils

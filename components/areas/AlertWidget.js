@@ -20,7 +20,7 @@ import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
 // Services
-import { getGeostore } from 'services/areas';
+import { getGeostore } from 'services/geostore';
 
 // Utils
 import { LayerManager, Layer } from 'layer-manager/dist/components';

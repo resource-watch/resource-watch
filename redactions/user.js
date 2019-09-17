@@ -24,10 +24,8 @@ import {
 } from 'services/subscriptions';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
-import {
-  getCountry,
-  getGeostore
-} from 'services/areas';
+import { getCountry } from 'services/areas';
+import { getGeostore } from 'services/geostore';
 
 /**
  * CONSTANTS

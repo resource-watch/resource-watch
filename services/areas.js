@@ -23,19 +23,6 @@ export const getCountry = iso =>
   WRIAPI.get(`query/134caa0a-21f7-451d-a7fe-30db31a424aa?sql=SELECT name_engli as label, st_asgeojson(the_geom_simple) as geojson, bbox as bounds from gadm28_countries WHERE iso = '${iso}'`);
 
 /**
- * Get Geostore
- */
-export const getGeostore = id => WRIAPI.get(`geostore/${id}`);
-
-export const createGeostore = async (geojson) => {
-  const response = await WRIAPI.post('geostore',
-    geojson,
-    { headers: { 'Content-Type': 'application/json' } })
-    .catch(() => { throw new Error("The file couldn't be processed correctly. Try again in a few minutes."); });
-  return response.data.data;
-};
-
-/**
  * Get area
  */
 export const getArea = (id, token) =>
@@ -53,7 +40,5 @@ export const getArea = (id, token) =>
 export default {
   getArea,
   getCountry,
-  createGeostore,
-  getGeostore,
   fetchCountries
 };

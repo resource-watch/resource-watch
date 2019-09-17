@@ -16,7 +16,8 @@ import Input from 'components/form/Input';
 import UploadArea from 'components/areas/UploadArea';
 
 // Services
-import { fetchCountries, createGeostore } from 'services/areas';
+import { fetchCountries } from 'services/areas';
+import { createGeostore } from 'services/geostore';
 import { createArea, updateArea } from 'services/user';
 
 // Utils
