@@ -39,38 +39,7 @@ class WidgetsTable extends PureComponent {
   }
 
   componentDidMount() {
-    const { dataset, user: { token } } = this.props;
-    const { pagination } = this.state;
-
-    fetchWidgets({
-      includes: 'user',
-      'page[number]': pagination.page,
-      'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS,
-      ...dataset && { dataset }
-    }, { Authorization: token }, true)
-      .then(({ widgets, meta }) => {
-        const {
-          'total-pages': pages,
-          'total-items': size
-        } = meta;
-        const nextPagination = {
-          ...pagination,
-          size,
-          pages
-        };
-
-        this.setState({
-          loading: false,
-          pagination: nextPagination,
-          widgets: widgets.map(_widget => ({
-            ..._widget,
-            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
-            role: _widget.user ? _widget.user.role || '' : ''
-          }))
-        });
-      })
-      .catch((error) => { this.setState({ error }); });
+    this.loadWidgets();
   }
 
   /**
@@ -171,17 +140,19 @@ class WidgetsTable extends PureComponent {
   }
 
   onRemoveWidget = () => {
-    const { dataset, user: { token } } = this.props;
-    const { pagination, filters } = this.state;
-
     this.setState({ loading: true });
+    this.loadWidgets();
+  }
+
+  loadWidgets = () => {
+    const { dataset, user: { token } } = this.props;
+    const { pagination } = this.state;
 
     fetchWidgets({
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
-      ...filters,
       ...dataset && { dataset }
     }, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
@@ -205,7 +176,7 @@ class WidgetsTable extends PureComponent {
           }))
         });
       })
-      .catch(({ message }) => { this.setState({ error: message }); });
+      .catch((error) => { this.setState({ error }); });
   }
 
   render() {
