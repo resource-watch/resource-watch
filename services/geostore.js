@@ -5,13 +5,10 @@ import { WRIAPI } from 'utils/axios';
  */
 export const getGeostore = id => WRIAPI.get(`geostore/${id}`);
 
-export const createGeostore = async (geojson) => {
-  const response = await WRIAPI.post('geostore',
-    geojson,
-    { headers: { 'Content-Type': 'application/json' } })
+export const createGeostore = geojson =>
+  WRIAPI.post('geostore', geojson)
+    .then(response => response.data.data)
     .catch(() => { throw new Error("The file couldn't be processed correctly. Try again in a few minutes."); });
-  return response.data.data;
-};
 
 /**
  * Fetch countries

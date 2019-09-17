@@ -3,7 +3,7 @@ import { WRIAPI } from 'utils/axios';
 /**
  * Get area
  */
-export const getArea = (id, token) =>
+export const fetchArea = (id, token) =>
   WRIAPI.get(
     `area/${id}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
     {
@@ -75,7 +75,7 @@ export const updateArea = (id, name, token, geostore) => {
 };
 
 export default {
-  getArea,
+  fetchArea,
   getUserAreas,
   deleteArea,
   createArea,

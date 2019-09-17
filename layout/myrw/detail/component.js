@@ -18,7 +18,7 @@ import Title from 'components/ui/Title';
 import DatasetsService from 'services/DatasetsService';
 import WidgetsService from 'services/WidgetsService';
 import { fetchDashboard } from 'services/dashboard';
-import { getArea } from 'services/areas';
+import { fetchArea } from 'services/areas';
 
 // utils
 import { capitalizeFirstLetter, listSeperator } from 'utils/utils';
@@ -74,7 +74,7 @@ class LayoutMyRWDetail extends PureComponent {
           .catch((err) => { toastr.error('Error', err); });
       } else {
         if (tab === 'dashboards' || tab === 'collections') return;
-        getArea(id, user.token)
+        fetchArea(id, user.token)
           .then((data) => { this.setState({ data: data.data }); })
           .catch((err) => { toastr.error('Error', err); });
       }
