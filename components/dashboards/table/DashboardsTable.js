@@ -86,7 +86,8 @@ class DashboardsTable extends PureComponent {
   }
 
   render() {
-    const { pagination, dashboards } = this.state;
+    const { pagination } = this.state;
+    const { filteredDashboards } = this.props;
 
     return (
       <div className="c-dashboards-table">
@@ -127,7 +128,7 @@ class DashboardsTable extends PureComponent {
               value: 1
             }}
             filters={false}
-            data={dashboards}
+            data={filteredDashboards}
             manualPagination
             onChangePage={this.onChangePage}
             onRowDelete={() => this.props.getDashboards({ includes: 'user' }, { Authorization: this.props.user.token })}
