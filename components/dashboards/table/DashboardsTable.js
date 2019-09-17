@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { getDashboards, setFilters } from 'redactions/admin/dashboards';
 
 // Selectors
-import getFilteredDashboards from 'selectors/admin/dashboards';
+import { getDashboards as getFilteredDashboards } from 'selectors/admin/dashboards';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -39,14 +39,7 @@ class DashboardsTable extends PureComponent {
 
   static defaultProps = { error: null };
 
-  state = {
-    pagination: INITIAL_PAGINATION,
-    dashboards: this.props.filteredDashboards.map(_dashboard => ({
-      ..._dashboard,
-      owner: _dashboard.user ? _dashboard.user.name || (_dashboard.user.email || '').split('@')[0] : '',
-      role: _dashboard.user ? _dashboard.user.role || '' : ''
-    }))
-  };
+  state = { pagination: INITIAL_PAGINATION };
 
   componentDidMount() {
     this.props.setFilters([]);
@@ -65,12 +58,7 @@ class DashboardsTable extends PureComponent {
         size: nextDashboards.length,
         ...dashboardsChanged && { page: 1 },
         pages: Math.ceil(nextDashboards.length / pagination.limit)
-      },
-      dashboards: nextDashboards.map(_dashboard => ({
-        ..._dashboard,
-        owner: _dashboard.user ? _dashboard.user.name || (_dashboard.user.email || '').split('@')[0] : '',
-        role: _dashboard.user ? _dashboard.user.role || '' : ''
-      }))
+      }
     });
   }
 

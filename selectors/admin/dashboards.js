@@ -25,4 +25,14 @@ const getFilteredDashboards = (dashboards, filters) => { // eslint-disable-line 
   });
 };
 
-export default createSelector(dashboards, filters, getFilteredDashboards);
+export const getAllFilteredDashboards = createSelector(dashboards, filters, getFilteredDashboards);
+
+export const getDashboards = createSelector([getAllFilteredDashboards],
+  data => data.map(_dashboard => ({
+    ..._dashboard,
+    owner: _dashboard.user ? _dashboard.user.name || (_dashboard.user.email || '').split('@')[0] : '',
+    role: _dashboard.user ? _dashboard.user.role || '' : ''
+  })));
+
+export default { getDashboards };
+
