@@ -6,7 +6,7 @@ import moment from 'moment';
 import WRISerializer from 'wri-json-api-serializer';
 
 // services
-import { fetchCountries } from 'services/areas';
+import { fetchCountries } from 'services/geostore';
 import {
   getUserAreas as getUserAreasService,
   createArea
