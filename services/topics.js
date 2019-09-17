@@ -14,43 +14,6 @@ export default class TopicsService {
     this.opts = options;
   }
 
-  // GET ALL DATA
-  fetchAllData({ includes, filters, fields } = {}) {
-    const qParams = {
-      ...!!includes && { includes },
-      ...filters,
-      ...fields,
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS
-    };
-    const params = Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&');
-
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/topic/?${params}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        },
-        {
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: response => new Deserializer({
-          keyForAttribute: 'underscore_case'
-        }).deserialize(response, (err, topics) => {
-          resolve(sortBy(topics, 'name'));
-        }),
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
   fetchData({ id }) {
     return new Promise((resolve, reject) => {
       get({
@@ -129,12 +92,13 @@ export default class TopicsService {
  * @param {Object[]} params - params sent to the API.
  * @returns {Object[]} array of serialized topics.
  */
-export const fetchTopics = (params = {}) => {
+export const fetchTopics = (params = {}, headers = {}) => {
   logger.info('fetches topics');
 
   return WRIAPI.get('/topic', {
     headers: {
       ...WRIAPI.defaults.headers,
+      ...headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
@@ -151,11 +115,11 @@ export const fetchTopics = (params = {}) => {
       logger.error('Error fetching topics:', `${status}: ${statusText}`);
       throw new Error(statusText);
     }
-    return WRISerializer(data);
+    return data;
   }).catch(({ response }) => {
     const { status, statusText } = response;
     logger.error('Error fetching topics:', `${status}: ${statusText}`);
-    return WRISerializer({});
+    throw new Error(response);
   });
 };
 

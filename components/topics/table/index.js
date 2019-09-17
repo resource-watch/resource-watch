@@ -1,9 +1,22 @@
+// Redux
 import { connect } from 'react-redux';
+import { getAllTopics, setFilter } from 'modules/topics/actions';
+
+// selectors
+import { getAllFilteredTopics } from './selectors';
 
 // component
-import ToolsTable from './component';
+import TopicsTable from './component';
 
 export default connect(
-  state => ({ user: state.user }),
-  null
-)(ToolsTable);
+  state => ({
+    authorization: state.user.token,
+    loading: state.topics.all.loading,
+    topics: getAllFilteredTopics(state),
+    error: state.topics.all.error
+  }),
+  {
+    getAllTopics,
+    setFilter
+  }
+)(TopicsTable);

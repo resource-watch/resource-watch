@@ -1,10 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import { connect } from 'react-redux';
-import { getAllTopics, setFilter } from 'modules/topics/actions';
-
 // Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
@@ -12,9 +8,6 @@ import SearchInput from 'components/ui/SearchInput';
 
 // constants
 import { INITIAL_PAGINATION } from './constants';
-
-// selectors
-import { getAllFilteredTopics } from './selectors';
 
 // Table components
 import EditAction from './actions/EditAction';
@@ -39,19 +32,18 @@ class TopicsTable extends PureComponent {
 
   static defaultProps = { error: null }
 
-  state = { pagination: INITIAL_PAGINATION }
+  state = {
+    pagination: INITIAL_PAGINATION,
+    topics: this.props.topics.map(_topic => ({
+      ..._topic,
+      owner: _topic.user ? _topic.user.name || (_topic.user.email || '').split('@')[0] : '',
+      role: _topic.user ? _topic.user.role || '' : ''
+    }))
+  };
 
   componentWillMount() {
-    const { topics } = this.props;
-    const { pagination } = this.state;
-
-    this.setState({
-      pagination: {
-        ...pagination,
-        size: topics.length,
-        pages: Math.ceil(topics.length / pagination.limit)
-      }
-    });
+    const { getAllTopics, authorization } = this.props;
+    getAllTopics({ includes: 'user' }, { Authorization: authorization });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -66,7 +58,12 @@ class TopicsTable extends PureComponent {
         size: nextTopics.length,
         ...topicsChanged && { page: 1 },
         pages: Math.ceil(nextTopics.length / pagination.limit)
-      }
+      },
+      topics: nextTopics.map(_topic => ({
+        ..._topic,
+        owner: _topic.user ? _topic.user.name || (_topic.user.email || '').split('@')[0] : '',
+        role: _topic.user ? _topic.user.role || '' : ''
+      }))
     });
   }
 
@@ -95,12 +92,11 @@ class TopicsTable extends PureComponent {
 
   render() {
     const {
-      topics,
       loading,
       error,
       authorization
     } = this.props;
-    const { pagination } = this.state;
+    const { pagination, topics } = this.state;
 
     return (
       <div className="c-topics-table">
@@ -154,14 +150,4 @@ class TopicsTable extends PureComponent {
   }
 }
 
-export default connect(
-  state => ({
-    loading: state.topics.all.loading,
-    topics: getAllFilteredTopics(state),
-    error: state.topics.all.error
-  }),
-  {
-    getAllTopics,
-    setFilter
-  }
-)(TopicsTable);
+export default TopicsTable;
