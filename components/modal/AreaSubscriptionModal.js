@@ -144,13 +144,13 @@ class AreaSubscriptionModal extends React.Component {
         return;
       }
 
-      createSubscriptionToArea(
-        area.id,
+      createSubscriptionToArea({
+        areaId: area.id,
         datasets,
         datasetsQuery,
         user,
-        locale
-      ).then(() => {
+        language: locale
+      }).then(() => {
         toastr.success('Success!', 'Subscription created successfully');
         this.props.dispatch(getUserAreas());
         this.props.onRequestClose();

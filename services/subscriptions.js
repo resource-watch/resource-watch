@@ -24,14 +24,14 @@ export const fetchSubscriptions = (token) => {
  * @param {string} language Two-letter locale
  * @returns {Promise}
  */
-export const createSubscriptionToArea = (
+export const createSubscriptionToArea = ({
   areaId,
   datasets,
   datasetsQuery,
   user,
   language,
   name = ''
-) => {
+}) => {
   logger.info(`Create subscription to area: ${areaId}`);
   const bodyObj = {
     name,

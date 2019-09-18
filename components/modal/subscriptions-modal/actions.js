@@ -191,11 +191,13 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
     dispatch(setSubscriptionLoading(true));
 
     return createSubscriptionToAreaService(
-      areaId,
-      datasetIds,
-      datasetsQuery,
-      user,
-      locale
+      {
+        areaId,
+        datasets: datasetIds,
+        datasetsQuery,
+        user,
+        language: locale
+      }
     ).then(() => {
       dispatch(setSubscriptionSuccess(true));
       dispatch(setSubscriptionLoading(false));
@@ -209,11 +211,12 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
 
 export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CREATE-SUBSCRIPTION-NEW-AREA', () =>
   (dispatch, getState) => {
-    const { subscriptions, user } = getState();
+    const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
     const { area, datasets } = userSelection;
     const { label, isGeostore } = area;
     const { token } = user;
+    const { locale } = common;
     const promises = [];
 
     dispatch(setSubscriptionSuccess(false));
@@ -229,13 +232,16 @@ export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CRE
 
       const promise = createArea(label, isGeostore, token)
         .then(({ data }) => {
-          const areaID = data.id;
+          const areaId = data.id;
 
           createSubscriptionToAreaService(
-            areaID,
-            datasetId,
-            datasetQuery,
-            user
+            {
+              areaId,
+              datasets: datasetId,
+              datasetsQuery: datasetQuery,
+              user,
+              language: locale
+            }
           ).then(() => {
             dispatch(setSubscriptionSuccess(true));
             dispatch(setSubscriptionLoading(false));
