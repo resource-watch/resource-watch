@@ -16,7 +16,7 @@ import {
 import {
   deleteFavourite,
   createFavourite,
-  getFavourites
+  fetchFavourites
 } from 'services/favourites';
 import {
   fetchSubscriptions,
@@ -252,7 +252,7 @@ export const getUserFavourites = createThunkAction('user/getUserFavourites', () 
 
     dispatch(setFavouriteLoading(true));
 
-    return getFavourites(token)
+    fetchFavourites(token)
       .then(({ data }) => {
         dispatch(setFavouriteLoading(false));
         dispatch({ type: SET_USER_FAVOURITES, payload: data });
