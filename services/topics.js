@@ -96,7 +96,7 @@ export const fetchTopics = (params = {}, headers = {}) => {
   }).catch(({ response }) => {
     const { status, statusText } = response;
     logger.error('Error fetching topics:', `${status}: ${statusText}`);
-    throw new Error(response);
+    throw new Error(statusText);
   });
 };
 
@@ -124,7 +124,7 @@ export const fetchTopic = (id) => {
     }).catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
-      return (response);
+      throw new Error(statusText);
     });
 };
 
