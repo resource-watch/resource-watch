@@ -8,7 +8,7 @@ import WRISerializer from 'wri-json-api-serializer';
 // services
 import { fetchCountries } from 'services/geostore';
 import {
-  getUserAreas as getUserAreasService,
+  fetchUserAreas,
   createArea
 } from 'services/areas';
 import {
@@ -120,7 +120,7 @@ export const getUserAreas = createThunkAction('SUBSCRIPTIONS__GET-USER-AREAS', (
 
     dispatch(setUserAreasLoading(true));
 
-    getUserAreasService(token)
+    fetchUserAreas(token)
       .then((userAreas = []) => {
         dispatch(setUserAreas(userAreas));
         dispatch(setUserAreasLoading(false));

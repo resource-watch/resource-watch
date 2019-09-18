@@ -10,7 +10,7 @@ import { getDatasetsByTab } from 'redactions/admin/datasets';
 
 // services
 import {
-  getUserAreas as getUserAreasService,
+  fetchUserAreas,
   deleteArea
 } from 'services/areas';
 import {
@@ -459,7 +459,7 @@ export const getUserAreas = createThunkAction(
     (dispatch, getState) => {
       const { user, common } = getState();
 
-      return getUserAreasService(user.token)
+      return fetchUserAreas(user.token)
         .then((areas) => {
           // 1. fetch subscriptions then merge them with the area
           // 2. Get datasets

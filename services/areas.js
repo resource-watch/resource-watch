@@ -1,11 +1,15 @@
-import { WRIAPI } from 'utils/axios';
 import WRISerializer from 'wri-json-api-serializer';
+
+// utils
+import { WRIAPI } from 'utils/axios';
+import { logger } from 'utils/logs';
 
 /**
  * Get area
  */
-export const fetchArea = (id, params = {}, headers = {}) =>
-  WRIAPI.get(
+export const fetchArea = (id, params = {}, headers = {}) => {
+  logger.info(`Fetch area ${id}`);
+  return WRIAPI.get(
     `area/${id}`,
     {
       headers: {
@@ -16,18 +20,20 @@ export const fetchArea = (id, params = {}, headers = {}) =>
     }
   )
     .then(response => WRISerializer(response.data));
-
+};
 
 /**
  * Get user areas
  */
-export const getUserAreas = token =>
+export const fetchUserAreas = (token) => {
+  logger.info('Fetch user areas');
   WRIAPI.get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
     headers: {
       Authorization: token,
       'Upgrade-Insecure-Requests': 1
     }
   }).then(response => WRISerializer(response.data));
+};
 
 /**
  * Deletes an area
@@ -35,13 +41,16 @@ export const getUserAreas = token =>
  * @param {token} User token
  * @returns {Promise}
  */
-export const deleteArea = (areaId, token) =>
-  WRIAPI.delete(`area/${areaId}`, { headers: { Authorization: token } });
+export const deleteArea = (areaId, token) => {
+  logger.info(`Delete area ${areaId}`);
+  return WRIAPI.delete(`area/${areaId}`, { headers: { Authorization: token } });
+};
 
 /**
  * Create new area
  */
 export const createArea = (name, geostore, token) => {
+  logger.info('Create area');
   const bodyObj = {
     name,
     application: process.env.APPLICATIONS,
@@ -56,6 +65,7 @@ export const createArea = (name, geostore, token) => {
  * Update area
  */
 export const updateArea = (id, name, token, geostore) => {
+  logger.info(`Update area ${id}`);
   const bodyObj = {
     name,
     application: process.env.APPLICATIONS,
@@ -68,7 +78,7 @@ export const updateArea = (id, name, token, geostore) => {
 
 export default {
   fetchArea,
-  getUserAreas,
+  fetchUserAreas,
   deleteArea,
   createArea,
   updateArea
