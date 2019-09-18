@@ -6,7 +6,7 @@ import { localAPI, controlTowerAPI } from 'utils/axios';
  */
 export const loginUser = ({ email, password }) =>
   localAPI
-    .post('local-sign-in', { email, password }, { headers: { 'Content-Type': 'application/json' } })
+    .post('local-sign-in', { email, password })
     .then(response => response.data);
 
 /**
@@ -39,8 +39,7 @@ export const registerUser = ({ email, password, repeatPassword }) =>
         password,
         repeatPassword,
         apps: [process.env.APPLICATIONS]
-      },
-      { headers: { 'Content-Type': 'application/json' } }
+      }
     )
     .then((response) => {
       if (response.ok) return response.json();
@@ -57,8 +56,7 @@ export const resetPassword = ({ tokenEmail, password, repeatPassword }) =>
   controlTowerAPI
     .post(
       `auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`,
-      { password, repeatPassword },
-      { headers: { 'Content-Type': 'application/json' } }
+      { password, repeatPassword }
     )
     .then((response) => {
       if (response.ok) return response.json();

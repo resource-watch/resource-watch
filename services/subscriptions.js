@@ -34,12 +34,9 @@ export const createSubscriptionToArea = (
     params: { area: areaId }
   };
 
-  return WRIAPI.post('subscriptions', bodyObj, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: user.token
-    }
-  });
+  return WRIAPI.post('subscriptions',
+    bodyObj,
+    { headers: { Authorization: user.token } });
 };
 
 /**
@@ -61,12 +58,7 @@ export const updateSubscriptionToArea = (
 
   return WRIAPI.patch(`subscriptions/${subscriptionId}`,
     bodyObj,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: user.token
-      }
-    });
+    { headers: { Authorization: user.token } });
 };
 
 /**
