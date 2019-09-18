@@ -49,12 +49,7 @@ export const createArea = (name, geostore, token) => {
     geostore
   };
 
-  return WRIAPI.post('area', bodyObj, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    }
-  });
+  return WRIAPI.post('area', bodyObj, { headers: { Authorization: token } });
 };
 
 /**
@@ -68,12 +63,7 @@ export const updateArea = (id, name, token, geostore) => {
     geostore
   };
 
-  return WRIAPI.patch(`area/${id}`, bodyObj, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    }
-  });
+  return WRIAPI.patch(`area/${id}`, bodyObj, { headers: { Authorization: token } });
 };
 
 export default {

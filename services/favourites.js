@@ -1,25 +1,22 @@
-import * as queryString from 'query-string';
 import { WRIAPI } from 'utils/axios';
 
 /**
  * Retrieve all favourites items of the user
  * @param {*} token User's token
  */
-export const getFavourites = (token) => {
-  const queryParams = queryString.stringify({
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV
-  });
-
-  return WRIAPI.get(`favourite?${queryParams}`,
+export const getFavourites = token =>
+  WRIAPI.get('favourite',
     {
       headers: {
         Authorization: token,
         'Upgrade-Insecure-Requests': 1
+      },
+      params: {
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV
       }
     })
     .then(response => response.data);
-};
 
 /**
  * Creates a new favourite item attached to the current user
@@ -34,12 +31,7 @@ export const createFavourite = (token, { resourceId, resourceType }) =>
       resourceId,
       resourceType
     },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    });
+    { headers: { Authorization: token } });
 
 /**
  * Deletes an existing favourite item attached to the current user
