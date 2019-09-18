@@ -24,7 +24,7 @@ import {
 } from 'services/subscriptions';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
-import { getGeostore, getCountry } from 'services/geostore';
+import { fetchGeostore, fetchCountry } from 'services/geostore';
 
 /**
  * CONSTANTS
@@ -442,12 +442,12 @@ export const getUserAreaLayerGroups = createThunkAction(
     (dispatch) => {
       const { attributes } = area;
       if (attributes.geostore) {
-        return getGeostore(attributes.geostore).then((geo) => {
+        return fetchGeostore(attributes.geostore).then((geo) => {
           dispatch(setUserAreaLayerGroup({ area, layerGroups: [setGeoLayer(geo)] }));
         });
       }
 
-      return getCountry(attributes.iso.country).then((country) => {
+      return fetchCountry(attributes.iso.country).then((country) => {
         dispatch(setUserAreaLayerGroup({ area, layerGroups: [setCountryLayer(country)] }));
       });
     }

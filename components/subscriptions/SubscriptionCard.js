@@ -12,7 +12,7 @@ import Map from 'components/widgets/map/Map';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import { getGeostore, getCountry } from 'services/geostore';
+import { fetchGeostore, fetchCountry } from 'services/geostore';
 import { deleteSubscription } from 'services/subscriptions';
 
 // Utils
@@ -58,7 +58,7 @@ class SubscriptionCard extends React.Component {
         const paramsObj = this.props.subscription.attributes.params;
 
         if (paramsObj.geostore) {
-          getGeostore(paramsObj.geostore)
+          fetchGeostore(paramsObj.geostore)
             .then((res) => {
               const obj = res.data;
               const fakeLayer = {
@@ -78,7 +78,7 @@ class SubscriptionCard extends React.Component {
               });
             });
         } else if (paramsObj.iso.country) {
-          getCountry(paramsObj.iso.country)
+          fetchCountry(paramsObj.iso.country)
             .then((res) => {
               const country = res.data[0];
 
