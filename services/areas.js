@@ -19,7 +19,12 @@ export const fetchArea = (id, params = {}, headers = {}) => {
       params: { ...params }
     }
   )
-    .then(response => WRISerializer(response.data));
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching area ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error fetching area ${id}: ${status}: ${statusText}`);
+    });
 };
 
 /**
@@ -32,7 +37,13 @@ export const fetchUserAreas = (token) => {
       Authorization: token,
       'Upgrade-Insecure-Requests': 1
     }
-  }).then(response => WRISerializer(response.data));
+  })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching user areas: ${status}: ${statusText}`);
+      throw new Error(`Error fetching user areas: ${status}: ${statusText}`);
+    });
 };
 
 /**
@@ -43,7 +54,12 @@ export const fetchUserAreas = (token) => {
  */
 export const deleteArea = (areaId, token) => {
   logger.info(`Delete area ${areaId}`);
-  return WRIAPI.delete(`area/${areaId}`, { headers: { Authorization: token } });
+  return WRIAPI.delete(`area/${areaId}`, { headers: { Authorization: token } })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error deleting area ${areaId}: ${status}: ${statusText}`);
+      throw new Error(`Error deleting area ${areaId}: ${status}: ${statusText}`);
+    });
 };
 
 /**
@@ -58,7 +74,12 @@ export const createArea = (name, geostore, token) => {
     geostore
   };
 
-  return WRIAPI.post('area', bodyObj, { headers: { Authorization: token } });
+  return WRIAPI.post('area', bodyObj, { headers: { Authorization: token } })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating area: ${status}: ${statusText}`);
+      throw new Error(`Error creating area: ${status}: ${statusText}`);
+    });
 };
 
 /**
@@ -73,7 +94,12 @@ export const updateArea = (id, name, token, geostore) => {
     geostore
   };
 
-  return WRIAPI.patch(`area/${id}`, bodyObj, { headers: { Authorization: token } });
+  return WRIAPI.patch(`area/${id}`, bodyObj, { headers: { Authorization: token } })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating area ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error updating area ${id}: ${status}: ${statusText}`);
+    });
 };
 
 export default {
