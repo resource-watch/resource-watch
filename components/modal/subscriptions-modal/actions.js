@@ -12,7 +12,7 @@ import {
   createArea
 } from 'services/areas';
 import {
-  getSubscriptions,
+  fetchSubscriptions,
   createSubscriptionToArea as createSubscriptionToAreaService,
   updateSubscriptionToArea
 } from 'services/subscriptions';
@@ -38,7 +38,7 @@ export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-S
 
     dispatch(setSubscriptionsLoading(true));
 
-    getSubscriptions(token)
+    fetchSubscriptions(token)
       .then((subscriptions = []) => {
         dispatch(setSubscriptions(subscriptions));
         dispatch(setSubscriptionsLoading(false));

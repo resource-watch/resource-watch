@@ -13,7 +13,7 @@ export const fetchGeostore = (id) => {
       logger.error(`Error fetching geostore ${id}: ${status}: ${statusText}`);
       throw new Error(`Error fetching geostore ${id}: ${status}: ${statusText}`);
     });
-}
+};
 
 export const createGeostore = (geojson) => {
   logger.info('Create geostore');
@@ -60,7 +60,7 @@ export const fetchCountry = (iso) => {
       logger.error(`Error fetching country ${iso}: ${status}: ${statusText}`);
       throw new Error(`Error fetching country ${iso}: ${status}: ${statusText}`);
     });
-}
+};
 
 export default {
   createGeostore,

@@ -19,7 +19,7 @@ import {
   getFavourites
 } from 'services/favourites';
 import {
-  getSubscriptions,
+  fetchSubscriptions,
   deleteSubscription
 } from 'services/subscriptions';
 import CollectionsService from 'services/collections';
@@ -464,7 +464,7 @@ export const getUserAreas = createThunkAction(
           // 1. fetch subscriptions then merge them with the area
           // 2. Get datasets
           // 3. Merge the 2 of them into the area
-          return getSubscriptions(user.token).then((subs) => {
+          return fetchSubscriptions(user.token).then((subs) => {
             subs = subs.filter(sub => sub.attributes.params.area);
             const datasetsSet = new Set();
             subs.forEach(sub => sub.attributes.datasets
