@@ -32,7 +32,7 @@ export const fetchArea = (id, params = {}, headers = {}) => {
  */
 export const fetchUserAreas = (token) => {
   logger.info('Fetch user areas');
-  WRIAPI.get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
+  return WRIAPI.get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
     headers: {
       Authorization: token,
       'Upgrade-Insecure-Requests': 1
