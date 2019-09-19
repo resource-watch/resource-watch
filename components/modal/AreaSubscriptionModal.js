@@ -136,7 +136,7 @@ class AreaSubscriptionModal extends React.Component {
       return;
     }
 
-    logEvent('My RW', 'Edit subscription', area.attributes.name);
+    logEvent('My RW', 'Edit subscription', area.name);
 
     if (mode === 'new') {
       if (!datasets.length) {
@@ -193,7 +193,7 @@ class AreaSubscriptionModal extends React.Component {
     return (
       <div className="c-area-subscription-modal" ref={(node) => { this.el = node; }}>
         <div className="header-div">
-          <h2>{`${area.attributes.name} subscriptions`}</h2>
+          <h2>{`${area.name} subscriptions`}</h2>
         </div>
         <div className="header-text">
           Select the datasets that you want to subscribe to.

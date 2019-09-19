@@ -43,7 +43,7 @@ const SET_USER_COLLECTIONS_FILTER = 'user/setUserCollectionsFilter';
 const SET_USER_COLLECTIONS_ERROR = 'user/setUserCollectionsError';
 // areas
 const SET_USER_AREAS = 'user/setUserAreas';
-const SET_USER_AREAS_ERROR = 'user/serUserAreasError';
+const SET_USER_AREAS_ERROR = 'user/setUserAreasError';
 const SET_USER_AREA_LAYER_GROUP = 'user/setUserAreaLayerGroup';
 
 /**
@@ -440,14 +440,14 @@ export const getUserAreaLayerGroups = createThunkAction(
   'user/getUserAreaLayerGroups',
   (area = {}) =>
     (dispatch) => {
-      const { attributes } = area;
-      if (attributes.geostore) {
-        return fetchGeostore(attributes.geostore).then((geo) => {
+      const { geostore, iso } = area;
+      if (geostore) {
+        return fetchGeostore(geostore).then((geo) => {
           dispatch(setUserAreaLayerGroup({ area, layerGroups: [setGeoLayer(geo)] }));
         });
       }
 
-      return fetchCountry(attributes.iso.country).then((country) => {
+      return fetchCountry(iso.country).then((country) => {
         dispatch(setUserAreaLayerGroup({ area, layerGroups: [setCountryLayer(country)] }));
       });
     }
@@ -465,11 +465,10 @@ export const getUserAreas = createThunkAction(
           // 2. Get datasets
           // 3. Merge the 2 of them into the area
           return fetchSubscriptions(user.token).then((subs) => {
-            subs = subs.filter(sub => sub.attributes.params.area);
+            subs = subs.filter(sub => sub.params.area);
             const datasetsSet = new Set();
-            subs.forEach(sub => sub.attributes.datasets
+            subs.forEach(sub => sub.datasets
               .forEach(dataset => datasetsSet.add(dataset)));
-
             return DatasetService.getDatasets(
               [...datasetsSet],
               common.locale,
@@ -497,7 +496,10 @@ export const getUserAreas = createThunkAction(
               });
           });
         })
-        .catch(err => dispatch(setUserAreasError(err)));
+        .catch((err) => {
+          console.log('err', err);
+          dispatch(setUserAreasError(err));
+        });
     }
 );
 
@@ -509,14 +511,14 @@ export const removeUserArea = createThunkAction(
     if (area.subscription) {
       return deleteSubscription(area.subscription.id, user.token).then(() => {
         return deleteArea(area.id, user.token).then(() => {
-          toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
+          toastr.success('Area deleted', `The area "${area.name}" was deleted successfully.`);
           dispatch(getUserAreas());
         });
       });
     }
 
     return deleteArea(area.id, user.token).then(() => {
-      toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
+      toastr.success('Area deleted', `The area "${area.name}" was deleted successfully.`);
       dispatch(getUserAreas());
     });
   }

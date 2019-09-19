@@ -91,7 +91,7 @@ class AreaSubscriptionsModal extends PureComponent {
             onOk: () => {
               if (!activeArea) {
                 const subscriptionToUpdate = subscriptionsByArea.find(_subscription =>
-                  _subscription.attributes.params.area === userSelection.area.areaID);
+                  _subscription.params.area === userSelection.area.areaID);
                 updateSubscription(subscriptionToUpdate);
               } else {
                 const { subscription } = activeArea;
@@ -148,7 +148,7 @@ class AreaSubscriptionsModal extends PureComponent {
           <strong> Please check your email address to confirm it.</strong>
         </p>) : null;
     const currentArea = areas.find(_area => _area.value === activeArea.id);
-    let headerText = `${activeArea.attributes.name} subscriptions`;
+    let headerText = `${activeArea.name} subscriptions`;
     if (success) headerText = 'Subscription saved!';
 
     if (showSubscribePreview) {
