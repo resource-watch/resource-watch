@@ -69,7 +69,7 @@ class AreasForm extends React.Component {
     const { areas } = props.user;
 
     const area = areas.items.find(a => a.id === query.id);
-    const { name, geostore } = area ? area.attributes : {};
+    const { name, geostore } = area || {};
 
     this.state = {
       areaOptions: [],

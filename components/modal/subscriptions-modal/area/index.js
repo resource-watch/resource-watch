@@ -93,23 +93,23 @@ class AreaSubscriptionsModalContainer extends Component {
       if (nextActiveArea && nextActiveArea.subscription) {
         const currentSubscription = nextSubscriptions.find(_subscription =>
           _subscription.id === activeArea.subscription.id);
-        const subscriptionTypes = currentSubscription.attributes.datasetsQuery
+        const subscriptionTypes = currentSubscription.datasetsQuery
           .filter(_datasetQuery => _datasetQuery.type)
           .map(_datasetQuery => _datasetQuery.type);
 
         setUserSelection({
-          datasets: activeArea.subscription.attributes.datasets.map((dataset, index) => ({
+          datasets: activeArea.subscription.datasets.map((dataset, index) => ({
             id: dataset.id,
             label: dataset.name,
             value: dataset.name,
             subscriptions: sortBy(Object.keys(dataset.subscribable ||
-              dataset.attributes.subscribable)
+              dataset.subscribable)
               .map(val => ({
                 label: val,
                 value: val,
                 ...subscriptionTypes.includes(val) && { selected: true }
               })), 'label'),
-            threshold: activeArea.subscription.attributes.datasetsQuery[index].threshold
+            threshold: activeArea.subscription.datasetsQuery[index].threshold
           }))
         });
       }
