@@ -1,127 +1,9 @@
-import 'isomorphic-fetch';
-import { get, post, remove } from 'utils/request';
 
-import sortBy from 'lodash/sortBy';
-import { Deserializer } from 'jsonapi-serializer';
 import WRISerializer from 'wri-json-api-serializer';
 
 // utils
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
-
-export default class TopicsService {
-  constructor(options = {}) {
-    this.opts = options;
-  }
-
-  // GET ALL DATA
-  fetchAllData({ includes, filters, fields } = {}) {
-    const qParams = {
-      ...!!includes && { includes },
-      ...filters,
-      ...fields,
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS
-    };
-    const params = Object.keys(qParams).map(k => `${k}=${qParams[k]}`).join('&');
-
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/topic/?${params}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        },
-        {
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: response => new Deserializer({
-          keyForAttribute: 'underscore_case'
-        }).deserialize(response, (err, topics) => {
-          resolve(sortBy(topics, 'name'));
-        }),
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
-  fetchData({ id }) {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
-        headers: [{
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, topic) => {
-            resolve(topic);
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
-  saveData({ type, body, id }) {
-    return new Promise((resolve, reject) => {
-      post({
-        url: `${process.env.WRI_API_URL}/topic/${id}`,
-        type,
-        body: {
-          ...body,
-          env: process.env.API_ENV,
-          application: process.env.APPLICATIONS
-        },
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, topic) => {
-            resolve(topic);
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
-  deleteData({ id, auth }) {
-    return new Promise((resolve, reject) => {
-      remove({
-        url: `${process.env.WRI_API_URL}/topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
-        headers: [{
-          key: 'Authorization',
-          value: auth || this.opts.authorization
-        }],
-        onSuccess: (response) => {
-          resolve(response);
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-}
 
 /**
  * Fetches topics according to params.
@@ -130,9 +12,9 @@ export default class TopicsService {
  * @returns {Object[]} array of serialized topics.
  */
 export const fetchTopics = (params = {}) => {
-  logger.info('fetches topics');
+  logger.info('Fetch topics');
 
-  return WRIAPI.get('/topic', {
+  return WRIAPI.get('topic', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
@@ -151,11 +33,10 @@ export const fetchTopics = (params = {}) => {
       logger.error('Error fetching topics:', `${status}: ${statusText}`);
       throw new Error(statusText);
     }
-    return WRISerializer(data);
+    return data;
   }).catch(({ response }) => {
     const { status, statusText } = response;
     logger.error('Error fetching topics:', `${status}: ${statusText}`);
-    return WRISerializer({});
   });
 };
 
@@ -166,9 +47,9 @@ export const fetchTopics = (params = {}) => {
  * @returns {Object} serialized specified topic.
  */
 export const fetchTopic = (id) => {
-  logger.info(`Fetches topic: ${id}`);
+  logger.info(`Fetch topic: ${id}`);
 
-  return WRIAPI.get(`/topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`)
+  return WRIAPI.get(`topic/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`)
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 300) {
@@ -179,11 +60,10 @@ export const fetchTopic = (id) => {
         }
         throw new Error(statusText);
       }
-      return WRISerializer(data);
+      return data;
     }).catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
-      return WRISerializer({});
     });
 };
 
@@ -196,9 +76,11 @@ export const fetchTopic = (id) => {
  * @param {String} token - user's token.
  * @returns {Object} serialized created topic.
  */
-export const createTopic = (body, token) =>
-  WRIAPI.post('/topic', {
-    ...body,
+export const createTopic = (body, token) => {
+  logger.info('Create topic');
+  return WRIAPI.post('topic', {
+    /* this is a temporary hack TODO: change it once the endpoints have been fixed */
+    data: { attributes: { ...body } },
     env: process.env.API_ENV,
     application: process.env.APPLICATIONS
   }, {
@@ -210,8 +92,9 @@ export const createTopic = (body, token) =>
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);
-      return WRISerializer(data);
+      return data;
     });
+};
 
 /**
  * Updates a specified topic with the provided data.
@@ -222,8 +105,9 @@ export const createTopic = (body, token) =>
  * @param {String} token - user's token
  * @returns {Object} serialized topic with updated data
  */
-export const updateTopic = (id, body, token) =>
-  WRIAPI.patch(`/topic/${id}`, {
+export const updateTopic = (id, body, token) => {
+  logger.info(`Update topic: ${id}`);
+  return WRIAPI.patch(`/topic/${id}`, {
     ...body,
     env: process.env.API_ENV,
     application: process.env.APPLICATIONS
@@ -238,8 +122,9 @@ export const updateTopic = (id, body, token) =>
       if (status >= 400) {
         throw new Error(statusText);
       }
-      return WRISerializer(data);
+      return data;
     });
+};
 
 /**
  * Deletes a specified topic.
@@ -249,8 +134,9 @@ export const updateTopic = (id, body, token) =>
  * @param {string} token - user's token.
  * @returns {Object} fetch response.
  */
-export const deleteTopic = (id, token) =>
-  WRIAPI.delete(`/topic/${id}`, {
+export const deleteTopic = (id, token) => {
+  logger.info(`Delete topic: ${id}`);
+  return WRIAPI.delete(`/topic/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token
@@ -264,3 +150,12 @@ export const deleteTopic = (id, token) =>
       }
       return response;
     });
+};
+
+export default {
+  deleteTopic,
+  updateTopic,
+  createTopic,
+  fetchTopic,
+  fetchTopics
+};

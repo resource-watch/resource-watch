@@ -5,12 +5,16 @@ const getPublishedTopics = state => state.topics.published.data;
 
 export const parseTopics = createSelector(
   [getPublishedTopics],
-  _topics => _topics
+  (_topics) => {
+    console.log('_topics', _topics);
+
+    return _topics
     .map(_topic => ({
       label: _topic.name,
       route: 'topics_detail',
       params: { id: _topic.slug }
-    }))
+    }));
+  }
 );
 
 export default { parseTopics };
