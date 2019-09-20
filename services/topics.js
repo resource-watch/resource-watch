@@ -1,6 +1,3 @@
-
-import WRISerializer from 'wri-json-api-serializer';
-
 // utils
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
