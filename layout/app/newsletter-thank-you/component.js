@@ -34,7 +34,7 @@ const LayoutNewsletter = () => (
           <div className="column small-12 medium-8">
             <h2>Thank you!</h2>
             <p>
-              Thank you for letting us know you still want to hear from Resource Watch. <br />
+              Thank you for letting us know you want to hear from Resource Watch. <br />
               <br />
               You may wish to read our <a href="/privacy-policy">privacy policy</a>, which provides
               further information about how we use personal data.
