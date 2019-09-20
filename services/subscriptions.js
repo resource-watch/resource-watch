@@ -11,7 +11,7 @@ export const fetchSubscriptions = (token) => {
   logger.info('Fetch subscriptions');
   return WRIAPI.get(`subscriptions?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
     { headers: { Authorization: token } })
-    .then(response => new WRISerializer(response.data))
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching subscriptions: ${status}: ${statusText}`);
