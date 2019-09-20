@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import DatasetService from 'services/DatasetService';
 import RasterService from 'services/raster';
 import { fetchLayer } from 'services/layer';
-import UserService from 'services/user';
+import { deleteFavourite, createFavourite, fetchFavourites } from 'services/favourites';
 import { fetchWidget } from 'services/widget';
 
 /**
@@ -281,8 +281,7 @@ export function checkIfFavorited(widgetId) {
     if (!user.id) {
       dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null, favourited: false } });
     } else {
-      const userService = new UserService({ apiURL: process.env.WRI_API_URL });
-      userService.getFavouriteWidgets(user.token)
+      fetchFavourites(user.token)
         .then((res) => {
           const favourite = res.find && res.find(elem => elem.attributes.resourceId === widgetId);
 
@@ -311,20 +310,18 @@ export function setIfFavorited(widgetId, toFavorite) {
     // If the user is not logged in, we just return
     if (!user.id) return;
 
-    const userService = new UserService({ apiURL: process.env.WRI_API_URL });
-
     // We have an optimistic approach: we tell the user the action
     // is already done, and if it fails, we rever it
     dispatch({ type: GET_WIDGET_FAVORITE, payload: { favourited: toFavorite } });
 
     if (toFavorite) {
-      userService.createFavourite('widget', widgetId, user.token)
+      createFavourite(user.token, { resourceType: 'widget', resourceId: widgetId })
         .then(res => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: res.data.id } }))
         .catch(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }));
     } else {
       const id = widget.favourite.id;
 
-      userService.deleteFavourite(id, user.token)
+      deleteFavourite(id, user.token)
         .then(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }))
         .catch(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id } }));
     }

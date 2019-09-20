@@ -24,7 +24,9 @@
     "no-plusplus": 0,
     "jsx-a11y/href-no-hash": 0,
     "jsx-a11y/anchor-is-valid": 0,
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "parser": "babel-eslint",
   "parserOptions": {
@@ -35,7 +37,8 @@
     "sourceType": "module"
   },
   "plugins": [
-    "babel"
+    "babel",
+    "react-hooks"
   ],
   "settings": {
     "import/resolver": {

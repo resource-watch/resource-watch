@@ -57,7 +57,7 @@ class AreaCard extends React.Component {
     }
   };
 
-  handleEditArea() {
+  handleEditArea = () => {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
   }
 
@@ -77,7 +77,7 @@ class AreaCard extends React.Component {
         this.props.removeUserArea(area);
       }
     };
-    toastr.confirm(`Are you sure you want to delete the area ${area.attributes.name}?
+    toastr.confirm(`Are you sure you want to delete the area ${area.name}?
       Deleting an area will delete all the subscriptions associated to it`, toastrConfirmOptions);
   }
 
@@ -99,13 +99,11 @@ class AreaCard extends React.Component {
   render() {
     const { loading } = this.state;
     const { area, user, alerts } = this.props;
-    const { name } = area.attributes;
+    const { name } = area;
     const { subscription } = area;
-    const subscriptionConfirmed = area.subscription && area.subscription.attributes.confirmed;
+    const subscriptionConfirmed = area.subscription && area.subscription.confirmed;
 
-    const borderContainerClassNames = classnames({
-      'border-container': true
-    });
+    const borderContainerClassNames = classnames({ 'border-container': true });
 
     // TODO: Selector
     let layerGroups = [];
@@ -169,8 +167,7 @@ class AreaCard extends React.Component {
                           {alert.type}
                           &nbsp;({alert.threshold})
                         </div>
-                      </div>)
-                    )}
+                      </div>))}
                   </div>
                 </div>
               }

@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
 // Utils
 import { logEvent } from 'utils/analytics';
 
 // Services
-import TopicsService from 'services/topics';
-import { fetchTopic } from 'services/topics';
+import {
+  fetchTopic,
+  createTopic,
+  updateTopic
+} from 'services/topics';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/topics/form/constants';
 
@@ -17,22 +19,14 @@ import Step1 from 'components/topics/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class TopicsForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = Object.assign({}, STATE_DEFAULT, {
-      id: props.id,
-      loading: !!props.id,
-      form: {
-        ...STATE_DEFAULT.form,
-        user_id: props.user.id
-      }
-    });
-
-    this.service = new TopicsService({
-      authorization: props.user.token
-    });
-  }
+  state = Object.assign({}, STATE_DEFAULT, {
+    id: this.props.id,
+    loading: !!this.props.id,
+    form: {
+      ...STATE_DEFAULT.form,
+      user_id: this.props.user.id
+    }
+  });
 
   componentDidMount() {
     const { id } = this.state;
@@ -57,50 +51,53 @@ class TopicsForm extends React.Component {
    * UI EVENTS
    * - onSubmit
    * - onChange
+   * - onStepChange
   */
   onSubmit = (event) => {
+    const { user, onSubmit } = this.props;
+    const { step, form, stepLength, submitting, id } = this.state;
     event.preventDefault();
 
     // Validate the form
-    FORM_ELEMENTS.validate(this.state.step);
+    FORM_ELEMENTS.validate(step);
 
     // Set a timeout due to the setState function of react
     setTimeout(() => {
       // Validate all the inputs on the current step
-      const valid = FORM_ELEMENTS.isValid(this.state.step);
+      const valid = FORM_ELEMENTS.isValid(step);
 
       if (valid) {
-        logEvent('My RW', 'User creates a new topic', this.state.form.name);
+        logEvent('My RW', 'User creates a new topic', form.name);
 
         // if we are in the last step we will submit the form
-        if (this.state.step === this.state.stepLength && !this.state.submitting) {
-          const { id } = this.state;
-
+        if (step === stepLength && !submitting) {
           // Start the submitting
           this.setState({ submitting: true });
 
           // Save data
-          this.service.saveData({
-            id: id || '',
-            type: (id) ? 'PATCH' : 'POST',
-            body: new Serializer('topic', {
-              keyForAttribute: 'dash-case',
-              attributes: Object.keys(this.state.form)
-            }).serialize(this.state.form)
-          })
-            .then((data) => {
-              toastr.success('Success', `The topic "${data.id}" - "${data.name}" has been uploaded correctly`);
-
-              if (this.props.onSubmit) this.props.onSubmit();
-            })
-            .catch((err) => {
-              this.setState({ submitting: false });
-              toastr.error('Error', `Oops! There was an error, try again. ${err}`);
-            });
+          if (id) {
+            updateTopic(id, form, user.token)
+              .then((data) => {
+                toastr.success('Success', `The topic "${data.id}" - "${data.name}" has been updated correctly`);
+                if (onSubmit) onSubmit();
+              })
+              .catch((err) => {
+                this.setState({ submitting: false });
+                toastr.error('Error', `Oops! There was an error updating the topic ${id}, please try again. ${err}`);
+              });
+          } else {
+            createTopic(form, user.token)
+              .then((data) => {
+                toastr.success('Success', `The topic "${data.id}" - "${data.name}" has been updated correctly`);
+                if (onSubmit) onSubmit();
+              })
+              .catch((err) => {
+                this.setState({ submitting: false });
+                toastr.error('Error', `Oops! There was an error updating the topic ${id}, please try again. ${err}`);
+              });
+          }
         } else {
-          this.setState({
-            step: this.state.step + 1
-          });
+          this.setState({ step: step + 1 });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');

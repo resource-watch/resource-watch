@@ -12,7 +12,7 @@ import { getLabel } from 'utils/datasets/dataset-helpers';
 import AlertWidget from 'components/areas/AlertWidget';
 
 // Services
-import UserService from 'services/user';
+import { fetchSubscription } from 'services/subscriptions';
 
 class AreasAlerts extends React.Component {
   constructor(props) {
@@ -22,9 +22,8 @@ class AreasAlerts extends React.Component {
     const { subscription } = user.areas.items.find(alert => alert.id === id);
 
     this.state = { subscriptionData: null };
-    this.userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 
-    this.userService.getSubscription(subscription.id, user.token).then(((data) => {
+    fetchSubscription(subscription.id, user.token).then(((data) => {
       this.setState({ subscriptionData: data });
     }));
   }
@@ -62,7 +61,8 @@ class AreasAlerts extends React.Component {
 
         <p>
           Please note that this information is subject to the <Link route="terms-of-service">
-            <a>Resource Watch Terms of Service</a></Link>.
+            <a>Resource Watch Terms of Service</a>
+          </Link>.
           You can unsubscribe or manage your subscriptions at
           <Link route="myrw" params={{ tab: 'areas' }}><a> My Resource Watch</a>
           </Link> [my resource watch aoi page].

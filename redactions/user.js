@@ -9,11 +9,22 @@ import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/are
 import { getDatasetsByTab } from 'redactions/admin/datasets';
 
 // services
-import UserService from 'services/user';
-import FavouritesService from 'services/favourites';
+import {
+  fetchUserAreas,
+  deleteArea
+} from 'services/areas';
+import {
+  deleteFavourite,
+  createFavourite,
+  fetchFavourites
+} from 'services/favourites';
+import {
+  fetchSubscriptions,
+  deleteSubscription
+} from 'services/subscriptions';
 import CollectionsService from 'services/collections';
 import DatasetService from 'services/DatasetService';
-import AreasService from 'services/AreasService';
+import { fetchGeostore, fetchCountry } from 'services/geostore';
 
 /**
  * CONSTANTS
@@ -32,7 +43,7 @@ const SET_USER_COLLECTIONS_FILTER = 'user/setUserCollectionsFilter';
 const SET_USER_COLLECTIONS_ERROR = 'user/setUserCollectionsError';
 // areas
 const SET_USER_AREAS = 'user/setUserAreas';
-const SET_USER_AREAS_ERROR = 'user/serUserAreasError';
+const SET_USER_AREAS_ERROR = 'user/setUserAreasError';
 const SET_USER_AREA_LAYER_GROUP = 'user/setUserAreaLayerGroup';
 
 /**
@@ -205,7 +216,6 @@ export default function (state = initialState, action) {
 /**
  * ACTIONS
  * - setUser
- * - setFavourites
  * - toggleFavourite
 */
 export function setUser(user) {
@@ -242,7 +252,7 @@ export const getUserFavourites = createThunkAction('user/getUserFavourites', () 
 
     dispatch(setFavouriteLoading(true));
 
-    return FavouritesService.getFavourites(token)
+    fetchFavourites(token)
       .then(({ data }) => {
         dispatch(setFavouriteLoading(false));
         dispatch({ type: SET_USER_FAVOURITES, payload: data });
@@ -263,7 +273,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
 
     if (favourite.id) {
       const { id } = favourite;
-      FavouritesService.deleteFavourite(token, id)
+      deleteFavourite(token, id)
         .then(() => {
           // asks for the new updated list of favourites
           dispatch(getUserFavourites());
@@ -276,7 +286,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
       return;
     }
 
-    FavouritesService.createFavourite(token, resource)
+    createFavourite(token, resource)
       .then(() => {
         // asks for the new updated list of favourites
         dispatch(getUserFavourites());
@@ -430,15 +440,14 @@ export const getUserAreaLayerGroups = createThunkAction(
   'user/getUserAreaLayerGroups',
   (area = {}) =>
     (dispatch) => {
-      const { attributes } = area;
-      const areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-      if (attributes.geostore) {
-        return areasService.getGeostore(attributes.geostore).then((geo) => {
+      const { geostore, iso } = area;
+      if (geostore) {
+        return fetchGeostore(geostore).then((geo) => {
           dispatch(setUserAreaLayerGroup({ area, layerGroups: [setGeoLayer(geo)] }));
         });
       }
 
-      return areasService.getCountry(attributes.iso.country).then((country) => {
+      return fetchCountry(iso.country).then((country) => {
         dispatch(setUserAreaLayerGroup({ area, layerGroups: [setCountryLayer(country)] }));
       });
     }
@@ -448,21 +457,18 @@ export const getUserAreas = createThunkAction(
   'user/getUserAreas',
   (payload = {}) =>
     (dispatch, getState) => {
-
       const { user, common } = getState();
-      const userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
-      return userService.getUserAreas(user.token)
-        .then((areas) => {
+      return fetchUserAreas(user.token)
+        .then(areas =>
           // 1. fetch subscriptions then merge them with the area
           // 2. Get datasets
           // 3. Merge the 2 of them into the area
-          return userService.getSubscriptions(user.token).then((subs) => {
-            subs = subs.filter(sub => sub.attributes.params.area);
+          fetchSubscriptions(user.token).then((subs) => {
+            subs = subs.filter(sub => sub.params.area);
             const datasetsSet = new Set();
-            subs.forEach(sub => sub.attributes.datasets
+            subs.forEach(sub => sub.datasets
               .forEach(dataset => datasetsSet.add(dataset)));
-
             return DatasetService.getDatasets(
               [...datasetsSet],
               common.locale,
@@ -488,9 +494,10 @@ export const getUserAreas = createThunkAction(
                   WRISerializer({ data: datasets })
                 )));
               });
-          });
-        })
-        .catch(err => dispatch(setUserAreasError(err)));
+          }))
+        .catch((err) => {
+          dispatch(setUserAreasError(err));
+        });
     }
 );
 
@@ -498,19 +505,16 @@ export const removeUserArea = createThunkAction(
   'user/removeUserArea',
   (area = {}) => (dispatch, getState) => {
     const { user } = getState();
-    const userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     if (area.subscription) {
-      return userService.deleteSubscription(area.subscription.id, user.token).then(() => {
-        return userService.deleteArea(area.id, user.token).then(() => {
-          toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
-          dispatch(getUserAreas());
-        });
-      });
+      return deleteSubscription(area.subscription.id, user.token).then(() => deleteArea(area.id, user.token).then(() => {
+        toastr.success('Area deleted', `The area "${area.name}" was deleted successfully.`);
+        dispatch(getUserAreas());
+      }));
     }
 
-    return userService.deleteArea(area.id, user.token).then(() => {
-      toastr.success('Area deleted', `The area "${area.attributes.name}" was deleted successfully.`);
+    return deleteArea(area.id, user.token).then(() => {
+      toastr.success('Area deleted', `The area "${area.name}" was deleted successfully.`);
       dispatch(getUserAreas());
     });
   }

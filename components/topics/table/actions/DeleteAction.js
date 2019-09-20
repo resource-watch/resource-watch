@@ -2,33 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Services
-import TopicsService from 'services/topics';
+import { deleteTopic } from 'services/topics';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // BINDINGS
-    this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
-
-    // SERVICES
-    this.service = new TopicsService({
-      authorization: props.authorization
-    });
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    authorization: PropTypes.string.isRequired,
+    onRowDelete: PropTypes.func.isRequired
   }
 
-  handleOnClickDelete(e) {
+  handleOnClickDelete = (e) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
 
-    const { data } = this.props;
+    const { data, authorization } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${data.name}"`, {
       onOk: () => {
-        this.service.deleteData({ id: data.id, auth: this.props.authorization })
+        deleteTopic(data.id, authorization)
           .then(() => {
             this.props.onRowDelete(data.id);
             toastr.success('Success', `The topic "${data.id}" - "${data.name}" has been removed correctly`);
@@ -48,11 +42,5 @@ class DeleteAction extends React.Component {
     );
   }
 }
-
-DeleteAction.propTypes = {
-  data: PropTypes.object,
-  authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
-};
 
 export default DeleteAction;

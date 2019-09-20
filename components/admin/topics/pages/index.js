@@ -16,6 +16,4 @@ export default function TopicsIndex(props) {
   );
 }
 
-TopicsIndex.propTypes = {
-  user: PropTypes.object.isRequired
-};
+TopicsIndex.propTypes = { user: PropTypes.object.isRequired };

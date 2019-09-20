@@ -47,7 +47,7 @@ class TopicThumbnailList extends PureComponent {
                     'thumbnail-list-item': true,
                     '-active': topic.slug === selected
                   })}
-                  style={{ backgroundImage: `url(${topic.photo.medium})` }}
+                  style={{ backgroundImage: `url(${topic.photo && topic.photo.medium})` }}
                   onClick={() => onSelect(topic)}
                 >
                   <div className="content" htmlFor={`topic-${topic.slug}`}>

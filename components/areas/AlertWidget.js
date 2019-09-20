@@ -20,7 +20,7 @@ import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
 // Services
-import AreasService from 'services/AreasService';
+import { fetchGeostore } from 'services/geostore';
 
 // Utils
 import { LayerManager, Layer } from 'layer-manager/dist/components';
@@ -49,8 +49,6 @@ class AlertWidget extends React.Component {
     } = props;
 
     const { areas } = user;
-
-    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
 
     this.state = {
       area: areas.items.find(a => a.id === id),
@@ -82,14 +80,12 @@ class AlertWidget extends React.Component {
   componentDidMount() {
     const { area, layerGroups } = this.state;
 
-    this.areasService.getGeostore(area.attributes.geostore)
+    getGeostore(area.attributes.geostore)
       .then(({ data }) => {
         const geostore = { ...data.attributes, id: data.id, type: data.type };
 
-        this.setState({
-          geostore
-        })
-      })
+        this.setState({ geostore });
+      });
   }
 
   componentWillUpdate(nextProps) {
@@ -201,9 +197,7 @@ class AlertWidget extends React.Component {
               {...geostore && {
                 bounds: {
                   bbox: geostore.bbox,
-                  options: {
-                    padding: [20, 20]
-                  }
+                  options: { padding: [20, 20] }
                 }
               }}
             >
@@ -231,8 +225,8 @@ class AlertWidget extends React.Component {
                         {geostore &&
                           <Layer
                             id={geostore.id}
-                            name='Geojson'
-                            provider='leaflet'
+                            name="Geojson"
+                            provider="leaflet"
                             layerConfig={{
                               type: 'geoJSON',
                               body: geostore.geojson
