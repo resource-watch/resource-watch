@@ -1,3 +1,5 @@
+import WRISerializer from 'wri-json-api-serializer';
+
 // utils
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
@@ -21,6 +23,18 @@ export const fetchTopics = (params = {}) => {
       ...params,
       env: process.env.API_ENV,
       application: process.env.APPLICATIONS
+    },
+    transformResponse: (_data) => {
+      let parsedData = { data: [] };
+
+      try {
+        parsedData = JSON.parse(_data);
+      } catch ({ message }) {
+        logger.error('Error parsing topics');
+        throw new Error(message);
+      }
+
+      return parsedData.data.map(_topic => WRISerializer({ data: _topic }));
     }
   }).then((response) => {
     const { status, statusText, data } = response;

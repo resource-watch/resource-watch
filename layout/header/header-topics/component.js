@@ -48,7 +48,7 @@ class HeaderTopics extends PureComponent {
             {topics.map(_topic => (
               <li
                 className="header-dropdown-list-item"
-                key={_topic.label}
+                key={_topic.params.id}
               >
                 <Link
                   route={_topic.route}
