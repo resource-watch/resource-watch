@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.8] - 2019-09-16
+### Added
+- Specify order in which layers should appear on Explore [[code]](https://github.com/resource-watch/resource-watch/pull/1027)
+- Newsletter thank you page [[code]](https://github.com/resource-watch/resource-watch/pull/1103)
+- Expandable table of contents in FAQs [[code]](https://github.com/resource-watch/resource-watch/pull/1107)
+- Applications read-only field added to dataset form in the back office [[code]](https://github.com/resource-watch/resource-watch/pull/1113)
+
+### Fixed
+- Fix for error saving widgets from dataset detail page [[code]](https://github.com/resource-watch/resource-watch/pull/1099)
+- Fix for email share icon dissapearance [[code]](https://github.com/resource-watch/resource-watch/pull/1100)
+- Issue with location search in Explore fixed [[code]](https://github.com/resource-watch/resource-watch/pull/1104)
+- Fix placeholder and improve text of Environment field in Layer form [[code]](https://github.com/resource-watch/resource-watch/pull/1105)
+- Fix issue with widget creation in MyRW [[code]](https://github.com/resource-watch/resource-watch/pull/1115)
+- Fix related to the widget editor and how we infer is a widget is of type map or not [[code]](https://github.com/resource-watch/resource-watch/pull/1117)
+- Fix for an issue that prevented some fields to appear in the dataset form page from the back office (e.g. the published check box). Fix related to the widget editor and how we infer is a widget is of type map or not [[code]](https://github.com/resource-watch/resource-watch/pull/1118)
+- Prevent wrong env values to be set when creating/updating subscriptions [[code]](https://github.com/resource-watch/resource-watch/pull/1120)
+- Fix error thrown when saving edit dataset page [[code]](https://github.com/resource-watch/resource-watch/pull/1121)
+- Fix issue consisting of subscriptions not showing up in the AOI section [[code]](https://github.com/resource-watch/resource-watch/pull/1123)
+- Fix for dataset creation issue [[code]](https://github.com/resource-watch/resource-watch/pull/1124)
+- MyRW visualizations --> Edit button link logic fixed [[code]](https://github.com/resource-watch/resource-watch/pull/1128)
+
+### Changed
+- Datasets and visualizations from collections link to different pages depending on user and ownership [[code]](https://github.com/resource-watch/resource-watch/pull/1106)
+- Upgrade widget editor to 1.4.5 [[code]](https://github.com/resource-watch/resource-watch/pull/1112)
+- Bump mixin-deep from 1.3.1 to 1.3.2 [[code]](https://github.com/resource-watch/resource-watch/pull/1114)
+- Remove front-end 'wall' preventing unpublished datasets to be visible in Explore detail [[code]](https://github.com/resource-watch/resource-watch/pull/1118)
+- The user should stay in the dataset form page after clicking on save/update [[code]](https://github.com/resource-watch/resource-watch/pull/1118)
+- Myrw --> Vizualizations: show most recent widgets first [[code]](https://github.com/resource-watch/resource-watch/pull/1122)
+- Upgrade to next@9.0.5 [[code]](https://github.com/resource-watch/resource-watch/pull/1126)
+- Bump lodash from 4.17.11 to 4.17.13 [[code]](https://github.com/resource-watch/resource-watch/pull/1127)
+
+
+
 ## [2.1.7] - 2019-08-19
 ### Fixed
 - Fixes interactions layer issue in admin [[code]](https://github.com/resource-watch/resource-watch/pull/1094)

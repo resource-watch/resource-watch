@@ -522,12 +522,13 @@ class WidgetCard extends PureComponent {
                   Options
                 </button>
               }
-              <Link
-                route="myrw_detail"
-                params={{ tab: 'widgets', subtab: 'edit', id: this.props.widget.id }}
+              <button
+                type="button"
+                className="c-button"
+                onClick={this.handleEditWidget}
               >
-                <a className="c-button">Edit</a>
-              </Link>
+                Edit
+              </button>
             </div>
           }
         </div>
