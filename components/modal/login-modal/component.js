@@ -10,7 +10,7 @@ import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import UserService from 'services/user';
+import { loginUser, registerUser } from 'services/user';
 
 // constants
 import { FORM_ELEMENTS } from './constants';
@@ -45,7 +45,7 @@ class LoginModal extends PureComponent {
       // register user
       if (register) {
         this.setState({ loading: true }, () => {
-          this.userService.registerUser(userSettings)
+          registerUser(userSettings)
             .then(() => {
               toastr.success('Confirm registration',
                 'You will receive an email shortly. Please confirm your registration.');
@@ -55,24 +55,24 @@ class LoginModal extends PureComponent {
         });
       } else {
         // sign-in user
-        this.userService.loginUser(userSettings)
+        loginUser(userSettings)
           .then((data) => {
             setUser(data);
             // redirects the user to /myrw once logged-in
             window.location.href = '/myrw';
           })
           .catch((err) => {
-            const message = err.status === 401 ?
-              'Your email and password combination is incorrect.' :
-              `${err.status}:${err.statusText}`;
+            const { status, statusText } = err.response;
 
-            toastr.error('Something went wrong', message);
+            const message = status === 401 ?
+              'Your email and password combination is incorrect.' :
+              `${status}:${statusText}`;
+
+            toastr.error(message);
           });
       }
     }, 0);
   }
-
-  userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 
   render() {
     const {

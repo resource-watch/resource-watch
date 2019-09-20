@@ -20,7 +20,7 @@ import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
 // Services
-import AreasService from 'services/AreasService';
+import { fetchGeostore } from 'services/geostore';
 
 // Utils
 import { LayerManager, Layer } from 'layer-manager/dist/components';
@@ -49,8 +49,6 @@ class AlertWidget extends React.Component {
     } = props;
 
     const { areas } = user;
-
-    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
 
     this.state = {
       area: areas.items.find(a => a.id === id),
@@ -82,7 +80,7 @@ class AlertWidget extends React.Component {
   componentDidMount() {
     const { area, layerGroups } = this.state;
 
-    this.areasService.getGeostore(area.attributes.geostore)
+    getGeostore(area.attributes.geostore)
       .then(({ data }) => {
         const geostore = { ...data.attributes, id: data.id, type: data.type };
 

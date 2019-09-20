@@ -12,13 +12,13 @@ export function mergeSubscriptions(areas, subs, datasets) {
 
   // Merge datasets with labels inside of subscriptions
   subs.forEach((sub) => {
-    sub.attributes.datasets = sub.attributes.datasets
+    sub.datasets = sub.datasets
       .map(val => datasetsWithLabels.find(elem => elem.id === val));
   });
 
   // Load datasets info
   subs.forEach((sub) => {
-    const tempArea = areas.find(val => val.id === sub.attributes.params.area);
+    const tempArea = areas.find(val => val.id === sub.params.area);
     if (tempArea) {
       tempArea.subscription = sub;
     }

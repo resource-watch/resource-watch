@@ -6,13 +6,20 @@ import moment from 'moment';
 import WRISerializer from 'wri-json-api-serializer';
 
 // services
-import AreasService from 'services/AreasService';
-import UserService from 'services/user';
+import { fetchCountries } from 'services/geostore';
+import {
+  fetchUserAreas,
+  createArea
+} from 'services/areas';
+import {
+  fetchSubscriptions,
+  createSubscriptionToArea as createSubscriptionToAreaService,
+  updateSubscriptionToArea
+} from 'services/subscriptions';
+
 import DatasetService from 'services/DatasetService';
 import { fetchQuery } from 'services/query';
 
-const areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-const userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
 // actions – user subscriptions
 export const setSubscriptions = createAction('SUBSCRIPTIONS__SET-SUBSCRIPTIONS');
@@ -31,7 +38,7 @@ export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-S
 
     dispatch(setSubscriptionsLoading(true));
 
-    userService.getSubscriptions(token)
+    fetchSubscriptions(token)
       .then((subscriptions = []) => {
         dispatch(setSubscriptions(subscriptions));
         dispatch(setSubscriptionsLoading(false));
@@ -90,7 +97,7 @@ export const getAreas = createThunkAction('SUBSCRIPTIONS__GET-AREAS', () =>
   (dispatch) => {
     dispatch(setAreasLoading(true));
 
-    areasService.fetchCountries()
+    fetchCountries()
       .then((areas = []) => {
         dispatch(setAreas(areas));
         dispatch(setAreasLoading(false));
@@ -113,7 +120,7 @@ export const getUserAreas = createThunkAction('SUBSCRIPTIONS__GET-USER-AREAS', (
 
     dispatch(setUserAreasLoading(true));
 
-    userService.getUserAreas(token)
+    fetchUserAreas(token)
       .then((userAreas = []) => {
         dispatch(setUserAreas(userAreas));
         dispatch(setUserAreasLoading(false));
@@ -183,12 +190,14 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
     dispatch(setSubscriptionSuccess(false));
     dispatch(setSubscriptionLoading(true));
 
-    return userService.createSubscriptionToArea(
-      areaId,
-      datasetIds,
-      datasetsQuery,
-      user,
-      locale
+    return createSubscriptionToAreaService(
+      {
+        areaId,
+        datasets: datasetIds,
+        datasetsQuery,
+        user,
+        language: locale
+      }
     ).then(() => {
       dispatch(setSubscriptionSuccess(true));
       dispatch(setSubscriptionLoading(false));
@@ -202,11 +211,12 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
 
 export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CREATE-SUBSCRIPTION-NEW-AREA', () =>
   (dispatch, getState) => {
-    const { subscriptions, user } = getState();
+    const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
     const { area, datasets } = userSelection;
     const { label, isGeostore } = area;
     const { token } = user;
+    const { locale } = common;
     const promises = [];
 
     dispatch(setSubscriptionSuccess(false));
@@ -220,15 +230,18 @@ export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CRE
         threshold: _dataset.threshold
       });
 
-      const promise = userService.createNewArea(label, isGeostore, token)
+      const promise = createArea(label, isGeostore, token)
         .then(({ data }) => {
-          const areaID = data.id;
+          const areaId = data.id;
 
-          userService.createSubscriptionToArea(
-            areaID,
-            datasetId,
-            datasetQuery,
-            user
+          createSubscriptionToAreaService(
+            {
+              areaId,
+              datasets: datasetId,
+              datasetsQuery: datasetQuery,
+              user,
+              language: locale
+            }
           ).then(() => {
             dispatch(setSubscriptionSuccess(true));
             dispatch(setSubscriptionLoading(false));
@@ -280,7 +293,7 @@ export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSC
         threshold: _dataset.threshold
       };
 
-      const promise = userService.updateSubscriptionToArea(
+      const promise = updateSubscriptionToArea(
         id,
         datasetId,
         datasetQuery,

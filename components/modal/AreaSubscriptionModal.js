@@ -14,9 +14,12 @@ import { getUserAreas } from 'redactions/user';
 import areaAlerts from 'selectors/user/areaAlerts';
 
 // Services
-import AreasService from 'services/AreasService';
-import UserService from 'services/user';
 import DatasetService from 'services/DatasetService';
+import {
+  createSubscriptionToArea,
+  updateSubscriptionToArea,
+  deleteSubscription
+} from 'services/subscriptions';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -43,8 +46,6 @@ class AreaSubscriptionModal extends React.Component {
       apiURL: process.env.WRI_API_URL,
       language: props.locale
     });
-    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
 
     // ------------------- Bindings -----------------------
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -117,7 +118,6 @@ class AreaSubscriptionModal extends React.Component {
   handleSubmit() {
     const { area, user, locale, mode } = this.props;
     const { alerts } = this.state;
-    const { userService } = this;
 
     let missingValues = false;
 
@@ -136,7 +136,7 @@ class AreaSubscriptionModal extends React.Component {
       return;
     }
 
-    logEvent('My RW', 'Edit subscription', area.attributes.name);
+    logEvent('My RW', 'Edit subscription', area.name);
 
     if (mode === 'new') {
       if (!datasets.length) {
@@ -144,20 +144,20 @@ class AreaSubscriptionModal extends React.Component {
         return;
       }
 
-      userService.createSubscriptionToArea(
-        area.id,
+      createSubscriptionToArea({
+        areaId: area.id,
         datasets,
         datasetsQuery,
         user,
-        locale
-      ).then(() => {
+        language: locale
+      }).then(() => {
         toastr.success('Success!', 'Subscription created successfully');
         this.props.dispatch(getUserAreas());
         this.props.onRequestClose();
       }).catch(err => toastr.error('Error creating the subscription', err));
     } else {
       if (!datasets.length) {
-        userService.deleteSubscription(area.subscription.id, user.token)
+        deleteSubscription(area.subscription.id, user.token)
           .then(() => {
             toastr.success('Success!', 'Subscription updated successfully');
             this.props.dispatch(getUserAreas());
@@ -166,7 +166,7 @@ class AreaSubscriptionModal extends React.Component {
         return;
       }
 
-      userService.updateSubscriptionToArea(
+      updateSubscriptionToArea(
         area.subscription.id,
         datasets,
         datasetsQuery,
@@ -193,7 +193,7 @@ class AreaSubscriptionModal extends React.Component {
     return (
       <div className="c-area-subscription-modal" ref={(node) => { this.el = node; }}>
         <div className="header-div">
-          <h2>{`${area.attributes.name} subscriptions`}</h2>
+          <h2>{`${area.name} subscriptions`}</h2>
         </div>
         <div className="header-text">
           Select the datasets that you want to subscribe to.
