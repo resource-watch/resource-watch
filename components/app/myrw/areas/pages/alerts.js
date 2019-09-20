@@ -61,7 +61,8 @@ class AreasAlerts extends React.Component {
 
         <p>
           Please note that this information is subject to the <Link route="terms-of-service">
-            <a>Resource Watch Terms of Service</a></Link>.
+            <a>Resource Watch Terms of Service</a>
+          </Link>.
           You can unsubscribe or manage your subscriptions at
           <Link route="myrw" params={{ tab: 'areas' }}><a> My Resource Watch</a>
           </Link> [my resource watch aoi page].

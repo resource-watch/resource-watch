@@ -218,8 +218,6 @@ SubscriptionCard.propTypes = {
   onSubscriptionRemoved: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  locale: state.common.locale
-});
+const mapStateToProps = state => ({ locale: state.common.locale });
 
 export default connect(mapStateToProps, null)(SubscriptionCard);

@@ -15,11 +15,11 @@ export const setError = createAction('TOPICS/SET-ERROR');
 export const setSelected = createAction('TOPICS/SET-SELECTED');
 
 export const getAllTopics = createThunkAction('TOPICS/GET-ALL-TOPICS',
-  () => (dispatch) => {
+  (params, headers) => (dispatch) => {
     dispatch(setLoading({ key: 'all', value: true }));
     dispatch(setError({ key: 'all', value: null }));
 
-    return fetchTopics()
+    return fetchTopics(params, headers)
       .then((topics) => {
         dispatch(setTopics({ key: 'all', value: topics }));
         dispatch(setLoading({ key: 'all', value: false }));

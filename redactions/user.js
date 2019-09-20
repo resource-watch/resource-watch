@@ -460,11 +460,11 @@ export const getUserAreas = createThunkAction(
       const { user, common } = getState();
 
       return fetchUserAreas(user.token)
-        .then((areas) => {
+        .then(areas =>
           // 1. fetch subscriptions then merge them with the area
           // 2. Get datasets
           // 3. Merge the 2 of them into the area
-          return fetchSubscriptions(user.token).then((subs) => {
+          fetchSubscriptions(user.token).then((subs) => {
             subs = subs.filter(sub => sub.params.area);
             const datasetsSet = new Set();
             subs.forEach(sub => sub.datasets
@@ -494,8 +494,7 @@ export const getUserAreas = createThunkAction(
                   WRISerializer({ data: datasets })
                 )));
               });
-          });
-        })
+          }))
         .catch((err) => {
           dispatch(setUserAreasError(err));
         });
@@ -508,12 +507,10 @@ export const removeUserArea = createThunkAction(
     const { user } = getState();
 
     if (area.subscription) {
-      return deleteSubscription(area.subscription.id, user.token).then(() => {
-        return deleteArea(area.id, user.token).then(() => {
-          toastr.success('Area deleted', `The area "${area.name}" was deleted successfully.`);
-          dispatch(getUserAreas());
-        });
-      });
+      return deleteSubscription(area.subscription.id, user.token).then(() => deleteArea(area.id, user.token).then(() => {
+        toastr.success('Area deleted', `The area "${area.name}" was deleted successfully.`);
+        dispatch(getUserAreas());
+      }));
     }
 
     return deleteArea(area.id, user.token).then(() => {

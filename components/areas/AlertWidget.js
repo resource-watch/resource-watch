@@ -84,10 +84,8 @@ class AlertWidget extends React.Component {
       .then(({ data }) => {
         const geostore = { ...data.attributes, id: data.id, type: data.type };
 
-        this.setState({
-          geostore
-        })
-      })
+        this.setState({ geostore });
+      });
   }
 
   componentWillUpdate(nextProps) {
@@ -199,9 +197,7 @@ class AlertWidget extends React.Component {
               {...geostore && {
                 bounds: {
                   bbox: geostore.bbox,
-                  options: {
-                    padding: [20, 20]
-                  }
+                  options: { padding: [20, 20] }
                 }
               }}
             >
@@ -229,8 +225,8 @@ class AlertWidget extends React.Component {
                         {geostore &&
                           <Layer
                             id={geostore.id}
-                            name='Geojson'
-                            provider='leaflet'
+                            name="Geojson"
+                            provider="leaflet"
                             layerConfig={{
                               type: 'geoJSON',
                               body: geostore.geojson

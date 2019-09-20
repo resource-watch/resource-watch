@@ -8,12 +8,13 @@ import { logger } from 'utils/logs';
  * @param {Object[]} params - params sent to the API.
  * @returns {Object[]} array of serialized topics.
  */
-export const fetchTopics = (params = {}) => {
+export const fetchTopics = (params = {}, headers = {}) => {
   logger.info('Fetch topics');
 
   return WRIAPI.get('topic', {
     headers: {
       ...WRIAPI.defaults.headers,
+      ...headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },

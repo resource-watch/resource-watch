@@ -6,6 +6,12 @@ import { deleteTopic } from 'services/topics';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    authorization: PropTypes.string.isRequired,
+    onRowDelete: PropTypes.func.isRequired
+  }
+
   handleOnClickDelete = (e) => {
     if (e) {
       e.preventDefault();
@@ -36,11 +42,5 @@ class DeleteAction extends React.Component {
     );
   }
 }
-
-DeleteAction.propTypes = {
-  data: PropTypes.object,
-  authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
-};
 
 export default DeleteAction;

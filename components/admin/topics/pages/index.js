@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import TopicsTable from 'components/topics/table/TopicsTable';
+import TopicsTable from 'components/topics/table';
 
 export default function TopicsIndex(props) {
   const { user } = props;

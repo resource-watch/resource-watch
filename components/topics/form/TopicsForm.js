@@ -19,7 +19,6 @@ import Step1 from 'components/topics/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class TopicsForm extends React.Component {
-
   state = Object.assign({}, STATE_DEFAULT, {
     id: this.props.id,
     loading: !!this.props.id,

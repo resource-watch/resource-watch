@@ -14,6 +14,7 @@ import CodeTD from './td/code';
 import StatusTD from './td/status';
 import PublishedTD from './td/published';
 import OwnerTD from './td/owner';
+import RoleTD from './td/role';
 import ApplicationsTD from './td/applications';
 import UpdatedAtTD from './td/updated-at';
 import RelatedContentTD from './td/related-content';
@@ -59,7 +60,8 @@ class DatasetsTable extends PureComponent {
           pagination: nextPagination,
           datasets: datasets.map(_dataset => ({
             ..._dataset,
-            owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+            owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
+            role: _dataset.user ? _dataset.user.role || '' : ''
           }))
         });
       })
@@ -117,7 +119,8 @@ class DatasetsTable extends PureComponent {
             pagination: nextPagination,
             datasets: datasets.map(_dataset => ({
               ..._dataset,
-              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
+              role: _dataset.user ? _dataset.user.role || '' : ''
             }))
           });
         })
@@ -150,7 +153,8 @@ class DatasetsTable extends PureComponent {
             loading: false,
             datasets: datasets.map(_dataset => ({
               ..._dataset,
-              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
+              role: _dataset.user ? _dataset.user.role || '' : ''
             }))
           });
         })
@@ -231,6 +235,7 @@ class DatasetsTable extends PureComponent {
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Owner', value: 'owner', td: OwnerTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
               { label: 'Applications', value: 'application', td: ApplicationsTD },
               { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: 'admin_data_detail' } }

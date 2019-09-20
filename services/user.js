@@ -73,7 +73,7 @@ export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
       logger.error(`Error resetting user password: ${status}: ${statusText}`);
       throw new Error(`Error resetting user password: ${status}: ${statusText}`);
     });
-}
+};
 
 
 export const uploadPhoto = (file, user) =>

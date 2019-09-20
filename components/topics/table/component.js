@@ -1,10 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import { connect } from 'react-redux';
-import { getAllTopics, setFilter } from 'modules/topics/actions';
-
 // Components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
@@ -13,17 +9,16 @@ import SearchInput from 'components/ui/SearchInput';
 // constants
 import { INITIAL_PAGINATION } from './constants';
 
-// selectors
-import { getAllFilteredTopics } from './selectors';
-
 // Table components
 import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
-import NameTD from './td/NameTD';
-import PublishedTD from './td/PublishedTD';
-import PreviewTD from './td/PreviewTD';
+import NameTD from './td/name';
+import PublishedTD from './td/published';
+import PreviewTD from './td/preview';
+import RoleTD from './td/role';
+import OwnerTD from './td/owner';
 
 class TopicsTable extends PureComponent {
   static propTypes = {
@@ -37,19 +32,11 @@ class TopicsTable extends PureComponent {
 
   static defaultProps = { error: null }
 
-  state = { pagination: INITIAL_PAGINATION }
+  state = { pagination: INITIAL_PAGINATION };
 
   componentWillMount() {
-    const { topics } = this.props;
-    const { pagination } = this.state;
-
-    this.setState({
-      pagination: {
-        ...pagination,
-        size: topics.length,
-        pages: Math.ceil(topics.length / pagination.limit)
-      }
-    });
+    const { getAllTopics, authorization } = this.props;
+    getAllTopics({ includes: 'user' }, { Authorization: authorization });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -93,10 +80,10 @@ class TopicsTable extends PureComponent {
 
   render() {
     const {
-      topics,
       loading,
       error,
-      authorization
+      authorization,
+      topics
     } = this.props;
     const { pagination } = this.state;
 
@@ -123,6 +110,8 @@ class TopicsTable extends PureComponent {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
+              { label: 'Owner', value: 'owner', td: OwnerTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Preview', value: 'slug', td: PreviewTD },
               { label: 'Published', value: 'published', td: PublishedTD }
             ]}
@@ -150,14 +139,4 @@ class TopicsTable extends PureComponent {
   }
 }
 
-export default connect(
-  state => ({
-    loading: state.topics.all.loading,
-    topics: getAllFilteredTopics(state),
-    error: state.topics.all.error
-  }),
-  {
-    getAllTopics,
-    setFilter
-  }
-)(TopicsTable);
+export default TopicsTable;

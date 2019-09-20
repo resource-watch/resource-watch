@@ -103,9 +103,7 @@ class AreaCard extends React.Component {
     const { subscription } = area;
     const subscriptionConfirmed = area.subscription && area.subscription.confirmed;
 
-    const borderContainerClassNames = classnames({
-      'border-container': true
-    });
+    const borderContainerClassNames = classnames({ 'border-container': true });
 
     // TODO: Selector
     let layerGroups = [];
@@ -169,8 +167,7 @@ class AreaCard extends React.Component {
                           {alert.type}
                           &nbsp;({alert.threshold})
                         </div>
-                      </div>)
-                    )}
+                      </div>))}
                   </div>
                 </div>
               }

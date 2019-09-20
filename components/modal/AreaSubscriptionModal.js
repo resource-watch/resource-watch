@@ -89,9 +89,7 @@ class AreaSubscriptionModal extends React.Component {
   onAddAlert() {
     const { alerts } = this.state;
     const newAlert = {
-      dataset: {
-        subscribable: {}
-      },
+      dataset: { subscribable: {} },
       id: null,
       lastSeenDate: null,
       threshold: 1,

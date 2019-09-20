@@ -10,11 +10,12 @@ import { logger } from 'utils/logs';
  * @param {Object[]} params - params sent to the API.
  * @returns {Object[]} array of serialized dashboards.
  */
-export const fetchDashboards = (params = {}) => {
+export const fetchDashboards = (params = {}, headers = {}) => {
   logger.info('Fetch dashboards');
   return WRIAPI.get('dashboard', {
     headers: {
       ...WRIAPI.defaults.headers,
+      ...headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
