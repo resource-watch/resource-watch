@@ -497,7 +497,6 @@ export const getUserAreas = createThunkAction(
           });
         })
         .catch((err) => {
-          console.log('err', err);
           dispatch(setUserAreasError(err));
         });
     }
