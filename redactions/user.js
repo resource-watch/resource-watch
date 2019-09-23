@@ -1,8 +1,8 @@
 import { toastr } from 'react-redux-toastr';
 import { createAction, createThunkAction } from 'redux-tools';
+import axios from 'axios';
 
 // Utils
-import WRISerializer from 'wri-json-api-serializer';
 import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/areas';
 
 // actions
@@ -23,7 +23,8 @@ import {
   deleteSubscription
 } from 'services/subscriptions';
 import CollectionsService from 'services/collections';
-import DatasetService from 'services/DatasetService';
+import { fetchDatasets } from 'services/dataset';
+// import DatasetService from 'services/DatasetService';
 import { fetchGeostore, fetchCountry } from 'services/geostore';
 
 /**
@@ -310,7 +311,7 @@ export const getUserCollections = createThunkAction('user/getUserCollections', (
     const { token } = getState().user;
 
     if (!token) {
-      return;
+      return null;
     }
 
     dispatch(setCollectionsLoading(true));
@@ -455,49 +456,74 @@ export const getUserAreaLayerGroups = createThunkAction(
 
 export const getUserAreas = createThunkAction(
   'user/getUserAreas',
-  (payload = {}) =>
+  () =>
     (dispatch, getState) => {
-      const { user, common } = getState();
+      const { user: { token } } = getState();
 
-      return fetchUserAreas(user.token)
-        .then(areas =>
-          // 1. fetch subscriptions then merge them with the area
-          // 2. Get datasets
-          // 3. Merge the 2 of them into the area
-          fetchSubscriptions(user.token).then((subs) => {
-            subs = subs.filter(sub => sub.params.area);
-            const datasetsSet = new Set();
-            subs.forEach(sub => sub.datasets
-              .forEach(dataset => datasetsSet.add(dataset)));
-            return DatasetService.getDatasets(
-              [...datasetsSet],
-              common.locale,
-              'layer,metadata,vocabulary,widget'
-            )
+      axios.all([fetchUserAreas(token), fetchSubscriptions(token)])
+        .then(axios.spread((userAreas, subscriptions = []) => {
+          const datasetsToFetch = new Set();
+          subscriptions.forEach((_subscription) => {
+            (_subscription.datasets || []).forEach(_dataset => datasetsToFetch.add(_dataset));
+          });
+
+          if (datasetsToFetch.size) {
+            fetchDatasets({
+              ids: [...datasetsToFetch].join(','),
+              includes: 'metadata',
+              'page[size]': 999
+            })
               .then((datasets) => {
-                // Should we attach layer groups to the area
-                if (payload.layerGroups) {
-                  const layerGroups = [];
-                  areas.forEach(area => layerGroups.push(dispatch(getUserAreaLayerGroups(area))));
-                  return Promise.all(layerGroups).then(() => {
-                    dispatch(setUserAreas(mergeSubscriptions(
-                      areas,
-                      subs,
-                      WRISerializer({ data: datasets })
-                    )));
-                  });
-                }
-
-                dispatch(setUserAreas(mergeSubscriptions(
-                  areas,
-                  subs,
-                  WRISerializer({ data: datasets })
-                )));
+                const userAreasWithSubscriptions = mergeSubscriptions(
+                  userAreas,
+                  subscriptions,
+                  datasets
+                );
+                dispatch(setUserAreas(userAreasWithSubscriptions));
               });
-          }))
-        .catch((err) => {
-          dispatch(setUserAreasError(err));
-        });
+          }
+        }));
+
+      // return fetchUserAreas(user.token)
+      //   .then(areas => dispatch(setUserAreas(areas)))
+      // 1. fetch subscriptions then merge them with the area
+      // 2. Get datasets
+      // 3. Merge the 2 of them into the area
+      // fetchSubscriptions(user.token).then((subs) => {
+      //   subs = subs.filter(sub => sub.params.area);
+      //   const datasetsSet = new Set();
+      //   subs.forEach(sub => sub.datasets
+      //     .forEach(dataset => datasetsSet.add(dataset)));
+      //   return DatasetService.getDatasets(
+      //     [...datasetsSet],
+      //     common.locale,
+      //     'layer,metadata,vocabulary,widget'
+      //   )
+      //     .then((datasets) => {
+      //       // Should we attach layer groups to the area
+      //       console.log('payload', payload)
+      //       if (payload.layerGroups) {
+      //         const layerGroups = [];
+      //         areas.forEach(area => layerGroups.push(dispatch(getUserAreaLayerGroups(area))));
+      //         return Promise.all(layerGroups).then(() => {
+      //           dispatch(setUserAreas(mergeSubscriptions(
+      //             areas,
+      //             subs,
+      //             WRISerializer({ data: datasets })
+      //           )));
+      //         });
+      //       }
+
+      //       dispatch(setUserAreas(mergeSubscriptions(
+      //         areas,
+      //         subs,
+      //         WRISerializer({ data: datasets })
+      //       )));
+      //     });
+      // }))
+      // .catch((err) => {
+      //   dispatch(setUserAreasError(err));
+      // });
     }
 );
 
@@ -507,10 +533,13 @@ export const removeUserArea = createThunkAction(
     const { user } = getState();
 
     if (area.subscription) {
-      return deleteSubscription(area.subscription.id, user.token).then(() => deleteArea(area.id, user.token).then(() => {
-        toastr.success('Area deleted', `The area "${area.name}" was deleted successfully.`);
-        dispatch(getUserAreas());
-      }));
+      return deleteSubscription(area.subscription.id, user.token)
+        .then(() =>
+          deleteArea(area.id, user.token)
+            .then(() => {
+              toastr.success('Area deleted', `The area "${area.name}" was deleted successfully.`);
+              dispatch(getUserAreas());
+            }));
     }
 
     return deleteArea(area.id, user.token).then(() => {

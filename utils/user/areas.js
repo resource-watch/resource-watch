@@ -1,31 +1,19 @@
-export function mergeSubscriptions(areas, subs, datasets) {
-  // Fetch data for the datasets needed
-  const datasetsWithLabels = datasets.map(elem => ({
-    id: elem.id,
-    label: elem.metadata && elem.metadata[0] &&
-      elem.metadata[0].info &&
-      elem.metadata[0].info.name ?
-      elem.metadata[0].info.name :
-      elem.name,
-    ...elem
+export const mergeSubscriptions = (userAreas = [], userSusbcriptions = [], datasets = []) => {
+  userSusbcriptions.map(_userSubscription => ({
+    ..._userSubscription,
+    datasets: _userSubscription.datasets.map(val => datasets.find(_dataset => _dataset.id === val))
   }));
 
-  // Merge datasets with labels inside of subscriptions
-  subs.forEach((sub) => {
-    sub.datasets = sub.datasets
-      .map(val => datasetsWithLabels.find(elem => elem.id === val));
-  });
-
   // Load datasets info
-  subs.forEach((sub) => {
-    const tempArea = areas.find(val => val.id === sub.params.area);
+  userSusbcriptions.forEach((sub) => {
+    const tempArea = userAreas.find(val => val.id === sub.params.area);
     if (tempArea) {
       tempArea.subscription = sub;
     }
   });
 
-  return areas;
-}
+  return userAreas;
+};
 
 export function setGeoLayer(geo) {
   const obj = geo.data;
@@ -80,3 +68,9 @@ export function setCountryLayer(res) {
     layers: [fakeLayer]
   };
 }
+
+export default {
+  mergeSubscriptions,
+  setGeoLayer,
+  setCountryLayer
+};

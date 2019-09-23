@@ -7,11 +7,29 @@ import { logger } from 'utils/logs';
 /**
  *  Get Subscriptions
  */
-export const fetchSubscriptions = (token) => {
+export const fetchSubscriptions = (token, params) => {
   logger.info('Fetch subscriptions');
-  return WRIAPI.get(`subscriptions?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-    { headers: { Authorization: token } })
-    .then(response => new WRISerializer(response.data))
+  return WRIAPI.get('subscriptions', {
+    headers: {
+      ...WRIAPI.defaults.headers,
+      Authorization: token
+    },
+    params: {
+      application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
+      ...params
+    }
+  })
+    .then((response) => {
+      const { status, statusText, data } = response;
+
+      if (status >= 300) {
+        logger.error('Error fetching subscriptions:', `${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
+
+      return WRISerializer(data);
+    })
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching subscriptions: ${status}: ${statusText}`);
@@ -27,17 +45,18 @@ export const fetchSubscriptions = (token) => {
  * @returns {Promise}
  */
 export const createSubscriptionToArea = ({
-  areaId,
+  geostoreArea,
   datasets,
   datasetsQuery,
   user,
   language,
   name = ''
 }) => {
-  logger.info(`Create subscription to area: ${areaId}`);
+  logger.info(`Create subscription to area with geostore: ${geostoreArea}`);
   const bodyObj = {
     name,
     application: process.env.APPLICATIONS,
+    env: process.env.API_ENV,
     language: language || 'en',
     datasets,
     datasetsQuery,
@@ -45,7 +64,7 @@ export const createSubscriptionToArea = ({
       type: 'EMAIL',
       content: user.email
     },
-    params: { area: areaId }
+    params: { geostore: geostoreArea }
   };
 
   return WRIAPI.post('subscriptions',
@@ -53,8 +72,8 @@ export const createSubscriptionToArea = ({
     { headers: { Authorization: user.token } })
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error creating subscription to area ${areaId}: ${status}: ${statusText}`);
-      throw new Error(`Error creating subscription to area ${areaId}: ${statusText}`);
+      logger.error(`Error creating subscription to area with geostore ${geostoreArea}: ${status}: ${statusText}`);
+      throw new Error(`Error creating subscription to area with geostore ${geostoreArea}: ${statusText}`);
     });
 };
 
@@ -67,11 +86,12 @@ export const updateSubscriptionToArea = (
   datasetsQuery,
   user,
   language,
-  areaId
+  geostoreArea
 ) => {
   logger.info(`Update subscription: ${subscriptionId}`);
   const bodyObj = {
     application: process.env.APPLICATIONS,
+    env: process.env.API_ENV,
     language: language || 'en',
     datasets,
     datasetsQuery,
@@ -79,7 +99,7 @@ export const updateSubscriptionToArea = (
       type: 'EMAIL',
       content: user.email
     },
-    params: { area: areaId }
+    params: { geostore: geostoreArea }
   };
 
   return WRIAPI.patch(`subscriptions/${subscriptionId}`,
