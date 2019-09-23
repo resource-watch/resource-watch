@@ -73,7 +73,7 @@ export const getUserSubscriptionsPreview = createThunkAction('SUBSCRIPTIONS__GET
       }
 
       return null;
-    });
+    }).filter(e => e !== null);
 
     dispatch(setSubscriptionsLoadingPreview(true));
 
