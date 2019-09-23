@@ -1,3 +1,5 @@
+import WRISerializer from 'wri-json-api-serializer';
+
 // utils
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
@@ -24,7 +26,7 @@ export const fetchDashboards = (params = {}, headers = {}) => {
       application: [process.env.APPLICATIONS],
       ...params
     }
-  }).then(response => response.data)
+  }).then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error('Error fetching dashboards:', `${status}: ${statusText}`);
@@ -47,7 +49,7 @@ export const fetchDashboard = (id) => {
     },
     params: { env: process.env.API_ENV, application: [process.env.APPLICATIONS] }
   })
-    .then(response => response.data)
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching dashboard: ${id}`, `${status}: ${statusText}`);
@@ -74,7 +76,7 @@ export const createDashboard = (body, token) => {
       Authorization: token
     }
   })
-    .then(response => response.data)
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating dashboard ${status}: ${statusText}`);
@@ -98,7 +100,7 @@ export const updateDashboard = (id, body, token) => {
       Authorization: token
     }
   })
-    .then(response => response.data)
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating dashboard ${id} ${status}: ${statusText}`);
@@ -121,7 +123,7 @@ export const deleteDashboard = (id, token) => {
       Authorization: token
     }
   })
-    .then(response => response.data)
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error deleting dashboard ${id} ${status}: ${statusText}`);
@@ -144,7 +146,7 @@ export const cloneDashboard = (id, token) => {
       Authorization: token
     }
   })
-    .then(response => response.data)
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error cloning dashboard from topic ${id} ${status}: ${statusText}`);

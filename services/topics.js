@@ -1,3 +1,5 @@
+import WRISerializer from 'wri-json-api-serializer';
+
 // utils
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
@@ -31,7 +33,7 @@ export const fetchTopics = (params = {}, headers = {}) => {
       logger.error('Error fetching topics:', `${status}: ${statusText}`);
       throw new Error(statusText);
     }
-    return data;
+    return WRISerializer(data);
   }).catch(({ response }) => {
     const { status, statusText } = response;
     logger.error('Error fetching topics:', `${status}: ${statusText}`);
@@ -58,7 +60,7 @@ export const fetchTopic = (id) => {
         }
         throw new Error(statusText);
       }
-      return data;
+      return WRISerializer(data);
     }).catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
@@ -90,7 +92,7 @@ export const createTopic = (body, token) => {
     .then((response) => {
       const { status, statusText, data } = response;
       if (status >= 400) throw new Error(statusText);
-      return data;
+      return WRISerializer(data);
     });
 };
 
@@ -120,7 +122,7 @@ export const updateTopic = (id, body, token) => {
       if (status >= 400) {
         throw new Error(statusText);
       }
-      return data;
+      return WRISerializer(data);
     });
 };
 
@@ -146,7 +148,7 @@ export const deleteTopic = (id, token) => {
         console.warn(`deletes topic: ${id}:`, statusText);
         throw new Error(statusText);
       }
-      return response;
+      return WRISerializer(response);
     });
 };
 
