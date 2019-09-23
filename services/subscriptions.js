@@ -66,14 +66,20 @@ export const updateSubscriptionToArea = (
   datasets,
   datasetsQuery,
   user,
-  language
+  language,
+  areaId
 ) => {
   logger.info(`Update subscription: ${subscriptionId}`);
   const bodyObj = {
     application: process.env.APPLICATIONS,
     language: language || 'en',
     datasets,
-    datasetsQuery
+    datasetsQuery,
+    resource: {
+      type: 'EMAIL',
+      content: user.email
+    },
+    params: { area: areaId }
   };
 
   return WRIAPI.patch(`subscriptions/${subscriptionId}`,

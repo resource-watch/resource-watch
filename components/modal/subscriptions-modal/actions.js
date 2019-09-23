@@ -273,13 +273,13 @@ export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CRE
       });
   });
 
-export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSCRIPTION', currentSubscription =>
+export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSCRIPTION', () =>
   (dispatch, getState) => {
     const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
-    const { datasets } = userSelection;
+    const { datasets, area } = userSelection;
     const { locale } = common;
-    const { id } = currentSubscription;
+    const { subscription } = area;
     const promises = [];
 
     dispatch(setSubscriptionSuccess(false));
@@ -294,11 +294,12 @@ export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSC
       };
 
       const promise = updateSubscriptionToArea(
-        id,
+        subscription.id,
         datasetId,
         datasetQuery,
         user,
-        locale
+        locale,
+        area.id
       ).then(() => {
         dispatch(setSubscriptionSuccess(true));
         dispatch(setSubscriptionLoading(false));
