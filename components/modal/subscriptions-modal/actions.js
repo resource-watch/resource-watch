@@ -303,10 +303,10 @@ export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSC
       ).then(() => {
         dispatch(setSubscriptionSuccess(true));
         dispatch(setSubscriptionLoading(false));
+        toastr.success('Subscriptions updated successfully');
       }).catch((err) => {
         dispatch(setSubscriptionError(err));
         dispatch(setSubscriptionLoading(false));
-
         toastr.error('Error: unable to update the subscription', err);
       });
 
