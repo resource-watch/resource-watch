@@ -86,9 +86,11 @@ export const fetchDashboard = (id) => {
 export const createDashboard = (body, token) => {
   logger.info('Create dashboard');
   return WRIAPI.post('dashboard', {
-    ...body,
-    application: [process.env.APPLICATIONS],
-    env: process.env.API_ENV
+    data: {
+      attributes: { ...body },
+      application: [process.env.APPLICATIONS],
+      env: process.env.API_ENV
+    }
   }, {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -121,12 +123,14 @@ export const createDashboard = (body, token) => {
  */
 export const updateDashboard = (id, body, token) => {
   logger.info(`Updates dashboard ${id}`);
-  return WRIAPI.patch(`dashboard/${id}`, { ...body }, {
-    headers: {
-      ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
-  })
+  return WRIAPI.patch(`dashboard/${id}`,
+    { data: { attributes: { ...body } } },
+    {
+      headers: {
+        ...WRIAPI.defaults.headers,
+        Authorization: token
+      }
+    })
     .then((response) => {
       const { status, statusText, data } = response;
 

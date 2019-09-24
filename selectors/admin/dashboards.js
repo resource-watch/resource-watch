@@ -8,7 +8,7 @@ const filters = state => state.adminDashboards.dashboards.filters;
  * @param {object[]} dashboards Datasets to filter
  * @param {{ key: string, value: string|number }[]} filters Filters to apply to the dashboards
  */
-const getFilteredDashboards = (dashboards, filters) => { // eslint-disable-line no-shadow
+export const getFilteredDashboards = (dashboards, filters) => { // eslint-disable-line no-shadow
   if (!filters.length) return dashboards;
 
   return dashboards.filter((dashboard) => { // eslint-disable-line arrow-body-style
@@ -34,5 +34,8 @@ export const getDashboards = createSelector([getAllFilteredDashboards],
     role: _dashboard.user ? _dashboard.user.role || '' : ''
   })));
 
-export default { getDashboards };
+export default {
+  getDashboards,
+  getFilteredDashboards
+};
 
