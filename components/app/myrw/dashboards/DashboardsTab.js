@@ -36,8 +36,12 @@ DashboardsTab.propTypes = {
   subtab: PropTypes.string
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+DashboardsTab.defaultProps = {
+  tab: null,
+  id: null,
+  subtab: null
+};
+
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DashboardsTab);

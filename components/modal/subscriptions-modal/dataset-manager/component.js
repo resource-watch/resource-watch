@@ -26,11 +26,7 @@ class DatasetManager extends Component {
 
   static defaultProps = { activeArea: null }
 
-  constructor(props) {
-    super(props);
-
-    this.state = { selectedDatasets: props.selectedDatasets };
-  }
+  state = { selectedDatasets: this.props.selectedDatasets };
 
   componentWillReceiveProps(nextProps) {
     const { selectedDatasets } = this.props;

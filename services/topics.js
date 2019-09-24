@@ -1,3 +1,5 @@
+import WRISerializer from 'wri-json-api-serializer';
+
 // utils
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
@@ -31,7 +33,7 @@ export const fetchTopics = (params = {}, headers = {}) => {
       logger.error('Error fetching topics:', `${status}: ${statusText}`);
       throw new Error(statusText);
     }
-    return data;
+    return WRISerializer(data);
   }).catch(({ response }) => {
     const { status, statusText } = response;
     logger.error('Error fetching topics:', `${status}: ${statusText}`);
@@ -58,7 +60,7 @@ export const fetchTopic = (id) => {
         }
         throw new Error(statusText);
       }
-      return data;
+      return WRISerializer(data);
     }).catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching topic: ${id}: ${status}: ${statusText}`);
@@ -77,10 +79,11 @@ export const fetchTopic = (id) => {
 export const createTopic = (body, token) => {
   logger.info('Create topic');
   return WRIAPI.post('topic', {
-    /* this is a temporary hack TODO: change it once the endpoints have been fixed */
-    data: { attributes: { ...body } },
-    env: process.env.API_ENV,
-    application: process.env.APPLICATIONS
+    data: {
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
+      attributes: { ...body }
+    }
   }, {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -89,8 +92,11 @@ export const createTopic = (body, token) => {
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
-      return data;
+      if (status >= 300) {
+        logger.error('Error creating topic:', statusText);
+        throw new Error(statusText);
+      }
+      return WRISerializer(data);
     });
 };
 
@@ -104,11 +110,13 @@ export const createTopic = (body, token) => {
  * @returns {Object} serialized topic with updated data
  */
 export const updateTopic = (id, body, token) => {
-  logger.info(`Update topic: ${id}`);
+  logger.info(`Updates topic ${id}`);
   return WRIAPI.patch(`/topic/${id}`, {
-    ...body,
-    env: process.env.API_ENV,
-    application: process.env.APPLICATIONS
+    data: {
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
+      attributes: { ...body }
+    }
   }, {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -117,10 +125,11 @@ export const updateTopic = (id, body, token) => {
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) {
+      if (status >= 300) {
+        if (status !== 404) logger.error(`Error upadting topic ${id}:`, statusText);
         throw new Error(statusText);
       }
-      return data;
+      return WRISerializer(data);
     });
 };
 
@@ -133,7 +142,7 @@ export const updateTopic = (id, body, token) => {
  * @returns {Object} fetch response.
  */
 export const deleteTopic = (id, token) => {
-  logger.info(`Delete topic: ${id}`);
+  logger.info(`Deletes topic ${id}`);
   return WRIAPI.delete(`/topic/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -142,8 +151,8 @@ export const deleteTopic = (id, token) => {
   })
     .then((response) => {
       const { status, statusText } = response;
-      if (status >= 400) {
-        console.warn(`deletes topic: ${id}:`, statusText);
+      if (status >= 300) {
+        if (status !== 404) logger.error(`Error deleting topic ${id}:`, statusText);
         throw new Error(statusText);
       }
       return response;

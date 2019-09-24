@@ -73,7 +73,7 @@ export const getUserSubscriptionsPreview = createThunkAction('SUBSCRIPTIONS__GET
       }
 
       return null;
-    });
+    }).filter(e => e !== null);
 
     dispatch(setSubscriptionsLoadingPreview(true));
 
@@ -176,8 +176,10 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
   (dispatch, getState) => {
     const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
-    const { area, datasets } = userSelection;
-    const areaId = area.id;
+    const {
+      area: { geostore: geostoreArea },
+      datasets
+    } = userSelection;
     const { locale } = common;
 
     const datasetIds = datasets.map(dataset => dataset.id);
@@ -192,7 +194,7 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
 
     return createSubscriptionToAreaService(
       {
-        areaId,
+        geostoreArea,
         datasets: datasetIds,
         datasetsQuery,
         user,
@@ -273,13 +275,18 @@ export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CRE
       });
   });
 
-export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSCRIPTION', currentSubscription =>
+export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSCRIPTION', () =>
   (dispatch, getState) => {
     const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
-    const { datasets } = userSelection;
+    const {
+      datasets,
+      area: {
+        geostore: geostoreArea,
+        subscription: { id: subscriptionId }
+      }
+    } = userSelection;
     const { locale } = common;
-    const { id } = currentSubscription;
     const promises = [];
 
     dispatch(setSubscriptionSuccess(false));
@@ -294,18 +301,19 @@ export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSC
       };
 
       const promise = updateSubscriptionToArea(
-        id,
+        subscriptionId,
         datasetId,
         datasetQuery,
         user,
-        locale
+        locale,
+        geostoreArea
       ).then(() => {
         dispatch(setSubscriptionSuccess(true));
         dispatch(setSubscriptionLoading(false));
+        toastr.success('Subscriptions updated successfully');
       }).catch((err) => {
         dispatch(setSubscriptionError(err));
         dispatch(setSubscriptionLoading(false));
-
         toastr.error('Error: unable to update the subscription', err);
       });
 

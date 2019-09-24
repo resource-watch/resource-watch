@@ -1,13 +1,28 @@
+import WRISerializer from 'wri-json-api-serializer';
+
 // utils
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 /**
- * Get Geostore
+ * fetches Geostore
+ * @param {Object[]} id - geostore ID.
+ * @returns {Object[]} serialized geostore object.
  */
 export const fetchGeostore = (id) => {
   logger.info(`Fetch geostore ${id}`);
+
   return WRIAPI.get(`geostore/${id}`)
+    .then((response) => {
+      const { status, statusText, data } = response;
+
+      if (status >= 300) {
+        logger.error('Error fetching geostore:', `${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
+
+      return WRISerializer(data);
+    })
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching geostore ${id}: ${status}: ${statusText}`);

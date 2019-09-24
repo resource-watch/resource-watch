@@ -18,45 +18,19 @@ class AreaSubscriptionsModal extends PureComponent {
   static propTypes = {
     userSelection: PropTypes.object.isRequired,
     areas: PropTypes.array.isRequired,
-    userAreas: PropTypes.array.isRequired,
-    areaFound: PropTypes.bool.isRequired,
     activeArea: PropTypes.object,
-    subscriptionsByArea: PropTypes.array.isRequired,
     subscription: PropTypes.object.isRequired,
+    subscriptionCreation: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
-    // setUserSelection: PropTypes.func.isRequired,
     onRequestClose: PropTypes.func.isRequired,
     resetModal: PropTypes.func.isRequired,
     createSubscriptionToArea: PropTypes.func.isRequired,
-    createSubscriptionOnNewArea: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired
   }
 
   static defaultProps = { activeArea: null }
 
   state = { showSubscribePreview: false }
-
-  // onChangeArea = (area = {}) => {
-  //   const {
-  //     activeDataset,
-  //     onRequestClose,
-  //     setUserSelection
-  //   } = this.props;
-
-  //   if (area.value === 'upload_area') {
-  //     onRequestClose();
-
-  //     Router.pushRoute('myrw_detail', {
-  //       tab: 'areas',
-  //       id: 'new',
-  //       subscriptionDataset: activeDataset.id,
-  //       subscriptionType: this.state.selectedType,
-  //       subscriptionThreshold: this.state.selectedThreshold
-  //     });
-  //   } else {
-  //     setUserSelection({ area });
-  //   }
-  // }
 
   handleCancel = () => {
     const { resetModal, onRequestClose } = this.props;
@@ -71,59 +45,25 @@ class AreaSubscriptionsModal extends PureComponent {
 
   handleSubscribe = () => {
     const {
-      userSelection,
-      subscriptionsByArea,
-      userAreas,
+      subscription,
       activeArea,
-      areaFound,
       createSubscriptionToArea,
-      createSubscriptionOnNewArea,
       updateSubscription
     } = this.props;
-    const { showSubscribePreview } = this.state;
 
-    if (userSelection.area) {
-      if (userSelection.area.areaID) {
-        // user selects an area previously created
-        if (areaFound) {
-          toastr.confirm(`There already exist a subscription for the selected area.
-            Do you want to update it?`, {
-            onOk: () => {
-              if (!activeArea) {
-                const subscriptionToUpdate = subscriptionsByArea.find(_subscription =>
-                  _subscription.params.area === userSelection.area.areaID);
-                updateSubscription(subscriptionToUpdate);
-              } else {
-                const { subscription } = activeArea;
-                updateSubscription(subscription);
-              }
-            },
-            onCancel: () => { }
-          });
-        } else {
-          createSubscriptionToArea();
-        }
-        // ++++++++++ THE USER SELECTED A COUNTRY +++++++++++++++
-        // Check if the user already has an area with that country
-      } else if (userAreas.map(val => val.value).includes(userSelection.area.value)) {
+    if (subscription.datasets.length > 0) {
+      if (!activeArea.subscription) {
         createSubscriptionToArea();
       } else {
-        // In the case there's no user area for the selected country we create one on the fly
-        createSubscriptionOnNewArea()
-          .then(() => {
-            if (showSubscribePreview) {
-              this.setState({ showSubscribePreview: false });
-            }
-          });
+        updateSubscription();
       }
     } else {
-      toastr.error('Data missing', 'Please select an area and a subscription type');
+      toastr.error('Data missing', 'Please select at least one dataset and a subscription type');
     }
   }
 
   handleGoToMySubscriptions = () => {
     this.props.onRequestClose();
-
     Router.pushRoute('myrw', { tab: 'areas' });
   }
 
@@ -136,11 +76,11 @@ class AreaSubscriptionsModal extends PureComponent {
       // activeDataset,
       userSelection,
       loading,
-      subscription,
+      subscriptionCreation,
       onRequestClose
     } = this.props;
     const { showSubscribePreview } = this.state;
-    const { success } = subscription;
+    const { success } = subscriptionCreation;
     const paragraphText = success ?
       (
         <p>
@@ -161,7 +101,6 @@ class AreaSubscriptionsModal extends PureComponent {
         />
       );
     }
-
     return (
       <div className="c-subscriptions-modal">
         <Spinner
@@ -189,21 +128,6 @@ class AreaSubscriptionsModal extends PureComponent {
                   value={(currentArea || {}).value}
                 />
               </Field>
-              {/* <Field
-                properties={{
-                  name: 'frequency',
-                  label: 'Frequency of notifications'
-                }}
-              >
-                <CustomSelect
-                  placeholder="Frequency of notifications"
-                  options={SUBSCRIPTION_FREQUENCY_OPTIONS}
-                  onValueChange={(frequency = {}) =>
-                    setUserSelection({ frequency: frequency.value || null })}
-                  allowNonLeafSelection={false}
-                  value={userSelection.frequency}
-                />
-              </Field> */}
             </div>
             <div className="separator" />
             <DatasetsManager activeArea={activeArea} />
@@ -219,7 +143,7 @@ class AreaSubscriptionsModal extends PureComponent {
         {!success &&
           <div className="buttons">
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
-              {activeArea ? 'Update' : 'Subscribe'}
+              {activeArea.subscription ? 'Update' : 'Subscribe'}
             </button>
 
             <button

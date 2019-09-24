@@ -196,8 +196,9 @@ export default class LayerManager {
         layer = L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
         break;
       default:
+        layer = L[layerData.type](layerData.body, layerData.options || {});
         delete this.layersLoading[layerData.id];
-        throw new Error('"type" specified in layer spec doesn`t exist');
+        break;
     }
 
     if (layer) {

@@ -24,6 +24,9 @@ import SubscriptionsModal from 'components/modal/subscriptions-modal/area';
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
 
+// services
+import { fetchGeostore } from 'services/geostore';
+
 const MAP_CONFIG = {
   zoom: 3,
   latLng: {
@@ -50,12 +53,37 @@ class AreaCard extends React.Component {
   }
 
   state = {
-    loading: false,
+    loading: true,
     modal: {
       open: false,
       mode: 'new'
+    },
+    layer: {
+      bbox: null,
+      geojson: null
     }
   };
+
+  componentWillMount() {
+    const { area: { geostore: geostoreId, name } } = this.props;
+
+    fetchGeostore(geostoreId)
+      .then((geostore = {}) => {
+        const { bbox, geojson } = geostore;
+
+        this.setState({
+          layer: {
+            bbox,
+            geojson
+          },
+          loading: false
+        });
+      })
+      .catch(({ message }) => {
+        toastr.error(`Something went wrong loading your area ${name}`);
+        throw new Error(message);
+      });
+  }
 
   handleEditArea = () => {
     Router.pushRoute('myrw_detail', { id: this.props.area.id, tab: 'areas' });
@@ -97,20 +125,16 @@ class AreaCard extends React.Component {
   }
 
   render() {
-    const { loading } = this.state;
-    const { area, user, alerts } = this.props;
+    const { area, alerts } = this.props;
+    const {
+      loading,
+      layer: { bbox, geojson }
+    } = this.state;
     const { name } = area;
     const { subscription } = area;
     const subscriptionConfirmed = area.subscription && area.subscription.confirmed;
 
     const borderContainerClassNames = classnames({ 'border-container': true });
-
-    // TODO: Selector
-    let layerGroups = [];
-
-    if (area.id in user.areas.layerGroups) {
-      layerGroups = user.areas.layerGroups[area.id];
-    }
 
     const activeAlerts = area.id in alerts ? alerts[area.id] : [];
 
@@ -124,17 +148,23 @@ class AreaCard extends React.Component {
               <Map
                 mapConfig={{
                   ...MAP_CONFIG,
-                  ...!!layerGroups.length && {
-                    bbox: [
-                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][0][0],
-                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][0][1],
-                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][1][0],
-                      layerGroups[0].layers[0].layerConfig.bounds.coordinates[0][1][1]
-                    ]
-                  }
+                  ...bbox && { bbox }
                 }}
                 LayerManager={LayerManager}
-                layerGroups={layerGroups}
+                layerGroups={[{
+                  id: 'layergroup-user-area',
+                  visible: true,
+                  layers: geojson ? [{
+                    id: 'user-area',
+                    active: true,
+                    provider: 'leaflet',
+                    layerConfig: {
+                      body: geojson,
+                      type: 'geoJSON',
+                      options: { style: { fillOpacity: 0.2, weight: 3, opacity: 1, color: '#FAB72E' } }
+                    }
+                  }] : []
+                }]}
                 interactionEnabled={false}
               />
             }
@@ -147,10 +177,10 @@ class AreaCard extends React.Component {
               {activeAlerts &&
                 <div className="datasets-container">
                   <div className="datasets-list">
-                    {activeAlerts.map((alert, index) =>
-                      (<div
+                    {activeAlerts.map(alert => (
+                      <div
                         className="dataset-element"
-                        key={`${alert.id}-${index}`}
+                        key={alert.id}
                       >
                         <div className="dataset-name">
                           {alert.id &&
@@ -167,7 +197,8 @@ class AreaCard extends React.Component {
                           {alert.type}
                           &nbsp;({alert.threshold})
                         </div>
-                      </div>))}
+                      </div>
+                    ))}
                   </div>
                 </div>
               }
@@ -223,7 +254,6 @@ class AreaCard extends React.Component {
 
 AreaCard.propTypes = {
   area: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   alerts: PropTypes.object.isRequired,
   // Store
   toggleTooltip: PropTypes.func.isRequired,
@@ -232,7 +262,6 @@ AreaCard.propTypes = {
 
 const mapStateToProps = state => ({
   locale: state.common.locale,
-  user: state.user,
   alerts: areaAlerts(state)
 });
 
