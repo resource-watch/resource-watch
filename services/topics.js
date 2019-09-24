@@ -91,7 +91,10 @@ export const createTopic = (body, token) => {
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
+      if (status >= 300) {
+        logger.error('Error creating topic:', statusText);
+        throw new Error(statusText);
+      }
       return WRISerializer(data);
     });
 };
@@ -106,7 +109,7 @@ export const createTopic = (body, token) => {
  * @returns {Object} serialized topic with updated data
  */
 export const updateTopic = (id, body, token) => {
-  logger.info(`Update topic: ${id}`);
+  logger.info(`Updates topic ${id}`);
   return WRIAPI.patch(`/topic/${id}`, {
     ...body,
     env: process.env.API_ENV,
@@ -119,7 +122,8 @@ export const updateTopic = (id, body, token) => {
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) {
+      if (status >= 300) {
+        if (status !== 404) logger.error(`Error upadting topic ${id}:`, statusText);
         throw new Error(statusText);
       }
       return WRISerializer(data);
@@ -135,7 +139,7 @@ export const updateTopic = (id, body, token) => {
  * @returns {Object} fetch response.
  */
 export const deleteTopic = (id, token) => {
-  logger.info(`Delete topic: ${id}`);
+  logger.info(`Deletes topic ${id}`);
   return WRIAPI.delete(`/topic/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -144,11 +148,11 @@ export const deleteTopic = (id, token) => {
   })
     .then((response) => {
       const { status, statusText } = response;
-      if (status >= 400) {
-        console.warn(`deletes topic: ${id}:`, statusText);
+      if (status >= 300) {
+        if (status !== 404) logger.error(`Error deleting topic ${id}:`, statusText);
         throw new Error(statusText);
       }
-      return WRISerializer(response);
+      return response;
     });
 };
 
