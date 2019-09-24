@@ -483,47 +483,6 @@ export const getUserAreas = createThunkAction(
               });
           }
         }));
-
-      // return fetchUserAreas(user.token)
-      //   .then(areas => dispatch(setUserAreas(areas)))
-      // 1. fetch subscriptions then merge them with the area
-      // 2. Get datasets
-      // 3. Merge the 2 of them into the area
-      // fetchSubscriptions(user.token).then((subs) => {
-      //   subs = subs.filter(sub => sub.params.area);
-      //   const datasetsSet = new Set();
-      //   subs.forEach(sub => sub.datasets
-      //     .forEach(dataset => datasetsSet.add(dataset)));
-      //   return DatasetService.getDatasets(
-      //     [...datasetsSet],
-      //     common.locale,
-      //     'layer,metadata,vocabulary,widget'
-      //   )
-      //     .then((datasets) => {
-      //       // Should we attach layer groups to the area
-      //       console.log('payload', payload)
-      //       if (payload.layerGroups) {
-      //         const layerGroups = [];
-      //         areas.forEach(area => layerGroups.push(dispatch(getUserAreaLayerGroups(area))));
-      //         return Promise.all(layerGroups).then(() => {
-      //           dispatch(setUserAreas(mergeSubscriptions(
-      //             areas,
-      //             subs,
-      //             WRISerializer({ data: datasets })
-      //           )));
-      //         });
-      //       }
-
-      //       dispatch(setUserAreas(mergeSubscriptions(
-      //         areas,
-      //         subs,
-      //         WRISerializer({ data: datasets })
-      //       )));
-      //     });
-      // }))
-      // .catch((err) => {
-      //   dispatch(setUserAreasError(err));
-      // });
     }
 );
 
