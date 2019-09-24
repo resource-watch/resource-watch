@@ -58,9 +58,10 @@ class AreasForm extends React.Component {
     id: PropTypes.string, // area id for edit mode,
     // Store
     user: PropTypes.object.isRequired,
-    toggleModal: PropTypes.func.isRequired,
     routes: PropTypes.object.isRequired
   };
+
+  static defaultProps = { id: null };
 
   constructor(props) {
     super(props);
@@ -95,15 +96,16 @@ class AreasForm extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { geojson } = this.state;
+    const { geojson, name, geostore } = this.state;
+    const { id, user } = this.props;
+
     if (geojson) {
       createGeostore(this.state.geojson).then((result) => {
         if ('id' in result) {
           this.setState({ geostore: result.id });
         }
 
-        const { name, geostore } = this.state;
-        const { user, mode, id, routes } = this.props;
+        const { mode, routes } = this.props;
         const { query } = routes;
         const { subscriptionDataset } = query || {};
 
@@ -119,7 +121,10 @@ class AreasForm extends React.Component {
                 });
                 toastr.success('Success', 'Area successfully created!');
               })
-              .catch(error => this.setState({ error, loading: false }));
+              .catch((error) => {
+                this.setState({ loading: false });
+                toastr.error(error);
+              });
 
             logEvent('My RW', 'Create area', name);
           } else if (mode === 'edit') {
@@ -128,7 +133,10 @@ class AreasForm extends React.Component {
                 Router.pushRoute('myrw', { tab: 'areas' });
                 toastr.success('Success', 'Area successfully updated!');
               })
-              .catch(error => this.setState({ error, loading: false }));
+              .catch((error) => {
+                this.setState({ loading: false });
+                toastr.error(error);
+              });
 
             logEvent('My RW', 'Edit area', name);
           }
@@ -136,6 +144,16 @@ class AreasForm extends React.Component {
           toastr.info('Data missing', 'Please select an area');
         }
       });
+    } else if (id) {
+      updateArea(id, name, user.token, geostore)
+        .then(() => {
+          Router.pushRoute('myrw', { tab: 'areas' });
+          toastr.success('Success', 'Area successfully updated!');
+        })
+        .catch((error) => {
+          this.setState({ loading: false });
+          toastr.error(error);
+        });
     }
   }
 
@@ -198,7 +216,7 @@ class AreasForm extends React.Component {
       geoCountrySelected
     } = this.state;
     const { query } = this.props.routes;
-    const { mode, user } = this.props;
+    const { mode, user, id } = this.props;
     const { areas } = user;
     const area = areas.items.find(a => a.id === query.id);
 
@@ -232,18 +250,20 @@ class AreasForm extends React.Component {
             </Field>
           </fieldset>
 
-          <div className="c-field selectors-container">
-            <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
-            <CustomSelect
-              placeholder="Select area"
-              options={areaOptions}
-              onValueChange={this.onChangeSelectedArea}
-              allowNonLeafSelection={false}
-              value={geostore}
-              waitForChangeConfirmation
-              disabled={mode === 'edit'}
-            />
-          </div>
+          {!id &&
+            <div className="c-field selectors-container">
+              <Spinner isLoading={loadingAreaOptions || loading} className="-light -small" />
+              <CustomSelect
+                placeholder="Select area"
+                options={areaOptions}
+                onValueChange={this.onChangeSelectedArea}
+                allowNonLeafSelection={false}
+                value={geostore}
+                waitForChangeConfirmation
+                disabled={mode === 'edit'}
+              />
+            </div>
+          }
 
           {geostore && geoCountrySelected && (
             <span className="c-field__helpMessage">
@@ -251,9 +271,9 @@ class AreasForm extends React.Component {
             </span>
           )}
 
-          {(!geostore || !geoCountrySelected) && (
+          {(!geostore || !geoCountrySelected) && (!id) && (
             <div className="c-field c-field__map">
-              <label>Draw Area</label>
+              <p>Draw Area</p>
               <div className="c-field__map--container">
                 <Map
                   LayerManager={LayerManager}
@@ -279,8 +299,8 @@ class AreasForm extends React.Component {
             </div>
           )}
 
-          {(!geostore || !geoCountrySelected) && (
-            <UploadArea onUploadArea={id => this.onUploadArea(id)} />
+          {(!geostore || !geoCountrySelected) && (!id) && (
+            <UploadArea onUploadArea={idValue => this.onUploadArea(idValue)} />
           )}
 
           <div className="buttons-div">
