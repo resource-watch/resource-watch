@@ -79,10 +79,11 @@ export const fetchTopic = (id) => {
 export const createTopic = (body, token) => {
   logger.info('Create topic');
   return WRIAPI.post('topic', {
-    /* this is a temporary hack TODO: change it once the endpoints have been fixed */
-    data: { attributes: { ...body } },
-    env: process.env.API_ENV,
-    application: process.env.APPLICATIONS
+    data: {
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
+      attributes: { ...body }
+    }
   }, {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -108,9 +109,11 @@ export const createTopic = (body, token) => {
 export const updateTopic = (id, body, token) => {
   logger.info(`Update topic: ${id}`);
   return WRIAPI.patch(`/topic/${id}`, {
-    ...body,
-    env: process.env.API_ENV,
-    application: process.env.APPLICATIONS
+    data: {
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
+      attributes: { ...body }
+    }
   }, {
     headers: {
       ...WRIAPI.defaults.headers,
