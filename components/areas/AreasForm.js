@@ -97,55 +97,73 @@ class AreasForm extends React.Component {
     e.preventDefault();
 
     const { geojson, name, geostore } = this.state;
-    const { id, user } = this.props;
+    const { id, user, mode, routes } = this.props;
+    const { token } = user;
+    const { query } = routes;
+    const { subscriptionDataset } = query || {};
 
-    if (geojson) {
-      createGeostore(this.state.geojson).then((result) => {
-        if ('id' in result) {
-          this.setState({ geostore: result.id });
-        }
-
-        const { mode, routes } = this.props;
-        const { query } = routes;
-        const { subscriptionDataset } = query || {};
-
-        if (geostore) {
-          this.setState({ loading: true });
-
-          if (mode === 'new') {
-            createArea(name, geostore, user.token)
-              .then(() => {
-                Router.pushRoute('myrw', {
-                  tab: 'areas',
-                  subscriptionDataset
-                });
-                toastr.success('Success', 'Area successfully created!');
-              })
-              .catch((error) => {
-                this.setState({ loading: false });
-                toastr.error(error);
-              });
-
-            logEvent('My RW', 'Create area', name);
-          } else if (mode === 'edit') {
-            updateArea(id, name, user.token, geostore)
-              .then(() => {
-                Router.pushRoute('myrw', { tab: 'areas' });
-                toastr.success('Success', 'Area successfully updated!');
-              })
-              .catch((error) => {
-                this.setState({ loading: false });
-                toastr.error(error);
-              });
-
-            logEvent('My RW', 'Edit area', name);
+    if (!id) {
+      // CREATE AREA
+      if (geojson) {
+        // Area drawn
+        createGeostore(geojson).then((result) => {
+          const newGeostore = result.id;
+          if ('id' in result) {
+            this.setState({ geostore: newGeostore });
           }
-        } else {
-          toastr.info('Data missing', 'Please select an area');
-        }
-      });
-    } else if (id) {
-      updateArea(id, name, user.token, geostore)
+
+          if (newGeostore) {
+            this.setState({ loading: true });
+
+            if (mode === 'new') {
+              createArea(name, newGeostore, token)
+                .then(() => {
+                  Router.pushRoute('myrw', {
+                    tab: 'areas',
+                    subscriptionDataset
+                  });
+                  toastr.success('Success', 'Area successfully created!');
+                  logEvent('My RW', 'Create area', name);
+                })
+                .catch((error) => {
+                  this.setState({ loading: false });
+                  toastr.error(error);
+                });
+            } else if (mode === 'edit') {
+              updateArea(id, name, token, geostore)
+                .then(() => {
+                  Router.pushRoute('myrw', { tab: 'areas' });
+                  toastr.success('Success', 'Area successfully updated!');
+                  logEvent('My RW', 'Edit area', name);
+                })
+                .catch((error) => {
+                  this.setState({ loading: false });
+                  toastr.error(error);
+                });
+            }
+          } else {
+            toastr.info('Data missing', 'Please select an area');
+          }
+        });
+      } else if (geostore) {
+        // Area selected from the dropdown or uploaded
+        createArea(name, geostore, token)
+          .then(() => {
+            Router.pushRoute('myrw', {
+              tab: 'areas',
+              subscriptionDataset
+            });
+            toastr.success('Success', 'Area successfully created!');
+            logEvent('My RW', 'Create area', name);
+          })
+          .catch((error) => {
+            this.setState({ loading: false });
+            toastr.error(error);
+          });
+      }
+    } else {
+      // UPDATE AREA
+      updateArea(id, name, token, geostore)
         .then(() => {
           Router.pushRoute('myrw', { tab: 'areas' });
           toastr.success('Success', 'Area successfully updated!');
