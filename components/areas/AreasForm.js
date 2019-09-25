@@ -125,7 +125,7 @@ class AreasForm extends React.Component {
               })
               .catch(() => {
                 this.setState({ loading: false });
-                toastr.error('');
+                toastr.error('There was an error creating the area.');
               });
           });
         });
@@ -143,9 +143,9 @@ class AreasForm extends React.Component {
                 });
               });
             })
-            .catch((error) => {
+            .catch(() => {
               this.setState({ loading: false });
-              toastr.error(error);
+              toastr.error('There was an error creating the area.');
             });
         });
       }
@@ -156,9 +156,9 @@ class AreasForm extends React.Component {
           Router.pushRoute('myrw', { tab: 'areas' });
           toastr.success('Success', 'Area successfully updated!');
         })
-        .catch((error) => {
+        .catch(() => {
           this.setState({ loading: false });
-          toastr.error(error);
+          toastr.error('There was an error updating the area.');
         });
     }
   }
