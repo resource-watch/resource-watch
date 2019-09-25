@@ -8,6 +8,7 @@ import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import Select from 'components/form/SelectInput';
+import Checkbox from 'components/form/Checkbox';
 import Modal from 'components/modal/modal-component';
 import NewsletterConfirmationModal from 'components/modal/newsletter-confirmation-modal';
 
@@ -168,6 +169,19 @@ class LayoutNewsletter extends PureComponent {
                     </Field>
                   </div>
 
+                  <div className="form-row">
+                    <Field
+                      onChange={value =>
+                        this.onChange({ resource_watch_feature_test_group: value.checked })}
+                      properties={{
+                        name: 'resource_watch_feature_test_group',
+                        defaultChecked: true,
+                        title: 'Are you interested in testing or providing feedback on new features?'
+                      }}
+                    >
+                      {Checkbox}
+                    </Field>
+                  </div>
                   { /* pardot honeypot field */}
                   <Field
                     className="-pi-hidden"
