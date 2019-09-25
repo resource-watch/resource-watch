@@ -97,7 +97,7 @@ class AreasForm extends React.Component {
     e.preventDefault();
 
     const { geojson, name, geostore } = this.state;
-    const { id, user, mode, routes } = this.props;
+    const { id, user, routes } = this.props;
     const { token } = user;
     const { query } = routes;
     const { subscriptionDataset } = query || {};
@@ -114,33 +114,19 @@ class AreasForm extends React.Component {
 
           if (newGeostore) {
             this.setState({ loading: true });
-
-            if (mode === 'new') {
-              createArea(name, newGeostore, token)
-                .then(() => {
-                  Router.pushRoute('myrw', {
-                    tab: 'areas',
-                    subscriptionDataset
-                  });
-                  toastr.success('Success', 'Area successfully created!');
-                  logEvent('My RW', 'Create area', name);
-                })
-                .catch((error) => {
-                  this.setState({ loading: false });
-                  toastr.error(error);
+            createArea(name, newGeostore, token)
+              .then(() => {
+                Router.pushRoute('myrw', {
+                  tab: 'areas',
+                  subscriptionDataset
                 });
-            } else if (mode === 'edit') {
-              updateArea(id, name, token, geostore)
-                .then(() => {
-                  Router.pushRoute('myrw', { tab: 'areas' });
-                  toastr.success('Success', 'Area successfully updated!');
-                  logEvent('My RW', 'Edit area', name);
-                })
-                .catch((error) => {
-                  this.setState({ loading: false });
-                  toastr.error(error);
-                });
-            }
+                toastr.success('Success', 'Area successfully created!');
+                logEvent('My RW', 'Create area', name);
+              })
+              .catch((error) => {
+                this.setState({ loading: false });
+                toastr.error(error);
+              });
           } else {
             toastr.info('Data missing', 'Please select an area');
           }
