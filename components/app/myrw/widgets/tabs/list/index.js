@@ -35,14 +35,14 @@ const WidgetListTabContainer = (props) => {
     user: { token }
   } = props;
 
-  const getWidgets = async () => {
+  const getWidgets = useCallback(() => {
     const queryParams = getQueryParams(state, props);
 
     dispatch(setWidgetState({
       loading: true,
       error: null
     }));
-    await fetchWidgets(queryParams, { Authorization: token }, true)
+    fetchWidgets(queryParams, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
         const {
           'total-pages': pages,
@@ -66,11 +66,13 @@ const WidgetListTabContainer = (props) => {
           error: message
         }));
       });
-  };
+  });
 
   useEffect(() => {
-    getWidgets();
-  }, [search, sort, page, subtab]);
+    if (subtab) {
+      getWidgets();
+    }
+  }, [search, sort, page, subtab, getWidgets]);
 
   return (
     <WidgetList
