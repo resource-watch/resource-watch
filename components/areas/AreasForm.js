@@ -97,62 +97,68 @@ class AreasForm extends React.Component {
     e.preventDefault();
 
     const { geojson, name, geostore } = this.state;
-    const { id, user } = this.props;
+    const { id, user, routes } = this.props;
+    const { token } = user;
+    const { query } = routes;
+    const { subscriptionDataset } = query || {};
 
-    if (geojson) {
-      createGeostore(this.state.geojson).then((result) => {
-        if ('id' in result) {
-          this.setState({ geostore: result.id });
-        }
+    if (!id) {
+      // custom area flow
+      if (geojson) {
+        createGeostore(geojson).then((_geostore) => {
+          const { id: geostoreId } = _geostore;
 
-        const { mode, routes } = this.props;
-        const { query } = routes;
-        const { subscriptionDataset } = query || {};
-
-        if (geostore) {
-          this.setState({ loading: true });
-
-          if (mode === 'new') {
-            createArea(name, geostore, user.token)
+          this.setState({
+            geostore: geostoreId,
+            loading: true
+          }, () => {
+            createArea(name, geostoreId, token)
               .then(() => {
+                this.setState({ loading: false }, () => {
+                  toastr.success('Success', 'Area successfully created!');
+                  logEvent('My RW', 'Create area', name);
+                  Router.pushRoute('myrw', {
+                    tab: 'areas',
+                    subscriptionDataset
+                  });
+                });
+              })
+              .catch(() => {
+                this.setState({ loading: false });
+                toastr.error('There was an error creating the area.');
+              });
+          });
+        });
+      // country flow
+      } else if (geostore) {
+        this.setState({ loading: true }, () => {
+          createArea(name, geostore, token)
+            .then(() => {
+              this.setState({ loading: false }, () => {
+                toastr.success('Success', 'Area successfully created!');
+                logEvent('My RW', 'Create area', name);
                 Router.pushRoute('myrw', {
                   tab: 'areas',
                   subscriptionDataset
                 });
-                toastr.success('Success', 'Area successfully created!');
-              })
-              .catch((error) => {
-                this.setState({ loading: false });
-                toastr.error(error);
               });
-
-            logEvent('My RW', 'Create area', name);
-          } else if (mode === 'edit') {
-            updateArea(id, name, user.token, geostore)
-              .then(() => {
-                Router.pushRoute('myrw', { tab: 'areas' });
-                toastr.success('Success', 'Area successfully updated!');
-              })
-              .catch((error) => {
-                this.setState({ loading: false });
-                toastr.error(error);
-              });
-
-            logEvent('My RW', 'Edit area', name);
-          }
-        } else {
-          toastr.info('Data missing', 'Please select an area');
-        }
-      });
-    } else if (id) {
-      updateArea(id, name, user.token, geostore)
+            })
+            .catch(() => {
+              this.setState({ loading: false });
+              toastr.error('There was an error creating the area.');
+            });
+        });
+      }
+    } else {
+      // UPDATE AREA
+      updateArea(id, name, token, geostore)
         .then(() => {
           Router.pushRoute('myrw', { tab: 'areas' });
           toastr.success('Success', 'Area successfully updated!');
         })
-        .catch((error) => {
+        .catch(() => {
           this.setState({ loading: false });
-          toastr.error(error);
+          toastr.error('There was an error updating the area.');
         });
     }
   }
