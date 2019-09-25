@@ -103,49 +103,51 @@ class AreasForm extends React.Component {
     const { subscriptionDataset } = query || {};
 
     if (!id) {
-      // CREATE AREA
+      // custom area flow
       if (geojson) {
-        // Area drawn
-        createGeostore(geojson).then((result) => {
-          const newGeostore = result.id;
-          if ('id' in result) {
-            this.setState({ geostore: newGeostore });
-          }
+        createGeostore(geojson).then((_geostore) => {
+          const { id: geostoreId } = _geostore;
 
-          if (newGeostore) {
-            this.setState({ loading: true });
-            createArea(name, newGeostore, token)
+          this.setState({
+            geostore: geostoreId,
+            loading: true
+          }, () => {
+            createArea(name, geostoreId, token)
               .then(() => {
+                this.setState({ loading: false }, () => {
+                  toastr.success('Success', 'Area successfully created!');
+                  logEvent('My RW', 'Create area', name);
+                  Router.pushRoute('myrw', {
+                    tab: 'areas',
+                    subscriptionDataset
+                  });
+                });
+              })
+              .catch(() => {
+                this.setState({ loading: false });
+                toastr.error('');
+              });
+          });
+        });
+      // country flow
+      } else if (geostore) {
+        this.setState({ loading: true }, () => {
+          createArea(name, geostore, token)
+            .then(() => {
+              this.setState({ loading: false }, () => {
+                toastr.success('Success', 'Area successfully created!');
+                logEvent('My RW', 'Create area', name);
                 Router.pushRoute('myrw', {
                   tab: 'areas',
                   subscriptionDataset
                 });
-                toastr.success('Success', 'Area successfully created!');
-                logEvent('My RW', 'Create area', name);
-              })
-              .catch((error) => {
-                this.setState({ loading: false });
-                toastr.error(error);
               });
-          } else {
-            toastr.info('Data missing', 'Please select an area');
-          }
-        });
-      } else if (geostore) {
-        // Area selected from the dropdown or uploaded
-        createArea(name, geostore, token)
-          .then(() => {
-            Router.pushRoute('myrw', {
-              tab: 'areas',
-              subscriptionDataset
+            })
+            .catch((error) => {
+              this.setState({ loading: false });
+              toastr.error(error);
             });
-            toastr.success('Success', 'Area successfully created!');
-            logEvent('My RW', 'Create area', name);
-          })
-          .catch((error) => {
-            this.setState({ loading: false });
-            toastr.error(error);
-          });
+        });
       }
     } else {
       // UPDATE AREA
