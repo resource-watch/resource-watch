@@ -9,9 +9,14 @@ import { fetchWidgets } from 'services/widget';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+
+// TDs
 import TitleTD from './td/title';
 import PublishedTD from './td/published';
 import OwnerTD from './td/owner';
+import RoleTD from './td/role';
+
+// actions
 import EditAction from './actions/edit';
 import DeleteAction from './actions/delete';
 
@@ -34,37 +39,7 @@ class WidgetsTable extends PureComponent {
   }
 
   componentDidMount() {
-    const { dataset, user: { token } } = this.props;
-    const { pagination } = this.state;
-
-    fetchWidgets({
-      includes: 'user',
-      'page[number]': pagination.page,
-      'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS,
-      ...dataset && { dataset }
-    }, { Authorization: token }, true)
-      .then(({ widgets, meta }) => {
-        const {
-          'total-pages': pages,
-          'total-items': size
-        } = meta;
-        const nextPagination = {
-          ...pagination,
-          size,
-          pages
-        };
-
-        this.setState({
-          loading: false,
-          pagination: nextPagination,
-          widgets: widgets.map(_widget => ({
-            ..._widget,
-            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
-          }))
-        });
-      })
-      .catch((error) => { this.setState({ error }); });
+    this.loadWidgets();
   }
 
   /**
@@ -120,7 +95,8 @@ class WidgetsTable extends PureComponent {
             pagination: nextPagination,
             widgets: widgets.map(_widget => ({
               ..._widget,
-              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
+              role: _widget.user ? _widget.user.role || '' : ''
             }))
           });
         })
@@ -154,7 +130,8 @@ class WidgetsTable extends PureComponent {
             loading: false,
             widgets: widgets.map(_widget => ({
               ..._widget,
-              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
+              role: _widget.user ? _widget.user.role || '' : ''
             }))
           });
         })
@@ -163,17 +140,19 @@ class WidgetsTable extends PureComponent {
   }
 
   onRemoveWidget = () => {
-    const { dataset, user: { token } } = this.props;
-    const { pagination, filters } = this.state;
-
     this.setState({ loading: true });
+    this.loadWidgets();
+  }
+
+  loadWidgets = () => {
+    const { dataset, user: { token } } = this.props;
+    const { pagination } = this.state;
 
     fetchWidgets({
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
-      ...filters,
       ...dataset && { dataset }
     }, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
@@ -192,11 +171,12 @@ class WidgetsTable extends PureComponent {
           pagination: nextPagination,
           widgets: widgets.map(_widget => ({
             ..._widget,
-            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : ''
+            owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
+            role: _widget.user ? _widget.user.role || '' : ''
           }))
         });
       })
-      .catch(({ message }) => { this.setState({ error: message }); });
+      .catch((error) => { this.setState({ error }); });
   }
 
   render() {
@@ -235,7 +215,8 @@ class WidgetsTable extends PureComponent {
             columns={[
               { label: 'Title', value: 'name', td: TitleTD },
               { label: 'Published', value: 'published', td: PublishedTD },
-              { label: 'Owner', value: 'owner', td: OwnerTD }
+              { label: 'Owner', value: 'owner', td: OwnerTD },
+              { label: 'Role', value: 'role', td: RoleTD }
             ]}
             actions={{
               show: true,

@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
 
@@ -91,19 +90,15 @@ class DashboardsForm extends PureComponent {
         // if we are in the last step we will submit the form
         if (step === stepLength && !submitting) {
           const { id } = this.props;
-          const body = new Serializer('dashboard', {
-            keyForAttribute: 'dash-case',
-            attributes: Object.keys(form)
-          }).serialize(form);
 
           this.setState({ submitting: true });
 
           if (!id) {
-            createDashboard(body, token)
+            createDashboard(form, token)
               .then(onFetchSuccess)
               .catch(onFetchError);
           } else {
-            updateDashboard(id, body, token)
+            updateDashboard(id, form, token)
               .then(onFetchSuccess)
               .catch(onFetchError);
           }

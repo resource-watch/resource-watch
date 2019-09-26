@@ -9,7 +9,7 @@ export const getSubscriptionsByArea = createSelector(
     if (!_area) return [];
 
     return _subscriptions.filter(_susbcription =>
-      _susbcription.attributes.params.area === _area.id);
+      _susbcription.params.area === _area.id);
   }
 );
 

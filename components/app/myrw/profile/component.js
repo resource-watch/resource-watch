@@ -10,7 +10,7 @@ import Spinner from 'components/ui/Spinner';
 import FileImage from 'components/form/FileImage';
 
 // services
-import UserService from 'services/user';
+import { uploadPhoto } from 'services/user';
 
 export const FORM_ELEMENTS = {
   elements: {},
@@ -87,21 +87,6 @@ class Profile extends PureComponent {
               submitting: false
             });
           });
-
-        // this.userService.updateUser(userObj, user.token)
-        //   .then((updatedUser) => {
-        //     setUser(updatedUser);
-        //     toastr.success('Profile updated successfully.');
-
-
-        //   })
-        //   .catch(() => { toastr.error('Something went wrong', 'There was a problem updating your user data'); })
-        //   .then(() => {
-        //     this.setState({
-        //       loading: false,
-        //       submitting: false
-        //     });
-        //   });
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
@@ -109,8 +94,6 @@ class Profile extends PureComponent {
   }
 
   onChange = (value) => { this.setState({ user: { ...this.state.user, ...value } }); }
-
-  userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 
   render() {
     const { user, loading } = this.state;
@@ -177,7 +160,7 @@ class Profile extends PureComponent {
                         onChange={(value) => { this.onChange({ photo: value }); }}
                         className="-fluid"
                         mode="url"
-                        getUrlImage={file => this.userService.uploadPhoto(file, user)}
+                        getUrlImage={file => uploadPhoto(file, user)}
                         properties={{
                           name: 'photo',
                           label: 'Photo',

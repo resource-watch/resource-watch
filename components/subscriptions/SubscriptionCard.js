@@ -12,8 +12,8 @@ import Map from 'components/widgets/map/Map';
 
 // Services
 import DatasetService from 'services/DatasetService';
-import AreasService from 'services/AreasService';
-import UserService from 'services/user';
+import { fetchGeostore, fetchCountry } from 'services/geostore';
+import { deleteSubscription } from 'services/subscriptions';
 
 // Utils
 import LayerManager from 'utils/layers/LayerManager';
@@ -43,13 +43,6 @@ class SubscriptionCard extends React.Component {
       apiURL: process.env.WRI_API_URL,
       language: props.locale
     });
-    this.areasService = new AreasService({ apiURL: process.env.WRI_API_URL });
-    this.userService = new UserService({ apiURL: process.env.WRI_API_URL });
-
-    // ------------------- Bindings ---------------------------
-    this.handleDeleteSubscription = this.handleDeleteSubscription.bind(this);
-    this.handleGoToDataset = this.handleGoToDataset.bind(this);
-    // --------------------------------------------------------
   }
 
   componentDidMount() {
@@ -65,7 +58,7 @@ class SubscriptionCard extends React.Component {
         const paramsObj = this.props.subscription.attributes.params;
 
         if (paramsObj.geostore) {
-          this.areasService.getGeostore(paramsObj.geostore)
+          fetchGeostore(paramsObj.geostore)
             .then((res) => {
               const obj = res.data;
               const fakeLayer = {
@@ -85,7 +78,7 @@ class SubscriptionCard extends React.Component {
               });
             });
         } else if (paramsObj.iso.country) {
-          this.areasService.getCountry(paramsObj.iso.country)
+          fetchCountry(paramsObj.iso.country)
             .then((res) => {
               const country = res.data[0];
 
@@ -126,12 +119,12 @@ class SubscriptionCard extends React.Component {
       .catch(err => toastr.error('Error', err));
   }
 
-  handleDeleteSubscription() {
+  handleDeleteSubscription = () => {
     const { subscription, token } = this.props;
     const toastrConfirmOptions = {
       onOk: () => {
         this.setState({ loading: true });
-        this.userService.deleteSubscription(subscription.id, token)
+        deleteSubscription(subscription.id, token)
           .then(() => {
             this.props.onSubscriptionRemoved();
           })
@@ -141,7 +134,7 @@ class SubscriptionCard extends React.Component {
     toastr.confirm('Are you sure you want to delete the subscription?', toastrConfirmOptions);
   }
 
-  handleGoToDataset() {
+  handleGoToDataset = () => {
     Router.pushRoute('explore_detail', { id: this.props.subscription.attributes.datasets[0] });
   }
 
@@ -225,8 +218,6 @@ SubscriptionCard.propTypes = {
   onSubscriptionRemoved: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  locale: state.common.locale
-});
+const mapStateToProps = state => ({ locale: state.common.locale });
 
 export default connect(mapStateToProps, null)(SubscriptionCard);

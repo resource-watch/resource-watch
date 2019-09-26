@@ -9,9 +9,14 @@ import { fetchLayers } from 'services/layer';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+
+// TDs
 import NameTD from './td/name';
 import OwnerTD from './td/owner';
+import RoleTD from './td/role';
 import UpdatedAtTD from './td/updated-at';
+
+// actions
 import EditAction from './actions/edit';
 import DeleteAction from './actions/delete';
 import GoToDatasetAction from './actions/go-to-dataset';
@@ -61,7 +66,8 @@ class LayersTable extends PureComponent {
           pagination: nextPagination,
           layers: layers.map(_layer => ({
             ..._layer,
-            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
+            role: _layer.user ? _layer.user.role || '' : ''
           }))
         });
       })
@@ -121,7 +127,8 @@ class LayersTable extends PureComponent {
             pagination: nextPagination,
             layers: layers.map(_layer => ({
               ..._layer,
-              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
+              role: _layer.user ? _layer.user.role || '' : ''
             }))
           });
         })
@@ -155,7 +162,8 @@ class LayersTable extends PureComponent {
             loading: false,
             layers: layers.map(_layer => ({
               ..._layer,
-              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
+              role: _layer.user ? _layer.user.role || '' : ''
             }))
           });
         })
@@ -193,7 +201,8 @@ class LayersTable extends PureComponent {
           pagination: nextPagination,
           layers: layers.map(_layer => ({
             ..._layer,
-            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : ''
+            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
+            role: _layer.user ? _layer.user.role || '' : ''
           }))
         });
       })
@@ -240,6 +249,7 @@ class LayersTable extends PureComponent {
               { label: 'Name', value: 'name', td: NameTD },
               { label: 'Provider', value: 'provider' },
               { label: 'Owner', value: 'owner', td: OwnerTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD }
             ]}
             actions={{

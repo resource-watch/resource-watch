@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { getDashboards, onDeleteDashboard, setFilters } from 'redactions/admin/dashboards';
 
 // Selectors
-import getFilteredDashboards from 'selectors/admin/dashboards';
+import { getAllFilteredDashboards } from 'selectors/admin/dashboards';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -41,16 +41,7 @@ class DashboardsList extends React.Component {
     setFilters: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: true
-    };
-
-    this.onSearch = this.onSearch.bind(this);
-    this.onDelete = this.onDelete.bind(this);
-  }
+  state = { loading: true };
 
   componentDidMount() {
     const { getDashboardsFilters } = this.props;
@@ -68,8 +59,9 @@ class DashboardsList extends React.Component {
   /**
    * UI EVENTS
    * - onSearch
+   * - onDelete
   */
-  onSearch(value) {
+  onSearch = (value) => {
     if (!value.length) {
       this.props.setFilters([]);
     } else {
@@ -77,7 +69,7 @@ class DashboardsList extends React.Component {
     }
   }
 
-  onDelete(dashboard) {
+  onDelete = (dashboard) => {
     toastr.confirm(`Are you sure that you want to delete: "${dashboard.name}"`, {
       onOk: () => {
         this.props.onDeleteDashboard({ id: dashboard.id })
@@ -148,7 +140,7 @@ class DashboardsList extends React.Component {
 const mapStateToProps = state => ({
   user: state.user,
   loading: state.adminDashboards.dashboards.loading,
-  dashboards: getFilteredDashboards(state),
+  dashboards: getAllFilteredDashboards(state),
   error: state.adminDashboards.dashboards.error,
   filters: state.clientDashboards.filters
 });

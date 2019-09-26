@@ -9,7 +9,7 @@ import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import UserService from 'services/user';
+import { resetPassword } from 'services/user';
 
 // constants
 import { FORM_ELEMENTS, TOKEN_ERROR_MESSAGE } from './constants';
@@ -44,7 +44,7 @@ class ResetPassword extends PureComponent {
 
     setTimeout(() => {
       this.setState({ saving: true }, () => {
-        this.userService.resetPassword(tokenEmail, { password, repeatPassword })
+        resetPassword({ tokenEmail, password, repeatPassword })
           .then(() => {
             this.setState({ saving: false });
           })
@@ -58,8 +58,6 @@ class ResetPassword extends PureComponent {
       });
     }, 0);
   }
-
-  userService = new UserService({ apiURL: process.env.CONTROL_TOWER_URL });
 
   render() {
     const {

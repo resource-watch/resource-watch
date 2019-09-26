@@ -21,9 +21,9 @@ const parseAreas = createSelector(
 const parseUserAreas = createSelector(
   [getUserAreas],
   _userAreas => _userAreas.map(userArea => ({
-    label: userArea.attributes.name,
+    label: userArea.name,
     value: userArea.id,
-    isGeostore: userArea.attributes.geostore,
+    isGeostore: userArea.geostore,
     areaID: userArea.id
   }))
 );
@@ -47,7 +47,7 @@ export const isAreaFound = createSelector(
     const { areaID } = area;
 
     return !!(_userSubscriptions.find(subscription =>
-      subscription.attributes.params.area === areaID));
+      subscription.params.area === areaID));
   }
 );
 

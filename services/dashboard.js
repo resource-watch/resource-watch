@@ -2,6 +2,7 @@ import WRISerializer from 'wri-json-api-serializer';
 
 // utils
 import { WRIAPI } from 'utils/axios';
+import { logger } from 'utils/logs';
 
 // API docs: TBD
 
@@ -11,24 +12,34 @@ import { WRIAPI } from 'utils/axios';
  * @param {Object[]} params - params sent to the API.
  * @returns {Object[]} array of serialized dashboards.
  */
-export const fetchDashboards = (params = {}) =>
-  WRIAPI.get('/dashboard', {
+export const fetchDashboards = (params = {}, headers = {}) => {
+  logger.info('Fetch dashboards');
+  return WRIAPI.get('dashboard', {
     headers: {
       ...WRIAPI.defaults.headers,
+      ...headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
     params: {
       env: process.env.API_ENV,
-      application: [process.env.APPLICATIONS],
+      application: process.env.APPLICATIONS,
       ...params
     }
+  }).then((response) => {
+    const { status, statusText, data } = response;
+
+    if (status >= 300) {
+      logger.error('Error fetching dashboards:', `${status}: ${statusText}`);
+      throw new Error(statusText);
+    }
+    return WRISerializer(data);
   })
-    .then((response) => {
-      const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
-      return WRISerializer(data);
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching dashboards: ${status}: ${statusText}`);
     });
+};
 
 /**
  * fetchs data for a specific dashboard.
@@ -36,20 +47,33 @@ export const fetchDashboards = (params = {}) =>
  * @param {String} id - dashboard id.
  * @returns {Object} serialized specified dashboard.
  */
-export const fetchDashboard = id =>
-  WRIAPI.get(`/dashboard/${id}`, {
+export const fetchDashboard = (id) => {
+  logger.info(`Fetch dashboard ${id}`);
+  return WRIAPI.get(`dashboard/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
-    params: { env: process.env.API_ENV, application: [process.env.APPLICATIONS] }
+    params: {
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS
+    }
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
+
+      if (status >= 300) {
+        if (status !== 404) logger.error(`Error fetching dashboard ${id}: ${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
       return WRISerializer(data);
+    })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching dashboard ${id}: ${status}: ${statusText}`);
     });
+};
 
 /**
  * Creates a dashboard with the provided data.
@@ -59,11 +83,14 @@ export const fetchDashboard = id =>
  * @param {String} token - user's token.
  * @returns {Object} serialized created dashboard.
  */
-export const createDashboard = (body, token) =>
-  WRIAPI.post('/dashboard', {
-    ...body,
-    application: [process.env.APPLICATIONS],
-    env: process.env.API_ENV
+export const createDashboard = (body, token) => {
+  logger.info('Create dashboard');
+  return WRIAPI.post('dashboard', {
+    data: {
+      attributes: { ...body },
+      application: [process.env.APPLICATIONS],
+      env: process.env.API_ENV
+    }
   }, {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -72,9 +99,18 @@ export const createDashboard = (body, token) =>
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
+
+      if (status >= 300) {
+        logger.error(`Error creating dashboard, ${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
       return WRISerializer(data);
+    })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating dashboard, ${status}: ${statusText}`);
     });
+};
 
 /**
  * Updates a specified dashboard with the provided data.
@@ -85,18 +121,30 @@ export const createDashboard = (body, token) =>
  * @param {String} token - user's token
  * @returns {Object} serialized dashboard with updated data
  */
-export const updateDashboard = (id, body, token) =>
-  WRIAPI.patch(`/dashboard/${id}`, { ...body }, {
-    headers: {
-      ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
-  })
+export const updateDashboard = (id, body, token) => {
+  logger.info(`Updates dashboard ${id}`);
+  return WRIAPI.patch(`dashboard/${id}`,
+    { data: { attributes: { ...body } } },
+    {
+      headers: {
+        ...WRIAPI.defaults.headers,
+        Authorization: token
+      }
+    })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
+
+      if (status >= 300) {
+        if (status !== 404) logger.error(`Error updating dashboard ${id}, ${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
       return WRISerializer(data);
+    })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating dashboard ${id}, ${status}: ${statusText}`);
     });
+};
 
 /**
  * Deletes a specified dashboard.
@@ -106,18 +154,28 @@ export const updateDashboard = (id, body, token) =>
  * @param {string} token - user's token.
  * @returns {Object} fetch response.
  */
-export const deleteDashboard = (id, token) =>
-  WRIAPI.delete(`/dashboard/${id}`, {
+export const deleteDashboard = (id, token) => {
+  logger.info(`Deletes dashboard ${id}`);
+  return WRIAPI.delete(`dashboard/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token
     }
   })
     .then((response) => {
+      const { status, statusText, data } = response;
+
+      if (status >= 300) {
+        if (status !== 404) logger.error(`Error deleting dashboard ${id}, ${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
+      return WRISerializer(data);
+    })
+    .catch(({ response }) => {
       const { status, statusText } = response;
-      if (status >= 400) throw new Error(statusText);
-      return response;
+      logger.error(`Error deleting dashboard ${id}, ${status}: ${statusText}`);
     });
+};
 
 /**
  * Clones a topic to convert it into a dashboard based on topic's data.
@@ -127,8 +185,9 @@ export const deleteDashboard = (id, token) =>
  * @param {string} token - user's token.
  * @return {Object} serialized dashboard cloned based on the ID topic.
  */
-export const cloneDashboard = (id, token) =>
-  WRIAPI.post(`/topics/${id}/clone-dashboard`, {}, {
+export const cloneDashboard = (id, token) => {
+  logger.info(`Clones dashboard from topic ${id}`);
+  return WRIAPI.post(`topics/${id}/clone-dashboard`, {}, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token
@@ -136,9 +195,18 @@ export const cloneDashboard = (id, token) =>
   })
     .then((response) => {
       const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
+
+      if (status >= 300) {
+        if (status !== 404) logger.error(`Error cloning dashboard from topic ${id}, ${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
       return WRISerializer(data);
+    })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error cloning dashboard from topic ${id}, ${status}: ${statusText}`);
     });
+};
 
 export default {
   fetchDashboards,

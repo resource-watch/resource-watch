@@ -22,8 +22,9 @@ import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
-import TitleTD from './td/TitleTD';
-import PublishedTD from './td/PublishedTD';
+import TitleTD from './td/name';
+import PublishedTD from './td/published';
+import RoleTD from './td/role';
 
 class ToolsTable extends PureComponent {
   static propTypes = {
@@ -121,6 +122,7 @@ class ToolsTable extends PureComponent {
           <CustomTable
             columns={[
               { label: 'Name', value: 'title', td: TitleTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Published', value: 'published', td: PublishedTD }
             ]}
             actions={{

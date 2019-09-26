@@ -86,11 +86,11 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the dashboards from
  */
-export const getDashboards = options =>
+export const getDashboards = (options, headers) =>
   (dispatch) => {
     dispatch({ type: GET_DASHBOARDS_LOADING });
 
-    fetchDashboards(options)
+    fetchDashboards(options, headers)
       .then((data) => { dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: sortBy(data, 'name') }); })
       .catch((err) => { dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message }); });
   };
