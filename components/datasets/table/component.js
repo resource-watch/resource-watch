@@ -9,6 +9,7 @@ import { fetchDatasets } from 'services/dataset';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+import TableFilters from 'components/admin/table-filters';
 import NameTD from './td/name';
 import CodeTD from './td/code';
 import StatusTD from './td/status';
@@ -32,40 +33,14 @@ class DatasetsTable extends PureComponent {
     loading: true,
     datasets: [],
     filters: { name: null }
-  }
+  };
 
   componentDidMount() {
-    const { user: { token } } = this.props;
-    const { pagination } = this.state;
+    this.loadDatasets();
+  }
 
-    fetchDatasets({
-      includes: 'widget,layer,metadata,vocabulary,user',
-      'page[number]': pagination.page,
-      'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS
-    }, { Authorization: token }, true)
-      .then(({ datasets, meta }) => {
-        const {
-          'total-pages': pages,
-          'total-items': size
-        } = meta;
-        const nextPagination = {
-          ...pagination,
-          size,
-          pages
-        };
-
-        this.setState({
-          loading: false,
-          pagination: nextPagination,
-          datasets: datasets.map(_dataset => ({
-            ..._dataset,
-            owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
-            role: _dataset.user ? _dataset.user.role || '' : ''
-          }))
-        });
-      })
-      .catch(({ message }) => { this.setState({ error: message }); });
+  onFiltersChange = (value) => {
+    console.log('filter', value);
   }
 
   /**
@@ -86,7 +61,7 @@ class DatasetsTable extends PureComponent {
       }
     }, () => {
       const params = {
-        includes: 'widget,layer,metadata,vocabulary,user',
+        includes: 'widget,layer,metadata,user',
         ...!value.length && {
           'page[number]': INITIAL_PAGINATION.page,
           'page[size]': INITIAL_PAGINATION.limit,
@@ -129,8 +104,7 @@ class DatasetsTable extends PureComponent {
   }, 250)
 
   onChangePage = (nextPage) => {
-    const { user: { token } } = this.props;
-    const { pagination, filters } = this.state;
+    const { pagination } = this.state;
 
     this.setState({
       loading: true,
@@ -138,38 +112,20 @@ class DatasetsTable extends PureComponent {
         ...pagination,
         page: nextPage
       }
-    }, () => {
-      const { pagination: { page } } = this.state;
-
-      fetchDatasets({
-        includes: 'widget,layer,metadata,vocabulary,user',
-        'page[number]': page,
-        'page[size]': pagination.limit,
-        application: process.env.APPLICATIONS,
-        ...filters
-      }, { Authorization: token })
-        .then((datasets) => {
-          this.setState({
-            loading: false,
-            datasets: datasets.map(_dataset => ({
-              ..._dataset,
-              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
-              role: _dataset.user ? _dataset.user.role || '' : ''
-            }))
-          });
-        })
-        .catch(({ message }) => { this.setState({ error: message }); });
-    });
+    }, () => this.loadDatasets());
   }
 
   onRemoveDataset = () => {
+    this.setState({ loading: true });
+    this.loadDatasets();
+  }
+
+  loadDatasets = () => {
     const { user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
-    this.setState({ loading: true });
-
     fetchDatasets({
-      includes: 'widget,layer,metadata,vocabulary,user',
+      includes: 'widget,layer,metadata,user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
@@ -216,6 +172,10 @@ class DatasetsTable extends PureComponent {
         {error && (
           <p>Error: {error}</p>
         )}
+
+        <TableFilters
+          filtersChange={this.onFiltersChange}
+        />
 
         <SearchInput
           input={{ placeholder: 'Search dataset' }}

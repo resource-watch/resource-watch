@@ -9,6 +9,7 @@ import { fetchWidgets } from 'services/widget';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+import TableFilters from 'components/admin/table-filters';
 
 // TDs
 import TitleTD from './td/title';
@@ -40,6 +41,10 @@ class WidgetsTable extends PureComponent {
 
   componentDidMount() {
     this.loadWidgets();
+  }
+
+  onFiltersChange = (value) => {
+    console.log('filter', value);
   }
 
   /**
@@ -195,6 +200,10 @@ class WidgetsTable extends PureComponent {
         {error && (
           <p>Error: {error}</p>
         )}
+
+        <TableFilters
+          filtersChange={this.onFiltersChange}
+        />
 
         <SearchInput
           input={{ placeholder: 'Search widget' }}

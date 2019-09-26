@@ -9,6 +9,7 @@ import { fetchLayers } from 'services/layer';
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+import TableFilters from 'components/admin/table-filters';
 
 // TDs
 import NameTD from './td/name';
@@ -72,6 +73,10 @@ class LayersTable extends PureComponent {
         });
       })
       .catch(({ message }) => { this.setState({ error: message }); });
+  }
+
+  onFiltersChange = (value) => {
+    console.log('filter', value);
   }
 
   /**
@@ -228,6 +233,10 @@ class LayersTable extends PureComponent {
         {error && (
           <p>Error: {error}</p>
         )}
+
+        <TableFilters
+          filtersChange={this.onFiltersChange}
+        />
 
         <SearchInput
           input={{ placeholder: 'Search layer' }}
