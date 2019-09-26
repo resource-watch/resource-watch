@@ -175,7 +175,7 @@ class LayoutNewsletter extends PureComponent {
                         this.onChange({ resource_watch_feature_test_group: value.checked })}
                       properties={{
                         name: 'resource_watch_feature_test_group',
-                        defaultChecked: true,
+                        defaultChecked: false,
                         title: 'Are you interested in testing or providing feedback on new features?'
                       }}
                     >
