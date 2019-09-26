@@ -1,4 +1,4 @@
-import { USER_TYPES } from 'components/ui/filters';
+import { USER_TYPES } from 'components/admin/filters/constants';
 /**
  * CONSTANTS
 */

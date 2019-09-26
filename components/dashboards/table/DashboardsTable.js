@@ -12,7 +12,7 @@ import { getDashboards as getFilteredDashboards } from 'selectors/admin/dashboar
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
-import Filters from 'components/ui/filters';
+import TableFilters from 'components/admin/table-filters';
 
 // constants
 import { INITIAL_PAGINATION } from './constants';
@@ -98,7 +98,7 @@ class DashboardsTable extends PureComponent {
           <p>Error: {this.props.error}</p>
         )}
 
-        <Filters
+        <TableFilters
           filtersChange={value => this.props.setFilters([value])}
         />
 
