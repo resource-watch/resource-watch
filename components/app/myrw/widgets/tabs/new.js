@@ -22,11 +22,10 @@ import Select from 'components/form/SelectInput';
 import { logEvent } from 'utils/analytics';
 
 const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: { },
   validate() {
     const elements = this.elements;
-    Object.keys(elements).forEach((k) => {
+    Object.keys(this.elements).forEach((k) => {
       elements[k].validate();
     });
   },
@@ -42,6 +41,15 @@ const FORM_ELEMENTS = {
 };
 
 class WidgetsNew extends React.Component {
+  static propTypes = {
+    dataset: PropTypes.string,
+    // Store
+    user: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired
+  };
+
+  static defaultProps = { dataset: null };
+
   constructor(props) {
     super(props);
 
@@ -57,22 +65,14 @@ class WidgetsNew extends React.Component {
 
     // Services
     this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
-    this.datasetsService = new DatasetsService({
-      language: props.locale
-    });
-
-    // ------------------- Bindings -----------------------
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleDatasetSelected = this.handleDatasetSelected.bind(this);
-    // ----------------------------------------------------
+    this.datasetsService = new DatasetsService({ language: props.locale });
   }
 
   componentDidMount() {
     this.loadDatasets();
   }
 
-  async onSubmit(event) {
+  onSubmit = async (event) => {
     if (event) event.preventDefault();
 
     const { widget, selectedDataset } = this.state;
@@ -95,21 +95,14 @@ class WidgetsNew extends React.Component {
         .then((response) => {
           if (response.errors) {
             const errorMessage = response.errors[0].detail;
-            this.setState({
-              saved: false,
-              loading: false
-            });
-
+            this.setState({ loading: false });
             toastr.error('Error', errorMessage);
           } else {
             Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
             toastr.success('Success', 'Widget created successfully!');
           }
         }).catch((err) => {
-          this.setState({
-            saved: false,
-            loading: false
-          });
+          this.setState({ loading: false });
           toastr.err('Error', err);
         });
     }, 0);
@@ -142,7 +135,8 @@ class WidgetsNew extends React.Component {
     });
 
     this.datasetsService.fetchAllData(
-      { filters: { userId: this.props.user.id }, includes: 'metadata' }).then((response) => {
+      { filters: { userId: this.props.user.id }, includes: 'metadata' }
+    ).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
@@ -162,15 +156,13 @@ class WidgetsNew extends React.Component {
     });
   }
 
-  handleChange(value) {
+  handleChange = (value) => {
     const newWidgetObj = Object.assign({}, this.state.widget, value);
     this.setState({ widget: newWidgetObj });
   }
 
-  handleDatasetSelected(value) {
-    this.setState({
-      selectedDataset: value
-    });
+  handleDatasetSelected = (value) => {
+    this.setState({ selectedDataset: value });
   }
 
   render() {
@@ -267,13 +259,6 @@ class WidgetsNew extends React.Component {
     );
   }
 }
-
-WidgetsNew.propTypes = {
-  dataset: PropTypes.string,
-  // Store
-  user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired
-};
 
 const mapStateToProps = state => ({
   user: state.user,
