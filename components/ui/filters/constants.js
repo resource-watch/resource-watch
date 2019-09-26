@@ -6,11 +6,11 @@ export const USER_TYPES = {
 
 export const USER_OPTIONS = [
   {
-    value: USER_TYPES.ADMIN,
+    value: USER_TYPES.USER,
     label: 'User content'
   },
   {
-    value: USER_TYPES.USER,
+    value: USER_TYPES.ADMIN,
     label: 'Admin content'
   }
 ];

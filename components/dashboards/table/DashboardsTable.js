@@ -98,7 +98,9 @@ class DashboardsTable extends PureComponent {
           <p>Error: {this.props.error}</p>
         )}
 
-        <Filters />
+        <Filters
+          filtersChange={value => this.props.setFilters([value])}
+        />
 
         <SearchInput
           input={{ placeholder: 'Search dashboard' }}
