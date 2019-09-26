@@ -5,11 +5,12 @@
 
   .c-radio-box {
     display: flex;
-    .c-radio {
-      display: flex;
-      label {
-        display: inline;
-        text-align: right;
+    .c-radio:not(:last-child) {
+      margin-right: $margin-size-extra-small;
+    }
+    input[type=radio]:checked {
+      + label {
+        color: $sea-blue;
       }
     }
   }
