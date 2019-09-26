@@ -12,6 +12,7 @@ import { getDashboards as getFilteredDashboards } from 'selectors/admin/dashboar
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+import Filters from 'components/ui/filters';
 
 // constants
 import { INITIAL_PAGINATION } from './constants';
@@ -96,6 +97,8 @@ class DashboardsTable extends PureComponent {
         {this.props.error && (
           <p>Error: {this.props.error}</p>
         )}
+
+        <Filters />
 
         <SearchInput
           input={{ placeholder: 'Search dashboard' }}

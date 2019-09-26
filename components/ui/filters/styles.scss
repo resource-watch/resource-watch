@@ -1,0 +1,16 @@
+@import 'css/settings';
+
+.c-filters {
+  display: flex;
+
+  .c-radio-box {
+    display: flex;
+    .c-radio {
+      display: flex;
+      label {
+        display: inline;
+        text-align: right;
+      }
+    }
+  }
+}
