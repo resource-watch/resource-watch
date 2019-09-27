@@ -46,10 +46,12 @@ class SubscriptionsPreview extends PureComponent {
         />);
     }
 
+    const datasetName = activeDataset && activeDataset.metadata && activeDataset.metadata.name;
+
     return (
       <div className="c-subscriptions-preview">
         <div className="header">
-          <h2>{activeDataset.name}</h2>
+          <h2>{datasetName}</h2>
         </div>
         <div className="preview-table">
           {data.map(_d => (<AlertsTable alerts={_d} />))}
