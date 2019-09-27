@@ -42,7 +42,7 @@ export const getPublishedTopics = createThunkAction('TOPICS/GET-PUBLISHED-TOPICS
 
     return fetchTopics(queryParams)
       .then((topics) => {
-        dispatch(setTopics({ key: 'published', value: topics }));
+        dispatch(setTopics({ key: 'published', value: topics.filter(t => t.published) }));
         dispatch(setLoading({ key: 'published', value: false }));
       })
       .catch((err) => {
