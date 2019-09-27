@@ -236,7 +236,8 @@ class SubscriptionsModal extends PureComponent {
 
     const { success } = subscription;
 
-    if (Object.keys(activeDataset).length) headerText = `Subscribe to ${activeDataset.name || activeDataset.attributes.name}`;
+    const datasetName = activeDataset && activeDataset.metadata && activeDataset.metadata.name;
+    if (Object.keys(activeDataset).length) headerText = `Subscribe to ${datasetName}`;
     if (activeArea) headerText = `${activeArea.attributes.name} subscriptions`;
 
     const paragraphText = success ?
