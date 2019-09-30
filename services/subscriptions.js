@@ -82,7 +82,7 @@ export const updateSubscriptionToArea = (
   datasetsQuery,
   user,
   language,
-  geostoreArea
+  areaId
 ) => {
   logger.info(`Update subscription: ${subscriptionId}`);
   const bodyObj = {
@@ -95,7 +95,7 @@ export const updateSubscriptionToArea = (
       type: 'EMAIL',
       content: user.email
     },
-    params: { geostore: geostoreArea }
+    params: { area: areaId }
   };
 
   return WRIAPI.patch(`subscriptions/${subscriptionId}`,
