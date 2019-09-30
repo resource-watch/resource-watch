@@ -283,7 +283,7 @@ export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSC
     const {
       datasets,
       area: {
-        geostore: geostoreArea,
+        id: areaId,
         subscription: { id: subscriptionId }
       }
     } = userSelection;
@@ -307,7 +307,7 @@ export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSC
         datasetQuery,
         user,
         locale,
-        geostoreArea
+        areaId
       ).then(() => {
         dispatch(setSubscriptionSuccess(true));
         dispatch(setSubscriptionLoading(false));
