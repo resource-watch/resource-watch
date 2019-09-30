@@ -177,7 +177,7 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
     const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
     const {
-      area: { geostore: geostoreArea },
+      area,
       datasets
     } = userSelection;
     const { locale } = common;
@@ -188,13 +188,14 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
       type: (dataset.subscriptions.find(_subscription => _subscription.selected) || {}).value,
       threshold: dataset.threshold
     }));
+    const areaId = area.id;
 
     dispatch(setSubscriptionSuccess(false));
     dispatch(setSubscriptionLoading(true));
 
     return createSubscriptionToAreaService(
       {
-        geostoreArea,
+        areaId,
         datasets: datasetIds,
         datasetsQuery,
         user,

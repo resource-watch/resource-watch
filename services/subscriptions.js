@@ -38,21 +38,17 @@ export const fetchSubscriptions = (token, params) => {
 };
 
 /**
- * Creates a subscription for a pair of dataset and country
- * @param {datasetID} ID of the dataset
- * @param {object} Either { type; 'iso', id:'ESP' } or { type: 'geostore', id: 'sakldfa7ads0ka'}
- * @param {string} language Two-letter locale
- * @returns {Promise}
+ * Creates a subscription for an area
  */
 export const createSubscriptionToArea = ({
-  geostoreArea,
+  areaId,
   datasets,
   datasetsQuery,
   user,
   language,
   name = ''
 }) => {
-  logger.info(`Create subscription to area with geostore: ${geostoreArea}`);
+  logger.info(`Create subscription to area: ${areaId}`);
   const bodyObj = {
     name,
     application: process.env.APPLICATIONS,
@@ -64,7 +60,7 @@ export const createSubscriptionToArea = ({
       type: 'EMAIL',
       content: user.email
     },
-    params: { geostore: geostoreArea }
+    params: { area: areaId }
   };
 
   return WRIAPI.post('subscriptions',
@@ -72,8 +68,8 @@ export const createSubscriptionToArea = ({
     { headers: { Authorization: user.token } })
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error creating subscription to area with geostore ${geostoreArea}: ${status}: ${statusText}`);
-      throw new Error(`Error creating subscription to area with geostore ${geostoreArea}: ${statusText}`);
+      logger.error(`Error creating subscription to area ${areaId}: ${status}: ${statusText}`);
+      throw new Error(`Error creating subscription to area ${areaId}: ${statusText}`);
     });
 };
 
