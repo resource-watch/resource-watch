@@ -13,7 +13,7 @@ const getAreaAlerts = ({ areas }) => {
 
       if (!subscription) return null;
 
-      const { datasetsQuery, datasets } = subscription.attributes;
+      const { datasetsQuery, datasets } = subscription;
       alerts[area.id] = [];
 
       if (datasetsQuery && datasets) {

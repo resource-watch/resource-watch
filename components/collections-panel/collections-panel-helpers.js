@@ -9,6 +9,4 @@ export const belongsToACollection = (user = {}, resourceToCheck = {}) => {
   return containedInFavorites || containedInCollections;
 };
 
-export default {
-  belongsToACollection
-};
+export default { belongsToACollection };

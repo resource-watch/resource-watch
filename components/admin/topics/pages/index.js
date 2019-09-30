@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import TopicsTable from 'components/topics/table/TopicsTable';
+import TopicsTable from 'components/topics/table';
 
 export default function TopicsIndex(props) {
   const { user } = props;
@@ -16,6 +16,4 @@ export default function TopicsIndex(props) {
   );
 }
 
-TopicsIndex.propTypes = {
-  user: PropTypes.object.isRequired
-};
+TopicsIndex.propTypes = { user: PropTypes.object.isRequired };

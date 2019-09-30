@@ -15,11 +15,11 @@ export const setError = createAction('TOPICS/SET-ERROR');
 export const setSelected = createAction('TOPICS/SET-SELECTED');
 
 export const getAllTopics = createThunkAction('TOPICS/GET-ALL-TOPICS',
-  () => (dispatch) => {
+  (params, headers) => (dispatch) => {
     dispatch(setLoading({ key: 'all', value: true }));
     dispatch(setError({ key: 'all', value: null }));
 
-    return fetchTopics()
+    return fetchTopics(params, headers)
       .then((topics) => {
         dispatch(setTopics({ key: 'all', value: topics }));
         dispatch(setLoading({ key: 'all', value: false }));
@@ -36,13 +36,13 @@ export const getPublishedTopics = createThunkAction('TOPICS/GET-PUBLISHED-TOPICS
     dispatch(setError({ key: 'published', value: null }));
 
     const queryParams = {
-      'filter[published]': 'true',
+      published: 'true',
       sort: 'name'
     };
 
     return fetchTopics(queryParams)
       .then((topics) => {
-        dispatch(setTopics({ key: 'published', value: topics }));
+        dispatch(setTopics({ key: 'published', value: topics.filter(t => t.published) }));
         dispatch(setLoading({ key: 'published', value: false }));
       })
       .catch((err) => {

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import TetherComponent from 'react-tether';
-import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
 // services

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { getDashboards, setFilters } from 'redactions/admin/dashboards';
 
 // Selectors
-import getFilteredDashboards from 'selectors/admin/dashboards';
+import { getDashboards as getFilteredDashboards } from 'selectors/admin/dashboards';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -21,25 +21,29 @@ import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
-import NameTD from './td/NameTD';
-import PublishedTD from './td/PublishedTD';
-import PreviewTD from './td/PreviewTD';
+import NameTD from './td/name';
+import OwnerTD from './td/owner';
+import RoleTD from './td/role';
+import PublishedTD from './td/published';
+import PreviewTD from './td/preview';
 
 class DashboardsTable extends PureComponent {
   static propTypes = {
-    authorization: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     filteredDashboards: PropTypes.array.isRequired,
     error: PropTypes.string,
     getDashboards: PropTypes.func.isRequired,
-    setFilters: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
   };
 
-  state = { pagination: INITIAL_PAGINATION }
+  static defaultProps = { error: null };
+
+  state = { pagination: INITIAL_PAGINATION };
 
   componentDidMount() {
     this.props.setFilters([]);
-    this.props.getDashboards();
+    this.props.getDashboards({ includes: 'user' }, { Authorization: this.props.user.token });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,8 +86,8 @@ class DashboardsTable extends PureComponent {
   }
 
   render() {
-    const { filteredDashboards } = this.props;
     const { pagination } = this.state;
+    const { filteredDashboards } = this.props;
 
     return (
       <div className="c-dashboards-table">
@@ -107,6 +111,8 @@ class DashboardsTable extends PureComponent {
           <CustomTable
             columns={[
               { label: 'Name', value: 'name', td: NameTD },
+              { label: 'Owner', value: 'owner', td: OwnerTD },
+              { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Preview', value: 'slug', td: PreviewTD },
               { label: 'Published', value: 'published', td: PublishedTD }
             ]}
@@ -114,7 +120,7 @@ class DashboardsTable extends PureComponent {
               show: true,
               list: [
                 { name: 'Edit', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
+                { name: 'Remove', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
               ]
             }}
             sort={{
@@ -125,7 +131,7 @@ class DashboardsTable extends PureComponent {
             data={filteredDashboards}
             manualPagination
             onChangePage={this.onChangePage}
-            onRowDelete={() => this.props.getDashboards({ env: 'production,preproduction' })}
+            onRowDelete={() => this.props.getDashboards({ includes: 'user' }, { Authorization: this.props.user.token })}
             pagination={pagination}
           />
         )}
@@ -138,7 +144,8 @@ const mapStateToProps = state => ({
   loading: state.adminDashboards.dashboards.loading,
   dashboards: state.adminDashboards.dashboards.list,
   filteredDashboards: getFilteredDashboards(state),
-  error: state.adminDashboards.dashboards.error
+  error: state.adminDashboards.dashboards.error,
+  user: state.user
 });
 const mapDispatchToProps = {
   getDashboards,
