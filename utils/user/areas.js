@@ -1,11 +1,11 @@
-export const mergeSubscriptions = (userAreas = [], userSusbcriptions = [], datasets = []) => {
-  userSusbcriptions.map(_userSubscription => ({
+export const mergeSubscriptions = (userAreas = [], userSubscriptions = [], datasets = []) => {
+  const subscriptionsWithDatasets = userSubscriptions.map(_userSubscription => ({
     ..._userSubscription,
     datasets: _userSubscription.datasets.map(val => datasets.find(_dataset => _dataset.id === val))
   }));
 
   // Load datasets info
-  userSusbcriptions.forEach((sub) => {
+  subscriptionsWithDatasets.forEach((sub) => {
     const tempArea = userAreas.find(val => val.id === sub.params.area);
     if (tempArea) {
       tempArea.subscription = sub;
