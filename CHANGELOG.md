@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.9] - 2019-09-30
+### Added
+- Hooks linter & Staged lint [[code]](https://github.com/resource-watch/resource-watch/pull/1135)
+- Add checkbox to newsletter page [[code]](https://github.com/resource-watch/resource-watch/pull/1143)
+
+### Fixed
+- Use metadata title in subscribe to alerts modal from explore detail [[code]](https://github.com/resource-watch/resource-watch/pull/1136)
+- Subscriptions fixes [[code]](https://github.com/resource-watch/resource-watch/pull/1139)
+- Fix bounds and styles in area cards [[code]](https://github.com/resource-watch/resource-watch/pull/1140)
+- Fix area update and fields displayed in form [[code]](https://github.com/resource-watch/resource-watch/pull/1141)
+- Fix area creation [[code]](https://github.com/resource-watch/resource-watch/pull/1142)
+- Fix subscriptions' preview title [[code]](https://github.com/resource-watch/resource-watch/pull/1147)
+- Fix for content shown in the topics tooltip from the navigation bar [[code]](https://github.com/resource-watch/resource-watch/pull/1148)
+
+### Changed
+- Adds Cesium navigation styles externally [[code]](https://github.com/resource-watch/resource-watch/pull/1131)
+- small patch to edit sentence on newsletter ty page [[code]](https://github.com/resource-watch/resource-watch/pull/1138)
+
 ## [2.1.8] - 2019-09-16
 ### Added
 - Specify order in which layers should appear on Explore [[code]](https://github.com/resource-watch/resource-watch/pull/1027)

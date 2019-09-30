@@ -481,6 +481,8 @@ export const getUserAreas = createThunkAction(
                 );
                 dispatch(setUserAreas(userAreasWithSubscriptions));
               });
+          } else {
+            dispatch(setUserAreas(userAreas));
           }
         }));
     }
