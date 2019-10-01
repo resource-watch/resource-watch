@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
-import { createCollection, editCollection } from 'services/collections';
+import { createCollection, updateCollection } from 'services/collections';
 
 // Redux
 import { connect } from 'react-redux';
@@ -68,7 +68,7 @@ class CollectionsForm extends React.Component {
         () => toastr.error('Error', `Could not create Collection ${collection.attributes.name}`)
       );
     } else {
-      editCollection(user.token, collection.id, { name }).then(
+      updateCollection(user.token, collection.id, { name }).then(
         () => {
           logEvent('Myrw Collections', 'Edit collection', collection.id);
           toastr.success('Success', 'Collection successully updated');
