@@ -17,7 +17,7 @@ export const fetchAllCollections = (
   }
 ) => {
   logger.info('Fetch all collections');
-  WRIAPI.get('collection', {
+  return WRIAPI.get('collection', {
     headers: {
       Authorization: token,
       'Upgrade-Insecure-Requests': 1
