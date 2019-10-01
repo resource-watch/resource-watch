@@ -65,7 +65,7 @@ class CollectionsForm extends React.Component {
           Router.pushRoute('myrw', { tab: 'collections' });
           this.setState({ submitting: false });
         },
-        () => toastr.error('Error', `Could not create Collection ${collection.attributes.name}`)
+        () => toastr.error('Error', `Could not create Collection ${collection.name}`)
       );
     } else {
       updateCollection(user.token, collection.id, { name }).then(
@@ -75,7 +75,7 @@ class CollectionsForm extends React.Component {
           Router.pushRoute('myrw', { tab: 'collections' });
           this.setState({ submitting: false });
         },
-        () => toastr.error('Error', `Could not edit Collection ${collection.attributes.name}`)
+        () => toastr.error('Error', `Could not edit Collection ${collection.name}`)
       );
     }
   }
@@ -101,7 +101,7 @@ class CollectionsForm extends React.Component {
             label: 'Name',
             type: 'text',
             required: true,
-            default: collection === 'new' ? null : collection.attributes.name
+            default: collection === 'new' ? null : collection.name
           }}
         >
           {Input}

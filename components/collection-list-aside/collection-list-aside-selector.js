@@ -6,7 +6,7 @@ const getTab = state => state.routes.query.tab;
 const parseTabCollections = (collections, tab) =>
   collections.map(collection => ({
     id: collection.id,
-    label: collection.attributes.name,
+    label: collection.name,
     value: collection.id,
     route: 'myrw',
     params: { tab, subtab: collection.id }
