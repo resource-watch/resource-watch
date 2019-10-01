@@ -56,7 +56,8 @@ class CollectionsForm extends React.Component {
         {
           name,
           env: process.env.API_ENV,
-          application: process.env.APPLICATIONS
+          application: process.env.APPLICATIONS,
+          resources: []
         }).then(
         () => {
           logEvent('Myrw Collections', 'Edit collection', collection.id);
@@ -67,7 +68,7 @@ class CollectionsForm extends React.Component {
         () => toastr.error('Error', `Could not create Collection ${collection.attributes.name}`)
       );
     } else {
-      editCollection(user.token, collection.id, name).then(
+      editCollection(user.token, collection.id, { name }).then(
         () => {
           logEvent('Myrw Collections', 'Edit collection', collection.id);
           toastr.success('Success', 'Collection successully updated');

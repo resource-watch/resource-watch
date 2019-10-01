@@ -24,7 +24,7 @@ import {
 } from 'services/subscriptions';
 import {
   fetchAllCollections,
-  deleteCollection,
+  deleteCollection as deleteCollectionService,
   addResourceToCollection as addResourceToCollectionService,
   removeResourceFromCollection as removeResourceFromCollectionService,
   createCollection
@@ -343,7 +343,8 @@ export const addCollection = createThunkAction('user/addCollection', (payload = 
       {
         name: collectionName,
         env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
+        application: process.env.APPLICATIONS,
+        resources: []
       })
       .then(() => {
         // we ask for the updated list of collections
@@ -369,7 +370,7 @@ export const deleteCollection = createThunkAction('user/deleteCollection', (payl
     const { collection } = payload;
     const { id, name } = collection;
 
-    deleteCollection(token, id)
+    deleteCollectionService(token, id)
       .then(() => {
         // we ask for the updated list of collections
         dispatch(getUserCollections());
