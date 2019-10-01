@@ -35,35 +35,25 @@ export const fetchAllCollections = (token, params = {
  * @param {*} token User's token
  * @param {*} collectionId Id of the collection we are asking for.
  */
-export consts fetchCollection = (token, collectionId) => {
-  const queryParams = queryString.stringify({
-    application: [process.env.APPLICATIONS],
-    env: process.env.API_ENV
-  });
-
-  return new Promise((resolve, reject) => {
-    fetch(`${process.env.WRI_API_URL}/collection/${collectionId}?${queryParams}`, {
-      method: 'GET',
+export const fetchCollection = (token, collectionId, params = {
+    env: process.env.API_ENV,
+    application: process.env.APPLICATIONS
+  }) => {
+  logger.info(`Fetch collection ${collectionId}`);
+  return WRIAPI.get(`collection/${collectionId}`,
+    {
       headers: {
         Authorization: token,
         'Upgrade-Insecure-Requests': 1
-      }
+      },
+      params
     })
-      .then((response) => {
-        const { status, statusText } = response;
-        if (status === 200) return response.json();
-
-        const errorObject = {
-          errors: {
-            status,
-            details: statusText
-          }
-        };
-        throw errorObject;
-      })
-      .then(data => resolve(data))
-      .catch(errors => reject(errors));
-  });
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching collection ${collectionId}: ${status}: ${statusText}`);
+      throw new Error(`Error fetching collection ${collectionId}: ${status}: ${statusText}`);
+    });
 }
 
 /**
@@ -72,7 +62,8 @@ export consts fetchCollection = (token, collectionId) => {
  * @param {*} name Name of the new collection
  * @param {*} resources List of resources attached to the new collection (optional)
  */
-static createCollection(token, name, resources = []) {
+export const createCollection = (token, params = {}) => {
+  logger.info('Create collection');
   return new Promise((resolve, reject) => {
     fetch(`${process.env.WRI_API_URL}/collection`, {
       method: 'POST',
@@ -87,21 +78,12 @@ static createCollection(token, name, resources = []) {
         resources
       })
     })
-      .then((response) => {
-        const { status, statusText } = response;
-
-        if (status === 200) return resolve();
-
-        const errorObject = {
-          errors: {
-            status,
-            details: statusText
-          }
-        };
-        throw errorObject;
-      })
-      .then(data => resolve(data))
-      .catch((errors) => { reject(errors); });
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating collection: ${status}: ${statusText}`);
+      throw new Error(`Error creating collection: ${status}: ${statusText}`);
+    });
   });
 }
 

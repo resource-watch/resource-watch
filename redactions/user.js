@@ -22,9 +22,14 @@ import {
   fetchSubscriptions,
   deleteSubscription
 } from 'services/subscriptions';
-import CollectionsService from 'services/collections';
+import {
+  fetchAllCollections,
+  deleteCollection,
+  addResourceToCollection as addResourceToCollectionService,
+  removeResourceFromCollection as removeResourceFromCollectionService,
+  createCollection
+} from 'services/collections';
 import { fetchDatasets } from 'services/dataset';
-// import DatasetService from 'services/DatasetService';
 import { fetchGeostore, fetchCountry } from 'services/geostore';
 
 /**
@@ -316,7 +321,7 @@ export const getUserCollections = createThunkAction('user/getUserCollections', (
 
     dispatch(setCollectionsLoading(true));
 
-    return CollectionsService.getAllCollections(token)
+    return fetchAllCollections(token)
       .then(({ data }) => {
         dispatch(setUserCollections(data));
         dispatch(setUserCollectionsLoading(data));
@@ -334,7 +339,12 @@ export const addCollection = createThunkAction('user/addCollection', (payload = 
     const { token } = getState().user;
     const { collectionName } = payload;
 
-    CollectionsService.createCollection(token, collectionName)
+    createCollection(token,
+      {
+        name: collectionName,
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS
+      })
       .then(() => {
         // we ask for the updated list of collections
         dispatch(getUserCollections());
@@ -359,7 +369,7 @@ export const deleteCollection = createThunkAction('user/deleteCollection', (payl
     const { collection } = payload;
     const { id, name } = collection;
 
-    CollectionsService.deleteCollection(token, id)
+    deleteCollection(token, id)
       .then(() => {
         // we ask for the updated list of collections
         dispatch(getUserCollections());
@@ -381,7 +391,7 @@ export const addResourceToCollection = createThunkAction(
 
       dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: true }));
 
-      CollectionsService.addResourceToCollection(user.token, collectionId, resource)
+      addResourceToCollectionService(user.token, collectionId, resource)
         .then(() => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           // we ask for the updated list of collections
@@ -406,7 +416,7 @@ export const removeResourceFromCollection = createThunkAction(
 
       dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: true }));
 
-      CollectionsService.removeResourceFromCollection(user.token, collectionId, resource)
+      removeResourceFromCollectionService(user.token, collectionId, resource)
         .then(() => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           // we ask for the updated list of collections
