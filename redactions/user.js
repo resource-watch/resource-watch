@@ -259,7 +259,7 @@ export const getUserFavourites = createThunkAction('user/getUserFavourites', () 
     dispatch(setFavouriteLoading(true));
 
     fetchFavourites(token)
-      .then(({ data }) => {
+      .then((data) => {
         dispatch(setFavouriteLoading(false));
         dispatch({ type: SET_USER_FAVOURITES, payload: data });
       })
@@ -350,17 +350,9 @@ export const addCollection = createThunkAction('user/addCollection', (payload = 
         // we ask for the updated list of collections
         dispatch(getUserCollections());
       })
-      .catch(({ errors }) => {
-        dispatch(setUserCollectionsErrors(errors));
-        const { status } = errors;
-
-        // we shouldn't assume 400 is duplicated collection,
-        // but there's no another way to find it out at this moment
-        if (status === 400) {
-          toastr.error('Collection duplicated', `The collection "${collectionName}" already exists.`);
-        } else {
-          toastr.error('Ops, something went wrong.');
-        }
+      .catch((error) => {
+        dispatch(setUserCollectionsErrors(error));
+        toastr.error(error);
       });
   });
 

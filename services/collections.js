@@ -78,7 +78,13 @@ export const createCollection = (token, data = {}) => {
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating collection: ${status}: ${statusText}`);
-      throw new Error(`Error creating collection: ${status}: ${statusText}`);
+      // we shouldn't assume 400 is duplicated collection,
+      // but there's no another way to find it out at this moment
+      if (status === 400) {
+        throw new Error(`Collection duplicated. The collection "${data.name}" already exists.`);
+      } else {
+        throw new Error(`Error creating collection: ${status}: ${statusText}`);
+      }
     });
 };
 

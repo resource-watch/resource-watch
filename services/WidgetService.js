@@ -121,7 +121,7 @@ export default class WidgetService {
         const dataObj = jsonData.data;
         const result = [];
         if (dataObj.length) {
-          const widgets = dataObj[0].attributes.resources
+          const widgets = dataObj[0].resources
             .filter(val => val.type === 'widget')
             .map(val => ({ id: val.id, tags: val.tags }))
             .filter(val => val.tags.find(tag => tag.startsWith(user.id)));
