@@ -14,6 +14,4 @@ const parseTabCollections = (collections, tab) =>
 
 export const getParsedCollections = createSelector([getCollections, getTab], parseTabCollections);
 
-export default {
-  getParsedCollections
-};
+export default { getParsedCollections };

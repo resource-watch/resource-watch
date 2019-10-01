@@ -322,13 +322,13 @@ export const getUserCollections = createThunkAction('user/getUserCollections', (
     dispatch(setCollectionsLoading(true));
 
     return fetchAllCollections(token)
-      .then(({ data }) => {
+      .then((data) => {
         dispatch(setUserCollections(data));
         dispatch(setUserCollectionsLoading(data));
         dispatch(setCollectionsLoading(false));
       })
-      .catch(({ errors }) => {
-        dispatch(setUserCollectionsErrors(errors));
+      .catch((error) => {
+        dispatch(setUserCollectionsErrors(error));
         dispatch(setCollectionsLoading(false));
       });
   });
