@@ -35,7 +35,7 @@ const WidgetListTabContainer = (props) => {
     user: { token }
   } = props;
 
-  const getWidgets = useCallback(() => {
+  const getWidgets = () => {
     const queryParams = getQueryParams(state, props);
 
     dispatch(setWidgetState({
@@ -66,13 +66,13 @@ const WidgetListTabContainer = (props) => {
           error: message
         }));
       });
-  });
+  };
 
   useEffect(() => {
     if (subtab) {
       getWidgets();
     }
-  }, [search, sort, page, subtab, getWidgets]);
+  }, [search, sort, page, subtab]); // eslint-disable-line
 
   return (
     <WidgetList
