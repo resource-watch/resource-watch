@@ -134,7 +134,7 @@ export const updateCollection = (token, collectionId, data) => {
  * @param {*} collectionId Id of the collection to be edited
  * @param {*} resource Resource to be addded to the collection
  */
-export const addResourceToCollection = (token, collectionId, resource = []) => {
+export const addResourceToCollection = (token, collectionId, resource = {}) => {
   logger.info(`Add resource to collection ${collectionId}`);
   return WRIAPI.post(
     `collection/${collectionId}/resource`,
@@ -162,7 +162,7 @@ export const addResourceToCollection = (token, collectionId, resource = []) => {
  * @param {*} collectionId Id of the collection to be edited
  * @param {*} resource Resource to be removed from the collection
  */
-export const removeResourceFromCollection = (token, collectionId, resource = []) => {
+export const removeResourceFromCollection = (token, collectionId, resource = {}) => {
   logger.info(`Remove resource from collection ${collectionId}`);
   const { type, id } = resource;
   return WRIAPI.delete(`collection/${collectionId}/resource/${type}/${id}`, { headers: { Authorization: token } })
