@@ -22,9 +22,14 @@ import {
   fetchSubscriptions,
   deleteSubscription
 } from 'services/subscriptions';
-import CollectionsService from 'services/collections';
+import {
+  fetchAllCollections,
+  deleteCollection as deleteCollectionService,
+  addResourceToCollection as addResourceToCollectionService,
+  removeResourceFromCollection as removeResourceFromCollectionService,
+  createCollection
+} from 'services/collections';
 import { fetchDatasets } from 'services/dataset';
-// import DatasetService from 'services/DatasetService';
 import { fetchGeostore, fetchCountry } from 'services/geostore';
 
 /**
@@ -254,7 +259,7 @@ export const getUserFavourites = createThunkAction('user/getUserFavourites', () 
     dispatch(setFavouriteLoading(true));
 
     fetchFavourites(token)
-      .then(({ data }) => {
+      .then((data) => {
         dispatch(setFavouriteLoading(false));
         dispatch({ type: SET_USER_FAVOURITES, payload: data });
       })
@@ -316,14 +321,14 @@ export const getUserCollections = createThunkAction('user/getUserCollections', (
 
     dispatch(setCollectionsLoading(true));
 
-    return CollectionsService.getAllCollections(token)
-      .then(({ data }) => {
+    return fetchAllCollections(token)
+      .then((data) => {
         dispatch(setUserCollections(data));
         dispatch(setUserCollectionsLoading(data));
         dispatch(setCollectionsLoading(false));
       })
-      .catch(({ errors }) => {
-        dispatch(setUserCollectionsErrors(errors));
+      .catch((error) => {
+        dispatch(setUserCollectionsErrors(error));
         dispatch(setCollectionsLoading(false));
       });
   });
@@ -334,22 +339,20 @@ export const addCollection = createThunkAction('user/addCollection', (payload = 
     const { token } = getState().user;
     const { collectionName } = payload;
 
-    CollectionsService.createCollection(token, collectionName)
+    createCollection(token,
+      {
+        name: collectionName,
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        resources: []
+      })
       .then(() => {
         // we ask for the updated list of collections
         dispatch(getUserCollections());
       })
-      .catch(({ errors }) => {
-        dispatch(setUserCollectionsErrors(errors));
-        const { status } = errors;
-
-        // we shouldn't assume 400 is duplicated collection,
-        // but there's no another way to find it out at this moment
-        if (status === 400) {
-          toastr.error('Collection duplicated', `The collection "${collectionName}" already exists.`);
-        } else {
-          toastr.error('Ops, something went wrong.');
-        }
+      .catch((error) => {
+        dispatch(setUserCollectionsErrors(error));
+        toastr.error(error);
       });
   });
 
@@ -359,7 +362,7 @@ export const deleteCollection = createThunkAction('user/deleteCollection', (payl
     const { collection } = payload;
     const { id, name } = collection;
 
-    CollectionsService.deleteCollection(token, id)
+    deleteCollectionService(token, id)
       .then(() => {
         // we ask for the updated list of collections
         dispatch(getUserCollections());
@@ -381,7 +384,7 @@ export const addResourceToCollection = createThunkAction(
 
       dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: true }));
 
-      CollectionsService.addResourceToCollection(user.token, collectionId, resource)
+      addResourceToCollectionService(user.token, collectionId, resource)
         .then(() => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           // we ask for the updated list of collections
@@ -406,7 +409,7 @@ export const removeResourceFromCollection = createThunkAction(
 
       dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: true }));
 
-      CollectionsService.removeResourceFromCollection(user.token, collectionId, resource)
+      removeResourceFromCollectionService(user.token, collectionId, resource)
         .then(() => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           // we ask for the updated list of collections
