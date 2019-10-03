@@ -2,15 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
-import { Link, Router } from 'routes';
+import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
 import { toggleTooltip } from 'redactions/tooltip';
 import { removeUserArea, getUserAreaLayerGroups } from 'redactions/user';
-
-// Selectors
-import areaAlerts from 'selectors/user/areaAlerts';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -133,8 +130,6 @@ class AreaCard extends React.Component {
     const { name } = area;
     const { subscriptions } = area;
 
-    console.log('area', area);
-
     const borderContainerClassNames = classnames({ 'border-container': true });
 
     return (
@@ -182,8 +177,8 @@ class AreaCard extends React.Component {
                         key={subscription.id}
                       >
                         <div className="dataset-subscription-type">
-                          {subscription.type}
-                          &nbsp;({subscription.threshold})
+                          {subscription.datasetsQuery[0].type}
+                          &nbsp;({subscription.datasetsQuery[0].threshold})
                         </div>
                         <div className="subscription-status">
                           <div className="status-label">
@@ -229,16 +224,12 @@ class AreaCard extends React.Component {
 
 AreaCard.propTypes = {
   area: PropTypes.object.isRequired,
-  alerts: PropTypes.object.isRequired,
   // Store
   toggleTooltip: PropTypes.func.isRequired,
   removeUserArea: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  locale: state.common.locale,
-  alerts: areaAlerts(state)
-});
+const mapStateToProps = state => ({ locale: state.common.locale });
 
 const mapDispatchToProps = {
   toggleTooltip,
