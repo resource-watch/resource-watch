@@ -191,35 +191,41 @@ export const createSubscriptionToArea = createThunkAction(
     const { userSelection } = subscriptions;
     const { area, datasets } = userSelection;
     const { locale } = common;
-
-    const datasetIds = datasets.map(dataset => dataset.id);
-    const datasetsQuery = datasets.map(dataset => ({
-      d: dataset.id,
-      type: (dataset.subscriptions.find(_subscription => _subscription.selected) || {}).value,
-      threshold: dataset.threshold
-    }));
     const areaId = area.id;
 
     dispatch(setSubscriptionSuccess(false));
     dispatch(setSubscriptionLoading(true));
 
-    return createSubscriptionToAreaService({
-      areaId,
-      datasets: datasetIds,
-      datasetsQuery,
-      user,
-      language: locale
-    })
-      .then(() => {
-        dispatch(setSubscriptionSuccess(true));
-        dispatch(setSubscriptionLoading(false));
-      })
-      .catch((err) => {
-        dispatch(setSubscriptionError(err));
-        dispatch(setSubscriptionLoading(false));
+    axios.all(
+      datasets
+        .map((_dataset) => {
+          const datasetId = _dataset.id;
+          const datasetQuery = {
+            d: _dataset.id,
+            type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {})
+              .value,
+            threshold: _dataset.threshold
+          };
 
-        toastr.error('Error: unable to create the subscription', err);
-      });
+          return createSubscriptionToAreaService({
+            areaId,
+            datasets: datasetId,
+            datasetsQuery: datasetQuery,
+            user,
+            language: locale
+          })
+            .then(() => {
+              dispatch(setSubscriptionSuccess(true));
+              dispatch(setSubscriptionLoading(false));
+            })
+            .catch((err) => {
+              dispatch(setSubscriptionError(err));
+              dispatch(setSubscriptionLoading(false));
+
+              toastr.error('Error: unable to create the subscription', err);
+            });
+        })
+    );
   }
 );
 
@@ -240,34 +246,36 @@ export const createSubscriptionOnNewArea = createThunkAction(
       .then((data) => {
         const areaId = data.id;
 
-        datasets
-          .forEach((_dataset) => {
-            const datasetId = _dataset.id;
-            const datasetQuery = {
-              d: _dataset.id,
-              type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {})
-                .value,
-              threshold: _dataset.threshold
-            };
+        axios.all(
+          datasets
+            .map((_dataset) => {
+              const datasetId = _dataset.id;
+              const datasetQuery = {
+                d: _dataset.id,
+                type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {})
+                  .value,
+                threshold: _dataset.threshold
+              };
 
-            createSubscriptionToAreaService({
-              areaId,
-              datasets: datasetId,
-              datasetsQuery: datasetQuery,
-              user,
-              language: locale
-            })
-              .then(() => {
-                dispatch(setSubscriptionSuccess(true));
-                dispatch(setSubscriptionLoading(false));
+              return createSubscriptionToAreaService({
+                areaId,
+                datasets: datasetId,
+                datasetsQuery: datasetQuery,
+                user,
+                language: locale
               })
-              .catch((err) => {
-                dispatch(setSubscriptionError(err));
-                dispatch(setSubscriptionLoading(false));
+                .then(() => {
+                  dispatch(setSubscriptionSuccess(true));
+                  dispatch(setSubscriptionLoading(false));
+                })
+                .catch((err) => {
+                  dispatch(setSubscriptionError(err));
+                  dispatch(setSubscriptionLoading(false));
 
-                toastr.error('Error: unable to create the subscription', err);
-              });
-          });
+                  toastr.error('Error: unable to create the subscription', err);
+                });
+            })
+        );
       })
       .catch((err) => {
         dispatch(setSubscriptionError(err));
