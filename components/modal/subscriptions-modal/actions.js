@@ -7,19 +7,16 @@ import WRISerializer from 'wri-json-api-serializer';
 
 // services
 import { fetchCountries } from 'services/geostore';
-import {
-  fetchUserAreas,
-  createArea
-} from 'services/areas';
+import { fetchUserAreas, createArea } from 'services/areas';
 import {
   fetchSubscriptions,
   createSubscriptionToArea as createSubscriptionToAreaService,
-  updateSubscriptionToArea
+  updateSubscriptionToArea,
+  deleteSubscription
 } from 'services/subscriptions';
 
 import DatasetService from 'services/DatasetService';
 import { fetchQuery } from 'services/query';
-
 
 // actions – user subscriptions
 export const setSubscriptions = createAction('SUBSCRIPTIONS__SET-SUBSCRIPTIONS');
@@ -31,8 +28,9 @@ export const setSubscriptionsLoadingPreview = createAction('ALERTS__SET-ALERTS-L
 export const setSubscriptionsErrorPreview = createAction('ALERTS__SET-ALERTS-ERROR');
 export const clearSubscriptionsPreview = createAction('ALERTS__CLEAR-ALERTS');
 
-export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS', () =>
-  (dispatch, getState) => {
+export const getUserSubscriptions = createThunkAction(
+  'SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS',
+  () => (dispatch, getState) => {
     const { user } = getState();
     const { token } = user;
 
@@ -47,11 +45,13 @@ export const getUserSubscriptions = createThunkAction('SUBSCRIPTIONS__GET-USER-S
         dispatch(setSubscriptionsError(err));
         toastr.error('Error loading user subscriptions', err);
       });
-  });
+  }
+);
 
 // actions - user subscriptions preview
-export const getUserSubscriptionsPreview = createThunkAction('SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS-PREVIEW', () =>
-  (dispatch, getState) => {
+export const getUserSubscriptionsPreview = createThunkAction(
+  'SUBSCRIPTIONS__GET-USER-SUBSCRIPTIONS-PREVIEW',
+  () => (dispatch, getState) => {
     const { user, subscriptions } = getState();
     const { token } = user;
     const { userSelection } = subscriptions;
@@ -62,59 +62,67 @@ export const getUserSubscriptionsPreview = createThunkAction('SUBSCRIPTIONS__GET
       begin: yesterday.subtract(1, 'week').format('MM-DD-YYYY'),
       end: yesterday.format('MM-DD-YYYY')
     };
-    const fetchs = datasets.map((dataset) => {
-      const selectedSubscription = dataset.subscriptions.find(
-        _subscription => _subscription.selected
-      );
+    const fetchs = datasets
+      .map((dataset) => {
+        const selectedSubscription = dataset.subscriptions.find(
+          _subscription => _subscription.selected
+        );
 
-      if (selectedSubscription) {
-        const { query } = selectedSubscription;
-        return fetchQuery(token, replace(query, params));
-      }
+        if (selectedSubscription) {
+          const { query } = selectedSubscription;
+          return fetchQuery(token, replace(query, params));
+        }
 
-      return null;
-    }).filter(e => e !== null);
+        return null;
+      })
+      .filter(e => e !== null);
 
     dispatch(setSubscriptionsLoadingPreview(true));
 
-    axios.all(fetchs)
-      .then(axios.spread((...responses) => {
-        dispatch(setAlertsPreview(responses.map(response => response.data.data)));
-      }))
+    axios
+      .all(fetchs)
+      .then(
+        axios.spread((...responses) => {
+          dispatch(setAlertsPreview(responses.map(response => response.data.data)));
+        })
+      )
       .catch((err) => {
         dispatch(setSubscriptionsError(err));
         toastr.error('Error loading preview', err);
       })
-      .then(() => { dispatch(setSubscriptionsLoadingPreview(false)); });
-  });
+      .then(() => {
+        dispatch(setSubscriptionsLoadingPreview(false));
+      });
+  }
+);
 
 // actions – areas
 export const setAreas = createAction('SUBSCRIPTIONS__SET-AREAS');
 export const setAreasLoading = createAction('SUBSCRIPTIONS__SET-AREAS-LOADING');
 export const setAreasError = createAction('SUBSCRIPTIONS__SET-AREAS-ERROR');
 
-export const getAreas = createThunkAction('SUBSCRIPTIONS__GET-AREAS', () =>
-  (dispatch) => {
-    dispatch(setAreasLoading(true));
+export const getAreas = createThunkAction('SUBSCRIPTIONS__GET-AREAS', () => (dispatch) => {
+  dispatch(setAreasLoading(true));
 
-    fetchCountries()
-      .then((areas = []) => {
-        dispatch(setAreas(areas));
-        dispatch(setAreasLoading(false));
-      })
-      .catch((err) => {
-        dispatch(setAreasError(err));
-        toastr.error('Error loading areas', err);
-      });
-  });
+  fetchCountries()
+    .then((areas = []) => {
+      dispatch(setAreas(areas));
+      dispatch(setAreasLoading(false));
+    })
+    .catch((err) => {
+      dispatch(setAreasError(err));
+      toastr.error('Error loading areas', err);
+    });
+});
 
 // actions – user areas
 export const setUserAreas = createAction('SUBSCRIPTIONS__SET-USER-AREAS');
 export const setUserAreasLoading = createAction('SUBSCRIPTIONS__SET-USER-AREAS-LOADING');
 export const setUserAreasError = createAction('SUBSCRIPTIONS__SET-USER-AREAS-ERROR');
 
-export const getUserAreas = createThunkAction('SUBSCRIPTIONS__GET-USER-AREAS', () =>
-  (dispatch, getState) => {
+export const getUserAreas = createThunkAction(
+  'SUBSCRIPTIONS__GET-USER-AREAS',
+  () => (dispatch, getState) => {
     const { user } = getState();
     const { token } = user;
 
@@ -129,15 +137,17 @@ export const getUserAreas = createThunkAction('SUBSCRIPTIONS__GET-USER-AREAS', (
         dispatch(setUserAreasError(err));
         toastr.error('Error loading user areas', err);
       });
-  });
+  }
+);
 
 // actions – datasets
 export const setDatasets = createAction('SUBSCRIPTIONS__SET-DATASETS');
 export const setDatasetsLoading = createAction('SUBSCRIPTIONS__SET-DATASETS-LOADING');
 export const setDatasetsError = createAction('SUBSCRIPTIONS__SET-DATASETS-ERROR');
 
-export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =>
-  (dispatch, getState) => {
+export const getDatasets = createThunkAction(
+  'SUBSCRIPTIONS__GET-DATASETS',
+  () => (dispatch, getState) => {
     const { common } = getState();
     const { locale } = common;
     const datasetService = new DatasetService(null, {
@@ -147,7 +157,8 @@ export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =
 
     dispatch(setDatasetsLoading(true));
 
-    datasetService.getSubscribableDatasets('metadata')
+    datasetService
+      .getSubscribableDatasets('metadata')
       .then((datasets = []) => {
         const parsedDatasets = WRISerializer({ data: datasets });
         dispatch(setDatasets(parsedDatasets));
@@ -157,7 +168,8 @@ export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =
         dispatch(setDatasetsError(err));
         toastr.error('Error loading suscribable datasets', err);
       });
-  });
+  }
+);
 
 // actions – user selection
 export const setUserSelection = createAction('SUBSCRIPTIONS__SET-USER-SELECTION');
@@ -172,14 +184,12 @@ export const setSubscriptionLoading = createAction('SUBSCRIPTIONS__SET_SUBSCRIPT
 export const setSubscriptionError = createAction('SUBSCRIPTIONS__SET_SUBSCRIPTION_ERROR');
 export const clearLocalSubscriptions = createAction('SUBSCRIPTIONS__CLEAR_LOCA_SUBSCRIPTIONS');
 
-export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE-SUBSCRIPTION-ON-AREA', () =>
-  (dispatch, getState) => {
+export const createSubscriptionToArea = createThunkAction(
+  'SUBSCRIPTIONS__CREATE-SUBSCRIPTION-ON-AREA',
+  () => (dispatch, getState) => {
     const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
-    const {
-      area,
-      datasets
-    } = userSelection;
+    const { area, datasets } = userSelection;
     const { locale } = common;
 
     const datasetIds = datasets.map(dataset => dataset.id);
@@ -193,107 +203,136 @@ export const createSubscriptionToArea = createThunkAction('SUBSCRIPTIONS__CREATE
     dispatch(setSubscriptionSuccess(false));
     dispatch(setSubscriptionLoading(true));
 
-    return createSubscriptionToAreaService(
-      {
-        areaId,
-        datasets: datasetIds,
-        datasetsQuery,
-        user,
-        language: locale
-      }
-    ).then(() => {
-      dispatch(setSubscriptionSuccess(true));
-      dispatch(setSubscriptionLoading(false));
-    }).catch((err) => {
-      dispatch(setSubscriptionError(err));
-      dispatch(setSubscriptionLoading(false));
+    return createSubscriptionToAreaService({
+      areaId,
+      datasets: datasetIds,
+      datasetsQuery,
+      user,
+      language: locale
+    })
+      .then(() => {
+        dispatch(setSubscriptionSuccess(true));
+        dispatch(setSubscriptionLoading(false));
+      })
+      .catch((err) => {
+        dispatch(setSubscriptionError(err));
+        dispatch(setSubscriptionLoading(false));
 
-      toastr.error('Error: unable to create the subscription', err);
-    });
-  });
+        toastr.error('Error: unable to create the subscription', err);
+      });
+  }
+);
 
-export const createSubscriptionOnNewArea = createThunkAction('SUBSCRIPTIONS__CREATE-SUBSCRIPTION-NEW-AREA', () =>
-  (dispatch, getState) => {
+export const createSubscriptionOnNewArea = createThunkAction(
+  'SUBSCRIPTIONS__CREATE-SUBSCRIPTION-NEW-AREA',
+  () => (dispatch, getState) => {
     const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
     const { area, datasets } = userSelection;
     const { label, isGeostore } = area;
     const { token } = user;
     const { locale } = common;
-    const promises = [];
 
     dispatch(setSubscriptionSuccess(false));
     dispatch(setSubscriptionLoading(true));
 
-    datasets.forEach((_dataset) => {
-      const datasetId = _dataset.id;
-      const datasetQuery = ({
-        d: _dataset.id,
-        type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {}).value,
-        threshold: _dataset.threshold
-      });
+    return createArea(label, isGeostore, token)
+      .then((data) => {
+        const areaId = data.id;
 
-      const promise = createArea(label, isGeostore, token)
-        .then(({ data }) => {
-          const areaId = data.id;
+        datasets
+          .forEach((_dataset) => {
+            const datasetId = _dataset.id;
+            const datasetQuery = {
+              d: _dataset.id,
+              type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {})
+                .value,
+              threshold: _dataset.threshold
+            };
 
-          createSubscriptionToAreaService(
-            {
+            createSubscriptionToAreaService({
               areaId,
               datasets: datasetId,
               datasetsQuery: datasetQuery,
               user,
               language: locale
-            }
-          ).then(() => {
-            dispatch(setSubscriptionSuccess(true));
-            dispatch(setSubscriptionLoading(false));
-          }).catch((err) => {
-            dispatch(setSubscriptionError(err));
-            dispatch(setSubscriptionLoading(false));
+            })
+              .then(() => {
+                dispatch(setSubscriptionSuccess(true));
+                dispatch(setSubscriptionLoading(false));
+              })
+              .catch((err) => {
+                dispatch(setSubscriptionError(err));
+                dispatch(setSubscriptionLoading(false));
 
-            toastr.error('Error: unable to create the subscription', err);
+                toastr.error('Error: unable to create the subscription', err);
+              });
           });
-        })
-        .catch((err) => {
-          dispatch(setSubscriptionError(err));
-          dispatch(setSubscriptionLoading(false));
-          toastr.error('Error: unable to create area', err);
-        });
-
-      promises.push(promise);
-    });
-
-    return Promise.all(promises)
-      .then(() => {
-        dispatch(setSubscriptionSuccess(false));
-        dispatch(setSubscriptionLoading(true));
       })
       .catch((err) => {
         dispatch(setSubscriptionError(err));
         dispatch(setSubscriptionLoading(false));
         toastr.error('Error: unable to create area', err);
       });
-  });
+  }
+);
 
-export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSCRIPTION', () =>
-  (dispatch, getState) => {
+export const updateSubscription = createThunkAction(
+  'SUBSCRIPTIONS__UPDATE-SUBSCRIPTION',
+  () => (dispatch, getState) => {
     const { subscriptions, user, common } = getState();
     const { userSelection } = subscriptions;
     const {
       datasets,
       area: {
         id: areaId,
-        subscription: { id: subscriptionId }
+        subscription: { id: subscriptionId, datasets: oldDatasets }
       }
     } = userSelection;
     const { locale } = common;
-    const promises = [];
+    console.log('userSelection', userSelection);
+
+    const newDatasets = datasets.map(d => d.id);
+    // const newDatastesQuery = datasets.map(d => {
+    //   d: _dataset.id,
+    //   type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {}).value,
+    //   threshold: _dataset.threshold
+    // });
+
+    // updateSubscriptionToArea(
+    //   subscriptionId,
+    //   datasetId,
+    //   datasetQuery,
+    //   user,
+    //   locale,
+    //   areaId
+    // ).then(() => {
+    //   dispatch(setSubscriptionSuccess(true));
+    //   dispatch(setSubscriptionLoading(false));
+    //   toastr.success('Subscriptions updated successfully');
+    // }).catch((err) => {
+    //   dispatch(setSubscriptionError(err));
+    //   dispatch(setSubscriptionLoading(false));
+    //   toastr.error('Error: unable to update the subscription', err);
+    // });
+    const oldDatasetsIds = oldDatasets.map(d => d.id);
+    const newDatasetsIds = datasets.map(d => d.id);
+
+    const removedDatasetsIds = oldDatasetsIds.filter(dId => !newDatasetsIds.find(e => e === dId));
+    const removedDatasets = datasets.filter(d => !!removedDatasetsIds.find(e => d.id === e));
+    console.log('removedDatasets', removedDatasets);
+    const addedDatasetsIds = newDatasetsIds.filter(dId => !oldDatasetsIds.find(e => e === dId));
+    const addedDatasets = datasets.filter(d => !!addedDatasetsIds.find(e => d.id === e));
+    console.log('addedDatasets', addedDatasets);
+    const datasetsKeptIds = oldDatasetsIds.filter(dId => newDatasetsIds.find(e => e === dId));
+    const datasetsKept = datasets.filter(d => datasetsKeptIds.find(e => d.id === e));
+    console.log('datasetsKept', datasetsKept);
 
     dispatch(setSubscriptionSuccess(false));
     dispatch(setSubscriptionLoading(true));
 
-    datasets.forEach((_dataset) => {
+    // --- DATASETS KEPT IN THE SUBSCRIPTION UPDATE -----
+    datasetsKept.forEach((_dataset) => {
       const datasetId = _dataset.id;
       const datasetQuery = {
         d: _dataset.id,
@@ -308,32 +347,52 @@ export const updateSubscription = createThunkAction('SUBSCRIPTIONS__UPDATE-SUBSC
         user,
         locale,
         areaId
-      ).then(() => {
-        dispatch(setSubscriptionSuccess(true));
-        dispatch(setSubscriptionLoading(false));
-        toastr.success('Subscriptions updated successfully');
-      }).catch((err) => {
-        dispatch(setSubscriptionError(err));
-        dispatch(setSubscriptionLoading(false));
-        toastr.error('Error: unable to update the subscription', err);
-      });
+      )
+        .then(() => {
+          dispatch(setSubscriptionSuccess(true));
+          dispatch(setSubscriptionLoading(false));
+          toastr.success('Subscriptions updated successfully');
+        })
+        .catch((err) => {
+          dispatch(setSubscriptionError(err));
+          dispatch(setSubscriptionLoading(false));
+          toastr.error('Error: unable to update the subscription', err);
+        });
 
       promises.push(promise);
     });
 
+    // --- DATASETS REMOVED FROM THE SUBSCRIPTION UPDATE -----
+    removedDatasets.forEach((_dataset) => {
+      const datasetId = _dataset.id;
+      console.log('dataset', _dataset);
 
-    Promise.all(promises)
-      .then(() => {
-        dispatch(setSubscriptionSuccess(false));
-        dispatch(setSubscriptionLoading(true));
-      })
-      .catch((err) => {
-        dispatch(setSubscriptionError(err));
-        dispatch(setSubscriptionLoading(false));
-        toastr.error('unable to update the subscription', err);
-      });
-  });
+      const promise = deleteSubscription(subscriptionId, user.token)
+        .then(() => {
+          dispatch(setSubscriptionSuccess(true));
+          dispatch(setSubscriptionLoading(false));
+        })
+        .catch((err) => {
+          dispatch(setSubscriptionError(err));
+          dispatch(setSubscriptionLoading(false));
+          toastr.error('Error: unable to delete one of the subscriptions', err);
+        });
 
+      promises.push(promise);
+    });
+
+    // Promise.all(promises)
+    //   .then(() => {
+    //     dispatch(setSubscriptionSuccess(false));
+    //     dispatch(setSubscriptionLoading(true));
+    //   })
+    //   .catch((err) => {
+    //     dispatch(setSubscriptionError(err));
+    //     dispatch(setSubscriptionLoading(false));
+    //     toastr.error('unable to update the subscription', err);
+    //   });
+  }
+);
 
 export default {
   setAreas,

@@ -8,7 +8,7 @@ export const mergeSubscriptions = (userAreas = [], userSubscriptions = [], datas
   subscriptionsWithDatasets.forEach((sub) => {
     const tempArea = userAreas.find(val => val.id === sub.params.area);
     if (tempArea) {
-      tempArea.subscription = sub;
+      tempArea.subscriptions = [...(tempArea.subscriptions || []), sub];
     }
   });
 

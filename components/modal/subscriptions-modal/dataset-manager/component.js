@@ -124,9 +124,12 @@ class DatasetManager extends Component {
   }
 
   onRemoveDataset = (index) => {
-    this.setState({
-      selectedDatasets: this.state.selectedDatasets
-        .filter((elem, _index) => _index !== index)
+    const { setUserSelection } = this.props;
+    const { selectedDatasets } = this.state;
+    const filteredDatasets = selectedDatasets
+      .filter((elem, _index) => _index !== index);
+    this.setState({ selectedDatasets: filteredDatasets }, () => {
+      setUserSelection({ datasets: filteredDatasets });
     });
   }
 

@@ -11,9 +11,6 @@ import Spinner from 'components/ui/Spinner';
 import DatasetsManager from '../dataset-manager';
 import SubscriptionsPreview from '../subscriptions-preview';
 
-// constants
-// import { SUBSCRIPTION_FREQUENCY_OPTIONS } from './constants';
-
 class AreaSubscriptionsModal extends PureComponent {
   static propTypes = {
     userSelection: PropTypes.object.isRequired,

@@ -496,8 +496,8 @@ export const removeUserArea = createThunkAction(
   (area = {}) => (dispatch, getState) => {
     const { user } = getState();
 
-    if (area.subscription) {
-      return deleteSubscription(area.subscription.id, user.token)
+    if (area.subscriptions) {
+      return axios.all(area.subscriptions.map(_sub => deleteSubscription(_sub.id, user.token)))
         .then(() =>
           deleteArea(area.id, user.token)
             .then(() => {
