@@ -20,7 +20,7 @@ class FiltersComponent extends PureComponent {
   static defaultProps = { className: null };
 
   onOwnerChange = (value) => {
-    this.props.filtersChange({ key: 'owner', value });
+    this.props.filtersChange({ key: 'user.role', value });
   }
 
   render() {

@@ -32,7 +32,7 @@ class DatasetsTable extends PureComponent {
     pagination: INITIAL_PAGINATION,
     loading: true,
     datasets: [],
-    filters: { name: null }
+    filters: { name: null, 'user.role': 'ADMIN' }
   };
 
   componentDidMount() {
@@ -40,7 +40,13 @@ class DatasetsTable extends PureComponent {
   }
 
   onFiltersChange = (value) => {
-    console.log('filter', value);
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        'user.role': value.value
+      }
+    },
+    () => this.loadDatasets());
   }
 
   /**
@@ -48,8 +54,7 @@ class DatasetsTable extends PureComponent {
    * @param {string} { value } Search keywords
    */
   onSearch = debounce((value) => {
-    const { user: { token } } = this.props;
-    const { pagination, filters } = this.state;
+    const { filters } = this.state;
 
     if (value.length > 0 && value.length < 3) return;
 
@@ -58,49 +63,9 @@ class DatasetsTable extends PureComponent {
       filters: {
         ...filters,
         name: value
-      }
-    }, () => {
-      const params = {
-        includes: 'widget,layer,metadata,user',
-        ...!value.length && {
-          'page[number]': INITIAL_PAGINATION.page,
-          'page[size]': INITIAL_PAGINATION.limit,
-          application: process.env.APPLICATIONS
-        },
-        ...value.length > 2 && {
-          'page[number]': INITIAL_PAGINATION.page,
-          'page[size]': INITIAL_PAGINATION.limit,
-          application: process.env.APPLICATIONS,
-          sort: 'name',
-          name: value
-        }
-      };
-
-      fetchDatasets(params, { Authorization: token }, true)
-        .then(({ datasets, meta }) => {
-          const {
-            'total-pages': pages,
-            'total-items': size
-          } = meta;
-          const nextPagination = {
-            ...pagination,
-            size,
-            pages,
-            page: INITIAL_PAGINATION.page
-          };
-
-          this.setState({
-            loading: false,
-            pagination: nextPagination,
-            datasets: datasets.map(_dataset => ({
-              ..._dataset,
-              owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
-              role: _dataset.user ? _dataset.user.role || '' : ''
-            }))
-          });
-        })
-        .catch(({ message }) => { this.setState({ error: message }); });
-    });
+      },
+      pagination: INITIAL_PAGINATION
+    }, () => this.loadDatasets());
   }, 250)
 
   onChangePage = (nextPage) => {
@@ -147,7 +112,8 @@ class DatasetsTable extends PureComponent {
           pagination: nextPagination,
           datasets: datasets.map(_dataset => ({
             ..._dataset,
-            owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : ''
+            owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
+            role: _dataset.user ? _dataset.user.role : ''
           }))
         });
       })
