@@ -169,7 +169,8 @@ class AreaSubscriptionModal extends React.Component {
         datasets,
         datasetsQuery,
         user,
-        locale
+        locale,
+        area.id
       ).then(() => {
         toastr.success('Success!', 'Subscription updated successfully');
         this.props.dispatch(getUserAreas());
