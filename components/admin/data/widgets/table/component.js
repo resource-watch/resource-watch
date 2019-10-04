@@ -36,7 +36,7 @@ class WidgetsTable extends PureComponent {
     pagination: INITIAL_PAGINATION,
     loading: true,
     widgets: [],
-    filters: { name: null }
+    filters: { name: null, 'úser.role': 'ADMIN' }
   }
 
   componentDidMount() {
@@ -73,8 +73,7 @@ class WidgetsTable extends PureComponent {
   }, 250)
 
   onChangePage = (nextPage) => {
-    const { dataset, user: { token } } = this.props;
-    const { pagination, filters } = this.state;
+    const { pagination } = this.state;
 
     this.setState({
       loading: true,
@@ -82,29 +81,7 @@ class WidgetsTable extends PureComponent {
         ...pagination,
         page: nextPage
       }
-    }, () => {
-      const { pagination: { page } } = this.state;
-
-      fetchWidgets({
-        includes: 'user',
-        'page[number]': page,
-        'page[size]': pagination.limit,
-        application: process.env.APPLICATIONS,
-        ...filters,
-        ...dataset && { dataset }
-      }, { Authorization: token })
-        .then((widgets) => {
-          this.setState({
-            loading: false,
-            widgets: widgets.map(_widget => ({
-              ..._widget,
-              owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
-              role: _widget.user ? _widget.user.role || '' : ''
-            }))
-          });
-        })
-        .catch(({ message }) => { this.setState({ error: message }); });
-    });
+    }, () => this.loadWidgets());
   }
 
   onRemoveWidget = () => {

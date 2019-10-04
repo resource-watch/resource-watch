@@ -37,46 +37,21 @@ class LayersTable extends PureComponent {
     pagination: INITIAL_PAGINATION,
     loading: true,
     layers: [],
-    filters: { name: null }
+    filters: { name: null, 'user.role': 'ADMIN' }
   }
 
   componentDidMount() {
-    const { dataset, user: { token } } = this.props;
-    const { pagination } = this.state;
-
-    fetchLayers({
-      includes: 'user',
-      'page[number]': pagination.page,
-      'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS,
-      ...dataset && { dataset }
-    }, { Authorization: token }, true)
-      .then(({ layers, meta }) => {
-        const {
-          'total-pages': pages,
-          'total-items': size
-        } = meta;
-        const nextPagination = {
-          ...pagination,
-          size,
-          pages
-        };
-
-        this.setState({
-          loading: false,
-          pagination: nextPagination,
-          layers: layers.map(_layer => ({
-            ..._layer,
-            owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
-            role: _layer.user ? _layer.user.role || '' : ''
-          }))
-        });
-      })
-      .catch(({ message }) => { this.setState({ error: message }); });
+    this.loadLayers();
   }
 
   onFiltersChange = (value) => {
-    console.log('filter', value);
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        'user.role': value.value
+      }
+    },
+    () => this.loadLayers());
   }
 
   /**
@@ -84,8 +59,7 @@ class LayersTable extends PureComponent {
    * @param {string} { value } Search keywords
    */
   onSearch = debounce((value) => {
-    const { dataset, user: { token } } = this.props;
-    const { pagination, filters } = this.state;
+    const { filters } = this.state;
 
     if (value.length > 0 && value.length < 3) return;
 
@@ -94,56 +68,13 @@ class LayersTable extends PureComponent {
       filters: {
         ...filters,
         name: value
-      }
-    }, () => {
-      const params = {
-        includes: 'user',
-        ...!value.length && {
-          'page[number]': INITIAL_PAGINATION.page,
-          'page[size]': INITIAL_PAGINATION.limit,
-          application: process.env.APPLICATIONS,
-          ...dataset && { dataset }
-        },
-        ...value.length > 2 && {
-          'page[number]': INITIAL_PAGINATION.page,
-          'page[size]': INITIAL_PAGINATION.limit,
-          application: process.env.APPLICATIONS,
-          sort: 'name',
-          name: value,
-          ...dataset && { dataset }
-        }
-      };
-
-      fetchLayers(params, { Authorization: token }, true)
-        .then(({ layers, meta }) => {
-          const {
-            'total-pages': pages,
-            'total-items': size
-          } = meta;
-          const nextPagination = {
-            ...pagination,
-            size,
-            pages,
-            page: INITIAL_PAGINATION.page
-          };
-
-          this.setState({
-            loading: false,
-            pagination: nextPagination,
-            layers: layers.map(_layer => ({
-              ..._layer,
-              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
-              role: _layer.user ? _layer.user.role || '' : ''
-            }))
-          });
-        })
-        .catch(({ message }) => { this.setState({ error: message }); });
-    });
+      },
+      pagination: INITIAL_PAGINATION
+    }, () => this.loadLayers());
   }, 250)
 
   onChangePage = (nextPage) => {
-    const { dataset, user: { token } } = this.props;
-    const { pagination, filters } = this.state;
+    const { pagination } = this.state;
 
     this.setState({
       loading: true,
@@ -151,44 +82,25 @@ class LayersTable extends PureComponent {
         ...pagination,
         page: nextPage
       }
-    }, () => {
-      const { pagination: { page } } = this.state;
-
-      fetchLayers({
-        includes: 'user',
-        'page[number]': page,
-        'page[size]': pagination.limit,
-        application: process.env.APPLICATIONS,
-        ...filters,
-        ...dataset && { dataset }
-      }, { Authorization: token })
-        .then((layers) => {
-          this.setState({
-            loading: false,
-            layers: layers.map(_layer => ({
-              ..._layer,
-              owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
-              role: _layer.user ? _layer.user.role || '' : ''
-            }))
-          });
-        })
-        .catch(({ message }) => { this.setState({ error: message }); });
-    });
+    }, () => this.loadLayers());
   }
 
   onRemoveLayer = () => {
+    this.setState({ loading: true });
+    this.loadLayers();
+  }
+
+  loadLayers = () => {
     const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
-
-    this.setState({ loading: true });
 
     fetchLayers({
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
-      ...filters,
-      ...dataset && { dataset }
+      ...dataset && { dataset },
+      ...filters
     }, { Authorization: token }, true)
       .then(({ layers, meta }) => {
         const {
