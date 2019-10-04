@@ -140,7 +140,7 @@ class AreaSubscriptionsModal extends PureComponent {
         {!success &&
           <div className="buttons">
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
-              {activeArea.subscription ? 'Update' : 'Subscribe'}
+              {activeArea.subscriptions ? 'Update' : 'Subscribe'}
             </button>
 
             <button
