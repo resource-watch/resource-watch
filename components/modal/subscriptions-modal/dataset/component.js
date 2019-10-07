@@ -83,9 +83,6 @@ class DatasetSubscriptionsModal extends PureComponent {
     } = this.props;
     const { showSubscribePreview } = this.state;
 
-    console.log('userSelection', userSelection);
-
-
     if (userSelection.area) {
       if (userSelection.area.areaID) {
         // user selects an area previously created
