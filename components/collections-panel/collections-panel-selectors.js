@@ -8,7 +8,7 @@ export const parseCollections = createSelector(
   collections =>
     collections.map(collection => ({
       id: collection.id,
-      ...collection.attributes
+      ...collection
     }))
 );
 
@@ -17,7 +17,7 @@ export const parseFavourites = createSelector(
   favourites =>
     favourites.map(favourite => ({
       id: favourite.id,
-      ...favourite.attributes
+      ...favourite
     }))
 );
 
