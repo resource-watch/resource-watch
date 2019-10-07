@@ -317,7 +317,9 @@ export const updateSubscription = createThunkAction(
 
     // Removed datasets
     const removedDatasetsIds = oldDatasetsIds.filter(dId => !newDatasetsIds.find(e => e === dId));
-    const removedDatasets = oldDatasets.filter(d => !!removedDatasetsIds.find(e => d.id === e));
+    const removedDatasets = oldDatasets.filter(
+      d => !!removedDatasetsIds.find(e => d.datasetId === e)
+    );
     // Added datasets
     const addedDatasetsIds = newDatasetsIds.filter(dId => !oldDatasetsIds.find(e => e === dId));
     const addedDatasets = datasets.filter(d => !!addedDatasetsIds.find(e => d.id === e));
@@ -359,23 +361,52 @@ export const updateSubscription = createThunkAction(
     });
 
     // // --- DATASETS REMOVED FROM THE SUBSCRIPTION UPDATE -----
-    // removedDatasets.forEach((_dataset) => {
-    //   const datasetId = _dataset.id;
-    //   console.log('dataset', _dataset);
+    removedDatasets.forEach((_dataset) => {
+      const { subscription } = _dataset;
 
-    //   const promise = deleteSubscription(subscriptionId, user.token)
-    //     .then(() => {
-    //       dispatch(setSubscriptionSuccess(true));
-    //       dispatch(setSubscriptionLoading(false));
-    //     })
-    //     .catch((err) => {
-    //       dispatch(setSubscriptionError(err));
-    //       dispatch(setSubscriptionLoading(false));
-    //       toastr.error('Error: unable to delete one of the subscriptions', err);
-    //     });
+      const promise = deleteSubscription(subscription.id, user.token)
+        .then(() => {
+          dispatch(setSubscriptionSuccess(true));
+          dispatch(setSubscriptionLoading(false));
+        })
+        .catch((err) => {
+          dispatch(setSubscriptionError(err));
+          dispatch(setSubscriptionLoading(false));
+          toastr.error('Error: unable to delete one of the subscriptions', err);
+        });
 
-    //   promises.push(promise);
-    // });
+      promises.push(promise);
+    });
+
+    // --- DATASETS KEPT IN THE SUBSCRIPTION UPDATE -----
+    addedDatasets.forEach((_dataset) => {
+      const { id, subscriptions: subsArray, threshold } = _dataset;
+      const datasetQuery = {
+        d: id,
+        type: subsArray[0].value,
+        threshold
+      };
+
+      const promise = createSubscriptionToAreaService({
+        areaId,
+        datasets: [id],
+        datasetsQuery: datasetQuery,
+        user,
+        language: locale
+      })
+        .then(() => {
+          dispatch(setSubscriptionSuccess(true));
+          dispatch(setSubscriptionLoading(false));
+        })
+        .catch((err) => {
+          dispatch(setSubscriptionError(err));
+          dispatch(setSubscriptionLoading(false));
+
+          toastr.error('Error: unable to create the subscription', err);
+        });
+
+      promises.push(promise);
+    });
 
     Promise.all(promises)
       .then(() => {
