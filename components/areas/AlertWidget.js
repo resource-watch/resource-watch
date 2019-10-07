@@ -16,7 +16,7 @@ import DataTable from 'components/ui/DataTable';
 
 // Modal
 import Modal from 'components/modal/modal-component';
-import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
+// import AreaSubscriptionModal from 'components/modal/AreaSubscriptionModal';
 import LayerInfoModal from 'components/modal/layer-info-modal';
 
 // Services
@@ -283,14 +283,14 @@ class AlertWidget extends React.Component {
             isOpen
             onRequestClose={() => this.handleEditSubscription(false)}
           >
-            <AreaSubscriptionModal
+            {/* <AreaSubscriptionModal
               area={this.state.area}
               mode="edit"
               onRequestClose={() => this.handleEditSubscription(false)}
               subscriptionDataset
               subscriptionType
               subscriptionThreshold
-            />
+            /> */}
           </Modal>}
 
         {!!this.state.layer &&

@@ -49,7 +49,7 @@ class AreaSubscriptionsModal extends PureComponent {
     } = this.props;
 
     if (subscription.datasets.length > 0) {
-      if (!activeArea.subscription) {
+      if (!activeArea.subscriptions) {
         createSubscriptionToArea();
       } else {
         updateSubscription();

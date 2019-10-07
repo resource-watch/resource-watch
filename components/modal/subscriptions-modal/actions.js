@@ -294,62 +294,50 @@ export const updateSubscription = createThunkAction(
       datasets,
       area: {
         id: areaId,
-        subscription: { id: subscriptionId, datasets: oldDatasets }
+        subscriptions: newSubscriptions
       }
     } = userSelection;
     const { locale } = common;
-    console.log('userSelection', userSelection);
+    const promises = [];
 
-    const newDatasets = datasets.map(d => d.id);
-    // const newDatastesQuery = datasets.map(d => {
-    //   d: _dataset.id,
-    //   type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {}).value,
-    //   threshold: _dataset.threshold
-    // });
+    const oldDatasets = newSubscriptions.map(s => ({
+      subscription: {
+        id: s.id,
+        ...datasets.filter(d => d.id === s.datasets[0].id).map(_d =>
+          ({
+            threshold: _d.threshold,
+            type: _d.subscriptions[0].value
+          }))[0]
+      },
+      datasetId: s.datasets[0].id
+    }));
 
-    // updateSubscriptionToArea(
-    //   subscriptionId,
-    //   datasetId,
-    //   datasetQuery,
-    //   user,
-    //   locale,
-    //   areaId
-    // ).then(() => {
-    //   dispatch(setSubscriptionSuccess(true));
-    //   dispatch(setSubscriptionLoading(false));
-    //   toastr.success('Subscriptions updated successfully');
-    // }).catch((err) => {
-    //   dispatch(setSubscriptionError(err));
-    //   dispatch(setSubscriptionLoading(false));
-    //   toastr.error('Error: unable to update the subscription', err);
-    // });
-    const oldDatasetsIds = oldDatasets.map(d => d.id);
+    const oldDatasetsIds = oldDatasets.map(d => d.datasetId);
     const newDatasetsIds = datasets.map(d => d.id);
 
+    // Removed datasets
     const removedDatasetsIds = oldDatasetsIds.filter(dId => !newDatasetsIds.find(e => e === dId));
-    const removedDatasets = datasets.filter(d => !!removedDatasetsIds.find(e => d.id === e));
-    console.log('removedDatasets', removedDatasets);
+    const removedDatasets = oldDatasets.filter(d => !!removedDatasetsIds.find(e => d.id === e));
+    // Added datasets
     const addedDatasetsIds = newDatasetsIds.filter(dId => !oldDatasetsIds.find(e => e === dId));
     const addedDatasets = datasets.filter(d => !!addedDatasetsIds.find(e => d.id === e));
-    console.log('addedDatasets', addedDatasets);
+    // Datasets kept
     const datasetsKeptIds = oldDatasetsIds.filter(dId => newDatasetsIds.find(e => e === dId));
-    const datasetsKept = datasets.filter(d => datasetsKeptIds.find(e => d.id === e));
-    console.log('datasetsKept', datasetsKept);
+    const datasetsKept = oldDatasets.filter(d => datasetsKeptIds.find(e => d.datasetId === e));
 
     dispatch(setSubscriptionSuccess(false));
     dispatch(setSubscriptionLoading(true));
 
     // --- DATASETS KEPT IN THE SUBSCRIPTION UPDATE -----
     datasetsKept.forEach((_dataset) => {
-      const datasetId = _dataset.id;
+      const { datasetId, subscription } = _dataset;
       const datasetQuery = {
-        d: _dataset.id,
-        type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {}).value,
-        threshold: _dataset.threshold
+        d: datasetId,
+        type: subscription.type,
+        threshold: subscription.threshold
       };
-
       const promise = updateSubscriptionToArea(
-        subscriptionId,
+        subscription.id,
         datasetId,
         datasetQuery,
         user,
@@ -370,35 +358,35 @@ export const updateSubscription = createThunkAction(
       promises.push(promise);
     });
 
-    // --- DATASETS REMOVED FROM THE SUBSCRIPTION UPDATE -----
-    removedDatasets.forEach((_dataset) => {
-      const datasetId = _dataset.id;
-      console.log('dataset', _dataset);
+    // // --- DATASETS REMOVED FROM THE SUBSCRIPTION UPDATE -----
+    // removedDatasets.forEach((_dataset) => {
+    //   const datasetId = _dataset.id;
+    //   console.log('dataset', _dataset);
 
-      const promise = deleteSubscription(subscriptionId, user.token)
-        .then(() => {
-          dispatch(setSubscriptionSuccess(true));
-          dispatch(setSubscriptionLoading(false));
-        })
-        .catch((err) => {
-          dispatch(setSubscriptionError(err));
-          dispatch(setSubscriptionLoading(false));
-          toastr.error('Error: unable to delete one of the subscriptions', err);
-        });
+    //   const promise = deleteSubscription(subscriptionId, user.token)
+    //     .then(() => {
+    //       dispatch(setSubscriptionSuccess(true));
+    //       dispatch(setSubscriptionLoading(false));
+    //     })
+    //     .catch((err) => {
+    //       dispatch(setSubscriptionError(err));
+    //       dispatch(setSubscriptionLoading(false));
+    //       toastr.error('Error: unable to delete one of the subscriptions', err);
+    //     });
 
-      promises.push(promise);
-    });
+    //   promises.push(promise);
+    // });
 
-    // Promise.all(promises)
-    //   .then(() => {
-    //     dispatch(setSubscriptionSuccess(false));
-    //     dispatch(setSubscriptionLoading(true));
-    //   })
-    //   .catch((err) => {
-    //     dispatch(setSubscriptionError(err));
-    //     dispatch(setSubscriptionLoading(false));
-    //     toastr.error('unable to update the subscription', err);
-    //   });
+    Promise.all(promises)
+      .then(() => {
+        dispatch(setSubscriptionSuccess(false));
+        dispatch(setSubscriptionLoading(true));
+      })
+      .catch((err) => {
+        dispatch(setSubscriptionError(err));
+        dispatch(setSubscriptionLoading(false));
+        toastr.error('Unable to update the subscription', err);
+      });
   }
 );
 
