@@ -54,6 +54,10 @@ class AreaSubscriptionsModal extends PureComponent {
       } else {
         updateSubscription();
       }
+    } else if (activeArea.subscriptions) {
+      // Case where an area that had subscriptions associated to it has been 'cleaned' by the user
+      // so that it no longers has any subscriptions associated to it
+      updateSubscription();
     } else {
       toastr.error('Data missing', 'Please select at least one dataset and a subscription type');
     }

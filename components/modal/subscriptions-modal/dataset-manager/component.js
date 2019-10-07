@@ -198,7 +198,7 @@ class DatasetManager extends Component {
               }}
             >
               <button
-                className={classnames('c-btn -secondary', { '-disabled': index === 0 })}
+                className="c-btn -secondary"
                 onClick={() => this.onRemoveDataset(index)}
               >
                 Delete

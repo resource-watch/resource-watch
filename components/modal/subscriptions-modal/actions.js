@@ -349,7 +349,6 @@ export const updateSubscription = createThunkAction(
         .then(() => {
           dispatch(setSubscriptionSuccess(true));
           dispatch(setSubscriptionLoading(false));
-          toastr.success('Subscriptions updated successfully');
         })
         .catch((err) => {
           dispatch(setSubscriptionError(err));
@@ -412,6 +411,7 @@ export const updateSubscription = createThunkAction(
       .then(() => {
         dispatch(setSubscriptionSuccess(false));
         dispatch(setSubscriptionLoading(true));
+        toastr.success('Subscriptions updated successfully');
       })
       .catch((err) => {
         dispatch(setSubscriptionError(err));
