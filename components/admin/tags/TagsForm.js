@@ -12,17 +12,14 @@ import Navigation from 'components/form/Navigation';
 // Services
 import {
   fetchAllTags,
-  fetchInferredTags
+  fetchInferredTags,
+  fetchDatasetTags
 } from 'services/graph';
 
 const graphOptions = {
   height: '100%',
-  layout: {
-    hierarchical: false
-  },
-  edges: {
-    color: '#000000'
-  }
+  layout: { hierarchical: false },
+  edges: { color: '#000000' }
 };
 
 class TagsForm extends React.Component {
@@ -53,7 +50,7 @@ class TagsForm extends React.Component {
 
   loadDatasetTags() {
     this.setState({ loadingDatasetTags: true });
-    this.graphService.getDatasetTags(this.props.dataset)
+    fetchDatasetTags(this.props.dataset)
       .then((response) => {
         const knowledgeGraphVoc = response.find(elem => elem.id === 'knowledge_graph');
         const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags
@@ -82,7 +79,8 @@ class TagsForm extends React.Component {
             from: elem.source,
             to: elem.target,
             label: elem.relType,
-            font: { size: 8 } })),
+            font: { size: 8 }
+          })),
           nodes: data.nodes.map(elem => ({ id: elem.id, label: elem.label }))
         };
       });
@@ -160,9 +158,7 @@ class TagsForm extends React.Component {
   }
   loadInferredTags() {
     const { selectedTags } = this.state;
-    this.setState({
-      loadingInferredTags: true
-    });
+    this.setState({ loadingInferredTags: true });
     if (selectedTags && selectedTags.length > 0) {
       fetchInferredTags(selectedTags)
         .then((response) => {
@@ -186,8 +182,10 @@ class TagsForm extends React.Component {
   }
 
   render() {
-    const { tags, selectedTags, inferredTags, graph, loadingDatasetTags,
-      loadingAllTags, loadingInferredTags } = this.state;
+    const {
+      tags, selectedTags, inferredTags, graph, loadingDatasetTags,
+      loadingAllTags, loadingInferredTags
+    } = this.state;
     return (
       <form className="c-tags-form" onSubmit={this.handleSubmit}>
         <Spinner
@@ -215,8 +213,7 @@ class TagsForm extends React.Component {
               key={tag.id}
             >
               {tag.label}
-            </div>)
-          )}
+            </div>))}
         </div>
         <div className="graph-div">
           <Spinner

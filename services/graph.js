@@ -21,11 +21,11 @@ export const fetchAllTags = (params = {
   .then(response => WRISerializer(response.data))
   .catch((response) => {
     const { status, statusText } = response;
-
     logger.error(`Error fetching all tags: ${status}: ${statusText}`);
     throw new Error(`Error fetching all tags: ${status}: ${statusText}`);
   });
-}
+};
+
 /**
  * Get inferred tags
  */
@@ -40,29 +40,37 @@ export const fetchInferredTags = (tags) => {
   .then(response => WRISerializer(response.data))
   .catch((response) => {
     const { status, statusText } = response;
-
     logger.error(`Error fetching inferred tags: ${tags} ${status}: ${statusText}`);
     throw new Error(`Error inferred tags: ${tags} ${status}: ${statusText}`);
   });
-}
+};
 
 /**
 * Get dataset tags
 */
-getDatasetTags(datasetId) {
-  return fetch(
-    `${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-    { headers: { 'Upgrade-Insecure-Requests': 1 } }
-
+export const fetchDatasetTags = (datasetId, params = {
+  env: process.env.API_ENV,
+  application: process.application.APPLICATIONS
+}) => {
+  logger.info(`Fetch dataset tags: ${datasetId}`);
+  return WRIAPI.get('dataset/${datasetId}/vocabulary',
+    {
+      headers: { 'Upgrade-Insecure-Requests': 1 },
+      params
+    }
   )
-    .then(response => response.json())
-    .then(response => response.data);
-}
+  .then(response => WRISerializer(response.data))
+  .catch((response) => {
+    const { status, statusText } = response;
+    logger.error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
+    throw new Error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
+  });
+};
 
 /**
 * Update dataset tags
 */
-updateDatasetTags(datasetId, tags, token, usePatch = false) {
+export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
   let bodyObj = {
     knowledge_graph: {
       tags,
@@ -88,13 +96,12 @@ updateDatasetTags(datasetId, tags, token, usePatch = false) {
     method,
     body: JSON.stringify(bodyObj),
     headers: {
-      'Content-Type': 'application/json',
       Authorization: token
     }
   })
     .then(response => response.json())
     .then(jsonData => jsonData.data);
-}
+};
 
 /**
  * Send a request to count a view to the dataset
@@ -102,19 +109,21 @@ updateDatasetTags(datasetId, tags, token, usePatch = false) {
  * @param {string} [token] User token
  * @returns {Promise<void>}
  */
-countDatasetView(datasetId, token) {
-  const headers = {};
-
-  if (token) {
-    headers.Authorization = token;
-  }
-
-  return fetch(`${process.env.WRI_API_URL}/graph/dataset/${datasetId}/visited?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
-    method: 'POST',
-    headers
-  })
-    .then(res => res.json());
-}
+export const countDatasetView = (datasetId, token, params = {
+  env: process.env.API_ENV,
+  application: process.env.APPLICATIONS
+}) => {
+  logger.info('Count dataset view');
+  return WRIAPI.post(`graph/dataset/${datasetId}/visited`,
+    {},
+    {
+      headers: {
+        Authorization: token
+      },
+      params
+    }
+  );
+};
 
 /**
  * Get the list of most viewed datasets

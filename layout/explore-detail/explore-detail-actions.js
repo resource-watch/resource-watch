@@ -3,7 +3,10 @@ import { createAction, createThunkAction } from 'redux-tools';
 import WRISerializer from 'wri-json-api-serializer';
 
 // Services
-import { fetchInferredTags } from 'services/graph';
+import {
+  fetchInferredTags,
+  countDatasetView
+} from 'services/graph';
 
 // Helpers
 import { TAGS_BLACKLIST } from 'utils/tags';
@@ -92,12 +95,8 @@ export const fetchTags = createThunkAction('WIDGET-DETAIL/fetchTags', () => (dis
 // COUNT VIEW
 export const setCountView = createThunkAction('WIDGET-DETAIL/setCountView', () => (dispatch, getState) => {
   const { exploreDetail, user } = getState();
-
-  const service = new GraphService();
-
   if (!user.token) {
     return;
   }
-
-  service.countDatasetView(exploreDetail.data.id, user.token);
+  countDatasetView(exploreDetail.data.id, user.token);
 });
