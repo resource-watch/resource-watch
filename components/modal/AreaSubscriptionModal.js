@@ -14,7 +14,7 @@ import { getUserAreas } from 'redactions/user';
 import areaAlerts from 'selectors/user/areaAlerts';
 
 // Services
-import DatasetService from 'services/DatasetService';
+import { fetchDatasets } from 'services/dataset';
 import {
   createSubscriptionToArea,
   updateSubscriptionToArea,
@@ -100,7 +100,10 @@ class AreaSubscriptionModal extends React.Component {
   }
 
   loadDatasets() {
-    this.datasetService.getSubscribableDatasets('metadata').then((response) => {
+    fetchDatasets({
+      includes: 'metadata',
+      subscribable: true
+    }).then((response) => {
       const datasets = WRISerializer({ data: response }).filter(a => !isEmpty(a.subscribable));
       this.setState({
         loadingDatasets: false,

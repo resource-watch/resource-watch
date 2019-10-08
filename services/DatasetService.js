@@ -31,18 +31,6 @@ export default class DatasetService {
   }
 
   /**
-   * Get subscribable datasets
-   */
-  getSubscribableDatasets(includes = '') {
-    return fetch(
-      `${this.opts.apiURL}/dataset?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}&language=${this.opts.language}&includes=${includes}&subscribable=true&page[size]=999`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-    )
-      .then(response => response.json())
-      .then(jsonData => jsonData.data);
-  }
-
-  /**
    * Get dataset info
    * @returns {Promise}
    */

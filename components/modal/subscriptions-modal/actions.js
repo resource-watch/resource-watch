@@ -17,7 +17,7 @@ import {
   updateSubscriptionToArea
 } from 'services/subscriptions';
 
-import DatasetService from 'services/DatasetService';
+import { fetchDatasets } from 'services/dataset';
 import { fetchQuery } from 'services/query';
 
 
@@ -137,17 +137,13 @@ export const setDatasetsLoading = createAction('SUBSCRIPTIONS__SET-DATASETS-LOAD
 export const setDatasetsError = createAction('SUBSCRIPTIONS__SET-DATASETS-ERROR');
 
 export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =>
-  (dispatch, getState) => {
-    const { common } = getState();
-    const { locale } = common;
-    const datasetService = new DatasetService(null, {
-      apiURL: process.env.WRI_API_URL,
-      language: locale
-    });
-
+  (dispatch) => {
     dispatch(setDatasetsLoading(true));
 
-    datasetService.getSubscribableDatasets('metadata')
+    fetchDatasets({
+      includes: 'metadata',
+      subscribable: true
+    })
       .then((datasets = []) => {
         const parsedDatasets = WRISerializer({ data: datasets });
         dispatch(setDatasets(parsedDatasets));
