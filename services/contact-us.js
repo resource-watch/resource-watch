@@ -1,23 +1,16 @@
-import 'isomorphic-fetch';
+// utils
+import { WRIAPI } from 'utils/axios';
+import { logger } from 'utils/logs';
 
-export default class ContactUsService {
-  saveData({ body }) {
-    return fetch(`${process.env.WRI_API_URL}/contact-us/`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json' }
-    }).then((response) => {
+export const contactUs = (params) => {
+  logger.info('Contact us');
+  return WRIAPI.get('contact-us', { params })
+    .catch(({ response }) => {
       const { status, statusText } = response;
-      if (response.ok) return response;
-
-      const errorObject = {
-        errors: {
-          status,
-          details: statusText
-        }
-      };
-      throw errorObject;
+      logger.error(`Error with contact us endpoint: ${status}: ${statusText}`);
+      throw new Error(`Error with contact us endpoint: ${status}: ${statusText}`);
     });
-  }
-}
+};
+
+export default { contactUs };
 
