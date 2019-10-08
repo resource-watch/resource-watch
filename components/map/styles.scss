@@ -11,4 +11,17 @@
       pointer-events: none;
     }
   }
+
+  &.-compare {
+    position: unset;
+    z-index: auto;
+  }
+}
+
+.compare-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
 }
