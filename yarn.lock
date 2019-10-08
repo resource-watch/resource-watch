@@ -1193,6 +1193,16 @@
   resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-supported/-/mapbox-gl-supported-1.4.1.tgz#c0a03cf75f8b0ad7b57849d6c7e91b0aec4b640f"
   integrity sha512-yyKza9S6z3ELKuf6w5n6VNUB0Osu6Z93RXPfMHLIlNWohu3KqxewLOq4lMXseYJ92GwkRAxd207Pr/Z98cwmvw==
 
+"@mapbox/mapbox-gl-sync-move@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-sync-move/-/mapbox-gl-sync-move-0.2.0.tgz#011835ba0bab9d26c310b0330f512058b2c0957d"
+  integrity sha1-ARg1ugurnSbDELAzD1EgWLLAlX0=
+
+"@mapbox/mapbox-gl-sync-move@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@mapbox/mapbox-gl-sync-move/-/mapbox-gl-sync-move-0.3.0.tgz#5a1d9b7cbd531702c4ab9d49f2b6c80977420d90"
+  integrity sha512-ecApNLDoOdKVTZEKI/Wb5ZPinegHH1KyrEM5T6Q5QcNPDEoOFC/Gn8bK5iv4sD2akfNJacDtqqTaa1f2Oz6m+w==
+
 "@mapbox/point-geometry@0.1.0", "@mapbox/point-geometry@^0.1.0", "@mapbox/point-geometry@~0.1.0":
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@mapbox/point-geometry/-/point-geometry-0.1.0.tgz#8a83f9335c7860effa2eeeca254332aa0aeed8f2"
@@ -8684,6 +8694,13 @@ map-visit@^1.0.0:
   resolved "https://registry.yarnpkg.com/map-visit/-/map-visit-1.0.0.tgz#ecdca8f13144e660f1b5bd41f12f3479d98dfb8f"
   dependencies:
     object-visit "^1.0.0"
+
+mapbox-gl-compare@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/mapbox-gl-compare/-/mapbox-gl-compare-0.2.1.tgz#989edfdf9b42a3b45cc16849e2b6dd484e14dea7"
+  integrity sha512-SSoNFJCtODuT8AIUXQrY3Pu9y1mAJFgEjRF6yJt7q6R2T9JvzVU6MAta3wxXyyu1yDDrtU7l/IXAs+b1cYQfvw==
+  dependencies:
+    "@mapbox/mapbox-gl-sync-move" "^0.2.0"
 
 mapbox-gl@^1.0.0:
   version "1.2.0"
