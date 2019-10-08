@@ -4,25 +4,25 @@
     height: $size;
     border: $border-width solid $color;
     content: '';
-  
+
     @if($direction == 'up') {
       transform: rotate(45deg);
       border-right: 0;
       border-bottom: 0;
     }
-  
+
     @if($direction == 'right') {
       transform: rotate(45deg);
       border-bottom: 0;
       border-left: 0;
     }
-  
+
     @if($direction == 'down') {
       transform: rotate(45deg);
       border-top: 0;
       border-left: 0;
     }
-  
+
     @if($direction == 'left') {
       transform: rotate(45deg);
       border-top: 0;
