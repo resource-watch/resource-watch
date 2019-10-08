@@ -60,9 +60,6 @@ import { reducers as widgetEditorModules } from 'widget-editor';
 // React responsive redux
 import { reducer as responsiveReducer } from 'react-responsive-redux';
 
-// Embed
-import * as embedMapSwipe from 'layout/embed/map-swipe';
-
 // REDUCERS
 const reducer = combineReducers({
   ...reducers,
@@ -119,10 +116,7 @@ const reducer = combineReducers({
   interactions: handleModule(adminInteractions),
 
   // Admin layer preview
-  adminLayerPreview: handleModule(adminLayerPreview),
-
-  // Embed
-  embedMapSwipe: handleModule(embedMapSwipe)
+  adminLayerPreview: handleModule(adminLayerPreview)
 });
 
 export const initStore = (initialState = {}) => createStore(
