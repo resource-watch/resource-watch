@@ -3,7 +3,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 import WRISerializer from 'wri-json-api-serializer';
 
 // Services
-import GraphService from 'services/graph';
+import { fetchInferredTags } from 'services/graph';
 
 // Helpers
 import { TAGS_BLACKLIST } from 'utils/tags';
@@ -72,10 +72,9 @@ export const fetchTags = createThunkAction('WIDGET-DETAIL/fetchTags', () => (dis
   dispatch(setTagsError(null));
 
   const tags = getState().exploreDetail.tags.active;
-  const service = new GraphService();
 
   if (tags.length) {
-    return service.getInferredTags(tags)
+    return fetchInferredTags(tags)
       .then((response) => {
         dispatch(setTags(response.filter(tag =>
           tag.labels.find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
