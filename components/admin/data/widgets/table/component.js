@@ -44,9 +44,10 @@ class WidgetsTable extends PureComponent {
   }
 
   onFiltersChange = (value) => {
+    const { filters } = this.state;
     this.setState({
       filters: {
-        ...this.state.filters,
+        name: filters.name,
         'user.role': value.value
       }
     },
