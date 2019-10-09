@@ -36,7 +36,7 @@ class WidgetsTable extends PureComponent {
     pagination: INITIAL_PAGINATION,
     loading: true,
     widgets: [],
-    filters: { name: null, 'úser.role': 'ADMIN' }
+    filters: { name: null, 'user.role': 'ADMIN' }
   }
 
   componentDidMount() {

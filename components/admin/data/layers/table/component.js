@@ -40,7 +40,7 @@ class LayersTable extends PureComponent {
     filters: { name: null, 'user.role': 'ADMIN' }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.loadLayers();
   }
 

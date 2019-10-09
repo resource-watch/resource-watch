@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import { toastr } from 'react-redux-toastr';
 
 // services
 import { fetchDatasets } from 'services/dataset';
@@ -117,15 +118,14 @@ class DatasetsTable extends PureComponent {
           }))
         });
       })
-      .catch(({ message }) => { this.setState({ error: message }); });
+      .catch(error => toastr.error('There was an error loading the datasets', error));
   }
 
   render() {
     const {
       loading,
       pagination,
-      datasets,
-      error
+      datasets
     } = this.state;
 
     return (
@@ -134,10 +134,6 @@ class DatasetsTable extends PureComponent {
           className="-light"
           isLoading={loading}
         />
-
-        {error && (
-          <p>Error: {error}</p>
-        )}
 
         <TableFilters
           filtersChange={this.onFiltersChange}
@@ -152,38 +148,36 @@ class DatasetsTable extends PureComponent {
           }}
           onSearch={this.onSearch}
         />
-        {!error && (
-          <CustomTable
-            columns={[
-              { label: 'Name', value: 'name', td: NameTD, tdProps: { route: 'admin_data_detail' } },
-              { label: 'Code', value: 'code', td: CodeTD },
-              { label: 'Status', value: 'status', td: StatusTD },
-              { label: 'Published', value: 'published', td: PublishedTD },
-              { label: 'Provider', value: 'provider' },
-              { label: 'Owner', value: 'owner', td: OwnerTD },
-              { label: 'Role', value: 'role', td: RoleTD },
-              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
-              { label: 'Applications', value: 'application', td: ApplicationsTD },
-              { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: 'admin_data_detail' } }
-            ]}
-            actions={{
-              show: true,
-              list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction, componentProps: { route: 'admin_data_detail' } },
-                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
-              ]
-            }}
-            sort={{
-              field: 'updatedAt',
-              value: -1
-            }}
-            filters={false}
-            data={datasets}
-            onRowDelete={this.onRemoveDataset}
-            onChangePage={this.onChangePage}
-            pagination={pagination}
-          />
-        )}
+        <CustomTable
+          columns={[
+            { label: 'Name', value: 'name', td: NameTD, tdProps: { route: 'admin_data_detail' } },
+            { label: 'Code', value: 'code', td: CodeTD },
+            { label: 'Status', value: 'status', td: StatusTD },
+            { label: 'Published', value: 'published', td: PublishedTD },
+            { label: 'Provider', value: 'provider' },
+            { label: 'Owner', value: 'owner', td: OwnerTD },
+            { label: 'Role', value: 'role', td: RoleTD },
+            { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
+            { label: 'Applications', value: 'application', td: ApplicationsTD },
+            { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: 'admin_data_detail' } }
+          ]}
+          actions={{
+            show: true,
+            list: [
+              { name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction, componentProps: { route: 'admin_data_detail' } },
+              { name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
+            ]
+          }}
+          sort={{
+            field: 'updatedAt',
+            value: -1
+          }}
+          filters={false}
+          data={datasets}
+          onRowDelete={this.onRemoveDataset}
+          onChangePage={this.onChangePage}
+          pagination={pagination}
+        />
       </div>
     );
   }

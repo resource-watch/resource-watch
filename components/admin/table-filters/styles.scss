@@ -6,7 +6,7 @@
   .c-radio-box {
     display: flex;
     .c-radio:not(:last-child) {
-      margin-right: $margin-size-extra-small;
+      margin-right: $space * 3;
     }
     input[type=radio]:checked {
       + label {
