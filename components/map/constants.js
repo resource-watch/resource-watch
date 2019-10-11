@@ -37,7 +37,7 @@ export const LABELS = {
   none: {
     id: 'none',
     label: 'No labels',
-    value: null
+    value: 'none'
   },
   light: {
     id: 'light',
