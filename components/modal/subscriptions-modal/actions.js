@@ -7,7 +7,7 @@ import WRISerializer from 'wri-json-api-serializer';
 
 // services
 import { fetchCountries } from 'services/geostore';
-import { fetchUserAreas, createArea } from 'services/areas';
+import { createArea } from 'services/areas';
 import {
   fetchSubscriptions,
   createSubscriptionToArea as createSubscriptionToAreaService,
@@ -114,31 +114,6 @@ export const getAreas = createThunkAction('SUBSCRIPTIONS__GET-AREAS', () => (dis
       toastr.error('Error loading areas', err);
     });
 });
-
-// actions – user areas
-export const setUserAreas = createAction('SUBSCRIPTIONS__SET-USER-AREAS');
-export const setUserAreasLoading = createAction('SUBSCRIPTIONS__SET-USER-AREAS-LOADING');
-export const setUserAreasError = createAction('SUBSCRIPTIONS__SET-USER-AREAS-ERROR');
-
-export const getUserAreas = createThunkAction(
-  'SUBSCRIPTIONS__GET-USER-AREAS',
-  () => (dispatch, getState) => {
-    const { user } = getState();
-    const { token } = user;
-
-    dispatch(setUserAreasLoading(true));
-
-    fetchUserAreas(token)
-      .then((userAreas = []) => {
-        dispatch(setUserAreas(userAreas));
-        dispatch(setUserAreasLoading(false));
-      })
-      .catch((err) => {
-        dispatch(setUserAreasError(err));
-        toastr.error('Error loading user areas', err);
-      });
-  }
-);
 
 // actions – datasets
 export const setDatasets = createAction('SUBSCRIPTIONS__SET-DATASETS');
@@ -432,11 +407,6 @@ export default {
   setSubscriptionsError,
   getUserSubscriptions,
   getUserSubscriptionsPreview,
-
-  setUserAreas,
-  setUserAreasLoading,
-  setUserAreasError,
-  getUserAreas,
 
   setDatasets,
   setDatasetsLoading,

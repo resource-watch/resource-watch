@@ -50,6 +50,7 @@ const SET_USER_COLLECTIONS_ERROR = 'user/setUserCollectionsError';
 // areas
 const SET_USER_AREAS = 'user/setUserAreas';
 const SET_USER_AREAS_ERROR = 'user/setUserAreasError';
+const SET_USER_AREAS_LOADING = 'user/setUserAreasLoading';
 const SET_USER_AREA_LAYER_GROUP = 'user/setUserAreaLayerGroup';
 
 /**
@@ -210,6 +211,16 @@ export default function (state = initialState, action) {
         areas: {
           ...state.areas,
           error: action.payload
+        }
+      };
+    }
+
+    case SET_USER_AREAS_LOADING: {
+      return {
+        ...state,
+        areas: {
+          ...state.areas,
+          loading: action.payload
         }
       };
     }
@@ -438,6 +449,7 @@ export const toggleCollection = createThunkAction(
 // Areas
 export const setUserAreas = createAction(SET_USER_AREAS);
 export const setUserAreasError = createAction(SET_USER_AREAS_ERROR);
+export const setUserAreasLoading = createAction(SET_USER_AREAS_LOADING);
 export const setUserAreaLayerGroup = createAction(SET_USER_AREA_LAYER_GROUP);
 
 export const getUserAreaLayerGroups = createThunkAction(
@@ -463,6 +475,7 @@ export const getUserAreas = createThunkAction(
     (dispatch, getState) => {
       const { user: { token } } = getState();
 
+      dispatch(setUserAreasLoading(true));
       axios.all([fetchUserAreas(token), fetchSubscriptions(token)])
         .then(axios.spread((userAreas, subscriptions = []) => {
           const datasetsToFetch = new Set();
@@ -483,6 +496,7 @@ export const getUserAreas = createThunkAction(
                   datasets
                 );
                 dispatch(setUserAreas(userAreasWithSubscriptions));
+                dispatch(setUserAreasLoading(false));
               });
           } else {
             dispatch(setUserAreas(userAreas));

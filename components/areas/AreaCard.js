@@ -7,7 +7,11 @@ import { Router } from 'routes';
 // Redux
 import { connect } from 'react-redux';
 import { toggleTooltip } from 'redactions/tooltip';
-import { removeUserArea, getUserAreaLayerGroups } from 'redactions/user';
+import {
+  removeUserArea,
+  getUserAreaLayerGroups,
+  getUserAreas
+} from 'redactions/user';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -34,6 +38,13 @@ const MAP_CONFIG = {
 };
 
 class AreaCard extends React.Component {
+  static propTypes = {
+    area: PropTypes.object.isRequired,
+    // Store
+    toggleTooltip: PropTypes.func.isRequired,
+    removeUserArea: PropTypes.func.isRequired,
+    getUserAreas: PropTypes.func.isRequired
+  };
   /**
    * Return the position of the click within the page taking
    * into account the scroll (relative to the page, not the
@@ -93,6 +104,7 @@ class AreaCard extends React.Component {
         mode: this.props.area.subscription ? 'edit' : 'new'
       }
     });
+    this.props.getUserAreas();
   }
 
   handleDeleteArea = () => {
@@ -222,19 +234,13 @@ class AreaCard extends React.Component {
   }
 }
 
-AreaCard.propTypes = {
-  area: PropTypes.object.isRequired,
-  // Store
-  toggleTooltip: PropTypes.func.isRequired,
-  removeUserArea: PropTypes.func.isRequired
-};
-
 const mapStateToProps = state => ({ locale: state.common.locale });
 
 const mapDispatchToProps = {
   toggleTooltip,
   removeUserArea,
-  getUserAreaLayerGroups
+  getUserAreaLayerGroups,
+  getUserAreas
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AreaCard);

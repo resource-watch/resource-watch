@@ -5,6 +5,7 @@ import sortBy from 'lodash/sortBy';
 import isEqual from 'lodash/isEqual';
 
 // actions
+import { getUserAreas } from 'redactions/user';
 import * as actions from '../actions';
 
 // selectors
@@ -48,7 +49,6 @@ class AreaSubscriptionsModalContainer extends Component {
       activeArea,
       setUserSelection,
       getAreas,
-      getUserAreas,
       getDatasets,
       getUserSubscriptions
     } = this.props;
@@ -56,7 +56,7 @@ class AreaSubscriptionsModalContainer extends Component {
     // fetchs areas to populate areas selector
     getAreas();
     // fetchs user areas to populate areas selector
-    getUserAreas();
+    this.props.getUserAreas();
     // fetchs suscribable datasets to populate datasets selector
     getDatasets();
     // fetchs user subscriptions
@@ -124,5 +124,8 @@ export default connect(
     loading: state.subscriptions.areas.loading ||
       state.subscriptions.userAreas.loading || state.subscriptions.datasets.loading
   }),
-  actions
+  {
+    ...actions,
+    getUserAreas
+  }
 )(AreaSubscriptionsModalContainer);
