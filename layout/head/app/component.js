@@ -21,7 +21,7 @@ class HeadApp extends PureComponent {
   }
 
   getCrazyEgg() {
-    if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
+    if (process.env.RW_NODE_ENV === 'production' && typeof window !== 'undefined') {
       return (
         <script
           type="text/javascript"
@@ -34,7 +34,7 @@ class HeadApp extends PureComponent {
   }
 
   getUserReport() {
-    if (process.env.NODE_ENV === 'production' && typeof window !== 'undefined') {
+    if (process.env.RW_NODE_ENV === 'production' && typeof window !== 'undefined') {
       return (
         <script
           type="text/javascript"

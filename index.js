@@ -15,7 +15,7 @@ const routes = require('./routes');
 const auth = require('./auth');
 
 const port = process.env.PORT || 3000;
-const prod = process.env.NODE_ENV === 'production';
+const prod = process.env.RW_NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
@@ -187,7 +187,7 @@ app.prepare().then(() => {
   server.listen(port, (err) => {
     if (err) throw err;
     console.info(
-      `> Ready on http://localhost:${port} [${process.env.NODE_ENV ||
+      `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV ||
         'development'}]`
     );
   });
