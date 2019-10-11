@@ -377,10 +377,10 @@ class ExploreMap extends PureComponent {
     setBasemap(id);
   }
 
-  handleLabels = (labels) => {
+  handleLabels = ({ value }) => {
     const { setLabels } = this.props;
 
-    setLabels(labels);
+    setLabels(value);
   }
 
   handleBoundaries = (boundaries) => {
