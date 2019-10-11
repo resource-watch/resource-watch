@@ -58,7 +58,7 @@ module.exports = withSass({
       new CopyWebpackPlugin([
         {
           from: path.join(__dirname, 'node_modules/widget-editor/dist/images'),
-          to: path.join(__dirname, 'static/images/widget-editor/')
+          to: path.join(__dirname, 'public/static/images/widget-editor/')
         }
       ])
     );
