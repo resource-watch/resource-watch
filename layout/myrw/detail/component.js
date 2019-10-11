@@ -15,9 +15,9 @@ import CollectionsTab from 'components/app/myrw/collections/CollectionsTab';
 import Title from 'components/ui/Title';
 
 // services
-import DatasetsService from 'services/DatasetsService';
-import WidgetsService from 'services/WidgetsService';
 import { fetchDashboard } from 'services/dashboard';
+import { fetchDataset } from 'services/dataset';
+import { fetchWidget } from 'services/widget';
 import { fetchArea } from 'services/areas';
 
 // utils
@@ -45,22 +45,9 @@ class LayoutMyRWDetail extends PureComponent {
       locale
     } = this.props;
 
-    this.service = null;
-
     if (id === 'new') return;
 
-    switch (tab) {
-      case 'datasets':
-        this.service = new DatasetsService({ language: locale });
-        break;
-      case 'widgets':
-        this.service = new WidgetsService();
-        break;
-      default:
-        this.service = new DatasetsService({ language: locale });
-    }
-
-    if (tab === 'dashboards' && (id && id !== 'new')) {
+    if (tab === 'dashboards') {
       fetchDashboard(id)
         .then((data) => { this.setState({ data }); })
         .catch((err) => { toastr.error('Error', err.message); });
@@ -69,7 +56,11 @@ class LayoutMyRWDetail extends PureComponent {
     if (this.service) {
       // Fetch the dataset / layer / widget depending on the tab
       if (tab !== 'areas' && tab !== 'dashboards' && tab !== 'collections') {
-        this.service.fetchData({ id })
+        let service = fetchDataset;
+        if (tab === 'widgets') {
+          service = fetchWidget;
+        }
+        service(id, { language: locale })
           .then((data) => { this.setState({ data }); })
           .catch((err) => { toastr.error('Error', err); });
       } else {
