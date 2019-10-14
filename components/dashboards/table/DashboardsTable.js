@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
+import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
 
 // Redux
 import { connect } from 'react-redux';
-import { getDashboards, setFilters } from 'redactions/admin/dashboards';
 
-// Selectors
-import { getDashboards as getFilteredDashboards } from 'selectors/admin/dashboards';
+// Services
+import { fetchDashboards } from 'services/dashboard';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -29,51 +30,47 @@ import PublishedTD from './td/published';
 import PreviewTD from './td/preview';
 
 class DashboardsTable extends PureComponent {
-  static propTypes = {
-    loading: PropTypes.bool.isRequired,
-    filteredDashboards: PropTypes.array.isRequired,
-    error: PropTypes.string,
-    getDashboards: PropTypes.func.isRequired,
-    setFilters: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+  static propTypes = { user: PropTypes.object.isRequired };
+
+  state = {
+    dashboards: [],
+    pagination: INITIAL_PAGINATION,
+    filters: { name: null, 'user.role': 'ADMIN' },
+    loading: false
   };
 
-  static defaultProps = { error: null };
-
-  state = { pagination: INITIAL_PAGINATION };
-
-  componentDidMount() {
-    this.props.setFilters([]);
-    this.props.getDashboards({ includes: 'user' }, { Authorization: this.props.user.token });
+  componentWillMount() {
+    this.loadDashboards();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { filteredDashboards: dashboards } = this.props;
-    const { filteredDashboards: nextDashboards } = nextProps;
-    const { pagination } = this.state;
-    const dashboardsChanged = dashboards.length !== nextDashboards.length;
-
+  onFiltersChange = (value) => {
     this.setState({
-      pagination: {
-        ...pagination,
-        size: nextDashboards.length,
-        ...dashboardsChanged && { page: 1 },
-        pages: Math.ceil(nextDashboards.length / pagination.limit)
+      filters: {
+        ...this.state.filters,
+        'user.role': value.value
       }
-    });
+    },
+    () => this.loadDashboards());
   }
 
   /**
    * Event handler executed when the user search for a dataset
    * @param {string} { value } Search keywords
    */
-  onSearch = (value) => {
-    if (!value.length) {
-      this.props.setFilters([]);
-    } else {
-      this.props.setFilters([{ key: 'name', value }]);
-    }
-  }
+  onSearch = debounce((value) => {
+    const { filters } = this.state;
+
+    if (value.length > 0 && value.length < 3) return;
+
+    this.setState({
+      loading: true,
+      filters: {
+        ...filters,
+        name: value
+      },
+      pagination: INITIAL_PAGINATION
+    }, () => this.loadDashboards());
+  }, 250)
 
   onChangePage = (page) => {
     const { pagination } = this.state;
@@ -86,20 +83,42 @@ class DashboardsTable extends PureComponent {
     });
   }
 
+  loadDashboards = () => {
+    const { user: { token } } = this.props;
+    const { pagination, filters } = this.state;
+
+    this.setState({ loading: true });
+
+    fetchDashboards(
+      {
+        includes: 'user',
+        ...filters,
+        'page[number]': pagination.page,
+        'page[size]': pagination.limit,
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV
+      },
+      { Authorization: token }
+    )
+      .then((response) => {
+        // TO-DO pagination, pending to be implemented in the API
+        this.setState({
+          loading: false,
+          dashboards: response
+        });
+      })
+      .catch(error => toastr.error('There was an error loading the dashboards', error));
+  }
+
   render() {
-    const { pagination } = this.state;
-    const { filteredDashboards } = this.props;
+    const { pagination, loading, dashboards } = this.state;
 
     return (
       <div className="c-dashboards-table">
-        <Spinner className="-light" isLoading={this.props.loading} />
-
-        {this.props.error && (
-          <p>Error: {this.props.error}</p>
-        )}
+        <Spinner className="-light" isLoading={loading} />
 
         <TableFilters
-          filtersChange={value => this.props.setFilters([value])}
+          filtersChange={this.onFiltersChange}
         />
 
         <SearchInput
@@ -112,49 +131,36 @@ class DashboardsTable extends PureComponent {
           onSearch={this.onSearch}
         />
 
-        {!this.props.error && (
-          <CustomTable
-            columns={[
-              { label: 'Name', value: 'name', td: NameTD },
-              { label: 'Owner', value: 'owner', td: OwnerTD },
-              { label: 'Role', value: 'role', td: RoleTD },
-              { label: 'Preview', value: 'slug', td: PreviewTD },
-              { label: 'Published', value: 'published', td: PublishedTD }
-            ]}
-            actions={{
-              show: true,
-              list: [
-                { name: 'Edit', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
-              ]
-            }}
-            sort={{
-              field: 'name',
-              value: 1
-            }}
-            filters={false}
-            data={filteredDashboards}
-            manualPagination
-            onChangePage={this.onChangePage}
-            onRowDelete={() => this.props.getDashboards({ includes: 'user' }, { Authorization: this.props.user.token })}
-            pagination={pagination}
-          />
-        )}
+        <CustomTable
+          columns={[
+            { label: 'Name', value: 'name', td: NameTD },
+            { label: 'Owner', value: 'owner', td: OwnerTD },
+            { label: 'Role', value: 'role', td: RoleTD },
+            { label: 'Preview', value: 'slug', td: PreviewTD },
+            { label: 'Published', value: 'published', td: PublishedTD }
+          ]}
+          actions={{
+            show: true,
+            list: [
+              { name: 'Edit', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
+              { name: 'Remove', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
+            ]
+          }}
+          sort={{
+            field: 'name',
+            value: 1
+          }}
+          filters={false}
+          data={dashboards}
+          onChangePage={this.onChangePage}
+          onRowDelete={() => this.loadDashboards()}
+          pagination={pagination}
+        />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  loading: state.adminDashboards.dashboards.loading,
-  dashboards: state.adminDashboards.dashboards.list,
-  filteredDashboards: getFilteredDashboards(state),
-  error: state.adminDashboards.dashboards.error,
-  user: state.user
-});
-const mapDispatchToProps = {
-  getDashboards,
-  setFilters
-};
+const mapStateToProps = state => ({ user: state.user });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardsTable);
+export default connect(mapStateToProps, null)(DashboardsTable);
