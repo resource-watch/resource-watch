@@ -5,6 +5,7 @@ import sortBy from 'lodash/sortBy';
 import isEqual from 'lodash/isEqual';
 
 // actions
+import { getUserAreas } from 'redactions/user';
 import * as actions from '../actions';
 
 // selectors
@@ -48,7 +49,6 @@ class AreaSubscriptionsModalContainer extends Component {
       activeArea,
       setUserSelection,
       getAreas,
-      getUserAreas,
       getDatasets,
       getUserSubscriptions
     } = this.props;
@@ -56,7 +56,7 @@ class AreaSubscriptionsModalContainer extends Component {
     // fetchs areas to populate areas selector
     getAreas();
     // fetchs user areas to populate areas selector
-    getUserAreas();
+    this.props.getUserAreas();
     // fetchs suscribable datasets to populate datasets selector
     getDatasets();
     // fetchs user subscriptions
@@ -66,32 +66,29 @@ class AreaSubscriptionsModalContainer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { subscriptionsByArea, setUserSelection, activeArea } = this.props;
+    const { subscriptionsByArea, setUserSelection } = this.props;
     const { subscriptionsByArea: nextSubscriptions, activeArea: nextActiveArea } = nextProps;
     const subscriptionsChanged = !isEqual(subscriptionsByArea, nextSubscriptions);
 
     if (nextSubscriptions.length && subscriptionsChanged) {
-      if (nextActiveArea && nextActiveArea.subscription) {
-        const currentSubscription = nextSubscriptions.find(_subscription =>
-          _subscription.id === activeArea.subscription.id);
-        const subscriptionTypes = currentSubscription.datasetsQuery
-          .filter(_datasetQuery => _datasetQuery.type)
-          .map(_datasetQuery => _datasetQuery.type);
-
+      if (nextActiveArea && nextActiveArea.subscriptions) {
         setUserSelection({
-          datasets: activeArea.subscription.datasets.map((dataset, index) => ({
-            id: dataset.id,
-            label: dataset.name,
-            value: dataset.name,
-            subscriptions: sortBy(Object.keys(dataset.subscribable ||
-              dataset.subscribable)
-              .map(val => ({
-                label: val,
-                value: val,
-                ...subscriptionTypes.includes(val) && { selected: true }
-              })), 'label'),
-            threshold: activeArea.subscription.datasetsQuery[index].threshold
-          }))
+          datasets: nextActiveArea.subscriptions.map((subscription) => {
+            const dataset = subscription.datasets[0];
+            const datasetQuery = subscription.datasetsQuery[0];
+            return {
+              id: dataset.id,
+              label: dataset.name,
+              value: dataset.name,
+              subscriptions: sortBy(Object.keys(dataset.subscribable)
+                .map(val => ({
+                  label: val,
+                  value: val,
+                  ...datasetQuery.type.includes(val) && { selected: true }
+                })), 'label'),
+              threshold: datasetQuery.threshold
+            };
+          })
         });
       }
     }
@@ -127,5 +124,8 @@ export default connect(
     loading: state.subscriptions.areas.loading ||
       state.subscriptions.userAreas.loading || state.subscriptions.datasets.loading
   }),
-  actions
+  {
+    ...actions,
+    getUserAreas
+  }
 )(AreaSubscriptionsModalContainer);
