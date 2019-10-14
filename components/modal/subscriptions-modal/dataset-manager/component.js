@@ -128,6 +128,7 @@ class DatasetManager extends Component {
     const { selectedDatasets } = this.state;
     const filteredDatasets = selectedDatasets
       .filter((elem, _index) => _index !== index);
+
     this.setState({ selectedDatasets: filteredDatasets }, () => {
       setUserSelection({ datasets: filteredDatasets });
     });

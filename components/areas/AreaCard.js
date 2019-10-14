@@ -9,8 +9,7 @@ import { connect } from 'react-redux';
 import { toggleTooltip } from 'redactions/tooltip';
 import {
   removeUserArea,
-  getUserAreaLayerGroups,
-  getUserAreas
+  getUserAreaLayerGroups
 } from 'redactions/user';
 
 // Components
@@ -42,8 +41,7 @@ class AreaCard extends React.Component {
     area: PropTypes.object.isRequired,
     // Store
     toggleTooltip: PropTypes.func.isRequired,
-    removeUserArea: PropTypes.func.isRequired,
-    getUserAreas: PropTypes.func.isRequired
+    removeUserArea: PropTypes.func.isRequired
   };
   /**
    * Return the position of the click within the page taking
@@ -104,7 +102,6 @@ class AreaCard extends React.Component {
         mode: this.props.area.subscription ? 'edit' : 'new'
       }
     });
-    this.props.getUserAreas();
   }
 
   handleDeleteArea = () => {
@@ -239,8 +236,7 @@ const mapStateToProps = state => ({ locale: state.common.locale });
 const mapDispatchToProps = {
   toggleTooltip,
   removeUserArea,
-  getUserAreaLayerGroups,
-  getUserAreas
+  getUserAreaLayerGroups
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AreaCard);

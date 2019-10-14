@@ -5,6 +5,8 @@ import axios from 'axios';
 import moment from 'moment';
 import WRISerializer from 'wri-json-api-serializer';
 
+import { getUserAreas } from 'redactions/user';
+
 // services
 import { fetchCountries } from 'services/geostore';
 import { createArea } from 'services/areas';
@@ -200,7 +202,11 @@ export const createSubscriptionToArea = createThunkAction(
               toastr.error('Error: unable to create the subscription', err);
             });
         })
-    );
+    )
+      .then(() => {
+        // Reload user areas
+        dispatch(getUserAreas());
+      });
   }
 );
 
@@ -250,7 +256,12 @@ export const createSubscriptionOnNewArea = createThunkAction(
                   toastr.error('Error: unable to create the subscription', err);
                 });
             })
-        );
+        )
+          .then(() => {
+            toastr.success('Subscriptions created successfully');
+            // Reload user areas
+            dispatch(getUserAreas());
+          });
       })
       .catch((err) => {
         dispatch(setSubscriptionError(err));
@@ -387,6 +398,8 @@ export const updateSubscription = createThunkAction(
         dispatch(setSubscriptionSuccess(false));
         dispatch(setSubscriptionLoading(true));
         toastr.success('Subscriptions updated successfully');
+        // Reload user areas
+        dispatch(getUserAreas());
       })
       .catch((err) => {
         dispatch(setSubscriptionError(err));

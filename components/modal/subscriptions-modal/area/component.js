@@ -61,6 +61,7 @@ class AreaSubscriptionsModal extends PureComponent {
     } else {
       toastr.error('Data missing', 'Please select at least one dataset and a subscription type');
     }
+    this.props.onRequestClose();
   }
 
   handleGoToMySubscriptions = () => {
