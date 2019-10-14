@@ -4,7 +4,7 @@ import sortBy from 'lodash/sortBy';
 import { CUSTOM_AREA_OPTION } from './constants';
 
 const getAreas = state => state.subscriptions.areas.list;
-const getUserAreas = state => state.subscriptions.userAreas.list;
+const getUserAreas = state => state.user.areas.items;
 const getUserSubscriptions = state => state.subscriptions.list;
 const getUserSelection = state => state.subscriptions.userSelection;
 
