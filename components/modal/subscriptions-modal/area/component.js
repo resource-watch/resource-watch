@@ -74,7 +74,6 @@ class AreaSubscriptionsModal extends PureComponent {
     const {
       areas,
       activeArea,
-      // activeDataset,
       userSelection,
       loading,
       subscriptionCreation,
@@ -88,7 +87,6 @@ class AreaSubscriptionsModal extends PureComponent {
             Your subscription was successfully created.
           <strong> Please check your email address to confirm it.</strong>
         </p>) : null;
-    const currentArea = areas.find(_area => _area.value === activeArea.id);
     let headerText = `${activeArea.name} subscriptions`;
     if (success) headerText = 'Subscription saved!';
 
@@ -126,7 +124,7 @@ class AreaSubscriptionsModal extends PureComponent {
                   options={areas}
                   className="-disabled"
                   allowNonLeafSelection={false}
-                  value={(currentArea || {}).value}
+                  value={(activeArea || {}).id}
                 />
               </Field>
             </div>
@@ -144,7 +142,7 @@ class AreaSubscriptionsModal extends PureComponent {
         {!success &&
           <div className="buttons">
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
-              {activeArea.subscriptions ? 'Update' : 'Subscribe'}
+              Save
             </button>
 
             <button

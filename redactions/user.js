@@ -495,6 +495,7 @@ export const getUserAreas = createThunkAction(
                   subscriptions,
                   datasets
                 );
+
                 dispatch(setUserAreas(userAreasWithSubscriptions));
                 dispatch(setUserAreasLoading(false));
               });
