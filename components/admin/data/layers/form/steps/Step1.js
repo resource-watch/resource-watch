@@ -19,6 +19,9 @@ import Code from 'components/form/Code';
 import InteractionManager from '../interactions';
 import LayerPreviewComponent from '../layer-preview';
 
+// helpers
+import { getLayerGroups } from 'components/map/helpers';
+
 class Step1 extends PureComponent {
   static propTypes = {
     id: PropTypes.string,
@@ -35,6 +38,13 @@ class Step1 extends PureComponent {
   static defaultProps = {
     id: null,
     datasets: []
+  }
+
+  state = {
+    dataset: [{
+      id: null,
+      layer: []
+    }]
   }
 
   handleRefreshPreview = () => {
@@ -54,6 +64,40 @@ class Step1 extends PureComponent {
       </section>);
   }
 
+  handleDatasetChange = (dataset) => {
+    const { onChangeDataset } = this.props;
+    const { dataset: datasetState } = this.state;
+
+    this.setState({
+      dataset: [{
+        ...datasetState[0],
+        id: dataset
+      }]
+    }, () => {
+      onChangeDataset(dataset);
+    });
+  }
+
+  handleLayerChange = (layerProps) => {
+    const { onChange } = this.props;
+    const { dataset: datasetState } = this.state;
+
+    console.log('layerProps', layerProps)
+
+    this.setState({
+      dataset: [{
+        ...datasetState[0],
+        layers: [
+          ...datasetState[0].layers,
+          ...layerProps
+        ]
+      }]
+    }, () => {
+      console.log(this.state)
+      onChange(layerProps);
+    });
+  }
+
   render() {
     const {
       user,
@@ -63,13 +107,15 @@ class Step1 extends PureComponent {
       form,
       id
     } = this.props;
+    const { dataset } = this.state;
+    const layerGroup = getLayerGroups(dataset);
 
     return (
       <fieldset className="c-field-container">
         {!id &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
-            onChange={value => this.props.onChangeDataset(value)}
+            onChange={this.handleDatasetChange}
             validations={['required']}
             options={this.props.datasets}
             properties={{
@@ -165,7 +211,7 @@ class Step1 extends PureComponent {
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.layerConfig = c; }}
-          onChange={value => this.props.onChange({ layerConfig: value })}
+          onChange={(layerConfig) => { this.handleLayerChange({ layerConfig }); }}
           properties={{
             name: 'layerConfig',
             label: 'Layer config',
@@ -222,9 +268,7 @@ class Step1 extends PureComponent {
           </Field>
         }
 
-        <LayerPreviewComponent
-          layer={form}
-        />
+        <LayerPreviewComponent dataset={layerGroup} />
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
