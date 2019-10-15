@@ -16,18 +16,4 @@
       margin: 0;
     }
   }
-
-  .preview-container {
-    display: flex;
-    flex-direction: column;
-
-    .map-container {
-      position: relative;
-      min-height: 500px;
-    }
-
-    .layer-preview-actions {
-      margin-top: 20px;
-    }
-  }
 }

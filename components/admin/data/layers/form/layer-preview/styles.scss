@@ -1,0 +1,16 @@
+@import 'css/settings';
+
+.c-layer-preview {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  > .map-container {
+    position: relative;
+    height: 500px;
+  }
+
+  .layer-preview-actions {
+    margin: $space * 4 0 0;
+  }
+}
