@@ -40,7 +40,7 @@
     "moment": "^2.24.0",
     "moment-range": "3.0.3",
     "moveto": "1.6.1",
-    "next": "^9.0.5",
+    "next": "^9.1.1",
     "next-progressbar": "^1.0.0",
     "next-redux-wrapper": "^2.0.0",
     "next-routes": "^1.4.2",
@@ -63,11 +63,11 @@
     "query-string": "5.0.1",
     "rc-pagination": "1.8.8",
     "rc-tooltip": "^3.7.0",
-    "react": "^16.9.0",
+    "react": "^16.10.2",
     "react-accessible-accordion": "^3.0.0",
     "react-ace": "6.0.0",
     "react-dates": "^18.2.2",
-    "react-dom": "^16.9.0",
+    "react-dom": "^16.10.2",
     "react-dropdown-tree-select": "1.9.2",
     "react-dropzone": "4.2.9",
     "react-fast-compare": "^2.0.4",
@@ -145,13 +145,13 @@
       "command": "next build",
       "env": {
         "NODE_OPTIONS": "--max_old_space_size=4096",
-        "NODE_ENV": "production"
+        "RW_NODE_ENV": "production"
       }
     },
     "start": {
       "command": "node index.js",
       "env": {
-        "NODE_ENV": "production"
+        "RW_NODE_ENV": "production"
       }
     },
     "bundle-analyzer": {
