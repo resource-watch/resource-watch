@@ -82,7 +82,7 @@ class Step1 extends PureComponent {
     const { onChange } = this.props;
     const { dataset: datasetState } = this.state;
 
-    console.log('layerProps', layerProps)
+    console.log('layerProps', layerProps);
 
     this.setState({
       dataset: [{
@@ -93,7 +93,7 @@ class Step1 extends PureComponent {
         ]
       }]
     }, () => {
-      console.log(this.state)
+      console.log(this.state);
       onChange(layerProps);
     });
   }
