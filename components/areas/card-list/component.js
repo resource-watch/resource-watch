@@ -10,18 +10,11 @@ import AreaCard from '../card';
 // styles
 import './styles.scss';
 
-const AreaCardList = ({ areas, className, query }) => {
+const AreaCardList = ({ areas, className }) => {
   const componentClass = classnames({
     'c-areas-list': true,
     [className]: !!className
   });
-
-  const {
-    openModal: openSubscriptionsModal,
-    subscriptionDataset,
-    subscriptionType,
-    subscriptionThreshold
-  } = query;
 
   return (
     <div className={componentClass}>
@@ -40,27 +33,7 @@ const AreaCardList = ({ areas, className, query }) => {
                   ref={ref}
                   className="card-container"
                 >
-                  {inView && (
-                    <AreaCard
-                      area={area}
-                      openSubscriptionsModal={
-                        openSubscriptionsModal && openSubscriptionsModal === area.id
-                      }
-                      subscriptionDataset={
-                        openSubscriptionsModal &&
-                        openSubscriptionsModal === area.id &&
-                        subscriptionDataset
-                      }
-                      subscriptionThreshold={
-                        openSubscriptionsModal &&
-                        openSubscriptionsModal === area.id &&
-                        subscriptionThreshold
-                      }
-                      subscriptionType={
-                        openSubscriptionsModal && openSubscriptionsModal === area.id && subscriptionType
-                      }
-                    />
-                  )}
+                  {inView && (<AreaCard area={area} />)}
                 </div>
               )}
             </InView>
@@ -84,7 +57,7 @@ const AreaCardList = ({ areas, className, query }) => {
           </div>
         )}
 
-        {areas.items.length === 0 && (
+        {areas.length === 0 && (
           <div className="no-areas-container">
             <p>Create an area of interest to sign up for alerts.</p>
           </div>
@@ -96,13 +69,9 @@ const AreaCardList = ({ areas, className, query }) => {
 
 AreaCardList.propTypes = {
   areas: PropTypes.array.isRequired,
-  query: PropTypes.object,
   className: PropTypes.string
 };
 
-AreaCardList.defaultProps = {
-  query: {},
-  className: null
-};
+AreaCardList.defaultProps = { className: null };
 
 export default AreaCardList;

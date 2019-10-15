@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
-import { Link, Router } from 'routes';
+import { Router } from 'routes';
 import { Tooltip } from 'vizzuality-components';
 import { CancelToken } from 'axios';
 
