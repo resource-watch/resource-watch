@@ -8,6 +8,9 @@ import { connect } from 'react-redux';
 // Constants
 import { PROVIDER_OPTIONS, FORM_ELEMENTS } from 'components/admin/data/layers/form/constants';
 
+// helpers
+import { getLayerGroups } from 'components/map/helpers';
+
 // Components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
@@ -15,12 +18,8 @@ import Select from 'components/form/SelectInput';
 import Textarea from 'components/form/TextArea';
 import Checkbox from 'components/form/Checkbox';
 import Code from 'components/form/Code';
-
 import InteractionManager from '../interactions';
-import LayerPreviewComponent from '../layer-preview';
-
-// helpers
-import { getLayerGroups } from 'components/map/helpers';
+import LayerPreview from '../layer-preview';
 
 class Step1 extends PureComponent {
   static propTypes = {
@@ -43,7 +42,16 @@ class Step1 extends PureComponent {
   state = {
     dataset: [{
       id: null,
-      layer: []
+      layers: [{
+        id: 'layer-preview',
+        provider: 'leaflet',
+        active: true,
+        opacity: 1,
+        visibility: true,
+        layerConfig: { body: { url: '' } },
+        legendConfig: {},
+        interactionConfig: {}
+      }]
     }]
   }
 
@@ -82,18 +90,15 @@ class Step1 extends PureComponent {
     const { onChange } = this.props;
     const { dataset: datasetState } = this.state;
 
-    console.log('layerProps', layerProps);
-
     this.setState({
       dataset: [{
         ...datasetState[0],
-        layers: [
-          ...datasetState[0].layers,
+        layers: [{
+          ...datasetState[0].layers[0],
           ...layerProps
-        ]
+        }]
       }]
     }, () => {
-      console.log(this.state);
       onChange(layerProps);
     });
   }
@@ -109,6 +114,7 @@ class Step1 extends PureComponent {
     } = this.props;
     const { dataset } = this.state;
     const layerGroup = getLayerGroups(dataset);
+    console.log('layerGroup', layerGroup)
 
     return (
       <fieldset className="c-field-container">
@@ -241,7 +247,7 @@ class Step1 extends PureComponent {
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.legendConfig = c; }}
-          onChange={value => this.props.onChange({ legendConfig: value })}
+          onChange={(legendConfig) => { this.handleLayerChange({ legendConfig }); }}
           properties={{
             name: 'legendConfig',
             label: 'Legend config',
@@ -257,7 +263,7 @@ class Step1 extends PureComponent {
         {form.provider !== 'cartodb' &&
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.interactionConfig = c; }}
-            onChange={value => this.props.onChange({ interactionConfig: value })}
+            onChange={(interactionConfig) => { this.handleLayerChange({ interactionConfig }); }}
             properties={{
               name: 'interactionConfig',
               label: 'Raster interactivity',
@@ -268,7 +274,7 @@ class Step1 extends PureComponent {
           </Field>
         }
 
-        <LayerPreviewComponent dataset={layerGroup} />
+        <LayerPreview layerGroup={layerGroup} />
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
