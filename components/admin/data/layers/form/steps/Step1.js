@@ -114,7 +114,7 @@ class Step1 extends PureComponent {
     } = this.props;
     const { dataset } = this.state;
     const layerGroup = getLayerGroups(dataset);
-    console.log('layerGroup', layerGroup)
+    console.log('layerGroup', layerGroup);
 
     return (
       <fieldset className="c-field-container">
