@@ -16,33 +16,34 @@ export const fetchAllTags = (params = {
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params
-    }
-  )
-  .then(response => WRISerializer(response.data))
-  .catch((response) => {
-    const { status, statusText } = response;
-    logger.error(`Error fetching all tags: ${status}: ${statusText}`);
-    throw new Error(`Error fetching all tags: ${status}: ${statusText}`);
-  });
+    })
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching all tags: ${status}: ${statusText}`);
+      throw new Error(`Error fetching all tags: ${status}: ${statusText}`);
+    });
 };
 
 /**
  * Get inferred tags
  */
-export const fetchInferredTags = (tags) => {
+export const fetchInferredTags = (tags, params = {
+  application: process.env.APPLICATIONS,
+  env: process.env.API_ENV
+}) => {
   logger.info('Fetch inferred tags');
-  return WRIAPI.get('graph/query/concepts-inferred?concepts=${tags}',
+  return WRIAPI.get(`graph/query/concepts-inferred?concepts=${tags}`,
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params
-    }
-  )
-  .then(response => WRISerializer(response.data))
-  .catch((response) => {
-    const { status, statusText } = response;
-    logger.error(`Error fetching inferred tags: ${tags} ${status}: ${statusText}`);
-    throw new Error(`Error inferred tags: ${tags} ${status}: ${statusText}`);
-  });
+    })
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching inferred tags: ${tags} ${status}: ${statusText}`);
+      throw new Error(`Error inferred tags: ${tags} ${status}: ${statusText}`);
+    });
 };
 
 /**
@@ -53,18 +54,17 @@ export const fetchDatasetTags = (datasetId, params = {
   application: process.application.APPLICATIONS
 }) => {
   logger.info(`Fetch dataset tags: ${datasetId}`);
-  return WRIAPI.get('dataset/${datasetId}/vocabulary',
+  return WRIAPI.get(`dataset/${datasetId}/vocabulary`,
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params
-    }
-  )
-  .then(response => WRISerializer(response.data))
-  .catch((response) => {
-    const { status, statusText } = response;
-    logger.error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
-    throw new Error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
-  });
+    })
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
+      throw new Error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
+    });
 };
 
 /**
@@ -87,42 +87,38 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
         logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
         throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
       });
-  } else {
-    if (tags.length > 0) {
-      return WRIAPI.put(`dataset/${datasetId}/vocabulary`,
-        {
-          knowledge_graph: {
-            tags,
-            application: process.env.APPLICATIONS,
-            env: process.env.API_ENV
-          }
-        },
-        { Authorization: token })
-        .then(response => WRISerializer(response.data))
-        .catch((response) => {
-          const { status, statusText } = response;
-          logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
-          throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
-        });
-    } else {
-      return WRIAPI.delete(`dataset/${datasetId}/vocabulary/knowledge_graph`,
-        {
-          headers: {
-            Authorization: token
-          },
-          params: {
-            application: process.env.APPLICATIONS,
-            env: process.env.API_ENV
-          }
-        })
-        .then(response => WRISerializer(response.data))
-        .catch((response) => {
-          const { status, statusText } = response;
-          logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
-          throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
-        });
-    }
   }
+  if (tags.length > 0) {
+    return WRIAPI.put(`dataset/${datasetId}/vocabulary`,
+      {
+        knowledge_graph: {
+          tags,
+          application: process.env.APPLICATIONS,
+          env: process.env.API_ENV
+        }
+      },
+      { Authorization: token })
+      .then(response => WRISerializer(response.data))
+      .catch((response) => {
+        const { status, statusText } = response;
+        logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+        throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+      });
+  }
+  return WRIAPI.delete(`dataset/${datasetId}/vocabulary/knowledge_graph`,
+    {
+      headers: { Authorization: token },
+      params: {
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV
+      }
+    })
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+      throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+    });
 };
 
 /**
@@ -139,51 +135,59 @@ export const countDatasetView = (datasetId, token, params = {
   return WRIAPI.post(`graph/dataset/${datasetId}/visited`,
     {},
     {
-      headers: {
-        Authorization: token
-      },
+      headers: { Authorization: token },
       params
-    }
-  ).catch((response) => {
-    const { status, statusText } = response;
-    logger.error(`Error in count dataset view ${datasetId}: ${status}: ${statusText}`);
-    throw new Error(`Error in count dataset view ${datasetId}: ${status}: ${statusText}`);
-  });;
+    })
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error in count dataset view ${datasetId}: ${status}: ${statusText}`);
+      throw new Error(`Error in count dataset view ${datasetId}: ${status}: ${statusText}`);
+    });
 };
 
 /**
  * Get the list of most viewed datasets
  * @returns {Promise<string[]>} List of sorted ids
  */
-getMostViewedDatasets() {
-  return fetch(
-    `${process.env.WRI_API_URL}/graph/query/most-viewed?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-    { headers: { 'Upgrade-Insecure-Requests': 1 } }
-
-  )
-    .then((res) => {
-      if (res.ok) return res.json();
-      throw new Error('Unable to fetch the most viewed datasets');
+export const fetchMostViewedDatasets = (params = {
+  env: process.env.API_ENV,
+  application: process.env.APPLICATIONS
+}) => {
+  logger.info('Fetch most viewed datasets');
+  return WRIAPI.get('graph/query/most-viewed',
+    {
+      params,
+      headers: { 'Upgrade-Insecure-Requests': 1 }
     })
-    .then(res => res.data.map(d => d.dataset));
-}
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching most viewed datasets: ${status}: ${statusText}`);
+      throw new Error(`Error fetching most viewed datasets: ${status}: ${statusText}`);
+    });
+};
 
 /**
  * Get the list of most favourited datasets
  * @returns {Promise<string[]>} List of sorted ids
  */
-getMostFavoritedDatasets() {
-  return fetch(
-    `${process.env.WRI_API_URL}/graph/query/most-liked-datasets?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-    { headers: { 'Upgrade-Insecure-Requests': 1 } }
-
-  )
-    .then((res) => {
-      if (res.ok) return res.json();
-      throw new Error('Unable to fetch the most favourited datasets');
+export const fetchMostFavoritedDatasets = (params = {
+  env: process.env.API_ENV,
+  application: process.env.APPLICATIONS
+}) => {
+  logger.info('Fetch most favorited datasets');
+  return WRIAPI.get('graph/query/most-liked-datasets',
+    {
+      params,
+      headers: { 'Upgrade-Insecure-Requests': 1 }
     })
-    .then(res => res.data.map(d => d.id));
-}
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching most favorited datasets: ${status}: ${statusText}`);
+      throw new Error(`Error fetching most favorited datasets: ${status}: ${statusText}`);
+    });
+};
 
 
 export default {
