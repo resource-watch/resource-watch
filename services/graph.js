@@ -71,36 +71,58 @@ export const fetchDatasetTags = (datasetId, params = {
 * Update dataset tags
 */
 export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
-  let bodyObj = {
-    knowledge_graph: {
-      tags,
-      application: process.env.APPLICATIONS,
-      env: process.env.API_ENV
-    }
-  };
-  let method = tags.length > 0 ? 'PUT' : 'DELETE';
-  let url = `${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary`;
+  logger.info(`Update dataset tags: ${datasetId}`);
 
   if (usePatch) {
-    method = 'PATCH';
-    bodyObj = { tags, application: process.env.APPLICATIONS };
-    url = `${url}/knowledge_graph`;
-  }
-
-  if (method === 'DELETE') {
-    url = `${url}/knowledge_graph?application=${process.env.APPLICATIONS}`;
-    bodyObj = {};
-  }
-
-  return fetch(url, {
-    method,
-    body: JSON.stringify(bodyObj),
-    headers: {
-      Authorization: token
+    return WRIAPI.patch(`dataset/${datasetId}/vocabulary/knowledge_graph`,
+      {
+        tags,
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV
+      },
+      { Authorization: token })
+      .then(response => WRISerializer(response.data))
+      .catch((response) => {
+        const { status, statusText } = response;
+        logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+        throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+      });
+  } else {
+    if (tags.length > 0) {
+      return WRIAPI.put(`dataset/${datasetId}/vocabulary`,
+        {
+          knowledge_graph: {
+            tags,
+            application: process.env.APPLICATIONS,
+            env: process.env.API_ENV
+          }
+        },
+        { Authorization: token })
+        .then(response => WRISerializer(response.data))
+        .catch((response) => {
+          const { status, statusText } = response;
+          logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+          throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+        });
+    } else {
+      return WRIAPI.delete(`dataset/${datasetId}/vocabulary/knowledge_graph`,
+        {
+          headers: {
+            Authorization: token
+          },
+          params: {
+            application: process.env.APPLICATIONS,
+            env: process.env.API_ENV
+          }
+        })
+        .then(response => WRISerializer(response.data))
+        .catch((response) => {
+          const { status, statusText } = response;
+          logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+          throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+        });
     }
-  })
-    .then(response => response.json())
-    .then(jsonData => jsonData.data);
+  }
 };
 
 /**
@@ -122,7 +144,11 @@ export const countDatasetView = (datasetId, token, params = {
       },
       params
     }
-  );
+  ).catch((response) => {
+    const { status, statusText } = response;
+    logger.error(`Error in count dataset view ${datasetId}: ${status}: ${statusText}`);
+    throw new Error(`Error in count dataset view ${datasetId}: ${status}: ${statusText}`);
+  });;
 };
 
 /**
