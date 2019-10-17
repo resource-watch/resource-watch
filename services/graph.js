@@ -9,7 +9,7 @@ import { logger } from 'utils/logs';
  */
 export const fetchAllTags = (params = {
   env: process.env.API_ENV,
-  application: process.application.APPLICATIONS
+  application: process.env.APPLICATIONS
 }) => {
   logger.info('Fetch all tags');
   return WRIAPI.get('graph/query/list-concepts',
@@ -17,7 +17,7 @@ export const fetchAllTags = (params = {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params
     })
-    .then(response => WRISerializer(response.data))
+    .then(response => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching all tags: ${status}: ${statusText}`);
@@ -38,7 +38,7 @@ export const fetchInferredTags = (tags, params = {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params
     })
-    .then(response => WRISerializer(response.data))
+    .then(response => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching inferred tags: ${tags} ${status}: ${statusText}`);
@@ -51,7 +51,7 @@ export const fetchInferredTags = (tags, params = {
 */
 export const fetchDatasetTags = (datasetId, params = {
   env: process.env.API_ENV,
-  application: process.application.APPLICATIONS
+  application: process.env.APPLICATIONS
 }) => {
   logger.info(`Fetch dataset tags: ${datasetId}`);
   return WRIAPI.get(`dataset/${datasetId}/vocabulary`,

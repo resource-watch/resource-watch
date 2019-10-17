@@ -13,7 +13,8 @@ import Navigation from 'components/form/Navigation';
 import {
   fetchAllTags,
   fetchInferredTags,
-  fetchDatasetTags
+  fetchDatasetTags,
+  updateDatasetTags
 } from 'services/graph';
 
 const graphOptions = {
@@ -53,7 +54,7 @@ class TagsForm extends React.Component {
     fetchDatasetTags(this.props.dataset)
       .then((response) => {
         const knowledgeGraphVoc = response.find(elem => elem.id === 'knowledge_graph');
-        const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags
+        const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.tags
           : knowledgeGraphVoc;
         this.setState({
           selectedTags: datasetTags,
@@ -112,13 +113,13 @@ class TagsForm extends React.Component {
 
     if (selectedTags.length !== 0 || (savedTags && savedTags.length !== 0)) {
       this.setState({ loading: true });
-      this.graphService.updateDatasetTags(dataset, selectedTags, user.token,
+      updateDatasetTags(dataset, selectedTags, user.token,
         selectedTags && selectedTags.length > 0 && datasetHasTags)
         .then((response) => {
           toastr.success('Success', 'Tags updated successfully');
           this.setState({
-            savedTags: response[0] ? response[0].attributes.tags : [],
-            datasetHasTags: response[0] && response[0].attributes.tags.length > 0,
+            savedTags: response[0] ? response[0].tags : [],
+            datasetHasTags: response[0] && response[0].tags.length > 0,
             loading: false
           });
         })
@@ -186,6 +187,7 @@ class TagsForm extends React.Component {
       tags, selectedTags, inferredTags, graph, loadingDatasetTags,
       loadingAllTags, loadingInferredTags
     } = this.state;
+
     return (
       <form className="c-tags-form" onSubmit={this.handleSubmit}>
         <Spinner
@@ -208,12 +210,14 @@ class TagsForm extends React.Component {
         <h5>Inferred tags:</h5>
         <div className="inferred-tags">
           {inferredTags.map(tag =>
-            (<div
-              className="tag"
-              key={tag.id}
-            >
-              {tag.label}
-            </div>))}
+            (
+              <div
+                className="tag"
+                key={tag.id}
+              >
+                {tag.label}
+              </div>
+            ))}
         </div>
         <div className="graph-div">
           <Spinner
