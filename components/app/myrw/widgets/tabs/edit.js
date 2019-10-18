@@ -9,7 +9,8 @@ import { setDataset } from 'redactions/myrwdetail';
 
 // Services
 import WidgetService from 'services/WidgetService';
-import DatasetService from 'services/DatasetService';
+import { fetchWidget } from 'services/widget';
+import { fetchDataset } from 'services/dataset';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -40,47 +41,34 @@ const FORM_ELEMENTS = {
 class WidgetsEdit extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loading: true,
-      submitting: false,
-      widget: null,
-      caption: null,
-      name: null
-    };
-
     this.widgetService = new WidgetService(this.props.id,
       { apiURL: process.env.WRI_API_URL });
-
-    // ------------------- Bindings -----------------------
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.onUpdateWidget = this.onUpdateWidget.bind(this);
-    // ----------------------------------------------------
   }
 
-  componentDidMount() {
-    this.widgetService.fetchData()
+  state = {
+    loading: true,
+    submitting: false,
+    widget: null,
+    caption: null,
+    name: null
+  };
+
+  componentWillMount() {
+    const { id } = this.props;
+    fetchWidget(id)
       .then((data) => {
         this.setState({ widget: data });
-        return data.attributes.dataset;
+        return data.dataset;
       })
-      .then((datasetId) => {
-        const datasetService = new DatasetService(datasetId, {
-          apiURL: process.env.WRI_API_URL,
-          language: this.props.locale
-        });
-
-        return datasetService.fetchData('metadata')
+      .then(datasetId =>
+        fetchDataset(datasetId, { includes: 'metadata' })
           .then((dataset) => {
-            this.setState({ dataset });
-            const datasetName = dataset.attributes.metadata && dataset.attributes.metadata[0] &&
-              dataset.attributes.metadata[0].attributes.info &&
-              dataset.attributes.metadata[0].attributes.info.name ?
-              dataset.attributes.metadata[0].attributes.info.name : dataset.attributes.name;
+            const datasetName = dataset.metadata && dataset.metadata[0] &&
+              dataset.metadata[0].info &&
+              dataset.metadata[0].info.name ?
+              dataset.metadata[0].info.name : dataset.name;
             this.props.setDataset({ id: dataset.id, name: datasetName });
-          });
-      })
+          }))
       // TODO: handle the error in the UI
       .catch(err => toastr.error('Error', err))
       .then(() => this.setState({ loading: false }));
@@ -90,7 +78,7 @@ class WidgetsEdit extends React.Component {
     this.props.setDataset(null);
   }
 
-  async onSubmit(event) {
+  onSubmit = async (event) => {
     if (event) event.preventDefault();
 
     this.setState({ loading: true });
@@ -151,7 +139,7 @@ class WidgetsEdit extends React.Component {
    * button of the widget editor
    *
    */
-  onUpdateWidget() {
+  onUpdateWidget = () => {
     // We can't directly call this.onSubmit otherwise the form won't be
     // validated. We can't execute this.form.submit either because the
     // validation is not always triggered (see MDN). One solution is as
@@ -170,7 +158,7 @@ class WidgetsEdit extends React.Component {
       .catch(() => ({}));
   }
 
-  handleChange(value) {
+  handleChange = (value) => {
     const newWidgetAtts = Object.assign({}, this.state.widget.attributes, value);
     const newWidgetObj = Object.assign({}, this.state.widget, { attributes: newWidgetAtts });
     this.setState({ widget: newWidgetObj });
@@ -251,8 +239,6 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({
-  setDataset: dataset => dispatch(setDataset(dataset))
-});
+const mapDispatchToProps = dispatch => ({ setDataset: dataset => dispatch(setDataset(dataset)) });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsEdit);

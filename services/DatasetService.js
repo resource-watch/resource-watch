@@ -67,42 +67,6 @@ export default class DatasetService {
       .then(body => WRISerializer(body));
   }
 
-  getSimilarDatasets(datasetIds, withAncestors = true) {
-    const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
-    return fetch(
-      `${this.opts.apiURL}/graph/query/${endpoint}/?dataset=${datasetIds}&published=true&env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}&limit=6`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-    )
-      .then((response) => {
-        if (response.status >= 400) throw new Error(response.statusText);
-        return response.json();
-      })
-      .then(jsonData => jsonData.data);
-  }
-
-  /**
-   * Fetch several datasets at once
-   * @static
-   * @param {string[]} datasetIDs - List of dataset IDs
-   * @param {string} language - Two-letter locale
-   * @param {string} [includes=''] - List of entities to fetch
-   * (string of values separated with commas)
-   * @param {string[]} [applications=[process.env.APPLICATIONS]] List of applications
-   * @returns {object[]}
-   */
-  static getDatasets(datasetIDs, language, includes = '', applications = [process.env.APPLICATIONS]) {
-    return fetch(
-      `${process.env.WRI_API_URL}/dataset/?ids=${datasetIDs}&language=${language}&includes=${includes}&env=${process.env.API_ENV}&application=${applications.join(',')}&page[size]=999`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-
-    )
-      .then((response) => {
-        if (!response.ok) throw new Error(response.statusText);
-        return response.json();
-      })
-      .then(jsonData => jsonData.data);
-  }
-
   searchDatasetsByConcepts(topics, geographies, dataTypes) {
     let counter = 0;
     const topicsSt = topics ? topics.map((val, index) => `concepts[${counter}][${index}]=${val}`).join('&') : null;

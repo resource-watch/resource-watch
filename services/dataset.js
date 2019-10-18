@@ -13,8 +13,7 @@ import { logger } from 'utils/logs';
  * @returns {Object[]} array of serialized datasets.
  */
 export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
-  logger.info('fetches datasets');
-
+  logger.info('Fetch datasets');
   return WRIAPI.get('/dataset', {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -68,7 +67,7 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
  */
 export const fetchDataset = (id, params = {}) => {
   if (!id) throw Error('dataset id is mandatory to perform this fetching.');
-  logger.info(`Fetches dataset: ${id}`);
+  logger.info(`Fetch dataset: ${id}`);
 
   return WRIAPI.get(`/dataset/${id}`, {
     headers: {
@@ -112,7 +111,7 @@ export const fetchDataset = (id, params = {}) => {
  * @returns {Object} fetch response.
  */
 export const deleteDataset = (id, token) => {
-  logger.info(`deletes dataset: ${id}`);
+  logger.info(`Delete dataset: ${id}`);
 
   return WRIAPI.delete(`/dataset/${id}`, {
     headers: {

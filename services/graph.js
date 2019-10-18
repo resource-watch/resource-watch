@@ -189,10 +189,36 @@ export const fetchMostFavoritedDatasets = (params = {
     });
 };
 
+export const fetchSimilarDatasets = (datasetIds, withAncestors = true, params = {
+  published: true,
+  env: process.env.API_ENV,
+  application: process.env.APPLICATIONS,
+  limit: 6
+}) => {
+  logger.info('Fetch similar datasets');
+  const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
+  return WRIAPI.get(
+    `graph/query/${endpoint}`,
+    {
+      params: {
+        ...params,
+        dataset: datasetIds.join(',')
+      },
+      headers: { 'Upgrade-Insecure-Requests': 1 }
+    }
+  )
+    .then(response => response.data.data)
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching similart datasets: ${datasetIds} ${status}: ${statusText}`);
+      throw new Error(`Error fetching similart datasets: ${datasetIds} ${status}: ${statusText}`);
+    });
+};
 
 export default {
   fetchMostViewedDatasets,
   fetchMostFavoritedDatasets,
+  fetchSimilarDatasets,
   countDatasetView,
   updateDatasetTags,
   fetchDatasetTags,
