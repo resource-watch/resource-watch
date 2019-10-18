@@ -80,7 +80,7 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
         application: process.env.APPLICATIONS,
         env: process.env.API_ENV
       },
-      { Authorization: token })
+      { headers: { Authorization: token } })
       .then(response => WRISerializer(response.data))
       .catch((response) => {
         const { status, statusText } = response;
@@ -97,7 +97,7 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
           env: process.env.API_ENV
         }
       },
-      { Authorization: token })
+      { headers: { Authorization: token } })
       .then(response => WRISerializer(response.data))
       .catch((response) => {
         const { status, statusText } = response;
