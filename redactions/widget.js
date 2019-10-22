@@ -2,7 +2,7 @@ import 'isomorphic-fetch';
 import isEmpty from 'lodash/isEmpty';
 
 // Services
-import DatasetService from 'services/DatasetService';
+import { fetchDataset as fetchDatasetService } from 'services/dataset';
 import RasterService from 'services/raster';
 import { fetchLayer } from 'services/layer';
 import { deleteFavourite, createFavourite, fetchFavourites } from 'services/favourites';
@@ -105,7 +105,8 @@ export default function (state = initialState, action) {
     }
 
     case GET_WIDGET_FAVORITE: {
-      return Object.assign({}, state, { favourite: Object.assign({}, state.favourite, action.payload) });
+      return Object.assign({}, state,
+        { favourite: Object.assign({}, state.favourite, action.payload) });
     }
 
     default:
@@ -124,18 +125,9 @@ export default function (state = initialState, action) {
  * @param {string} datasetId
  * @returns {Promise<void>}
  */
-function fetchDataset(datasetId) {
-  return (dispatch, getState) => {
-    const state = getState();
-    const datasetService = new DatasetService(datasetId, {
-      apiURL: process.env.WRI_API_URL,
-      language: state.common.locale
-    });
-
-    return datasetService.fetchData('metadata')
-      .then(dataset => dispatch({ type: SET_WIDGET_DATASET, payload: dataset }));
-  };
-}
+const fetchDataset = datasetId =>
+  dispatch => fetchDatasetService(datasetId, { includes: 'metadata' })
+    .then(dataset => dispatch({ type: SET_WIDGET_DATASET, payload: dataset }));
 
 /**
  * Get the information of band of a raster dataset
@@ -319,7 +311,7 @@ export function setIfFavorited(widgetId, toFavorite) {
         .then(res => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: res.data.id } }))
         .catch(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }));
     } else {
-      const id = widget.favourite.id;
+      const { favourite: { id } } = widget;
 
       deleteFavourite(id, user.token)
         .then(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }))
