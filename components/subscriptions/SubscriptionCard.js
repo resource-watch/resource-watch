@@ -29,7 +29,7 @@ class SubscriptionCard extends React.Component {
     loading: false,
     dataset: null,
     country: null,
-    type: this.props.subscription.attributes.datasetsQuery[0].type
+    type: this.props.subscription.datasetsQuery[0].type
   };
 
   componentDidMount() {
@@ -38,13 +38,13 @@ class SubscriptionCard extends React.Component {
 
   loadData() {
     const { subscription } = this.props;
-    const datasetId = subscription.attributes.datasetsQuery[0].id;
+    const datasetId = subscription.datasetsQuery[0].id;
     this.setState({ loading: true });
     fetchDataset(datasetId)
       .then((response) => {
         const dataset = response;
         this.setState({ dataset });
-        const paramsObj = subscription.attributes.params;
+        const paramsObj = subscription.params;
 
         if (paramsObj.geostore) {
           fetchGeostore(paramsObj.geostore)
@@ -54,9 +54,9 @@ class SubscriptionCard extends React.Component {
                 id: `${dataset.id}-${obj.id}`,
                 provider: 'geojson',
                 layerConfig: {
-                  data: obj.attributes.geojson,
+                  data: obj.geojson,
                   fitBounds: true,
-                  bounds: obj.attributes.bbox
+                  bounds: obj.bbox
                 }
               };
 
@@ -128,7 +128,7 @@ class SubscriptionCard extends React.Component {
   }
 
   handleGoToDataset = () => {
-    Router.pushRoute('explore_detail', { id: this.props.subscription.attributes.datasets[0] });
+    Router.pushRoute('explore_detail', { id: this.props.subscription.datasets[0] });
   }
 
   render() {
@@ -141,7 +141,7 @@ class SubscriptionCard extends React.Component {
     } = this.state;
 
     const { subscription } = this.props;
-    const { confirmed, name } = subscription.attributes;
+    const { confirmed, name } = subscription;
 
     return (
       <div className="c-subscription-card">
@@ -166,7 +166,7 @@ class SubscriptionCard extends React.Component {
               </div>
               <div className="dataset-container">
                 <h5>Dataset</h5>
-                {dataset && dataset.attributes.name}
+                {dataset && dataset.name}
               </div>
               <div className="type-container">
                 <h5>Type</h5>

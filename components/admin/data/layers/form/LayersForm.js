@@ -147,7 +147,7 @@ class LayersForm extends PureComponent {
       if (valid) {
         // Start the submitting
         this.setState({ submitting: true });
-        this.propssetLayerInteractionError(false);
+        this.props.setLayerInteractionError(false);
 
         if (cartoLayer.length) {
           // If we have carto layers, make sure they work

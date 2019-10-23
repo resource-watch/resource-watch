@@ -7,15 +7,16 @@ import { logger } from 'utils/logs';
 /**
  * Get all tags
  */
-export const fetchAllTags = (params = {
-  env: process.env.API_ENV,
-  application: process.env.APPLICATIONS
-}) => {
+export const fetchAllTags = (params = {}) => {
   logger.info('Fetch all tags');
   return WRIAPI.get('graph/query/list-concepts',
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
-      params
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      }
     })
     .then(response => response.data.data)
     .catch((response) => {
@@ -28,15 +29,16 @@ export const fetchAllTags = (params = {
 /**
  * Get inferred tags
  */
-export const fetchInferredTags = (tags, params = {
-  application: process.env.APPLICATIONS,
-  env: process.env.API_ENV
-}) => {
+export const fetchInferredTags = (tags, params = {}) => {
   logger.info('Fetch inferred tags');
   return WRIAPI.get(`graph/query/concepts-inferred?concepts=${tags}`,
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
-      params
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      }
     })
     .then(response => response.data.data)
     .catch((response) => {
@@ -49,15 +51,16 @@ export const fetchInferredTags = (tags, params = {
 /**
 * Get dataset tags
 */
-export const fetchDatasetTags = (datasetId, params = {
-  env: process.env.API_ENV,
-  application: process.env.APPLICATIONS
-}) => {
+export const fetchDatasetTags = (datasetId, params = {}) => {
   logger.info(`Fetch dataset tags: ${datasetId}`);
   return WRIAPI.get(`dataset/${datasetId}/vocabulary`,
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
-      params
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      }
     })
     .then(response => WRISerializer(response.data))
     .catch((response) => {
@@ -127,16 +130,17 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
  * @param {string} [token] User token
  * @returns {Promise<void>}
  */
-export const countDatasetView = (datasetId, token, params = {
-  env: process.env.API_ENV,
-  application: process.env.APPLICATIONS
-}) => {
+export const countDatasetView = (datasetId, token, params = {}) => {
   logger.info('Count dataset view');
   return WRIAPI.post(`graph/dataset/${datasetId}/visited`,
     {},
     {
       headers: { Authorization: token },
-      params
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      }
     })
     .catch((response) => {
       const { status, statusText } = response;
@@ -149,14 +153,15 @@ export const countDatasetView = (datasetId, token, params = {
  * Get the list of most viewed datasets
  * @returns {Promise<string[]>} List of sorted ids
  */
-export const fetchMostViewedDatasets = (params = {
-  env: process.env.API_ENV,
-  application: process.env.APPLICATIONS
-}) => {
+export const fetchMostViewedDatasets = (params = {}) => {
   logger.info('Fetch most viewed datasets');
   return WRIAPI.get('graph/query/most-viewed',
     {
-      params,
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      },
       headers: { 'Upgrade-Insecure-Requests': 1 }
     })
     .then(response => WRISerializer(response.data))
@@ -171,14 +176,15 @@ export const fetchMostViewedDatasets = (params = {
  * Get the list of most favourited datasets
  * @returns {Promise<string[]>} List of sorted ids
  */
-export const fetchMostFavoritedDatasets = (params = {
-  env: process.env.API_ENV,
-  application: process.env.APPLICATIONS
-}) => {
+export const fetchMostFavoritedDatasets = (params = {}) => {
   logger.info('Fetch most favorited datasets');
   return WRIAPI.get('graph/query/most-liked-datasets',
     {
-      params,
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      },
       headers: { 'Upgrade-Insecure-Requests': 1 }
     })
     .then(response => WRISerializer(response.data))
@@ -189,20 +195,19 @@ export const fetchMostFavoritedDatasets = (params = {
     });
 };
 
-export const fetchSimilarDatasets = (datasetIds, withAncestors = true, params = {
-  published: true,
-  env: process.env.API_ENV,
-  application: process.env.APPLICATIONS,
-  limit: 6
-}) => {
+export const fetchSimilarDatasets = (datasetIds, withAncestors = true, params = {}) => {
   logger.info('Fetch similar datasets');
   const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
   return WRIAPI.get(
     `graph/query/${endpoint}`,
     {
       params: {
-        ...params,
-        dataset: datasetIds.join(',')
+        dataset: datasetIds.join(','),
+        published: true,
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        limit: 6,
+        ...params
       },
       headers: { 'Upgrade-Insecure-Requests': 1 }
     }
