@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 // Services
 import WidgetService from 'services/WidgetService';
-import DatasetsService from 'services/DatasetsService';
+import { fetchDatasets } from 'services/dataset';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -44,8 +44,7 @@ class WidgetsNew extends React.Component {
   static propTypes = {
     dataset: PropTypes.string,
     // Store
-    user: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired
+    user: PropTypes.object.isRequired
   };
 
   static defaultProps = { dataset: null };
@@ -65,7 +64,6 @@ class WidgetsNew extends React.Component {
 
     // Services
     this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
-    this.datasetsService = new DatasetsService({ language: props.locale });
   }
 
   componentDidMount() {
@@ -115,7 +113,7 @@ class WidgetsNew extends React.Component {
   }
 
   loadDatasets() {
-    this.datasetsService.fetchAllData({ filters: { published: true }, includes: 'metadata' }).then((response) => {
+    fetchDatasets({ published: true, includes: 'metadata' }).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
@@ -134,26 +132,25 @@ class WidgetsNew extends React.Component {
       });
     });
 
-    this.datasetsService.fetchAllData(
-      { filters: { userId: this.props.user.id }, includes: 'metadata' }
-    ).then((response) => {
-      this.setState({
-        datasets: [...this.state.datasets, ...response.map((dataset) => {
-          const metadata = dataset.metadata[0];
-          return ({
-            id: dataset.id,
-            type: dataset.type,
-            provider: dataset.provider,
-            tableName: dataset.tableName,
-            label: metadata && metadata.attributes.info
-              ? metadata.attributes.info.name
-              : dataset.name,
-            value: dataset.id
-          });
-        })],
-        loadingUserDatasets: false
+    fetchDatasets({ userId: this.props.user.id, includes: 'metadata' })
+      .then((response) => {
+        this.setState({
+          datasets: [...this.state.datasets, ...response.map((dataset) => {
+            const metadata = dataset.metadata[0];
+            return ({
+              id: dataset.id,
+              type: dataset.type,
+              provider: dataset.provider,
+              tableName: dataset.tableName,
+              label: metadata && metadata.attributes.info
+                ? metadata.attributes.info.name
+                : dataset.name,
+              value: dataset.id
+            });
+          })],
+          loadingUserDatasets: false
+        });
       });
-    });
   }
 
   handleChange = (value) => {
@@ -260,9 +257,6 @@ class WidgetsNew extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.user,
-  locale: state.common.locale
-});
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(WidgetsNew);

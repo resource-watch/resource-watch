@@ -140,6 +140,34 @@ export const deleteDataset = (id, token) => {
     });
 };
 
+export const createDataset = (token, params = {}, headers) => {
+  logger.info('Create dataset');
+
+  return WRIAPI.post('dataset',
+    params,
+    { headers: { Authorization: token, ...headers } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+
+      logger.error(`Error creating dataset ${status}: ${statusText}`);
+      throw new Error(`Error creating dataset ${status}: ${statusText}`);
+    });
+};
+
+export const updateDataset = (id, token, params = {}) => {
+  logger.info(`Update dataset: ${id}`);
+
+  return WRIAPI.patch(`dataset/${id}`, params, { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+
+      logger.error(`Error updating dataset ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error updating dataset ${id}: ${status}: ${statusText}`);
+    });
+};
+
 /**
  * Updates or creates a metadata object
  * This methods requires authentication.
@@ -182,6 +210,8 @@ export default {
   fetchDatasets,
   fetchDataset,
   deleteDataset,
+  createDataset,
+  updateDataset,
   saveMetadata
 };
 
