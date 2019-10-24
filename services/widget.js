@@ -142,10 +142,10 @@ export const deleteWidget = (widgetId, datasetId, token) => {
 };
 
 /**
- * fetches data for a specific widget.
+ * Updates data for the widget provided.
  *
  * @param {Object} widget - widget data.
- * @param {string} datasetId - params sent to the API.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
  * @param {string} token - user's token.
  * @returns {Object} serialized specified widget.
  */
@@ -158,11 +158,63 @@ export const updateWidget = (widget, datasetId, token) => {
       logger.error(`Error updating widget ${widget.id}: ${status}: ${statusText}`);
       throw new Error(`Error updating widget ${widget.id}: ${status}: ${statusText}`);
     });
-}
+};
+
+/**
+ * Updates the metadata for the widget provided.
+ *
+ * @param {Object} widget - widget data.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
+ * @param {Object} metadata - metadata to be updated.
+ * @param {string} token - user's token.
+ * @returns {Object} serialized specified widget.
+ */
+export const updateWidgetMetadata = (widget, datasetId, metadata, token) => {
+  logger.info(`Update widget metadata: ${widget.id}`);
+  return WRIAPI.patch(`dataset/${datasetId}/widget/${widget.id}/metadata`,
+    {
+      ...metadata,
+      application: widget.application.join(',')
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating widget metadata ${widget.id}: ${status}: ${statusText}`);
+      throw new Error(`Error updating widget metadata ${widget.id}: ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Creates the metadata for the widget provided.
+ *
+ * @param {Object} widget - widget data.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
+ * @param {Object} metadata - metadata to be updated.
+ * @param {string} token - user's token.
+ * @returns {Object} serialized specified widget.
+ */
+export const createWidgetMetadata = (widget, datasetId, metadata, token) => {
+  logger.info(`Update widget metadata: ${widget.id}`);
+  return WRIAPI.post(`dataset/${datasetId}/widget/${widget.id}/metadata`,
+    {
+      ...metadata,
+      application: widget.application.join(',')
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating widget metadata ${widget.id}: ${status}: ${statusText}`);
+      throw new Error(`Error creating widget metadata ${widget.id}: ${status}: ${statusText}`);
+    });
+};
 
 export default {
   fetchWidgets,
   fetchWidget,
   updateWidget,
+  updateWidgetMetadata,
+  createWidgetMetadata,
   deleteWidget
 };

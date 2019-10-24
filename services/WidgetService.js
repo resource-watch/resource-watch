@@ -64,24 +64,6 @@ export default class WidgetService {
       .then(response => response.json());
   }
 
-
-  updateUserWidgetMetadata(widget, datasetId, metadata, token, isPatch) {
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}/metadata`, {
-      method: isPatch ? 'PATCH' : 'POST',
-      body: JSON.stringify({
-        ...metadata,
-        ...!isPatch && { env: process.env.API_ENV },
-        ...isPatch && { application: widget.application.join(',') },
-        ...!isPatch && { application: process.env.APPLICATIONS }
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    })
-      .then(response => response.json());
-  }
-
   getUserWidgetCollections(user) {
     return fetch(
       `${this.opts.apiURL}/vocabulary/widget_collections?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,

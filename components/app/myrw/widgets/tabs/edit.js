@@ -10,7 +10,9 @@ import { setDataset } from 'redactions/myrwdetail';
 // Services
 import {
   fetchWidget,
-  updateWidget
+  updateWidget,
+  updateWidgetMetadata,
+  createWidgetMetadata
 } from 'services/widget';
 import { fetchDataset } from 'services/dataset';
 
@@ -107,18 +109,23 @@ class WidgetsEdit extends React.Component {
     const hasMetadata = await this.widgetService.userWidgetMetadata(widgetObj, dataset, user.token);
 
     updateWidget(widgetObj, dataset, user.token)
-      .then((response) => {
-        if (response.errors) {
-          const errorMessage = response.errors[0].detail;
-          this.setState({ loading: false });
-          toastr.error('Error', errorMessage);
-        } else {
-          this.widgetService.updateUserWidgetMetadata(
+      .then(() => {
+        if (hasMetadata.data.length > 0) {
+          updateWidgetMetadata(
             widgetObj,
             dataset,
             metadata,
-            user.token,
-            hasMetadata.data.length > 0
+            user.token
+          ).then(() => {
+            this.setState({ loading: false });
+            toastr.success('Success', 'Widget updated successfully!');
+          });
+        } else {
+          createWidgetMetadata(
+            widgetObj,
+            dataset,
+            metadata,
+            user.token
           ).then(() => {
             this.setState({ loading: false });
             toastr.success('Success', 'Widget updated successfully!');
