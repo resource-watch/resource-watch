@@ -14,12 +14,11 @@ import Button from 'components/ui/Button';
 import Spinner from 'components/ui/Spinner';
 
 // Services
-import WidgetService from 'services/WidgetService';
+import { createWidget } from 'services/widget';
 import WidgetsService from 'services/WidgetsService';
 
 const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
     const { elements } = this;
     Object.keys(elements).forEach((k) => {
@@ -54,13 +53,7 @@ class SaveWidgetModal extends React.Component {
       caption: widgetEditor.caption
     };
 
-    // Services
-    this.widgetService = new WidgetService(null, {
-      apiURL: process.env.WRI_API_URL
-    });
-    this.widgetsService = new WidgetsService({
-      authorization: props.user.token
-    });
+    this.widgetsService = new WidgetsService({ authorization: props.user.token });
 
     // ------------------- Bindings -----------------------
     this.onSubmit = this.onSubmit.bind(this);
@@ -75,9 +68,7 @@ class SaveWidgetModal extends React.Component {
     const { description, name, caption } = this.state;
     const { dataset, getWidgetConfig, user } = this.props;
 
-    this.setState({
-      loading: true
-    });
+    this.setState({ loading: true });
 
     getWidgetConfig()
       .then((widgetConfig) => {
@@ -90,11 +81,9 @@ class SaveWidgetModal extends React.Component {
           { widgetConfig }
         );
 
-        this.widgetService.saveUserWidget(widgetObj, dataset, user.token)
+        createWidget(widgetObj, dataset, user.token)
           .then((response) => {
-            if (response.errors) {
-              throw new Error(response.errors[0].detail);
-            } else if (caption !== '') {
+            if (caption !== '') {
               const { data } = response;
               const { attributes, id } = data;
               this.widgetsService.saveMetadata({

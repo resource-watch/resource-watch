@@ -7,7 +7,7 @@ import { Router } from 'routes';
 import { connect } from 'react-redux';
 
 // Services
-import WidgetService from 'services/WidgetService';
+import { createWidget } from 'services/widget';
 import { fetchDatasets } from 'services/dataset';
 
 // Components
@@ -49,24 +49,17 @@ class WidgetsNew extends React.Component {
 
   static defaultProps = { dataset: null };
 
-  constructor(props) {
-    super(props);
+  state = {
+    loading: false,
+    loadingPublishedDatasets: true,
+    loadingUserDatasets: true,
+    submitting: false,
+    datasets: [],
+    selectedDataset: this.props.dataset,
+    widget: {}
+  };
 
-    this.state = {
-      loading: false,
-      loadingPublishedDatasets: true,
-      loadingUserDatasets: true,
-      submitting: false,
-      datasets: [],
-      selectedDataset: props.dataset,
-      widget: {}
-    };
-
-    // Services
-    this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     this.loadDatasets();
   }
 
@@ -89,16 +82,10 @@ class WidgetsNew extends React.Component {
         { widgetConfig }
       );
 
-      this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
-        .then((response) => {
-          if (response.errors) {
-            const errorMessage = response.errors[0].detail;
-            this.setState({ loading: false });
-            toastr.error('Error', errorMessage);
-          } else {
-            Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
-            toastr.success('Success', 'Widget created successfully!');
-          }
+      createWidget(widgetObj, selectedDataset, user.token)
+        .then(() => {
+          Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+          toastr.success('Success', 'Widget created successfully!');
         }).catch((err) => {
           this.setState({ loading: false });
           toastr.err('Error', err);

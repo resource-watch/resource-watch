@@ -161,6 +161,31 @@ export const updateWidget = (widget, datasetId, token) => {
 };
 
 /**
+ * Creates a new widget.
+ *
+ * @param {Object} widget - widget data.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
+ * @param {string} token - user's token.
+ * @returns {Object} serialized widget.
+ */
+export const createWidget = (widget, datasetId, token) => {
+  logger.info('Create widget');
+  return WRIAPI.post(`dataset/${datasetId}/widget`,
+    {
+      application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
+      ...widget
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating widget ${status}: ${statusText}`);
+      throw new Error(`Error creating widget ${status}: ${statusText}`);
+    });
+};
+
+/**
  * Fetches the metadata associated to the widget provided.
  *
  * @param {string} widgetId - widget data.
@@ -242,6 +267,7 @@ export default {
   fetchWidgets,
   fetchWidget,
   updateWidget,
+  createWidget,
   fetchWidgetMetadata,
   updateWidgetMetadata,
   createWidgetMetadata,
