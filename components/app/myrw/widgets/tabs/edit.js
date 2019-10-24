@@ -12,7 +12,8 @@ import {
   fetchWidget,
   updateWidget,
   updateWidgetMetadata,
-  createWidgetMetadata
+  createWidgetMetadata,
+  fetchWidgetMetadata
 } from 'services/widget';
 import { fetchDataset } from 'services/dataset';
 
@@ -106,7 +107,7 @@ class WidgetsEdit extends React.Component {
       { widgetConfig }
     );
 
-    const hasMetadata = await this.widgetService.userWidgetMetadata(widgetObj, dataset, user.token);
+    const hasMetadata = await fetchWidgetMetadata(widgetObj.id, dataset, user.token);
 
     updateWidget(widgetObj, dataset, user.token)
       .then(() => {

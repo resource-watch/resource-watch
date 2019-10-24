@@ -161,6 +161,34 @@ export const updateWidget = (widget, datasetId, token) => {
 };
 
 /**
+ * Fetches the metadata associated to the widget provided.
+ *
+ * @param {string} widgetId - widget data.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
+ * @param {string} token - user's token.
+ * @param {Object} params - request parameters.
+ * @returns {Object} serialized widget metadata.
+ */
+export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => {
+  logger.info(`Update widget metadata: ${widgetId}`);
+  return WRIAPI.fetch(`dataset/${datasetId}/widget/${widgetId}/metadata`,
+    {
+      headers: { Authorization: token },
+      params: {
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV,
+        ...params
+      }
+    })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching widget metadata ${widgetId}: ${status}: ${statusText}`);
+      throw new Error(`Error fetching widget metadata ${widgetId}: ${status}: ${statusText}`);
+    });
+};
+
+/**
  * Updates the metadata for the widget provided.
  *
  * @param {Object} widget - widget data.
@@ -214,6 +242,7 @@ export default {
   fetchWidgets,
   fetchWidget,
   updateWidget,
+  fetchWidgetMetadata,
   updateWidgetMetadata,
   createWidgetMetadata,
   deleteWidget
