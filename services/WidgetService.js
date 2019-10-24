@@ -52,18 +52,6 @@ export default class WidgetService {
       .then(response => response.json());
   }
 
-  updateUserWidget(widget, datasetId, token) {
-    return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify(widget),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
-      }
-    })
-      .then(response => response.json());
-  }
-
   userWidgetMetadata(widget, datasetId, token) {
     return fetch(`${this.opts.apiURL}/dataset/${datasetId}/widget/${widget.id}/metadata?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
       method: 'GET',
