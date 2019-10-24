@@ -97,29 +97,4 @@ export default class WidgetsService {
       });
     });
   }
-
-  /**
-  * This method freezes a widget and returns the URL of the corresponding JSON
-  * file that was created on the cloud
-  */
-  freezeWidget(sqlQuery, freeze = true) {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/query?sql=${sqlQuery}&freeze=${freeze}`,
-        headers: [{
-          key: 'Authorization',
-          value: this.opts.authorization
-        }, {
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: (response) => {
-          resolve(response);
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
 }

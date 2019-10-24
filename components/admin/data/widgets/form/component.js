@@ -10,9 +10,9 @@ import Step1 from 'components/admin/data/widgets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import WidgetsService from 'services/WidgetsService';
 import { fetchDatasets } from 'services/dataset';
 import { fetchWidget, deleteWidget } from 'services/widget';
+import { fetchQuery } from 'services/query';
 
 // utils
 import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
@@ -38,23 +38,17 @@ class WidgetForm extends PureComponent {
     showEditor: true
   };
 
-  constructor(props) {
-    super(props);
+  state = Object.assign({}, STATE_DEFAULT, {
+    id: this.props.id,
+    loading: !!this.props.id,
+    form: {
+      ...STATE_DEFAULT.form,
+      dataset: this.props.dataset
+    },
+    mode: 'editor'
+  });
 
-    this.state = Object.assign({}, STATE_DEFAULT, {
-      id: props.id,
-      loading: !!props.id,
-      form: {
-        ...STATE_DEFAULT.form,
-        dataset: props.dataset
-      },
-      mode: 'editor'
-    });
-
-    this.service = new WidgetsService({ authorization: props.authorization });
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     const { locale } = this.props;
     const { id } = this.state;
 
@@ -161,7 +155,7 @@ class WidgetForm extends PureComponent {
               datasetObj.slug
             ).then((dataURL) => {
               const sqlSt = dataURL.split('sql=')[1];
-              this.service.freezeWidget(sqlSt).then((resp) => {
+              fetchQuery(sqlSt, { freeze: true }).then((resp) => {
                 const { url } = resp;
                 formObj.queryUrl = url;
                 formObj.widgetConfig.data = [

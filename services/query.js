@@ -10,7 +10,7 @@ export const fetchQuery = (token, sql, params = {}) => {
     return null;
   }
 
-  return WRIAPI.get('/query', {
+  return WRIAPI.get('query', {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token
