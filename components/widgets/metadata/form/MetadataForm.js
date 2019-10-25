@@ -20,6 +20,7 @@ class MetadataForm extends React.Component {
   static propTypes = {
     widget: PropTypes.string.isRequired,
     authorization: PropTypes.string.isRequired,
+    application: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired
   };
 
@@ -28,7 +29,10 @@ class MetadataForm extends React.Component {
     columns: [],
     loading: !!this.props.widget,
     loadingColumns: true,
-    form: STATE_DEFAULT.form,
+    form: Object.assign({}, STATE_DEFAULT.form, {
+      application: this.props.application,
+      authorization: this.props.authorization
+    }),
     dataset: null
   });
 
