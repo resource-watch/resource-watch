@@ -39,7 +39,7 @@ class MetadataForm extends React.Component {
         .then(({ metadata, dataset }) => {
           this.setState({
             form: (metadata && metadata.length) ?
-              this.setFormFromParams(metadata[0].attributes) :
+              this.setFormFromParams(metadata[0]) :
               this.state.form,
             metadata,
             dataset,
@@ -77,8 +77,8 @@ class MetadataForm extends React.Component {
 
         // Check if the metadata alerady exists
         const thereIsMetadata = Boolean(metadata.find((m) => {
-          const hasLang = m.attributes.language === form.language;
-          const hasApp = m.attributes.application === form.application;
+          const hasLang = m.language === form.language;
+          const hasApp = m.application === form.application;
 
           return hasLang && hasApp;
         }));
