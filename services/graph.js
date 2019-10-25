@@ -202,11 +202,9 @@ export const fetchSimilarDatasets = (datasetIds, withAncestors = true, params = 
     `graph/query/${endpoint}`,
     {
       params: {
-        dataset: datasetIds.join(','),
-        published: true,
+        dataset: datasetIds,
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        limit: 6,
         ...params
       },
       headers: { 'Upgrade-Insecure-Requests': 1 }
