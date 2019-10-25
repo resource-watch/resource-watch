@@ -14,7 +14,7 @@ const defaultThumbnailTheme = getVegaTheme(true);
 
 class DatasetWidgetChart extends React.Component {
   static propTypes = {
-    widget: PropTypes.object,
+    widget: PropTypes.object.isRequired,
     mode: PropTypes.string.isRequired
   };
 
@@ -49,10 +49,10 @@ class DatasetWidgetChart extends React.Component {
   render() {
     const { mode, widget } = this.props;
 
-    const themeObj = mode === 'thumbnail' ? defaultThumbnailTheme : defaultTheme;
+    const themeObj = mode === 'grid' ? defaultThumbnailTheme : defaultTheme;
     const classname = classnames({
       'c-widget-chart': true,
-      '-thumbnail': (mode === 'thumbnail')
+      [`-${mode}`]: mode === 'grid'
     });
 
     if (this.state.error) {
@@ -70,7 +70,7 @@ class DatasetWidgetChart extends React.Component {
         <VegaChart
           data={widget.widgetConfig}
           theme={themeObj}
-          showLegend={mode !== 'thumbnail'}
+          showLegend={mode !== 'grid'}
           reloadOnResize
           toggleLoading={this.triggerToggleLoading}
           getForceUpdate={(func) => { this.forceChartUpdate = func; }}

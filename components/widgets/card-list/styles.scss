@@ -1,0 +1,9 @@
+@import 'css/settings';
+
+.c-widget-list {
+  .card-container {
+    display: flex;
+    min-height: 310px;
+    margin: $space * 4 0 0 0;
+  }
+}
