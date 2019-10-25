@@ -24,7 +24,7 @@ class WidgetActionsTooltip extends PureComponent {
   }
 
   triggerMouseDown = (e) => {
-    const el = document.querySelector('.c-tooltip');
+    const el = document.querySelector('.c-rc-tooltip');
     const clickOutside = el && el.contains && !el.contains(e.target);
     if (clickOutside) this.props.toggleTooltip(false);
   };
