@@ -222,44 +222,42 @@ export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => 
  * @param {string} token - user's token.
  * @returns {Object} serialized specified widget.
  */
-export const updateWidgetMetadata = (widget, datasetId, metadata, token) => {
-  logger.info(`Update widget metadata: ${widget.id}`);
-  return WRIAPI.patch(`dataset/${datasetId}/widget/${widget.id}/metadata`,
-    {
-      ...metadata,
-      application: widget.application.join(',')
-    },
+export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
+  logger.info(`Update widget metadata: ${widgetId}`);
+  return WRIAPI.patch(`dataset/${datasetId}/widget/${widgetId}/metadata`,
+    metadata,
     { headers: { Authorization: token } })
     .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error updating widget metadata ${widget.id}: ${status}: ${statusText}`);
-      throw new Error(`Error updating widget metadata ${widget.id}: ${status}: ${statusText}`);
+      logger.error(`Error updating widget metadata ${widgetId}: ${status}: ${statusText}`);
+      throw new Error(`Error updating widget metadata ${widgetId}: ${status}: ${statusText}`);
     });
 };
 
 /**
  * Creates the metadata for the widget provided.
  *
- * @param {Object} widget - widget data.
+ * @param {string} widgetId - widget id.
  * @param {string} datasetId - Dataset ID the widget belongs to.
  * @param {Object} metadata - metadata to be updated.
  * @param {string} token - user's token.
  * @returns {Object} serialized specified widget.
  */
-export const createWidgetMetadata = (widget, datasetId, metadata, token) => {
-  logger.info(`Update widget metadata: ${widget.id}`);
-  return WRIAPI.post(`dataset/${datasetId}/widget/${widget.id}/metadata`,
+export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
+  logger.info(`Update widget metadata: ${widgetId}`);
+  return WRIAPI.post(`dataset/${datasetId}/widget/${widgetId}/metadata`,
     {
       ...metadata,
-      application: widget.application.join(',')
+      application: process.env.APPLICATIONS,
+      env: process.env.API_ENV
     },
     { headers: { Authorization: token } })
     .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error creating widget metadata ${widget.id}: ${status}: ${statusText}`);
-      throw new Error(`Error creating widget metadata ${widget.id}: ${status}: ${statusText}`);
+      logger.error(`Error creating widget metadata ${widgetId}: ${status}: ${statusText}`);
+      throw new Error(`Error creating widget metadata ${widgetId}: ${status}: ${statusText}`);
     });
 };
 

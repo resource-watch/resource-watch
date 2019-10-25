@@ -123,7 +123,7 @@ class WidgetsEdit extends React.Component {
           });
         } else {
           createWidgetMetadata(
-            widgetObj,
+            widgetObj.id,
             dataset,
             metadata,
             user.token
