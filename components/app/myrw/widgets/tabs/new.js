@@ -122,8 +122,8 @@ class WidgetsNew extends React.Component {
             type: dataset.type,
             provider: dataset.provider,
             tableName: dataset.tableName,
-            label: metadata && metadata.attributes.info
-              ? metadata.attributes.info.name
+            label: metadata && metadata.info
+              ? metadata.info.name
               : dataset.name,
             value: dataset.id
           });
@@ -142,8 +142,8 @@ class WidgetsNew extends React.Component {
               type: dataset.type,
               provider: dataset.provider,
               tableName: dataset.tableName,
-              label: metadata && metadata.attributes.info
-                ? metadata.attributes.info.name
+              label: metadata && metadata.info
+                ? metadata.info.name
                 : dataset.name,
               value: dataset.id
             });

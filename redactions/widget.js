@@ -2,7 +2,7 @@ import 'isomorphic-fetch';
 import isEmpty from 'lodash/isEmpty';
 
 // Services
-import { fetchDataset as fetchDatasetService } from 'services/dataset';
+import { fetchDataset } from 'services/dataset';
 import RasterService from 'services/raster';
 import { fetchLayer } from 'services/layer';
 import { deleteFavourite, createFavourite, fetchFavourites } from 'services/favourites';
@@ -125,8 +125,8 @@ export default function (state = initialState, action) {
  * @param {string} datasetId
  * @returns {Promise<void>}
  */
-const fetchDataset = datasetId =>
-  dispatch => fetchDatasetService(datasetId, { includes: 'metadata' })
+const getDataset = datasetId =>
+  dispatch => fetchDataset(datasetId, { includes: 'metadata' })
     .then(dataset => dispatch({ type: SET_WIDGET_DATASET, payload: dataset }));
 
 /**
@@ -138,7 +138,7 @@ function fetchRasterBandInfo(datasetId, bandName) {
   return (dispatch, getState) => new Promise(async (resolve) => {
     try {
       if (isEmpty(getState().widget.dataset)) {
-        await dispatch(fetchDataset(datasetId));
+        await dispatch(getDataset(datasetId));
       }
 
       const dataset = getState().widget.dataset.attributes;
