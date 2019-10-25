@@ -195,7 +195,7 @@ export const fetchMostFavoritedDatasets = (params = {}) => {
     });
 };
 
-export const fetchSimilarDatasets = (datasetIds, withAncestors = true, params = {}) => {
+export const fetchSimilarDatasets = (datasetIds, params = {}, withAncestors = true) => {
   logger.info('Fetch similar datasets');
   const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
   return WRIAPI.get(

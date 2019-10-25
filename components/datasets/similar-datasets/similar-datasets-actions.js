@@ -13,7 +13,7 @@ export const resetSimilarDatasets = createAction('similar-datasets/resetSimilarD
 export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilarDatasets', (datasetIds, locale = 'en') => (dispatch) => {
   dispatch(setSimilarDatasetsLoading(true));
 
-  return fetchSimilarDatasets(datasetIds.join(','), true,
+  return fetchSimilarDatasets(datasetIds.join(','),
     {
       published: true,
       limit: 6
