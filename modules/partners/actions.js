@@ -74,7 +74,7 @@ export const getDatasetsByPartner = createThunkAction('PARTNERS/GET-PARTNER',
 
     return fetchDatasets({
       ids: datasetIds.join(','),
-      locale,
+      language: locale,
       includes,
       'page[size]': 100
     })
