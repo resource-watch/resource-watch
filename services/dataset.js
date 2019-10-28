@@ -75,11 +75,7 @@ export const fetchDataset = (id, params = {}) => {
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
-    params: {
-      ...params,
-      application: [process.env.APPLICATIONS],
-      env: process.env.API_ENV
-    }
+    params: { ...params }
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -110,11 +106,7 @@ export const fetchDatasetTags = (datasetId, params = {}) => {
   return WRIAPI.get(`dataset/${datasetId}/vocabulary`,
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
-      params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
-        ...params
-      }
+      params: { ...params }
     })
     .then(response => WRISerializer(response.data))
     .catch((response) => {
@@ -245,41 +237,61 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
 };
 
 /**
- * Updates or creates a metadata object
+ * Creates a metadata object in the specified dataset
  * This methods requires authentication.
  *
- * @param {string} type - one of the following: 'PATCH', 'POST'
- * @param {Object} data - metadata object
- * @param {*} id - dataset ID
+ * @param {*} datasetId - dataset ID where the metadata will be attached
+ * @param {Object} params - metadata object
  * @param {string} token - user's token.
- * @returns {Object} New or updated metadata object.
+ * @returns {Object} serialized metadata object.
  */
-export const saveMetadata = ({ type, data, id = '', token }) => {
-  const headers = {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    }
-  };
-  const url = `${process.env.WRI_API_URL}/dataset/${id}/metadata`;
+export const createMetadata = (datasetId, params = {}, token, headers = {}) => {
+  logger.info(`Create metadata for dataset ${datasetId}`);
 
-  if (type === 'POST') {
-    return WRIAPI.post(url, data, headers)
-      .then(({ response }) => response.data)
-      .catch(({ response }) => {
-        const { status, statusText } = response;
-        logger.error(`Error creating metadata for dataset ${id}: ${status}: ${statusText}`);
-        throw new Error(`Error creating metadata for dataset ${id}: ${status}: ${statusText}`);
-      });
-  } else if (type === 'PATCH') {
-    return WRIAPI.patch(url, data, headers)
-      .then(({ response }) => response.data)
-      .catch(({ response }) => {
-        const { status, statusText } = response;
-        logger.error(`Error saving metadata from dataset ${id}: ${status}: ${statusText}`);
-        throw new Error(`Error saving metadata from dataset ${id}: ${status}: ${statusText}`);
-      });
-  }
+  return WRIAPI.post(`dataset/${datasetId}/metadata`,
+    params,
+    {
+      headers: {
+        Authorization: token,
+        ...headers
+      }
+    })
+    .then(({ data }) => WRISerializer(data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+
+      logger.error(`Error creating metadata ${status}: ${statusText}`);
+      throw new Error(`Error creating metadata ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Updates a metadata object in the specified dataset
+ * This methods requires authentication.
+ *
+ * @param {*} datasetId - dataset ID where the metadata will be attached
+ * @param {Object} params - metadata object
+ * @param {string} token - user's token.
+ * @returns {Object} serialized metadata object.
+ */
+export const updateMetadata = (datasetId, params = {}, token, headers = {}) => {
+  logger.info(`Update metadata for dataset ${datasetId}`);
+
+  return WRIAPI.patch(`dataset/${datasetId}/metadata`,
+    params,
+    {
+      headers: {
+        Authorization: token,
+        ...headers
+      }
+    })
+    .then(({ data }) => WRISerializer(data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+
+      logger.error(`Error updating metadata for dataset: ${datasetId}. ${status}: ${statusText}`);
+      throw new Error(`Error updating metadata for dataset: ${datasetId}. ${status}: ${statusText}`);
+    });
 };
 
 export default {
@@ -290,6 +302,7 @@ export default {
   deleteDataset,
   createDataset,
   updateDataset,
-  saveMetadata
+  createMetadata,
+  updateMetadata
 };
 

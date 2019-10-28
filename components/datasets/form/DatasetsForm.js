@@ -54,10 +54,7 @@ class DatasetsForm extends PureComponent {
     const { dataset: datasetId } = this.props;
     // Get the dataset and fill the state with its params if it exists
     if (datasetId) {
-      fetchDataset(datasetId, {
-        includes: 'layer',
-        app: process.env.APPLICATIONS
-      })
+      fetchDataset(datasetId, { includes: 'layer' })
         .then((dataset) => {
           const { provider, applicationConfig, layer: layers } = dataset;
           let _layers = layers;

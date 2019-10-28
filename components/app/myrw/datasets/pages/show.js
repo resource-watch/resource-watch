@@ -16,7 +16,7 @@ import { fetchDataset } from 'services/dataset';
 // Components
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
-import MetadataForm from 'components/datasets/metadata/form/MetadataForm';
+import DatasetMetadataForm from 'components/datasets/metadata/form';
 import DatasetWidgets from 'components/app/myrw/datasets/DatasetWidgets';
 
 // Constants
@@ -104,14 +104,11 @@ class DatasetsShow extends React.Component {
                 />
               }
 
-              {subtab === 'metadata' &&
-                <MetadataForm
-                  application={process.env.APPLICATIONS}
-                  authorization={user.token}
+              {subtab === 'metadata' && (
+                <DatasetMetadataForm
                   dataset={id}
                   onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets', id })}
-                />
-              }
+                />)}
 
               {subtab === 'widgets' && data.id &&
                 <DatasetWidgets
