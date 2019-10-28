@@ -12,10 +12,12 @@ import Navigation from 'components/form/Navigation';
 // Services
 import {
   fetchAllTags,
-  fetchInferredTags,
+  fetchInferredTags
+} from 'services/graph';
+import {
   fetchDatasetTags,
   updateDatasetTags
-} from 'services/graph';
+} from 'services/dataset';
 
 const graphOptions = {
   height: '100%',

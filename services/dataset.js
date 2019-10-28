@@ -103,6 +103,28 @@ export const fetchDataset = (id, params = {}) => {
 };
 
 /**
+* Get dataset tags
+*/
+export const fetchDatasetTags = (datasetId, params = {}) => {
+  logger.info(`Fetch dataset tags: ${datasetId}`);
+  return WRIAPI.get(`dataset/${datasetId}/vocabulary`,
+    {
+      headers: { 'Upgrade-Insecure-Requests': 1 },
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      }
+    })
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
+      throw new Error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
+    });
+};
+
+/**
  * Deletes a specified dataset.
  * This fetch needs authentication.
  *
@@ -169,6 +191,60 @@ export const updateDataset = (id, token, params = {}) => {
 };
 
 /**
+* Update dataset tags
+*/
+export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
+  logger.info(`Update dataset tags: ${datasetId}`);
+
+  if (usePatch) {
+    return WRIAPI.patch(`dataset/${datasetId}/vocabulary/knowledge_graph`,
+      {
+        tags,
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV
+      },
+      { headers: { Authorization: token } })
+      .then(response => WRISerializer(response.data))
+      .catch((response) => {
+        const { status, statusText } = response;
+        logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+        throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+      });
+  }
+  if (tags.length > 0) {
+    return WRIAPI.put(`dataset/${datasetId}/vocabulary`,
+      {
+        knowledge_graph: {
+          tags,
+          application: process.env.APPLICATIONS,
+          env: process.env.API_ENV
+        }
+      },
+      { headers: { Authorization: token } })
+      .then(response => WRISerializer(response.data))
+      .catch((response) => {
+        const { status, statusText } = response;
+        logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+        throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+      });
+  }
+  return WRIAPI.delete(`dataset/${datasetId}/vocabulary/knowledge_graph`,
+    {
+      headers: { Authorization: token },
+      params: {
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV
+      }
+    })
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+      throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+    });
+};
+
+/**
  * Updates or creates a metadata object
  * This methods requires authentication.
  *
@@ -209,6 +285,8 @@ export const saveMetadata = ({ type, data, id = '', token }) => {
 export default {
   fetchDatasets,
   fetchDataset,
+  fetchDatasetTags,
+  updateDatasetTags,
   deleteDataset,
   createDataset,
   updateDataset,
