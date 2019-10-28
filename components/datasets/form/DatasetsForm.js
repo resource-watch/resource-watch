@@ -253,7 +253,7 @@ class DatasetsForm extends PureComponent {
       submitting,
       dataDataset
     } = this.state;
-    const { dataset, basic } = this.props;
+    const { dataset, basic, authorization } = this.props;
 
     return (
       <form className="c-form c-datasets-form" onSubmit={this.onSubmit} noValidate>
@@ -269,6 +269,7 @@ class DatasetsForm extends PureComponent {
             columns={columns}
             loadingColumns={loadingColumns}
             sortedLayers={layers}
+            authorization={authorization}
           />
         )}
 
