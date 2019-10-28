@@ -6,6 +6,8 @@ import { logger } from 'utils/logs';
 
 /**
  * Get all tags
+ * @param {Object} params Request parameters
+ * https://resource-watch.github.io/doc-api/index-rw.html#list-concepts
  */
 export const fetchAllTags = (params = {}) => {
   logger.info('Fetch all tags');
@@ -28,6 +30,8 @@ export const fetchAllTags = (params = {}) => {
 
 /**
  * Get inferred tags
+ * @param {Object} params Request parameters
+ * https://resource-watch.github.io/doc-api/index-rw.html#get-inferred-concepts
  */
 export const fetchInferredTags = (params = {}) => {
   logger.info('Fetch inferred tags');
@@ -75,6 +79,7 @@ export const countDatasetView = (datasetId, token, params = {}) => {
 
 /**
  * Get the list of most viewed datasets
+ * @param {Object} params Request parameters
  * @returns {Promise<string[]>} List of sorted ids
  */
 export const fetchMostViewedDatasets = (params = {}) => {
@@ -98,7 +103,8 @@ export const fetchMostViewedDatasets = (params = {}) => {
 
 /**
  * Get the list of most favourited datasets
- * @returns {Promise<string[]>} List of sorted ids
+ * @param {Object} params Request parameters
+ * https://resource-watch.github.io/doc-api/index-rw.html#most-liked-datasets
  */
 export const fetchMostFavoritedDatasets = (params = {}) => {
   logger.info('Fetch most favorited datasets');
@@ -119,6 +125,13 @@ export const fetchMostFavoritedDatasets = (params = {}) => {
     });
 };
 
+/**
+ * Fetch similar datasets
+ * @param {Object} params Request parameters
+ * @param {boolean} withAncestors Flag indicating whether tags' ancestors
+ * should be considered or not
+ * https://resource-watch.github.io/doc-api/index-rw.html#similar-datasets-including-ancestors
+ */
 export const fetchSimilarDatasets = (params = {}, withAncestors = true) => {
   logger.info('Fetch similar datasets');
   const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
