@@ -163,7 +163,7 @@ class TagsForm extends React.Component {
     const { selectedTags } = this.state;
     this.setState({ loadingInferredTags: true });
     if (selectedTags && selectedTags.length > 0) {
-      fetchInferredTags(selectedTags)
+      fetchInferredTags({ concepts: selectedTags })
         .then((response) => {
           this.setState({
             loadingInferredTags: false,

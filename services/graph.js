@@ -29,7 +29,7 @@ export const fetchAllTags = (params = {}) => {
 /**
  * Get inferred tags
  */
-export const fetchInferredTags = (tags, params = {}) => {
+export const fetchInferredTags = (params = {}) => {
   logger.info('Fetch inferred tags');
   return WRIAPI.get('graph/query/concepts-inferred',
     {
@@ -37,15 +37,14 @@ export const fetchInferredTags = (tags, params = {}) => {
       params: {
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        concepts: tags,
         ...params
       }
     })
     .then(response => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
-      logger.error(`Error fetching inferred tags: ${tags} ${status}: ${statusText}`);
-      throw new Error(`Error inferred tags: ${tags} ${status}: ${statusText}`);
+      logger.error(`Error fetching inferred tags ${status}: ${statusText}`);
+      throw new Error(`Error inferred tags ${status}: ${statusText}`);
     });
 };
 
@@ -120,14 +119,13 @@ export const fetchMostFavoritedDatasets = (params = {}) => {
     });
 };
 
-export const fetchSimilarDatasets = (datasetIds, params = {}, withAncestors = true) => {
+export const fetchSimilarDatasets = (params = {}, withAncestors = true) => {
   logger.info('Fetch similar datasets');
   const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
   return WRIAPI.get(
     `graph/query/${endpoint}`,
     {
       params: {
-        dataset: datasetIds,
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
         ...params
@@ -138,8 +136,8 @@ export const fetchSimilarDatasets = (datasetIds, params = {}, withAncestors = tr
     .then(response => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
-      logger.error(`Error fetching similart datasets: ${datasetIds} ${status}: ${statusText}`);
-      throw new Error(`Error fetching similart datasets: ${datasetIds} ${status}: ${statusText}`);
+      logger.error(`Error fetching similart datasets ${status}: ${statusText}`);
+      throw new Error(`Error fetching similart datasets ${status}: ${statusText}`);
     });
 };
 

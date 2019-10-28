@@ -78,7 +78,7 @@ export const fetchTags = createThunkAction('WIDGET-DETAIL/fetchTags', () => (dis
   const tags = getState().exploreDetail.tags.active;
 
   if (tags.length) {
-    return fetchInferredTags(tags)
+    return fetchInferredTags({ concepts: tags })
       .then((response) => {
         dispatch(setTags(response.filter(tag =>
           tag.labels.find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
