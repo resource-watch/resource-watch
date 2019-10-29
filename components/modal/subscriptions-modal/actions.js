@@ -3,7 +3,6 @@ import { toastr } from 'react-redux-toastr';
 import { replace } from 'layer-manager';
 import axios from 'axios';
 import moment from 'moment';
-import WRISerializer from 'wri-json-api-serializer';
 
 import { getUserAreas } from 'redactions/user';
 
@@ -128,11 +127,11 @@ export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =
 
     fetchDatasets({
       includes: 'metadata',
-      subscribable: true
+      subscribable: true,
+      'page[size]': 9999999
     })
       .then((datasets = []) => {
-        const parsedDatasets = WRISerializer({ data: datasets });
-        dispatch(setDatasets(parsedDatasets));
+        dispatch(setDatasets(datasets));
         dispatch(setDatasetsLoading(false));
       })
       .catch((err) => {
