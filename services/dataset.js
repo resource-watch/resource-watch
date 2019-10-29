@@ -204,7 +204,7 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
       });
   }
   if (tags.length > 0) {
-    return WRIAPI.put(`dataset/${datasetId}/vocabulary`,
+    return WRIAPI.post(`dataset/${datasetId}/vocabulary`,
       {
         knowledge_graph: {
           tags,
