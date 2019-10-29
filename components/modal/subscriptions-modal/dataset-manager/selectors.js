@@ -7,7 +7,6 @@ const getDatasets = state => state.subscriptions.datasets.list;
 export const getSuscribableDatasets = createSelector(
   [getDatasets],
   _datasets => sortBy(uniq(_datasets
-    .filter(dataset => Object.keys(dataset.subscribable).length)
     .map(dataset => ({
       id: dataset.id,
       label: dataset.metadata && dataset.metadata.length ? dataset.metadata[0].name : dataset.name,

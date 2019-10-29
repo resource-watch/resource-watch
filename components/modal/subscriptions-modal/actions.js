@@ -131,7 +131,7 @@ export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =
       'page[size]': 9999999
     })
       .then((datasets = []) => {
-        dispatch(setDatasets(datasets));
+        dispatch(setDatasets(datasets.filter(dataset => Object.keys(dataset.subscribable).length)));
         dispatch(setDatasetsLoading(false));
       })
       .catch((err) => {
