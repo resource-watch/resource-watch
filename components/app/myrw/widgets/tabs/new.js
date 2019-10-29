@@ -113,7 +113,7 @@ class WidgetsNew extends React.Component {
   }
 
   loadDatasets() {
-    fetchDatasets({ published: true, includes: 'metadata' }).then((response) => {
+    fetchDatasets({ published: true, includes: 'metadata', 'page[size]': 999999 }).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
