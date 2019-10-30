@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // components
 import Layout from 'layout/layout/layout-app';
-import WidgetCard from 'components/widgets/list/WidgetCard';
+import WidgetCard from 'components/widgets/card';
 import WidgetDetailHeader from './widget-detail-header';
 
 class LayoutWidgetDetail extends PureComponent {
