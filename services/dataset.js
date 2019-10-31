@@ -8,12 +8,12 @@ import { logger } from 'utils/logs';
 
 /**
  * Fetchs datasets according to params.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-all-datasets|here}
  * @param {Object} params Request paremeters.
  * @param {Object} headers Request headers.
  * @param {boolean} _meta Boolean flag indicating whether the meta object should
  * @returns {Array} Array of serialized datasets.
  * be included in the response or not.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-all-datasets|here}
  */
 export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
   logger.info('Fetch datasets');

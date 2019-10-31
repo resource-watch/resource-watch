@@ -61,7 +61,8 @@ This fetch needs authentication.</p>
 This fetch needs authentication.</p>
 </dd>
 <dt><a href="#fetchDatasets">fetchDatasets</a> ⇒ <code>Array</code></dt>
-<dd><p>Fetchs datasets according to params.</p>
+<dd><p>Fetchs datasets according to params.
+Check out the API docs for this endpoint <a href="https://resource-watch.github.io/doc-api/index-rw.html#getting-all-datasets">here</a></p>
 </dd>
 <dt><a href="#fetchDataset">fetchDataset</a> ⇒ <code>Object</code></dt>
 <dd><p>fetches data for a specific dataset.</p>
@@ -441,11 +442,11 @@ This fetch needs authentication.
 
 ## fetchDatasets ⇒ <code>Array</code>
 Fetchs datasets according to params.
+Check out the API docs for this endpoint [here](https://resource-watch.github.io/doc-api/index-rw.html#getting-all-datasets)
 
 **Kind**: global constant  
 **Returns**: <code>Array</code> - Array of serialized datasets.
-be included in the response or not.
-Check out the API docs for this endpoint [here](https://resource-watch.github.io/doc-api/index-rw.html#getting-all-datasets)  
+be included in the response or not.  
 
 | Param | Type | Description |
 | --- | --- | --- |
