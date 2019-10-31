@@ -38,7 +38,7 @@ export const registerUser = ({ email, password, repeatPassword }) => {
   logger.info('Register user');
   return controlTowerAPI
     .post(
-      'auth/sign-up',
+      `auth/sign-up?origin=${process.env.APPLICATIONS}`,
       {
         email,
         password,
