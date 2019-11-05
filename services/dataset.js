@@ -62,10 +62,10 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
 
 
 /**
- * fetches data for a specific dataset.
- *
+ * Fetches a dataset by id.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-to-get-a-dataset-by-id|here}
  * @param {String} id - dataset id.
- * @param {Object[]} params - params sent to the API.
+ * @param {Object} params - params sent to the API.
  * @returns {Object} serialized specified dataset.
  */
 export const fetchDataset = (id, params = {}) => {
@@ -102,8 +102,12 @@ export const fetchDataset = (id, params = {}) => {
 };
 
 /**
-* Get dataset tags
-*/
+ * Get dataset tags.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#tags-definition|here}
+ * @param {String} datasetId - dataset id.
+ * @param {Object} params - params sent to the API.
+ * @returns {Object}
+ */
 export const fetchDatasetTags = (datasetId, params = {}) => {
   logger.info(`Fetch dataset tags: ${datasetId}`);
   return WRIAPI.get(`dataset/${datasetId}/vocabulary`,
@@ -122,9 +126,9 @@ export const fetchDatasetTags = (datasetId, params = {}) => {
 /**
  * Deletes a specified dataset.
  * This fetch needs authentication.
- *
- * @param {*} id - dataset ID to be deleted.
- * @param {string} token - user's token.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#deleting-a-dataset|here}
+ * @param {String} id - dataset ID to be deleted.
+ * @param {String} token - user's token.
  * @returns {Object} fetch response.
  */
 export const deleteDataset = (id, token) => {
@@ -157,6 +161,14 @@ export const deleteDataset = (id, token) => {
     });
 };
 
+/**
+ * Create a Dataset.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#creating-a-dataset|here}
+ * @param {String} token - user's token.
+ * @param {Object} params - params sent to the API.
+ * @param {Object} headers - headers sent to the API.
+ * @returns {Object}
+ */
 export const createDataset = (token, params = {}, headers) => {
   logger.info('Create dataset');
 
@@ -172,6 +184,14 @@ export const createDataset = (token, params = {}, headers) => {
     });
 };
 
+/**
+ * Update a Dataset.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#updating-a-dataset|here}
+ * @param {String} id - dataset id.
+ * @param {String} token - user's token.
+ * @param {Object} params - params sent to the API.
+ * @returns {Object}
+ */
 export const updateDataset = (id, token, params = {}) => {
   logger.info(`Update dataset: ${id}`);
 
@@ -186,8 +206,14 @@ export const updateDataset = (id, token, params = {}) => {
 };
 
 /**
-* Update dataset tags
-*/
+ * Update dataset tags.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#updating-tags-of-an-existing-relationship|here}
+ * @param {String} datasetId - dataset id.
+ * @param {Object[]} tags - user's token.
+ * @param {String} token - user's token.
+ * @param {boolean} usePatch - user's token.
+ * @returns {Object}
+ */
 export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
   logger.info(`Update dataset tags: ${datasetId}`);
 
@@ -240,12 +266,12 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
 };
 
 /**
- * Creates a metadata object in the specified dataset
+ * Creates a metadata object in the specified dataset.
  * This methods requires authentication.
- *
- * @param {*} datasetId - dataset ID where the metadata will be attached
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#creating-a-metadata-object|here}
+ * @param {String} datasetId - dataset ID where the metadata will be attached
  * @param {Object} params - metadata object
- * @param {string} token - user's token.
+ * @param {String} token - user's token.
  * @returns {Object} serialized metadata object.
  */
 export const createMetadata = (datasetId, params = {}, token, headers = {}) => {
@@ -269,12 +295,12 @@ export const createMetadata = (datasetId, params = {}, token, headers = {}) => {
 };
 
 /**
- * Updates a metadata object in the specified dataset
+ * Updates a metadata object in the specified dataset.
  * This methods requires authentication.
- *
- * @param {*} datasetId - dataset ID where the metadata will be attached
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#updating-a-metadata|here}
+ * @param {String} datasetId - dataset ID where the metadata will be attached
  * @param {Object} params - metadata object
- * @param {string} token - user's token.
+ * @param {String} token - user's token.
  * @returns {Object} serialized metadata object.
  */
 export const updateMetadata = (datasetId, params = {}, token, headers = {}) => {
