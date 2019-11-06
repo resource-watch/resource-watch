@@ -6,8 +6,8 @@ import { logger } from 'utils/logs';
 
 /**
  * Retrieve all collections of the user
- * @param {*} token User's token
- * @param {*} params Request optional parameters
+ * @param {String} token User's token
+ * @param {Object} params Request optional parameters
  */
 export const fetchAllCollections = (
   token,
@@ -33,9 +33,9 @@ export const fetchAllCollections = (
 };
 /**
  * Retrieve data of a specific collection
- * @param {*} token User's token
- * @param {*} collectionId Id of the collection we are asking for.
- * @param {*} params Request parameters
+ * @param {String} token User's token
+ * @param {String} collectionId Id of the collection we are asking for.
+ * @param {Object} params Request parameters
  */
 export const fetchCollection = (
   token,
@@ -63,8 +63,8 @@ export const fetchCollection = (
 
 /**
  * Creates a new collection attached to the current user
- * @param {*} token User's token
- * @param {*} data collection data
+ * @param {String} token User's token
+ * @param {Object} data collection data
  */
 export const createCollection = (token, data = {}) => {
   logger.info('Create collection');
@@ -90,8 +90,8 @@ export const createCollection = (token, data = {}) => {
 
 /**
  * Deletes an existing collection attached to the current user
- * @param {*} token User's token
- * @param {*} collectionId Id of the collection to be removed
+ * @param {String} token User's token
+ * @param {String} collectionId Id of the collection to be removed
  */
 export const deleteCollection = (token, collectionId) => {
   logger.info(`Delete collection ${collectionId}`);
@@ -106,9 +106,9 @@ export const deleteCollection = (token, collectionId) => {
 
 /**
  * Update an existing collection attached to the current user
- * @param {*} token User's token
- * @param {*} collectionId Id of the collection to be edited
- * @param {*} data Data to be updated
+ * @param {String} token User's token
+ * @param {String} collectionId Id of the collection to be edited
+ * @param {Object} data Data to be updated
  */
 export const updateCollection = (token, collectionId, data) => {
   logger.info(`Update collection ${collectionId}`);
@@ -129,10 +129,10 @@ export const updateCollection = (token, collectionId, data) => {
 /* Resources management  */
 
 /**
- *
- * @param {*} token User's token
- * @param {*} collectionId Id of the collection to be edited
- * @param {*} resource Resource to be addded to the collection
+ * Add a resource to the collection
+ * @param {String} token User's token
+ * @param {String} collectionId Id of the collection to be edited
+ * @param {Object} resource Resource to be addded to the collection
  */
 export const addResourceToCollection = (token, collectionId, resource = {}) => {
   logger.info(`Add resource to collection ${collectionId}`);
@@ -157,10 +157,10 @@ export const addResourceToCollection = (token, collectionId, resource = {}) => {
 };
 
 /**
- *
- * @param {*} token User's token
- * @param {*} collectionId Id of the collection to be edited
- * @param {*} resource Resource to be removed from the collection
+ * Remove resource from collection
+ * @param {String} token User's token
+ * @param {String} collectionId Id of the collection to be edited
+ * @param {Object} resource Resource to be removed from the collection
  */
 export const removeResourceFromCollection = (token, collectionId, resource = {}) => {
   logger.info(`Remove resource from collection ${collectionId}`);
