@@ -1,5 +1,11 @@
 import { WRIAPI } from 'utils/axios';
 
+/**
+ * Send GET request to /query
+ * @param {String} token token User's token
+ * @param {*} sql mandatory parameter
+ * @param {Object} params request paremeters to API.
+ */
 export const fetchQuery = (token, sql, params = {}) => {
   if (!token) {
     console.error('This is an authorized endpoint. A token need to be provided.');
