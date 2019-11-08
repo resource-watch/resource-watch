@@ -93,7 +93,7 @@ export default class PartnersService {
 /**
  * Fetchs partners according to params.
  *
- * @param {Object[]} params - params sent to the API.
+ * @param {Object} params - params sent to the API.
  * @returns {Object[]} array of serialized partners.
  */
 export const fetchPartners = (params = {}) =>
