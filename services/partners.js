@@ -60,7 +60,7 @@ export default class PartnersService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, partner) => {
+          new Deserializer({ keyForAttribute: 'underscore_case' }).deserialize(response, (err, partner) => {
             resolve(partner);
           });
         },
