@@ -5,7 +5,10 @@ import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 /**
- *  Get Subscriptions
+ * Get Subscriptions
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#obtain-the-subscriptions-for-a-user|here}
+ * @param {String} token User's token
+ * @param {Object} params request paremeters to API.
  */
 export const fetchSubscriptions = (token, params) => {
   logger.info('Fetch subscriptions');
@@ -39,6 +42,8 @@ export const fetchSubscriptions = (token, params) => {
 
 /**
  * Creates a subscription for an area
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-subscription|here}
+ * @param {Object} options
  */
 export const createSubscriptionToArea = ({
   areaId,
@@ -74,7 +79,14 @@ export const createSubscriptionToArea = ({
 };
 
 /**
- *  Update Subscription
+ * Update Subscription
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#modify-subscription|here}
+ * @param {String} subscriptionId
+ * @param {*} datasets
+ * @param {*} datasetsQuery
+ * @param {Object} user
+ * @param {String} language
+ * @param {String} areaId
  */
 export const updateSubscriptionToArea = (
   subscriptionId,
@@ -109,7 +121,10 @@ export const updateSubscriptionToArea = (
 };
 
 /**
- *  Get Subscription
+ * Get Subscription
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#subscribable-datasets|here}
+ * @param {String} subscriptionId
+ * @param {String} token User's token
  */
 export const fetchSubscription = (subscriptionId, token) => {
   logger.info(`Fetch subscription: ${subscriptionId}`);
@@ -125,8 +140,9 @@ export const fetchSubscription = (subscriptionId, token) => {
 
 /**
  * Deletes a subscription
- * @param {subscriptionId} ID of the subscription that will be deleted
- * @param {token} User token
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-subscription|here}
+ * @param {String} subscriptionId of the subscription that will be deleted
+ * @param {Strign} token User's token
  * @returns {Promise}
  */
 export const deleteSubscription = (subscriptionId, token) => {
