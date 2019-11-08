@@ -1,5 +1,4 @@
-import 'isomorphic-fetch';
-import { get, post } from 'utils/request';
+import { post } from 'utils/request';
 import WRISerializer from 'wri-json-api-serializer';
 
 // utils
@@ -14,6 +13,7 @@ export default class LayersService {
   // getColumns({ dataset }) {
   //   return new Promise((resolve, reject) => {
   //     get({
+  // eslint-disable-next-line max-len
   //       url: `${process.env.WRI_API_URL}/fields/${dataset}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
   //       headers: [{
   //         key: 'Content-Type',
