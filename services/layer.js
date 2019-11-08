@@ -73,8 +73,10 @@ export default class LayersService {
 
 /**
  * Fetchs layers according to params.
- *
- * @param {Object[]} params - params sent to the API.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-obtain-all-layers|here}
+ * @param {Object} params - params sent to the API.
+ * @param {Object} headers - headers sent to the API.
+ * @param {boolean} _meta - should meta be in response or not
  * @returns {Object[]} array of serialized layers.
  */
 export const fetchLayers = (params = {}, headers = {}, _meta = false) => {
@@ -125,12 +127,11 @@ export const fetchLayers = (params = {}, headers = {}, _meta = false) => {
 
 /**
  * Fetches a layer according to widget id and params.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-obtain-specific-layers|here}
  * @param {String} id - layer id.
- * @param {Object[]} params - params sent to the API.
+ * @param {Object} params - params sent to the API.
  * @returns {Object[]} - serialized specific layer.
  */
-
 export const fetchLayer = (id, params = {}) => {
   if (!id) throw Error('layer id is mandatory to perform this fetching.');
   logger.info(`Fetches layer: ${id}`);
@@ -172,9 +173,10 @@ export const fetchLayer = (id, params = {}) => {
 /**
  * Deletes a specified layer.
  * This fetch needs authentication.
- *
- * @param {*} id - layer ID to be deleted.
- * @param {string} token - user's token.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-a-layer|here}
+ * @param {String} layerId - layer ID to be deleted.
+ * @param {String} datasetId - dataset ID to be deleted.
+ * @param {String} token - user's token.
  * @returns {Object} fetch response.
  */
 export const deleteLayer = (layerId, datasetId, token) => {
