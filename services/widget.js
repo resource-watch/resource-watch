@@ -6,8 +6,10 @@ import { logger } from 'utils/logs';
 
 /**
  * Fetchs widgets according to params.
- *
- * @param {Object[]} params - params sent to the API.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-to-obtain-all-widgets|here}
+ * @param {Object} params - params sent to the API.
+ * @param {Object} headers - headers sent to the API.
+ * @param {boolean} _meta - should meta be in response or not.
  * @returns {Object[]} array of serialized widgets.
  */
 export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
@@ -56,10 +58,10 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
 
 
 /**
- * fetches data for a specific widget.
- *
+ * Fetches data for a specific widget.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-obtain-a-single-widget|here}
  * @param {String} id - widget id.
- * @param {Object[]} params - params sent to the API.
+ * @param {Object} params - params sent to the API.
  * @returns {Object} serialized specified widget.
  */
 export const fetchWidget = (id, params = {}) => {
@@ -102,9 +104,10 @@ export const fetchWidget = (id, params = {}) => {
 /**
  * Deletes a specified widget.
  * This fetch needs authentication.
- *
- * @param {*} id - widget ID to be deleted.
- * @param {string} token - user's token.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-a-widget|here}
+ * @param {String} widgetId - widget ID to be deleted.
+ * @param {String} datasetId - dataset ID.
+ * @param {String} token - user's token.
  * @returns {Object} fetch response.
  */
 export const deleteWidget = (widgetId, datasetId, token) => {
