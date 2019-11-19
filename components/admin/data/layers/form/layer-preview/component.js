@@ -2,6 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import isEqual from 'react-fast-compare';
+import isEmpty from 'lodash/isEmpty';
+import { Popup } from 'react-map-gl';
 import {
   Legend,
   LegendListItem,
@@ -13,6 +15,7 @@ import Map from 'components/map';
 import LayerManager from 'components/map/layer-manager';
 import MapControls from 'components/map/controls';
 import ZoomControls from 'components/map/controls/zoom';
+import LayerPopup from 'components/map/popup';
 
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
@@ -63,13 +66,51 @@ class LayerPreviewComponent extends PureComponent {
     this.setState({ viewport });
   }, 250)
 
+  onClickLayer = ({ features, lngLat }) => {
+    const {
+      adminLayerPreview: { interaction },
+      setLayerInteraction,
+      setLayerInteractionLatLng
+    } = this.props;
+
+    let interactions = {};
+
+    // if the user clicks on a zone where there is no data in any current layer
+    // we will reset the current interaction of those layers to display "no data available" message
+    if (!features.length) {
+      interactions = Object.keys(interaction).reduce((accumulator, currentValue) => ({
+        ...accumulator,
+        [currentValue]: {}
+      }), {});
+    } else {
+      interactions = features.reduce((accumulator, currentValue) => ({
+        ...accumulator,
+        [currentValue.layer.source]: { data: currentValue.properties }
+      }), {});
+    }
+
+    const _lngLat = {
+      longitude: lngLat[0],
+      latitude: lngLat[1]
+    };
+
+    setLayerInteractionLatLng(_lngLat);
+    setLayerInteraction(interactions);
+
+    return true;
+  }
+
+  handleClosePopup = () => {
+    const { setLayerInteractionLatLng, setLayerInteractionSelected } = this.props;
+    setLayerInteractionSelected(null);
+    setLayerInteractionLatLng(null);
+  }
+
   render() {
     const {
       adminLayerPreview,
       interactions,
-      layers,
-      setLayerInteraction,
-      setLayerInteractionLatLng
+      layers
     } = this.props;
 
     const { viewport } = this.state;
@@ -88,6 +129,7 @@ class LayerPreviewComponent extends PureComponent {
           <div className="c-map">
             <Map
               mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+              onClick={this.onClickLayer}
               mapStyle={MAPSTYLES}
               basemap={BASEMAPS.dark.value}
               labels={LABELS.light.value}
@@ -101,6 +143,33 @@ class LayerPreviewComponent extends PureComponent {
                     map={_map}
                     layers={layers}
                   />
+
+                  {!isEmpty(interactionLatLng) && layers.length &&
+                    <Popup
+                      {...interactionLatLng}
+                      closeButton
+                      closeOnClick={false}
+                      onClose={this.handleClosePopup}
+                      className="rw-popup-layer"
+                      maxWidth="250px"
+                    >
+                      <LayerPopup
+                        data={{
+                          // data available in certain point
+                          layersInteraction: interaction,
+                          // ID of the layer will display data (defualts into the first layer)
+                          layersInteractionSelected: interactionSelected,
+                          // current active layers to get their layerConfig attributes
+                          layers
+                        }}
+                        latlng={{
+                          lat: interactionLatLng.latitude,
+                          lng: interactionLatLng.longitude
+                        }}
+                        onChangeInteractiveLayer={() => { console.log('onChangeInteractiveLayer'); }}
+                      />
+                    </Popup>
+                    }
                 </Fragment>
               )}
             </Map>
