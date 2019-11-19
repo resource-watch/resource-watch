@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 import isEqual from 'react-fast-compare';
 import {
   Legend,
@@ -10,9 +11,11 @@ import {
 // components
 import Map from 'components/map';
 import LayerManager from 'components/map/layer-manager';
+import MapControls from 'components/map/controls';
+import ZoomControls from 'components/map/controls/zoom';
 
 // constants
-import { MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
+import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
 
 class LayerPreviewComponent extends PureComponent {
   static propTypes = {
@@ -24,6 +27,8 @@ class LayerPreviewComponent extends PureComponent {
     setLayerInteractionSelected: PropTypes.func.isRequired,
     generateLayerGroups: PropTypes.func.isRequired
   };
+
+  state = { viewport: DEFAULT_VIEWPORT };
 
   componentWillMount() {
     this.handleRefreshPreview();
@@ -43,6 +48,21 @@ class LayerPreviewComponent extends PureComponent {
     generateLayerGroups({ layer, interactions });
   }
 
+  handleZoom = (zoom) => {
+    const { viewport: currentViewport } = this.state;
+
+    this.setState({
+      viewport: {
+        ...currentViewport,
+        zoom
+      }
+    });
+  }
+
+  handleViewport = debounce((viewport) => {
+    this.setState({ viewport });
+  }, 250)
+
   render() {
     const {
       adminLayerPreview,
@@ -51,6 +71,8 @@ class LayerPreviewComponent extends PureComponent {
       setLayerInteraction,
       setLayerInteractionLatLng
     } = this.props;
+
+    const { viewport } = this.state;
 
     const {
       layerGroups,
@@ -69,6 +91,8 @@ class LayerPreviewComponent extends PureComponent {
               mapStyle={MAPSTYLES}
               basemap={BASEMAPS.dark.value}
               labels={LABELS.light.value}
+              viewport={viewport}
+              onViewportChange={this.handleViewport}
               boundaries
             >
               {_map => (
@@ -81,6 +105,13 @@ class LayerPreviewComponent extends PureComponent {
               )}
             </Map>
           </div>
+
+          <MapControls>
+            <ZoomControls
+              viewport={viewport}
+              onClick={this.handleZoom}
+            />
+          </MapControls>
 
           <div className="c-legend-map">
             <Legend
