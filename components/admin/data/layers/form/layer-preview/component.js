@@ -46,38 +46,39 @@ class LayerPreviewComponent extends PureComponent {
     if (interactionesChanged) this.handleRefreshPreview();
   }
 
-  onClickLayer = ({ features, lngLat }) => {
+  onClickLayer = ({ features, lngLat: [longitude, latitude] }) => {
     const {
       adminLayerPreview: { interaction },
       setLayerInteraction,
       setLayerInteractionLatLng
     } = this.props;
 
-    let interactions = {};
+    const interactions = this.getInteractions({ features, interaction });
+    const lngLatObject = { longitude, latitude };
 
-    // if the user clicks on a zone where there is no data in any current layer
-    // we will reset the current interaction of those layers to display "no data available" message
-    if (!features.length) {
-      interactions = Object.keys(interaction).reduce((accumulator, currentValue) => ({
-        ...accumulator,
-        [currentValue]: {}
-      }), {});
-    } else {
-      interactions = features.reduce((accumulator, currentValue) => ({
-        ...accumulator,
-        [currentValue.layer.source]: { data: currentValue.properties }
-      }), {});
-    }
-
-    const _lngLat = {
-      longitude: lngLat[0],
-      latitude: lngLat[1]
-    };
-
-    setLayerInteractionLatLng(_lngLat);
+    setLayerInteractionLatLng(lngLatObject);
     setLayerInteraction(interactions);
 
     return true;
+  }
+
+  getInteractions = ({ features, interaction }) => {
+    // if the user clicks on a zone where there is no data in any current layer
+    // we will reset the current interaction of those layers to display "no data available" message
+
+    const noDataAvailable = !features.length;
+
+    if (noDataAvailable) {
+      return Object.keys(interaction).reduce((accumulator, currentValue) => ({
+        ...accumulator,
+        [currentValue]: {}
+      }), {});
+    }
+
+    return features.reduce((accumulator, currentValue) => ({
+      ...accumulator,
+      [currentValue.layer.source]: { data: currentValue.properties }
+    }), {});
   }
 
   handleViewport = debounce((viewport) => {
@@ -102,9 +103,7 @@ class LayerPreviewComponent extends PureComponent {
   }
 
   handleClosePopup = () => {
-    const { setLayerInteractionLatLng, setLayerInteractionSelected } = this.props;
-    setLayerInteractionSelected(null);
-    setLayerInteractionLatLng(null);
+    this.props.setLayerInteractionLatLng(null);
   }
 
   render() {
@@ -122,6 +121,22 @@ class LayerPreviewComponent extends PureComponent {
       interactionLatLng,
       interactionSelected
     } = adminLayerPreview;
+
+    const shouldRenderPopup = !isEmpty(interactionLatLng) && layers.length;
+    
+    const layerPopupData = {
+      // data available in certain point
+      layersInteraction: interaction,
+      // ID of the layer will display data (defualts into the first layer)
+      layersInteractionSelected: interactionSelected,
+      // current active layers to get their layerConfig attributes
+      layers
+    };
+
+    const layerPopupLatlng = interactionLatLng && {
+      lat: interactionLatLng.latitude,
+      lng: interactionLatLng.longitude
+    };
 
     return (
       <div className="c-field preview-container">
@@ -146,7 +161,7 @@ class LayerPreviewComponent extends PureComponent {
                     layers={layers}
                   />
 
-                  {!isEmpty(interactionLatLng) && layers.length &&
+                  {shouldRenderPopup &&
                     <Popup
                       {...interactionLatLng}
                       closeButton
@@ -156,18 +171,8 @@ class LayerPreviewComponent extends PureComponent {
                       maxWidth="250px"
                     >
                       <LayerPopup
-                        data={{
-                          // data available in certain point
-                          layersInteraction: interaction,
-                          // ID of the layer will display data (defualts into the first layer)
-                          layersInteractionSelected: interactionSelected,
-                          // current active layers to get their layerConfig attributes
-                          layers
-                        }}
-                        latlng={{
-                          lat: interactionLatLng.latitude,
-                          lng: interactionLatLng.longitude
-                        }}
+                        data={layerPopupData}
+                        latlng={layerPopupLatlng}
                         onChangeInteractiveLayer={setLayerInteractionSelected}
                       />
                     </Popup>
