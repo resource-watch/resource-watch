@@ -135,6 +135,7 @@ class LayerPreviewComponent extends PureComponent {
               labels={LABELS.light.value}
               viewport={viewport}
               onViewportChange={this.handleViewport}
+              scrollZoom={false}
               boundaries
             >
               {_map => (
