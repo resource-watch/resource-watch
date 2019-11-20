@@ -11,12 +11,12 @@ import { connect } from 'react-redux';
 import { substitution } from 'utils/utils';
 
 // Services
-import DatasetsService from 'services/DatasetsService';
+import { fetchDataset } from 'services/dataset';
 
 // Components
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
-import MetadataForm from 'components/datasets/metadata/form/MetadataForm';
+import DatasetMetadataForm from 'components/datasets/metadata/form';
 import DatasetWidgets from 'components/app/myrw/datasets/DatasetWidgets';
 
 // Constants
@@ -38,31 +38,27 @@ const DATASET_SUBTABS = [{
 }];
 
 class DatasetsShow extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    subtab: PropTypes.string,
+    // Store
+    user: PropTypes.object.isRequired
+  };
 
-    this.state = {
-      data: {}
-    };
+  static defaultProps = { subtab: 'edit' };
 
-    this.service = new DatasetsService({
-      language: props.locale
-    });
-  }
+  state = { data: {} };
 
-  componentDidMount() {
+  componentWillMount() {
     const { id, user } = this.props;
 
-    if (this.service) {
-      // Fetch the dataset / layer / widget depending on the tab
-      this.service.fetchData({ id, includes: 'widget,layer,metadata', filters: { userId: user.id } })
-        .then((data) => {
-          this.setState({ data });
-        })
-        .catch((err) => {
-          toastr.error('Error', err);
-        });
-    }
+    fetchDataset(id, { includes: 'widget,layer,metadata', userId: user.id })
+      .then((data) => {
+        this.setState({ data });
+      })
+      .catch((err) => {
+        toastr.error('Error', err);
+      });
   }
 
   /**
@@ -75,9 +71,8 @@ class DatasetsShow extends React.Component {
   }
 
   render() {
-    const { id, user } = this.props;
+    const { id, user, subtab } = this.props;
     const { data } = this.state;
-    const subtab = this.props.subtab || 'edit';
 
     return (
       <div className="c-datasets-show">
@@ -109,14 +104,11 @@ class DatasetsShow extends React.Component {
                 />
               }
 
-              {subtab === 'metadata' &&
-                <MetadataForm
-                  application={process.env.APPLICATIONS}
-                  authorization={user.token}
+              {subtab === 'metadata' && (
+                <DatasetMetadataForm
                   dataset={id}
                   onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets', id })}
-                />
-              }
+                />)}
 
               {subtab === 'widgets' && data.id &&
                 <DatasetWidgets
@@ -132,18 +124,6 @@ class DatasetsShow extends React.Component {
   }
 }
 
-DatasetsShow.propTypes = {
-  id: PropTypes.string,
-  subtab: PropTypes.string,
-
-  // Store
-  user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired
-};
-
-const mapStateToProps = state => ({
-  user: state.user,
-  locale: state.common.locale
-});
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DatasetsShow);

@@ -10,44 +10,36 @@ import Select from 'components/form/SelectInput';
 import Navigation from 'components/form/Navigation';
 
 // Services
-import GraphService from 'services/graph';
+import {
+  fetchAllTags,
+  fetchInferredTags
+} from 'services/graph';
+import {
+  fetchDatasetTags,
+  updateDatasetTags
+} from 'services/dataset';
 
 const graphOptions = {
   height: '100%',
-  layout: {
-    hierarchical: false
-  },
-  edges: {
-    color: '#000000'
-  }
+  layout: { hierarchical: false },
+  edges: { color: '#000000' }
 };
 
 class TagsForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      tags: [],
-      selectedTags: [],
-      savedTags: [], // Tags as they are in the server
-      inferredTags: [],
-      graph: null,
-      step: 1,
-      stepLength: 1,
-      submitting: false,
-      loadingDatasetTags: false,
-      loadingAllTags: false,
-      loadingInferredTags: false,
-      datasetHasTags: false
-    };
-
-    this.graphService = new GraphService({ apiURL: process.env.WRI_API_URL });
-
-    // ------------------ Bindings ------------------------
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleTagsChange = this.handleTagsChange.bind(this);
-    // ----------------------------------------------------
-  }
+  state = {
+    tags: [],
+    selectedTags: [],
+    savedTags: [], // Tags as they are in the server
+    inferredTags: [],
+    graph: null,
+    step: 1,
+    stepLength: 1,
+    submitting: false,
+    loadingDatasetTags: false,
+    loadingAllTags: false,
+    loadingInferredTags: false,
+    datasetHasTags: false
+  };
 
   /**
    * COMPONENT LIFECYCLE
@@ -61,10 +53,10 @@ class TagsForm extends React.Component {
 
   loadDatasetTags() {
     this.setState({ loadingDatasetTags: true });
-    this.graphService.getDatasetTags(this.props.dataset)
+    fetchDatasetTags(this.props.dataset)
       .then((response) => {
         const knowledgeGraphVoc = response.find(elem => elem.id === 'knowledge_graph');
-        const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.attributes.tags
+        const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.tags
           : knowledgeGraphVoc;
         this.setState({
           selectedTags: datasetTags,
@@ -90,7 +82,8 @@ class TagsForm extends React.Component {
             from: elem.source,
             to: elem.target,
             label: elem.relType,
-            font: { size: 8 } })),
+            font: { size: 8 }
+          })),
           nodes: data.nodes.map(elem => ({ id: elem.id, label: elem.label }))
         };
       });
@@ -114,7 +107,7 @@ class TagsForm extends React.Component {
    * - handleSubmit
    * - handleTagsChange
   */
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const { dataset, user } = this.props;
     const { selectedTags, savedTags, datasetHasTags } = this.state;
 
@@ -122,13 +115,13 @@ class TagsForm extends React.Component {
 
     if (selectedTags.length !== 0 || (savedTags && savedTags.length !== 0)) {
       this.setState({ loading: true });
-      this.graphService.updateDatasetTags(dataset, selectedTags, user.token,
+      updateDatasetTags(dataset, selectedTags, user.token,
         selectedTags && selectedTags.length > 0 && datasetHasTags)
         .then((response) => {
           toastr.success('Success', 'Tags updated successfully');
           this.setState({
-            savedTags: response[0] ? response[0].attributes.tags : [],
-            datasetHasTags: response[0] && response[0].attributes.tags.length > 0,
+            savedTags: response[0] ? response[0].tags : [],
+            datasetHasTags: response[0] && response[0].tags.length > 0,
             loading: false
           });
         })
@@ -141,7 +134,7 @@ class TagsForm extends React.Component {
       toastr.success('Success', 'Tags updated successfully');
     }
   }
-  handleTagsChange(value) {
+  handleTagsChange = (value) => {
     this.setState({ selectedTags: value },
       () => this.loadInferredTags());
   }
@@ -153,7 +146,7 @@ class TagsForm extends React.Component {
   */
   loadAllTags() {
     this.setState({ loadingAllTags: true });
-    this.graphService.getAllTags()
+    fetchAllTags()
       .then((response) => {
         this.setState({
           loadingAllTags: false,
@@ -168,15 +161,13 @@ class TagsForm extends React.Component {
   }
   loadInferredTags() {
     const { selectedTags } = this.state;
-    this.setState({
-      loadingInferredTags: true
-    });
+    this.setState({ loadingInferredTags: true });
     if (selectedTags && selectedTags.length > 0) {
-      this.graphService.getInferredTags(selectedTags)
-        .then((response) => {
+      fetchInferredTags({ concepts: selectedTags.join(',') })
+        .then((inferredTags) => {
           this.setState({
             loadingInferredTags: false,
-            inferredTags: response
+            inferredTags
           }, () => this.loadSubGraph());
         })
         .catch((err) => {
@@ -194,8 +185,11 @@ class TagsForm extends React.Component {
   }
 
   render() {
-    const { tags, selectedTags, inferredTags, graph, loadingDatasetTags,
-      loadingAllTags, loadingInferredTags } = this.state;
+    const {
+      tags, selectedTags, inferredTags, graph, loadingDatasetTags,
+      loadingAllTags, loadingInferredTags
+    } = this.state;
+
     return (
       <form className="c-tags-form" onSubmit={this.handleSubmit}>
         <Spinner
@@ -218,13 +212,14 @@ class TagsForm extends React.Component {
         <h5>Inferred tags:</h5>
         <div className="inferred-tags">
           {inferredTags.map(tag =>
-            (<div
-              className="tag"
-              key={tag.id}
-            >
-              {tag.label}
-            </div>)
-          )}
+            (
+              <div
+                className="tag"
+                key={tag.id}
+              >
+                {tag.label}
+              </div>
+            ))}
         </div>
         <div className="graph-div">
           <Spinner
