@@ -24,6 +24,7 @@ class LayerPreviewComponent extends PureComponent {
   static propTypes = {
     adminLayerPreview: PropTypes.object.isRequired,
     layer: PropTypes.object.isRequired,
+    layers: PropTypes.array.isRequired,
     interactions: PropTypes.array.isRequired,
     setLayerInteraction: PropTypes.func.isRequired,
     setLayerInteractionLatLng: PropTypes.func.isRequired,
@@ -44,27 +45,6 @@ class LayerPreviewComponent extends PureComponent {
 
     if (interactionesChanged) this.handleRefreshPreview();
   }
-
-  handleRefreshPreview() {
-    const { layer, interactions, generateLayerGroups } = this.props;
-
-    generateLayerGroups({ layer, interactions });
-  }
-
-  handleZoom = (zoom) => {
-    const { viewport: currentViewport } = this.state;
-
-    this.setState({
-      viewport: {
-        ...currentViewport,
-        zoom
-      }
-    });
-  }
-
-  handleViewport = debounce((viewport) => {
-    this.setState({ viewport });
-  }, 250)
 
   onClickLayer = ({ features, lngLat }) => {
     const {
@@ -98,6 +78,27 @@ class LayerPreviewComponent extends PureComponent {
     setLayerInteraction(interactions);
 
     return true;
+  }
+
+  handleViewport = debounce((viewport) => {
+    this.setState({ viewport });
+  }, 250)
+
+  handleZoom = (zoom) => {
+    const { viewport: currentViewport } = this.state;
+
+    this.setState({
+      viewport: {
+        ...currentViewport,
+        zoom
+      }
+    });
+  }
+
+  handleRefreshPreview = () => {
+    const { layer, interactions, generateLayerGroups } = this.props;
+
+    generateLayerGroups({ layer, interactions });
   }
 
   handleClosePopup = () => {
