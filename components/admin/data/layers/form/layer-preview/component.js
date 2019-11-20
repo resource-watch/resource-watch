@@ -109,8 +109,8 @@ class LayerPreviewComponent extends PureComponent {
   render() {
     const {
       adminLayerPreview,
-      interactions,
-      layers
+      layers,
+      setLayerInteractionSelected
     } = this.props;
 
     const { viewport } = this.state;
@@ -167,7 +167,7 @@ class LayerPreviewComponent extends PureComponent {
                           lat: interactionLatLng.latitude,
                           lng: interactionLatLng.longitude
                         }}
-                        onChangeInteractiveLayer={() => { console.log('onChangeInteractiveLayer'); }}
+                        onChangeInteractiveLayer={setLayerInteractionSelected}
                       />
                     </Popup>
                     }
