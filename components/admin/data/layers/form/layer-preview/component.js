@@ -123,7 +123,7 @@ class LayerPreviewComponent extends PureComponent {
     } = adminLayerPreview;
 
     const shouldRenderPopup = !isEmpty(interactionLatLng) && layers.length;
-    
+
     const layerPopupData = {
       // data available in certain point
       layersInteraction: interaction,
