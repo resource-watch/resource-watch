@@ -1,13 +1,11 @@
 import { createAction, createThunkAction } from 'redux-tools';
-import WRISerializer from 'wri-json-api-serializer';
 
 // services
 import {
   fetchPartners,
   fetchPartner
 } from 'services/partners';
-// TO-DO: get rid of this at some point
-import DatasetService from 'services/DatasetService';
+import { fetchDatasets } from 'services/dataset';
 
 // actions
 export const setPartners = createAction('PARTNERS/SET-PARTNERS');
@@ -74,8 +72,15 @@ export const getDatasetsByPartner = createThunkAction('PARTNERS/GET-PARTNER',
     const { common: { locale } } = getState();
     const includes = ['widget', 'layer', 'metadata', 'vocabulary'].join(',');
 
-    return DatasetService.getDatasets(datasetIds, locale, includes)
-      .then((response) => { dispatch(setPartner({ key: 'datasetsByPartner', value: WRISerializer({ data: response, locale }) })); })
+    return fetchDatasets({
+      ids: datasetIds.join(','),
+      language: locale,
+      includes,
+      'page[size]': 100
+    })
+      .then((datasets) => {
+        dispatch(setPartner({ key: 'datasetsByPartner', value: datasets }));
+      })
       .catch((err) => { dispatch(setError({ key: 'datasetsByPartner', value: err.message })); });
   });
 

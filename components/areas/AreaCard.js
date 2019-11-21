@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
-import { Link, Router } from 'routes';
+import { Router } from 'routes';
 
 // Redux
 import { connect } from 'react-redux';
 import { toggleTooltip } from 'redactions/tooltip';
-import { removeUserArea, getUserAreaLayerGroups } from 'redactions/user';
-
-// Selectors
-import areaAlerts from 'selectors/user/areaAlerts';
+import {
+  removeUserArea,
+  getUserAreaLayerGroups
+} from 'redactions/user';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -37,6 +37,12 @@ const MAP_CONFIG = {
 };
 
 class AreaCard extends React.Component {
+  static propTypes = {
+    area: PropTypes.object.isRequired,
+    // Store
+    toggleTooltip: PropTypes.func.isRequired,
+    removeUserArea: PropTypes.func.isRequired
+  };
   /**
    * Return the position of the click within the page taking
    * into account the scroll (relative to the page, not the
@@ -125,18 +131,15 @@ class AreaCard extends React.Component {
   }
 
   render() {
-    const { area, alerts } = this.props;
+    const { area } = this.props;
     const {
       loading,
       layer: { bbox, geojson }
     } = this.state;
     const { name } = area;
-    const { subscription } = area;
-    const subscriptionConfirmed = area.subscription && area.subscription.confirmed;
+    const { subscriptions } = area;
 
     const borderContainerClassNames = classnames({ 'border-container': true });
-
-    const activeAlerts = area.id in alerts ? alerts[area.id] : [];
 
     return (
       <div className="c-area-card">
@@ -174,42 +177,29 @@ class AreaCard extends React.Component {
               <h4>{name}</h4>
             </div>
             <div className="subscriptions-container">
-              {activeAlerts &&
+              {subscriptions && subscriptions.length > 0 &&
                 <div className="datasets-container">
                   <div className="datasets-list">
-                    {activeAlerts.map(alert => (
+                    {subscriptions.map(subscription => (
                       <div
                         className="dataset-element"
-                        key={alert.id}
+                        key={subscription.id}
                       >
-                        <div className="dataset-name">
-                          {alert.id &&
-                            <Link
-                              route="explore_detail"
-                              params={{ id: alert.id }}
-                            >
-                              <a>
-                                {/* getLabel(alert.dataset) */}
-                              </a>
-                            </Link>}
-                        </div>
                         <div className="dataset-subscription-type">
-                          {alert.type}
-                          &nbsp;({alert.threshold})
+                          {subscription.datasetsQuery[0].type}
+                          &nbsp;({subscription.datasetsQuery[0].threshold})
+                        </div>
+                        <div className="subscription-status">
+                          <div className="status-label">
+                            {!subscription.confirmed &&
+                              <div className="pending-label">
+                                Pending email confirmation
+                              </div>
+                            }
+                          </div>
                         </div>
                       </div>
                     ))}
-                  </div>
-                </div>
-              }
-              {subscription &&
-                <div className="subscription-status">
-                  <div className="status-label">
-                    {!subscriptionConfirmed &&
-                      <div className="pending-label">
-                        Pending email confirmation
-                      </div>
-                    }
                   </div>
                 </div>
               }
@@ -221,17 +211,6 @@ class AreaCard extends React.Component {
               >
                 Area Options
               </button>
-              {/* {activeAlerts.length > 0 &&
-                <Link
-                  route="myrw_detail"
-                  params={{ id: area.id, tab: 'areas', subtab: 'alerts' }}
-                >
-                  <a
-                    className="c-btn -tertiary -compressed"
-                  >
-                    View alerts
-                  </a>
-                </Link>} */}
             </div>
           </div>
         </div>
@@ -252,18 +231,7 @@ class AreaCard extends React.Component {
   }
 }
 
-AreaCard.propTypes = {
-  area: PropTypes.object.isRequired,
-  alerts: PropTypes.object.isRequired,
-  // Store
-  toggleTooltip: PropTypes.func.isRequired,
-  removeUserArea: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-  locale: state.common.locale,
-  alerts: areaAlerts(state)
-});
+const mapStateToProps = state => ({ locale: state.common.locale });
 
 const mapDispatchToProps = {
   toggleTooltip,

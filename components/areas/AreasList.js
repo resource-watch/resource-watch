@@ -16,7 +16,6 @@ class AreasList extends React.Component {
     const { openModal, subscriptionThreshold, subscriptionDataset, subscriptionType } = query || {};
 
     this.state = {
-      loading: false,
       openSubscriptionsModal: openModal,
       subscriptionThreshold,
       subscriptionDataset,
@@ -26,7 +25,6 @@ class AreasList extends React.Component {
 
   render() {
     const {
-      loading,
       openSubscriptionsModal,
       subscriptionDataset,
       subscriptionType,
@@ -35,6 +33,7 @@ class AreasList extends React.Component {
 
     const { user } = this.props;
     const { areas } = user;
+    const { loading } = areas;
 
     return (
       <div className="c-areas-list">

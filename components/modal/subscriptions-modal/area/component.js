@@ -11,9 +11,6 @@ import Spinner from 'components/ui/Spinner';
 import DatasetsManager from '../dataset-manager';
 import SubscriptionsPreview from '../subscriptions-preview';
 
-// constants
-// import { SUBSCRIPTION_FREQUENCY_OPTIONS } from './constants';
-
 class AreaSubscriptionsModal extends PureComponent {
   static propTypes = {
     userSelection: PropTypes.object.isRequired,
@@ -52,14 +49,19 @@ class AreaSubscriptionsModal extends PureComponent {
     } = this.props;
 
     if (subscription.datasets.length > 0) {
-      if (!activeArea.subscription) {
+      if (!activeArea.subscriptions) {
         createSubscriptionToArea();
       } else {
         updateSubscription();
       }
+    } else if (activeArea.subscriptions) {
+      // Case where an area that had subscriptions associated to it has been 'cleaned' by the user
+      // so that it no longers has any subscriptions associated to it
+      updateSubscription();
     } else {
       toastr.error('Data missing', 'Please select at least one dataset and a subscription type');
     }
+    this.props.onRequestClose();
   }
 
   handleGoToMySubscriptions = () => {
@@ -73,7 +75,6 @@ class AreaSubscriptionsModal extends PureComponent {
     const {
       areas,
       activeArea,
-      // activeDataset,
       userSelection,
       loading,
       subscriptionCreation,
@@ -87,7 +88,6 @@ class AreaSubscriptionsModal extends PureComponent {
             Your subscription was successfully created.
           <strong> Please check your email address to confirm it.</strong>
         </p>) : null;
-    const currentArea = areas.find(_area => _area.value === activeArea.id);
     let headerText = `${activeArea.name} subscriptions`;
     if (success) headerText = 'Subscription saved!';
 
@@ -125,7 +125,7 @@ class AreaSubscriptionsModal extends PureComponent {
                   options={areas}
                   className="-disabled"
                   allowNonLeafSelection={false}
-                  value={(currentArea || {}).value}
+                  value={(activeArea || {}).id}
                 />
               </Field>
             </div>
@@ -143,7 +143,7 @@ class AreaSubscriptionsModal extends PureComponent {
         {!success &&
           <div className="buttons">
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
-              {activeArea.subscription ? 'Update' : 'Subscribe'}
+              Save
             </button>
 
             <button

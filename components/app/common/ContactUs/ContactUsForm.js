@@ -2,7 +2,7 @@ import React from 'react';
 
 // Services
 import { toastr } from 'react-redux-toastr';
-import ContactUsService from 'services/contact-us';
+import { contactUs } from 'services/contact-us';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -19,38 +19,32 @@ import { FORM_ELEMENTS, STATE_DEFAULT, FORM_TOPICS } from './constants';
 
 
 class ContactUsForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = Object.assign({}, STATE_DEFAULT, {
-      form: STATE_DEFAULT.form,
-      showSubmitModal: false
-    });
-
-    this.service = new ContactUsService();
-  }
+  state = Object.assign({}, STATE_DEFAULT, {
+    form: STATE_DEFAULT.form,
+    showSubmitModal: false
+  });
 
   /**
    * UI EVENTS
    * - onSubmit
    * - onChange
+   * - handleToggleModal
   */
   onSubmit = (event) => {
+    const { form } = this.state;
     event.preventDefault();
 
     // Validate the form
-    FORM_ELEMENTS.validate(this.state.form);
+    FORM_ELEMENTS.validate(form);
 
     // Set a timeout due to the setState function of react
     setTimeout(() => {
-      const valid = FORM_ELEMENTS.isValid(this.state.form);
+      const valid = FORM_ELEMENTS.isValid(form);
 
       if (valid) {
         this.setState({ submitting: true });
         // Save data
-        this.service.saveData({
-          body: this.state.form
-        })
+        contactUs(form)
           .then(() => {
             this.setState({ submitting: false });
             this.handleToggleModal(true);
@@ -85,7 +79,7 @@ class ContactUsForm extends React.Component {
             onChange={value => this.onChange({ topic: value })}
             validations={['required']}
             className="-fluid"
-            options={ FORM_TOPICS.options }
+            options={FORM_TOPICS.options}
             properties={{
               name: 'topic',
               label: 'Topic',
@@ -141,11 +135,11 @@ class ContactUsForm extends React.Component {
           isOpen={this.state.showSubmitModal}
           className="-medium"
           onRequestClose={() => this.handleToggleModal(false)}
-          >
+        >
           <SubmitModalComponent
-            header='Thanks for your message.'
-            text='Someone from our team will be in touch shortly.'
-            />
+            header="Thanks for your message."
+            text="Someone from our team will be in touch shortly."
+          />
         </Modal>
       </div>
     );

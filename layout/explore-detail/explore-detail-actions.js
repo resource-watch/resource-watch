@@ -1,9 +1,12 @@
 import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
-import WRISerializer from 'wri-json-api-serializer';
 
 // Services
-import GraphService from 'services/graph';
+import {
+  fetchInferredTags,
+  countDatasetView
+} from 'services/graph';
+import { fetchDataset } from 'services/dataset';
 
 // Helpers
 import { TAGS_BLACKLIST } from 'utils/tags';
@@ -13,17 +16,18 @@ import { TAGS_BLACKLIST } from 'utils/tags';
 export const setDataset = createAction('EXPLORE-DETAIL/setDataset');
 export const setDatasetLoading = createAction('EXPLORE-DETAIL/setDatasetLoading');
 export const setDatasetError = createAction('EXPLORE-DETAIL/setDatasetError');
-export const fetchDataset = createThunkAction('WIDGET-DETAIL/fetchDataset', (payload = {}) => (dispatch, getState) => {
+export const getDataset = createThunkAction('EXPLORE-DETAIL/getDataset', (payload = {}) => (dispatch, getState) => {
   const state = getState();
   dispatch(setDatasetLoading(true));
   dispatch(setDatasetError(null));
 
-  return fetch(`${process.env.WRI_API_URL}/dataset/${payload.id}?application=${process.env.APPLICATIONS}&language=${state.common.locale}&includes=layer,metadata,vocabulary,widget&page[size]=9999`)
-    .then((response) => {
-      if (response.status >= 400) throw Error(response.statusText);
-      return response.json();
+  return fetchDataset(payload.id,
+    {
+      application: process.env.APPLICATIONS,
+      language: state.common.locale,
+      includes: 'layer,metadata,vocabulary,widget',
+      'page[size]': 9999
     })
-    .then(body => WRISerializer(body, { locale: state.common.locale }))
     .then((data) => {
       dispatch(setDatasetLoading(false));
       dispatch(setDatasetError(null));
@@ -72,12 +76,11 @@ export const fetchTags = createThunkAction('WIDGET-DETAIL/fetchTags', () => (dis
   dispatch(setTagsError(null));
 
   const tags = getState().exploreDetail.tags.active;
-  const service = new GraphService();
 
   if (tags.length) {
-    return service.getInferredTags(tags)
-      .then((response) => {
-        dispatch(setTags(response.filter(tag =>
+    return fetchInferredTags({ concepts: tags.join(',') })
+      .then((inferredTags) => {
+        dispatch(setTags(inferredTags.filter(tag =>
           tag.labels.find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
           !TAGS_BLACKLIST.includes(tag.id))));
       })
@@ -93,12 +96,8 @@ export const fetchTags = createThunkAction('WIDGET-DETAIL/fetchTags', () => (dis
 // COUNT VIEW
 export const setCountView = createThunkAction('WIDGET-DETAIL/setCountView', () => (dispatch, getState) => {
   const { exploreDetail, user } = getState();
-
-  const service = new GraphService();
-
   if (!user.token) {
     return;
   }
-
-  service.countDatasetView(exploreDetail.data.id, user.token);
+  countDatasetView(exploreDetail.data.id, user.token);
 });

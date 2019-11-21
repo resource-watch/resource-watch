@@ -75,6 +75,7 @@ export const createArea = (name, geostore, token) => {
   };
 
   return WRIAPI.post('area', bodyObj, { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating area: ${status}: ${statusText}`);
@@ -95,6 +96,7 @@ export const updateArea = (id, name, token, geostore) => {
   };
 
   return WRIAPI.patch(`area/${id}`, bodyObj, { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating area ${id}: ${status}: ${statusText}`);

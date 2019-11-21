@@ -6,7 +6,7 @@ import { Router } from 'routes';
 import { connect } from 'react-redux';
 
 // Services
-import DatasetsService from 'services/DatasetsService';
+import { fetchDatasets } from 'services/dataset';
 import LayersService, { fetchLayer, deleteLayer } from 'services/layer';
 import { toastr } from 'react-redux-toastr';
 
@@ -26,13 +26,14 @@ class LayersForm extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
     dataset: PropTypes.string,
-    authorization: PropTypes.string,
-    application: PropTypes.array,
+    authorization: PropTypes.string.isRequired,
+    application: PropTypes.array.isRequired,
     onSubmit: PropTypes.func,
     locale: PropTypes.string.isRequired,
     interactions: PropTypes.object.isRequired,
     adminLayerPreview: PropTypes.object.isRequired,
-    newState: PropTypes.bool.isRequired
+    newState: PropTypes.bool.isRequired,
+    setLayerInteractionError: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -63,14 +64,10 @@ class LayersForm extends PureComponent {
       authorization: props.authorization,
       language: props.locale
     });
-    this.datasetsService = new DatasetsService({
-      authorization: props.authorization,
-      language: props.locale
-    });
 
     this.layerManager = new LayerManager(null, {
       layersUpdated: (valid, err) => {
-        this.props.dispatch(setLayerInteractionError(valid ? false : err));
+        this.props.setLayerInteractionError(valid ? false : err);
       }
     });
   }
@@ -78,7 +75,7 @@ class LayersForm extends PureComponent {
   componentDidMount() {
     const { id } = this.state;
 
-    const promises = [this.datasetsService.fetchAllData({})];
+    const promises = [fetchDatasets({ 'page[size]': 999999 })];
 
     // Add the dashboard promise if the id exists
     if (id) {
@@ -130,7 +127,11 @@ class LayersForm extends PureComponent {
       let interactionConfig = form.interactionConfig;
       // Grab all the interactions from the redux store
       if (form.provider === 'cartodb') {
-        interactionConfig = Object.assign({}, form.interactionConfig, { output: interactions.added });
+        interactionConfig = Object.assign(
+          {},
+          form.interactionConfig,
+          { output: interactions.added }
+        );
       }
 
       const newForm = Object.assign({}, form, { interactionConfig });
@@ -146,7 +147,7 @@ class LayersForm extends PureComponent {
       if (valid) {
         // Start the submitting
         this.setState({ submitting: true });
-        this.props.dispatch(setLayerInteractionError(false));
+        this.props.setLayerInteractionError(false);
 
         if (cartoLayer.length) {
           // If we have carto layers, make sure they work
@@ -227,38 +228,6 @@ class LayersForm extends PureComponent {
     return newForm;
   }
 
-  /**
-   * Set the layer interaction of the store
-   * @export
-   * @param {Layer{}} layer
-   */
-  setLayerInteraction(layer) {
-    return (dispatch) => {
-      dispatch({
-        type: SET_LAYERS_INTERACTION,
-        payload: layer
-      });
-    };
-  }
-
-  setLayerInteractionSelected(id) {
-    return (dispatch) => {
-      dispatch({
-        type: SET_LAYER_INTERACTION_SELECTED,
-        payload: id
-      });
-    };
-  }
-
-  setLayerInteractionLatLng(latlng) {
-    return (dispatch) => {
-      dispatch({
-        type: SET_LAYER_INTERACTION_LATLNG,
-        payload: latlng
-      });
-    };
-  }
-
   verifyLayerConfig() {
     const { adminLayerPreview } = this.props;
     const { layerGroups } = adminLayerPreview;
@@ -317,9 +286,6 @@ class LayersForm extends PureComponent {
             datasets={datasets}
             onChange={value => this.onChange(value)}
             onChangeDataset={value => this.onChangeDataset(value)}
-            setLayerInteraction={this.setLayerInteraction}
-            setLayerInteractionSelected={this.setLayerInteractionSelected}
-            setLayerInteractionLatLng={this.setLayerInteractionLatLng}
             verifyLayerConfig={() => this.verifyLayerConfig()}
           />
         }
@@ -346,7 +312,9 @@ const mapStateToProps = state => ({
   newState: state.routes.query.id === 'new'
 });
 
+const mapDispatchToProps = { setLayerInteractionError };
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(LayersForm);

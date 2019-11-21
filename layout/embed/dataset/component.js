@@ -8,7 +8,7 @@ import Spinner from 'components/ui/Spinner';
 import LayoutEmbed from 'layout/layout/layout-embed';
 
 // services
-import DatasetService from 'services/DatasetService';
+import { fetchDataset } from 'services/dataset';
 
 // utils
 import { isLoadedExternally } from 'utils/embed';
@@ -18,19 +18,7 @@ const defaultTheme = getVegaTheme();
 class LayoutEmbedDataset extends PureComponent {
   static propTypes = {
     routes: PropTypes.object.isRequired,
-    locale: PropTypes.string.isRequired,
     referer: PropTypes.string.isRequired
-  }
-
-  constructor(props) {
-    super(props);
-
-    const { routes: { query: { id } } } = props;
-
-    this.datasetService = new DatasetService(id, {
-      apiURL: process.env.WRI_API_URL,
-      language: props.locale
-    });
   }
 
   state = {
@@ -39,13 +27,13 @@ class LayoutEmbedDataset extends PureComponent {
     loadingDataset: true
   }
 
-  componentDidMount() {
-    this.datasetService.fetchData('widget, metadata').then((data) => {
-      this.setState({
-        dataset: data,
-        loadingDataset: false
-      });
-    });
+  componentWillMount() {
+    fetchDataset(this.props.routes.query.id, { includes: 'widget, metadata' })
+      .then(data =>
+        this.setState({
+          dataset: data,
+          loadingDataset: false
+        }));
   }
 
   triggerToggleLoading = () => { this.setState({ loadingWidget: false }); }
