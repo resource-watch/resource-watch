@@ -98,13 +98,24 @@ class DashboardsTable extends PureComponent {
         application: process.env.APPLICATIONS,
         env: process.env.API_ENV
       },
-      { Authorization: token }
+      { Authorization: token },
+      true
     )
-      .then((response) => {
-        // TO-DO pagination, pending to be implemented in the API
+      .then(({ dashboards, meta }) => {
+        const {
+          'total-pages': pages,
+          'total-items': size
+        } = meta;
+        const nextPagination = {
+          ...pagination,
+          size,
+          pages
+        };
+
         this.setState({
           loading: false,
-          dashboards: response
+          dashboards,
+          pagination: nextPagination
         });
       })
       .catch(error => toastr.error('There was an error loading the dashboards', error));

@@ -15,7 +15,7 @@ import { logger } from 'utils/logs';
 export const fetchDashboards = (params = {
   env: process.env.API_ENV,
   application: process.env.APPLICATIONS
-}, headers = {}) => {
+}, headers = {}, _meta = false) => {
   logger.info('Fetch dashboards');
   return WRIAPI.get('dashboard', {
     headers: {
@@ -27,11 +27,20 @@ export const fetchDashboards = (params = {
     params
   }).then((response) => {
     const { status, statusText, data } = response;
+    const { dashboards, meta } = data;
 
     if (status >= 300) {
       logger.error('Error fetching dashboards:', `${status}: ${statusText}`);
       throw new Error(statusText);
     }
+
+    if (_meta) {
+      return {
+        dashboards: WRISerializer({ data: dashboards }),
+        meta
+      };
+    }
+
     return WRISerializer(data);
   })
     .catch(({ response }) => {
