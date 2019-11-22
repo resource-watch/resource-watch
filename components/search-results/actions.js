@@ -1,6 +1,7 @@
 import 'isomorphic-fetch';
 import { Router } from 'routes';
 import { createAction, createThunkAction } from 'redux-tools';
+import { logEvent } from 'utils/analytics';
 
 // SEARCH
 export const setSearchList = createAction('SEARCH/setSearchList');
@@ -18,6 +19,7 @@ export const fetchSearch = createThunkAction('SEARCH/fetchSearch', () => (dispat
   if (term) {
     dispatch(setSearchLoading(true));
     dispatch(setSearchError(null));
+    logEvent('Search', 'Search', term);
 
     return fetch(`https://api.addsearch.com/v1/search/${process.env.ADD_SEARCH_KEY}?term=${term}&page=${page}&limit=${limit}&fuzzy=true`)
       .then((response) => {

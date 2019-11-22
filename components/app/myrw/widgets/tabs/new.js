@@ -100,7 +100,7 @@ class WidgetsNew extends React.Component {
   }
 
   loadDatasets() {
-    fetchDatasets({ published: true, includes: 'metadata' }).then((response) => {
+    fetchDatasets({ published: true, includes: 'metadata', 'page[size]': 999999 }).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
@@ -109,8 +109,8 @@ class WidgetsNew extends React.Component {
             type: dataset.type,
             provider: dataset.provider,
             tableName: dataset.tableName,
-            label: metadata && metadata.attributes.info
-              ? metadata.attributes.info.name
+            label: metadata && metadata.info
+              ? metadata.info.name
               : dataset.name,
             value: dataset.id
           });
@@ -129,8 +129,8 @@ class WidgetsNew extends React.Component {
               type: dataset.type,
               provider: dataset.provider,
               tableName: dataset.tableName,
-              label: metadata && metadata.attributes.info
-                ? metadata.attributes.info.name
+              label: metadata && metadata.info
+                ? metadata.info.name
                 : dataset.name,
               value: dataset.id
             });

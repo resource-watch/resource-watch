@@ -6,6 +6,8 @@ import { logger } from 'utils/logs';
 
 /**
  * Get all tags
+ * @param {Object} params Request parameters
+ * https://resource-watch.github.io/doc-api/index-rw.html#list-concepts
  */
 export const fetchAllTags = (params = {}) => {
   logger.info('Fetch all tags');
@@ -28,10 +30,12 @@ export const fetchAllTags = (params = {}) => {
 
 /**
  * Get inferred tags
+ * @param {Object} params Request parameters
+ * https://resource-watch.github.io/doc-api/index-rw.html#get-inferred-concepts
  */
-export const fetchInferredTags = (tags, params = {}) => {
+export const fetchInferredTags = (params = {}) => {
   logger.info('Fetch inferred tags');
-  return WRIAPI.get(`graph/query/concepts-inferred?concepts=${tags}`,
+  return WRIAPI.get('graph/query/concepts-inferred',
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params: {
@@ -43,84 +47,8 @@ export const fetchInferredTags = (tags, params = {}) => {
     .then(response => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
-      logger.error(`Error fetching inferred tags: ${tags} ${status}: ${statusText}`);
-      throw new Error(`Error inferred tags: ${tags} ${status}: ${statusText}`);
-    });
-};
-
-/**
-* Get dataset tags
-*/
-export const fetchDatasetTags = (datasetId, params = {}) => {
-  logger.info(`Fetch dataset tags: ${datasetId}`);
-  return WRIAPI.get(`dataset/${datasetId}/vocabulary`,
-    {
-      headers: { 'Upgrade-Insecure-Requests': 1 },
-      params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
-        ...params
-      }
-    })
-    .then(response => WRISerializer(response.data))
-    .catch((response) => {
-      const { status, statusText } = response;
-      logger.error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
-      throw new Error(`Error fetching dataset tags ${datasetId}: ${status}: ${statusText}`);
-    });
-};
-
-/**
-* Update dataset tags
-*/
-export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
-  logger.info(`Update dataset tags: ${datasetId}`);
-
-  if (usePatch) {
-    return WRIAPI.patch(`dataset/${datasetId}/vocabulary/knowledge_graph`,
-      {
-        tags,
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV
-      },
-      { headers: { Authorization: token } })
-      .then(response => WRISerializer(response.data))
-      .catch((response) => {
-        const { status, statusText } = response;
-        logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
-        throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
-      });
-  }
-  if (tags.length > 0) {
-    return WRIAPI.put(`dataset/${datasetId}/vocabulary`,
-      {
-        knowledge_graph: {
-          tags,
-          application: process.env.APPLICATIONS,
-          env: process.env.API_ENV
-        }
-      },
-      { headers: { Authorization: token } })
-      .then(response => WRISerializer(response.data))
-      .catch((response) => {
-        const { status, statusText } = response;
-        logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
-        throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
-      });
-  }
-  return WRIAPI.delete(`dataset/${datasetId}/vocabulary/knowledge_graph`,
-    {
-      headers: { Authorization: token },
-      params: {
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV
-      }
-    })
-    .then(response => WRISerializer(response.data))
-    .catch((response) => {
-      const { status, statusText } = response;
-      logger.error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
-      throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
+      logger.error(`Error fetching inferred tags ${status}: ${statusText}`);
+      throw new Error(`Error inferred tags ${status}: ${statusText}`);
     });
 };
 
@@ -151,6 +79,7 @@ export const countDatasetView = (datasetId, token, params = {}) => {
 
 /**
  * Get the list of most viewed datasets
+ * @param {Object} params Request parameters
  * @returns {Promise<string[]>} List of sorted ids
  */
 export const fetchMostViewedDatasets = (params = {}) => {
@@ -174,7 +103,8 @@ export const fetchMostViewedDatasets = (params = {}) => {
 
 /**
  * Get the list of most favourited datasets
- * @returns {Promise<string[]>} List of sorted ids
+ * @param {Object} params Request parameters
+ * https://resource-watch.github.io/doc-api/index-rw.html#most-liked-datasets
  */
 export const fetchMostFavoritedDatasets = (params = {}) => {
   logger.info('Fetch most favorited datasets');
@@ -195,18 +125,22 @@ export const fetchMostFavoritedDatasets = (params = {}) => {
     });
 };
 
-export const fetchSimilarDatasets = (datasetIds, withAncestors = true, params = {}) => {
+/**
+ * Fetch similar datasets
+ * @param {Object} params Request parameters
+ * @param {boolean} withAncestors Flag indicating whether tags' ancestors
+ * should be considered or not
+ * https://resource-watch.github.io/doc-api/index-rw.html#similar-datasets-including-ancestors
+ */
+export const fetchSimilarDatasets = (params = {}, withAncestors = true) => {
   logger.info('Fetch similar datasets');
   const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
   return WRIAPI.get(
     `graph/query/${endpoint}`,
     {
       params: {
-        dataset: datasetIds.join(','),
-        published: true,
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        limit: 6,
         ...params
       },
       headers: { 'Upgrade-Insecure-Requests': 1 }
@@ -215,8 +149,8 @@ export const fetchSimilarDatasets = (datasetIds, withAncestors = true, params = 
     .then(response => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
-      logger.error(`Error fetching similart datasets: ${datasetIds} ${status}: ${statusText}`);
-      throw new Error(`Error fetching similart datasets: ${datasetIds} ${status}: ${statusText}`);
+      logger.error(`Error fetching similart datasets ${status}: ${statusText}`);
+      throw new Error(`Error fetching similart datasets ${status}: ${statusText}`);
     });
 };
 
@@ -225,8 +159,6 @@ export default {
   fetchMostFavoritedDatasets,
   fetchSimilarDatasets,
   countDatasetView,
-  updateDatasetTags,
-  fetchDatasetTags,
   fetchInferredTags,
   fetchAllTags
 };

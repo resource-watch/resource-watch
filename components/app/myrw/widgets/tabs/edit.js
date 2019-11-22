@@ -243,6 +243,6 @@ const mapStateToProps = state => ({
   locale: state.common.locale
 });
 
-const mapDispatchToProps = dispatch => ({ setDataset: dataset => dispatch(setDataset(dataset)) });
+const mapDispatchToProps = { setDataset };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WidgetsEdit);

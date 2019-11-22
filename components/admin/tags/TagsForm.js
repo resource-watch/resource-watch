@@ -12,10 +12,12 @@ import Navigation from 'components/form/Navigation';
 // Services
 import {
   fetchAllTags,
-  fetchInferredTags,
+  fetchInferredTags
+} from 'services/graph';
+import {
   fetchDatasetTags,
   updateDatasetTags
-} from 'services/graph';
+} from 'services/dataset';
 
 const graphOptions = {
   height: '100%',
@@ -161,11 +163,11 @@ class TagsForm extends React.Component {
     const { selectedTags } = this.state;
     this.setState({ loadingInferredTags: true });
     if (selectedTags && selectedTags.length > 0) {
-      fetchInferredTags(selectedTags)
-        .then((response) => {
+      fetchInferredTags({ concepts: selectedTags.join(',') })
+        .then((inferredTags) => {
           this.setState({
             loadingInferredTags: false,
-            inferredTags: response
+            inferredTags
           }, () => this.loadSubGraph());
         })
         .catch((err) => {
