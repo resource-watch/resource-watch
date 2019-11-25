@@ -171,7 +171,7 @@ export const createWidget = (widget, datasetId, token) => {
   logger.info('Create widget');
   return WRIAPI.post(`dataset/${datasetId}/widget`,
     {
-      application: process.env.APPLICATIONS,
+      application: process.env.APPLICATIONS.split(','),
       env: process.env.API_ENV,
       ...widget
     },
