@@ -130,19 +130,12 @@ class WidgetForm extends PureComponent {
           this.setState({ submitting: true });
           const formObj = mode === 'editor' ? { ...form, widgetConfig } : form;
 
-          // const obj = {
-          //   dataset: form.dataset,
-          //   id: id || '',
-          //   type: id ? 'PATCH' : 'POST',
-          //   body: formObj
-          // };
-
           if (formObj.sourceUrl === '') {
             delete formObj.sourceUrl;
           }
 
           // The widget has to be "frozen" first
-          if (formObj.freeze) {
+          if (formObj.freeze && widgetConfig.paramsConfig.visualizationType === 'chart') {
             const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
             const tempBand = formObj.widgetConfig.paramsConfig
               ? formObj.widgetConfig.paramsConfig.band
