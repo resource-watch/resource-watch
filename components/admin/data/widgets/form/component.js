@@ -111,7 +111,7 @@ class WidgetForm extends PureComponent {
    */
   onSubmit = (event) => {
     const { submitting, stepLength, step, form, mode, id } = this.state;
-    const { widgetEditor } = this.props;
+    const { widgetEditor, authorization } = this.props;
     event.preventDefault();
 
     // Validate the form
@@ -158,7 +158,8 @@ class WidgetForm extends PureComponent {
               datasetObj.slug
             ).then((dataURL) => {
               const sqlSt = dataURL.split('sql=')[1];
-              fetchQuery(sqlSt, { freeze: true }).then((resp) => {
+
+              fetchQuery(authorization, sqlSt, { freeze: true }).then((resp) => {
                 const { url } = resp;
                 formObj.queryUrl = url;
                 formObj.widgetConfig.data = [
