@@ -109,7 +109,7 @@ class WidgetsEdit extends React.Component {
 
     const hasMetadata = await fetchWidgetMetadata(widgetObj.id, dataset, user.token);
 
-    updateWidget(widgetObj, dataset, user.token)
+    updateWidget(widgetObj, user.token)
       .then(() => {
         if (hasMetadata.data.length > 0) {
           updateWidgetMetadata(

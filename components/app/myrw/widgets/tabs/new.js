@@ -88,7 +88,7 @@ class WidgetsNew extends React.Component {
           toastr.success('Success', 'Widget created successfully!');
         }).catch((err) => {
           this.setState({ loading: false });
-          toastr.err('Error', err);
+          toastr.error('Error', err);
         });
     }, 0);
   }

@@ -145,11 +145,10 @@ export const deleteWidget = (widgetId, datasetId, token) => {
  * Updates data for the widget provided.
  *
  * @param {Object} widget - widget data.
- * @param {string} datasetId - Dataset ID the widget belongs to.
  * @param {string} token - user's token.
  * @returns {Object} serialized specified widget.
  */
-export const updateWidget = (widget, datasetId, token) => {
+export const updateWidget = (widget, token) => {
   logger.info(`Update widget: ${widget.id}`);
   return WRIAPI.patch(`widget/${widget.id}`, widget, { headers: { Authorization: token } })
     .then(response => WRISerializer(response.data))
