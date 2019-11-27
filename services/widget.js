@@ -59,8 +59,8 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
 
 
 /**
- * fetches data for a specific widget.
- *
+ * Fetches data for a specific widget.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-obtain-a-single-widget|here}
  * @param {String} id - widget id.
  * @param {Object} params - params sent to the API.
  * @returns {Object} serialized specified widget.
@@ -103,13 +103,13 @@ export const fetchWidget = (id, params = {}) => {
 };
 
 /**
- * Deletes the specified widget.
- * This method requires authentication.
- *
- * @param {*} widgetId - widget ID to be deleted.
- * @param {string} datasetId - dataset ID the widget belongs to
- * @param {string} token - user's token.
- * @returns {Object} response.
+ * Deletes a specified widget.
+ * This fetch needs authentication.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-a-widget|here}
+ * @param {String} widgetId - widget ID to be deleted.
+ * @param {String} datasetId - dataset ID.
+ * @param {String} token - user's token.
+ * @returns {Object} fetch response.
  */
 export const deleteWidget = (widgetId, datasetId, token) => {
   logger.info(`Delete widget: ${widgetId}`);
