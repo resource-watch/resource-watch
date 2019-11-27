@@ -5,7 +5,8 @@ import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 /**
- * Retrieve all collections of the user
+ * Retrieve all collections from a user
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-collections|here}
  * @param {String} token User's token
  * @param {Object} params Request optional parameters
  */
@@ -32,7 +33,8 @@ export const fetchAllCollections = (
     });
 };
 /**
- * Retrieve data of a specific collection
+ * Retrieve a specific collection
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-collection-by-id|here}
  * @param {String} token User's token
  * @param {String} collectionId Id of the collection we are asking for.
  * @param {Object} params Request parameters
@@ -62,7 +64,8 @@ export const fetchCollection = (
 };
 
 /**
- * Creates a new collection attached to the current user
+ * Create a new collection associated to the authenticated user
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-collection|here}
  * @param {String} token User's token
  * @param {Object} data collection data
  */
@@ -89,7 +92,8 @@ export const createCollection = (token, data = {}) => {
 };
 
 /**
- * Deletes an existing collection attached to the current user
+ * Delete an existing collection associated to the authenticated user
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-collection|here}
  * @param {String} token User's token
  * @param {String} collectionId Id of the collection to be removed
  */
@@ -105,7 +109,8 @@ export const deleteCollection = (token, collectionId) => {
 };
 
 /**
- * Update an existing collection attached to the current user
+ * Update an existing collection associataed to the authenticated user
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#update-collection|here}
  * @param {String} token User's token
  * @param {String} collectionId Id of the collection to be edited
  * @param {Object} data Data to be updated
@@ -130,6 +135,7 @@ export const updateCollection = (token, collectionId, data) => {
 
 /**
  * Add a resource to the collection
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#add-resource-to-collection|here}
  * @param {String} token User's token
  * @param {String} collectionId Id of the collection to be edited
  * @param {Object} resource Resource to be addded to the collection
@@ -158,6 +164,7 @@ export const addResourceToCollection = (token, collectionId, resource = {}) => {
 
 /**
  * Remove resource from collection
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-collection-resource|here}
  * @param {String} token User's token
  * @param {String} collectionId Id of the collection to be edited
  * @param {Object} resource Resource to be removed from the collection
