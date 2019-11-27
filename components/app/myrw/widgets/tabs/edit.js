@@ -8,8 +8,13 @@ import { connect } from 'react-redux';
 import { setDataset } from 'redactions/myrwdetail';
 
 // Services
-import WidgetService from 'services/WidgetService';
-import { fetchWidget } from 'services/widget';
+import {
+  fetchWidget,
+  updateWidget,
+  updateWidgetMetadata,
+  createWidgetMetadata,
+  fetchWidgetMetadata
+} from 'services/widget';
 import { fetchDataset } from 'services/dataset';
 
 // Components
@@ -39,12 +44,6 @@ const FORM_ELEMENTS = {
 };
 
 class WidgetsEdit extends React.Component {
-  constructor(props) {
-    super(props);
-    this.widgetService = new WidgetService(this.props.id,
-      { apiURL: process.env.WRI_API_URL });
-  }
-
   state = {
     loading: true,
     submitting: false,
@@ -108,21 +107,26 @@ class WidgetsEdit extends React.Component {
       { widgetConfig }
     );
 
-    const hasMetadata = await this.widgetService.userWidgetMetadata(widgetObj, dataset, user.token);
+    const hasMetadata = await fetchWidgetMetadata(widgetObj.id, dataset, user.token);
 
-    this.widgetService.updateUserWidget(widgetObj, dataset, user.token)
-      .then((response) => {
-        if (response.errors) {
-          const errorMessage = response.errors[0].detail;
-          this.setState({ loading: false });
-          toastr.error('Error', errorMessage);
-        } else {
-          this.widgetService.updateUserWidgetMetadata(
+    updateWidget(widgetObj, user.token)
+      .then(() => {
+        if (hasMetadata.data.length > 0) {
+          updateWidgetMetadata(
             widgetObj,
             dataset,
             metadata,
-            user.token,
-            hasMetadata.data.length > 0
+            user.token
+          ).then(() => {
+            this.setState({ loading: false });
+            toastr.success('Success', 'Widget updated successfully!');
+          });
+        } else {
+          createWidgetMetadata(
+            widgetObj.id,
+            dataset,
+            metadata,
+            user.token
           ).then(() => {
             this.setState({ loading: false });
             toastr.success('Success', 'Widget updated successfully!');

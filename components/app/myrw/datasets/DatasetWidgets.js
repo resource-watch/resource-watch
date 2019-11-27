@@ -7,7 +7,7 @@ import { toastr } from 'react-redux-toastr';
 import { connect } from 'react-redux';
 
 // Services
-import WidgetService from 'services/WidgetService';
+import { fetchWidgets } from 'services/widget';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -15,48 +15,34 @@ import WidgetList from 'components/widgets/list/WidgetList';
 import Icon from 'components/ui/icon';
 
 class DatasetWidgets extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    widgetsLoaded: false,
+    widgets: [],
+    mode: 'grid',
+    orderDirection: 'asc'
+  };
 
-    this.state = {
-      user: null,
-      widgetsLoaded: false,
-      widgets: [],
-      mode: 'grid',
-      orderDirection: 'asc'
-    };
-
-    // User service
-    this.widgetService = new WidgetService(null, { apiURL: process.env.CONTROL_TOWER_URL });
-
-    // ------------------- Bindings -----------------------
-    this.setMode = this.setMode.bind(this);
-    this.handleWidgetRemoved = this.handleWidgetRemoved.bind(this);
-    this.handleOrderChange = this.handleOrderChange.bind(this);
-    // ----------------------------------------------------
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     this.loadWidgets();
   }
 
-  setMode(value) {
-    this.setState({
-      mode: value
-    });
+  setMode = (value) => {
+    this.setState({ mode: value });
   }
 
   loadWidgets() {
     const { orderDirection } = this.state;
-    const { dataset } = this.props;
-    this.setState({
-      widgetsLoaded: false
-    });
-    this.widgetService.getUserWidgets(this.props.user.id, true, orderDirection)
+    const { dataset, user } = this.props;
+    this.setState({ widgetsLoaded: false });
+
+    fetchWidgets({
+      userId: user.id,
+      sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt'
+    })
       .then((response) => {
         this.setState({
           widgetsLoaded: true,
-          widgets: response.filter(widget => widget.attributes.dataset === dataset)
+          widgets: response.filter(widget => widget.dataset === dataset)
         });
       }).catch(err => toastr.error('Error', err));
   }
@@ -65,16 +51,14 @@ class DatasetWidgets extends React.Component {
     Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: w.id });
   }
 
-  handleWidgetRemoved() {
+  handleWidgetRemoved = () => {
     this.loadWidgets(this.props);
   }
 
-  handleOrderChange() {
+  handleOrderChange = () => {
     const newOrder = this.state.orderDirection === 'asc' ? 'desc' : 'asc';
-    this.setState({
-      orderDirection: newOrder
-    },
-    () => this.loadWidgets());
+    this.setState({ orderDirection: newOrder },
+      () => this.loadWidgets());
   }
 
   render() {
@@ -105,6 +89,7 @@ class DatasetWidgets extends React.Component {
                   tabIndex={0}
                   className="last-modified-container"
                   onClick={this.handleOrderChange}
+                  onKeyPress={this.handleOrderChange}
                 >
                   <a>
                     Last modified
@@ -166,8 +151,6 @@ DatasetWidgets.propTypes = {
   user: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DatasetWidgets);

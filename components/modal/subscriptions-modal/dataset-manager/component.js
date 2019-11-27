@@ -142,7 +142,7 @@ class DatasetManager extends Component {
       <div className="c-dataset-manager">
         {selectedDatasets.map((_selectedDataset, index) => (
           <div
-            key={_selectedDataset.id}
+            key={index}
             className="selectors-container"
           >
             <Field
