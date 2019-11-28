@@ -6,7 +6,7 @@ export const FOOTER_LINKS = [
     pathnames: ['/app/explore', '/app/explore-detail', '/app/pulse'],
     children: [
       { label: 'Explore Datasets', route: 'explore' },
-      { label: 'Planet Pulse', href: '/data/pulse' },
+      { label: 'Near Real-Time Data', href: '/data/pulse' },
       {
         label: 'App Gallery',
         route: 'get_involved_detail',
