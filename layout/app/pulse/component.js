@@ -20,6 +20,7 @@ import LayerCard from 'layout/app/pulse/layer-card';
 import Spinner from 'components/ui/Spinner';
 import GlobeTooltip from 'layout/app/pulse/globe-tooltip';
 import GlobeCesium from 'components/vis/globe-cesium';
+import WelcomeModal from './welcome-modal';
 
 // utils
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
@@ -232,13 +233,14 @@ class LayoutPulse extends PureComponent {
 
     return (
       <Layout
-        title="Planet Pulse — Resource Watch"
+        title="Planet Pulse — Resource Watch 2"
         description="Planet Pulse provides a snapshot of our changing world."
         className="l-pulse"
       >
         <div
           className="pulse-container -dark"
         >
+          <WelcomeModal />
           <Spinner
             isLoading={
               pulse.loading ||
