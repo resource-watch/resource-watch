@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 // Components
 import Banner from 'components/app/common/Banner';
 import BlogFeed from 'components/blog/feed';
 
-function SuggestStoryPost({ insights = [] }) {
+function SuggestStoryPost() {
   return (
     <div>
       <aside className="l-postcontent">
@@ -57,9 +56,5 @@ function SuggestStoryPost({ insights = [] }) {
     </div>
   );
 }
-
-SuggestStoryPost.propTypes = {
-  insights: PropTypes.array
-};
 
 export default SuggestStoryPost;
