@@ -233,8 +233,8 @@ class LayoutPulse extends PureComponent {
 
     return (
       <Layout
-        title="Planet Pulse — Resource Watch 2"
-        description="Planet Pulse provides a snapshot of our changing world."
+        title="Near Real-Time Data — Resource Watch 2"
+        description="Near Real-Time Data provides a snapshot of our changing world."
         className="l-pulse"
       >
         <div
