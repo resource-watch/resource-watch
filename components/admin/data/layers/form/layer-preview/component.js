@@ -62,7 +62,8 @@ class LayerPreviewComponent extends PureComponent {
       interactions,
       layers,
       setLayerInteraction,
-      setLayerInteractionLatLng
+      setLayerInteractionLatLng,
+      setLayerInteractionSelected
     } = this.props;
 
     const {
@@ -112,7 +113,7 @@ class LayerPreviewComponent extends PureComponent {
                   >
                     <LayerPopup
                       onChangeInteractiveLayer={(selected) => {
-                        this.props.setLayerInteractionSelected(selected);
+                        setLayerInteractionSelected(selected);
                       }}
                     />
                   </MapPopup>

@@ -32,7 +32,7 @@
           "modules": "./modules",
           "utils": "./utils",
           "selectors": "./selectors",
-          "static": "./static",
+          "static": "./public/static",
           "services": "./services",
           "constants": "./constants"
         },

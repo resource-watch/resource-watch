@@ -58,7 +58,7 @@ class WidgetsShow extends PureComponent {
                   application={process.env.APPLICATIONS}
                   authorization={token}
                   widget={id}
-                  onSubmit={() => { Router.pushRoute('admin_data', { tab: 'widgets', id }); }}
+                  onSubmit={() => { Router.pushRoute('admin_data_detail', { tab: 'widgets', id, subtab: 'edit' }); }}
                 />)}
             </div>
 

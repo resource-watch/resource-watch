@@ -1,5 +1,4 @@
 import React from 'react';
-import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import TetherComponent from 'react-tether';
 import { Link } from 'routes';
@@ -8,23 +7,14 @@ import { Link } from 'routes';
 import Icon from 'components/ui/icon';
 
 class CollectionsRelatedContent extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    datasetsActive: false,
+    widgetsActive: false,
+    datasets: this.props.value.filter(resource => resource.type === 'dataset'),
+    widgets: this.props.value.filter(resource => resource.type === 'widget')
+  };
 
-    const { value } = props;
-
-    this.state = {
-      datasetsActive: false,
-      widgetsActive: false,
-      datasets: value.resources.filter(resource => resource.type === 'dataset'),
-      widgets: value.resources.filter(resource => resource.type === 'widget')
-    };
-
-    // BINDINGS
-    this.toggleTooltip = debounce(this.toggleTooltip.bind(this), 50);
-  }
-
-  toggleTooltip(specificDropdown, to) {
+  toggleTooltip = (specificDropdown, to) => {
     this.setState({
       ...{
         datasetsActive: false,

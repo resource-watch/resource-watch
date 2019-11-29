@@ -22,9 +22,14 @@ import {
   fetchSubscriptions,
   deleteSubscription
 } from 'services/subscriptions';
-import CollectionsService from 'services/collections';
+import {
+  fetchAllCollections,
+  deleteCollection as deleteCollectionService,
+  addResourceToCollection as addResourceToCollectionService,
+  removeResourceFromCollection as removeResourceFromCollectionService,
+  createCollection
+} from 'services/collections';
 import { fetchDatasets } from 'services/dataset';
-// import DatasetService from 'services/DatasetService';
 import { fetchGeostore, fetchCountry } from 'services/geostore';
 
 /**
@@ -45,6 +50,7 @@ const SET_USER_COLLECTIONS_ERROR = 'user/setUserCollectionsError';
 // areas
 const SET_USER_AREAS = 'user/setUserAreas';
 const SET_USER_AREAS_ERROR = 'user/setUserAreasError';
+const SET_USER_AREAS_LOADING = 'user/setUserAreasLoading';
 const SET_USER_AREA_LAYER_GROUP = 'user/setUserAreaLayerGroup';
 
 /**
@@ -209,6 +215,16 @@ export default function (state = initialState, action) {
       };
     }
 
+    case SET_USER_AREAS_LOADING: {
+      return {
+        ...state,
+        areas: {
+          ...state.areas,
+          loading: action.payload
+        }
+      };
+    }
+
     default:
       return state;
   }
@@ -254,7 +270,7 @@ export const getUserFavourites = createThunkAction('user/getUserFavourites', () 
     dispatch(setFavouriteLoading(true));
 
     fetchFavourites(token)
-      .then(({ data }) => {
+      .then((data) => {
         dispatch(setFavouriteLoading(false));
         dispatch({ type: SET_USER_FAVOURITES, payload: data });
       })
@@ -316,14 +332,14 @@ export const getUserCollections = createThunkAction('user/getUserCollections', (
 
     dispatch(setCollectionsLoading(true));
 
-    return CollectionsService.getAllCollections(token)
-      .then(({ data }) => {
+    return fetchAllCollections(token)
+      .then((data) => {
         dispatch(setUserCollections(data));
         dispatch(setUserCollectionsLoading(data));
         dispatch(setCollectionsLoading(false));
       })
-      .catch(({ errors }) => {
-        dispatch(setUserCollectionsErrors(errors));
+      .catch((error) => {
+        dispatch(setUserCollectionsErrors(error));
         dispatch(setCollectionsLoading(false));
       });
   });
@@ -334,22 +350,20 @@ export const addCollection = createThunkAction('user/addCollection', (payload = 
     const { token } = getState().user;
     const { collectionName } = payload;
 
-    CollectionsService.createCollection(token, collectionName)
+    createCollection(token,
+      {
+        name: collectionName,
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        resources: []
+      })
       .then(() => {
         // we ask for the updated list of collections
         dispatch(getUserCollections());
       })
-      .catch(({ errors }) => {
-        dispatch(setUserCollectionsErrors(errors));
-        const { status } = errors;
-
-        // we shouldn't assume 400 is duplicated collection,
-        // but there's no another way to find it out at this moment
-        if (status === 400) {
-          toastr.error('Collection duplicated', `The collection "${collectionName}" already exists.`);
-        } else {
-          toastr.error('Ops, something went wrong.');
-        }
+      .catch((error) => {
+        dispatch(setUserCollectionsErrors(error));
+        toastr.error(error);
       });
   });
 
@@ -359,7 +373,7 @@ export const deleteCollection = createThunkAction('user/deleteCollection', (payl
     const { collection } = payload;
     const { id, name } = collection;
 
-    CollectionsService.deleteCollection(token, id)
+    deleteCollectionService(token, id)
       .then(() => {
         // we ask for the updated list of collections
         dispatch(getUserCollections());
@@ -381,7 +395,7 @@ export const addResourceToCollection = createThunkAction(
 
       dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: true }));
 
-      CollectionsService.addResourceToCollection(user.token, collectionId, resource)
+      addResourceToCollectionService(user.token, collectionId, resource)
         .then(() => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           // we ask for the updated list of collections
@@ -406,7 +420,7 @@ export const removeResourceFromCollection = createThunkAction(
 
       dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: true }));
 
-      CollectionsService.removeResourceFromCollection(user.token, collectionId, resource)
+      removeResourceFromCollectionService(user.token, collectionId, resource)
         .then(() => {
           dispatch(setUserCollectionsUpdateLoading({ id: collectionId, loading: false }));
           // we ask for the updated list of collections
@@ -435,6 +449,7 @@ export const toggleCollection = createThunkAction(
 // Areas
 export const setUserAreas = createAction(SET_USER_AREAS);
 export const setUserAreasError = createAction(SET_USER_AREAS_ERROR);
+export const setUserAreasLoading = createAction(SET_USER_AREAS_LOADING);
 export const setUserAreaLayerGroup = createAction(SET_USER_AREA_LAYER_GROUP);
 
 export const getUserAreaLayerGroups = createThunkAction(
@@ -460,6 +475,7 @@ export const getUserAreas = createThunkAction(
     (dispatch, getState) => {
       const { user: { token } } = getState();
 
+      dispatch(setUserAreasLoading(true));
       axios.all([fetchUserAreas(token), fetchSubscriptions(token)])
         .then(axios.spread((userAreas, subscriptions = []) => {
           const datasetsToFetch = new Set();
@@ -479,7 +495,9 @@ export const getUserAreas = createThunkAction(
                   subscriptions,
                   datasets
                 );
+
                 dispatch(setUserAreas(userAreasWithSubscriptions));
+                dispatch(setUserAreasLoading(false));
               });
           } else {
             dispatch(setUserAreas(userAreas));
@@ -493,8 +511,8 @@ export const removeUserArea = createThunkAction(
   (area = {}) => (dispatch, getState) => {
     const { user } = getState();
 
-    if (area.subscription) {
-      return deleteSubscription(area.subscription.id, user.token)
+    if (area.subscriptions) {
+      return axios.all(area.subscriptions.map(_sub => deleteSubscription(_sub.id, user.token)))
         .then(() =>
           deleteArea(area.id, user.token)
             .then(() => {

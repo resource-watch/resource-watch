@@ -30,7 +30,7 @@ export const fetchSubscriptions = (token, params) => {
 
       return WRISerializer(data);
     })
-    .catch(({ response }) => {
+    .catch(({ response = {} }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching subscriptions: ${status}: ${statusText}`);
       throw new Error(`Error fetching subscriptions: ${status}: ${statusText}`);
