@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react';
 import { getDashboard } from 'modules/dashboards/actions';
 
 // components
-import LayoutDashboardDetail from 'layout/app/dashboard-detail';
+import LayoutDashboardDetail from 'layout/dashboard-detail';
 
 class DashboardsDetailPage extends PureComponent {
   static async getInitialProps({ store, query }) {

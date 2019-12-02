@@ -9,6 +9,7 @@ import HeaderAbout from 'layout/header/header-about';
 import HeaderSearch from 'layout/header/header-search';
 import HeaderUser from 'layout/header/header-user';
 import HeaderTopics from 'layout/header/header-topics';
+import HeaderDashboards from 'layout/header/header-dashboards';
 import HeaderGetInvolved from 'layout/header/header-get-involved';
 
 // constants
@@ -24,6 +25,7 @@ class HeaderMenu extends PureComponent {
     data: <HeaderData />,
     about: <HeaderAbout />,
     topics: <HeaderTopics />,
+    dashboards: <HeaderDashboards />,
     myrw: <HeaderUser />,
     search: <HeaderSearch />,
     get_involved: <HeaderGetInvolved />

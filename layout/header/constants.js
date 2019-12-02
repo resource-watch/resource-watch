@@ -16,19 +16,19 @@ export const APP_HEADER_ITEMS = [
     ]
   },
   {
-    id: 'topics',
-    label: 'Topics',
-    route: 'topics',
-    pathnames: ['/app/topics', '/app/topics-detail'],
+    id: 'dashboards',
+    label: 'Dashboards',
+    route: 'dashboards',
+    pathnames: ['/app/About', '/app/Partners'],
     children: [
-      { label: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
-      { label: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
-      { label: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
-      { label: 'Food', route: 'topics_detail', params: { id: 'food' } },
-      { label: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
-      { label: 'Society', route: 'topics_detail', params: { id: 'society' } },
-      { label: 'Oceans', route: 'topics_detail', params: { id: 'oceans' } },
-      { label: 'Water', route: 'topics_detail', params: { id: 'water' } }
+      { label: 'Cities', route: 'dashboards_detail', params: { id: 'cities' } },
+      { label: 'Climate', route: 'dashboards_detail', params: { id: 'climate' } },
+      { label: 'Energy', route: 'dashboards_detail', params: { id: 'energy' } },
+      { label: 'Food', route: 'dashboards_detail', params: { id: 'food' } },
+      { label: 'Forests', route: 'dashboards_detail', params: { id: 'forests' } },
+      { label: 'Society', route: 'dashboards_detail', params: { id: 'society' } },
+      { label: 'Oceans', route: 'dashboards_detail', params: { id: 'oceans' } },
+      { label: 'Water', route: 'dashboards_detail', params: { id: 'water' } }
     ]
   },
   {
