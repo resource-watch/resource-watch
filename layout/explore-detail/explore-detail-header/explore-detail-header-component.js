@@ -31,7 +31,7 @@ class ExploreDetailHeader extends PureComponent {
 
   getDatasetMetadata() {
     const { dataset } = this.props;
-    return dataset.metadata || {};
+    return dataset.metadata[0] || {};
   }
 
   getDatasetName() {
@@ -46,6 +46,7 @@ class ExploreDetailHeader extends PureComponent {
 
   render() {
     const { dataset, user } = this.props;
+
     const metadata = this.getDatasetMetadata();
     const datasetName = this.getDatasetName();
     const isInACollection = belongsToACollection(user, { id: dataset.id });

@@ -14,12 +14,13 @@ import Button from 'components/ui/Button';
 import Spinner from 'components/ui/Spinner';
 
 // Services
-import WidgetService from 'services/WidgetService';
-import WidgetsService from 'services/WidgetsService';
+import {
+  createWidget,
+  createWidgetMetadata
+} from 'services/widget';
 
 const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: {},
   validate() {
     const { elements } = this;
     Object.keys(elements).forEach((k) => {
@@ -39,45 +40,23 @@ const FORM_ELEMENTS = {
 
 
 class SaveWidgetModal extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    submitting: false,
+    loading: false,
+    saved: false,
+    error: false,
+    description: null, // Description of the widget,
+    name: this.props.widgetEditor.title,
+    caption: this.props.widgetEditor.caption
+  };
 
-    const { widgetEditor } = props;
-
-    this.state = {
-      submitting: false,
-      loading: false,
-      saved: false,
-      error: false,
-      description: null, // Description of the widget,
-      name: widgetEditor.title,
-      caption: widgetEditor.caption
-    };
-
-    // Services
-    this.widgetService = new WidgetService(null, {
-      apiURL: process.env.WRI_API_URL
-    });
-    this.widgetsService = new WidgetsService({
-      authorization: props.user.token
-    });
-
-    // ------------------- Bindings -----------------------
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
-    this.handleGoToMyRW = this.handleGoToMyRW.bind(this);
-    // ----------------------------------------------------
-  }
-
-  async onSubmit(event) {
+  onSubmit = async (event) => {
     event.preventDefault();
 
     const { description, name, caption } = this.state;
     const { dataset, getWidgetConfig, user } = this.props;
 
-    this.setState({
-      loading: true
-    });
+    this.setState({ loading: true });
 
     getWidgetConfig()
       .then((widgetConfig) => {
@@ -90,22 +69,20 @@ class SaveWidgetModal extends React.Component {
           { widgetConfig }
         );
 
-        this.widgetService.saveUserWidget(widgetObj, dataset, user.token)
-          .then((response) => {
-            if (response.errors) {
-              throw new Error(response.errors[0].detail);
-            } else if (caption !== '') {
-              const { data } = response;
-              const { attributes, id } = data;
-              this.widgetsService.saveMetadata({
-                body: {
+        createWidget(widgetObj, dataset, user.token)
+          .then((data) => {
+            if (caption !== '') {
+              const { id, dataset: widgetdataset } = data;
+              createWidgetMetadata(
+                id,
+                widgetdataset,
+                {
                   language: 'en',
                   application: process.env.APPLICATIONS,
                   info: { caption }
                 },
-                id,
-                dataset: attributes.dataset
-              })
+                user.token
+              )
                 .then(() => {
                   this.setState({ saved: true, error: false });
                 });
@@ -134,7 +111,7 @@ class SaveWidgetModal extends React.Component {
    * Event handler executed when the user clicks the
    * cancel button of the modal
    */
-  handleCancel() {
+  handleCancel = () => {
     this.props.onRequestClose();
   }
 
@@ -142,7 +119,7 @@ class SaveWidgetModal extends React.Component {
    * Event handler executed when the user clicks the
    * "Check my widgets" button
    */
-  handleGoToMyRW() {
+  handleGoToMyRW = () => {
     this.props.onRequestClose(false);
     Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
   }

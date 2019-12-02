@@ -24,8 +24,6 @@ const StaticContentComponent = ({ content = '' }) => {
   );
 };
 
-StaticContentComponent.propTypes = {
-  content: PropTypes.string
-};
+StaticContentComponent.propTypes = { content: PropTypes.string.isRequired };
 
 export default StaticContentComponent;

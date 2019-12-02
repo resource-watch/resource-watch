@@ -5,14 +5,17 @@ import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 /**
- * Fetchs widgets according to params.
+ * Fetches widgets according to params.
  *
- * @param {Object[]} params - params sent to the API.
+ * @param {Object} params - params sent to the API.
+ * @param {Object} headers - headers used in the request
+ * @param {boolean} _meta - flag indicating whether meta information should be
+ * included in the response or not
  * @returns {Object[]} array of serialized widgets.
  */
 export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
   logger.info('fetches widgets');
-  return WRIAPI.get('/widget', {
+  return WRIAPI.get('widget', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
@@ -59,14 +62,14 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
  * fetches data for a specific widget.
  *
  * @param {String} id - widget id.
- * @param {Object[]} params - params sent to the API.
+ * @param {Object} params - params sent to the API.
  * @returns {Object} serialized specified widget.
  */
 export const fetchWidget = (id, params = {}) => {
-  if (!id) throw Error('widget id is mandatory to perform this fetching.');
-  logger.info(`Fetches widget: ${id}`);
+  if (!id) throw Error('The widget id is mandatory to perform this request (fetchWidget).');
+  logger.info(`Fetch widget: ${id}`);
 
-  return WRIAPI.get(`/widget/${id}`, {
+  return WRIAPI.get(`widget/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
@@ -100,17 +103,18 @@ export const fetchWidget = (id, params = {}) => {
 };
 
 /**
- * Deletes a specified widget.
- * This fetch needs authentication.
+ * Deletes the specified widget.
+ * This method requires authentication.
  *
- * @param {*} id - widget ID to be deleted.
+ * @param {*} widgetId - widget ID to be deleted.
+ * @param {string} datasetId - dataset ID the widget belongs to
  * @param {string} token - user's token.
- * @returns {Object} fetch response.
+ * @returns {Object} response.
  */
 export const deleteWidget = (widgetId, datasetId, token) => {
-  logger.info(`deletes widget: ${widgetId}`);
+  logger.info(`Delete widget: ${widgetId}`);
 
-  return WRIAPI.delete(`/dataset/${datasetId}/widget/${widgetId}`, {
+  return WRIAPI.delete(`dataset/${datasetId}/widget/${widgetId}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token
@@ -137,8 +141,132 @@ export const deleteWidget = (widgetId, datasetId, token) => {
     });
 };
 
+/**
+ * Updates data for the widget provided.
+ *
+ * @param {Object} widget - widget data.
+ * @param {string} token - user's token.
+ * @returns {Object} serialized specified widget.
+ */
+export const updateWidget = (widget, token) => {
+  logger.info(`Update widget: ${widget.id}`);
+  return WRIAPI.patch(`widget/${widget.id}`, widget, { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating widget ${widget.id}: ${status}: ${statusText}`);
+      throw new Error(`Error updating widget ${widget.id}: ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Creates a new widget.
+ *
+ * @param {Object} widget - widget data.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
+ * @param {string} token - user's token.
+ * @returns {Object} serialized widget.
+ */
+export const createWidget = (widget, datasetId, token) => {
+  logger.info('Create widget');
+  return WRIAPI.post(`dataset/${datasetId}/widget`,
+    {
+      application: process.env.APPLICATIONS.split(','),
+      env: process.env.API_ENV,
+      ...widget
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating widget ${status}: ${statusText}`);
+      throw new Error(`Error creating widget ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Fetches the metadata associated to the widget provided.
+ *
+ * @param {string} widgetId - widget data.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
+ * @param {string} token - user's token.
+ * @param {Object} params - request parameters.
+ * @returns {Object} serialized widget metadata.
+ */
+export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => {
+  logger.info(`Update widget metadata: ${widgetId}`);
+  return WRIAPI.fetch(`dataset/${datasetId}/widget/${widgetId}/metadata`,
+    {
+      headers: { Authorization: token },
+      params: {
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV,
+        ...params
+      }
+    })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching widget metadata ${widgetId}: ${status}: ${statusText}`);
+      throw new Error(`Error fetching widget metadata ${widgetId}: ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Updates the metadata for the widget provided.
+ *
+ * @param {Object} widget - widget data.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
+ * @param {Object} metadata - metadata to be updated.
+ * @param {string} token - user's token.
+ * @returns {Object} serialized specified widget.
+ */
+export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
+  logger.info(`Update widget metadata: ${widgetId}`);
+  return WRIAPI.patch(`dataset/${datasetId}/widget/${widgetId}/metadata`,
+    metadata,
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating widget metadata ${widgetId}: ${status}: ${statusText}`);
+      throw new Error(`Error updating widget metadata ${widgetId}: ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Creates the metadata for the widget provided.
+ *
+ * @param {string} widgetId - widget id.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
+ * @param {Object} metadata - metadata to be updated.
+ * @param {string} token - user's token.
+ * @returns {Object} serialized specified widget.
+ */
+export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
+  logger.info(`Update widget metadata: ${widgetId}`);
+  return WRIAPI.post(`dataset/${datasetId}/widget/${widgetId}/metadata`,
+    {
+      ...metadata,
+      application: process.env.APPLICATIONS,
+      env: process.env.API_ENV
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating widget metadata ${widgetId}: ${status}: ${statusText}`);
+      throw new Error(`Error creating widget metadata ${widgetId}: ${status}: ${statusText}`);
+    });
+};
+
 export default {
   fetchWidgets,
   fetchWidget,
+  updateWidget,
+  createWidget,
+  fetchWidgetMetadata,
+  updateWidgetMetadata,
+  createWidgetMetadata,
   deleteWidget
 };
