@@ -33,7 +33,8 @@ class DashboardsLayout extends PureComponent {
               <div className="row">
                 <div className="column small-12">
                   <div className="content">
-                    <h1>{data.title || 'Dashboards'}</h1>
+                    {/* <h1>{data.title || 'Dashboards'}</h1> */}
+                    <h1>Dashboards</h1>
                     <p>{data.summary || ''}</p>
                   </div>
                 </div>

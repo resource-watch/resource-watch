@@ -10,11 +10,11 @@ import { TOPICS_CONNECTIONS } from 'utils/topics';
 // components
 import Layout from 'layout/layout/layout-app';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
-import RelatedTools from 'components/tools/related-tlayout/topics-detailools';
+import RelatedTools from 'components/tools/related-tools';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
 import Title from 'components/ui/Title';
-import TopicDetailHeader from './topics-detail-header';
-import TopicDetailContent from './topics-detail-content';
+import DashboardDetailHeader from './dashboards-detail-header';
+import DashboardDetailContent from './dashboards-detail-content';
 
 class DashboardDetailLayout extends PureComponent {
   static propTypes = { topicsDetail: PropTypes.object.isRequired };
@@ -65,7 +65,6 @@ class DashboardDetailLayout extends PureComponent {
       <Layout
         title={name}
         description={description || ''}
-        category="Topic"
         pageHeader
       >
         <div className="c-page-explore-detail">
@@ -74,7 +73,7 @@ class DashboardDetailLayout extends PureComponent {
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
-                  <TopicDetailHeader />
+                  <DashboardDetailHeader />
                 </div>
               </div>
             </div>
@@ -84,7 +83,7 @@ class DashboardDetailLayout extends PureComponent {
             <div className="l-container">
               <div className="row">
                 <div className="column small-12">
-                  <TopicDetailContent />
+                  <DashboardDetailContent />
                 </div>
               </div>
             </div>

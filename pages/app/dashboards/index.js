@@ -1,21 +1,19 @@
 import React, { PureComponent } from 'react';
 
 // actions
-import { getPublishedDashboards } from 'modules/dashboards/actions';
+import { getStaticPage } from 'modules/static-pages/actions';
 
 // components
 import LayoutDashboards from 'layout/dashboards';
 
 class DashboardsPage extends PureComponent {
   static async getInitialProps({ store }) {
-    const { getState, dispatch } = store;
-    const { dashboards: { published } } = getState();
+    const { dispatch } = store;
 
-    if (!published.list.length) await dispatch(getPublishedDashboards());
+    await dispatch(getStaticPage('topics'));
 
     return {};
   }
-
 
   render() {
     return (<LayoutDashboards />);
