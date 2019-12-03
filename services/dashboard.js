@@ -79,7 +79,7 @@ export const fetchDashboard = (id) => {
 /**
  * Creates a dashboard with the provided data.
  * This fetch needs authentication.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#dashboard|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#creating-a-dashboard|here}
  * @param {Object} body - data provided to create the new dashboard.
  * @param {String} token - user's token.
  * @returns {Object} serialized created dashboard.
@@ -116,7 +116,7 @@ export const createDashboard = (body, token) => {
 /**
  * Updates a specified dashboard with the provided data.
  * This fetch needs authentication.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#dashboard|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#editing-a-dashboard|here}
  * @param {String} id - dashboard ID to be updated.
  * @param {Object} body - data provided to update the dashboard.
  * @param {String} token - user's token
