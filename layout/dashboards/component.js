@@ -23,7 +23,7 @@ class DashboardsLayout extends PureComponent {
 
     return (
       <Layout
-        title="Topics — Resource Watch"
+        title="Dashboards — Resource Watch"
         description="The latest facts and figures on cities, energy, food and more."
         className="l-static p-topics"
       >
@@ -33,7 +33,6 @@ class DashboardsLayout extends PureComponent {
               <div className="row">
                 <div className="column small-12">
                   <div className="content">
-                    {/* <h1>{data.title || 'Dashboards'}</h1> */}
                     <h1>Dashboards</h1>
                     <p>{data.summary || ''}</p>
                   </div>

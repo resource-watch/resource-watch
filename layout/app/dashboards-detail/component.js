@@ -94,7 +94,7 @@ class DashboardDetailLayout extends PureComponent {
               <div className="row">
                 <div className="column small-12">
                   <Title className="-extrabig -secondary -p-secondary">
-                    Other topics
+                    Other dashboards
                   </Title>
 
                   <TopicThumbnailList
