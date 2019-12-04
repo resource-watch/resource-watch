@@ -34,7 +34,7 @@ class TopicsLayout extends PureComponent {
                 <div className="column small-12">
                   <div className="content">
                     <h1>Dashboards</h1>
-                    <p>{data.summary || ''}</p>
+                    <p>Find data and visualizations for different topic areas of interest</p>
                   </div>
                 </div>
               </div>
@@ -46,6 +46,11 @@ class TopicsLayout extends PureComponent {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
+                <h2>Featured dashboards</h2>
+                <p>
+                  Discover collections of curated data on the major
+                  challenges facing human society and the planet
+                </p>
                 <TopicThumbnailList
                   onSelect={({ slug }) => {
                     // We need to make an amendment in the Wysiwyg to have this working
