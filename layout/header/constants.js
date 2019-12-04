@@ -19,7 +19,7 @@ export const APP_HEADER_ITEMS = [
     id: 'dashboards',
     label: 'Dashboards',
     route: 'dashboards',
-    pathnames: ['/app/About', '/app/Partners'],
+    pathnames: ['/app/dashboards', '/app/dashboards-detail'],
     children: [
       { label: 'Cities', route: 'dashboards_detail', params: { id: 'cities' } },
       { label: 'Climate', route: 'dashboards_detail', params: { id: 'climate' } },
