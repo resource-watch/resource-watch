@@ -94,13 +94,13 @@ class TopicDetailLayout extends PureComponent {
               <div className="row">
                 <div className="column small-12">
                   <Title className="-extrabig -secondary -p-secondary">
-                    Other topics
+                    Other dashboards
                   </Title>
 
                   <TopicThumbnailList
                     onSelect={({ slug: _slug }) => {
                       // We need to make an amendment in the Wysiwyg to have this working
-                      Router.pushRoute('topics_detail', { id: _slug })
+                      Router.pushRoute('dashboards_detail', { id: _slug })
                         .then(() => { window.scrollTo(0, 0); });
                     }}
                   />

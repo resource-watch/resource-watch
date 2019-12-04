@@ -23,7 +23,7 @@ class TopicsLayout extends PureComponent {
 
     return (
       <Layout
-        title="Topics — Resource Watch"
+        title="Dashboards"
         description="The latest facts and figures on cities, energy, food and more."
         className="l-static p-topics"
       >
@@ -33,7 +33,7 @@ class TopicsLayout extends PureComponent {
               <div className="row">
                 <div className="column small-12">
                   <div className="content">
-                    <h1>{data.title || 'Topics'}</h1>
+                    <h1>Dashboards</h1>
                     <p>{data.summary || ''}</p>
                   </div>
                 </div>
@@ -49,7 +49,7 @@ class TopicsLayout extends PureComponent {
                 <TopicThumbnailList
                   onSelect={({ slug }) => {
                     // We need to make an amendment in the Wysiwyg to have this working
-                    Router.pushRoute('topics_detail', { id: slug })
+                    Router.pushRoute('dashboards_detail', { id: slug })
                       .then(() => {
                         window.scrollTo(0, 0);
                       });

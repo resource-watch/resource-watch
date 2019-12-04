@@ -16,28 +16,6 @@ export const FOOTER_LINKS = [
     ]
   },
   {
-    id: 'topics',
-    label: 'Topics',
-    route: 'topics',
-    pathnames: ['/app/topics', '/app/topics-detail'],
-    children: [
-      { label: 'Cities', route: 'topics_detail', params: { id: 'cities' } },
-      { label: 'Climate', route: 'topics_detail', params: { id: 'climate' } },
-
-      { label: 'Energy', route: 'topics_detail', params: { id: 'energy' } },
-      { label: 'Food', route: 'topics_detail', params: { id: 'food' } },
-      { label: 'Forests', route: 'topics_detail', params: { id: 'forests' } },
-      { label: 'Society', route: 'topics_detail', params: { id: 'society' } },
-      { label: 'Oceans', route: 'topics_detail', params: { id: 'oceans' } },
-      { label: 'Water', route: 'topics_detail', params: { id: 'water' } }
-    ]
-  },
-  {
-    id: 'blog',
-    label: 'Blog',
-    href: 'https://blog.resourcewatch.org'
-  },
-  {
     id: 'about',
     label: 'About',
     route: 'about',
@@ -51,6 +29,11 @@ export const FOOTER_LINKS = [
       { label: 'Privacy Policy', route: 'privacy-policy' },
       { label: 'Attribution requirements', route: 'attribution-requirements' }
     ]
+  },
+  {
+    id: 'blog',
+    label: 'Blog',
+    href: 'https://blog.resourcewatch.org'
   },
   {
     id: 'get_involved',

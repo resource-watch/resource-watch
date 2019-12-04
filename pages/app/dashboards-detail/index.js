@@ -7,7 +7,7 @@ import isEmpty from 'lodash/isEmpty';
 import { getTopic, setSelected } from 'modules/topics/actions';
 
 // components
-import DashboardDetailLayout from 'layout/app/dashboards-detail';
+import DashboardDetailLayout from 'layout/app/topics-detail';
 import Error from 'pages/_error';
 
 class DashboardDetailPage extends PureComponent {
