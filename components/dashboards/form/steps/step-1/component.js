@@ -210,7 +210,7 @@ class Step1 extends PureComponent {
                 name: 'is-highlighted',
                 label: 'Highlight in Dashboards gallery',
                 value: 'is-highlighted',
-                title: 'Is Highlighted',
+                title: 'Is highlighted',
                 defaultChecked: this.props.form['is-highlighted'],
                 checked: this.props.form['is-highlighted']
               }}
