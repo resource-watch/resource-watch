@@ -64,8 +64,8 @@ routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
 routes.add('search', '/search', 'app/search');
 
 // ----- TOPICS -----
-routes.add('topics', '/topics', 'app/topics');
-routes.add('topics_detail', '/topics/:id', 'app/topics-detail');
+// routes.add('topics', '/topics', 'app/topics');
+// routes.add('topics_detail', '/topics/:id', 'app/topics-detail');
 
 // ----- GET INVOLVED -----
 routes.add('get_involved', '/get-involved', 'app/get-involved');
