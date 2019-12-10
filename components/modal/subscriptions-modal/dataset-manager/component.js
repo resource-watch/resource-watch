@@ -124,9 +124,13 @@ class DatasetManager extends Component {
   }
 
   onRemoveDataset = (index) => {
-    this.setState({
-      selectedDatasets: this.state.selectedDatasets
-        .filter((elem, _index) => _index !== index)
+    const { setUserSelection } = this.props;
+    const { selectedDatasets } = this.state;
+    const filteredDatasets = selectedDatasets
+      .filter((elem, _index) => _index !== index);
+
+    this.setState({ selectedDatasets: filteredDatasets }, () => {
+      setUserSelection({ datasets: filteredDatasets });
     });
   }
 
@@ -138,7 +142,7 @@ class DatasetManager extends Component {
       <div className="c-dataset-manager">
         {selectedDatasets.map((_selectedDataset, index) => (
           <div
-            key={_selectedDataset.id}
+            key={index}
             className="selectors-container"
           >
             <Field
@@ -195,7 +199,7 @@ class DatasetManager extends Component {
               }}
             >
               <button
-                className={classnames('c-btn -secondary', { '-disabled': index === 0 })}
+                className="c-btn -secondary"
                 onClick={() => this.onRemoveDataset(index)}
               >
                 Delete

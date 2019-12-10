@@ -7,8 +7,8 @@ import { Router } from 'routes';
 import { connect } from 'react-redux';
 
 // Services
-import WidgetService from 'services/WidgetService';
-import DatasetsService from 'services/DatasetsService';
+import { createWidget } from 'services/widget';
+import { fetchDatasets } from 'services/dataset';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -22,11 +22,10 @@ import Select from 'components/form/SelectInput';
 import { logEvent } from 'utils/analytics';
 
 const FORM_ELEMENTS = {
-  elements: {
-  },
+  elements: { },
   validate() {
     const elements = this.elements;
-    Object.keys(elements).forEach((k) => {
+    Object.keys(this.elements).forEach((k) => {
       elements[k].validate();
     });
   },
@@ -42,37 +41,29 @@ const FORM_ELEMENTS = {
 };
 
 class WidgetsNew extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    dataset: PropTypes.string,
+    // Store
+    user: PropTypes.object.isRequired
+  };
 
-    this.state = {
-      loading: false,
-      loadingPublishedDatasets: true,
-      loadingUserDatasets: true,
-      submitting: false,
-      datasets: [],
-      selectedDataset: props.dataset,
-      widget: {}
-    };
+  static defaultProps = { dataset: null };
 
-    // Services
-    this.widgetService = new WidgetService(null, { apiURL: process.env.WRI_API_URL });
-    this.datasetsService = new DatasetsService({
-      language: props.locale
-    });
+  state = {
+    loading: false,
+    loadingPublishedDatasets: true,
+    loadingUserDatasets: true,
+    submitting: false,
+    datasets: [],
+    selectedDataset: this.props.dataset,
+    widget: {}
+  };
 
-    // ------------------- Bindings -----------------------
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleDatasetSelected = this.handleDatasetSelected.bind(this);
-    // ----------------------------------------------------
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     this.loadDatasets();
   }
 
-  async onSubmit(event) {
+  onSubmit = async (event) => {
     if (event) event.preventDefault();
 
     const { widget, selectedDataset } = this.state;
@@ -91,26 +82,13 @@ class WidgetsNew extends React.Component {
         { widgetConfig }
       );
 
-      this.widgetService.saveUserWidget(widgetObj, selectedDataset, user.token)
-        .then((response) => {
-          if (response.errors) {
-            const errorMessage = response.errors[0].detail;
-            this.setState({
-              saved: false,
-              loading: false
-            });
-
-            toastr.error('Error', errorMessage);
-          } else {
-            Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
-            toastr.success('Success', 'Widget created successfully!');
-          }
+      createWidget(widgetObj, selectedDataset, user.token)
+        .then(() => {
+          Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+          toastr.success('Success', 'Widget created successfully!');
         }).catch((err) => {
-          this.setState({
-            saved: false,
-            loading: false
-          });
-          toastr.err('Error', err);
+          this.setState({ loading: false });
+          toastr.error('Error', err);
         });
     }, 0);
   }
@@ -122,7 +100,7 @@ class WidgetsNew extends React.Component {
   }
 
   loadDatasets() {
-    this.datasetsService.fetchAllData({ filters: { published: true }, includes: 'metadata' }).then((response) => {
+    fetchDatasets({ published: true, includes: 'metadata', 'page[size]': 999999 }).then((response) => {
       this.setState({
         datasets: [...this.state.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
@@ -131,8 +109,8 @@ class WidgetsNew extends React.Component {
             type: dataset.type,
             provider: dataset.provider,
             tableName: dataset.tableName,
-            label: metadata && metadata.attributes.info
-              ? metadata.attributes.info.name
+            label: metadata && metadata.info
+              ? metadata.info.name
               : dataset.name,
             value: dataset.id
           });
@@ -141,36 +119,34 @@ class WidgetsNew extends React.Component {
       });
     });
 
-    this.datasetsService.fetchAllData(
-      { filters: { userId: this.props.user.id }, includes: 'metadata' }).then((response) => {
-      this.setState({
-        datasets: [...this.state.datasets, ...response.map((dataset) => {
-          const metadata = dataset.metadata[0];
-          return ({
-            id: dataset.id,
-            type: dataset.type,
-            provider: dataset.provider,
-            tableName: dataset.tableName,
-            label: metadata && metadata.attributes.info
-              ? metadata.attributes.info.name
-              : dataset.name,
-            value: dataset.id
-          });
-        })],
-        loadingUserDatasets: false
+    fetchDatasets({ userId: this.props.user.id, includes: 'metadata' })
+      .then((response) => {
+        this.setState({
+          datasets: [...this.state.datasets, ...response.map((dataset) => {
+            const metadata = dataset.metadata[0];
+            return ({
+              id: dataset.id,
+              type: dataset.type,
+              provider: dataset.provider,
+              tableName: dataset.tableName,
+              label: metadata && metadata.info
+                ? metadata.info.name
+                : dataset.name,
+              value: dataset.id
+            });
+          })],
+          loadingUserDatasets: false
+        });
       });
-    });
   }
 
-  handleChange(value) {
+  handleChange = (value) => {
     const newWidgetObj = Object.assign({}, this.state.widget, value);
     this.setState({ widget: newWidgetObj });
   }
 
-  handleDatasetSelected(value) {
-    this.setState({
-      selectedDataset: value
-    });
+  handleDatasetSelected = (value) => {
+    this.setState({ selectedDataset: value });
   }
 
   render() {
@@ -268,16 +244,6 @@ class WidgetsNew extends React.Component {
   }
 }
 
-WidgetsNew.propTypes = {
-  dataset: PropTypes.string,
-  // Store
-  user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired
-};
-
-const mapStateToProps = state => ({
-  user: state.user,
-  locale: state.common.locale
-});
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(WidgetsNew);

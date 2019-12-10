@@ -1,8 +1,8 @@
-import WRISerializer from 'wri-json-api-serializer';
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Services
-import DatasetService from 'services/DatasetService';
+import { fetchDatasets } from 'services/dataset';
+import { fetchSimilarDatasets } from 'services/graph';
 
 export const setSimilarDatasetsLoading = createAction('similar-datasets/setSimilarDatasetsLoading');
 export const setSimilarDatasetsError = createAction('similar-datasets/setSimilarDatasetsError');
@@ -11,15 +11,22 @@ export const resetSimilarDatasets = createAction('similar-datasets/resetSimilarD
 
 // Async actions
 export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilarDatasets', (datasetIds, locale = 'en') => (dispatch) => {
-  const service = new DatasetService(null, { apiURL: process.env.WRI_API_URL, language: 'en' });
-
   dispatch(setSimilarDatasetsLoading(true));
 
-  return service.getSimilarDatasets(datasetIds)
+  return fetchSimilarDatasets(
+    {
+      dataset: datasetIds.join(','),
+      published: true,
+      limit: 6
+    }
+  )
     .then((data) => {
       if (data.length > 0) {
-        DatasetService.getDatasets(data.map(d => d.dataset), locale, 'widget,metadata,layer,vocabulary')
-          .then(response => WRISerializer({ data: response }, { locale }))
+        fetchDatasets({
+          ids: data.map(d => d.dataset).join(','),
+          language: locale,
+          includes: 'widget,metadata,layer,vocabulary'
+        })
           .then((similarDatasets) => {
             dispatch(setSimilarDatasetsLoading(false));
             dispatch(setSimilarDatasets(similarDatasets));

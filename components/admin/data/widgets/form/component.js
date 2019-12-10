@@ -10,9 +10,14 @@ import Step1 from 'components/admin/data/widgets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import WidgetsService from 'services/WidgetsService';
 import { fetchDatasets } from 'services/dataset';
-import { fetchWidget, deleteWidget } from 'services/widget';
+import {
+  fetchWidget,
+  deleteWidget,
+  updateWidget as updateWidgetService,
+  createWidget as createWidgetService
+} from 'services/widget';
+import { fetchQuery } from 'services/query';
 
 // utils
 import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
@@ -38,23 +43,17 @@ class WidgetForm extends PureComponent {
     showEditor: true
   };
 
-  constructor(props) {
-    super(props);
+  state = Object.assign({}, STATE_DEFAULT, {
+    id: this.props.id,
+    loading: !!this.props.id,
+    form: {
+      ...STATE_DEFAULT.form,
+      dataset: this.props.dataset
+    },
+    mode: 'editor'
+  });
 
-    this.state = Object.assign({}, STATE_DEFAULT, {
-      id: props.id,
-      loading: !!props.id,
-      form: {
-        ...STATE_DEFAULT.form,
-        dataset: props.dataset
-      },
-      mode: 'editor'
-    });
-
-    this.service = new WidgetsService({ authorization: props.authorization });
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     const { locale } = this.props;
     const { id } = this.state;
 
@@ -111,8 +110,8 @@ class WidgetForm extends PureComponent {
    * - handleModeChange
    */
   onSubmit = (event) => {
-    const { submitting, stepLength, step, form, mode } = this.state;
-    const { widgetEditor } = this.props;
+    const { submitting, stepLength, step, form, mode, id } = this.state;
+    const { widgetEditor, authorization } = this.props;
     event.preventDefault();
 
     // Validate the form
@@ -127,25 +126,16 @@ class WidgetForm extends PureComponent {
       if (valid) {
         // if we are in the last step we will submit the form
         if (step === stepLength && !submitting) {
-          const { id } = this.state;
-
           // Start the submission
           this.setState({ submitting: true });
           const formObj = mode === 'editor' ? { ...form, widgetConfig } : form;
 
-          const obj = {
-            dataset: form.dataset,
-            id: id || '',
-            type: id ? 'PATCH' : 'POST',
-            body: formObj
-          };
-
-          if (obj.body.sourceUrl === '') {
-            delete obj.body.sourceUrl;
+          if (formObj.sourceUrl === '') {
+            delete formObj.sourceUrl;
           }
 
           // The widget has to be "frozen" first
-          if (formObj.freeze) {
+          if (formObj.freeze && widgetConfig.paramsConfig.visualizationType === 'chart') {
             const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
             const tempBand = formObj.widgetConfig.paramsConfig
               ? formObj.widgetConfig.paramsConfig.band
@@ -161,7 +151,8 @@ class WidgetForm extends PureComponent {
               datasetObj.slug
             ).then((dataURL) => {
               const sqlSt = dataURL.split('sql=')[1];
-              this.service.freezeWidget(sqlSt).then((resp) => {
+
+              fetchQuery(authorization, sqlSt, { freeze: true }).then((resp) => {
                 const { url } = resp;
                 formObj.queryUrl = url;
                 formObj.widgetConfig.data = [
@@ -174,12 +165,18 @@ class WidgetForm extends PureComponent {
                     url
                   }
                 ];
-                obj.body = formObj;
-                this.saveWidget(obj);
+
+                if (id) {
+                  this.updateWidget(formObj);
+                } else {
+                  this.createWidget(formObj);
+                }
               });
             });
+          } else if (id) {
+            this.updateWidget(formObj);
           } else {
-            this.saveWidget(obj);
+            this.createWidget(formObj);
           }
         } else {
           this.setState({ step: this.state.step + 1 });
@@ -230,25 +227,33 @@ class WidgetForm extends PureComponent {
       .catch(() => ({}));
   }
 
-  saveWidget(obj) {
-    const { onSubmit } = this.props;
-    // Save data
-    this.service
-      .saveData(obj)
-      .then((widget) => {
-        const { id, name } = widget;
-        toastr.success('Success', `The widget "${id}" - "${name}" has been uploaded correctly`);
+  createWidget(widget) {
+    const { onSubmit, dataset, authorization } = this.props;
+    createWidgetService(widget, dataset, authorization)
+      .then((response) => {
+        const { id, name } = response;
+        toastr.success('Success', `The widget "${id}" - "${name}" has been created correctly`);
         this.setState({ submitting: false });
         if (onSubmit) onSubmit(widget);
       })
-      .catch((errors) => {
+      .catch((error) => {
         this.setState({ submitting: false });
+        toastr.error('Tnere was an error', error);
+      });
+  }
 
-        try {
-          errors.forEach(er => toastr.error('Error', er.detail));
-        } catch (e) {
-          toastr.error('Error', 'Oops! There was an error, try again.');
-        }
+  updateWidget(widget) {
+    const { onSubmit, authorization } = this.props;
+    updateWidgetService(widget, authorization)
+      .then((response) => {
+        const { id, name } = response;
+        toastr.success('Success', `The widget "${id}" - "${name}" has been updated correctly`);
+        this.setState({ submitting: false });
+        if (onSubmit) onSubmit(widget);
+      })
+      .catch((error) => {
+        this.setState({ submitting: false });
+        toastr.error('Tnere was an error', error);
       });
   }
 

@@ -1,50 +1,41 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import omit from 'lodash/omit';
 import { toastr } from 'react-redux-toastr';
 
-// redux
-import { connect } from 'react-redux';
-
-// redactions
-import { setSources, resetSources } from 'redactions/admin/sources';
-
 // Service
-import { fetchDataset, saveMetadata } from 'services/dataset';
+import { fetchDataset, createMetadata, updateMetadata } from 'services/dataset';
 import { fetchFields } from 'services/fields';
 
 // Contants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/datasets/metadata/form/constants';
 
 // Components
+import Spinner from 'components/ui/Spinner';
 import Navigation from 'components/form/Navigation';
 import Step1 from 'components/datasets/metadata/form/steps/Step1';
 
 // utils
 import { getFieldUrl, getFields } from 'utils/fields';
 
-class MetadataForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    const newState = Object.assign({}, STATE_DEFAULT, {
-      metadata: [],
-      columns: [],
-      loading: !!props.dataset,
-      loadingColumns: true,
-      form: Object.assign({}, STATE_DEFAULT.form, {
-        application: props.application,
-        authorization: props.authorization
-      })
-    });
-
-    // -------------------- BINDING -----------------------
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
-
-    this.state = newState;
+class DatasetMetadataForm extends PureComponent {
+  static propTypes = {
+    dataset: PropTypes.string.isRequired,
+    user: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func,
+    setSources: PropTypes.func.isRequired,
+    resetSources: PropTypes.func.isRequired
   }
+
+  static defaultProps = { onSubmit: null }
+
+  state = {
+    ...STATE_DEFAULT,
+    metadata: [],
+    columns: [],
+    loading: !!this.props.dataset,
+    loadingColumns: true,
+    form: STATE_DEFAULT.form
+  };
 
   componentDidMount() {
     const { dataset, setSources } = this.props;
@@ -53,7 +44,7 @@ class MetadataForm extends React.Component {
     if (dataset) {
       fetchDataset(dataset, { includes: 'metadata' })
         .then((result) => {
-          const { metadata, type, provider, tableName } = result;
+          const { metadata, type, provider } = result;
           this.setState({
             form: metadata && metadata.length ? this.setFormFromParams(metadata[0]) : form,
             metadata,
@@ -100,7 +91,11 @@ class MetadataForm extends React.Component {
    * - onSubmit
    * - onChange
    */
-  onSubmit(event) {
+  onSubmit = (event) => {
+    const {
+      user: { token },
+      onSubmit
+    } = this.props;
     event.preventDefault();
 
     // Validate the form
@@ -127,40 +122,41 @@ class MetadataForm extends React.Component {
         );
 
         // Set the request
-        const requestOptions = {
-          type: dataset && thereIsMetadata ? 'PATCH' : 'POST',
-          omit: ['authorization']
-        };
+        const requestOptions = { type: dataset && thereIsMetadata ? 'PATCH' : 'POST' };
 
-        // Save the data
-        saveMetadata({
-          type: requestOptions.type,
-          id: dataset,
-          data: omit(form, requestOptions.omit),
-          token: form.authorization
-        })
-          .then(() => {
-            toastr.success('Success', 'Metadata has been uploaded correctly');
-            if (this.props.onSubmit) {
-              this.props.onSubmit();
-            }
-          })
-          .catch((err) => {
-            this.setState({ submitting: false });
-            toastr.error('Error', err);
-          });
+        // update metadata flow
+        if (requestOptions.type === 'PATCH') {
+          updateMetadata(dataset, form, token)
+            .then(() => {
+              toastr.success('Success', 'Metadata has been updated correctly');
+              if (onSubmit) onSubmit();
+            })
+            .catch(() => { toastr.error('Error', 'There was an error updating the metadata.'); })
+            .finally(() => { this.setState({ submitting: false }); });
+        }
+
+        // creation metadata flow
+        if (requestOptions.type === 'POST') {
+          createMetadata(dataset, form, token)
+            .then(() => {
+              toastr.success('Success', 'Metadata has been updated correctly');
+              if (onSubmit) onSubmit();
+            })
+            .catch(() => { toastr.error('Error', 'There was an error updateing the metadata.'); })
+            .finally(() => { this.setState({ submitting: false }); });
+        }
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj.form);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
@@ -191,8 +187,17 @@ class MetadataForm extends React.Component {
     } = this.state;
     return (
       <div className="c-metadata-form">
-        <form className="c-form" onSubmit={this.onSubmit} noValidate>
-          {loading && 'loading'}
+        <form
+          className="c-form"
+          onSubmit={this.onSubmit}
+          noValidate
+        >
+          {loading && (
+            <Spinner
+              isLoading={loading}
+              className="-light"
+            />
+          )}
           {!loading && (
             <Step1
               onChange={value => this.onChange(value)}
@@ -217,24 +222,4 @@ class MetadataForm extends React.Component {
   }
 }
 
-MetadataForm.propTypes = {
-  dataset: PropTypes.string.isRequired,
-  application: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func,
-  setSources: PropTypes.func,
-  resetSources: PropTypes.func,
-  locale: PropTypes.string.isRequired
-};
-
-const mapStateToProps = state => ({ locale: state.common.locale });
-
-const mapDispatchToProps = {
-  setSources,
-  resetSources
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MetadataForm);
+export default DatasetMetadataForm;

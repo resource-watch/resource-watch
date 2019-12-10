@@ -14,9 +14,9 @@ class CollectionsPanel extends PureComponent {
     resource: {},
     collectionsLoadingQueue: [],
     favouritesLoading: false,
-    addCollection: () => { },
-    toggleCollection: () => { },
-    toggleFavourite: () => { }
+    addCollection: () => {},
+    toggleCollection: () => {},
+    toggleFavourite: () => {}
   };
 
   static propTypes = {
@@ -31,13 +31,7 @@ class CollectionsPanel extends PureComponent {
     resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget']).isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      newCollectionName: null // new collection's name
-    };
-  }
+  state = { newCollectionName: null };
 
   onAddCollection = () => {
     const { addCollection } = this.props;
@@ -49,7 +43,7 @@ class CollectionsPanel extends PureComponent {
     }
 
     addCollection({ collectionName: newCollectionName });
-  }
+  };
 
   onToggleFavourite = () => {
     const { toggleFavourite, favourites, resource, resourceType } = this.props;
@@ -61,7 +55,7 @@ class CollectionsPanel extends PureComponent {
         resourceType
       }
     });
-  }
+  };
 
   onToggleCollection = (isAdded, collection) => {
     const { toggleCollection, resource, resourceType } = this.props;
@@ -70,21 +64,27 @@ class CollectionsPanel extends PureComponent {
       collectionId: collection.id,
       resource: { id: resource.id, type: resourceType }
     });
-  }
+  };
 
   hanldeKeyPress = (evt) => {
     if (evt.key !== 'Enter') return;
 
     this.onAddCollection();
-  }
+  };
 
   handleInputChange = (evt) => {
     this.setState({ newCollectionName: evt.currentTarget.value });
-  }
+  };
 
   renderCollections() {
-    const { collections, resource, resourceType,
-      favourites, collectionsLoadingQueue, favouritesLoading } = this.props;
+    const {
+      collections,
+      resource,
+      resourceType,
+      favourites,
+      collectionsLoadingQueue,
+      favouritesLoading
+    } = this.props;
 
     const favouriteCollection = (
       <CollectionPanelItem
@@ -93,32 +93,30 @@ class CollectionsPanel extends PureComponent {
         loading={favouritesLoading}
         resource={resource}
         resourceType={resourceType}
-        isChecked={favourites.some(favourite =>
-          favourite.resourceId === resource.id)}
+        isChecked={favourites.some(favourite => favourite.resourceId === resource.id)}
         onToggleCollection={this.onToggleFavourite}
       />
     );
 
-    const collectionItems = collections.map(collection =>
-      (<CollectionPanelItem
+    const collectionItems = collections.map(collection => (
+      <CollectionPanelItem
         key={collection.id}
         collection={collection}
-        loading={(collectionsLoadingQueue.find(loader =>
-          loader.id === collection.id) || {}).loading}
+        loading={
+          (collectionsLoadingQueue.find(loader => loader.id === collection.id) || {}).loading
+        }
         resource={resource}
         resourceType={resourceType}
-        isChecked={collection.resources.some(collectionResource =>
-          collectionResource.id === resource.id)}
+        isChecked={collection.resources.some(
+          collectionResource => collectionResource.id === resource.id
+        )}
         onToggleCollection={this.onToggleCollection}
-      />));
+      />
+    ));
 
     collectionItems.unshift(favouriteCollection);
 
-    return (
-      <ul className="collection-list">
-        {collectionItems}
-      </ul>
-    );
+    return <ul className="collection-list">{collectionItems}</ul>;
   }
 
   render() {
@@ -133,16 +131,11 @@ class CollectionsPanel extends PureComponent {
             onChange={this.handleInputChange}
             onKeyPress={this.hanldeKeyPress}
           />
-          <button
-            className="c-button add-button"
-            onClick={this.onAddCollection}
-          >
+          <button className="c-button add-button" onClick={this.onAddCollection}>
             Add
           </button>
         </div>
-        <div className="collection-list-container">
-          {this.renderCollections()}
-        </div>
+        <div className="collection-list-container">{this.renderCollections()}</div>
       </div>
     );
   }

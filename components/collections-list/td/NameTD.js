@@ -9,17 +9,17 @@ function NameTD(props) {
   return (
     <td key={index} className="main">
       <Link route={route} params={{ tab: 'collections', id: row.id }}>
-        <a>{value.name}</a>
+        <a>{value}</a>
       </Link>
     </td>
   );
 }
 
 NameTD.propTypes = {
-  row: PropTypes.object,
-  route: PropTypes.string,
-  value: PropTypes.object,
-  index: PropTypes.string
+  row: PropTypes.object.isRequired,
+  route: PropTypes.string.isRequired,
+  value: PropTypes.object.isRequired,
+  index: PropTypes.string.isRequired
 };
 
 export default NameTD;

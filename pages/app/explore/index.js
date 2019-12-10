@@ -83,7 +83,7 @@ class ExplorePage extends PureComponent {
   }
 
   componentWillUnmount() {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.RW_NODE_ENV === 'production') {
       this.props.resetExplore();
     }
   }

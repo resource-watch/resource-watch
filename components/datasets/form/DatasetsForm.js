@@ -7,8 +7,11 @@ import { toastr } from 'react-redux-toastr';
 import { connect } from 'react-redux';
 
 // services
-import DatasetsService from 'services/DatasetsService';
-import { fetchDataset } from 'services/dataset';
+import {
+  fetchDataset,
+  createDataset,
+  updateDataset
+} from 'services/dataset';
 import { fetchFields } from 'services/fields';
 
 // components
@@ -31,8 +34,7 @@ class DatasetsForm extends PureComponent {
     authorization: PropTypes.string.isRequired,
     dataset: PropTypes.string,
     basic: PropTypes.bool,
-    onSubmit: PropTypes.func,
-    locale: PropTypes.string.isRequired
+    onSubmit: PropTypes.func
   }
 
   static defaultProps = {
@@ -41,33 +43,18 @@ class DatasetsForm extends PureComponent {
     onSubmit: null
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = Object.assign({}, STATE_DEFAULT, {
-      loading: !!props.dataset,
-      loadingColumns: !!props.dataset,
-      columns: [],
-      form: Object.assign({}, STATE_DEFAULT.form, {
-        application: props.application,
-        authorization: props.authorization
-      })
-    });
-
-    this.service = new DatasetsService({
-      authorization: props.authorization,
-      language: props.locale
-    });
-  }
+  state = Object.assign({}, STATE_DEFAULT, {
+    loading: !!this.props.dataset,
+    loadingColumns: !!this.props.dataset,
+    columns: [],
+    form: Object.assign({}, STATE_DEFAULT.form, { application: this.props.application })
+  });
 
   componentWillMount() {
     const { dataset: datasetId } = this.props;
     // Get the dataset and fill the state with its params if it exists
     if (datasetId) {
-      fetchDataset(datasetId, {
-        includes: 'layer',
-        app: process.env.APPLICATIONS
-      })
+      fetchDataset(datasetId, { includes: 'layer' })
         .then((dataset) => {
           const { provider, applicationConfig, layer: layers } = dataset;
           let _layers = layers;
@@ -119,6 +106,7 @@ class DatasetsForm extends PureComponent {
   }
 
   onSubmit = (event) => {
+    const { authorization, dataset } = this.props;
     event.preventDefault();
 
     // Validate the form
@@ -132,7 +120,6 @@ class DatasetsForm extends PureComponent {
       if (valid) {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
-          const { dataset } = this.props;
           const { form, layers } = this.state;
           logEvent('My RW', 'Add New Dataset', this.state.name);
 
@@ -143,8 +130,8 @@ class DatasetsForm extends PureComponent {
           const requestOptions = {
             type: dataset ? 'PATCH' : 'POST',
             omit: dataset
-              ? ['connectorUrlHint', 'authorization', 'connectorType', 'provider']
-              : ['connectorUrlHint', 'authorization']
+              ? ['connectorUrlHint', 'connectorType', 'provider']
+              : ['connectorUrlHint']
           };
 
           let bodyObj = omit(form, requestOptions.omit);
@@ -181,35 +168,35 @@ class DatasetsForm extends PureComponent {
             };
           }
 
-          this.service
-            .saveData({
-              type: requestOptions.type,
-              id: dataset || '',
-              body: bodyObj
-            })
-            .then((data) => {
-              this.setState({ submitting: false });
-              toastr.success(
-                'Success',
-                `The dataset "${data.id}" - "${data.name}" has been uploaded correctly`
-              );
-
-              if (this.props.onSubmit) this.props.onSubmit(data.id);
-            })
-            .catch((err) => {
-              this.setState({ submitting: false });
-              try {
-                if (err && !!err.length) {
-                  err.forEach((e) => {
-                    toastr.error('Error', e.detail);
-                  });
-                } else {
-                  toastr.error('Error', 'Oops! There was an error, try again');
-                }
-              } catch (e) {
-                toastr.error('Error', 'Oops! There was an error, try again');
-              }
-            });
+          if (requestOptions.type === 'PATCH') {
+            updateDataset(dataset, authorization, bodyObj)
+              .then((data) => {
+                this.setState({ submitting: false });
+                toastr.success(
+                  'Success',
+                  `The dataset "${data.id}" - "${data.name}" has been updated correctly`
+                );
+                if (this.props.onSubmit) this.props.onSubmit(data.id);
+              })
+              .catch((err) => {
+                this.setState({ submitting: false });
+                toastr.error('There was an error updating the dataset', err);
+              });
+          } else if (requestOptions.type === 'POST') {
+            createDataset(authorization, bodyObj)
+              .then((data) => {
+                this.setState({ submitting: false });
+                toastr.success(
+                  'Success',
+                  `The dataset "${data.id}" - "${data.name}" has been created correctly`
+                );
+                if (this.props.onSubmit) this.props.onSubmit(data.id);
+              })
+              .catch((err) => {
+                this.setState({ submitting: false });
+                toastr.error('There was an error creating the dataset', err);
+              });
+          }
         } else {
           this.setState({ step: this.state.step + 1 });
         }
@@ -263,7 +250,7 @@ class DatasetsForm extends PureComponent {
       submitting,
       dataDataset
     } = this.state;
-    const { dataset, basic } = this.props;
+    const { dataset, basic, authorization } = this.props;
 
     return (
       <form className="c-form c-datasets-form" onSubmit={this.onSubmit} noValidate>
@@ -279,6 +266,7 @@ class DatasetsForm extends PureComponent {
             columns={columns}
             loadingColumns={loadingColumns}
             sortedLayers={layers}
+            authorization={authorization}
           />
         )}
 

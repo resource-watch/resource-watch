@@ -228,7 +228,7 @@ class DatasetSubscriptionsModal extends PureComponent {
         {!success &&
           <div className="buttons">
             <button className="c-btn -primary" onClick={this.handleSubscribe}>
-              {activeArea ? 'Update' : 'Subscribe'}
+              Save
             </button>
 
             <button

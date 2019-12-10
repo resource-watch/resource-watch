@@ -2,7 +2,7 @@ import 'isomorphic-fetch';
 import isEmpty from 'lodash/isEmpty';
 
 // Services
-import DatasetService from 'services/DatasetService';
+import { fetchDataset } from 'services/dataset';
 import RasterService from 'services/raster';
 import { fetchLayer } from 'services/layer';
 import { deleteFavourite, createFavourite, fetchFavourites } from 'services/favourites';
@@ -105,7 +105,8 @@ export default function (state = initialState, action) {
     }
 
     case GET_WIDGET_FAVORITE: {
-      return Object.assign({}, state, { favourite: Object.assign({}, state.favourite, action.payload) });
+      return Object.assign({}, state,
+        { favourite: Object.assign({}, state.favourite, action.payload) });
     }
 
     default:
@@ -124,18 +125,9 @@ export default function (state = initialState, action) {
  * @param {string} datasetId
  * @returns {Promise<void>}
  */
-function fetchDataset(datasetId) {
-  return (dispatch, getState) => {
-    const state = getState();
-    const datasetService = new DatasetService(datasetId, {
-      apiURL: process.env.WRI_API_URL,
-      language: state.common.locale
-    });
-
-    return datasetService.fetchData('metadata')
-      .then(dataset => dispatch({ type: SET_WIDGET_DATASET, payload: dataset }));
-  };
-}
+const getDataset = datasetId =>
+  dispatch => fetchDataset(datasetId, { includes: 'metadata' })
+    .then(dataset => dispatch({ type: SET_WIDGET_DATASET, payload: dataset }));
 
 /**
  * Get the information of band of a raster dataset
@@ -146,7 +138,7 @@ function fetchRasterBandInfo(datasetId, bandName) {
   return (dispatch, getState) => new Promise(async (resolve) => {
     try {
       if (isEmpty(getState().widget.dataset)) {
-        await dispatch(fetchDataset(datasetId));
+        await dispatch(getDataset(datasetId));
       }
 
       const dataset = getState().widget.dataset.attributes;
@@ -319,7 +311,7 @@ export function setIfFavorited(widgetId, toFavorite) {
         .then(res => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: res.data.id } }))
         .catch(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }));
     } else {
-      const id = widget.favourite.id;
+      const { favourite: { id } } = widget;
 
       deleteFavourite(id, user.token)
         .then(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }))
