@@ -5,16 +5,21 @@ import { Router } from 'routes';
 // components
 import Layout from 'layout/layout/layout-app';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
+import DashboardThumbnailList from 'components/dashboards/thumbnail-list';
+
 import Banner from 'components/app/common/Banner';
 import LoginRequired from 'components/ui/login-required';
 
 class TopicsLayout extends PureComponent {
-  static propTypes = { data: PropTypes.object }
+  static propTypes = { data: PropTypes.object, dashboards: PropTypes.array }
 
-  static defaultProps = { data: {} }
+  static defaultProps = {
+    data: {},
+    dashboards: []
+  }
 
   render() {
-    const { data } = this.props;
+    const { data, dashboards } = this.props;
 
     const styles = {};
     if (data && data.photo) {
@@ -55,6 +60,15 @@ class TopicsLayout extends PureComponent {
                       });
                   }}
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="l-section -small">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <DashboardThumbnailList dashboards={dashboards} />
               </div>
             </div>
           </div>
