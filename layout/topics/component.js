@@ -47,7 +47,7 @@ class TopicsLayout extends PureComponent {
           </div>
         </div>
 
-        <div className="l-section -small">
+        <div id="featuredDashboards" className="l-section -small">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
