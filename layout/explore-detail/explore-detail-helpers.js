@@ -1,9 +1,9 @@
 export function getDatasetMetadata(dataset) {
-  return dataset.metadata || {};
+  return (dataset && dataset.metadata[0]) || {};
 }
 
 export function getDatasetName(dataset) {
-  const metadata = dataset && dataset.metadata || {};
+  const metadata = getDatasetMetadata(dataset);
   return metadata.info && metadata.info.name ? metadata.info.name : dataset.name;
 }
 

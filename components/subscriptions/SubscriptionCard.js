@@ -3,15 +3,12 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import { toastr } from 'react-redux-toastr';
 
-// Redux
-import { connect } from 'react-redux';
-
 // Components
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/widgets/map/Map';
 
 // Services
-import DatasetService from 'services/DatasetService';
+import { fetchDataset } from 'services/dataset';
 import { fetchGeostore, fetchCountry } from 'services/geostore';
 import { deleteSubscription } from 'services/subscriptions';
 
@@ -28,34 +25,26 @@ const MAP_CONFIG = {
 };
 
 class SubscriptionCard extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: false,
-      dataset: null,
-      country: null,
-      type: props.subscription.attributes.datasetsQuery[0].type
-    };
-
-    // Services
-    this.datasetService = new DatasetService(props.subscription.attributes.datasetsQuery[0].id, {
-      apiURL: process.env.WRI_API_URL,
-      language: props.locale
-    });
-  }
+  state = {
+    loading: false,
+    dataset: null,
+    country: null,
+    type: this.props.subscription.datasetsQuery[0].type
+  };
 
   componentDidMount() {
     this.loadData();
   }
 
   loadData() {
+    const { subscription } = this.props;
+    const datasetId = subscription.datasetsQuery[0].id;
     this.setState({ loading: true });
-    this.datasetService.fetchData()
+    fetchDataset(datasetId)
       .then((response) => {
         const dataset = response;
         this.setState({ dataset });
-        const paramsObj = this.props.subscription.attributes.params;
+        const paramsObj = subscription.params;
 
         if (paramsObj.geostore) {
           fetchGeostore(paramsObj.geostore)
@@ -65,16 +54,20 @@ class SubscriptionCard extends React.Component {
                 id: `${dataset.id}-${obj.id}`,
                 provider: 'geojson',
                 layerConfig: {
-                  data: obj.attributes.geojson,
+                  data: obj.geojson,
                   fitBounds: true,
-                  bounds: obj.attributes.bbox
+                  bounds: obj.bbox
                 }
               };
 
               this.setState({
                 loading: false,
                 country: obj.id,
-                layer: fakeLayer
+                layerGroups: [{
+                  dataset,
+                  visible: true,
+                  layers: [fakeLayer]
+                }]
               });
             });
         } else if (paramsObj.iso.country) {
@@ -135,7 +128,7 @@ class SubscriptionCard extends React.Component {
   }
 
   handleGoToDataset = () => {
-    Router.pushRoute('explore_detail', { id: this.props.subscription.attributes.datasets[0] });
+    Router.pushRoute('explore_detail', { id: this.props.subscription.datasets[0] });
   }
 
   render() {
@@ -148,7 +141,7 @@ class SubscriptionCard extends React.Component {
     } = this.state;
 
     const { subscription } = this.props;
-    const { confirmed, name } = subscription.attributes;
+    const { confirmed, name } = subscription;
 
     return (
       <div className="c-subscription-card">
@@ -173,7 +166,7 @@ class SubscriptionCard extends React.Component {
               </div>
               <div className="dataset-container">
                 <h5>Dataset</h5>
-                {dataset && dataset.attributes.name}
+                {dataset && dataset.name}
               </div>
               <div className="type-container">
                 <h5>Type</h5>
@@ -186,6 +179,7 @@ class SubscriptionCard extends React.Component {
                   tabIndex={-1}
                   role="button"
                   onClick={this.handleGoToDataset}
+                  onKeyPress={this.handleGoToDataset}
                 >
                   Go to Dataset
                 </a>
@@ -199,6 +193,7 @@ class SubscriptionCard extends React.Component {
                 tabIndex={-1}
                 role="button"
                 onClick={this.handleDeleteSubscription}
+                onKeyPress={this.handleDeleteSubscription}
               >
                 Delete
               </a>
@@ -213,11 +208,8 @@ class SubscriptionCard extends React.Component {
 SubscriptionCard.propTypes = {
   token: PropTypes.string.isRequired,
   subscription: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired,
   // Callbacks
   onSubscriptionRemoved: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({ locale: state.common.locale });
-
-export default connect(mapStateToProps, null)(SubscriptionCard);
+export default SubscriptionCard;

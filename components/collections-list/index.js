@@ -46,7 +46,7 @@ class CollectionsList extends PureComponent {
       pagination: {
         ...pagination,
         size: nextCollections.length,
-        ...collectionsChanged && { page: 1 },
+        ...(collectionsChanged && { page: 1 }),
         pages: Math.ceil(nextCollections.length / pagination.limit)
       }
     });
@@ -91,14 +91,14 @@ class CollectionsList extends PureComponent {
             columns={[
               {
                 label: 'Name',
-                value: 'attributes',
+                value: 'name',
                 td: NameTD,
                 tdProps: { route: routes.detail },
                 params: { tab: 'collections', id: '{{id}}' }
               },
               {
                 label: 'Related content',
-                value: 'attributes',
+                value: 'resources',
                 td: RelatedContentTD
               }
             ]}

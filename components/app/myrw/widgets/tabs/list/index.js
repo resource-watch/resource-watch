@@ -35,14 +35,14 @@ const WidgetListTabContainer = (props) => {
     user: { token }
   } = props;
 
-  const getWidgets = async () => {
+  const getWidgets = () => {
     const queryParams = getQueryParams(state, props);
 
     dispatch(setWidgetState({
       loading: true,
       error: null
     }));
-    await fetchWidgets(queryParams, { Authorization: token }, true)
+    fetchWidgets(queryParams, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
         const {
           'total-pages': pages,
@@ -69,8 +69,10 @@ const WidgetListTabContainer = (props) => {
   };
 
   useEffect(() => {
-    getWidgets();
-  }, [search, sort, page, subtab]);
+    if (subtab) {
+      getWidgets();
+    }
+  }, [search, sort, page, subtab]); // eslint-disable-line
 
   return (
     <WidgetList

@@ -1,3 +1,5 @@
+import WRISerializer from 'wri-json-api-serializer';
+
 // utils
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
@@ -19,7 +21,7 @@ export const fetchFavourites = (token) => {
         env: process.env.API_ENV
       }
     })
-    .then(response => response.data)
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching favourites: ${status}: ${statusText}`);
@@ -42,6 +44,7 @@ export const createFavourite = (token, { resourceId, resourceType }) => {
       resourceType
     },
     { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating favourite: ${status}: ${statusText}`);
@@ -58,6 +61,7 @@ export const deleteFavourite = (token, resourceId) => {
   logger.info(`Delete favourite ${resourceId}`);
   return WRIAPI.delete(`/favourite/${resourceId}`,
     { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error deleting favourite ${resourceId} ${status}: ${statusText}`);

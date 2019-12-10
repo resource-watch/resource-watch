@@ -69,31 +69,6 @@ export default {
         error: payload
       }
     }),
-  // user areas
-  [actions.setUserAreas]: (state, { payload }) =>
-    ({
-      ...state,
-      userAreas: {
-        ...state.userAreas,
-        list: payload
-      }
-    }),
-  [actions.setUserAreasLoading]: (state, { payload }) =>
-    ({
-      ...state,
-      userAreas: {
-        ...state.userAreas,
-        loading: payload
-      }
-    }),
-  [actions.setUserAreasError]: (state, { payload }) =>
-    ({
-      ...state,
-      userAreas: {
-        ...state.userAreas,
-        error: payload
-      }
-    }),
   // datasets
   [actions.setDatasets]: (state, { payload }) =>
     ({
