@@ -34,7 +34,7 @@ class TopicsLayout extends PureComponent {
                 <div className="column small-12">
                   <div className="content">
                     <h1>Dashboards</h1>
-                    <p>Find data and visualizations for different topic areas of interest</p>
+                    <p>{data.summary || 'Find data and visualizations for different topic areas of interest'}</p>
                   </div>
                 </div>
               </div>
