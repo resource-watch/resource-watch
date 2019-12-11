@@ -76,7 +76,7 @@ class TopicsLayout extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 <div className="c-dashboards-subheader-block">
-                  <h2>Dashboards gallery</h2>
+                  <h2>Dashboard gallery</h2>
                   <p>
                     Browse collections of data and visualizations
                     developed by the Resource Watch team and partners
