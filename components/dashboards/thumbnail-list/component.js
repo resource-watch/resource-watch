@@ -38,7 +38,7 @@ class DashboardThumbnailList extends PureComponent {
                   key={dashboard.slug}
                   tabIndex="0"
                   className="thumbnail-list-item"
-                  style={{ backgroundImage: `url(${dashboard.photo && dashboard.photo.original})` }}
+                  style={{ backgroundImage: `url(${dashboard.photo && dashboard.photo.cover})` }}
                   onClick={() => onSelect(dashboard)}
                 >
                   <div className="content" htmlFor={`topic-${dashboard.slug}`}>
@@ -47,10 +47,10 @@ class DashboardThumbnailList extends PureComponent {
                       <div className="dashboard-author">
                         <div
                           className="image"
-                          style={{ backgroundImage: `url(${dashboard.photo && dashboard.photo.thumb})` }}
+                          style={{ backgroundImage: `url(${dashboard.user ? dashboard.user.photo : '/static/images/logo-no-text.svg'})` }}
                         />
                         <div className="name">
-                          name
+                          {dashboard.user ? dashboard.user.name : 'Resources Watch staff'}
                         </div>
                       </div>
                     </div>
