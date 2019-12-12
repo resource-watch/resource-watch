@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.1.10] - 2019-12-11
+### Added
+- Log site search events with GA [[code]](https://github.com/resource-watch/resource-watch/pull/1170)
+
+### Fixed
+- Fix for a problem in the `TagsForm` component [[code]](https://github.com/resource-watch/resource-watch/pull/1162)
+- Several subscriptions issues fixed in [[code]](https://github.com/resource-watch/resource-watch/pull/1156)
+- Fix for a couple minor errors in Areas of interest --> subscriptions [[code]](https://github.com/resource-watch/resource-watch/pull/1168)
+
+### Changed
+- API communication services refactor, including improvements such as: 
+    - use of [Axios](https://github.com/axios/axios) in all requests
+	- better error handling
+	- better error logs
+	- serialize responses when applicable using the component `WRISerializer`
+	The code for these changes can be found here: [[1]](https://github.com/resource-watch/resource-watch/pull/1155), [[2]](https://github.com/resource-watch/resource-watch/pull/1157), [[3]](https://github.com/resource-watch/resource-watch/pull/1162), [[4]](https://github.com/resource-watch/resource-watch/pull/1164)
+- Subscriptions are now handled following the standardized agreed approach, i.e. one subscription entity should be created in the API for each combination of [area, dataset, subscription type] [[code]](https://github.com/resource-watch/resource-watch/pull/1156)
+- Next.js updated to the latest version `9.1.1` [[code]](https://github.com/resource-watch/resource-watch/pull/1161). More info about the changes included can be found [here](https://nextjs.org/blog/next-9-1)
+- Set origin parameter when signing up user on the API [[code]](https://github.com/resource-watch/resource-watch/pull/1166)
+- Delete insights-related obsolete code and files across the app [[code]](https://github.com/resource-watch/resource-watch/pull/1174)
+
 ## [2.1.9] - 2019-09-30
 ### Added
 - Hooks linter & Staged lint [[code]](https://github.com/resource-watch/resource-watch/pull/1135)
