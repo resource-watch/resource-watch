@@ -20,17 +20,7 @@ export const FOOTER_LINKS = [
     label: 'Dashboards',
     route: 'dashboards',
     pathnames: ['/app/topics', '/app/topics-detail'],
-    children: [
-      { label: 'Cities', route: 'dashboards_detail', params: { id: 'cities' } },
-      { label: 'Climate', route: 'dashboards_detail', params: { id: 'climate' } },
-      { label: 'Energy', route: 'dashboards_detail', params: { id: 'energy' } },
-      { label: 'Food', route: 'dashboards_detail', params: { id: 'food' } },
-      { label: 'Forests', route: 'dashboards_detail', params: { id: 'forests' } },
-      { label: 'Society', route: 'dashboards_detail', params: { id: 'society' } },
-      { label: 'Oceans', route: 'dashboards_detail', params: { id: 'oceans' } },
-      { label: 'Water', route: 'dashboards_detail', params: { id: 'water' } },
-      { label: 'More', route: '/dashboards#featuredDashboards' }
-    ]
+    children: []
   },
   {
     id: 'blog',
