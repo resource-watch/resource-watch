@@ -103,7 +103,7 @@ export const fetchDataset = (id, params = {}) => {
 
 /**
  * Get dataset tags.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#tags-definition|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-vocabularies-associated-to-a-resource|here}
  * @param {String} datasetId - dataset id.
  * @param {Object} params - params sent to the API.
  * @returns {Object}
@@ -207,7 +207,7 @@ export const updateDataset = (id, token, params = {}) => {
 
 /**
  * Update dataset tags.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#updating-tags-of-an-existing-relationship|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#updating-an-existing-vocabulary-resource-relationship|here}
  * @param {String} datasetId - dataset id.
  * @param {Object[]} tags - user's token.
  * @param {String} token - user's token.
