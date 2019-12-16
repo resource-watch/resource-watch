@@ -44,7 +44,7 @@ export const fetchDashboards = (params = {}, headers = {}) => {
 
 /**
  * fetchs data for a specific dashboard.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#dashboard|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-a-dashboard-by-its-id|here}
  * @param {String} id - dashboard id.
  * @returns {Object} serialized specified dashboard.
  */
@@ -150,7 +150,7 @@ export const updateDashboard = (id, body, token) => {
 /**
  * Deletes a specified dashboard.
  * This fetch needs authentication.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#dashboard|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-dashboard|here}
  * @param {String} id - dashboard ID to be deleted.
  * @param {String} token - user's token.
  * @returns {Object} fetch response.
@@ -181,7 +181,7 @@ export const deleteDashboard = (id, token) => {
 /**
  * Clones a topic to convert it into a dashboard based on topic's data.
  * This fetch needs authentication.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#clone-dashboard216|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#clone-dashboard|here}
  * @param {String} id - topic ID to be cloned.
  * @param {String} token - user's token.
  * @return {Object} serialized dashboard cloned based on the ID topic.
