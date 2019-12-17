@@ -9,17 +9,20 @@ import './styles.scss';
 class DashboardThumbnailList extends PureComponent {
   static propTypes = {
     dashboards: PropTypes.array,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    user: PropTypes.bool
   }
 
   static defaultProps = {
     onSelect: () => {},
-    dashboards: []
+    dashboards: [],
+    user: false
   }
 
   render() {
-    const { dashboards, onSelect } = this.props;
-
+    const { dashboards, onSelect, user } = this.props;
+    const buttonDefaultClass = 'thumbnail-list-item';
+    const buttonClass = user ? buttonDefaultClass : `${buttonDefaultClass} no-user`;
     return (
       <div className="c-dashboards-gallery-list">
         <div className="row l-row -equal-height">
@@ -37,7 +40,7 @@ class DashboardThumbnailList extends PureComponent {
                 <button
                   key={dashboard.slug}
                   tabIndex="0"
-                  className="thumbnail-list-item"
+                  className={buttonClass}
                   style={{ backgroundImage: `url(${dashboard.photo && dashboard.photo.cover})` }}
                   onClick={() => onSelect(dashboard)}
                 >

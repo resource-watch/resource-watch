@@ -63,14 +63,13 @@ class TopicsLayout extends PureComponent {
                   </p>
                 </div>
                 <DashboardThumbnailList
-                  dashboards={dashFeatured}
                   onSelect={({ slug }) => {
-                    // We need to make an amendment in the Wysiwyg to have this working
-                    Router.pushRoute('dashboards_detail', { id: slug })
-                      .then(() => {
-                        window.scrollTo(0, 0);
-                      });
+                    Router.pushRoute('dashboards_detail_custom', { slug })
+                    .then(() => {
+                      window.scrollTo(0, 0);
+                    });
                   }}
+                  dashboards={dashFeatured}
                 />
               </div>
             </div>
@@ -95,6 +94,7 @@ class TopicsLayout extends PureComponent {
                       });
                   }}
                   dashboards={dashboards}
+                  user
                 />
               </div>
             </div>

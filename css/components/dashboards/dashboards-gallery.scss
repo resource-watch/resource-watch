@@ -120,5 +120,23 @@
         }
       }
     }
+
+
+    &.no-user {
+      .content {
+        .text {
+          min-height: auto;
+          background-color: transparent;
+          .dashboard-title {
+            font-size: $font-size-extra-big;
+            font-weight: $font-weight-bold;
+            color: $color-white;
+          }
+          .dashboard-author {
+            display: none;
+          }
+        }
+      }
+    }
   }
 }

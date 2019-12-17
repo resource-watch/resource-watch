@@ -11,7 +11,11 @@ export const setError = createAction('DASHBOARDS__SET-ERROR');
 
 export const getFeaturedDashboards = createThunkAction('DASHBOARDS__GET-FEATURED-DASHBOARDS',
   () => (dispatch) => {
-    const params = { published: 'true', 'is-featured': true };
+    const params = {
+      published: 'true',
+      'is-featured': true,
+      includes: 'user'
+    };
 
     dispatch(setLoading({ key: 'featured', value: true }));
     dispatch(setError({ key: 'featured', value: null }));
