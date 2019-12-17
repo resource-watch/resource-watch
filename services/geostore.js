@@ -6,7 +6,7 @@ import { logger } from 'utils/logs';
 
 /**
  * Fetches Geostore
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#geostore|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#obtain-a-geostore|here}
  * @param {String} id - geostore ID.
  * @returns {Object} serialized geostore object.
  */

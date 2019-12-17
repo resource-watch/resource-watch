@@ -54,10 +54,10 @@ export const fetchInferredTags = (params = {}) => {
 
 /**
  * Send a request to count a view to the dataset.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#count-dataset-view|here}
  * @param {String} datasetId Dataset ID
  * @param {String} token User token
  * @param {Object} params Request parameters to API.
- * @returns {Promise<void>}
  */
 export const countDatasetView = (datasetId, token, params = {}) => {
   logger.info('Count dataset view');
@@ -80,7 +80,7 @@ export const countDatasetView = (datasetId, token, params = {}) => {
 
 /**
  * Get the list of most viewed datasets.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#most-liked-datasets|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#most-viewed-datasets|here}
  * @param {Object} params Request parameters to API.
  * @returns {Promise<string[]>} List of sorted ids
  */
