@@ -9,6 +9,24 @@ export const setDashboard = createAction('DASHBOARDS__SET-DASHBOARD');
 export const setLoading = createAction('DASHBOARDS__SET-LOADING');
 export const setError = createAction('DASHBOARDS__SET-ERROR');
 
+export const getFeaturedDashboards = createThunkAction('DASHBOARDS__GET-FEATURED-DASHBOARDS',
+  () => (dispatch) => {
+    const params = { published: 'true', 'is-featured': true };
+
+    dispatch(setLoading({ key: 'featured', value: true }));
+    dispatch(setError({ key: 'featured', value: null }));
+
+    return fetchDashboards(params)
+      .then((dashboards) => {
+        dispatch(setDashboards({ key: 'featured', value: dashboards }));
+        dispatch(setLoading({ key: 'featured', value: false }));
+      })
+      .catch((err) => {
+        dispatch(setError({ key: 'featured', value: err.message }));
+        dispatch(setLoading({ key: 'featured', value: false }));
+      });
+  });
+
 export const getPublishedDashboards = createThunkAction('DASHBOARDS__GET-PUBLISHED-DASHBOARDS',
   () => (dispatch) => {
     const params = { 'filter[published]': 'true' };

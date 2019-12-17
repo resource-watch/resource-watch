@@ -4,22 +4,26 @@ import { Router } from 'routes';
 
 // components
 import Layout from 'layout/layout/layout-app';
-import TopicThumbnailList from 'components/topics/thumbnail-list';
 import DashboardThumbnailList from 'components/dashboards/thumbnail-list';
 
 import Banner from 'components/app/common/Banner';
 import LoginRequired from 'components/ui/login-required';
 
 class TopicsLayout extends PureComponent {
-  static propTypes = { data: PropTypes.object, dashboards: PropTypes.array }
+  static propTypes = {
+    data: PropTypes.object,
+    dashboards: PropTypes.array,
+    dashFeatured: PropTypes.array
+  }
 
   static defaultProps = {
     data: {},
-    dashboards: []
+    dashboards: [],
+    dashFeatured: []
   }
 
   render() {
-    const { data, dashboards } = this.props;
+    const { data, dashboards, dashFeatured } = this.props;
 
     const styles = {};
     if (data && data.photo) {
@@ -58,7 +62,8 @@ class TopicsLayout extends PureComponent {
                     challenges facing human society and the planet
                   </p>
                 </div>
-                <TopicThumbnailList
+                <DashboardThumbnailList
+                  dashboards={dashFeatured}
                   onSelect={({ slug }) => {
                     // We need to make an amendment in the Wysiwyg to have this working
                     Router.pushRoute('dashboards_detail', { id: slug })
