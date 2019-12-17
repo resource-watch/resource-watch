@@ -87,7 +87,15 @@ class TopicsLayout extends PureComponent {
                     developed by the Resource Watch team and partners
                   </p>
                 </div>
-                <DashboardThumbnailList dashboards={dashboards} />
+                <DashboardThumbnailList
+                  onSelect={({ slug }) => {
+                    Router.pushRoute('dashboards_detail_custom', { slug })
+                      .then(() => {
+                        window.scrollTo(0, 0);
+                      });
+                  }}
+                  dashboards={dashboards}
+                />
               </div>
             </div>
           </div>

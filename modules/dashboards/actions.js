@@ -29,7 +29,10 @@ export const getFeaturedDashboards = createThunkAction('DASHBOARDS__GET-FEATURED
 
 export const getPublishedDashboards = createThunkAction('DASHBOARDS__GET-PUBLISHED-DASHBOARDS',
   () => (dispatch) => {
-    const params = { 'filter[published]': 'true' };
+    const params = {
+      'filter[published]': 'true',
+      includes: 'user'
+    };
 
     dispatch(setLoading({ key: 'published', value: true }));
     dispatch(setError({ key: 'published', value: null }));
