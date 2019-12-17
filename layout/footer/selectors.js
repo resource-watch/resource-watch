@@ -13,7 +13,7 @@ const setDashboardsLinks = (_dashboards) => {
   const dashLinks = _dashboards.map(_dashboard => ({
     label: _dashboard.name,
     route: 'dashboards_detail',
-    params: { id: _dashboard.slug }
+    params: { slug: _dashboard.slug, topic: true }
   }));
   dashLinks.push({
     label: 'More',

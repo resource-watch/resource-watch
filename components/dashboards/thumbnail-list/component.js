@@ -19,7 +19,7 @@ class DashboardThumbnailList extends PureComponent {
             style={{ backgroundImage: `url(${_dashboard.photo.original})` }}
           >
             <Link
-              to="dashboards_detail_custom"
+              to="dashboards_detail"
               params={{ slug: _dashboard.slug }}
             >
               <a><span>{_dashboard.name}</span></a>

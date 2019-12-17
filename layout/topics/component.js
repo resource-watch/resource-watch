@@ -61,7 +61,7 @@ class TopicsLayout extends PureComponent {
                 <TopicThumbnailList
                   onSelect={({ slug }) => {
                     // We need to make an amendment in the Wysiwyg to have this working
-                    Router.pushRoute('dashboards_detail', { id: slug })
+                    Router.pushRoute('dashboards_detail', { slug, topic: true })
                       .then(() => {
                         window.scrollTo(0, 0);
                       });

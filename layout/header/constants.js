@@ -20,16 +20,7 @@ export const APP_HEADER_ITEMS = [
     label: 'Dashboards',
     route: 'dashboards',
     pathnames: ['/app/dashboards', '/app/dashboards-detail'],
-    children: [
-      { label: 'Cities', route: 'dashboards_detail', params: { id: 'cities' } },
-      { label: 'Climate', route: 'dashboards_detail', params: { id: 'climate' } },
-      { label: 'Energy', route: 'dashboards_detail', params: { id: 'energy' } },
-      { label: 'Food', route: 'dashboards_detail', params: { id: 'food' } },
-      { label: 'Forests', route: 'dashboards_detail', params: { id: 'forests' } },
-      { label: 'Society', route: 'dashboards_detail', params: { id: 'society' } },
-      { label: 'Oceans', route: 'dashboards_detail', params: { id: 'oceans' } },
-      { label: 'Water', route: 'dashboards_detail', params: { id: 'water' } }
-    ]
+    children: []
   },
   {
     id: 'blog',
