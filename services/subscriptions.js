@@ -42,7 +42,7 @@ export const fetchSubscriptions = (token, params) => {
 
 /**
  * Creates a subscription for an area
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-subscription|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#with-an-area|here}
  * @param {Object} options
  */
 export const createSubscriptionToArea = ({
