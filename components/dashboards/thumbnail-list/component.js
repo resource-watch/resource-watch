@@ -50,7 +50,7 @@ class DashboardThumbnailList extends PureComponent {
                       <div className="dashboard-author">
                         <div
                           className="image"
-                          style={{ backgroundImage: `url(${dashboard.user ? dashboard.user.photo : '/static/images/logo-no-text.svg'})` }}
+                          style={{ backgroundImage: `url(${dashboard.user && dashboard.user.photo ? dashboard.user.photo : '/static/images/logo-no-text.svg'})` }}
                         />
                         <div className="name">
                           {dashboard.user ? dashboard.user.name : 'Resources Watch staff'}
