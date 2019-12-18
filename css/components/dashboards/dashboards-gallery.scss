@@ -1,0 +1,142 @@
+.c-dashboards-gallery-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .thumbnail-list-item {
+    position: relative;
+    height: 200px;
+    border-radius: 4px;
+    background-color: $color-dark-grey;
+    background-size: cover;
+    background-position: center center;
+    outline: none;
+    padding: 0;
+    transition: all $animation-time-2 $ease-in-out-sine;
+
+    &:nth-of-type(6n) {
+      margin-right: 0;
+    }
+
+    // The input is just here for an accessibility matter
+    // we don't want it to be visually present
+    input[type="radio"] {
+      position: absolute;
+      top: 0;
+      left: -10000px;
+
+      &:focus + .content {
+        border: 1px solid $color-primary;
+      }
+    }
+
+    .content {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-end;
+      width: 100%;
+      height: 100%;
+      font-size: $font-size-extra-big;
+      font-weight: $font-weight-bold;
+      color: $color-white;
+      border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
+      
+      .text {
+        width: 100%;
+        min-height: 75px;
+        background-color: $white;
+
+        
+        .dashboard-title {
+          color: #393F44;
+          font-family: Lato;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 20px;
+          text-align: left;
+          padding: 15px 15px 10px 15px;
+          margin: 0;
+        }
+        
+        .dashboard-author {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 0 15px 10px 15px;
+
+          .image {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: contain;
+          }
+
+          .name {
+            color: #717171;	
+            font-family: Lato;
+            font-weight: 400;
+            font-size: 14px;	
+            line-height: 20px;
+            padding-left: 9px;  
+          }
+        }
+      }
+    }
+
+    &:hover {
+      box-shadow: 0 20px 30px rgba($black, .2);
+      transform: translateY(-4px);
+      transition: all $animation-time-2 $ease-in-out-sine;
+      cursor: pointer;
+    }
+
+    &.-active {
+      box-shadow: none;
+
+      .content {
+        cursor: auto;
+      }
+    }
+
+    &.-toggle {
+      background-color: $color-white;
+      box-shadow: 0 0 0 1px $color-primary;
+
+      .content {
+        color: $color-primary;
+      }
+
+      &:hover {
+        background-color: white;
+        box-shadow: 0 0 0 1px $color-primary;
+
+        .content {
+          background-color: rgba($color-primary, .25);
+        }
+      }
+    }
+
+
+    &.no-user {
+      .content {
+        .text {
+          min-height: auto;
+          background-color: transparent;
+          .dashboard-title {
+            font-size: $font-size-extra-big;
+            font-weight: $font-weight-bold;
+            color: $color-white;
+          }
+          .dashboard-author {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
