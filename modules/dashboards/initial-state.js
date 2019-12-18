@@ -9,6 +9,11 @@ export default {
     loading: true,
     error: null
   },
+  highlighted: {
+    list: [],
+    loading: true,
+    error: null
+  },
   detail: {
     data: {},
     loading: true,

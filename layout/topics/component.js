@@ -12,18 +12,18 @@ import LoginRequired from 'components/ui/login-required';
 class TopicsLayout extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
-    dashboards: PropTypes.array,
+    dashHighlighted: PropTypes.array,
     dashFeatured: PropTypes.array
   }
 
   static defaultProps = {
     data: {},
-    dashboards: [],
+    dashHighlighted: [],
     dashFeatured: []
   }
 
   render() {
-    const { data, dashboards, dashFeatured } = this.props;
+    const { data, dashHighlighted, dashFeatured } = this.props;
 
     const styles = {};
     if (data && data.photo) {
@@ -93,7 +93,7 @@ class TopicsLayout extends PureComponent {
                         window.scrollTo(0, 0);
                       });
                   }}
-                  dashboards={dashboards}
+                  dashboards={dashHighlighted}
                   user
                 />
               </div>
