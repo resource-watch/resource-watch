@@ -40,23 +40,19 @@ const WelcomeModal = () => {
               <a>Explore</a>
             </Link>
           </p>
-          <div className="row">
-            <div className="column small-12">
-              <div className="buttons" style={{ alignItems: 'center' }}>
-                <Checkbox
-                  properties={{
-                    name: 'hideCheck',
-                    value: 'hideCheck',
-                    title: 'Don\'t show me again',
-                    checked: hideChecked
-                  }}
-                  onChange={({ checked }) => hideCheckedChange(checked)}
-                />
-                <button className="c-btn -primary" onClick={closePopup}>
-                  Continue
-                </button>
-              </div>
-            </div>
+          <div className="buttons" style={{ alignItems: 'center' }}>
+            <Checkbox
+              properties={{
+                name: 'hideCheck',
+                value: 'hideCheck',
+                title: 'Don\'t show me again',
+                checked: hideChecked
+              }}
+              onChange={({ checked }) => hideCheckedChange(checked)}
+            />
+            <button className="c-btn -primary" onClick={closePopup}>
+              Continue
+            </button>
           </div>
         </div>
       </div>
