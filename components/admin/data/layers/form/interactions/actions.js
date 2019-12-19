@@ -26,7 +26,8 @@ export const getAvailableLayerInteractions = createThunkAction('LAYER-INTERACTIO
   if (layer && layer.provider !== 'wms') {
     const url = getFieldUrl({ id: layer.dataset });
     return fetchFields(url)
-      .then((rawFields) => {
+      .then((response) => {
+        const rawFields = response.fields;
         const parsedFields = ((rawFields && Object.keys(rawFields)) || []).map((fKey) => {
           const { type } = rawFields[fKey] || null;
           return { label: fKey || '', value: fKey || '', type };
