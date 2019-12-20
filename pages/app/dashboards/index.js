@@ -5,7 +5,7 @@ import { getStaticPage } from 'modules/static-pages/actions';
 import { getHighlightedDashboards, getFeaturedDashboards } from 'modules/dashboards/actions';
 
 // components
-import LayoutDashboards from 'layout/dashboards';
+import LayoutDashboards from 'layout/app/dashboards';
 
 class DashboardsPage extends PureComponent {
   static async getInitialProps({ store }) {
