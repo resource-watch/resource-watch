@@ -185,9 +185,10 @@ export const deleteDashboard = (id, token) => {
  * @param {string} token - user's token.
  * @return {Object} serialized dashboard cloned based on the ID topic.
  */
-export const cloneDashboard = (id, token) => {
+export const cloneDashboard = (id, token, type = 'topics') => {
   logger.info(`Clones dashboard from topic ${id}`);
-  return WRIAPI.post(`topics/${id}/clone-dashboard`, {}, {
+  const url = type === 'topics' ? `topics/${id}/clone-dashboard` : `dashboards/${id}/clone-dashboard`;
+  return WRIAPI.post(url, {}, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token

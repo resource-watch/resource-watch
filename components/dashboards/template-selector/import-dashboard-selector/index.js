@@ -5,7 +5,7 @@ import importSelector from './component';
 export default connect(
   state => ({
     user: state.user,
-    dashboards: state.dashboards.published.list
+    dashboards: state.dashboards.all.list
   }),
   null
 )(importSelector);
