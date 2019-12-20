@@ -122,13 +122,13 @@ export const updateSubscriptionToArea = (
 
 /**
  * Get Subscription
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#subscribable-datasets|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-a-subscription-by-its-id|here}
  * @param {String} subscriptionId
  * @param {String} token User's token
  */
 export const fetchSubscription = (subscriptionId, token) => {
   logger.info(`Fetch subscription: ${subscriptionId}`);
-  return WRIAPI.get(`subscriptions/${subscriptionId}/data?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
+  return WRIAPI.get(`subscriptions/${subscriptionId}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
     { headers: { Authorization: token } })
     .then(response => response.data)
     .catch(({ response }) => {
