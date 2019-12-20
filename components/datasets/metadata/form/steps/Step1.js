@@ -31,13 +31,13 @@ import {
 
 class Step1 extends React.Component {
   static propTypes = {
-    form: PropTypes.object,
-    columns: PropTypes.array,
+    form: PropTypes.object.isRequired,
+    columns: PropTypes.array.isRequired,
     type: PropTypes.string,
-    loadingColumns: PropTypes.bool,
-    onChange: PropTypes.func,
-    toggleModal: PropTypes.func,
-    sources: PropTypes.array
+    loadingColumns: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired,
+    toggleModal: PropTypes.func.isRequired,
+    sources: PropTypes.array.isRequired
   };
 
   static defaultProps = { type: 'tabular' };
@@ -506,7 +506,7 @@ class Step1 extends React.Component {
                   <div className="columns small-2">
                     <Field
                       properties={{
-                        name: 'column_name',
+                        name: `columns_${column.name}_name`,
                         label: 'Column name',
                         type: 'text',
                         disabled: true,
@@ -535,7 +535,7 @@ class Step1 extends React.Component {
                         });
                       }}
                       properties={{
-                        name: 'alias',
+                        name: `columns_${column.name}_alias`,
                         label: 'Alias',
                         type: 'text',
                         default: form.columns[column.name] ? form.columns[column.name].alias : ''
@@ -562,7 +562,7 @@ class Step1 extends React.Component {
                         });
                       }}
                       properties={{
-                        name: 'description',
+                        name: `columns_${column.name}_description`,
                         label: 'Description',
                         type: 'text',
                         default: form.columns[column.name]

@@ -5,16 +5,21 @@ import { Router } from 'routes';
 // components
 import Layout from 'layout/layout/layout-app';
 import TopicThumbnailList from 'components/topics/thumbnail-list';
+import DashboardThumbnailList from 'components/dashboards/thumbnail-list';
+
 import Banner from 'components/app/common/Banner';
 import LoginRequired from 'components/ui/login-required';
 
 class TopicsLayout extends PureComponent {
-  static propTypes = { data: PropTypes.object }
+  static propTypes = { data: PropTypes.object, dashboards: PropTypes.array }
 
-  static defaultProps = { data: {} }
+  static defaultProps = {
+    data: {},
+    dashboards: []
+  }
 
   render() {
-    const { data } = this.props;
+    const { data, dashboards } = this.props;
 
     const styles = {};
     if (data && data.photo) {
@@ -23,7 +28,7 @@ class TopicsLayout extends PureComponent {
 
     return (
       <Layout
-        title="Topics — Resource Watch"
+        title="Dashboards"
         description="The latest facts and figures on cities, energy, food and more."
         className="l-static p-topics"
       >
@@ -33,8 +38,8 @@ class TopicsLayout extends PureComponent {
               <div className="row">
                 <div className="column small-12">
                   <div className="content">
-                    <h1>{data.title || 'Topics'}</h1>
-                    <p>{data.summary || ''}</p>
+                    <h1>Dashboards</h1>
+                    <p>{data.summary || 'Find data and visualizations for different topic areas of interest'}</p>
                   </div>
                 </div>
               </div>
@@ -42,19 +47,42 @@ class TopicsLayout extends PureComponent {
           </div>
         </div>
 
-        <div className="l-section -small">
+        <div id="featuredDashboards" className="l-section -small">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
+                <div className="c-dashboards-subheader-block">
+                  <h2>Featured dashboards</h2>
+                  <p>
+                    Discover collections of curated data on the major
+                    challenges facing human society and the planet
+                  </p>
+                </div>
                 <TopicThumbnailList
                   onSelect={({ slug }) => {
                     // We need to make an amendment in the Wysiwyg to have this working
-                    Router.pushRoute('topics_detail', { id: slug })
+                    Router.pushRoute('dashboards_detail', { id: slug })
                       .then(() => {
                         window.scrollTo(0, 0);
                       });
                   }}
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="l-section -small">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <div className="c-dashboards-subheader-block">
+                  <h2>Dashboard gallery</h2>
+                  <p>
+                    Browse collections of data and visualizations
+                    developed by the Resource Watch team and partners
+                  </p>
+                </div>
+                <DashboardThumbnailList dashboards={dashboards} />
               </div>
             </div>
           </div>

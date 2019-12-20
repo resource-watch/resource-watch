@@ -9,7 +9,7 @@ import Footer from './component';
 export default connect(
   state => ({
     partners: getFeaturedPartners(state),
-    menu: getMenu()
+    menu: getMenu(state)
   }),
   null
 )(Footer);

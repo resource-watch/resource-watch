@@ -7,7 +7,7 @@ import { setDropdownOpened } from '../actions';
 import { parseTopics } from './selectors';
 
 // component
-import HeaderTopicsComponent from './component';
+import HeaderDashboardsComponent from './component';
 
 export default connect(
   state => ({
@@ -15,4 +15,4 @@ export default connect(
     topics: parseTopics(state)
   }),
   { setDropdownOpened }
-)(HeaderTopicsComponent);
+)(HeaderDashboardsComponent);

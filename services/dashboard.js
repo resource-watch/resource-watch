@@ -163,18 +163,11 @@ export const deleteDashboard = (id, token) => {
       Authorization: token
     }
   })
-    .then((response) => {
-      const { status, statusText, data } = response;
-
-      if (status >= 300) {
-        if (status !== 404) logger.error(`Error deleting dashboard ${id}, ${status}: ${statusText}`);
-        throw new Error(statusText);
-      }
-      return WRISerializer(data);
-    })
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error deleting dashboard ${id}, ${status}: ${statusText}`);
+
+      logger.error(`Error deleting dashboard ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error deleting dashboard ${id}: ${status}: ${statusText}`);
     });
 };
 

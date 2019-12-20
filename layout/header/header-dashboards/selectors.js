@@ -7,7 +7,7 @@ export const parseTopics = createSelector(
   [getPublishedTopics], _topics => _topics
     .map(_topic => ({
       label: _topic.name,
-      route: 'topics_detail',
+      route: 'dashboards_detail',
       params: { id: _topic.slug }
     }))
 );
