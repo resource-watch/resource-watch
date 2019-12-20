@@ -5,9 +5,10 @@ import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 /**
- * fetches Geostore
- * @param {Object[]} id - geostore ID.
- * @returns {Object[]} serialized geostore object.
+ * Fetches Geostore
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#obtain-a-geostore|here}
+ * @param {String} id - geostore ID.
+ * @returns {Object} serialized geostore object.
  */
 export const fetchGeostore = (id) => {
   logger.info(`Fetch geostore ${id}`);
@@ -30,6 +31,11 @@ export const fetchGeostore = (id) => {
     });
 };
 
+/**
+ * Create a Geostore
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-geostore|here}
+ * @param {Object} geojson Geojson with your geometry
+ */
 export const createGeostore = (geojson) => {
   logger.info('Create geostore');
   return WRIAPI.post('geostore', geojson)
@@ -43,6 +49,8 @@ export const createGeostore = (geojson) => {
 
 /**
  * Fetch countries
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#geostore|here}
+ * @returns {Object[]}
  */
 export const fetchCountries = () => {
   logger.info('Fetch countries');
@@ -66,6 +74,7 @@ export const fetchCountries = () => {
 
 /**
  * Get country
+ * @param {String} iso
  */
 export const fetchCountry = (iso) => {
   logger.info(`Fetch country: ${iso}`);
