@@ -94,6 +94,8 @@ class LayersTable extends PureComponent {
     const { dataset, user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
+    this.setState({ loading: true });
+
     fetchLayers({
       includes: 'user',
       'page[number]': pagination.page,

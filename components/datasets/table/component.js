@@ -90,6 +90,8 @@ class DatasetsTable extends PureComponent {
     const { user: { token } } = this.props;
     const { pagination, filters } = this.state;
 
+    this.setState({ loading: true });
+
     fetchDatasets({
       includes: 'widget,layer,metadata,user',
       'page[number]': pagination.page,
