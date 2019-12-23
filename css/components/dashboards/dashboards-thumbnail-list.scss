@@ -9,7 +9,7 @@
     position: relative;
     height: 200px;
     border-radius: 4px;
-    background-color: $color-dark-grey;
+    background-color: $blue-grey;
     background-size: cover;
     background-position: center center;
     outline: none;
@@ -20,18 +20,6 @@
       margin-right: 0;
     }
 
-    // The input is just here for an accessibility matter
-    // we don't want it to be visually present
-    input[type="radio"] {
-      position: absolute;
-      top: 0;
-      left: -10000px;
-
-      &:focus + .content {
-        border: 1px solid $color-primary;
-      }
-    }
-
     .content {
       display: flex;
       justify-content: flex-start;
@@ -40,7 +28,7 @@
       height: 100%;
       font-size: $font-size-extra-big;
       font-weight: $font-weight-bold;
-      color: $color-white;
+      color: $white;
       border-radius: 4px;
       cursor: pointer;
       box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
@@ -58,7 +46,7 @@
           font-weight: bold;
           line-height: 20px;
           text-align: left;
-          padding: 15px 15px 10px 15px;
+          padding: $space * 3 $space * 3 $space * 2 $space * 3;
           margin: 0;
         }
         
@@ -66,7 +54,7 @@
           display: flex;
           align-items: center;
           justify-content: flex-start;
-          padding: 0 15px 10px 15px;
+          padding: 0 $space * 3 $space * 2 $space * 3;
 
           .image {
             width: 38px;
@@ -104,19 +92,19 @@
     }
 
     &.-toggle {
-      background-color: $color-white;
-      box-shadow: 0 0 0 1px $color-primary;
+      background-color: $white;
+      box-shadow: 0 0 0 1px $dark-pink;
 
       .content {
-        color: $color-primary;
+        color: $dark-pink;
       }
 
       &:hover {
         background-color: white;
-        box-shadow: 0 0 0 1px $color-primary;
+        box-shadow: 0 0 0 1px $dark-pink;
 
         .content {
-          background-color: rgba($color-primary, .25);
+          background-color: rgba($dark-pink, .25);
         }
       }
     }
@@ -130,7 +118,7 @@
           .dashboard-title {
             font-size: $font-size-extra-big;
             font-weight: $font-weight-bold;
-            color: $color-white;
+            color: $white;
           }
           .dashboard-author {
             display: none;
