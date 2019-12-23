@@ -3,11 +3,9 @@ import axios from 'axios';
 // utils
 import { logger } from 'utils/logs';
 
-// API docs: https://resource-watch.github.io/doc-api/index-rw.html#fields
-
 /**
- * fetches fields for a specific dataset.
- *
+ * Fetches fields for a specific dataset.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#fields|here}
  * @param {String} url - URL to get fields.
  * @returns {Object} array of dataset fields.
  */
