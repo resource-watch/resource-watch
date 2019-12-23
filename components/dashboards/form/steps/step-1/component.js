@@ -218,6 +218,24 @@ class Step1 extends PureComponent {
               {Checkbox}
             </Field>
           }
+
+          {/* IS-FEATURED */}
+          {!this.props.basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements['is-featured'] = c; }}
+              onChange={value => this.props.onChange({ 'is-featured': value.checked })}
+              properties={{
+                name: 'is-featured',
+                label: 'Add to Featured dashboards',
+                value: 'is-featured',
+                title: 'Featured',
+                defaultChecked: this.props.form['is-featured'],
+                checked: this.props.form['is-featured']
+              }}
+            >
+              {Checkbox}
+            </Field>
+          }
         </fieldset>
 
         <fieldset className="c-field-container">
