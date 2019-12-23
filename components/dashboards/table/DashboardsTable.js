@@ -114,7 +114,11 @@ class DashboardsTable extends PureComponent {
 
         this.setState({
           loading: false,
-          dashboards,
+          dashboards: dashboards.map(_dashboard => ({
+            ..._dashboard,
+            owner: _dashboard.user ? _dashboard.user.name || (_dashboard.user.email || '').split('@')[0] : '',
+            role: _dashboard.user ? _dashboard.user.role || '' : ''
+          })),
           pagination: nextPagination
         });
       })

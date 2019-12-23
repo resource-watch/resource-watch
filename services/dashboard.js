@@ -27,17 +27,12 @@ export const fetchDashboards = (params = {
     },
     params
   }).then((response) => {
-    const { status, statusText, data } = response;
-    const { dashboards, meta } = data;
-
-    if (status >= 300) {
-      logger.error('Error fetching dashboards:', `${status}: ${statusText}`);
-      throw new Error(statusText);
-    }
+    const { data } = response;
+    const { meta } = data;
 
     if (_meta) {
       return {
-        dashboards: WRISerializer({ data: dashboards }),
+        dashboards: WRISerializer(data),
         meta
       };
     }
