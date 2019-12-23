@@ -80,7 +80,7 @@ class DashboardsTable extends PureComponent {
         ...pagination,
         page
       }
-    });
+    }, () => this.loadDashboards());
   }
 
   loadDashboards = () => {
