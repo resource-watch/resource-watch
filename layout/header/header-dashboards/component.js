@@ -4,7 +4,7 @@ import { Link } from 'routes';
 import debounce from 'lodash/debounce';
 import TetherComponent from 'react-tether';
 
-class HeaderTopics extends PureComponent {
+class HeaderDashboards extends PureComponent {
   static propTypes = {
     header: PropTypes.object.isRequired,
     topics: PropTypes.array.isRequired,
@@ -30,12 +30,12 @@ class HeaderTopics extends PureComponent {
         classes={{ element: 'c-header-dropdown' }}
       >
         {/* First child: This is what the item will be tethered to */}
-        <Link route="topics">
+        <Link route="dashboards">
           <a
             onMouseEnter={() => this.toggleDropdown(true)}
             onMouseLeave={() => this.toggleDropdown(false)}
           >
-            Topics
+            Dashboards
           </a>
         </Link>
         {/* second child: if present, this item will be tethered to the the first child */}
@@ -58,6 +58,17 @@ class HeaderTopics extends PureComponent {
                 </Link>
               </li>
             ))}
+
+            <li
+              className="header-dropdown-list-item"
+              key="More"
+            >
+              <Link
+                route="/dashboards#featuredDashboards"
+              >
+                <a>More</a>
+              </Link>
+            </li>
           </ul>
         }
       </TetherComponent>
@@ -65,4 +76,4 @@ class HeaderTopics extends PureComponent {
   }
 }
 
-export default HeaderTopics;
+export default HeaderDashboards;

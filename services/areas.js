@@ -5,7 +5,12 @@ import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 /**
- * Get area
+ * Get area.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-area|here}
+ * @param {String} id Area id.
+ * @param {Object} params Request paremeters.
+ * @param {Object} headers Request headers.
+ * @returns {Object}
  */
 export const fetchArea = (id, params = {}, headers = {}) => {
   logger.info(`Fetch area ${id}`);
@@ -28,7 +33,10 @@ export const fetchArea = (id, params = {}, headers = {}) => {
 };
 
 /**
- * Get user areas
+ * Get user areas.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-user-areas|here}
+ * @param {String} token user's token.
+ * @returns {Object}
  */
 export const fetchUserAreas = (token) => {
   logger.info('Fetch user areas');
@@ -48,8 +56,9 @@ export const fetchUserAreas = (token) => {
 
 /**
  * Deletes an area
- * @param {areaId} ID of the area that will be deleted
- * @param {token} User token
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-area|here}
+ * @param {String} areaId - ID of the area that will be deleted
+ * @param {String} token - User token
  * @returns {Promise}
  */
 export const deleteArea = (areaId, token) => {
@@ -63,7 +72,12 @@ export const deleteArea = (areaId, token) => {
 };
 
 /**
- * Create new area
+ * Create new area.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-area|here}
+ * @param {String} name
+ * @param {String} geostore Geostore ID
+ * @param {String} token user's token
+ * @returns {Object}
  */
 export const createArea = (name, geostore, token) => {
   logger.info('Create area');
@@ -84,7 +98,13 @@ export const createArea = (name, geostore, token) => {
 };
 
 /**
- * Update area
+ * Update area.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#areas|here}
+ * @param {String} id
+ * @param {String} name Name of the new area
+ * @param {String} token user's token.
+ * @param {String} geostore Geostore ID
+ * @returns {Object}
  */
 export const updateArea = (id, name, token, geostore) => {
   logger.info(`Update area ${id}`);

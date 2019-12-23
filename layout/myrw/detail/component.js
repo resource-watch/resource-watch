@@ -53,28 +53,26 @@ class LayoutMyRWDetail extends PureComponent {
         .catch((err) => { toastr.error('Error', err.message); });
     }
 
-    if (this.service) {
-      // Fetch the dataset / layer / widget depending on the tab
-      if (tab !== 'areas' && tab !== 'dashboards' && tab !== 'collections') {
-        let service = fetchDataset;
-        if (tab === 'widgets') {
-          service = fetchWidget;
-        }
-        service(id, { language: locale })
-          .then((data) => { this.setState({ data }); })
-          .catch((err) => { toastr.error('Error', err); });
-      } else {
-        if (tab === 'dashboards' || tab === 'collections') return;
-
-        fetchArea(id,
-          {
-            application: process.env.APPLICATIONS,
-            env: process.env.API_ENV
-          },
-          { Authorization: user.token })
-          .then((data) => { this.setState({ data }); })
-          .catch((err) => { toastr.error('Error', err); });
+    // Fetch the dataset / layer / widget depending on the tab
+    if (tab !== 'areas' && tab !== 'dashboards' && tab !== 'collections') {
+      let service = fetchDataset;
+      if (tab === 'widgets') {
+        service = fetchWidget;
       }
+      service(id, { language: locale })
+        .then((data) => { this.setState({ data }); })
+        .catch((err) => { toastr.error('Error', err); });
+    } else {
+      if (tab === 'dashboards' || tab === 'collections') return;
+
+      fetchArea(id,
+        {
+          application: process.env.APPLICATIONS,
+          env: process.env.API_ENV
+        },
+        { Authorization: user.token })
+        .then((data) => { this.setState({ data }); })
+        .catch((err) => { toastr.error('Error', err); });
     }
   }
 

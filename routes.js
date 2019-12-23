@@ -54,17 +54,15 @@ routes.add('explore_detail', '/data/explore/:id', 'app/explore-detail');
 
 routes.add('pulse', '/data/pulse', 'app/pulse');
 
-routes.add('dashboards', '/data/dashboards', 'app/dashboards');
-routes.add('dashboards_detail', '/data/dashboards/:slug', 'app/dashboards-detail');
+// ----- DASHBOARDS -----
+routes.add('dashboards', '/dashboards', 'app/topics');
+routes.add('dashboards_detail', '/dashboards/:id', 'app/topics-detail');
+routes.add('dashboards_detail_custom', '/data/dashboards/:slug', 'app/dashboards-detail');
 
 routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
 
 // SEARCH
 routes.add('search', '/search', 'app/search');
-
-// ----- TOPICS -----
-routes.add('topics', '/topics', 'app/topics');
-routes.add('topics_detail', '/topics/:id', 'app/topics-detail');
 
 // ----- GET INVOLVED -----
 routes.add('get_involved', '/get-involved', 'app/get-involved');

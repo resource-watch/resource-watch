@@ -8,8 +8,9 @@ import { logger } from 'utils/logs';
 
 /**
  * Fetchs dashboards according to params.
- *
- * @param {Object[]} params - params sent to the API.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-all-dashboards|here}
+ * @param {Object} params Request paremeters to API.
+ * @param {Object} headers Request headers to API.
  * @returns {Object[]} array of serialized dashboards.
  */
 export const fetchDashboards = (params = {
@@ -51,7 +52,7 @@ export const fetchDashboards = (params = {
 
 /**
  * fetchs data for a specific dashboard.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-a-dashboard-by-its-id|here}
  * @param {String} id - dashboard id.
  * @returns {Object} serialized specified dashboard.
  */
@@ -86,7 +87,7 @@ export const fetchDashboard = (id) => {
 /**
  * Creates a dashboard with the provided data.
  * This fetch needs authentication.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#creating-a-dashboard|here}
  * @param {Object} body - data provided to create the new dashboard.
  * @param {String} token - user's token.
  * @returns {Object} serialized created dashboard.
@@ -123,7 +124,7 @@ export const createDashboard = (body, token) => {
 /**
  * Updates a specified dashboard with the provided data.
  * This fetch needs authentication.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#editing-a-dashboard|here}
  * @param {String} id - dashboard ID to be updated.
  * @param {Object} body - data provided to update the dashboard.
  * @param {String} token - user's token
@@ -157,9 +158,9 @@ export const updateDashboard = (id, body, token) => {
 /**
  * Deletes a specified dashboard.
  * This fetch needs authentication.
- *
- * @param {*} id - dashboard ID to be deleted.
- * @param {string} token - user's token.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-dashboard|here}
+ * @param {String} id - dashboard ID to be deleted.
+ * @param {String} token - user's token.
  * @returns {Object} fetch response.
  */
 export const deleteDashboard = (id, token) => {
@@ -170,27 +171,20 @@ export const deleteDashboard = (id, token) => {
       Authorization: token
     }
   })
-    .then((response) => {
-      const { status, statusText, data } = response;
-
-      if (status >= 300) {
-        if (status !== 404) logger.error(`Error deleting dashboard ${id}, ${status}: ${statusText}`);
-        throw new Error(statusText);
-      }
-      return WRISerializer(data);
-    })
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error deleting dashboard ${id}, ${status}: ${statusText}`);
+
+      logger.error(`Error deleting dashboard ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error deleting dashboard ${id}: ${status}: ${statusText}`);
     });
 };
 
 /**
  * Clones a topic to convert it into a dashboard based on topic's data.
  * This fetch needs authentication.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#clone-dashboard|here}
  * @param {String} id - topic ID to be cloned.
- * @param {string} token - user's token.
+ * @param {String} token - user's token.
  * @return {Object} serialized dashboard cloned based on the ID topic.
  */
 export const cloneDashboard = (id, token) => {

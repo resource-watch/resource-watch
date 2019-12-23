@@ -3,7 +3,7 @@ import 'isomorphic-fetch';
 import WRISerializer from 'wri-json-api-serializer';
 
 // Services
-import WidgetService from 'services/WidgetService';
+import { fetchWidget } from 'services/widget';
 
 export const setDatasetData = createAction('layer-card/setDatasetData');
 export const setWidget = createAction('layer-card/setWidget');
@@ -29,8 +29,7 @@ export const loadDatasetData = createThunkAction('layer-card/loadDatasetData', p
 export const loadWidgetData = createThunkAction('layer-card/loadWidgetData', id =>
   (dispatch) => {
     if (id) {
-      const widgetService = new WidgetService(id, { apiURL: process.env.WRI_API_URL });
-      widgetService.fetchData().then(response =>
+      fetchWidget(id).then(response =>
         dispatch(setWidget(response)));
     } else {
       dispatch(setWidget(null));
