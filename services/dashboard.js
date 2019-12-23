@@ -181,7 +181,7 @@ export const deleteDashboard = (id, token) => {
  */
 export const cloneDashboard = (id, token, type = 'topics') => {
   logger.info(`Clones dashboard from topic ${id}`);
-  const url = type === 'topics' ? `topics/${id}/clone-dashboard` : `dashboards/${id}/clone-dashboard`;
+  const url = type === 'topics' ? `topics/${id}/clone-dashboard` : `dashboard/${id}/clone`;
   return WRIAPI.post(url, {}, {
     headers: {
       ...WRIAPI.defaults.headers,
