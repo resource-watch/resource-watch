@@ -11,7 +11,7 @@ class DashboardsPage extends PureComponent {
   static async getInitialProps({ store }) {
     const { getState, dispatch } = store;
     const { dashboards: { highlighted, featured } } = getState();
-    await dispatch(getStaticPage('topics'));
+    await dispatch(getStaticPage('dashboards'));
     if (!highlighted.list.length) await dispatch(getHighlightedDashboards());
     if (!featured.list.length) await dispatch(getFeaturedDashboards());
 

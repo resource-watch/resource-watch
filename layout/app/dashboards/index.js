@@ -4,7 +4,7 @@ import DashboardsLayout from './component';
 
 export default connect(
   state => ({
-    data: state.staticPages.topics,
+    data: state.staticPages.dashboards,
     dashHighlighted: state.dashboards.highlighted.list,
     dashFeatured: state.dashboards.featured.list
   }),
