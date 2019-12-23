@@ -6,7 +6,8 @@ import { logger } from 'utils/logs';
 
 /**
  * Retrieve all favourites items of the user
- * @param {*} token User's token
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-favorites|here}
+ * @param {String} token User's token
  */
 export const fetchFavourites = (token) => {
   logger.info('Fetch favourites');
@@ -31,9 +32,10 @@ export const fetchFavourites = (token) => {
 
 /**
  * Creates a new favourite item attached to the current user
- * @param {*} token User's token
- * @param {*} resourceId Id of the resource
- * @param {*} resourceType Resource's type (can be dataset, layer or widget)
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-favorite|here}
+ * @param {String} token User's token
+ * @param {Object} options resourceId - Id of the resource,
+ * resourceType - resource's type (can be dataset, layer or widget)
  */
 export const createFavourite = (token, { resourceId, resourceType }) => {
   logger.info('Create favourite');
@@ -54,8 +56,9 @@ export const createFavourite = (token, { resourceId, resourceType }) => {
 
 /**
  * Deletes an existing favourite item attached to the current user
- * @param {*} token User's token
- * @param {*} resourceId Id of the resource
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-favorite|here}
+ * @param {String} token User's token
+ * @param {String} resourceId Id of the resource
  */
 export const deleteFavourite = (token, resourceId) => {
   logger.info(`Delete favourite ${resourceId}`);
