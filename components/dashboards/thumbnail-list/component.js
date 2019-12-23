@@ -44,7 +44,7 @@ class DashboardThumbnailList extends PureComponent {
                   style={{ backgroundImage: `url(${dashboard.photo && dashboard.photo.cover})` }}
                   onClick={() => onSelect(dashboard)}
                 >
-                  <div className="content" htmlFor={`topic-${dashboard.slug}`}>
+                  <div className="content" htmlFor={`dashboards-${dashboard.slug}`}>
                     <div className="text">
                       <h4 className="dashboard-title">{dashboard.name}</h4>
                       <div className="dashboard-author">
