@@ -41,7 +41,7 @@
         
         .dashboard-title {
           color: #393F44;
-          font-family: Lato;
+          font-family: $body-font-family;
           font-size: 16px;
           font-weight: bold;
           line-height: 20px;
@@ -66,7 +66,7 @@
 
           .name {
             color: #717171;	
-            font-family: Lato;
+            font-family: $body-font-family;
             font-weight: 400;
             font-size: 14px;	
             line-height: 20px;
