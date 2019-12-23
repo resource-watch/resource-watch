@@ -60,7 +60,7 @@ export default class PartnersService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, partner) => {
+          new Deserializer({ keyForAttribute: 'underscore_case' }).deserialize(response, (err, partner) => {
             resolve(partner);
           });
         },
@@ -93,7 +93,7 @@ export default class PartnersService {
 /**
  * Fetchs partners according to params.
  *
- * @param {Object[]} params - params sent to the API.
+ * @param {Object} params - params sent to the API.
  * @returns {Object[]} array of serialized partners.
  */
 export const fetchPartners = (params = {}) =>

@@ -5,13 +5,12 @@ import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 /**
- * Fetches widgets according to params.
- *
+ * Fetch widgets according to params.
+  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-to-obtain-all-widgets|here}
  * @param {Object} params - params sent to the API.
  * @param {Object} headers - headers used in the request
  * @param {boolean} _meta - flag indicating whether meta information should be
  * included in the response or not
- * @returns {Object[]} array of serialized widgets.
  */
 export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
   logger.info('fetches widgets');
@@ -59,11 +58,10 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
 
 
 /**
- * fetches data for a specific widget.
- *
+ * Fetches data for a specific widget.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-obtain-a-single-widget|here}
  * @param {String} id - widget id.
  * @param {Object} params - params sent to the API.
- * @returns {Object} serialized specified widget.
  */
 export const fetchWidget = (id, params = {}) => {
   if (!id) throw Error('The widget id is mandatory to perform this request (fetchWidget).');
@@ -103,13 +101,12 @@ export const fetchWidget = (id, params = {}) => {
 };
 
 /**
- * Deletes the specified widget.
- * This method requires authentication.
- *
- * @param {*} widgetId - widget ID to be deleted.
- * @param {string} datasetId - dataset ID the widget belongs to
- * @param {string} token - user's token.
- * @returns {Object} response.
+ * Deletes a specified widget.
+ * This fetch needs authentication.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-a-widget|here}
+ * @param {String} widgetId - widget ID to be deleted.
+ * @param {String} datasetId - dataset ID.
+ * @param {String} token - user's token.
  */
 export const deleteWidget = (widgetId, datasetId, token) => {
   logger.info(`Delete widget: ${widgetId}`);
@@ -143,10 +140,9 @@ export const deleteWidget = (widgetId, datasetId, token) => {
 
 /**
  * Updates data for the widget provided.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#update-a-widget|here}
  * @param {Object} widget - widget data.
  * @param {string} token - user's token.
- * @returns {Object} serialized specified widget.
  */
 export const updateWidget = (widget, token) => {
   logger.info(`Update widget: ${widget.id}`);
@@ -161,11 +157,10 @@ export const updateWidget = (widget, token) => {
 
 /**
  * Creates a new widget.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-a-widget|here}
  * @param {Object} widget - widget data.
  * @param {string} datasetId - Dataset ID the widget belongs to.
  * @param {string} token - user's token.
- * @returns {Object} serialized widget.
  */
 export const createWidget = (widget, datasetId, token) => {
   logger.info('Create widget');
@@ -186,12 +181,11 @@ export const createWidget = (widget, datasetId, token) => {
 
 /**
  * Fetches the metadata associated to the widget provided.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-metadata|here}
  * @param {string} widgetId - widget data.
  * @param {string} datasetId - Dataset ID the widget belongs to.
  * @param {string} token - user's token.
  * @param {Object} params - request parameters.
- * @returns {Object} serialized widget metadata.
  */
 export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => {
   logger.info(`Update widget metadata: ${widgetId}`);
@@ -214,12 +208,11 @@ export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => 
 
 /**
  * Updates the metadata for the widget provided.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#updating-a-metadata|here}
  * @param {Object} widget - widget data.
  * @param {string} datasetId - Dataset ID the widget belongs to.
  * @param {Object} metadata - metadata to be updated.
  * @param {string} token - user's token.
- * @returns {Object} serialized specified widget.
  */
 export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
   logger.info(`Update widget metadata: ${widgetId}`);
@@ -236,12 +229,11 @@ export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
 
 /**
  * Creates the metadata for the widget provided.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#creating-a-metadata-object|here}
  * @param {string} widgetId - widget id.
  * @param {string} datasetId - Dataset ID the widget belongs to.
  * @param {Object} metadata - metadata to be updated.
  * @param {string} token - user's token.
- * @returns {Object} serialized specified widget.
  */
 export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
   logger.info(`Update widget metadata: ${widgetId}`);
