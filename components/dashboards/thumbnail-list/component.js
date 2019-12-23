@@ -24,7 +24,7 @@ class DashboardThumbnailList extends PureComponent {
     const buttonDefaultClass = 'thumbnail-list-item';
     const buttonClass = user ? buttonDefaultClass : `${buttonDefaultClass} no-user`;
     return (
-      <div className="c-dashboards-gallery-list">
+      <div className="c-dashboards-thumbnail-list">
         <div className="row l-row -equal-height">
           {
             dashboards.map(dashboard => (
