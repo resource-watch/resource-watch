@@ -34,7 +34,7 @@ class DashboardsLayout extends PureComponent {
       <Layout
         title="Dashboards"
         description="The latest facts and figures on cities, energy, food and more."
-        className="l-static p-topics"
+        className="l-static"
       >
         <div className="l-content">
           <div className="l-content-header">
