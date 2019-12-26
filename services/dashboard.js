@@ -13,7 +13,10 @@ import { logger } from 'utils/logs';
  * @param {Object} headers Request headers to API.
  * @returns {Object[]} array of serialized dashboards.
  */
-export const fetchDashboards = (params = {}, headers = {}) => {
+export const fetchDashboards = (params = {
+  env: process.env.API_ENV,
+  application: process.env.APPLICATIONS
+}, headers = {}, _meta = false) => {
   logger.info('Fetch dashboards');
   return WRIAPI.get('dashboard', {
     headers: {
@@ -22,18 +25,18 @@ export const fetchDashboards = (params = {}, headers = {}) => {
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1
     },
-    params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
-      ...params
-    }
+    params
   }).then((response) => {
-    const { status, statusText, data } = response;
+    const { data } = response;
+    const { meta } = data;
 
-    if (status >= 300) {
-      logger.error('Error fetching dashboards:', `${status}: ${statusText}`);
-      throw new Error(statusText);
+    if (_meta) {
+      return {
+        dashboards: WRISerializer(data),
+        meta
+      };
     }
+
     return WRISerializer(data);
   })
     .catch(({ response }) => {

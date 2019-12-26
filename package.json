@@ -129,7 +129,6 @@
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-react-hooks": "^2.0.1",
     "husky": "^3.0.5",
-    "jsdoc-to-markdown": "^5.0.2",
     "lint-staged": "^9.2.5",
     "webpack-bundle-analyzer": "^3.3.2"
   },
@@ -139,8 +138,7 @@
     "dev": "node $NODE_DEBUG_OPTION index.js",
     "build": "better-npm-run build",
     "start": "better-npm-run start",
-    "bundle-analyzer": "better-npm-run bundle-analyzer",
-    "docs": "jsdoc2md services/*.js > api.md"
+    "bundle-analyzer": "better-npm-run bundle-analyzer"
   },
   "betterScripts": {
     "build": {
