@@ -34,12 +34,12 @@ class TopicsTable extends PureComponent {
 
   state = { pagination: INITIAL_PAGINATION };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { getAllTopics, authorization } = this.props;
     getAllTopics({ includes: 'user' }, { Authorization: authorization });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { topics } = this.props;
     const { topics: nextTopics } = nextProps;
     const { pagination } = this.state;

@@ -60,7 +60,7 @@ class LayoutPulse extends PureComponent {
   /**
    * COMPONENT LIFECYCLE
    * - componentDidMount
-   * - componentWillReceiveProps
+   * - UNSAFE_componentWillReceiveProps
    * - componentWillUnmount
   */
   componentDidMount() {
@@ -72,7 +72,7 @@ class LayoutPulse extends PureComponent {
     document.addEventListener('click', this.handleMouseClick);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { layerActive } = this.props.layerMenuPulse;
     const nextLayerActive = nextProps.layerMenuPulse.layerActive;
     const lastId = (layerActive) ? layerActive.id : null;

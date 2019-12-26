@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Button extends React.Component {
-  static defaultProps = {
-    properties: {}
-  };
+  static defaultProps = { properties: {} };
 
   static propTypes = {
     children: PropTypes.any,
@@ -24,10 +22,8 @@ class Button extends React.Component {
     this.triggerMouseOut = this.triggerMouseOut.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      className: nextProps.className
-    });
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.setState({ className: nextProps.className });
   }
 
   triggerClick(e) {

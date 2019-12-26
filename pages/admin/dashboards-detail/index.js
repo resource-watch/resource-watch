@@ -33,7 +33,7 @@ class AdminDashboardsDetailPage extends PureComponent {
       .catch((err) => { toastr.error('Error', err.message); });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { tab, id, subtab } = nextProps.url.query;
 
     this.setState({ tab, id, subtab });

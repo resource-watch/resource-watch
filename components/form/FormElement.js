@@ -31,13 +31,11 @@ class FormElement extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const hasValue = Object.prototype.hasOwnProperty.call(nextProps.properties, 'value');
     const isNew = nextProps.properties.value !== this.state.value;
     if (hasValue && isNew) {
-      this.setState({
-        value: nextProps.properties.value
-      }, () => {
+      this.setState({ value: nextProps.properties.value }, () => {
         this.triggerValidate();
       });
     }

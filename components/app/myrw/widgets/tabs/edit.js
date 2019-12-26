@@ -52,7 +52,7 @@ class WidgetsEdit extends React.Component {
     name: null
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { id } = this.props;
     fetchWidget(id)
       .then((data) => {

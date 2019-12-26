@@ -162,7 +162,7 @@ class GlobeCesiumComponent extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const mainLayer = this.props.layerActive && this.props.layerActive.url;
     const newMainLayer = nextProps.layerActive && nextProps.layerActive.url;
 
@@ -504,9 +504,7 @@ class GlobeCesiumComponent extends PureComponent {
           const position = Cesium.Cartesian3.fromDegrees(shape.lon, shape.lat);
           this.viewer.entities.add({
             position,
-            billboard: {
-              image: shape.image
-            },
+            billboard: { image: shape.image },
             name: shape.name,
             type: 'billboard',
             imageSelected: shape.imageSelected,
@@ -560,7 +558,7 @@ GlobeCesiumComponent.propTypes = {
   // Store
   setShapesCreated: PropTypes.func.isRequired,
   globeCesium: PropTypes.object.isRequired,
-  labelsPulse:PropTypes.object.isRequired,
+  labelsPulse: PropTypes.object.isRequired,
 
   // Callbacks
   onClick: PropTypes.func,

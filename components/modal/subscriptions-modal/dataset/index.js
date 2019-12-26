@@ -42,7 +42,7 @@ class DatasetSubscriptionModalContainer extends Component {
     clearLocalSubscriptions: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       activeDataset,
       setUserSelection,
@@ -81,7 +81,7 @@ class DatasetSubscriptionModalContainer extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { subscriptions, setUserSelection, activeArea } = this.props;
     const { subscriptions: nextSubscriptions, activeArea: nextActiveArea } = nextProps;
     const subscriptionsChanged = !isEqual(subscriptions, nextSubscriptions);

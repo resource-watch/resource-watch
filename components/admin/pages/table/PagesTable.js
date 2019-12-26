@@ -55,7 +55,7 @@ class PagesTable extends PureComponent {
     this.props.getPages();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { filteredPages: pages } = this.props;
     const { filteredPages: nextPages } = nextProps;
     const { pagination } = this.state;

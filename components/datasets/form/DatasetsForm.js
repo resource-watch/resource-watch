@@ -50,7 +50,7 @@ class DatasetsForm extends PureComponent {
     form: Object.assign({}, STATE_DEFAULT.form, { application: this.props.application })
   });
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { dataset: datasetId } = this.props;
     // Get the dataset and fill the state with its params if it exists
     if (datasetId) {

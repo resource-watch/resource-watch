@@ -90,13 +90,13 @@ export default class CustomTable extends PureComponent {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState(CustomTable.setTableData(this.props), () => {
       this.filter();
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const currentColumnsKeys = CustomTable.getColumnKeys(this.state.data).sort();
     const nextColumnsKeys = CustomTable.getColumnKeys(nextProps.data).sort();
     this.setState(CustomTable.setTableData(nextProps), () => {

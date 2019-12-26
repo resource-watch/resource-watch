@@ -42,7 +42,7 @@ class Step1 extends React.Component {
 
   static defaultProps = { type: 'tabular' };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.sources, nextProps.sources)) {
       this.changeMetadata({ info: { sources: nextProps.sources } });
     }

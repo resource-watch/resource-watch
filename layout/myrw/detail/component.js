@@ -38,7 +38,7 @@ class LayoutMyRWDetail extends PureComponent {
 
   state = { data: null }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       user,
       query: { id, tab },

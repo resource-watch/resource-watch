@@ -70,7 +70,7 @@ class AreaCard extends React.Component {
     }
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { area: { geostore: geostoreId, name } } = this.props;
 
     fetchGeostore(geostoreId)

@@ -21,11 +21,11 @@ class DatasetListContainer extends PureComponent {
     resetDatasets: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.getDatasetsByTab(this.props.subtab);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { pathname, subtab, orderDirection, pagination } = this.props;
     const { page } = pagination;
     const isMyRW = pathname.startsWith('/myrw');

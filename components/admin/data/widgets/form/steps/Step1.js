@@ -46,7 +46,7 @@ class Step1 extends Component {
     loadingVegaChart: false
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       form: {
         ...nextProps.form,
@@ -276,9 +276,7 @@ class Step1 extends Component {
 
             {this.props.mode === 'advanced' &&
               <Field
-                onChange={value => this.props.onChange({
-                  widgetConfig: CONFIG_TEMPLATE[value] || {}
-                })}
+                onChange={value => this.props.onChange({ widgetConfig: CONFIG_TEMPLATE[value] || {} })}
                 options={CONFIG_TEMPLATE_OPTIONS}
                 properties={{
                   name: 'template',
@@ -331,7 +329,7 @@ class Step1 extends Component {
                     </div>
                   }
                   {widgetTypeEmbed &&
-                    <iframe src={this.state.form.widgetConfig.url} width="100%" height="100%" frameBorder="0"></iframe>
+                    <iframe src={this.state.form.widgetConfig.url} width="100%" height="100%" frameBorder="0" />
                   }
                 </div>
               </div>

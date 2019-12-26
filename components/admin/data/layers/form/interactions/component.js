@@ -25,7 +25,7 @@ class InteractionManager extends PureComponent {
     resetInteractions: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       layer,
       getCurrentLayerInteractions,
