@@ -6,14 +6,14 @@ import { FOOTER_LINKS } from './constants';
 
 // states
 const getPartners = state => state.partners.published.list;
-const getPublishedTopics = state => state.topics.published.data;
+const getFeaturedDashboards = state => state.dashboards.featured.list;
 
 // generate dashboards footer links + add more link to featured dashboard
 const setDashboardsLinks = (_dashboards) => {
   const dashLinks = _dashboards.map(_dashboard => ({
     label: _dashboard.name,
     route: 'dashboards_detail',
-    params: { id: _dashboard.slug }
+    params: { slug: _dashboard.slug }
   }));
   dashLinks.push({
     label: 'More',
@@ -28,7 +28,7 @@ export const getFeaturedPartners = createSelector(
 );
 
 export const getMenu = createSelector(
-  [getPublishedTopics],
+  [getFeaturedDashboards],
   _dashboards => FOOTER_LINKS
     .filter(i => i.id !== 'search' && i.id !== 'myrw')
     .map((i) => {

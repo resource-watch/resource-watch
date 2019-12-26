@@ -6,7 +6,7 @@ export default {
     ({
       ...state,
       dropdownOpened: {
-        ...{ data: false, about: false, myrw: false, topics: false, get_involved: false },
+        ...{ data: false, about: false, myrw: false, dashboards: false, get_involved: false },
         ...action.payload
       }
     }),
