@@ -21,6 +21,13 @@
       padding-right: 180px;
     }
 
+    .buttons.-align-left {
+      flex-wrap: nowrap;
+      @media screen and (max-width: map-get($breakpoints, large)) {
+        flex-wrap: wrap;
+      }
+    }
+
     &.signup {
       background: url('/static/images/backgrounds/computer.jpg');
     }
