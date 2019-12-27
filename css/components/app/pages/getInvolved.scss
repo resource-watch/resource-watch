@@ -25,6 +25,13 @@
       flex-wrap: nowrap;
       @media screen and (max-width: map-get($breakpoints, large)) {
         flex-wrap: wrap;
+        display: flex;
+        .c-button.-primary {
+          order: 1;
+        }
+        .c-button.-secondary {
+          order: 0;
+        }
       }
     }
 
