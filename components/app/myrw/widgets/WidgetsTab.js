@@ -23,7 +23,7 @@ function WidgetsTab(props) {
       }
 
       {id === 'new' && user.token &&
-        <WidgetsNew tab={tab} subtab={subtab} dataset={dataset} />
+        <WidgetsNew tab={tab} subtab={subtab} dataset={dataset === 'new' ? null : dataset} />
       }
     </div>
   );
@@ -37,8 +37,6 @@ WidgetsTab.propTypes = {
   dataset: PropTypes.string
 };
 
-const mapStateToProps = state => ({
-  user: state.user
-});
+const mapStateToProps = state => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(WidgetsTab);
