@@ -1,15 +1,15 @@
 import { createSelector } from 'reselect';
 
 // states
-const getPublishedTopics = state => state.topics.published.data;
+const getFeaturedDashboards = state => state.dashboards.featured.list;
 
-export const parseTopics = createSelector(
-  [getPublishedTopics], _topics => _topics
-    .map(_topic => ({
-      label: _topic.name,
+export const parseDashboards = createSelector(
+  [getFeaturedDashboards], _dashboards => _dashboards
+    .map(_dashboard => ({
+      label: _dashboard.name,
       route: 'dashboards_detail',
-      params: { id: _topic.slug }
+      params: { slug: _dashboard.slug }
     }))
 );
 
-export default { parseTopics };
+export default { parseDashboards };
