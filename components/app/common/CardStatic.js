@@ -48,14 +48,16 @@ class CardStatic extends React.Component {
     });
 
     return (
-      <div
-        className={classNameObj}
-        style={style}
-        onClick={this.handleClick}
-        role="link"
-        tabIndex="0"
-      >
-        {children}
+      <div className="c-card-static-box">
+        <div
+          className={classNameObj}
+          style={style}
+          onClick={this.handleClick}
+          role="link"
+          tabIndex="0"
+        >
+          {children}
+        </div>
       </div>
     );
   }

@@ -14,16 +14,15 @@ import AppsPostContent from 'components/app/static-pages/get-involved/post-conte
 class GetInvolvedDetail extends PureComponent {
   static propTypes = {
     routes: PropTypes.object.isRequired,
-    data: PropTypes.object.isRequired,
-    insights: PropTypes.array.isRequired
+    breadCrumb: PropTypes.array.isRequired,
+    getInvolvedDetail: PropTypes.object.isRequired
   };
 
   getPostContent(id, props = {}) {
-    const { getInvolvedDetail } = this.props;
     const pageNotFound = () => null;
     const pages = {
       'suggest-a-story': () => (
-        <SuggestStoryPost {...props} insights={getInvolvedDetail.insights} />
+        <SuggestStoryPost {...props} />
       ),
       'contribute-data': () => <ContributeDataPostContent {...props} />,
       'join-the-community': () => <JoinCommunityPostContent {...props} />,

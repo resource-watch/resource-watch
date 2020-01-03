@@ -5,13 +5,7 @@ import PropTypes from 'prop-types';
 import FormElement from './FormElement';
 
 class RadioGroup extends FormElement {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      value: props.properties.default
-    };
-  }
+  state = { value: this.props.properties.default }
 
   /**
    * UI EVENTS
@@ -19,9 +13,7 @@ class RadioGroup extends FormElement {
   */
   triggerChange(e) {
     // Set state
-    this.setState({
-      value: e.currentTarget.value
-    }, () => {
+    this.setState({ value: e.currentTarget.value }, () => {
       // Trigger validation
       this.triggerValidate();
 
