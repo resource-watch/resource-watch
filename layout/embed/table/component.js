@@ -26,7 +26,7 @@ class LayoutEmbedTable extends PureComponent {
     tableData: []
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { routes: { query: { queryURL } } } = this.props;
 
     if (queryURL) this.loadTableData(queryURL);

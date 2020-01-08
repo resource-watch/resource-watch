@@ -65,7 +65,7 @@ class LayoutAdmin extends PureComponent {
 
   state = { modalOpen: false }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // When a tooltip is shown and the router navigates to a
     // another page, the tooltip stays in place because it is
     // managed in Redux
@@ -106,7 +106,7 @@ class LayoutAdmin extends PureComponent {
     logPageView();
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (this.state.modalOpen !== newProps.modal.open) {
       this.setState({ modalOpen: newProps.modal.open });
     }
