@@ -36,7 +36,7 @@ class Source extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.values, nextProps.values)) {
       this.setState({
         values: nextProps.values

@@ -162,7 +162,7 @@ class GlobeCesiumComponent extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const mainLayer = this.props.layerActive && this.props.layerActive.url;
     const newMainLayer = nextProps.layerActive && nextProps.layerActive.url;
 

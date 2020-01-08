@@ -28,7 +28,7 @@ class SourcesContentModal extends React.Component {
     tmpSources: []
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { sources } = this.props;
     if (!sources.length) {
       this.props.setTmpSources([{}]);

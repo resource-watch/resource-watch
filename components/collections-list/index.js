@@ -36,7 +36,7 @@ class CollectionsList extends PureComponent {
 
   state = { pagination: INITIAL_PAGINATION };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { filteredCollections } = this.props;
     const { filteredCollections: nextCollections } = nextProps;
     const { pagination } = this.state;

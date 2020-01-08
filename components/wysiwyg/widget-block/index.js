@@ -25,14 +25,14 @@ class WidgetBlock extends PureComponent {
     setLayers: PropTypes.func.isRequired
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.item.content.widgetId) {
       this.triggerFetch(this.props);
       this.setFavourite(this.props);
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.item.content.widgetId !== this.props.item.content.widgetId) {
       this.triggerFetch(nextProps);
       this.setFavourite(nextProps);

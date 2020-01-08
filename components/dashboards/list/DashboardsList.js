@@ -50,7 +50,7 @@ class DashboardsList extends React.Component {
     this.props.getDashboards(getDashboardsFilters);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.loading !== this.state.loading) {
       this.setState({ loading: nextProps.loading });
     }

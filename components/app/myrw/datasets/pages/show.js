@@ -49,7 +49,7 @@ class DatasetsShow extends React.Component {
 
   state = { data: {} };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { id, user } = this.props;
 
     fetchDataset(id, { includes: 'widget,layer,metadata', userId: user.id })

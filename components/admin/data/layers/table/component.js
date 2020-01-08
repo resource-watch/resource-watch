@@ -40,7 +40,7 @@ class LayersTable extends PureComponent {
     filters: { name: null, 'user.role': 'ADMIN' }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadLayers();
   }
 
@@ -101,7 +101,7 @@ class LayersTable extends PureComponent {
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
-      ...dataset && { dataset },
+      ...(dataset && { dataset }),
       ...filters
     }, { Authorization: token }, true)
       .then(({ layers, meta }) => {

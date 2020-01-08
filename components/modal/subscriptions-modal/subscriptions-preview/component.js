@@ -18,7 +18,7 @@ class SubscriptionsPreview extends PureComponent {
 
   static defaultProps = { data: [] }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { getUserSubscriptionsPreview } = this.props;
 
     getUserSubscriptionsPreview();
