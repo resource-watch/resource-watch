@@ -31,7 +31,7 @@ const WelcomeModal = () => {
         <div className="layer-info-content">
           <h2>Near Real-Time Data</h2>
           <p>
-            Track natural disasters, monitor the changing environment, and observe human events with this selection of Resource Watch's most timely data. All data visualized on the globe are frequently updated by the data provider, from twice daily to monthly.
+            Track natural disasters, monitor the changing environment, and observe human events with this selection of Resource Watch's most timely data. All data visualized on the globe are frequently updated by the data provider, from multiple times a day to monthly.
             <br />Subscribe to alerts to get updates on world events as they unfold.
           </p>
           <p>
