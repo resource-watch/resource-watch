@@ -84,7 +84,7 @@ class LayoutHome extends PureComponent {
           <div className="l-container">
             <header>
               <div className="row">
-                <div className="column small-12 medium-8">
+                <div className="column small-12 medium-6">
                   <h2>Latest stories</h2>
                   <p>Discover data insights on the Resource Watch blog.</p>
                 </div>
@@ -117,14 +117,12 @@ class LayoutHome extends PureComponent {
             <div className="dashboards-container">
               <header>
                 <div className="row">
-                  <div className="column small-12 medium-8">
-                    <div className="c-dashboards-subheader-block">
-                      <h2>Featured dashboards</h2>
-                      <p>
-                        Discover collections of curated data on the major
-                        challenges facing human society and the planet
-                      </p>
-                    </div>
+                  <div className="column small-12 medium-6">
+                    <h2>Featured dashboards</h2>
+                    <p>
+                      Discover collections of curated data on the major
+                      challenges facing human society and the planet.
+                    </p>
                   </div>
                 </div>
               </header>
@@ -149,11 +147,11 @@ class LayoutHome extends PureComponent {
           <div className="l-container">
             <header>
               <div className="row">
-                <div className="column small-12 medium-8">
+                <div className="column small-12 medium-6">
                   <h2>Dive into the data</h2>
                   <p>
-                    Create overlays, share visualizations, and subscribe to updates on your favorite
-                    issues.
+                    Create overlays, share visualizations, and
+                    subscribe to updates on your favorite issues.
                   </p>
                 </div>
               </div>
