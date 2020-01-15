@@ -1,3 +1,4 @@
+import { USER_TYPES } from 'components/admin/table-filters/constants';
 /**
  * CONSTANTS
 */
@@ -15,7 +16,7 @@ const initialState = {
   list: [], // Actual list of dashboards
   loading: false, // Are we loading the data?
   error: null, // An error was produced while loading the data
-  filters: [] // Filters for the list of dashboards
+  filters: [{ key: 'owner', value: USER_TYPES.ADMIN }] // Filters for the list of dashboards
 };
 
 export default function (state = initialState, action) {

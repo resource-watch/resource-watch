@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 
 // actions
-import { getPublishedDashboards } from 'modules/dashboards/actions';
+import { getStaticPage } from 'modules/static-pages/actions';
+import { getHighlightedDashboards, getFeaturedDashboards } from 'modules/dashboards/actions';
 
 // components
 import LayoutDashboards from 'layout/app/dashboards';
@@ -9,13 +10,13 @@ import LayoutDashboards from 'layout/app/dashboards';
 class DashboardsPage extends PureComponent {
   static async getInitialProps({ store }) {
     const { getState, dispatch } = store;
-    const { dashboards: { published } } = getState();
-
-    if (!published.list.length) await dispatch(getPublishedDashboards());
+    const { dashboards: { highlighted, featured } } = getState();
+    await dispatch(getStaticPage('dashboards'));
+    if (!highlighted.list.length) await dispatch(getHighlightedDashboards());
+    if (!featured.list.length) await dispatch(getFeaturedDashboards());
 
     return {};
   }
-
 
   render() {
     return (<LayoutDashboards />);
@@ -23,3 +24,4 @@ class DashboardsPage extends PureComponent {
 }
 
 export default DashboardsPage;
+

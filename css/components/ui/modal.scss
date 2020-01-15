@@ -17,6 +17,7 @@
   &.-hidden {
     opacity: 0;
     visibility: hidden;
+    z-index: -1;
 
     .modal-container {
       transform: translateY(-35px);
@@ -121,5 +122,12 @@
     .modal-container {
       max-width: $max-width-modal-medium;
     }
+  }
+}
+
+
+.c-we-modal {
+  &.-hidden {
+    z-index: -1;
   }
 }

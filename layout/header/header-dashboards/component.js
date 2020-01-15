@@ -4,22 +4,22 @@ import { Link } from 'routes';
 import debounce from 'lodash/debounce';
 import TetherComponent from 'react-tether';
 
-class HeaderTopics extends PureComponent {
+class HeaderDashboards extends PureComponent {
   static propTypes = {
     header: PropTypes.object.isRequired,
-    topics: PropTypes.array.isRequired,
+    dashboards: PropTypes.array.isRequired,
     setDropdownOpened: PropTypes.func.isRequired
   };
 
   toggleDropdown = debounce((bool) => {
     const { setDropdownOpened } = this.props;
-    setDropdownOpened({ topics: bool });
+    setDropdownOpened({ dashboards: bool });
   }, 50)
 
   render() {
     const {
       header: { dropdownOpened },
-      topics
+      dashboards
     } = this.props;
 
     return (
@@ -30,34 +30,45 @@ class HeaderTopics extends PureComponent {
         classes={{ element: 'c-header-dropdown' }}
       >
         {/* First child: This is what the item will be tethered to */}
-        <Link route="topics">
+        <Link route="dashboards">
           <a
             onMouseEnter={() => this.toggleDropdown(true)}
             onMouseLeave={() => this.toggleDropdown(false)}
           >
-            Topics
+            Dashboards
           </a>
         </Link>
         {/* second child: if present, this item will be tethered to the the first child */}
-        {dropdownOpened.topics &&
+        {dropdownOpened.dashboards &&
           <ul
             className="header-dropdown-list"
             onMouseEnter={() => this.toggleDropdown(true)}
             onMouseLeave={() => this.toggleDropdown(false)}
           >
-            {topics.map(_topic => (
+            {dashboards.map(_dashboard => (
               <li
                 className="header-dropdown-list-item"
-                key={_topic.label}
+                key={_dashboard.label}
               >
                 <Link
-                  route={_topic.route}
-                  params={_topic.params}
+                  route={_dashboard.route}
+                  params={_dashboard.params}
                 >
-                  <a>{_topic.label}</a>
+                  <a>{_dashboard.label}</a>
                 </Link>
               </li>
             ))}
+
+            <li
+              className="header-dropdown-list-item"
+              key="More"
+            >
+              <Link
+                route="/dashboards#featuredDashboards"
+              >
+                <a>More</a>
+              </Link>
+            </li>
           </ul>
         }
       </TetherComponent>
@@ -65,4 +76,4 @@ class HeaderTopics extends PureComponent {
   }
 }
 
-export default HeaderTopics;
+export default HeaderDashboards;
