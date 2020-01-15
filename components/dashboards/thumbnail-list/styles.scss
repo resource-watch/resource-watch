@@ -4,7 +4,7 @@
   display: flex;
   flex-wrap: wrap;
   margin: 0;
-  padding: 0;
+  padding: $space * 9 0 0 0;
   list-style: none;
 
   .thumbnail-list-item {
