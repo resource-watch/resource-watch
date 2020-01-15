@@ -34,7 +34,7 @@ class ExploreDetailButtons extends PureComponent {
   */
   getDatasetMetadata() {
     const { dataset } = this.props;
-    return dataset.metadata || {};
+    return (dataset.metadata && dataset.metadata[0]) || {};
   }
 
   getDatasetName() {
