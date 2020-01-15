@@ -4,7 +4,8 @@ import { logger } from 'utils/logs';
 /**
  * Fetchs posts from wordpress API.
  *
- * @param {Object[]} params - params sent to the API.
+ * @param {Object} params - params sent to the API.
+ * @param {Object} headers - headers sent to the API.
  * @returns {Object[]} array of parsed posts.
  */
 export const fetchPosts = (params = {}, headers = {}) => {

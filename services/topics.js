@@ -6,8 +6,9 @@ import { logger } from 'utils/logs';
 
 /**
  * Fetches topics according to params.
- *
- * @param {Object[]} params - params sent to the API.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-all-topics|here}
+ * @param {Object} params - params sent to the API.
+ * @param {Object} headers- headers sent to the API.
  * @returns {Object[]} array of serialized topics.
  */
 export const fetchTopics = (params = {}, headers = {}) => {
@@ -41,8 +42,8 @@ export const fetchTopics = (params = {}, headers = {}) => {
 };
 
 /**
- * fetches data for a specific topic.
- *
+ * Fetches data for a specific topic.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-all-topics|here}
  * @param {String} id - topic id.
  * @returns {Object} serialized specified topic.
  */
@@ -71,7 +72,7 @@ export const fetchTopic = (id) => {
 /**
  * Creates a topic with the provided data.
  * This fetch needs authentication.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#topic|here}
  * @param {Object} body - data provided to create the new topic.
  * @param {String} token - user's token.
  * @returns {Object} serialized created topic.
@@ -103,7 +104,7 @@ export const createTopic = (body, token) => {
 /**
  * Updates a specified topic with the provided data.
  * This fetch needs authentication.
- *
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#topic|here}
  * @param {String} id - topic ID to be updated.
  * @param {Object} body - data provided to update the topic.
  * @param {String} token - user's token
@@ -136,9 +137,9 @@ export const updateTopic = (id, body, token) => {
 /**
  * Deletes a specified topic.
  * This fetch needs authentication.
- *
- * @param {*} id - topic ID to be deleted.
- * @param {string} token - user's token.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#topic|here}
+ * @param {String} id - topic ID to be deleted.
+ * @param {String} token - user's token.
  * @returns {Object} fetch response.
  */
 export const deleteTopic = (id, token) => {

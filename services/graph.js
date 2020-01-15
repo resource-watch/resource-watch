@@ -1,136 +1,166 @@
-import 'isomorphic-fetch';
+import WRISerializer from 'wri-json-api-serializer';
 
-export default class GraphService {
-  constructor(options) {
-    this.opts = options;
-  }
+// utils
+import { WRIAPI } from 'utils/axios';
+import { logger } from 'utils/logs';
 
-  /**
-   * Get all tags
-   */
-  getAllTags() {
-    return fetch(
-      `${process.env.WRI_API_URL}/graph/query/list-concepts?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-
-    )
-      .then(response => response.json())
-      .then(response => response.data);
-  }
-  /**
-   * Get inferred tags
-   */
-  getInferredTags(tags) {
-    return fetch(
-      `${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-
-    )
-      .then(response => response.json())
-      .then(response => response.data);
-  }
-
-  /**
-  * Get dataset tags
-  */
-  getDatasetTags(datasetId) {
-    return fetch(
-      `${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-
-    )
-      .then(response => response.json())
-      .then(response => response.data);
-  }
-
-  /**
-  * Update dataset tags
-  */
-  updateDatasetTags(datasetId, tags, token, usePatch = false) {
-    let bodyObj = {
-      knowledge_graph: {
-        tags,
+/**
+ * Get all tags.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#list-concepts|here}
+ * @param {Object} params Request parameters to API.
+ */
+export const fetchAllTags = (params = {}) => {
+  logger.info('Fetch all tags');
+  return WRIAPI.get('graph/query/list-concepts',
+    {
+      headers: { 'Upgrade-Insecure-Requests': 1 },
+      params: {
+        env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        env: process.env.API_ENV
-      }
-    };
-    let method = tags.length > 0 ? 'PUT' : 'DELETE';
-    let url = `${process.env.WRI_API_URL}/dataset/${datasetId}/vocabulary`;
-
-    if (usePatch) {
-      method = 'PATCH';
-      bodyObj = { tags, application: process.env.APPLICATIONS };
-      url = `${url}/knowledge_graph`;
-    }
-
-    if (method === 'DELETE') {
-      url = `${url}/knowledge_graph?application=${process.env.APPLICATIONS}`;
-      bodyObj = {};
-    }
-
-    return fetch(url, {
-      method,
-      body: JSON.stringify(bodyObj),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token
+        ...params
       }
     })
-      .then(response => response.json())
-      .then(jsonData => jsonData.data);
-  }
+    .then(response => response.data.data)
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching all tags: ${status}: ${statusText}`);
+      throw new Error(`Error fetching all tags: ${status}: ${statusText}`);
+    });
+};
 
-  /**
-   * Send a request to count a view to the dataset
-   * @param {string} datasetId Dataset ID
-   * @param {string} [token] User token
-   * @returns {Promise<void>}
-   */
-  countDatasetView(datasetId, token) {
-    const headers = {};
-
-    if (token) {
-      headers.Authorization = token;
-    }
-
-    return fetch(`${process.env.WRI_API_URL}/graph/dataset/${datasetId}/visited?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
-      method: 'POST',
-      headers
+/**
+ * Get inferred tags.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-inferred-concepts|here}
+ * @param {Object} params Request parameters to API.
+ */
+export const fetchInferredTags = (params = {}) => {
+  logger.info('Fetch inferred tags');
+  return WRIAPI.get('graph/query/concepts-inferred',
+    {
+      headers: { 'Upgrade-Insecure-Requests': 1 },
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      }
     })
-      .then(res => res.json());
-  }
+    .then(response => response.data.data)
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching inferred tags ${status}: ${statusText}`);
+      throw new Error(`Error inferred tags ${status}: ${statusText}`);
+    });
+};
 
-  /**
-   * Get the list of most viewed datasets
-   * @returns {Promise<string[]>} List of sorted ids
-   */
-  getMostViewedDatasets() {
-    return fetch(
-      `${process.env.WRI_API_URL}/graph/query/most-viewed?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+/**
+ * Send a request to count a view to the dataset.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#count-dataset-view|here}
+ * @param {String} datasetId Dataset ID
+ * @param {String} token User token
+ * @param {Object} params Request parameters to API.
+ */
+export const countDatasetView = (datasetId, token, params = {}) => {
+  logger.info('Count dataset view');
+  return WRIAPI.post(`graph/dataset/${datasetId}/visited`,
+    {},
+    {
+      headers: { Authorization: token },
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      }
+    })
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error in count dataset view ${datasetId}: ${status}: ${statusText}`);
+      throw new Error(`Error in count dataset view ${datasetId}: ${status}: ${statusText}`);
+    });
+};
 
-    )
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error('Unable to fetch the most viewed datasets');
-      })
-      .then(res => res.data.map(d => d.dataset));
-  }
+/**
+ * Get the list of most viewed datasets.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#most-viewed-datasets|here}
+ * @param {Object} params Request parameters to API.
+ * @returns {Promise<string[]>} List of sorted ids
+ */
+export const fetchMostViewedDatasets = (params = {}) => {
+  logger.info('Fetch most viewed datasets');
+  return WRIAPI.get('graph/query/most-viewed',
+    {
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      },
+      headers: { 'Upgrade-Insecure-Requests': 1 }
+    })
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching most viewed datasets: ${status}: ${statusText}`);
+      throw new Error(`Error fetching most viewed datasets: ${status}: ${statusText}`);
+    });
+};
 
-  /**
-   * Get the list of most favourited datasets
-   * @returns {Promise<string[]>} List of sorted ids
-   */
-  getMostFavoritedDatasets() {
-    return fetch(
-      `${process.env.WRI_API_URL}/graph/query/most-liked-datasets?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
+/**
+ * Get the list of most favourited datasets.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#most-liked-datasets|here}
+ * @param {Object} params Request parameters to API.
+ */
+export const fetchMostFavoritedDatasets = (params = {}) => {
+  logger.info('Fetch most favorited datasets');
+  return WRIAPI.get('graph/query/most-liked-datasets',
+    {
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      },
+      headers: { 'Upgrade-Insecure-Requests': 1 }
+    })
+    .then(response => WRISerializer(response.data))
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching most favorited datasets: ${status}: ${statusText}`);
+      throw new Error(`Error fetching most favorited datasets: ${status}: ${statusText}`);
+    });
+};
 
-    )
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error('Unable to fetch the most favourited datasets');
-      })
-      .then(res => res.data.map(d => d.id));
-  }
-}
+/**
+ * Fetch similar datasets.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#similar-datasets-including-ancestors|here}
+ * @param {Object} params Request parameters to API.
+ * @param {boolean} withAncestors Flag indicating whether tags' ancestors
+ * should be considered or not
+ */
+export const fetchSimilarDatasets = (params = {}, withAncestors = true) => {
+  logger.info('Fetch similar datasets');
+  const endpoint = withAncestors ? 'similar-dataset-including-descendent' : 'similar-dataset';
+  return WRIAPI.get(
+    `graph/query/${endpoint}`,
+    {
+      params: {
+        env: process.env.API_ENV,
+        application: process.env.APPLICATIONS,
+        ...params
+      },
+      headers: { 'Upgrade-Insecure-Requests': 1 }
+    }
+  )
+    .then(response => response.data.data)
+    .catch((response) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching similart datasets ${status}: ${statusText}`);
+      throw new Error(`Error fetching similart datasets ${status}: ${statusText}`);
+    });
+};
+
+export default {
+  fetchMostViewedDatasets,
+  fetchMostFavoritedDatasets,
+  fetchSimilarDatasets,
+  countDatasetView,
+  fetchInferredTags,
+  fetchAllTags
+};

@@ -3,7 +3,6 @@ import { toastr } from 'react-redux-toastr';
 import { replace } from 'layer-manager';
 import axios from 'axios';
 import moment from 'moment';
-import WRISerializer from 'wri-json-api-serializer';
 
 import { getUserAreas } from 'redactions/user';
 
@@ -17,7 +16,7 @@ import {
   deleteSubscription
 } from 'services/subscriptions';
 
-import DatasetService from 'services/DatasetService';
+import { fetchDatasets } from 'services/dataset';
 import { fetchQuery } from 'services/query';
 
 // actions – user subscriptions
@@ -122,31 +121,24 @@ export const setDatasets = createAction('SUBSCRIPTIONS__SET-DATASETS');
 export const setDatasetsLoading = createAction('SUBSCRIPTIONS__SET-DATASETS-LOADING');
 export const setDatasetsError = createAction('SUBSCRIPTIONS__SET-DATASETS-ERROR');
 
-export const getDatasets = createThunkAction(
-  'SUBSCRIPTIONS__GET-DATASETS',
-  () => (dispatch, getState) => {
-    const { common } = getState();
-    const { locale } = common;
-    const datasetService = new DatasetService(null, {
-      apiURL: process.env.WRI_API_URL,
-      language: locale
-    });
-
+export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =>
+  (dispatch) => {
     dispatch(setDatasetsLoading(true));
 
-    datasetService
-      .getSubscribableDatasets('metadata')
+    fetchDatasets({
+      includes: 'metadata',
+      subscribable: true,
+      'page[size]': 9999999
+    })
       .then((datasets = []) => {
-        const parsedDatasets = WRISerializer({ data: datasets });
-        dispatch(setDatasets(parsedDatasets));
+        dispatch(setDatasets(datasets.filter(dataset => Object.keys(dataset.subscribable).length)));
         dispatch(setDatasetsLoading(false));
       })
       .catch((err) => {
         dispatch(setDatasetsError(err));
         toastr.error('Error loading suscribable datasets', err);
       });
-  }
-);
+  });
 
 // actions – user selection
 export const setUserSelection = createAction('SUBSCRIPTIONS__SET-USER-SELECTION');
