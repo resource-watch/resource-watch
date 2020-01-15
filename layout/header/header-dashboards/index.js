@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 import { setDropdownOpened } from '../actions';
 
 // selectors
-import { parseTopics } from './selectors';
+import { parseDashboards } from './selectors';
 
 // component
-import HeaderTopicsComponent from './component';
+import HeaderDashboardsComponent from './component';
 
 export default connect(
   state => ({
     header: state.header,
-    topics: parseTopics(state)
+    dashboards: parseDashboards(state)
   }),
   { setDropdownOpened }
-)(HeaderTopicsComponent);
+)(HeaderDashboardsComponent);

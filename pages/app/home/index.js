@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 
 // actions
 import { getLatestPosts, getSpotlightPosts } from 'modules/blog/actions';
+import { getFeaturedDashboards } from 'modules/dashboards/actions';
 
 // components
 import LayoutHome from 'layout/app/home';
@@ -15,7 +16,8 @@ class HomePage extends PureComponent {
         spotlightPosts,
         latestPostsError,
         spotlightPostsError
-      }
+      },
+      dashboards: { featured }
     } = getState();
 
 
@@ -26,6 +28,8 @@ class HomePage extends PureComponent {
       await dispatch(getLatestPosts());
       await dispatch(getSpotlightPosts());
     }
+
+    if (!featured.list.length) await dispatch(getFeaturedDashboards());
 
     return {};
   }

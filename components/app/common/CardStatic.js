@@ -14,9 +14,7 @@ class CardStatic extends React.Component {
     anchor: PropTypes.bool
   };
 
-  static defaultProps = {
-    children: ''
-  };
+  static defaultProps = { children: '' };
 
   constructor(props) {
     super(props);
@@ -38,9 +36,7 @@ class CardStatic extends React.Component {
   }
 
   render() {
-    const {
-      background, backgroundSize, className, children
-    } = this.props;
+    const { background, backgroundSize, className, children } = this.props;
     const style = { background, backgroundSize: backgroundSize || 'cover' };
     const classNameObj = classNames({
       'c-card-static': true,
@@ -48,14 +44,16 @@ class CardStatic extends React.Component {
     });
 
     return (
-      <div
-        className={classNameObj}
-        style={style}
-        onClick={this.handleClick}
-        role="link"
-        tabIndex="0"
-      >
-        {children}
+      <div className="c-card-static-box">
+        <div
+          className={classNameObj}
+          style={style}
+          onClick={this.handleClick}
+          role="link"
+          tabIndex="0"
+        >
+          {children}
+        </div>
       </div>
     );
   }

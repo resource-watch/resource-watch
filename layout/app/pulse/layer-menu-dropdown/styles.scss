@@ -58,4 +58,17 @@ $translate-dropdown: 5px;
       }
     }
   }
+
+  @media screen and (max-width: map-get($breakpoints, medium)) {
+    top: auto;
+    bottom: 55px;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: auto;
+      bottom: -8px;
+    }  
+    
+  }
 }

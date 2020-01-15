@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
+// Redux
+import { connect } from 'react-redux';
+
 // Services
 import { deleteDashboard } from 'services/dashboard';
 import { toastr } from 'react-redux-toastr';
@@ -8,8 +11,8 @@ import { toastr } from 'react-redux-toastr';
 class DeleteAction extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    authorization: PropTypes.string.isRequired,
-    onRowDelete: PropTypes.func.isRequired
+    onRowDelete: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
   }
 
   handleOnClickDelete = (e) => {
@@ -20,12 +23,12 @@ class DeleteAction extends PureComponent {
 
     const {
       data: { name, id },
-      authorization
+      user: { token }
     } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${name}"`, {
       onOk: () => {
-        deleteDashboard(id, authorization)
+        deleteDashboard(id, token)
           .then(() => {
             this.props.onRowDelete(id);
             toastr.success('Success', `The dashboard "${id}" - "${name}" has been removed correctly`);
@@ -46,4 +49,6 @@ class DeleteAction extends PureComponent {
   }
 }
 
-export default DeleteAction;
+const mapStateToProps = state => ({ user: state.user });
+
+export default connect(mapStateToProps, null)(DeleteAction);

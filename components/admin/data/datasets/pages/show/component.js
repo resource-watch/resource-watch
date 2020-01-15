@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
-import { Router } from 'routes';
 import { StickyContainer, Sticky } from 'react-sticky';
 import PropTypes from 'prop-types';
 
 // components
 import Aside from 'components/ui/Aside';
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
-import MetadataForm from 'components/datasets/metadata/form/MetadataForm';
+import DatasetMetadataForm from 'components/datasets/metadata/form';
 import TagsForm from 'components/admin/tags/TagsForm';
 import WidgetsIndex from 'components/admin/data/widgets/pages/list';
 import LayersIndex from 'components/admin/data/layers/pages/list';
@@ -56,12 +55,7 @@ class DatasetsShow extends PureComponent {
               }
 
               {(currentSubtab === 'metadata') &&
-                (<MetadataForm
-                  application={process.env.APPLICATIONS}
-                  authorization={user.token}
-                  dataset={id}
-                />)
-              }
+                (<DatasetMetadataForm dataset={id} />)}
 
               {(currentSubtab === 'tags') &&
                 <div>
