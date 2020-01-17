@@ -1,8 +1,9 @@
-import 'isomorphic-fetch';
-import queryString from 'query-string';
-import WRISerializer from 'wri-json-api-serializer';
 import sortBy from 'lodash/sortBy';
 import { createAction, createThunkAction } from 'redux-tools';
+
+// Services
+import { fetchDatasets as fetchDatasetsService } from 'services/dataset';
+import { fetchAllTags, fetchInferredTags } from 'services/graph';
 
 // Utils
 import { TAGS_BLACKLIST } from 'utils/tags';
@@ -26,9 +27,7 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     .map(s => explore.filters.selected[s])
     .filter(selected => selected.length);
 
-  const qParams = queryString.stringify({
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV,
+  const params = {
     language: common.locale,
     includes: 'layer,metadata,vocabulary,widget',
     sort: `${explore.sort.direction < 0 ? '-' : ''}${explore.sort.selected}`,
@@ -47,20 +46,16 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     // Page
     'page[number]': explore.datasets.page,
     'page[size]': explore.datasets.limit
-  });
+  };
 
   dispatch(setDatasetsLoading(true));
   dispatch(setDatasetsError(null));
 
-  return fetch(`${process.env.WRI_API_URL}/dataset?${qParams}`)
+  return fetchDatasetsService(params, {}, true)
     .then((response) => {
-      if (response.status >= 400) throw Error(response.statusText);
-      return response.json();
-    })
-    .then((response) => {
-      const { meta = {} } = response;
+      const { meta = {}, datasets } = response;
       dispatch(setDatasetsTotal(meta['total-items'] || 0));
-      return WRISerializer(response, { locale: common.locale });
+      return datasets;
     })
     .then((data) => {
       // Show only published layers
@@ -109,28 +104,21 @@ export const resetMapLayerGroupsInteraction = createAction('EXPLORE/resetMapLaye
 
 
 export const setMapLayerGroups = createAction('EXPLORE/setMapLayerGroups');
-export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', layer => (dispatch, getState) => {
+export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', payload => (dispatch, getState) => {
   const { common } = getState();
 
-  const qParams = queryString.stringify({
-    application: process.env.APPLICATIONS,
+  const params = {
     language: common.locale,
     includes: 'layer',
-    ids: layer.map(lg => lg.dataset).join(','),
-    'page[size]': 999,
-    env: process.env.API_ENV
-  });
+    ids: payload.map(lg => lg.dataset).join(','),
+    'page[size]': 999
+  };
 
-  return fetch(`${process.env.WRI_API_URL}/dataset?${qParams}`)
-    .then((response) => {
-      if (response.status >= 400) throw Error(response.statusText);
-      return response.json();
-    })
-    .then(response => WRISerializer(response, { locale: common.locale }))
+  return fetchDatasetsService(params)
     .then((data) => {
       dispatch(setMapLayerGroups({
         datasets: data,
-        params: layer
+        params: payload
       }));
     })
     .catch((err) => {
@@ -148,27 +136,19 @@ export const setFiltersSelected = createAction('EXPLORE/setFiltersSelected');
 export const toggleFiltersSelected = createAction('EXPLORE/toggleFiltersSelected');
 export const resetFiltersSelected = createAction('EXPLORE/resetFiltersSelected');
 
-export const fetchFiltersTags = createThunkAction('EXPLORE/fetchFiltersTags', () => (dispatch) => {
-  const qParams = queryString.stringify({});
+export const fetchFiltersTags = createThunkAction('EXPLORE/fetchFiltersTags', () => dispatch => fetchAllTags()
+  .then((data) => {
+    dispatch(setFiltersTags(data.filter((tag) => {
+      const isBlack = TAGS_BLACKLIST.includes(tag.id);
+      const isGeography = (!!tag.labels[1] && tag.labels[1] === 'GEOGRAPHY');
+      const hasDatasets = !!tag.numberOfDatasetsTagged;
 
-  return fetch(`${process.env.WRI_API_URL}/graph/query/list-concepts?${qParams}`)
-    .then((response) => {
-      if (response.status >= 400) throw Error(response.statusText);
-      return response.json();
-    })
-    .then(({ data }) => {
-      dispatch(setFiltersTags(data.filter((tag) => {
-        const isBlack = TAGS_BLACKLIST.includes(tag.id);
-        const isGeography = (!!tag.labels[1] && tag.labels[1] === 'GEOGRAPHY');
-        const hasDatasets = !!tag.numberOfDatasetsTagged;
-
-        return !isBlack && !isGeography && hasDatasets;
-      })));
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-});
+      return !isBlack && !isGeography && hasDatasets;
+    })));
+  })
+  .catch((err) => {
+    console.error(err);
+  }));
 
 // SORT
 export const setSortSelected = createAction('EXPLORE/setSortSelected');
@@ -190,12 +170,8 @@ export const resetTags = createAction('EXPLORE/resetTags');
 export const fetchTags = createThunkAction('EXPLORE/fetchTags', tags => (dispatch) => {
   dispatch(setTagsLoading(true));
 
-  return fetch(`${process.env.WRI_API_URL}/graph/query/concepts-inferred?concepts=${tags}&application=${process.env.APPLICATIONS}`)
-    .then((response) => {
-      if (response.status >= 400) throw Error(response.statusText);
-      return response.json();
-    })
-    .then(({ data }) => {
+  return fetchInferredTags({ concepts: tags.join(',') })
+    .then((data) => {
       dispatch(setTags(sortBy(
         data.filter(tag => !TAGS_BLACKLIST.includes(tag.id) && !!tag.labels[1] && tag.labels[1] !== 'GEOGRAPHY'),
         t => t.label
