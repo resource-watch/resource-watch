@@ -38,7 +38,7 @@ class LayerPreviewComponent extends PureComponent {
     generateLayerGroups: PropTypes.func.isRequired
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.handleRefreshPreview();
   }
 

@@ -25,7 +25,7 @@ class CatalogLayout extends PureComponent {
     totalItems: 0
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.getDatasets();
   }
 

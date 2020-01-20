@@ -97,7 +97,7 @@ class ExploreMapComponent extends React.Component {
     loading: {}
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { layerGroups: prevLayerGroups } = this.props;
 
     const { layerGroups: nextLayerGroups } = nextProps;
@@ -174,18 +174,18 @@ class ExploreMapComponent extends React.Component {
     setMapLayerParametrization({
       id,
       nextConfig: {
-        ...decode_config && {
+        ...(decode_config && {
           decodeParams: {
             startDate: dates[0],
             endDate: dates[1]
           }
-        },
-        ...!decode_config && {
+        }),
+        ...(!decode_config && {
           params: {
             startDate: dates[0],
             endDate: dates[1]
           }
-        }
+        })
       }
     });
   }
@@ -406,7 +406,7 @@ class ExploreMapComponent extends React.Component {
                   onChangeLayer={this.onChangeLayerTimeLine}
                   customClass="rw-legend-timeline"
                   {...LEGEND_TIMELINE_PROPERTIES}
-                  { ...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
+                  {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
                 />
               </LegendListItem>
             ))}

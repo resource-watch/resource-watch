@@ -27,7 +27,7 @@ class LayoutEmbedDataset extends PureComponent {
     loadingDataset: true
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     fetchDataset(this.props.routes.query.id, { includes: 'widget, metadata' })
       .then(data =>
         this.setState({

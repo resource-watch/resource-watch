@@ -31,7 +31,7 @@ class LayerCardComponent extends PureComponent {
       showContextLayersInfoModal: false
     };
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if ((nextProps.layerMenuPulse.layerActive && nextProps.layerMenuPulse.layerActive.id) !==
       (this.props.layerMenuPulse.layerActive && this.props.layerMenuPulse.layerActive.id)) {
       this.loadWidgets(nextProps);
@@ -107,7 +107,7 @@ class LayerCardComponent extends PureComponent {
                 onClick={() => this.props.togglePosition()}
               >
                 Rotate globe
-            </button>
+              </button>
             </div>
           }
           <div className="legends">
@@ -218,7 +218,7 @@ class LayerCardComponent extends PureComponent {
                   onClick={() => this.handleToggleSubscribeToDatasetModal(true)}
                 >
                   Subscribe to alerts
-                <Modal
+                  <Modal
                     isOpen={showSubscribeToDatasetModal}
                     onRequestClose={() => this.handleToggleSubscribeToDatasetModal(false)}
                   >

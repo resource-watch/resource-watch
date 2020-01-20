@@ -20,7 +20,7 @@ class Tooltip extends React.Component {
     this.onMouseMove = this.onMouseMove.bind(this);
   }
 
-  componentWillReceiveProps({ tooltip }) {
+  UNSAFE_componentWillReceiveProps({ tooltip }) {
     if (tooltip.follow && tooltip.follow !== this.props.tooltip.follow) {
       document.addEventListener('mousemove', this.onMouseMove);
     }
