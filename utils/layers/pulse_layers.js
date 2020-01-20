@@ -13,7 +13,7 @@ export const LAYERS_PLANET_PULSE = [
     layers: [
       {
         label: 'Crop and Vegetation Health',
-        id: 'e9f9d20c-1924-48b2-97ed-6936e233adb2',
+        id: 'ee8addd7-f390-4bd7-8b11-471cc304159c',
         '3d': false,
         descriptionPulse:
   <div className="description">
@@ -97,12 +97,12 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: false,
         widgets: [],
         basemap: {
@@ -112,7 +112,7 @@ export const LAYERS_PLANET_PULSE = [
       },
       {
         label: 'Droughts',
-        id: '4d52872e-0653-4b28-a1a6-dd4edbb76dd3',
+        id: '7b64dbb8-dd88-4305-8304-ed75577192d5',
         contextLayers: ['c7e76588-6da5-4645-8842-2d2ac0001110'],
         contextLayersOnTop: true,
         '3d': false,
@@ -142,7 +142,7 @@ export const LAYERS_PLANET_PULSE = [
       {
         label: 'Particulate Matter (PM 10)',
         id: '73cc7325-a62c-4a8d-9724-af697d3f7072',
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: false,
         '3d': false,
         descriptionPulse:
@@ -152,7 +152,7 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
@@ -173,11 +173,11 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         contextLayersOnTop: false,
         '3d': false,
@@ -191,7 +191,7 @@ export const LAYERS_PLANET_PULSE = [
       {
         label: 'Sulfur Dioxide (SO₂)',
         id: '509c71b2-9c68-4acd-88a6-f64015494001',
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: false,
         '3d': false,
         descriptionPulse:
@@ -201,7 +201,7 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
@@ -215,7 +215,7 @@ export const LAYERS_PLANET_PULSE = [
       {
         label: 'Nitrogen Dioxide (NO₂)',
         id: '99f02e72-c59d-4d3d-880f-922bff7b7f39',
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: false,
         '3d': false,
         descriptionPulse:
@@ -225,7 +225,7 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
@@ -239,7 +239,7 @@ export const LAYERS_PLANET_PULSE = [
       {
         label: 'Ozone (Tropospheric/Ground-level O₃)',
         id: '39524ca8-e1e3-4e9f-8b77-6682064bd176',
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: false,
         '3d': false,
         descriptionPulse:
@@ -249,7 +249,7 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
@@ -263,7 +263,7 @@ export const LAYERS_PLANET_PULSE = [
       {
         label: 'Carbon Monoxide (CO)',
         id: '8f73075e-80b8-4176-86f2-88c0c4af129c',
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: false,
         '3d': false,
         descriptionPulse:
@@ -273,7 +273,7 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
@@ -287,7 +287,7 @@ export const LAYERS_PLANET_PULSE = [
       {
         label: 'Black Carbon (BC)',
         id: 'd40902f3-4948-48b0-a847-675d40222a55',
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: false,
         '3d': false,
         descriptionPulse:
@@ -297,7 +297,7 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
@@ -374,11 +374,11 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="c04b8f05-18d5-44cd-8cad-e5a171fe3034" label="Reef locations" />
+      <LayerPill layerId="3d22f1c6-5a64-4438-be23-988fc0e0111a" label="Reef locations" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
-        contextLayers: ['c04b8f05-18d5-44cd-8cad-e5a171fe3034'],
+        contextLayers: ['3d22f1c6-5a64-4438-be23-988fc0e0111a'],
         contextLayersOnTop: true,
         initialPosition: { latitude: -164.00390625, longitude: -8.233237111274553, height: 20000000 },
         widgets: [],
@@ -394,8 +394,8 @@ export const LAYERS_PLANET_PULSE = [
     layers: [
       {
         label: 'Food Insecurity',
-        id: 'a2eccfd8-de7e-4fb8-93c4-22f119994f3e',
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        id: '3c0114bc-acc4-4073-aeff-09aab4dc0364',
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: true,
         '3d': false,
         descriptionPulse:
@@ -459,29 +459,6 @@ export const LAYERS_PLANET_PULSE = [
           url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
         },
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
-      },
-      {
-        label: 'Asylum Requests',
-        id: 'd0ec0531-9241-407c-bbae-d3dc55c7d6ea',
-        descriptionPulse:
-  <div className="description">
-    <div className="description-text">
-              People who wish to be resettled in another country can apply for refugee status with a specific destination country. 38 European and 6 non-European countries report the number of asylum requests they receive each month to the UN High Commission on Refugees.
-    </div>
-    <div className="view-with-container">
-      <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="af3513d5-284f-488c-8256-e90c30a1ca8b" label="Reporting countries" />
-      <LabelsPill url={LABELS.light.value} label="Labels" />
-    </div>
-  </div>,
-        contextLayers: ['af3513d5-284f-488c-8256-e90c30a1ca8b'],
-        contextLayersOnTop: true,
-        '3d': false,
-        basemap: {
-          name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        },
-        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
       }
     ]
   },
@@ -490,7 +467,7 @@ export const LAYERS_PLANET_PULSE = [
     layers: [
       {
         label: 'Fires',
-        id: '5ca12eec-f8fe-49eb-b353-67c9eeb5bc6a',
+        id: '2d7882f4-0e42-429c-9951-b29ccc16409e',
         '3d': false,
         descriptionPulse:
   <div className="description">
@@ -499,14 +476,14 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
-      <LayerPill layerId="7a270c3a-1161-4fb2-a613-090d3e603126" label="Forests" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
+      <LayerPill layerId="8edf50a7-2cc7-4f30-9dc1-b8cc420e7287" label="Forests" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
         contextLayers: [
-          '7a270c3a-1161-4fb2-a613-090d3e603126',
-          '84229e01-4e61-4c08-a7dd-efb7259dd85d'
+          '8edf50a7-2cc7-4f30-9dc1-b8cc420e7287',
+          '396b74f7-643d-4299-8ff6-4780b27138cc'
         ],
         contextLayersOnTop: false,
         widgets: [],
@@ -527,11 +504,11 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: false,
         widgets: [],
         basemap: {
@@ -545,7 +522,7 @@ export const LAYERS_PLANET_PULSE = [
         id: 'd63fff22-8cda-467e-b4ef-df3ab2613505',
         contextLayers: [
           '47a1b1d7-e5ad-4b79-9f52-bc9435c6ca06',
-          '84229e01-4e61-4c08-a7dd-efb7259dd85d'
+          '396b74f7-643d-4299-8ff6-4780b27138cc'
         ],
         contextLayersOnTop: false,
         '3d': false,
@@ -558,7 +535,7 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LayerPill layerId="47a1b1d7-e5ad-4b79-9f52-bc9435c6ca06" label="Fault lines" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
@@ -572,7 +549,7 @@ export const LAYERS_PLANET_PULSE = [
       {
         label: 'Volcanoes',
         id: 'a64f5142-e8ae-433f-afda-6628fc3255bf',
-        contextLayers: ['84229e01-4e61-4c08-a7dd-efb7259dd85d'],
+        contextLayers: ['396b74f7-643d-4299-8ff6-4780b27138cc'],
         contextLayersOnTop: false,
         '3d': true,
         markerType: 'volcano',
@@ -583,7 +560,7 @@ export const LAYERS_PLANET_PULSE = [
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="84229e01-4e61-4c08-a7dd-efb7259dd85d" label="Population" />
+      <LayerPill layerId="396b74f7-643d-4299-8ff6-4780b27138cc" label="Population" />
       <LabelsPill url={LABELS.light.value} label="Labels" />
     </div>
   </div>,

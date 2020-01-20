@@ -1,75 +1,8 @@
-import { post } from 'utils/request';
 import WRISerializer from 'wri-json-api-serializer';
 
 // utils
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
-
-export default class LayersService {
-  constructor(options = {}) {
-    this.opts = options;
-  }
-
-  // getColumns({ dataset }) {
-  //   return new Promise((resolve, reject) => {
-  //     get({
-  // eslint-disable-next-line max-len
-  //       url: `${process.env.WRI_API_URL}/fields/${dataset}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
-  //       headers: [{
-  //         key: 'Content-Type',
-  //         value: 'application/json'
-  //       }, {
-  //         key: 'Authorization',
-  //         value: this.opts.authorization
-  //       }],
-  //       onSuccess: (response) => {
-  //         const fieldsObj = response.fields;
-
-  //         const parsedData = {
-  //           tableName: response.tableName,
-  //           fields: ((fieldsObj && Object.keys(fieldsObj)) || []).map((fKey) => {
-  //             const { type } = fieldsObj[fKey] || null;
-  //             return { label: fKey || '', value: fKey || '', type };
-  //           })
-  //         };
-  //         resolve({ ...parsedData });
-  //       },
-  //       onError: (error) => {
-  //         reject(error);
-  //       }
-  //     });
-  //   });
-  // }
-
-  saveData({ type, body, id, dataset }) {
-    return new Promise((resolve, reject) => {
-      post({
-        url: `${process.env.WRI_API_URL}/dataset/${dataset}/layer/${id}`,
-        type,
-        body: {
-          ...body,
-          ...type !== 'PATCH' && { application: [process.env.APPLICATIONS] }
-        },
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: (response) => {
-          resolve({
-            ...response.data.attributes,
-            id: response.data.id
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-}
 
 /**
  * Fetchs layers according to params.
@@ -207,4 +140,54 @@ export const deleteLayer = (layerId, datasetId, token) => {
       logger.error(`Error deleting layer ${layerId}: ${status}: ${statusText}`);
       throw new Error(`Error deleting layer ${layerId}: ${status}: ${statusText}`);
     });
+};
+
+/**
+ * Updates the layer provided.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#update-a-layer|here}
+ * @param {Object} layer - layer data.
+ * @param {string} token - user's token.
+ */
+export const updateLayer = (layer, datasetId, token) => {
+  logger.info(`Update layer: ${layer.id}`);
+  return WRIAPI.patch(`dataset/${datasetId}/layer/${layer.id}`, layer, { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating layer ${layer.id}: ${status}: ${statusText}`);
+      throw new Error(`Error updating layer ${layer.id}: ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Creates a new layer.
+ * This fetch needs authentication.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-a-layer|here}
+ * @param {Object} layer - layer data.
+ * @param {string} datasetId - Dataset ID the widget belongs to.
+ * @param {string} token - user's token.
+ */
+export const createLayer = (layer, datasetId, token) => {
+  logger.info('Create layer');
+  return WRIAPI.post(`dataset/${datasetId}/layer`,
+    {
+      application: process.env.APPLICATIONS.split(','),
+      env: process.env.API_ENV,
+      ...layer
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating layer ${status}: ${statusText}`);
+      throw new Error(`Error creating layer ${status}: ${statusText}`);
+    });
+};
+
+export default {
+  fetchLayers,
+  fetchLayer,
+  deleteLayer,
+  createLayer,
+  updateLayer
 };
