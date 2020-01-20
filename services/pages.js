@@ -26,7 +26,7 @@ export default class PagesService {
           value: 1
         }],
         onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, pages) => {
+          new Deserializer({ keyForAttribute: 'underscore_case' }).deserialize(response, (err, pages) => {
             resolve(sortBy(pages, 'name'));
           });
         },
@@ -53,7 +53,7 @@ export default class PagesService {
           value: 1
         }],
         onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, page) => {
+          new Deserializer({ keyForAttribute: 'underscore_case' }).deserialize(response, (err, page) => {
             resolve(page);
           });
         },
@@ -82,7 +82,7 @@ export default class PagesService {
           value: this.opts.authorization
         }],
         onSuccess: (response) => {
-          new Deserializer({keyForAttribute: 'underscore_case'}).deserialize(response, (err, page) => {
+          new Deserializer({ keyForAttribute: 'underscore_case' }).deserialize(response, (err, page) => {
             resolve(page);
           });
         },
