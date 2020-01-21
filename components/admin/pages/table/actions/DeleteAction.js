@@ -2,23 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Services
-import PagesService from 'services/pages';
+import { deletePage } from 'services/pages';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // BINDINGS
-    this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
-
-    // SERVICES
-    this.service = new PagesService({
-      authorization: props.authorization
-    });
-  }
-
-  handleOnClickDelete(e) {
+  handleOnClickDelete = (e) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -28,7 +16,7 @@ class DeleteAction extends React.Component {
 
     toastr.confirm(`Are you sure that you want to delete: "${data.title}"`, {
       onOk: () => {
-        this.service.deleteData(data.id)
+        deletePage(data.id)
           .then(() => {
             this.props.onRowDelete(data.id);
             toastr.success('Success', `The page "${data.id}" - "${data.title}" has been removed correctly`);
