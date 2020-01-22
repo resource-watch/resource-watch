@@ -64,7 +64,7 @@ class HeaderDashboards extends PureComponent {
               key="More"
             >
               <Link
-                route="/dashboards#featuredDashboards"
+                route="/dashboards#dashboardsGallery"
               >
                 <a>More</a>
               </Link>
