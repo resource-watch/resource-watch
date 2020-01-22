@@ -17,7 +17,7 @@ const setDashboardsLinks = (_dashboards) => {
   }));
   dashLinks.push({
     label: 'More',
-    route: '/dashboards#featuredDashboards'
+    route: '/dashboards#dashboardsGallery'
   });
   return dashLinks;
 };
