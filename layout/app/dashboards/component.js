@@ -75,7 +75,7 @@ class DashboardsLayout extends PureComponent {
             </div>
           </div>
         </div>
-        <div className="l-section -small">
+        <div id="dashboardsGallery" className="l-section -small">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
