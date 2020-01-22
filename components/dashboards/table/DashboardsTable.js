@@ -39,7 +39,7 @@ class DashboardsTable extends PureComponent {
     loading: false
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadDashboards();
   }
 

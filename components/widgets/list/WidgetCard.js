@@ -158,7 +158,7 @@ class WidgetCard extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.widget, this.props.widget)
       && WidgetCard.isMapWidget(nextProps.widget)) {
       const layerId = (nextProps.widget.widgetConfig.paramsConfig

@@ -11,7 +11,7 @@ import LayoutMyRW from 'layout/myrw';
 class MyRWPage extends PureComponent {
   static propTypes = { getUserAreas: PropTypes.func.isRequired }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.getUserAreas();
   }
 

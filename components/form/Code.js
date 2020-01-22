@@ -25,7 +25,7 @@ class Code extends FormElement {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.properties.value) {
       try {
         const stateValueStringify = JSON.stringify(JSON.parse(this.state.value), null, 2);

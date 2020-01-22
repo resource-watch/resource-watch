@@ -31,7 +31,7 @@ export default class Modal extends React.Component {
   }
 
   // Close modal when esc key is pressed
-  componentWillReceiveProps({ open }) {
+  UNSAFE_componentWillReceiveProps({ open }) {
     const self = this;
     function escKeyPressListener(evt) {
       document.removeEventListener('keydown', escKeyPressListener);

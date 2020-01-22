@@ -34,7 +34,7 @@ class SearchInput extends PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { input } = nextProps;
 
     if (input.value) {

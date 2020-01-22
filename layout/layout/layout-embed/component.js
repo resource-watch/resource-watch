@@ -26,7 +26,7 @@ class LayoutEmbed extends PureComponent {
     className: null
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // When a tooltip is shown and the router navigates to
     // another page, the tooltip stays in place because it is
     // managed in Redux
