@@ -64,6 +64,50 @@ export const fetchPage = (id, token, params = {}, headers = {}) => {
 };
 
 /**
+ * Update page
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#update-page|here}
+ * @param {Object} page Request page to be updated.
+ * @param {Object} token Authentication token.
+ */
+export const updatePage = (page, token) => {
+  logger.info(`Update page ${page.id}`);
+  return WRIAPI.patch(`static_page/${page.id}`,
+    { data: { attributes: { ...page } } }
+    , { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating page ${page.id}: ${status}: ${statusText}`);
+      throw new Error(`Error updating page ${page.id}: ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Create a new page.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-a-page|here}
+ * @param {Object} page Request page to be updated.
+ * @param {Object} token Authentication token.
+ */
+export const createPage = (page, token) => {
+  logger.info('Create page');
+  return WRIAPI.post('static_page',
+    {
+      data: {
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV,
+        attributes: { ...page }
+      }
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating page ${status}: ${statusText}`);
+      throw new Error(`Error creating page ${status}: ${statusText}`);
+    });
+};
+
+/**
  * Delete page
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#fetch-page|here}
  * @param {String} id Page id.
@@ -90,39 +134,10 @@ export const deletePage = (id, token, params = {}, headers = {}) => {
     });
 };
 
-// saveData({ type, body, id }) {
-//   return new Promise((resolve, reject) => {
-//     post({
-//       url: `${process.env.WRI_API_URL}/static_page/${id}`,
-//       type,
-//       body: {
-//         ...body,
-//         application: [process.env.APPLICATIONS],
-//         env: process.env.API_ENV
-//       },
-//       headers: [{
-//         key: 'Content-Type',
-//         value: 'application/json'
-//       }, {
-//         key: 'Authorization',
-//         value: this.opts.authorization
-//       }],
-//       onSuccess: (response) => {
-//         new Deserializer({ keyForAttribute: 'underscore_case' }).deserialize(response, (err, page) => {
-//           resolve(page);
-//         });
-//       },
-//       onError: (error) => {
-//         reject(error);
-//       }
-//     });
-//   });
-// }
-
 export default {
   fetchPages,
   fetchPage,
-  // createPage,
-  // updatePage,
+  createPage,
+  updatePage,
   deletePage
 };
