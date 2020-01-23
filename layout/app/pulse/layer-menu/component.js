@@ -69,7 +69,7 @@ class LayerMenuComponent extends PureComponent {
       return (
         <div>
           <MediaQuery
-            maxDeviceWidth={breakpoints.medium - 1}
+            maxWidth={breakpoints.medium - 1}
             values={{ deviceWidth: responsive.fakeWidth }}
           >
             <LayerMenuNative
@@ -78,7 +78,7 @@ class LayerMenuComponent extends PureComponent {
             />
           </MediaQuery>
           <MediaQuery
-            minDeviceWidth={breakpoints.medium}
+            minWidth={breakpoints.medium}
             values={{ deviceWidth: responsive.fakeWidth }}
           >
             <div className="c-layer-menu">
@@ -96,9 +96,7 @@ class LayerMenuComponent extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  layerActive: state.pulse.layerActive
-});
+const mapStateToProps = state => ({ layerActive: state.pulse.layerActive });
 
 LayerMenuComponent.propTypes = {
   layersGroup: PropTypes.array,
