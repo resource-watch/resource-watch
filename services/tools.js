@@ -1,46 +1,42 @@
-import { WRIAPI } from 'utils/axios';
 import WRISerializer from 'wri-json-api-serializer';
 
-import 'isomorphic-fetch';
-import { get, post, remove } from 'utils/request';
+// utils
+import { WRIAPI } from 'utils/axios';
+import { logger } from 'utils/logs';
 
 import sortBy from 'lodash/sortBy';
-import { Deserializer } from 'jsonapi-serializer';
 
-export default class ToolsService {
-  constructor(options = {}) {
-    this.opts = options;
-  }
-
-  // GET ALL DATA
-  fetchAllData() {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/tool/?published=all&env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        },
-        {
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, tools) => {
-            resolve(sortBy(tools, 'name'));
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
+/**
+ * Fetch tools
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#fetch-tools|here}
+ * @param {Object} params Request paremeters.
+ * @param {Object} headers Request headers.
+ */
+export const fetchTools = (token, params = {}, headers = {}) => {
+  logger.info('Fetch tools');
+  return WRIAPI.get(
+    'tool',
+    {
+      headers: {
+        ...headers,
+        Authorization: token
+      },
+      params: {
+        published: 'all',
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV,
+        ...params
+      }
+    }
+  )
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching tools: ${status}: ${statusText}`);
+      throw new Error(`Error fetching tools: ${status}: ${statusText}`);
     });
-  }
+};
+
 
   fetchData(id) {
     return new Promise((resolve, reject) => {
@@ -119,7 +115,7 @@ export default class ToolsService {
       });
     });
   }
-}
+
 
 /**
  * Fetchs a specific tool.
@@ -135,4 +131,13 @@ export const fetchTool = id =>
       if (status >= 400) throw new Error(statusText);
       return WRISerializer(data);
     });
+
+
+export default {
+  fetchTools
+  fetchTool,
+  createTool,
+  updateTool,
+  deleteTool
+}
 

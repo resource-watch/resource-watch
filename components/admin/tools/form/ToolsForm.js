@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Serializer } from 'jsonapi-serializer';
 
 // Services
-import ToolsService from 'services/tools';
+import { fetchTool, updateTool, createTool } from 'services/tools';
 import { toastr } from 'react-redux-toastr';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/tools/form/constants';
@@ -14,31 +14,18 @@ import Step1 from 'components/admin/tools/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class ToolsForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = Object.assign({}, STATE_DEFAULT, {
-      id: props.id,
-      loading: !!props.id,
-      form: STATE_DEFAULT.form
-    });
-
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
-
-    this.service = new ToolsService({
-      authorization: props.authorization
-    });
-  }
+  state = Object.assign({}, STATE_DEFAULT, {
+    id: this.props.id,
+    loading: !!this.props.id,
+    form: STATE_DEFAULT.form
+  });
 
   componentDidMount() {
     const { id } = this.state;
     // Get the tools and fill the
     // state form with its params if the id exists
     if (id) {
-      this.service.fetchData(id)
+      fetchTool(id)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
@@ -56,8 +43,9 @@ class ToolsForm extends React.Component {
    * UI EVENTS
    * - onSubmit
    * - onChange
+   * - onStepChange
   */
-  onSubmit(event) {
+  onSubmit = (event) => {
     event.preventDefault();
 
     // Validate the form
@@ -76,24 +64,32 @@ class ToolsForm extends React.Component {
           // Start the submitting
           this.setState({ submitting: true });
 
-          // Save data
-          this.service.saveData({
-            id: id || '',
-            type: (id) ? 'PATCH' : 'POST',
-            body: new Serializer('tool', {
-              keyForAttribute: 'dash-case',
-              attributes: Object.keys(this.state.form)
-            }).serialize(this.state.form)
-          })
-            .then((data) => {
-              toastr.success('Success', `The tool "${data.id}" - "${data.title}" has been uploaded correctly`);
+          // updateTool
+          if (id) {
+          //   this.service.saveData({
+          //     id: id || '',
+          //     type: (id) ? 'PATCH' : 'POST',
+          //     body: new Serializer('tool', {
+          //       keyForAttribute: 'dash-case',
+          //       attributes: Object.keys(this.state.form)
+          //     }).serialize(this.state.form)
+          //   })
+          //     .then((data) => {
+          //       toastr.success('Success', `The tool "${data.id}" - "${data.title}" has been uploaded correctly`);
+  
+          //       if (this.props.onSubmit) this.props.onSubmit();
+          //     })
+          //     .catch((err) => {
+          //       this.setState({ submitting: false });
+          //       toastr.error('Error', 'Oops! There was an error, try again', err);
+          //     });
+          // }
+          // createTool 
+          else {
+          
 
-              if (this.props.onSubmit) this.props.onSubmit();
-            })
-            .catch((err) => {
-              this.setState({ submitting: false });
-              toastr.error('Error', 'Oops! There was an error, try again', err);
-            });
+          }
+         
         } else {
           this.setState({
             step: this.state.step + 1
@@ -105,12 +101,12 @@ class ToolsForm extends React.Component {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
