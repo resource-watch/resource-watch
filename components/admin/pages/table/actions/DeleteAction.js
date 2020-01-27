@@ -12,11 +12,11 @@ class DeleteAction extends React.Component {
       e.stopPropagation();
     }
 
-    const { data } = this.props;
+    const { data, authorization } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${data.title}"`, {
       onOk: () => {
-        deletePage(data.id)
+        deletePage(data.id, authorization)
           .then(() => {
             this.props.onRowDelete(data.id);
             toastr.success('Success', `The page "${data.id}" - "${data.title}" has been removed correctly`);
@@ -38,9 +38,9 @@ class DeleteAction extends React.Component {
 }
 
 DeleteAction.propTypes = {
-  data: PropTypes.object,
-  authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
+  data: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired,
+  onRowDelete: PropTypes.func.isRequired
 };
 
 export default DeleteAction;
