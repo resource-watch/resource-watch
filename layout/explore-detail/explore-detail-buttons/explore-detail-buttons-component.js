@@ -102,12 +102,12 @@ class ExploreDetailButtons extends PureComponent {
                     dataset: dataset.id,
                     opacity: 1,
                     visible: true,
-                    layer: dataset.layer[0].id
+                    layer: dataset.layer.find(l => l.default).id
                   }]))
                 }}
               >
                 <a className="c-button -primary">
-                  Open in map
+                  Open in map 1
                 </a>
               </Link>
             </div>
