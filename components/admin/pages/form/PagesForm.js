@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Serializer } from 'jsonapi-serializer';
 
 // Services
-import PagesService from 'services/pages';
+import { updatePage, createPage, fetchPage } from 'services/pages';
 import { toastr } from 'react-redux-toastr';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/pages/form/constants';
@@ -14,31 +13,26 @@ import Step1 from 'components/admin/pages/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class PagesForm extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    authorization: PropTypes.string.isRequired,
+    id: PropTypes.string,
+    onSubmit: PropTypes.func.isRequired
+  };
 
-    this.state = Object.assign({}, STATE_DEFAULT, {
-      id: props.id,
-      loading: !!props.id,
-      form: STATE_DEFAULT.form
-    });
+  static defaultProps = { id: null };
 
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
-
-    this.service = new PagesService({
-      authorization: props.authorization
-    });
-  }
+  state = Object.assign({}, STATE_DEFAULT, {
+    id: this.props.id,
+    loading: !!this.props.id,
+    form: STATE_DEFAULT.form
+  });
 
   componentDidMount() {
     const { id } = this.state;
     // Get the pages and fill the
     // state form with its params if the id exists
     if (id) {
-      this.service.fetchData(id)
+      fetchPage(id)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
@@ -56,48 +50,52 @@ class PagesForm extends React.Component {
    * UI EVENTS
    * - onSubmit
    * - onChange
+   * - onStepChange
   */
-  onSubmit(event) {
+  onSubmit = (event) => {
+    const { step, submitting, id, stepLength, form } = this.state;
+    const { authorization, onSubmit } = this.props;
     event.preventDefault();
 
     // Validate the form
-    FORM_ELEMENTS.validate(this.state.step);
+    FORM_ELEMENTS.validate(step);
 
     // Set a timeout due to the setState function of react
     setTimeout(() => {
       // Validate all the inputs on the current step
-      const valid = FORM_ELEMENTS.isValid(this.state.step);
+      const valid = FORM_ELEMENTS.isValid(step);
 
       if (valid) {
         // if we are in the last step we will submit the form
-        if (this.state.step === this.state.stepLength && !this.state.submitting) {
-          const { id } = this.state;
-
+        if (step === stepLength && !submitting) {
           // Start the submitting
           this.setState({ submitting: true });
 
-          // Save data
-          this.service.saveData({
-            id: id || '',
-            type: (id) ? 'PATCH' : 'POST',
-            body: new Serializer('page', {
-              keyForAttribute: 'dash-case',
-              attributes: Object.keys(this.state.form)
-            }).serialize(this.state.form)
-          })
-            .then((data) => {
-              toastr.success('Success', `The page "${data.id}" - "${data.title}" has been uploaded correctly`);
-
-              if (this.props.onSubmit) this.props.onSubmit();
-            })
-            .catch((err) => {
-              this.setState({ submitting: false });
-              toastr.error('Error', 'Oops! There was an error, try again', err);
-            });
+          // Update page
+          if (id) {
+            updatePage(form, authorization)
+              .then((data) => {
+                toastr.success('Success', `The page "${data.id}" - "${data.title}" has been updated correctly`);
+                if (onSubmit) onSubmit();
+              })
+              .catch((err) => {
+                this.setState({ submitting: false });
+                toastr.error(`There was an error updating the page: ${id}" - "${form.title}`, err);
+              });
+          // Create page
+          } else {
+            createPage(form, authorization)
+              .then((data) => {
+                toastr.success('Success', `The page ${data.title}" has been created correctly`);
+                if (onSubmit) onSubmit();
+              })
+              .catch((err) => {
+                this.setState({ submitting: false });
+                toastr.error(`There was an error creating the page: ${form.title}`, err);
+              });
+          }
         } else {
-          this.setState({
-            step: this.state.step + 1
-          });
+          this.setState({ step: step + 1 });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
@@ -105,12 +103,12 @@ class PagesForm extends React.Component {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
@@ -129,7 +127,7 @@ class PagesForm extends React.Component {
         }
         default: {
           if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
-              (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+            (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -164,11 +162,5 @@ class PagesForm extends React.Component {
     );
   }
 }
-
-PagesForm.propTypes = {
-  authorization: PropTypes.string,
-  id: PropTypes.string,
-  onSubmit: PropTypes.func
-};
 
 export default PagesForm;
