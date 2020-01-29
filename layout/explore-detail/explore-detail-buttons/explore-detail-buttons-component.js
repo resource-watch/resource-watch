@@ -107,7 +107,7 @@ class ExploreDetailButtons extends PureComponent {
                 }}
               >
                 <a className="c-button -primary">
-                  Open in map 1
+                  Open in map
                 </a>
               </Link>
             </div>
