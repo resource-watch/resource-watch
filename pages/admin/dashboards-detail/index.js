@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
+import { connect } from 'react-redux';
 
 // services
 import { fetchDashboard } from 'services/dashboard';
@@ -11,6 +12,9 @@ import Layout from 'layout/layout/layout-admin';
 import DashboardsTab from 'components/admin/dashboards/DashboardsTab';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
+
+// TEMPORARY! SHOULD BE REMOVED IN THE FUTURE
+import { getPublishedTopics } from 'modules/topics/actions';
 
 // Utils
 import { capitalizeFirstLetter } from 'utils/utils';
@@ -25,6 +29,9 @@ class AdminDashboardsDetailPage extends PureComponent {
 
   componentDidMount() {
     const { id } = this.state;
+
+    // TEMPORARY! SHOULD BE REMOVED IN THE FUTURE
+    this.props.getPublishedTopics();
 
     if (id === 'new') return;
 
@@ -96,4 +103,4 @@ class AdminDashboardsDetailPage extends PureComponent {
   }
 }
 
-export default AdminDashboardsDetailPage;
+export default connect(null, { getPublishedTopics })(AdminDashboardsDetailPage);
