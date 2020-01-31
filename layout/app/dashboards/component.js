@@ -75,31 +75,33 @@ class DashboardsLayout extends PureComponent {
             </div>
           </div>
         </div>
-        <div id="dashboardsGallery" className="l-section -small">
-          <div className="l-container">
-            <div className="row">
-              <div className="column small-12">
-                <div className="c-dashboards-subheader-block">
-                  <h2>Dashboard gallery</h2>
-                  <p>
-                    Browse collections of data and visualizations
-                    developed by the Resource Watch team and partners
-                  </p>
+        {dashHighlighted.length > 0 &&
+          <div id="dashboardsGallery" className="l-section -small">
+            <div className="l-container">
+              <div className="row">
+                <div className="column small-12">
+                  <div className="c-dashboards-subheader-block">
+                    <h2>Dashboard gallery</h2>
+                    <p>
+                      Browse collections of data and visualizations
+                      developed by the Resource Watch team and partners
+                    </p>
+                  </div>
+                  <DashboardThumbnailList
+                    onSelect={({ slug }) => {
+                      Router.pushRoute('dashboards_detail', { slug })
+                        .then(() => {
+                          window.scrollTo(0, 0);
+                        });
+                    }}
+                    dashboards={dashHighlighted}
+                    user
+                  />
                 </div>
-                <DashboardThumbnailList
-                  onSelect={({ slug }) => {
-                    Router.pushRoute('dashboards_detail', { slug })
-                      .then(() => {
-                        window.scrollTo(0, 0);
-                      });
-                  }}
-                  dashboards={dashHighlighted}
-                  user
-                />
               </div>
             </div>
           </div>
-        </div>
+        }
         <aside className="l-postcontent">
           <div className="l-container">
             <div className="row align-center">
