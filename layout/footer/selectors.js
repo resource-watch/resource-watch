@@ -9,18 +9,11 @@ const getPartners = state => state.partners.published.list;
 const getFeaturedDashboards = state => state.dashboards.featured.list;
 
 // generate dashboards footer links + add more link to featured dashboard
-const setDashboardsLinks = (_dashboards) => {
-  const dashLinks = _dashboards.map(_dashboard => ({
-    label: _dashboard.name,
-    route: 'dashboards_detail',
-    params: { slug: _dashboard.slug }
-  }));
-  dashLinks.push({
-    label: 'More',
-    route: '/dashboards#dashboardsGallery'
-  });
-  return dashLinks;
-};
+const setDashboardsLinks = _dashboards => _dashboards.map(_dashboard => ({
+  label: _dashboard.name,
+  route: 'dashboards_detail',
+  params: { slug: _dashboard.slug }
+}));
 
 export const getFeaturedPartners = createSelector(
   [getPartners],
