@@ -114,6 +114,14 @@ app.prepare().then(() => {
   // Redirecting data to data/explore
   server.get('/data', (req, res) => res.redirect('/data/explore'));
 
+  // Redirecting 'topics' to 'dashboards'
+  server.get('/topics', (req, res) => res.redirect('/dashboards'));
+  // Redirecting specific 'topic' pages to new 'dashboard' pages
+  server.get('/topics/:id', (req, res) => {
+    const { id } = req.params;
+    res.redirect(`/dashboards/${id}`);
+  });
+
   // Authentication
   server.get(
     '/auth',
