@@ -31,7 +31,7 @@ class AdminPartnersTable extends PureComponent {
 
   state = { pagination: INITIAL_PAGINATION }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { list: partners } = this.props;
     const { list: nextPartners } = nextProps;
     const { pagination } = this.state;
@@ -41,7 +41,7 @@ class AdminPartnersTable extends PureComponent {
       pagination: {
         ...pagination,
         size: nextPartners.length,
-        ...partnersChanged && { page: 1 },
+        ...(partnersChanged && { page: 1 }),
         pages: Math.ceil(nextPartners.length / pagination.limit)
       }
     });

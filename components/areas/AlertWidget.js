@@ -88,7 +88,7 @@ class AlertWidget extends React.Component {
       });
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     if ((nextProps.subscriptionData !== this.state.subscriptionData) && !this.state.alertTable) {
       this.getAlertHistory(nextProps).then(table => this.setState({ alertTable: table }));
     }

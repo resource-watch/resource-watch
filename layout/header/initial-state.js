@@ -3,7 +3,7 @@ export default {
     data: false,
     about: false,
     myrw: false,
-    topics: false,
+    dashboards: false,
     get_involved: false
   },
   mobileOpened: false,

@@ -16,7 +16,7 @@ export const FULLSCREEN_PAGES = [
   '/sign-in'
 ];
 
-export const PAGES_WITHOUT_TOPICS = [
+export const PAGES_WITHOUT_DASHBOARDS = [
   '/admin',
   '/embed'
 ];
@@ -34,7 +34,7 @@ export const CESIUM_ROUTES = [
 export default {
   TRANSIFEX_BLACKLIST,
   FULLSCREEN_PAGES,
-  PAGES_WITHOUT_TOPICS,
+  PAGES_WITHOUT_DASHBOARDS,
   PAGES_WITH_USER_COLLECTIONS,
   CESIUM_ROUTES
 };

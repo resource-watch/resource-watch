@@ -16,7 +16,7 @@ export default class CheckboxGroup extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.selected, this.props.selected)) {
       this.setState({
         checked: nextProps.selected

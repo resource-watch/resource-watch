@@ -46,7 +46,7 @@ class Step1 extends Component {
     loadingVegaChart: false
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       form: {
         ...nextProps.form,

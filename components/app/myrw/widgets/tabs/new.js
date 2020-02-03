@@ -59,7 +59,7 @@ class WidgetsNew extends React.Component {
     widget: {}
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadDatasets();
   }
 

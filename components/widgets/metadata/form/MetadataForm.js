@@ -36,7 +36,7 @@ class MetadataForm extends React.Component {
     dataset: null
   });
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { widget } = this.props;
     if (widget) {
       fetchWidget(widget, { includes: 'metadata' })

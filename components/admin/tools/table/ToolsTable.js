@@ -44,7 +44,7 @@ class ToolsTable extends PureComponent {
     this.props.getTools();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { filteredTools: tools } = this.props;
     const { filteredTools: nextTools } = nextProps;
     const { pagination } = this.state;
@@ -54,7 +54,7 @@ class ToolsTable extends PureComponent {
       pagination: {
         ...pagination,
         size: nextTools.length,
-        ...toolsChanged && { page: 1 },
+        ...(toolsChanged && { page: 1 }),
         pages: Math.ceil(nextTools.length / pagination.limit)
       }
     });

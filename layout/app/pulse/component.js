@@ -20,6 +20,7 @@ import LayerCard from 'layout/app/pulse/layer-card';
 import Spinner from 'components/ui/Spinner';
 import GlobeTooltip from 'layout/app/pulse/globe-tooltip';
 import GlobeCesium from 'components/vis/globe-cesium';
+import WelcomeModal from 'layout/app/pulse/welcome-modal';
 
 // utils
 import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
@@ -71,16 +72,14 @@ class LayoutPulse extends PureComponent {
     document.addEventListener('click', this.handleMouseClick);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { layerActive } = this.props.layerMenuPulse;
     const nextLayerActive = nextProps.layerMenuPulse.layerActive;
     const lastId = (layerActive) ? layerActive.id : null;
     const newId = (nextLayerActive) ? nextLayerActive.id : null;
     if (lastId !== newId) {
       if (nextLayerActive) {
-        this.setState({
-          interactionConfig: nextLayerActive.attributes.interactionConfig
-        });
+        this.setState({ interactionConfig: nextLayerActive.attributes.interactionConfig });
 
         if (nextLayerActive.threedimensional) {
           const url = nextLayerActive.attributes.layerConfig.pulseConfig.url;
@@ -232,13 +231,14 @@ class LayoutPulse extends PureComponent {
 
     return (
       <Layout
-        title="Planet Pulse — Resource Watch"
-        description="Planet Pulse provides a snapshot of our changing world."
+        title="Near Real-Time Data — Resource Watch"
+        description="Near Real-Time Data provides a snapshot of our changing world."
         className="l-pulse"
       >
         <div
           className="pulse-container -dark"
         >
+          <WelcomeModal />
           <Spinner
             isLoading={
               pulse.loading ||

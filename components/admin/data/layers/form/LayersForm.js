@@ -7,7 +7,12 @@ import { connect } from 'react-redux';
 
 // Services
 import { fetchDatasets } from 'services/dataset';
-import LayersService, { fetchLayer, deleteLayer } from 'services/layer';
+import {
+  fetchLayer,
+  deleteLayer,
+  createLayer,
+  updateLayer
+} from 'services/layer';
 import { toastr } from 'react-redux-toastr';
 
 import { setLayerInteractionError } from 'components/admin/data/layers/form/layer-preview/actions';
@@ -29,7 +34,6 @@ class LayersForm extends PureComponent {
     authorization: PropTypes.string.isRequired,
     application: PropTypes.array.isRequired,
     onSubmit: PropTypes.func,
-    locale: PropTypes.string.isRequired,
     interactions: PropTypes.object.isRequired,
     adminLayerPreview: PropTypes.object.isRequired,
     newState: PropTypes.bool.isRequired,
@@ -57,12 +61,6 @@ class LayersForm extends PureComponent {
       datasets: [],
       form: formObj,
       loading: !!props.id
-    });
-
-    // services
-    this.layerService = new LayersService({
-      authorization: props.authorization,
-      language: props.locale
     });
 
     this.layerManager = new LayerManager(null, {
@@ -249,24 +247,29 @@ class LayersForm extends PureComponent {
 
   saveLayer(form) {
     const { id, dataset } = this.state;
-    const { onSubmit } = this.props;
-    this.layerService.saveData({
-      dataset,
-      id: id || '',
-      type: (id) ? 'PATCH' : 'POST',
-      body: form
-    }).then((data) => {
-      toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been uploaded correctly`);
-      if (onSubmit) onSubmit(data.id, dataset);
-      this.setState({ submitting: false, form: data });
-    }).catch((errors) => {
-      this.setState({ submitting: false });
-      try {
-        errors.forEach(er => toastr.error('Error', er.detail));
-      } catch (e) {
-        toastr.error('Error', 'Oops! There was an error, try again.');
-      }
-    });
+    const { onSubmit, authorization } = this.props;
+
+    if (id) {
+      updateLayer(form, dataset, authorization)
+        .then((data) => {
+          toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been updated correctly`);
+          if (onSubmit) onSubmit(data.id, dataset);
+          this.setState({ submitting: false, form: data });
+        }).catch((error) => {
+          this.setState({ submitting: false });
+          toastr.error('Error updating layer', error);
+        });
+    } else {
+      createLayer(form, dataset, authorization)
+        .then((data) => {
+          toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been created correctly`);
+          if (onSubmit) onSubmit(data.id, dataset);
+          this.setState({ submitting: false, form: data });
+        }).catch((error) => {
+          this.setState({ submitting: false });
+          toastr.error('Error creating layer', error);
+        });
+    }
   }
 
   render() {

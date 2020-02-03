@@ -53,7 +53,7 @@ class ExploreDetailPage extends PureComponent {
       dispatch(actions.setPartner(null));
     }
 
-    return { ...res && { statusCode: res.statusCode } };
+    return { ...(res && { statusCode: res.statusCode }) };
   }
 
   componentDidMount() {
@@ -64,7 +64,7 @@ class ExploreDetailPage extends PureComponent {
     this.props.setCountView();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.routes.query.id !== nextProps.routes.query.id) {
       window.scrollTo(0, 0);
       this.props.fetchTags();

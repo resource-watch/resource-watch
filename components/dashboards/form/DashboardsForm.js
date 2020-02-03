@@ -119,7 +119,12 @@ class DashboardsForm extends PureComponent {
   onStepChange = (step) => { this.setState({ step }); }
 
   onCancel = () => {
-    Router.pushRoute('myrw_detail', { tab: 'dashboards', id: 'new' });
+    const { basic } = this.props;
+    if (basic) {
+      Router.pushRoute('myrw', { tab: 'dashboards' });
+    } else {
+      Router.pushRoute('admin_dashboards');
+    }
   }
 
   // HELPERS

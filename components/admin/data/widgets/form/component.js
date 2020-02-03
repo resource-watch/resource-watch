@@ -53,7 +53,7 @@ class WidgetForm extends PureComponent {
     mode: 'editor'
   });
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { locale } = this.props;
     const { id } = this.state;
 

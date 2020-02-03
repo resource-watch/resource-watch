@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import HeaderTopics from './import-selector';
-
-
 // constants
 import { TEMPLATES } from './constants';
 
@@ -38,7 +35,7 @@ class TemplateSelector extends PureComponent {
               {TEMPLATES.map(_template => (
                 <li
                   key={_template.value}
-                  className='template-list-item'
+                  className="template-list-item"
                   onClick={() => this.onChangeTemplate(_template.value)}
                 >
                   <h4 className="template-name">{_template.label}</h4>
@@ -46,8 +43,6 @@ class TemplateSelector extends PureComponent {
                 </li>
 
               ))}
-              <HeaderTopics />
-
             </ul>
           </div>
         </div>
