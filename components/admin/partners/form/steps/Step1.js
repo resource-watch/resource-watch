@@ -22,7 +22,7 @@ class Step1 extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ form: nextProps.form });
   }
 

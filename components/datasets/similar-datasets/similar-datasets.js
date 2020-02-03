@@ -19,7 +19,7 @@ class SimilarDatasetsContainer extends Component {
     this.props.getSimilarDatasets(this.props.datasetIds);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.datasetIds !== nextProps.datasetIds) {
       this.props.getSimilarDatasets(nextProps.datasetIds);
     }

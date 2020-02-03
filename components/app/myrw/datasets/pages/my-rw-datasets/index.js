@@ -14,7 +14,7 @@ class MyRWDatasetsMyContainer extends PureComponent {
     setPaginationPage: PropTypes.func
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { subtab } = this.props;
 
     if (subtab !== nextProps.subtab) {

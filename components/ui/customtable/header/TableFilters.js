@@ -43,7 +43,7 @@ export default class TableFilters extends React.Component {
   }
 
   /* Component lifecycle */
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const selected = (nextProps.selected) ? nextProps.selected : nextProps.values;
     this.setState({
       selected,

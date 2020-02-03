@@ -42,7 +42,7 @@ class DatasetSubscriptionModalContainer extends Component {
     clearLocalSubscriptions: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       activeDataset,
       setUserSelection,
@@ -71,9 +71,8 @@ class DatasetSubscriptionModalContainer extends Component {
             .map((val, index) => ({
               label: val,
               value: val,
-              ...(dataset.subscribable || dataset.attributes.subscribable)[val] &&
-                { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery },
-              ...index === 0 && { selected: true }
+              ...((dataset.subscribable || dataset.attributes.subscribable)[val] && { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery }),
+              ...(index === 0 && { selected: true })
             })), 'label'),
           threshold: 1
         }))
@@ -81,7 +80,7 @@ class DatasetSubscriptionModalContainer extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { subscriptions, setUserSelection, activeArea } = this.props;
     const { subscriptions: nextSubscriptions, activeArea: nextActiveArea } = nextProps;
     const subscriptionsChanged = !isEqual(subscriptions, nextSubscriptions);
@@ -104,7 +103,7 @@ class DatasetSubscriptionModalContainer extends Component {
               .map(val => ({
                 label: val,
                 value: val,
-                ...subscriptionTypes.includes(val) && { selected: true }
+                ...(subscriptionTypes.includes(val) && { selected: true })
               })), 'label'),
             threshold: activeArea.subscription.attributes.datasetsQuery[index].threshold
           }))
@@ -136,9 +135,8 @@ class DatasetSubscriptionModalContainer extends Component {
             .map((val, index) => ({
               label: val,
               value: val,
-              ...(dataset.subscribable || dataset.attributes.subscribable)[val] &&
-                { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery },
-              ...index === 0 && { selected: true }
+              ...((dataset.subscribable || dataset.attributes.subscribable)[val] && { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery }),
+              ...(index === 0 && { selected: true })
             })), 'label'),
           threshold: 1
         }))

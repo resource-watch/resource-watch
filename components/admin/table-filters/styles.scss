@@ -1,0 +1,17 @@
+@import 'css/settings';
+
+.c-filters {
+  display: flex;
+
+  .c-radio-box {
+    display: flex;
+    .c-radio:not(:last-child) {
+      margin-right: $space * 3;
+    }
+    input[type=radio]:checked {
+      + label {
+        color: $sea-blue;
+      }
+    }
+  }
+}

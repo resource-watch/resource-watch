@@ -49,7 +49,7 @@ class Step1 extends PureComponent {
     activeSubscriptionModal: null
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ form: nextProps.form });
   }
 

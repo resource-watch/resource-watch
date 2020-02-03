@@ -70,7 +70,7 @@ class AreaCard extends React.Component {
     }
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { area: { geostore: geostoreId, name } } = this.props;
 
     fetchGeostore(geostoreId)
@@ -151,7 +151,7 @@ class AreaCard extends React.Component {
               <Map
                 mapConfig={{
                   ...MAP_CONFIG,
-                  ...bbox && { bbox }
+                  ...(bbox && { bbox })
                 }}
                 LayerManager={LayerManager}
                 layerGroups={[{

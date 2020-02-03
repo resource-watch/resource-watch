@@ -21,7 +21,7 @@ class Paginator extends PureComponent {
     this.triggerChangePage = this.triggerChangePage.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       size: nextProps.options.size,
       page: nextProps.options.page,

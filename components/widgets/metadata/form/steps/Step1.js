@@ -27,7 +27,7 @@ class Step1 extends React.Component {
     // ---------------------------------------------------------------
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       widgetLinksSelected: nextProps.form.info.widgetLinks &&
         nextProps.form.info.widgetLinks.length > 0,

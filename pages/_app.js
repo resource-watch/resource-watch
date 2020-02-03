@@ -15,7 +15,7 @@ import {
   getUserCollections
 } from 'redactions/user';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { getPublishedTopics } from 'modules/topics/actions';
+import { getFeaturedDashboards } from 'modules/dashboards/actions';
 import { getPublishedPartners } from 'modules/partners/actions';
 import { setHostname } from 'redactions/common';
 
@@ -24,7 +24,7 @@ import { containsString } from 'utils/string';
 
 // constants
 import {
-  PAGES_WITHOUT_TOPICS,
+  PAGES_WITHOUT_DASHBOARDS,
   PAGES_WITH_USER_COLLECTIONS,
   FULLSCREEN_PAGES
 } from 'constants/app';
@@ -61,9 +61,10 @@ class RWApp extends App {
       }
     }
 
-    // fetches published topics to populate topics menu in the app header
-    if (!containsString(pathname, PAGES_WITHOUT_TOPICS)) await store.dispatch(getPublishedTopics());
-
+    // fetches published featured dashboards to populate dashboars menu in the app header and footer
+    if (!containsString(pathname, PAGES_WITHOUT_DASHBOARDS)) {
+      await store.dispatch(getFeaturedDashboards());
+    }
     // fetches partners for footer
     if (!containsString(pathname, FULLSCREEN_PAGES)) await store.dispatch(getPublishedPartners());
 

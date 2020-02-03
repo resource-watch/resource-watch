@@ -52,7 +52,7 @@ class Step1 extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ form: nextProps.form });
   }
 
@@ -195,6 +195,42 @@ class Step1 extends PureComponent {
                 title: 'Production',
                 defaultChecked: this.props.form.production,
                 checked: this.props.form.production
+              }}
+            >
+              {Checkbox}
+            </Field>
+          }
+
+          {/* IS-HIGHLIGHTED */}
+          {!this.props.basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements['is-highlighted'] = c; }}
+              onChange={value => this.props.onChange({ 'is-highlighted': value.checked })}
+              properties={{
+                name: 'is-highlighted',
+                label: 'Highlight in Dashboards gallery',
+                value: 'is-highlighted',
+                title: 'Is highlighted',
+                defaultChecked: this.props.form['is-highlighted'],
+                checked: this.props.form['is-highlighted']
+              }}
+            >
+              {Checkbox}
+            </Field>
+          }
+
+          {/* IS-FEATURED */}
+          {!this.props.basic &&
+            <Field
+              ref={(c) => { if (c) FORM_ELEMENTS.elements['is-featured'] = c; }}
+              onChange={value => this.props.onChange({ 'is-featured': value.checked })}
+              properties={{
+                name: 'is-featured',
+                label: 'Add to Featured dashboards',
+                value: 'is-featured',
+                title: 'Featured',
+                defaultChecked: this.props.form['is-featured'],
+                checked: this.props.form['is-featured']
               }}
             >
               {Checkbox}

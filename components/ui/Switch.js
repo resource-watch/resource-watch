@@ -25,7 +25,7 @@ class Switch extends React.Component {
     this.onToggle = this.onToggle.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       active: nextProps.active
     });

@@ -24,7 +24,7 @@ class LayoutAdminPartnersDetail extends PureComponent {
 
   state = { data: null }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { query: { id } } = this.props;
 
     if (id === 'new') return;

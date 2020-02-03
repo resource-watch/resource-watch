@@ -27,7 +27,7 @@ export default class SearchSelect extends React.Component {
     this.resetSelectedIndex = this.resetSelectedIndex.bind(this);
   }
 
-  componentWillReceiveProps({ options, value }) {
+  UNSAFE_componentWillReceiveProps({ options, value }) {
     if (!isEqual(this.props.options, options)) {
       this.setState({
         filteredOptions: options,

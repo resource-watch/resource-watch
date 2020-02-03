@@ -230,7 +230,7 @@ class Map extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // LAYER GROUPS
     const oldlayerGroups = this.props.layerGroups;
     const nextLayerGroups = nextProps.layerGroups;
@@ -374,13 +374,9 @@ class Map extends React.Component {
       nextProps.interactionLatLng &&
       (
         // interactionSelected changed
-        (this.props.interactionSelected !== nextProps.interactionSelected) ||
-
-        // interaction changed
-        (
-          !isEmpty(nextProps.interaction) &&
-          !isEqual(this.props.interaction, nextProps.interaction)
-        )
+        (// interaction changed
+        this.props.interactionSelected !== nextProps.interactionSelected || !isEmpty(nextProps.interaction) &&
+        !isEqual(this.props.interaction, nextProps.interaction))
       )
     ) {
       const popupContainer = document.createElement('div');

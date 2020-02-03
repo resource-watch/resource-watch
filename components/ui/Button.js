@@ -24,7 +24,7 @@ class Button extends React.Component {
     this.triggerMouseOut = this.triggerMouseOut.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       className: nextProps.className
     });

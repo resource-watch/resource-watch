@@ -30,7 +30,7 @@ class AdminDashboardsPage extends PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { url } = nextProps;
 
     this.setState({

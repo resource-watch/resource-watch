@@ -1,9 +1,12 @@
 import { connect } from 'react-redux';
 
-// component
-import LayoutDashboards from './component';
+import DashboardsLayout from './component';
 
 export default connect(
-  state => ({ dashboards: state.dashboards.published.list }),
+  state => ({
+    data: state.staticPages.dashboards,
+    dashHighlighted: state.dashboards.highlighted.list,
+    dashFeatured: state.dashboards.featured.list
+  }),
   null
-)(LayoutDashboards);
+)(DashboardsLayout);
