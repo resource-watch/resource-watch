@@ -111,7 +111,6 @@ class DashboardsTable extends PureComponent {
           size,
           pages
         };
-
         this.setState({
           loading: false,
           dashboards: dashboards.map(_dashboard => ({
