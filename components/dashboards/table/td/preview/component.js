@@ -12,8 +12,8 @@ class PreviewTD extends PureComponent {
 
     return (
       <td key={index}>
-        <a target="_blank" rel="noopener noreferrer" href={`/data/dashboards/${value}`}>
-          {`${window.location.origin}/data/dashboards/${value}`}
+        <a target="_blank" rel="noopener noreferrer" href={`/dashboards/${value}`}>
+          {`${window.location.origin}/dashboards/${value}`}
         </a>
       </td>
     );
