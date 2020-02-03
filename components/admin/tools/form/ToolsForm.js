@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Serializer } from 'jsonapi-serializer';
 
 // Services
 import { fetchTool, updateTool, createTool } from 'services/tools';
@@ -14,6 +13,14 @@ import Step1 from 'components/admin/tools/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class ToolsForm extends React.Component {
+  static propTypes = {
+    authorization: PropTypes.string.isRequired,
+    id: PropTypes.string,
+    onSubmit: PropTypes.func.isRequired
+  };
+
+  static defaultProps = { id: null };
+
   state = Object.assign({}, STATE_DEFAULT, {
     id: this.props.id,
     loading: !!this.props.id,
@@ -46,19 +53,21 @@ class ToolsForm extends React.Component {
    * - onStepChange
   */
   onSubmit = (event) => {
+    const { step, submitting, stepLength, form } = this.state;
+    const { authorization } = this.props;
     event.preventDefault();
 
     // Validate the form
-    FORM_ELEMENTS.validate(this.state.step);
+    FORM_ELEMENTS.validate(step);
 
     // Set a timeout due to the setState function of react
     setTimeout(() => {
       // Validate all the inputs on the current step
-      const valid = FORM_ELEMENTS.isValid(this.state.step);
+      const valid = FORM_ELEMENTS.isValid(step);
 
       if (valid) {
         // if we are in the last step we will submit the form
-        if (this.state.step === this.state.stepLength && !this.state.submitting) {
+        if (step === stepLength && !submitting) {
           const { id } = this.state;
 
           // Start the submitting
@@ -66,34 +75,30 @@ class ToolsForm extends React.Component {
 
           // updateTool
           if (id) {
-          //   this.service.saveData({
-          //     id: id || '',
-          //     type: (id) ? 'PATCH' : 'POST',
-          //     body: new Serializer('tool', {
-          //       keyForAttribute: 'dash-case',
-          //       attributes: Object.keys(this.state.form)
-          //     }).serialize(this.state.form)
-          //   })
-          //     .then((data) => {
-          //       toastr.success('Success', `The tool "${data.id}" - "${data.title}" has been uploaded correctly`);
-  
-          //       if (this.props.onSubmit) this.props.onSubmit();
-          //     })
-          //     .catch((err) => {
-          //       this.setState({ submitting: false });
-          //       toastr.error('Error', 'Oops! There was an error, try again', err);
-          //     });
-          // }
-          // createTool 
-          else {
-          
-
+            updateTool(form, authorization)
+              .then((data) => {
+                toastr.success('Success', `The tool "${data.id}" - "${data.title}" has been updated successfully`);
+                if (this.props.onSubmit) this.props.onSubmit();
+              })
+              .catch((err) => {
+                this.setState({ submitting: false });
+                toastr.error(`Error updating the tool: ${id}`, err);
+              });
           }
-         
+          // createTool
+          else {
+            createTool(form, authorization)
+              .then((data) => {
+                toastr.success('Success', `The tool "${data.id}" - "${data.title}" has been created successfully`);
+                if (this.props.onSubmit) this.props.onSubmit();
+              })
+              .catch((err) => {
+                this.setState({ submitting: false });
+                toastr.error('Error creating the tool', err);
+              });
+          }
         } else {
-          this.setState({
-            step: this.state.step + 1
-          });
+          this.setState({ step: this.state.step + 1 });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
@@ -160,11 +165,5 @@ class ToolsForm extends React.Component {
     );
   }
 }
-
-ToolsForm.propTypes = {
-  authorization: PropTypes.string,
-  id: PropTypes.string,
-  onSubmit: PropTypes.func
-};
 
 export default ToolsForm;
