@@ -2,6 +2,7 @@ import WRISerializer from 'wri-json-api-serializer';
 
 // utils
 import { WRIAPI } from 'utils/axios';
+import { logger } from 'utils/logs';
 
 import 'isomorphic-fetch';
 import { get, post, remove } from 'utils/request';
@@ -9,6 +10,84 @@ import { get, post, remove } from 'utils/request';
 import { Deserializer } from 'jsonapi-serializer';
 
 // API docs: TBD
+
+export const fetchData = (id, token, headers = {}) => {
+  logger.info('Fetch data');
+  return WRIAPI.get(
+    `partner/${id}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
+    {
+      headers: {
+        ...headers,
+        Authorization: token
+      },
+      params: {}
+    }
+  )
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching partners: ${status}: ${statusText}`);
+      throw new Error(`Error fetching partners: ${status}: ${statusText}`);
+    });
+};
+
+export const updateData = (id, body, token) => {
+  logger.info('Update data');
+  return WRIAPI.patch(`partner/${id}`,
+    {
+      data: {
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV,
+        attributes: { ...body }
+      }
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error Update data partner ${status}: ${statusText}`);
+      throw new Error(`Error Update data partner ${status}: ${statusText}`);
+    });
+};
+
+export const createData = (id, body, token) => {
+  logger.info('Create data');
+  return WRIAPI.post(`partner/${id}`,
+    {
+      data: {
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV,
+        attributes: { ...body }
+      }
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error Create data partner ${status}: ${statusText}`);
+      throw new Error(`Error Create data partner ${status}: ${statusText}`);
+    });
+};
+
+export const deleteData = (id, token, headers = {}) => {
+  logger.info('Fetch data');
+  return WRIAPI.delete(
+    `partner/${id}`,
+    {
+      headers: {
+        ...headers,
+        Authorization: token
+      },
+      params: {}
+    }
+  )
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error delete partners: ${status}: ${statusText}`);
+      throw new Error(`Error delete partners: ${status}: ${statusText}`);
+    });
+};
 
 export default class PartnersService {
   constructor(options = {}) {
