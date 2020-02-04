@@ -19,7 +19,7 @@ class ImportSelector extends PureComponent {
 
     toastr.confirm('Are you sure you want to clone this dashboard?', {
       onOk: () => {
-        cloneDashboard(id, token)
+        cloneDashboard(id, token, 'dashboards')
           .then((dashboard) => {
             const { id: dashboardId } = dashboard;
             window.open(`/myrw-detail/dashboards/${dashboardId}`, '_blank');
