@@ -1,46 +1,131 @@
 @import 'css/settings';
 
-// TO-DO: make responsive for real
-.c-dashboard-thumbnail-list {
+.c-dashboards-thumbnail-list {
   display: flex;
   flex-wrap: wrap;
+  margin: 0;
+  padding: $space * 9 0 0 0;
+  list-style: none;
 
-  > li {
+  .thumbnail-list-item {
     position: relative;
-    margin: 0 20px 20px 0;
-    flex-basis: calc((100% - 5 * 20px) / 6);
-    height: 135px;
+    height: 200px;
     border-radius: 4px;
-    background-color: $color-dark-grey;
+    background-color: $blue-grey;
     background-size: cover;
     background-position: center center;
     outline: none;
+    padding: 0;
+    transition: all $animation-time-2 $ease-in-out-sine;
 
     &:nth-of-type(6n) {
       margin-right: 0;
     }
 
-    > a {
+    .content {
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      justify-content: flex-start;
+      align-items: flex-end;
       width: 100%;
       height: 100%;
-      padding: 15px 20px;
-      border: 1px solid transparent;
+      font-size: $font-size-extra-big;
+      font-weight: $font-weight-bold;
+      color: $white;
       border-radius: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
 
-      > span {
-        font-size: $font-size-extra-big;
-        font-weight: $font-weight-bold;
-        line-height: 1.2;
-        color: $color-white;
+      .text {
+        width: 100%;
+        min-height: 75px;
+        background-color: $white;
+
+
+        .dashboard-title {
+          color: #393F44;
+          font-family: $body-font-family;
+          font-size: 16px;
+          font-weight: bold;
+          line-height: 20px;
+          text-align: left;
+          padding: $space * 3 $space * 3 $space * 2 $space * 3;
+          margin: 0;
+        }
+
+        .dashboard-author {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          padding: 0 $space * 3 $space * 2 $space * 3;
+
+          .image {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: contain;
+          }
+
+          .name {
+            color: #717171;
+            font-family: $body-font-family;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            padding-left: 9px;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      box-shadow: 0 20px 30px rgba($black, .2);
+      transform: translateY(-4px);
+      transition: all $animation-time-2 $ease-in-out-sine;
+      cursor: pointer;
+    }
+
+    &.-active {
+      box-shadow: none;
+
+      .content {
+        cursor: auto;
+      }
+    }
+
+    &.-toggle {
+      background-color: $white;
+      box-shadow: 0 0 0 1px $dark-pink;
+
+      .content {
+        color: $dark-pink;
       }
 
       &:hover {
-        background-color: rgba($color-secondary, .25);
-        box-shadow: 0 0 0 1px $color-secondary;
-        text-decoration: none;
+        background-color: white;
+        box-shadow: 0 0 0 1px $dark-pink;
+
+        .content {
+          background-color: rgba($dark-pink, .25);
+        }
+      }
+    }
+
+
+    &.no-user {
+      .content {
+        .text {
+          min-height: auto;
+          background-color: transparent;
+          .dashboard-title {
+            font-size: $font-size-extra-big;
+            font-weight: $font-weight-bold;
+            color: $white;
+          }
+          .dashboard-author {
+            display: none;
+          }
+        }
       }
     }
   }

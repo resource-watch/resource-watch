@@ -4,6 +4,9 @@ import { localAPI, controlTowerAPI } from 'utils/axios';
 
 /**
  * Logs in a user based on the email + password combination
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#login-email-password|here}
+ * @param {Object} options
+ * @returns {Object}
  */
 export const loginUser = ({ email, password }) => {
   logger.info('Login user');
@@ -15,6 +18,9 @@ export const loginUser = ({ email, password }) => {
 /**
  * This function sends a request to reset the user's password.
  * It generates a token to be used in resetPassword
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#password-recovery|here}
+ * @param {Object} options
+ * @returns {Object}
  */
 export const forgotPassword = ({ email }) => {
   logger.info('Forgot password');
@@ -33,6 +39,9 @@ export const forgotPassword = ({ email }) => {
 
 /**
  * Register a new user based on the email + password combination
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#registration|here}
+ * @param {Object} options
+ * @returns {Object}
  */
 export const registerUser = ({ email, password, repeatPassword }) => {
   logger.info('Register user');
@@ -59,6 +68,9 @@ export const registerUser = ({ email, password, repeatPassword }) => {
  * Needs the token hosted in the email sent in forgotPassword
  * NOTE:this is NOT implemented in the API to be done from the app.
  * right now the only way it's through the email link pointing to Control Tower.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#password-recovery|here}
+ * @param {Object} options
+ * @returns {Object}
  */
 export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
   logger.info('Reset password');
@@ -75,7 +87,11 @@ export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
     });
 };
 
-
+/**
+ * Upload user photo
+ * @param {Blob} file file data
+ * @param {Object} user
+ */
 export const uploadPhoto = (file, user) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();

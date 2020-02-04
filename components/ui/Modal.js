@@ -31,7 +31,7 @@ export default class Modal extends React.Component {
   }
 
   // Close modal when esc key is pressed
-  componentWillReceiveProps({ open }) {
+  UNSAFE_componentWillReceiveProps({ open }) {
     const self = this;
     function escKeyPressListener(evt) {
       document.removeEventListener('keydown', escKeyPressListener);
@@ -57,7 +57,7 @@ export default class Modal extends React.Component {
       >
         <div className="modal-container">
           {canClose &&
-            <button className="modal-close" onClick={(e) => e.stopPropagation() || this.props.toggleModal(false)}>
+            <button className="modal-close" onClick={e => e.stopPropagation() || this.props.toggleModal(false)}>
               <Icon name="icon-cross" className="-small" />
             </button>
           }
@@ -68,7 +68,7 @@ export default class Modal extends React.Component {
         </div>
         <div
           className="modal-backdrop"
-          onClick={(e) => e.stopPropagation() ||  this.props.toggleModal(false)}
+          onClick={e => e.stopPropagation() || this.props.toggleModal(false)}
         />
       </section>
     );

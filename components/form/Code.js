@@ -25,16 +25,14 @@ class Code extends FormElement {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.properties.value) {
       try {
         const stateValueStringify = JSON.stringify(JSON.parse(this.state.value), null, 2);
         const propsValueStringify = JSON.stringify(nextProps.properties.value, null, 2);
 
         if (propsValueStringify !== stateValueStringify) {
-          this.setState({
-            value: propsValueStringify
-          });
+          this.setState({ value: propsValueStringify });
         }
       } catch (e) {
         // do nothing

@@ -1,5 +1,4 @@
-import 'isomorphic-fetch';
-import PagesService from 'services/pages';
+import { fetchPages } from 'services/pages';
 
 /**
  * CONSTANTS
@@ -23,7 +22,6 @@ const initialState = {
   }
 };
 
-const service = new PagesService();
 /**
  * REDUCER
  * @export
@@ -80,7 +78,7 @@ export function getPages() {
   return (dispatch) => {
     dispatch({ type: GET_PAGES_LOADING });
 
-    service.fetchAllData()
+    fetchPages()
       .then((data) => {
         dispatch({ type: GET_PAGES_SUCCESS, payload: data });
       })

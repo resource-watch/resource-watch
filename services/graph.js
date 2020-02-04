@@ -5,9 +5,9 @@ import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 /**
- * Get all tags
- * @param {Object} params Request parameters
- * https://resource-watch.github.io/doc-api/index-rw.html#list-concepts
+ * Get all tags.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#list-concepts|here}
+ * @param {Object} params Request parameters to API.
  */
 export const fetchAllTags = (params = {}) => {
   logger.info('Fetch all tags');
@@ -29,9 +29,9 @@ export const fetchAllTags = (params = {}) => {
 };
 
 /**
- * Get inferred tags
- * @param {Object} params Request parameters
- * https://resource-watch.github.io/doc-api/index-rw.html#get-inferred-concepts
+ * Get inferred tags.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-inferred-concepts|here}
+ * @param {Object} params Request parameters to API.
  */
 export const fetchInferredTags = (params = {}) => {
   logger.info('Fetch inferred tags');
@@ -53,10 +53,11 @@ export const fetchInferredTags = (params = {}) => {
 };
 
 /**
- * Send a request to count a view to the dataset
- * @param {string} datasetId Dataset ID
- * @param {string} [token] User token
- * @returns {Promise<void>}
+ * Send a request to count a view to the dataset.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#count-dataset-view|here}
+ * @param {String} datasetId Dataset ID
+ * @param {String} token User token
+ * @param {Object} params Request parameters to API.
  */
 export const countDatasetView = (datasetId, token, params = {}) => {
   logger.info('Count dataset view');
@@ -78,8 +79,9 @@ export const countDatasetView = (datasetId, token, params = {}) => {
 };
 
 /**
- * Get the list of most viewed datasets
- * @param {Object} params Request parameters
+ * Get the list of most viewed datasets.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#most-viewed-datasets|here}
+ * @param {Object} params Request parameters to API.
  * @returns {Promise<string[]>} List of sorted ids
  */
 export const fetchMostViewedDatasets = (params = {}) => {
@@ -102,9 +104,9 @@ export const fetchMostViewedDatasets = (params = {}) => {
 };
 
 /**
- * Get the list of most favourited datasets
- * @param {Object} params Request parameters
- * https://resource-watch.github.io/doc-api/index-rw.html#most-liked-datasets
+ * Get the list of most favourited datasets.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#most-liked-datasets|here}
+ * @param {Object} params Request parameters to API.
  */
 export const fetchMostFavoritedDatasets = (params = {}) => {
   logger.info('Fetch most favorited datasets');
@@ -126,11 +128,11 @@ export const fetchMostFavoritedDatasets = (params = {}) => {
 };
 
 /**
- * Fetch similar datasets
- * @param {Object} params Request parameters
+ * Fetch similar datasets.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#similar-datasets-including-ancestors|here}
+ * @param {Object} params Request parameters to API.
  * @param {boolean} withAncestors Flag indicating whether tags' ancestors
  * should be considered or not
- * https://resource-watch.github.io/doc-api/index-rw.html#similar-datasets-including-ancestors
  */
 export const fetchSimilarDatasets = (params = {}, withAncestors = true) => {
   logger.info('Fetch similar datasets');

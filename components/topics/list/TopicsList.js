@@ -43,9 +43,7 @@ class TopicsList extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      loading: true
-    };
+    this.state = { loading: true };
 
     this.onSearch = this.onSearch.bind(this);
     this.onDelete = this.onDelete.bind(this);
@@ -55,12 +53,10 @@ class TopicsList extends React.Component {
     const { getTopicsFilters } = this.props;
 
     this.props.setFilters([]);
-    this.props.getTopics({
-      filters: getTopicsFilters
-    });
+    this.props.getTopics({ filters: getTopicsFilters });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.loading !== this.state.loading) {
       this.setState({ loading: nextProps.loading });
     }
@@ -81,16 +77,12 @@ class TopicsList extends React.Component {
   onDelete(topic) {
     toastr.confirm(`Are you sure that you want to delete: "${topic.name}"`, {
       onOk: () => {
-        this.props.deleteTopic({
-          id: topic.id
-        })
+        this.props.deleteTopic({ id: topic.id })
           .then(() => {
             const { getTopicsFilters } = this.props;
 
             this.props.setFilters([]);
-            this.props.getTopics({
-              filters: getTopicsFilters
-            });
+            this.props.getTopics({ filters: getTopicsFilters });
             toastr.success('Success', `The topic "${topic.id}" - "${topic.name}" has been removed correctly`);
           })
           .catch((err) => {
@@ -112,9 +104,7 @@ class TopicsList extends React.Component {
         />
 
         <SearchInput
-          input={{
-            placeholder: 'Search topic'
-          }}
+          input={{ placeholder: 'Search topic' }}
           link={{
             label: 'New topic',
             route: routes.detail,

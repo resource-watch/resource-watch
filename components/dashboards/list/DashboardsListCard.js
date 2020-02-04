@@ -27,7 +27,7 @@ function DashboardsListCard({ dashboard = {}, routes = { index: '', detail: '' }
             <a
               className="c-button -tertiary -compressed"
               target="_blank"
-              href={`/data/dashboards/${dashboard.slug}`}
+              href={`/dashboards/${dashboard.slug}`}
             >
               Preview
             </a>

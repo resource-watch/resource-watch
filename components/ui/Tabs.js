@@ -12,7 +12,7 @@ export default class Tabs extends React.Component {
     this.state = { selected: props.defaultSelected };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { selected } = nextProps;
     this.setState({ selected });
   }

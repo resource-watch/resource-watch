@@ -14,6 +14,9 @@ export const getFilteredDashboards = (dashboards, filters) => { // eslint-disabl
   return dashboards.filter((dashboard) => { // eslint-disable-line arrow-body-style
     return filters.every((filter) => {
       if (filter.key === 'id') return dashboard.id === filter.value;
+      if (filter.key === 'owner') {
+        return dashboard.user && dashboard.user.role === filter.value;
+      }
       if (!dashboard[filter.key]) return false;
 
       if (typeof filter.value === 'string') {

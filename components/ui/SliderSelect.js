@@ -78,7 +78,7 @@ export default class SliderSelect extends React.Component {
     // --------------------------------------------------------
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     // If we get the list of options asynchronously...
     if (newProps.options.length && !this.state.fullList.length) {
       this.setState({

@@ -8,7 +8,7 @@ import YouTube from 'react-youtube';
 // components
 import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
-import TopicThumbnailList from 'components/topics/thumbnail-list';
+import DashboardThumbnailList from 'components/dashboards/thumbnail-list';
 import BlogFeed from 'components/blog/feed';
 import ExploreCards from 'layout/app/home/explore-cards';
 
@@ -26,21 +26,19 @@ import {
 import './styles.scss';
 
 class LayoutHome extends PureComponent {
-  static propTypes = { responsive: PropTypes.object.isRequired }
+  static propTypes = {
+    responsive: PropTypes.object.isRequired,
+    dashFeatured: PropTypes.array
+  }
+
+  static defaultProps = { dashFeatured: [] };
 
   state = { videoReady: false }
 
   onVideoStateChange = ({ data }) => { this.setState({ videoReady: data === 1 }); };
 
-  handleTopicSelection = ({ slug }) => {
-    // TO-DO: we need to make an amendment in the Wysiwyg to have this working
-    Router.pushRoute('topics_detail', { id: slug }).then(() => {
-      window.scrollTo(0, 0);
-    });
-  }
-
   render() {
-    const { responsive: { fakeWidth } } = this.props;
+    const { responsive: { fakeWidth }, dashFeatured } = this.props;
     const { videoReady } = this.state;
     const videoForegroundClass = classnames(
       'video-foreground',
@@ -86,7 +84,7 @@ class LayoutHome extends PureComponent {
           <div className="l-container">
             <header>
               <div className="row">
-                <div className="column small-12 medium-8">
+                <div className="column small-12 medium-6">
                   <h2>Latest stories</h2>
                   <p>Discover data insights on the Resource Watch blog.</p>
                 </div>
@@ -116,21 +114,29 @@ class LayoutHome extends PureComponent {
 
         <section className="l-section -secondary">
           <div className="l-container">
-            <header>
-              <div className="row">
-                <div className="column small-12 medium-8">
-                  <h2>Topics</h2>
-                  <p>
-                    Find facts and figures on people and the environment, <br />
-                    or visualize the latest data on the world today.
-                  </p>
+            <div className="dashboards-container">
+              <header>
+                <div className="row">
+                  <div className="column small-12 medium-6">
+                    <h2>Featured dashboards</h2>
+                    <p>
+                      Discover collections of curated data on the major
+                      challenges facing human society and the planet.
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </header>
-            <div className="topics-container">
+              </header>
               <div className="row">
                 <div className="column small-12">
-                  <TopicThumbnailList onSelect={this.handleTopicSelection} />
+                  <DashboardThumbnailList
+                    onSelect={({ slug }) => {
+                      Router.pushRoute('dashboards_detail', { slug })
+                        .then(() => {
+                          window.scrollTo(0, 0);
+                        });
+                    }}
+                    dashboards={dashFeatured}
+                  />
                 </div>
               </div>
             </div>
@@ -141,11 +147,11 @@ class LayoutHome extends PureComponent {
           <div className="l-container">
             <header>
               <div className="row">
-                <div className="column small-12 medium-8">
+                <div className="column small-12 medium-6">
                   <h2>Dive into the data</h2>
                   <p>
-                    Create overlays, share visualizations, and subscribe to updates on your favorite
-                    issues.
+                    Create overlays, share visualizations, and
+                    subscribe to updates on your favorite issues.
                   </p>
                 </div>
               </div>

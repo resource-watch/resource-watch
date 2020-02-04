@@ -28,7 +28,7 @@ class DatasetManager extends Component {
 
   state = { selectedDatasets: this.props.selectedDatasets };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { selectedDatasets } = this.props;
     const { selectedDatasets: nextSelectedDatasets } = nextProps;
     const selectedDatasetsChanged = !isEqual(selectedDatasets, nextSelectedDatasets);

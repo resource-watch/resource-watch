@@ -34,7 +34,7 @@ class ExploreDetailButtons extends PureComponent {
   */
   getDatasetMetadata() {
     const { dataset } = this.props;
-    return dataset.metadata || {};
+    return (dataset.metadata && dataset.metadata[0]) || {};
   }
 
   getDatasetName() {
@@ -102,7 +102,7 @@ class ExploreDetailButtons extends PureComponent {
                     dataset: dataset.id,
                     opacity: 1,
                     visible: true,
-                    layer: dataset.layer[0].id
+                    layer: dataset.layer.find(l => l.default).id
                   }]))
                 }}
               >

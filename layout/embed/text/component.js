@@ -22,7 +22,7 @@ class LayoutEmbedText extends PureComponent {
 
   state = { isLoading: this.props.loading };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       getWidget,
       routes: { query: { id } }

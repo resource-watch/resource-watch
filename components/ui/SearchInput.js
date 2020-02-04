@@ -29,12 +29,10 @@ class SearchInput extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      value: props.input.value || props.input.defaultValue || undefined
-    };
+    this.state = { value: props.input.value || props.input.defaultValue || undefined };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { input } = nextProps;
 
     if (input.value) {
@@ -43,9 +41,7 @@ class SearchInput extends PureComponent {
   }
 
   onSearch = (e) => {
-    this.setState({
-      value: e.currentTarget.value || ''
-    }, () => {
+    this.setState({ value: e.currentTarget.value || '' }, () => {
       const { value } = this.state;
       if (this.props.escapeText) this.props.onSearch(escapeRegExp(value));
       if (!this.props.escapeText) this.props.onSearch(value);
@@ -74,13 +70,9 @@ class SearchInput extends PureComponent {
     const { link, input, isHeader } = this.props;
     const { onlyDesktop } = link;
 
-    const classNames = classnames({
-      'c-search-input--header': isHeader
-    });
+    const classNames = classnames({ 'c-search-input--header': isHeader });
 
-    const inputClassNames = classnames({
-      'c-search-input--header': isHeader
-    });
+    const inputClassNames = classnames({ 'c-search-input--header': isHeader });
 
     const linkClassNames = classnames({
       '-desktopOnly': onlyDesktop,

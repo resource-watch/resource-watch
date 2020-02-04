@@ -21,7 +21,7 @@ class MyRWDetailPage extends PureComponent {
     return {};
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.getUserAreas();
   }
 

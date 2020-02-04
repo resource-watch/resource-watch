@@ -20,7 +20,7 @@ class Tooltip extends React.Component {
     this.onMouseMove = this.onMouseMove.bind(this);
   }
 
-  componentWillReceiveProps({ tooltip }) {
+  UNSAFE_componentWillReceiveProps({ tooltip }) {
     if (tooltip.follow && tooltip.follow !== this.props.tooltip.follow) {
       document.addEventListener('mousemove', this.onMouseMove);
     }
@@ -130,9 +130,7 @@ class Tooltip extends React.Component {
           // is either displayed above or below the target
           pin: ['left', 'right']
         }]}
-        classes={{
-          element: tooltipClasses
-        }}
+        classes={{ element: tooltipClasses }}
         offset={`${(direction === 'bottom' ? 1 : -1) * 20}px 0`} // The offset is needed for the follow option
       >
         <div
@@ -155,12 +153,8 @@ Tooltip.propTypes = {
   setTooltipPosition: PropTypes.func
 };
 
-const mapStateToProps = ({ tooltip }) => ({
-  tooltip
-});
+const mapStateToProps = ({ tooltip }) => ({ tooltip });
 
-const mapDispatchToProps = {
-  setTooltipPosition
-};
+const mapDispatchToProps = { setTooltipPosition };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tooltip);

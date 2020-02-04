@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import HeaderTopics from './import-selector';
 import HeaderDashboards from './import-dashboard-selector';
 
-
 // constants
 import { TEMPLATES } from './constants';
 
@@ -49,7 +48,6 @@ class TemplateSelector extends PureComponent {
               ))}
               <HeaderTopics />
               <HeaderDashboards />
-
             </ul>
           </div>
         </div>
