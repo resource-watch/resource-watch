@@ -9,17 +9,25 @@ import { cloneDashboard } from 'services/dashboard';
 class ImportSelector extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    dashboards: PropTypes.array.isRequired
+    dashboards: PropTypes.array.isRequired,
+    getFeaturedDashboards: PropTypes.func.isRequired
   };
 
   state = { isOpen: false }
 
+  componentDidMount() {
+    const { dashboards } = this.props;
+    if (!dashboards.length) {
+      this.props.getFeaturedDashboards();
+    }
+  }
+
   onCloneDashboard = ({ id }) => {
-    const { user: { token } } = this.props;
+    const { user } = this.props;
 
     toastr.confirm('Are you sure you want to clone this dashboard?', {
       onOk: () => {
-        cloneDashboard(id, token, 'dashboards')
+        cloneDashboard(id, user, 'dashboards')
           .then((dashboard) => {
             const { id: dashboardId } = dashboard;
             window.open(`/myrw-detail/dashboards/${dashboardId}`, '_blank');

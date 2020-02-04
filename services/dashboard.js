@@ -179,13 +179,15 @@ export const deleteDashboard = (id, token) => {
  * This fetch needs authentication.
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#clone-dashboard|here}
  * @param {String} id - topic ID to be cloned.
- * @param {String} token - user's token.
+ * @param {Object} user - user's token and id.
  * @return {Object} serialized dashboard cloned based on the ID topic.
  */
-export const cloneDashboard = (id, token, type = 'topics') => {
+export const cloneDashboard = (id, user, type = 'topics') => {
   logger.info(`Clones dashboard from topic ${id}`);
+  const { token, id: userId } = user;
   const url = type === 'topics' ? `topics/${id}/clone-dashboard` : `dashboard/${id}/clone`;
-  return WRIAPI.post(url, {}, {
+  const params = type === 'topics' ? {} : { 'user-id': userId };
+  return WRIAPI.post(url, params, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token

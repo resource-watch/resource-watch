@@ -15,11 +15,11 @@ class ImportSelector extends PureComponent {
   state = { isOpen: false }
 
   onCloneDashboard = ({ id }) => {
-    const { user: { token } } = this.props;
+    const { user } = this.props;
 
     toastr.confirm('Are you sure you want to clone this topic?', {
       onOk: () => {
-        cloneDashboard(id, token)
+        cloneDashboard(id, user)
           .then((dashboard) => {
             const { id: dashboardId } = dashboard;
             window.open(`/myrw-detail/dashboards/${dashboardId}`, '_blank');
