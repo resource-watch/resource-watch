@@ -18,10 +18,5 @@ export default {
     data: {},
     loading: true,
     error: null
-  },
-  all: {
-    list: [],
-    loading: true,
-    error: null
   }
 };

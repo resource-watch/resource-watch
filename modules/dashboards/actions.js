@@ -73,24 +73,6 @@ export const getPublishedDashboards = createThunkAction('DASHBOARDS__GET-PUBLISH
       });
   });
 
-export const getAllDashboards = createThunkAction('DASHBOARDS__GET-ALL-DASHBOARDS',
-  () => (dispatch) => {
-    const params = {};
-
-    dispatch(setLoading({ key: 'all', value: true }));
-    dispatch(setError({ key: 'all', value: null }));
-
-    return fetchDashboards(params)
-      .then((dashboards) => {
-        dispatch(setDashboards({ key: 'all', value: dashboards }));
-        dispatch(setLoading({ key: 'all', value: false }));
-      })
-      .catch((err) => {
-        dispatch(setError({ key: 'all', value: err.message }));
-        dispatch(setLoading({ key: 'all', value: false }));
-      });
-  });
-
 export const getDashboard = createThunkAction('DASHBOARDS__GET-DASHBOARD',
   id => (dispatch) => {
     if (!id) throw new Error('A dashboard ID is mandatory to perform this action.');
