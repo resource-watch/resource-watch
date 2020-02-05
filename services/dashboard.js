@@ -175,12 +175,12 @@ export const deleteDashboard = (id, token) => {
 };
 
 /**
- * Clones a topic to convert it into a dashboard based on topic's data.
- * This fetch needs authentication.
+ * Clone an existing dashboard into a new dashboard.
+ * This is an authenticated endpoint.
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#clone-dashboard|here}
- * @param {String} id - topic ID to be cloned.
+ * @param {String} id - ID from the dashboard to be cloned.
  * @param {Object} user - user's token and id.
- * @return {Object} serialized dashboard cloned based on the ID topic.
+ * @return {Object} resulting dashboard based on the dashboard provided.
  */
 export const cloneDashboard = (id, user) => {
   logger.info(`Clones dashboard from dashboard ${id}`);
@@ -194,17 +194,13 @@ export const cloneDashboard = (id, user) => {
     }
   })
     .then((response) => {
-      const { status, statusText, data } = response;
-
-      if (status >= 300) {
-        if (status !== 404) logger.error(`Error cloning dashboard from dashboard ${id}, ${status}: ${statusText}`);
-        throw new Error(statusText);
-      }
+      const { data } = response;
       return WRISerializer(data);
     })
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error cloning dashboard from topic ${id}, ${status}: ${statusText}`);
+      logger.error(`Error cloning dashboard from dashboard ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error cloning dashboard from dashboard ${id}: ${status}: ${statusText}`);
     });
 };
 
