@@ -182,11 +182,11 @@ export const deleteDashboard = (id, token) => {
  * @param {Object} user - user's token and id.
  * @return {Object} serialized dashboard cloned based on the ID topic.
  */
-export const cloneDashboard = (id, user, type = 'topics') => {
-  logger.info(`Clones dashboard from topic ${id}`);
+export const cloneDashboard = (id, user) => {
+  logger.info(`Clones dashboard from dashboard ${id}`);
   const { token, id: userId } = user;
-  const url = type === 'topics' ? `topics/${id}/clone-dashboard` : `dashboard/${id}/clone`;
-  const params = type === 'topics' ? {} : { 'user-id': userId };
+  const url = `dashboard/${id}/clone`;
+  const params = { 'user-id': userId };
   return WRIAPI.post(url, params, {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -197,7 +197,7 @@ export const cloneDashboard = (id, user, type = 'topics') => {
       const { status, statusText, data } = response;
 
       if (status >= 300) {
-        if (status !== 404) logger.error(`Error cloning dashboard from topic ${id}, ${status}: ${statusText}`);
+        if (status !== 404) logger.error(`Error cloning dashboard from dashboard ${id}, ${status}: ${statusText}`);
         throw new Error(statusText);
       }
       return WRISerializer(data);
