@@ -52,9 +52,7 @@ class Step1 extends React.Component {
         {/* TYPE */}
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.partner_type = c; }}
-          onChange={value => this.props.onChange({
-            partner_type: value
-          })}
+          onChange={value => this.props.onChange({ partner_type: value })}
           validations={['required']}
           className="-fluid"
           options={PARTNER_TYPES}
