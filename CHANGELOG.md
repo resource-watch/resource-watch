@@ -5,6 +5,50 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.2.1] - 2019-02-03
+### Fixed
+- Fix issue with dashboard detail updating only partially. [[code]](https://github.com/resource-watch/resource-watch/pull/1229)
+
+## [2.2.0] - 2019-02-03
+### Added
+- Added is featured option to admin/dashboards new/edit page. [[code]](https://github.com/resource-watch/resource-watch/pull/1182)
+- Modal added to Planet Pulse page plus other related updates. [[code]](https://github.com/resource-watch/resource-watch/pull/1188)
+- Redirects to dashboard pages from old deprecated topic pages. [[code]](https://github.com/resource-watch/resource-watch/pull/1224)
+
+### Fixed
+- Fix for metadata form bug. [[code]](https://github.com/resource-watch/resource-watch/pull/1183)
+- Fix for an issue with the delete link in the dashboards table from the back office. [[code]](https://github.com/resource-watch/resource-watch/pull/1186)
+- Restore backoffice interaction to provide column names for selection. [[code]](https://github.com/resource-watch/resource-watch/pull/1187)
+- Fixed vizualization bug - temporality load widget (new vizualization). [[code]](https://github.com/resource-watch/resource-watch/pull/1187)
+- Get involved page - style fix. [[code]](https://github.com/resource-watch/resource-watch/pull/1191)
+- Planet pulse - css dropdown menu fix (responsive). [[code]](https://github.com/resource-watch/resource-watch/pull/1193)
+- Fix the problem when dialogs temporary load when the page loads first time. [[code]](https://github.com/resource-watch/resource-watch/pull/1195)
+- Fix width for the main page subheader box. [[code]](https://github.com/resource-watch/resource-watch/pull/1201)
+- Fix explore detail buttons not appearing. [[code]](https://github.com/resource-watch/resource-watch/pull/1202)
+- Fix charts overflowing in explore cards. [[code]](https://github.com/resource-watch/resource-watch/pull/1206) 
+- Fix "More" link to point to dashboards gallery. [[code]](https://github.com/resource-watch/resource-watch/pull/1207) 
+- Fix planet pulse dropdown native menu visibility. [[code]](https://github.com/resource-watch/resource-watch/pull/1209)
+- Dashboard page link fix + myrw dashboard preview fix. [[code]](https://github.com/resource-watch/resource-watch/pull/1212)
+- Fix: set the default layer on open in map click. [[code]](https://github.com/resource-watch/resource-watch/pull/1213)
+
+### Changed
+- Planet pulse: remove obsolete "Forest clearing" layer. [[code]](https://github.com/resource-watch/resource-watch/pull/1181)
+- Update all routes (header, footer, dashboard gallery) to dashboard dynamic routes (from API). Removed topics routes. [[code]](https://github.com/resource-watch/resource-watch/pull/1185)
+- Home page - topics section replaced by featured dashboards section. [[code]](https://github.com/resource-watch/resource-watch/pull/1192)
+- Layers service refactored to comply with new approach for services. [[code]](https://github.com/resource-watch/resource-watch/pull/1194)
+- Added unsafe prefix to deprecated methods. [[code]](https://github.com/resource-watch/resource-watch/pull/1197)
+- Some updates to layers displayed in Planet Pulse. [[code]](https://github.com/resource-watch/resource-watch/pull/1198)
+- Minor updates to blog feed to load new Spotlight category. [[code]](https://github.com/resource-watch/resource-watch/pull/1199)
+- Minor change to Pulse pop up text. [[code]](https://github.com/resource-watch/resource-watch/pull/1200)
+- `explore-actions` refactored to use services methods instead of explicit calls to `fetch`. [[code]](https://github.com/resource-watch/resource-watch/pull/1203)
+- Refactor of `pages` service to use axios. [[code]](https://github.com/resource-watch/resource-watch/pull/1210)
+- Remove unused passport dependencies. [[code]](https://github.com/resource-watch/resource-watch/pull/1214)
+- Changed preview url for admin dashboards. [[code]](https://github.com/resource-watch/resource-watch/pull/1215)
+- Support for cloning topics into dashboards removed. [[code]](https://github.com/resource-watch/resource-watch/pull/1218)
+- Dashboards "More" links removed. [[code]](https://github.com/resource-watch/resource-watch/pull/1220)
+- Show dashboards gallery section only when there is content for it. [[code]](https://github.com/resource-watch/resource-watch/pull/1221)
+- Remove button to clone a topic when creating a dashboard. [[code]](https://github.com/resource-watch/resource-watch/pull/1226)
+
 ## [2.1.10] - 2019-12-11
 ### Added
 - Log site search events with GA [[code]](https://github.com/resource-watch/resource-watch/pull/1170)
