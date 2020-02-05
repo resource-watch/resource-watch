@@ -4,7 +4,7 @@ import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
 // Services
-import { fetchData, saveData } from 'services/partners';
+import { fetchData, updateData, createData } from 'services/partners';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/partners/form/constants';
 
@@ -102,7 +102,7 @@ class PartnersForm extends React.Component {
           }
           break;
         }
-        case 'white_logo': {
+        case 'white-logo': {
           if (params[f] && params[f].original !== '/images/original/missing.png') {
             newForm[f] = params[f].original;
           }
@@ -135,24 +135,35 @@ class PartnersForm extends React.Component {
 
   saveDataHandler = () => {
     const { form, id } = this.state;
+    const { token } = this.props;
+    const body = new Serializer('partner', {
+      keyForAttribute: 'dash-case',
+      attributes: Object.keys(form)
+    }).serialize(form);
 
-    saveData({
-      id: id || '',
-      type: (id) ? 'PATCH' : 'POST',
-      body: new Serializer('partner', {
-        keyForAttribute: 'dash-case',
-        attributes: Object.keys(form)
-      }).serialize(form)
-    })
-      .then((data) => {
-        toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
+    if (id) {
+      updateData(id, body, token)
+        .then((data) => {
+          toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
 
-        if (this.props.onSubmit) this.props.onSubmit();
-      })
-      .catch((err) => {
-        this.setState({ submitting: false });
-        toastr.error('Error', `Oops! There was an error, try again. ${err}`);
-      });
+          if (this.props.onSubmit) this.props.onSubmit();
+        })
+        .catch((err) => {
+          this.setState({ submitting: false });
+          toastr.error('Error', `Oops! There was an error, try again. ${err}`);
+        });
+    } else {
+      createData(body, token)
+        .then((data) => {
+          toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
+
+          if (this.props.onSubmit) this.props.onSubmit();
+        })
+        .catch((err) => {
+          this.setState({ submitting: false });
+          toastr.error('Error', `Oops! There was an error, try again. ${err}`);
+        });
+    }
   }
 
   render() {
