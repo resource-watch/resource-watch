@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Services
-import FaqsService from 'services/faqs';
+import { deleteFaq } from 'services/faqs';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
@@ -11,11 +11,6 @@ class DeleteAction extends React.Component {
 
     // BINDINGS
     this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
-
-    // SERVICES
-    this.service = new FaqsService({
-      authorization: props.authorization
-    });
   }
 
   handleOnClickDelete(e) {
@@ -24,11 +19,11 @@ class DeleteAction extends React.Component {
       e.stopPropagation();
     }
 
-    const { data } = this.props;
+    const { data, authorization: token } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${data.question}"`, {
       onOk: () => {
-        this.service.deleteData(data.id)
+        deleteFaq(data.id, token)
           .then(() => {
             this.props.onFaqDelete();
             toastr.success('Success', `The faq "${data.id}" - "${data.question}" has been removed correctly`);
