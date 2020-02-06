@@ -9,17 +9,25 @@ import { cloneDashboard } from 'services/dashboard';
 class ImportSelector extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    topics: PropTypes.array.isRequired
+    dashboards: PropTypes.array.isRequired,
+    getFeaturedDashboards: PropTypes.func.isRequired
   };
 
   state = { isOpen: false }
 
-  onCloneDashboard = ({ id }) => {
-    const { user: { token } } = this.props;
+  componentDidMount() {
+    const { dashboards } = this.props;
+    if (!dashboards.length) {
+      this.props.getFeaturedDashboards();
+    }
+  }
 
-    toastr.confirm('Are you sure you want to clone this topic?', {
+  onCloneDashboard = ({ id }) => {
+    const { user } = this.props;
+
+    toastr.confirm('Are you sure you want to clone this dashboard?', {
       onOk: () => {
-        cloneDashboard(id, token)
+        cloneDashboard(id, user, 'dashboards')
           .then((dashboard) => {
             const { id: dashboardId } = dashboard;
             window.open(`/myrw-detail/dashboards/${dashboardId}`, '_blank');
@@ -33,7 +41,7 @@ class ImportSelector extends PureComponent {
   }
 
   render() {
-    const { topics } = this.props;
+    const { dashboards } = this.props;
     const { isOpen } = this.state;
 
     return (
@@ -48,8 +56,8 @@ class ImportSelector extends PureComponent {
           onMouseEnter={() => this.setState({ isOpen: true })}
           onMouseLeave={() => this.setState({ isOpen: false })}
         >
-          <h4 className="template-name">Clone a topic page</h4>
-          <span className="template-description">Clone a topic page into a new dashboard</span>
+          <h4 className="template-name">Clone a dashboard page</h4>
+          <span className="template-description">Clone a dashboad page into a new dashboard</span>
         </li>
         {isOpen &&
           <ul
@@ -57,12 +65,12 @@ class ImportSelector extends PureComponent {
             onMouseEnter={() => this.setState({ isOpen: true })}
             onMouseLeave={() => this.setState({ isOpen: false })}
           >
-            {topics.map(_topic => (
+            {dashboards.map(_dashboard => (
               <li
                 className="header-dropdown-list-item"
-                key={_topic.id}
+                key={_dashboard.id}
               >
-                <span onClick={() => this.onCloneDashboard(_topic)}>{_topic.name}</span>
+                <span onClick={() => this.onCloneDashboard(_dashboard)}>{_dashboard.name}</span>
               </li>
             ))}
           </ul>

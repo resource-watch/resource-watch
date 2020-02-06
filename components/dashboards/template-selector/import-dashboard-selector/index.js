@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-
+import { getFeaturedDashboards } from 'modules/dashboards/actions';
 import importSelector from './component';
 
 export default connect(
   state => ({
     user: state.user,
-    topics: state.topics.published.data
+    dashboards: state.dashboards.featured.list
   }),
-  null
+  { getFeaturedDashboards }
 )(importSelector);

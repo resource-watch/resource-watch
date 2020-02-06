@@ -9,18 +9,14 @@ export default class CheckboxGroup extends React.Component {
     super(props);
 
     // Initial state
-    this.state = {
-      checked: this.props.selected || []
-    };
+    this.state = { checked: this.props.selected || [] };
     // BINDINGS
     this.onChange = this.onChange.bind(this);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (!isEqual(nextProps.selected, this.props.selected)) {
-      this.setState({
-        checked: nextProps.selected
-      });
+      this.setState({ checked: nextProps.selected });
     }
   }
 
@@ -62,9 +58,7 @@ export default class CheckboxGroup extends React.Component {
   render() {
     const { className } = this.props;
 
-    const customClassName = classnames({
-      [className]: !!className
-    });
+    const customClassName = classnames({ [className]: !!className });
 
     return (
       <div className={`c-checkbox-box ${customClassName}`}>

@@ -4,7 +4,7 @@ import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
 // Services
-import { fetchData, updateData, createData } from 'services/partners';
+import { fetchPartner, updatePartner, createPartner } from 'services/partners';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/partners/form/constants';
 
@@ -13,28 +13,18 @@ import Step1 from 'components/admin/partners/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class PartnersForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = Object.assign({}, STATE_DEFAULT, {
-      id: props.id,
-      loading: !!props.id,
-      form: STATE_DEFAULT.form
-    });
-
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
-  }
+  state = Object.assign({}, STATE_DEFAULT, {
+    id: this.props.id,
+    loading: !!this.props.id,
+    form: STATE_DEFAULT.form
+  });
 
   componentDidMount() {
     const { id } = this.state;
-    const { token } = this.props;
     // Get the partners and fill the
     // state form with its params if the id exists
     if (id) {
-      fetchData(id, token)
+      fetchPartner(id)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
@@ -52,8 +42,9 @@ class PartnersForm extends React.Component {
    * UI EVENTS
    * - onSubmit
    * - onChange
+   * - onStepChange
   */
-  onSubmit(event) {
+  onSubmit = (event) => {
     event.preventDefault();
 
     // Validate the form
@@ -80,12 +71,12 @@ class PartnersForm extends React.Component {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
@@ -142,7 +133,7 @@ class PartnersForm extends React.Component {
     }).serialize(form);
 
     if (id) {
-      updateData(id, body, token)
+      updatePartner(id, body, token)
         .then((data) => {
           toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
 
@@ -153,7 +144,7 @@ class PartnersForm extends React.Component {
           toastr.error('Error', `Oops! There was an error, try again. ${err}`);
         });
     } else {
-      createData(body, token)
+      createPartner(body, token)
         .then((data) => {
           toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
 

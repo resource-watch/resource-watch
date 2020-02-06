@@ -109,9 +109,7 @@ export default class TableFilters extends React.Component {
   }
 
   onChangeInput() {
-    this.setState({
-      input: this.input.value
-    }, () => {
+    this.setState({ input: this.input.value }, () => {
       this.props.onSearch && this.props.onSearch({
         field: this.props.field,
         value: this.input.value
@@ -124,9 +122,7 @@ export default class TableFilters extends React.Component {
     // That's why I put this
     e && e.stopPropagation();
 
-    this.setState({
-      input: ''
-    }, () => {
+    this.setState({ input: '' }, () => {
       this.props.onSearch && this.props.onSearch({
         field: this.props.field,
         value: this.input.value
@@ -183,9 +179,7 @@ export default class TableFilters extends React.Component {
     const { field } = this.props;
     const { selected, input, values } = this.state;
 
-    const btnClass = classnames({
-      '-active': (values && selected && values.length !== selected.length) || input
-    });
+    const btnClass = classnames({ '-active': (values && selected && values.length !== selected.length) || input });
 
     return (
       <div className={btnClass}>
@@ -195,9 +189,7 @@ export default class TableFilters extends React.Component {
             to: 'window',
             pin: true
           }]}
-          classes={{
-            element: 'c-table-tooltip -footer'
-          }}
+          classes={{ element: 'c-table-tooltip -footer' }}
         >
           {/* First child: This is what the item will be tethered to */}
           <button

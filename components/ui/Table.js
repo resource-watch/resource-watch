@@ -73,9 +73,7 @@ export default class Table extends React.Component {
   }
 
   goToPage(page) {
-    this.setState({
-      currentPage: page
-    });
+    this.setState({ currentPage: page });
   }
 
   /* Partial renders */
