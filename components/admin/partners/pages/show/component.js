@@ -23,7 +23,7 @@ class PartnersShow extends PureComponent {
       <div className="c-partners-show">
         <PartnersForm
           id={id}
-          authorization={token}
+          token={token}
           onSubmit={this.handleSubmit}
         />
       </div>

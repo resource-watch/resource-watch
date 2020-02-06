@@ -30,17 +30,13 @@ class SimilarDatasetsContainer extends Component {
   }
 
   render() {
-    return createElement(SimilarDatasetsComponent, {
-      ...this.props
-    });
+    return createElement(SimilarDatasetsComponent, { ...this.props });
   }
 }
 
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
-    ...state.similarDatasets
-  }),
+  state => ({ ...state.similarDatasets }),
   actions
 )(SimilarDatasetsContainer);

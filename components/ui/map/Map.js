@@ -25,11 +25,11 @@ if (typeof window !== 'undefined') {
   (function () {
     const originalInitTile = L.GridLayer.prototype._initTile;
     L.GridLayer.include({
-      _initTile (tile) {
+      _initTile(tile) {
         originalInitTile.call(this, tile);
         const tileSize = this.getTileSize();
-        tile.style.width = tileSize.x + 1 + 'px';
-        tile.style.height = tileSize.y + 1 + 'px';
+        tile.style.width = `${tileSize.x + 1}px`;
+        tile.style.height = `${tileSize.y + 1}px`;
       }
     });
   }());
@@ -108,7 +108,7 @@ class Map extends React.Component {
     onMapParams: VOID,
     setLayerInteraction: VOID,
     setLayerInteractionSelected: VOID,
-    setLayerInteractionLatLng: VOID,
+    setLayerInteractionLatLng: VOID
   };
 
   state = {
@@ -375,7 +375,7 @@ class Map extends React.Component {
       (
         // interactionSelected changed
         (// interaction changed
-        this.props.interactionSelected !== nextProps.interactionSelected || !isEmpty(nextProps.interaction) &&
+          this.props.interactionSelected !== nextProps.interactionSelected || !isEmpty(nextProps.interaction) &&
         !isEqual(this.props.interaction, nextProps.interaction))
       )
     ) {
@@ -581,7 +581,7 @@ class Map extends React.Component {
     if (layers.length) this.setState({ loading: true });
 
     layers.forEach((layer) => {
-      this.layerManager.addLayer(layer, {...(filters || this.props.filters)});
+      this.layerManager.addLayer(layer, { ...(filters || this.props.filters) });
     });
   }
 

@@ -219,28 +219,27 @@ class AlertWidget extends React.Component {
                   </MapControls>
 
                   <LayerManager map={map} plugin={PluginLeaflet}>
-                    {
-                      <React.Fragment>
-                        <Layer {...layer} />
-                        {geostore &&
-                          <Layer
-                            id={geostore.id}
-                            name="Geojson"
-                            provider="leaflet"
-                            layerConfig={{
+                    <React.Fragment>
+                      <Layer {...layer} />
+                      {geostore &&
+                      <Layer
+                        id={geostore.id}
+                        name="Geojson"
+                        provider="leaflet"
+                        layerConfig={{
                               type: 'geoJSON',
                               body: geostore.geojson
                             }}
                             // Interaction
-                            interactivity
-                            events={{
+                        interactivity
+                        events={{
                               mouseover: (e) => {
                                 console.info(e);
                               }
                             }}
-                          />
+                      />
                         }
-                      </React.Fragment>}
+                    </React.Fragment>
                   </LayerManager>
 
                 </React.Fragment>

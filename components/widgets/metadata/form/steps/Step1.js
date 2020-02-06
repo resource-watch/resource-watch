@@ -52,9 +52,7 @@ class Step1 extends React.Component {
     this.props.onChange({ info: Object.assign({}, this.state.form.info, { widgetLinks }) });
   }
   onWidgetLinksCheckboxChange(checked) {
-    this.setState({
-      widgetLinksSelected: checked
-    });
+    this.setState({ widgetLinksSelected: checked });
     let newWidgetLinks = [];
     if (checked) {
       newWidgetLinks = [{ name: '', link: '', id: Date.now() }];
@@ -93,9 +91,7 @@ class Step1 extends React.Component {
           {/* CAPTION */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.caption = c; }}
-            onChange={value => this.props.onChange({
-              info: Object.assign({}, this.state.form.info, { caption: value })
-            })}
+            onChange={value => this.props.onChange({ info: Object.assign({}, this.state.form.info, { caption: value }) })}
             className="-fluid"
             properties={{
               name: 'caption',
@@ -156,8 +152,7 @@ class Step1 extends React.Component {
                         <div className="column small-6">
                           <Field
                             ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetLinkLink = c; }}
-                            onChange={value => this.onWidgetLinkChange({
-                              link: value, id: elem.id })}
+                            onChange={value => this.onWidgetLinkChange({ link: value, id: elem.id })}
                             validations={['required', 'url']}
                             className="-fluid"
                             properties={{
