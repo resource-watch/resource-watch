@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Services
-import PartnersService from 'services/partners';
+import { deletePartner } from 'services/partners';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
@@ -11,11 +11,6 @@ class DeleteAction extends React.Component {
 
     // BINDINGS
     this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
-
-    // SERVICES
-    this.service = new PartnersService({
-      authorization: props.authorization
-    });
   }
 
   handleOnClickDelete(e) {
@@ -24,11 +19,11 @@ class DeleteAction extends React.Component {
       e.stopPropagation();
     }
 
-    const { data } = this.props;
+    const { data, authorization: token } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${data.name}"`, {
       onOk: () => {
-        this.service.deleteData(data.id)
+        deletePartner(data.id, token)
           .then(() => {
             this.props.onRowDelete(data.id);
             toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been removed correctly`);

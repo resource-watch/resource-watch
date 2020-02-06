@@ -51,18 +51,16 @@ class Step1 extends React.Component {
 
         {/* TYPE */}
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.partner_type = c; }}
-          onChange={value => this.props.onChange({
-            partner_type: value
-          })}
+          ref={(c) => { if (c) FORM_ELEMENTS.elements['partner-type'] = c; }}
+          onChange={value => this.props.onChange({ 'partner-type': value })}
           validations={['required']}
           className="-fluid"
           options={PARTNER_TYPES}
           properties={{
-            name: 'partner_type',
+            name: 'partner-type',
             label: 'Partner Type',
-            default: this.state.form.partner_type,
-            value: this.state.form.partner_type,
+            default: this.state.form['partner-type'],
+            value: this.state.form['partner-type'],
             required: true,
             instanceId: 'selectPartnerType'
           }}
@@ -168,18 +166,18 @@ class Step1 extends React.Component {
 
             <div className="column small-12 medium-4">
               <Field
-                ref={(c) => { if (c) FORM_ELEMENTS.elements.white_logo = c; }}
+                ref={(c) => { if (c) FORM_ELEMENTS.elements['white-logo'] = c; }}
                 onChange={(value) => {
-                  this.props.onChange({ white_logo: value });
+                  this.props.onChange({ 'white-logo': value });
                 }}
                 validations={['required']}
                 className="-fluid"
                 properties={{
-                  name: 'white_logo',
+                  name: 'white-logo',
                   label: 'White logo',
                   placeholder: 'Browse file',
                   baseUrl: process.env.STATIC_SERVER_URL,
-                  default: this.state.form.white_logo,
+                  default: this.state.form['white-logo'],
                   required: true
                 }}
               >

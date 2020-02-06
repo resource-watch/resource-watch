@@ -7,7 +7,7 @@ export const STATE_DEFAULT = {
   form: {
     // STEP 1
     name: '',
-    partner_type: null,
+    'partner-type': null,
     summary: '',
     body: '',
     website: '',
@@ -15,7 +15,7 @@ export const STATE_DEFAULT = {
     contact_email: '',
     // Images
     logo: '',
-    white_logo: '',
+    'white-logo': '',
     cover: '',
     icon: '',
     // States
@@ -27,13 +27,13 @@ export const STATE_DEFAULT = {
 export const FORM_ELEMENTS = {
   elements: {},
   validate() {
-    const elements = this.elements;
+    const { elements } = this;
     Object.keys(elements).forEach((k) => {
       elements[k].validate();
     });
   },
   isValid() {
-    const elements = this.elements;
+    const { elements } = this;
     const valid = Object.keys(elements)
       .map(k => elements[k].isValid())
       .filter(v => v !== null)

@@ -13,7 +13,7 @@ import { logger } from 'utils/logs';
  * @returns {Object[]} array of serialized layers.
  */
 export const fetchLayers = (params = {}, headers = {}, _meta = false) => {
-  logger.info('fetches layers');
+  logger.info('Fetch layers');
 
   return WRIAPI.get('/layer', {
     headers: {
