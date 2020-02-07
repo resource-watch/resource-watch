@@ -58,17 +58,6 @@ class HeaderDashboards extends PureComponent {
                 </Link>
               </li>
             ))}
-
-            <li
-              className="header-dropdown-list-item"
-              key="More"
-            >
-              <Link
-                route="/dashboards#featuredDashboards"
-              >
-                <a>More</a>
-              </Link>
-            </li>
           </ul>
         }
       </TetherComponent>

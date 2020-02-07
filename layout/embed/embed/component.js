@@ -30,7 +30,7 @@ class LayoutEmbedEmbed extends PureComponent {
 
   state = { modalOpened: false }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       url,
       user,

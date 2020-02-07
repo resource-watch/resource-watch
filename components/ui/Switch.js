@@ -17,24 +17,18 @@ class Switch extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      active: !!props.active
-    };
+    this.state = { active: !!props.active };
 
     // BINDINGS
     this.onToggle = this.onToggle.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      active: nextProps.active
-    });
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.setState({ active: nextProps.active });
   }
 
   onToggle() {
-    this.setState({
-      active: !this.state.active
-    }, () => {
+    this.setState({ active: !this.state.active }, () => {
       if (this.props.onChange) this.props.onChange(this.state.active);
     });
   }

@@ -44,7 +44,7 @@ class AreaSubscriptionsModalContainer extends Component {
     clearLocalSubscriptions: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       activeArea,
       setUserSelection,
@@ -65,7 +65,7 @@ class AreaSubscriptionsModalContainer extends Component {
     setUserSelection({ area: activeArea });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { subscriptionsByArea, setUserSelection } = this.props;
     const { subscriptionsByArea: nextSubscriptions, activeArea: nextActiveArea } = nextProps;
     const subscriptionsChanged = !isEqual(subscriptionsByArea, nextSubscriptions);
@@ -84,7 +84,7 @@ class AreaSubscriptionsModalContainer extends Component {
                 .map(val => ({
                   label: val,
                   value: val,
-                  ...datasetQuery.type.includes(val) && { selected: true }
+                  ...(datasetQuery.type.includes(val) && { selected: true })
                 })), 'label'),
               threshold: datasetQuery.threshold
             };

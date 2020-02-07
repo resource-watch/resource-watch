@@ -27,11 +27,11 @@ if (typeof window !== 'undefined') {
   (function () {
     const originalInitTile = L.GridLayer.prototype._initTile;
     L.GridLayer.include({
-      _initTile (tile) {
+      _initTile(tile) {
         originalInitTile.call(this, tile);
         const tileSize = this.getTileSize();
-        tile.style.width = tileSize.x + 1 + 'px';
-        tile.style.height = tileSize.y + 1 + 'px';
+        tile.style.width = `${tileSize.x + 1}px`;
+        tile.style.height = `${tileSize.y + 1}px`;
       }
     });
   }());
@@ -110,7 +110,7 @@ class Map extends React.Component {
     onMapParams: VOID,
     setLayerInteraction: VOID,
     setLayerInteractionSelected: VOID,
-    setLayerInteractionLatLng: VOID,
+    setLayerInteractionLatLng: VOID
   };
 
   state = {
@@ -232,7 +232,7 @@ class Map extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // LAYER GROUPS
     const oldlayerGroups = this.props.layerGroups;
     const nextLayerGroups = nextProps.layerGroups;
@@ -376,13 +376,9 @@ class Map extends React.Component {
       nextProps.interactionLatLng &&
       (
         // interactionSelected changed
-        (this.props.interactionSelected !== nextProps.interactionSelected) ||
-
-        // interaction changed
-        (
-          !isEmpty(nextProps.interaction) &&
-          !isEqual(this.props.interaction, nextProps.interaction)
-        )
+        (// interaction changed
+          this.props.interactionSelected !== nextProps.interactionSelected || !isEmpty(nextProps.interaction) &&
+        !isEqual(this.props.interaction, nextProps.interaction))
       )
     ) {
       const popupContainer = document.createElement('div');
@@ -587,7 +583,7 @@ class Map extends React.Component {
     if (layers.length) this.setState({ loading: true });
 
     layers.forEach((layer) => {
-      this.layerManager.addLayer(layer, {...(filters || this.props.filters)});
+      this.layerManager.addLayer(layer, { ...(filters || this.props.filters) });
     });
   }
 

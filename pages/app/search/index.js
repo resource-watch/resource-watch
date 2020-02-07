@@ -30,7 +30,7 @@ class SearchPage extends PureComponent {
     return {};
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { term: newTerm, page: newPage } = nextProps;
     const { term: oldTerm, page: oldPage } = this.props;
 

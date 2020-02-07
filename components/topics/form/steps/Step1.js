@@ -28,7 +28,7 @@ class Step1 extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ form: nextProps.form });
   }
 
@@ -163,9 +163,7 @@ class Step1 extends React.Component {
 
                 fetch(`${process.env.WRI_API_URL}/temporary_content_image`, {
                   method: 'POST',
-                  headers: {
-                    Authorization: this.props.user.token
-                  },
+                  headers: { Authorization: this.props.user.token },
                   body: formData
                 })
                   .then(response => response.json())

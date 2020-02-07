@@ -19,7 +19,7 @@ class SimilarDatasetsContainer extends Component {
     this.props.getSimilarDatasets(this.props.datasetIds);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.datasetIds !== nextProps.datasetIds) {
       this.props.getSimilarDatasets(nextProps.datasetIds);
     }
@@ -30,17 +30,13 @@ class SimilarDatasetsContainer extends Component {
   }
 
   render() {
-    return createElement(SimilarDatasetsComponent, {
-      ...this.props
-    });
+    return createElement(SimilarDatasetsComponent, { ...this.props });
   }
 }
 
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
-    ...state.similarDatasets
-  }),
+  state => ({ ...state.similarDatasets }),
   actions
 )(SimilarDatasetsContainer);

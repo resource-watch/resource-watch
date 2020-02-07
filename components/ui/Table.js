@@ -32,7 +32,7 @@ export default class Table extends React.Component {
   }
 
   /* Component lifecycle */
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.data, nextProps.data)) {
       this.setTableData(nextProps);
     }
@@ -73,9 +73,7 @@ export default class Table extends React.Component {
   }
 
   goToPage(page) {
-    this.setState({
-      currentPage: page
-    });
+    this.setState({ currentPage: page });
   }
 
   /* Partial renders */

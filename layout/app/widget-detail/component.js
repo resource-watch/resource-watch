@@ -11,7 +11,7 @@ class LayoutWidgetDetail extends PureComponent {
 
   static defaultProps = { widget: {} }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (typeof window !== 'undefined') window.scrollTo(0, 0);
   }
 

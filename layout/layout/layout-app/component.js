@@ -58,7 +58,7 @@ class LayoutApp extends Component {
 
   state = { modalOpen: false }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { user: { token2, email } } = this.props;
 
     // WIDGET EDITOR – change the configuration according to your needs
@@ -91,7 +91,7 @@ class LayoutApp extends Component {
     logPageView();
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (this.state.modalOpen !== newProps.modal.open) {
       this.setState({ modalOpen: newProps.modal.open });
     }

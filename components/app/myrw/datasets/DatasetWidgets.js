@@ -22,7 +22,7 @@ class DatasetWidgets extends React.Component {
     orderDirection: 'asc'
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadWidgets();
   }
 

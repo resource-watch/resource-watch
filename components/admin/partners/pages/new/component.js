@@ -16,7 +16,7 @@ class PartnersNew extends PureComponent {
     return (
       <div className="c-partners-new">
         <PartnersForm
-          authorization={token}
+          token={token}
           onSubmit={this.handleSubmit}
         />
       </div>

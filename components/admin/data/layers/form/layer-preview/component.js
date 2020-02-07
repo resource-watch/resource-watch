@@ -18,7 +18,7 @@ import ZoomControls from 'components/map/controls/zoom';
 import LayerPopup from 'components/map/popup';
 
 // constants
-import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
+import { MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
 
 class LayerPreviewComponent extends PureComponent {
   static propTypes = {
@@ -32,9 +32,7 @@ class LayerPreviewComponent extends PureComponent {
     generateLayerGroups: PropTypes.func.isRequired
   };
 
-  state = { viewport: DEFAULT_VIEWPORT };
-
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.handleRefreshPreview();
   }
 

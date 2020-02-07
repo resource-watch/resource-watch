@@ -20,7 +20,7 @@ class DashboardsDetailPage extends PureComponent {
     return { };
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.routes.query.slug !== nextProps.routes.query.slug) {
       window.scrollTo(0, 0);
     }

@@ -11,7 +11,7 @@ import LayoutAdminPartners from 'layout/admin/partners';
 class AdminPartnersPage extends PureComponent {
   static propTypes = { getAllPartners: PropTypes.func.isRequired }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.getAllPartners();
   }
 

@@ -39,7 +39,7 @@ class DashboardsTable extends PureComponent {
     loading: false
   };
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.loadDashboards();
   }
 
@@ -111,7 +111,6 @@ class DashboardsTable extends PureComponent {
           size,
           pages
         };
-
         this.setState({
           loading: false,
           dashboards: dashboards.map(_dashboard => ({
