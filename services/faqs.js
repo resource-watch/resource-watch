@@ -4,21 +4,25 @@ import WRISerializer from 'wri-json-api-serializer';
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
+/**
+ * Get FAQs.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-faqs|here}
+ * @param {Object} params Request paremeters.
+ * @param {Object} headers Request headers.
+ * @returns {Object}
+ */
 export const fetchFaqs = (params = {}, headers = {}) => {
-  logger.info('Fetch all data - faqs');
+  logger.info('Fetch FAQs');
   return WRIAPI.get(
     'faq',
     {
       params: {
-        ...params,
-        published: 'all',
         env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
+        application: process.env.APPLICATIONS,
+        ...params,
+        published: 'all'
       },
-      headers: {
-        ...headers,
-        'Upgrade-Insecure-Requests': 1
-      }
+      headers: { ...headers }
     }
   )
     .then(response => WRISerializer(response.data))
@@ -29,80 +33,114 @@ export const fetchFaqs = (params = {}, headers = {}) => {
     });
 };
 
+
+/**
+ * Get FAQ by its ID.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-faq|here}
+ * @param {String} id FAQ id.
+ * @param {Object} params Request paremeters.
+ * @param {Object} headers Request headers.
+ * @returns {Object}
+ */
 export const fetchFaq = (id, params = {}, headers = {}) => {
-  logger.info(`Fetch faq data - ${id}`);
+  logger.info(`Fetch FAQ - ${id}`);
   return WRIAPI.get(
     `faq/${id}`,
     {
       params: {
-        ...params,
         env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
+        application: process.env.APPLICATIONS,
+        ...params
       },
-      headers: {
-        ...headers,
-        'Upgrade-Insecure-Requests': 1
-      }
+      headers: { ...headers }
     }
   )
     .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error fetching faq: ${status}: ${statusText}`);
-      throw new Error(`Error fetching faq: ${status}: ${statusText}`);
+      logger.error(`Error fetching faq ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error fetching faq ${id}: ${status}: ${statusText}`);
     });
 };
 
-export const deleteFaq = (id, token, headers = {}) => {
-  logger.info(`Delete faq data - ${id}`);
+/**
+ * Delete FAQ
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-faq|here}
+ * @param {String} id - ID of the FAQ that will be deleted
+ * @param {String} token - User token
+ * @param {Object} params Request paremeters.
+ * @param {Object} headers Request headers.
+ */
+export const deleteFaq = (id, token, params = {}, headers = {}) => {
+  logger.info(`Delete FAQ ${id}`);
   return WRIAPI.delete(
     `faq/${id}`,
     {
       headers: {
         ...headers,
-        'Upgrade-Insecure-Requests': 1,
         Authorization: token
-      }
+      },
+      params: { ...params }
     }
   )
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error deleting faq: ${status}: ${statusText}`);
-      throw new Error(`Error deleting faq: ${status}: ${statusText}`);
+      logger.error(`Error deleting faq ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error deleting faq ${id}: ${status}: ${statusText}`);
     });
 };
-export const updateFaq = (id, body, token, headers = {}) => {
-  logger.info(`Updating faq data - ${id}`);
+
+/**
+ * Update FAQ.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#update-faq|here}
+ * @param {String} id - ID of the FAQ to be updated.
+ * @param {String} faq - FAQ data.
+ * @param {String} token - User token.
+ * @param {Object} params - Request paremeters.
+ * @param {Object} headers - Request headers.
+ * @returns {Object}
+ */
+export const updateFaq = (id, faq, token, params = {}, headers = {}) => {
+  logger.info(`Update FAQ ${id}`);
   return WRIAPI.patch(
     `faq/${id}`,
-    { ...body },
+    { ...faq },
     {
       headers: {
         ...headers,
-        'Upgrade-Insecure-Requests': 1,
         Authorization: token
-      }
+      },
+      params: { ...params }
     }
   )
     .then(response => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error updating faq: ${status}: ${statusText}`);
-      throw new Error(`Error updating faq: ${status}: ${statusText}`);
+      logger.error(`Error updating faq ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error updating faq ${id}: ${status}: ${statusText}`);
     });
 };
 
-export const createFaq = (body, token, headers = {}) => {
-  logger.info('Creating faq data');
+/**
+ * Create FAQ.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-faq|here}
+ * @param {String} faq - FAQ data.
+ * @param {String} token - User token.
+ * @param {Object} params - Request paremeters.
+ * @param {Object} headers - Request headers.
+ * @returns {Object}
+ */
+export const createFaq = (faq, token, params = {}, headers = {}) => {
+  logger.info('Create FAQ');
   return WRIAPI.post(
     'faq',
-    { ...body },
+    { ...faq },
     {
       headers: {
         ...headers,
-        'Upgrade-Insecure-Requests': 1,
         Authorization: token
-      }
+      },
+      params: { ...params }
     }
   )
     .then(response => WRISerializer(response.data))
@@ -113,19 +151,32 @@ export const createFaq = (body, token, headers = {}) => {
     });
 };
 
-export const updateFaqOrder = (order, token, headers = {}) => WRIAPI.post(
-  'faq/reorder',
-  { ...order },
-  {
-    headers: {
-      ...headers,
-      Authorization: token
+/**
+ * Reorder FAQ.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#reorder-faq|here}
+ * @param {String} order - FAQs order.
+ * @param {String} token - User token.
+ * @param {Object} params - Request paremeters.
+ * @param {Object} headers - Request headers.
+ * @returns {Object}
+ */
+export const updateFaqOrder = (order, token, params = {}, headers = {}) => {
+  logger.info('Reorder FAQ');
+  return WRIAPI.post(
+    'faq/reorder',
+    { ...order },
+    {
+      headers: {
+        ...headers,
+        Authorization: token
+      },
+      params: { ...params }
     }
-  }
-)
-  .then(response => WRISerializer(response.data))
-  .catch(({ response }) => {
-    const { status, statusText } = response;
-    logger.error(`Error updating faq order: ${status}: ${statusText}`);
-    throw new Error(`Error updating faq order: ${status}: ${statusText}`);
-  });
+  )
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating faq order: ${status}: ${statusText}`);
+      throw new Error(`Error updating faq order: ${status}: ${statusText}`);
+    });
+};

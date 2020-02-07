@@ -55,7 +55,7 @@ export const fetchUserAreas = (token) => {
 };
 
 /**
- * Deletes an area
+ * Delete area
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-area|here}
  * @param {String} areaId - ID of the area that will be deleted
  * @param {String} token - User token
