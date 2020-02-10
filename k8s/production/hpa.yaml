@@ -2,12 +2,12 @@ apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   namespace: rw
-  name: {name}
+  name: resource-watch
 spec:
   scaleTargetRef:
     apiVersion: apps/v1beta1
     kind: Deployment
-    name: {name}
+    name: resource-watch
   minReplicas: 4
   maxReplicas: 8
   targetCPUUtilizationPercentage: 50

@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   namespace: rw
   labels:
-    name: {name}-preproduction
-  name: {name}-preproduction
+    name: resource-watch-preproduction
+  name: resource-watch-preproduction
 spec:
   revisionHistoryLimit: 2
   template:
@@ -12,7 +12,7 @@ spec:
       annotations:
         chaos.alpha.kubernetes.io/enabled: "true"
       labels:
-        name: {name}-preproduction
+        name: resource-watch-preproduction
     spec:
       tolerations:
         - key: "type"
@@ -37,11 +37,13 @@ spec:
                     - key: name
                       operator: In
                       values:
-                        - {name}-preproduction
+                        - resource-watch-preproduction
                 topologyKey: kubernetes.io/hostname
+      imagePullSecrets:
+        - name: regcred
       containers:
-        - name: {name}-preproduction
-          image: vizzuality/{name}
+        - name: resource-watch-preproduction
+          image: vizzuality/resource-watch
           imagePullPolicy: Always
           resources:
             requests:

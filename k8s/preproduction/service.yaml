@@ -3,8 +3,8 @@ kind: Service
 metadata:
   namespace: rw
   labels:
-    name: {name}-preproduction
-  name: {name}-preproduction
+    name: resource-watch-preproduction
+  name: resource-watch-preproduction
 spec:
   ports:
     - name: http
@@ -12,4 +12,4 @@ spec:
       port: 80
       targetPort: 3000
   selector:
-    name: {name}-preproduction
+    name: resource-watch-preproduction

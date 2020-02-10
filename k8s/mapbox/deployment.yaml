@@ -3,14 +3,14 @@ kind: Deployment
 metadata:
   namespace: rw
   labels:
-    name: resource-watch-staging
-  name: resource-watch-staging
+    name: resource-watch-mapbox
+  name: resource-watch-mapbox
 spec:
   revisionHistoryLimit: 0
   template:
     metadata:
       labels:
-        name: resource-watch-staging
+        name: resource-watch-mapbox
     spec:
       tolerations:
         - key: "type"
@@ -35,12 +35,12 @@ spec:
                     - key: name
                       operator: In
                       values:
-                        - resource-watch-staging
+                        - resource-watch-mapbox
                 topologyKey: kubernetes.io/hostname
       imagePullSecrets:
         - name: regcred
       containers:
-        - name: resource-watch-staging
+        - name: resource-watch-mapbox
           image: vizzuality/resource-watch
           imagePullPolicy: Always
           resources:
@@ -73,6 +73,11 @@ spec:
                 secretKeyRef:
                   name: appsecrets
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
+            - name: RW_MAPBOX_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: appsecrets
+                  key: RW_MAPBOX_API_TOKEN
           ports:
             - containerPort: 3000
       restartPolicy: Always
