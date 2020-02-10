@@ -27,7 +27,8 @@ class LoginModal extends PureComponent {
     repeatPassword: '',
     captcha: null,
     register: false,
-    loading: false
+    loading: false,
+    registeredNow: false
   };
 
   onSubmit = (e) => {
@@ -48,7 +49,11 @@ class LoginModal extends PureComponent {
           registerUser(userSettings)
             .then(() => {
               toastr.success('Confirm registration',
-                'You will receive an email shortly. Please confirm your registration.');
+                'You will receive an email shortly. Please confirm your registration and sign in.');
+              this.setState({
+                register: false,
+                registeredNow: true
+              });
             })
             .catch(() => { toastr.error('Something went wrong'); })
             .then(() => { this.setState({ loading: false }); });
@@ -80,8 +85,16 @@ class LoginModal extends PureComponent {
       password,
       repeatPassword,
       register,
-      loading
+      loading,
+      registeredNow
     } = this.state;
+
+    let titleText = 'Sign in';
+    if (registeredNow) {
+      titleText = 'Thank you for registration. Please, confirm your email and sign in';
+    } else {
+      titleText = register ? 'Sign up' : 'Sign in';
+    }
 
     return (
       <div className="c-login-modal">
@@ -90,7 +103,9 @@ class LoginModal extends PureComponent {
             {loading && <Spinner className="-light" isLoading />}
             <div className="row">
               <div className="column small-12">
-                <h2 className="c-title">{register ? 'Sign up' : 'Sign in'}</h2>
+                <h2 className="c-title">
+                  { titleText }
+                </h2>
               </div>
               <div className="column small-12 medium-5">
                 <span>Access with your email</span>
