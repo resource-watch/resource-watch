@@ -85,6 +85,7 @@ export const getUpdatedLayers = (activeLayersPointer, parametrizationPointer) =>
 
         return {
           ..._activeLayer,
+          ..._activeLayer.layerConfig.layerType && { layerType: _activeLayer.layerConfig.layerType },
           ..._activeLayer.layerConfig.params_config && {
             params: {
               ...reduceParams(_activeLayer.layerConfig.params_config),
