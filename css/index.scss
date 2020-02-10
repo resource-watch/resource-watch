@@ -70,10 +70,10 @@
 @import "./components/ui/terms";
 @import "./components/ui/title";
 @import "./components/ui/tooltip";
+@import "./components/ui/rc-tooltip";
 @import "./components/ui/tooltip-global";
 @import "./components/ui/tree_selector";
 @import "./components/ui/user-report";
-@import "./components/ui/zoom_control";
 @import "./components/ui/dataset-table";
 @import "./components/ui/browser";
 
@@ -94,9 +94,6 @@
 
 // areas
 @import "./components/areas/areas_form";
-@import "./components/areas/areas_list";
-@import "./components/areas/area_card";
-@import "./components/areas/area_actions_tooltip";
 @import "./components/areas/upload_area";
 
 
@@ -117,8 +114,6 @@
 
 // Map
 @import "./components/map/map";
-@import "./components/map/map-controls";
-@import "./components/map/map-search-control";
 @import "./components/map/map-popup";
 @import './components/map/map-side-by-side-layout';
 @import './components/map/map-side-by-side-range';
@@ -158,8 +153,6 @@
 @import "./components/widgets/sort_container";
 @import "./components/widgets/table_view";
 @import "./components/widgets/limit_container";
-@import "./components/widgets/widget_card";
-@import "./components/widgets/widget_list";
 @import "./components/widgets/widget_dock";
 @import "./components/widgets/widget-tooltip-list";
 @import "./components/widgets/chart_tooltip";
@@ -180,8 +173,6 @@
 
 
 // Widgets
-@import "./components/admin/widget/card";
-@import "./components/admin/widget/list";
 @import "./components/admin/widget/chart";
 @import "./components/admin/widget/widget_chart";
 @import "./components/admin/widget/placeholder_chart";
@@ -249,7 +240,6 @@
 @import './components/topics/topics-thumbnail-list';
 
 // MyRW
-// @import "./components/app/pages/myrw/activity";
 @import "./components/app/pages/myrw/myrw_edit_profile";
 @import "./components/app/pages/myrw/myrw_subscriptions";
 @import "./components/app/pages/myrw/myrw_common";

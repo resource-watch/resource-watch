@@ -34,4 +34,10 @@
       display: block;
     }
   }
+
+  &.-no-max-width {
+    .rc-tooltip-inner {
+      max-width: none;
+    }
+  }
 }

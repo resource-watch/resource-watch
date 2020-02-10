@@ -1,0 +1,35 @@
+@import 'css/settings';
+
+// this file modifies global Mapbox's global styles
+
+.rw-popup-layer {
+  max-width: 240px;
+  width: 100%;
+
+  .mapboxgl-popup-content {
+    padding: 0;
+    margin: 0;
+    min-height: $space * 9;
+    border-radius: 0;
+    line-height: 1.4;
+  }
+
+  .mapboxgl-popup-content p {
+    margin: $space * 3 0;
+  }
+
+  .mapboxgl-popup-close-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $space * 9;
+    height: $space * 9;
+    padding: 0;
+    border: none;
+    border-left: 1px solid $light-grey;
+    font: 16px/14px Tahoma, Verdana, sans-serif;
+    font-weight: $font-weight-bold;
+    color: $dark-pink;
+  }
+}
+

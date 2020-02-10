@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 // components
 import { Router } from 'routes';
@@ -51,8 +52,13 @@ class LayoutEmbed extends PureComponent {
 
   render() {
     const { title, description, className, thumbnailUrl } = this.props;
+    const pageClass = classnames({
+      'l-page': true,
+      [className]: !!className
+    });
+
     return (
-      <div className={`l-page ${className}`}>
+      <div className={pageClass}>
         <HeadApp
           title={title}
           description={description}

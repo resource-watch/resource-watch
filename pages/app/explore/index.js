@@ -5,13 +5,10 @@ import { Router } from 'routes';
 
 // actions
 import { setIsServer } from 'redactions/common';
-import * as actions from 'layout/explore/explore-actions';
+import * as actions from 'layout/explore/actions';
 
 // components
 import Explore from 'layout/explore';
-
-// constants
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 
 class ExplorePage extends PureComponent {
   static propTypes = {
@@ -33,12 +30,14 @@ class ExplorePage extends PureComponent {
       sort,
       sortDirection,
       topics,
-      data_types,
+      data_types: dataTypes,
       frequencies,
-      time_periods,
+      time_periods: timePeriods,
       zoom,
       lat,
       lng,
+      pitch,
+      bearing,
       basemap,
       labels,
       boundaries,
@@ -53,16 +52,23 @@ class ExplorePage extends PureComponent {
     if (sort && sort !== 'most-visited') dispatch(actions.setSortSelected(sort));
     if (sortDirection) dispatch(actions.setSortDirection(+sortDirection));
     if (topics) dispatch(actions.setFiltersSelected({ key: 'topics', list: JSON.parse(decodeURIComponent(topics)) }));
-    if (data_types) dispatch(actions.setFiltersSelected({ key: 'data_types', list: JSON.parse(decodeURIComponent(data_types)) }));
+    if (dataTypes) dispatch(actions.setFiltersSelected({ key: 'data_types', list: JSON.parse(decodeURIComponent(dataTypes)) }));
     if (frequencies) dispatch(actions.setFiltersSelected({ key: 'frequencies', list: JSON.parse(decodeURIComponent(frequencies)) }));
-    if (time_periods) dispatch(actions.setFiltersSelected({ key: 'time_periods', list: JSON.parse(decodeURIComponent(time_periods)) }));
+    if (timePeriods) dispatch(actions.setFiltersSelected({ key: 'time_periods', list: JSON.parse(decodeURIComponent(timePeriods)) }));
 
-    // Map
-    if (zoom) dispatch(actions.setMapZoom(+zoom));
-    if (lat && lng) dispatch(actions.setMapLatLng({ lat: +lat, lng: +lng }));
-    if (basemap) dispatch(actions.setMapBasemap(BASEMAPS[basemap]));
-    if (labels) dispatch(actions.setMapLabels(LABELS[labels]));
-    if (boundaries) dispatch(actions.setMapBoundaries(!!boundaries));
+    // sets map params from URL
+    dispatch(actions.setViewport({
+      ...zoom && { zoom: +zoom },
+      ...(lat && lng) && {
+        latitude: +lat,
+        longitude: +lng
+      },
+      ...pitch && { pitch: +pitch },
+      ...bearing && { bearing: +bearing }
+    }));
+    if (basemap) dispatch(actions.setBasemap(basemap));
+    if (labels) dispatch(actions.setLabels(labels));
+    if (boundaries) dispatch(actions.setBoundaries(!!boundaries));
 
     // Fetch layers
     if (layers) await dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
@@ -89,19 +95,34 @@ class ExplorePage extends PureComponent {
   }
 
   setExploreURL() {
-    const { datasets, filters, sort, map } = this.props.explore;
+    const {
+      explore: {
+        datasets,
+        filters,
+        sort,
+        map: {
+          viewport,
+          basemap,
+          labels,
+          boundaries,
+          layerGroups
+        }
+      }
+    } = this.props;
 
     const query = {
-      // Map
-      zoom: map.zoom,
-      lat: map.latLng.lat,
-      lng: map.latLng.lng,
-      basemap: map.basemap.id,
-      labels: map.labels.id,
-      ...!!map.boundaries && { boundaries: map.boundaries },
-      ...!!map.layerGroups.length &&
+      // map params
+      zoom: viewport.zoom,
+      lat: viewport.latitude,
+      lng: viewport.longitude,
+      pitch: viewport.pitch,
+      bearing: viewport.bearing,
+      basemap,
+      labels,
+      ...!!boundaries && { boundaries },
+      ...!!layerGroups.length &&
         {
-          layers: encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
+          layers: encodeURIComponent(JSON.stringify(layerGroups.map(lg => ({
             dataset: lg.dataset,
             opacity: lg.opacity || 1,
             visible: lg.visible,
@@ -114,10 +135,14 @@ class ExplorePage extends PureComponent {
       sort: sort.selected,
       sortDirection: sort.direction,
       ...filters.search && { search: filters.search },
-      ...!!filters.selected.topics.length && { topics: encodeURIComponent(JSON.stringify(filters.selected.topics)) },
-      ...!!filters.selected.data_types.length && { data_types: encodeURIComponent(JSON.stringify(filters.selected.data_types)) },
-      ...!!filters.selected.frequencies.length && { frequencies: encodeURIComponent(JSON.stringify(filters.selected.frequencies)) },
-      ...!!filters.selected.time_periods.length && { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) }
+      ...!!filters.selected.topics.length &&
+        { topics: encodeURIComponent(JSON.stringify(filters.selected.topics)) },
+      ...!!filters.selected.data_types.length &&
+        { data_types: encodeURIComponent(JSON.stringify(filters.selected.data_types)) },
+      ...!!filters.selected.frequencies.length &&
+        { frequencies: encodeURIComponent(JSON.stringify(filters.selected.frequencies)) },
+      ...!!filters.selected.time_periods.length &&
+        { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) }
     };
 
     if (typeof window !== 'undefined') {
@@ -126,13 +151,16 @@ class ExplorePage extends PureComponent {
   }
 
   shouldUpdateUrl(prevProps) {
-    const {
-      datasets, filters, sort, map
-    } = this.props.explore;
+    const { explore: { datasets, filters, sort, map } } = this.props;
 
     const {
-      datasets: prevDatasets, filters: prevFilters, sort: prevSort, map: prevMap
-    } = prevProps.explore;
+      explore: {
+        datasets: prevDatasets,
+        filters: prevFilters,
+        sort: prevSort,
+        map: prevMap
+      }
+    } = prevProps;
 
     const layers = encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
       dataset: lg.dataset,
@@ -150,10 +178,12 @@ class ExplorePage extends PureComponent {
 
     return (
       // Map
-      map.zoom !== prevMap.zoom ||
-      map.latLng.lat !== prevMap.latLng.lat ||
-      map.latLng.lng !== prevMap.latLng.lng ||
-      map.basemap.id !== prevMap.basemap.id ||
+      map.viewport.zoom !== prevMap.zoom ||
+      map.viewport.latitude !== prevMap.viewport.latitude ||
+      map.viewport.longitude !== prevMap.viewport.longitude ||
+      map.viewport.pitch !== prevMap.viewport.pitch ||
+      map.viewport.bearing !== prevMap.viewport.bearing ||
+      map.basemap !== prevMap.basemap ||
       map.labels.id !== prevMap.labels.id ||
       map.boundaries !== prevMap.boundaries ||
       layers !== prevLayers ||
