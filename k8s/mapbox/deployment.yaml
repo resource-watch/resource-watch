@@ -3,14 +3,14 @@ kind: Deployment
 metadata:
   namespace: rw
   labels:
-    name: {name}-mapbox
-  name: {name}-mapbox
+    name: resource-watch-mapbox
+  name: resource-watch-mapbox
 spec:
   revisionHistoryLimit: 0
   template:
     metadata:
       labels:
-        name: {name}-mapbox
+        name: resource-watch-mapbox
     spec:
       tolerations:
         - key: "type"
@@ -35,11 +35,13 @@ spec:
                     - key: name
                       operator: In
                       values:
-                        - {name}-mapbox
+                        - resource-watch-mapbox
                 topologyKey: kubernetes.io/hostname
+      imagePullSecrets:
+        - name: regcred
       containers:
-        - name: {name}-mapbox
-          image: vizzuality/{name}
+        - name: resource-watch-mapbox
+          image: vizzuality/resource-watch
           imagePullPolicy: Always
           resources:
             requests:
