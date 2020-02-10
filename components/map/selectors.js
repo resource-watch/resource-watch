@@ -32,7 +32,8 @@ export const getUpdatedLayerGroups = statePointer => createSelector(
           {
             // all params should go under timeline_config attribute
             timelineParams
-          }
+          },
+        ..._layer.layerConfig.layerType && { layerType: _layer.layerConfig.layerType }
       });
     })
   }))
