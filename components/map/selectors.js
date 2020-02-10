@@ -32,7 +32,8 @@ export const getUpdatedLayerGroups = statePointer => createSelector(
           {
             // all params should go under timeline_config attribute
             timelineParams
-          }
+          },
+        ..._layer.layerConfig.layerType && { layerType: _layer.layerConfig.layerType }
       });
     })
   }))
@@ -84,6 +85,7 @@ export const getUpdatedLayers = (activeLayersPointer, parametrizationPointer) =>
 
         return {
           ..._activeLayer,
+          ..._activeLayer.layerConfig.layerType && { layerType: _activeLayer.layerConfig.layerType },
           ..._activeLayer.layerConfig.params_config && {
             params: {
               ...reduceParams(_activeLayer.layerConfig.params_config),
