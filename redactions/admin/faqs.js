@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import FaqsService from 'services/faqs';
+import { fetchFaqs, updateFaqOrder } from 'services/faqs';
 
 /**
  * CONSTANTS
@@ -26,7 +26,6 @@ const initialState = {
   order: []
 };
 
-const service = new FaqsService();
 /**
  * REDUCER
  * @export
@@ -93,7 +92,7 @@ export function getFaqs() {
   return (dispatch) => {
     dispatch({ type: GET_FAQS_LOADING });
 
-    return service.fetchAllData()
+    return fetchFaqs()
       .then((data) => {
         dispatch({ type: SET_FAQS_ORDER, payload: data.map(d => +d.id) });
         dispatch({ type: GET_FAQS_SUCCESS, payload: data });
@@ -115,7 +114,7 @@ export function setFaqOrder(order, token) {
 
     dispatch({ type: SET_FAQS_ORDER_LOADING });
 
-    return service.updateFaqOrder(order, token)
+    return updateFaqOrder(order, token)
       .then((data) => {
         dispatch({ type: SET_FAQS_ORDER_SUCCESS, payload: data });
       })

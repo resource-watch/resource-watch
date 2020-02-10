@@ -27,7 +27,8 @@ export const generateLayerGroups = createThunkAction('ADMIN_LAYER_PREVIEW_GENERA
       provider: layer.provider,
       slug: layer.slug,
       iso: layer.iso,
-      description: layer.description
+      description: layer.description,
+      ...layer.layerConfig.layerType && { layerType: layer.layerConfig.layerType }
     }]
   }];
   dispatch(setLayerGroups({ layerGroups }));

@@ -2,33 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Services
-import ToolsService from 'services/tools';
+import { deleteTool } from 'services/tools';
 import { toastr } from 'react-redux-toastr';
 
 class DeleteAction extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // BINDINGS
-    this.handleOnClickDelete = this.handleOnClickDelete.bind(this);
-
-    // SERVICES
-    this.service = new ToolsService({
-      authorization: props.authorization
-    });
-  }
-
-  handleOnClickDelete(e) {
+  handleOnClickDelete = (e) => {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
 
-    const { data } = this.props;
+    const { data, authorization } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${data.title}"`, {
       onOk: () => {
-        this.service.deleteData(data.id)
+        deleteTool(data.id, authorization)
           .then(() => {
             this.props.onRowDelete(data.id);
             toastr.success('Success', `The tool "${data.id}" - "${data.title}" has been removed correctly`);
@@ -50,9 +38,9 @@ class DeleteAction extends React.Component {
 }
 
 DeleteAction.propTypes = {
-  data: PropTypes.object,
-  authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
+  data: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired,
+  onRowDelete: PropTypes.func.isRequired
 };
 
 export default DeleteAction;

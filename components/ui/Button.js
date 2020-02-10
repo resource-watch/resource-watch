@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Button extends React.Component {
-  static defaultProps = {
-    properties: {}
-  };
+  static defaultProps = { properties: {} };
 
   static propTypes = {
     children: PropTypes.any,
@@ -25,9 +23,7 @@ class Button extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({
-      className: nextProps.className
-    });
+    this.setState({ className: nextProps.className });
   }
 
   triggerClick(e) {

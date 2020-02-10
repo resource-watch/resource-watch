@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import areaAlerts from 'selectors/user/areaAlerts';
 
 // Components
-import ShareControl from 'components/ui/map/controls/ShareControl';
+import ShareControls from 'components/map/controls/share';
 import BasemapControl from 'components/ui/map/controls/BasemapControl';
 import { BASEMAPS, LABELS } from 'components/ui/map/constants';
 import DataTable from 'components/ui/DataTable';
@@ -208,7 +208,7 @@ class AlertWidget extends React.Component {
                   >
                     <ZoomControl map={map} />
 
-                    <ShareControl />
+                    <ShareControls />
 
                     <BasemapControl
                       basemap={BASEMAPS.dark}
@@ -219,28 +219,27 @@ class AlertWidget extends React.Component {
                   </MapControls>
 
                   <LayerManager map={map} plugin={PluginLeaflet}>
-                    {
-                      <React.Fragment>
-                        <Layer {...layer} />
-                        {geostore &&
-                          <Layer
-                            id={geostore.id}
-                            name="Geojson"
-                            provider="leaflet"
-                            layerConfig={{
+                    <React.Fragment>
+                      <Layer {...layer} />
+                      {geostore &&
+                      <Layer
+                        id={geostore.id}
+                        name="Geojson"
+                        provider="leaflet"
+                        layerConfig={{
                               type: 'geoJSON',
                               body: geostore.geojson
                             }}
                             // Interaction
-                            interactivity
-                            events={{
+                        interactivity
+                        events={{
                               mouseover: (e) => {
                                 console.info(e);
                               }
                             }}
-                          />
+                      />
                         }
-                      </React.Fragment>}
+                    </React.Fragment>
                   </LayerManager>
 
                 </React.Fragment>

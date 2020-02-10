@@ -31,16 +31,12 @@ class Source extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      values: props.values
-    };
+    this.state = { values: props.values };
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (!isEqual(this.props.values, nextProps.values)) {
-      this.setState({
-        values: nextProps.values
-      });
+      this.setState({ values: nextProps.values });
     }
   }
 
@@ -134,12 +130,8 @@ class Source extends React.Component {
   }
 }
 
-const mapStateToProps = ({ sources }) => ({
-  tmpSources: sources.tmpSources
-});
+const mapStateToProps = ({ sources }) => ({ tmpSources: sources.tmpSources });
 
-const mapDispatchToProps = {
-  setTmpSources
-};
+const mapDispatchToProps = { setTmpSources };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Source);

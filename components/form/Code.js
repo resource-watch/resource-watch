@@ -32,9 +32,7 @@ class Code extends FormElement {
         const propsValueStringify = JSON.stringify(nextProps.properties.value, null, 2);
 
         if (propsValueStringify !== stateValueStringify) {
-          this.setState({
-            value: propsValueStringify
-          });
+          this.setState({ value: propsValueStringify });
         }
       } catch (e) {
         // do nothing
