@@ -27,6 +27,10 @@ export const PAGES_WITH_USER_COLLECTIONS = [
   '/data/explore'
 ];
 
+export const PAGES_WITH_USER_COLLECTIONS_FORCE = [
+  '/myrw/collections'
+];
+
 export const CESIUM_ROUTES = [
   '/data/pulse'
 ];
