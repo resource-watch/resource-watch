@@ -3,8 +3,8 @@ kind: Service
 metadata:
   namespace: rw
   labels:
-    name: {name}-mapbox
-  name: {name}-mapbox
+    name: resource-watch-mapbox
+  name: resource-watch-mapbox
 spec:
   type: NodePort
   ports:
@@ -13,4 +13,4 @@ spec:
       port: 80
       targetPort: 3000
   selector:
-    name: {name}-mapbox
+    name: resource-watch-mapbox
