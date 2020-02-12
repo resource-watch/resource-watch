@@ -39,10 +39,12 @@ const SET_USER = 'user/setUser';
 // favourites
 const SET_USER_FAVOURITES = 'user/setUserFavourites';
 const SET_USER_FAVOURITES_LOADING = 'user/setUserFavouritesLoading';
+const SET_USER_FAVOURITES_FIRST_LOAD = 'user/setUserFavouritesFirstLoad';
 const SET_USER_FAVOURITES_ERROR = 'user/setUserFavouritesError';
 // collections
 const SET_USER_COLLECTIONS = 'user/setUserCollections';
 const SET_USER_COLLECTIONS_LOADING = 'user/setUserCollectionsLoading';
+const SET_USER_COLLECTIONS_FIRST_LOAD = 'user/setUserCollectionsFirstLoad';
 const SET_USER_COLLECTIONS_UPDATE_LOADING = 'user/setUserCollectionsUpdateLoading';
 const SET_COLLECTIONS_LOADING = 'user/setCollectionsLoading';
 const SET_USER_COLLECTIONS_FILTER = 'user/setUserCollectionsFilter';
@@ -60,14 +62,16 @@ const initialState = {
   favourites: {
     items: [],
     loading: false,
-    error: null
+    error: null,
+    isFirstLoad: false
   },
   collections: {
     filter: '',
     loading: false,
     items: [],
     loadingQueue: [],
-    error: null
+    error: null,
+    isFirstLoad: false
   },
   areas: {
     items: [],
@@ -103,6 +107,16 @@ export default function (state = initialState, action) {
       };
     }
 
+    case SET_USER_FAVOURITES_FIRST_LOAD: {
+      return {
+        ...state,
+        favourites: {
+          ...state.favourites,
+          isFirstLoad: action.payload
+        }
+      };
+    }
+
     case SET_USER_FAVOURITES_ERROR: {
       return {
         ...state,
@@ -130,6 +144,16 @@ export default function (state = initialState, action) {
           ...state.collections,
           loadingQueue: action.payload.map(collection =>
             ({ id: collection.id, loading: false }))
+        }
+      };
+    }
+
+    case SET_USER_COLLECTIONS_FIRST_LOAD: {
+      return {
+        ...state,
+        collections: {
+          ...state.collections,
+          isFirstLoad: action.payload
         }
       };
     }
@@ -257,6 +281,7 @@ export function setUser(user) {
 
 // FAVOURITES
 export const setFavouriteLoading = createAction(SET_USER_FAVOURITES_LOADING);
+export const setFavouriteFirstLoad = createAction(SET_USER_FAVOURITES_FIRST_LOAD);
 export const setFavouriteError = createAction(SET_USER_FAVOURITES_ERROR);
 
 export const getUserFavourites = createThunkAction('user/getUserFavourites', () =>
@@ -268,10 +293,10 @@ export const getUserFavourites = createThunkAction('user/getUserFavourites', () 
     }
 
     dispatch(setFavouriteLoading(true));
-
     fetchFavourites(token)
       .then((data) => {
         dispatch(setFavouriteLoading(false));
+        dispatch(setFavouriteFirstLoad(true));
         dispatch({ type: SET_USER_FAVOURITES, payload: data });
       })
       .catch((error) => {
@@ -317,6 +342,7 @@ export const toggleFavourite = createThunkAction('user/toggleFavourite', (payloa
 // COLLECTIONS
 export const setUserCollections = createAction(SET_USER_COLLECTIONS);
 export const setCollectionsLoading = createAction(SET_COLLECTIONS_LOADING);
+export const setCollectionsFirstLoad = createAction(SET_USER_COLLECTIONS_FIRST_LOAD);
 export const setUserCollectionsErrors = createAction(SET_USER_COLLECTIONS_ERROR);
 export const setUserCollectionsLoading = createAction(SET_USER_COLLECTIONS_LOADING);
 export const setUserCollectionsUpdateLoading = createAction(SET_USER_COLLECTIONS_UPDATE_LOADING);
@@ -337,6 +363,7 @@ export const getUserCollections = createThunkAction('user/getUserCollections', (
         dispatch(setUserCollections(data));
         dispatch(setUserCollectionsLoading(data));
         dispatch(setCollectionsLoading(false));
+        dispatch(setCollectionsFirstLoad(true));
       })
       .catch((error) => {
         dispatch(setUserCollectionsErrors(error));

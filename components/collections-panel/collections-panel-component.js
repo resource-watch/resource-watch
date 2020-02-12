@@ -8,17 +8,6 @@ import CollectionPanelItem from './collections-panel-item/collections-panel-item
 import { FAVOURITES_COLLECTION } from './collections-panel-constants';
 
 class CollectionsPanel extends PureComponent {
-  static defaultProps = {
-    collections: [],
-    favourites: [],
-    resource: {},
-    collectionsLoadingQueue: [],
-    favouritesLoading: false,
-    addCollection: () => {},
-    toggleCollection: () => {},
-    toggleFavourite: () => {}
-  };
-
   static propTypes = {
     collections: PropTypes.array,
     favourites: PropTypes.array,
@@ -29,6 +18,17 @@ class CollectionsPanel extends PureComponent {
     toggleCollection: PropTypes.func,
     toggleFavourite: PropTypes.func,
     resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget']).isRequired
+  };
+
+  static defaultProps = {
+    collections: [],
+    favourites: [],
+    resource: {},
+    collectionsLoadingQueue: [],
+    favouritesLoading: false,
+    addCollection: () => {},
+    toggleCollection: () => {},
+    toggleFavourite: () => {}
   };
 
   state = { newCollectionName: null };
