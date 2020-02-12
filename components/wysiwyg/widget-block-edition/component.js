@@ -9,7 +9,7 @@ import Tabs from 'components/ui/Tabs';
 import Spinner from 'components/ui/Spinner';
 import Paginator from 'components/ui/Paginator';
 import SearchInput from 'components/ui/SearchInput';
-import WidgetList from 'components/widgets/list/WidgetList';
+import WidgetCardList from 'components/widgets/card-list';
 
 class WidgetBlockEdition extends PureComponent {
   static propTypes = {
@@ -79,7 +79,7 @@ class WidgetBlockEdition extends PureComponent {
 
                     <Spinner isLoading={loading} className="-relative -small -light" />
 
-                    <WidgetList
+                    <WidgetCardList
                       widgets={widgets}
                       mode="grid"
                       onWidgetClick={onSelectWidget}

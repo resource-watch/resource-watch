@@ -1,4 +1,6 @@
 /* eslint global-require: 0 */
+// TO-DO: deprecated. Replaced by components/map
+
 import React from 'react';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';

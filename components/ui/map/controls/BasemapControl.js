@@ -1,7 +1,8 @@
+// TO-DO: deprecated. Replaced by components/map/controls/basemap
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+import { BASEMAPS, LABELS } from 'components/map/constants';
 
 // Components
 import TetherComponent from 'react-tether';

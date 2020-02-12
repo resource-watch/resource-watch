@@ -57,7 +57,7 @@
   // These styles are used in the Explore page
   // (the list of datasets) and My RW > Widgets
   // when in grid mode
-  &.-thumbnail {
+  &.-grid {
     max-height: 150px;
 
     .c-we-chart {
@@ -88,7 +88,7 @@
   &.-map {
     min-height: 300px;
 
-    &.-thumbnail {
+    &.-grid {
       min-height: 100px;
     }
   }

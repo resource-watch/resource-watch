@@ -10,16 +10,10 @@
 
   .selectors-container {
     display: flex;
-    margin-top: 20px;
+    margin-top: $space * 4;
   }
 
-  .buttons-div {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-
-    button:last-of-type {
-      margin-left: 10px;
-    }
+  .c-field__map--container {
+    position: relative;
   }
 }
