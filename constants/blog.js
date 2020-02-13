@@ -1,5 +1,5 @@
 // number of featured posts
-export const SPOTLIGHT_CATEGORY = [125, 15];
+export const SPOTLIGHT_CATEGORY = [125, 15, 156];
 /*
  * The category "uncategorized" always has the id 1 by default when
  * installling WordPress. More info about this can be found here:
