@@ -20,7 +20,7 @@ export const toggleContextualLayer = createThunkAction('layer-pill/toggleContext
     const newContextLayers = contextLayers.slice(0);
     const newActiveLayers = activeLayers.slice(0);
 
-    const layerFound = contextLayers.find(l => l.attributes.id === id);
+    const layerFound = contextLayers.find(l => l.id === id);
 
     if (!layerFound) {
       dispatch(setContextLayersLoading(true));
@@ -31,6 +31,8 @@ export const toggleContextualLayer = createThunkAction('layer-pill/toggleContext
             response,
             {
               onLayerAddedSuccess: function success(result) {
+                console.log('result', result);
+
                 newContextLayers.push(result);
                 dispatch(setContextLayers(newContextLayers));
               }

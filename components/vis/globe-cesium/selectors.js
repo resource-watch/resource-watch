@@ -5,10 +5,8 @@ const getActiveLayers = state => state.contextLayersPulse.activeLayers;
 
 export const activeContextLayers = createSelector(
   [getContextLayers, getActiveLayers],
-  (contextLayers, activeLayers) => contextLayers.filter(l => activeLayers.includes(l.attributes.id))
+  (contextLayers, activeLayers) => contextLayers.filter(l => activeLayers.includes(l.id))
 );
 
 
-export default {
-  activeContextLayers
-};
+export default { activeContextLayers };

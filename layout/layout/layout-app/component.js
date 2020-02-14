@@ -64,7 +64,7 @@ class LayoutApp extends Component {
     // WIDGET EDITOR – change the configuration according to your needs
     setConfig({
       url: process.env.WRI_API_URL,
-      env: 'production,preproduction',
+      env: process.env.API_ENV,
       applications: process.env.APPLICATIONS,
       authUrl: process.env.CONTROL_TOWER_URL,
       assetsPath: '/static/images/widget-editor/',
