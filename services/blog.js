@@ -9,13 +9,10 @@ import { logger } from 'utils/logs';
  * @returns {Object[]} array of parsed posts.
  */
 export const fetchPosts = (params = {}, headers = {}) => {
-  logger.info('fetches posts from blog');
+  logger.info('fetches posts from blog', `process.env.BLOG_API_URL: '${process.env.BLOG_API_URL}'`, ` params: '${params}'`, ` headers: '${headers}'`);
 
   return blogAPI.get('/posts', {
-    headers: {
-      ...blogAPI.defaults.headers,
-      ...headers
-    },
+    headers: { ...headers },
     params: { ...params }
   })
     .then((response) => {
