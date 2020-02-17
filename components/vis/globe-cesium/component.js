@@ -270,11 +270,11 @@ class GlobeCesiumComponent extends PureComponent {
     let shapes = [];
     if (layerPoints) {
       shapes = compact(layerPoints.map((elem) => {
-        if (!layerActive.attributes.interactionConfig) {
+        if (!layerActive.interactionConfig) {
           return null;
         }
 
-        const tooltipContentObj = layerActive.attributes.interactionConfig.output.map(obj =>
+        const tooltipContentObj = layerActive.interactionConfig.output.map(obj =>
           ({ key: obj.property, value: elem[obj.column], type: obj.type }));
         const description = tooltipContentObj.map((val) => {
           if (val.type === 'url') {
@@ -450,7 +450,7 @@ class GlobeCesiumComponent extends PureComponent {
       this.removeContextLayers();
       this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
-        l.attributes.id,
+        l.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
       if (labelsPulse.labelsLayerActive) {
@@ -472,7 +472,7 @@ class GlobeCesiumComponent extends PureComponent {
       this.removeContextLayers();
       this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
-        l.attributes.id,
+        l.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
       if (labelsPulse.labelsLayerActive) {

@@ -1,5 +1,7 @@
 import { createAction, createThunkAction } from 'redux-tools';
 
+import { fetchLayers, fetchLayer } from 'services/layer';
+
 // Actions
 import { setContextActiveLayers } from 'layout/app/pulse/layer-pill/actions';
 import { setInitialPosition } from 'components/vis/globe-cesium/actions';
@@ -46,13 +48,8 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
 
       const layerGlobeManager = new LayerGlobeManager();
 
-      fetch(new Request(`${process.env.WRI_API_URL}/layer/${id}`))
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(response.statusText);
-        })
-        .then(async (response) => {
-          const layer = response.data;
+      fetchLayer(id)
+        .then((layer) => {
           layer.threedimensional = threedimensional;
           layer.markerType = markerType;
           layer.contextLayersOnTop = contextLayersOnTop;
@@ -64,19 +61,17 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
           layer.initialPosition = initialPosition;
 
           layerGlobeManager.addLayer(
-            { ...layer.attributes, id },
+            { ...layer, id },
             {
               onLayerAddedSuccess: function success(result) {
                 layer.url = result.url;
                 if (contextLayers.length > 0) {
                   let layersLoaded = 0;
-                  const urlSt = `${process.env.WRI_API_URL}/layer/?ids=${contextLayers.join()}&env=production,preproduction`;
-                  fetch(new Request(urlSt))
-                    .then(resp => resp.json())
+                  fetchLayers({ ids: contextLayers.join() })
                     .then((res) => {
-                      res.data.forEach((l) => {
+                      res.forEach((l) => {
                         layerGlobeManager.addLayer(
-                          { ...l.attributes, id: l.id },
+                          { ...l, id: l.id },
                           {
                             onLayerAddedSuccess: function successContextLayers(ctxtLayer) {
                               layer.contextLayers.push(ctxtLayer);
