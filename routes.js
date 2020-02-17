@@ -11,9 +11,6 @@ routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/data-det
 // admin - dashboards
 routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/dashboards');
 routes.add('admin_dashboards_detail', '/admin/dashboards/:tab/:id/:subtab?', 'admin/dashboards-detail');
-// admin - topics
-routes.add('admin_topics', '/admin/topics/:tab?', 'admin/topics');
-routes.add('admin_topics_detail', '/admin/topics/:tab/:id/:subtab?', 'admin/topics-detail');
 // admin - partners
 routes.add('admin_partners', '/admin/partners/:tab?', 'admin/partners');
 routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/partners-detail');
