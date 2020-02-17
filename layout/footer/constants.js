@@ -19,7 +19,7 @@ export const FOOTER_LINKS = [
     id: 'dashboards',
     label: 'Dashboards',
     route: 'dashboards',
-    pathnames: ['/app/topics', '/app/topics-detail'],
+    pathnames: ['/app/dashboards', '/app/dashboards-detail'],
     children: []
   },
   {
