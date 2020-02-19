@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Components
+import Icon from 'components/ui/icon';
+
 // Styles
 import './styles.scss';
 
@@ -16,10 +19,12 @@ function ExploreDetailHeaderComponent(props) {
       </button>
       <div className="right-buttons">
         <button className="c-btn -secondary -compressed">
-                    SAVE
+          <Icon className="-small" name="icon-star-full" className="-small" />
+          <span>SAVE</span>
         </button>
         <button className="c-btn -secondary -compressed">
-                    SHARE
+          <Icon className="-small" name="icon-arrow-up-2" className="-small" />
+          <span>SHARE</span>
         </button>
       </div>
     </div>

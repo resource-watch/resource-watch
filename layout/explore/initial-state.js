@@ -11,10 +11,7 @@ export default {
     limit: 12,
     total: 0,
     mode: 'grid', // 'grid' or 'list'
-    selected: {
-      id: null,
-      data: {}
-    }
+    selected: null
   },
   filters: {
     open: false,

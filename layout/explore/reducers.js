@@ -42,7 +42,7 @@ export default {
     return { ...state, datasets };
   },
   [actions.setSelectedDataset]: (state, action) => {
-    const datasets = { ...state.datasets, selected: { ...state.datasets.selected, id: action.payload } };
+    const datasets = { ...state.datasets, selected: action.payload };
     return { ...state, datasets };
   },
 

@@ -25,7 +25,7 @@ class Explore extends PureComponent {
   state = { mobileWarningOpened: true }
 
   render() {
-    const { responsive, explore: { datasets: { selected: { id } } } } = this.props;
+    const { responsive, explore: { datasets: { selected } } } = this.props;
     const { mobileWarningOpened } = this.state;
     return (
       <Layout
@@ -37,14 +37,14 @@ class Explore extends PureComponent {
           <ExploreSidebar>
             <div className="row">
               <div className="column small-12">
-                {!id && (
+                {!selected && (
                   <Fragment>
                     <ExploreHeader />
                     <ExploreDatasetsHeader />
                     <ExploreDatasets />
-                  </Fragment> 
+                  </Fragment>
                 )}
-                {id && <ExploreDetail /> }
+                {selected && <ExploreDetail /> }
               </div>
             </div>
           </ExploreSidebar>
