@@ -10,9 +10,11 @@ import './styles.scss';
 
 class ExploreDetailComponent extends React.Component {
   static propTypes = {
-    dataset: PropTypes.object.isRequired,
+    dataset: PropTypes.object,
     loading: PropTypes.bool.isRequired
   };
+
+  static defaultProps = { dataset: null };
 
 
   render() {
