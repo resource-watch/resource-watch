@@ -19,6 +19,7 @@ export const setDatasetsPage = createAction('EXPLORE/setDatasetsPage');
 export const setDatasetsTotal = createAction('EXPLORE/setDatasetsTotal');
 export const setDatasetsLimit = createAction('EXPLORE/setDatasetsLimit');
 export const setDatasetsMode = createAction('EXPLORE/setDatasetsMode');
+export const setSelectedDataset = createAction('EXPLORE/setSelectedDataset');
 
 export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (dispatch, getState) => {
   const { explore, common } = getState();

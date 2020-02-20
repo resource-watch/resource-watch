@@ -31,8 +31,6 @@ export const toggleContextualLayer = createThunkAction('layer-pill/toggleContext
             response,
             {
               onLayerAddedSuccess: function success(result) {
-                console.log('result', result);
-
                 newContextLayers.push(result);
                 dispatch(setContextLayers(newContextLayers));
               }

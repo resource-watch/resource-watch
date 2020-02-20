@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 
@@ -14,6 +14,7 @@ import ExploreHeader from 'layout/explore/explore-header';
 import ExploreDatasetsHeader from 'layout/explore/explore-datasets-header';
 import ExploreDatasets from 'layout/explore/explore-datasets';
 import ExploreMap from 'layout/explore/explore-map';
+import ExploreDetail from 'layout/explore/explore-detail';
 
 // utils
 import { breakpoints } from 'utils/responsive';
@@ -24,7 +25,7 @@ class Explore extends PureComponent {
   state = { mobileWarningOpened: true }
 
   render() {
-    const { responsive } = this.props;
+    const { responsive, explore: { datasets: { selected } } } = this.props;
     const { mobileWarningOpened } = this.state;
     return (
       <Layout
@@ -36,9 +37,14 @@ class Explore extends PureComponent {
           <ExploreSidebar>
             <div className="row">
               <div className="column small-12">
-                <ExploreHeader />
-                <ExploreDatasetsHeader />
-                <ExploreDatasets />
+                {!selected && (
+                  <Fragment>
+                    <ExploreHeader />
+                    <ExploreDatasetsHeader />
+                    <ExploreDatasets />
+                  </Fragment>
+                )}
+                {selected && <ExploreDetail /> }
               </div>
             </div>
           </ExploreSidebar>

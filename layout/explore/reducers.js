@@ -41,6 +41,10 @@ export default {
     logEvent('Explore Menu', 'Change dataset view', action.payload);
     return { ...state, datasets };
   },
+  [actions.setSelectedDataset]: (state, action) => {
+    const datasets = { ...state.datasets, selected: action.payload };
+    return { ...state, datasets };
+  },
 
 
   //

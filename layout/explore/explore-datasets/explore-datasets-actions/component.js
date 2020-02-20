@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Link } from 'routes';
 
 class ExploreDatasetsActionsComponent extends PureComponent {
   static propTypes = {
@@ -9,7 +8,8 @@ class ExploreDatasetsActionsComponent extends PureComponent {
     layer: PropTypes.object,
     layerGroups: PropTypes.array,
     toggleMapLayerGroup: PropTypes.func.isRequired,
-    resetMapLayerGroupsInteraction: PropTypes.func.isRequired
+    resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
+    setSelectedDataset: PropTypes.func.isRequired
   };
 
   isActive = () => {
@@ -26,7 +26,7 @@ class ExploreDatasetsActionsComponent extends PureComponent {
   }
 
   render() {
-    const { dataset, layer } = this.props;
+    const { dataset, layer, setSelectedDataset } = this.props;
     const isActive = this.isActive();
 
     return (
@@ -45,14 +45,12 @@ class ExploreDatasetsActionsComponent extends PureComponent {
           {isActive ? 'Remove from map' : 'Add to map'}
         </button>
 
-        <Link
-          route="explore_detail"
-          params={{ id: dataset.slug }}
+        <button
+          className="c-button -tertiary -compressed"
+          onClick={() => setSelectedDataset(dataset.id)}
         >
-          <a className="c-button -tertiary -compressed">
             Details
-          </a>
-        </Link>
+        </button>
       </div>
     );
   }

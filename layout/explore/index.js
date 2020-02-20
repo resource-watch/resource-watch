@@ -8,11 +8,12 @@ import initialState from './initial-state';
 import LayoutExplore from './component';
 
 // Mandatory
-export {
-  actions, reducers, initialState
-};
+export { actions, reducers, initialState };
 
 export default connect(
-  state => ({ responsive: state.responsive }),
+  state => ({
+    responsive: state.responsive,
+    explore: state.explore
+  }),
   actions
 )(LayoutExplore);
