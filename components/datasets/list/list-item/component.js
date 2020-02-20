@@ -42,9 +42,7 @@ class DatasetListItem extends React.Component {
     responsive: PropTypes.object
   };
 
-  static defaultProps = {
-    mode: 'grid'
-  }
+  static defaultProps = { mode: 'grid' }
 
   /**
    * HELPER
@@ -68,9 +66,7 @@ class DatasetListItem extends React.Component {
    * - renderChart
   */
   renderChart = () => {
-    const {
-      dataset, widget, layer, mode
-    } = this.props;
+    const { dataset, widget, layer, mode } = this.props;
 
     const isWidgetMap = widget && widget.widgetConfig.type === 'map';
     const isEmbedWidget = widget && widget.widgetConfig.type === 'embed';
@@ -93,7 +89,7 @@ class DatasetListItem extends React.Component {
 
     return (
       <div className="list-item-chart">
-        <Link route="explore_detail" params={{ id: dataset.id }}>
+        <Link route="explore" params={{ dataset: dataset.slug }}>
           <a>
             <PlaceholderChart />
           </a>
@@ -103,9 +99,7 @@ class DatasetListItem extends React.Component {
   }
 
   render() {
-    const {
-      dataset, metadata, mode, user, actions, tags, responsive
-    } = this.props;
+    const { dataset, metadata, mode, user, actions, tags, responsive } = this.props;
 
     const isInACollection = belongsToACollection(user, dataset);
     const starIconName = classnames({
@@ -136,7 +130,7 @@ class DatasetListItem extends React.Component {
           values={{ deviceWidth: responsive.fakeWidth }}
         >
           <Link
-            route="explore_detail"
+            route="explore"
             params={{ id: this.props.dataset.slug }}
           >
             {this.renderChart()}
@@ -150,8 +144,8 @@ class DatasetListItem extends React.Component {
             <div className="title-container">
               <h4>
                 <Link
-                  route="explore_detail"
-                  params={{ id: this.props.dataset.slug }}
+                  route="explore"
+                  params={{ dataset: this.props.dataset.slug }}
                 >
                   <a>
                     {(metadata && metadata.info && metadata.info.name) || dataset.name}
