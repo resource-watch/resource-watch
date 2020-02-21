@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 
@@ -35,18 +35,16 @@ class Explore extends PureComponent {
       >
         <div className="c-page-explore">
           <ExploreSidebar>
-            <div className="row">
-              <div className="column small-12">
-                {!selected && (
-                  <Fragment>
-                    <ExploreHeader />
-                    <ExploreDatasetsHeader />
-                    <ExploreDatasets />
-                  </Fragment>
-                )}
-                {selected && <ExploreDetail /> }
+            {!selected && (
+              <div className="row">
+                <div className="column small-12">
+                  <ExploreHeader />
+                  <ExploreDatasetsHeader />
+                  <ExploreDatasets />
+                </div>
               </div>
-            </div>
+            )}
+            {selected && <ExploreDetail /> }
           </ExploreSidebar>
 
           {/* Mobile warning */}

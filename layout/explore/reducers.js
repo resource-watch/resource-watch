@@ -377,6 +377,10 @@ export default {
     const sidebar = { ...state.sidebar, open: action.payload };
     return { ...state, sidebar };
   },
+  [actions.setSidebarAnchor]: (state, action) => {
+    const sidebar = { ...state.sidebar, anchor: action.payload };
+    return { ...state, sidebar };
+  },
 
 
   //

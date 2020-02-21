@@ -109,13 +109,15 @@ class ExplorePage extends PureComponent {
           labels,
           boundaries,
           layerGroups
-        }
+        },
+        sidebar: { anchor }
       }
     } = this.props;
 
     const query = {
       // dataset --> "Old" Explore Detail
       ...!!datasets && datasets.selected && { dataset: datasets.selected },
+      ...!!anchor && { hash: anchor },
       // map params
       zoom: viewport.zoom,
       lat: viewport.latitude,

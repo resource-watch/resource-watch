@@ -83,7 +83,10 @@ export default {
   },
 
   // Sidebar
-  sidebar: { open: true },
+  sidebar: {
+    open: true,
+    anchor: null
+  },
 
   tags: {
     tooltip: false,
