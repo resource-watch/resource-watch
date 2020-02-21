@@ -4,9 +4,9 @@ import classnames from 'classnames';
 
 class ExploreDatasetsActionsComponent extends PureComponent {
   static propTypes = {
-    dataset: PropTypes.object,
-    layer: PropTypes.object,
-    layerGroups: PropTypes.array,
+    dataset: PropTypes.object.isRequired,
+    layer: PropTypes.object.isRequired,
+    layerGroups: PropTypes.array.isRequired,
     toggleMapLayerGroup: PropTypes.func.isRequired,
     resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
     setSelectedDataset: PropTypes.func.isRequired
@@ -47,7 +47,7 @@ class ExploreDatasetsActionsComponent extends PureComponent {
 
         <button
           className="c-button -tertiary -compressed"
-          onClick={() => setSelectedDataset(dataset.id)}
+          onClick={() => setSelectedDataset(dataset.slug || dataset.id)}
         >
             Details
         </button>

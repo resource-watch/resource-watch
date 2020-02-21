@@ -41,7 +41,8 @@ class ExplorePage extends PureComponent {
       basemap,
       labels,
       boundaries,
-      layers
+      layers,
+      dataset
     } = query;
 
     // Query
@@ -55,6 +56,8 @@ class ExplorePage extends PureComponent {
     if (dataTypes) dispatch(actions.setFiltersSelected({ key: 'data_types', list: JSON.parse(decodeURIComponent(dataTypes)) }));
     if (frequencies) dispatch(actions.setFiltersSelected({ key: 'frequencies', list: JSON.parse(decodeURIComponent(frequencies)) }));
     if (timePeriods) dispatch(actions.setFiltersSelected({ key: 'time_periods', list: JSON.parse(decodeURIComponent(timePeriods)) }));
+    // Selected dataset --> "Old" Explore Detail
+    if (dataset) dispatch(actions.setSelectedDataset(dataset));
 
     // sets map params from URL
     dispatch(actions.setViewport({
@@ -111,6 +114,8 @@ class ExplorePage extends PureComponent {
     } = this.props;
 
     const query = {
+      // dataset --> "Old" Explore Detail
+      ...!!datasets && datasets.selected && { dataset: datasets.selected },
       // map params
       zoom: viewport.zoom,
       lat: viewport.latitude,

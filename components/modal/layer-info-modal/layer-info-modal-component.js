@@ -14,7 +14,7 @@ function LayerInfoModal(props) {
       .then((dataset) => {
         setSlug(dataset.slug);
       });
-  }, []);
+  }, [layer.dataset]);
 
   return (
     <div className="c-layer-info-modal">
@@ -24,7 +24,7 @@ function LayerInfoModal(props) {
           <ReactMarkdown linkTarget="_blank" source={layer.description} />
         </div>
         <div className="c-button-container -j-end">
-          <Link route="explore_detail" params={{ id: slug }}>
+          <Link route="explore" params={{ id: slug }}>
             <a className="c-btn -primary">More info</a>
           </Link>
         </div>

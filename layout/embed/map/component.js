@@ -277,8 +277,8 @@ class LayoutEmbedMap extends PureComponent {
           {!webshot && (
             <div className="widget-title">
               <Link
-                route="explore_detail"
-                params={{ id: dataset }}
+                route="explore"
+                params={{ dataset }}
               >
                 <a target="_blank" rel="noopener noreferrer">
                   <h4>{name}</h4>
