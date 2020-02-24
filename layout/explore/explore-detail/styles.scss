@@ -1,7 +1,25 @@
 @import 'css/settings';
 
 .c-explore-detail {
-    .title {
-        margin-top: $space * 4;
+    .content {
+        min-height: 100%;
+        background-color: $color-12;
+
+        .row {
+            background-color: white;
+            margin-bottom: 2 * $space;
+            padding: 8 * $space 8 * $space 8 * $space 8 * $space;
+            .column {
+                .title {
+                    margin-top: $space * 4;
+                }
+                h3 {
+                    margin-bottom: 5 * $space;
+                }
+                h4 {
+                    margin: 0px;
+                }
+            }
+        }
     }
 }

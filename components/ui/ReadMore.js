@@ -1,31 +1,32 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import truncate from 'lodash/truncate';
-
+import ReactMarkdown from 'react-markdown';
 
 class ReadMore extends PureComponent {
   static propTypes = {
     text: PropTypes.string,
-    limitChar: PropTypes.number
+    limitChar: PropTypes.number,
+    markdown: PropTypes.bool
   };
 
   static defaultProps = {
     text: '',
-    limitChar: 1120
+    limitChar: 1120,
+    markdown: false
   };
 
-  state = {
-    visible: false
-  };
+  state = { visible: false };
 
   render() {
-    const { text, limitChar } = this.props;
+    const { text, limitChar, markdown } = this.props;
     const { visible } = this.state;
 
     if (text.length <= limitChar) {
       return (
         <div className="c-read-more">
-          <p>{text}</p>
+          { markdown && <ReactMarkdown linkTarget="_blank" source={text} />}
+          { !markdown && <p>{text}</p> }
         </div>
       );
     }
@@ -36,7 +37,8 @@ class ReadMore extends PureComponent {
 
     return (
       <div className="c-read-more">
-        {shortenedText}
+        { markdown && <ReactMarkdown linkTarget="_blank" source={shortenedText} />}
+        { !markdown && <p>{shortenedText}</p> }
 
         <button
           className="c-button -clean"

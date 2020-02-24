@@ -1,9 +1,13 @@
 @import 'css/settings';
 
 .c-explore-detail-header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
     display: flex;
     width: 100%;
     justify-content: space-between;
+    padding: 2 * $space 8 * $space 2 * $space 8 * $space;
 
     .right-buttons {
         button:first-child {

@@ -159,6 +159,7 @@ export const resetFiltersSort = createAction('EXPLORE/resetFiltersSort');
 
 // SIDEBAR
 export const setSidebarOpen = createAction('EXPLORE/setSidebarOpen');
+export const setSidebarAnchor = createAction('EXPLORE/setSidebarAnchor');
 
 // TAGS TOOLTIP
 export const setTags = createAction('EXPLORE/setTags');
