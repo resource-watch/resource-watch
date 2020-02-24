@@ -31,7 +31,7 @@ class ExploreDetailComponent extends React.Component {
         <Spinner isLoading={loading} className="-light" />
         { metadata &&
           <Fragment>
-            <ExploreDetailHeader />
+            <ExploreDetailHeader dataset={dataset} />
             <div className="content">
               <div id="overview" className="row">
                 <div className="column small-12">

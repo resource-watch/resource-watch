@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { Tooltip } from 'vizzuality-components';
+import { getTooltipContainer } from 'utils/tooltip';
 
 // Components
 import Icon from 'components/ui/icon';
@@ -39,18 +40,6 @@ class ExploreDatasetsSortComponent extends PureComponent {
     this.props.fetchDatasets();
   }
 
-  getTooltipContainer() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (document.querySelector('.sidebar-content')) {
-        return document.querySelector('.sidebar-content');
-      }
-
-      return document.body;
-    }
-
-    return null;
-  }
-
   render() {
     const {
       selected,
@@ -74,7 +63,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
           placement="top"
           trigger={['click']}
           mouseLeaveDelay={0}
-          getTooltipContainer={this.getTooltipContainer}
+          getTooltipContainer={getTooltipContainer}
           destroyTooltipOnHide
         >
           <button
