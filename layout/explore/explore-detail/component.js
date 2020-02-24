@@ -7,6 +7,7 @@ import ReadMore from 'components/ui/ReadMore';
 import ExploreDetailHeader from './explore-detail-header';
 import ExploreDetailFooter from './explore-detail-footer';
 import FurtherInformation from './further-information';
+import DatasetLayers from './dataset-layers';
 
 // Constants
 import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from './constants';
@@ -25,6 +26,7 @@ class ExploreDetailComponent extends React.Component {
   render() {
     const { dataset, loading } = this.props;
     const metadata = dataset && dataset.metadata && dataset.metadata[0];
+    const layers = dataset && dataset.layer;
 
     return (
       <div className="c-explore-detail">
@@ -53,7 +55,7 @@ class ExploreDetailComponent extends React.Component {
               </div>
               <div id="layers" className="row">
                 <div className="column small-12">
-                  <h3>Dataset layers</h3>
+                  <DatasetLayers layers={layers} dataset={dataset} />
                 </div>
               </div>
               <div id="visualization" className="row">
