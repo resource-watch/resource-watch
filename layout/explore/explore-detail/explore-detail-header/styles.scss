@@ -10,6 +10,7 @@
     padding: 2 * $space 8 * $space 2 * $space 8 * $space;
 
     .right-buttons {
+        display: flex;
         button:first-child {
             margin-right: $space;
         }
