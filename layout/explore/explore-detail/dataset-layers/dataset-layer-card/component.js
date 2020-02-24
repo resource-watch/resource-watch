@@ -21,7 +21,8 @@ function DatasetLayerCard(props) {
   const layerButtonClassname = classnames({
     'c-button': true,
     '-secondary': !layerIsActive,
-    '-primary': layerIsActive
+    '-primary': layerIsActive,
+    '-fullwidth': true
   });
 
   return (
@@ -30,22 +31,24 @@ function DatasetLayerCard(props) {
         <strong>{name}</strong>
         <p>{description}</p>
       </div>
-      <button
-        className={layerButtonClassname}
-        onClick={() => {
-          if (!layerIsActive) {
-            if (!layerGroup) {
-              toggleMapLayerGroup({ dataset, toggle: true });
+      <div className="button-container">
+        <button
+          className={layerButtonClassname}
+          onClick={() => {
+            if (!layerIsActive) {
+              if (!layerGroup) {
+                toggleMapLayerGroup({ dataset, toggle: true });
+              }
+              setMapLayerGroupActive({ dataset: { id: dataset.id }, active: id });
+            } else {
+              toggleMapLayerGroup({ dataset: { id: dataset.id }, toggle: false });
             }
-            setMapLayerGroupActive({ dataset: { id: dataset.id }, active: id });
-          } else {
-            toggleMapLayerGroup({ dataset: { id: dataset.id }, toggle: false });
-          }
-        }}
-      >
-        {!layerIsActive && <span>Show layer</span>}
-        {layerIsActive && <span>Active</span>}
-      </button>
+          }}
+        >
+          {!layerIsActive && <span>Show layer</span>}
+          {layerIsActive && <span>Active</span>}
+        </button>
+      </div>
     </div>
   );
 }
