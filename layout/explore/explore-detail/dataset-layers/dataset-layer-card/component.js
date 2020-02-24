@@ -9,15 +9,12 @@ function DatasetLayerCard(props) {
   const {
     dataset,
     layer: { id, name, description },
-    layerGroups,
+    layerGroup,
+    layerIsActive,
     setMapLayerGroupActive,
     toggleMapLayerGroup
   } = props;
 
-  const layerGroup = layerGroups.find(lg => lg.dataset === dataset.id);
-  const layerFromRedux = layerGroup && layerGroup.layers
-    && layerGroup.layers.find(l => l.id === id);
-  const layerIsActive = layerFromRedux && layerFromRedux.active;
   const layerButtonClassname = classnames({
     'c-button': true,
     '-secondary': !layerIsActive,
@@ -56,7 +53,8 @@ function DatasetLayerCard(props) {
 DatasetLayerCard.propTypes = {
   dataset: PropTypes.object.isRequired,
   layer: PropTypes.object.isRequired,
-  layerGroups: PropTypes.array.isRequired,
+  layerGroup: PropTypes.object.isRequired,
+  layerIsActive: PropTypes.bool.isRequired,
   setMapLayerGroupActive: PropTypes.func.isRequired,
   toggleMapLayerGroup: PropTypes.func.isRequired
 };
