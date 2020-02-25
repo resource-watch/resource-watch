@@ -1,0 +1,17 @@
+@import 'css/settings';
+
+.c-dataset-layer-card {
+    display: flex;
+    border: 1px solid rgba(26,28,34,.1);
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    padding: 2 * $space;
+
+    .layer-data {
+        width: 100%;
+    }
+
+    .button-container {
+        min-width: 110px;
+    }
+}

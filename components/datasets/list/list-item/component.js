@@ -16,6 +16,7 @@ import { breakpoints } from 'utils/responsive';
 // Tooltip
 import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
+import { getTooltipContainer } from 'utils/tooltip';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -43,23 +44,6 @@ class DatasetListItem extends React.Component {
   };
 
   static defaultProps = { mode: 'grid' }
-
-  /**
-   * HELPER
-   * - getTooltipContainer
-   * - fetchDatasets
-  */
-  getTooltipContainer() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (document.querySelector('.sidebar-content')) {
-        return document.querySelector('.sidebar-content');
-      }
-
-      return document.body;
-    }
-
-    return null;
-  }
 
   /**
    * HELPER
@@ -164,7 +148,7 @@ class DatasetListItem extends React.Component {
                     overlayClassName="c-rc-tooltip"
                     placement="bottomRight"
                     trigger="click"
-                    getTooltipContainer={this.getTooltipContainer}
+                    getTooltipContainer={getTooltipContainer}
                     monitorWindowResize
                   >
                     <button
