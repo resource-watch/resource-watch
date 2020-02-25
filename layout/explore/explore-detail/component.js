@@ -7,6 +7,7 @@ import ReadMore from 'components/ui/ReadMore';
 import ExploreDetailHeader from './explore-detail-header';
 import ExploreDetailFooter from './explore-detail-footer';
 import FurtherInformation from './further-information';
+import ExploreDetailButtons from './explore-detail-buttons';
 import DatasetLayers from './dataset-layers';
 
 // Constants
@@ -26,6 +27,7 @@ class ExploreDetailComponent extends React.Component {
   render() {
     const { dataset, loading } = this.props;
     const metadata = dataset && dataset.metadata && dataset.metadata[0];
+    const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
 
     return (
@@ -38,12 +40,12 @@ class ExploreDetailComponent extends React.Component {
               <div id="overview" className="row">
                 <div className="column small-12">
                   <div className="title">
-                    <h2>{metadata.info && metadata.info.name}</h2>
+                    <h2>{info && info.name}</h2>
                   </div>
                   <div className="functions">
-                    {metadata.info && metadata.info.functions}
+                    {info && info.functions}
                   </div>
-                  <div className="buttons" />
+                  <ExploreDetailButtons dataset={dataset} />
                   <div className="description">
                     <ReadMore
                       markdown
