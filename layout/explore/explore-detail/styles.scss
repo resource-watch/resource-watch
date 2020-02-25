@@ -9,28 +9,32 @@
             background-color: white;
             margin-bottom: 2 * $space;
             padding: 8 * $space 8 * $space 8 * $space 8 * $space;
-            
-            .overview {
-                .title {
-                    margin-top: $space * 4;
-                }
-                .source-date {
-                    display: flex;
-                    width: 100%;
-                    justify-content: space-between;
-                    .source {
-                        max-width: 100px;
-                        text-overflow: ellipsis;
-                    }
-                    
-                }   
-            }
         }
         h3 {
             margin-bottom: 5 * $space;
         }
         h4 {
             margin: 0px;
+        }
+
+        .overview {
+            .title {
+                margin-top: $space * 4;
+            }
+            .source-date {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                margin: 2 * $space 0px 5 * $space 0px;
+                font-size: $font-size-extra-small;
+
+                .source {
+                    width: 200px;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+            }   
         }
     }
 }
