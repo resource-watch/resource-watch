@@ -8,8 +8,10 @@
         .row {
             background-color: white;
             margin-bottom: 2 * $space;
-            padding: 8 * $space 8 * $space 8 * $space 8 * $space;
-            .column {
+            
+            .explore-detail-section {
+                padding: 8 * $space 8 * $space 8 * $space 8 * $space;
+                
                 .title {
                     margin-top: $space * 4;
                 }
