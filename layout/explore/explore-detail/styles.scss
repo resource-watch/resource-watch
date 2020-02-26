@@ -29,10 +29,10 @@
                 font-size: $font-size-extra-small;
 
                 .source {
-                    width: 200px;
                     text-overflow: ellipsis;
                     white-space: nowrap;
                     overflow: hidden;
+                    margin-right: 4 * $space;
                 }
             }   
         }
