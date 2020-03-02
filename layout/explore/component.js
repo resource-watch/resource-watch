@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 
@@ -10,7 +10,7 @@ import Modal from 'components/modal/modal-component';
 
 // Explore components
 import ExploreSidebar from 'layout/explore/explore-sidebar';
-import ExploreHeader from 'layout/explore/explore-header';
+import ExploreMenu from 'layout/explore/explore-menu';
 import ExploreDatasetsHeader from 'layout/explore/explore-datasets-header';
 import ExploreDatasets from 'layout/explore/explore-datasets';
 import ExploreMap from 'layout/explore/explore-map';
@@ -36,13 +36,13 @@ class Explore extends PureComponent {
         <div className="c-page-explore">
           <ExploreSidebar>
             {!selected && (
-              <div className="row">
-                <div className="column small-12">
-                  <ExploreHeader />
+              <Fragment>
+                <ExploreMenu />
+                <div className="explore-sidebar-content">
                   <ExploreDatasetsHeader />
                   <ExploreDatasets />
                 </div>
-              </div>
+              </Fragment>
             )}
             {selected && <ExploreDetail /> }
           </ExploreSidebar>

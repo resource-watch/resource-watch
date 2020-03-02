@@ -1,12 +1,17 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
+
 // Components
 import DatasetSearch from 'components/datasets/search';
+import Icon from 'components/ui/icon';
+
 // Utils
 import { logEvent } from 'utils/analytics';
 
-class ExploreHeaderComponent extends React.Component {
+// Styles
+import './styles.scss';
+
+class ExploreMenuComponent extends React.Component {
   static propTypes = {
     open: PropTypes.bool,
     tab: PropTypes.string,
@@ -83,29 +88,48 @@ class ExploreHeaderComponent extends React.Component {
     } = this.props;
 
     return (
-      <div className="c-explore-header" >
-        <h1 >Explore</h1 >
-        {/* <p>Identify patterns between data sets on the map or download data for analysis.</p> */}
+      <div className="c-explore-menu" >
 
-        <div className="explore-header-container" >
-          <DatasetSearch
-            open={open}
-            tab={tab}
-            list={tags}
-            search={search}
-            options={options}
-            selected={selected}
-            onChangeOpen={this.props.setFiltersOpen}
-            onChangeTab={this.props.setFiltersTab}
-            onChangeSearch={this.onChangeSearch}
-            onToggleSelected={this.onToggleSelected}
-            onChangeSelected={this.onChangeSelected}
-            onResetSelected={this.onResetSelected}
-          />
-        </div >
+        <DatasetSearch
+          open={open}
+          tab={tab}
+          list={tags}
+          search={search}
+          options={options}
+          selected={selected}
+          onChangeOpen={this.props.setFiltersOpen}
+          onChangeTab={this.props.setFiltersTab}
+          onChangeSearch={this.onChangeSearch}
+          onToggleSelected={this.onToggleSelected}
+          onChangeSelected={this.onChangeSelected}
+          onResetSelected={this.onResetSelected}
+        />
+
+        <div className="menu-options">
+          <div className="menu-option">
+            <Icon name="icon-discover-off" />
+            Discover
+          </div>
+          <div className="menu-option">
+            <Icon name="icon-all-off" />
+            All data
+          </div>
+          <div className="menu-option">
+            <Icon name="icon-recent-off" />
+            Near Real-Time
+          </div>
+          <div className="menu-option">
+            <Icon name="icon-topics-off" />
+            Topics
+          </div>
+        </div>
+
+        <hr />
+
+        <div className="collections-container" />
       </div >
     );
   }
 }
 
-export default ExploreHeaderComponent;
+export default ExploreMenuComponent;

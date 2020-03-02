@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import * as actions from 'layout/explore/actions';
 
-import ExploreHeaderComponent from './explore-header-component';
+import ExploreMenuComponent from './component';
 
 export default connect(
   state => ({
@@ -12,4 +12,4 @@ export default connect(
     sortSelected: state.explore.sort.selected
   }),
   actions
-)(ExploreHeaderComponent);
+)(ExploreMenuComponent);
