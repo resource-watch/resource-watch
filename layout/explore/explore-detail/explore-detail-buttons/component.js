@@ -117,6 +117,7 @@ function ExploreDetailButtons(props) {
       >
         <DatasetSubscriptionsModal
           onRequestClose={() => setShowSubscribeModal(false)}
+          dataset={{ ...props.dataset, metadata: metadata[0] }}
         />
       </Modal>
     </div>
