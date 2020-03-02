@@ -23,16 +23,16 @@
             &:not(:first-child) {
                 margin-right: 2 * $space;
             }
-    
-            &:hover {
-                text-decoration: none;
-                cursor: pointer;
-            }
 
             .c-icon {
                 height: 30px;
                 width: 30px;
             }
+        }
+
+        a:hover {
+            text-decoration: none;
+            cursor: pointer;
         }
 
         .c-login-required {
