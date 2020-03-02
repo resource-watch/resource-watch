@@ -99,6 +99,23 @@ const Icons = () => (
         <title>compass</title>
         <path d="M9.144 22.987l9.84-4.032 4.032-9.935-9.934 3.939-3.938 10.028zM16.029 14.029c1.104 0 2 0.896 2 2s-0.896 2-2 2-2-0.896-2-2 0.896-2 2-2zM16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM16.112 28.021c-6.647 0-12.035-5.388-12.035-12.034s5.388-12.035 12.035-12.035c6.646 0 12.034 5.389 12.034 12.036s-5.387 12.033-12.034 12.033z" />
       </symbol>
+      <symbol id="icon-learn-more" viewBox="0 0 32 32">
+        <title>learn-more</title>
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="butt" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M30.4 20.8v6.4c0 1.767-1.433 3.2-3.2 3.2h-23.2c-1.767 0-3.2-1.433-3.2-3.2v-23.2c0-1.767 1.433-3.2 3.2-3.2h6.4" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="butt" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M20 0.8h10.4v10.4" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="butt" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M30.4 0.8l-15.2 15.2" />
+      </symbol>
+      <symbol id="icon-download" viewBox="0 0 32 32">
+        <title>download</title>
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M16 0.8v19.2" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M27.6 10l-11.6 11.621-11.6-11.621" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="butt" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M30.4 20.8v6.4c0 1.767-1.433 3.2-3.2 3.2h-22.4c-1.767 0-3.2-1.433-3.2-3.2v-6.4" />
+      </symbol>
+      <symbol id="icon-subscription" viewBox="0 0 32 32">
+        <title>subscription</title>
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M4 4h24c1.767 0 3.2 1.433 3.2 3.2v17.6c0 1.767-1.433 3.2-3.2 3.2h-24c-1.767 0-3.2-1.433-3.2-3.2v-17.6c0-1.767 1.433-3.2 3.2-3.2z" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M5.6 8.8l10.424 8.8 10.376-8.8" />
+      </symbol>
     </defs>
   </svg>
 );
