@@ -62,7 +62,8 @@ class ExploreDatasetsActionsComponent extends PureComponent {
             '-secondary': !isActive,
             '-primary': isActive,
             '-compressed': true,
-            '-disable': !layer
+            '-disable': !layer,
+            '-fullwidth': true
           })}
           disabled={!layer}
           onClick={this.handleToggleLayerGroup}
