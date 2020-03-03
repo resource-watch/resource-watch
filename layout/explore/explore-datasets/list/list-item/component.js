@@ -22,13 +22,18 @@ import './styles.scss';
 class DatasetListItem extends React.Component {
   static propTypes = {
     // STATE
-    dataset: PropTypes.object,
+    dataset: PropTypes.object.isRequired,
     widget: PropTypes.object,
     layer: PropTypes.object,
-    metadata: PropTypes.object,
-    tags: PropTypes.node,
-    actions: PropTypes.node,
-    responsive: PropTypes.object
+    metadata: PropTypes.object.isRequired,
+    actions: PropTypes.node.isRequired,
+    responsive: PropTypes.object.isRequired,
+    active: PropTypes.bool.isRequired
+  };
+
+  static defaultProps = {
+    layer: null,
+    widget: null
   };
 
   /**
@@ -67,12 +72,16 @@ class DatasetListItem extends React.Component {
   }
 
   render() {
-    const { dataset, metadata, actions, tags, responsive } = this.props;
+    const { dataset, metadata, actions, responsive, active } = this.props;
 
     const dateLastUpdated = getDateConsideringTimeZone(dataset.dataLastUpdated, true);
+    const classNameValue = classnames({
+      'c-explore-dataset-list-item': true,
+      '-active': active
+    });
 
     return (
-      <div className="c-explore-dataset-list-item">
+      <div className={classNameValue}>
         {/* CHART */}
         <MediaQuery
           minDeviceWidth={breakpoints.medium}

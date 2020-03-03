@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-// utils
+// Utils
 import { getDateConsideringTimeZone } from 'utils/utils';
 
 const getDatasets = state => state.datasets.datasets.list;
