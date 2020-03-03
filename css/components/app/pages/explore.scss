@@ -4,9 +4,10 @@
 
   .explore-sidebar {
     display: flex;
+  }
 
-    .explore-sidebar-content {
-      min-width: 300px;
-    }
+  .explore-sidebar-content {
+    min-width: 330px;
+    max-width: 330px;
   }
 }

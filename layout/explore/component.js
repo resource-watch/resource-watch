@@ -44,7 +44,7 @@ class Explore extends PureComponent {
               <Fragment>
                 <ExploreMenu />
                 <div className="explore-sidebar-content">
-                  {section === EXPLORE_SECTIONS.DISCOVER &&
+                  {section === EXPLORE_SECTIONS.ALL_DATA &&
                     <ExploreDatasets />
                   }
                   {section === EXPLORE_SECTIONS.TOPICS &&

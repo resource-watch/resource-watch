@@ -1,6 +1,6 @@
 export const TOPICS = [
   {
-    id: 'food',
+    id: 'food_and_agriculture',
     label: 'Food and Agriculture',
     backgroundURL: '/static/images/components/layout/explore/topic-food.jpg'
   },
@@ -15,7 +15,7 @@ export const TOPICS = [
     backgroundURL: '/static/images/components/layout/explore/topic-climate.jpg'
   },
   {
-    id: 'forests',
+    id: 'forest',
     label: 'Forests',
     backgroundURL: '/static/images/components/layout/explore/topic-forests.jpg'
   },
@@ -30,12 +30,12 @@ export const TOPICS = [
     backgroundURL: '/static/images/components/layout/explore/topic-society.jpg'
   },
   {
-    id: 'oceans',
+    id: 'ocean',
     label: 'Oceans',
     backgroundURL: '/static/images/components/layout/explore/topic-oceans.jpg'
   },
   {
-    id: 'cities',
+    id: 'urban',
     label: 'Cities',
     backgroundURL: '/static/images/components/layout/explore/topic-cities.jpg'
   }

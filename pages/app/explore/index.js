@@ -42,7 +42,8 @@ class ExplorePage extends PureComponent {
       labels,
       boundaries,
       layers,
-      dataset
+      dataset,
+      section
     } = query;
 
     // Query
@@ -58,6 +59,8 @@ class ExplorePage extends PureComponent {
     if (timePeriods) dispatch(actions.setFiltersSelected({ key: 'time_periods', list: JSON.parse(decodeURIComponent(timePeriods)) }));
     // Selected dataset --> "Old" Explore Detail
     if (dataset) dispatch(actions.setSelectedDataset(dataset));
+    // Selected sidebar section (all data/discover/near-real/time... etc)
+    if (section) dispatch(actions.setSidebarSection(section));
 
     // sets map params from URL
     dispatch(actions.setViewport({
@@ -110,7 +113,7 @@ class ExplorePage extends PureComponent {
           boundaries,
           layerGroups
         },
-        sidebar: { anchor }
+        sidebar: { anchor, section }
       }
     } = this.props;
 
@@ -118,6 +121,7 @@ class ExplorePage extends PureComponent {
       // dataset --> "Old" Explore Detail
       ...!!datasets && datasets.selected && { dataset: datasets.selected },
       ...!!anchor && { hash: anchor },
+      section,
       // map params
       zoom: viewport.zoom,
       lat: viewport.latitude,

@@ -1,3 +1,11 @@
-import ExploreTopicsComponet from './component';
+// Redux
+import { connect } from 'react-redux';
+import * as actions from 'layout/explore/actions';
 
-export default ExploreTopicsComponet;
+import ExploreTopicsComponent from './component';
+
+export default connect(
+  state => null,
+  actions
+)(ExploreTopicsComponent);
+

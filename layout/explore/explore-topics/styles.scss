@@ -2,16 +2,27 @@
 
 .c-explore-topics {
     width: 100%;
-    .explore-topic-button {
-        position: relative;
-        width: 145px;
-        height: 160px;
+    margin: 2 * $space;
 
-        .topic-title {
-            position: absolute;
-            bottom: 3 * $space;
-            left: 3 * $space;
-            color: white;
+    .row {
+        .column {
+            padding: 0px $space 0px $space;
+
+            .explore-topic-button {
+                position: relative;
+                width: 145px;
+                height: 160px;
+                margin-bottom: 2 * $space;
+                cursor: pointer;
+                background: linear-gradient(0deg, #000000 0%, rgba(0,0,0,0) 100%);
+        
+                .topic-title {
+                    position: absolute;
+                    bottom: 3 * $space;
+                    left: 3 * $space;
+                    color: white;
+                }
+            }
         }
     }
 }

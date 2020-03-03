@@ -5,7 +5,7 @@ import * as actions from 'layout/explore/actions';
 import { getUpdatedDatasets } from './selectors';
 
 // component
-import ExploreDatasetsComponent from './explore-datasets-component';
+import ExploreDatasetsComponent from './component';
 
 export default connect(
   state => ({
