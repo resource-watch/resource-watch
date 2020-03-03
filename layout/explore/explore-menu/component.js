@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 // Components
 import DatasetSearch from 'components/datasets/search';
@@ -7,6 +8,7 @@ import Icon from 'components/ui/icon';
 
 // Utils
 import { logEvent } from 'utils/analytics';
+import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
 // Styles
 import './styles.scss';
@@ -21,19 +23,21 @@ class ExploreMenuComponent extends React.Component {
     search: PropTypes.string,
     sortSelected: PropTypes.string,
     shouldAutoUpdateSortDirection: PropTypes.bool,
+    section: PropTypes.string.isRequired,
 
     // ACTIONS
-    fetchDatasets: PropTypes.func,
-    setDatasetsPage: PropTypes.func,
-    setFiltersOpen: PropTypes.func,
-    setFiltersTab: PropTypes.func,
-    setFiltersSearch: PropTypes.func,
-    setFiltersSelected: PropTypes.func,
-    setSortSelected: PropTypes.func,
-    setSortDirection: PropTypes.func,
-    toggleFiltersSelected: PropTypes.func,
-    resetFiltersSelected: PropTypes.func,
-    resetFiltersSort: PropTypes.func
+    fetchDatasets: PropTypes.func.isRequired,
+    setDatasetsPage: PropTypes.func.isRequired,
+    setFiltersOpen: PropTypes.func.isRequired,
+    setFiltersTab: PropTypes.func.isRequired,
+    setFiltersSearch: PropTypes.func.isRequired,
+    setFiltersSelected: PropTypes.func.isRequired,
+    setSortSelected: PropTypes.func.isRequired,
+    setSortDirection: PropTypes.func.isRequired,
+    toggleFiltersSelected: PropTypes.func.isRequired,
+    resetFiltersSelected: PropTypes.func.isRequired,
+    resetFiltersSort: PropTypes.func.isRequired,
+    setSidebarSection: PropTypes.func.isRequired
   }
 
   onChangeSearch = (search) => {
@@ -84,7 +88,9 @@ class ExploreMenuComponent extends React.Component {
       tab,
       tags,
       search,
-      selected
+      selected,
+      section,
+      setSidebarSection
     } = this.props;
 
     return (
@@ -106,20 +112,44 @@ class ExploreMenuComponent extends React.Component {
         />
 
         <div className="menu-options">
-          <div className="menu-option">
-            <Icon name="icon-discover-off" />
+          <div
+            className={classnames({
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.DISCOVER
+})}
+            onClick={() => setSidebarSection(EXPLORE_SECTIONS.DISCOVER)}
+          >
+            <Icon name={`icon-discover-${section === EXPLORE_SECTIONS.DISCOVER ? 'on' : 'off'}`} />
             Discover
           </div>
-          <div className="menu-option">
-            <Icon name="icon-all-off" />
+          <div
+            className={classnames({
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.ALL_DATA
+})}
+            onClick={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
+          >
+            <Icon name={`icon-all-${section === EXPLORE_SECTIONS.ALL_DATA ? 'on' : 'off'}`} />
             All data
           </div>
-          <div className="menu-option">
-            <Icon name="icon-recent-off" />
+          <div
+            className={classnames({
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.NEAR_REAL_TIME
+})}
+            onClick={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
+          >
+            <Icon name={`icon-recent-${section === EXPLORE_SECTIONS.NEAR_REAL_TIME ? 'on' : 'off'}`} />
             Near Real-Time
           </div>
-          <div className="menu-option">
-            <Icon name="icon-topics-off" />
+          <div
+            className={classnames({
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.TOPICS
+})}
+            onClick={() => setSidebarSection(EXPLORE_SECTIONS.TOPICS)}
+          >
+            <Icon name={`icon-topics-${section === EXPLORE_SECTIONS.TOPICS ? 'on' : 'off'}`} />
             Topics
           </div>
         </div>

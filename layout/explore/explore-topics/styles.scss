@@ -1,0 +1,17 @@
+@import 'css/settings';
+
+.c-explore-topics {
+    width: 100%;
+    .explore-topic-button {
+        position: relative;
+        width: 145px;
+        height: 160px;
+
+        .topic-title {
+            position: absolute;
+            bottom: 3 * $space;
+            left: 3 * $space;
+            color: white;
+        }
+    }
+}

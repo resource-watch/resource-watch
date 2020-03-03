@@ -1,5 +1,6 @@
 import { TOPICS, DATA_TYPES, FREQUENCIES, TIME_PERIODS } from 'utils/concepts';
 import { BASEMAPS, LABELS } from 'components/map/constants';
+import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
 export default {
   // Datasets
@@ -85,7 +86,8 @@ export default {
   // Sidebar
   sidebar: {
     open: true,
-    anchor: null
+    anchor: null,
+    section: EXPLORE_SECTIONS.DISCOVER
   },
 
   tags: {

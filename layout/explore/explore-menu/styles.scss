@@ -16,9 +16,18 @@
             align-items: center;
             justify-content: flex-start;
             height: 45px;
+            cursor: pointer;
             
             .c-icon {
                 margin: 0px 5 * $space 0px 4 * $space;
+            }
+
+            &.-active {
+                border-left: $space solid $sea-blue;
+
+                .c-icon {
+                    margin: 0px 5 * $space 0px 3 * $space;
+                }
             }
         }
     }

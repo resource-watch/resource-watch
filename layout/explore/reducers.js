@@ -381,7 +381,10 @@ export default {
     const sidebar = { ...state.sidebar, anchor: action.payload };
     return { ...state, sidebar };
   },
-
+  [actions.setSidebarSection]: (state, action) => {
+    const sidebar = { ...state.sidebar, section: action.payload };
+    return { ...state, sidebar };
+  },
 
   //
   // TAGS
