@@ -97,6 +97,16 @@ node {
           sh("kubectl set image deployment ${appName}-mapbox ${appName}-mapbox=${imageTag} --namespace=rw --record")
           break
 
+        case "explore":
+          sh("echo Deploying to PROD cluster")
+          sh("kubectl config use-context ${KUBECTL_CONTEXT_PREFIX}_${CLOUD_PROJECT_NAME}_${CLOUD_PROJECT_ZONE}_${KUBE_PROD_CLUSTER}")
+          def service = sh([returnStdout: true, script: "kubectl get deploy ${appName}-explore --namespace=rw || echo NotFound"]).trim()
+          if ((service && service.indexOf("NotFound") > -1) || (forceCompleteDeploy)){
+            sh("kubectl apply -f k8s/explore/")
+          }
+          sh("kubectl set image deployment ${appName}-explore ${appName}-explore=${imageTag} --namespace=rw --record")
+          break
+
         // Roll out to production
         case "master":
           def userInput = true
