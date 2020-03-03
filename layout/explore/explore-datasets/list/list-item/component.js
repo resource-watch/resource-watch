@@ -69,7 +69,7 @@ class DatasetListItem extends React.Component {
   render() {
     const { dataset, metadata, actions, tags, responsive } = this.props;
 
-    const dateLastUpdated = getDateConsideringTimeZone(dataset.dataLastUpdated);
+    const dateLastUpdated = getDateConsideringTimeZone(dataset.dataLastUpdated, true);
 
     return (
       <div className="c-explore-dataset-list-item">
