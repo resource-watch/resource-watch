@@ -30,7 +30,7 @@ class ExploreDetailComponent extends React.Component {
   static defaultProps = { dataset: null };
 
   render() {
-    const { dataset, loading } = this.props;
+    const { dataset, loading, setSelectedDataset } = this.props;
     const metadata = dataset && dataset.metadata && dataset.metadata[0];
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
@@ -79,6 +79,14 @@ class ExploreDetailComponent extends React.Component {
               </div>
               <div id="related_content" className="metadata-section">
                 <h3>Related content</h3>
+                <div>
+                  <button
+                    className="c-button -secondary"
+                    onClick={() => setSelectedDataset(null)}
+                  >
+                    See all datasets
+                  </button>
+                </div>
               </div>
             </div>
             <ExploreDetailFooter />
