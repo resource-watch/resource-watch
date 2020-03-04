@@ -1,54 +1,56 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-// Next
-import { Link } from 'routes';
 
 // styles
 import './styles.scss';
 
-class ExploreDetailTags extends PureComponent {
-  static propTypes = { tags: PropTypes.object.isRequired }
+function ExploreDetailTags(props) {
+  const { tags } = props;
 
-  getRouteParams(tag) {
+  const getFilterObject = (tag) => {
     const { id, labels } = tag;
 
-    let treeSt = 'topics';
+    let keySt = 'topics';
     if (labels.includes('TOPIC')) {
-      treeSt = 'topics';
+      keySt = 'topics';
     } else if (labels.includes('GEOGRAPHY')) {
-      treeSt = 'geographies';
+      keySt = 'geographies';
     } else if (labels.includes('DATA_TYPE')) {
-      treeSt = 'dataTypes';
+      keySt = 'dataTypes';
     }
 
-    return { [treeSt]: `["${id}"]` };
-  }
+    return { key: keySt, list: [id] };
+  };
 
-  render() {
-    const { tags } = this.props;
 
-    return (
-      <div className="c-explore-detail-tags">
-        <div className="title">
-          <h4>Tags</h4>
-        </div>
-        <div className="tags">
-          {tags.map(tag => (
-            <Link
-              route="explore"
-              params={this.getRouteParams(tag)}
-              key={tag.id}
-            >
-              <a className="c-button -secondary -compressed">
-                {tag.label}
-              </a>
-            </Link>
-          ))}
-        </div>
+  return (
+    <div className="c-explore-detail-tags">
+      <div className="title">
+        <h4>Tags</h4>
       </div>
-    );
-  }
+      <div className="tags">
+        {tags.map(tag => (
+          <button
+            className="c-button -secondary -compressed"
+            onClick={() => {
+              props.setFiltersSelected(getFilterObject(tag));
+              props.setDatasetsPage(1);
+              props.fetchDatasets();
+            }}
+          >
+            {tag.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
+
+ExploreDetailTags.propTypes = {
+  tags: PropTypes.object.isRequired,
+  setFiltersSelected: PropTypes.func.isRequired,
+  setDatasetsPage: PropTypes.func.isRequired,
+  fetchDatasets: PropTypes.func.isRequired
+};
 
 export default ExploreDetailTags;
