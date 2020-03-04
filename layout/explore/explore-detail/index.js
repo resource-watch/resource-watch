@@ -63,7 +63,7 @@ const ExploreDetailContainer = (props) => {
     if (datasetID) {
       getDataset();
     }
-  }, [datasetID, getDataset]);
+  }, [datasetID]);
 
   return (
     <ExploreDetailComponent
