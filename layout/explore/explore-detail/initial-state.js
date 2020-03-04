@@ -1,4 +1,6 @@
 export default {
   dataset: null,
-  loading: false
+  tags: [],
+  datasetLoading: false,
+  tagsLoading: false
 };
