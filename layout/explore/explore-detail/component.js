@@ -27,13 +27,14 @@ class ExploreDetailComponent extends React.Component {
     dataset: PropTypes.object,
     datasetLoading: PropTypes.bool.isRequired,
     tags: PropTypes.array.isRequired,
-    tagsLoading: PropTypes.bool.isRequired
+    tagsLoading: PropTypes.bool.isRequired,
+    setSelectedDataset: ProptTypes.func.isRequired
   };
 
   static defaultProps = { dataset: null };
 
   render() {
-    const { dataset, datasetLoading, tags } = this.props;
+    const { dataset, datasetLoading, tags, setSelectedDataset } = this.props;
     const metadata = dataset && dataset.metadata && dataset.metadata[0];
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
@@ -44,8 +45,8 @@ class ExploreDetailComponent extends React.Component {
         <Spinner isLoading={datasetLoading} className="-light" />
         { metadata &&
           <Fragment>
-            <ExploreDetailHeader dataset={dataset} />
             <div className="content">
+              <ExploreDetailHeader dataset={dataset} />
               <div id="overview" className="overview metadata-section">
                 <div className="title">
                   <h2>{info && info.name}</h2>
