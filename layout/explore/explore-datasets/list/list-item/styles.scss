@@ -1,0 +1,57 @@
+@import 'css/settings';
+
+.c-explore-dataset-list-item {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  min-height: 130px;
+  border: 1px solid rgba(0,0,0,0.03);
+  border-radius: 4px;
+  box-shadow: 0 1px 6px 0 rgba(0,0,0,0.1);
+  box-sizing: border-box;
+
+  &.-active {
+    border: 2px solid $dark-pink;
+  }
+
+    // Chart
+  .list-item-chart {
+    width: 130px;
+    min-height: 100%;
+    flex-shrink: 0;
+    overflow: hidden;
+
+    .c-we-chart {
+        height: 100%;
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 2 * $space 3 * $space 3 * $space 2 * $space;
+
+    .source-date {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      font-size: $font-size-extra-small;
+
+      .source {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          margin-right: 4 * $space;
+          max-width: 100px;
+      }
+    }  
+
+    .title-actions {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+  }
+}

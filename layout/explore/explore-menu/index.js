@@ -2,14 +2,15 @@
 import { connect } from 'react-redux';
 import * as actions from 'layout/explore/actions';
 
-import ExploreHeaderComponent from './explore-header-component';
+import ExploreMenuComponent from './component';
 
 export default connect(
   state => ({
     // Store
     ...state.explore.filters,
     shouldAutoUpdateSortDirection: state.explore.sort.isSetFromDefaultState,
-    sortSelected: state.explore.sort.selected
+    sortSelected: state.explore.sort.selected,
+    section: state.explore.sidebar.section
   }),
   actions
-)(ExploreHeaderComponent);
+)(ExploreMenuComponent);

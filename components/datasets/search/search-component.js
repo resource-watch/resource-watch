@@ -260,7 +260,7 @@ class SearchComponent extends React.Component {
               '-open': open
             })}
             type="search"
-            placeholder="Search and filter datasets"
+            placeholder="Search datasets"
             value={value}
             onClick={() => this.onToggleOpen(true)}
             onChange={this.onChangeSearch}

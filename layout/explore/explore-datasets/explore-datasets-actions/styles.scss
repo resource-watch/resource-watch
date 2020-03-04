@@ -1,0 +1,11 @@
+@import 'css/settings';
+
+.c-explore-datasets-actions {
+    display: flex;
+
+    button {
+        &:not(:last-child) {
+            margin-right: $space;
+        }
+    }
+}

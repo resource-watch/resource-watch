@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 
@@ -10,14 +10,16 @@ import Modal from 'components/modal/modal-component';
 
 // Explore components
 import ExploreSidebar from 'layout/explore/explore-sidebar';
-import ExploreHeader from 'layout/explore/explore-header';
-import ExploreDatasetsHeader from 'layout/explore/explore-datasets-header';
+import ExploreMenu from 'layout/explore/explore-menu';
+// import ExploreDatasetsHeader from 'layout/explore/explore-datasets-header';
 import ExploreDatasets from 'layout/explore/explore-datasets';
 import ExploreMap from 'layout/explore/explore-map';
 import ExploreDetail from 'layout/explore/explore-detail';
+import ExploreTopics from 'layout/explore/explore-topics';
 
 // utils
 import { breakpoints } from 'utils/responsive';
+import { EXPLORE_SECTIONS } from './constants';
 
 class Explore extends PureComponent {
   static propTypes = { responsive: PropTypes.object.isRequired };
@@ -25,7 +27,10 @@ class Explore extends PureComponent {
   state = { mobileWarningOpened: true }
 
   render() {
-    const { responsive, explore: { datasets: { selected } } } = this.props;
+    const {
+      responsive,
+      explore: { datasets: { selected }, sidebar: { section } }
+    } = this.props;
     const { mobileWarningOpened } = this.state;
     return (
       <Layout
@@ -36,13 +41,18 @@ class Explore extends PureComponent {
         <div className="c-page-explore">
           <ExploreSidebar>
             {!selected && (
-              <div className="row">
-                <div className="column small-12">
-                  <ExploreHeader />
-                  <ExploreDatasetsHeader />
-                  <ExploreDatasets />
+              <Fragment>
+                <ExploreMenu />
+                <div className="explore-sidebar-content">
+                  {section === EXPLORE_SECTIONS.ALL_DATA &&
+                    <ExploreDatasets />
+                  }
+                  {section === EXPLORE_SECTIONS.TOPICS &&
+                    <ExploreTopics />
+                  }
+                  {/* <ExploreDatasetsHeader /> */}
                 </div>
-              </div>
+              </Fragment>
             )}
             {selected && <ExploreDetail /> }
           </ExploreSidebar>
