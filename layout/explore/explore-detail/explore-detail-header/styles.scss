@@ -1,9 +1,10 @@
 @import 'css/settings';
 
 .c-explore-detail-header {
-    position: absolute;
+    position: sticky;
     top: 0px;
     left: 0px;
+    z-index: 999999999;
     display: flex;
     width: 100%;
     justify-content: space-between;
