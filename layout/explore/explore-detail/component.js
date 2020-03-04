@@ -13,6 +13,7 @@ import ExploreDetailHeader from './explore-detail-header';
 import ExploreDetailFooter from './explore-detail-footer';
 import FurtherInformation from './further-information';
 import ExploreDetailButtons from './explore-detail-buttons';
+import ExploreDetailTags from './explore-detail-tags';
 import DatasetLayers from './dataset-layers';
 
 // Constants
@@ -24,22 +25,23 @@ import './styles.scss';
 class ExploreDetailComponent extends React.Component {
   static propTypes = {
     dataset: PropTypes.object,
-    loading: PropTypes.bool.isRequired
+    datasetLoading: PropTypes.bool.isRequired,
+    tags: PropTypes.array.isRequired,
+    tagsLoading: PropTypes.bool.isRequired
   };
 
   static defaultProps = { dataset: null };
 
   render() {
-    const { dataset, loading, setSelectedDataset } = this.props;
+    const { dataset, datasetLoading, tags } = this.props;
     const metadata = dataset && dataset.metadata && dataset.metadata[0];
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
 
-
     return (
       <div className="c-explore-detail">
-        <Spinner isLoading={loading} className="-light" />
+        <Spinner isLoading={datasetLoading} className="-light" />
         { metadata &&
           <Fragment>
             <ExploreDetailHeader dataset={dataset} />
@@ -67,6 +69,9 @@ class ExploreDetailComponent extends React.Component {
                     limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS}
                   />
                 </div>
+                {tags && tags.length && tags.length > 0 &&
+                  <ExploreDetailTags tags={tags} />
+                }
               </div>
               <div id="layers" className="metadata-section">
                 <DatasetLayers layers={layers} dataset={dataset} />

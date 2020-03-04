@@ -7,10 +7,10 @@ import MediaQuery from 'react-responsive';
 import { breakpoints } from 'utils/responsive';
 
 // Components
-import DatasetList from 'components/datasets/list';
 import Paginator from 'components/ui/Paginator';
 
 // Explore components
+import DatasetList from './list';
 import ExploreDatasetsTags from './explore-datasets-tags';
 import ExploreDatasetsActions from './explore-datasets-actions';
 
@@ -51,9 +51,7 @@ class ExploreDatasetsComponent extends React.Component {
   });
 
   render() {
-    const {
-      list, mode, page, limit, total, responsive
-    } = this.props;
+    const { list, mode, page, limit, total, responsive } = this.props;
 
     return (
       <div className="c-explore-datasets">

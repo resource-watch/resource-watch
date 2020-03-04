@@ -1,4 +1,13 @@
 .c-page-explore {
   display: flex;
   height: calc(100% - #{$header-main-height});
+
+  .explore-sidebar {
+    display: flex;
+  }
+
+  .explore-sidebar-content {
+    min-width: 330px;
+    max-width: 330px;
+  }
 }

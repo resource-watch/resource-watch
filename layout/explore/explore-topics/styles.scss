@@ -1,0 +1,61 @@
+@import 'css/settings';
+
+.c-explore-topics {
+    width: 100%;
+    padding: 2 * $space;
+
+    .row {
+        .column {
+            padding: 0px $space 0px $space;
+
+            .explore-topic-button {
+                position: relative;
+                width: 145px;
+                height: 160px;
+                margin-bottom: 2 * $space;
+                cursor: pointer;
+                border-radius: 4px;
+                box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
+                
+                .topic-overlay {
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0.7;
+                    border-radius: 4px;
+                }
+
+                .topic-gradient {
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(0deg, rgba(0,0,0,30) 0%, rgba(0,0,0,0) 100%);
+                }
+
+                .topic-image {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 4px;
+                    background-size: cover;
+                }
+
+                .topic-title {
+                    position: absolute;
+                    bottom: 3 * $space;
+                    left: 3 * $space;
+                    color: white;
+                }
+
+                &:hover {
+                    box-shadow: 0 20px 30px rgba($black, .2);
+                    transform: translateY(-4px);
+                    transition: all $animation-time-2 $ease-in-out-sine;
+                }
+            }
+        }
+    }
+}

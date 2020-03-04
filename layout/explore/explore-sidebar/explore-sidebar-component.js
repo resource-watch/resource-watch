@@ -65,7 +65,7 @@ class ExploreSidebarComponent extends React.Component {
         {loading && <Spinner isLoading className="-light" />}
 
         <div
-          className="sidebar-content"
+          className="sidebar-content explore-sidebar"
         // onScroll={() => this.handleScroll()}
         >
           {this.props.children}

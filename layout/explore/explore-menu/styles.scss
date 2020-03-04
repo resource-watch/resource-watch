@@ -1,0 +1,38 @@
+@import 'css/settings';
+
+.c-explore-menu {
+    min-width: 200px;
+    max-width: 200px;
+    height: 100%;
+
+    .c-dataset-search {
+        width: 100%;
+        padding: 2 * $space 0px 2 * $space 2 * $space;
+    }
+
+    .menu-options {
+        .menu-option {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 45px;
+            cursor: pointer;
+            
+            .c-icon {
+                margin: 0px 5 * $space 0px 4 * $space;
+            }
+
+            &.-active {
+                border-left: $space solid $sea-blue;
+
+                .c-icon {
+                    margin: 0px 5 * $space 0px 3 * $space;
+                }
+            }
+        }
+    }
+
+    hr {
+        margin: 2 * $space 5 * $space 2 * $space 5 * $space;
+    }
+}
