@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReadMore from 'components/ui/ReadMore';
+import ReactMarkdown from 'react-markdown';
 
 // Constants
 import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from 'layout/explore/explore-detail/constants';
@@ -9,7 +10,19 @@ import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from 'layout/explore/explore-d
 import './styles.scss';
 
 function FurtherInformationComponent(props) {
-  const { metadata: { info: { technical_title, cautions, citation, sources } } } = props;
+  const {
+    metadata: {
+      info: {
+        technical_title,
+        cautions, citation,
+        sources,
+        geographic_coverage,
+        frequency_of_updates
+      },
+      language
+    }
+  } = props;
+
   return (
     <div className="c-further-information">
       <h3>Further information</h3>
@@ -38,19 +51,39 @@ function FurtherInformationComponent(props) {
             limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS}
           />
         </div>
-            )}
+      )}
       {sources && (
         <div className="metadata-field">
           <h4>Sources</h4>
           {
-                        sources.map(source => (
-                          <div key={source['source-name']}>
-                            {source['source-name']}
-                            {source['source-description']}
-                          </div>))
-                    }
+              sources.map(source => (
+                <div key={source['source-name']}>
+                  {source['source-name']}
+                  {source['source-description']}
+                </div>))
+          }
         </div>
-            )}
+      )}
+      <div className="row" >
+        <div className="column small-6">
+          <div className="metadata-field">
+            <h4>Geographic coverage</h4>
+            <ReactMarkdown linkTarget="_blank" source={geographic_coverage} />
+          </div>
+        </div>
+        <div className="column small-6">
+          <div className="metadata-field">
+            <h4>Frequency of updates</h4>
+            <ReactMarkdown linkTarget="_blank" source={frequency_of_updates} />
+          </div>
+        </div>
+        <div className="column small-6">
+          <div className="metadata-field">
+            <h4>Published language</h4>
+            <ReactMarkdown linkTarget="_blank" source={language} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
