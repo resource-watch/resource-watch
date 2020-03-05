@@ -87,7 +87,8 @@ export default {
   sidebar: {
     open: true,
     anchor: null,
-    section: EXPLORE_SECTIONS.DISCOVER
+    section: EXPLORE_SECTIONS.DISCOVER,
+    selectedCollection: null
   },
 
   tags: {

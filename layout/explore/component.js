@@ -16,6 +16,7 @@ import ExploreDatasets from 'layout/explore/explore-datasets';
 import ExploreMap from 'layout/explore/explore-map';
 import ExploreDetail from 'layout/explore/explore-detail';
 import ExploreTopics from 'layout/explore/explore-topics';
+import ExploreCollections from 'layout/explore/explore-collections';
 
 // utils
 import { breakpoints } from 'utils/responsive';
@@ -49,6 +50,9 @@ class Explore extends PureComponent {
                   }
                   {section === EXPLORE_SECTIONS.TOPICS &&
                     <ExploreTopics />
+                  }
+                  {section === EXPLORE_SECTIONS.COLLECTIONS &&
+                    <ExploreCollections />
                   }
                   {/* <ExploreDatasetsHeader /> */}
                 </div>

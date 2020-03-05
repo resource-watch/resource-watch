@@ -22,11 +22,18 @@
                 margin: 0px 5 * $space 0px 4 * $space;
             }
 
+            .collection-name {
+                margin-left: 5 * $space;
+            }
+
             &.-active {
                 border-left: $space solid $sea-blue;
 
                 .c-icon {
                     margin: 0px 5 * $space 0px 3 * $space;
+                }
+                .collection-name {
+                    margin-left: 4 * $space;
                 }
             }
         }

@@ -43,7 +43,8 @@ class ExplorePage extends PureComponent {
       boundaries,
       layers,
       dataset,
-      section
+      section,
+      selectedCollection
     } = query;
 
     // Query
@@ -61,6 +62,8 @@ class ExplorePage extends PureComponent {
     if (dataset) dispatch(actions.setSelectedDataset(dataset));
     // Selected sidebar section (all data/discover/near-real/time... etc)
     if (section) dispatch(actions.setSidebarSection(section));
+    // Selected collection (if any)
+    if (selectedCollection) dispatch(actions.setSidebarSelectedCollection(selectedCollection));
 
     // sets map params from URL
     dispatch(actions.setViewport({
@@ -113,7 +116,7 @@ class ExplorePage extends PureComponent {
           boundaries,
           layerGroups
         },
-        sidebar: { anchor, section }
+        sidebar: { anchor, section, selectedCollection }
       }
     } = this.props;
 
@@ -122,6 +125,7 @@ class ExplorePage extends PureComponent {
       ...!!datasets && datasets.selected && { dataset: datasets.selected },
       ...!!anchor && { hash: anchor },
       section,
+      selectedCollection,
       // map params
       zoom: viewport.zoom,
       lat: viewport.latitude,

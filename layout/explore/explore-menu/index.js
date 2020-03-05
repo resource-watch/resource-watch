@@ -10,7 +10,9 @@ export default connect(
     ...state.explore.filters,
     shouldAutoUpdateSortDirection: state.explore.sort.isSetFromDefaultState,
     sortSelected: state.explore.sort.selected,
-    section: state.explore.sidebar.section
+    section: state.explore.sidebar.section,
+    selectedCollection: state.explore.sidebar.selectedCollection,
+    collections: state.user.collections.items
   }),
   actions
 )(ExploreMenuComponent);
