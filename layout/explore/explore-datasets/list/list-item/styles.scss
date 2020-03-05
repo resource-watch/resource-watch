@@ -17,12 +17,17 @@
     // Chart
   .list-item-chart {
     width: 130px;
+    max-height: 130px;
     min-height: 100%;
     flex-shrink: 0;
     overflow: hidden;
 
     .c-we-chart {
         height: 100%;
+    }
+
+    &.-expanded-chart {
+      width: 50%;
     }
   }
 

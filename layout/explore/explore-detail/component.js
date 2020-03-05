@@ -15,6 +15,7 @@ import FurtherInformation from './further-information';
 import ExploreDetailButtons from './explore-detail-buttons';
 import ExploreDetailTags from './explore-detail-tags';
 import DatasetLayers from './dataset-layers';
+import RelatedContent from './related-content';
 
 // Constants
 import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from './constants';
@@ -27,14 +28,13 @@ class ExploreDetailComponent extends React.Component {
     dataset: PropTypes.object,
     datasetLoading: PropTypes.bool.isRequired,
     tags: PropTypes.array.isRequired,
-    tagsLoading: PropTypes.bool.isRequired,
-    setSelectedDataset: ProptTypes.func.isRequired
+    tagsLoading: PropTypes.bool.isRequired
   };
 
   static defaultProps = { dataset: null };
 
   render() {
-    const { dataset, datasetLoading, tags, setSelectedDataset } = this.props;
+    const { dataset, datasetLoading, tags } = this.props;
     const metadata = dataset && dataset.metadata && dataset.metadata[0];
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
@@ -84,15 +84,7 @@ class ExploreDetailComponent extends React.Component {
                 <FurtherInformation metadata={metadata} />
               </div>
               <div id="related_content" className="metadata-section">
-                <h3>Related content</h3>
-                <div>
-                  <button
-                    className="c-button -secondary"
-                    onClick={() => setSelectedDataset(null)}
-                  >
-                    See all datasets
-                  </button>
-                </div>
+                <RelatedContent datasetID={dataset.id} />
               </div>
             </div>
             <ExploreDetailFooter />
