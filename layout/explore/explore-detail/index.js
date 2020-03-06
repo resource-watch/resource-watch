@@ -68,6 +68,7 @@ const ExploreDetailContainer = (props) => {
   return (
     <ExploreDetailComponent
       {...state}
+      {...props}
     />);
 };
 

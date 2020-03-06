@@ -15,6 +15,7 @@ import FurtherInformation from './further-information';
 import ExploreDetailButtons from './explore-detail-buttons';
 import ExploreDetailTags from './explore-detail-tags';
 import DatasetLayers from './dataset-layers';
+import RelatedContent from './related-content';
 
 // Constants
 import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from './constants';
@@ -44,8 +45,8 @@ class ExploreDetailComponent extends React.Component {
         <Spinner isLoading={datasetLoading} className="-light" />
         { metadata &&
           <Fragment>
-            <ExploreDetailHeader dataset={dataset} />
             <div className="content">
+              <ExploreDetailHeader dataset={dataset} />
               <div id="overview" className="overview metadata-section">
                 <div className="title">
                   <h2>{info && info.name}</h2>
@@ -83,7 +84,7 @@ class ExploreDetailComponent extends React.Component {
                 <FurtherInformation metadata={metadata} />
               </div>
               <div id="related_content" className="metadata-section">
-                <h3>Related content</h3>
+                <RelatedContent datasetID={dataset.id} />
               </div>
             </div>
             <ExploreDetailFooter />
