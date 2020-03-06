@@ -26,9 +26,13 @@ function ExploreTopicsComponent(props) {
               onClick={() => clickHandler(topic.id)}
               onKeyPress={() => clickHandler(topic.id)}
             >
-              <div className="topic-overlay" style={{ backgroundColor: topic.backgroundColor }} />
-              <div className="topic-gradient" />
-              <div className="topic-image" style={{ backgroundImage: `url(${topic.backgroundURL}` }} />
+              <div
+                className="topic-image"
+                style={{
+ background: `linear-gradient(${topic.backgroundColor},${topic.backgroundColor}),
+                linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.30)),url(${topic.backgroundURL})`
+}}
+              />
               <div className="topic-title">
                 {topic.label}
               </div>
