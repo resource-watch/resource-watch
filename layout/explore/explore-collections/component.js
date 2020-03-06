@@ -8,6 +8,7 @@ import { fetchDatasets } from 'services/dataset';
 // Components
 import DatasetList from 'layout/explore/explore-datasets/list';
 import Spinner from 'components/ui/Spinner';
+import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 
 // Styles
 import './styles.scss';
@@ -18,11 +19,9 @@ function ExploreCollectionsComponent(props) {
   const [datasetsLoading, setDatasetsLoading] = useState(false);
 
   useEffect(() => {
-    const datasetIDs = collection &&
-        collection.resources.filter(elem => elem.type === 'dataset').map(e => e.id) || [];
+    const datasetIDs = (collection &&
+        collection.resources.filter(elem => elem.type === 'dataset').map(e => e.id)) || [];
     if (datasetIDs.length > 0) {
-      console.log('load datasets:', datasetIDs);
-
       setDatasetsLoading(true);
       fetchDatasets({
         ids: datasetIDs.join(','),
@@ -45,16 +44,15 @@ function ExploreCollectionsComponent(props) {
     <div className="c-explore-collections">
       <Spinner isLoading={datasetsLoading} className="-light" />
       {datasets.length > 0 &&
-        <DatasetList list={datasets} />
-            }
+        <DatasetList
+          list={datasets}
+          actions={<ExploreDatasetsActions />}
+        />
+        }
     </div>
   );
 }
 
-ExploreCollectionsComponent.propTypes = {
-  setFiltersSelected: PropTypes.func.isRequired,
-  setDatasetsPage: PropTypes.func.isRequired,
-  fetchDatasets: PropTypes.func.isRequired
-};
+ExploreCollectionsComponent.propTypes = { collection: PropTypes.func.isRequired };
 
 export default ExploreCollectionsComponent;

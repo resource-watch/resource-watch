@@ -12,6 +12,7 @@ export default connect(
     sortSelected: state.explore.sort.selected,
     section: state.explore.sidebar.section,
     selectedCollection: state.explore.sidebar.selectedCollection,
+    userIsLoggedIn: !!state.user.id,
     collections: state.user.collections.items
   }),
   actions

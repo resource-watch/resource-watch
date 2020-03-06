@@ -21,9 +21,12 @@ class ExploreMenuComponent extends React.Component {
     options: PropTypes.object,
     selected: PropTypes.object,
     search: PropTypes.string,
-    sortSelected: PropTypes.string,
+    sortSelected: PropTypes.string.isRequired,
     shouldAutoUpdateSortDirection: PropTypes.bool,
     section: PropTypes.string.isRequired,
+    collections: PropTypes.array.isRequired,
+    userIsLoggedIn: PropTypes.bool.isRequired,
+    selectedCollection: PropTypes.string.isRequired,
 
     // ACTIONS
     fetchDatasets: PropTypes.func.isRequired,
@@ -37,7 +40,8 @@ class ExploreMenuComponent extends React.Component {
     toggleFiltersSelected: PropTypes.func.isRequired,
     resetFiltersSelected: PropTypes.func.isRequired,
     resetFiltersSort: PropTypes.func.isRequired,
-    setSidebarSection: PropTypes.func.isRequired
+    setSidebarSection: PropTypes.func.isRequired,
+    setSidebarSelectedCollection: PropTypes.func.isRequired
   }
 
   onChangeSearch = (search) => {
@@ -93,6 +97,7 @@ class ExploreMenuComponent extends React.Component {
       selectedCollection,
       setSidebarSection,
       setSidebarSelectedCollection,
+      userIsLoggedIn,
       collections
     } = this.props;
 
@@ -170,7 +175,7 @@ class ExploreMenuComponent extends React.Component {
 
           <hr />
 
-          {collections.map(collection => (
+          {userIsLoggedIn && collections.map(collection => (
             <div
               className={classnames({
                 'menu-option': true,
@@ -191,6 +196,21 @@ class ExploreMenuComponent extends React.Component {
               <span className="collection-name">{collection.name}</span>
             </div>
           ))}
+
+          {!userIsLoggedIn &&
+            <div
+              className={classnames({
+                  'menu-option': true,
+                  '-active': section === EXPLORE_SECTIONS.COLLECTIONS
+                })}
+              role="button"
+              tabIndex={0}
+              onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS)}
+              onClick={() => setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS)}
+            >
+              <span className="collection-name">Your favorites</span>
+            </div>
+          }
         </div>
       </div >
     );
