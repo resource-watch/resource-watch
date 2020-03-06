@@ -45,13 +45,26 @@ class ExploreMenuComponent extends React.Component {
   }
 
   onChangeSearch = (search) => {
-    if (search.length === 0 && this.props.sortSelected === 'relevance') {
-      this.props.resetFiltersSort();
+    const {
+      resetFiltersSort,
+      setSortSelected,
+      setSortDirection,
+      setSidebarSection,
+      sortSelected,
+      shouldAutoUpdateSortDirection,
+      setFiltersSearch
+    } = this.props;
+
+    console.log('this.props', this.props);
+
+    if (search.length === 0 && sortSelected === 'relevance') {
+      resetFiltersSort();
     }
-    this.props.setFiltersSearch(search);
-    if (search.length > 0 && this.props.shouldAutoUpdateSortDirection) {
-      this.props.setSortSelected('relevance');
-      this.props.setSortDirection(-1);
+    setFiltersSearch(search);
+    if (search.length > 0 && shouldAutoUpdateSortDirection) {
+      setSortSelected('relevance');
+      setSortDirection(-1);
+      setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
     }
     this.fetchDatasets();
     logEvent('Explore Menu', 'search', search);

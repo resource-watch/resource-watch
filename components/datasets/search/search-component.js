@@ -133,9 +133,7 @@ class SearchComponent extends React.Component {
   onKeyEnter = () => {
     const { value, index, groupedFilteredList } = this.state;
 
-    if (index === 0) {
-      this.props.onChangeSearch(value);
-    }
+    this.props.onChangeSearch(value);
 
     if (index !== 0) {
       const filteredList = flatten(Object.keys(groupedFilteredList).map(g =>
@@ -248,7 +246,7 @@ class SearchComponent extends React.Component {
                             className={classnames({ '-active': index === currentIndex })}
                             onClick={() => {
                               this.props.onToggleSelected(l);
-
+                              this.props.onChangeSearch(value);
                               this.onToggleOpen(false);
                             }}
                             onMouseOver={() => this.onListItemMouseOver(currentIndex)}
