@@ -4,6 +4,8 @@ import * as actions from 'layout/explore/actions';
 
 import ExploreMenuComponent from './component';
 
+import { getCollectionsFiltered } from './selectors';
+
 export default connect(
   state => ({
     // Store
@@ -13,7 +15,7 @@ export default connect(
     section: state.explore.sidebar.section,
     selectedCollection: state.explore.sidebar.selectedCollection,
     userIsLoggedIn: !!state.user.id,
-    collections: state.user.collections.items
+    collections: getCollectionsFiltered(state)
   }),
   actions
 )(ExploreMenuComponent);
