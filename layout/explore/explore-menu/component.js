@@ -21,9 +21,12 @@ class ExploreMenuComponent extends React.Component {
     options: PropTypes.object,
     selected: PropTypes.object,
     search: PropTypes.string,
-    sortSelected: PropTypes.string,
+    sortSelected: PropTypes.string.isRequired,
     shouldAutoUpdateSortDirection: PropTypes.bool,
     section: PropTypes.string.isRequired,
+    collections: PropTypes.array.isRequired,
+    userIsLoggedIn: PropTypes.bool.isRequired,
+    selectedCollection: PropTypes.string.isRequired,
 
     // ACTIONS
     fetchDatasets: PropTypes.func.isRequired,
@@ -37,7 +40,8 @@ class ExploreMenuComponent extends React.Component {
     toggleFiltersSelected: PropTypes.func.isRequired,
     resetFiltersSelected: PropTypes.func.isRequired,
     resetFiltersSort: PropTypes.func.isRequired,
-    setSidebarSection: PropTypes.func.isRequired
+    setSidebarSection: PropTypes.func.isRequired,
+    setSidebarSelectedCollection: PropTypes.func.isRequired
   }
 
   onChangeSearch = (search) => {
@@ -90,7 +94,11 @@ class ExploreMenuComponent extends React.Component {
       search,
       selected,
       section,
-      setSidebarSection
+      selectedCollection,
+      setSidebarSection,
+      setSidebarSelectedCollection,
+      userIsLoggedIn,
+      collections
     } = this.props;
 
     return (
@@ -114,9 +122,12 @@ class ExploreMenuComponent extends React.Component {
         <div className="menu-options">
           <div
             className={classnames({
-              'menu-option': true,
-              '-active': section === EXPLORE_SECTIONS.DISCOVER
-})}
+                'menu-option': true,
+                '-active': section === EXPLORE_SECTIONS.DISCOVER
+              })}
+            role="button"
+            tabIndex={0}
+            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.DISCOVER)}
             onClick={() => setSidebarSection(EXPLORE_SECTIONS.DISCOVER)}
           >
             <Icon name={`icon-discover-${section === EXPLORE_SECTIONS.DISCOVER ? 'on' : 'off'}`} />
@@ -124,9 +135,12 @@ class ExploreMenuComponent extends React.Component {
           </div>
           <div
             className={classnames({
-              'menu-option': true,
-              '-active': section === EXPLORE_SECTIONS.ALL_DATA
-})}
+                'menu-option': true,
+                '-active': section === EXPLORE_SECTIONS.ALL_DATA
+              })}
+            role="button"
+            tabIndex={0}
+            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
             onClick={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
           >
             <Icon name={`icon-all-${section === EXPLORE_SECTIONS.ALL_DATA ? 'on' : 'off'}`} />
@@ -134,9 +148,12 @@ class ExploreMenuComponent extends React.Component {
           </div>
           <div
             className={classnames({
-              'menu-option': true,
-              '-active': section === EXPLORE_SECTIONS.NEAR_REAL_TIME
-})}
+                'menu-option': true,
+                '-active': section === EXPLORE_SECTIONS.NEAR_REAL_TIME
+              })}
+            role="button"
+            tabIndex={0}
+            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
             onClick={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
           >
             <Icon name={`icon-recent-${section === EXPLORE_SECTIONS.NEAR_REAL_TIME ? 'on' : 'off'}`} />
@@ -144,19 +161,57 @@ class ExploreMenuComponent extends React.Component {
           </div>
           <div
             className={classnames({
-              'menu-option': true,
-              '-active': section === EXPLORE_SECTIONS.TOPICS
-})}
+                'menu-option': true,
+                '-active': section === EXPLORE_SECTIONS.TOPICS
+              })}
+            role="button"
+            tabIndex={0}
+            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.TOPICS)}
             onClick={() => setSidebarSection(EXPLORE_SECTIONS.TOPICS)}
           >
             <Icon name={`icon-topics-${section === EXPLORE_SECTIONS.TOPICS ? 'on' : 'off'}`} />
             Topics
           </div>
+
+          <hr />
+
+          {userIsLoggedIn && collections.map(collection => (
+            <div
+              className={classnames({
+                'menu-option': true,
+                collection: true,
+                '-active': section === EXPLORE_SECTIONS.COLLECTIONS && selectedCollection === collection.id
+                })}
+              role="button"
+              tabIndex={0}
+              onKeyPress={() => {
+                setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
+                setSidebarSelectedCollection(collection.id);
+              }}
+              onClick={() => {
+                setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
+                setSidebarSelectedCollection(collection.id);
+              }}
+            >
+              <span className="collection-name">{collection.name}</span>
+            </div>
+          ))}
+
+          {!userIsLoggedIn &&
+            <div
+              className={classnames({
+                  'menu-option': true,
+                  '-active': section === EXPLORE_SECTIONS.COLLECTIONS
+                })}
+              role="button"
+              tabIndex={0}
+              onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS)}
+              onClick={() => setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS)}
+            >
+              <span className="collection-name">Your favorites</span>
+            </div>
+          }
         </div>
-
-        <hr />
-
-        <div className="collections-container" />
       </div >
     );
   }

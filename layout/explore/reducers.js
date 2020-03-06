@@ -385,6 +385,10 @@ export default {
     const sidebar = { ...state.sidebar, section: action.payload };
     return { ...state, sidebar };
   },
+  [actions.setSidebarSelectedCollection]: (state, action) => {
+    const sidebar = { ...state.sidebar, selectedCollection: action.payload };
+    return { ...state, sidebar };
+  },
 
   //
   // TAGS

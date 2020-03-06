@@ -25,11 +25,19 @@
                 margin: 0px 5 * $space 0px 4 * $space;
             }
 
+            .collection-name {
+                margin-left: 5 * $space;
+            }
+
             &.-active {
                 border-left: $space solid $sea-blue;
+                background-color: rgba(44,117,176,0.05);
 
                 .c-icon {
                     margin: 0px 5 * $space 0px 3 * $space;
+                }
+                .collection-name {
+                    margin-left: 4 * $space;
                 }
             }
         }

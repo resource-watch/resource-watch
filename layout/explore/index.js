@@ -13,7 +13,8 @@ export { actions, reducers, initialState };
 export default connect(
   state => ({
     responsive: state.responsive,
-    explore: state.explore
+    explore: state.explore,
+    userIsLoggedIn: !!state.user.id
   }),
   actions
 )(LayoutExplore);

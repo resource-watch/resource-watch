@@ -16,6 +16,8 @@ import ExploreDatasets from 'layout/explore/explore-datasets';
 import ExploreMap from 'layout/explore/explore-map';
 import ExploreDetail from 'layout/explore/explore-detail';
 import ExploreTopics from 'layout/explore/explore-topics';
+import ExploreCollections from 'layout/explore/explore-collections';
+import ExploreLogin from 'layout/explore/explore-login';
 import ExploreDiscover from 'layout/explore/explore-discover';
 
 // utils
@@ -23,14 +25,19 @@ import { breakpoints } from 'utils/responsive';
 import { EXPLORE_SECTIONS } from './constants';
 
 class Explore extends PureComponent {
-  static propTypes = { responsive: PropTypes.object.isRequired };
+  static propTypes = {
+    responsive: PropTypes.object.isRequired,
+    explore: PropTypes.object.isRequired,
+    userIsLoggedIn: PropTypes.bool.isRequired
+  };
 
   state = { mobileWarningOpened: true }
 
   render() {
     const {
       responsive,
-      explore: { datasets: { selected }, sidebar: { section } }
+      explore: { datasets: { selected }, sidebar: { section } },
+      userIsLoggedIn
     } = this.props;
     const { mobileWarningOpened } = this.state;
     return (
@@ -50,6 +57,12 @@ class Explore extends PureComponent {
                   }
                   {section === EXPLORE_SECTIONS.TOPICS &&
                     <ExploreTopics />
+                  }
+                  {section === EXPLORE_SECTIONS.COLLECTIONS && userIsLoggedIn &&
+                    <ExploreCollections />
+                  }
+                  {section === EXPLORE_SECTIONS.COLLECTIONS && !userIsLoggedIn &&
+                    <ExploreLogin />
                   }
                   {section === EXPLORE_SECTIONS.DISCOVER &&
                     <ExploreDiscover />
