@@ -2,17 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import flatten from 'lodash/flatten';
-import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import omit from 'lodash/omit';
 import Fuse from 'fuse.js';
 
 // Components
-import Tabs from 'components/ui/Tabs';
 import Tag from 'components/ui/Tag';
 import Icon from 'components/ui/icon';
-
-import CheckboxGroup from 'components/form/CheckboxGroup';
 
 class SearchComponent extends React.Component {
   static propTypes = {
@@ -135,7 +131,6 @@ class SearchComponent extends React.Component {
   }
 
   onKeyEnter = () => {
-    const tabs = this.getTabs();
     const { value, index, groupedFilteredList } = this.state;
 
     if (index === 0) {
@@ -147,15 +142,8 @@ class SearchComponent extends React.Component {
         groupedFilteredList[g]));
 
       const tag = filteredList[index - 1];
-      const tab = (tabs.find((t) => {
-        const labels = (tag && tag.labels) || [];
-        return t.type === labels[1];
-      }) || {}).value || 'custom';
 
-      this.props.onToggleSelected({
-        tag,
-        tab
-      });
+      this.props.onToggleSelected(tag);
     }
 
     this.onToggleOpen(false);
@@ -165,17 +153,14 @@ class SearchComponent extends React.Component {
     this.setState({ index });
   }
 
-  onChangeTab = (t) => {
-    const { tab } = this.props;
-    if (t === tab) {
-      this.onToggleOpen(false);
-    } else {
-      this.props.onChangeTab(t);
-    }
-  }
 
   onChangeSearch = (e) => {
     const { value } = e.currentTarget;
+    const { open } = this.props;
+
+    if (!open && value.length > 2) {
+      this.onToggleOpen(true);
+    }
 
     const filteredList = (value.length > 2) ? this.fuse.search(value).sort((a, b) => {
       const index1 = a.label.toLowerCase().indexOf(value.toLowerCase());
@@ -201,37 +186,11 @@ class SearchComponent extends React.Component {
     });
   }
 
-  // HELPERS
-  getTabs = () => {
-    const { options, selected } = this.props;
-
-    return Object
-      .keys(options)
-      .filter((o) => {
-        if (o === 'custom') {
-          return selected.custom.length;
-        }
-        return o !== 'custom';
-      })
-      .map(o => ({
-        label: options[o].label,
-        value: options[o].value,
-        type: options[o].type,
-        ...selected[o].length && { number: selected[o].length }
-      }));
-  }
-
   render() {
     const { open, search, options, selected, tab, list } = this.props;
     const { index, value, groupedFilteredList } = this.state;
     let groupedFilteredListIndex = 0;
-
-    const tabs = this.getTabs();
-
     const mainArr = options[tab].list;
-    const secondaryArr = selected[tab]
-      .filter(s => !options[tab].list.find(l => l.id === s))
-      .map(s => list.find(l => l.id === s));
 
     const selectedAllArr = flatten(Object.keys(selected).map(s =>
       selected[s].map((c) => {
@@ -262,58 +221,9 @@ class SearchComponent extends React.Component {
             type="search"
             placeholder="Search datasets"
             value={value}
-            onClick={() => this.onToggleOpen(true)}
             onChange={this.onChangeSearch}
           />
-
-          <button
-            className={classnames({
-              'search-icon': true,
-              '-arrow': true,
-              '-open': open
-            })}
-            onClick={() => this.onToggleOpen(!open)}
-          >
-            <Icon name="icon-arrow-down-2" className="-small" />
-          </button>
         </div>
-
-
-        {/* Dropdown */}
-        {open && !value &&
-          <div className="search-dropdown">
-            <Tabs
-              className="-dark -no-margin"
-              options={tabs}
-              defaultSelected={tab}
-              selected={tab}
-              onChange={this.onChangeTab}
-            />
-
-            <div className="search-dropdown-list">
-              {!!mainArr.length &&
-                <CheckboxGroup
-                  name="mainArr"
-                  selected={selected[tab]}
-                  className="mainArr-checkbox-group"
-                  options={sortBy(mainArr.map(o => ({ value: o.id, label: o.label })), 'label')}
-                  onChange={s => this.props.onChangeSelected(s)}
-                />
-              }
-
-              {!!secondaryArr.length &&
-                <CheckboxGroup
-                  name="secondaryArr"
-                  selected={selected[tab]}
-                  className="secondaryArr-checkbox-group"
-                  options={sortBy(secondaryArr.map(o => ({ value: o.id, label: o.label })), 'label')}
-                  onChange={s => this.props.onChangeSelected(s)}
-                />
-              }
-            </div>
-          </div>
-        }
-
 
         {/* Dropdown search */}
         {open && value &&
@@ -337,10 +247,7 @@ class SearchComponent extends React.Component {
                             type="button"
                             className={classnames({ '-active': index === currentIndex })}
                             onClick={() => {
-                              this.props.onToggleSelected({
-                                tag: l,
-                                tab: (tabs.find(t => t.type === l.labels[1]) || {}).value || 'custom'
-                              });
+                              this.props.onToggleSelected(l);
 
                               this.onToggleOpen(false);
                             }}
@@ -395,7 +302,7 @@ class SearchComponent extends React.Component {
                   name={s.label}
                   className="-secondary"
                   isRemovable
-                  onClick={() => this.props.onToggleSelected({ tag: s, tab: s.tab })}
+                  onClick={() => this.props.onToggleSelected(s)}
                 />
               ))}
 

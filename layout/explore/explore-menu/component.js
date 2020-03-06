@@ -58,7 +58,7 @@ class ExploreMenuComponent extends React.Component {
   }
 
   onToggleSelected = (payload) => {
-    this.props.toggleFiltersSelected(payload);
+    this.props.toggleFiltersSelected({ tag: payload, tab: 'topics' });
     this.fetchDatasets();
   }
 
