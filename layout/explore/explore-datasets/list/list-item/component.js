@@ -28,12 +28,14 @@ class DatasetListItem extends React.Component {
     metadata: PropTypes.object.isRequired,
     actions: PropTypes.node.isRequired,
     responsive: PropTypes.object.isRequired,
-    active: PropTypes.bool.isRequired
+    active: PropTypes.bool.isRequired,
+    expandedChart: PropTypes.bool
   };
 
   static defaultProps = {
     layer: null,
-    widget: null
+    widget: null,
+    expandedChart: false
   };
 
   /**
@@ -41,27 +43,31 @@ class DatasetListItem extends React.Component {
    * - renderChart
   */
   renderChart = () => {
-    const { dataset, widget, layer } = this.props;
+    const { dataset, widget, layer, expandedChart } = this.props;
 
     const isWidgetMap = widget && widget.widgetConfig.type === 'map';
     const isEmbedWidget = widget && widget.widgetConfig.type === 'embed';
+    const classNameValue = classnames({
+      'list-item-chart': true,
+      '-expanded-chart': expandedChart
+    });
 
     if (widget && !isWidgetMap && !isEmbedWidget) {
       return (
-        <div className="list-item-chart">
+        <div className={classNameValue}>
           <WidgetChart widget={widget} mode="thumbnail" />
         </div>
       );
     } else if (layer || isWidgetMap) {
       return (
-        <div className="list-item-chart">
+        <div className={classNameValue}>
           <LayerChart layer={layer} />
         </div>
       );
     }
 
     return (
-      <div className="list-item-chart">
+      <div className={classNameValue}>
         <Link route="explore" params={{ dataset: dataset.slug }}>
           <a>
             <PlaceholderChart />
