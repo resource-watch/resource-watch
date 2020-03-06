@@ -1,0 +1,32 @@
+@import 'css/settings';
+
+.c-explore-discover {
+    display: flex;
+    flex-direction: column;
+    margin: 2 * $space 3 * $space 2 * $space 3 * $space;
+
+    .discover-section {
+        margin-top: 2 * $space;
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+    
+            h4 {
+                margin: 0px;
+            }
+    
+            .header-button {
+                font-size: $font-size-tiny;
+                font-weight: bold;
+                color: $dark-pink;
+                cursor: pointer;
+            }
+
+            a {
+                text-decoration: none;
+            }
+        }
+    }
+}
