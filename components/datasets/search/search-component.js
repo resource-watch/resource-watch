@@ -257,7 +257,10 @@ class SearchComponent extends React.Component {
                     <button
                       type="button"
                       className={classnames({ '-active': index === 0 })}
-                      onClick={() => this.props.onChangeTextSearch(value)}
+                      onClick={() => {
+                        this.props.onChangeTextSearch(value);
+                        this.onToggleOpen(false);
+                      }}
                       onMouseOver={() => this.onListItemMouseOver(0)}
                     >
                       {value}
