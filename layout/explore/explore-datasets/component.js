@@ -8,21 +8,25 @@ import { breakpoints } from 'utils/responsive';
 
 // Components
 import Paginator from 'components/ui/Paginator';
+import Icon from 'components/ui/icon';
 
 // Explore components
 import DatasetList from './list';
 import ExploreDatasetsTags from './explore-datasets-tags';
 import ExploreDatasetsActions from './explore-datasets-actions';
 
+// Styles
+import './styles.scss';
+
 class ExploreDatasetsComponent extends React.Component {
   static propTypes = {
     list: PropTypes.array,
-    mode: PropTypes.string,
     page: PropTypes.number,
     total: PropTypes.number,
     limit: PropTypes.number,
     options: PropTypes.object,
     responsive: PropTypes.object,
+    selectedTags: PropTypes.array.isRequired,
 
     // Actions
     fetchDatasets: PropTypes.func,
@@ -51,10 +55,55 @@ class ExploreDatasetsComponent extends React.Component {
   });
 
   render() {
-    const { list, mode, page, limit, total, responsive } = this.props;
+    const {
+      list,
+      page,
+      limit,
+      total,
+      responsive,
+      selectedTags,
+      search 
+    } = this.props;
 
+    console.log('this.props', this.props);
+    
+        
     return (
       <div className="c-explore-datasets">
+        <div className="tags-container"> 
+          {selectedTags.length > 0 && 
+            selectedTags.map(t => (
+              <button
+                key={t.id}
+                className="c-button -primary -compressed"
+                onClick={() => { 
+                  this.props.toggleFiltersSelected({ tag: t, tab: 'topics' });
+                  this.fetchDatasets();
+                }}
+              >
+                {t.label.toUpperCase()}
+                <Icon
+                  name="icon-cross"
+                  className="-tiny"
+                />
+              </button>
+            )
+          )}
+          {search && (
+            <button
+              key="text-filter"
+              className="c-button -primary -compressed"
+              onClick={() => this.props.setFiltersSearch('')}
+            >
+              {`TEXT: ${search.toUpperCase()}`}
+              <Icon
+                name="icon-cross"
+                className="-tiny"
+              />
+            </button>
+          )}
+        </div>
+
         {!list.length &&
           <div className="request-data-container">
             <div className="request-data-text">
@@ -74,7 +123,6 @@ class ExploreDatasetsComponent extends React.Component {
         {!!list.length &&
           <DatasetList
             list={list}
-            mode={mode}
             grid={{
               small: 'small-12',
               medium: 'medium-6'

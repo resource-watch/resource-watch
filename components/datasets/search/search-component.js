@@ -7,7 +7,6 @@ import omit from 'lodash/omit';
 import Fuse from 'fuse.js';
 
 // Components
-import Tag from 'components/ui/Tag';
 import Icon from 'components/ui/icon';
 
 class SearchComponent extends React.Component {
@@ -277,42 +276,7 @@ class SearchComponent extends React.Component {
               </div>
             </div>
           </div>
-        }
-
-
-        {/* Selected */}
-        {!open && (!!selectedAllArr.length || !!search) &&
-          <div className="search-selected">
-            <div className="c-tag-list">
-              {!!search &&
-                <Tag
-                  key="clear-search"
-                  name={`Text: ${search}`}
-                  className="-tertiary"
-                  isRemovable
-                  onClick={() => this.props.onChangeSearch('')}
-                />
-              }
-
-              {selectedAllArr.map(s => (
-                <Tag
-                  key={s.id}
-                  name={s.label}
-                  className="-secondary"
-                  isRemovable
-                  onClick={() => this.props.onToggleSelected(s)}
-                />
-              ))}
-
-              <Tag
-                key="clear-filters"
-                name="Clear filters"
-                className="-primary"
-                onClick={() => this.props.onResetSelected()}
-              />
-            </div>
-          </div>
-        }
+        } 
       </div>
 
     );

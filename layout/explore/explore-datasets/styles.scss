@@ -1,0 +1,34 @@
+@import 'css/settings';
+
+.c-explore-datasets {
+    .tags-container {
+        display: flex;
+        align-items: center;
+        margin: 2 * $space 3 * $space 2 * $space 3 * $space;
+
+        button {
+            font-size: $font-size-tiny;
+
+            &:not(:first-child) {
+                margin-left: $space;
+            }
+
+            .c-icon {
+                margin-left: 2 * $space;
+            }
+        }
+    }
+    
+    .request-data-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 6 * $space 3 * $space 2 * $space 3 * $space;
+        text-align: center;
+
+        .c-button {
+            margin-top: 4 * $space;
+        }
+    }
+}
