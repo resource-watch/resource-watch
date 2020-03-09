@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import { Link } from 'routes';
 
 // Responsive
 import MediaQuery from 'react-responsive';
@@ -9,6 +10,7 @@ import { breakpoints } from 'utils/responsive';
 // Components
 import Paginator from 'components/ui/Paginator';
 import Icon from 'components/ui/icon';
+import { TOPICS } from 'layout/explore/explore-topics/constants';
 
 // Explore components
 import DatasetList from './list';
@@ -67,6 +69,12 @@ class ExploreDatasetsComponent extends React.Component {
       search
     } = this.props;
 
+    const relatedDashboards =
+      TOPICS.filter(topic => selectedTags.find(tag => tag.id === topic.id));
+
+    console.log('relatedDashboards', relatedDashboards);
+
+
     return (
       <div className="c-explore-datasets">
         <div className="explore-datasets-header">
@@ -81,7 +89,12 @@ class ExploreDatasetsComponent extends React.Component {
                     this.fetchDatasets();
                   }}
                 >
-                  {t.label.toUpperCase()}
+                  <span
+                    className="button-text"
+                    title={t.label.toUpperCase()}
+                  >
+                    {t.label.toUpperCase()}
+                  </span>
                   <Icon
                     name="icon-cross"
                     className="-tiny"
@@ -107,10 +120,35 @@ class ExploreDatasetsComponent extends React.Component {
             )}
           </div>
           <div className="number-of-datasets">
-            {`${total} ${total === 1 ? 'DATASET' : 'DATASETS' }`}
+            {`${total} ${total === 1 ? 'DATASET' : 'DATASETS'}`}
           </div>
         </div>
-      
+
+        {relatedDashboards.length > 0 &&
+        <div className="related-dashboards">
+          <div className="header">
+            <h4>Related dashboards</h4>
+            <Link to="dashboards">
+              <a className="header-button">
+                            SEE ALL
+              </a>
+            </Link>
+          </div>
+          {relatedDashboards.map(dashboard => (
+            <Link to="dashboards_detail" params={{ slug: dashboard.slug }}>
+              <div
+                className="dashboard-button"
+                style={{ 'background-image': `url(${dashboard.backgroundURL}` }}
+              >
+                <div className="dashboard-title">
+                  {dashboard.label}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+        }
+
         {!list.length &&
           <div className="request-data-container">
             <div className="request-data-text">
