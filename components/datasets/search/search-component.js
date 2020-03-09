@@ -21,7 +21,7 @@ class SearchComponent extends React.Component {
     // CALLBACKS
     onChangeOpen: PropTypes.func,
     onChangeTab: PropTypes.func,
-    onChangeSearch: PropTypes.func,
+    onChangeTextSearch: PropTypes.func,
     onToggleSelected: PropTypes.func,
     onChangeSelected: PropTypes.func,
     onResetSelected: PropTypes.func
@@ -132,8 +132,6 @@ class SearchComponent extends React.Component {
   onKeyEnter = () => {
     const { value, index, groupedFilteredList } = this.state;
 
-    this.props.onChangeSearch(value);
-
     if (index !== 0) {
       const filteredList = flatten(Object.keys(groupedFilteredList).map(g =>
         groupedFilteredList[g]));
@@ -141,6 +139,8 @@ class SearchComponent extends React.Component {
       const tag = filteredList[index - 1];
 
       this.props.onToggleSelected(tag);
+    } else {
+      this.props.onChangeTextSearch(value);
     }
 
     this.onToggleOpen(false);
@@ -184,17 +184,9 @@ class SearchComponent extends React.Component {
   }
 
   render() {
-    const { open, search, options, selected, tab, list } = this.props;
+    const { open } = this.props;
     const { index, value, groupedFilteredList } = this.state;
     let groupedFilteredListIndex = 0;
-    const mainArr = options[tab].list;
-
-    const selectedAllArr = flatten(Object.keys(selected).map(s =>
-      selected[s].map((c) => {
-        const result = list.find(o => o.id === c) ||
-          mainArr.find(a => a.id === c);
-        return { ...result, tab: s };
-      })));
 
     return (
       <div className="c-dataset-search">
@@ -245,7 +237,6 @@ class SearchComponent extends React.Component {
                             className={classnames({ '-active': index === currentIndex })}
                             onClick={() => {
                               this.props.onToggleSelected(l);
-                              this.props.onChangeSearch(value);
                               this.onToggleOpen(false);
                             }}
                             onMouseOver={() => this.onListItemMouseOver(currentIndex)}
@@ -266,7 +257,7 @@ class SearchComponent extends React.Component {
                     <button
                       type="button"
                       className={classnames({ '-active': index === 0 })}
-                      onClick={() => this.props.onChangeSearch(value)}
+                      onClick={() => this.props.onChangeTextSearch(value)}
                       onMouseOver={() => this.onListItemMouseOver(0)}
                     >
                       {value}
@@ -276,7 +267,7 @@ class SearchComponent extends React.Component {
               </div>
             </div>
           </div>
-        } 
+        }
       </div>
 
     );

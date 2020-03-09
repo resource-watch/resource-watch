@@ -44,7 +44,7 @@ class ExploreMenuComponent extends React.Component {
     setSidebarSelectedCollection: PropTypes.func.isRequired
   }
 
-  onChangeSearch = (search) => {
+  onChangeTextSearch = (search) => {
     const {
       resetFiltersSort,
       setSortSelected,
@@ -55,11 +55,13 @@ class ExploreMenuComponent extends React.Component {
       setFiltersSearch
     } = this.props;
 
-    if (search.length === 0 && sortSelected === 'relevance') {
+    console.log('search', search, 'sortSelected', sortSelected, '!search', !search);
+
+    if (!search && sortSelected === 'relevance') {
       resetFiltersSort();
     }
     setFiltersSearch(search);
-    if (search.length > 0 && shouldAutoUpdateSortDirection) {
+    if (search && shouldAutoUpdateSortDirection) {
       setSortSelected('relevance');
       setSortDirection(-1);
       setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
@@ -124,7 +126,7 @@ class ExploreMenuComponent extends React.Component {
           selected={selected}
           onChangeOpen={this.props.setFiltersOpen}
           onChangeTab={this.props.setFiltersTab}
-          onChangeSearch={this.onChangeSearch}
+          onChangeTextSearch={this.onChangeTextSearch}
           onToggleSelected={this.onToggleSelected}
           onChangeSelected={this.onChangeSelected}
           onResetSelected={this.onResetSelected}

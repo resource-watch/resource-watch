@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
@@ -29,25 +29,27 @@ class ExploreDatasetsComponent extends React.Component {
     selectedTags: PropTypes.array.isRequired,
 
     // Actions
-    fetchDatasets: PropTypes.func,
-    setDatasetsPage: PropTypes.func,
-    toggleFiltersSelected: PropTypes.func
+    fetchDatasets: PropTypes.func.isRequired,
+    setDatasetsPage: PropTypes.func.isRequired,
+    toggleFiltersSelected: PropTypes.func.isRequired,
+    resetFiltersSort: PropTypes.func.isRequired,
+    setFiltersSearch: PropTypes.func.isRequired
   };
 
-  onTagSelected = (tag) => {
-    const options = Object.keys(this.props.options).map(o => this.props.options[o]);
+  // onTagSelected = (tag) => {
+  //   const options = Object.keys(this.props.options).map(o => this.props.options[o]);
 
-    const tab = (options.find((o) => {
-      const labels = (tag && tag.labels) || [];
-      return o.type === labels[1];
-    }) || {}).value || 'custom';
+  //   const tab = (options.find((o) => {
+  //     const labels = (tag && tag.labels) || [];
+  //     return o.type === labels[1];
+  //   }) || {}).value || 'custom';
 
-    this.props.toggleFiltersSelected({
-      tab,
-      tag
-    });
-    this.fetchDatasets(1);
-  }
+  //   this.props.toggleFiltersSelected({
+  //     tab,
+  //     tag
+  //   });
+  //   this.fetchDatasets(1);
+  // }
 
   fetchDatasets = debounce((page) => {
     this.props.setDatasetsPage(page);
@@ -62,21 +64,18 @@ class ExploreDatasetsComponent extends React.Component {
       total,
       responsive,
       selectedTags,
-      search 
+      search
     } = this.props;
 
-    console.log('this.props', this.props);
-    
-        
     return (
       <div className="c-explore-datasets">
-        <div className="tags-container"> 
-          {selectedTags.length > 0 && 
+        <div className="tags-container">
+          {selectedTags.length > 0 &&
             selectedTags.map(t => (
               <button
                 key={t.id}
                 className="c-button -primary -compressed"
-                onClick={() => { 
+                onClick={() => {
                   this.props.toggleFiltersSelected({ tag: t, tab: 'topics' });
                   this.fetchDatasets();
                 }}
@@ -87,13 +86,16 @@ class ExploreDatasetsComponent extends React.Component {
                   className="-tiny"
                 />
               </button>
-            )
-          )}
+            ))}
           {search && (
             <button
               key="text-filter"
               className="c-button -primary -compressed"
-              onClick={() => this.props.setFiltersSearch('')}
+              onClick={() => {
+                this.props.resetFiltersSort();
+                this.props.setFiltersSearch('');
+                this.fetchDatasets();
+              }}
             >
               {`TEXT: ${search.toUpperCase()}`}
               <Icon
