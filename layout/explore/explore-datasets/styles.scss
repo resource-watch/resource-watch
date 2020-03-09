@@ -1,21 +1,32 @@
 @import 'css/settings';
 
 .c-explore-datasets {
-    .tags-container {
+    .explore-datasets-header {
         display: flex;
-        align-items: center;
+        justify-content: space-between;
         margin: 2 * $space 3 * $space 2 * $space 3 * $space;
 
-        button {
+        .tags-container {
+            display: flex;
+            align-items: center;
+    
+            button {
+                font-size: $font-size-tiny;
+    
+                &:not(:first-child) {
+                    margin-left: $space;
+                }
+    
+                .c-icon {
+                    margin-left: 2 * $space;
+                }
+            }
+        }
+
+        .number-of-datasets {
+            display: flex;
             font-size: $font-size-tiny;
-
-            &:not(:first-child) {
-                margin-left: $space;
-            }
-
-            .c-icon {
-                margin-left: 2 * $space;
-            }
+            align-items: flex-start;
         }
     }
     

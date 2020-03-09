@@ -69,43 +69,48 @@ class ExploreDatasetsComponent extends React.Component {
 
     return (
       <div className="c-explore-datasets">
-        <div className="tags-container">
-          {selectedTags.length > 0 &&
-            selectedTags.map(t => (
+        <div className="explore-datasets-header">
+          <div className="tags-container">
+            {selectedTags.length > 0 &&
+              selectedTags.map(t => (
+                <button
+                  key={t.id}
+                  className="c-button -primary -compressed"
+                  onClick={() => {
+                    this.props.toggleFiltersSelected({ tag: t, tab: 'topics' });
+                    this.fetchDatasets();
+                  }}
+                >
+                  {t.label.toUpperCase()}
+                  <Icon
+                    name="icon-cross"
+                    className="-tiny"
+                  />
+                </button>
+              ))}
+            {search && (
               <button
-                key={t.id}
+                key="text-filter"
                 className="c-button -primary -compressed"
                 onClick={() => {
-                  this.props.toggleFiltersSelected({ tag: t, tab: 'topics' });
+                  this.props.resetFiltersSort();
+                  this.props.setFiltersSearch('');
                   this.fetchDatasets();
                 }}
               >
-                {t.label.toUpperCase()}
+                {`TEXT: ${search.toUpperCase()}`}
                 <Icon
                   name="icon-cross"
                   className="-tiny"
                 />
               </button>
-            ))}
-          {search && (
-            <button
-              key="text-filter"
-              className="c-button -primary -compressed"
-              onClick={() => {
-                this.props.resetFiltersSort();
-                this.props.setFiltersSearch('');
-                this.fetchDatasets();
-              }}
-            >
-              {`TEXT: ${search.toUpperCase()}`}
-              <Icon
-                name="icon-cross"
-                className="-tiny"
-              />
-            </button>
-          )}
+            )}
+          </div>
+          <div className="number-of-datasets">
+            {`${total} ${total === 1 ? 'DATASET' : 'DATASETS' }`}
+          </div>
         </div>
-
+      
         {!list.length &&
           <div className="request-data-container">
             <div className="request-data-text">
