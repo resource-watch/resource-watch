@@ -22,12 +22,10 @@ export const getUpdatedDatasets = createSelector(
 
 export const getSelectedTagsWithData = createSelector(
   [getTags, getSelectedTags],
-  (_tags, _selectedTags) => {
-    return _selectedTags.map(t => ({
-      id: t,
-      label: _tags.find(e => e.id === t).label
-    }));
-  }
+  (_tags, _selectedTags) => _selectedTags.map(t => ({
+    id: t,
+    label: _tags.find(e => e.id === t).label
+  }))
 );
 
 

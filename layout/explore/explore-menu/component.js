@@ -55,8 +55,6 @@ class ExploreMenuComponent extends React.Component {
       setFiltersSearch
     } = this.props;
 
-    console.log('search', search, 'sortSelected', sortSelected, '!search', !search);
-
     if (!search && sortSelected === 'relevance') {
       resetFiltersSort();
     }

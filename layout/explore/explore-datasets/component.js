@@ -166,10 +166,6 @@ class ExploreDatasetsComponent extends React.Component {
         {!!list.length &&
           <DatasetList
             list={list}
-            grid={{
-              small: 'small-12',
-              medium: 'medium-6'
-            }}
             tags={
               <ExploreDatasetsTags
                 onTagSelected={this.onTagSelected}
