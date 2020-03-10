@@ -9,6 +9,13 @@
   border-radius: 4px;
   box-shadow: 0 1px 6px 0 rgba(0,0,0,0.1);
   box-sizing: border-box;
+  transition: all $animation-time-2 $ease-in-out-sine;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 20px 30px rgba($black, .2);
+    transform: translateY(-4px);
+  }
 
   &.-active {
     border: 2px solid $dark-pink;
@@ -17,9 +24,9 @@
     // Chart
   .list-item-chart {
     width: 130px;
-    max-height: 130px;
     min-height: 100%;
     flex-shrink: 0;
+    border-radius: 4px 0px 0px 4px;
     overflow: hidden;
 
     .c-we-chart {
@@ -35,7 +42,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin: 2 * $space 3 * $space 3 * $space 2 * $space;
+    max-width: 170px;
+    padding: 2 * $space 3 * $space 3 * $space 2 * $space;
 
     .source-date {
       display: flex;
@@ -57,6 +65,10 @@
       flex-direction: column;
       justify-content: space-between;
       height: 100%;
+
+      a {
+        text-decoration: none;
+      }
     }
   }
 }

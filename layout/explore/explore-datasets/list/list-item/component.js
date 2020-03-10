@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 // Redux
-import { Link } from 'routes';
+import { Link, Router } from 'routes';
 
 // Responsive
 import MediaQuery from 'react-responsive';
@@ -77,6 +77,18 @@ class DatasetListItem extends React.Component {
     );
   }
 
+  handleClick = (event) => {
+    let classSt = event.target.className;
+    if (typeof classSt !== 'string') {
+      classSt = classSt.baseVal || '';
+    }
+    const isIcon = classSt.indexOf('c-icon') >= 0;
+    const isButton = classSt.indexOf('c-button') >= 0 || classSt.indexOf('c-btn') >= 0;
+    if (!isIcon && !isButton) {
+      Router.pushRoute('explore', { dataset: this.props.dataset.slug });
+    }
+  }
+
   render() {
     const { dataset, metadata, actions, responsive, active } = this.props;
 
@@ -87,7 +99,13 @@ class DatasetListItem extends React.Component {
     });
 
     return (
-      <div className={classNameValue}>
+      <div
+        className={classNameValue}
+        role="button"
+        tabIndex={0}
+        onClick={this.handleClick}
+        onKeyPress={this.handleClick}
+      >
         {/* CHART */}
         <MediaQuery
           minDeviceWidth={breakpoints.medium}
@@ -103,7 +121,7 @@ class DatasetListItem extends React.Component {
         >
           <Link
             route="explore"
-            params={{ id: this.props.dataset.slug }}
+            params={{ dataset: this.props.dataset.slug }}
           >
             {this.renderChart()}
           </Link>
@@ -114,8 +132,7 @@ class DatasetListItem extends React.Component {
           <div className="source-date">
             {/* Source */}
             <div className="source">
-              {metadata && metadata.source
-              }
+              {metadata && metadata.source}
             </div>
             {/* Last update */}
             <div className="date">
