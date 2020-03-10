@@ -26,44 +26,48 @@ import {
 
 const ExploreDetailContainer = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { datasetID } = props;
-
-  const getDataset = () => {
-    dispatch(setDatasetLoading(true));
-    dispatch(setTagsLoading(true));
-
-    fetchDataset(datasetID, { includes: 'metadata,layer,vocabulary' })
-      .then((data) => {
-        dispatch(setDataset(data));
-        dispatch(setDatasetLoading(false));
-
-        // Load tags
-        const tags = data.vocabulary && data.vocabulary.find(v => v.name === 'knowledge_graph').tags;
-        if (tags) {
-          fetchInferredTags({ concepts: tags.join(',') })
-            .then((inferredTags) => {
-              dispatch(setTags(inferredTags.filter(tag =>
-                tag.labels.find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
-                !TAGS_BLACKLIST.includes(tag.id))));
-              dispatch(setTagsLoading(false));
-            })
-            .catch((error) => {
-              toastr.error('Error loading dataset inferred tags', error);
-              dispatch(setTagsLoading(false));
-            });
-        }
-      })
-      .catch((error) => {
-        dispatch(setDatasetLoading(false));
-        toastr.error('Error loading dataset data', error);
-      });
-  };
+  const { datasetID, anchor } = props;
 
   useEffect(() => {
     if (datasetID) {
-      getDataset();
+      dispatch(setDatasetLoading(true));
+      dispatch(setTagsLoading(true));
+
+      fetchDataset(datasetID, { includes: 'metadata,layer,vocabulary' })
+        .then((data) => {
+          dispatch(setDataset(data));
+          dispatch(setDatasetLoading(false));
+
+          // Load tags
+          const tags = data.vocabulary && data.vocabulary.find(v => v.name === 'knowledge_graph').tags;
+          if (tags) {
+            fetchInferredTags({ concepts: tags.join(',') })
+              .then((inferredTags) => {
+                dispatch(setTags(inferredTags.filter(tag =>
+                  tag.labels.find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
+                  !TAGS_BLACKLIST.includes(tag.id))));
+                dispatch(setTagsLoading(false));
+              })
+              .catch((error) => {
+                toastr.error('Error loading dataset inferred tags', error);
+                dispatch(setTagsLoading(false));
+              });
+          }
+        })
+        .catch((error) => {
+          dispatch(setDatasetLoading(false));
+          toastr.error('Error loading dataset data', error);
+        });
     }
   }, [datasetID]);
+
+
+  useEffect(() => {
+    const element = document.getElementById(anchor);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [anchor]);
 
   return (
     <ExploreDetailComponent
@@ -72,14 +76,16 @@ const ExploreDetailContainer = (props) => {
     />);
 };
 
-ExploreDetailContainer.propTypes = { datasetID: PropTypes.string };
-ExploreDetailContainer.defaultProps = { datasetID: null };
-
+ExploreDetailContainer.propTypes = {
+  datasetID: PropTypes.string.isRequired,
+  anchor: PropTypes.string.isRequired
+};
 
 export default connect(
   state => ({
     // Store
-    datasetID: state.explore.datasets.selected
+    datasetID: state.explore.datasets.selected,
+    anchor: state.explore.sidebar.anchor
   }),
   actions
 )(ExploreDetailContainer);
