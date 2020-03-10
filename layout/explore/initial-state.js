@@ -11,7 +11,6 @@ export default {
     page: 1,
     limit: 12,
     total: 0,
-    mode: 'grid', // 'grid' or 'list'
     selected: null
   },
   filters: {

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import { Link } from 'routes';
 
 // Responsive
 import MediaQuery from 'react-responsive';
@@ -8,42 +9,50 @@ import { breakpoints } from 'utils/responsive';
 
 // Components
 import Paginator from 'components/ui/Paginator';
+import Icon from 'components/ui/icon';
+import { TOPICS } from 'layout/explore/explore-topics/constants';
 
 // Explore components
 import DatasetList from './list';
 import ExploreDatasetsTags from './explore-datasets-tags';
 import ExploreDatasetsActions from './explore-datasets-actions';
 
+// Styles
+import './styles.scss';
+
 class ExploreDatasetsComponent extends React.Component {
   static propTypes = {
     list: PropTypes.array,
-    mode: PropTypes.string,
     page: PropTypes.number,
     total: PropTypes.number,
     limit: PropTypes.number,
     options: PropTypes.object,
     responsive: PropTypes.object,
+    selectedTags: PropTypes.array.isRequired,
+    search: PropTypes.string.isRequired,
 
     // Actions
-    fetchDatasets: PropTypes.func,
-    setDatasetsPage: PropTypes.func,
-    toggleFiltersSelected: PropTypes.func
+    fetchDatasets: PropTypes.func.isRequired,
+    setDatasetsPage: PropTypes.func.isRequired,
+    toggleFiltersSelected: PropTypes.func.isRequired,
+    resetFiltersSort: PropTypes.func.isRequired,
+    setFiltersSearch: PropTypes.func.isRequired
   };
 
-  onTagSelected = (tag) => {
-    const options = Object.keys(this.props.options).map(o => this.props.options[o]);
+  // onTagSelected = (tag) => {
+  //   const options = Object.keys(this.props.options).map(o => this.props.options[o]);
 
-    const tab = (options.find((o) => {
-      const labels = (tag && tag.labels) || [];
-      return o.type === labels[1];
-    }) || {}).value || 'custom';
+  //   const tab = (options.find((o) => {
+  //     const labels = (tag && tag.labels) || [];
+  //     return o.type === labels[1];
+  //   }) || {}).value || 'custom';
 
-    this.props.toggleFiltersSelected({
-      tab,
-      tag
-    });
-    this.fetchDatasets(1);
-  }
+  //   this.props.toggleFiltersSelected({
+  //     tab,
+  //     tag
+  //   });
+  //   this.fetchDatasets(1);
+  // }
 
   fetchDatasets = debounce((page) => {
     this.props.setDatasetsPage(page);
@@ -51,10 +60,93 @@ class ExploreDatasetsComponent extends React.Component {
   });
 
   render() {
-    const { list, mode, page, limit, total, responsive } = this.props;
+    const {
+      list,
+      page,
+      limit,
+      total,
+      responsive,
+      selectedTags,
+      search
+    } = this.props;
+
+    const relatedDashboards =
+      TOPICS.filter(topic => selectedTags.find(tag => tag.id === topic.id));
 
     return (
       <div className="c-explore-datasets">
+        <div className="explore-datasets-header">
+          <div className="tags-container">
+            {selectedTags.length > 0 &&
+              selectedTags.map(t => (
+                <button
+                  key={t.id}
+                  className="c-button -primary -compressed"
+                  onClick={() => {
+                    this.props.toggleFiltersSelected({ tag: t, tab: 'topics' });
+                    this.fetchDatasets();
+                  }}
+                >
+                  <span
+                    className="button-text"
+                    title={t.label.toUpperCase()}
+                  >
+                    {t.label.toUpperCase()}
+                  </span>
+                  <Icon
+                    name="icon-cross"
+                    className="-tiny"
+                  />
+                </button>
+              ))}
+            {search && (
+              <button
+                key="text-filter"
+                className="c-button -primary -compressed"
+                onClick={() => {
+                  this.props.resetFiltersSort();
+                  this.props.setFiltersSearch('');
+                  this.fetchDatasets();
+                }}
+              >
+                {`TEXT: ${search.toUpperCase()}`}
+                <Icon
+                  name="icon-cross"
+                  className="-tiny"
+                />
+              </button>
+            )}
+          </div>
+          <div className="number-of-datasets">
+            {`${total} ${total === 1 ? 'DATASET' : 'DATASETS'}`}
+          </div>
+        </div>
+
+        {relatedDashboards.length > 0 &&
+        <div className="related-dashboards">
+          <div className="header">
+            <h4>Related dashboards</h4>
+            <Link to="dashboards">
+              <a className="header-button">
+                            SEE ALL
+              </a>
+            </Link>
+          </div>
+          {relatedDashboards.map(dashboard => (
+            <Link to="dashboards_detail" params={{ slug: dashboard.slug }}>
+              <div
+                className="dashboard-button"
+                style={{ 'background-image': `url(${dashboard.backgroundURL}` }}
+              >
+                <div className="dashboard-title">
+                  {dashboard.label}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+        }
+
         {!list.length &&
           <div className="request-data-container">
             <div className="request-data-text">
@@ -74,7 +166,6 @@ class ExploreDatasetsComponent extends React.Component {
         {!!list.length &&
           <DatasetList
             list={list}
-            mode={mode}
             grid={{
               small: 'small-12',
               medium: 'medium-6'

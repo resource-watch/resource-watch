@@ -6,19 +6,22 @@ import './styles.scss';
 
 function ExploreDetailFooterComponent(props) {
   const { setSidebarAnchor } = props;
+
   return (
     <div className="c-explore-detail-footer">
       <a
         onClick={() => setSidebarAnchor('overview')}
-        onKeyPress={() => setSidebarAnchor('visualization')}
+        onKeyPress={() => setSidebarAnchor('overview')}
         role="button"
+        tabIndex={0}
       >
              OVERVIEW
       </a>
       <a
         onClick={() => setSidebarAnchor('layers')}
-        onKeyPress={() => setSidebarAnchor('visualization')}
+        onKeyPress={() => setSidebarAnchor('layers')}
         role="button"
+        tabIndex={0}
       >
              LAYERS
       </a>
@@ -26,13 +29,15 @@ function ExploreDetailFooterComponent(props) {
         onClick={() => setSidebarAnchor('visualization')}
         onKeyPress={() => setSidebarAnchor('visualization')}
         role="button"
+        tabIndex={0}
       >
              VISUALIZATION
       </a>
       <a
         onClick={() => setSidebarAnchor('further_information')}
-        onKeyPress={() => setSidebarAnchor('visualization')}
+        onKeyPress={() => setSidebarAnchor('further_information')}
         role="button"
+        tabIndex={0}
       >
              FURTHER INFORMATION
       </a>

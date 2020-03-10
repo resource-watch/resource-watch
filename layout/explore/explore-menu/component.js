@@ -44,21 +44,34 @@ class ExploreMenuComponent extends React.Component {
     setSidebarSelectedCollection: PropTypes.func.isRequired
   }
 
-  onChangeSearch = (search) => {
-    if (search.length === 0 && this.props.sortSelected === 'relevance') {
-      this.props.resetFiltersSort();
+  onChangeTextSearch = (search) => {
+    const {
+      resetFiltersSort,
+      setSortSelected,
+      setSortDirection,
+      setSidebarSection,
+      sortSelected,
+      shouldAutoUpdateSortDirection,
+      setFiltersSearch
+    } = this.props;
+
+    console.log('search', search, 'sortSelected', sortSelected, '!search', !search);
+
+    if (!search && sortSelected === 'relevance') {
+      resetFiltersSort();
     }
-    this.props.setFiltersSearch(search);
-    if (search.length > 0 && this.props.shouldAutoUpdateSortDirection) {
-      this.props.setSortSelected('relevance');
-      this.props.setSortDirection(-1);
+    setFiltersSearch(search);
+    if (search && shouldAutoUpdateSortDirection) {
+      setSortSelected('relevance');
+      setSortDirection(-1);
+      setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
     }
     this.fetchDatasets();
     logEvent('Explore Menu', 'search', search);
   }
 
   onToggleSelected = (payload) => {
-    this.props.toggleFiltersSelected(payload);
+    this.props.toggleFiltersSelected({ tag: payload, tab: 'topics' });
     this.fetchDatasets();
   }
 
@@ -113,7 +126,7 @@ class ExploreMenuComponent extends React.Component {
           selected={selected}
           onChangeOpen={this.props.setFiltersOpen}
           onChangeTab={this.props.setFiltersTab}
-          onChangeSearch={this.onChangeSearch}
+          onChangeTextSearch={this.onChangeTextSearch}
           onToggleSelected={this.onToggleSelected}
           onChangeSelected={this.onChangeSelected}
           onResetSelected={this.onResetSelected}
