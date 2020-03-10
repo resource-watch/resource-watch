@@ -9,11 +9,15 @@
     left: 0px;
 
     .c-dataset-search {
+        position: absolute;
+        z-index: 999;
+        background-color: $white;
         width: 100%;
         padding: 2 * $space 0px 2 * $space 2 * $space;
     }
 
     .menu-options {
+        margin-top: 14 * $space;
         .menu-option {
             display: flex;
             align-items: center;

@@ -10,18 +10,54 @@ import { fetchDatasets } from 'services/dataset';
 // component
 import ExploreNearRealTimeComponent from './component';
 
-const ExploreNearRealTimeContainer = () => {
-  const [datasets, setDatasets] = useState([]);
+const ExploreNearRealTimeContainer = (props) => {
+  const [datasets, setDatasets] = useState({
+    today: [],
+    week: [],
+    month: [],
+    loading: true
+  });
 
   useEffect(() => {
-    fetchDatasets({ 'concepts[0][0]': 'near_real_time' })
-      .then(data => setDatasets(data))
+    fetchDatasets({
+      'concepts[0][0]': 'near_real_time',
+      'page[size]': 99,
+      includes: 'layer,metadata'
+    })
+      .then((data) => {
+        const newDatasets = {
+          today: [],
+          week: [],
+          month: [],
+          loading: false
+        };
+        const now = new Date();
+        const oneDay = 1000 * 60 * 60 * 24;
+        const oneWeek = oneDay * 7;
+        const oneMonth = oneDay * 30;
+
+        data.forEach((dataset) => {
+          if (dataset.dataLastUpdated) {
+            const tempDate = new Date(dataset.dataLastUpdated);
+            const difference = now - tempDate;
+            if (difference < oneDay) {
+              newDatasets.today.push(dataset);
+            } else if (difference < oneWeek) {
+              newDatasets.week.push(dataset);
+            } else if (difference < oneMonth) {
+              newDatasets.month.push(dataset);
+            }
+          }
+        });
+        setDatasets(newDatasets);
+      })
       .catch(error => toastr.error('Error loading Near-Real-Time datasets', error));
   }, []);
 
   return (
     <ExploreNearRealTimeComponent
       datasets={datasets}
+      {...props}
     />);
 };
 
@@ -30,6 +66,6 @@ ExploreNearRealTimeContainer.defaultProps = { datasetID: null };
 
 
 export default connect(
-  null,
+  state => ({ responsive: state.responsive }),
   actions
 )(ExploreNearRealTimeContainer);
