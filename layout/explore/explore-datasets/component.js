@@ -29,6 +29,7 @@ class ExploreDatasetsComponent extends React.Component {
     options: PropTypes.object,
     responsive: PropTypes.object,
     selectedTags: PropTypes.array.isRequired,
+    search: PropTypes.string.isRequired,
 
     // Actions
     fetchDatasets: PropTypes.func.isRequired,
@@ -71,9 +72,6 @@ class ExploreDatasetsComponent extends React.Component {
 
     const relatedDashboards =
       TOPICS.filter(topic => selectedTags.find(tag => tag.id === topic.id));
-
-    console.log('relatedDashboards', relatedDashboards);
-
 
     return (
       <div className="c-explore-datasets">
