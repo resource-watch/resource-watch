@@ -19,6 +19,7 @@ import ExploreTopics from 'layout/explore/explore-topics';
 import ExploreCollections from 'layout/explore/explore-collections';
 import ExploreLogin from 'layout/explore/explore-login';
 import ExploreDiscover from 'layout/explore/explore-discover';
+import ExploreNearRealTime from 'layout/explore/explore-near-real-time';
 
 // utils
 import { breakpoints } from 'utils/responsive';
@@ -66,6 +67,9 @@ class Explore extends PureComponent {
                   }
                   {section === EXPLORE_SECTIONS.DISCOVER &&
                     <ExploreDiscover />
+                  }
+                  {section === EXPLORE_SECTIONS.NEAR_REAL_TIME &&
+                    <ExploreNearRealTime />
                   }
                   {/* <ExploreDatasetsHeader /> */}
                 </div>

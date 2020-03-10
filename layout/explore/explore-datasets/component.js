@@ -17,7 +17,6 @@ import ExploreDatasetsActions from './explore-datasets-actions';
 class ExploreDatasetsComponent extends React.Component {
   static propTypes = {
     list: PropTypes.array,
-    mode: PropTypes.string,
     page: PropTypes.number,
     total: PropTypes.number,
     limit: PropTypes.number,
@@ -51,7 +50,7 @@ class ExploreDatasetsComponent extends React.Component {
   });
 
   render() {
-    const { list, mode, page, limit, total, responsive } = this.props;
+    const { list, page, limit, total, responsive } = this.props;
 
     return (
       <div className="c-explore-datasets">
@@ -74,11 +73,6 @@ class ExploreDatasetsComponent extends React.Component {
         {!!list.length &&
           <DatasetList
             list={list}
-            mode={mode}
-            grid={{
-              small: 'small-12',
-              medium: 'medium-6'
-            }}
             tags={
               <ExploreDatasetsTags
                 onTagSelected={this.onTagSelected}
