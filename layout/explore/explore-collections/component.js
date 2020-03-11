@@ -42,7 +42,7 @@ function ExploreCollectionsComponent(props) {
 
   return (
     <div className="c-explore-collections">
-      <Spinner isLoading={datasetsLoading} className="-light" />
+      <Spinner isLoading={datasetsLoading} className="-light -relative" />
       {datasets.length > 0 &&
         <DatasetList
           list={datasets}

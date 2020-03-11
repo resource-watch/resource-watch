@@ -14,7 +14,8 @@ export default connect(
     list: getUpdatedDatasets(state),
     ...state.explore.filters,
     responsive: state.responsive,
-    selectedTags: getSelectedTagsWithData(state)
+    selectedTags: getSelectedTagsWithData(state),
+    loading: state.explore.datasets.loading
   }),
   actions
 )(ExploreDatasetsComponent);

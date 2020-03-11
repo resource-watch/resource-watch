@@ -9,7 +9,7 @@ export default {
     loading: false,
     error: null,
     page: 1,
-    limit: 12,
+    limit: 30,
     total: 0,
     selected: null
   },

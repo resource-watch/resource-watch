@@ -1,6 +1,7 @@
 @import 'css/settings';
 
 .c-explore-datasets {
+    position: relative;
     margin: 0px 3 * $space 0px 3 * $space;
 
     .explore-datasets-header {
@@ -104,5 +105,10 @@
         .c-button {
             margin-top: 4 * $space;
         }
+    }
+
+    .c-paginator {
+        max-width: 300px;
+        margin-bottom: 3 * $space;
     }
 }

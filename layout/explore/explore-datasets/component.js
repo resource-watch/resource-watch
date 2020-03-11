@@ -10,6 +10,7 @@ import { breakpoints } from 'utils/responsive';
 // Components
 import Paginator from 'components/ui/Paginator';
 import Icon from 'components/ui/icon';
+import Spinner from 'components/ui/Spinner';
 import { TOPICS } from 'layout/explore/explore-topics/constants';
 
 // Explore components
@@ -67,7 +68,8 @@ class ExploreDatasetsComponent extends React.Component {
       total,
       responsive,
       selectedTags,
-      search
+      search,
+      loading
     } = this.props;
 
     const relatedDashboards =
@@ -75,6 +77,7 @@ class ExploreDatasetsComponent extends React.Component {
 
     return (
       <div className="c-explore-datasets">
+        {loading && <Spinner isLoading className="-light" />}
         <div className="explore-datasets-header">
           <div className="tags-container">
             {selectedTags.length > 0 &&

@@ -20,7 +20,7 @@ function ExploreNearRealTimeComponent(props) {
 
   return (
     <div className="c-explore-near-real-time">
-      <Spinner isLoading={loading} className="-light" />
+      <Spinner isLoading={loading} className="-light -relative" />
       {today.length > 0 &&
         <div className="explore-near-real-time-section">
           <div className="header">
