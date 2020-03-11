@@ -44,7 +44,8 @@ export default {
       { value: 'updatedAt', label: 'Last modified' },
       { value: 'most-viewed', label: 'Most viewed' },
       { value: 'most-favorited', label: 'Most favorited' },
-      { value: 'relevance', label: 'Relevance' }
+      { value: 'relevance', label: 'Relevance' },
+      { value: 'createdAt', label: 'Date added' }
     ]
   },
 

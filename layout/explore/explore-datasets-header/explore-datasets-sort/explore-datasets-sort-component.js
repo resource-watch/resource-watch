@@ -22,22 +22,36 @@ class ExploreDatasetsSortComponent extends PureComponent {
   };
 
   onSortSelected = (selected) => {
-    this.props.setSortSelected(selected);
+    const {
+      setSortSelected,
+      setSortDirection,
+      setSortIsUserSelected,
+      fetchDatasets
+    } = this.props;
+
+    setSortSelected(selected);
     if (selected === 'relevance') {
-      this.props.setSortDirection(-1);
+      setSortDirection(-1);
     }
-    this.props.setSortIsUserSelected();
-    this.props.fetchDatasets();
+    setSortIsUserSelected();
+    fetchDatasets();
   }
 
   onSortDirection = () => {
-    const { direction, canChangeSortDirection } = this.props;
+    const {
+      direction,
+      canChangeSortDirection,
+      setSortDirection,
+      setSortIsUserSelected,
+      fetchDatasets
+    } = this.props;
+
     if (!canChangeSortDirection) {
       return;
     }
-    this.props.setSortDirection(-direction);
-    this.props.setSortIsUserSelected();
-    this.props.fetchDatasets();
+    setSortDirection(-direction);
+    setSortIsUserSelected();
+    fetchDatasets();
   }
 
   render() {
@@ -69,7 +83,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
           <button
             className="actions-sort-button"
           >
-            <span>{options.find(o => o.value === selected).label}</span>
+            <span>{`SORT BY ${options.find(o => o.value === selected).label.toUpperCase()}`}</span>
           </button>
         </Tooltip>
 

@@ -14,6 +14,7 @@ import { TOPICS } from 'layout/explore/explore-topics/constants';
 
 // Explore components
 import DatasetList from './list';
+import ExploreDatasetsSort from 'layout/explore/explore-datasets-header/explore-datasets-sort';
 import ExploreDatasetsTags from './explore-datasets-tags';
 import ExploreDatasetsActions from './explore-datasets-actions';
 
@@ -76,46 +77,49 @@ class ExploreDatasetsComponent extends React.Component {
     return (
       <div className="c-explore-datasets">
         <div className="explore-datasets-header">
-          <div className="tags-container">
-            {selectedTags.length > 0 &&
-              selectedTags.map(t => (
+          <div className="left-container">
+            <ExploreDatasetsSort />
+            <div className="tags-container">
+              {selectedTags.length > 0 &&
+                selectedTags.map(t => (
+                  <button
+                    key={t.id}
+                    className="c-button -primary -compressed"
+                    onClick={() => {
+                      this.props.toggleFiltersSelected({ tag: t, tab: 'topics' });
+                      this.fetchDatasets();
+                    }}
+                  >
+                    <span
+                      className="button-text"
+                      title={t.label.toUpperCase()}
+                    >
+                      {t.label.toUpperCase()}
+                    </span>
+                    <Icon
+                      name="icon-cross"
+                      className="-tiny"
+                    />
+                  </button>
+                ))}
+              {search && (
                 <button
-                  key={t.id}
+                  key="text-filter"
                   className="c-button -primary -compressed"
                   onClick={() => {
-                    this.props.toggleFiltersSelected({ tag: t, tab: 'topics' });
+                    this.props.resetFiltersSort();
+                    this.props.setFiltersSearch('');
                     this.fetchDatasets();
                   }}
                 >
-                  <span
-                    className="button-text"
-                    title={t.label.toUpperCase()}
-                  >
-                    {t.label.toUpperCase()}
-                  </span>
+                  {`TEXT: ${search.toUpperCase()}`}
                   <Icon
                     name="icon-cross"
                     className="-tiny"
                   />
                 </button>
-              ))}
-            {search && (
-              <button
-                key="text-filter"
-                className="c-button -primary -compressed"
-                onClick={() => {
-                  this.props.resetFiltersSort();
-                  this.props.setFiltersSearch('');
-                  this.fetchDatasets();
-                }}
-              >
-                {`TEXT: ${search.toUpperCase()}`}
-                <Icon
-                  name="icon-cross"
-                  className="-tiny"
-                />
-              </button>
-            )}
+              )}
+            </div>
           </div>
           <div className="number-of-datasets">
             {`${total} ${total === 1 ? 'DATASET' : 'DATASETS'}`}
