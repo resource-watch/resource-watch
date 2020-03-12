@@ -8,13 +8,20 @@ import { logger } from 'utils/logs';
  */
 export const fetchRWConfig = (token) => {
   logger.info('Fetch RW config');
-  return WRIAPI.get(`rwConfig?env=${process.env.API_ENV}`, { headers: { Authorization: token } })
-    .then(response => response.data)
-    .catch(({ response }) => {
-      const { status, statusText } = response;
-      logger.error(`Error fetching RW config: ${status}: ${statusText}`);
-      throw new Error(`Error fetching RW config: ${status}: ${statusText}`);
-    });
+  //   return WRIAPI.get(`rwConfig?env=${process.env.API_ENV}`, { headers: { Authorization: token } })
+  //     .then(response => response.data)
+  //     .catch(({ response }) => {
+  //       const { status, statusText } = response;
+  //       logger.error(`Error fetching RW config: ${status}: ${statusText}`);
+  //       throw new Error(`Error fetching RW config: ${status}: ${statusText}`);
+  //     });
+  // TEMPORARY: DATA MOCK RETURNED
+  return ({
+    highlightedDatasets: [],
+    relatedTopics: ['water', 'society', 'food', 'energy'],
+    recentUpdated: [],
+    relatedDashboards: []
+  });
 };
 
 /**

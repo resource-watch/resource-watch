@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 import { TOPICS } from './constants';
 
+// Components
+import TopicsList from './list';
+
 import './styles.scss';
 
 function ExploreTopicsComponent(props) {
@@ -19,31 +22,7 @@ function ExploreTopicsComponent(props) {
 
   return (
     <div className="c-explore-topics">
-      <div className="row">
-        {TOPICS.map(topic => (
-          <div className="column small-6">
-            <div
-              id={topic.id}
-              className="explore-topic-button"
-              role="button"
-              tabIndex={0}
-              onClick={() => clickHandler(topic.id)}
-              onKeyPress={() => clickHandler(topic.id)}
-            >
-              <div
-                className="topic-image"
-                style={{
-                  background: `linear-gradient(${topic.backgroundColor},${topic.backgroundColor}),
-                                  linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.30)),url(${topic.backgroundURL})`
-                  }}
-              />
-              <div className="topic-title">
-                {topic.label}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <TopicsList topics={TOPICS} onClick={clickHandler} />
     </div>
   );
 }
