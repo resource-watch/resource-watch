@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
+
+// Services
+import { fetchRWConfig } from 'services/config';
+
+// Components
+import TopicsList from 'layout/explore/explore-topics/list';
 
 // Styles
 import './styles.scss';
 
 function ExploreDiscover(props) {
   const { setSidebarSection } = props;
+  const [config, setConfig] = useState({
+    highlightedDastasets: [],
+    relatedTopics: [],
+    recentUpdated: [],
+    relatedDashboards: []
+  });
+
+  useEffect(() => {
+    setConfig(fetchRWConfig());
+  }, []);
+
+  const {
+    relatedTopics,
+    recentUpdated,
+    relatedDashboards
+  } = config;
+
   return (
     <div className="c-explore-discover">
       <div className="trending-datasets discover-section">
@@ -38,6 +61,19 @@ function ExploreDiscover(props) {
                         SEE ALL
           </div>
         </div>
+        {relatedTopics.length > 0 &&
+          <TopicsList
+            topics={relatedTopics}
+            onClick={(id) => {
+              props.setFiltersSearch('');
+              props.resetFiltersSort();
+              props.setFiltersSelected({ key: 'topics', list: [id] });
+              props.setDatasetsPage(1);
+              props.fetchDatasets();
+              props.setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
+            }}
+          />
+        }
       </div>
       <div className="recent-updated discover-section">
         <div className="header">
@@ -66,6 +102,13 @@ function ExploreDiscover(props) {
   );
 }
 
-ExploreDiscover.propTypes = { setSidebarSection: PropTypes.func.isRequired };
+ExploreDiscover.propTypes = {
+  setSidebarSection: PropTypes.func.isRequired,
+  setFiltersSearch: PropTypes.func.isRequired,
+  resetFiltersSort: PropTypes.func.isRequired,
+  setDatasetsPage: PropTypes.func.isRequired,
+  fetchDatasets: PropTypes.func.isRequired,
+  setFiltersSelected: PropTypes.func.isRequired
+};
 
 export default ExploreDiscover;
