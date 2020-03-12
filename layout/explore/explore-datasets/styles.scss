@@ -9,6 +9,43 @@
         justify-content: space-between;
         margin: 2 * $space 0px 2 * $space 0px;
 
+        .c-explore-datasets-sort {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 170px;
+            box-sizing: border-box;
+            border: 1px solid rgba(0,0,0,0.03);
+            border-radius: 4px;
+            box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
+            margin-bottom: 2 * $space;
+            cursor: pointer;
+      
+            > * {
+              margin-left: 5px;
+      
+              &:first-child { margin-left: 0; }
+            }
+      
+            .actions-sort-button {
+              padding: $space;
+              font-size: $font-size-tiny;
+              line-height: 2 * $space;
+              color: $color-charcoal-grey;
+              fill: rgba($color-charcoal-grey, 0.2);
+              display: flex;
+      
+              &.isInteractive {
+                cursor: pointer;
+      
+                &:hover {
+                  color: darken($color-charcoal-grey, 15%);
+                  fill: rgba($color-charcoal-grey, 0.5);
+                }
+              }
+            }
+        }
+
         .tags-container {
             width: 230px;
             display: flex;
