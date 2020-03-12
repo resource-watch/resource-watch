@@ -1,14 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
+
+// Services
+import { fetchDatasets } from 'services/dataset';
 
 // Constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
+
+// Components
+import Spinner from 'components/ui/Spinner';
+
+// Responsive
+import MediaQuery from 'react-responsive';
+import { breakpoints } from 'utils/responsive';
+
+// Explore components
+import DatasetList from 'layout/explore/explore-datasets/list';
+import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 
 // Styles
 import './styles.scss';
 
 function ExploreDiscover(props) {
-  const { setSidebarSection } = props;
+  const { setSidebarSection, responsive } = props;
+  const [highlightedDatasets, setHighlightedDatasets] = useState({ loading: true, list: [] });
+  const { loading, list } = highlightedDatasets;
+
+  useEffect(() => {
+    fetchDatasets({
+      'page[size]': 4,
+      isHighlighted: true,
+      includes: 'layer, metadata'
+    })
+      .then(data => setHighlightedDatasets({ loading: false, list: data }))
+      .catch(err => toastr.error('Error loading highlighted datasets', err));
+  }, []);
+
   return (
     <div className="c-explore-discover">
       <div className="trending-datasets discover-section">
@@ -24,6 +52,20 @@ function ExploreDiscover(props) {
                         SEE ALL DATA
           </div>
         </div>
+        <Spinner isLoading={loading} className="-light -relative" />
+        {!loading &&
+          <DatasetList
+            list={list}
+            actions={
+              <MediaQuery
+                minDeviceWidth={breakpoints.medium}
+                values={{ deviceWidth: responsive.fakeWidth }}
+              >
+                <ExploreDatasetsActions />
+              </MediaQuery>
+            }
+          />
+        }
       </div>
       <div className="related-topics discover-section">
         <div className="header">
@@ -66,6 +108,9 @@ function ExploreDiscover(props) {
   );
 }
 
-ExploreDiscover.propTypes = { setSidebarSection: PropTypes.func.isRequired };
+ExploreDiscover.propTypes = {
+  setSidebarSection: PropTypes.func.isRequired,
+  responsive: PropTypes.object.isRequired
+};
 
 export default ExploreDiscover;
