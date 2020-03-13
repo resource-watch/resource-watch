@@ -161,8 +161,8 @@ function ExploreDiscover(props) {
             className="header-button"
             role="button"
             tabIndex={-1}
-            onClick={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
-            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
+            onClick={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
+            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
           >
                         SEE ALL DATA
           </div>
