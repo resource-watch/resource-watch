@@ -34,7 +34,7 @@ const RelatedContentContainer = (props) => {
     }
   }, [datasetID]);
 
-  return (<RelatedContentComponent datasets={datasets} />);
+  return (<RelatedContentComponent datasets={datasets} {...props} />);
 };
 
 RelatedContentContainer.propTypes = { datasetID: PropTypes.string };

@@ -13,10 +13,9 @@ class ExploreSidebarComponent extends React.Component {
   static propTypes = {
     children: PropTypes.node,
     open: PropTypes.bool,
-    loading: PropTypes.bool,
 
     // Actions
-    setSidebarOpen: PropTypes.func
+    setSidebarOpen: PropTypes.func.isRequired
   };
 
   /**
@@ -38,7 +37,7 @@ class ExploreSidebarComponent extends React.Component {
   }
 
   render() {
-    const { open, loading } = this.props;
+    const { open } = this.props;
 
     return (
       <aside
@@ -61,9 +60,6 @@ class ExploreSidebarComponent extends React.Component {
             name="icon-arrow-down"
           />
         </button>
-
-        {loading && <Spinner isLoading className="-light" />}
-
         <div
           className="sidebar-content explore-sidebar"
         // onScroll={() => this.handleScroll()}

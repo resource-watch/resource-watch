@@ -9,9 +9,8 @@ export default {
     loading: false,
     error: null,
     page: 1,
-    limit: 12,
+    limit: 30,
     total: 0,
-    mode: 'grid', // 'grid' or 'list'
     selected: null
   },
   filters: {
@@ -45,7 +44,8 @@ export default {
       { value: 'updatedAt', label: 'Last modified' },
       { value: 'most-viewed', label: 'Most viewed' },
       { value: 'most-favorited', label: 'Most favorited' },
-      { value: 'relevance', label: 'Relevance' }
+      { value: 'relevance', label: 'Relevance' },
+      { value: 'createdAt', label: 'Date added' }
     ]
   },
 

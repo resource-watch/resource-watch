@@ -1,0 +1,23 @@
+@import 'css/settings';
+
+.c-explore-near-real-time {
+    margin: 2 * $space 3 * $space 2 * $space 3 * $space;
+
+    .explore-near-real-time-section {
+        margin-bottom: 4 * $space;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+    
+            .number-of-datasets {
+                font-size: $font-size-tiny;
+            }
+        }
+        
+        .column {
+            padding: 0px;
+        }
+    }
+}
