@@ -18,7 +18,7 @@ export const fetchRWConfig = (token) => {
   // TEMPORARY: DATA MOCK RETURNED
   return ({
     highlightedDatasets: [],
-    relatedTopics: ['water', 'society', 'food', 'energy'],
+    relatedTopics: ['water', 'society', 'food_and_agriculture', 'energy'],
     recentUpdated: [],
     relatedDashboards: []
   });

@@ -6,12 +6,13 @@
     margin: 2 * $space 3 * $space 2 * $space 3 * $space;
 
     .discover-section {
-        margin-top: 2 * $space;
+        margin: 2 * $space 0px 2 * $space 0px;
 
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 2 * $space;
     
             h4 {
                 margin: 0px;
@@ -26,6 +27,32 @@
 
             a {
                 text-decoration: none;
+            }
+        }
+
+        &.trending-datasets {
+            min-height: 200px;
+            
+            .column {
+                padding: 0px;
+            }
+        }
+
+        &.related-topics {
+            .column {
+
+                &:nth-child(odd) {
+                    padding: $space $space $space 0px;
+                }
+                
+                &:nth-child(even) {
+                    padding: $space 0px $space $space;
+                }
+
+                .topic-button {
+                    height: 120px;
+                    margin: 0px;
+                }
             }
         }
     }
