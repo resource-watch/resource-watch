@@ -55,5 +55,17 @@
                 }
             }
         }
+
+        &.recently-added {
+            .column {
+                padding: 0px;
+            }
+        }
+
+        &.recent-updated {
+            .column {
+                padding: 0px;
+            }
+        }
     }
 }

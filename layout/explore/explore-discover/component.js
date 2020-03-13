@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
-// Services
-import { fetchDatasets } from 'services/dataset';
-
 // Constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 import { TOPICS } from 'layout/explore/explore-topics/constants';
 
 // Services
 import { fetchRWConfig } from 'services/config';
+import { fetchDatasets } from 'services/dataset';
 
 // Components
 import TopicsList from 'layout/explore/explore-topics/list';
@@ -29,33 +27,47 @@ import './styles.scss';
 
 function ExploreDiscover(props) {
   const { setSidebarSection, responsive } = props;
-  const [config, setConfig] = useState({
-    relatedTopics: [],
-    recentUpdated: [],
-    relatedDashboards: []
-  });
+  const [config, setConfig] = useState({ relatedTopics: [] });
   const [highlightedDatasets, setHighlightedDatasets] = useState({ loading: true, list: [] });
-  const { loading, list } = highlightedDatasets;
+  const [recentUpdatedDatasets, setRecentUpdatedDatasets] = useState({ loading: true, list: [] });
+  const [recentlyAddedDatasets, setRecentlyAddedDatasets] = useState({ loading: true, list: [] });
 
   useEffect(() => {
-    setConfig(fetchRWConfig());
-  }, []);
+    const tempConfig = fetchRWConfig();
+    setConfig(tempConfig);
 
-  const {
-    relatedTopics,
-    recentUpdated,
-    relatedDashboards
-  } = config;
-
-  useEffect(() => {
+    // ---- Highlighted datasets ----
     fetchDatasets({
       'page[size]': 4,
       isHighlighted: true,
-      includes: 'layer, metadata'
+      includes: 'layer,metadata,widget'
     })
       .then(data => setHighlightedDatasets({ loading: false, list: data }))
       .catch(err => toastr.error('Error loading highlighted datasets', err));
+    
+    // ----- Recently updated datasets -------
+    fetchDatasets({
+      'page[size]': 4,
+      sort: '-dataLastUpdated',
+      includes: 'layer,metadata,widget',
+      'concepts[0][0]': 'near_real_time'
+    })
+      .then(data => setRecentUpdatedDatasets({ loading: false, list: data }))
+      .catch(err => toastr.error('Error loading recently updated datasets', err));
+
+    // ----- Recently added datasets --------
+    fetchDatasets({
+      'page[size]': 4,
+      sort: '-createdAt',
+      includes: 'layer,metadata,widget'
+    })
+      .then(data => setRecentlyAddedDatasets({ loading: false, list: data }))
+      .catch(err => toastr.error('Error loading recently added datasets', err));
   }, []);
+
+  const {
+    relatedTopics
+  } = config;
 
   return (
     <div className="c-explore-discover">
@@ -72,10 +84,10 @@ function ExploreDiscover(props) {
                         SEE ALL DATA
           </div>
         </div>
-        <Spinner isLoading={loading} className="-light -relative" />
-        {!loading &&
+        <Spinner isLoading={highlightedDatasets.loading} className="-light -relative" />
+        {!highlightedDatasets.loading &&
           <DatasetList
-            list={list}
+            list={highlightedDatasets.list}
             actions={
               <MediaQuery
                 minDeviceWidth={breakpoints.medium}
@@ -114,9 +126,9 @@ function ExploreDiscover(props) {
           />
         }
       </div>
-      <div className="recent-updated discover-section">
+      <div className="recently-added discover-section">
         <div className="header">
-          <h4>Recent updated</h4>
+          <h4>Recently added datasets</h4>
           <div
             className="header-button"
             role="button"
@@ -127,15 +139,48 @@ function ExploreDiscover(props) {
                         SEE ALL DATA
           </div>
         </div>
+        <Spinner isLoading={recentlyAddedDatasets.loading} className="-light -relative" />
+        {!recentlyAddedDatasets.loading &&
+          <DatasetList
+            list={recentlyAddedDatasets.list}
+            actions={
+              <MediaQuery
+                minDeviceWidth={breakpoints.medium}
+                values={{ deviceWidth: responsive.fakeWidth }}
+              >
+                <ExploreDatasetsActions />
+              </MediaQuery>
+            }
+          />
+        }
       </div>
-      <div className="related-dashboards discover-section">
+      <div className="recent-updated discover-section">
         <div className="header">
-          <h4>Related dashboards</h4>
-          {/* <Link/> didn't work for some reason... */}
-          <a href="/dashboards" className="header-button">
-                        SEE ALL
-          </a>
+          <h4>Recent updated datasets</h4>
+          <div
+            className="header-button"
+            role="button"
+            tabIndex={-1}
+            onClick={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
+            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
+          >
+                        SEE ALL DATA
+          </div>
         </div>
+        <Spinner isLoading={recentUpdatedDatasets.loading} className="-light -relative" />
+        {!recentUpdatedDatasets.loading &&
+          <DatasetList
+            list={recentUpdatedDatasets.list}
+            actions={
+              <MediaQuery
+                minDeviceWidth={breakpoints.medium}
+                values={{ deviceWidth: responsive.fakeWidth }}
+              >
+                <ExploreDatasetsActions />
+              </MediaQuery>
+            }
+          />
+        }
       </div>
     </div>
   );

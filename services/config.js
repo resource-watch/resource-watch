@@ -17,10 +17,7 @@ export const fetchRWConfig = (token) => {
   //     });
   // TEMPORARY: DATA MOCK RETURNED
   return ({
-    highlightedDatasets: [],
-    relatedTopics: ['water', 'society', 'food_and_agriculture', 'energy'],
-    recentUpdated: [],
-    relatedDashboards: []
+    relatedTopics: ['water', 'society', 'food_and_agriculture', 'energy']
   });
 };
 
