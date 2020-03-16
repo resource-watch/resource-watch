@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { toastr } from 'react-redux-toastr';
 import debounce from 'lodash/debounce';
-
-// Components
-import Field from 'components/form/Field';
-import Input from 'components/form/Input';
-import Select from 'components/form/SelectInput';
-import Spinner from 'components/ui/Spinner';
+import Select from 'react-select';
 
 // Services
 import { fetchDatasets } from 'services/dataset';
+
+// Components
+import Spinner from 'components/ui/Spinner';
 
 // Constants
 import { TOPICS } from 'layout/explore/explore-topics/constants';
@@ -19,7 +17,7 @@ import './styles.scss';
 
 function ExploreForm() {
   const [selectedTopics, setSelectedTopics] = useState([]);
-  const [highlightedDatasets, setHighlightedDatasets] = useState({ old: [], new: [] });
+  const [highlightedDatasets, setHighlightedDatasets] = useState({ old: [], new: [], loading: true });
   const [search, setSearch] = useState({ loading: false, list: [], value: '' });
 
   const getDatasetName = d =>
@@ -36,29 +34,42 @@ function ExploreForm() {
           label: getDatasetName(d),
           id: d.id
         }));
-        setHighlightedDatasets({ old: datasetsMap, new: datasetsMap });
+        setHighlightedDatasets({ old: datasetsMap, new: datasetsMap, loading: false });
       })
       .catch(err => toastr.error('Error loading highlighted datasets', err));
   }, []);
 
-  const handleDatasetSearchChange = debounce((value) => {
-    setSearch({ loading: true, list: [], value });
-    fetchDatasets({
-      includes: 'metadata',
-      published: true,
-      status: 'saved',
-      name: value
-    })
-      .then(data => setSearch({
-        list: data.map(d => ({
-          label: getDatasetName(d),
-          id: d.id
-        })),
-        loading: false,
-        value
-      }))
-      .catch(err => toastr.error('Error performing dataset search', err));
+  const handleDatasetSearchInputChange = debounce((value) => {
+    if (value) {
+      fetchDatasets({
+        includes: 'metadata',
+        published: true,
+        status: 'saved',
+        name: value
+      })
+        .then(data => setSearch({
+          list: data.map(d => ({
+            label: getDatasetName(d),
+            id: d.id
+          })),
+          loading: false,
+          value
+        }))
+        .catch(err => toastr.error('Error performing dataset search', err));
+    }
   }, 250);
+
+  const handleDatasetSearchChange = (value) => {
+    if (highlightedDatasets.new.find(e => e.id === value.id)) {
+      toastr.error('This dataset is already part of the list');
+    } else {
+      setHighlightedDatasets({
+        ...highlightedDatasets,
+        new: [...highlightedDatasets.new, value]
+      });
+      setSearch({ loading: false, list: [], value: '' });
+    }
+  };
 
   return (
     <div className="c-explore-form">
@@ -67,51 +78,22 @@ function ExploreForm() {
         <div className="highlighted-datasets">
           <h4>Highlighted datasets</h4>
           <div className="highlighted-datasets-search">
-            <Spinner isLoading={search.loading} className="-light -relative" />
-            <Field
-              onChange={handleDatasetSearchChange}
+            <Spinner isLoading={search.loading} className="-relative -light" />
+            <Select
+              options={search.list}
               className="-fluid"
-              properties={{
-                            name: 'datasetSearch',
-                            placeholder: 'Search for datasets here',
-                            type: 'text'
-                            }}
-            >
-              {Input}
-            </Field>
-            {!search.loading && search.list.length === 0 && search.value &&
-            <div>The search text provided triggered no results</div>
-                        }
-            <ul className="search-results">
-              {search.list.map(result => (
-                <li className="search-result">
-                  <span>{result.label}</span>
-                  <button
-                    className="c-button -primary -compressed"
-                    onClick={() => {
-                        if (highlightedDatasets.new.length === 4) {
-                            toastr.error('Only up to 4 highlighted datasets can be selected');
-                        } else if (highlightedDatasets.new.find(e => e.id === result.id)) {
-                            toastr.error('This dataset is already part of the list');
-                        } else {
-                            setHighlightedDatasets({
-                                ...highlightedDatasets,
-                                new: [...highlightedDatasets.new, result]
-                            });
-                        }
-                    }}
-                  >
-                        Add
-                  </button>
-                </li>
-                ))}
-            </ul>
+              onChange={handleDatasetSearchChange}
+              onInputChange={handleDatasetSearchInputChange}
+              placeholder="Type here to add a new dataset"
+            />
           </div>
-
-          <h5>Highlighted datasets selection</h5>
           <ul className="highlighted-datasets-list">
+            <Spinner isLoading={highlightedDatasets.loading} className="-relative -light" />
             {highlightedDatasets.new.map(hd => (
-              <li className="highlighted-dataset">
+              <li
+                className="highlighted-dataset"
+                key={hd.id}
+              >
                 <span>{hd.label}</span>
                 <button
                   className="c-button -primary -compressed"
@@ -131,21 +113,14 @@ function ExploreForm() {
       </div>
       <div className="related-topics">
         <h4>Related topics</h4>
-        <Field
+        <Select
+          multi
+          value={selectedTopics}
+          default={selectedTopics}
+          placeholder="Select a set of related topics..."
           options={TOPICS.map(t => ({ label: t.label, value: t.id }))}
           onChange={value => setSelectedTopics(value)}
-          className="-fluid"
-          properties={{
-                        name: 'relatedTopics',
-                        multi: true,
-                        instanceId: 'selectWidgetRelevantProps',
-                        placeholder: 'Select the related topics...',
-                        default: selectedTopics,
-                        value: selectedTopics
-                    }}
-        >
-          {Select}
-        </Field>
+        />
       </div>
       <div className="actions">
         <button

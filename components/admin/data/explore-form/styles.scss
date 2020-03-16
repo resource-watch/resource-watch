@@ -2,21 +2,15 @@
 
 .c-explore-form {
 
+    .Select {
+        min-width: 100%;
+    }
+
     .highlighted-datasets {
         margin-top: 8 * $space;
 
-        .search-results {
-            width: 100%;
-
-            .search-result {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: $space;
-                border-radius: 4px;
-                padding: 2 * $space;
-                border: solid 1px $charcoal-grey;
-            }
+        .highlighted-datasets-search {
+            position: relative;
         }
 
         .highlighted-datasets-list {
@@ -41,5 +35,6 @@
     .actions {
         display: flex;
         justify-content: flex-end;
+        margin-top: 4 * $space;
     }
 }
