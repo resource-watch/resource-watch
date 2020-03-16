@@ -5,6 +5,6 @@ import * as actions from 'layout/explore/actions';
 import ExploreDiscoverComponent from './component';
 
 export default connect(
-  null,
+  state => ({ responsive: state.responsive }),
   actions
 )(ExploreDiscoverComponent);
