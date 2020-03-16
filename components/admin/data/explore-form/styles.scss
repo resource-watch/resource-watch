@@ -1,0 +1,45 @@
+@import 'css/settings';
+
+.c-explore-form {
+
+    .highlighted-datasets {
+        margin-top: 8 * $space;
+
+        .search-results {
+            width: 100%;
+
+            .search-result {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: $space;
+                border-radius: 4px;
+                padding: 2 * $space;
+                border: solid 1px $charcoal-grey;
+            }
+        }
+
+        .highlighted-datasets-list {
+            width: 100%;
+
+            .highlighted-dataset {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2 * $space;
+                padding: 2 * $space;
+                border-radius: 4px;
+                background-color: $porcelain;
+            }
+        }
+    }
+
+    .related-topics {
+        margin-top: 8 * $space;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
