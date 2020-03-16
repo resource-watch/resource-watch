@@ -96,7 +96,7 @@ function ExploreForm() {
               >
                 <span>{hd.label}</span>
                 <button
-                  className="c-button -primary -compressed"
+                  className="c-button -secondary -compressed"
                   onClick={() => {
                                         setHighlightedDatasets({
                                             ...highlightedDatasets,
