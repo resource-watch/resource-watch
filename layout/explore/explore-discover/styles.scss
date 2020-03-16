@@ -37,5 +37,35 @@
                 padding: 0px;
             }
         }
+
+        &.related-topics {
+            .column {
+
+                &:nth-child(odd) {
+                    padding: $space $space $space 0px;
+                }
+                
+                &:nth-child(even) {
+                    padding: $space 0px $space $space;
+                }
+
+                .topic-button {
+                    height: 120px;
+                    margin: 0px;
+                }
+            }
+        }
+
+        &.recently-added {
+            .column {
+                padding: 0px;
+            }
+        }
+
+        &.recent-updated {
+            .column {
+                padding: 0px;
+            }
+        }
     }
 }
