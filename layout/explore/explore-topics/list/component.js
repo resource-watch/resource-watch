@@ -22,9 +22,11 @@ function TopicsListComponent(props) {
               <div
                 className="topic-image"
                 style={{
-                                    background: `linear-gradient(${topic.backgroundColor},${topic.backgroundColor}),
-                                  linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.30)),url(${topic.backgroundURL})`
-                                }}
+                  background: `linear-gradient(${topic.backgroundColor},${topic.backgroundColor}),
+                    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.30)),url(${topic.backgroundURL})`,
+                  'background-position': 'center',
+                  'background-size': 'cover'
+                }}
               />
               <div className="topic-title">
                 {topic.label}
