@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 // Components
 import DatasetListItem from './list-item';
 
+// Styles
+import './styles.scss';
+
 class DatasetList extends PureComponent {
   static propTypes = {
     list: PropTypes.array.isRequired,
