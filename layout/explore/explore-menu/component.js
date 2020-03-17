@@ -69,7 +69,12 @@ class ExploreMenuComponent extends React.Component {
   }
 
   onToggleSelected = (payload) => {
-    this.props.toggleFiltersSelected({ tag: payload, tab: 'topics' });
+    const { section, setSidebarSection, toggleFiltersSelected } = this.props;
+
+    if (section !== EXPLORE_SECTIONS.ALL_DATA) {
+      setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
+    }
+    toggleFiltersSelected({ tag: payload, tab: 'topics' });
     this.fetchDatasets();
   }
 

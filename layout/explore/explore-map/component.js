@@ -559,7 +559,10 @@ class ExploreMap extends PureComponent {
             className="-medium"
             onRequestClose={() => this.onChangeInfo(null)}
           >
-            <LayerInfoModal layer={layer} />
+            <LayerInfoModal
+              layer={layer}
+              onRequestClose={() => this.onChangeInfo(null)}
+            />
           </Modal>
         )}
       </div>

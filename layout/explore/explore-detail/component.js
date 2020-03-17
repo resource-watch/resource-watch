@@ -53,7 +53,7 @@ class ExploreDetailComponent extends React.Component {
                 </div>
                 <div className="source-date">
                   <div className="source" title={metadata.source} >
-                    {metadata.source}
+                    {`Source: ${metadata.source}`}
                   </div>
                   <div className="date">
                     {dateLastUpdated ? `UPDATED ON ${dateLastUpdated}`.toUpperCase() : ''}

@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 // Components
 import DatasetListItem from './list-item';
 
+// Styles
+import './styles.scss';
+
 class DatasetList extends PureComponent {
   static propTypes = {
     list: PropTypes.array.isRequired,
@@ -22,7 +25,7 @@ class DatasetList extends PureComponent {
 
     return (
       <div className="c-explore-dataset-list">
-        <div className="l-row -equal-height row">
+        <div className="l-row row">
           {list.map(dataset => (
             <div
               className="column small-12"
