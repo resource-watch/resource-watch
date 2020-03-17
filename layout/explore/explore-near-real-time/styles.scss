@@ -9,7 +9,12 @@
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: center;
+            margin: 4 * $space 0px 2 * $space 0px;
+
+            h4 {
+                margin: 0px;
+            }
     
             .number-of-datasets {
                 font-size: $font-size-tiny;
