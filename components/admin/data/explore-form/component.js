@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { toastr } from 'react-redux-toastr';
+import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import Select from 'react-select';
 
 // Services
-import { fetchDatasets } from 'services/dataset';
+import { fetchDatasets, updateDataset } from 'services/dataset';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -15,9 +16,13 @@ import { TOPICS } from 'layout/explore/explore-topics/constants';
 // Styles
 import './styles.scss';
 
-function ExploreForm() {
+function ExploreForm(props) {
   const [selectedTopics, setSelectedTopics] = useState([]);
   const [highlightedDatasets, setHighlightedDatasets] = useState({ old: [], new: [], loading: true });
+  const [updatingData, setUpdatingData] = useState({
+    processingDehighlightedDatasets: false,
+    processingHighlightedDatasets: false
+  });
   const [search, setSearch] = useState({ loading: false, list: [], value: '' });
 
   const getDatasetName = d =>
@@ -26,7 +31,7 @@ function ExploreForm() {
   useEffect(() => {
     fetchDatasets({
       includes: 'metadata',
-      isHighlighted: true,
+      'applicationConfig.rw.highlighted': 'true',
       'page[size]': 4
     })
       .then((datasets) => {
@@ -71,10 +76,48 @@ function ExploreForm() {
     }
   };
 
+  const saveHighlightedDatasets = () => {
+    const { token } = props;
+    const oldDatasets = highlightedDatasets.old;
+    const newDatasets = highlightedDatasets.new;
+    const datasetsToDehighlight = oldDatasets.filter(d => !newDatasets.find(nD => nD.id === d.id));
+    const datasetsToHighlight = newDatasets.filter(d => !oldDatasets.find(oD => oD.id === d.id));
+
+    setUpdatingData({
+      processingDehighlightedDatasets: datasetsToDehighlight.length > 0,
+      processingHighlightedDatasets: datasetsToHighlight.length > 0
+    });
+
+    // --- DATASETS TO HIGHLIGHT -----
+    datasetsToHighlight.forEach((dataset) => {
+      updateDataset(
+        dataset.id,
+        token,
+        { applicationConfig: { rw: { highlighted: 'true' } } }
+      )
+        .then(() => setUpdatingData({ ...updatingData, processingHighlightedDatasets: false }));
+    });
+
+    // --- DATASETS TO DEHIGHLIGHT -----
+    datasetsToDehighlight.forEach((dataset) => {
+      updateDataset(
+        dataset.id,
+        token,
+        { applicationConfig: { rw: { highlighted: 'false' } } }
+      )
+        .then(() => setUpdatingData({ ...updatingData, processingDehighlightedDatasets: false }));
+    });
+  };
+
   return (
     <div className="c-explore-form">
       <div className="discover-section">
         <h3>Discover section</h3>
+        <Spinner
+          isLoading={updatingData.processingDehighlightedDatasets ||
+            updatingData.processingHighlightedDatasets}
+          className="-light"
+        />
         <div className="highlighted-datasets">
           <h4>Highlighted datasets</h4>
           <div className="highlighted-datasets-search">
@@ -126,8 +169,8 @@ function ExploreForm() {
         <button
           className="c-button -primary"
           onClick={() => {
-                        // TO-DO save
-                    }}
+            saveHighlightedDatasets();
+          }}
         >
                     Save
         </button>
@@ -135,5 +178,7 @@ function ExploreForm() {
     </div>
   );
 }
+
+ExploreForm.propTypes = { token: PropTypes.string.isRequired };
 
 export default ExploreForm;

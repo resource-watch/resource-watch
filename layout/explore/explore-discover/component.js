@@ -39,12 +39,12 @@ function ExploreDiscover(props) {
     // ---- Highlighted datasets ----
     fetchDatasets({
       'page[size]': 4,
-      isHighlighted: true,
+      'applicationConfig.rw.highlighted': 'true',
       includes: 'layer,metadata,widget'
     })
       .then(data => setHighlightedDatasets({ loading: false, list: data }))
       .catch(err => toastr.error('Error loading highlighted datasets', err));
-    
+
     // ----- Recently updated datasets -------
     fetchDatasets({
       'page[size]': 4,
@@ -65,9 +65,7 @@ function ExploreDiscover(props) {
       .catch(err => toastr.error('Error loading recently added datasets', err));
   }, []);
 
-  const {
-    relatedTopics
-  } = config;
+  const { relatedTopics } = config;
 
   return (
     <div className="c-explore-discover">
