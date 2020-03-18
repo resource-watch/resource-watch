@@ -31,7 +31,8 @@ class ExploreDatasetsActionsComponent extends PureComponent {
     return !!layerGroups.find(l => l.dataset === dataset.id);
   }
 
-  handleToggleLayerGroup = () => {
+  handleToggleLayerGroup = (event) => {
+    event.stopPropagation();
     const { dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction } = this.props;
     const isActive = this.isActive();
 
@@ -77,6 +78,8 @@ class ExploreDatasetsActionsComponent extends PureComponent {
               <CollectionsPanel
                 resource={dataset}
                 resourceType="dataset"
+                onClick={e => e.stopPropagation()}
+                onKeyPress={e => e.stopPropagation()}
               />
             }
             overlayClassName="c-rc-tooltip"
@@ -88,6 +91,7 @@ class ExploreDatasetsActionsComponent extends PureComponent {
             <button
               className="c-button -secondary -compressed"
               tabIndex={-1}
+              onClick={event => event.stopPropagation()}
             >
               <Icon
                 name={starIconName}

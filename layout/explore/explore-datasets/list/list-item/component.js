@@ -77,16 +77,8 @@ class DatasetListItem extends React.Component {
     );
   }
 
-  handleClick = (event) => {
-    let classSt = event.target.className;
-    if (typeof classSt !== 'string') {
-      classSt = classSt.baseVal || '';
-    }
-    const isIcon = classSt.indexOf('c-icon') >= 0;
-    const isButton = classSt.indexOf('c-button') >= 0 || classSt.indexOf('c-btn') >= 0;
-    if (!isIcon && !isButton) {
-      Router.pushRoute('explore', { dataset: this.props.dataset.slug });
-    }
+  handleClick = () => {
+    Router.pushRoute('explore', { dataset: this.props.dataset.slug });
   }
 
   render() {
