@@ -17,7 +17,9 @@ class CollectionsPanel extends PureComponent {
     addCollection: PropTypes.func,
     toggleCollection: PropTypes.func,
     toggleFavourite: PropTypes.func,
-    resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget']).isRequired
+    resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget']).isRequired,
+    onClick: PropTypes.func,
+    onKeyPress: PropTypes.func
   };
 
   static defaultProps = {
@@ -28,7 +30,9 @@ class CollectionsPanel extends PureComponent {
     favouritesLoading: false,
     addCollection: () => {},
     toggleCollection: () => {},
-    toggleFavourite: () => {}
+    toggleFavourite: () => {},
+    onClick: null,
+    onKeyPress: null
   };
 
   state = { newCollectionName: null };
@@ -121,7 +125,19 @@ class CollectionsPanel extends PureComponent {
 
   render() {
     return (
-      <div className="c-collections-panel">
+      <div
+        className="c-collections-panel"
+        onClick={(e) => {
+          if (this.props.onClick) {
+            this.props.onClick(e);
+          }
+        }}
+        onKeyPress={(e) => {
+          if (this.props.onKeyPress) {
+            this.props.onKeyPress(e);
+          }
+        }}
+      >
         <div className="new-collection-container">
           <input
             type="text"
