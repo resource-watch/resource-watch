@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Constants
+import { EXPLORE_SECTIONS } from 'layout/explore/constants';
+
 // styles
 import './styles.scss';
 
@@ -33,6 +36,8 @@ function ExploreDetailTags(props) {
           <button
             className="c-button -secondary -compressed"
             onClick={() => {
+              props.setSelectedDataset(null);
+              props.setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
               props.setFiltersSelected(getFilterObject(tag));
               props.setDatasetsPage(1);
               props.fetchDatasets();
@@ -50,7 +55,9 @@ ExploreDetailTags.propTypes = {
   tags: PropTypes.object.isRequired,
   setFiltersSelected: PropTypes.func.isRequired,
   setDatasetsPage: PropTypes.func.isRequired,
-  fetchDatasets: PropTypes.func.isRequired
+  fetchDatasets: PropTypes.func.isRequired,
+  setSelectedDataset: PropTypes.func.isRequired,
+  setSidebarSection: PropTypes.func.isRequired
 };
 
 export default ExploreDetailTags;
