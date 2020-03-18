@@ -273,7 +273,8 @@ class Step1 extends PureComponent {
               properties={{
                 name: 'isHighlighted',
                 label: 'Do you want to set this dataset as highlighted?',
-                value: 'isHighlighted',
+                value: this.state.form.applicationConfig && this.state.form.applicationConfig.rw &&
+                  this.state.form.applicationConfig.rw.highlighted,
                 title: 'Highlighted',
                 defaultChecked: !dataset ? user.role === 'ADMIN' :
                   this.props.form.applicationConfig && this.props.form.applicationConfig.rw
