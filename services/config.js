@@ -1,44 +1,18 @@
 // utils
-import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
 
 /**
  * Fetch RW config
  */
-export const fetchRWConfig = (token) => {
-  logger.info('Fetch RW config');
-  //   return WRIAPI.get(`rwConfig?env=${process.env.API_ENV}`, { headers: { Authorization: token } })
-  //     .then(response => response.data)
-  //     .catch(({ response }) => {
-  //       const { status, statusText } = response;
-  //       logger.error(`Error fetching RW config: ${status}: ${statusText}`);
-  //       throw new Error(`Error fetching RW config: ${status}: ${statusText}`);
-  //     });
-  // TEMPORARY: DATA MOCK RETURNED
-  return ({
-    relatedTopics: ['water', 'society', 'food_and_agriculture', 'energy']
+export const fetchExploreConfig = () =>
+  new Promise((resolve, reject) => {
+    logger.info('Fetch RW config');
+    const xhr = new XMLHttpRequest();
+    xhr.open('get', 'https://raw.githubusercontent.com/resource-watch/resource-watch/develop/public/static/data/ExploreConfig.json');
+    xhr.onload = () => resolve(JSON.parse(xhr.response));
+    xhr.onerror = () => reject(new Error('There was an error loading the Explore config'));
+    xhr.send();
   });
-};
 
-/**
- * Update RW config
- *
- */
-export const updateRWConfig = (config, token) => {
-  logger.info('Update RW config');
-  return WRIAPI.post(`rwConfig?env=${process.env.API_ENV}`,
-    config,
-    { headers: { Authorization: token } })
-    .then(response => response.data)
-    .catch(({ response }) => {
-      const { status, statusText } = response;
-      logger.error(`Error updating RW config: ${status}: ${statusText}`);
-      throw new Error(`Error updating RW config: ${status}: ${statusText}`);
-    });
-};
-
-export default {
-  fetchRWConfig,
-  updateRWConfig
-};
+export default { fetchExploreConfig };
