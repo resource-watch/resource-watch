@@ -1,7 +1,7 @@
 {
   "explore": {
     "discover": {
-      "related-topics": ["water", "society", "food_and_agriculture", "energy"]
+      "related-topics": ["water", "society", "food_and_agriculture", "energy"],
       "subtitles": {
         "highlighted-datasets": "In the News",
         "related-topics": "Related topics",
