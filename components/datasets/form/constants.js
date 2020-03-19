@@ -92,7 +92,8 @@ export const STATE_DEFAULT = {
       country: []
     },
     subscribable: [],
-    mainDateField: ''
+    mainDateField: '',
+    applicationConfig: { rw: { highlighted: 'false' }}
   }
 };
 
