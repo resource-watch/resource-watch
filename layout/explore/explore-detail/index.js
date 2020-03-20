@@ -39,7 +39,8 @@ const ExploreDetailContainer = (props) => {
           dispatch(setDatasetLoading(false));
 
           // Load tags
-          const tags = data.vocabulary && data.vocabulary.find(v => v.name === 'knowledge_graph').tags;
+          const knowledgeGraphVoc = data.vocabulary && data.vocabulary.find(v => v.name === 'knowledge_graph');
+          const tags = knowledgeGraphVoc && knowledgeGraphVoc.tags;
           if (tags) {
             fetchInferredTags({ concepts: tags.join(',') })
               .then((inferredTags) => {

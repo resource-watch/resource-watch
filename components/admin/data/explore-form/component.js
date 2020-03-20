@@ -10,15 +10,12 @@ import { fetchDatasets, updateDataset } from 'services/dataset';
 // Components
 import Spinner from 'components/ui/Spinner';
 
-// Constants
-import { TOPICS } from 'layout/explore/explore-topics/constants';
-
 // Styles
 import './styles.scss';
 
 function ExploreForm(props) {
-  const [selectedTopics, setSelectedTopics] = useState([]);
-  const [highlightedDatasets, setHighlightedDatasets] = useState({ old: [], new: [], loading: true });
+  const [highlightedDatasets, setHighlightedDatasets] =
+    useState({ old: [], new: [], loading: true });
   const [updatingData, setUpdatingData] = useState({
     processingDehighlightedDatasets: false,
     processingHighlightedDatasets: false
@@ -153,17 +150,6 @@ function ExploreForm(props) {
                         ))}
           </ul>
         </div>
-      </div>
-      <div className="related-topics">
-        <h4>Related topics</h4>
-        <Select
-          multi
-          value={selectedTopics}
-          default={selectedTopics}
-          placeholder="Select a set of related topics..."
-          options={TOPICS.map(t => ({ label: t.label, value: t.id }))}
-          onChange={value => setSelectedTopics(value)}
-        />
       </div>
       <div className="actions">
         <button

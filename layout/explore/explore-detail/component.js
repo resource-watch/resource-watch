@@ -27,15 +27,15 @@ class ExploreDetailComponent extends React.Component {
   static propTypes = {
     dataset: PropTypes.object,
     datasetLoading: PropTypes.bool.isRequired,
-    tags: PropTypes.array.isRequired,
-    tagsLoading: PropTypes.bool.isRequired
+    tags: PropTypes.array.isRequired
   };
 
   static defaultProps = { dataset: null };
 
   render() {
     const { dataset, datasetLoading, tags } = this.props;
-    const metadata = dataset && dataset.metadata && dataset.metadata[0];
+    const metadata = dataset && dataset.metadata &&
+      dataset.metadata.length > 0 && dataset.metadata[0];
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
@@ -89,6 +89,14 @@ class ExploreDetailComponent extends React.Component {
             </div>
             <ExploreDetailFooter />
           </Fragment>
+        }
+        {!metadata && !datasetLoading &&
+          <div className="content">
+            <ExploreDetailHeader dataset={dataset} />
+            <div id="overview" className="overview metadata-section">
+              <p>Metadata for this dataset couldn&apos;t be loaded.</p>
+            </div>
+          </div>
         }
       </div>
     );
