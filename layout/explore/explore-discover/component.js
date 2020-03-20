@@ -7,7 +7,7 @@ import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 import { TOPICS } from 'layout/explore/explore-topics/constants';
 
 // Services
-import { fetchRWConfig } from 'services/config';
+import { fetchExploreConfig } from 'services/config';
 import { fetchDatasets } from 'services/dataset';
 
 // Components
@@ -27,54 +27,57 @@ import './styles.scss';
 
 function ExploreDiscover(props) {
   const { setSidebarSection, responsive } = props;
-  const [config, setConfig] = useState({ relatedTopics: [] });
+  const [config, setConfig] = useState(null);
   const [highlightedDatasets, setHighlightedDatasets] = useState({ loading: true, list: [] });
   const [recentUpdatedDatasets, setRecentUpdatedDatasets] = useState({ loading: true, list: [] });
   const [recentlyAddedDatasets, setRecentlyAddedDatasets] = useState({ loading: true, list: [] });
 
   useEffect(() => {
-    const tempConfig = fetchRWConfig();
-    setConfig(tempConfig);
+    fetchExploreConfig()
+      .then((result) => {
+        setConfig(result);
 
-    // ---- Highlighted datasets ----
-    fetchDatasets({
-      'page[size]': 4,
-      published: true,
-      'applicationConfig.rw.highlighted': 'true',
-      includes: 'layer,metadata,widget'
-    })
-      .then(data => setHighlightedDatasets({ loading: false, list: data }))
-      .catch(err => toastr.error('Error loading highlighted datasets', err));
+        // ---- Highlighted datasets ----
+        fetchDatasets({
+          'page[size]': 4,
+          published: true,
+          'applicationConfig.rw.highlighted': 'true',
+          includes: 'layer,metadata,widget'
+        })
+          .then(data => setHighlightedDatasets({ loading: false, list: data }))
+          .catch(err => toastr.error('Error loading highlighted datasets', err));
 
-    // ----- Recently updated datasets -------
-    fetchDatasets({
-      'page[size]': 4,
-      published: true,
-      sort: '-dataLastUpdated',
-      includes: 'layer,metadata,widget',
-      'concepts[0][0]': 'near_real_time'
-    })
-      .then(data => setRecentUpdatedDatasets({ loading: false, list: data }))
-      .catch(err => toastr.error('Error loading recently updated datasets', err));
+        // ----- Recently updated datasets -------
+        fetchDatasets({
+          'page[size]': 4,
+          published: true,
+          sort: '-dataLastUpdated',
+          includes: 'layer,metadata,widget',
+          'concepts[0][0]': 'near_real_time'
+        })
+          .then(data => setRecentUpdatedDatasets({ loading: false, list: data }))
+          .catch(err => toastr.error('Error loading recently updated datasets', err));
 
-    // ----- Recently added datasets --------
-    fetchDatasets({
-      'page[size]': 4,
-      published: true,
-      sort: '-createdAt',
-      includes: 'layer,metadata,widget'
-    })
-      .then(data => setRecentlyAddedDatasets({ loading: false, list: data }))
-      .catch(err => toastr.error('Error loading recently added datasets', err));
+        // ----- Recently added datasets --------
+        fetchDatasets({
+          'page[size]': 4,
+          published: true,
+          sort: '-createdAt',
+          includes: 'layer,metadata,widget'
+        })
+          .then(data => setRecentlyAddedDatasets({ loading: false, list: data }))
+          .catch(err => toastr.error('Error loading recently added datasets', err));
+      })
+      .catch(error => toastr.error('Error loading Explore configuration', error));
   }, []);
 
-  const { relatedTopics } = config;
+  const relatedTopics = config && config.explore.discover['related-topics'];
 
   return (
     <div className="c-explore-discover">
       <div className="trending-datasets discover-section">
         <div className="header">
-          <h4>Trending datasets</h4>
+          <h4>{config && config.explore.discover.subtitles['highlighted-datasets']}</h4>
           <div
             className="header-button"
             role="button"
@@ -102,7 +105,7 @@ function ExploreDiscover(props) {
       </div>
       <div className="related-topics discover-section">
         <div className="header">
-          <h4>Related topics</h4>
+          <h4>{config && config.explore.discover.subtitles['related-topics']}</h4>
           <div
             className="header-button"
             role="button"
@@ -113,7 +116,7 @@ function ExploreDiscover(props) {
                         SEE ALL
           </div>
         </div>
-        {relatedTopics.length > 0 &&
+        {relatedTopics && relatedTopics.length > 0 &&
           <TopicsList
             topics={TOPICS.filter(t => relatedTopics.find(rT => rT === t.id))}
             onClick={(id) => {
@@ -129,7 +132,7 @@ function ExploreDiscover(props) {
       </div>
       <div className="recently-added discover-section">
         <div className="header">
-          <h4>Recently added datasets</h4>
+          <h4>{config && config.explore.discover.subtitles['recently-added-datasets']}</h4>
           <div
             className="header-button"
             role="button"
@@ -157,7 +160,7 @@ function ExploreDiscover(props) {
       </div>
       <div className="recent-updated discover-section">
         <div className="header">
-          <h4>Recent updated datasets</h4>
+          <h4>{config && config.explore.discover.subtitles['recently-updated-datasets']}</h4>
           <div
             className="header-button"
             role="button"
