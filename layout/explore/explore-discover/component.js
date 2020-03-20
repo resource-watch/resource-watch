@@ -40,6 +40,7 @@ function ExploreDiscover(props) {
         // ---- Highlighted datasets ----
         fetchDatasets({
           'page[size]': 4,
+          published: true,
           'applicationConfig.rw.highlighted': 'true',
           includes: 'layer,metadata,widget'
         })
@@ -49,6 +50,7 @@ function ExploreDiscover(props) {
         // ----- Recently updated datasets -------
         fetchDatasets({
           'page[size]': 4,
+          published: true,
           sort: '-dataLastUpdated',
           includes: 'layer,metadata,widget',
           'concepts[0][0]': 'near_real_time'
@@ -59,12 +61,14 @@ function ExploreDiscover(props) {
         // ----- Recently added datasets --------
         fetchDatasets({
           'page[size]': 4,
+          published: true,
           sort: '-createdAt',
           includes: 'layer,metadata,widget'
         })
           .then(data => setRecentlyAddedDatasets({ loading: false, list: data }))
           .catch(err => toastr.error('Error loading recently added datasets', err));
-      });
+      })
+      .catch(error => toastr.error('Error loading Explore configuration', error));
   }, []);
 
   const relatedTopics = config && config.explore.discover['related-topics'];
