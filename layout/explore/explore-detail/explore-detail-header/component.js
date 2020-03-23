@@ -21,6 +21,7 @@ import './styles.scss';
 function ExploreDetailHeaderComponent(props) {
   const { dataset, setSelectedDataset } = props;
   const [showShareModal, setShowShareModal] = useState(false);
+  const location = typeof window !== 'undefined' && window.location;
 
   return (
     <div className="c-explore-detail-header">
