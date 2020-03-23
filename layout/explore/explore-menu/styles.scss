@@ -50,4 +50,8 @@
     hr {
         margin: 2 * $space 5 * $space 2 * $space 5 * $space;
     }
+
+    &.-hidden {
+        display: none;
+    }
 }

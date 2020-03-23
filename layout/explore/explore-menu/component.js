@@ -20,13 +20,14 @@ class ExploreMenuComponent extends React.Component {
     tags: PropTypes.array,
     options: PropTypes.object,
     selected: PropTypes.object,
-    search: PropTypes.string,
+    search: PropTypes.string.isRequired,
     sortSelected: PropTypes.string.isRequired,
     shouldAutoUpdateSortDirection: PropTypes.bool,
     section: PropTypes.string.isRequired,
     collections: PropTypes.array.isRequired,
     userIsLoggedIn: PropTypes.bool.isRequired,
     selectedCollection: PropTypes.string.isRequired,
+    selectedDataset: PropTypes.string.isRequired,
 
     // ACTIONS
     fetchDatasets: PropTypes.func.isRequired,
@@ -114,11 +115,16 @@ class ExploreMenuComponent extends React.Component {
       setSidebarSection,
       setSidebarSelectedCollection,
       userIsLoggedIn,
-      collections
+      collections,
+      selectedDataset
     } = this.props;
 
     return (
-      <div className="c-explore-menu" >
+      <div className={classnames({
+        'c-explore-menu': true,
+        '-hidden': selectedDataset
+      })}
+      >
 
         <DatasetSearch
           open={open}

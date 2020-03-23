@@ -2,4 +2,8 @@
 
 .c-explore-collections {
     margin: 0px 3 * $space 2 * $space 3 * $space;
+
+    &.-hidden {
+        display: none;
+    }
 }

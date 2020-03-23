@@ -15,7 +15,8 @@ export default connect(
     section: state.explore.sidebar.section,
     selectedCollection: state.explore.sidebar.selectedCollection,
     userIsLoggedIn: !!state.user.id,
-    collections: getCollectionsFiltered(state)
+    collections: getCollectionsFiltered(state),
+    selectedDataset: state.explore.datasets.selected
   }),
   actions
 )(ExploreMenuComponent);

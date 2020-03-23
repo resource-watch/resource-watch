@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import classnames from 'classnames';
 
 // Constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
@@ -26,7 +27,7 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 import './styles.scss';
 
 function ExploreDiscover(props) {
-  const { setSidebarSection, responsive } = props;
+  const { setSidebarSection, responsive, selectedDataset } = props;
   const [config, setConfig] = useState(null);
   const [highlightedDatasets, setHighlightedDatasets] = useState({ loading: true, list: [] });
   const [recentUpdatedDatasets, setRecentUpdatedDatasets] = useState({ loading: true, list: [] });
@@ -74,7 +75,11 @@ function ExploreDiscover(props) {
   const relatedTopics = config && config.explore.discover['related-topics'];
 
   return (
-    <div className="c-explore-discover">
+    <div className={classnames({
+        'c-explore-discover': true,
+        '-hidden': selectedDataset
+      })}
+    >
       <div className="trending-datasets discover-section">
         <div className="header">
           <h4>{config && config.explore.discover.subtitles['highlighted-datasets']}</h4>
@@ -197,7 +202,8 @@ ExploreDiscover.propTypes = {
   setDatasetsPage: PropTypes.func.isRequired,
   fetchDatasets: PropTypes.func.isRequired,
   setFiltersSelected: PropTypes.func.isRequired,
-  responsive: PropTypes.object.isRequired
+  responsive: PropTypes.object.isRequired,
+  selectedDataset: PropTypes.string.isRequired
 };
 
 export default ExploreDiscover;

@@ -1,10 +1,13 @@
 @import 'css/settings';
 
 .c-explore-detail {
-    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 530px;
+    min-height: 100%;
     
     .content {
-        min-height: 100%;
         background-color: $color-12;
 
         .metadata-section {

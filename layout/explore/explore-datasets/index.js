@@ -10,7 +10,7 @@ import ExploreDatasetsComponent from './component';
 export default connect(
   state => ({
     // Store
-    ...state.explore.datasets,
+    datasets: state.explore.datasets,
     list: getUpdatedDatasets(state),
     ...state.explore.filters,
     responsive: state.responsive,
