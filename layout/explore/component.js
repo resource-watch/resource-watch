@@ -49,32 +49,30 @@ class Explore extends PureComponent {
       >
         <div className="c-page-explore">
           <ExploreSidebar>
-            {!selected && (
-              <Fragment>
-                <ExploreMenu />
-                <div className="explore-sidebar-content">
-                  {section === EXPLORE_SECTIONS.ALL_DATA &&
-                    <ExploreDatasets />
-                  }
-                  {section === EXPLORE_SECTIONS.TOPICS &&
-                    <ExploreTopics />
-                  }
-                  {section === EXPLORE_SECTIONS.COLLECTIONS && userIsLoggedIn &&
-                    <ExploreCollections />
-                  }
-                  {section === EXPLORE_SECTIONS.COLLECTIONS && !userIsLoggedIn &&
-                    <ExploreLogin />
-                  }
-                  {section === EXPLORE_SECTIONS.DISCOVER &&
-                    <ExploreDiscover />
-                  }
-                  {section === EXPLORE_SECTIONS.NEAR_REAL_TIME &&
-                    <ExploreNearRealTime />
-                  }
-                  {/* <ExploreDatasetsHeader /> */}
-                </div>
-              </Fragment>
-            )}
+            <Fragment>
+              <ExploreMenu />
+              <div className="explore-sidebar-content">
+                {section === EXPLORE_SECTIONS.ALL_DATA &&
+                  <ExploreDatasets />
+                }
+                {section === EXPLORE_SECTIONS.TOPICS &&
+                  <ExploreTopics />
+                }
+                {section === EXPLORE_SECTIONS.COLLECTIONS && userIsLoggedIn &&
+                  <ExploreCollections />
+                }
+                {section === EXPLORE_SECTIONS.COLLECTIONS && !userIsLoggedIn &&
+                  <ExploreLogin />
+                }
+                {section === EXPLORE_SECTIONS.DISCOVER &&
+                  <ExploreDiscover />
+                }
+                {section === EXPLORE_SECTIONS.NEAR_REAL_TIME &&
+                  <ExploreNearRealTime />
+                }
+                {/* <ExploreDatasetsHeader /> */}
+              </div>
+            </Fragment>
             {selected && <ExploreDetail /> }
           </ExploreSidebar>
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -16,10 +17,18 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 import './styles.scss';
 
 function ExploreNearRealTimeComponent(props) {
-  const { datasets: { today, week, month, loading }, responsive } = props;
+  const {
+    datasets: { today, week, month, loading },
+    responsive,
+    selectedDataset
+  } = props;
 
   return (
-    <div className="c-explore-near-real-time">
+    <div className={classnames({
+        'c-explore-near-real-time': true,
+        '-hidden': selectedDataset
+      })}
+    >
       <Spinner isLoading={loading} className="-light -relative" />
       {today.length > 0 &&
         <div className="explore-near-real-time-section">
@@ -90,7 +99,8 @@ function ExploreNearRealTimeComponent(props) {
 
 ExploreNearRealTimeComponent.propTypes = {
   datasets: PropTypes.array.isRequired,
-  responsive: PropTypes.object.isRequired
+  responsive: PropTypes.object.isRequired,
+  selectedDataset: PropTypes.string.isRequired
 };
 
 export default ExploreNearRealTimeComponent;

@@ -6,6 +6,9 @@ import { getCollection } from './selectors';
 import ExploreCollectionsComponent from './component';
 
 export default connect(
-  state => ({ collection: getCollection(state) }),
+  state => ({
+    collection: getCollection(state),
+    selectedDataset: state.explore.datasets.selected
+  }),
   actions
 )(ExploreCollectionsComponent);

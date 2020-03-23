@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { Link } from 'routes';
+import classnames from 'classnames';
 
 // Responsive
 import MediaQuery from 'react-responsive';
@@ -14,8 +15,8 @@ import Spinner from 'components/ui/Spinner';
 import { TOPICS } from 'layout/explore/explore-topics/constants';
 
 // Explore components
-import DatasetList from './list';
 import ExploreDatasetsSort from 'layout/explore/explore-datasets-header/explore-datasets-sort';
+import DatasetList from './list';
 import ExploreDatasetsTags from './explore-datasets-tags';
 import ExploreDatasetsActions from './explore-datasets-actions';
 
@@ -41,21 +42,6 @@ class ExploreDatasetsComponent extends React.Component {
     setFiltersSearch: PropTypes.func.isRequired
   };
 
-  // onTagSelected = (tag) => {
-  //   const options = Object.keys(this.props.options).map(o => this.props.options[o]);
-
-  //   const tab = (options.find((o) => {
-  //     const labels = (tag && tag.labels) || [];
-  //     return o.type === labels[1];
-  //   }) || {}).value || 'custom';
-
-  //   this.props.toggleFiltersSelected({
-  //     tab,
-  //     tag
-  //   });
-  //   this.fetchDatasets(1);
-  // }
-
   fetchDatasets = debounce((page) => {
     this.props.setDatasetsPage(page);
     this.props.fetchDatasets();
@@ -63,21 +49,29 @@ class ExploreDatasetsComponent extends React.Component {
 
   render() {
     const {
-      list,
-      page,
-      limit,
-      total,
+      datasets: {
+        selected,
+        list,
+        total,
+        limit,
+        page,
+        loading
+      },
       responsive,
       selectedTags,
-      search,
-      loading
+      search
     } = this.props;
 
     const relatedDashboards =
       TOPICS.filter(topic => selectedTags.find(tag => tag.id === topic.id));
 
+    const classValue = classnames({
+      'c-explore-datasets': true,
+      '-hidden': selected
+    });
+
     return (
-      <div className="c-explore-datasets">
+      <div className={classValue}>
         {loading && <Spinner isLoading className="-light" />}
         <div className="explore-datasets-header">
           <div className="left-container">

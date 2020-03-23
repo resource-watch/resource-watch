@@ -141,4 +141,8 @@
         max-width: 300px;
         margin-bottom: 3 * $space;
     }
+
+    &.-hidden {
+        display: none;
+    }
 }

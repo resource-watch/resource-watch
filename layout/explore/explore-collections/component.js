@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import classnames from 'classnames';
 
 // Services
 import { fetchDatasets } from 'services/dataset';
@@ -14,7 +15,7 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 import './styles.scss';
 
 function ExploreCollectionsComponent(props) {
-  const { collection } = props;
+  const { collection, selectedDataset } = props;
   const [datasets, setDatasets] = useState([]);
   const [datasetsLoading, setDatasetsLoading] = useState(false);
 
@@ -41,7 +42,11 @@ function ExploreCollectionsComponent(props) {
   }, [collection]);
 
   return (
-    <div className="c-explore-collections">
+    <div className={classnames({
+        'c-explore-collections': true,
+        '-hidden': selectedDataset
+      })}
+    >
       <Spinner isLoading={datasetsLoading} className="-light -relative" />
       {datasets.length > 0 &&
         <DatasetList
@@ -53,6 +58,9 @@ function ExploreCollectionsComponent(props) {
   );
 }
 
-ExploreCollectionsComponent.propTypes = { collection: PropTypes.func.isRequired };
+ExploreCollectionsComponent.propTypes = {
+  collection: PropTypes.func.isRequired,
+  selectedDataset: PropTypes.string.isRequired
+};
 
 export default ExploreCollectionsComponent;
