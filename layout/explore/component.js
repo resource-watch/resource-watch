@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 
@@ -32,7 +32,17 @@ class Explore extends PureComponent {
     userIsLoggedIn: PropTypes.bool.isRequired
   };
 
-  state = { mobileWarningOpened: true }
+  state = {
+    mobileWarningOpened: true,
+    exploreSectionAlreadyLoaded: !this.props.explore.datasets.selected
+  };
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (!nextProps.explore.datasets.selected && this.props.explore.datasets.selected
+      && !this.state.exploreSectionAlreadyLoaded) {
+      this.setState({ exploreSectionAlreadyLoaded: true });
+    }
+  }
 
   render() {
     const {
@@ -40,7 +50,8 @@ class Explore extends PureComponent {
       explore: { datasets: { selected }, sidebar: { section } },
       userIsLoggedIn
     } = this.props;
-    const { mobileWarningOpened } = this.state;
+    const { mobileWarningOpened, exploreSectionAlreadyLoaded } = this.state;
+    const exploreSectionShouldBeLoaded = !selected || exploreSectionAlreadyLoaded;
     return (
       <Layout
         title="Explore Data Sets — Resource Watch"
@@ -49,30 +60,34 @@ class Explore extends PureComponent {
       >
         <div className="c-page-explore">
           <ExploreSidebar>
-            <Fragment>
-              <ExploreMenu />
-              <div className="explore-sidebar-content">
-                {section === EXPLORE_SECTIONS.ALL_DATA &&
-                  <ExploreDatasets />
-                }
-                {section === EXPLORE_SECTIONS.TOPICS &&
-                  <ExploreTopics />
-                }
-                {section === EXPLORE_SECTIONS.COLLECTIONS && userIsLoggedIn &&
-                  <ExploreCollections />
-                }
-                {section === EXPLORE_SECTIONS.COLLECTIONS && !userIsLoggedIn &&
-                  <ExploreLogin />
-                }
-                {section === EXPLORE_SECTIONS.DISCOVER &&
-                  <ExploreDiscover />
-                }
-                {section === EXPLORE_SECTIONS.NEAR_REAL_TIME &&
-                  <ExploreNearRealTime />
-                }
-                {/* <ExploreDatasetsHeader /> */}
-              </div>
-            </Fragment>
+            <ExploreMenu />
+            <div className="explore-sidebar-content">
+              {section === EXPLORE_SECTIONS.ALL_DATA &&
+                exploreSectionShouldBeLoaded &&
+                <ExploreDatasets />
+              }
+              {section === EXPLORE_SECTIONS.TOPICS &&
+                exploreSectionShouldBeLoaded &&
+                <ExploreTopics />
+              }
+              {section === EXPLORE_SECTIONS.COLLECTIONS && userIsLoggedIn
+                && exploreSectionShouldBeLoaded &&
+                <ExploreCollections />
+              }
+              {section === EXPLORE_SECTIONS.COLLECTIONS && !userIsLoggedIn
+                && exploreSectionShouldBeLoaded &&
+                <ExploreLogin />
+              }
+              {section === EXPLORE_SECTIONS.DISCOVER &&
+                exploreSectionShouldBeLoaded &&
+                <ExploreDiscover />
+              }
+              {section === EXPLORE_SECTIONS.NEAR_REAL_TIME
+                && exploreSectionShouldBeLoaded &&
+                <ExploreNearRealTime />
+              }
+              {/* <ExploreDatasetsHeader /> */}
+            </div>
             {selected && <ExploreDetail /> }
           </ExploreSidebar>
 
