@@ -25,7 +25,7 @@
             height: 45px;
             cursor: pointer;
             
-            .c-icon {
+            img {
                 margin: 0px 5 * $space 0px 4 * $space;
             }
 
@@ -37,7 +37,7 @@
                 border-left: $space solid $sea-blue;
                 background-color: rgba(44,117,176,0.05);
 
-                .c-icon {
+                img {
                     margin: 0px 5 * $space 0px 3 * $space;
                 }
                 .collection-name {
