@@ -4,7 +4,6 @@ import classnames from 'classnames';
 
 // Components
 import DatasetSearch from 'components/datasets/search';
-import Icon from 'components/ui/icon';
 
 // Utils
 import { logEvent } from 'utils/analytics';
@@ -119,6 +118,8 @@ class ExploreMenuComponent extends React.Component {
       selectedDataset
     } = this.props;
 
+    const iconsBaseURL = '/static/images/components/layout/explore/menu/';
+
     return (
       <div className={classnames({
         'c-explore-menu': true,
@@ -152,7 +153,7 @@ class ExploreMenuComponent extends React.Component {
             onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.DISCOVER)}
             onClick={() => setSidebarSection(EXPLORE_SECTIONS.DISCOVER)}
           >
-            <Icon name={`icon-discover-${section === EXPLORE_SECTIONS.DISCOVER ? 'on' : 'off'}`} />
+            <img alt="" src={`${iconsBaseURL}discover-${section === EXPLORE_SECTIONS.DISCOVER ? 'on' : 'off'}.svg`} />
             Discover
           </div>
           <div
@@ -165,7 +166,7 @@ class ExploreMenuComponent extends React.Component {
             onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
             onClick={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
           >
-            <Icon name={`icon-all-${section === EXPLORE_SECTIONS.ALL_DATA ? 'on' : 'off'}`} />
+            <img alt="" src={`${iconsBaseURL}all-${section === EXPLORE_SECTIONS.ALL_DATA ? 'on' : 'off'}.svg`} />
             All data
           </div>
           <div
@@ -178,7 +179,7 @@ class ExploreMenuComponent extends React.Component {
             onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
             onClick={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
           >
-            <Icon name={`icon-recent-${section === EXPLORE_SECTIONS.NEAR_REAL_TIME ? 'on' : 'off'}`} />
+            <img alt="" src={`${iconsBaseURL}recent-${section === EXPLORE_SECTIONS.NEAR_REAL_TIME ? 'on' : 'off'}.svg`} />
             Near Real-Time
           </div>
           <div
@@ -191,7 +192,7 @@ class ExploreMenuComponent extends React.Component {
             onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.TOPICS)}
             onClick={() => setSidebarSection(EXPLORE_SECTIONS.TOPICS)}
           >
-            <Icon name={`icon-topics-${section === EXPLORE_SECTIONS.TOPICS ? 'on' : 'off'}`} />
+            <img alt="" src={`${iconsBaseURL}topics-${section === EXPLORE_SECTIONS.TOPICS ? 'on' : 'off'}.svg`} />
             Topics
           </div>
 
