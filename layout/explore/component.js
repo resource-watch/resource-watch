@@ -37,8 +37,8 @@ class Explore extends PureComponent {
     exploreSectionAlreadyLoaded: !this.props.explore.datasets.selected
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!nextProps.explore.datasets.selected && this.props.explore.datasets.selected
+  componentDidUpdate(prevProps) {
+    if (!this.props.explore.datasets.selected && prevProps.explore.datasets.selected
       && !this.state.exploreSectionAlreadyLoaded) {
       this.setState({ exploreSectionAlreadyLoaded: true });
     }
