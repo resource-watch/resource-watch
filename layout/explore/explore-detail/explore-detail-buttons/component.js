@@ -20,7 +20,7 @@ function ExploreDetailButtons(props) {
 
   const { dataset: { metadata, subscribable } } = props;
   const { info } = metadata[0];
-  const isSubscribable = Object.keys(subscribable).length > 0;
+  const isSubscribable = subscribable && Object.keys(subscribable).length > 0;
   const numberOfButtons = (info.data_download_original_link ? 1 : 0) +
     (info.learn_more_link ? 1 : 0) + (isSubscribable ? 1 : 0) +
     (info.data_download_link ? 1 : 0);
