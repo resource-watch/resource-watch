@@ -162,27 +162,35 @@ class LayerPopup extends PureComponent {
 
         <div className="popup-content">
           {(interaction.data || interactionState.data) &&
-            <table className="popup-table">
-              <tbody>
-                {output.map((outputItem) => {
-                  const { column } = outputItem;
-                  const columnArray = column.split('.');
-                  const value = columnArray.reduce((acc, c) => acc[c],
-                    interaction.data || interactionState.data);
-                    return (
-                      <tr
-                        className="dc"
-                        key={outputItem.property || outputItem.column}
-                      >
-                        <td className="dt">
-                          {outputItem.property || outputItem.column}:
-                        </td>
-                        <td className="dd">{this.formatValue(outputItem, value)}</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+            output.map((outputItem) => {
+              const { column } = outputItem;
+              const columnArray = column.split('.');
+              const value = columnArray.reduce((acc, c) => acc[c],
+                interaction.data || interactionState.data);
+                return (
+                  <div
+                    className="popup-field"
+                    key={outputItem.property || outputItem.column}
+                  >
+                    <div className="field-title">
+                      {outputItem.property || outputItem.column}
+                    </div>
+                    <div className="field-value">
+                      {(outputItem.property || outputItem.column) === 'Link' &&
+                        <a
+                          href={value}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {value}
+                        </a>
+                      }
+                      {(outputItem.property || outputItem.column) !== 'Link' &&
+                        this.formatValue(outputItem, value)}
+                    </div>
+                  </div>
+                );
+              })
           }
 
           {this.state.loading && (!interaction.data || !interactionState.data) &&
