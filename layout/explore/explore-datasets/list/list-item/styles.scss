@@ -29,8 +29,17 @@
     border-radius: 4px 0px 0px 4px;
     overflow: hidden;
 
-    .c-we-chart {
+    .c-widget-chart {
+      .c-we-chart {
+        min-height: 130px;
+        max-height: 130px;
+      }
+    }
+
+    .c-layer-chart {
+      .c-we-chart {
         height: 100%;
+      }
     }
 
     &.-expanded-chart {

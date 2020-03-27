@@ -49,10 +49,10 @@ class DatasetWidgetChart extends React.Component {
   render() {
     const { mode, widget } = this.props;
 
-    const themeObj = mode === 'grid' ? defaultThumbnailTheme : defaultTheme;
+    const themeObj = mode === 'thumbnail' ? defaultThumbnailTheme : defaultTheme;
     const classname = classnames({
       'c-widget-chart': true,
-      [`-${mode}`]: mode === 'grid'
+      [`-${mode}`]: mode === 'thumbnail'
     });
 
     if (this.state.error) {
@@ -70,7 +70,7 @@ class DatasetWidgetChart extends React.Component {
         <VegaChart
           data={widget.widgetConfig}
           theme={themeObj}
-          showLegend={mode !== 'grid'}
+          showLegend={mode !== 'thumbnail'}
           reloadOnResize
           toggleLoading={this.triggerToggleLoading}
           getForceUpdate={(func) => { this.forceChartUpdate = func; }}
