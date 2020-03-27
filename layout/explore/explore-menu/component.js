@@ -167,7 +167,7 @@ class ExploreMenuComponent extends React.Component {
             onClick={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
           >
             <img alt="" src={`${iconsBaseURL}all-${section === EXPLORE_SECTIONS.ALL_DATA ? 'on' : 'off'}.svg`} />
-            All data
+            All Data
           </div>
           <div
             className={classnames({
