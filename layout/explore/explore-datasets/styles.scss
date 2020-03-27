@@ -55,9 +55,9 @@
                 display: flex;
                 align-items: center;
                 margin: 0px $space $space 0px;
+                max-width: 230px;
 
                 .button-text {
-                    max-width: 230px;
                     text-overflow: ellipsis;
                     overflow: hidden;
                     font-size: $font-size-tiny;

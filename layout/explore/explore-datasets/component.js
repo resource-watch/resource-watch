@@ -109,7 +109,12 @@ class ExploreDatasetsComponent extends React.Component {
                     this.fetchDatasets();
                   }}
                 >
-                  {`TEXT: ${search.toUpperCase()}`}
+                  <span
+                    className="button-text"
+                    title={`TEXT: ${search.toUpperCase()}`}
+                  >
+                    {`TEXT: ${search.toUpperCase()}`}
+                  </span>
                   <Icon
                     name="icon-cross"
                     className="-tiny"
