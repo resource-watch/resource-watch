@@ -123,7 +123,10 @@ class DatasetListItem extends React.Component {
         <div className="info">
           <div className="source-date">
             {/* Source */}
-            <div className="source">
+            <div
+              className="source"
+              title={metadata && metadata.source}
+            >
               {metadata && metadata.source}
             </div>
             {/* Last update */}

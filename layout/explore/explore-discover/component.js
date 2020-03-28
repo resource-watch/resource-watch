@@ -27,7 +27,12 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 import './styles.scss';
 
 function ExploreDiscover(props) {
-  const { setSidebarSection, responsive, selectedDataset } = props;
+  const {
+    setSidebarSection,
+    responsive,
+    selectedDataset,
+    setSortSelected
+  } = props;
   const [config, setConfig] = useState(null);
   const [highlightedDatasets, setHighlightedDatasets] = useState({ loading: true, list: [] });
   const [recentUpdatedDatasets, setRecentUpdatedDatasets] = useState({ loading: true, list: [] });
@@ -142,8 +147,14 @@ function ExploreDiscover(props) {
             className="header-button"
             role="button"
             tabIndex={-1}
-            onClick={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
-            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
+            onClick={() => {
+              setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
+              setSortSelected('createdAt');
+            }}
+            onKeyPress={() => {
+              setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
+              setSortSelected('createdAt');
+            }}
           >
                         SEE ALL DATA
           </div>
@@ -202,6 +213,7 @@ ExploreDiscover.propTypes = {
   setDatasetsPage: PropTypes.func.isRequired,
   fetchDatasets: PropTypes.func.isRequired,
   setFiltersSelected: PropTypes.func.isRequired,
+  setSortSelected: PropTypes.func.isRequired,
   responsive: PropTypes.object.isRequired,
   selectedDataset: PropTypes.string.isRequired
 };
