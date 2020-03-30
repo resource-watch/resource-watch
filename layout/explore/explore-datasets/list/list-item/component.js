@@ -29,7 +29,9 @@ class DatasetListItem extends React.Component {
     actions: PropTypes.node.isRequired,
     responsive: PropTypes.object.isRequired,
     active: PropTypes.bool.isRequired,
-    expandedChart: PropTypes.bool
+    expandedChart: PropTypes.bool,
+    toggleMapLayerGroup: PropTypes.func.isRequired,
+    resetMapLayerGroupsInteraction: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -79,6 +81,10 @@ class DatasetListItem extends React.Component {
 
   handleClick = () => {
     Router.pushRoute('explore', { dataset: this.props.dataset.slug });
+    // Add default to the map
+    const { dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction } = this.props;
+    toggleMapLayerGroup({ dataset, toggle: true });
+    resetMapLayerGroupsInteraction();
   }
 
   render() {

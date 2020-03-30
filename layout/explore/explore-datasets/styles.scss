@@ -2,7 +2,7 @@
 
 .c-explore-datasets {
     position: relative;
-    margin: 0px 3 * $space 0px 3 * $space;
+    margin: 0px 4 * $space 0px 3 * $space;
 
     .explore-datasets-header {
         display: flex;
@@ -13,7 +13,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            max-width: 170px;
+            max-width: 160px;
             box-sizing: border-box;
             border: 1px solid rgba(0,0,0,0.03);
             border-radius: 4px;
@@ -74,7 +74,6 @@
             display: flex;
             font-size: $font-size-tiny;
             align-items: flex-end;
-            justify-content: flex-end;
             min-width: 70px;
             margin-bottom: $space;
         }
