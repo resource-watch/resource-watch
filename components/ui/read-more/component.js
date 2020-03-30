@@ -2,6 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import truncate from 'lodash/truncate';
 import ReactMarkdown from 'react-markdown';
+import classnames from 'classnames';
+
+// Styles
+import './styles.scss';
 
 class ReadMore extends PureComponent {
   static propTypes = {
@@ -12,7 +16,7 @@ class ReadMore extends PureComponent {
 
   static defaultProps = {
     text: '',
-    limitChar: 1120,
+    limitChar: 1300,
     markdown: false
   };
 
@@ -34,12 +38,16 @@ class ReadMore extends PureComponent {
     const shortenedText = (visible) ?
       text :
       truncate(text, { length: limitChar, separator: '', omission: '...' });
+    const classValue = classnames({
+      'c-read-more': true,
+      '-truncated': !visible
+    });
 
     return (
-      <div className="c-read-more">
+      <div className={classValue}>
         { markdown && <ReactMarkdown linkTarget="_blank" source={shortenedText} />}
         { !markdown && <p>{shortenedText}</p> }
-
+        <div className="overlay" />
         <button
           className="c-button -clean"
           onClick={() => this.setState({ visible: !visible })}

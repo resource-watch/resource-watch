@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import ReadMore from 'components/ui/ReadMore';
+import ReadMore from 'components/ui/read-more';
 
 // Utils
 import { getDateConsideringTimeZone } from 'utils/utils';
