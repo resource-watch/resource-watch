@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-// Components
-import Spinner from 'components/ui/Spinner';
-
 // Responsive
 import MediaQuery from 'react-responsive';
 import { breakpoints } from 'utils/responsive';
@@ -29,70 +26,69 @@ function ExploreNearRealTimeComponent(props) {
         '-hidden': selectedDataset
       })}
     >
-      <Spinner isLoading={loading} className="-light -relative" />
-      {today.length > 0 &&
-        <div className="explore-near-real-time-section">
-          <div className="header">
-            <h4>Updated today</h4>
-            <span className="number-of-datasets">
-              {`${today.length} DATASET${today.length !== 1 && 'S'}`}
-            </span>
-          </div>
-          <DatasetList
-            list={today}
-            actions={
-              <MediaQuery
-                minDeviceWidth={breakpoints.medium}
-                values={{ deviceWidth: responsive.fakeWidth }}
-              >
-                <ExploreDatasetsActions />
-              </MediaQuery>
-            }
-          />
+      <div className="explore-near-real-time-section">
+        <div className="header">
+          <h4>Updated today</h4>
+          <span className="number-of-datasets">
+            {`${today.length} DATASET${today.length !== 1 && 'S'}`}
+          </span>
         </div>
-      }
-      {week.length > 0 &&
-        <div className="explore-near-real-time-section">
-          <div className="header">
-            <h4>Updated this week</h4>
-            <span className="number-of-datasets">
-              {`${week.length} DATASET${week.length !== 1 && 'S'}`}
-            </span>
-          </div>
-          <DatasetList
-            list={week}
-            actions={
-              <MediaQuery
-                minDeviceWidth={breakpoints.medium}
-                values={{ deviceWidth: responsive.fakeWidth }}
-              >
-                <ExploreDatasetsActions />
-              </MediaQuery>
-            }
-          />
+        <DatasetList
+          loading={loading}
+          numberOfPlaceholders={4}
+          list={today}
+          actions={
+            <MediaQuery
+              minDeviceWidth={breakpoints.medium}
+              values={{ deviceWidth: responsive.fakeWidth }}
+            >
+              <ExploreDatasetsActions />
+            </MediaQuery>
+          }
+        />
+      </div>
+      <div className="explore-near-real-time-section">
+        <div className="header">
+          <h4>Updated this week</h4>
+          <span className="number-of-datasets">
+            {`${week.length} DATASET${week.length !== 1 && 'S'}`}
+          </span>
         </div>
-      }
-      {month.length > 0 &&
-        <div className="explore-near-real-time-section">
-          <div className="header">
-            <h4>Updated this month</h4>
-            <span className="number-of-datasets">
-              {`${month.length} DATASET${month.length !== 1 && 'S'}`}
-            </span>
-          </div>
-          <DatasetList
-            list={month}
-            actions={
-              <MediaQuery
-                minDeviceWidth={breakpoints.medium}
-                values={{ deviceWidth: responsive.fakeWidth }}
-              >
-                <ExploreDatasetsActions />
-              </MediaQuery>
-            }
-          />
+        <DatasetList
+          loading={loading}
+          numberOfPlaceholders={4}
+          list={week}
+          actions={
+            <MediaQuery
+              minDeviceWidth={breakpoints.medium}
+              values={{ deviceWidth: responsive.fakeWidth }}
+            >
+              <ExploreDatasetsActions />
+            </MediaQuery>
+          }
+        />
+      </div>
+      <div className="explore-near-real-time-section">
+        <div className="header">
+          <h4>Updated this month</h4>
+          <span className="number-of-datasets">
+            {`${month.length} DATASET${month.length !== 1 && 'S'}`}
+          </span>
         </div>
-      }
+        <DatasetList
+          loading={loading}
+          numberOfPlaceholders={4}
+          list={month}
+          actions={
+            <MediaQuery
+              minDeviceWidth={breakpoints.medium}
+              values={{ deviceWidth: responsive.fakeWidth }}
+            >
+              <ExploreDatasetsActions />
+            </MediaQuery>
+          }
+        />
+      </div>
     </div>
   );
 }

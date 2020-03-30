@@ -137,6 +137,12 @@
         }
     }
 
+    .c-explore-dataset-list {
+        .spinner-box {
+            top: 300px;
+        }
+    }
+
     .c-paginator {
         max-width: 300px;
         margin-bottom: 3 * $space;
