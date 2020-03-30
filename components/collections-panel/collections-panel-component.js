@@ -41,12 +41,15 @@ class CollectionsPanel extends PureComponent {
     const { addCollection } = this.props;
     const { newCollectionName } = this.state;
 
-    if ((newCollectionName || '').toLowerCase() === 'favourites') {
-      toastr.error('Duplicated Favourites list', 'You cannot duplicate this list.');
-      return;
+    if (newCollectionName) {
+      if (newCollectionName.toLowerCase() === 'favourites') {
+        toastr.error('Duplicated Favourites list', 'You cannot duplicate this list.');
+      } else {
+        addCollection({ collectionName: newCollectionName });
+      }
+    } else {
+      toastr.error('Please enter a collection name');
     }
-
-    addCollection({ collectionName: newCollectionName });
   };
 
   onToggleFavourite = () => {

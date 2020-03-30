@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReadMore from 'components/ui/ReadMore';
+import ReadMore from 'components/ui/read-more';
 import ReactMarkdown from 'react-markdown';
 
 // Constants
