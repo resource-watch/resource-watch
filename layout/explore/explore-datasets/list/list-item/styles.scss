@@ -6,20 +6,26 @@
   position: relative;
   min-height: 130px;
   border-radius: 4px;
-  box-shadow: 0 0px 0px 1px rgba(0,0,0,.03), 0 1px 6px 0 rgba(0,0,0,.1);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 1px 6px 0 rgba(0,0,0,.0);
   box-sizing: border-box;
   transition: all $animation-time-2 $ease-in-out-sine;
   cursor: pointer;
   background-color: white;
 
   &:hover {
-    box-shadow: 0 20px 30px rgba($black, .2);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 20px 30px rgba(0,0,0,.2);
+    -webkit-transform: translateY(-4px);
     transform: translateY(-4px);
+    z-index: 9999;
   }
 
   &.-active {
     border: none;
-    box-shadow: 0 0 0 0, 0 0 0 2px $dark-pink;
+    box-shadow: 0 0 0 2px $dark-pink, 0 1px 6px 0 rgba(0,0,0,.0);
+
+    &:hover {
+      box-shadow: 0 0 0 2px $dark-pink, 0 20px 30px rgba(0,0,0,.2);
+    }
   }
 
     // Chart
