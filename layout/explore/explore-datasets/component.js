@@ -140,7 +140,11 @@ class ExploreDatasetsComponent extends React.Component {
             <Link to="dashboards_detail" params={{ slug: dashboard.slug }}>
               <div
                 className="dashboard-button"
-                style={{ 'background-image': `url(${dashboard.backgroundURL}` }}
+                style={{
+                  background: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.30)),url(${dashboard.backgroundURL})`,
+                  'background-position': 'center',
+                  'background-size': 'cover'
+               }}
               >
                 <div className="dashboard-title">
                   {dashboard.label}

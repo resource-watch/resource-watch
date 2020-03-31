@@ -106,6 +106,7 @@
             border-radius: 4px;
             background-size: cover;
             background-repeat: no-repeat; 
+            box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
             transition: all $animation-time-2 $ease-in-out-sine;
             cursor: pointer;
 
@@ -114,6 +115,8 @@
                 bottom: 3 * $space;
                 left: 3 * $space;
                 color: white;
+                font-weight: bold;
+                line-height: 20px;
             }
 
             &:hover {
