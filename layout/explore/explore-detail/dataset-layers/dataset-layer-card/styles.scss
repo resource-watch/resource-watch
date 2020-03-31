@@ -14,12 +14,16 @@
 
     .layer-data {
         width: 100%;
-        font-size: 14px;
-        color: $dove-grey;
-        line-height: 20px;
+        
+        .description {
+            font-size: 14px;
+            color: $dove-grey;
+            line-height: 20px;
+        }
     }
 
     .button-container {
         min-width: 110px;
+        margin-left: 2 * $space;
     }
 }
