@@ -20,6 +20,7 @@ import ExploreCollections from 'layout/explore/explore-collections';
 import ExploreLogin from 'layout/explore/explore-login';
 import ExploreDiscover from 'layout/explore/explore-discover';
 import ExploreNearRealTime from 'layout/explore/explore-near-real-time';
+import ExploreFavorites from 'layout/explore/explore-favorites';
 
 // utils
 import { breakpoints } from 'utils/responsive';
@@ -74,7 +75,12 @@ class Explore extends PureComponent {
                 && exploreSectionShouldBeLoaded &&
                 <ExploreCollections />
               }
-              {section === EXPLORE_SECTIONS.COLLECTIONS && !userIsLoggedIn
+              {section === EXPLORE_SECTIONS.FAVORITES && userIsLoggedIn
+                && exploreSectionShouldBeLoaded &&
+                <ExploreFavorites />
+              }
+              {(section === EXPLORE_SECTIONS.COLLECTIONS ||
+                section === EXPLORE_SECTIONS.FAVORITES) && !userIsLoggedIn
                 && exploreSectionShouldBeLoaded &&
                 <ExploreLogin />
               }
