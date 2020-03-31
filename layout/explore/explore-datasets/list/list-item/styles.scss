@@ -66,7 +66,10 @@
       display: flex;
       width: 100%;
       justify-content: space-between;
-      font-size: $font-size-extra-small;
+      margin-bottom: 5px;
+      font-size: $font-size-tiny;
+      font-weight: bold;
+      line-height: 10px;
 
       .source {
           text-overflow: ellipsis;

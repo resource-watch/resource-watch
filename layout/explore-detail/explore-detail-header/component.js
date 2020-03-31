@@ -82,7 +82,7 @@ class ExploreDetailHeader extends PureComponent {
               <li>Last update: {dataset.dateLastUpdated}</li>
             }
             <li>
-              <button className="c-btn -tertiary -alt -clean" onClick={() => this.handleToggleShareModal(true)}>
+              <button className="c-btn -tertiary -alt -clean -fs-tiny" onClick={() => this.handleToggleShareModal(true)}>
                 <Icon name="icon-share" className="-small" />
                 <span>Share</span>
 
@@ -120,7 +120,7 @@ class ExploreDetailHeader extends PureComponent {
                   trigger="click"
                 >
                   <button
-                    className="c-btn -tertiary -alt -clean"
+                    className="c-btn -tertiary -alt -clean -fs-tiny"
                     tabIndex={-1}
                   >
                     <Icon
