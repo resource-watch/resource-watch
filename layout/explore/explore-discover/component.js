@@ -98,7 +98,7 @@ function ExploreDiscover(props) {
           </div>
         </div>
         <DatasetList
-          loading
+          loading={highlightedDatasets.loading}
           numberOfPlaceholders={4}
           list={highlightedDatasets.list}
           actions={
