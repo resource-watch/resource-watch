@@ -15,6 +15,10 @@ function DatasetLayerCard(props) {
     toggleMapLayerGroup
   } = props;
 
+  const componentClassname = classnames({
+    'c-dataset-layer-card': true,
+    '-active': layerIsActive
+  });
   const layerButtonClassname = classnames({
     'c-button': true,
     '-secondary': !layerIsActive,
@@ -23,7 +27,7 @@ function DatasetLayerCard(props) {
   });
 
   return (
-    <div className="c-dataset-layer-card">
+    <div className={componentClassname}>
       <div className="layer-data">
         <strong>{name}</strong>
         <p>{description}</p>

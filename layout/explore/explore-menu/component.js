@@ -196,7 +196,7 @@ class ExploreMenuComponent extends React.Component {
             Topics
           </div>
 
-          <hr />
+          <hr noshade />
 
           {userIsLoggedIn && collections.map(collection => (
             <div

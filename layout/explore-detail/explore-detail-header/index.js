@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getUpdatedDataset } from './selectors';
 
 // component
-import ExploreDetailHeaderComponent from './explore-detail-header-component';
+import ExploreDetailHeaderComponent from './component';
 
 export default connect(
   state => ({

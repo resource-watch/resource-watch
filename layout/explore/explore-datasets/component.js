@@ -11,7 +11,6 @@ import { breakpoints } from 'utils/responsive';
 // Components
 import Paginator from 'components/ui/Paginator';
 import Icon from 'components/ui/icon';
-import Spinner from 'components/ui/Spinner';
 import { TOPICS } from 'layout/explore/explore-topics/constants';
 
 // Explore components
@@ -72,7 +71,6 @@ class ExploreDatasetsComponent extends React.Component {
 
     return (
       <div className={classValue}>
-        {loading && <Spinner isLoading className="-light" />}
         <div className="explore-datasets-header">
           <div className="left-container">
             <ExploreDatasetsSort />
@@ -142,7 +140,11 @@ class ExploreDatasetsComponent extends React.Component {
             <Link to="dashboards_detail" params={{ slug: dashboard.slug }}>
               <div
                 className="dashboard-button"
-                style={{ 'background-image': `url(${dashboard.backgroundURL}` }}
+                style={{
+                  background: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.30)),url(${dashboard.backgroundURL})`,
+                  'background-position': 'center',
+                  'background-size': 'cover'
+               }}
               >
                 <div className="dashboard-title">
                   {dashboard.label}
@@ -169,24 +171,24 @@ class ExploreDatasetsComponent extends React.Component {
           </div>
         }
 
-        {!!list.length &&
-          <DatasetList
-            list={list}
-            tags={
-              <ExploreDatasetsTags
-                onTagSelected={this.onTagSelected}
-              />
-            }
-            actions={
-              <MediaQuery
-                minDeviceWidth={breakpoints.medium}
-                values={{ deviceWidth: responsive.fakeWidth }}
-              >
-                <ExploreDatasetsActions />
-              </MediaQuery>
-            }
-          />
-        }
+        <DatasetList
+          loading={loading}
+          numberOfPlaceholders={20}
+          list={list}
+          tags={
+            <ExploreDatasetsTags
+              onTagSelected={this.onTagSelected}
+            />
+          }
+          actions={
+            <MediaQuery
+              minDeviceWidth={breakpoints.medium}
+              values={{ deviceWidth: responsive.fakeWidth }}
+            >
+              <ExploreDatasetsActions />
+            </MediaQuery>
+          }
+        />
 
         {!!list.length &&
           <Paginator

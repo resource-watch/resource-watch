@@ -30,8 +30,9 @@
             .actions-sort-button {
               padding: $space;
               font-size: $font-size-tiny;
-              line-height: 2 * $space;
-              color: $color-charcoal-grey;
+              line-height: 10px;
+              font-weight: bold;
+              color: $dove-grey;
               fill: rgba($color-charcoal-grey, 0.2);
               display: flex;
       
@@ -61,7 +62,8 @@
                     text-overflow: ellipsis;
                     overflow: hidden;
                     font-size: $font-size-tiny;
-                    line-height: 2 * $space;
+                    line-height: 10px;
+                    font-weight: bold;
                 }
     
                 .c-icon {
@@ -72,10 +74,13 @@
 
         .number-of-datasets {
             display: flex;
-            font-size: $font-size-tiny;
-            align-items: flex-end;
             min-width: 70px;
             margin-bottom: $space;
+            font-size: $font-size-tiny;
+            line-height: 10px;
+            font-weight: bold;
+            align-items: flex-end;
+            color: $dove-grey;
         }
     }
 
@@ -106,6 +111,7 @@
             border-radius: 4px;
             background-size: cover;
             background-repeat: no-repeat; 
+            box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
             transition: all $animation-time-2 $ease-in-out-sine;
             cursor: pointer;
 
@@ -114,6 +120,8 @@
                 bottom: 3 * $space;
                 left: 3 * $space;
                 color: white;
+                font-weight: bold;
+                line-height: 20px;
             }
 
             &:hover {
@@ -133,6 +141,12 @@
 
         .c-button {
             margin-top: 4 * $space;
+        }
+    }
+
+    .c-explore-dataset-list {
+        .spinner-box {
+            top: 300px;
         }
     }
 

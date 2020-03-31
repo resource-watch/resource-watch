@@ -13,7 +13,6 @@ import { fetchDatasets } from 'services/dataset';
 
 // Components
 import TopicsList from 'layout/explore/explore-topics/list';
-import Spinner from 'components/ui/Spinner';
 
 // Responsive
 import MediaQuery from 'react-responsive';
@@ -98,20 +97,19 @@ function ExploreDiscover(props) {
                         SEE ALL DATA
           </div>
         </div>
-        <Spinner isLoading={highlightedDatasets.loading} className="-light -relative" />
-        {!highlightedDatasets.loading &&
-          <DatasetList
-            list={highlightedDatasets.list}
-            actions={
-              <MediaQuery
-                minDeviceWidth={breakpoints.medium}
-                values={{ deviceWidth: responsive.fakeWidth }}
-              >
-                <ExploreDatasetsActions />
-              </MediaQuery>
-            }
-          />
-        }
+        <DatasetList
+          loading
+          numberOfPlaceholders={4}
+          list={highlightedDatasets.list}
+          actions={
+            <MediaQuery
+              minDeviceWidth={breakpoints.medium}
+              values={{ deviceWidth: responsive.fakeWidth }}
+            >
+              <ExploreDatasetsActions />
+            </MediaQuery>
+          }
+        />
       </div>
       <div className="related-topics discover-section">
         <div className="header">
@@ -159,20 +157,19 @@ function ExploreDiscover(props) {
                         SEE ALL DATA
           </div>
         </div>
-        <Spinner isLoading={recentlyAddedDatasets.loading} className="-light -relative" />
-        {!recentlyAddedDatasets.loading &&
-          <DatasetList
-            list={recentlyAddedDatasets.list}
-            actions={
-              <MediaQuery
-                minDeviceWidth={breakpoints.medium}
-                values={{ deviceWidth: responsive.fakeWidth }}
-              >
-                <ExploreDatasetsActions />
-              </MediaQuery>
-            }
-          />
-        }
+        <DatasetList
+          loading={recentlyAddedDatasets.loading}
+          numberOfPlaceholders={4}
+          list={recentlyAddedDatasets.list}
+          actions={
+            <MediaQuery
+              minDeviceWidth={breakpoints.medium}
+              values={{ deviceWidth: responsive.fakeWidth }}
+            >
+              <ExploreDatasetsActions />
+            </MediaQuery>
+          }
+        />
       </div>
       <div className="recent-updated discover-section">
         <div className="header">
@@ -187,20 +184,19 @@ function ExploreDiscover(props) {
                         SEE ALL DATA
           </div>
         </div>
-        <Spinner isLoading={recentUpdatedDatasets.loading} className="-light -relative" />
-        {!recentUpdatedDatasets.loading &&
-          <DatasetList
-            list={recentUpdatedDatasets.list}
-            actions={
-              <MediaQuery
-                minDeviceWidth={breakpoints.medium}
-                values={{ deviceWidth: responsive.fakeWidth }}
-              >
-                <ExploreDatasetsActions />
-              </MediaQuery>
-            }
-          />
-        }
+        <DatasetList
+          loading={recentUpdatedDatasets.loading}
+          numberOfPlaceholders={4}
+          list={recentUpdatedDatasets.list}
+          actions={
+            <MediaQuery
+              minDeviceWidth={breakpoints.medium}
+              values={{ deviceWidth: responsive.fakeWidth }}
+            >
+              <ExploreDatasetsActions />
+            </MediaQuery>
+          }
+        />
       </div>
     </div>
   );

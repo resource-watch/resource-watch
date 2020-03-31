@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
+import Spinner from 'components/ui/Spinner';
 import DatasetListItem from './list-item';
 
 // Styles
@@ -12,21 +13,37 @@ class DatasetList extends PureComponent {
     list: PropTypes.array.isRequired,
     actions: PropTypes.node.isRequired,
     tags: PropTypes.node,
-    expandedChart: PropTypes.bool
+    expandedChart: PropTypes.bool,
+    loading: PropTypes.bool,
+    numberOfPlaceholders: PropTypes.number
   };
 
   static defaultProps = {
     expandedChart: false,
-    tags: []
+    tags: [],
+    loading: false,
+    numberOfPlaceholders: 4
   }
 
   render() {
-    const { list, actions, tags, expandedChart } = this.props;
+    const {
+      list,
+      actions,
+      tags,
+      expandedChart,
+      numberOfPlaceholders,
+      loading
+    } = this.props;
+    const placeholders = [];
+    for (let i = 0; i < numberOfPlaceholders; i++) {
+      placeholders.push(i);
+    }
 
     return (
       <div className="c-explore-dataset-list">
+        <Spinner isLoading={loading} className="-light" />
         <div className="l-row row">
-          {list.map(dataset => (
+          {!loading && list.map(dataset => (
             <div
               className="column small-12"
               key={dataset.id}
@@ -40,6 +57,14 @@ class DatasetList extends PureComponent {
                 actions={actions}
                 tags={tags}
                 expandedChart={expandedChart}
+              />
+            </div>
+          ))}
+          {loading && placeholders.map(e => (
+            <div className="column small-12">
+              <div
+                className="dataset-placeholder"
+                key={`dataset-placeholder-${e}`}
               />
             </div>
           ))}

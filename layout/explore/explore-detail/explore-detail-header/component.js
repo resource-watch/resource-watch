@@ -26,10 +26,11 @@ function ExploreDetailHeaderComponent(props) {
   return (
     <div className="c-explore-detail-header">
       <button
-        className="c-btn -primary -compressed"
+        className="c-btn -primary -compressed -fs-tiny all-datasets-button"
         onClick={() => setSelectedDataset(null)}
       >
-        {'< ALL DATASETS'}
+        <Icon className="-small" name="icon-arrow-left-2" />
+        <span>ALL DATASETS</span>
       </button>
       <div className="right-buttons">
         {/* Collections tooltip */}
@@ -47,7 +48,7 @@ function ExploreDetailHeaderComponent(props) {
             getTooltipContainer={getTooltipContainer}
             monitorWindowResize
           >
-            <button className="c-btn -secondary -compressed" >
+            <button className="c-btn -secondary -compressed -fs-tiny" >
               <Icon className="-small" name="icon-star-full" />
               <span>SAVE</span>
             </button>
@@ -55,7 +56,7 @@ function ExploreDetailHeaderComponent(props) {
         </LoginRequired>
 
         <button
-          className="c-btn -secondary -compressed"
+          className="c-btn -secondary -compressed -fs-tiny share-button"
           onClick={() => setShowShareModal(true)}
         >
           <Icon className="-small" name="icon-arrow-up-2" />
