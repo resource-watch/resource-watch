@@ -30,8 +30,9 @@
             .actions-sort-button {
               padding: $space;
               font-size: $font-size-tiny;
-              line-height: 2 * $space;
-              color: $color-charcoal-grey;
+              line-height: 10px;
+              font-weight: bold;
+              color: $dove-grey;
               fill: rgba($color-charcoal-grey, 0.2);
               display: flex;
       
@@ -61,7 +62,8 @@
                     text-overflow: ellipsis;
                     overflow: hidden;
                     font-size: $font-size-tiny;
-                    line-height: 2 * $space;
+                    line-height: 10px;
+                    font-weight: bold;
                 }
     
                 .c-icon {
@@ -72,10 +74,13 @@
 
         .number-of-datasets {
             display: flex;
-            font-size: $font-size-tiny;
-            align-items: flex-end;
             min-width: 70px;
             margin-bottom: $space;
+            font-size: $font-size-tiny;
+            line-height: 10px;
+            font-weight: bold;
+            align-items: flex-end;
+            color: $dove-grey;
         }
     }
 

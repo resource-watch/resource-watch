@@ -12,7 +12,9 @@
     height: $space * 8;
     background-color: $color-12;
     align-items: center;
-    font-size: $font-size-small;
+    font-size: $font-size-tiny;
+    line-height: 10px;
+    font-weight: bold;
 
     a{
         cursor: pointer;
