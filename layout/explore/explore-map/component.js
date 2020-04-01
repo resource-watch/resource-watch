@@ -13,7 +13,8 @@ import {
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
   LegendItemTypes,
-  LegendItemTimeStep
+  LegendItemTimeStep,
+  LegendItemTimeline
 } from 'vizzuality-components';
 
 // components
@@ -149,6 +150,10 @@ class ExploreMap extends PureComponent {
         }
       }
     });
+  }
+
+  onChangeLayerTimeLine = (l) => {
+    this.props.setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
   }
 
   onLayerLoading = (id, bool) => {
@@ -545,6 +550,12 @@ class ExploreMap extends PureComponent {
                   customClass="rw-legend-timeline"
                   defaultStyles={LEGEND_TIMELINE_PROPERTIES}
                   dots={false}
+                  {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
+                />
+                <LegendItemTimeline
+                  onChangeLayer={this.onChangeLayerTimeLine}
+                  customClass="rw-legend-timeline"
+                  {...LEGEND_TIMELINE_PROPERTIES}
                   {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
                 />
               </LegendListItem>
