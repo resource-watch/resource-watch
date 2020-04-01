@@ -3,5 +3,6 @@ export const EXPLORE_SECTIONS = {
   ALL_DATA: 'All data',
   NEAR_REAL_TIME: 'Near Real-Time',
   TOPICS: 'Topics',
-  COLLECTIONS: 'Collections'
+  COLLECTIONS: 'Collections',
+  FAVORITES: 'Favorites'
 };

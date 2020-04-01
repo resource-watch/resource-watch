@@ -197,7 +197,18 @@ class ExploreMenuComponent extends React.Component {
           </div>
 
           <hr noshade />
-
+          <div
+            className={classnames({
+                'menu-option': true,
+                '-active': section === EXPLORE_SECTIONS.FAVORITES
+              })}
+            role="button"
+            tabIndex={0}
+            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.FAVORITES)}
+            onClick={() => setSidebarSection(EXPLORE_SECTIONS.FAVORITES)}
+          >
+            <span className="collection-name">Your favorites</span>
+          </div>
           {userIsLoggedIn && collections.map(collection => (
             <div
               className={classnames({
@@ -219,21 +230,6 @@ class ExploreMenuComponent extends React.Component {
               <span className="collection-name">{collection.name}</span>
             </div>
           ))}
-
-          {!userIsLoggedIn &&
-            <div
-              className={classnames({
-                  'menu-option': true,
-                  '-active': section === EXPLORE_SECTIONS.COLLECTIONS
-                })}
-              role="button"
-              tabIndex={0}
-              onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS)}
-              onClick={() => setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS)}
-            >
-              <span className="collection-name">Your favorites</span>
-            </div>
-          }
         </div>
       </div >
     );

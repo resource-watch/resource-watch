@@ -14,14 +14,13 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 // Styles
 import './styles.scss';
 
-function ExploreCollectionsComponent(props) {
-  const { collection, selectedDataset } = props;
+function ExploreFavoritesComponent(props) {
+  const { favorites, selectedDataset } = props;
   const [datasets, setDatasets] = useState([]);
   const [datasetsLoading, setDatasetsLoading] = useState(false);
 
   useEffect(() => {
-    const datasetIDs = (collection &&
-        collection.resources.filter(elem => elem.type === 'dataset').map(e => e.id)) || [];
+    const datasetIDs = (favorites.map(f => f.resourceId));
     if (datasetIDs.length > 0) {
       setDatasetsLoading(true);
       fetchDatasets({
@@ -39,11 +38,11 @@ function ExploreCollectionsComponent(props) {
     } else {
       setDatasets([]);
     }
-  }, [collection]);
+  }, [favorites]);
 
   return (
     <div className={classnames({
-        'c-explore-collections': true,
+        'c-explore-favorites': true,
         '-hidden': selectedDataset
       })}
     >
@@ -58,9 +57,9 @@ function ExploreCollectionsComponent(props) {
   );
 }
 
-ExploreCollectionsComponent.propTypes = {
-  collection: PropTypes.object.isRequired,
+ExploreFavoritesComponent.propTypes = {
+  favorites: PropTypes.array.isRequired,
   selectedDataset: PropTypes.string.isRequired
 };
 
-export default ExploreCollectionsComponent;
+export default ExploreFavoritesComponent;
