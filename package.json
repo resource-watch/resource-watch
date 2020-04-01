@@ -46,7 +46,7 @@
     "moment": "^2.24.0",
     "moment-range": "3.0.3",
     "moveto": "1.6.1",
-    "next": "^9.3.2",
+    "next": "^9.1.1",
     "next-progressbar": "^1.0.0",
     "next-redux-wrapper": "^2.0.0",
     "next-routes": "^1.4.2",
