@@ -39,8 +39,7 @@ function Explore(props) {
   useEffect(() => {
     if (!exploreSectionAlreadyLoaded) {
       setExploreSectionAlreadyLoaded(true);
-    }
-    // Scroll to top of the div 'sidebar-content-container' should go here
+    }    
   }, [selected]);
 
   return (
@@ -50,11 +49,18 @@ function Explore(props) {
       className="-fullscreen"
     >
       <div className="c-page-explore">
-        <ExploreSidebar>
+        {/*
+           We set this key so that, by rerendering the sidebar, the sections are 
+           scrolled to the top when the selected section changes. 
+        */}
+        <ExploreSidebar  
+          key={section}
+        >
           <ExploreMenu />
           <div
             className="explore-sidebar-content"
             id="sidebar-content-container"
+            key={section}
           >
             {section === EXPLORE_SECTIONS.ALL_DATA &&
               exploreSectionShouldBeLoaded &&
