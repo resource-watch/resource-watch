@@ -8,14 +8,23 @@ import DatasetLayerCard from './dataset-layer-card';
 import './styles.scss';
 
 function DatasetLayers(props) {
-  const { layers, dataset } = props;
+  const { layers, dataset, isATimeline, timelineLayerMapbox, timelineLayer } = props;
+  const showTimelineMapbox = isATimeline && !!timelineLayerMapbox;
+  const showTimelineOldApproach = isATimeline && !timelineLayerMapbox && timelineLayer;
+  
   return (
     <div className="c-dataset-layers">
       <h3>Dataset layers</h3>
       <div className="layers-container" >
-        {layers.map(layer => (
+        {showTimelineOldApproach &&
+          <DatasetLayerCard layer={timelineLayer} dataset={dataset} />
+        }
+        {showTimelineMapbox &&
+          <DatasetLayerCard layer={timelineLayerMapbox} dataset={dataset} />
+        }
+        {!isATimeline && layers.map(layer => (
           <DatasetLayerCard layer={layer} dataset={dataset} />
-        ))}
+          ))}
       </div>
     </div>
   );
@@ -23,7 +32,10 @@ function DatasetLayers(props) {
 
 DatasetLayers.propTypes = {
   layers: PropTypes.array.isRequired,
-  dataset: PropTypes.object.isRequired
+  dataset: PropTypes.object.isRequired,
+  layerGroups: PropTypes.object.isRequired,
+  isATimeline: PropTypes.bool.isRequired,
+  timelineLayerMapbox: PropTypes.object.isRequired
 };
 
 export default DatasetLayers;

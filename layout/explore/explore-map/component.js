@@ -13,7 +13,8 @@ import {
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
   LegendItemTypes,
-  LegendItemTimeStep
+  LegendItemTimeStep,
+  LegendItemTimeline
 } from 'vizzuality-components';
 
 // components
@@ -51,6 +52,7 @@ class ExploreMap extends PureComponent {
     layerGroupsInteraction: PropTypes.object.isRequired,
     layerGroupsInteractionSelected: PropTypes.string,
     layerGroupsInteractionLatLng: PropTypes.object,
+    activeInteractiveLayers: PropTypes.array.isRequired,
     setViewport: PropTypes.func.isRequired,
     setBounds: PropTypes.func.isRequired,
     setBasemap: PropTypes.func.isRequired,
@@ -149,6 +151,10 @@ class ExploreMap extends PureComponent {
         }
       }
     });
+  }
+
+  onChangeLayerTimeLine = (l) => {
+    this.props.setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
   }
 
   onLayerLoading = (id, bool) => {
@@ -547,6 +553,17 @@ class ExploreMap extends PureComponent {
                   dots={false}
                   {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
                 />
+                {/* Temporary: only show old timeline approach if there's no occurence of
+                  new timelineParams config
+                */}
+                {!lg.layers.find(l => !!l.timelineParams) &&
+                  <LegendItemTimeline
+                    onChangeLayer={this.onChangeLayerTimeLine}
+                    customClass="rw-legend-timeline"
+                    {...LEGEND_TIMELINE_PROPERTIES}
+                    {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
+                  />
+                }
               </LegendListItem>
             ))}
           </Legend>
