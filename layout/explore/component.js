@@ -41,7 +41,7 @@ function Explore(props) {
       setExploreSectionAlreadyLoaded(true);
     }
     // Scroll to top of the div 'sidebar-content-container' should go here
-  }, [exploreSectionAlreadyLoaded, selected]);
+  }, [selected]);
 
   return (
     <Layout
