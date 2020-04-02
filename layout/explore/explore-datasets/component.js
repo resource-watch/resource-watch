@@ -82,7 +82,7 @@ class ExploreDatasetsComponent extends React.Component {
                     className="c-button -primary -compressed"
                     onClick={() => {
                       this.props.toggleFiltersSelected({ tag: t, tab: 'topics' });
-                      this.fetchDatasets();
+                      this.fetchDatasets(1);
                     }}
                   >
                     <span
@@ -104,7 +104,7 @@ class ExploreDatasetsComponent extends React.Component {
                   onClick={() => {
                     this.props.resetFiltersSort();
                     this.props.setFiltersSearch('');
-                    this.fetchDatasets();
+                    this.fetchDatasets(1);
                   }}
                 >
                   <span
@@ -190,7 +190,7 @@ class ExploreDatasetsComponent extends React.Component {
           }
         />
 
-        {!!list.length &&
+        {!!list.length && total > limit &&
           <Paginator
             options={{
               page,

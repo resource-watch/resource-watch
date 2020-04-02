@@ -151,8 +151,11 @@
     }
 
     .c-paginator {
-        max-width: 300px;
         margin-bottom: 3 * $space;
+
+        .rc-pagination {
+            max-width: 280px;
+        }
     }
 
     &.-hidden {

@@ -30,7 +30,7 @@ function DatasetLayerCard(props) {
     <div className={componentClassname}>
       <div className="layer-data">
         <strong>{name}</strong>
-        <p>{description}</p>
+        <p className="description">{description}</p>
       </div>
       <div className="button-container">
         <button
