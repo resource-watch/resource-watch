@@ -38,9 +38,6 @@
                 font-size: $font-size-extra-small;
 
                 .source {
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    overflow: hidden;
                     margin-right: 4 * $space;
                 }
             }   
