@@ -81,10 +81,13 @@ class DatasetListItem extends React.Component {
 
   handleClick = () => {
     Router.pushRoute('explore', { dataset: this.props.dataset.slug });
-    // Add default to the map
-    const { dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction } = this.props;
-    toggleMapLayerGroup({ dataset, toggle: true });
-    resetMapLayerGroupsInteraction();
+
+    // Add default layer to the map only if not active already
+    if (!this.props.active) {
+      const { dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction } = this.props;
+      toggleMapLayerGroup({ dataset, toggle: true });
+      resetMapLayerGroupsInteraction();
+    }
   }
 
   render() {
