@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 
 import {
   toggleMapLayerGroup,
-  resetMapLayerGroupsInteraction
+  resetMapLayerGroupsInteraction,
+  setMapLayerGroupActive
 } from 'layout/explore/actions';
 
 import DatasetListItemComponent from './component';
@@ -23,6 +24,7 @@ export default connect(
   {
     ...actions,
     toggleMapLayerGroup,
-    resetMapLayerGroupsInteraction
+    resetMapLayerGroupsInteraction,
+    setMapLayerGroupActive
   }
 )(DatasetListItemComponent);

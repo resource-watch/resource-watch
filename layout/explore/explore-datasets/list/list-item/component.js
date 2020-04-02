@@ -31,7 +31,8 @@ class DatasetListItem extends React.Component {
     active: PropTypes.bool.isRequired,
     expandedChart: PropTypes.bool,
     toggleMapLayerGroup: PropTypes.func.isRequired,
-    resetMapLayerGroupsInteraction: PropTypes.func.isRequired
+    resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
+    setMapLayerGroupActive: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -80,12 +81,20 @@ class DatasetListItem extends React.Component {
   }
 
   handleClick = () => {
-    Router.pushRoute('explore', { dataset: this.props.dataset.slug });
+    const {
+      dataset,
+      toggleMapLayerGroup,
+      resetMapLayerGroupsInteraction,
+      setMapLayerGroupActive,
+      layer
+    } = this.props;
+
+    Router.pushRoute('explore', { dataset: dataset.slug });
 
     // Add default layer to the map only if not active already
-    if (!this.props.active) {
-      const { dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction } = this.props;
+    if (!this.props.active) {  
       toggleMapLayerGroup({ dataset, toggle: true });
+      setMapLayerGroupActive({ dataset: { id: dataset.id }, active: layer.id });
       resetMapLayerGroupsInteraction();
     }
   }
