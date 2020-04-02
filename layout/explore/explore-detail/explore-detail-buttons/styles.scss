@@ -9,7 +9,6 @@
 
         .explore-detail-button {
             display: flex;
-            justify-content: space-between;
             align-items: center;
             flex-direction: column;
             height: 100px;
@@ -23,6 +22,7 @@
             line-height: 10px;
             color: rgba(0,0,0,0.56);
             transition: all $animation-time-2 $ease-in-out-sine;
+            text-align: center;
     
             &:not(:first-child) {
                 margin-right: 2 * $space;
@@ -37,6 +37,10 @@
                 box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 20px 30px rgba(0,0,0,.2);
                 -webkit-transform: translateY(-4px);
                 transform: translateY(-4px);
+            }
+
+            .button-text {
+                margin-top: 2 * $space;
             }
         }
 

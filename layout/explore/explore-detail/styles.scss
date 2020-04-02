@@ -26,6 +26,9 @@
             padding-top: $space;
             .title {
                 margin-top: $space * 4;
+                h2 {
+                    font-size: 36px;
+                }
             }
             .source-date {
                 display: flex;
