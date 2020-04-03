@@ -13,10 +13,14 @@ import RelatedContentComponent from './component';
 
 const RelatedContentContainer = (props) => {
   const { datasetID } = props;
-  const [datasets, setDatasets] = useState([]);
+  const [datasets, setDatasets] = useState({
+    list: [],
+    loading: false
+  });
 
   useEffect(() => {
     if (datasetID) {
+      setDatasets({ list: [], loading: true });
       fetchSimilarDatasets({
         dataset: datasetID,
         published: true,
@@ -27,7 +31,12 @@ const RelatedContentContainer = (props) => {
             ids: data.map(d => d.dataset).join(','),
             includes: 'widget,metadata,layer,vocabulary'
           })
-            .then(similarDatasets => setDatasets(similarDatasets));
+            .then((similarDatasets) => {
+              setDatasets({
+                list: similarDatasets,
+                loading: false
+              });
+            });
         }
       })
         .catch(error => toastr.error('Error loading related content', error));

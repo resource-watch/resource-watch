@@ -9,12 +9,14 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 import './styles.scss';
 
 function RelatedContent(props) {
-  const { datasets, setSelectedDataset } = props;
+  const { datasets: { list, loading }, setSelectedDataset } = props;
   return (
     <div className="c-related-content">
       <h3>Related content</h3>
       <DatasetList
-        list={datasets}
+        list={list}
+        loading={loading}
+        numberOfPlaceholders={3}
         actions={<ExploreDatasetsActions />}
         expandedChart
       />
