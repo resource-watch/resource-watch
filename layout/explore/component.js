@@ -40,7 +40,7 @@ function Explore(props) {
     if (!exploreSectionAlreadyLoaded) {
       setExploreSectionAlreadyLoaded(true);
     }
-  }, [exploreSectionAlreadyLoaded, selected]);
+  }, [selected]);
 
   return (
     <Layout
