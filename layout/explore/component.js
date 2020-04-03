@@ -39,8 +39,8 @@ function Explore(props) {
   useEffect(() => {
     if (!exploreSectionAlreadyLoaded) {
       setExploreSectionAlreadyLoaded(true);
-    }    
-  }, [selected]);
+    }
+  }, [exploreSectionAlreadyLoaded, selected]);
 
   return (
     <Layout
@@ -50,10 +50,10 @@ function Explore(props) {
     >
       <div className="c-page-explore">
         {/*
-           We set this key so that, by rerendering the sidebar, the sections are 
-           scrolled to the top when the selected section changes. 
+           We set this key so that, by rerendering the sidebar, the sections are
+           scrolled to the top when the selected section changes.
         */}
-        <ExploreSidebar  
+        <ExploreSidebar
           key={section}
         >
           <ExploreMenu />
@@ -93,7 +93,7 @@ function Explore(props) {
             }
             {/* <ExploreDatasetsHeader /> */}
           </div>
-          {selected && <ExploreDetail />}
+          {selected && <ExploreDetail key={selected} />}
         </ExploreSidebar>
 
         {/* Mobile warning */}
