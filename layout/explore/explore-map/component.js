@@ -18,8 +18,6 @@ import {
 } from 'vizzuality-components';
 
 // components
-import Modal from 'components/modal/modal-component';
-import LayerInfoModal from 'components/modal/layer-info-modal';
 import Spinner from 'components/ui/Spinner';
 import Map from 'components/map';
 import LayerManager from 'components/map/layer-manager';
@@ -69,7 +67,8 @@ class ExploreMap extends PureComponent {
     setMapLayerGroupsInteraction: PropTypes.func.isRequired,
     setMapLayerGroupsInteractionLatLng: PropTypes.func.isRequired,
     setMapLayerGroupsInteractionSelected: PropTypes.func.isRequired,
-    resetMapLayerGroupsInteraction: PropTypes.func.isRequired
+    resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
+    setSelectedDataset: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -78,13 +77,10 @@ class ExploreMap extends PureComponent {
     layerGroupsInteractionLatLng: null
   }
 
-  state = {
-    layer: null,
-    loading: {}
-  };
+  state = { loading: {} };
 
   onChangeInfo = (layer) => {
-    this.setState({ layer });
+    this.props.setSelectedDataset(layer.dataset);
   };
 
   onChangeOpacity = debounce((l, opacity) => {
@@ -568,20 +564,6 @@ class ExploreMap extends PureComponent {
             ))}
           </Legend>
         </div>
-
-
-        {!!layer && (
-          <Modal
-            isOpen={!!layer}
-            className="-medium"
-            onRequestClose={() => this.onChangeInfo(null)}
-          >
-            <LayerInfoModal
-              layer={layer}
-              onRequestClose={() => this.onChangeInfo(null)}
-            />
-          </Modal>
-        )}
       </div>
     );
   }
