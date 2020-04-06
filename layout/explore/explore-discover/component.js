@@ -30,7 +30,8 @@ function ExploreDiscover(props) {
     setSidebarSection,
     responsive,
     selectedDataset,
-    setSortSelected
+    setSortSelected,
+    setSortIsUserSelected
   } = props;
   const [config, setConfig] = useState(null);
   const [highlightedDatasets, setHighlightedDatasets] = useState({ loading: true, list: [] });
@@ -148,10 +149,14 @@ function ExploreDiscover(props) {
             onClick={() => {
               setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
               setSortSelected('createdAt');
+              setSortIsUserSelected();
+              props.fetchDatasets();
             }}
             onKeyPress={() => {
               setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
               setSortSelected('createdAt');
+              setSortIsUserSelected();
+              props.fetchDatasets();
             }}
           >
                         SEE ALL DATA
@@ -210,6 +215,7 @@ ExploreDiscover.propTypes = {
   fetchDatasets: PropTypes.func.isRequired,
   setFiltersSelected: PropTypes.func.isRequired,
   setSortSelected: PropTypes.func.isRequired,
+  setSortIsUserSelected: PropTypes.func.isRequired,
   responsive: PropTypes.object.isRequired,
   selectedDataset: PropTypes.string.isRequired
 };
