@@ -38,6 +38,13 @@ const ExploreDetailContainer = (props) => {
           dispatch(setDataset(data));
           dispatch(setDatasetLoading(false));
 
+          // Check if there's an anchor value so that the interface scrolls
+          // to that section
+          const element = document.getElementById(anchor);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+
           // Load tags
           const knowledgeGraphVoc = data.vocabulary && data.vocabulary.find(v => v.name === 'knowledge_graph');
           const tags = knowledgeGraphVoc && knowledgeGraphVoc.tags;
@@ -60,7 +67,7 @@ const ExploreDetailContainer = (props) => {
           toastr.error('Error loading dataset data', error);
         });
     }
-  }, [datasetID]);
+  }, [anchor, datasetID]);
 
 
   useEffect(() => {
