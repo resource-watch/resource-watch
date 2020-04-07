@@ -114,7 +114,7 @@ class LayerPopup extends PureComponent {
   formatValue(item, data) {
     if (item.type === 'date' && item.format && data) {
       data = moment(data).format(item.format);
-    } else if (item.type === 'number' && item.format && data) {
+    } else if (item.type === 'number' && item.format && (data || data ===0)) {
       data = numeral(data).format(item.format);
     }
 
