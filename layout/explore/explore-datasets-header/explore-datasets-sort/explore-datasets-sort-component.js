@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { Tooltip } from 'vizzuality-components';
+import { getTooltipContainer } from 'utils/tooltip';
 
 // Components
 import Icon from 'components/ui/icon';
@@ -21,34 +22,36 @@ class ExploreDatasetsSortComponent extends PureComponent {
   };
 
   onSortSelected = (selected) => {
-    this.props.setSortSelected(selected);
+    const {
+      setSortSelected,
+      setSortDirection,
+      setSortIsUserSelected,
+      fetchDatasets
+    } = this.props;
+
+    setSortSelected(selected);
     if (selected === 'relevance') {
-      this.props.setSortDirection(-1);
+      setSortDirection(-1);
     }
-    this.props.setSortIsUserSelected();
-    this.props.fetchDatasets();
+    setSortIsUserSelected();
+    fetchDatasets();
   }
 
   onSortDirection = () => {
-    const { direction, canChangeSortDirection } = this.props;
+    const {
+      direction,
+      canChangeSortDirection,
+      setSortDirection,
+      setSortIsUserSelected,
+      fetchDatasets
+    } = this.props;
+
     if (!canChangeSortDirection) {
       return;
     }
-    this.props.setSortDirection(-direction);
-    this.props.setSortIsUserSelected();
-    this.props.fetchDatasets();
-  }
-
-  getTooltipContainer() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (document.querySelector('.sidebar-content')) {
-        return document.querySelector('.sidebar-content');
-      }
-
-      return document.body;
-    }
-
-    return null;
+    setSortDirection(-direction);
+    setSortIsUserSelected();
+    fetchDatasets();
   }
 
   render() {
@@ -74,13 +77,13 @@ class ExploreDatasetsSortComponent extends PureComponent {
           placement="top"
           trigger={['click']}
           mouseLeaveDelay={0}
-          getTooltipContainer={this.getTooltipContainer}
+          getTooltipContainer={getTooltipContainer}
           destroyTooltipOnHide
         >
           <button
             className="actions-sort-button"
           >
-            <span>{options.find(o => o.value === selected).label}</span>
+            <span>{`SORT BY ${options.find(o => o.value === selected).label.toUpperCase()}`}</span>
           </button>
         </Tooltip>
 

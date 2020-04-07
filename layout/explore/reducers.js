@@ -41,6 +41,10 @@ export default {
     logEvent('Explore Menu', 'Change dataset view', action.payload);
     return { ...state, datasets };
   },
+  [actions.setSelectedDataset]: (state, action) => {
+    const datasets = { ...state.datasets, selected: action.payload };
+    return { ...state, datasets };
+  },
 
 
   //
@@ -373,7 +377,18 @@ export default {
     const sidebar = { ...state.sidebar, open: action.payload };
     return { ...state, sidebar };
   },
-
+  [actions.setSidebarAnchor]: (state, action) => {
+    const sidebar = { ...state.sidebar, anchor: action.payload };
+    return { ...state, sidebar };
+  },
+  [actions.setSidebarSection]: (state, action) => {
+    const sidebar = { ...state.sidebar, section: action.payload };
+    return { ...state, sidebar };
+  },
+  [actions.setSidebarSelectedCollection]: (state, action) => {
+    const sidebar = { ...state.sidebar, selectedCollection: action.payload };
+    return { ...state, sidebar };
+  },
 
   //
   // TAGS

@@ -264,6 +264,27 @@ class Step1 extends PureComponent {
             </Field>
           )}
 
+          {user.role === 'ADMIN' && !basic && (
+            <Field
+              ref={(c) => {
+                if (c) FORM_ELEMENTS.elements.isHighlighted = c;
+              }}
+              onChange={value => this.props.onChange({ applicationConfig: { rw: { highlighted: value.checked } } })}
+              properties={{
+                name: 'isHighlighted',
+                label: 'Do you want to set this dataset as highlighted?',
+                value: this.state.form.applicationConfig && this.state.form.applicationConfig.rw &&
+                  this.state.form.applicationConfig.rw.highlighted,
+                title: 'Highlighted',
+                defaultChecked: !dataset ? user.role === 'ADMIN' :
+                  this.props.form.applicationConfig && this.props.form.applicationConfig.rw
+                  && this.props.form.applicationConfig.rw.highlighted
+              }}
+            >
+              {Checkbox}
+            </Field>
+          )}
+
           <Field
             ref={(c) => {
               if (c) FORM_ELEMENTS.elements.name = c;

@@ -2888,7 +2888,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.26.0, babel-runtime@6.x, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+babel-runtime@6.26.0, babel-runtime@6.x, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
@@ -12657,11 +12657,12 @@ rc-animate@2.x:
     rc-util "^4.8.0"
     react-lifecycles-compat "^3.0.4"
 
-rc-pagination@1.8.8:
-  version "1.8.8"
-  resolved "https://registry.yarnpkg.com/rc-pagination/-/rc-pagination-1.8.8.tgz#932108de47b02a735d2b77afae705c18f7d2f25e"
-  integrity sha1-kyEI3kewKnNdK3evrnBcGPfS8l4=
+rc-pagination@1.9.8:
+  version "1.9.8"
+  resolved "https://registry.yarnpkg.com/rc-pagination/-/rc-pagination-1.9.8.tgz#68573f7b5453a62d446d095f6f8e1becc547ecb1"
+  integrity sha1-aFc/e1RTpi1EbQlfb44b7MVH7LE=
   dependencies:
+    babel-runtime "^6.23.0"
     prop-types "^15.5.7"
 
 rc-slider@^8.4.0, rc-slider@^8.6.3:

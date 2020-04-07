@@ -216,7 +216,7 @@ class DatasetsForm extends PureComponent {
   }
 
   // HELPERS
-  setFormFromParams(params) {
+  setFormFromParams(params) {    
     const form = Object.keys(this.state.form);
     const newForm = {};
 
@@ -234,7 +234,7 @@ class DatasetsForm extends PureComponent {
           newForm[f] = params[f] || this.state.form[f];
         }
       }
-    });
+    });    
     return newForm;
   }
 

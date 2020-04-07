@@ -118,7 +118,7 @@ const WidgetCard = (props) => {
   const handleGoToDataset = () => {
     const { dataset } = widget;
 
-    Router.pushRoute('explore_detail', { id: dataset });
+    Router.pushRoute('explore', { dataset });
   };
 
   const handleDownloadPDF = () => {

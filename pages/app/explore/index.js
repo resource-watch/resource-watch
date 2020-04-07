@@ -41,7 +41,10 @@ class ExplorePage extends PureComponent {
       basemap,
       labels,
       boundaries,
-      layers
+      layers,
+      dataset,
+      section,
+      selectedCollection
     } = query;
 
     // Query
@@ -55,6 +58,12 @@ class ExplorePage extends PureComponent {
     if (dataTypes) dispatch(actions.setFiltersSelected({ key: 'data_types', list: JSON.parse(decodeURIComponent(dataTypes)) }));
     if (frequencies) dispatch(actions.setFiltersSelected({ key: 'frequencies', list: JSON.parse(decodeURIComponent(frequencies)) }));
     if (timePeriods) dispatch(actions.setFiltersSelected({ key: 'time_periods', list: JSON.parse(decodeURIComponent(timePeriods)) }));
+    // Selected dataset --> "Old" Explore Detail
+    if (dataset) dispatch(actions.setSelectedDataset(dataset));
+    // Selected sidebar section (all data/discover/near-real/time... etc)
+    if (section) dispatch(actions.setSidebarSection(section));
+    // Selected collection (if any)
+    if (selectedCollection) dispatch(actions.setSidebarSelectedCollection(selectedCollection));
 
     // sets map params from URL
     dispatch(actions.setViewport({
@@ -106,11 +115,17 @@ class ExplorePage extends PureComponent {
           labels,
           boundaries,
           layerGroups
-        }
+        },
+        sidebar: { anchor, section, selectedCollection }
       }
     } = this.props;
 
     const query = {
+      // dataset --> "Old" Explore Detail
+      ...!!datasets && datasets.selected && { dataset: datasets.selected },
+      ...!!anchor && { hash: anchor },
+      section,
+      selectedCollection,
       // map params
       zoom: viewport.zoom,
       lat: viewport.latitude,

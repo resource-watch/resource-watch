@@ -1,0 +1,37 @@
+@import 'css/settings';
+
+.c-explore-form {
+
+    .Select {
+        min-width: 100%;
+    }
+
+    .highlighted-datasets {
+        margin-top: 8 * $space;
+
+        .highlighted-datasets-search {
+            position: relative;
+        }
+
+        .highlighted-datasets-list {
+            width: 100%;
+            margin-top: 2 * $space;
+
+            .highlighted-dataset {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2 * $space;
+                padding: 2 * $space;
+                border-radius: 4px;
+                background-color: $porcelain;
+            }
+        }
+    }
+    
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 4 * $space;
+    }
+}

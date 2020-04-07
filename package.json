@@ -64,7 +64,7 @@
     "promise.prototype.finally": "^3.1.0",
     "prop-types": "^15.6.0",
     "query-string": "5.0.1",
-    "rc-pagination": "1.8.8",
+    "rc-pagination": "1.9.8",
     "rc-tooltip": "^3.7.0",
     "react": "^16.10.2",
     "react-accessible-accordion": "^3.0.0",

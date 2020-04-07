@@ -19,6 +19,7 @@ export const setDatasetsPage = createAction('EXPLORE/setDatasetsPage');
 export const setDatasetsTotal = createAction('EXPLORE/setDatasetsTotal');
 export const setDatasetsLimit = createAction('EXPLORE/setDatasetsLimit');
 export const setDatasetsMode = createAction('EXPLORE/setDatasetsMode');
+export const setSelectedDataset = createAction('EXPLORE/setSelectedDataset');
 
 export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (dispatch, getState) => {
   const { explore, common } = getState();
@@ -158,6 +159,9 @@ export const resetFiltersSort = createAction('EXPLORE/resetFiltersSort');
 
 // SIDEBAR
 export const setSidebarOpen = createAction('EXPLORE/setSidebarOpen');
+export const setSidebarAnchor = createAction('EXPLORE/setSidebarAnchor');
+export const setSidebarSection = createAction('EXPLORE/setSidebarSection');
+export const setSidebarSelectedCollection = createAction('EXPLORE/setSidebarSelectedCollection');
 
 // TAGS TOOLTIP
 export const setTags = createAction('EXPLORE/setTags');

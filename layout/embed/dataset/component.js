@@ -91,8 +91,8 @@ class LayoutEmbedDataset extends PureComponent {
             <div className="widget-title">
               <h2>
                 <Link
-                  route="explore_detail"
-                  params={{ id: dataset.id }}
+                  route="explore"
+                  params={{ dataset: dataset.slug }}
                 >
                   <a>{datasetName}</a>
                 </Link>

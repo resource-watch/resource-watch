@@ -128,7 +128,7 @@ class SubscriptionCard extends React.Component {
   }
 
   handleGoToDataset = () => {
-    Router.pushRoute('explore_detail', { id: this.props.subscription.datasets[0] });
+    Router.pushRoute('explore', { dataset: this.props.subscription.datasets[0] });
   }
 
   render() {

@@ -54,7 +54,7 @@ class DatasetsListCard extends PureComponent {
     const linkProps = {
       ...isAdmin && { route: 'admin_data_detail', params: { tab: 'datasets', id: dataset.id } },
       ...!isAdmin && (isOwner ? { route: 'myrw_detail', params: { tab: 'datasets', id: dataset.id } }
-        : { route: 'explore_detail', params: { id: dataset.id } })
+        : { route: 'explore', params: { dataset: dataset.slug } })
     };
 
     return (
