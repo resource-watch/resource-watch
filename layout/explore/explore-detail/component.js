@@ -27,10 +27,17 @@ class ExploreDetailComponent extends React.Component {
   static propTypes = {
     dataset: PropTypes.object,
     datasetLoading: PropTypes.bool.isRequired,
-    tags: PropTypes.array.isRequired
+    tags: PropTypes.array.isRequired,
+    setSidebarAnchor: PropTypes.func.isRequired
   };
 
   static defaultProps = { dataset: null };
+
+  // We clear the anchor value so that next time the component is open
+  // the scroll is at the top
+  componentWillUnmount() {
+    this.props.setSidebarAnchor(null);
+  }
 
   render() {
     const { dataset, datasetLoading, tags } = this.props;

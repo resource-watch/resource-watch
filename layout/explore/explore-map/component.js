@@ -69,7 +69,9 @@ class ExploreMap extends PureComponent {
     setMapLayerGroupsInteraction: PropTypes.func.isRequired,
     setMapLayerGroupsInteractionLatLng: PropTypes.func.isRequired,
     setMapLayerGroupsInteractionSelected: PropTypes.func.isRequired,
-    resetMapLayerGroupsInteraction: PropTypes.func.isRequired
+    resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
+    setSelectedDataset: PropTypes.func.isRequired,
+    setSidebarAnchor: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -78,13 +80,14 @@ class ExploreMap extends PureComponent {
     layerGroupsInteractionLatLng: null
   }
 
-  state = {
-    layer: null,
-    loading: {}
-  };
+  state = { layer: null, loading: {} };
 
   onChangeInfo = (layer) => {
     this.setState({ layer });
+    if (layer) {
+      this.props.setSelectedDataset(layer.dataset);
+      this.props.setSidebarAnchor('layers');
+    }
   };
 
   onChangeOpacity = debounce((l, opacity) => {
@@ -568,18 +571,13 @@ class ExploreMap extends PureComponent {
             ))}
           </Legend>
         </div>
-
-
-        {!!layer && (
+        {!!layer && embed && (
           <Modal
             isOpen={!!layer}
             className="-medium"
             onRequestClose={() => this.onChangeInfo(null)}
           >
-            <LayerInfoModal
-              layer={layer}
-              onRequestClose={() => this.onChangeInfo(null)}
-            />
+            <LayerInfoModal layer={layer} />
           </Modal>
         )}
       </div>
