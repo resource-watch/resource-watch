@@ -45,6 +45,7 @@ class Paginator extends PureComponent {
     return (
       <div className="c-paginator">
         <Pagination
+          showLessItems
           current={page}
           total={size}
           pageSize={limit}

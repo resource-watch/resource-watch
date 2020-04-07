@@ -1,15 +1,29 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Link } from 'routes';
+
+// Components
+import Icon from 'components/ui/icon';
+import LoginRequired from 'components/ui/login-required';
+
+// Tooltip
+import { Tooltip } from 'vizzuality-components';
+import CollectionsPanel from 'components/collections-panel';
+import { getTooltipContainer } from 'utils/tooltip';
+
+// helpers
+import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+
+import './styles.scss';
 
 class ExploreDatasetsActionsComponent extends PureComponent {
   static propTypes = {
-    dataset: PropTypes.object,
-    layer: PropTypes.object,
-    layerGroups: PropTypes.array,
+    dataset: PropTypes.object.isRequired,
+    layer: PropTypes.object.isRequired,
+    layerGroups: PropTypes.array.isRequired,
     toggleMapLayerGroup: PropTypes.func.isRequired,
-    resetMapLayerGroupsInteraction: PropTypes.func.isRequired
+    resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
   };
 
   isActive = () => {
@@ -17,7 +31,8 @@ class ExploreDatasetsActionsComponent extends PureComponent {
     return !!layerGroups.find(l => l.dataset === dataset.id);
   }
 
-  handleToggleLayerGroup = () => {
+  handleToggleLayerGroup = (event) => {
+    event.stopPropagation();
     const { dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction } = this.props;
     const isActive = this.isActive();
 
@@ -26,33 +41,65 @@ class ExploreDatasetsActionsComponent extends PureComponent {
   }
 
   render() {
-    const { dataset, layer } = this.props;
+    const { dataset, layer, user } = this.props;
     const isActive = this.isActive();
 
+    const isInACollection = belongsToACollection(user, dataset);
+    const starIconName = classnames({
+      'icon-star-full': isInACollection,
+      'icon-star-empty': !isInACollection
+    });
+    const starIconClass = classnames({
+      '-small': true,
+      '-filled': isInACollection,
+      '-empty': !isInACollection
+    });
+
     return (
-      <div className="actions">
+      <div className="c-explore-datasets-actions">
         <button
           className={classnames({
             'c-button': true,
             '-secondary': !isActive,
             '-primary': isActive,
             '-compressed': true,
-            '-disable': !layer
+            '-disable': !layer,
+            '-fullwidth': true
           })}
           disabled={!layer}
           onClick={this.handleToggleLayerGroup}
         >
-          {isActive ? 'Remove from map' : 'Add to map'}
+          {isActive ? 'Active' : 'Add to map'}
         </button>
-
-        <Link
-          route="explore_detail"
-          params={{ id: dataset.slug }}
-        >
-          <a className="c-button -tertiary -compressed">
-            Details
-          </a>
-        </Link>
+        {/* Favorite dataset icon */}
+        <LoginRequired>
+          <Tooltip
+            overlay={
+              <CollectionsPanel
+                resource={dataset}
+                resourceType="dataset"
+                onClick={e => e.stopPropagation()}
+                onKeyPress={e => e.stopPropagation()}
+              />
+            }
+            overlayClassName="c-rc-tooltip"
+            placement="bottomRight"
+            trigger="click"
+            getTooltipContainer={getTooltipContainer}
+            monitorWindowResize
+          >
+            <button
+              className="c-button -secondary -compressed"
+              tabIndex={-1}
+              onClick={event => event.stopPropagation()}
+            >
+              <Icon
+                name={starIconName}
+                className={starIconClass}
+              />
+            </button>
+          </Tooltip>
+        </LoginRequired>
       </div>
     );
   }

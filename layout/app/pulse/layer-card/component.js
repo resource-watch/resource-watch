@@ -186,8 +186,8 @@ class LayerCardComponent extends PureComponent {
               <div
                 key={widget.id}
                 className="widget-card"
-                onClick={() => Router.pushRoute('explore_detail', { id: widget.dataset })}
-                onKeyDown={() => Router.pushRoute('explore_detail', { id: widget.dataset })}
+                onClick={() => Router.pushRoute('explore', { dataset: widget.dataset })}
+                onKeyDown={() => Router.pushRoute('explore', { dataset: widget.dataset })}
                 role="button"
                 tabIndex={-1}
               >
@@ -205,8 +205,8 @@ class LayerCardComponent extends PureComponent {
           <div className="card-buttons">
             {datasetId &&
               <Link
-                route="explore_detail"
-                params={{ id: datasetId }}
+                route="explore"
+                params={{ dataset: datasetId }}
               >
                 <a className="c-button -tertiary link_button" >Details</a>
               </Link>

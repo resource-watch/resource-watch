@@ -1,0 +1,13 @@
+{
+  "explore": {
+    "discover": {
+      "related-topics": ["water", "society", "food_and_agriculture", "ocean"],
+      "subtitles": {
+        "highlighted-datasets": "Featured Datasets",
+        "related-topics": "Related Topics",
+        "recently-added-datasets": "Recently Added Datasets",
+        "recently-updated-datasets": "Recently Updated Datasets"
+      }
+    }
+  }
+}

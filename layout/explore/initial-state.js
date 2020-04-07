@@ -1,5 +1,6 @@
 import { TOPICS, DATA_TYPES, FREQUENCIES, TIME_PERIODS } from 'utils/concepts';
 import { BASEMAPS, LABELS } from 'components/map/constants';
+import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
 export default {
   // Datasets
@@ -8,9 +9,9 @@ export default {
     loading: false,
     error: null,
     page: 1,
-    limit: 12,
+    limit: 30,
     total: 0,
-    mode: 'grid' // 'grid' or 'list'
+    selected: null
   },
   filters: {
     open: false,
@@ -43,7 +44,8 @@ export default {
       { value: 'updatedAt', label: 'Last modified' },
       { value: 'most-viewed', label: 'Most viewed' },
       { value: 'most-favorited', label: 'Most favorited' },
-      { value: 'relevance', label: 'Relevance' }
+      { value: 'relevance', label: 'Relevance' },
+      { value: 'createdAt', label: 'Date added' }
     ]
   },
 
@@ -82,7 +84,12 @@ export default {
   },
 
   // Sidebar
-  sidebar: { open: true },
+  sidebar: {
+    open: true,
+    anchor: null,
+    section: EXPLORE_SECTIONS.DISCOVER,
+    selectedCollection: null
+  },
 
   tags: {
     tooltip: false,

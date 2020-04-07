@@ -96,8 +96,8 @@ class LayoutMyRWDetail extends PureComponent {
       return alert.map((a, k) => (
         <span>
           <Link
-            route="explore_detail"
-            params={{ id: a.id }}
+            route="explore"
+            params={{ dataset: a.dataset }}
           >
             <a>
               {getLabel(a.dataset)}
@@ -137,7 +137,7 @@ class LayoutMyRWDetail extends PureComponent {
                     (
                       <div className="page-header-info">
                         <ul>
-                          <li>Dataset: <Link route="explore_detail" params={{ id: myrwdetail.dataset.id }}><a>{myrwdetail.dataset.name}</a></Link></li>
+                          <li>Dataset: <Link route="explore" params={{ dataset: myrwdetail.dataset.slug }}><a>{myrwdetail.dataset.name}</a></Link></li>
                         </ul>
                       </div>
                     )}

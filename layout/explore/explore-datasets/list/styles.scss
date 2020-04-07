@@ -1,0 +1,19 @@
+@import 'css/settings';
+
+.c-explore-dataset-list {
+    position: relative;
+    .column {
+        padding: 0px;
+        margin-top: 2 * $space;
+
+        .dataset-placeholder {
+            min-width: 100%;
+            min-height: 130px;
+            background-color: $porcelain;
+        }
+    }
+
+    .spinner-box {
+        top: 50%;
+    }
+}

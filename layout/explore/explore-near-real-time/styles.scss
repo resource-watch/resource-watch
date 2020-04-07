@@ -1,0 +1,35 @@
+@import 'css/settings';
+
+.c-explore-near-real-time {
+    margin: 2 * $space 4 * $space 2 * $space 3 * $space;
+
+    .explore-near-real-time-section {
+        margin-bottom: 4 * $space;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 4 * $space 0px 2 * $space 0px;
+
+            h4 {
+                margin: 0px;
+            }
+    
+            .number-of-datasets {
+                font-size: $font-size-tiny;
+                font-weight: bold;
+                line-height: 10px;
+                color: $dove-grey;
+            }
+        }
+        
+        .column {
+            padding: 0px;
+        }
+    }
+
+    &.-hidden {
+        display: none;
+    }
+}

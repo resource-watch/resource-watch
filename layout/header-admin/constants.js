@@ -6,12 +6,6 @@ export const ADMIN_HEADER_ITEMS = [
     pathnames: ['/admin/data', '/admin/DataDetail']
   },
   {
-    id: 'topics',
-    label: 'Topics',
-    route: 'admin_topics',
-    pathnames: ['/admin/topics', '/admin/TopicsDetail']
-  },
-  {
     id: 'dashboards',
     label: 'Dashboards',
     route: 'admin_dashboards',
