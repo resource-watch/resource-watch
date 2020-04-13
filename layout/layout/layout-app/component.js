@@ -25,13 +25,6 @@ import Search from 'layout/header/search';
 import NoBrowserSupport from 'components/app/common/Browser';
 import GDPRBanner from 'components/ui/gdpr-banner';
 
-import {
-  setConfig,
-  Modal as WidgetModal,
-  Tooltip as WidgetTooltip,
-  Icons as WidgetIcons
-} from 'widget-editor';
-
 class LayoutApp extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -57,21 +50,6 @@ class LayoutApp extends Component {
   }
 
   state = { modalOpen: false }
-
-  UNSAFE_componentWillMount() {
-    const { user: { token2, email } } = this.props;
-
-    // WIDGET EDITOR – change the configuration according to your needs
-    setConfig({
-      url: process.env.WRI_API_URL,
-      env: process.env.API_ENV,
-      applications: process.env.APPLICATIONS,
-      authUrl: process.env.CONTROL_TOWER_URL,
-      assetsPath: '/static/images/widget-editor/',
-      userToken: token2,
-      userEmail: email
-    });
-  }
 
   componentDidMount() {
     Router.onRouteChangeStart = () => {
@@ -168,11 +146,6 @@ class LayoutApp extends Component {
         />
 
         <UserReport />
-
-        {/* widget editor */}
-        <WidgetModal />
-        <WidgetTooltip />
-        <WidgetIcons />
       </div>
     );
   }

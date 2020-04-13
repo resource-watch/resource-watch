@@ -7,7 +7,6 @@ import ExploreDetailHeader from 'layout/explore-detail/explore-detail-header';
 import ExploreDetailInfo from 'layout/explore-detail/explore-detail-info';
 import ExploreDetailButtons from 'layout/explore-detail/explore-detail-buttons';
 import ExploreDetailTags from 'layout/explore-detail/explore-detail-tags';
-import ExploreDetailWidgetEditor from 'layout/explore-detail/explore-detail-widget-editor';
 
 // Components
 import Layout from 'layout/layout/layout-app';
@@ -83,9 +82,6 @@ class ExploreDetail extends PureComponent {
               </div>
             </div>
           </section>
-
-          {/* WIDGET EDITOR */}
-          <ExploreDetailWidgetEditor />
 
           {/* METADATA */}
           <section className="l-section">
