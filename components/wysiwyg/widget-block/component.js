@@ -37,7 +37,7 @@ import { logEvent } from 'utils/analytics';
 // styles
 import './styles.scss';
 
-const defaultTheme = getVegaTheme();
+// const defaultTheme = getVegaTheme();
 
 class WidgetBlock extends PureComponent {
   static propTypes = {

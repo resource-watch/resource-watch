@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { WidgetEditor } from 'widget-editor';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -7,6 +8,7 @@ import ReadMore from 'components/ui/read-more';
 
 // Utils
 import { getDateConsideringTimeZone } from 'utils/utils';
+import { defaultTheme } from 'utils/widgets/theme';
 
 // Explore detail components
 import ExploreDetailHeader from './explore-detail-header';
@@ -39,6 +41,11 @@ class ExploreDetailComponent extends React.Component {
     this.props.setSidebarAnchor(null);
   }
 
+  onSaveWidget = (widget) => {
+    console.log('onSaveWidget! ', widget);
+    
+  }
+
   render() {
     const { dataset, datasetLoading, tags } = this.props;
     const metadata = dataset && dataset.metadata &&
@@ -46,6 +53,9 @@ class ExploreDetailComponent extends React.Component {
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
+    const defaultWidget = dataset && dataset.widget && dataset.widget.find(w => w.default === 'true');
+    console.log('defaultWidget', defaultWidget);
+    
 
     return (
       <div className="c-explore-detail">
@@ -86,6 +96,15 @@ class ExploreDetailComponent extends React.Component {
               </div>
               <div id="visualization" className="metadata-section">
                 <h3>Customize visualization</h3>
+                <WidgetEditor 
+                  datasetId={dataset.id}
+                  {...defaultWidget && { widgetId: defaultWidget.id }}
+                  compact={true}
+                  application="rw"
+                  onSave={onSaveWidget}
+                  theme={defaultTheme}
+                  adapter={RwAdapter}
+                />
               </div>
               <div id="further_information" className="metadata-section">
                 <FurtherInformation metadata={metadata} />
