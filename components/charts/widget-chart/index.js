@@ -10,8 +10,8 @@ import classnames from 'classnames';
 import Spinner from 'components/ui/Spinner';
 import DatasetPlaceholderChart from '../placeholder-chart';
 
-const defaultTheme = getVegaTheme();
-const defaultThumbnailTheme = getVegaTheme(true);
+// const defaultTheme = getVegaTheme();
+// const defaultThumbnailTheme = getVegaTheme(true);
 
 class DatasetWidgetChart extends React.Component {
   static propTypes = {
@@ -50,7 +50,7 @@ class DatasetWidgetChart extends React.Component {
   render() {
     const { mode, widget } = this.props;
 
-    const themeObj = mode === 'thumbnail' ? defaultThumbnailTheme : defaultTheme;
+    // const themeObj = mode === 'thumbnail' ? defaultThumbnailTheme : defaultTheme;
     const classname = classnames({
       'c-widget-chart': true,
       [`-${mode}`]: mode === 'thumbnail'
