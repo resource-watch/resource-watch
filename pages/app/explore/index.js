@@ -83,7 +83,7 @@ class ExplorePage extends PureComponent {
     if (layers) await dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
 
     // Fetch datasets
-    await dispatch(actions.fetchDatasets());
+    // await dispatch(actions.fetchDatasets());
 
     // Fetch tags
     await dispatch(actions.fetchFiltersTags());
