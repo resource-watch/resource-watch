@@ -39,9 +39,6 @@ node {
         case "preproduction":
           sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth .")
           break
-        case "explore":
-          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg callbackUrl=https://explore.resourcewatch.org/auth .")
-          break
         default:
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} -t ${imageTag} .")
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} -t ${dockerUsername}/${appName}:latest .")
@@ -87,16 +84,6 @@ node {
             sh("kubectl apply -f k8s/preproduction/")
           }
           sh("kubectl set image deployment ${appName}-preproduction ${appName}-preproduction=${imageTag} --namespace=rw --record")
-          break
-
-        case "explore":
-          sh("echo Deploying to PROD cluster")
-          sh("kubectl config use-context ${KUBECTL_CONTEXT_PREFIX}_${CLOUD_PROJECT_NAME}_${CLOUD_PROJECT_ZONE}_${KUBE_PROD_CLUSTER}")
-          def service = sh([returnStdout: true, script: "kubectl get deploy ${appName}-explore --namespace=rw || echo NotFound"]).trim()
-          if ((service && service.indexOf("NotFound") > -1) || (forceCompleteDeploy)){
-            sh("kubectl apply -f k8s/explore/")
-          }
-          sh("kubectl set image deployment ${appName}-explore ${appName}-explore=${imageTag} --namespace=rw --record")
           break
 
         // Roll out to production

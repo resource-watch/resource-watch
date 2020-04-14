@@ -10,6 +10,7 @@ import { fetchDatasets } from 'services/dataset';
 import DatasetList from 'layout/explore/explore-datasets/list';
 import Spinner from 'components/ui/Spinner';
 import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
+import Icon from 'components/ui/icon';
 
 // Styles
 import './styles.scss';
@@ -52,7 +53,23 @@ function ExploreFavoritesComponent(props) {
           list={datasets}
           actions={<ExploreDatasetsActions />}
         />
-        }
+      }
+      {!datasetsLoading && datasets.length === 0 &&
+        <div className="no-datasets">
+          <div className="empty-card" />
+          <div className="message">
+            <h5>You currently have no favorite datasets</h5>
+            <p>
+              To favorite a dataset or start a collection, click the <Icon
+                name="icon-star-full"
+                className="-star -small"
+              /> on any dataset card
+            </p>
+          </div>
+          <div className="empty-card" />
+          <div className="empty-card" />
+        </div>
+      }
     </div>
   );
 }
