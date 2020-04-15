@@ -6,7 +6,7 @@ export default {
   // Datasets
   datasets: {
     list: [],
-    loading: false,
+    loading: true,
     error: null,
     page: 1,
     limit: 30,
