@@ -12,10 +12,9 @@ function ExploreLogin() {
       <div className="card -empty" />
       <LoginRequired>
         <div className="card -login">
-          <h4>Log in to start your own data curation</h4>
+          <h4>Log in or create a free account to access advanced features</h4>
           <p>
-              Make your usual data exploration more agile
-              by creating your own dataset collections.
+            Save your favorite data, create customized collections, and more.
           </p>
           <button className="c-button -primary -compressed">
                         Log in
