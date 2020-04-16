@@ -150,8 +150,14 @@ class ExploreMenuComponent extends React.Component {
               })}
             role="button"
             tabIndex={0}
-            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.DISCOVER)}
-            onClick={() => setSidebarSection(EXPLORE_SECTIONS.DISCOVER)}
+            onKeyPress={() => {
+              setSidebarSection(EXPLORE_SECTIONS.DISCOVER);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.DISCOVER);
+            }}
+            onClick={() => {
+              setSidebarSection(EXPLORE_SECTIONS.DISCOVER);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.DISCOVER);
+            }}
           >
             <img alt="" src={`${iconsBaseURL}discover-${section === EXPLORE_SECTIONS.DISCOVER ? 'on' : 'off'}.svg`} />
             Discover
@@ -163,8 +169,14 @@ class ExploreMenuComponent extends React.Component {
               })}
             role="button"
             tabIndex={0}
-            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
-            onClick={() => setSidebarSection(EXPLORE_SECTIONS.ALL_DATA)}
+            onKeyPress={() => {
+              setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.ALL_DATA);
+            }}
+            onClick={() => {
+              setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.ALL_DATA);
+            }}
           >
             <img alt="" src={`${iconsBaseURL}all-${section === EXPLORE_SECTIONS.ALL_DATA ? 'on' : 'off'}.svg`} />
             All Data
@@ -176,8 +188,14 @@ class ExploreMenuComponent extends React.Component {
               })}
             role="button"
             tabIndex={0}
-            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
-            onClick={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
+            onKeyPress={() => {
+              setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.NEAR_REAL_TIME);
+            }}
+            onClick={() => {
+              setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.NEAR_REAL_TIME);
+            }}
           >
             <img alt="" src={`${iconsBaseURL}recent-${section === EXPLORE_SECTIONS.NEAR_REAL_TIME ? 'on' : 'off'}.svg`} />
             Near Real-Time
@@ -189,8 +207,14 @@ class ExploreMenuComponent extends React.Component {
               })}
             role="button"
             tabIndex={0}
-            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.TOPICS)}
-            onClick={() => setSidebarSection(EXPLORE_SECTIONS.TOPICS)}
+            onKeyPress={() => {
+              setSidebarSection(EXPLORE_SECTIONS.TOPICS);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.TOPICS);
+            }}
+            onClick={() => {
+              setSidebarSection(EXPLORE_SECTIONS.TOPICS);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.TOPICS);
+            }}
           >
             <img alt="" src={`${iconsBaseURL}topics-${section === EXPLORE_SECTIONS.TOPICS ? 'on' : 'off'}.svg`} />
             Topics
@@ -204,8 +228,14 @@ class ExploreMenuComponent extends React.Component {
               })}
             role="button"
             tabIndex={0}
-            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.FAVORITES)}
-            onClick={() => setSidebarSection(EXPLORE_SECTIONS.FAVORITES)}
+            onKeyPress={() => {
+              setSidebarSection(EXPLORE_SECTIONS.FAVORITES);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.FAVORITES);
+            }}
+            onClick={() => {
+              setSidebarSection(EXPLORE_SECTIONS.FAVORITES);
+              logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.FAVORITES);
+            }}
           >
             <span className="collection-name">Your favorites</span>
           </div>
@@ -221,10 +251,12 @@ class ExploreMenuComponent extends React.Component {
               onKeyPress={() => {
                 setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
                 setSidebarSelectedCollection(collection.id);
+                logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.COLLECTIONS);
               }}
               onClick={() => {
                 setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
                 setSidebarSelectedCollection(collection.id);
+                logEvent('Explore Menu', 'clicks tab', EXPLORE_SECTIONS.COLLECTIONS);
               }}
             >
               <span className="collection-name">{collection.name}</span>
