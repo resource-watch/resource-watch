@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import WidgetEditor, { RwAdapter } from 'widget-editor';
+import WidgetEditor from '@widget-editor/widget-editor';
+import RwAdapter from '@widget-editor/rw-adapter';
 
 // Components
 import Spinner from 'components/ui/Spinner';
