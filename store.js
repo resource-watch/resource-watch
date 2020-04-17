@@ -2,6 +2,11 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
 import { handleModule } from 'redux-tools';
+import {
+  reducers as WEReducers,
+  middleware as WEmiddleware,
+  sagas
+} from '@widget-editor/widget-editor';
 
 // TO-DO: move redactions to modules
 import * as reducers from 'redactions';
@@ -56,13 +61,6 @@ import * as adminLayerPreview from 'components/admin/data/layers/form/layer-prev
 
 // React responsive redux
 import { reducer as responsiveReducer } from 'react-responsive-redux';
-
-// Widget Editor
-import {
-  reducers as WEReducers,
-  middleware as WEmiddleware,
-  sagas
-} from 'widget-editor';
 
 // REDUCERS
 const reducer = combineReducers({
@@ -132,10 +130,7 @@ export const initStore = (initialState = {}) => {
     )
   );
 
-  console.log('WEmiddleware', WEmiddleware);
-  
-
   WEmiddleware.run(sagas);
 
   return { store };
-}
+};
