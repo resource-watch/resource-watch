@@ -1708,36 +1708,31 @@
     "@webassemblyjs/wast-parser" "1.8.5"
     "@xtuc/long" "4.2.2"
 
-"@widget-editor/core@^2.0.3-beta.0":
-  version "2.0.3-beta.0"
-  resolved "https://registry.yarnpkg.com/@widget-editor/core/-/core-2.0.3-beta.0.tgz#28261a927830dc2faf673393fa8ad7a9c21e4bda"
-  integrity sha512-RIU27MJQtO8on2YAqZ2sdNWNwsnmCBdWIKeRVACczuijLsFwGapdEPTQ4SHj9PYSM8hC4jFuC7o1hx/FQnUmEQ==
+"@widget-editor/core@^2.0.6-beta.0":
+  version "2.0.6-beta.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/core/-/core-2.0.6-beta.0.tgz#b1c0d1a58746099a423e5bc644c7fffb9d435969"
+  integrity sha512-fZe9P5xGOVF+wQYJVKDv9UMa0G5Z/y2S2mJYRlXCCoR78OT6UqdPvnrNqtnFJhIDj2hmpBljWH0+BPFG3cWS8Q==
   dependencies:
-    "@widget-editor/types" "^2.0.3-beta.0"
+    "@widget-editor/types" "^2.0.6-beta.0"
 
-"@widget-editor/renderer@^2.0.3-beta.0":
-  version "2.0.3-beta.0"
-  resolved "https://registry.yarnpkg.com/@widget-editor/renderer/-/renderer-2.0.3-beta.0.tgz#9f47bd2e4826dd6bc7e2f0e4a331f22903daf8fc"
-  integrity sha512-ZqIYUBxd7Z4Z8LH9sCUsumLvXzjkFzzTEOkA4s1SEXIACER58Wn2rR+2lsNNtbaRsyXtvnIWH3aPhuB/cDIRAg==
+"@widget-editor/renderer@^2.0.6-beta.0":
+  version "2.0.6-beta.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/renderer/-/renderer-2.0.6-beta.0.tgz#ef79d4fb04b8dbc1f9514c16516511b5060f3e11"
+  integrity sha512-Aemu/ZDlBtOzN02+Os97d+Lknf+VZcAunhgkgW+cPR/IunCSy2lKIMv7r4BIzG2CJoXAYz+E9uIEH9qLGvXOww==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@widget-editor/core" "^2.0.3-beta.0"
-    "@widget-editor/shared" "^2.0.3-beta.0"
-    "@widget-editor/types" "^2.0.3-beta.0"
+    "@widget-editor/core" "^2.0.6-beta.0"
+    "@widget-editor/shared" "^2.0.6-beta.0"
+    "@widget-editor/types" "^2.0.6-beta.0"
     babel-plugin-styled-components "^1.10.6"
     lodash "^4.17.15"
-    react "^16.12.0"
-    react-dom "^16.12.0"
     react-json-editor-ajrm "^2.5.9"
-    react-redux "^7.1.3"
     react-resize-detector "^4.2.1"
     react-select "^3.0.8"
     react-slick "^0.25.2"
     react-slider "^1.0.2"
-    redux "^4.0.4"
     redux-devtools-extension "^2.13.8"
     redux-saga "^1.1.3"
-    redux-thunk "^2.3.0"
     reselect "^4.0.0"
     slick-carousel "^1.8.1"
     styled-components "^4.4.1"
@@ -1745,34 +1740,29 @@
     vega-tooltip "^0.21.0"
     vizzuality-redux-tools "^4.1.1"
 
-"@widget-editor/rw-adapter@^2.0.3-beta.0":
-  version "2.0.3-beta.0"
-  resolved "https://registry.yarnpkg.com/@widget-editor/rw-adapter/-/rw-adapter-2.0.3-beta.0.tgz#3e19eb01aae0216cd06cc3b41fe30265dcfed130"
-  integrity sha512-ieVYPduTYBSs5zJhgtIysjZg7OkuGID6qcVOgTW5j7mdRBLo7fNmejeZ6KuCWZwZ88R49hbyZu7eBxXgbx3Enw==
+"@widget-editor/rw-adapter@^2.0.6-beta.0":
+  version "2.0.6-beta.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/rw-adapter/-/rw-adapter-2.0.6-beta.0.tgz#f57f5d300f04c3f048e51c3a5572237cd9286fb3"
+  integrity sha512-v92GVZb/LA7PWBtolZofNIX+Ivgb6YE4l4vv1MkhcBJwX66xvHjcSPHwvTuVpZo/UksZTCVLYaTH3jHyrc7TcA==
   dependencies:
-    "@widget-editor/core" "^2.0.3-beta.0"
-    "@widget-editor/types" "^2.0.3-beta.0"
+    "@widget-editor/core" "^2.0.6-beta.0"
+    "@widget-editor/types" "^2.0.6-beta.0"
     lodash "^4.17.15"
 
-"@widget-editor/shared@^2.0.3-beta.0":
-  version "2.0.3-beta.0"
-  resolved "https://registry.yarnpkg.com/@widget-editor/shared/-/shared-2.0.3-beta.0.tgz#350512e14f7f5a03978c61e48241c17bb264ed72"
-  integrity sha512-bmff6HWUzZQQSJslJ2sEnSOB7z23JlK1ajzjc9fE5IpUYjkuweRIkIKRMqaXdSDMiBYDTvKJGYWRLilO67zRiQ==
+"@widget-editor/shared@^2.0.6-beta.0":
+  version "2.0.6-beta.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/shared/-/shared-2.0.6-beta.0.tgz#b9f507f653b74eff56f7040389d928d8252d4d45"
+  integrity sha512-KG6B8zApKjPJCOTgMUBcFGhVIMFzbvXNN4SXplHFfb0FYcv32pVn4Hx01yRFDw8GAlJyV4kORr9TkW4zELCGJg==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     babel-plugin-styled-components "^1.10.6"
-    react "^16.12.0"
-    react-dom "^16.12.0"
     react-json-editor-ajrm "^2.5.9"
-    react-redux "^7.1.3"
     react-resize-detector "^4.2.1"
     react-select "^3.0.8"
     react-slick "^0.25.2"
     react-slider "^1.0.2"
-    redux "^4.0.4"
     redux-devtools-extension "^2.13.8"
     redux-saga "^1.1.3"
-    redux-thunk "^2.3.0"
     reselect "^4.0.0"
     slick-carousel "^1.8.1"
     styled-components "^4.4.1"
@@ -1780,35 +1770,30 @@
     vega-tooltip "^0.21.0"
     vizzuality-redux-tools "^4.1.1"
 
-"@widget-editor/types@^2.0.3-beta.0":
-  version "2.0.3-beta.0"
-  resolved "https://registry.yarnpkg.com/@widget-editor/types/-/types-2.0.3-beta.0.tgz#855c2d195fdefacf76764b160de8bffbf109ba6d"
-  integrity sha512-k3WOiGFyr69K9LvFtOXJjXW+bPcD3KxD5VP+6yYqHlMoEyt3Urbkdf1PFiYHyV6v+jnd9QqwjMg1xxuVKHZmCw==
+"@widget-editor/types@^2.0.6-beta.0":
+  version "2.0.6-beta.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/types/-/types-2.0.6-beta.0.tgz#cfabcbbb6eb2994148823c13cc24faec363061c6"
+  integrity sha512-+TQeLPWmOvhieAa1DTpZbH2r5BmXDSKOu+Cqkyv/w3/zwyHFWGCDC9jz620HrPYKFJ2XI1Ayj/GJpCTqhpLUvQ==
 
-"@widget-editor/widget-editor@^2.0.3-beta.0":
-  version "2.0.3-beta.0"
-  resolved "https://registry.yarnpkg.com/@widget-editor/widget-editor/-/widget-editor-2.0.3-beta.0.tgz#7a9bd8db41b85e6dac6977d7b192090631a52e66"
-  integrity sha512-UMVSIiDTrs7JUJoY4hDQdWELGWYGm5RyIQcxh4yI6Pi6l1x9Ysj0qLz6ED4w2oKc05MDOc4+JRx329QnrNgFzg==
+"@widget-editor/widget-editor@^2.0.6-beta.0":
+  version "2.0.6-beta.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/widget-editor/-/widget-editor-2.0.6-beta.0.tgz#e8319054e0aa3d89fae6072778f3b429c80e757d"
+  integrity sha512-BoATdcethVKCl0y3iHNlpvgvlRej/NOtS67J2YKiiUJ9RFUN9OdY8yB4jyOgwBIZ7q6G14yrRV7sVXZRhMk9Hw==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@widget-editor/core" "^2.0.3-beta.0"
-    "@widget-editor/renderer" "^2.0.3-beta.0"
-    "@widget-editor/shared" "^2.0.3-beta.0"
-    "@widget-editor/types" "^2.0.3-beta.0"
+    "@widget-editor/core" "^2.0.6-beta.0"
+    "@widget-editor/renderer" "^2.0.6-beta.0"
+    "@widget-editor/shared" "^2.0.6-beta.0"
+    "@widget-editor/types" "^2.0.6-beta.0"
     babel-plugin-styled-components "^1.10.6"
     lodash "^4.17.15"
-    react "^16.12.0"
-    react-dom "^16.12.0"
     react-json-editor-ajrm "^2.5.9"
-    react-redux "^7.1.3"
     react-resize-detector "^4.2.1"
     react-select "^3.0.8"
     react-slick "^0.25.2"
     react-slider "^1.0.2"
-    redux "^4.0.4"
     redux-devtools-extension "^2.13.8"
     redux-saga "^1.1.3"
-    redux-thunk "^2.3.0"
     reselect "^4.0.0"
     slick-carousel "^1.8.1"
     styled-components "^4.4.1"
@@ -13347,16 +13332,6 @@ react-dom@^16.10.2:
     prop-types "^15.6.2"
     scheduler "^0.17.0"
 
-react-dom@^16.12.0:
-  version "16.13.1"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
-  integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.19.1"
-
 react-dropdown-tree-select@1.9.2:
   version "1.9.2"
   resolved "https://registry.yarnpkg.com/react-dropdown-tree-select/-/react-dropdown-tree-select-1.9.2.tgz#6446ab477706a51c90876530bc1e580188dc49f8"
@@ -13675,17 +13650,6 @@ react-redux@^5.0.6:
     react-is "^16.6.0"
     react-lifecycles-compat "^3.0.0"
 
-react-redux@^7.1.3:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-7.2.0.tgz#f970f62192b3981642fec46fd0db18a074fe879d"
-  integrity sha512-EvCAZYGfOLqwV7gh849xy9/pt55rJXPwmYvI4lilPM5rUT/1NxuuN59ipdBksRVSvz0KInbPnp4IfoXJXCqiDA==
-  dependencies:
-    "@babel/runtime" "^7.5.5"
-    hoist-non-react-statics "^3.3.0"
-    loose-envify "^1.4.0"
-    prop-types "^15.7.2"
-    react-is "^16.9.0"
-
 react-render-html@0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/react-render-html/-/react-render-html-0.6.0.tgz#1af51d859ed75474435a1c65c293a48e12c36627"
@@ -13902,15 +13866,6 @@ react@^16.10.2:
   version "16.11.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.11.0.tgz#d294545fe62299ccee83363599bf904e4a07fdbb"
   integrity sha512-M5Y8yITaLmU0ynd0r1Yvfq98Rmll6q8AxaEe88c8e7LxO8fZ2cNgmFt0aGAS9wzf1Ao32NKXtCl+/tVVtkxq6g==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-
-react@^16.12.0:
-  version "16.13.1"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
-  integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -14168,7 +14123,7 @@ redux-thunk@2.1.0:
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.1.0.tgz#c724bfee75dbe352da2e3ba9bc14302badd89a98"
   integrity sha1-xyS/7nXb41LaLjupvBQwK63Ympg=
 
-redux-thunk@^2.2.0, redux-thunk@^2.3.0:
+redux-thunk@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
   integrity sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
@@ -14772,14 +14727,6 @@ scheduler@^0.17.0:
   version "0.17.0"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.17.0.tgz#7c9c673e4ec781fac853927916d1c426b6f3ddfe"
   integrity sha512-7rro8Io3tnCPuY4la/NuI5F2yfESpnfZyT6TtkXnSWVkcu0BCDJ+8gk5ozUaFaxpIyNuWAPXrH0yFcSi28fnDA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-
-scheduler@^0.19.1:
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
-  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"

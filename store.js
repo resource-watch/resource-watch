@@ -120,17 +120,13 @@ const reducer = combineReducers({
 });
 
 export const initStore = (initialState = {}) => {
-  const store = createStore(
-    reducer,
-    initialState,
-    composeWithDevTools(
-      /* The router middleware MUST be before thunk otherwise the URL changes
-      * inside a thunk function won't work properly */
-      applyMiddleware(thunk)
-    )
-  );
+
+  const middlewares = applyMiddleware(thunk, WEmiddleware);
+  const enhancers = composeWithDevTools(middlewares);
+  // create store
+  const store = createStore(reducer, initialState, enhancers);
 
   WEmiddleware.run(sagas);
 
-  return { store };
+  return store;
 };
