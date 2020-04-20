@@ -95,11 +95,11 @@ function ExploreDiscover(props) {
             className="header-button"
             role="button"
             tabIndex={-1}
-            onClick={() => { 
+            onClick={() => {
               setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
               logEvent('Explore Menu', 'Click to See All Data', 'Highlighted datasets');
             }}
-            onKeyPress={() => { 
+            onKeyPress={() => {
               setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
               logEvent('Explore Menu', 'Click to See All Data', 'Highlighted datasets');
             }}
@@ -160,12 +160,14 @@ function ExploreDiscover(props) {
               setSortSelected('createdAt');
               setSortIsUserSelected();
               props.fetchDatasets();
+              logEvent('Explore Menu', 'Click to See All Data', 'Recently Added Datasets');
             }}
             onKeyPress={() => {
               setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
               setSortSelected('createdAt');
               setSortIsUserSelected();
               props.fetchDatasets();
+              logEvent('Explore Menu', 'Click to See All Data', 'Recently Added Datasets');
             }}
           >
                         SEE ALL DATA
@@ -192,8 +194,14 @@ function ExploreDiscover(props) {
             className="header-button"
             role="button"
             tabIndex={-1}
-            onClick={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
-            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME)}
+            onClick={() => {
+              setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME);
+              logEvent('Explore Menu', 'Click to See All Data', 'Recently Updated Datasets');
+            }}
+            onKeyPress={() => {
+              setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME);
+              logEvent('Explore Menu', 'Click to See All Data', 'Recently Updated Datasets');
+            }}
           >
                         SEE ALL DATA
           </div>
