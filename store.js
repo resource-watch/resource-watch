@@ -34,9 +34,6 @@ import * as relatedTools from 'components/tools/related-tools';
 // Explore
 import * as explore from 'layout/explore';
 
-// Explore detail
-import * as exploreDetail from 'layout/explore-detail';
-
 // Pulse
 import * as pulse from 'layout/app/pulse';
 import * as layerContainer from 'layout/app/pulse/layer-container';
@@ -86,7 +83,6 @@ const reducer = combineReducers({
 
   // Explore
   explore: handleModule(explore),
-  exploreDetail: handleModule(exploreDetail),
 
   // Pulse
   layerContainerPulse: handleModule(layerContainer),
