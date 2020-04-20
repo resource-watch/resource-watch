@@ -49,7 +49,7 @@ function ExploreDatasetsComponent(props) {
 
   useEffect(() => {
     fetchDatasets(1);
-  }, [fetchDatasets]);
+  }, []);
 
   const classValue = classnames({
     'c-explore-datasets': true,
