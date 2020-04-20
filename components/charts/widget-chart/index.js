@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 // Widget editor
-// TO-DO: use the new approach from version 2.0
-// import { VegaChart, getVegaTheme } from 'widget-editor';
+import { Renderer } from '@widget-editor/widget-editor';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -60,12 +59,17 @@ class DatasetWidgetChart extends React.Component {
       return <DatasetPlaceholderChart />;
     }
 
+    console.log('widget', widget);
+    
     return (
       <div className={classname}>
 
         <Spinner
           isLoading={this.state.loading}
           className="-tiny -light"
+        />
+        <Renderer
+          widgetConfig={widget.widgetConfig}
         />
 
         {/* TO-DO: implement new approach  */}

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import WidgetEditor, { Renderer } from '@widget-editor/widget-editor';
+import RwAdapter from '@widget-editor/rw-adapter';
 
 // Redux
 import { connect } from 'react-redux';
@@ -19,10 +21,8 @@ import Checkbox from 'components/form/Checkbox';
 import SwitchOptions from 'components/ui/SwitchOptions';
 import Spinner from 'components/ui/Spinner';
 
-// Widget editor
-import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
-
-const defaultTheme = getVegaTheme();
+// Utils
+import DefaultTheme from 'utils/widgets/theme';
 
 class Step1 extends Component {
   static propTypes = {
@@ -264,14 +264,22 @@ class Step1 extends Component {
             </div>
 
             {this.props.mode === 'editor' &&
-              <WidgetEditor
+              <WidgetEditor 
                 datasetId={this.state.form.dataset}
                 widgetId={this.props.id}
-                saveButtonMode="never"
-                embedButtonMode="never"
-                titleMode="never"
-                provideWidgetConfig={this.props.onGetWidgetConfig}
+                application="rw"
+                onSave={this.props.onGetWidgetConfig}
+                theme={DefaultTheme}
+                adapter={RwAdapter}
               />
+              // <WidgetEditor
+              //   datasetId={this.state.form.dataset}
+              //   widgetId={this.props.id}
+              //   saveButtonMode="never"
+              //   embedButtonMode="never"
+              //   titleMode="never"
+              //   provideWidgetConfig={this.props.onGetWidgetConfig}
+              // />
             }
 
             {this.props.mode === 'advanced' &&
@@ -308,13 +316,8 @@ class Step1 extends Component {
                     <div className="">
                       <Spinner isLoading={loadingVegaChart} className="-light -relative" />
                       {this.state.form.widgetConfig && this.state.form.widgetConfig.data && (
-                        <VegaChart
-                          data={this.state.form.widgetConfig}
-                          theme={defaultTheme}
-                          showLegend
-                          reloadOnResize
-                          toggleLoading={this.triggerToggleLoadingVegaChart}
-                          getForceUpdate={(func) => { this.forceChartUpdate = func; }}
+                        <Renderer
+                          widgetConfig={this.state.form.widgetConfig}
                         />
                       )}
                       <div className="actions">

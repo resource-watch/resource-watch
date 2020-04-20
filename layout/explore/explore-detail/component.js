@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+
+// Widget Editor
 import WidgetEditor from '@widget-editor/widget-editor';
 import RwAdapter from '@widget-editor/rw-adapter';
 

@@ -10,9 +10,15 @@ import { connect } from 'react-redux';
 import { createWidget } from 'services/widget';
 import { fetchDatasets } from 'services/dataset';
 
+// Widget Editor
+import WidgetEditor from '@widget-editor/widget-editor';
+import RwAdapter from '@widget-editor/rw-adapter';
+
+// Utils
+import DefaultTheme from 'utils/widgets/theme';
+
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'widget-editor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
@@ -186,14 +192,21 @@ class WidgetsNew extends React.Component {
         }
         {selectedDataset &&
         <div>
-          <WidgetEditor
+          <WidgetEditor 
+            datasetId={selectedDataset}
+            application="rw"
+            onSave={this.onSaveWidget}
+            theme={DefaultTheme}
+            adapter={RwAdapter}
+          />
+          {/* <WidgetEditor
             datasetId={selectedDataset}
             widgetId={null}
             saveButtonMode="never"
             embedButtonMode="never"
             titleMode="never"
             provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
-          />
+          /> */}
           <div className="form-container">
             <form className="form-container" onSubmit={this.onSubmit}>
               <fieldset className="c-field-container">
