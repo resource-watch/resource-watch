@@ -8,6 +8,9 @@ import classnames from 'classnames';
 import MediaQuery from 'react-responsive';
 import { breakpoints } from 'utils/responsive';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Components
 import Paginator from 'components/ui/Paginator';
 import Icon from 'components/ui/icon';
@@ -46,7 +49,7 @@ function ExploreDatasetsComponent(props) {
 
   useEffect(() => {
     fetchDatasets(1);
-  }, []);
+  }, [fetchDatasets]);
 
   const classValue = classnames({
     'c-explore-datasets': true,
@@ -129,6 +132,7 @@ function ExploreDatasetsComponent(props) {
                   'background-position': 'center',
                   'background-size': 'cover'
                 }}
+                onClick={() => logEvent('Explore Menu', 'Select Dashboard', dashboard.label)}
               >
                 <div className="dashboard-title">
                   {dashboard.label}
