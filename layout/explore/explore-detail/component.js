@@ -105,6 +105,7 @@ class ExploreDetailComponent extends React.Component {
                     onSave={this.onSaveWidget}
                     theme={DefaultTheme}
                     adapter={RwAdapter}
+                    disable={['theme-selection', 'advanced-editor']}
                   />
                 }
               </div>
