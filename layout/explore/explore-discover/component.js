@@ -128,8 +128,14 @@ function ExploreDiscover(props) {
             className="header-button"
             role="button"
             tabIndex={-1}
-            onClick={() => setSidebarSection(EXPLORE_SECTIONS.TOPICS)}
-            onKeyPress={() => setSidebarSection(EXPLORE_SECTIONS.TOPICS)}
+            onClick={() => {
+              setSidebarSection(EXPLORE_SECTIONS.TOPICS);
+              logEvent('Explore Menu', 'Click to See All Topics');
+            }}
+            onKeyPress={() => {
+              setSidebarSection(EXPLORE_SECTIONS.TOPICS);
+              logEvent('Explore Menu', 'Click to See All Topics');
+            }}
           >
                         SEE ALL
           </div>
