@@ -199,7 +199,7 @@ class WidgetsNew extends React.Component {
               onSave={this.onSaveWidget}
               theme={DefaultTheme}
               adapter={RwAdapter}
-              authenticated={user.token}
+              authenticated={true}
             />
             {/* <WidgetEditor
               datasetId={selectedDataset}
