@@ -19,8 +19,6 @@ import DefaultTheme from 'utils/widgets/theme';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import Button from 'components/ui/Button';
-import Input from 'components/form/Input';
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
@@ -59,50 +57,36 @@ class WidgetsNew extends React.Component {
     loading: false,
     loadingPublishedDatasets: true,
     loadingUserDatasets: true,
-    submitting: false,
     datasets: [],
-    selectedDataset: this.props.dataset,
-    widget: {}
+    selectedDataset: this.props.dataset
   };
 
   UNSAFE_componentWillMount() {
     this.loadDatasets();
   }
 
-  onSubmit = async (event) => {
-    if (event) event.preventDefault();
-
-    const { widget, selectedDataset } = this.state;
+  onSaveWidget = (data) => {
+    const { selectedDataset } = this.state;
     const { user } = this.props;
+    // The widget creation endpoint expects the application property to be
+    // of array type
+    const newWidget = {
+      ...data,
+      application: process.env.APPLICATIONS.split(',')
+    };
 
     logEvent('My RW', 'User creates new widget', this.state.datasets.find(d => d.id === this.state.selectedDataset).label);
 
     this.setState({ loading: true });
 
-    setTimeout(async () => {
-      const widgetConfig = (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {};
-
-      const widgetObj = Object.assign(
-        {},
-        widget,
-        { widgetConfig }
-      );
-
-      createWidget(widgetObj, selectedDataset, user.token)
-        .then(() => {
-          Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
-          toastr.success('Success', 'Widget created successfully!');
-        }).catch((err) => {
-          this.setState({ loading: false });
-          toastr.error('Error', err);
-        });
-    }, 0);
-  }
-
-  getWidgetConfig() {
-    return this.onGetWidgetConfig()
-      .then(widgetConfig => widgetConfig)
-      .catch(() => ({}));
+    createWidget(newWidget, selectedDataset, user.token)
+      .then(() => {
+        Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+        toastr.success('Success', 'Widget created successfully!');
+      }).catch((err) => {
+        this.setState({ loading: false });
+        toastr.error('Error', err);
+      });
   }
 
   loadDatasets() {
@@ -146,11 +130,6 @@ class WidgetsNew extends React.Component {
       });
   }
 
-  handleChange = (value) => {
-    const newWidgetObj = Object.assign({}, this.state.widget, value);
-    this.setState({ widget: newWidgetObj });
-  }
-
   handleDatasetSelected = (value) => {
     this.setState({ selectedDataset: value });
   }
@@ -158,13 +137,11 @@ class WidgetsNew extends React.Component {
   render() {
     const {
       loading,
-      submitting,
       datasets,
       selectedDataset,
       loadingUserDatasets,
       loadingPublishedDatasets
     } = this.state;
-    const { user } = this.props;
 
     return (
       <div className="c-myrw-widgets-new">
@@ -193,65 +170,14 @@ class WidgetsNew extends React.Component {
         }
         {selectedDataset &&
           <div>
-            <WidgetEditor 
+            <WidgetEditor
               datasetId={selectedDataset}
               application="rw"
               onSave={this.onSaveWidget}
               theme={DefaultTheme}
               adapter={RwAdapter}
-              authenticated={true}
+              authenticated
             />
-            {/* <WidgetEditor
-              datasetId={selectedDataset}
-              widgetId={null}
-              saveButtonMode="never"
-              embedButtonMode="never"
-              titleMode="never"
-              provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
-            /> */}
-            <div className="form-container">
-              <form className="form-container" onSubmit={this.onSubmit}>
-                <fieldset className="c-field-container">
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                    onChange={value => this.handleChange({ name: value })}
-                    validations={['required']}
-                    properties={{
-                      title: 'title',
-                      label: 'Title',
-                      type: 'text',
-                      required: true,
-                      placeholder: 'Widget title'
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-                    onChange={value => this.handleChange({ description: value })}
-                    properties={{
-                      title: 'description',
-                      label: 'Description',
-                      type: 'text',
-                      placeholder: 'Widget description'
-                    }}
-                  >
-                    {Input}
-                  </Field>
-                </fieldset>
-                <div className="buttons-container">
-                  <Button
-                    properties={{
-                      type: 'submit',
-                      disabled: submitting,
-                      className: '-a'
-                    }}
-                  >
-                    Save
-                  </Button>
-                </div>
-              </form>
-            </div>
           </div>
         }
       </div>
