@@ -164,6 +164,7 @@ class WidgetsNew extends React.Component {
       loadingUserDatasets,
       loadingPublishedDatasets
     } = this.state;
+    const { user } = this.props;
 
     return (
       <div className="c-myrw-widgets-new">
@@ -191,66 +192,67 @@ class WidgetsNew extends React.Component {
           </div>
         }
         {selectedDataset &&
-        <div>
-          <WidgetEditor 
-            datasetId={selectedDataset}
-            application="rw"
-            onSave={this.onSaveWidget}
-            theme={DefaultTheme}
-            adapter={RwAdapter}
-          />
-          {/* <WidgetEditor
-            datasetId={selectedDataset}
-            widgetId={null}
-            saveButtonMode="never"
-            embedButtonMode="never"
-            titleMode="never"
-            provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
-          /> */}
-          <div className="form-container">
-            <form className="form-container" onSubmit={this.onSubmit}>
-              <fieldset className="c-field-container">
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                  onChange={value => this.handleChange({ name: value })}
-                  validations={['required']}
-                  properties={{
-                    title: 'title',
-                    label: 'Title',
-                    type: 'text',
-                    required: true,
-                    placeholder: 'Widget title'
-                  }}
-                >
-                  {Input}
-                </Field>
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-                  onChange={value => this.handleChange({ description: value })}
-                  properties={{
-                    title: 'description',
-                    label: 'Description',
-                    type: 'text',
-                    placeholder: 'Widget description'
-                  }}
-                >
-                  {Input}
-                </Field>
-              </fieldset>
-              <div className="buttons-container">
-                <Button
-                  properties={{
-                    type: 'submit',
-                    disabled: submitting,
-                    className: '-a'
-                  }}
-                >
-                  Save
-                </Button>
-              </div>
-            </form>
+          <div>
+            <WidgetEditor 
+              datasetId={selectedDataset}
+              application="rw"
+              onSave={this.onSaveWidget}
+              theme={DefaultTheme}
+              adapter={RwAdapter}
+              authenticated={user.token}
+            />
+            {/* <WidgetEditor
+              datasetId={selectedDataset}
+              widgetId={null}
+              saveButtonMode="never"
+              embedButtonMode="never"
+              titleMode="never"
+              provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
+            /> */}
+            <div className="form-container">
+              <form className="form-container" onSubmit={this.onSubmit}>
+                <fieldset className="c-field-container">
+                  <Field
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
+                    onChange={value => this.handleChange({ name: value })}
+                    validations={['required']}
+                    properties={{
+                      title: 'title',
+                      label: 'Title',
+                      type: 'text',
+                      required: true,
+                      placeholder: 'Widget title'
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                  <Field
+                    ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
+                    onChange={value => this.handleChange({ description: value })}
+                    properties={{
+                      title: 'description',
+                      label: 'Description',
+                      type: 'text',
+                      placeholder: 'Widget description'
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                </fieldset>
+                <div className="buttons-container">
+                  <Button
+                    properties={{
+                      type: 'submit',
+                      disabled: submitting,
+                      className: '-a'
+                    }}
+                  >
+                    Save
+                  </Button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
         }
       </div>
     );
