@@ -14,6 +14,9 @@ import { getTooltipContainer } from 'utils/tooltip';
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 import './styles.scss';
 
 class ExploreDatasetsActionsComponent extends PureComponent {
@@ -43,7 +46,10 @@ class ExploreDatasetsActionsComponent extends PureComponent {
   render() {
     const { dataset, layer, user } = this.props;
     const isActive = this.isActive();
-
+    const userIsLoggedIn = user.token;
+    const datasetName = dataset && dataset.metadata && dataset.metadata[0] &&
+      dataset.metadata[0].info && dataset.metadata[0].info.name;
+    
     const isInACollection = belongsToACollection(user, dataset);
     const starIconName = classnames({
       'icon-star-full': isInACollection,
@@ -72,12 +78,19 @@ class ExploreDatasetsActionsComponent extends PureComponent {
           {isActive ? 'Active' : 'Add to map'}
         </button>
         {/* Favorite dataset icon */}
-        <LoginRequired>
+        <LoginRequired
+          clickCallback={() => {
+            if (!userIsLoggedIn) {
+              logEvent('Explore Menu', 'Anonymous user Clicks Star', datasetName);
+            }
+          }}
+        >
           <Tooltip
             overlay={
               <CollectionsPanel
                 resource={dataset}
                 resourceType="dataset"
+                context="Explore Menu"
                 onClick={e => e.stopPropagation()}
                 onKeyPress={e => e.stopPropagation()}
               />
@@ -91,7 +104,12 @@ class ExploreDatasetsActionsComponent extends PureComponent {
             <button
               className="c-button -secondary -compressed"
               tabIndex={-1}
-              onClick={event => event.stopPropagation()}
+              onClick={(event) => {
+                event.stopPropagation();
+                if (userIsLoggedIn) {
+                  logEvent('Explore Menu', 'Authenticated user Clicks Star', datasetName);
+                }
+              }}
             >
               <Icon
                 name={starIconName}
