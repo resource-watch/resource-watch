@@ -225,7 +225,7 @@ class Step1 extends Component {
             {this.props.mode === 'editor' &&
               <WidgetEditor 
                 datasetId={this.state.form.dataset}
-                widgetId={this.props.id}
+                {...(this.props.id && { widgetId: this.props.id })}
                 application="rw"
                 onSave={this.props.onSave}
                 theme={DefaultTheme}
