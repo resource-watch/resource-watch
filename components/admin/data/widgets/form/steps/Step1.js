@@ -34,7 +34,7 @@ class Step1 extends Component {
     onChange: PropTypes.func,
     onModeChange: PropTypes.func,
     showEditor: PropTypes.bool,
-    onGetWidgetConfig: PropTypes.func,
+    onSave: PropTypes.func,
     query: PropTypes.object.isRequired
   };
 
@@ -53,32 +53,6 @@ class Step1 extends Component {
         dataset: nextProps.form.dataset || nextProps.query.dataset
       }
     });
-  }
-
-  /**
-   * HELPERS
-   * - triggerChangeMode
-  */
-  triggerChangeMode = (mode) => {
-    if (mode === 'editor') {
-      toastr.confirm('By switching you will start editing from scratch', {
-        onOk: () => {
-          this.props.onModeChange(mode);
-        },
-        onCancel: () => {
-          this.props.onModeChange(this.props.mode);
-        }
-      });
-    } else {
-      toastr.confirm('By switching you can edit your current widget but you can\'t go back to the editor', {
-        onOk: () => {
-          this.props.onModeChange(mode);
-        },
-        onCancel: () => {
-          this.props.onModeChange(this.props.mode);
-        }
-      });
-    }
   }
 
   triggerToggleLoadingVegaChart = (loading) => {
@@ -247,39 +221,17 @@ class Step1 extends Component {
 
         {this.state.form.dataset && showEditor &&
           <fieldset className={`c-field-container ${editorFieldContainerClass}`}>
-            <div className="l-row row align-right">
-              <div className="column shrink">
-                <SwitchOptions
-                  selected={this.props.mode}
-                  options={[{
-                    value: 'advanced',
-                    label: 'Advanced'
-                  }, {
-                    value: 'editor',
-                    label: 'Editor'
-                  }]}
-                  onChange={selected => this.triggerChangeMode(selected.value)}
-                />
-              </div>
-            </div>
 
             {this.props.mode === 'editor' &&
               <WidgetEditor 
                 datasetId={this.state.form.dataset}
                 widgetId={this.props.id}
                 application="rw"
-                onSave={this.props.onGetWidgetConfig}
+                onSave={this.props.onSave}
                 theme={DefaultTheme}
                 adapter={RwAdapter}
+                authenticated={true}
               />
-              // <WidgetEditor
-              //   datasetId={this.state.form.dataset}
-              //   widgetId={this.props.id}
-              //   saveButtonMode="never"
-              //   embedButtonMode="never"
-              //   titleMode="never"
-              //   provideWidgetConfig={this.props.onGetWidgetConfig}
-              // />
             }
 
             {this.props.mode === 'advanced' &&

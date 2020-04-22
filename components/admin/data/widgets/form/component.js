@@ -221,12 +221,6 @@ class WidgetForm extends PureComponent {
     return newForm;
   }
 
-  getWidgetConfig() {
-    return this.onGetWidgetConfig()
-      .then(widgetConfig => widgetConfig)
-      .catch(() => ({}));
-  }
-
   createWidget(widget) {
     const { onSubmit, dataset, authorization } = this.props;
     createWidgetService(widget, dataset, authorization)
@@ -359,9 +353,7 @@ class WidgetForm extends PureComponent {
             onChange={value => this.onChange(value)}
             onModeChange={this.handleModeChange}
             showEditor={this.props.showEditor}
-            onGetWidgetConfig={(func) => {
-              this.onGetWidgetConfig = func;
-            }}
+            onSave={this.onSave}
           />
         )}
 
