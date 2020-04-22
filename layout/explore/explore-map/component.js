@@ -31,6 +31,9 @@ import SearchControls from 'components/map/controls/search';
 import ResetViewControls from 'components/map/controls/reset-view';
 import LayerPopup from 'components/map/popup';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // constants
 import { MAPSTYLES } from 'components/map/constants';
 import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
@@ -113,6 +116,9 @@ class ExploreMap extends PureComponent {
       dataset: { id: l.dataset },
       active: l.id
     });
+
+    logEvent('Explore Map', 'Clicks Another Layer from Map Legend Tooltip', 
+      `${l.name} [${l.id}]`);
   };
 
   onRemoveLayer = (l) => {
@@ -158,6 +164,8 @@ class ExploreMap extends PureComponent {
 
   onChangeLayerTimeLine = (l) => {
     this.props.setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
+    logEvent('Explore Map', 'Clicks Another Layer from Map Legend Timeline', 
+      `${l.name} [${l.id}]`);
   }
 
   onLayerLoading = (id, bool) => {
