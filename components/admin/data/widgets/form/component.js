@@ -30,7 +30,6 @@ class WidgetForm extends PureComponent {
     authorization: PropTypes.string.isRequired,
     id: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
-    showEditor: PropTypes.bool,
     locale: PropTypes.string.isRequired,
     newState: PropTypes.bool.isRequired,
     dataset: PropTypes.string
@@ -38,8 +37,7 @@ class WidgetForm extends PureComponent {
 
   static defaultProps = {
     id: null,
-    dataset: null,
-    showEditor: true
+    dataset: null
   };
 
   state = Object.assign({}, STATE_DEFAULT, {
@@ -74,17 +72,10 @@ class WidgetForm extends PureComponent {
         const datasets = response[0];
         const current = response[1];
 
-        // Set advanced mode if paramsConfig doesn't exist or if it's empty
-        const mode =
-          current &&
-          (!current.widgetConfig.paramsConfig || isEmpty(current.widgetConfig.paramsConfig))
-            ? 'advanced'
-            : 'editor';
         this.setState({
           // current widget
           form: id ? this.setFormFromParams(current) : this.state.form,
           loading: false,
-          mode,
           datasets: datasets.map(_dataset => ({
             label: _dataset.name,
             value: _dataset.id,
@@ -309,9 +300,8 @@ class WidgetForm extends PureComponent {
     } = this.state;
     const { newState } = this.props;
     return (
-      <form className="c-form c-widgets-form" onSubmit={this.onSubmit} noValidate>
+      <form className="c-form c-widgets-form" noValidate>
         <Spinner isLoading={loading} className="-light" />
-
         {step === 1 && !loading && (
           <Step1
             id={id}
@@ -319,19 +309,7 @@ class WidgetForm extends PureComponent {
             partners={partners}
             datasets={datasets}
             onChange={value => this.onChange(value)}
-            showEditor={this.props.showEditor}
             onSave={this.onWidgetSave}
-          />
-        )}
-
-        {!loading && (
-          <Navigation
-            step={step}
-            stepLength={stepLength}
-            submitting={submitting}
-            onStepChange={this.onStepChange}
-            showDelete={!newState}
-            onDelete={this.handleDelete}
           />
         )}
       </form>

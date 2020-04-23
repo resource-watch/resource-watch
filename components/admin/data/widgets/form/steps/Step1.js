@@ -30,12 +30,9 @@ class Step1 extends Component {
     form: PropTypes.object,
     datasets: PropTypes.array,
     onChange: PropTypes.func,
-    showEditor: PropTypes.bool,
     onSave: PropTypes.func,
     query: PropTypes.object.isRequired
   };
-
-  static defaultProps = { showEditor: true }
 
   state = {
     id: this.props.id,
@@ -53,8 +50,8 @@ class Step1 extends Component {
 
   render() {
     const { id } = this.state;
-    const { user, showEditor, query } = this.props;
-    console.log('id', id);
+    const { user, query } = this.props;
+    console.log('id', id, 'this.state.form.dataset', this.state.form.dataset);
     
 
     // Reset FORM_ELEMENTS
@@ -173,7 +170,7 @@ class Step1 extends Component {
           </div>
         </fieldset>
 
-        {this.state.form.dataset && showEditor &&
+        {this.state.form.dataset &&
             <WidgetEditor 
               datasetId={this.state.form.dataset}
               {...(id && { widgetId: id })}
@@ -182,6 +179,7 @@ class Step1 extends Component {
               theme={DefaultTheme}
               adapter={RwAdapter}
               authenticated={true}
+              compact={false}
             />
         }
       </fieldset>
