@@ -56,6 +56,8 @@ class ExploreDetailComponent extends React.Component {
     const layers = dataset && dataset.layer;
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
     const defaultWidget = dataset && dataset.widget && dataset.widget.find(w => w.default === 'true');
+    const showVisualizationSection = dataset && dataset.type !== 'raster';
+    
         
     return (
       <div className="c-explore-detail">
@@ -94,21 +96,21 @@ class ExploreDetailComponent extends React.Component {
               <div id="layers" className="metadata-section">
                 <DatasetLayers layers={layers} dataset={dataset} />
               </div>
-              <div id="visualization" className="metadata-section">
-                <h3>Customize visualization</h3>
-                {dataset &&
-                  <WidgetEditor 
-                    datasetId={dataset.id}
-                    {...(defaultWidget && { widgetId: defaultWidget.id })}
-                    compact={true}
-                    application="rw"
-                    onSave={this.onSaveWidget}
-                    theme={DefaultTheme}
-                    adapter={RwAdapter}
-                    disable={['theme-selection', 'advanced-editor']}
-                  />
-                }
-              </div>
+              { showVisualizationSection &&
+                <div id="visualization" className="metadata-section">
+                  <h3>Customize visualization</h3>
+                    <WidgetEditor 
+                      datasetId={dataset.id}
+                      {...(defaultWidget && { widgetId: defaultWidget.id })}
+                      compact={true}
+                      application="rw"
+                      onSave={this.onSaveWidget}
+                      theme={DefaultTheme}
+                      adapter={RwAdapter}
+                      disable={['theme-selection', 'advanced-editor']}
+                    />
+                </div>
+              }
               <div id="further_information" className="metadata-section">
                 <FurtherInformation metadata={metadata} />
               </div>
@@ -116,7 +118,7 @@ class ExploreDetailComponent extends React.Component {
                 <RelatedContent datasetID={dataset.id} />
               </div>
             </div>
-            <ExploreDetailFooter />
+            <ExploreDetailFooter showVizualizationLink={showVisualizationSection} />
           </Fragment>
         }
         {!metadata && !datasetLoading &&
