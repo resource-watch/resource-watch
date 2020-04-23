@@ -262,7 +262,7 @@ const WidgetCard = (props) => {
     return (
       <WidgetChart
         widget={widget}
-        mode={mode}
+        thumbnail={mode === 'thumbnail'}
       />
     );
   };

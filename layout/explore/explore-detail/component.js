@@ -45,7 +45,7 @@ class ExploreDetailComponent extends React.Component {
   }
 
   onSaveWidget = (widget) => {
-    console.log('onSaveWidget! ', widget);
+    // console.log('onSaveWidget! ', widget);
   }
 
   render() {

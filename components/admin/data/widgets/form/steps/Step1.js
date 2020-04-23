@@ -39,7 +39,7 @@ class Step1 extends Component {
     form: this.props.form,
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {    
     this.setState({
       form: {
         ...nextProps.form,
@@ -51,9 +51,7 @@ class Step1 extends Component {
   render() {
     const { id } = this.state;
     const { user, query } = this.props;
-    console.log('id', id, 'this.state.form.dataset', this.state.form.dataset);
     
-
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
 
@@ -171,16 +169,16 @@ class Step1 extends Component {
         </fieldset>
 
         {this.state.form.dataset &&
-            <WidgetEditor 
-              datasetId={this.state.form.dataset}
-              {...(id && { widgetId: id })}
-              application="rw"
-              onSave={this.props.onSave}
-              theme={DefaultTheme}
-              adapter={RwAdapter}
-              authenticated={true}
-              compact={false}
-            />
+          <WidgetEditor 
+            datasetId={this.state.form.dataset}
+            {...(id && { widgetId: id })}
+            application="rw"
+            onSave={this.props.onSave}
+            theme={DefaultTheme}
+            adapter={RwAdapter}
+            authenticated={true}
+            compact={false}
+          />
         }
       </fieldset>
     );

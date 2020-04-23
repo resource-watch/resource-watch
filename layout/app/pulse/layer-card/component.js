@@ -197,7 +197,7 @@ class LayerCardComponent extends PureComponent {
 
                 <WidgetChart
                   widget={widget}
-                  mode="thumbnail"
+                  thumbnail={true}
                 />
               </div>
             </div>

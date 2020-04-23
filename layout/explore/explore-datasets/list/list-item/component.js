@@ -59,7 +59,7 @@ class DatasetListItem extends React.Component {
     if (widget && !isWidgetMap && !isEmbedWidget) {
       return (
         <div className={classNameValue}>
-          <WidgetChart widget={widget} mode="thumbnail" />
+          <WidgetChart widget={widget} thumbnail={true} />
         </div>
       );
     } else if (layer || isWidgetMap) {

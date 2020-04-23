@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
 // Widget editor
 import Renderer from '@widget-editor/renderer'
@@ -12,7 +11,11 @@ import DatasetPlaceholderChart from '../placeholder-chart';
 class DatasetWidgetChart extends React.Component {
   static propTypes = {
     widget: PropTypes.object.isRequired,
-    mode: PropTypes.string.isRequired
+    thumbnail: PropTypes.bool
+  };
+
+  static defaultProps = {
+    thumbnail: false
   };
 
   constructor(props) {
@@ -44,22 +47,14 @@ class DatasetWidgetChart extends React.Component {
   }
 
   render() {
-    const { mode, widget } = this.props;
-
-    // const themeObj = mode === 'thumbnail' ? defaultThumbnailTheme : defaultTheme;
-    const classname = classnames({
-      'c-widget-chart': true,
-      [`-${mode}`]: mode === 'thumbnail'
-    });
+    const { thumbnail, widget } = this.props;
 
     if (this.state.error) {
       return <DatasetPlaceholderChart />;
     }
-
-    console.log('widget', widget);
     
     return (
-      <div className={classname}>
+      <div className="c-widget-chart">
 
         <Spinner
           isLoading={this.state.loading}
@@ -67,6 +62,7 @@ class DatasetWidgetChart extends React.Component {
         />
         <Renderer
           widgetConfig={widget.widgetConfig}
+          thumbnail={thumbnail}
         />
       </div>
     );

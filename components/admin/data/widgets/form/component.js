@@ -283,7 +283,7 @@ class WidgetForm extends PureComponent {
   }
 
   onWidgetSave = (data) => {
-    console.log('onWigetSave', data);
+    // console.log('onWigetSave', data);
     
   }
 
