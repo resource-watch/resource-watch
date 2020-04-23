@@ -49,8 +49,7 @@ class WidgetForm extends PureComponent {
     form: {
       ...STATE_DEFAULT.form,
       dataset: this.props.dataset
-    },
-    mode: 'editor'
+    }
   });
 
   UNSAFE_componentWillMount() {
@@ -107,10 +106,9 @@ class WidgetForm extends PureComponent {
    * UI EVENTS
    * - onSubmit
    * - onChange
-   * - handleModeChange
    */
   onSubmit = (event) => {
-    const { submitting, stepLength, step, form, mode, id } = this.state;
+    const { submitting, stepLength, step, form, id } = this.state;
     const { widgetEditor, authorization } = this.props;
     event.preventDefault();
 
@@ -119,7 +117,6 @@ class WidgetForm extends PureComponent {
 
     // Set a timeout due to the setState function of react
     setTimeout(async () => {
-      const widgetConfig = this.onGetWidgetConfig ? await this.getWidgetConfig() : {};
       // Validate all the inputs on the current step
       const validWidgetConfig = mode === 'editor' ? this.validateWidgetConfig() : true;
       const valid = FORM_ELEMENTS.isValid(step) && validWidgetConfig;
@@ -251,23 +248,6 @@ class WidgetForm extends PureComponent {
       });
   }
 
-  validateWidgetConfig() {
-    const { value, category, chartType, visualizationType, layer, embed } = this.props.widgetEditor;
-
-    switch (visualizationType) {
-      case 'chart':
-        return !!chartType && !!category && !!value;
-      case 'table':
-        return !!chartType && !!category && !!value;
-      case 'map':
-        return !!layer;
-      case 'embed':
-        return !!embed.src;
-      default:
-        return false;
-    }
-  }
-
   errorValidationWidgetConfig() {
     const { visualizationType } = this.props.widgetEditor;
 
@@ -289,20 +269,6 @@ class WidgetForm extends PureComponent {
       default:
         return false;
     }
-  }
-
-  handleModeChange = (value) => {
-    // We have to set the defaultEditableWidget to false if the mode has been changed
-    // to 'advanced'
-    const newForm =
-      value === 'advanced'
-        ? Object.assign({}, this.state.form, { defaultEditableWidget: false })
-        : this.state.form;
-
-    this.setState({
-      form: newForm,
-      mode: value
-    });
   }
 
   handleDelete = () => {
@@ -336,7 +302,6 @@ class WidgetForm extends PureComponent {
       form,
       partners,
       datasets,
-      mode
     } = this.state;
     const { newState } = this.props;
     return (
@@ -349,9 +314,7 @@ class WidgetForm extends PureComponent {
             form={form}
             partners={partners}
             datasets={datasets}
-            mode={mode}
             onChange={value => this.onChange(value)}
-            onModeChange={this.handleModeChange}
             showEditor={this.props.showEditor}
             onSave={this.onSave}
           />

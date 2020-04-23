@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 // Widget editor
-import { Renderer } from '@widget-editor/widget-editor';
+import Renderer from '@widget-editor/renderer'
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import DatasetPlaceholderChart from '../placeholder-chart';
-
-// const defaultTheme = getVegaTheme();
-// const defaultThumbnailTheme = getVegaTheme(true);
 
 class DatasetWidgetChart extends React.Component {
   static propTypes = {
@@ -71,16 +68,6 @@ class DatasetWidgetChart extends React.Component {
         <Renderer
           widgetConfig={widget.widgetConfig}
         />
-
-        {/* TO-DO: implement new approach  */}
-        {/* <VegaChart
-          data={widget.widgetConfig}
-          theme={themeObj}
-          showLegend={mode !== 'thumbnail'}
-          reloadOnResize
-          toggleLoading={this.triggerToggleLoading}
-          getForceUpdate={(func) => { this.forceChartUpdate = func; }}
-        /> */}
       </div>
     );
   }
