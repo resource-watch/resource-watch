@@ -33,7 +33,7 @@ const ExploreDetailContainer = (props) => {
       dispatch(setDatasetLoading(true));
       dispatch(setTagsLoading(true));
 
-      fetchDataset(datasetID, { includes: 'metadata,layer,vocabulary' })
+      fetchDataset(datasetID, { includes: 'metadata,layer,vocabulary,widget' })
         .then((data) => {
           dispatch(setDataset(data));
           dispatch(setDatasetLoading(false));

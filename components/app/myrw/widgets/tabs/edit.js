@@ -17,9 +17,15 @@ import {
 } from 'services/widget';
 import { fetchDataset } from 'services/dataset';
 
+// Widget Editor
+import WidgetEditor from '@widget-editor/widget-editor';
+import RwAdapter from '@widget-editor/rw-adapter';
+
+// Utils
+import DefaultTheme from 'utils/widgets/theme';
+
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'widget-editor';
 import Button from 'components/ui/Button';
 import Input from 'components/form/Input';
 import Field from 'components/form/Field';
@@ -152,9 +158,9 @@ class WidgetsEdit extends React.Component {
     if (this.form) this.form.querySelector('button[type="submit"]').click();
   }
 
-  onEditWidget(type, value) {
-    this.setState({ [type]: value });
-  }
+  // onEditWidget(type, value) {
+  //   this.setState({ [type]: value });
+  // }
 
   getWidgetConfig() {
     return this.onGetWidgetConfig()
@@ -180,7 +186,15 @@ class WidgetsEdit extends React.Component {
         />
         {widget &&
         <div>
-          <WidgetEditor
+          <WidgetEditor 
+            datasetId={datasetId}
+            widgetId={widget.id}
+            application="rw"
+            onSave={this.onSaveWidget}
+            theme={DefaultTheme}
+            adapter={RwAdapter}
+          />
+          {/* <WidgetEditor
             datasetId={datasetId}
             widgetId={widget.id}
             saveButtonMode="never"
@@ -189,7 +203,7 @@ class WidgetsEdit extends React.Component {
             provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
             onChangeWidgetTitle={name => this.onEditWidget('name', name)}
             onChangeWidgetCaption={capt => this.onEditWidget('caption', capt)}
-          />
+          /> */}
           <div className="form-container">
             <form ref={(node) => { this.form = node; }} className="form-container" onSubmit={this.onSubmit}>
               <fieldset className="c-field-container">

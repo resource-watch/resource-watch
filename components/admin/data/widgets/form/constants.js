@@ -43,15 +43,3 @@ export const FORM_ELEMENTS = {
     return valid;
   }
 };
-
-export const CONFIG_TEMPLATE = {
-  bar: bar({ templateMode: true }),
-  line: line({ templateMode: true }),
-  pie: pie({ templateMode: true })
-};
-
-export const CONFIG_TEMPLATE_OPTIONS = [
-  { label: 'Bar', value: 'bar' },
-  { label: 'Line', value: 'line' },
-  { label: 'Pie', value: 'pie' }
-];

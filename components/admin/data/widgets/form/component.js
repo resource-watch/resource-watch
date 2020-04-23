@@ -30,8 +30,6 @@ class WidgetForm extends PureComponent {
     authorization: PropTypes.string.isRequired,
     id: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
-    showEditor: PropTypes.bool,
-    widgetEditor: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
     newState: PropTypes.bool.isRequired,
     dataset: PropTypes.string
@@ -39,8 +37,7 @@ class WidgetForm extends PureComponent {
 
   static defaultProps = {
     id: null,
-    dataset: null,
-    showEditor: true
+    dataset: null
   };
 
   state = Object.assign({}, STATE_DEFAULT, {
@@ -49,8 +46,7 @@ class WidgetForm extends PureComponent {
     form: {
       ...STATE_DEFAULT.form,
       dataset: this.props.dataset
-    },
-    mode: 'editor'
+    }
   });
 
   UNSAFE_componentWillMount() {
@@ -76,17 +72,10 @@ class WidgetForm extends PureComponent {
         const datasets = response[0];
         const current = response[1];
 
-        // Set advanced mode if paramsConfig doesn't exist or if it's empty
-        const mode =
-          current &&
-          (!current.widgetConfig.paramsConfig || isEmpty(current.widgetConfig.paramsConfig))
-            ? 'advanced'
-            : 'editor';
         this.setState({
           // current widget
           form: id ? this.setFormFromParams(current) : this.state.form,
           loading: false,
-          mode,
           datasets: datasets.map(_dataset => ({
             label: _dataset.name,
             value: _dataset.id,
@@ -107,11 +96,10 @@ class WidgetForm extends PureComponent {
    * UI EVENTS
    * - onSubmit
    * - onChange
-   * - handleModeChange
    */
   onSubmit = (event) => {
-    const { submitting, stepLength, step, form, mode, id } = this.state;
-    const { widgetEditor, authorization } = this.props;
+    const { submitting, stepLength, step, form, id } = this.state;
+    const { authorization } = this.props;
     event.preventDefault();
 
     // Validate the form
@@ -119,7 +107,6 @@ class WidgetForm extends PureComponent {
 
     // Set a timeout due to the setState function of react
     setTimeout(async () => {
-      const widgetConfig = this.onGetWidgetConfig ? await this.getWidgetConfig() : {};
       // Validate all the inputs on the current step
       const validWidgetConfig = mode === 'editor' ? this.validateWidgetConfig() : true;
       const valid = FORM_ELEMENTS.isValid(step) && validWidgetConfig;
@@ -221,12 +208,6 @@ class WidgetForm extends PureComponent {
     return newForm;
   }
 
-  getWidgetConfig() {
-    return this.onGetWidgetConfig()
-      .then(widgetConfig => widgetConfig)
-      .catch(() => ({}));
-  }
-
   createWidget(widget) {
     const { onSubmit, dataset, authorization } = this.props;
     createWidgetService(widget, dataset, authorization)
@@ -257,23 +238,6 @@ class WidgetForm extends PureComponent {
       });
   }
 
-  validateWidgetConfig() {
-    const { value, category, chartType, visualizationType, layer, embed } = this.props.widgetEditor;
-
-    switch (visualizationType) {
-      case 'chart':
-        return !!chartType && !!category && !!value;
-      case 'table':
-        return !!chartType && !!category && !!value;
-      case 'map':
-        return !!layer;
-      case 'embed':
-        return !!embed.src;
-      default:
-        return false;
-    }
-  }
-
   errorValidationWidgetConfig() {
     const { visualizationType } = this.props.widgetEditor;
 
@@ -297,20 +261,6 @@ class WidgetForm extends PureComponent {
     }
   }
 
-  handleModeChange = (value) => {
-    // We have to set the defaultEditableWidget to false if the mode has been changed
-    // to 'advanced'
-    const newForm =
-      value === 'advanced'
-        ? Object.assign({}, this.state.form, { defaultEditableWidget: false })
-        : this.state.form;
-
-    this.setState({
-      form: newForm,
-      mode: value
-    });
-  }
-
   handleDelete = () => {
     const { form: { name, dataset, id } } = this.state;
     const { authorization } = this.props;
@@ -332,6 +282,11 @@ class WidgetForm extends PureComponent {
     });
   }
 
+  onWidgetSave = (data) => {
+    // console.log('onWigetSave', data);
+    
+  }
+
   render() {
     const {
       submitting,
@@ -342,37 +297,19 @@ class WidgetForm extends PureComponent {
       form,
       partners,
       datasets,
-      mode
     } = this.state;
     const { newState } = this.props;
     return (
-      <form className="c-form c-widgets-form" onSubmit={this.onSubmit} noValidate>
+      <form className="c-form c-widgets-form" noValidate>
         <Spinner isLoading={loading} className="-light" />
-
         {step === 1 && !loading && (
           <Step1
             id={id}
             form={form}
             partners={partners}
             datasets={datasets}
-            mode={mode}
             onChange={value => this.onChange(value)}
-            onModeChange={this.handleModeChange}
-            showEditor={this.props.showEditor}
-            onGetWidgetConfig={(func) => {
-              this.onGetWidgetConfig = func;
-            }}
-          />
-        )}
-
-        {!loading && (
-          <Navigation
-            step={step}
-            stepLength={stepLength}
-            submitting={submitting}
-            onStepChange={this.onStepChange}
-            showDelete={!newState}
-            onDelete={this.handleDelete}
+            onSave={this.onWidgetSave}
           />
         )}
       </form>
