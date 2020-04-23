@@ -42,14 +42,14 @@ class Step1 extends Component {
     form: this.props.form,
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({
-      form: {
-        ...nextProps.form,
-        dataset: nextProps.form.dataset || nextProps.query.dataset
-      }
-    });
-  }
+  // UNSAFE_componentWillReceiveProps(nextProps) {
+  //   this.setState({
+  //     form: {
+  //       ...nextProps.form,
+  //       dataset: nextProps.form.dataset || nextProps.query.dataset
+  //     }
+  //   });
+  // }
 
   render() {
     const { id } = this.state;
