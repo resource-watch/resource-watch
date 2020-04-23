@@ -42,18 +42,20 @@ class Step1 extends Component {
     form: this.props.form,
   };
 
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   this.setState({
-  //     form: {
-  //       ...nextProps.form,
-  //       dataset: nextProps.form.dataset || nextProps.query.dataset
-  //     }
-  //   });
-  // }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.setState({
+      form: {
+        ...nextProps.form,
+        dataset: nextProps.form.dataset || nextProps.query.dataset
+      }
+    });
+  }
 
   render() {
     const { id } = this.state;
     const { user, showEditor, query } = this.props;
+    console.log('id', id);
+    
 
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
@@ -174,7 +176,7 @@ class Step1 extends Component {
         {this.state.form.dataset && showEditor &&
             <WidgetEditor 
               datasetId={this.state.form.dataset}
-              {...(this.props.id && { widgetId: this.props.id })}
+              {...(id && { widgetId: id })}
               application="rw"
               onSave={this.props.onSave}
               theme={DefaultTheme}

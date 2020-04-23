@@ -31,7 +31,6 @@ class WidgetForm extends PureComponent {
     id: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
     showEditor: PropTypes.bool,
-    widgetEditor: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
     newState: PropTypes.bool.isRequired,
     dataset: PropTypes.string
@@ -109,7 +108,7 @@ class WidgetForm extends PureComponent {
    */
   onSubmit = (event) => {
     const { submitting, stepLength, step, form, id } = this.state;
-    const { widgetEditor, authorization } = this.props;
+    const { authorization } = this.props;
     event.preventDefault();
 
     // Validate the form
@@ -292,6 +291,11 @@ class WidgetForm extends PureComponent {
     });
   }
 
+  onWidgetSave = (data) => {
+    console.log('onWigetSave', data);
+    
+  }
+
   render() {
     const {
       submitting,
@@ -316,7 +320,7 @@ class WidgetForm extends PureComponent {
             datasets={datasets}
             onChange={value => this.onChange(value)}
             showEditor={this.props.showEditor}
-            onSave={this.onSave}
+            onSave={this.onWidgetSave}
           />
         )}
 
