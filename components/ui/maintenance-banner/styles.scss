@@ -1,0 +1,18 @@
+@import 'css/settings';
+
+.c-maintenance-banner {
+  display: flex;
+  align-items: center;
+  padding: $space-1 0;
+  background-color: $charcoal-grey;
+  color: $white;
+
+  @media screen and (min-width: map-get($breakpoints, large)) {
+    max-height: 70px;
+  }
+
+  a {
+    color: $white;
+    text-decoration: underline;
+  }
+}
