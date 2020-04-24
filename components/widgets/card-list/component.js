@@ -18,7 +18,8 @@ const WidgetCardList = (props) => {
     mode,
     className,
     onWidgetClick,
-    onWidgetRemove
+    onWidgetRemove,
+    thumbnail
   } = props;
 
   const componentClass = classnames({
@@ -58,6 +59,7 @@ const WidgetCardList = (props) => {
                       showRemove={showRemove}
                       showEmbed={showEmbed}
                       mode={mode}
+                      thumbnail={thumbnail}
                     />
                   )}
                 </div>

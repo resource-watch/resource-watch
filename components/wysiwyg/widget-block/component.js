@@ -2,7 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import { VegaChart, getVegaTheme } from 'widget-editor';
+import Renderer from '@widget-editor/renderer';
+
 import {
   Tooltip,
   Legend,
@@ -36,7 +37,7 @@ import { logEvent } from 'utils/analytics';
 // styles
 import './styles.scss';
 
-const defaultTheme = getVegaTheme();
+// const defaultTheme = getVegaTheme();
 
 class WidgetBlock extends PureComponent {
   static propTypes = {
@@ -278,12 +279,7 @@ class WidgetBlock extends PureComponent {
           }
 
           {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget &&
-            <VegaChart
-              data={widget.widgetConfig}
-              theme={defaultTheme}
-              toggleLoading={loading => onToggleLoading(loading)}
-              reloadOnResize
-            />
+            <Renderer widgetConfig={widget.widgetConfig} />
           }
 
           {widgetIsEmbed &&

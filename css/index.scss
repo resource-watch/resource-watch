@@ -8,7 +8,6 @@
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/react-redux-toastr/src/styles/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
-@import '../node_modules/widget-editor/dist/styles.min';
 @import '../node_modules/vizzuality-components/dist/bundle';
 
 
@@ -201,7 +200,6 @@
 
 // PAGES
 @import "./components/app/pages/explore";
-@import "./components/app/pages/explore_detail";
 @import "./components/app/pages/submit_insight";
 @import "./components/app/pages/partner_detail";
 @import "./components/app/pages/getInvolved";
