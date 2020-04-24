@@ -48,6 +48,8 @@ class DatasetWidgetChart extends React.Component {
 
   render() {
     const { thumbnail, widget } = this.props;
+    console.log('widget.name', widget.name, 'thumbnail', thumbnail);
+    
 
     if (this.state.error) {
       return <DatasetPlaceholderChart />;

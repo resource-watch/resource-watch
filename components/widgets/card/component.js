@@ -50,7 +50,8 @@ const WidgetCard = (props) => {
     limitChar,
     showActions,
     showEmbed,
-    showRemove
+    showRemove,
+    thumbnail
   } = props;
 
   const [state, dispatch] = useReducer(REDUCER, INITIAL_STATE);
@@ -262,7 +263,7 @@ const WidgetCard = (props) => {
     return (
       <WidgetChart
         widget={widget}
-        thumbnail={mode === 'thumbnail'}
+        thumbnail={thumbnail}
       />
     );
   };
@@ -390,14 +391,16 @@ WidgetCard.propTypes = {
   limitChar: PropTypes.number,
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired
+  setModalOptions: PropTypes.func.isRequired,
+  thumbnail: PropTypes.bool
 };
 
 WidgetCard.defaultProps = {
   showActions: false,
   showRemove: false,
   limitChar: 70,
-  showEmbed: false
+  showEmbed: false,
+  thumbnail: false
 };
 
 export default WidgetCard;
