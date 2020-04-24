@@ -12,14 +12,10 @@ export const STATE_DEFAULT = {
   form: {
     // STEP 1
     application: [process.env.APPLICATIONS],
-    name: '',
-    queryUrl: '',
-    description: '',
     dataset: null,
     source: '',
     sourceUrl: '',
     authors: '',
-    widgetConfig: {},
     default: false,
     published: false
   }

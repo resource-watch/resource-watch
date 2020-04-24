@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from 'react-fast-compare';
 import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
 
 // components
-import Navigation from 'components/form/Navigation';
 import Step1 from 'components/admin/data/widgets/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
@@ -31,7 +29,6 @@ class WidgetForm extends PureComponent {
     id: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    newState: PropTypes.bool.isRequired,
     dataset: PropTypes.string
   };
 
@@ -92,7 +89,7 @@ class WidgetForm extends PureComponent {
       });
   }
 
-  
+
   onWidgetSave = (widget) => {
     const { step, form, id } = this.state;
     const { authorization } = this.props;
@@ -101,62 +98,64 @@ class WidgetForm extends PureComponent {
     FORM_ELEMENTS.validate(step);
 
     const valid = FORM_ELEMENTS.isValid(step);
-      if (valid) {
-        this.setState({ loading: true });
-        const formObj = { ...form, widget };
+    if (valid) {
+      this.setState({ loading: true });
 
-        if (formObj.sourceUrl === '') {
-          delete formObj.sourceUrl;
-        }
+      const formObj = { ...widget, ...form };
 
-        // The widget has to be "frozen" first
-        if (formObj.freeze && widgetConfig.paramsConfig.visualizationType === 'chart') {
-          const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
-          const tempBand = formObj.widgetConfig.paramsConfig
-            ? formObj.widgetConfig.paramsConfig.band
-            : null;
-          getDataURL(
-            datasetObj.value,
-            datasetObj.type,
-            datasetObj.tableName,
-            tempBand,
-            datasetObj.provider,
-            getChartInfo(datasetObj.value, datasetObj.type, datasetObj.provider, widgetEditor),
-            false,
-            datasetObj.slug
-          ).then((dataURL) => {
-            const sqlSt = dataURL.split('sql=')[1];
-
-            fetchQuery(authorization, sqlSt, { freeze: true }).then((resp) => {
-              const { url } = resp;
-              formObj.queryUrl = url;
-              formObj.widgetConfig.data = [
-                {
-                  format: {
-                    property: 'data',
-                    type: 'json'
-                  },
-                  name: 'table',
-                  url
-                }
-              ];
-
-              if (id) {
-                this.updateWidget(formObj);
-              } else {
-                this.createWidget(formObj);
-              }
-            });
-          });
-        } else if (id) {
-          this.updateWidget(formObj);
-        } else {
-          this.createWidget(formObj);
-        }
-      } else {
-        toastr.error('Error', 'Fill all the required fields or correct the invalid values');
+      if (formObj.sourceUrl === '') {
+        delete formObj.sourceUrl;
       }
-    
+
+      // The widget has to be "frozen" first
+      // TO-DO: review this
+      // if (formObj.freeze && widgetConfig.paramsConfig.visualizationType === 'chart') {
+      //   const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
+      //   const tempBand = formObj.widgetConfig.paramsConfig
+      //     ? formObj.widgetConfig.paramsConfig.band
+      //     : null;
+      //   getDataURL(
+      //     datasetObj.value,
+      //     datasetObj.type,
+      //     datasetObj.tableName,
+      //     tempBand,
+      //     datasetObj.provider,
+      //     getChartInfo(datasetObj.value, datasetObj.type, datasetObj.provider, widgetEditor),
+      //     false,
+      //     datasetObj.slug
+      //   ).then((dataURL) => {
+      //     const sqlSt = dataURL.split('sql=')[1];
+
+      //     fetchQuery(authorization, sqlSt, { freeze: true }).then((resp) => {
+      //       const { url } = resp;
+      //       formObj.queryUrl = url;
+      //       formObj.widgetConfig.data = [
+      //         {
+      //           format: {
+      //             property: 'data',
+      //             type: 'json'
+      //           },
+      //           name: 'table',
+      //           url
+      //         }
+      //       ];
+
+      //       if (id) {
+      //         this.updateWidget(formObj);
+      //       } else {
+      //         this.createWidget(formObj);
+      //       }
+      //     });
+      //   });
+      // } else 
+      if (id) {
+        this.updateWidget(formObj);
+      } else {
+        this.createWidget(formObj);
+      }
+    } else {
+      toastr.error('Error', 'Fill all the required fields or correct the invalid values');
+    }
   }
 
   /**
@@ -193,7 +192,8 @@ class WidgetForm extends PureComponent {
   }
 
   createWidget(widget) {
-    const { onSubmit, dataset, authorization } = this.props;
+    const { onSubmit, authorization } = this.props;
+    const { form: { dataset } } = this.state;
     createWidgetService(widget, dataset, authorization)
       .then((response) => {
         const { id, name } = response;
@@ -249,7 +249,7 @@ class WidgetForm extends PureComponent {
       loading,
       id,
       form,
-      datasets,
+      datasets
     } = this.state;
     return (
       <form className="c-form c-widgets-form" noValidate>
