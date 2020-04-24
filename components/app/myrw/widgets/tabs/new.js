@@ -25,25 +25,6 @@ import Select from 'components/form/SelectInput';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-const FORM_ELEMENTS = {
-  elements: { },
-  validate() {
-    const elements = this.elements;
-    Object.keys(this.elements).forEach((k) => {
-      elements[k].validate();
-    });
-  },
-  isValid() {
-    const elements = this.elements;
-    const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
-
-    return valid;
-  }
-};
-
 class WidgetsNew extends React.Component {
   static propTypes = {
     dataset: PropTypes.string,
@@ -72,7 +53,9 @@ class WidgetsNew extends React.Component {
     // of array type
     const newWidget = {
       ...data,
-      application: process.env.APPLICATIONS.split(',')
+      published: false,
+      application: process.env.APPLICATIONS.split(','),
+      env: process.env.API_ENV
     };
 
     logEvent('My RW', 'User creates new widget', this.state.datasets.find(d => d.id === this.state.selectedDataset).label);
@@ -177,6 +160,7 @@ class WidgetsNew extends React.Component {
               theme={DefaultTheme}
               adapter={RwAdapter}
               authenticated
+              disable={['advanced-editor']}
             />
           </div>
         }

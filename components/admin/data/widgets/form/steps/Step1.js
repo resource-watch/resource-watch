@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import WidgetEditor from '@widget-editor/widget-editor';
-import Renderer from '@widget-editor/renderer';
 import RwAdapter from '@widget-editor/rw-adapter';
 
 // Redux
 import { connect } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
 
 // Constants
 import { FORM_ELEMENTS } from 'components/admin/data/widgets/form/constants';
 
 // Components
 import Field from 'components/form/Field';
-import Input from 'components/form/Input';
-import TextArea from 'components/form/TextArea';
 import Select from 'components/form/SelectInput';
 import Checkbox from 'components/form/Checkbox';
-import Spinner from 'components/ui/Spinner';
 
 // Utils
 import DefaultTheme from 'utils/widgets/theme';
@@ -155,7 +149,9 @@ class Step1 extends Component {
                 label: this.props.id ? '' : 'Do you want to freeze this widget?',
                 value: 'freeze',
                 title: 'Freeze',
-                checked: this.props.form.freeze
+                checked: this.props.form.freeze,
+                // Temporarily disabled --> we need to review the implementation
+                disabled: true
               }}
             >
               {Checkbox}

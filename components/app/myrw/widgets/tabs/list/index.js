@@ -99,6 +99,7 @@ const WidgetListTabContainer = (props) => {
         dispatch(setPagination({ page: 1 }));
       }, 300)}
       handleRefresh={() => { getWidgets(); }}
+      thumbnail={true}
     />);
 };
 
