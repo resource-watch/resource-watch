@@ -72,7 +72,9 @@ class WidgetsNew extends React.Component {
     // of array type
     const newWidget = {
       ...data,
-      application: process.env.APPLICATIONS.split(',')
+      published: false,
+      application: process.env.APPLICATIONS.split(','),
+      env: process.env.API_ENV
     };
 
     logEvent('My RW', 'User creates new widget', this.state.datasets.find(d => d.id === this.state.selectedDataset).label);

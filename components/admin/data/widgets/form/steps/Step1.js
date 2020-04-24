@@ -155,7 +155,9 @@ class Step1 extends Component {
                 label: this.props.id ? '' : 'Do you want to freeze this widget?',
                 value: 'freeze',
                 title: 'Freeze',
-                checked: this.props.form.freeze
+                checked: this.props.form.freeze,
+                // Temporarily disabled --> we need to review the implementation
+                disabled: true
               }}
             >
               {Checkbox}
