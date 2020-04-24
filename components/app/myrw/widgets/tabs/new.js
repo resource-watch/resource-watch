@@ -25,25 +25,6 @@ import Select from 'components/form/SelectInput';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-const FORM_ELEMENTS = {
-  elements: { },
-  validate() {
-    const elements = this.elements;
-    Object.keys(this.elements).forEach((k) => {
-      elements[k].validate();
-    });
-  },
-  isValid() {
-    const elements = this.elements;
-    const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
-
-    return valid;
-  }
-};
-
 class WidgetsNew extends React.Component {
   static propTypes = {
     dataset: PropTypes.string,
@@ -179,6 +160,7 @@ class WidgetsNew extends React.Component {
               theme={DefaultTheme}
               adapter={RwAdapter}
               authenticated
+              disable={['advanced-editor']}
             />
           </div>
         }
