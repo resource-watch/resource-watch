@@ -10,7 +10,7 @@ const MaintenanceBanner = ({ timeText, handleMaintenanceBanner }) => (
       <div className="row">
         <div className="column small-9 medium-10">
             Resource Watch will be undergoing a bit of scheduled maintenance on {timeText} and some functionality may be
-            limited during that perior of time. Thanks for your patience!
+            limited during that period of time. Thanks for your patience!
         </div>
         <div className="column small-3 medium-2">
           <div className="c-button-container -j-end -a-center -full-height">
