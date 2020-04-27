@@ -1,17 +1,12 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-// Widget Editor
-import WidgetEditor from '@widget-editor/widget-editor';
-import RwAdapter from '@widget-editor/rw-adapter';
-
 // Components
 import Spinner from 'components/ui/Spinner';
 import ReadMore from 'components/ui/read-more';
 
 // Utils
 import { getDateConsideringTimeZone } from 'utils/utils';
-import DefaultTheme from 'utils/widgets/theme';
 
 // Explore detail components
 import ExploreDetailHeader from './explore-detail-header';
@@ -21,6 +16,7 @@ import ExploreDetailButtons from './explore-detail-buttons';
 import ExploreDetailTags from './explore-detail-tags';
 import DatasetLayers from './dataset-layers';
 import RelatedContent from './related-content';
+import ExploreDetailVisualization from './explore-detail-visualization';
 
 // Constants
 import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from './constants';
@@ -44,10 +40,6 @@ class ExploreDetailComponent extends React.Component {
     this.props.setSidebarAnchor(null);
   }
 
-  onSaveWidget = (widget) => {
-    // console.log('onSaveWidget! ', widget);
-  }
-
   render() {
     const { dataset, datasetLoading, tags } = this.props;
     const metadata = dataset && dataset.metadata &&
@@ -57,8 +49,8 @@ class ExploreDetailComponent extends React.Component {
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
     const defaultWidget = dataset && dataset.widget && dataset.widget.find(w => w.default === 'true');
     const showVisualizationSection = dataset && dataset.type !== 'raster';
-    
-        
+
+
     return (
       <div className="c-explore-detail">
         <Spinner isLoading={datasetLoading} className="-light" />
@@ -98,17 +90,10 @@ class ExploreDetailComponent extends React.Component {
               </div>
               { showVisualizationSection &&
                 <div id="visualization" className="metadata-section">
-                  <h3>Customize visualization</h3>
-                    <WidgetEditor 
-                      datasetId={dataset.id}
-                      {...(defaultWidget && { widgetId: defaultWidget.id })}
-                      compact={true}
-                      application="rw"
-                      onSave={this.onSaveWidget}
-                      theme={DefaultTheme}
-                      adapter={RwAdapter}
-                      disable={['theme-selection', 'advanced-editor', 'map']}
-                    />
+                  <ExploreDetailVisualization
+                    datasetId={dataset.id}
+                    widgetId={defaultWidget && defaultWidget.id}
+                  />
                 </div>
               }
               <div id="further_information" className="metadata-section">
