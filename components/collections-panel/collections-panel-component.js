@@ -7,6 +7,9 @@ import CollectionPanelItem from './collections-panel-item/collections-panel-item
 // constants
 import { FAVOURITES_COLLECTION } from './collections-panel-constants';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 class CollectionsPanel extends PureComponent {
   static propTypes = {
     collections: PropTypes.array,
@@ -19,7 +22,8 @@ class CollectionsPanel extends PureComponent {
     toggleFavourite: PropTypes.func,
     resourceType: PropTypes.oneOf(['dataset', 'layer', 'widget']).isRequired,
     onClick: PropTypes.func,
-    onKeyPress: PropTypes.func
+    onKeyPress: PropTypes.func,
+    context: PropTypes.string
   };
 
   static defaultProps = {
@@ -32,7 +36,8 @@ class CollectionsPanel extends PureComponent {
     toggleCollection: () => {},
     toggleFavourite: () => {},
     onClick: null,
-    onKeyPress: null
+    onKeyPress: null,
+    context: ''
   };
 
   state = { newCollectionName: null };
@@ -53,7 +58,7 @@ class CollectionsPanel extends PureComponent {
   };
 
   onToggleFavourite = () => {
-    const { toggleFavourite, favourites, resource, resourceType } = this.props;
+    const { toggleFavourite, favourites, resource, resourceType, context } = this.props;
     const favourite = favourites.find(fav => fav.resourceId === resource.id) || {};
     toggleFavourite({
       favourite,
@@ -62,15 +67,33 @@ class CollectionsPanel extends PureComponent {
         resourceType
       }
     });
+    if (context && resourceType === 'dataset') {
+      const datasetName = resource && resource.metadata && resource.metadata[0] &&
+        resource.metadata[0].info && resource.metadata[0].info.name;      
+      if (Object.keys(favourite).length > 0) {
+        logEvent(context, 'Remove dataset from favorites', datasetName);
+      } else {
+        logEvent(context, 'Add dataset to favorites', datasetName);
+      }
+    }
   };
 
   onToggleCollection = (isAdded, collection) => {
-    const { toggleCollection, resource, resourceType } = this.props;
+    const { toggleCollection, resource, resourceType, context } = this.props;    
     toggleCollection({
       isAdded,
       collectionId: collection.id,
       resource: { id: resource.id, type: resourceType }
     });
+    if (context && resourceType === 'dataset') {
+      const datasetName = resource && resource.metadata && resource.metadata[0] &&
+        resource.metadata[0].info && resource.metadata[0].info.name;      
+      if (!isAdded) {
+        logEvent(context, 'Remove dataset from a collection', datasetName);
+      } else {
+        logEvent(context, 'Add dataset to a collection', datasetName);
+      }
+    }
   };
 
   hanldeKeyPress = (evt) => {

@@ -19,10 +19,12 @@ import { logEvent } from 'utils/analytics';
 import './styles.scss';
 
 function ExploreDetailHeaderComponent(props) {
-  const { dataset, setSelectedDataset } = props;
+  const { dataset, setSelectedDataset, userIsLoggedIn } = props;
   const [showShareModal, setShowShareModal] = useState(false);
   const location = typeof window !== 'undefined' && window.location;
-
+  const datasetName = dataset && dataset.metadata && dataset.metadata[0] &&
+      dataset.metadata[0].info && dataset.metadata[0].info.name;
+  
   return (
     <div className="c-explore-detail-header">
       <button
@@ -34,12 +36,19 @@ function ExploreDetailHeaderComponent(props) {
       </button>
       <div className="right-buttons">
         {/* Collections tooltip */}
-        <LoginRequired>
+        <LoginRequired
+          clickCallback={() => {
+            if (!userIsLoggedIn) {
+              logEvent('Explore (Detail)', 'Anonymous user Clicks Save', datasetName);
+            }
+          }}
+        >
           <Tooltip
             overlay={
               <CollectionsPanel
                 resource={dataset}
                 resourceType="dataset"
+                context="Explore (Detail)"
               />
             }
             overlayClassName="c-rc-tooltip"
@@ -48,7 +57,14 @@ function ExploreDetailHeaderComponent(props) {
             getTooltipContainer={getTooltipContainer}
             monitorWindowResize
           >
-            <button className="c-btn -secondary -compressed -fs-tiny" >
+            <button
+              className="c-btn -secondary -compressed -fs-tiny" 
+              onClick={() => {
+                if (userIsLoggedIn) {
+                  logEvent('Explore (Detail)', 'Authenticated user Clicks Save', datasetName);
+                }
+              }}
+            >
               <Icon className="-small" name="icon-star-full" />
               <span>SAVE</span>
             </button>
@@ -87,6 +103,7 @@ function ExploreDetailHeaderComponent(props) {
 
 ExploreDetailHeaderComponent.propTypes = {
   dataset: PropTypes.object.isRequired,
+  userIsLoggedIn: PropTypes.bool.isRequired,
   // Store
   setSelectedDataset: PropTypes.func.isRequired
 };

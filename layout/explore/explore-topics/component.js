@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 import { TOPICS } from './constants';
@@ -18,6 +21,7 @@ function ExploreTopicsComponent(props) {
     props.setDatasetsPage(1);
     props.fetchDatasets();
     props.setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
+    logEvent('Explore Menu', 'Select Topic', id);
   };
 
   return (

@@ -5,6 +5,8 @@ import * as actions from 'layout/explore/actions';
 import ExploreDetailHeaderComponent from './component';
 
 export default connect(
-  null,
+  (state) => ({
+    userIsLoggedIn: !!state.user.token
+  }),
   actions
 )(ExploreDetailHeaderComponent);

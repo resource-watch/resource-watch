@@ -79,7 +79,7 @@ function ExploreDetailButtons(props) {
               rel="noopener noreferrer"
               href={info.learn_more_link}
               onClick={() => {
-                logEvent('Explore', 'Click to data provider', props.dataset.provider);
+                logEvent('Explore', 'Click to data provider', getLabel(props.dataset));
               }}
             >
               <div className="explore-detail-button">

@@ -6,6 +6,9 @@ import ReactMarkdown from 'react-markdown';
 // Constants
 import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from 'layout/explore/explore-detail/constants';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Styles
 import './styles.scss';
 
@@ -39,6 +42,7 @@ function FurtherInformationComponent(props) {
             markdown
             text={cautions}
             limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS}
+            readMoreClicked={() => logEvent('Explore (Detail)', 'Clicks Read More', 'cautions')}
           />
         </div>
             )}
@@ -49,6 +53,7 @@ function FurtherInformationComponent(props) {
             markdown
             text={citation}
             limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS}
+            readMoreClicked={() => logEvent('Explore (Detail)', 'Clicks Read More', 'citation')}
           />
         </div>
       )}

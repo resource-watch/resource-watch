@@ -2,6 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { Tooltip } from 'vizzuality-components';
+
+// Utils
+import { logEvent } from 'utils/analytics';
 import { getTooltipContainer } from 'utils/tooltip';
 
 // Components
@@ -35,6 +38,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
     }
     setSortIsUserSelected();
     fetchDatasets();
+    logEvent('Explore Menu', 'Change Sort Option', selected);
   }
 
   onSortDirection = () => {

@@ -7,6 +7,7 @@ import ReadMore from 'components/ui/read-more';
 
 // Utils
 import { getDateConsideringTimeZone } from 'utils/utils';
+import { logEvent } from 'utils/analytics';
 
 // Explore detail components
 import ExploreDetailHeader from './explore-detail-header';
@@ -79,6 +80,7 @@ class ExploreDetailComponent extends React.Component {
                     markdown
                     text={metadata.description}
                     limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS}
+                    readMoreClicked={() => logEvent('Explore (Detail)', 'Clicks Read More', 'description')}
                   />
                 </div>
                 {tags && tags.length && tags.length > 0 &&
