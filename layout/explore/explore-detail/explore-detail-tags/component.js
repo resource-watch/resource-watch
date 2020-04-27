@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
@@ -25,7 +28,6 @@ function ExploreDetailTags(props) {
     return { key: keySt, list: [id] };
   };
 
-
   return (
     <div className="c-explore-detail-tags">
       <div className="title">
@@ -41,6 +43,7 @@ function ExploreDetailTags(props) {
               props.setFiltersSelected(getFilterObject(tag));
               props.setDatasetsPage(1);
               props.fetchDatasets();
+              logEvent('Explore (Detail)', 'Clicks Tag', tag.id);
             }}
           >
             {tag.label}

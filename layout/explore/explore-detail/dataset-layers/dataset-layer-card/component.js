@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Styles
 import './styles.scss';
 
@@ -37,12 +40,14 @@ function DatasetLayerCard(props) {
           className={layerButtonClassname}
           onClick={() => {
             if (!layerIsActive) {
+              logEvent('Explore (Detail)', 'Show Layer', `${name} [${id}]`);
               if (!layerGroup) {
                 toggleMapLayerGroup({ dataset, toggle: true });
               }
               setMapLayerGroupActive({ dataset: { id: dataset.id }, active: id });
             } else {
               toggleMapLayerGroup({ dataset: { id: dataset.id }, toggle: false });
+              logEvent('Explore (Detail)', 'Hide Layer', `${name} [${id}]`);
             }
           }}
         >

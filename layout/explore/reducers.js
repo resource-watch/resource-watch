@@ -198,7 +198,8 @@ export default {
         layers: _layers.map(l => ({ ...l, active: l.default }))
       });
       if (layerGroups[0].layers.length) {
-        logEvent('Explore Map', 'Add layer', layerGroups[0].layers[0].name);
+        logEvent('Explore Map', 'Add layer', 
+          `${layerGroups[0].layers[0].name} [${layerGroups[0].layers[0].id}]`);
       }
     } else {
       const index = layerGroups.findIndex(l => l.dataset === dataset.id);

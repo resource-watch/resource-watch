@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // Styles
 import './styles.scss';
 
@@ -13,16 +16,28 @@ function ExploreDetailFooterComponent(props) {
   return (
     <div className="c-explore-detail-footer">
       <a
-        onClick={() => setSidebarAnchor('overview')}
-        onKeyPress={() => setSidebarAnchor('overview')}
+        onClick={() => {
+          setSidebarAnchor('overview');
+          logEvent('Explore (Detail)', 'Clicks to Scroll', 'Overview');
+        }}
+        onKeyPress={() => {
+          setSidebarAnchor('overview');
+          logEvent('Explore (Detail)', 'Clicks to Scroll', 'Overview');
+        }}
         role="button"
         tabIndex={0}
       >
              OVERVIEW
       </a>
       <a
-        onClick={() => setSidebarAnchor('layers')}
-        onKeyPress={() => setSidebarAnchor('layers')}
+        onClick={() => {
+          setSidebarAnchor('layers');
+          logEvent('Explore (Detail)', 'Clicks to Scroll', 'Layers');
+        }}
+        onKeyPress={() => {
+          setSidebarAnchor('layers');
+          logEvent('Explore (Detail)', 'Clicks to Scroll', 'Layers');
+        }}
         role="button"
         tabIndex={0}
       >
@@ -30,8 +45,14 @@ function ExploreDetailFooterComponent(props) {
       </a>
       {showVizualizationLink &&
         <a
-          onClick={() => setSidebarAnchor('visualization')}
-          onKeyPress={() => setSidebarAnchor('visualization')}
+          onClick={() => {
+            setSidebarAnchor('visualization');
+            logEvent('Explore (Detail)', 'Clicks to Scroll', 'Visualization');
+          }}
+          onKeyPress={() => {
+            setSidebarAnchor('visualization');
+            logEvent('Explore (Detail)', 'Clicks to Scroll', 'Visualization');
+          }}
           role="button"
           tabIndex={0}
         >
@@ -39,8 +60,14 @@ function ExploreDetailFooterComponent(props) {
         </a>
       }
       <a
-        onClick={() => setSidebarAnchor('further_information')}
-        onKeyPress={() => setSidebarAnchor('further_information')}
+        onClick={() => {
+          setSidebarAnchor('further_information');
+          logEvent('Explore (Detail)', 'Clicks to Scroll', 'Further information');
+        }}
+        onKeyPress={() => {
+          setSidebarAnchor('further_information');
+          logEvent('Explore (Detail)', 'Clicks to Scroll', 'Further information');
+        }}
         role="button"
         tabIndex={0}
       >
