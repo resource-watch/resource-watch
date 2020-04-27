@@ -32,8 +32,11 @@ class MyRWWidgets extends PureComponent {
     handleDisplay: PropTypes.func.isRequired,
     handlePageChange: PropTypes.func.isRequired,
     handleWidgetRemoved: PropTypes.func.isRequired,
-    handleRefresh: PropTypes.func.isRequired
+    handleRefresh: PropTypes.func.isRequired,
+    thumbnail: PropTypes.bool
   };
+
+  static defaultProps = { thumbnail: false };
 
   render() {
     const {
@@ -49,7 +52,8 @@ class MyRWWidgets extends PureComponent {
       handleSearch,
       handleSortChange,
       handleWidgetRemoved,
-      handleRefresh
+      handleRefresh,
+      thumbnail
     } = this.props;
     const { page, size, limit, pages } = pagination;
     const sortIcon = classnames({
@@ -144,6 +148,7 @@ class MyRWWidgets extends PureComponent {
                           onWidgetRemove={handleWidgetRemoved}
                           showActions
                           showRemove
+                          thumbnail={thumbnail}
                         />)}
                       {(pages > 1) && (
                         <Paginator

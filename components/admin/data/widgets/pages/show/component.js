@@ -49,7 +49,6 @@ class WidgetsShow extends PureComponent {
               (<WidgetForm
                 id={id}
                 authorization={token}
-                showEditor
                 onSubmit={this.handleSubmit}
               />)}
 

@@ -8,7 +8,10 @@ import { logEvent } from 'utils/analytics';
 import './styles.scss';
 
 function ExploreDetailFooterComponent(props) {
-  const { setSidebarAnchor } = props;
+  const {
+    setSidebarAnchor,
+    showVizualizationLink
+  } = props;
 
   return (
     <div className="c-explore-detail-footer">
@@ -40,20 +43,22 @@ function ExploreDetailFooterComponent(props) {
       >
              LAYERS
       </a>
-      <a
-        onClick={() => {
-          setSidebarAnchor('visualization');
-          logEvent('Explore (Detail)', 'Clicks to Scroll', 'Visualization');
-        }}
-        onKeyPress={() => {
-          setSidebarAnchor('visualization');
-          logEvent('Explore (Detail)', 'Clicks to Scroll', 'Visualization');
-        }}
-        role="button"
-        tabIndex={0}
-      >
-             VISUALIZATION
-      </a>
+      {showVizualizationLink &&
+        <a
+          onClick={() => {
+            setSidebarAnchor('visualization');
+            logEvent('Explore (Detail)', 'Clicks to Scroll', 'Visualization');
+          }}
+          onKeyPress={() => {
+            setSidebarAnchor('visualization');
+            logEvent('Explore (Detail)', 'Clicks to Scroll', 'Visualization');
+          }}
+          role="button"
+          tabIndex={0}
+        >
+              VISUALIZATION
+        </a>
+      }
       <a
         onClick={() => {
           setSidebarAnchor('further_information');
@@ -72,6 +77,13 @@ function ExploreDetailFooterComponent(props) {
   );
 }
 
-ExploreDetailFooterComponent.propTypes = { setSidebarAnchor: PropTypes.func.isRequired };
+ExploreDetailFooterComponent.propTypes = { 
+  setSidebarAnchor: PropTypes.func.isRequired,
+  showVizualizationLink: PropTypes.bool
+};
+
+ExploreDetailFooterComponent.defaultProps = { 
+  showVizualizationLink: true
+};
 
 export default ExploreDetailFooterComponent;

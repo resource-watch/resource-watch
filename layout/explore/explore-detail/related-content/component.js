@@ -10,6 +10,7 @@ import './styles.scss';
 
 function RelatedContent(props) {
   const { datasets: { list, loading }, setSelectedDataset } = props;
+  
   return (
     <div className="c-related-content">
       <h3>Related content</h3>

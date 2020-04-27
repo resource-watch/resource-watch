@@ -17,6 +17,7 @@ import ExploreDetailButtons from './explore-detail-buttons';
 import ExploreDetailTags from './explore-detail-tags';
 import DatasetLayers from './dataset-layers';
 import RelatedContent from './related-content';
+import ExploreDetailVisualization from './explore-detail-visualization';
 
 // Constants
 import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from './constants';
@@ -47,6 +48,9 @@ class ExploreDetailComponent extends React.Component {
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
+    const defaultWidget = dataset && dataset.widget && dataset.widget.find(w => w.default === 'true');
+    const showVisualizationSection = dataset && dataset.type !== 'raster';
+
 
     return (
       <div className="c-explore-detail">
@@ -86,9 +90,14 @@ class ExploreDetailComponent extends React.Component {
               <div id="layers" className="metadata-section">
                 <DatasetLayers layers={layers} dataset={dataset} />
               </div>
-              <div id="visualization" className="metadata-section">
-                <h3>Customize visualization</h3>
-              </div>
+              { showVisualizationSection &&
+                <div id="visualization" className="metadata-section">
+                  <ExploreDetailVisualization
+                    datasetId={dataset.id}
+                    widgetId={defaultWidget && defaultWidget.id}
+                  />
+                </div>
+              }
               <div id="further_information" className="metadata-section">
                 <FurtherInformation metadata={metadata} />
               </div>
@@ -96,7 +105,7 @@ class ExploreDetailComponent extends React.Component {
                 <RelatedContent datasetID={dataset.id} />
               </div>
             </div>
-            <ExploreDetailFooter />
+            <ExploreDetailFooter showVizualizationLink={showVisualizationSection} />
           </Fragment>
         }
         {!metadata && !datasetLoading &&

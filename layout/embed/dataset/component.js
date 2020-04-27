@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
-import { VegaChart, getVegaTheme } from 'widget-editor';
+
+// Widget editor
+import Renderer from '@widget-editor/renderer'
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -12,8 +14,6 @@ import { fetchDataset } from 'services/dataset';
 
 // utils
 import { isLoadedExternally } from 'utils/embed';
-
-const defaultTheme = getVegaTheme();
 
 class LayoutEmbedDataset extends PureComponent {
   static propTypes = {
@@ -78,12 +78,7 @@ class LayoutEmbedDataset extends PureComponent {
         <div className="c-embed-dataset">
           {widget &&
             <div className="widget-content">
-              <VegaChart
-                data={widget.attributes.widgetConfig}
-                theme={defaultTheme}
-                toggleLoading={this.triggerToggleLoading}
-                reloadOnResize
-              />
+              <Renderer widgetConfig={widget.attributes.widgetConfig} />
             </div>
           }
           <Spinner isLoading={loadingWidget} className="-light -relative" />
