@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Widget editor
-import Renderer from '@widget-editor/renderer'
+import Renderer from '@widget-editor/renderer';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -14,9 +14,7 @@ class DatasetWidgetChart extends React.Component {
     thumbnail: PropTypes.bool
   };
 
-  static defaultProps = {
-    thumbnail: false
-  };
+  static defaultProps = { thumbnail: false };
 
   constructor(props) {
     super(props);
@@ -48,13 +46,11 @@ class DatasetWidgetChart extends React.Component {
 
   render() {
     const { thumbnail, widget } = this.props;
-    console.log('widget.name', widget.name, 'thumbnail', thumbnail);
-    
 
     if (this.state.error) {
       return <DatasetPlaceholderChart />;
     }
-    
+
     return (
       <div className="c-widget-chart">
 
