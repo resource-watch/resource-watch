@@ -74,18 +74,6 @@ class LayoutEmbedMap extends PureComponent {
     if (user && user.id) this.props.checkIfFavorited(id);
   }
 
-  componentWillUnmount() {
-    if (this.timeout) clearTimeout(this.timeout);
-  }
-
-  onLayerLoading = (isLoading) => {
-    if (!isLoading) {
-      this.timeout = setTimeout(() => {
-        window.WEBSHOT_READY = true;
-      }, 3000);
-    }
-  }
-
   onChangeInteractiveLayer = (selected) => {
     this.setState({
       interaction: {
@@ -214,7 +202,7 @@ class LayoutEmbedMap extends PureComponent {
     const resetViewBtnClass = classnames({
       '-with-transition': true,
       '-visible': pitch !== 0 || bearing !== 0
-    });
+    });    
 
     if (loading) {
       return (
@@ -317,7 +305,8 @@ class LayoutEmbedMap extends PureComponent {
               scrollZoom={false}
               onViewportChange={this.handleViewport}
             >
-              {_map => (
+              {_map =>
+               (
                 <Fragment>
                   <LayerManager
                     map={_map}
