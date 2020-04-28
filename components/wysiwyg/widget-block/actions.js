@@ -5,6 +5,9 @@ import { createAction, createThunkAction } from 'redux-tools';
 import { fetchWidget } from 'services/widget';
 import { fetchLayer } from 'services/layer';
 
+// utils
+import { reduceParams, reduceSqlParams } from 'utils/layers/params-parser';
+
 // Widget actions
 export const setWidget = createAction('WIDGET_BLOCK_GET');
 export const setWidgetLoading = createAction('WIDGET_BLOCK_LOADING');
@@ -37,6 +40,38 @@ export const getLayer = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (pay
     .then((layer) => {
       dispatch(setLayersLoading({ id, value: false }));
       dispatch(setLayersError({ id, value: null }));
+
+      const reducedDecodeParams = reduceParams(layer.layerConfig.decode_config);
+      const { startDate, endDate } = reducedDecodeParams || {};
+
+      const parsedLayer = {
+        ...layer,
+        ...layer.layerConfig.layerType && { layerType: layer.layerConfig.layerType },
+        ...layer.layerConfig.params_config && {
+          params: {
+            ...reduceParams(layer.layerConfig.params_config),
+            ...!!layer.layerConfig.body.url && { url: layer.layerConfig.body.url }
+          }
+        },
+        ...layer.layerConfig.sql_config &&
+        { sqlParams: reduceSqlParams(layer.layerConfig.sql_config) },
+        ...layer.layerConfig.decode_config && {
+          decodeParams: {
+            ...reducedDecodeParams,
+            ...(startDate && {
+              startYear: moment(startDate).year(),
+              startMonth: moment(startDate).month(),
+              startDay: moment(startDate).dayOfYear()
+            }),
+            ...(endDate && {
+              endYear: moment(endDate).year(),
+              endMonth: moment(endDate).month(),
+              endDay: moment(endDate).dayOfYear()
+            })
+          }
+        }
+      };
+
       dispatch(setLayers({
         id,
         value: [{
@@ -45,10 +80,12 @@ export const getLayer = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (pay
           layers: [{
             active: true,
             id: layer.id,
-            ...layer
+            ...parsedLayer
           }]
         }]
       }));
+
+
     })
     .catch((err) => {
       dispatch(setLayersLoading({ id, value: false }));
