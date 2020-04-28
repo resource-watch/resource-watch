@@ -194,6 +194,7 @@ class WidgetBlock extends PureComponent {
         l => filteredLayers.push(l)
       )
     );
+
     return (
       <div className={componentClass}>
         <header>
@@ -305,15 +306,15 @@ class WidgetBlock extends PureComponent {
                         map={_map}
                         layers={filteredLayers}
                       />
-                      <MapControls customClass="c-map-controls -embed">
-                        <ZoomControls
-                          viewport={viewport}
-                          onClick={this.handleZoom}
-                        />
-                      </MapControls>
                     </Fragment>
                   )}
                 </Map>
+                <MapControls customClass="c-map-controls -embed">
+                  <ZoomControls
+                    viewport={viewport}
+                    onClick={this.handleZoom}
+                  />
+                </MapControls>
               </div>
 
               <div className="c-legend-map -embed">
