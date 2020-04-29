@@ -198,6 +198,7 @@ const AreaCard = (props) => {
                 onEditSubscriptions={handleEditSubscription}
                 onDeleteArea={handleDeleteArea}
                 onMouseDown={() => { handleTooltip(false); }}
+                area={area}
               />
             }
           >

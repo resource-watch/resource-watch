@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 // styles
 import './styles.scss';
 
@@ -9,7 +12,8 @@ const AreaActionsTooltip = (props) => {
     onMouseDown,
     onEditArea,
     onEditSubscriptions,
-    onDeleteArea
+    onDeleteArea,
+    area
   } = props;
 
   const handleClick = (action) => {
@@ -18,6 +22,7 @@ const AreaActionsTooltip = (props) => {
         onEditArea();
         break;
       case 'edit_subscriptions':
+        logEvent('My RW', 'Edit subscription', area.name);
         onEditSubscriptions();
         break;
       case 'delete_area':
@@ -84,7 +89,8 @@ AreaActionsTooltip.propTypes = {
   onMouseDown: PropTypes.func.isRequired,
   onEditArea: PropTypes.func.isRequired,
   onEditSubscriptions: PropTypes.func.isRequired,
-  onDeleteArea: PropTypes.func.isRequired
+  onDeleteArea: PropTypes.func.isRequired,
+  area: PropTypes.object.isRequired
 };
 
 export default AreaActionsTooltip;
