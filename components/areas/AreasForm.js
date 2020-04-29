@@ -159,6 +159,7 @@ class AreasForm extends React.Component {
       // UPDATE AREA
       updateArea(id, name, token, geostore)
         .then(() => {
+          logEvent('My RW', 'Update area', name);
           Router.pushRoute('myrw', { tab: 'areas' });
           toastr.success('Success', 'Area successfully updated!');
         })
