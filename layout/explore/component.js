@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 
@@ -42,6 +42,48 @@ function Explore(props) {
     }
   }, [selected]);
 
+  const getSidebarLayout = () => (
+    <Fragment>
+      <ExploreMenu />
+      <div
+        className="explore-sidebar-content"
+        id="sidebar-content-container"
+        key={section}
+      >
+        {section === EXPLORE_SECTIONS.ALL_DATA &&
+          exploreSectionShouldBeLoaded &&
+          <ExploreDatasets />
+        }
+        {section === EXPLORE_SECTIONS.TOPICS &&
+          exploreSectionShouldBeLoaded &&
+          <ExploreTopics />
+        }
+        {section === EXPLORE_SECTIONS.COLLECTIONS && userIsLoggedIn
+          && exploreSectionShouldBeLoaded &&
+          <ExploreCollections />
+        }
+        {section === EXPLORE_SECTIONS.FAVORITES && userIsLoggedIn
+          && exploreSectionShouldBeLoaded &&
+          <ExploreFavorites />
+        }
+        {(section === EXPLORE_SECTIONS.COLLECTIONS ||
+          section === EXPLORE_SECTIONS.FAVORITES) && !userIsLoggedIn
+          && exploreSectionShouldBeLoaded &&
+          <ExploreLogin />
+        }
+        {section === EXPLORE_SECTIONS.DISCOVER &&
+          exploreSectionShouldBeLoaded &&
+          <ExploreDiscover />
+        }
+        {section === EXPLORE_SECTIONS.NEAR_REAL_TIME
+          && exploreSectionShouldBeLoaded &&
+          <ExploreNearRealTime />
+        }
+      </div>
+      {selected && <ExploreDetail key={selected} />}
+    </Fragment>
+  );
+
   return (
     <Layout
       title="Explore Data Sets — Resource Watch"
@@ -53,49 +95,26 @@ function Explore(props) {
            We set this key so that, by rerendering the sidebar, the sections are
            scrolled to the top when the selected section changes.
         */}
-        <ExploreSidebar
-          key={section}
+        <MediaQuery
+          minWidth={breakpoints.medium}
+          values={{ deviceWidth: responsive.fakeWidth }}
         >
-          <ExploreMenu />
-          <div
-            className="explore-sidebar-content"
-            id="sidebar-content-container"
-            key={section}
-          >
-            {section === EXPLORE_SECTIONS.ALL_DATA &&
-              exploreSectionShouldBeLoaded &&
-              <ExploreDatasets />
-            }
-            {section === EXPLORE_SECTIONS.TOPICS &&
-              exploreSectionShouldBeLoaded &&
-              <ExploreTopics />
-            }
-            {section === EXPLORE_SECTIONS.COLLECTIONS && userIsLoggedIn
-              && exploreSectionShouldBeLoaded &&
-              <ExploreCollections />
-            }
-            {section === EXPLORE_SECTIONS.FAVORITES && userIsLoggedIn
-              && exploreSectionShouldBeLoaded &&
-              <ExploreFavorites />
-            }
-            {(section === EXPLORE_SECTIONS.COLLECTIONS ||
-              section === EXPLORE_SECTIONS.FAVORITES) && !userIsLoggedIn
-              && exploreSectionShouldBeLoaded &&
-              <ExploreLogin />
-            }
-            {section === EXPLORE_SECTIONS.DISCOVER &&
-              exploreSectionShouldBeLoaded &&
-              <ExploreDiscover />
-            }
-            {section === EXPLORE_SECTIONS.NEAR_REAL_TIME
-              && exploreSectionShouldBeLoaded &&
-              <ExploreNearRealTime />
-            }
-            {/* <ExploreDatasetsHeader /> */}
-          </div>
-          {selected && <ExploreDetail key={selected} />}
-        </ExploreSidebar>
-
+          <Fragment>
+            <ExploreSidebar
+              key={section}
+            >
+              {getSidebarLayout()}
+            </ExploreSidebar>
+            <ExploreMap />
+          </Fragment>
+        </MediaQuery>
+        <MediaQuery
+          maxWidth={breakpoints.medium}
+          values={{ deviceWidth: responsive.fakeWidth }}
+        >
+          {getSidebarLayout()}
+        </MediaQuery>
+        
         {/* Mobile warning */}
         <MediaQuery
           maxDeviceWidth={breakpoints.medium}
@@ -113,15 +132,6 @@ function Explore(props) {
             </div>
           </Modal>
         </MediaQuery>
-
-        {/* Desktop map */}
-        <MediaQuery
-          minDeviceWidth={breakpoints.medium}
-          values={{ deviceWidth: responsive.fakeWidth }}
-        >
-          <ExploreMap />
-        </MediaQuery>
-
       </div>
     </Layout>
   );

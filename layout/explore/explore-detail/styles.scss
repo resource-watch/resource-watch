@@ -6,6 +6,11 @@
     left: 0px;
     width: 530px;
     min-height: 100%;
+
+    @media screen and (max-width: map-get($breakpoints, medium)) {
+        top: 60px;
+        width: 100%;
+    }
     
     .content {
         background-color: $color-12;
