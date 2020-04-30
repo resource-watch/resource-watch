@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
+import classnames from 'classnames';
 import { Router } from 'routes';
 
 // components
 import Layout from 'layout/layout/layout-app';
+import Tabs from 'components/ui/Tabs';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 import Icon from 'components/ui/icon';
@@ -12,9 +14,13 @@ import DashboardDetail from 'components/dashboards/detail';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
+import EnergyCountryExplorer from './energy-country-explorer';
 
 // utils
 import { logEvent } from 'utils/analytics';
+
+// constants
+import { ENERGY_TABS } from './constants';
 
 class DashboardsDetailPage extends PureComponent {
   static propTypes = {
@@ -43,7 +49,8 @@ class DashboardsDetailPage extends PureComponent {
   render() {
     const {
       data: dashboard,
-      datasetIds
+      datasetIds,
+      query: { tab }
     } = this.props;
     const { showShareModal } = this.state;
     const {
@@ -52,6 +59,12 @@ class DashboardsDetailPage extends PureComponent {
       description,
       slug
     } = dashboard;
+    const isEnergyDashboard = slug === 'energy';
+    const currentTab = tab || 'global';
+    const headerClassName = classnames({
+      'page-header-content': true,
+      '-with-tabs': isEnergyDashboard
+    });
 
     return (
       <Layout
@@ -64,7 +77,7 @@ class DashboardsDetailPage extends PureComponent {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <div className="page-header-content">
+                <div className={headerClassName}>
                   <Breadcrumbs items={[
                     {
                       name: 'Dashboards',
@@ -109,6 +122,13 @@ class DashboardsDetailPage extends PureComponent {
                       </li>
                     </ul>
                   </div>
+                  {isEnergyDashboard &&
+                    <Tabs
+                      options={ENERGY_TABS}
+                      defaultSelected={currentTab}
+                      selected={currentTab}
+                    />
+                  }
                 </div>
               </div>
             </div>
@@ -121,9 +141,15 @@ class DashboardsDetailPage extends PureComponent {
               {description && (
                 <div className="column small-12">
                   <ReactMarkdown linkTarget="_blank" source={description} />
-                </div>)}
+                </div>)
+              }
               <div className="column small-12">
-                <DashboardDetail />
+                {isEnergyDashboard && tab === 'country' &&
+                  <EnergyCountryExplorer />
+                }
+                {!isEnergyDashboard || (isEnergyDashboard && tab === 'global') &&
+                  <DashboardDetail />
+                }
               </div>
             </div>
           </div>
