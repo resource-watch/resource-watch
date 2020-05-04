@@ -34,7 +34,7 @@ function EnergyCountryExplorer(props) {
     const { energy_profile } = dashboardData;
 
     useEffect(() => {
-        fetchCountryPowerExplorerConfig
+        fetchCountryPowerExplorerConfig()
             .then(data => setConfig(data));
         fetchCountries()
             .then((data) => {
