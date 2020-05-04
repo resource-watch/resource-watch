@@ -135,25 +135,26 @@ class DashboardsDetailPage extends PureComponent {
           </div>
         </header>
 
-        <div className="l-section">
-          <div className="l-container">
-            <div className="row">
-              {description && (
+        
+        {isEnergyDashboard && tab === 'country' &&
+          <EnergyCountryExplorer />
+        }
+        {!isEnergyDashboard || (isEnergyDashboard && tab !== 'country') &&
+          <div className="l-section">
+            <div className="l-container">
+              <div className="row">
+                {description && (
+                  <div className="column small-12">
+                    <ReactMarkdown linkTarget="_blank" source={description} />
+                  </div>)
+                }
                 <div className="column small-12">
-                  <ReactMarkdown linkTarget="_blank" source={description} />
-                </div>)
-              }
-              <div className="column small-12">
-                {isEnergyDashboard && tab === 'country' &&
-                  <EnergyCountryExplorer />
-                }
-                {!isEnergyDashboard || (isEnergyDashboard && tab === 'global') &&
                   <DashboardDetail />
-                }
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        }
 
         <div className="l-section">
           <div className="l-container">

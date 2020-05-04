@@ -6,7 +6,7 @@ export const ENERGY_TABS = [
       params: { tab: 'global', slug: 'energy' }
     },
     {
-      label: 'Country Explorer',
+      label: 'Country Power Explorer',
       value: 'country',
       route: 'dashboards_detail',
       params: { tab: 'country', slug: 'energy' }
