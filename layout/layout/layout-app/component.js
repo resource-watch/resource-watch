@@ -24,7 +24,6 @@ import Toastr from 'react-redux-toastr';
 import Search from 'layout/header/search';
 import NoBrowserSupport from 'components/app/common/Browser';
 import GDPRBanner from 'components/ui/gdpr-banner';
-import MaintenanceBanner from 'components/ui/maintenance-banner';
 
 import {
   setConfig,
@@ -129,7 +128,6 @@ class LayoutApp extends Component {
         />
 
         <GDPRBanner />
-        <MaintenanceBanner />
 
         {!browserSupported() &&
           <Modal
