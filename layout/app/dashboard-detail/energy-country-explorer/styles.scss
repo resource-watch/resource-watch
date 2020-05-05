@@ -2,28 +2,14 @@
 
 .c-energy-country-explorer {
     
-    .country-section {
-        padding-top: 12 * $space;
-        background-color: $porcelain;
-
-        .country-overview {
-            margin-top: 6 * $space;
+    .country-container {
+        display: flex;
+        
+        .country-selector {
+            width: 50%;
         }
-    }
-
-    .section {
-        margin-top: 8 * $space;
-
-    }
-
-    .country-selector {
-        min-width: 100%;
-        min-height: 60px;
-
-        .Select-value-label, .Select-placeholder, .Select-input {
-            color: $dark-pink !important;
-            font-size: 46px;
-            font-weight: 300;
+        .country-indicators {
+            width: 50%;
         }
     }
 

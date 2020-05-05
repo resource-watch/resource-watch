@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { toastr } from 'react-redux-toastr';
-
-// Widget editor
-import Renderer from '@widget-editor/renderer';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import Select from 'react-select';
+import { Tooltip } from 'vizzuality-components';
+import CountrySelector from './country-selector';
 
 // Services
-import { fetchCountries } from 'services/geostore';
-import { fetchWidget } from 'services/widget';
 import { fetchCountryPowerExplorerConfig } from 'services/config';
 
-// Styles
-import './styles.scss';
+// Utils
+import { WRIAPI } from 'utils/axios';
 
 // Constants
 import { ENERGY_COUNTRY_DASHBOARD_DATA } from './constants';
 import PowerGenerationMap from './power-generation-map';
 
+// Styles
+import './styles.scss';
+
 function EnergyCountryExplorer(props) {
-    const [countries, setCountries] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [countries, setCountries] = useState({
+        loading: true,
+        list: []
+    });
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [dashboardData, setDashboardData] = useState({
         energy_profile: {
@@ -34,17 +34,28 @@ function EnergyCountryExplorer(props) {
     const { energy_profile } = dashboardData;
 
     useEffect(() => {
+        // Load config
         fetchCountryPowerExplorerConfig()
             .then(data => setConfig(data));
-        fetchCountries()
+        
+        // Load countries
+        WRIAPI.get('query/a86d906d-9862-4783-9e30-cdb68cd808b8?sql=SELECT distinct(country_long) FROM powerwatch_data_20180102 ORDER BY country_long ASC')
             .then((data) => {
-                setCountries(data.filter(c => c.name).map(c => ({
-                    label: c.name,
-                    value: c.iso,
-                    geostoreId: c.geostoreId
-                })));
-                setLoading(false);
-            });
+              setCountries({
+                loading: false,
+                list: data.data.data.map(c => ({ label: c.country_long, value: c.country_long }))
+              });
+            })
+            .catch(err => toastr.error('Error loading countries'));
+        // fetchCountries()
+        //     .then((data) => {
+        //         setCountries(data.filter(c => c.name).map(c => ({
+        //             label: c.name,
+        //             value: c.iso,
+        //             geostoreId: c.geostoreId
+        //         })));
+        //         setLoading(false);
+        //     });
     }, []);
 
     // useEffect(() => {
@@ -66,8 +77,18 @@ function EnergyCountryExplorer(props) {
         setSelectedCountry(value);
     };
 
-    console.log('energy_profile', energy_profile);
+    const handleSelectCountryClick = () => {
 
+    }
+
+    const countryName = selectedCountry ? selectedCountry : 'Select a country';
+    const countryText = selectedCountry ? selectedCountry : `Start by Lorem ipsum dolor sit amet, 
+        consectetuer adipiscing elit. 
+        Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. 
+        Suspendisse urna nibh.`;
+
+    console.log('countries', countries);
+    
 
     return (
         <div className="c-energy-country-explorer">
@@ -75,21 +96,39 @@ function EnergyCountryExplorer(props) {
                 <div className="l-container">
                     <div className="row">
                         <div className="column small-12">
-                            <div className="country-selector">
-                                <Spinner className="-light" isLoading={loading} />
-                                <Select
-                                    options={countries}
-                                    className="country-selector -fluid"
-                                    onChange={handleCountrySelected}
-                                    placeholder="Select a country"
-                                    value={selectedCountry}
-                                />
-                            </div>
-                            {selectedCountry &&
-                                <div className="country-overview" >
-                                    <h3>Country overview</h3>
+                            <div className="country-container">
+                                <div className="country-selector">
+                                    <div>
+                                        <h1>
+                                            {countryName}
+                                        </h1>
+                                        <p>
+                                            {countryText}
+                                        </p>
+                                        <Tooltip
+                                            overlay={
+                                                <CountrySelector 
+                                                    countries={countries.list}
+                                                    loading={countries.loading} 
+                                                />
+                                            }
+                                            overlayClassName="c-rc-tooltip -default -no-max-width"
+                                            placement="bottom"
+                                            trigger="click"
+                                        >
+                                            <button
+                                                className="c-btn -secondary"
+                                                tabIndex={-1}
+                                            >
+                                                Select country
+                                            </button>
+                                        </Tooltip>
+                                    </div>
                                 </div>
-                            }
+                                <div className="country-indicators">
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
