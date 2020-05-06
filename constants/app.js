@@ -35,6 +35,10 @@ export const CESIUM_ROUTES = [
   '/data/pulse'
 ];
 
+export const HOTJAR_ROUTES = [
+  '/data/explore'
+];
+
 export default {
   TRANSIFEX_BLACKLIST,
   FULLSCREEN_PAGES,
