@@ -38,10 +38,11 @@
     background-color: $porcelain;
 
     .c-widget-chart {
-      .c-we-chart {
-        min-height: 130px;
-        max-height: 130px;
-      }
+      min-height: 130px;
+      max-height: 130px;
+      height: 100%;
+      display: flex;
+      flex-grow: 1;
     }
 
     .c-layer-chart {
