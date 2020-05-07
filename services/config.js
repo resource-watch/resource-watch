@@ -24,19 +24,29 @@ export const fetchCountryPowerExplorerConfig = () =>
 
     axios.get('https://raw.githubusercontent.com/resource-watch/resource-watch/develop/public/static/data/ExploreConfig.json')
       .then(response => resolve({
-        powerGenerationResilienceAndImpacts: {
-          powerMixProfile: {
-            title: 'Power mix profile',
-            list: ['a86d906d-9862-4783-9e30-cdb68cd808b8']
+        map: {
+          groups: [
+            {
+              name: 'Power mix profile',
+              datasets: ['a86d906d-9862-4783-9e30-cdb68cd808b8']
+            }
+          ],
+          header: 'Power generation resilience and impacts',
+          description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.',
+          mapTitle: 'Power mix profile, resilience to extreme natural events and impacts from power generation.'
+        },
+        sections: [
+          {
+            header: 'Power consumption',
+            description: '',
+            widgets: ['a6d0a52c-8f17-439b-a5a1-f1d1b1d6b003', '54c6e8e2-16ad-42bb-968f-ad9fab589fac']
           },
-          resilienceExtremeNaturalEvents: {
-            title: 'Resilience to extreme natural events',
-            list:[
-              'b3ebc10d-9de8-4ee6-870d-1d049e8e2a99',
-              'c56ee507-9a3b-41d3-90ac-1406bee32c32'
-            ]
+          {
+            header: 'Historic greenhouse gas emissions, projections and commitments',
+            description: '',
+            widgets: []
           }
-        }
+        ]
       }))
       .catch(error => reject(new Error('There was an error loading the Country Power Explorer config', error)));
   });

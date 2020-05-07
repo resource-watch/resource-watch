@@ -68,12 +68,12 @@ class WidgetBlock extends PureComponent {
       viewport.latitude === 0 &&
       viewport.longitude === 0
     ) {
-      this.setViewpoerByProps();
+      this.setViewportByProps();
     }
   }
 
   /** A function that sets default map viewport from props */
-  setViewpoerByProps = () => {
+  setViewportByProps = () => {
     const { data, item } = this.props;
     const { viewport } = this.state;
     let newViewport = viewport;
@@ -148,6 +148,9 @@ class WidgetBlock extends PureComponent {
       onToggleModal,
       onToggleLoading
     } = this.props;
+
+    console.log('this.props', this.props);
+    
 
     const { viewport, isInitMap } = this.state;
 

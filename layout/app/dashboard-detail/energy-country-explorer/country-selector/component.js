@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import { Router } from 'routes';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -25,7 +26,9 @@ function CountrySelector(props) {
     return (
         <div className="c-country-selector">
             <Spinner isLoading={loading} className="-light" />
+            <div className="overlay" />
             <input
+                className="search-input"
                 placeholder="Search"
                 onChange={(e) => onSearchChange(e.target.value)}
             />
@@ -37,6 +40,16 @@ function CountrySelector(props) {
                             value={c.value} 
                             name="countries"
                             id={c.value}
+                            onClick={() => {
+                                Router.pushRoute(
+                                    'dashboards_detail', 
+                                    { 
+                                        country: c.value, 
+                                        tab: 'country',
+                                        slug: 'energy'
+                                    }
+                                );
+                            }}
                         />
                         <label for={c.value}>{c.value}</label>
                     </li>

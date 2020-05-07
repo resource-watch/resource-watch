@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import { Tooltip } from 'vizzuality-components';
 import CountrySelector from './country-selector';
+import CustomSection from './custom-section';
 
 // Services
 import { fetchCountryPowerExplorerConfig } from 'services/config';
@@ -19,19 +21,12 @@ import PowerGenerationMap from './power-generation-map';
 import './styles.scss';
 
 function EnergyCountryExplorer(props) {
+    const { selectedCountry } = props;
     const [countries, setCountries] = useState({
         loading: true,
         list: []
     });
-    const [selectedCountry, setSelectedCountry] = useState(null);
-    const [dashboardData, setDashboardData] = useState({
-        energy_profile: {
-            map: null,
-            loading: false
-        }
-    });
     const [config, setConfig] = useState(null);
-    const { energy_profile } = dashboardData;
 
     useEffect(() => {
         // Load config
@@ -47,39 +42,7 @@ function EnergyCountryExplorer(props) {
               });
             })
             .catch(err => toastr.error('Error loading countries'));
-        // fetchCountries()
-        //     .then((data) => {
-        //         setCountries(data.filter(c => c.name).map(c => ({
-        //             label: c.name,
-        //             value: c.iso,
-        //             geostoreId: c.geostoreId
-        //         })));
-        //         setLoading(false);
-        //     });
     }, []);
-
-    // useEffect(() => {
-    //     const energyProfileMapWidget = ENERGY_COUNTRY_DASHBOARD_DATA.energy_profile.map_widget;
-    //     fetchWidget(energyProfileMapWidget)
-    //         .then((data) => {
-    //             setDashboardData({ 
-    //                 ...dashboardData,
-    //                 energy_profile: {
-    //                     map: data,
-    //                     loading: false
-    //                 }
-    //             })
-    //         })
-    //         .catch(err => toastr.error('Error loading widget', err));
-    // }, [selectedCountry]);
-
-    const handleCountrySelected = (value) => {
-        setSelectedCountry(value);
-    };
-
-    const handleSelectCountryClick = () => {
-
-    }
 
     const countryName = selectedCountry ? selectedCountry : 'Select a country';
     const countryText = selectedCountry ? selectedCountry : `Start by Lorem ipsum dolor sit amet, 
@@ -87,7 +50,7 @@ function EnergyCountryExplorer(props) {
         Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. 
         Suspendisse urna nibh.`;
 
-    console.log('countries', countries);
+    console.log('selectedCountry', selectedCountry);
     
 
     return (
@@ -133,34 +96,47 @@ function EnergyCountryExplorer(props) {
                     </div>
                 </div>
             </div>
-            {selectedCountry &&
+
+            {/* ------- MAP SECTION ---------- */}
+            {config && selectedCountry &&
                 <div className="l-section">
                     <div className="l-container">
                         <div className="row">
                             <div className="column small-12">
-                                <div className="section energy-profile">
-                                    <h3>Power generation resilience and impacts</h3>
-                                    <h5>Power mix profile, resilience to extreme natural events and impacts 
-                                        from power generation
-                                    </h5>
-                                    <PowerGenerationMap selectedCountry={selectedCountry} />
-                                </div>
-                                <div className="section">
-                                    <h3>Energy mix</h3>
-                                </div>
-                                <div className="section">
-                                    <h3>GHG emissions</h3>
-                                </div>
-                                <div className="section">
-                                    <h3>Socio economic indicators</h3>
+                                <div className="section map">
+                                    <h2>{config.map.header}</h2>
+                                    <p>{config.map.description}</p>
+                                    <PowerGenerationMap
+                                        selectedCountry={selectedCountry} 
+                                        title={config.map.mapTitle}
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             }
+            
+            {/* ------- CUSTOM SECTIONS ---------- */}
+            {selectedCountry && config &&
+                config.sections.map(section => 
+                    <CustomSection 
+                        header={section.header}
+                        description={section.header}
+                        widgets={section.widgets}
+                    />
+                )
+            }
         </div>
     );
+};
+
+EnergyCountryExplorer.propTypes = {
+    selectedCountry: PropTypes.string
+};
+
+EnergyCountryExplorer.defaultProps = {
+    selectedCountry: null
 };
 
 export default EnergyCountryExplorer;

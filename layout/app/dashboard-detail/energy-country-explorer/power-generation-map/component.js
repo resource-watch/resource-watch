@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // Components
 import Map from 'components/map';
@@ -11,17 +12,19 @@ import LayerPopup from 'components/map/popup';
 import './styles.scss';
 
 function PowerGenerationMap(props) {
+    const { selectedCountry, title } = props;
+
     return (
         <div className="c-power-generation-map">
-            <div className="c-map">
+            {/* <div className="c-map">
                 <Map
                     mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
-                    onClick={this.onClickLayer}
+                    onClick={() => {}}
                     mapStyle={MAPSTYLES}
                     basemap={BASEMAPS.dark.value}
                     labels={LABELS.light.value}
                     viewport={viewport}
-                    onViewportChange={this.handleViewport}
+                    onViewportChange={() => {}}
                     scrollZoom={false}
                     boundaries
                 >
@@ -37,7 +40,7 @@ function PowerGenerationMap(props) {
                                     {...interactionLatLng}
                                     closeButton
                                     closeOnClick={false}
-                                    onClose={this.handleClosePopup}
+                                    onClose={() => {}}
                                     className="rw-popup-layer"
                                     maxWidth="250px"
                                 >
@@ -56,7 +59,7 @@ function PowerGenerationMap(props) {
             <MapControls>
                 <ZoomControls
                     viewport={viewport}
-                    onClick={this.handleZoom}
+                    onClick={() => {}}
                 />
             </MapControls>
 
@@ -75,9 +78,14 @@ function PowerGenerationMap(props) {
                         </LegendListItem>
                     ))}
                 </Legend>
-            </div>
+            </div> */}
         </div>
     );
+};
+
+PowerGenerationMap.propTypes = {
+    selectedCountry: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
 };
 
 export default PowerGenerationMap;
