@@ -9,7 +9,8 @@ import LayoutDashboardDetail from './component';
 export default connect(
   state => ({
     ...state.dashboards.detail,
-    datasetIds: getDatasetIds(state)
+    datasetIds: getDatasetIds(state),
+    query: state.routes.query
   }),
   null
 )(LayoutDashboardDetail);

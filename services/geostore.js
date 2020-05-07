@@ -84,10 +84,9 @@ export const fetchCountries = () => {
         // eslint-disable-line no-else-return
         return 0;
       }))
-    .catch(({ response }) => {
-      const { status, statusText } = response;
-      logger.error(`Error fetching countries: ${status}: ${statusText}`);
-      throw new Error(`Error fetching countries: ${status}: ${statusText}`);
+    .catch((error) => {
+      logger.error(`Error fetching countries: ${error}`);
+      throw new Error(`Error fetching countries: ${error}`);
     });
 };
 

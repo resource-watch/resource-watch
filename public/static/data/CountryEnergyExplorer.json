@@ -1,0 +1,34 @@
+{
+    "map": {
+        "groups": [
+            {
+                "name": "Power mix profile",
+                "datasets": [
+                    "a86d906d-9862-4783-9e30-cdb68cd808b8"
+                ]
+            }
+        ],
+        "header": "Power generation resilience and impacts",
+        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.",
+        "mapTitle": "Power mix profile, resilience to extreme natural events and impacts from power generation."
+    },
+    "sections": [
+        {
+            "header": "Power generation & consumption",
+            "description": "Countries generation electricity from different sources. Those include fossil fuels (coal, oil, gas), nuclear, and renewables (hydro, wind, solar, biomass) and others.",
+            "widgets": [
+                "74204b2f-1cab-408c-a15e-3d20f5c30d20"
+            ]
+        },
+        {
+            "header": "Providing reliable and sustainable energy for all",
+            "description": "Clean and convenient modern electricity is still out of reach for many, but the energy transition also provides many opportunities for action.",
+            "widgets": []
+        },
+        {
+            "header": "Power sector greenhouse gas emissions, countries climate targets and projections",
+            "description": "The power sector is the single largest greenhouse gas emitter globally, but the share in national emissions vary. To achieve the Paris Agreement most countries need to increase the share of renewables and 73% of countries have set energy sector targets.",
+            "widgets": []
+        }
+    ]
+}
