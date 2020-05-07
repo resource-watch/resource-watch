@@ -70,8 +70,7 @@ class DashboardsDetailPage extends PureComponent {
     const hostname = typeof window !== 'undefined' && window.location.hostname;
     const showCountryExplorer = hostname && 
       (hostname.startsWith('preproduction') || hostname.startsWith('localhost'));
-    //----------------------------------------------------------------------------
-
+    
     return (
       <Layout
         title={name}
@@ -142,7 +141,7 @@ class DashboardsDetailPage extends PureComponent {
         </header>
 
         
-        {isEnergyDashboard && tab === 'country' && showCountryExplorer &&
+        {isEnergyDashboard && tab === 'country' &&
           <EnergyCountryExplorer />
         }
         {!isEnergyDashboard || (isEnergyDashboard && tab !== 'country') &&

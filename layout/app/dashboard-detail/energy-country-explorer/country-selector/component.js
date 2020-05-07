@@ -10,7 +10,7 @@ import Spinner from 'components/ui/Spinner';
 import './styles.scss';
 
 function CountrySelector(props) {
-    const { loading, countries } = props;
+    const { loading, countries, onCountrySelected } = props;
     const [ filteredCountries, setFilteredCountries ] = useState(countries);    
 
     const onSearchChange = debounce((search) => {        
@@ -49,6 +49,7 @@ function CountrySelector(props) {
                                         slug: 'energy'
                                     }
                                 );
+                                onCountrySelected(c.value);
                             }}
                         />
                         <label for={c.value}>{c.value}</label>
@@ -61,7 +62,8 @@ function CountrySelector(props) {
 
 CountrySelector.propTypes = {
     countries: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    onCountrySelected: PropTypes.func.isRequired
 }
 
 export default CountrySelector;

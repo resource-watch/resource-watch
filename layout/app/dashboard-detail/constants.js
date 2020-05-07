@@ -1,12 +1,12 @@
 export const ENERGY_TABS = [
     {
-      label: 'Global Overview',
+      label: 'Energy Overview',
       value: 'global',
       route: 'dashboards_detail',
       params: { tab: 'global', slug: 'energy' }
     },
     {
-      label: 'Country Power Explorer',
+      label: 'Power Sector Profiles',
       value: 'country',
       route: 'dashboards_detail',
       params: { tab: 'country', slug: 'energy' }

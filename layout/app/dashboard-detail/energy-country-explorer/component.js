@@ -27,6 +27,7 @@ function EnergyCountryExplorer(props) {
         list: []
     });
     const [config, setConfig] = useState(null);
+    const [tooltipOpen, setTooltipOpen] = useState(false);
 
     useEffect(() => {
         // Load config
@@ -66,10 +67,12 @@ function EnergyCountryExplorer(props) {
                                             {countryText}
                                         </p>
                                         <Tooltip
+                                            visible={tooltipOpen}
                                             overlay={
                                                 <CountrySelector 
                                                     countries={countries.list}
-                                                    loading={countries.loading} 
+                                                    loading={countries.loading}
+                                                    onCountrySelected={() => setTooltipOpen(false)}
                                                 />
                                             }
                                             overlayClassName="c-rc-tooltip -default -no-max-width"
@@ -79,6 +82,7 @@ function EnergyCountryExplorer(props) {
                                             <button
                                                 className="c-btn -secondary"
                                                 tabIndex={-1}
+                                                onClick={() => setTooltipOpen(true)}
                                             >
                                                 Select country
                                             </button>
