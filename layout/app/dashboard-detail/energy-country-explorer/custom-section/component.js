@@ -11,7 +11,7 @@ import { fetchWidget } from 'services/widget';
 
 
 function Section(props) {
-    const { header, description, widgets, user} = props;
+    const { header, description, widgets, user } = props;
     const [widgetBlocks, setWidgetBlocks] = useState(widgets.map(w => ({
         content: {
             widgetId: w
@@ -38,7 +38,7 @@ function Section(props) {
         'medium-6': widgets.length > 1,
         'large-4': widgets.length > 2
     });
-    
+
     return (
         <div className="c-custom-section l-section">
             <div className="l-container">
@@ -47,16 +47,16 @@ function Section(props) {
                         <h2>{header}</h2>
                         <p>{description}</p>
                         <div className="row">
-                            <div className={widgetBlockClassName}>
-                                {widgetBlocks.map(block =>
-                                    <WidgetBlock 
+                            {widgetBlocks.map(block =>
+                                <div className={widgetBlockClassName}>
+                                    <WidgetBlock
                                         user={user}
                                         item={block}
                                         data={data}
                                     />
-                                )}
-                            </div>
-                        </div>  
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,6 @@ import Renderer from '@widget-editor/renderer';
 function WidgetChart(props) {
 
   const { thumbnail, widget } = props;
-  console.log('widget.widgetConfig', widget.widgetConfig);
 
   return (
     <div className="c-widget-chart">

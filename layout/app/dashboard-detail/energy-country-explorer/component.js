@@ -45,13 +45,10 @@ function EnergyCountryExplorer(props) {
     }, []);
 
     const countryName = selectedCountry ? selectedCountry : 'Select a country';
-    const countryText = selectedCountry ? selectedCountry : `Start by Lorem ipsum dolor sit amet, 
-        consectetuer adipiscing elit. 
-        Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. 
-        Suspendisse urna nibh.`;
-
-    console.log('selectedCountry', selectedCountry);
-    
+    const countryText = selectedCountry ? selectedCountry : `The power sector (also called the electricity sector) is a 
+        segment of the global energy sector. Power enables electricity access, but 
+        also causes climate change, air pollution, increases water use and faces risks to natural hazards.  
+        Select a country to dive into data on national power sectors.`;
 
     return (
         <div className="c-energy-country-explorer">

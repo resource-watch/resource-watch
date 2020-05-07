@@ -66,6 +66,12 @@ class DashboardsDetailPage extends PureComponent {
       '-with-tabs': isEnergyDashboard
     });
 
+    // Temporary logic to show the country explorer only in preproduction and localhost
+    const hostname = typeof window !== 'undefined' && window.location.hostname;
+    const showCountryExplorer = hostname && 
+      (hostname.startsWith('preproduction') || hostname.startsWith('localhost'));
+    //----------------------------------------------------------------------------
+
     return (
       <Layout
         title={name}
@@ -122,7 +128,7 @@ class DashboardsDetailPage extends PureComponent {
                       </li>
                     </ul>
                   </div>
-                  {isEnergyDashboard &&
+                  {isEnergyDashboard && showCountryExplorer &&
                     <Tabs
                       options={ENERGY_TABS}
                       defaultSelected={currentTab}
@@ -136,7 +142,7 @@ class DashboardsDetailPage extends PureComponent {
         </header>
 
         
-        {isEnergyDashboard && tab === 'country' &&
+        {isEnergyDashboard && tab === 'country' && showCountryExplorer &&
           <EnergyCountryExplorer />
         }
         {!isEnergyDashboard || (isEnergyDashboard && tab !== 'country') &&

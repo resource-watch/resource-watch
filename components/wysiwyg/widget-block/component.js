@@ -149,9 +149,6 @@ class WidgetBlock extends PureComponent {
       onToggleLoading
     } = this.props;
 
-    console.log('this.props', this.props);
-    
-
     const { viewport, isInitMap } = this.state;
 
     const id = `${item.content.widgetId}/${item.id}`;
