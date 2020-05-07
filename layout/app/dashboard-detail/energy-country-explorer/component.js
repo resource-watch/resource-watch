@@ -123,7 +123,7 @@ function EnergyCountryExplorer(props) {
                 config.sections.map(section => 
                     <CustomSection 
                         header={section.header}
-                        description={section.header}
+                        description={section.description}
                         widgets={section.widgets}
                     />
                 )
