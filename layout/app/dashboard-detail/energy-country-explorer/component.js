@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import { Tooltip } from 'vizzuality-components';
 import CountrySelector from './country-selector';
 import CustomSection from './custom-section';
+import CountryIndicators from './country-indicators';
 
 // Services
 import { fetchCountryPowerExplorerConfig } from 'services/config';
@@ -35,18 +37,20 @@ function EnergyCountryExplorer(props) {
             .then(data => setConfig(data));
         
         // Load countries
-        WRIAPI.get('query/a86d906d-9862-4783-9e30-cdb68cd808b8?sql=SELECT distinct(country_long) FROM powerwatch_data_20180102 ORDER BY country_long ASC')
+        WRIAPI.get('https://api.resourcewatch.org/v1/query/a86d906d-9862-4783-9e30-cdb68cd808b8?sql=SELECT distinct(country_long) as country, country as iso FROM powerwatch_data_20180102 ORDER BY country_long ASC')
             .then((data) => {
               setCountries({
                 loading: false,
-                list: data.data.data.map(c => ({ label: c.country_long, value: c.country_long }))
+                list: data.data.data.map(c => ({ label: c.country, value: c.iso }))
               });
             })
             .catch(err => toastr.error('Error loading countries'));
     }, []);
 
-    const countryName = selectedCountry ? selectedCountry : 'Select a country';
-    const countryText = selectedCountry ? selectedCountry : `The power sector (also called the electricity sector) is a 
+    const countryName = selectedCountry && !countries.loading ? 
+        countries.list.find(c => c.value === selectedCountry).label : 
+        'Select a country';
+    const countryText = `The power sector (also called the electricity sector) is a 
         segment of the global energy sector. Power enables electricity access, but 
         also causes climate change, air pollution, increases water use and faces risks to natural hazards.  
         Select a country to dive into data on national power sectors.`;
@@ -73,6 +77,7 @@ function EnergyCountryExplorer(props) {
                                                     countries={countries.list}
                                                     loading={countries.loading}
                                                     onCountrySelected={() => setTooltipOpen(false)}
+                                                    selectedCountry={selectedCountry}
                                                 />
                                             }
                                             overlayClassName="c-rc-tooltip -default -no-max-width"
@@ -89,9 +94,7 @@ function EnergyCountryExplorer(props) {
                                         </Tooltip>
                                     </div>
                                 </div>
-                                <div className="country-indicators">
-
-                                </div>
+                                <CountryIndicators />
                             </div>
                         </div>
                     </div>

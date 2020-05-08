@@ -5,57 +5,67 @@ import { Router } from 'routes';
 
 // Components
 import Spinner from 'components/ui/Spinner';
+import RadioGroup from 'components/form/RadioGroup';
+import Field from 'components/form/Field';
+import Input from 'components/form/Input';
 
 // Styles
 import './styles.scss';
 
 function CountrySelector(props) {
-    const { loading, countries, onCountrySelected } = props;
-    const [ filteredCountries, setFilteredCountries ] = useState(countries);    
+    const {
+        loading,
+        countries,
+        onCountrySelected,
+        selectedCountry
+    } = props;
+    const [filteredCountries, setFilteredCountries] = useState(countries);
 
-    const onSearchChange = debounce((search) => {        
+    const onSearchChange = debounce((search) => {
         if (search && search.length > 1) {
-            setFilteredCountries(countries.filter(c => 
-                c.value.toLowerCase().indexOf(search.toLowerCase()) >= 0
+            setFilteredCountries(countries.filter(c =>
+                c.label.toLowerCase().indexOf(search.toLowerCase()) >= 0
             ));
         } else {
             setFilteredCountries(countries);
         }
     }, 250);
-
+    
     return (
         <div className="c-country-selector">
             <Spinner isLoading={loading} className="-light" />
             <div className="overlay" />
-            <input
+            <Field
                 className="search-input"
-                placeholder="Search"
-                onChange={(e) => onSearchChange(e.target.value)}
-            />
-            <ul>
-                { filteredCountries.map(c =>
-                    <li>
-                        <input 
-                            type="radio" 
-                            value={c.value} 
-                            name="countries"
-                            id={c.value}
-                            onClick={() => {
-                                Router.pushRoute(
-                                    'dashboards_detail', 
-                                    { 
-                                        country: c.value, 
-                                        tab: 'country',
-                                        slug: 'energy'
-                                    }
-                                );
-                                onCountrySelected(c.value);
-                            }}
-                        />
-                        <label for={c.value}>{c.value}</label>
-                    </li>
-                )}
-            </ul>
+                onChange={value => onSearchChange(value)}
+                properties={{
+                    name: 'search',
+                    type: 'text',
+                    placeholder: 'Search'
+                }}
+            >
+                {Input}
+            </Field>
+            <div>
+                <RadioGroup
+                    options={filteredCountries}
+                    name="countries"
+                    properties={{
+                        ...(selectedCountry && { default: selectedCountry })
+                    }}
+                    onChange={(value) => {
+                        onCountrySelected(value);
+                        Router.pushRoute(
+                            'dashboards_detail',
+                            {
+                                country: value,
+                                tab: 'country',
+                                slug: 'energy'
+                            }
+                        );
+                    }}
+                />
+            </div>
         </div>
     );
 };
@@ -63,7 +73,12 @@ function CountrySelector(props) {
 CountrySelector.propTypes = {
     countries: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
-    onCountrySelected: PropTypes.func.isRequired
+    onCountrySelected: PropTypes.func.isRequired,
+    selectedCountry: PropTypes.object
 }
+
+CountrySelector.defaultProps = {
+    selectedCountry: null
+};
 
 export default CountrySelector;
