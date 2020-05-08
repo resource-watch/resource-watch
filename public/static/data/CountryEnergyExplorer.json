@@ -12,6 +12,38 @@
         "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.",
         "mapTitle": "Power mix profile, resilience to extreme natural events and impacts from power generation."
     },
+    "countryIndicators": [
+      {
+        "datasetID": "----",
+        "query": "----",
+        "name": "Population"
+      },
+      {
+        "datasetID": "----",
+        "query": "----",
+        "name": "GDP per capita"
+      },
+      {
+        "datasetID": "----",
+        "query": "----",
+        "name": "Human Development Index"
+      },
+      {
+        "datasetID": "----",
+        "query": "----",
+        "name": "Population % with access to electricity"
+      },
+      {
+        "datasetID": "----",
+        "query": "----",
+        "name": "Electricity consumption"
+      },
+      {
+        "datasetID": "----",
+        "query": "----",
+        "name": "Greenhouse Gas Emissions per capita"
+      }
+    ],
     "sections": [
         {
             "header": "Power generation & consumption",
