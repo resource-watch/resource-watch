@@ -9,7 +9,7 @@ import IndicatorTooltip from 'layout/app/dashboard-detail/energy-country-explore
 import './styles.scss';
 
 function RankingBar(props) {
-  const { count, ranking } = props;
+  const { count, ranking, showPoint } = props;
 
   const pointPosition = ranking * 100 / count;
 
@@ -26,7 +26,7 @@ function RankingBar(props) {
             }
             overlayClassName="c-rc-tooltip -default"
             placement="top"
-            trigger={['hover', 'click']}
+            trigger={['hover']}
             mouseLeaveDelay={0}
             destroyTooltipOnHide
           >
