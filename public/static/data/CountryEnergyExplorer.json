@@ -12,6 +12,9 @@
         "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.",
         "mapTitle": "Power mix profile, resilience to extreme natural events and impacts from power generation."
     },
+    "countrySelector": {
+      "mainText": "The power sector (also called the electricity sector) is a segment of the global energy sector. Power enables electricity access, but also causes climate change, air pollution, increases water use and faces risks to natural hazards. Select a country to dive into data on national power sectors."
+    },
     "countryIndicators": [
       {
         "datasetID": "2a8ca4f7-7285-4aed-9ef5-ba1f9c4b653d",
