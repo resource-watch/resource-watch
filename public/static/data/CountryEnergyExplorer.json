@@ -64,6 +64,11 @@
     ],
     "sections": [
         {
+            "header": "Power in relation to energy",
+            "description": "The power sector is a small share of the energy sector, but most climate scenarios show that compliance with the Paris Agreement will require a strong electrification of the economy.",
+            "widgets": []
+        },
+        {
             "header": "Power generation & consumption",
             "description": "Countries generation electricity from different sources. Those include fossil fuels (coal, oil, gas), nuclear, and renewables (hydro, wind, solar, biomass) and others.",
             "widgets": [
