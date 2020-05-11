@@ -1,6 +1,7 @@
 @import 'css/settings';
 
 .c-indicator-card {
+    position: relative;
     width: 160px;
     height: 175px;
     border: 1px solid rgba(26,28,34,0.1);
@@ -10,6 +11,15 @@
 
     .c-spinner {
         top: 50%;
+    }
+
+    .c-icon {
+        position: absolute;
+        top: $space;
+        right: $space;
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
     }
 
     .indicator-name {
