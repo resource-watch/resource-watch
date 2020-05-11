@@ -1,0 +1,10 @@
+@import 'css/settings';
+
+.c-country-indicators {
+    display: flex;
+    flex-wrap: wrap;
+
+    .c-indicator-card {
+        margin: 0px 0px 3 * $space 3 * $space;
+    }
+}
