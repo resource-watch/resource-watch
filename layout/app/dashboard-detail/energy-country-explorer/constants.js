@@ -1,4 +1,4 @@
-export const ENERGY_COUNTRY_DASHBOARD_DATA = {
-    energy_profile: {
-    }
+export const WORLD_COUNTRY = {
+    label: 'World',
+    value: 'World'
 };

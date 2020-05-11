@@ -1,0 +1,15 @@
+@import 'css/settings';
+
+.c-indicator-tooltip {
+    text-align: center;
+
+    .text {
+        font-size: $font-size-normal;
+        color: $dove-grey;
+    }
+
+    .value {
+        font-size: $font-size-big;
+        font-weight: bold;
+    }
+}

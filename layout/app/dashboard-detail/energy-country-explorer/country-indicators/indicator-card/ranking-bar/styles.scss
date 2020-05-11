@@ -1,0 +1,23 @@
+@import 'css/settings';
+
+.c-ranking-bar {
+    display: flex;
+    padding: 0px $space 0px $space;
+
+    .bar {
+        position: relative;
+        width: 100%;
+        height: 2px;
+        background-color: $light-grey;
+    }
+
+    .point {
+        position: absolute;
+        top: -3px;
+        background-color: $sea-blue;
+        height: 8px;
+        width: 8px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+}
