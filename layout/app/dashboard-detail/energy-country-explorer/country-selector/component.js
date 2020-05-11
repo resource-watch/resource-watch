@@ -20,7 +20,6 @@ function CountrySelector(props) {
         selectedCountry
     } = props;
     const [filteredCountries, setFilteredCountries] = useState(countries);
-
     const onSearchChange = debounce((search) => {
         if (search && search.length > 1) {
             setFilteredCountries(countries.filter(c =>

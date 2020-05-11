@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 // Components
 import IndicatorCard from './indicator-card';
 
+// Constants
+import { WORLD_COUNTRY } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
+
 // Styles
 import './styles.scss';
 
@@ -12,11 +15,14 @@ function CountryIndicators(props) {
 
   return (
     <div className="c-country-indicators">
-      {indicators && indicators.map(indicator =>
-        (<IndicatorCard
-          indicator={indicator}
-          country={country}
-        />))}
+      {indicators && indicators.filter(i => 
+          (country.value === WORLD_COUNTRY.value) ? 
+            i.world : true
+          ).map(indicator =>
+          (<IndicatorCard
+            indicator={indicator}
+            country={country}
+          />))}
     </div>
   );
 }

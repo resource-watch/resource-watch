@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
 // Components
-import Spinner from 'components/ui/Spinner';
 import { Tooltip } from 'vizzuality-components';
 import CountrySelector from './country-selector';
 import CustomSection from './custom-section';
@@ -16,7 +15,7 @@ import { fetchCountryPowerExplorerConfig } from 'services/config';
 import { WRIAPI } from 'utils/axios';
 
 // Constants
-import { ENERGY_COUNTRY_DASHBOARD_DATA } from './constants';
+import { WORLD_COUNTRY } from './constants';
 import PowerGenerationMap from './power-generation-map';
 
 // Styles
@@ -41,20 +40,18 @@ function EnergyCountryExplorer(props) {
       .then((data) => {
         setCountries({
           loading: false,
-          list: data.data.data.map(c => ({ label: c.country, value: c.iso }))
+          list: [ 
+              WORLD_COUNTRY, 
+              ...data.data.data.map(c => ({ label: c.country, value: c.iso }))
+            ]
         });
       })
       .catch(err => toastr.error('Error loading countries'));
   }, []);
 
-  const selectedCountryObj = countries.list.find(c => c.value === selectedCountry);
-  const countryName = selectedCountry && !countries.loading ?
-    selectedCountryObj.label :
-    'Select a country';
-  const countryText = `The power sector (also called the electricity sector) is a 
-        segment of the global energy sector. Power enables electricity access, but 
-        also causes climate change, air pollution, increases water use and faces risks to natural hazards.  
-        Select a country to dive into data on national power sectors.`;
+  const selectedCountryObj = selectedCountry ?
+    countries.list.find(c => c.value === selectedCountry) :
+    WORLD_COUNTRY;  
 
   return (
     <div className="c-energy-country-explorer">
@@ -66,10 +63,10 @@ function EnergyCountryExplorer(props) {
                 <div className="country-selector">
                   <div>
                     <h1>
-                        {countryName}
+                        {selectedCountryObj && selectedCountryObj.label}
                       </h1>
                     <p>
-                        {countryText}
+                        {config && config.countrySelector.mainText}
                       </p>
                     <Tooltip
                         visible={tooltipOpen}
@@ -78,7 +75,7 @@ function EnergyCountryExplorer(props) {
                                 countries={countries.list}
                                 loading={countries.loading}
                                 onCountrySelected={() => setTooltipOpen(false)}
-                                selectedCountry={selectedCountry}
+                                selectedCountry={selectedCountry || WORLD_COUNTRY}
                               />
                                             }
                         overlayClassName="c-rc-tooltip -default -no-max-width"
@@ -96,11 +93,11 @@ function EnergyCountryExplorer(props) {
                   </div>
                 </div>
                 {selectedCountryObj && config && config.countryIndicators &&
-                <CountryIndicators
-                  indicators={config.countryIndicators}
-                  country={selectedCountryObj}
-                />
-                                }
+                  <CountryIndicators
+                    indicators={config.countryIndicators}
+                    country={selectedCountryObj}
+                  />
+                }
               </div>
             </div>
           </div>
