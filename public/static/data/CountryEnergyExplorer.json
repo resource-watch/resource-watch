@@ -22,7 +22,7 @@
         "param": "ISO",
         "name": "Population",
         "world": true,
-        "worldQuery": ""
+        "worldQuery": "https://wri-rw.carto.com/api/v2/sql?q=SELECT sum(yr_data) as x, unit1 as unit, year FROM soc_076_country_population WHERE year = 2018 AND year IS NOT NULL AND yr_data IS NOT NULL GROUP BY year, unit1"
       },
       {
         "datasetID": "00abb46f-34e2-4bf7-be30-1fb0b1de022f",
@@ -44,7 +44,7 @@
         "param": "ISO",
         "name": "Population % with access to electricity",
         "world": true,
-        "worldQuery": ""
+        "worldQuery": false
       },
       {
         "datasetID": "eef10736-8d8b-4ac9-a715-ef0653a83196",
@@ -52,7 +52,7 @@
         "param": "COUNTRY",
         "name": "Electricity consumption",
         "world": true,
-        "worldQuery": ""
+        "worldQuery": "https://wri-rw.carto.com/api/v2/sql?q=SELECT sum(electricity_consumption_billionkwh) as x, 'kWh, billions' as unit, year FROM ene_034_electricity_consumption_edit WHERE year = 2016 AND year IS NOT NULL AND electricity_consumption_billionkwh IS NOT NULL GROUP BY year"
       },
       {
         "datasetID": "a290675c-9528-4a51-8201-f6c2d7848744",
