@@ -52,6 +52,9 @@ function EnergyCountryExplorer(props) {
     countries.list.find(c => c.value === selectedCountry) :
     WORLD_COUNTRY;
 
+  console.log('config', config);
+  
+
   return (
     <div className="c-energy-country-explorer">
       <div className="l-section country-section">

@@ -1,8 +1,10 @@
 @import 'css/settings';
 
 .c-map-menu {
-    max-width: 300px;
-    min-width: 300px;
+    max-width: 330px;
+    min-width: 320px;
+    max-height: 700px;
+    overflow-y: auto;
 
     .dataset-group {
         display: flex;
@@ -12,6 +14,11 @@
         .group-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+
+            h4 {
+                margin: 0px;
+            }
 
             .number-of-datasets {
                 font-size: $font-size-tiny;

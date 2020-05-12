@@ -28,7 +28,8 @@ function MapMenu(props) {
 
     fetchDatasets({
       includes: 'metadata, layer, widget',
-      ids: datasetIDs.join(',')
+      ids: datasetIDs.join(','),
+      'page[size]': 50
     })
       .then((datasets) => {
         datasets.forEach(d => datasetsMap.set(d.id, d));
@@ -43,6 +44,10 @@ function MapMenu(props) {
       {groups.map((group) => {
                 const { name, datasets } = group;
                 const datasetsSt = `${datasets.length} DATASET${datasets.length > 1 ? 'S' : ''}`;
+                const datasetsArray = datasets.map(d => datasetsMap.get(d));
+                console.log('datasets', datasets);
+                console.log('datasetArray', datasetsArray);
+                
                 return (
                   <div className="dataset-group">
                     <div className="group-header">
@@ -52,7 +57,7 @@ function MapMenu(props) {
                     <DatasetList
                       loading={loading}
                       numberOfPlaceholders={2}
-                      list={datasets.map(d => datasetsMap.get(d))}
+                      list={datasetsArray}
                       actions={
                         <MediaQuery
                           minDeviceWidth={breakpoints.medium}
