@@ -30,7 +30,7 @@ function Section(props) {
           .catch(err => toastr.error(`Error loading widget ${w}`, err));
       });
     }
-  }, [data, widgets]);
+  }, [widgets]);
 
   const widgetBlockClassName = classnames({
     column: true,

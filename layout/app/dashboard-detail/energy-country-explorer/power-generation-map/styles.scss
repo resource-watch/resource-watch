@@ -7,7 +7,15 @@
     border-radius: 4px;
     padding: 3 * $space 0px 0px 3 * $space;
 
-    .map-container {
+    .main-container {
         display: flex;
+        width: 100%;
+        
+        .map-container {
+            position: relative;
+            width: 100%;
+            min-height: 100%;
+            margin-left: 3 * $space;
+        }
     }
 }
