@@ -69,7 +69,8 @@
             ],
             "header": "Power sector infrastructure can be affected by natural hazards",
             "description": "Societies rely on the critical electricity infrastructure, like power plants and transmission lines to ensure reliability. This infrastructure is susceptible to natural hazards including floods, fires, earthquakes, and many others that need to be managed to reduce vulnerabilities to the power sector and to inform strategic, forward-looking investments and reliable operations.",
-            "mapTitle": "Power infrastructure and natural hazards that might impact them"
+            "mapTitle": "Power infrastructure and natural hazards that might impact them",
+            "map": true
         },
         {
             "header": "Power generation & consumption",
