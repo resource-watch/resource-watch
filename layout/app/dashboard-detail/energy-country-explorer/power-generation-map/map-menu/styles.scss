@@ -1,0 +1,32 @@
+@import 'css/settings';
+
+.c-map-menu {
+    max-width: 330px;
+    min-width: 320px;
+    max-height: 700px;
+    overflow-y: auto;
+
+    .dataset-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 4 * $space;
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            h4 {
+                margin: 0px;
+            }
+
+            .number-of-datasets {
+                font-size: $font-size-tiny;
+            }
+        }
+
+        .c-explore-dataset-list {
+            margin: 0px 2 * $space 0px 2 * $space;
+        }
+    }
+}

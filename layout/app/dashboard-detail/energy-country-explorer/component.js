@@ -16,7 +16,6 @@ import { WRIAPI } from 'utils/axios';
 
 // Constants
 import { WORLD_COUNTRY } from './constants';
-import PowerGenerationMap from './power-generation-map';
 
 // Styles
 import './styles.scss';
@@ -40,18 +39,21 @@ function EnergyCountryExplorer(props) {
       .then((data) => {
         setCountries({
           loading: false,
-          list: [ 
-              WORLD_COUNTRY, 
-              ...data.data.data.map(c => ({ label: c.country, value: c.iso }))
-            ]
+          list: [
+            WORLD_COUNTRY,
+            ...data.data.data.map(c => ({ label: c.country, value: c.iso }))
+          ]
         });
       })
-      .catch(err => toastr.error('Error loading countries'));
+      .catch(err => toastr.error('Error loading countries', err));
   }, []);
 
   const selectedCountryObj = selectedCountry ?
     countries.list.find(c => c.value === selectedCountry) :
-    WORLD_COUNTRY;  
+    WORLD_COUNTRY;
+
+  console.log('config', config);
+  
 
   return (
     <div className="c-energy-country-explorer">
@@ -63,33 +65,33 @@ function EnergyCountryExplorer(props) {
                 <div className="country-selector">
                   <div>
                     <h1>
-                        {selectedCountryObj && selectedCountryObj.label}
-                      </h1>
+                      {selectedCountryObj && selectedCountryObj.label}
+                    </h1>
                     <p>
-                        {config && config.countrySelector.mainText}
-                      </p>
+                      {config && config.countrySelector.mainText}
+                    </p>
                     <Tooltip
-                        visible={tooltipOpen}
-                        overlay={
-                            <CountrySelector
-                                countries={countries.list}
-                                loading={countries.loading}
-                                onCountrySelected={() => setTooltipOpen(false)}
-                                selectedCountry={selectedCountry || WORLD_COUNTRY}
-                              />
+                      visible={tooltipOpen}
+                      overlay={
+                        <CountrySelector
+                          countries={countries.list}
+                          loading={countries.loading}
+                          onCountrySelected={() => setTooltipOpen(false)}
+                          selectedCountry={selectedCountry || WORLD_COUNTRY}
+                        />
                                             }
-                        overlayClassName="c-rc-tooltip -default -no-max-width"
-                        placement="bottom"
-                        trigger="click"
+                      overlayClassName="c-rc-tooltip -default -no-max-width"
+                      placement="bottom"
+                      trigger="click"
+                    >
+                      <button
+                        className="c-btn -secondary"
+                        tabIndex={-1}
+                        onClick={() => setTooltipOpen(true)}
                       >
-                        <button
-                            className="c-btn -secondary"
-                            tabIndex={-1}
-                            onClick={() => setTooltipOpen(true)}
-                          >
                                                 Select country
-                          </button>
-                      </Tooltip>
+                      </button>
+                    </Tooltip>
                   </div>
                 </div>
                 {selectedCountryObj && config && config.countryIndicators &&
@@ -104,33 +106,11 @@ function EnergyCountryExplorer(props) {
         </div>
       </div>
 
-      {/* ------- MAP SECTION ---------- */}
-      {config && selectedCountry &&
-        <div className="l-section">
-          <div className="l-container">
-            <div className="row">
-              <div className="column small-12">
-                <div className="section map">
-                  <h2>{config.map.header}</h2>
-                  <p>{config.map.description}</p>
-                  <PowerGenerationMap
-                    selectedCountry={selectedCountry}
-                    title={config.map.mapTitle}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-            }
-
       {/* ------- CUSTOM SECTIONS ---------- */}
       {selectedCountry && config &&
                 config.sections.map(section =>
                   (<CustomSection
-                    header={section.header}
-                    description={section.description}
-                    widgets={section.widgets}
+                    section={section}
                   />))
             }
     </div>
