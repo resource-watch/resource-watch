@@ -22,7 +22,7 @@
         "param": "ISO",
         "name": "Population",
         "world": true,
-        "worldQuery": ""
+        "worldQuery": "https://wri-rw.carto.com/api/v2/sql?q=SELECT sum(yr_data) as x, unit1 as unit, year FROM soc_076_country_population WHERE year = 2018 AND year IS NOT NULL AND yr_data IS NOT NULL GROUP BY year, unit1"
       },
       {
         "datasetID": "00abb46f-34e2-4bf7-be30-1fb0b1de022f",
@@ -43,8 +43,7 @@
         "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total as x, 'percentage' as unit, year FROM ene_012_electricity_access WHERE year = 2017 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), {ISO} as country_code  FROM ene_012_electricity_access) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = {ISO}",
         "param": "ISO",
         "name": "Population % with access to electricity",
-        "world": true,
-        "worldQuery": ""
+        "world": false
       },
       {
         "datasetID": "eef10736-8d8b-4ac9-a715-ef0653a83196",
@@ -52,7 +51,7 @@
         "param": "COUNTRY",
         "name": "Electricity consumption",
         "world": true,
-        "worldQuery": ""
+        "worldQuery": "https://wri-rw.carto.com/api/v2/sql?q=SELECT sum(electricity_consumption_billionkwh) as x, 'kWh, billions' as unit, year FROM ene_034_electricity_consumption_edit WHERE year = 2016 AND year IS NOT NULL AND electricity_consumption_billionkwh IS NOT NULL GROUP BY year"
       },
       {
         "datasetID": "a290675c-9528-4a51-8201-f6c2d7848744",
@@ -63,6 +62,11 @@
       }
     ],
     "sections": [
+        {
+            "header": "Power in relation to energy",
+            "description": "The power sector is a small share of the energy sector, but most climate scenarios show that compliance with the Paris Agreement will require a strong electrification of the economy.",
+            "widgets": []
+        },
         {
             "header": "Power generation & consumption",
             "description": "Countries generation electricity from different sources. Those include fossil fuels (coal, oil, gas), nuclear, and renewables (hydro, wind, solar, biomass) and others.",
