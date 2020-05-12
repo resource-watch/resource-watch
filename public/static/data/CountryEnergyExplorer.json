@@ -1,17 +1,4 @@
 {
-    "map": {
-        "groups": [
-            {
-                "name": "Power mix profile",
-                "datasets": [
-                    "a86d906d-9862-4783-9e30-cdb68cd808b8"
-                ]
-            }
-        ],
-        "header": "Power generation resilience and impacts",
-        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.",
-        "mapTitle": "Power mix profile, resilience to extreme natural events and impacts from power generation."
-    },
     "countrySelector": {
       "mainText": "The power sector (also called the electricity sector) is a segment of the global energy sector. Power enables electricity access, but also causes climate change, air pollution, increases water use and faces risks to natural hazards. Select a country to dive into data on national power sectors."
     },
@@ -66,6 +53,23 @@
             "header": "Power in relation to energy",
             "description": "The power sector is a small share of the energy sector, but most climate scenarios show that compliance with the Paris Agreement will require a strong electrification of the economy.",
             "widgets": []
+        },
+        {
+            "groups": [
+                {
+                    "name": "Power mix profile",
+                    "datasets": [
+                        "a86d906d-9862-4783-9e30-cdb68cd808b8"
+                    ]
+                },
+                {
+                    "name": "Natural hazards",
+                    "datasets": []
+                }
+            ],
+            "header": "Power sector infrastructure can be affected by natural hazards",
+            "description": "Societies rely on the critical electricity infrastructure, like power plants and transmission lines to ensure reliability. This infrastructure is susceptible to natural hazards including floods, fires, earthquakes, and many others that need to be managed to reduce vulnerabilities to the power sector and to inform strategic, forward-looking investments and reliable operations.",
+            "mapTitle": "Power infrastructure and natural hazards that might impact them"
         },
         {
             "header": "Power generation & consumption",
