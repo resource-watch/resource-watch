@@ -2,8 +2,12 @@
 
 .c-power-generation-map {
     display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 4px;
+    padding: 3 * $space 0px 0px 3 * $space;
 
-    .dataset-menu {
-        max-width: 300px;
+    .map-container {
+        display: flex;
     }
 }

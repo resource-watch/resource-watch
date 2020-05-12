@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
+import MapMenu from './map-menu';
 import Map from 'components/map';
 import LayerManager from 'components/map/layer-manager';
 import MapControls from 'components/map/controls';
@@ -12,11 +13,19 @@ import LayerPopup from 'components/map/popup';
 import './styles.scss';
 
 function PowerGenerationMap(props) {
-    const { selectedCountry, title } = props;
+  const { selectedCountry, mapTitle, groups } = props;
 
-    return (
-        <div className="c-power-generation-map">
-            {/* <div className="c-map">
+  return (
+    <div className="c-power-generation-map">
+      <div className="header">
+        <h4>{mapTitle}</h4>
+      </div>
+      <div className="main-container">
+        <MapMenu
+          groups={groups}
+        />
+      </div>
+      {/* <div className="c-map">
                 <Map
                     mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
                     onClick={() => {}}
@@ -79,13 +88,14 @@ function PowerGenerationMap(props) {
                     ))}
                 </Legend>
             </div> */}
-        </div>
-    );
-};
+    </div>
+  );
+}
 
 PowerGenerationMap.propTypes = {
-    selectedCountry: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
+  selectedCountry: PropTypes.string.isRequired,
+  mapTitle: PropTypes.string.isRequired,
+  groups: PropTypes.array.isRequired
 };
 
 export default PowerGenerationMap;

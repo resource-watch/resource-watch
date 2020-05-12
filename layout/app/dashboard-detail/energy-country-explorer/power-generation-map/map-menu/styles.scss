@@ -1,0 +1,25 @@
+@import 'css/settings';
+
+.c-map-menu {
+    max-width: 300px;
+    min-width: 300px;
+
+    .dataset-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 4 * $space;
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+
+            .number-of-datasets {
+                font-size: $font-size-tiny;
+            }
+        }
+
+        .c-explore-dataset-list {
+            margin: 0px 2 * $space 0px 2 * $space;
+        }
+    }
+}
