@@ -24,8 +24,6 @@ function MapMenu(props) {
 
   useEffect(() => {
     const datasetIDs = groups.reduce((acc, group) => [...acc, ...group.datasets], []);
-    console.log('datasetIDs', datasetIDs);
-
     fetchDatasets({
       includes: 'metadata, layer, widget',
       ids: datasetIDs.join(','),
@@ -45,8 +43,6 @@ function MapMenu(props) {
                 const { name, datasets } = group;
                 const datasetsSt = `${datasets.length} DATASET${datasets.length > 1 ? 'S' : ''}`;
                 const datasetsArray = datasets.map(d => datasetsMap.get(d));
-                console.log('datasets', datasets);
-                console.log('datasetArray', datasetsArray);
                 
                 return (
                   <div className="dataset-group">
