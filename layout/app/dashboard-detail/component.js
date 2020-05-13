@@ -46,6 +46,8 @@ function DashboardsDetailPage(props) {
     'page-header-content': true,
     '-with-tabs': isEnergyDashboard
   });
+  const headerText = (isEnergyDashboard && tab === 'country') ? 
+    headerDescription : summary;
 
   // Temporary logic to show the country explorer only in preproduction and localhost
   const hostname = typeof window !== 'undefined' && window.location.hostname;
@@ -69,23 +71,15 @@ function DashboardsDetailPage(props) {
   const handleToggleShareModal = showShareModal => setShowShareModal(showShareModal);
 
   useEffect(() => {
-    if (isEnergyDashboard && tab === 'country') {
-      fetchCountryPowerExplorerConfig()
+    fetchCountryPowerExplorerConfig()
         .then(config => setHeaderDescription(config.headerText))
         .catch(err => toastr.error('Error loading country power explorer config', err));
-    }
   }, []);
-
-  console.log('headerDescription', headerDescription);
-  console.log('summary', summary);
-
-  console.log('(isEnergyDashboard && tab === country)', (isEnergyDashboard && tab === 'country'));
-
 
   return (
     <Layout
       title={name}
-      description={headerDescription}
+      description={summary}
       pageHeader
       className="page-dashboards c-page-dashboards"
     >
@@ -102,7 +96,7 @@ function DashboardsDetailPage(props) {
                 ]}
                 />
                 <h1>{name}</h1>
-                {summary && (<h3>{summary}</h3>)}
+                {headerText && (<h3>{headerText}</h3>)}
                 <div className="page-header-info">
                   <ul>
                     <li>
