@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import { Router } from 'routes';
@@ -20,6 +20,7 @@ function CountrySelector(props) {
         selectedCountry
     } = props;
     const [filteredCountries, setFilteredCountries] = useState(countries);
+    const inputRef = useRef(null);
     const onSearchChange = debounce((search) => {
         if (search && search.length > 1) {
             setFilteredCountries(countries.filter(c =>
@@ -29,6 +30,9 @@ function CountrySelector(props) {
             setFilteredCountries(countries);
         }
     }, 250);
+
+    useEffect(() => inputRef.current.focus(), []);
+
     
     return (
         <div className="c-country-selector">
@@ -40,7 +44,8 @@ function CountrySelector(props) {
                 properties={{
                     name: 'search',
                     type: 'text',
-                    placeholder: 'Search'
+                    placeholder: 'Search',
+                    ref: inputRef
                 }}
             >
                 {Input}
