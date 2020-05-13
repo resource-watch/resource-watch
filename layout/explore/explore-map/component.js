@@ -74,22 +74,32 @@ class ExploreMap extends PureComponent {
     setMapLayerGroupsInteractionSelected: PropTypes.func.isRequired,
     resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
     setSelectedDataset: PropTypes.func.isRequired,
-    setSidebarAnchor: PropTypes.func.isRequired
+    setSidebarAnchor: PropTypes.func.isRequired,
+    exploreBehavior: PropTypes.bool,
+    onLayerInfoButtonClick: PropTypes.func
   };
 
   static defaultProps = {
     embed: false,
     layerGroupsInteractionSelected: null,
-    layerGroupsInteractionLatLng: null
+    layerGroupsInteractionLatLng: null,
+    exploreBehavior: true
   }
 
   state = { layer: null, loading: {} };
 
   onChangeInfo = (layer) => {
+    const { exploreBehavior, onLayerInfoButtonClick } = this.props;
+    
     this.setState({ layer });
+    
     if (layer) {
-      this.props.setSelectedDataset(layer.dataset);
-      this.props.setSidebarAnchor('layers');
+      if (exploreBehavior && onLayerInfoButtonClick) {
+        onLayerInfoButtonClick(layer);
+      } else {
+        this.props.setSelectedDataset(layer.dataset);
+        this.props.setSidebarAnchor('layers');
+      }
     }
   };
 
