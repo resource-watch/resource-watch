@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
 import ExploreMap from 'layout/explore/explore-map';
+import Modal from 'components/modal/modal-component';
 import MapMenu from './map-menu';
+import LayerInfoModal from './layer-info-modal';
 
 // Styles
 import './styles.scss';
 
 function PowerGenerationMap(props) {
     const { selectedCountry, mapTitle, groups } = props;
+    const [layerModalOpen, setLayerModalOpen] = useState(false);
+    const [selectedLayer, setSelectedLayer] = useState(null);
 
     return (
         <div className="c-power-generation-map">
@@ -21,9 +25,22 @@ function PowerGenerationMap(props) {
                     groups={groups}
                 />
                 <div className="map-container" >
-                    <ExploreMap />
+                    <ExploreMap
+                        exploreDefault={false}
+                        onLayerInfoButtonClick={(layer) => {
+                            setSelectedLayer(layer);
+                            setLayerModalOpen(true);
+                        }}
+                    />
                 </div>
             </div>
+            <Modal
+                isOpen={layerModalOpen}
+                onRequestClose={() => setLayerModalOpen(false)}
+                className="-medium"
+            >
+                { selectedLayer && <LayerInfoModal layer={selectedLayer} /> }
+            </Modal>
         </div>
     );
 }
