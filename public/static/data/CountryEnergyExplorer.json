@@ -58,11 +58,20 @@
         {
             "groups": [
                 {
-                    "name": "Power mix profile",
+                    "name": "Power Infrastructure",
                     "datasets": [
-                        "a86d906d-9862-4783-9e30-cdb68cd808b8"
+                        "a86d906d-9862-4783-9e30-cdb68cd808b8",
+                        "dbca28fe-d6bf-464f-9f86-fc8b1d81e381"
                     ]
                 },
+                {
+                    "name": "Power demand",
+                    "datasets": [
+                        "65c0e15b-dad0-4681-934e-91c0a378d2fb",
+                        "249cb5ff-0ad1-461c-bcaa-15fb44f45d72",
+                        "b6ceb159-efd8-42de-9c6a-d658801d8922"
+                     ]
+                }
                 {
                     "name": "Natural hazards",
                     "datasets": [
@@ -75,14 +84,6 @@
                         "c4e0474f-45a7-49b1-a1da-e8f041114e9d",
                         "444138cd-8ef4-48b3-b197-73e324175ad0"
                     ]
-                },
-                {
-                    "name": "Power demand",
-                    "datasets": [
-                        "65c0e15b-dad0-4681-934e-91c0a378d2fb",
-                        "249cb5ff-0ad1-461c-bcaa-15fb44f45d72",
-                        "b6ceb159-efd8-42de-9c6a-d658801d8922"
-                     ]
                 }
             ],
             "header": "Power sector infrastructure can be affected by natural hazards",
