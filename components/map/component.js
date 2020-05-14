@@ -300,10 +300,7 @@ class Map extends PureComponent {
     const { longitude, latitude, zoom } = new WebMercatorViewport(viewport).fitBounds(
       [[bbox[0], bbox[1]], [bbox[2], bbox[3]]],
       options
-    );
-
-    console.log('bounds', bounds);
-    
+    );    
 
     const newViewport = {
       ...currentViewport,

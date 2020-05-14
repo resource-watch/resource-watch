@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import axios from 'axios';
 import d3 from 'd3';
+import { Tooltip } from 'vizzuality-components';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -55,9 +56,9 @@ function IndicatorCard(props) {
     }
   }, [country.label, country.value, indicator]);
 
-  const handleInfoButtonClicked = (dataset) => {
-    Router.pushRoute('explore', { dataset });
-  };
+  // const handleInfoButtonClicked = (dataset) => {
+  //   Router.pushRoute('explore', { dataset });
+  // };
 
   return (
     <div className="c-indicator-card">
@@ -75,16 +76,31 @@ function IndicatorCard(props) {
           <div className="indicator-value">
             {(queryResult && queryResult.value) || '-'}
           </div>
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => handleInfoButtonClicked(indicator.datasetID)}
-            onKeyPress={() => handleInfoButtonClicked(indicator.datasetID)}
-          >
-            <Icon name="icon-info" />
-          </div>
-        </Fragment>
+          <Tooltip
+            overlay={
+              <div>
+                Hola
+                </div>
             }
+            overlayClassName="c-rc-tooltip -default"
+            placement="top"
+            trigger={['click']}
+            mouseLeaveDelay={0}
+            destroyTooltipOnHide
+          >
+            <div
+              className="info-button"
+              role="button"
+              tabIndex={0}
+              // onClick={() => handleInfoButtonClicked(indicator.datasetID)}
+              // onKeyPress={() => handleInfoButtonClicked(indicator.datasetID)}
+            >
+              <Icon name="icon-info" />
+            </div>
+          </Tooltip>
+
+        </Fragment>
+      }
     </div>
   );
 }

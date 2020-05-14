@@ -46,23 +46,22 @@ function EnergyCountryExplorer(props) {
       })
       .catch(err => toastr.error('Error loading countries', err));
     
-    if (selectedCountry !== WORLD_COUNTRY.value) {
-      loadSelectedCountry();
-    }
+    loadSelectedCountry();
+
   }, []);
 
   useEffect(() => {
-    if (selectedCountry !== WORLD_COUNTRY.value) {
-      loadSelectedCountry();
-    }
+    loadSelectedCountry();
   }, [selectedCountry]);
 
-  const loadSelectedCountry = () => {
-    axios.get(`http://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
+  const loadSelectedCountry = () => {    
+    if (selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
+      axios.get(`http://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
       .then((data) => {        
         setSelectedCountryBbox(data.data.data.attributes.bbox);
       })
       .catch(err => toastr.error(`Error loading country: ${selectedCountry}`, err));
+    }
   };
 
   const selectedCountryObj = selectedCountry ?
