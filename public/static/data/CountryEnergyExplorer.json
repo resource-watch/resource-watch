@@ -98,7 +98,7 @@
             "map": true
         },
         {
-            "header": "Power generation & consumption",
+            "header": "Power generation",
             "description": "Countries generation electricity from different sources. Those include fossil fuels (coal, oil, gas), nuclear, and renewables (hydro, wind, solar, biomass) and others.",
             "widgets": [
                 "74204b2f-1cab-408c-a15e-3d20f5c30d20"
