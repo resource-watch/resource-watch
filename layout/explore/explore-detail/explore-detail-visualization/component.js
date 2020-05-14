@@ -51,7 +51,7 @@ function ExploreDetailVisualization(props) {
           toastr.error('Error creating widget', err);
         });
     }
-  };
+  };  
 
   return (
     <div className="c-explore-detail-visualization">

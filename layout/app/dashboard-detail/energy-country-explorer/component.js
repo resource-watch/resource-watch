@@ -56,7 +56,7 @@ function EnergyCountryExplorer(props) {
 
   const loadSelectedCountry = () => {    
     if (selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
-      axios.get(`http://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
+      axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
       .then((data) => {        
         setSelectedCountryBbox(data.data.data.attributes.bbox);
       })
