@@ -8,6 +8,7 @@ import { Tooltip } from 'vizzuality-components';
 // Components
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/icon';
+import InfoTooltip from './info-tooltip';
 
 // Constants
 import { WORLD_COUNTRY } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
@@ -25,6 +26,10 @@ function IndicatorCard(props) {
   });
   const [loading, setLoading] = useState(true);
   const [countryIsWorld, setCountryIsWorld] = useState(false);
+  const [indicatorDataset, setIndicatorDataset] = useState({
+    loading: true,
+    dataset: null
+  })
 
   useEffect(() => {
     if (indicator) {
@@ -55,11 +60,7 @@ function IndicatorCard(props) {
         });
     }
   }, [country.label, country.value, indicator]);
-
-  // const handleInfoButtonClicked = (dataset) => {
-  //   Router.pushRoute('explore', { dataset });
-  // };
-
+  
   return (
     <div className="c-indicator-card">
       <Spinner isLoading={loading} className="-light -relative" />
@@ -78,11 +79,11 @@ function IndicatorCard(props) {
           </div>
           <Tooltip
             overlay={
-              <div>
-                Hola
-                </div>
+              <InfoTooltip 
+                datasetID={indicator.datasetID}
+              />
             }
-            overlayClassName="c-rc-tooltip -default"
+            overlayClassName="c-rc-tooltip -default -no-max-width"
             placement="top"
             trigger={['click']}
             mouseLeaveDelay={0}
