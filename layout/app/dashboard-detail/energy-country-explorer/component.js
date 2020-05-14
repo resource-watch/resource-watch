@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import axios from 'axios';
 
 // Components
 import { Tooltip } from 'vizzuality-components';
@@ -10,9 +11,6 @@ import CountryIndicators from './country-indicators';
 
 // Services
 import { fetchCountryPowerExplorerConfig } from 'services/config';
-
-// Utils
-import { WRIAPI } from 'utils/axios';
 
 // Constants
 import { WORLD_COUNTRY } from './constants';
@@ -28,6 +26,7 @@ function EnergyCountryExplorer(props) {
   });
   const [config, setConfig] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [selectedCountryBbox, setSelectedCountryBbox] = useState(null);
 
   useEffect(() => {
     // Load config
@@ -35,7 +34,7 @@ function EnergyCountryExplorer(props) {
       .then(data => setConfig(data));
 
     // Load countries
-    WRIAPI.get('https://api.resourcewatch.org/v1/query/a86d906d-9862-4783-9e30-cdb68cd808b8?sql=SELECT distinct(country_long) as country, country as iso FROM powerwatch_data_20180102 ORDER BY country_long ASC')
+    axios.get('https://api.resourcewatch.org/v1/query/a86d906d-9862-4783-9e30-cdb68cd808b8?sql=SELECT distinct(country_long) as country, country as iso FROM powerwatch_data_20180102 ORDER BY country_long ASC')
       .then((data) => {
         setCountries({
           loading: false,
@@ -46,7 +45,23 @@ function EnergyCountryExplorer(props) {
         });
       })
       .catch(err => toastr.error('Error loading countries', err));
+    
+    if (selectedCountry) {
+      loadSelectedCountry();
+    }
   }, []);
+
+  useEffect(() => {
+    loadSelectedCountry();
+  }, [selectedCountry]);
+
+  const loadSelectedCountry = () => {
+    axios.get(`http://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
+      .then((data) => {        
+        setSelectedCountryBbox(data.data.data.attributes.bbox);
+      })
+      .catch(err => toastr.error(`Error loading country: ${selectedCountry}`, err));
+  };
 
   const selectedCountryObj = selectedCountry ?
     countries.list.find(c => c.value === selectedCountry) :
@@ -108,6 +123,7 @@ function EnergyCountryExplorer(props) {
                 config.sections.map(section =>
                   (<CustomSection
                     section={section}
+                    bbox={selectedCountryBbox}
                   />))
             }
     </div>

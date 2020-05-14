@@ -302,6 +302,9 @@ class Map extends PureComponent {
       options
     );
 
+    console.log('bounds', bounds);
+    
+
     const newViewport = {
       ...currentViewport,
       longitude,

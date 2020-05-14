@@ -11,8 +11,8 @@ import PowerGenerationMap from '../power-generation-map';
 import { fetchWidget } from 'services/widget';
 
 
-function Section(props) {
-  const { section, user } = props;
+function CustomSection(props) {
+  const { section, user, bbox } = props;
   const { widgets, header, description, map, groups, mapTitle } = section;
   const [widgetBlocks, setWidgetBlocks] = useState(widgets && widgets.map(w => ({ content: { widgetId: w } })));
   const [data, setData] = useState({});
@@ -37,7 +37,7 @@ function Section(props) {
     'small-12': true,
     'medium-6': widgets && widgets.length > 1,
     'large-4': widgets && widgets.length > 2
-  });
+  });  
 
   return (
     <div className="c-custom-section l-section">
@@ -62,6 +62,7 @@ function Section(props) {
             <PowerGenerationMap
               groups={groups}
               mapTitle={mapTitle}
+              bbox={bbox}
             />
                         }
           </div>
@@ -71,9 +72,14 @@ function Section(props) {
   );
 }
 
-Section.propTypes = {
+CustomSection.propTypes = {
   section: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  bbox: PropTypes.array
 };
 
-export default Section;
+CustomSection.defaultProps = {
+  bbox: []
+};
+
+export default CustomSection;
