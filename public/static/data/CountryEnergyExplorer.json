@@ -66,13 +66,13 @@
                 {
                     "name": "Power Infrastructure",
                     "datasets": [
-                        "a86d906d-9862-4783-9e30-cdb68cd808b8",
-                        "dbca28fe-d6bf-464f-9f86-fc8b1d81e381"
+                        "a86d906d-9862-4783-9e30-cdb68cd808b8"
                     ]
                 },
                 {
                     "name": "Power demand",
                     "datasets": [
+                        "dbca28fe-d6bf-464f-9f86-fc8b1d81e381",
                         "65c0e15b-dad0-4681-934e-91c0a378d2fb",
                         "249cb5ff-0ad1-461c-bcaa-15fb44f45d72",
                         "b6ceb159-efd8-42de-9c6a-d658801d8922"
