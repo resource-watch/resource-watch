@@ -104,7 +104,7 @@ function EnergyCountryExplorer(props) {
       </div>
 
       {/* ------- CUSTOM SECTIONS ---------- */}
-      {selectedCountry && config &&
+      {config &&
                 config.sections.map(section =>
                   (<CustomSection
                     section={section}
