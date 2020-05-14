@@ -448,7 +448,7 @@ class ExploreMap extends PureComponent {
     });
 
     console.log('---ACTIVE LAYERS---');
-    console.log(activeLayers);
+    console.log(activeLayers);  
 
     return (
       <div className="l-explore-map -relative">

@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { Router } from 'routes';
 import axios from 'axios';
 import d3 from 'd3';
+import { Tooltip } from 'vizzuality-components';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/icon';
+import InfoTooltip from './info-tooltip';
 
 // Constants
 import { WORLD_COUNTRY } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
@@ -24,6 +26,10 @@ function IndicatorCard(props) {
   });
   const [loading, setLoading] = useState(true);
   const [countryIsWorld, setCountryIsWorld] = useState(false);
+  const [indicatorDataset, setIndicatorDataset] = useState({
+    loading: true,
+    dataset: null
+  })
 
   useEffect(() => {
     if (indicator) {
@@ -54,11 +60,7 @@ function IndicatorCard(props) {
         });
     }
   }, [country.label, country.value, indicator]);
-
-  const handleInfoButtonClicked = (dataset) => {
-    Router.pushRoute('explore', { dataset });
-  };
-
+  
   return (
     <div className="c-indicator-card">
       <Spinner isLoading={loading} className="-light -relative" />
@@ -75,16 +77,31 @@ function IndicatorCard(props) {
           <div className="indicator-value">
             {(queryResult && queryResult.value) || '-'}
           </div>
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => handleInfoButtonClicked(indicator.datasetID)}
-            onKeyPress={() => handleInfoButtonClicked(indicator.datasetID)}
-          >
-            <Icon name="icon-info" />
-          </div>
-        </Fragment>
+          <Tooltip
+            overlay={
+              <InfoTooltip 
+                datasetID={indicator.datasetID}
+              />
             }
+            overlayClassName="c-rc-tooltip -default -no-max-width"
+            placement="top"
+            trigger={['click']}
+            mouseLeaveDelay={0}
+            destroyTooltipOnHide
+          >
+            <div
+              className="info-button"
+              role="button"
+              tabIndex={0}
+              // onClick={() => handleInfoButtonClicked(indicator.datasetID)}
+              // onKeyPress={() => handleInfoButtonClicked(indicator.datasetID)}
+            >
+              <Icon name="icon-info" />
+            </div>
+          </Tooltip>
+
+        </Fragment>
+      }
     </div>
   );
 }
