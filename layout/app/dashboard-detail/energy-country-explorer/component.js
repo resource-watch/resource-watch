@@ -46,13 +46,15 @@ function EnergyCountryExplorer(props) {
       })
       .catch(err => toastr.error('Error loading countries', err));
     
-    if (selectedCountry) {
+    if (selectedCountry !== WORLD_COUNTRY.value) {
       loadSelectedCountry();
     }
   }, []);
 
   useEffect(() => {
-    loadSelectedCountry();
+    if (selectedCountry !== WORLD_COUNTRY.value) {
+      loadSelectedCountry();
+    }
   }, [selectedCountry]);
 
   const loadSelectedCountry = () => {
