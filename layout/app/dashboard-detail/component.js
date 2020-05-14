@@ -149,7 +149,7 @@ function DashboardsDetailPage(props) {
       {isEnergyDashboard && tab === 'country' &&
         <EnergyCountryExplorer />
       }
-      {!isEnergyDashboard || (isEnergyDashboard && tab !== 'country') &&
+      {(!isEnergyDashboard || (isEnergyDashboard && tab !== 'country')) &&
         <div className="l-section">
           <div className="l-container">
             <div className="row">
