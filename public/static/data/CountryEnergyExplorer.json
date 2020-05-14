@@ -1,5 +1,5 @@
 {
-    "headerText": "Energy services are central to most aspects of life. This dashboard provides an overview of the global energy sector, as well as a country level view of the power sector, which represents about 20% of the global energy sector.",
+    "headerText": "Energy services are central to most aspects of life. This dashboard provides an overview of the global energy sector, as well as a country level view of the power sector, which represents about 20% of final energy consumption and 42% of energy greenhouse gas emissions.",
     "countrySelector": {
       "mainText": "The power sector (also called the electricity sector) is a segment of the global energy sector. Power enables electricity access, but also causes climate change, air pollution, increases water use and faces risks to natural hazards. Select a country to dive into data on national power sectors."
     },
@@ -98,11 +98,14 @@
             "map": true
         },
         {
-            "header": "Power generation",
+            "header": "Power consumption",
             "description": "Countries generation electricity from different sources. Those include fossil fuels (coal, oil, gas), nuclear, and renewables (hydro, wind, solar, biomass) and others.",
             "widgets": [
                 "74204b2f-1cab-408c-a15e-3d20f5c30d20"
-            ]
+            ],
+            "widgetsWorld": [
+                "dcb73b1b-f744-4db3-ae44-c4552b04e457"
+             ]
         },
         {
             "header": "Providing reliable and sustainable energy for all",
