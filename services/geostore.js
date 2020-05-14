@@ -91,7 +91,7 @@ export const fetchCountries = () => {
 };
 
 /**
- * Get country
+ * Fetch country
  * @param {String} iso
  */
 export const fetchCountry = (iso) => {

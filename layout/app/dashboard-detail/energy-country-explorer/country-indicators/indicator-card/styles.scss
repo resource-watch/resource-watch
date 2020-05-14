@@ -13,15 +13,6 @@
         top: 50%;
     }
 
-    .c-icon {
-        position: absolute;
-        top: $space;
-        right: $space;
-        width: 15px;
-        height: 15px;
-        cursor: pointer;
-    }
-
     .indicator-name {
         height: 50%;
         display: flex;
@@ -36,6 +27,12 @@
         position: absolute;
         top: $space;
         right: $space;
+
+        .c-icon {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
     }
 
     .indicator-value {

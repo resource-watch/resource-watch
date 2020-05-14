@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
@@ -11,10 +11,16 @@ import LayerInfoModal from './layer-info-modal';
 import './styles.scss';
 
 function PowerGenerationMap(props) {
-    const { selectedCountry, mapTitle, groups } = props;
+    const { mapTitle, groups, bbox, setBounds } = props;
     const [layerModalOpen, setLayerModalOpen] = useState(false);
     const [selectedLayer, setSelectedLayer] = useState(null);
 
+    useEffect(() => {
+        if (bbox) {
+            props.setBounds({ bbox, options: {} });
+        }
+    }, [bbox]);
+    
     return (
         <div className="c-power-generation-map">
             <div className="header">
@@ -46,9 +52,13 @@ function PowerGenerationMap(props) {
 }
 
 PowerGenerationMap.propTypes = {
-    selectedCountry: PropTypes.string.isRequired,
     mapTitle: PropTypes.string.isRequired,
-    groups: PropTypes.array.isRequired
+    groups: PropTypes.array.isRequired,
+    bbox: PropTypes.array
 };
+
+PowerGenerationMap.defaultProps = {
+    bbox: null
+}
 
 export default PowerGenerationMap;
