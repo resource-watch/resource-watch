@@ -10,6 +10,8 @@ import PowerGenerationMap from '../power-generation-map';
 // Services
 import { fetchWidget } from 'services/widget';
 
+// Styles
+import './styles.scss';
 
 function CustomSection(props) {
   const { section, user, bbox } = props;
@@ -44,8 +46,10 @@ function CustomSection(props) {
       <div className="l-container">
         <div className="row">
           <div className="column small-12">
-            <h2>{header}</h2>
-            <p>{description}</p>
+            <div className="text-container">
+              <h2>{header}</h2>
+              <p>{description}</p>
+            </div>
             {!map &&
             <div className="row">
               {widgetBlocks.map(block =>
