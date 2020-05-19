@@ -167,7 +167,18 @@
         {
             "header": "Power sector greenhouse gas emissions, countries climate targets and projections",
             "description": "The power sector is the single largest greenhouse gas emitter globally, but the share in national emissions vary. To achieve the Paris Agreement most countries need to increase the share of renewables and 73% of countries have set energy sector targets.",
-            "widgets": []
+            "widgets": [
+              {
+                "id": "e3014344-ba33-409b-a2c2-055895a4f776",
+                "widgetsPerRow": 1
+              }
+            ],
+            "widgetsWorld": [
+              {
+                "id": "d4bba918-792c-4be2-acd2-8972a3769bee",
+                "widgetsPerRow": 1
+              }
+            ]
         }
     ]
 }
