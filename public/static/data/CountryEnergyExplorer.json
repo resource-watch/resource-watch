@@ -59,7 +59,26 @@
         {
             "header": "Power in relation to energy",
             "description": "The power sector is a small share of the energy sector, but most climate scenarios show that compliance with the Paris Agreement will require a strong electrification of the economy.",
-            "widgets": []
+            "widgets": [
+              {
+                "id": "de318066-eaad-4f4f-a9ed-75c30b50e1aa",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "5306dc07-3303-4e32-b1df-a3b2fc265cdb",
+                "widgetsPerRow": 2
+              }
+            ],
+            "widgetsWorld": [
+              {
+                "id": "88e34ba-7849-4b5d-823e-1d0d03576a22",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "ce90c151-f70a-48e3-92f1-6b62c1436a4c",
+                "widgetsPerRow": 2
+              }
+            ]
         },
         {
             "groups": [
@@ -101,16 +120,49 @@
             "header": "Power consumption",
             "description": "Countries generation electricity from different sources. Those include fossil fuels (coal, oil, gas), nuclear, and renewables (hydro, wind, solar, biomass) and others.",
             "widgets": [
-                "74204b2f-1cab-408c-a15e-3d20f5c30d20"
+              {
+                "id": "17354eda-9d85-4efd-8159-81adee50c0d5",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "3b92b22a-5432-423f-8cb0-535ba210ca1f",
+                "widgetsPerRow": 2
+              }
             ],
             "widgetsWorld": [
-                "dcb73b1b-f744-4db3-ae44-c4552b04e457"
-             ]
+              {
+                "id": "dcb73b1b-f744-4db3-ae44-c4552b04e457",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "f25455ff-e0b3-4d1a-a4f6-976acaf51967",
+                "widgetsPerRow": 2
+              }
+            ]
         },
         {
             "header": "Providing reliable and sustainable energy for all",
             "description": "Clean and convenient modern electricity is still out of reach for many, but the energy transition also provides many opportunities for action.",
-            "widgets": []
+            "widgets": [
+              {
+                "id": "8d0a16d7-b609-4ab9-9b46-0a9c8e296508",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "3b92b22a-5432-423f-8cb0-535ba210ca1f",
+                "widgetsPerRow": 2
+              }
+            ],
+            "widgetsWorld": [
+              {
+                "id": "17b236d2-42a9-461a-809a-3e8cb027e424",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "e138baf-17f2-4608-8f1a-295a8f99b304",
+                "widgetsPerRow": 2
+              }
+            ]
         },
         {
             "header": "Power sector greenhouse gas emissions, countries climate targets and projections",
