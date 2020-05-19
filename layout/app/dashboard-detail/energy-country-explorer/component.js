@@ -125,6 +125,7 @@ function EnergyCountryExplorer(props) {
                   (<CustomSection
                     section={section}
                     bbox={selectedCountryBbox}
+                    country={selectedCountryObj}
                   />))
             }
     </div>

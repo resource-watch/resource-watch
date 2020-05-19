@@ -10,35 +10,46 @@ import PowerGenerationMap from '../power-generation-map';
 // Services
 import { fetchWidget } from 'services/widget';
 
+// Constants
+import { WORLD_COUNTRY } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
+
 // Styles
 import './styles.scss';
 
 function CustomSection(props) {
-  const { section, user, bbox } = props;
-  const { widgets, header, description, map, groups, mapTitle } = section;
-  const [widgetBlocks, setWidgetBlocks] = useState(widgets && widgets.map(w => ({ content: { widgetId: w } })));
+  const { section, user, bbox, country } = props;
+  const { widgets, header, description, map, groups, mapTitle, widgetsWorld } = section;
+  const countryIsWorld = country.value === WORLD_COUNTRY.value;
+  const widgetBlocks = countryIsWorld ? 
+    widgetsWorld && widgetsWorld.map(w => ({ content: { widgetId: w.id } })) :
+    widgets && widgets.map(w => ({ content: { widgetId: w.id } }));
   const [data, setData] = useState({});
 
   useEffect(() => {
-    if (widgets) {
-      widgets.forEach((w) => {
-        fetchWidget(w, { includes: 'metadata' })
+    if (widgetBlocks) {
+      widgetBlocks.forEach((w) => {
+        const widgetID = w.content.widgetId;
+        fetchWidget(widgetID, { includes: 'metadata' })
           .then((response) => {
             setData({
               ...data,
-              [w]: response
+              [widgetID]: response
             });
           })
-          .catch(err => toastr.error(`Error loading widget ${w}`, err));
+          .catch(err => toastr.error(`Error loading widget ${widgetID}: ${err}`));
       });
     }
-  }, [widgets]);
+  }, []);
 
   const widgetBlockClassName = classnames({
     column: true,
     'small-12': true,
-    'medium-6': widgets && widgets.length > 1,
-    'large-4': widgets && widgets.length > 2
+    'medium-6': countryIsWorld ? 
+      widgetsWorld && widgetsWorld[0].widgetsPerRow === 2 :
+      widgets && widgets[0].widgetsPerRow === 2,
+    'large-4': countryIsWorld ? 
+      widgetsWorld && widgetsWorld[0].widgetsPerRow === 3 :
+      widgets && widgets[0].widgetsPerRow === 3
   });  
 
   return (
@@ -52,7 +63,7 @@ function CustomSection(props) {
             </div>
             {!map &&
             <div className="row">
-              {widgetBlocks.map(block =>
+              {widgetBlocks && widgetBlocks.map(block =>
                                   (<div className={widgetBlockClassName}>
                                     <WidgetBlock
                                       user={user}
@@ -79,6 +90,7 @@ function CustomSection(props) {
 CustomSection.propTypes = {
   section: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
+  country: PropTypes.object.isRequired,
   bbox: PropTypes.array
 };
 
