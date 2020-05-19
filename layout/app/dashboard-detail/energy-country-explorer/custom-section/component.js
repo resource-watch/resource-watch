@@ -19,11 +19,14 @@ import './styles.scss';
 function CustomSection(props) {
   const { section, user, bbox, country } = props;
   const { widgets, header, description, map, groups, mapTitle, widgetsWorld } = section;
-  const countryIsWorld = country.value === WORLD_COUNTRY.value;
+  const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
   const widgetBlocks = countryIsWorld ? 
     widgetsWorld && widgetsWorld.map(w => ({ content: { widgetId: w.id } })) :
     widgets && widgets.map(w => ({ content: { widgetId: w.id } }));
   const [data, setData] = useState({});
+
+  console.log('countryIsWorld', countryIsWorld);
+  
 
   useEffect(() => {
     if (widgetBlocks) {
@@ -31,6 +34,10 @@ function CustomSection(props) {
         const widgetID = w.content.widgetId;
         fetchWidget(widgetID, { includes: 'metadata' })
           .then((response) => {
+
+            console.log('response', response);
+            
+
             setData({
               ...data,
               [widgetID]: response
@@ -39,7 +46,7 @@ function CustomSection(props) {
           .catch(err => toastr.error(`Error loading widget ${widgetID}: ${err}`));
       });
     }
-  }, []);
+  }, [country]);
 
   const widgetBlockClassName = classnames({
     column: true,
