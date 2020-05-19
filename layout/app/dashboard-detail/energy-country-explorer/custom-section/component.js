@@ -20,44 +20,62 @@ function CustomSection(props) {
   const { section, user, bbox, country } = props;
   const { widgets, header, description, map, groups, mapTitle, widgetsWorld } = section;
   const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
-  const widgetBlocks = countryIsWorld ? 
+  const widgetBlocks = countryIsWorld ?
     widgetsWorld && widgetsWorld.map(w => ({ content: { widgetId: w.id } })) :
     widgets && widgets.map(w => ({ content: { widgetId: w.id } }));
-  const [data, setData] = useState({});
-
-  console.log('countryIsWorld', countryIsWorld);
-  
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     if (widgetBlocks) {
-      widgetBlocks.forEach((w) => {
-        const widgetID = w.content.widgetId;
-        fetchWidget(widgetID, { includes: 'metadata' })
-          .then((response) => {
+      const promises = widgetBlocks.map(wB => fetchWidget(wB.content.widgetId, { includes: 'metadata' }));
+      Promise.all(promises)
+        .then((responses) => {
+          if (!countryIsWorld) {
+            const reducedResult = responses.reduce((acc, resp) => {
+              const key = resp.widgetConfig.sql_config[0].key_params[0].key;
+              const isISO = key === 'country_code';
+              const dataObj = resp.widgetConfig.data[0];
+              const newDataObj = {
+                ...dataObj,
+                url: dataObj.url.replace(new RegExp(
+                  '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : country.label}')`)
+              };
 
-            console.log('response', response);
-            
+              const newWidgetConfig = {
+                ...resp.widgetConfig,
+                data: [newDataObj]
+              };
 
-            setData({
-              ...data,
-              [widgetID]: response
-            });
-          })
-          .catch(err => toastr.error(`Error loading widget ${widgetID}: ${err}`));
-      });
+              const newWidget = {
+                ...resp,
+                widgetConfig: newWidgetConfig
+              }
+
+              return ({ ...acc, [resp.id]: newWidget });
+            }, {});
+
+            setData(reducedResult);
+          } else {
+            setData(responses.reduce((acc, resp) => ({ ...acc, [resp.id]: resp.value })));
+          }
+        })
+        .catch(err => toastr.error(`Error loading widget ${err}`));
     }
   }, [country]);
 
   const widgetBlockClassName = classnames({
     column: true,
     'small-12': true,
-    'medium-6': countryIsWorld ? 
+    'medium-6': countryIsWorld ?
       widgetsWorld && widgetsWorld[0].widgetsPerRow === 2 :
       widgets && widgets[0].widgetsPerRow === 2,
-    'large-4': countryIsWorld ? 
+    'large-4': countryIsWorld ?
       widgetsWorld && widgetsWorld[0].widgetsPerRow === 3 :
       widgets && widgets[0].widgetsPerRow === 3
-  });  
+  });
+
+  // console.log('data', data);
+
 
   return (
     <div className="c-custom-section l-section">
@@ -69,24 +87,24 @@ function CustomSection(props) {
               <p>{description}</p>
             </div>
             {!map &&
-            <div className="row">
-              {widgetBlocks && widgetBlocks.map(block =>
-                                  (<div className={widgetBlockClassName}>
-                                    <WidgetBlock
-                                      user={user}
-                                      item={block}
-                                      data={data}
-                                    />
-                                   </div>))}
-            </div>
-                        }
+              <div className="row">
+                {data && widgetBlocks && widgetBlocks.map(block =>
+                  (<div className={widgetBlockClassName}>
+                    <WidgetBlock
+                      user={user}
+                      item={block}
+                      data={data}
+                    />
+                  </div>))}
+              </div>
+            }
             {map &&
-            <PowerGenerationMap
-              groups={groups}
-              mapTitle={mapTitle}
-              bbox={bbox}
-            />
-                        }
+              <PowerGenerationMap
+                groups={groups}
+                mapTitle={mapTitle}
+                bbox={bbox}
+              />
+            }
           </div>
         </div>
       </div>

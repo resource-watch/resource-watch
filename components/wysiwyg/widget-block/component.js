@@ -168,6 +168,9 @@ class WidgetBlock extends PureComponent {
       layersError
     } = data[id];
 
+    //console.log('WIDGET BLOCK data', data);
+    
+
     const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0 &&
       widget.metadata[0].info)) || {};
 
