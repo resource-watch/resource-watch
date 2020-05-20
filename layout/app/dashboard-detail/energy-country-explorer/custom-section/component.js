@@ -4,39 +4,76 @@ import { toastr } from 'react-redux-toastr';
 import classnames from 'classnames';
 
 // Components
-import WidgetBlock from 'components/wysiwyg/widget-block';
+import DashboardWidgetCard from 'layout/app/dashboard-detail/dashboard-widget-card';
 import PowerGenerationMap from '../power-generation-map';
 
 // Services
 import { fetchWidget } from 'services/widget';
 
+// Constants
+import { WORLD_COUNTRY } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
+
+// Styles
+import './styles.scss';
 
 function CustomSection(props) {
-  const { section, user, bbox } = props;
-  const { widgets, header, description, map, groups, mapTitle } = section;
-  const [widgetBlocks, setWidgetBlocks] = useState(widgets && widgets.map(w => ({ content: { widgetId: w } })));
-  const [data, setData] = useState({});
+  const { section, bbox, country } = props;
+  const { widgets, header, description, map, groups, mapTitle, widgetsWorld } = section;
+  const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
+  const widgetBlocks = countryIsWorld ?
+    widgetsWorld && widgetsWorld.map(w => w.id) :
+    widgets && widgets.map(w => w.id);
+  const [data, setData] = useState(null);
+  const [widgetsLoading, setWidgetsLoading] = useState(false);
 
   useEffect(() => {
-    if (widgets) {
-      widgets.forEach((w) => {
-        fetchWidget(w, { includes: 'metadata' })
-          .then((response) => {
-            setData({
-              ...data,
-              [w]: response
-            });
-          })
-          .catch(err => toastr.error(`Error loading widget ${w}`, err));
-      });
+    if (widgetBlocks) {
+      const promises = widgetBlocks.map(id => fetchWidget(id, { includes: 'metadata' }));
+      Promise.all(promises)
+        .then((responses) => {
+          if (!countryIsWorld) {
+            const reducedResult = responses.reduce((acc, resp) => {              
+              const key = resp.widgetConfig.sql_config[0].key_params[0].key;
+              const isISO = key === 'country_code';
+              const dataObj = resp.widgetConfig.data[0];
+              const newDataObj = {
+                ...dataObj,
+                url: dataObj.url.replace(new RegExp(
+                  '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : country.label}')`)
+              };                 
+
+              const newWidgetConfig = {
+                ...resp.widgetConfig,
+                data: [newDataObj]
+              };
+
+              const newWidget = {
+                ...resp,
+                widgetConfig: newWidgetConfig
+              }
+
+              return ({ ...acc, [resp.id]: newWidget });
+            }, {});
+
+            setData(reducedResult);
+          } else {
+            setData(responses.reduce((acc, resp) => ({ ...acc, [resp.id]: resp }), {}));
+          }
+          setWidgetsLoading(false);
+        })
+        .catch(err => toastr.error(`Error loading widget ${err}`));
     }
-  }, [widgets]);
+  }, [country]);
 
   const widgetBlockClassName = classnames({
     column: true,
     'small-12': true,
-    'medium-6': widgets && widgets.length > 1,
-    'large-4': widgets && widgets.length > 2
+    'medium-6': countryIsWorld ?
+      widgetsWorld && widgetsWorld[0].widgetsPerRow === 2 :
+      widgets && widgets[0].widgetsPerRow === 2,
+    'large-4': countryIsWorld ?
+      widgetsWorld && widgetsWorld[0].widgetsPerRow === 3 :
+      widgets && widgets[0].widgetsPerRow === 3
   });  
 
   return (
@@ -44,27 +81,28 @@ function CustomSection(props) {
       <div className="l-container">
         <div className="row">
           <div className="column small-12">
-            <h2>{header}</h2>
-            <p>{description}</p>
-            {!map &&
-            <div className="row">
-              {widgetBlocks.map(block =>
-                                  (<div className={widgetBlockClassName}>
-                                    <WidgetBlock
-                                      user={user}
-                                      item={block}
-                                      data={data}
-                                    />
-                                   </div>))}
+            <div className="text-container">
+              <h2>{header}</h2>
+              <p>{description}</p>
             </div>
-                        }
+            {!map &&
+              <div className="row">
+                {widgetBlocks && widgetBlocks.map(id =>
+                  (<div className={widgetBlockClassName}>
+                    <DashboardWidgetCard
+                      widget={data && data[id]}
+                      loading={widgetsLoading}
+                    />
+                  </div>))}
+              </div>
+            }
             {map &&
-            <PowerGenerationMap
-              groups={groups}
-              mapTitle={mapTitle}
-              bbox={bbox}
-            />
-                        }
+              <PowerGenerationMap
+                groups={groups}
+                mapTitle={mapTitle}
+                bbox={bbox}
+              />
+            }
           </div>
         </div>
       </div>
@@ -74,7 +112,7 @@ function CustomSection(props) {
 
 CustomSection.propTypes = {
   section: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
+  country: PropTypes.object.isRequired,
   bbox: PropTypes.array
 };
 
