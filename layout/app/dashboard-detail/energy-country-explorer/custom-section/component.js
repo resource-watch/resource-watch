@@ -4,7 +4,7 @@ import { toastr } from 'react-redux-toastr';
 import classnames from 'classnames';
 
 // Components
-import WidgetBlock from 'components/wysiwyg/widget-block';
+import DashboardWidgetCard from 'layout/app/dashboard-detail/dashboard-widget-card';
 import PowerGenerationMap from '../power-generation-map';
 
 // Services
@@ -17,17 +17,17 @@ import { WORLD_COUNTRY } from 'layout/app/dashboard-detail/energy-country-explor
 import './styles.scss';
 
 function CustomSection(props) {
-  const { section, user, bbox, country } = props;
+  const { section, bbox, country } = props;
   const { widgets, header, description, map, groups, mapTitle, widgetsWorld } = section;
   const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
   const widgetBlocks = countryIsWorld ?
-    widgetsWorld && widgetsWorld.map(w => ({ content: { widgetId: w.id } })) :
-    widgets && widgets.map(w => ({ content: { widgetId: w.id } }));
+    widgetsWorld && widgetsWorld.map(w => w.id) :
+    widgets && widgets.map(w => w.id);
   const [data, setData] = useState(null);
 
   useEffect(() => {
     if (widgetBlocks) {
-      const promises = widgetBlocks.map(wB => fetchWidget(wB.content.widgetId, { includes: 'metadata' }));
+      const promises = widgetBlocks.map(id => fetchWidget(id, { includes: 'metadata' }));
       Promise.all(promises)
         .then((responses) => {
           if (!countryIsWorld) {
@@ -53,7 +53,7 @@ function CustomSection(props) {
 
               return ({ ...acc, [resp.id]: newWidget });
             }, {});
-
+            
             setData(reducedResult);
           } else {
             setData(responses.reduce((acc, resp) => ({ ...acc, [resp.id]: resp.value })));
@@ -74,8 +74,8 @@ function CustomSection(props) {
       widgets && widgets[0].widgetsPerRow === 3
   });
 
-  // console.log('data', data);
-
+  console.log('CS data', data);
+  
 
   return (
     <div className="c-custom-section l-section">
@@ -88,12 +88,10 @@ function CustomSection(props) {
             </div>
             {!map &&
               <div className="row">
-                {data && widgetBlocks && widgetBlocks.map(block =>
+                {data && widgetBlocks && widgetBlocks.map(id =>
                   (<div className={widgetBlockClassName}>
-                    <WidgetBlock
-                      user={user}
-                      item={block}
-                      data={data}
+                    <DashboardWidgetCard
+                      widget={data[id]}
                     />
                   </div>))}
               </div>
