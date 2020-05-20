@@ -1,6 +1,11 @@
 @import 'css/settings';
 
 .c-custom-section {
+
+    .text-container {
+        max-width: 790px;
+        margin-bottom: 12 * $space;
+    }
     .c-widget-block {
         max-height: 480px;
     }

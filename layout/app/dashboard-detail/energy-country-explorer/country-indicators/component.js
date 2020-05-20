@@ -17,7 +17,7 @@ function CountryIndicators(props) {
     <div className="c-country-indicators">
       {indicators && indicators.filter(i => 
           (country.value === WORLD_COUNTRY.value) ? 
-            i.world : true
+            i.world : i.country
           ).map(indicator =>
           (<IndicatorCard
             indicator={indicator}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
 import axios from 'axios';
 import d3 from 'd3';
 import { Tooltip } from 'vizzuality-components';
@@ -26,10 +25,6 @@ function IndicatorCard(props) {
   });
   const [loading, setLoading] = useState(true);
   const [countryIsWorld, setCountryIsWorld] = useState(false);
-  const [indicatorDataset, setIndicatorDataset] = useState({
-    loading: true,
-    dataset: null
-  })
 
   useEffect(() => {
     if (indicator) {

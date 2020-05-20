@@ -120,11 +120,12 @@ function EnergyCountryExplorer(props) {
       </div>
 
       {/* ------- CUSTOM SECTIONS ---------- */}
-      {config &&
+      {config && selectedCountryObj &&
                 config.sections.map(section =>
                   (<CustomSection
                     section={section}
                     bbox={selectedCountryBbox}
+                    country={selectedCountryObj}
                   />))
             }
     </div>
