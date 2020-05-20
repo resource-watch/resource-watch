@@ -32,7 +32,7 @@ function CustomSection(props) {
       Promise.all(promises)
         .then((responses) => {
           if (!countryIsWorld) {
-            const reducedResult = responses.reduce((acc, resp) => {
+            const reducedResult = responses.reduce((acc, resp) => {              
               const key = resp.widgetConfig.sql_config[0].key_params[0].key;
               const isISO = key === 'country_code';
               const dataObj = resp.widgetConfig.data[0];
@@ -40,7 +40,7 @@ function CustomSection(props) {
                 ...dataObj,
                 url: dataObj.url.replace(new RegExp(
                   '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : country.label}')`)
-              };
+              };                 
 
               const newWidgetConfig = {
                 ...resp.widgetConfig,
@@ -74,7 +74,7 @@ function CustomSection(props) {
     'large-4': countryIsWorld ?
       widgetsWorld && widgetsWorld[0].widgetsPerRow === 3 :
       widgets && widgets[0].widgetsPerRow === 3
-  });
+  });  
 
   return (
     <div className="c-custom-section l-section">
@@ -112,7 +112,6 @@ function CustomSection(props) {
 
 CustomSection.propTypes = {
   section: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
   country: PropTypes.object.isRequired,
   bbox: PropTypes.array
 };
