@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
+import Renderer from '@widget-editor/renderer';
 
 import {
     Tooltip,
@@ -37,21 +38,17 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 import './styles.scss';
 
 function DashboardWidgetCard(props) {
-    const { user, widget } = props;
-    const [ shareModalOpen, setShareModalOpen ] = useState(false);
-    const [ infoCardOpen, setInfoCardOpen ] = useState(false);
-    const widgetType = null;
-
-    console.log('widget', widget);
-
+    const { user, widget, loading } = props;
+    const widgetConfig = widget && widget.widgetConfig;
+    const [shareModalOpen, setShareModalOpen] = useState(false);
+    const [infoCardOpen, setInfoCardOpen] = useState(false);
+    const widgetType = widget && widget.type;
     const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0 &&
         widget.metadata[0].info)) || {};
 
     const widgetLinks = metadataInfo.widgetLinks || [];
-    const widgetIsEmbed = widget && widget.widgetConfig && widget.widgetConfig.type === 'embed';
-    const widgetEmbedUrl = widgetIsEmbed && widget.widgetConfig.url;
-    const caption = metadataInfo && metadataInfo.caption;
-    const componentClass = classnames('c-widget-block', { [`-${widgetType}`]: !!widgetType });
+    const widgetIsEmbed = widgetType === 'embed';
+    const widgetEmbedUrl = widgetIsEmbed && widgetConfig.url;
     const isInACollection = belongsToACollection(user, widget);
     const starIconName = classnames({
         'icon-star-full': isInACollection,
@@ -61,6 +58,9 @@ function DashboardWidgetCard(props) {
         'icon-cross': infoCardOpen,
         'icon-info': !infoCardOpen
     });
+
+    console.log('widget', widget, 'widgetType', widgetType, 'widgetConfig', widgetConfig);
+    
 
     return (
         <div className="c-dashboard-widget-card">
@@ -88,8 +88,8 @@ function DashboardWidgetCard(props) {
                                 >
                                     <ShareModal
                                         links={{
-                                            link: typeof window !== 'undefined' && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
-                                            embed: typeof window !== 'undefined' && `${window.location.origin}/embed/${widgetType}/${widget.id}`
+                                            link: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
+                                            embed: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`
                                         }}
                                         analytics={{
                                             facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
@@ -138,6 +138,18 @@ function DashboardWidgetCard(props) {
                 </div>
             </header>
             <div className="widget-container">
+                <Spinner isLoading={loading} className="-light -small" />
+                {widgetType === 'text' && widget &&
+                    <TextChart
+                        widgetConfig={widgetConfig}
+                        toggleLoading={loading => onToggleLoading(loading)}
+                    />
+                }
+
+                { widgetType === 'widget' &&
+                    <Renderer widgetConfig={widgetConfig} />
+                }
+
                 {infoCardOpen &&
                     <div className="widget-modal">
                         {widget && !widget.description &&

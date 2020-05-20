@@ -24,6 +24,7 @@ function CustomSection(props) {
     widgetsWorld && widgetsWorld.map(w => w.id) :
     widgets && widgets.map(w => w.id);
   const [data, setData] = useState(null);
+  const [widgetsLoading, setWidgetsLoading] = useState(false);
 
   useEffect(() => {
     if (widgetBlocks) {
@@ -53,11 +54,12 @@ function CustomSection(props) {
 
               return ({ ...acc, [resp.id]: newWidget });
             }, {});
-            
+
             setData(reducedResult);
           } else {
-            setData(responses.reduce((acc, resp) => ({ ...acc, [resp.id]: resp.value })));
+            setData(responses.reduce((acc, resp) => ({ ...acc, [resp.id]: resp })));
           }
+          setWidgetsLoading(false);
         })
         .catch(err => toastr.error(`Error loading widget ${err}`));
     }
@@ -74,9 +76,6 @@ function CustomSection(props) {
       widgets && widgets[0].widgetsPerRow === 3
   });
 
-  console.log('CS data', data);
-  
-
   return (
     <div className="c-custom-section l-section">
       <div className="l-container">
@@ -88,10 +87,11 @@ function CustomSection(props) {
             </div>
             {!map &&
               <div className="row">
-                {data && widgetBlocks && widgetBlocks.map(id =>
+                {widgetBlocks && widgetBlocks.map(id =>
                   (<div className={widgetBlockClassName}>
                     <DashboardWidgetCard
-                      widget={data[id]}
+                      widget={data && data[id]}
+                      loading={widgetsLoading}
                     />
                   </div>))}
               </div>
