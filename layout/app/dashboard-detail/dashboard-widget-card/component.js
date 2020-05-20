@@ -57,10 +57,7 @@ function DashboardWidgetCard(props) {
     const modalIcon = classnames({
         'icon-cross': infoCardOpen,
         'icon-info': !infoCardOpen
-    });
-
-    console.log('widget', widget, 'widgetType', widgetType, 'widgetConfig', widgetConfig);
-    
+    });    
 
     return (
         <div className="c-dashboard-widget-card">

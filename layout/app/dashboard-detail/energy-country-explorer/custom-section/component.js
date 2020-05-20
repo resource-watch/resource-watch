@@ -57,7 +57,7 @@ function CustomSection(props) {
 
             setData(reducedResult);
           } else {
-            setData(responses.reduce((acc, resp) => ({ ...acc, [resp.id]: resp })));
+            setData(responses.reduce((acc, resp) => ({ ...acc, [resp.id]: resp }), {}));
           }
           setWidgetsLoading(false);
         })
