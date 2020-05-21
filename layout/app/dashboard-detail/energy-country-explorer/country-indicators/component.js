@@ -22,6 +22,7 @@ function CountryIndicators(props) {
           (<IndicatorCard
             indicator={indicator}
             country={country}
+            key={`indicator-${indicator.datasetID}`}
           />))}
     </div>
   );

@@ -78,7 +78,7 @@ CountrySelector.propTypes = {
     countries: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
     onCountrySelected: PropTypes.func.isRequired,
-    selectedCountry: PropTypes.object
+    selectedCountry: PropTypes.string
 }
 
 CountrySelector.defaultProps = {

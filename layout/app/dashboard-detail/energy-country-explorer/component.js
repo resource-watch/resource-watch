@@ -61,12 +61,18 @@ function EnergyCountryExplorer(props) {
         setSelectedCountryBbox(data.data.data.attributes.bbox);
       })
       .catch(err => toastr.error(`Error loading country: ${selectedCountry}`, err));
+    } else {
+      setSelectedCountryBbox(null);
     }
   };
 
   const selectedCountryObj = selectedCountry ?
     countries.list.find(c => c.value === selectedCountry) :
     WORLD_COUNTRY;
+
+  const showCustomSections = config && (!selectedCountry || (selectedCountryObj && (
+    (selectedCountry === WORLD_COUNTRY.value) || 
+    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox))));
 
   return (
     <div className="c-energy-country-explorer">
@@ -120,12 +126,13 @@ function EnergyCountryExplorer(props) {
       </div>
 
       {/* ------- CUSTOM SECTIONS ---------- */}
-      {config && selectedCountryObj &&
+      {showCustomSections &&
                 config.sections.map(section =>
                   (<CustomSection
                     section={section}
                     bbox={selectedCountryBbox}
                     country={selectedCountryObj}
+                    key={`section-${section.header}`}
                   />))
             }
     </div>

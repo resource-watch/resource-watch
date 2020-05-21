@@ -151,6 +151,14 @@
               {
                 "id": "3b92b22a-5432-423f-8cb0-535ba210ca1f",
                 "widgetsPerRow": 2
+              },
+              {
+                "id": "779301a3-4e61-4c21-bb87-a6ecc62933d1",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "91721bdc-31ab-43b1-a3cd-4881f80186d8",
+                "widgetsPerRow": 2
               }
             ],
             "widgetsWorld": [
@@ -160,6 +168,14 @@
               },
               {
                 "id": "2e138baf-17f2-4608-8f1a-295a8f99b304",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "779301a3-4e61-4c21-bb87-a6ecc62933d1",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "91721bdc-31ab-43b1-a3cd-4881f80186d8",
                 "widgetsPerRow": 2
               }
             ]

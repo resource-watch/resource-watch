@@ -17,7 +17,7 @@ function PowerGenerationMap(props) {
 
     useEffect(() => {
         if (bbox) {
-            props.setBounds({ bbox, options: {} });
+            setBounds({ bbox, options: {} });
         }
     }, [bbox]);
     
