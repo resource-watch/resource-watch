@@ -47,7 +47,7 @@ function DashboardWidgetCard(props) {
         'icon-cross': infoCardOpen,
         'icon-info': !infoCardOpen
     });    
-
+    
     return (
         <div className="c-dashboard-widget-card">
             <header>

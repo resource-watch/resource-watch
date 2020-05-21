@@ -32,34 +32,42 @@ function CustomSection(props) {
       Promise.all(promises)
         .then((responses) => {
           if (!countryIsWorld) {
-            const reducedResult = responses.reduce((acc, resp) => {              
-              const key = resp.widgetConfig.sql_config[0].key_params[0].key;
-              const isISO = key === 'country_code';
-              const dataObj = resp.widgetConfig.data[0];
-              const newDataObj = {
-                ...dataObj,
-                url: dataObj.url.replace(new RegExp(
-                  '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : country.label}')`)
-              };                 
+            const reducedResult = responses.reduce((acc, resp) => {
+              const visualizationType = resp.widgetConfig.paramsConfig.visualizationType;
+              if (visualizationType === 'chart') {
+                const key = resp.widgetConfig.sql_config[0].key_params[0].key;
+                const isISO = key === 'country_code';
+                const dataObj = resp.widgetConfig.data[0];
+                const newDataObj = {
+                  ...dataObj,
+                  url: dataObj.url.replace(new RegExp(
+                    '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : country.label}')`)
+                };
 
-              const newWidgetConfig = {
-                ...resp.widgetConfig,
-                data: [newDataObj]
-              };
+                const newWidgetConfig = {
+                  ...resp.widgetConfig,
+                  data: [newDataObj, ...resp.widgetConfig.data.slice(1, dataObj.length)]
+                };
 
-              console.log('bbox', bbox, 'newWidgetConfig', newWidgetConfig);
+                const newWidget = {
+                  ...resp,
+                  widgetConfig: newWidgetConfig
+                }
 
-              const newWidget = {
-                ...resp,
-                widgetConfig: newWidgetConfig
+                return ({ ...acc, [resp.id]: newWidget });
+              } else if (visualizationType === 'map') {
+                // Replacing Bounding box with that from the selected country                
+                const newWidgetConfig = {
+                  ...resp.widgetConfig,
+                  bbox
+                };
+                const newWidget = {
+                  ...resp,
+                  widgetConfig: newWidgetConfig
+                }
+                return ({ ...acc, [resp.id]: newWidget });
               }
-
-              return ({ ...acc, [resp.id]: newWidget });
             }, {});
-
-            
-
-            
 
             setData(reducedResult);
           } else {
@@ -67,7 +75,10 @@ function CustomSection(props) {
           }
           setWidgetsLoading(false);
         })
-        .catch(err => toastr.error(`Error loading widget ${err}`));
+        .catch(err => {
+          toastr.error(`Error loading widget ${err}`);
+          console.error(err);
+        });
     }
   }, [country]);
 
@@ -80,7 +91,7 @@ function CustomSection(props) {
     'large-4': countryIsWorld ?
       widgetsWorld && widgetsWorld[0].widgetsPerRow === 3 :
       widgets && widgets[0].widgetsPerRow === 3
-  });  
+  });
 
   return (
     <div className="c-custom-section l-section">

@@ -92,7 +92,9 @@ class ExplorePage extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.shouldUpdateUrl(prevProps)) {
+    const { isServer } = this.props;
+    
+    if (!isServer && this.shouldUpdateUrl(prevProps)) {
       this.setExploreURL();
     }
   }
