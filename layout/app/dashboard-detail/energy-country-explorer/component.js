@@ -70,9 +70,9 @@ function EnergyCountryExplorer(props) {
     countries.list.find(c => c.value === selectedCountry) :
     WORLD_COUNTRY;
 
-  const showCustomSections = config && selectedCountryObj && (
+  const showCustomSections = config && (!selectedCountry || (selectedCountryObj && (
     (selectedCountry === WORLD_COUNTRY.value) || 
-    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox));
+    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox))));
 
   return (
     <div className="c-energy-country-explorer">
