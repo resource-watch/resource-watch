@@ -126,6 +126,7 @@ function EnergyCountryExplorer(props) {
                     section={section}
                     bbox={selectedCountryBbox}
                     country={selectedCountryObj}
+                    key={`section-${section.header}`}
                   />))
             }
     </div>

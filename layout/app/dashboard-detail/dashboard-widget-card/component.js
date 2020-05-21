@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import isEmpty from 'lodash/isEmpty';
 import Renderer from '@widget-editor/renderer';
 
 import {
-    Tooltip,
-    Legend,
-    LegendListItem,
-    LegendItemTypes
+    Tooltip
 } from 'vizzuality-components';
 
 // components
-import Map from 'components/map';
-import LayerManager from 'components/map/layer-manager';
-import MapControls from 'components/map/controls';
-import ZoomControls from 'components/map/controls/zoom';
 import TextChart from 'components/widgets/charts/TextChart';
 import LoginRequired from 'components/ui/login-required';
 import Icon from 'components/ui/icon';
@@ -27,9 +19,6 @@ import ShareModal from 'components/modal/share-modal';
 
 // utils
 import { logEvent } from 'utils/analytics';
-
-// constants
-import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';

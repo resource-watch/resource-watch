@@ -47,6 +47,8 @@ function CustomSection(props) {
                 data: [newDataObj]
               };
 
+              console.log('bbox', bbox, 'newWidgetConfig', newWidgetConfig);
+
               const newWidget = {
                 ...resp,
                 widgetConfig: newWidgetConfig
@@ -54,6 +56,10 @@ function CustomSection(props) {
 
               return ({ ...acc, [resp.id]: newWidget });
             }, {});
+
+            
+
+            
 
             setData(reducedResult);
           } else {
@@ -92,6 +98,7 @@ function CustomSection(props) {
                     <DashboardWidgetCard
                       widget={data && data[id]}
                       loading={widgetsLoading}
+                      key={`dashboard-widget-card-${id}`}
                     />
                   </div>))}
               </div>
