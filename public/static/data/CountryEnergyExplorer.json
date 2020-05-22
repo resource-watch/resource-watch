@@ -159,6 +159,10 @@
               {
                 "id": "91721bdc-31ab-43b1-a3cd-4881f80186d8",
                 "widgetsPerRow": 2
+              },
+              {
+                "id": "68eb3203-170c-4d5b-8a07-6e463283570e",
+                "widgetsPerRow": 1
               }
             ],
             "widgetsWorld": [
@@ -177,6 +181,10 @@
               {
                 "id": "91721bdc-31ab-43b1-a3cd-4881f80186d8",
                 "widgetsPerRow": 2
+              },
+              {
+                "id": "68eb3203-170c-4d5b-8a07-6e463283570e",
+                "widgetsPerRow": 1
               }
             ]
         },

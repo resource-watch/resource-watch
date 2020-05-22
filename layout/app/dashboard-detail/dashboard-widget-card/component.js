@@ -36,7 +36,7 @@ function DashboardWidgetCard(props) {
         widget.metadata[0].info)) || {};
 
     const widgetLinks = metadataInfo.widgetLinks || [];
-    const widgetIsEmbed = widgetType === 'embed';
+    const widgetIsEmbed = widgetConfig && widgetConfig.type === 'embed';
     const widgetEmbedUrl = widgetIsEmbed && widgetConfig.url;
     const isInACollection = belongsToACollection(user, widget);
     const starIconName = classnames({
@@ -46,7 +46,7 @@ function DashboardWidgetCard(props) {
     const modalIcon = classnames({
         'icon-cross': infoCardOpen,
         'icon-info': !infoCardOpen
-    });    
+    });        
     
     return (
         <div className="c-dashboard-widget-card">
@@ -132,7 +132,7 @@ function DashboardWidgetCard(props) {
                     />
                 }
 
-                { widgetType === 'widget' &&
+                { widgetType === 'widget' && !widgetIsEmbed &&
                     <Renderer widgetConfig={widgetConfig} />
                 }
 

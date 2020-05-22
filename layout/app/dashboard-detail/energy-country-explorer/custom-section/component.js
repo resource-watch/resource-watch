@@ -20,15 +20,13 @@ function CustomSection(props) {
   const { section, bbox, country } = props;
   const { widgets, header, description, map, groups, mapTitle, widgetsWorld } = section;
   const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
-  const widgetBlocks = countryIsWorld ?
-    widgetsWorld && widgetsWorld.map(w => w.id) :
-    widgets && widgets.map(w => w.id);
+  const widgetBlocks = countryIsWorld ? widgetsWorld : widgets;
   const [data, setData] = useState(null);
   const [widgetsLoading, setWidgetsLoading] = useState(false);
 
   useEffect(() => {
     if (widgetBlocks) {
-      const promises = widgetBlocks.map(id => fetchWidget(id, { includes: 'metadata' }));
+      const promises = widgetBlocks.map(wB => fetchWidget(wB.id, { includes: 'metadata' }));
       Promise.all(promises)
         .then((responses) => {
           if (!countryIsWorld) {
@@ -82,17 +80,6 @@ function CustomSection(props) {
     }
   }, [country]);
 
-  const widgetBlockClassName = classnames({
-    column: true,
-    'small-12': true,
-    'medium-6': countryIsWorld ?
-      widgetsWorld && widgetsWorld[0].widgetsPerRow === 2 :
-      widgets && widgets[0].widgetsPerRow === 2,
-    'large-4': countryIsWorld ?
-      widgetsWorld && widgetsWorld[0].widgetsPerRow === 3 :
-      widgets && widgets[0].widgetsPerRow === 3
-  });
-
   return (
     <div className="c-custom-section l-section">
       <div className="l-container">
@@ -104,14 +91,21 @@ function CustomSection(props) {
             </div>
             {!map &&
               <div className="row">
-                {widgetBlocks && widgetBlocks.map(id =>
-                  (<div className={widgetBlockClassName}>
+                {widgetBlocks && widgetBlocks.map(wB => {
+                  const widgetBlockClassName = classnames({
+                    column: true,
+                    'small-12': true,
+                    'medium-6': wB.widgetsPerRow === 2,
+                    'large-4': wB.widgetsPerRow === 3
+                  });
+                  return (<div className={widgetBlockClassName}>
                     <DashboardWidgetCard
-                      widget={data && data[id]}
+                      widget={data && data[wB.id]}
                       loading={widgetsLoading}
-                      key={`dashboard-widget-card-${id}`}
+                      key={`dashboard-widget-card-${wB.id}`}
                     />
-                  </div>))}
+                  </div>);
+                })}
               </div>
             }
             {map &&
