@@ -136,6 +136,10 @@ function DashboardWidgetCard(props) {
                     <Renderer widgetConfig={widgetConfig} />
                 }
 
+                {widgetIsEmbed &&
+                    <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
+                }
+
                 {infoCardOpen &&
                     <div className="widget-modal">
                         {widget && !widget.description &&

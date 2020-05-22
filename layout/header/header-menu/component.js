@@ -49,7 +49,7 @@ class HeaderMenu extends PureComponent {
 
             const activeClassName = classnames({ '-active': item.pathnames && item.pathnames.includes(routes.pathname) });
             const component = this.headerComponents[item.id];
-
+            
             return (
               <li
                 key={item.label}
