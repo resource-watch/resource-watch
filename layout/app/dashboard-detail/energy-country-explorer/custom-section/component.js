@@ -31,39 +31,45 @@ function CustomSection(props) {
         .then((responses) => {
           if (!countryIsWorld) {
             const reducedResult = responses.reduce((acc, resp) => {
-              const visualizationType = resp.widgetConfig.paramsConfig.visualizationType;
-              if (visualizationType === 'chart') {
-                const key = resp.widgetConfig.sql_config[0].key_params[0].key;
-                const isISO = key === 'country_code';
-                const dataObj = resp.widgetConfig.data[0];
-                const newDataObj = {
-                  ...dataObj,
-                  url: dataObj.url.replace(new RegExp(
-                    '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : country.label}')`)
-                };
+              if (resp.widgetConfig.type === 'embed') {
+                // TO-DO: we should change the swipe viz here if necessary to adjust
+                // the map position to the country selected
+                return ({ ...acc, [resp.id]: resp });
+              } else {
+                const visualizationType = resp.widgetConfig.paramsConfig.visualizationType;
+                if (visualizationType === 'chart') {
+                  const key = resp.widgetConfig.sql_config[0].key_params[0].key;
+                  const isISO = key === 'country_code';
+                  const dataObj = resp.widgetConfig.data[0];
+                  const newDataObj = {
+                    ...dataObj,
+                    url: dataObj.url.replace(new RegExp(
+                      '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : country.label}')`)
+                  };
 
-                const newWidgetConfig = {
-                  ...resp.widgetConfig,
-                  data: [newDataObj, ...resp.widgetConfig.data.slice(1, dataObj.length)]
-                };
+                  const newWidgetConfig = {
+                    ...resp.widgetConfig,
+                    data: [newDataObj, ...resp.widgetConfig.data.slice(1, dataObj.length)]
+                  };
 
-                const newWidget = {
-                  ...resp,
-                  widgetConfig: newWidgetConfig
+                  const newWidget = {
+                    ...resp,
+                    widgetConfig: newWidgetConfig
+                  }
+
+                  return ({ ...acc, [resp.id]: newWidget });
+                } else if (visualizationType === 'map') {
+                  // Replacing Bounding box with that from the selected country                
+                  const newWidgetConfig = {
+                    ...resp.widgetConfig,
+                    bbox
+                  };
+                  const newWidget = {
+                    ...resp,
+                    widgetConfig: newWidgetConfig
+                  }
+                  return ({ ...acc, [resp.id]: newWidget });
                 }
-
-                return ({ ...acc, [resp.id]: newWidget });
-              } else if (visualizationType === 'map') {
-                // Replacing Bounding box with that from the selected country                
-                const newWidgetConfig = {
-                  ...resp.widgetConfig,
-                  bbox
-                };
-                const newWidget = {
-                  ...resp,
-                  widgetConfig: newWidgetConfig
-                }
-                return ({ ...acc, [resp.id]: newWidget });
               }
             }, {});
 
