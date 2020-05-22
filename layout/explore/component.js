@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 
@@ -33,14 +33,6 @@ function Explore(props) {
     userIsLoggedIn
   } = props;
   const [mobileWarningOpened, setMobileWarningOpened] = useState(true);
-  const [exploreSectionAlreadyLoaded, setExploreSectionAlreadyLoaded] = useState(!selected);
-  const exploreSectionShouldBeLoaded = !selected || exploreSectionAlreadyLoaded;
-
-  useEffect(() => {
-    if (!exploreSectionAlreadyLoaded) {
-      setExploreSectionAlreadyLoaded(true);
-    }
-  }, [selected]);
 
   const getSidebarLayout = () => (
     <Fragment>
@@ -51,32 +43,25 @@ function Explore(props) {
         key={section}
       >
         {section === EXPLORE_SECTIONS.ALL_DATA &&
-          exploreSectionShouldBeLoaded &&
           <ExploreDatasets />
         }
         {section === EXPLORE_SECTIONS.TOPICS &&
-          exploreSectionShouldBeLoaded &&
           <ExploreTopics />
         }
-        {section === EXPLORE_SECTIONS.COLLECTIONS && userIsLoggedIn
-          && exploreSectionShouldBeLoaded &&
+        {section === EXPLORE_SECTIONS.COLLECTIONS && userIsLoggedIn && 
           <ExploreCollections />
         }
-        {section === EXPLORE_SECTIONS.FAVORITES && userIsLoggedIn
-          && exploreSectionShouldBeLoaded &&
+        {section === EXPLORE_SECTIONS.FAVORITES && userIsLoggedIn && 
           <ExploreFavorites />
         }
         {(section === EXPLORE_SECTIONS.COLLECTIONS ||
-          section === EXPLORE_SECTIONS.FAVORITES) && !userIsLoggedIn
-          && exploreSectionShouldBeLoaded &&
+          section === EXPLORE_SECTIONS.FAVORITES) && !userIsLoggedIn && 
           <ExploreLogin />
         }
         {section === EXPLORE_SECTIONS.DISCOVER &&
-          exploreSectionShouldBeLoaded &&
           <ExploreDiscover />
         }
-        {section === EXPLORE_SECTIONS.NEAR_REAL_TIME
-          && exploreSectionShouldBeLoaded &&
+        {section === EXPLORE_SECTIONS.NEAR_REAL_TIME && 
           <ExploreNearRealTime />
         }
       </div>

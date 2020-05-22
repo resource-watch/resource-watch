@@ -91,10 +91,8 @@ class ExplorePage extends PureComponent {
     return {};
   }
 
-  componentDidUpdate(prevProps) {
-    const { isServer } = this.props;
-    
-    if (!isServer && this.shouldUpdateUrl(prevProps)) {
+  componentDidUpdate(prevProps) {    
+    if (this.shouldUpdateUrl(prevProps)) {
       this.setExploreURL();
     }
   }
@@ -169,7 +167,7 @@ class ExplorePage extends PureComponent {
 
   shouldUpdateUrl(prevProps) {
     const { explore: { datasets, filters, sort, map } } = this.props;
-
+    
     const {
       explore: {
         datasets: prevDatasets,
@@ -195,7 +193,7 @@ class ExplorePage extends PureComponent {
 
     return (
       // Map
-      map.viewport.zoom !== prevMap.zoom ||
+      map.viewport.zoom !== prevMap.viewport.zoom ||
       map.viewport.latitude !== prevMap.viewport.latitude ||
       map.viewport.longitude !== prevMap.viewport.longitude ||
       map.viewport.pitch !== prevMap.viewport.pitch ||
