@@ -200,7 +200,11 @@
             "widgetsWorld": [
               {
                 "id": "d4bba918-792c-4be2-acd2-8972a3769bee",
-                "widgetsPerRow": 1
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "4f25f659-e738-4475-ab2f-627915ac57bb",
+                "widgetsPerRow": 2
               }
             ]
         }
