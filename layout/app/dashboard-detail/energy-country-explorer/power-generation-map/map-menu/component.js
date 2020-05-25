@@ -10,7 +10,6 @@ import { breakpoints } from 'utils/responsive';
 import { fetchDatasets } from 'services/dataset';
 
 // Components
-import Spinner from 'components/ui/Spinner';
 import DatasetList from 'layout/explore/explore-datasets/list';
 import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 
@@ -18,9 +17,16 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 import './styles.scss';
 
 function MapMenu(props) {
-  const { groups, responsive } = props;
+  const {
+    groups,
+    responsive,
+    toggleMapLayerGroup,
+    setMapLayerGroupActive,
+    resetMapLayerGroupsInteraction
+  } = props;
   const [datasetsMap, setDatasetsMap] = useState(new Map());
   const [loading, setLoading] = useState(true);
+  const powerwatchDatasetID = 'a86d906d-9862-4783-9e30-cdb68cd808b8';
 
   useEffect(() => {
     const datasetIDs = groups.reduce((acc, group) => [...acc, ...group.datasets], []);
@@ -33,9 +39,22 @@ function MapMenu(props) {
         datasets.forEach(d => datasetsMap.set(d.id, d));
         setDatasetsMap(datasetsMap);
         setLoading(false);
+
+        //----- Select Power plants dataset by default ---------
+        const powerWatchDataset = datasetsMap.get(powerwatchDatasetID);
+        toggleMapLayerGroup({ 
+          dataset: powerWatchDataset, 
+          toggle: true }
+        );
+        setMapLayerGroupActive({ 
+          dataset: { id: powerwatchDatasetID }, 
+          active: powerWatchDataset.layer.find(l => l.default).id
+        });
+        resetMapLayerGroupsInteraction();
+        //-------------------------------------------------------
       })
       .catch(err => toastr.error('Error loading datasets', err));
-  }, [datasetsMap, groups]);
+  }, [groups]);
 
   return (
     <div className="c-map-menu">
