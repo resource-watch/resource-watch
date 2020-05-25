@@ -194,7 +194,11 @@
             "widgets": [
               {
                 "id": "e3014344-ba33-409b-a2c2-055895a4f776",
-                "widgetsPerRow": 1
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "de9ab331-a0af-4efb-bc40-a82cd772344b",
+                "widgetsPerRow": 2
               }
             ],
             "widgetsWorld": [
