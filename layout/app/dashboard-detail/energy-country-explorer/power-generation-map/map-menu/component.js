@@ -54,7 +54,7 @@ function MapMenu(props) {
         //-------------------------------------------------------
       })
       .catch(err => toastr.error('Error loading datasets', err));
-  }, [datasetsMap, groups]);
+  }, [groups]);
 
   return (
     <div className="c-map-menu">
