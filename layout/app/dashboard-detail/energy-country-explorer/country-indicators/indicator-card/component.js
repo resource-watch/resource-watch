@@ -28,8 +28,13 @@ function IndicatorCard(props) {
 
   useEffect(() => {
     if (indicator) {
-      const countryValue = indicator.param === 'ISO' ? country.value : country.label;
+      let countryValue = indicator.param === 'ISO' ? country.value : country.label;
       const _countryIsWorld = country.value === WORLD_COUNTRY.value;
+      // --- This patch is necessary since the country name varies in some cases -----
+      if (countryValue === 'United States of America') {
+        countryValue = 'United States';
+      }
+      // -----------------------------------------------------------------------------
 
       setCountryIsWorld(_countryIsWorld);
       const query = _countryIsWorld ? indicator.worldQuery :
@@ -40,11 +45,12 @@ function IndicatorCard(props) {
           const rows = result.data.rows;
 
           if (rows && rows.length > 0) {
-            const resObj = rows[0];
+            const resObj = rows[0];            
             setQueryResult({
-              value: d3.format('.3s')(resObj.x).replace('G', 'B'),
+              value: d3.format(indicator.format)(resObj.x).replace('G', 'B'),
               ranking: resObj.ranking,
-              count: resObj.count
+              count: resObj.count,
+              year: resObj.year
             });
           }
           setLoading(false);
@@ -76,6 +82,7 @@ function IndicatorCard(props) {
             overlay={
               <InfoTooltip 
                 datasetID={indicator.datasetID}
+                dataYear={queryResult && queryResult.year}
               />
             }
             overlayClassName="c-rc-tooltip -default -no-max-width"
