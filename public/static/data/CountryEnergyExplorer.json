@@ -46,7 +46,7 @@
         "datasetID": "eef10736-8d8b-4ac9-a715-ef0653a83196",
         "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY electricity_consumption_billionkwh DESC) AS ranking, country as country_name, electricity_consumption_billionkwh as x, 'kWh, billions' as unit, year FROM ene_034_electricity_consumption_edit WHERE year = 2016 AND year IS NOT NULL AND electricity_consumption_billionkwh IS NOT NULL ORDER BY electricity_consumption_billionkwh DESC), v as (SELECT count(distinct(country)), {COUNTRY} as country_name FROM ene_034_electricity_consumption_edit) SELECT * FROM r INNER JOIN v ON r.country_name = v.country_name WHERE r.country_name = {COUNTRY}",
         "param": "COUNTRY",
-        "name": "Electricity consumption",
+        "name": "Electricity consumption (billion kWh)",
         "world": true,
         "country": true,
         "format": ".3s",
@@ -56,7 +56,7 @@
         "datasetID": "a290675c-9528-4a51-8201-f6c2d7848744",
         "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total_including_lucf DESC) AS ranking, country as country_name, total_including_lucf as x, unit, year FROM cli_008a_greenhouse_gas_emissions_country_sector WHERE year = 2016 AND year IS NOT NULL AND total_including_lucf IS NOT NULL ORDER BY total_including_lucf DESC), v as (SELECT count(distinct(country)), {COUNTRY} as country_name FROM cli_008a_greenhouse_gas_emissions_country_sector) SELECT * FROM r INNER JOIN v ON r.country_name = v.country_name WHERE r.country_name = {COUNTRY}",
         "param": "COUNTRY",
-        "name": "Greenhouse Gas Emissions per capita",
+        "name": "Greenhouse Gas Emissions per capita (tCO2e/person)",
         "world": false,
         "country": true,
         "format": ".3s"
