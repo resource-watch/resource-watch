@@ -1,6 +1,11 @@
 @import 'css/settings';
 
 .c-gdpr-banner {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 99999999;
   display: flex;
   align-items: center;
   padding: $space-1 0;
