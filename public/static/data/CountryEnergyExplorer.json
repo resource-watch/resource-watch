@@ -39,7 +39,7 @@
         "name": "Population % with access to electricity",
         "world": true,
         "country": true,
-        "format": ".3s",
+        "format": ".0%",
         "worldQuery": "https://wri-rw.carto.com/api/v2/sql?q=SELECT 88.85 as x, 'percentage' as unit, 2017 as year FROM ene_012_electricity_access LIMIT 1"
       },
       {
