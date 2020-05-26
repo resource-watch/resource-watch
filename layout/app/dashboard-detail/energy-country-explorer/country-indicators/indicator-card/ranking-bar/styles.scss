@@ -13,11 +13,12 @@
 
     .point {
         position: absolute;
-        top: -3px;
+        top: -5px;
         background-color: $sea-blue;
-        height: 8px;
-        width: 8px;
-        border-radius: 4px;
+        height: 12px;
+        width: 12px;
+        border: 2px solid white;
+        border-radius: 50%;
         cursor: pointer;
     }
 }
