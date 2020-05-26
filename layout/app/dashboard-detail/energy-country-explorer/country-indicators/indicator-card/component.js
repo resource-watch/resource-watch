@@ -42,7 +42,7 @@ function IndicatorCard(props) {
           if (rows && rows.length > 0) {
             const resObj = rows[0];
             setQueryResult({
-              value: d3.format('.3s')(resObj.x),
+              value: d3.format('.3s')(resObj.x).replace('G', 'B'),
               ranking: resObj.ranking,
               count: resObj.count
             });
