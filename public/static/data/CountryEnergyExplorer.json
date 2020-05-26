@@ -30,7 +30,7 @@
         "name": "Human Development Index",
         "world": false,
         "country": true,
-        "format": "2f"
+        "format": ".2f"
       },
       {
         "datasetID": "c29aee50-a46f-4c10-a8b1-152e4821be81",
