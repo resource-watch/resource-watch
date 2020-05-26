@@ -41,10 +41,18 @@ function CustomSection(props) {
                   const key = resp.widgetConfig.sql_config[0].key_params[0].key;
                   const isISO = key === 'country_code';
                   const dataObj = resp.widgetConfig.data[0];
+                  let countryName = country.label;
+
+                  // --- This patch is necessary since this country name varies for some datasets ----
+                  if (country.label === 'United States of America') {
+                    countryName = 'United States';
+                  }
+                  //------------------------------------------------------------------------------------
+
                   const newDataObj = {
                     ...dataObj,
                     url: dataObj.url.replace(new RegExp(
-                      '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : country.label}')`)
+                      '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : countryName}')`)
                   };
 
                   const newWidgetConfig = {

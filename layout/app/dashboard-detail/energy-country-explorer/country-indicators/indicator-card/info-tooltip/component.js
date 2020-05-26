@@ -13,7 +13,7 @@ import Spinner from 'components/ui/Spinner';
 import './styles.scss';
 
 function InfoTooltip(props) {
-    const { datasetID } = props;
+    const { datasetID, dataYear } = props;
     const [ dataset, setDataset ] = useState({
         loading: true,
         value: null
@@ -38,6 +38,10 @@ function InfoTooltip(props) {
             {!dataset.loading &&
                 <Fragment>
                     <h3>{datasetName}</h3>
+                    <div>
+                        <strong>Data year: </strong>
+                        {dataYear}
+                    </div>
                     <div className="description">
                         <p>{datasetDescription}</p>
                     </div>
@@ -56,7 +60,8 @@ function InfoTooltip(props) {
 };
 
 InfoTooltip.propTypes = {
-    datasetID: PropTypes.string.isRequired
+    datasetID: PropTypes.string.isRequired,
+    dataYear: PropTypes.string.isRequired
 };
 
 export default InfoTooltip;
