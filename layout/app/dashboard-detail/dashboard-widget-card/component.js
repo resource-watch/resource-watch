@@ -16,6 +16,7 @@ import Spinner from 'components/ui/Spinner';
 import CollectionsPanel from 'components/collections-panel';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
+import RankingWidget from './ranking-widget';
 
 // utils
 import { logEvent } from 'utils/analytics';
@@ -37,6 +38,7 @@ function DashboardWidgetCard(props) {
 
     const widgetLinks = metadataInfo.widgetLinks || [];
     const widgetIsEmbed = widgetConfig && widgetConfig.type === 'embed';
+    const widgetIsRanking = widgetConfig && widgetConfig.type === 'ranking';
     const widgetEmbedUrl = widgetIsEmbed && widgetConfig.url;
     const isInACollection = belongsToACollection(user, widget);
     const starIconName = classnames({
@@ -125,19 +127,23 @@ function DashboardWidgetCard(props) {
             </header>
             <div className="widget-container">
                 <Spinner isLoading={loading} className="-light -small" />
-                {widgetType === 'text' && widget &&
+                { widgetType === 'text' && widget &&
                     <TextChart
                         widgetConfig={widgetConfig}
                         toggleLoading={loading => onToggleLoading(loading)}
                     />
                 }
 
-                { widgetType === 'widget' && !widgetIsEmbed &&
+                { widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking &&
                     <Renderer widgetConfig={widgetConfig} />
                 }
 
-                {widgetIsEmbed &&
+                { widgetIsEmbed &&
                     <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
+                }
+
+                { widgetIsRanking &&
+                    <RankingWidget widgetConfig={widgetConfig} />
                 }
 
                 {infoCardOpen &&
