@@ -32,9 +32,37 @@ function CustomSection(props) {
           if (!countryIsWorld) {
             const reducedResult = responses.reduce((acc, resp) => {
               if (resp.widgetConfig.type === 'embed') {
+
                 // TO-DO: we should change the swipe viz here if necessary to adjust
                 // the map position to the country selected
                 return ({ ...acc, [resp.id]: resp });
+              } else if (resp.widgetConfig.type === 'ranking') {
+
+                // temporary implementation for ranking widgets
+                let countryName = country.label;
+                const key = resp.widgetConfig.sql_config[0].key_params[0].key;
+
+                // --- This patch is necessary since this country name varies for some datasets ----
+                if (country.label === 'United States of America') {
+                  countryName = 'United States';
+                }
+                //-----------------------------------------------------------------------------------
+
+                const newURL = resp.widgetConfig.url.replace(new RegExp(
+                  '{{where}}', 'g'), `WHERE ${key} = '${countryName}'`);
+
+                const newWidgetConfig = {
+                  ...resp.widgetConfig,
+                  url: newURL
+                };
+
+                const newWidget = {
+                  ...resp,
+                  widgetConfig: newWidgetConfig
+                }
+
+                return ({ ...acc, [resp.id]: newWidget });
+
               } else {
                 const visualizationType = resp.widgetConfig.paramsConfig.visualizationType;
                 if (visualizationType === 'chart') {
