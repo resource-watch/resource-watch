@@ -49,7 +49,7 @@ function CustomSection(props) {
                 //-----------------------------------------------------------------------------------
 
                 const newURL = resp.widgetConfig.url.replace(new RegExp(
-                  '{{where}}', 'g'), `WHERE ${key} = '${countryName}'`);
+                  '{{country}}', 'g'), `'${countryName}'`);                
 
                 const newWidgetConfig = {
                   ...resp.widgetConfig,
