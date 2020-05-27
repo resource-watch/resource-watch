@@ -43,10 +43,12 @@ class MapThumbnail extends React.Component {
     });
   }
 
-  getSize() {
+  getSize() {    
     return {
-      width: this.chart ? this.chart.offsetWidth : 100,
-      height: this.chart ? this.chart.offsetHeight : 100
+      width: this.chart && this.chart.offsetWidth 
+        ? this.chart.offsetWidth : 100,
+      height: this.chart && this.chart.offsetHeight 
+        ? this.chart.offsetHeight : 100
     };
   }
 
