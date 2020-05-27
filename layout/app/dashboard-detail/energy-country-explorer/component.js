@@ -72,7 +72,7 @@ function EnergyCountryExplorer(props) {
 
   const showCustomSections = config && (!selectedCountry || (selectedCountryObj && (
     (selectedCountry === WORLD_COUNTRY.value) || 
-    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox))));
+    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox))));  
 
   return (
     <div className="c-energy-country-explorer">
