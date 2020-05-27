@@ -160,7 +160,7 @@ class ExplorePage extends PureComponent {
         { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) }
     };
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {      
       Router.replaceRoute('explore', query, { shallow: true });
     }
   }
@@ -204,6 +204,7 @@ class ExplorePage extends PureComponent {
       layers !== prevLayers ||
 
       // Datasets
+      datasets.selected !== prevDatasets.selected ||
       datasets.page !== prevDatasets.page ||
       sort.selected !== prevSort.selected ||
       sort.direction !== prevSort.direction ||
