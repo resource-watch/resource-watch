@@ -12,7 +12,7 @@ import PowerGenerationMap from '../power-generation-map';
 import { fetchWidget } from 'services/widget';
 
 // Constants
-import { WORLD_COUNTRY } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
+import { WORLD_COUNTRY, US_COUNTRY_VALUES } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
 
 // Styles
 import './styles.scss';
@@ -44,8 +44,8 @@ function CustomSection(props) {
                 const key = resp.widgetConfig.sql_config[0].key_params[0].key;
 
                 // --- This patch is necessary since this country name varies for some datasets ----
-                if (country.label === 'United States of America') {
-                  countryName = 'United States';
+                if (country.label === US_COUNTRY_VALUES.nameFoundInSource) {
+                  countryName = US_COUNTRY_VALUES.newNameForQueries;
                 }
                 //-----------------------------------------------------------------------------------
 
@@ -73,8 +73,8 @@ function CustomSection(props) {
                   let countryName = country.label;
 
                   // --- This patch is necessary since this country name varies for some datasets ----
-                  if (country.label === 'United States of America') {
-                    countryName = 'United States';
+                  if (country.label === US_COUNTRY_VALUES.nameFoundInSource) {
+                    countryName = US_COUNTRY_VALUES.newNameForQueries;
                   }
                   //------------------------------------------------------------------------------------
 
