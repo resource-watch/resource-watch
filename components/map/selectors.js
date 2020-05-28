@@ -39,7 +39,7 @@ export const getUpdatedLayerGroups = statePointer => createSelector(
   }))
 );
 
-export const getActiveLayers = statePointer => createSelector(
+export const getActiveLayers = (statePointer) => createSelector(
   [statePointer],
   (_layerGroups = []) => {
     const activeLayers = _layerGroups.map(lg => ({
@@ -79,37 +79,42 @@ export const getUpdatedLayers = (activeLayersPointer, parametrizationPointer) =>
   [activeLayersPointer, parametrizationPointer],
   (_activeLayers = [], _parametrization) => {
     if (!(Object.keys(_parametrization).length)) {
-      return _activeLayers.map((_activeLayer) => {
-        const reducedDecodeParams = reduceParams(_activeLayer.layerConfig.decode_config);
-        const { startDate, endDate } = reducedDecodeParams || {};
-
-        return {
-          ..._activeLayer,
-          ..._activeLayer.layerConfig.layerType && { layerType: _activeLayer.layerConfig.layerType },
-          ..._activeLayer.layerConfig.params_config && {
-            params: {
-              ...reduceParams(_activeLayer.layerConfig.params_config),
-              ...!!_activeLayer.layerConfig.body.url && { url: _activeLayer.layerConfig.body.url }
+      return _activeLayers.map((_activeLayer) => {        
+        // User Area of Interest (Currently being used in the GEDC Energy dashboard)
+        if (_activeLayer.id === 'user_area') {
+          return _activeLayer;
+        } else {
+          const reducedDecodeParams = reduceParams(_activeLayer.layerConfig.decode_config);
+          const { startDate, endDate } = reducedDecodeParams || {};
+  
+          return {
+            ..._activeLayer,
+            ..._activeLayer.layerConfig.layerType && { layerType: _activeLayer.layerConfig.layerType },
+            ..._activeLayer.layerConfig.params_config && {
+              params: {
+                ...reduceParams(_activeLayer.layerConfig.params_config),
+                ...!!_activeLayer.layerConfig.body.url && { url: _activeLayer.layerConfig.body.url }
+              }
+            },
+            ..._activeLayer.layerConfig.sql_config &&
+              { sqlParams: reduceSqlParams(_activeLayer.layerConfig.sql_config) },
+            ..._activeLayer.layerConfig.decode_config && {
+              decodeParams: {
+                ...reducedDecodeParams,
+                ...(startDate && {
+                  startYear: moment(startDate).year(),
+                  startMonth: moment(startDate).month(),
+                  startDay: moment(startDate).dayOfYear()
+                }),
+                ...(endDate && {
+                  endYear: moment(endDate).year(),
+                  endMonth: moment(endDate).month(),
+                  endDay: moment(endDate).dayOfYear()
+                })
+              }
             }
-          },
-          ..._activeLayer.layerConfig.sql_config &&
-            { sqlParams: reduceSqlParams(_activeLayer.layerConfig.sql_config) },
-          ..._activeLayer.layerConfig.decode_config && {
-            decodeParams: {
-              ...reducedDecodeParams,
-              ...(startDate && {
-                startYear: moment(startDate).year(),
-                startMonth: moment(startDate).month(),
-                startDay: moment(startDate).dayOfYear()
-              }),
-              ...(endDate && {
-                endYear: moment(endDate).year(),
-                endMonth: moment(endDate).month(),
-                endDay: moment(endDate).dayOfYear()
-              })
-            }
-          }
-        };
+          };
+        }
       });
     }
 

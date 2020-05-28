@@ -10,7 +10,7 @@ import Icon from 'components/ui/icon';
 import InfoTooltip from './info-tooltip';
 
 // Constants
-import { WORLD_COUNTRY } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
+import { WORLD_COUNTRY, US_COUNTRY_VALUES } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
 
 // styles
 import './styles.scss';
@@ -31,8 +31,8 @@ function IndicatorCard(props) {
       let countryValue = indicator.param === 'ISO' ? country.value : country.label;
       const _countryIsWorld = country.value === WORLD_COUNTRY.value;
       // --- This patch is necessary since the country name varies in some cases -----
-      if (countryValue === 'United States of America') {
-        countryValue = 'United States';
+      if (countryValue === US_COUNTRY_VALUES.nameFoundInSource) {
+        countryValue = US_COUNTRY_VALUES.newNameForQueries;
       }
       // -----------------------------------------------------------------------------
 
