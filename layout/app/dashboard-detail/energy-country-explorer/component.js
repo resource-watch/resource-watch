@@ -48,7 +48,6 @@ function EnergyCountryExplorer(props) {
       .catch(err => toastr.error('Error loading countries', err));
     
     loadSelectedCountry();
-
   }, []);
 
   useEffect(() => {

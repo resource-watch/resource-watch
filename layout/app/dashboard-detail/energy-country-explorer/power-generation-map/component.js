@@ -23,6 +23,13 @@ function PowerGenerationMap(props) {
             setAOI({ geojson });
         }
     }, [bbox, geojson]);
+
+    useEffect(() => {
+        // Equivalent to componentWillUnmount
+        return () => {
+            setAOI({ geojson: null });
+        }
+    }, []);
     
     return (
         <div className="c-power-generation-map">
