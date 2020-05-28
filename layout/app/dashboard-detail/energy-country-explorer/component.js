@@ -13,7 +13,7 @@ import CountryIndicators from './country-indicators';
 import { fetchCountryPowerExplorerConfig } from 'services/config';
 
 // Constants
-import { WORLD_COUNTRY } from './constants';
+import { WORLD_COUNTRY, US_COUNTRY_VALUES } from './constants';
 
 // Styles
 import './styles.scss';
@@ -56,13 +56,17 @@ function EnergyCountryExplorer(props) {
 
   const loadSelectedCountry = () => {    
     if (selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
-      axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
-      .then((data) => {        
-        setSelectedCountryBbox(data.data.data.attributes.bbox);
-      })
-      .catch(err => toastr.error(`Error loading country: ${selectedCountry}`, err));
+      if (selectedCountry === 'USA') {
+        setSelectedCountryBbox(US_COUNTRY_VALUES.bbox);
+      } else {
+        axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
+        .then((data) => {        
+          setSelectedCountryBbox(data.data.data.attributes.bbox);
+        })
+        .catch(err => toastr.error(`Error loading country: ${selectedCountry}`, err));
+      }
     } else {
-      setSelectedCountryBbox(null);
+      setSelectedCountryBbox(WORLD_COUNTRY.bbox);
     }
   };
 
@@ -72,7 +76,7 @@ function EnergyCountryExplorer(props) {
 
   const showCustomSections = config && (!selectedCountry || (selectedCountryObj && (
     (selectedCountry === WORLD_COUNTRY.value) || 
-    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox))));  
+    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox))));    
 
   return (
     <div className="c-energy-country-explorer">

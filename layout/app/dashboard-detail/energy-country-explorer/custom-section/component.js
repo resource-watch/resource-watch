@@ -146,6 +146,7 @@ function CustomSection(props) {
                       widget={data && data[wB.id]}
                       loading={widgetsLoading}
                       key={`dashboard-widget-card-${wB.id}`}
+                      explicitHeight={wB.explicitHeight}
                     />
                   </div>);
                 })}
