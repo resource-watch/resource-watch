@@ -28,7 +28,7 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 import './styles.scss';
 
 function DashboardWidgetCard(props) {
-    const { user, widget, loading } = props;
+    const { user, widget, loading, explicitHeight } = props;
     const widgetConfig = widget && widget.widgetConfig;
     const [shareModalOpen, setShareModalOpen] = useState(false);
     const [infoCardOpen, setInfoCardOpen] = useState(false);
@@ -48,10 +48,15 @@ function DashboardWidgetCard(props) {
     const modalIcon = classnames({
         'icon-cross': infoCardOpen,
         'icon-info': !infoCardOpen
-    });        
+    });      
+    
+    const classNameValue = classnames({
+        'c-dashboard-widget-card': true,
+        '-embed-widget': widgetIsEmbed
+    });
     
     return (
-        <div className="c-dashboard-widget-card">
+        <div className={classNameValue}>
             <header>
                 <div className="header-container">
                     <Title className="-default">{widget ? widget.name : '–'}</Title>
@@ -139,7 +144,13 @@ function DashboardWidgetCard(props) {
                 }
 
                 { widgetIsEmbed &&
-                    <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
+                    <iframe 
+                        title={widget.name}
+                        src={widgetEmbedUrl}
+                        width="100%"
+                        height={!!explicitHeight ? `${explicitHeight}px` : '100%'}
+                        frameBorder="0" 
+                    />
                 }
 
                 { widgetIsRanking &&
@@ -186,7 +197,14 @@ function DashboardWidgetCard(props) {
 
 DashboardWidgetCard.propTypes = {
     user: PropTypes.object.isRequired,
-    widget: PropTypes.object.isRequired
+    widget: PropTypes.object.isRequired,
+    loading: PropTypes.bool,
+    explicitHeight: PropTypes.number
+};
+
+DashboardWidgetCard.defaultProps = {
+    loading: false,
+    explicitHeight: null
 };
 
 export default DashboardWidgetCard;

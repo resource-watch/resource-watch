@@ -13,7 +13,7 @@ import CountryIndicators from './country-indicators';
 import { fetchCountryPowerExplorerConfig } from 'services/config';
 
 // Constants
-import { WORLD_COUNTRY } from './constants';
+import { WORLD_COUNTRY, US_COUNTRY_VALUES } from './constants';
 
 // Styles
 import './styles.scss';
@@ -27,6 +27,7 @@ function EnergyCountryExplorer(props) {
   const [config, setConfig] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [selectedCountryBbox, setSelectedCountryBbox] = useState(null);
+  const [selectedCountryGeojson, setSelectedCountryGeojson] = useState(null);
 
   useEffect(() => {
     // Load config
@@ -47,7 +48,6 @@ function EnergyCountryExplorer(props) {
       .catch(err => toastr.error('Error loading countries', err));
     
     loadSelectedCountry();
-
   }, []);
 
   useEffect(() => {
@@ -56,13 +56,20 @@ function EnergyCountryExplorer(props) {
 
   const loadSelectedCountry = () => {    
     if (selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
-      axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
-      .then((data) => {        
-        setSelectedCountryBbox(data.data.data.attributes.bbox);
-      })
-      .catch(err => toastr.error(`Error loading country: ${selectedCountry}`, err));
+      if (selectedCountry === 'USA') {
+        setSelectedCountryBbox(US_COUNTRY_VALUES.bbox);
+      } else {
+        axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
+        .then((data) => {        
+          const atts = data.data.data.attributes;          
+          setSelectedCountryBbox(atts.bbox);
+          setSelectedCountryGeojson(atts.geojson);
+        })
+        .catch(err => toastr.error(`Error loading country: ${selectedCountry}`, err));
+      }
     } else {
-      setSelectedCountryBbox(null);
+      setSelectedCountryBbox(WORLD_COUNTRY.bbox);
+      setSelectedCountryGeojson(null);
     }
   };
 
@@ -72,7 +79,7 @@ function EnergyCountryExplorer(props) {
 
   const showCustomSections = config && (!selectedCountry || (selectedCountryObj && (
     (selectedCountry === WORLD_COUNTRY.value) || 
-    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox))));  
+    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox))));    
 
   return (
     <div className="c-energy-country-explorer">
@@ -131,6 +138,7 @@ function EnergyCountryExplorer(props) {
                   (<CustomSection
                     section={section}
                     bbox={selectedCountryBbox}
+                    geojson={selectedCountryGeojson}
                     country={selectedCountryObj}
                     key={`section-${section.header}`}
                   />))

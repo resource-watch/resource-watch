@@ -9,5 +9,9 @@
     .c-dashboard-widget-card {
         max-height: 480px;
         margin-bottom: 8 * $space;
+
+        &.-embed-widget {
+            max-height: none;
+        }
     }
 }

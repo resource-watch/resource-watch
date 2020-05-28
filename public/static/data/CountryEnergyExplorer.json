@@ -65,7 +65,7 @@
     "sections": [
         {
             "header": "Power in relation to energy",
-            "description": "The power sector is a small share of the energy sector, but most climate scenarios show that compliance with the Paris Agreement will require a strong electrification of the economy.",
+            "description": "The power sector is a small share of the energy sector, but most climate scenarios show that compliance with the *[Paris Agreement](https://en.wikipedia.org/wiki/Paris_Agreement)* will require a strong electrification of the economy.",
             "widgets": [
               {
                 "id": "de318066-eaad-4f4f-a9ed-75c30b50e1aa",
@@ -168,7 +168,8 @@
               },
               {
                 "id": "68eb3203-170c-4d5b-8a07-6e463283570e",
-                "widgetsPerRow": 1
+                "widgetsPerRow": 1,
+                "explicitHeight": 650
               }
             ],
             "widgetsWorld": [
@@ -190,7 +191,8 @@
               },
               {
                 "id": "68eb3203-170c-4d5b-8a07-6e463283570e",
-                "widgetsPerRow": 1
+                "widgetsPerRow": 1,
+                "explicitHeight": 800
               }
             ]
         },
@@ -213,7 +215,7 @@
                 "widgetsPerRow": 2
               },
               {
-                "id": "4f25f659-e738-4475-ab2f-627915ac57bb",
+                "id": "33a9f375-22e3-42bd-9604-771e18ac10e9",
                 "widgetsPerRow": 2
               }
             ]

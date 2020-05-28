@@ -76,7 +76,8 @@ class ExploreMap extends PureComponent {
     setSelectedDataset: PropTypes.func.isRequired,
     setSidebarAnchor: PropTypes.func.isRequired,
     exploreBehavior: PropTypes.bool,
-    onLayerInfoButtonClick: PropTypes.func
+    onLayerInfoButtonClick: PropTypes.func,
+    aoi: PropTypes.object.isRequired
   };
 
   static defaultProps = {
@@ -438,17 +439,20 @@ class ExploreMap extends PureComponent {
       layerGroups,
       layerGroupsInteraction,
       layerGroupsInteractionSelected,
-      layerGroupsInteractionLatLng
+      layerGroupsInteractionLatLng,
+      aoi,
     } = this.props;
     const { loading, layer } = this.state;
     const { pitch, bearing } = viewport;
     const resetViewBtnClass = classnames({
       '-with-transition': true,
       '-visible': pitch !== 0 || bearing !== 0
-    });
+    });    
 
-    console.log('---ACTIVE LAYERS---');
-    console.log(activeLayers);  
+    const newActiveLayers = aoi ? [ ...activeLayers, aoi] : activeLayers;
+
+    // console.log('---ACTIVE LAYERS---');
+    // console.log(newActiveLayers);  
 
     return (
       <div className="l-explore-map -relative">
@@ -484,7 +488,7 @@ class ExploreMap extends PureComponent {
             <Fragment>
               <LayerManager
                 map={_map}
-                layers={activeLayers}
+                layers={newActiveLayers}
               />
 
               {!isEmpty(layerGroupsInteractionLatLng) && activeLayers.length &&

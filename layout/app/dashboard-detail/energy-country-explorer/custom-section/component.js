@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import ReactMarkdown from 'react-markdown';
 import classnames from 'classnames';
 
 // Components
@@ -11,13 +12,13 @@ import PowerGenerationMap from '../power-generation-map';
 import { fetchWidget } from 'services/widget';
 
 // Constants
-import { WORLD_COUNTRY } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
+import { WORLD_COUNTRY, US_COUNTRY_VALUES } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
 
 // Styles
 import './styles.scss';
 
 function CustomSection(props) {
-  const { section, bbox, country } = props;
+  const { section, bbox, country, geojson } = props;
   const { widgets, header, description, map, groups, mapTitle, widgetsWorld } = section;
   const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
   const widgetBlocks = countryIsWorld ? widgetsWorld : widgets;
@@ -43,8 +44,8 @@ function CustomSection(props) {
                 const key = resp.widgetConfig.sql_config[0].key_params[0].key;
 
                 // --- This patch is necessary since this country name varies for some datasets ----
-                if (country.label === 'United States of America') {
-                  countryName = 'United States';
+                if (country.label === US_COUNTRY_VALUES.nameFoundInSource) {
+                  countryName = US_COUNTRY_VALUES.newNameForQueries;
                 }
                 //-----------------------------------------------------------------------------------
 
@@ -72,8 +73,8 @@ function CustomSection(props) {
                   let countryName = country.label;
 
                   // --- This patch is necessary since this country name varies for some datasets ----
-                  if (country.label === 'United States of America') {
-                    countryName = 'United States';
+                  if (country.label === US_COUNTRY_VALUES.nameFoundInSource) {
+                    countryName = US_COUNTRY_VALUES.newNameForQueries;
                   }
                   //------------------------------------------------------------------------------------
 
@@ -129,7 +130,7 @@ function CustomSection(props) {
           <div className="column small-12">
             <div className="text-container">
               <h2>{header}</h2>
-              <p>{description}</p>
+              <ReactMarkdown linkTarget="_blank" source={description} />
             </div>
             {!map &&
               <div className="row">
@@ -145,6 +146,7 @@ function CustomSection(props) {
                       widget={data && data[wB.id]}
                       loading={widgetsLoading}
                       key={`dashboard-widget-card-${wB.id}`}
+                      explicitHeight={wB.explicitHeight}
                     />
                   </div>);
                 })}
@@ -155,6 +157,7 @@ function CustomSection(props) {
                 groups={groups}
                 mapTitle={mapTitle}
                 bbox={bbox}
+                geojson={geojson}
               />
             }
           </div>
@@ -167,11 +170,13 @@ function CustomSection(props) {
 CustomSection.propTypes = {
   section: PropTypes.object.isRequired,
   country: PropTypes.object.isRequired,
-  bbox: PropTypes.array
+  bbox: PropTypes.array,
+  geojson: PropTypes.obj
 };
 
 CustomSection.defaultProps = {
-  bbox: []
+  bbox: [],
+  geojson: null
 };
 
 export default CustomSection;
