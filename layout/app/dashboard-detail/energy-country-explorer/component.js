@@ -27,6 +27,7 @@ function EnergyCountryExplorer(props) {
   const [config, setConfig] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [selectedCountryBbox, setSelectedCountryBbox] = useState(null);
+  const [selectedCountryGeojson, setSelectedCountryGeojson] = useState(null);
 
   useEffect(() => {
     // Load config
@@ -61,12 +62,15 @@ function EnergyCountryExplorer(props) {
       } else {
         axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
         .then((data) => {        
-          setSelectedCountryBbox(data.data.data.attributes.bbox);
+          const atts = data.data.data.attributes;          
+          setSelectedCountryBbox(atts.bbox);
+          setSelectedCountryGeojson(atts.geojson);
         })
         .catch(err => toastr.error(`Error loading country: ${selectedCountry}`, err));
       }
     } else {
       setSelectedCountryBbox(WORLD_COUNTRY.bbox);
+      setSelectedCountryGeojson(null);
     }
   };
 
@@ -135,6 +139,7 @@ function EnergyCountryExplorer(props) {
                   (<CustomSection
                     section={section}
                     bbox={selectedCountryBbox}
+                    geojson={selectedCountryGeojson}
                     country={selectedCountryObj}
                     key={`section-${section.header}`}
                   />))

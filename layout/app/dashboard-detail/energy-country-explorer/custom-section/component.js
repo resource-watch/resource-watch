@@ -18,7 +18,7 @@ import { WORLD_COUNTRY, US_COUNTRY_VALUES } from 'layout/app/dashboard-detail/en
 import './styles.scss';
 
 function CustomSection(props) {
-  const { section, bbox, country } = props;
+  const { section, bbox, country, geojson } = props;
   const { widgets, header, description, map, groups, mapTitle, widgetsWorld } = section;
   const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
   const widgetBlocks = countryIsWorld ? widgetsWorld : widgets;
@@ -157,6 +157,7 @@ function CustomSection(props) {
                 groups={groups}
                 mapTitle={mapTitle}
                 bbox={bbox}
+                geojson={geojson}
               />
             }
           </div>
@@ -169,11 +170,13 @@ function CustomSection(props) {
 CustomSection.propTypes = {
   section: PropTypes.object.isRequired,
   country: PropTypes.object.isRequired,
-  bbox: PropTypes.array
+  bbox: PropTypes.array,
+  geojson: PropTypes.obj
 };
 
 CustomSection.defaultProps = {
-  bbox: []
+  bbox: [],
+  geojson: null
 };
 
 export default CustomSection;

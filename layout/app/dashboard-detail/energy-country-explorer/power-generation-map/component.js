@@ -11,7 +11,7 @@ import LayerInfoModal from './layer-info-modal';
 import './styles.scss';
 
 function PowerGenerationMap(props) {
-    const { mapTitle, groups, bbox, setBounds } = props;
+    const { mapTitle, groups, bbox, setBounds, geojson, setAOI } = props;
     const [layerModalOpen, setLayerModalOpen] = useState(false);
     const [selectedLayer, setSelectedLayer] = useState(null);
 
@@ -19,7 +19,10 @@ function PowerGenerationMap(props) {
         if (bbox) {
             setBounds({ bbox, options: {} });
         }
-    }, [bbox]);
+        if (geojson) {
+            setAOI({ geojson });
+        }
+    }, [bbox, geojson]);
     
     return (
         <div className="c-power-generation-map">
@@ -54,11 +57,13 @@ function PowerGenerationMap(props) {
 PowerGenerationMap.propTypes = {
     mapTitle: PropTypes.string.isRequired,
     groups: PropTypes.array.isRequired,
-    bbox: PropTypes.array
+    bbox: PropTypes.array,
+    geojson: PropTypes.obj
 };
 
 PowerGenerationMap.defaultProps = {
-    bbox: null
+    bbox: null,
+    geojson: null
 }
 
 export default PowerGenerationMap;

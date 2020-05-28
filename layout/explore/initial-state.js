@@ -80,7 +80,8 @@ export default {
     //  }
     // }
     //
-    parametrization: {}
+    parametrization: {},
+    aoi: null
   },
 
   // Sidebar
