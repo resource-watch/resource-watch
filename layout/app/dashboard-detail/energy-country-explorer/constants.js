@@ -5,5 +5,7 @@ export const WORLD_COUNTRY = {
 };
 
 export const US_COUNTRY_VALUES = {
-    bbox: [-129.5, 21.6, -63.4, 54.0]
+    bbox: [-129.5, 21.6, -63.4, 54.0],
+    newNameForQueries: 'United States',
+    nameFoundInSource: 'United States of America'
 };
