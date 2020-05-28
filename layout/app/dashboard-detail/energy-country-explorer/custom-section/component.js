@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import ReactMarkdown from 'react-markdown';
 import classnames from 'classnames';
 
 // Components
@@ -129,7 +130,7 @@ function CustomSection(props) {
           <div className="column small-12">
             <div className="text-container">
               <h2>{header}</h2>
-              <p>{description}</p>
+              <ReactMarkdown linkTarget="_blank" source={description} />
             </div>
             {!map &&
               <div className="row">
