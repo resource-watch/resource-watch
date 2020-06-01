@@ -8,6 +8,7 @@ import Renderer from '@widget-editor/renderer'
 // components
 import Spinner from 'components/ui/Spinner';
 import LayoutEmbed from 'layout/layout/layout-embed';
+import ErrorBoundary from 'components/ui/error-boundary';
 
 // services
 import { fetchDataset } from 'services/dataset';
@@ -77,9 +78,11 @@ class LayoutEmbedDataset extends PureComponent {
       >
         <div className="c-embed-dataset">
           {widget &&
-            <div className="widget-content">
-              <Renderer widgetConfig={widget.attributes.widgetConfig} />
-            </div>
+            <ErrorBoundary message="There was an error loading the visualization">
+              <div className="widget-content">
+                <Renderer widgetConfig={widget.widgetConfig} />
+              </div>
+            </ErrorBoundary>
           }
           <Spinner isLoading={loadingWidget} className="-light -relative" />
           <div className="info">
@@ -108,7 +111,7 @@ class LayoutEmbedDataset extends PureComponent {
                 />
               </a>
             </div>
-          ) }
+          )}
         </div>
       </LayoutEmbed>
     );

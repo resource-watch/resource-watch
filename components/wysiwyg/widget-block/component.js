@@ -24,6 +24,7 @@ import Spinner from 'components/ui/Spinner';
 import CollectionsPanel from 'components/collections-panel';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
+import ErrorBoundary from 'components/ui/error-boundary';
 
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
@@ -269,119 +270,122 @@ class WidgetBlock extends PureComponent {
           </div>
         </header>
 
-        <div className="widget-container">
-          <Spinner isLoading={widgetLoading || layersLoading} className="-light -small" />
+        <ErrorBoundary message="There was an error loading the visualization">
+          <div className="widget-container">
+            <Spinner isLoading={widgetLoading || layersLoading} className="-light -small" />
 
-          {!widgetError && widgetType === 'text' && widget &&
-            <TextChart
-              widgetConfig={widget.widgetConfig}
-              toggleLoading={loading => onToggleLoading(loading)}
-            />
-          }
+            {!widgetError && widgetType === 'text' && widget &&
+              <TextChart
+                widgetConfig={widget.widgetConfig}
+                toggleLoading={loading => onToggleLoading(loading)}
+              />
+            }
 
-          {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget &&
-            <Renderer widgetConfig={widget.widgetConfig} />
-          }
+            {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget &&
+              <Renderer widgetConfig={widget.widgetConfig} />
+            }
 
-          {widgetIsEmbed &&
-            <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
-          }
+            {widgetIsEmbed &&
+              <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
+            }
 
-          {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && isInitMap && (
-            <Fragment>
-              <div className="c-map">
-                <Map
-                  mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
-                  mapStyle={MAPSTYLES}
-                  viewport={viewport}
-                  basemap={this.getMapBasemap(widget)}
-                  onViewportChange={this.handleViewport}
-                  labels={this.getMapLabel(widget)}
-                  scrollZoom={false}
-                  bounds={this.getMapBounds(widget)}
-                >
-                  {_map => (
-                    <Fragment>
-                      <LayerManager
-                        map={_map}
-                        layers={filteredLayers}
-                      />
-                    </Fragment>
-                  )}
-                </Map>
-                <MapControls customClass="c-map-controls -embed">
-                  <ZoomControls
+            {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && isInitMap && (
+              <Fragment>
+                <div className="c-map">
+                  <Map
+                    mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+                    mapStyle={MAPSTYLES}
                     viewport={viewport}
-                    onClick={this.handleZoom}
-                  />
-                </MapControls>
-              </div>
-
-              <div className="c-legend-map -embed">
-                <Legend
-                  maxHeight={140}
-                  sortable={false}
-                >
-                  {layers.map((lg, i) => (
-                    <LegendListItem
-                      index={i}
-                      key={lg.dataset}
-                      layerGroup={lg}
-                    >
-                      <LegendItemTypes />
-                    </LegendListItem>
-                  ))}
-                </Legend>
-              </div>
-            </Fragment>
-          )}
-
-          {!widgetError && !layersError && !item && !item.content.widgetId &&
-            <div className="message">
-              <div className="no-data">No data</div>
-            </div>
-          }
-
-          {(widgetError || layersError) &&
-            <div className="message">
-              <div className="error">Unable to load</div>
-            </div>
-          }
-
-          {widgetModal &&
-            <div className="widget-modal">
-              {widget && !widget.description &&
-                <p>No additional information is available</p>
-              }
-
-              {widget && widget.description && (
-                <div>
-                  <h4>Description</h4>
-                  <p>{widget.description}</p>
+                    basemap={this.getMapBasemap(widget)}
+                    onViewportChange={this.handleViewport}
+                    labels={this.getMapLabel(widget)}
+                    scrollZoom={false}
+                    bounds={this.getMapBounds(widget)}
+                  >
+                    {_map => (
+                      <Fragment>
+                        <LayerManager
+                          map={_map}
+                          layers={filteredLayers}
+                        />
+                      </Fragment>
+                    )}
+                  </Map>
+                  <MapControls customClass="c-map-controls -embed">
+                    <ZoomControls
+                      viewport={viewport}
+                      onClick={this.handleZoom}
+                    />
+                  </MapControls>
                 </div>
-              )}
 
-              { widgetLinks.length > 0 &&
-                <div className="widget-links-container">
-                  <h4>Links</h4>
-                  <ul>
-                    { widgetLinks.map(link => (
-                      <li>
-                        <a
-                          href={link.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {link.name}
-                        </a>
-                      </li>
-                            ))}
-                  </ul>
+                <div className="c-legend-map -embed">
+                  <Legend
+                    maxHeight={140}
+                    sortable={false}
+                  >
+                    {layers.map((lg, i) => (
+                      <LegendListItem
+                        index={i}
+                        key={lg.dataset}
+                        layerGroup={lg}
+                      >
+                        <LegendItemTypes />
+                      </LegendListItem>
+                    ))}
+                  </Legend>
                 </div>
-              }
-            </div>
-          }
-        </div>
+              </Fragment>
+            )}
+
+            {!widgetError && !layersError && !item && !item.content.widgetId &&
+              <div className="message">
+                <div className="no-data">No data</div>
+              </div>
+            }
+
+            {(widgetError || layersError) &&
+              <div className="message">
+                <div className="error">Unable to load</div>
+              </div>
+            }
+
+            {widgetModal &&
+              <div className="widget-modal">
+                {widget && !widget.description &&
+                  <p>No additional information is available</p>
+                }
+
+                {widget && widget.description && (
+                  <div>
+                    <h4>Description</h4>
+                    <p>{widget.description}</p>
+                  </div>
+                )}
+
+                {widgetLinks.length > 0 &&
+                  <div className="widget-links-container">
+                    <h4>Links</h4>
+                    <ul>
+                      {widgetLinks.map(link => (
+                        <li>
+                          <a
+                            href={link.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {link.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </ErrorBoundary>
+
 
         {caption &&
           <div className="caption-container">

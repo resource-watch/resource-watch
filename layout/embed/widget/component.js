@@ -241,7 +241,10 @@ class LayoutEmbedWidget extends PureComponent {
             </div>
           </div>)}
           <div className="widget-content">
-            {typeof window !== 'undefined' && <Renderer widgetConfig={widget.widgetConfig} />}
+            {typeof window !== 'undefined' && 
+            
+              <Renderer widgetConfig={widget.widgetConfig} />
+            }
             {modalOpened && this.getModal()}
           </div>
           {(isExternal && !webshot) && (

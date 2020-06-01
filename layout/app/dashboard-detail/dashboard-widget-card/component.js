@@ -16,6 +16,7 @@ import Spinner from 'components/ui/Spinner';
 import CollectionsPanel from 'components/collections-panel';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
+import ErrorBoundary from 'components/ui/error-boundary';
 import RankingWidget from './ranking-widget';
 
 // utils
@@ -48,13 +49,13 @@ function DashboardWidgetCard(props) {
     const modalIcon = classnames({
         'icon-cross': infoCardOpen,
         'icon-info': !infoCardOpen
-    });      
-    
+    });
+
     const classNameValue = classnames({
         'c-dashboard-widget-card': true,
         '-embed-widget': widgetIsEmbed
     });
-    
+
     return (
         <div className={classNameValue}>
             <header>
@@ -130,67 +131,70 @@ function DashboardWidgetCard(props) {
                     </div>
                 </div>
             </header>
-            <div className="widget-container">
-                <Spinner isLoading={loading} className="-light -small" />
-                { widgetType === 'text' && widget &&
-                    <TextChart
-                        widgetConfig={widgetConfig}
-                        toggleLoading={loading => onToggleLoading(loading)}
-                    />
-                }
+            <ErrorBoundary message="There was an error loading the visualization">
 
-                { widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking &&
-                    <Renderer widgetConfig={widgetConfig} />
-                }
+                <div className="widget-container">
+                    <Spinner isLoading={loading} className="-light -small" />
+                    {widgetType === 'text' && widget &&
+                        <TextChart
+                            widgetConfig={widgetConfig}
+                            toggleLoading={loading => onToggleLoading(loading)}
+                        />
+                    }
 
-                { widgetIsEmbed &&
-                    <iframe 
-                        title={widget.name}
-                        src={widgetEmbedUrl}
-                        width="100%"
-                        height={!!explicitHeight ? `${explicitHeight}px` : '100%'}
-                        frameBorder="0" 
-                    />
-                }
+                    {widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking &&
+                        <Renderer widgetConfig={widgetConfig} />
+                    }
 
-                { widgetIsRanking &&
-                    <RankingWidget widgetConfig={widgetConfig} />
-                }
+                    {widgetIsEmbed &&
+                        <iframe
+                            title={widget.name}
+                            src={widgetEmbedUrl}
+                            width="100%"
+                            height={!!explicitHeight ? `${explicitHeight}px` : '100%'}
+                            frameBorder="0"
+                        />
+                    }
 
-                {infoCardOpen &&
-                    <div className="widget-modal">
-                        {widget && !widget.description &&
-                            <p>No additional information is available</p>
-                        }
+                    {widgetIsRanking &&
+                        <RankingWidget widgetConfig={widgetConfig} />
+                    }
 
-                        {widget && widget.description && (
-                            <div>
-                                <h4>Description</h4>
-                                <p>{widget.description}</p>
-                            </div>
-                        )}
+                    {infoCardOpen &&
+                        <div className="widget-modal">
+                            {widget && !widget.description &&
+                                <p>No additional information is available</p>
+                            }
 
-                        {widgetLinks.length > 0 &&
-                            <div className="widget-links-container">
-                                <h4>Links</h4>
-                                <ul>
-                                    {widgetLinks.map(link => (
-                                        <li>
-                                            <a
-                                                href={link.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                {link.name}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        }
-                    </div>
-                }
-            </div>
+                            {widget && widget.description && (
+                                <div>
+                                    <h4>Description</h4>
+                                    <p>{widget.description}</p>
+                                </div>
+                            )}
+
+                            {widgetLinks.length > 0 &&
+                                <div className="widget-links-container">
+                                    <h4>Links</h4>
+                                    <ul>
+                                        {widgetLinks.map(link => (
+                                            <li>
+                                                <a
+                                                    href={link.link}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    {link.name}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </ErrorBoundary>
         </div>
     );
 };

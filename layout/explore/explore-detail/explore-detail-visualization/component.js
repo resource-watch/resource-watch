@@ -11,7 +11,7 @@ import RwAdapter from '@widget-editor/rw-adapter';
 import Modal from 'components/modal/modal-component';
 import LoginModal from 'components/modal/login-modal';
 import Spinner from 'components/ui/Spinner';
-import ErrorBoundary from './error-boundary';
+import ErrorBoundary from 'components/ui/error-boundary';
 
 // Utils
 import DefaultTheme from 'utils/widgets/theme';
@@ -58,7 +58,7 @@ function ExploreDetailVisualization(props) {
     <div className="c-explore-detail-visualization">
       <Spinner isLoading={loading} className="-light -relative" />
       <h3>Customize visualization</h3>
-      <ErrorBoundary>
+      <ErrorBoundary message="There was an error loading the visualization">
         <WidgetEditor
           datasetId={datasetId}
           {...(widgetId && { widgetId })}
