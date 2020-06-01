@@ -65,8 +65,9 @@ function CustomSection(props) {
                 return ({ ...acc, [resp.id]: newWidget });
 
               } else {
-                const visualizationType = resp.widgetConfig.paramsConfig.visualizationType;
-                if (visualizationType === 'chart') {
+                const paramsConfig = resp.widgetConfig.paramsConfig;
+                const visualizationType = paramsConfig && paramsConfig.visualizationType;
+                if (!visualizationType || visualizationType === 'chart') {
                   const key = resp.widgetConfig.sql_config[0].key_params[0].key;
                   const isISO = key === 'country_code';
                   const dataObj = resp.widgetConfig.data[0];
