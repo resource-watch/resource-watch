@@ -11,6 +11,7 @@ import RwAdapter from '@widget-editor/rw-adapter';
 import Modal from 'components/modal/modal-component';
 import LoginModal from 'components/modal/login-modal';
 import Spinner from 'components/ui/Spinner';
+import ErrorBoundary from './error-boundary';
 
 // Utils
 import DefaultTheme from 'utils/widgets/theme';
@@ -57,17 +58,19 @@ function ExploreDetailVisualization(props) {
     <div className="c-explore-detail-visualization">
       <Spinner isLoading={loading} className="-light -relative" />
       <h3>Customize visualization</h3>
-      <WidgetEditor
-        datasetId={datasetId}
-        {...(widgetId && { widgetId })}
-        compact
-        application="rw"
-        onSave={onSaveWidget}
-        theme={DefaultTheme}
-        adapter={RwAdapter}
-        authenticated
-        disable={['theme-selection', 'advanced-editor', 'map']}
-      />
+      <ErrorBoundary>
+        <WidgetEditor
+          datasetId={datasetId}
+          {...(widgetId && { widgetId })}
+          compact
+          application="rw"
+          onSave={onSaveWidget}
+          theme={DefaultTheme}
+          adapter={RwAdapter}
+          authenticated
+          disable={['theme-selection', 'advanced-editor', 'map']}
+        />
+      </ErrorBoundary>
       <Modal
         isOpen={loginModalOpen}
         onRequestClose={() => setLoginModalOpen(false)}
