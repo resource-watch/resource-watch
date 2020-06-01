@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 
 class ErrorBoundary extends PureComponent {
 
@@ -18,11 +19,12 @@ class ErrorBoundary extends PureComponent {
 
     render() {
         const { error } = this.state;
+        const { message } = this.props;
         return (
             <div className="c-error-boundary">
                 {error &&
                     <div>
-                        There was an error loading the visualization
+                        {message}
                     </div>
                 }
                 {!error && this.props.children}
@@ -30,5 +32,13 @@ class ErrorBoundary extends PureComponent {
         );
     }
 }
+
+ErrorBoundary.propTypes = {
+    message: PropTypes.string
+};
+
+ErrorBoundary.defaultProps = {
+    message: 'There was an error'
+};
 
 export default ErrorBoundary;
