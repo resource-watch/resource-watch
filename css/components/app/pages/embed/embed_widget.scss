@@ -30,6 +30,11 @@
 
   border-radius: 4px;
 
+  .c-error-boundary {
+    min-width: 100%;
+    min-height: 100%;
+  }
+
   .widget-title {
     position: relative;
     flex-shrink: 0;
