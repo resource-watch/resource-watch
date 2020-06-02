@@ -181,11 +181,15 @@ function ExploreDatasetsComponent(props) {
             size: total
           }}
           onChange={(p) => {
-            // Scroll to the top of the list
-            if (window.scrollTo && document.querySelector('.sidebar-content').scrollTo) {
+            // ------- Scroll to the top of the list -------------------
+            const sidebarContent = document.querySelector('.sidebar-content');
+            if (window.scrollTo) {
               window.scrollTo(0, 0);
-              document.querySelector('.sidebar-content').scrollTo(0, 0);
             }
+            if (sidebarContent && sidebarContent.scrollTo) {
+              sidebarContent.scrollTo(0, 0);
+            }
+            // ------------------------------------------------
 
             fetchDatasets(p);
           }}
