@@ -133,7 +133,12 @@
               {
                 "id": "3b92b22a-5432-423f-8cb0-535ba210ca1f",
                 "widgetsPerRow": 2
+              },
+              {
+                "id": "new-widget-ID",
+                "widgetsPerRow": 1/2/3
               }
+                
             ],
             "widgetsWorld": [
               {
@@ -192,7 +197,7 @@
               {
                 "id": "68eb3203-170c-4d5b-8a07-6e463283570e",
                 "widgetsPerRow": 1,
-                "explicitHeight": 800
+                "explicitHeight": 650
               }
             ]
         },
