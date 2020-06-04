@@ -33,6 +33,7 @@ function Explore(props) {
     userIsLoggedIn
   } = props;
   const [mobileWarningOpened, setMobileWarningOpened] = useState(true);
+  const [datasetDescription, setDatasetDescription] = useState(null);
 
   const getSidebarLayout = () => (
     <Fragment>
@@ -65,26 +66,35 @@ function Explore(props) {
           <ExploreNearRealTime />
         }
       </div>
-      {selected && <ExploreDetail key={selected} />}
+      {selected && 
+        <ExploreDetail 
+          key={selected} 
+          onDatasetLoaded={(dataset) =>
+            setDatasetDescription(dataset.metadata[0].info.functions)}
+        />
+      }
     </Fragment>
   );
+
+  const descriptionSt = selected ? datasetDescription : 
+      'Browse more than 200 global data sets on the state of our planet.';
 
   return (
     <Layout
       title="Explore Data Sets — Resource Watch"
-      description="Browse more than 200 global data sets on the state of our planet."
+      description={descriptionSt}
       className="-fullscreen"
     >
       <div className="c-page-explore">
-        {/*
-           We set this key so that, by rerendering the sidebar, the sections are
-           scrolled to the top when the selected section changes.
-        */}
         <MediaQuery
           minWidth={breakpoints.medium}
           values={{ deviceWidth: responsive.fakeWidth }}
         >
           <Fragment>
+             {/*
+              We set this key so that, by rerendering the sidebar, the sections are
+              scrolled to the top when the selected section changes.
+            */}
             <ExploreSidebar
               key={section}
             >
