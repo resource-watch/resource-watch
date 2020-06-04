@@ -26,7 +26,7 @@ import {
 
 const ExploreDetailContainer = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { datasetID, anchor } = props;
+  const { datasetID, anchor, onDatasetLoaded } = props;
 
   useEffect(() => {
     if (datasetID) {
@@ -37,6 +37,9 @@ const ExploreDetailContainer = (props) => {
         .then((data) => {
           dispatch(setDataset(data));
           dispatch(setDatasetLoading(false));
+
+          // Notifying the parent about the dataset load
+          onDatasetLoaded(data);
 
           // Check if there's an anchor value so that the interface scrolls
           // to that section
@@ -86,7 +89,8 @@ const ExploreDetailContainer = (props) => {
 
 ExploreDetailContainer.propTypes = {
   datasetID: PropTypes.string.isRequired,
-  anchor: PropTypes.string.isRequired
+  anchor: PropTypes.string.isRequired,
+  onDatasetLoaded: PropTypes.func.isRequired
 };
 
 export default connect(
