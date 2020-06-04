@@ -73,13 +73,16 @@ function EnergyCountryExplorer(props) {
     }
   };
 
+  const selectedCountryIsWorld = selectedCountry === WORLD_COUNTRY.value;
+
   const selectedCountryObj = selectedCountry ?
     countries.list.find(c => c.value === selectedCountry) :
     WORLD_COUNTRY;
-
-  const showCustomSections = config && (!selectedCountry || (selectedCountryObj && (
-    (selectedCountry === WORLD_COUNTRY.value) || 
-    ((selectedCountry !== WORLD_COUNTRY.value) && selectedCountryBbox))));    
+  
+  const showCustomSections = config && (!selectedCountry || (selectedCountryObj && 
+    (selectedCountryIsWorld || (!selectedCountryIsWorld && selectedCountryBbox))));  
+    
+  const ndcsURL = `https://www.climatewatchdata.org/embed/countries/${selectedCountry}/ndc-content-overview?isNdcp=true#ndc-content-overview`;
 
   return (
     <div className="c-energy-country-explorer">
@@ -143,6 +146,22 @@ function EnergyCountryExplorer(props) {
                     key={`section-${section.header}`}
                   />))
             }
+      {/* ------- NDCs ---------- */}
+      {!selectedCountryIsWorld &&
+        <div className="ndcs-container l-container">
+          <div className="row">
+            <div className="column small-12">
+            <iframe
+              title="NDC targets" 
+              src={ndcsURL}
+              width="100%"
+              height="600px"
+              frameBorder="0"
+            />
+            </div>
+          </div>
+        </div>
+      }
     </div>
   );
 }
