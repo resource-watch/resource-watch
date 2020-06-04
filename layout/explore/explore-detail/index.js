@@ -26,7 +26,13 @@ import {
 
 const ExploreDetailContainer = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { datasetID, anchor } = props;
+  const { 
+    datasetID,
+    anchor,
+    onDatasetLoaded,
+    layerGroups,
+    toggleMapLayerGroup
+  } = props;
 
   useEffect(() => {
     if (datasetID) {
@@ -38,11 +44,20 @@ const ExploreDetailContainer = (props) => {
           dispatch(setDataset(data));
           dispatch(setDatasetLoading(false));
 
+          // Notifying the parent about the dataset load
+          onDatasetLoaded(data);
+
           // Check if there's an anchor value so that the interface scrolls
           // to that section
           const element = document.getElementById(anchor);
           if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+
+          // Set default layer as active when Explore Detail has been 
+          // directly loaded from the URL (no user navigation involved)
+          if (layerGroups.length === 0) {
+            toggleMapLayerGroup({ dataset: data, toggle: true });
           }
 
           // Load tags
@@ -86,14 +101,16 @@ const ExploreDetailContainer = (props) => {
 
 ExploreDetailContainer.propTypes = {
   datasetID: PropTypes.string.isRequired,
-  anchor: PropTypes.string.isRequired
+  anchor: PropTypes.string.isRequired,
+  onDatasetLoaded: PropTypes.func.isRequired
 };
 
 export default connect(
   state => ({
     // Store
     datasetID: state.explore.datasets.selected,
-    anchor: state.explore.sidebar.anchor
+    anchor: state.explore.sidebar.anchor,
+    layerGroups: state.explore.map.layerGroups
   }),
   actions
 )(ExploreDetailContainer);
