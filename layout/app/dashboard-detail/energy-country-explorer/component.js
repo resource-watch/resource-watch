@@ -82,7 +82,7 @@ function EnergyCountryExplorer(props) {
   const showCustomSections = config && (!selectedCountry || (selectedCountryObj && 
     (selectedCountryIsWorld || (!selectedCountryIsWorld && selectedCountryBbox))));  
     
-  const ndcsURL = `https://www.climatewatchdata.org/countries/${selectedCountry}?sector=energy#laws-and-policies`;
+  const ndcsURL = `https://www.climatewatchdata.org/embed/countries/${selectedCountry}/ndc-content-overview?isNdcp=true#ndc-content-overview`;
 
   return (
     <div className="c-energy-country-explorer">
