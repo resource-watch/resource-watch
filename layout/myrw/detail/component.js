@@ -32,7 +32,6 @@ class LayoutMyRWDetail extends PureComponent {
     query: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
-    myrwdetail: PropTypes.object.isRequired,
     alerts: PropTypes.object.isRequired
   }
 
@@ -110,7 +109,6 @@ class LayoutMyRWDetail extends PureComponent {
 
   render() {
     const {
-      myrwdetail,
       query: { tab, subtab, id }
     } = this.props;
 
@@ -132,15 +130,8 @@ class LayoutMyRWDetail extends PureComponent {
                     {this.getName()}
                   </Title>
                   {(subtab === 'alerts') &&
-                    (<div className="page-header-info">Alerts for {this.getAlerts()}</div>)}
-                  {myrwdetail.dataset &&
-                    (
-                      <div className="page-header-info">
-                        <ul>
-                          <li>Dataset: <Link route="explore" params={{ dataset: myrwdetail.dataset.slug }}><a>{myrwdetail.dataset.name}</a></Link></li>
-                        </ul>
-                      </div>
-                    )}
+                    (<div className="page-header-info">Alerts for {this.getAlerts()}</div>)
+                  }
                 </div>
               </div>
             </div>
