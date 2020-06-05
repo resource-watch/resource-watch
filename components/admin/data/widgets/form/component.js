@@ -96,12 +96,11 @@ class WidgetForm extends PureComponent {
     const { widgetConfig } = widget;
     // Validate the form
     FORM_ELEMENTS.validate(step);
-
+    
     const valid = FORM_ELEMENTS.isValid(step);
     if (valid) {
       this.setState({ loading: true });
-
-      const formObj = { ...widget, ...form };
+      const formObj = { ...widget.attributes, ...form };
 
       if (formObj.sourceUrl === '') {
         delete formObj.sourceUrl;
