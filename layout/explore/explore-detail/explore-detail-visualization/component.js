@@ -33,7 +33,7 @@ function ExploreDetailVisualization(props) {
       // The widget creation endpoint expects the application property to be
       // of array type
       const newWidget = {
-        ...widget,
+        ...widget.attributes,
         published: false,
         application: process.env.APPLICATIONS.split(','),
         env: process.env.API_ENV
