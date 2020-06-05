@@ -73,7 +73,7 @@ function EnergyCountryExplorer(props) {
     }
   };
 
-  const selectedCountryIsWorld = selectedCountry === WORLD_COUNTRY.value;
+  const selectedCountryIsWorld = selectedCountry === WORLD_COUNTRY.value || !selectedCountry;
 
   const selectedCountryObj = selectedCountry ?
     countries.list.find(c => c.value === selectedCountry) :
