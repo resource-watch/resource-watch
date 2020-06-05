@@ -41,7 +41,7 @@ function DashboardWidgetCard(props) {
     const widgetIsEmbed = widgetConfig && widgetConfig.type === 'embed';
     const widgetIsRanking = widgetConfig && widgetConfig.type === 'ranking';
     const widgetEmbedUrl = widgetIsEmbed && widgetConfig.url;
-    const isInACollection = belongsToACollection(user, widget);
+    const isInACollection = widget && belongsToACollection(user, widget);
     const starIconName = classnames({
         'icon-star-full': isInACollection,
         'icon-star-empty': !isInACollection

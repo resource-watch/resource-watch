@@ -8,7 +8,6 @@ export { default as routes } from './routes';
 export { default as page } from './page';
 export { default as insights } from './insights';
 export { default as clientDashboards } from './dashboards';
-export { default as myrwdetail } from './myrwdetail';
 
 // Admin
 export { default as datasets } from './admin/datasets';
