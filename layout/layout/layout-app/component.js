@@ -38,7 +38,8 @@ class LayoutApp extends Component {
     isFullScreen: PropTypes.bool.isRequired,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
-    updateIsLoading: PropTypes.func.isRequired
+    updateIsLoading: PropTypes.func.isRequired,
+    explicitHostname: PropTypes.string
   };
 
   static defaultProps = {
@@ -46,7 +47,8 @@ class LayoutApp extends Component {
     description: null,
     className: null,
     pageHeader: false,
-    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
+    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
+    explicitHostname: null
   }
 
   state = { modalOpen: false }
@@ -86,7 +88,8 @@ class LayoutApp extends Component {
       isFullScreen,
       children,
       toggleModal,
-      setModalOptions
+      setModalOptions,
+      explicitHostname
     } = this.props;
     const { modalOpen } = this.state;
     const componentClass = classnames(
@@ -102,6 +105,7 @@ class LayoutApp extends Component {
         <HeadApp
           title={title}
           description={description}
+          explicitHostname={explicitHostname}
           {...thumbnail && { thumbnail }}
         />
 

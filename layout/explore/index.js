@@ -14,7 +14,8 @@ export default connect(
   state => ({
     responsive: state.responsive,
     explore: state.explore,
-    userIsLoggedIn: !!state.user.id
+    userIsLoggedIn: !!state.user.id,
+    hostname: state.common.hostname
   }),
   actions
 )(LayoutExplore);

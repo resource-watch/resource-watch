@@ -30,10 +30,11 @@ function Explore(props) {
   const {
     responsive,
     explore: { datasets: { selected }, sidebar: { section } },
-    userIsLoggedIn
+    userIsLoggedIn,
+    hostname
   } = props;
   const [mobileWarningOpened, setMobileWarningOpened] = useState(true);
-  const [datasetDescription, setDatasetDescription] = useState(null);
+  const [dataset, setDataset] = useState(null);
 
   const getSidebarLayout = () => (
     <Fragment>
@@ -69,20 +70,24 @@ function Explore(props) {
       {selected && 
         <ExploreDetail 
           key={selected} 
-          onDatasetLoaded={(dataset) =>
-            setDatasetDescription(dataset.metadata[0].info.functions)}
+          onDatasetLoaded={dataset => setDataset(dataset)}
         />
       }
     </Fragment>
   );
 
-  const descriptionSt = selected ? datasetDescription : 
-      'Browse more than 200 global data sets on the state of our planet.';
+  const metadata = dataset && dataset.metadata && dataset.metadata[0];
+  const infoObj = metadata && metadata.info;  
+  const titleSt = selected ? infoObj && infoObj.name : '';
+    'Explore Data Sets — Resource Watch.';
+  const descriptionSt = selected ? infoObj && infoObj.functions : 
+    'Browse more than 200 global data sets on the state of our planet.';
 
   return (
     <Layout
-      title="Explore Data Sets — Resource Watch"
+      title={titleSt}
       description={descriptionSt}
+      {...(selected && dataset && { explicitHostname: `${hostname}/${dataset.slug}` })}
       className="-fullscreen"
     >
       <div className="c-page-explore">
@@ -135,7 +140,8 @@ function Explore(props) {
 Explore.propTypes = {
   responsive: PropTypes.object.isRequired,
   explore: PropTypes.object.isRequired,
-  userIsLoggedIn: PropTypes.bool.isRequired
+  userIsLoggedIn: PropTypes.bool.isRequired,
+  hostname: PropTypes.string.isRequired
 };
 
 export default Explore;

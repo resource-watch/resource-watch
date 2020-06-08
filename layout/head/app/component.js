@@ -11,13 +11,15 @@ class HeadApp extends PureComponent {
     description: PropTypes.string,
     thumbnail: PropTypes.string,
     routes: PropTypes.object.isRequired,
-    hostname: PropTypes.string.isRequired
+    hostname: PropTypes.string.isRequired,
+    explicitHostname: PropTypes.string
   };
 
   static defaultProps = {
     title: null,
     description: null,
-    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
+    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
+    explicitHostname: null
   }
 
   getCrazyEgg() {
@@ -112,13 +114,14 @@ class HeadApp extends PureComponent {
       title,
       description,
       thumbnail,
-      hostname
+      hostname,
+      explicitHostname
     } = this.props;
     return (
       <HeadNext>
         <title>{title ? `${title} | Resource Watch` : 'Resource Watch'}</title>
 
-        <meta property="og:url" content={hostname} />
+        <meta property="og:url" content={explicitHostname ? explicitHostname : hostname} />
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
