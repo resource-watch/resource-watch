@@ -451,9 +451,6 @@ class ExploreMap extends PureComponent {
 
     const newActiveLayers = aoi ? [ ...activeLayers, aoi] : activeLayers;
 
-    // console.log('---ACTIVE LAYERS---');
-    // console.log(newActiveLayers);  
-
     return (
       <div className="l-explore-map -relative">
         {/* Brand logo */}
