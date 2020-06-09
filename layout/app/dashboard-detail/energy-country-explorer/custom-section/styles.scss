@@ -6,12 +6,19 @@
         max-width: 790px;
         margin-bottom: 12 * $space;
     }
-    .c-dashboard-widget-card {
-        max-height: 480px;
-        margin-bottom: 8 * $space;
 
-        &.-embed-widget {
-            max-height: none;
+    .widget-blocks {
+        .column {
+            padding-bottom: 8 * $space;
+
+            .c-dashboard-widget-card {
+                max-height: 480px;
+        
+                &.-embed-widget {
+                    max-height: none;
+                }
+            }
         }
     }
+    
 }

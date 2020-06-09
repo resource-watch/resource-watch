@@ -134,7 +134,7 @@ function CustomSection(props) {
               <ReactMarkdown linkTarget="_blank" source={description} />
             </div>
             {!map &&
-              <div className="row">
+              <div className="row widget-blocks">
                 {widgetBlocks && widgetBlocks.map(wB => {
                   const widgetBlockClassName = classnames({
                     column: true,
