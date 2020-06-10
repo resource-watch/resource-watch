@@ -77,14 +77,15 @@ class ExploreMap extends PureComponent {
     setSidebarAnchor: PropTypes.func.isRequired,
     exploreBehavior: PropTypes.bool,
     onLayerInfoButtonClick: PropTypes.func,
-    aoi: PropTypes.object.isRequired
+    aoi: PropTypes.object
   };
 
   static defaultProps = {
     embed: false,
     layerGroupsInteractionSelected: null,
     layerGroupsInteractionLatLng: null,
-    exploreBehavior: true
+    exploreBehavior: true,
+    aoi: null
   }
 
   state = { layer: null, loading: {} };
@@ -450,9 +451,6 @@ class ExploreMap extends PureComponent {
     });    
 
     const newActiveLayers = aoi ? [ ...activeLayers, aoi] : activeLayers;
-
-    // console.log('---ACTIVE LAYERS---');
-    // console.log(newActiveLayers);  
 
     return (
       <div className="l-explore-map -relative">

@@ -50,7 +50,8 @@ class ExploreDetailComponent extends React.Component {
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
     const defaultWidget = dataset && dataset.widget && dataset.widget.find(w => w.default === 'true');
     const showVisualizationSection = dataset && dataset.type !== 'raster';
-
+    const showLayersSection = dataset && dataset.layer && dataset.layer.length > 0;
+    const showTags = tags && tags.length > 0;
 
     return (
       <div className="c-explore-detail">
@@ -83,13 +84,15 @@ class ExploreDetailComponent extends React.Component {
                     readMoreClicked={() => logEvent('Explore (Detail)', 'Clicks Read More', 'description')}
                   />
                 </div>
-                {tags && tags.length && tags.length > 0 &&
+                {showTags &&
                   <ExploreDetailTags tags={tags} />
                 }
               </div>
-              <div id="layers" className="metadata-section">
-                <DatasetLayers layers={layers} dataset={dataset} />
-              </div>
+              {showLayersSection &&
+                <div id="layers" className="metadata-section">
+                  <DatasetLayers layers={layers} dataset={dataset} />
+                </div>
+              }
               { showVisualizationSection &&
                 <div id="visualization" className="metadata-section">
                   <ExploreDetailVisualization

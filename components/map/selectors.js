@@ -41,8 +41,8 @@ export const getUpdatedLayerGroups = statePointer => createSelector(
 
 export const getActiveLayers = (statePointer) => createSelector(
   [statePointer],
-  (_layerGroups = []) => {
-    const activeLayers = _layerGroups.map(lg => ({
+  (_layerGroups = []) => {    
+    const activeLayers = _layerGroups.filter(lg => lg.layers.length > 0).map(lg => ({
       ...lg.layers.find(l => l.active),
       opacity: (typeof lg.opacity !== 'undefined') ? lg.opacity : 1,
       visibility: (typeof lg.visibility !== 'undefined') ? lg.visibility : true
@@ -78,7 +78,7 @@ export const getActiveInteractiveLayers = statePointer => createSelector(
 export const getUpdatedLayers = (activeLayersPointer, parametrizationPointer) => createSelector(
   [activeLayersPointer, parametrizationPointer],
   (_activeLayers = [], _parametrization) => {
-    if (!(Object.keys(_parametrization).length)) {
+    if (!(Object.keys(_parametrization).length)) {      
       return _activeLayers.map((_activeLayer) => {        
         // User Area of Interest (Currently being used in the GEDC Energy dashboard)
         if (_activeLayer.id === 'user_area') {
