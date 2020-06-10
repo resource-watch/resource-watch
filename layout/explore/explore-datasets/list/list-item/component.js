@@ -93,7 +93,7 @@ class DatasetListItem extends React.Component {
     Router.pushRoute('explore', { dataset: dataset.slug });
 
     // Add default layer to the map only if not active already
-    if (!this.props.active) {  
+    if (!this.props.active && layer) {  
       toggleMapLayerGroup({ dataset, toggle: true });
       setMapLayerGroupActive({ dataset: { id: dataset.id }, active: layer.id });
       resetMapLayerGroupsInteraction();
