@@ -56,7 +56,8 @@ const ExploreDetailContainer = (props) => {
 
           // Set default layer as active when Explore Detail has been 
           // directly loaded from the URL (no user navigation involved)
-          if (layerGroups.length === 0) {
+          const datasetHasLayers = data.layer.length > 0;
+          if (layerGroups.length === 0 && datasetHasLayers) {
             toggleMapLayerGroup({ dataset: data, toggle: true });
           }
 
@@ -79,7 +80,8 @@ const ExploreDetailContainer = (props) => {
         })
         .catch((error) => {
           dispatch(setDatasetLoading(false));
-          toastr.error('Error loading dataset data', error);
+          toastr.error('Error loading dataset data');
+          console.error('Error loading dataset data', error);
         });
     }
   }, [anchor, datasetID]);
