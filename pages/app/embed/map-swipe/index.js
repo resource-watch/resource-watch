@@ -10,11 +10,11 @@ class EmbedMapSwipePage extends PureComponent {
   static async getInitialProps({ store }) {
     const { dispatch, getState } = store;
     const { routes: { query } } = getState();
-    const { layers } = query;
+    const { layers, bbox } = query;
 
     dispatch(setEmbed(true));
 
-    return { layerIds: layers.split(',') };
+    return { layerIds: layers.split(','), bbox };
   }
 
   render() {
