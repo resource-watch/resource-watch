@@ -20,6 +20,7 @@ import './styles.scss';
 const CompareMaps = (props) => {
   const {
     layers,
+    bbox,
     mapOptions,
     compareOptions
   } = props;
@@ -46,6 +47,12 @@ const CompareMaps = (props) => {
           basemap="dark"
           labels="light"
           boundaries
+          {...(bbox && { 
+            bounds: {
+              bbox,
+              options: {}
+            }} 
+          )}
           onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
           {...mapOptions}
         >

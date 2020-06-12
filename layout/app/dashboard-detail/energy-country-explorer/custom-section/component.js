@@ -33,10 +33,23 @@ function CustomSection(props) {
           if (!countryIsWorld) {
             const reducedResult = responses.reduce((acc, resp) => {
               if (resp.widgetConfig.type === 'embed') {
-
-                // TO-DO: we should change the swipe viz here if necessary to adjust
-                // the map position to the country selected
-                return ({ ...acc, [resp.id]: resp });
+                const url = resp.widgetConfig.url;
+                if (url.indexOf('map-swipe') >= 0) {
+                  const newURL = `${url}&bbox=[${bbox}]`;
+                  const newWidgetConfig = {
+                    ...resp.widgetConfig,
+                    url: newURL
+                  };
+                  return  ({ 
+                    ...acc, 
+                    [resp.id]: {
+                      ...resp,
+                      widgetConfig: newWidgetConfig
+                    }
+                  });
+                } else {
+                  return ({ ...acc, [resp.id]: resp });
+                }
               } else if (resp.widgetConfig.type === 'ranking') {
 
                 // temporary implementation for ranking widgets

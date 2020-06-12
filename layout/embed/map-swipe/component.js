@@ -11,7 +11,7 @@ import Spinner from 'components/ui/Spinner';
 import { fetchLayer } from 'services/layer';
 
 const LayoutEmbedMapSwipe = (props) => {
-  const { layerIds } = props;
+  const { layerIds, bbox } = props;
   const [loading, setLoading] = useState(true);
   const [layers, setlayers] = useState([]);
 
@@ -40,7 +40,7 @@ const LayoutEmbedMapSwipe = (props) => {
           className="-light"
         />)}
 
-      {!loading && (<CompareMaps layers={layers} />)}
+      {!loading && (<CompareMaps layers={layers} bbox={bbox} />)}
     </LayoutEmbed>
   );
 };
