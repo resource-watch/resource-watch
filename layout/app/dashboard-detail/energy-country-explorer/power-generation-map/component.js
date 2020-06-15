@@ -19,9 +19,7 @@ function PowerGenerationMap(props) {
         if (bbox) {
             setBounds({ bbox, options: {} });
         }
-        if (geojson) {
-            setAOI({ geojson });
-        }
+        setAOI({ geojson });
     }, [bbox, geojson]);
 
     useEffect(() => {
