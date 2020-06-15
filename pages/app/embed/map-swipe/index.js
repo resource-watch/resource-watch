@@ -14,7 +14,7 @@ class EmbedMapSwipePage extends PureComponent {
 
     dispatch(setEmbed(true));
 
-    return { layerIds: layers.split(','), bbox };
+    return { layerIds: layers.split(','), bbox: JSON.parse(bbox) };
   }
 
   render() {
