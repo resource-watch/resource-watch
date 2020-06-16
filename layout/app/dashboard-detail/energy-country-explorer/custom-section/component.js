@@ -135,7 +135,7 @@ function CustomSection(props) {
           console.error(err);
         });
     }
-  }, [country]);
+  }, [country, bbox]);
 
   return (
     <div className="c-custom-section l-section">
