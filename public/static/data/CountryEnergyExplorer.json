@@ -1,7 +1,7 @@
 {
-    "headerText": "Energy services are central to most aspects of life. This dashboard provides an overview of the global energy sector, as well as a country level view of the power sector, which represents about 20% of final energy consumption and 42% of energy greenhouse gas emissions.",
+    "headerText": "Energy services are central to most aspects of life. The power sector country profiles provide a country-level view of the power sector, which represents a subset of the energy sector that is focused on electricity generation.",
     "countrySelector": {
-      "mainText": "The power sector (also called the electricity sector) is a segment of the global energy sector. Power enables electricity access, but also causes climate change, air pollution, increases water use and faces risks to natural hazards. Select a country to dive into data on national power sectors."
+      "mainText": "The power sector represents about 20% of final energy consumption and *[42% of energy greenhouse gas emissions](https://www.climatewatchdata.org/ghg-emissions?breakBy=sector&chartType=percentage&sectors=building%2Celectricity-heat%2Cfugitive-emissions%2Cmanufacturing-construction%2Cother-fuel-combustion%2Ctransportation)*. Power enables electricity access, but also causes climate change, air pollution, increases water use and faces risks to natural hazards.\ See a global overview below or select a country to explore  national power sectors."
     },
     "countryIndicators": [
       {
@@ -18,7 +18,7 @@
         "datasetID": "00abb46f-34e2-4bf7-be30-1fb0b1de022f",
         "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY yr_data DESC) AS ranking, country_code, country_name, yr_data as x, unit1 as unit, year FROM soc_008_gdp_per_capita_edit WHERE year = 2018 AND year IS NOT NULL AND yr_data IS NOT NULL ORDER BY yr_data DESC), v as (SELECT count(distinct(country_code)), {ISO} as country_code  FROM soc_008_gdp_per_capita_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = {ISO}",
         "param": "ISO",
-        "name": "GDP per Capita (current international $)",
+        "name": "GDP per capita (current international $)",
         "world": false,
         "country": true,
         "format": ".3s"
@@ -46,7 +46,7 @@
         "datasetID": "eef10736-8d8b-4ac9-a715-ef0653a83196",
         "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY electricity_consumption_billionkwh DESC) AS ranking, country as country_name, electricity_consumption_billionkwh as x, 'kWh, billions' as unit, year FROM ene_034_electricity_consumption_edit WHERE year = 2016 AND year IS NOT NULL AND electricity_consumption_billionkwh IS NOT NULL ORDER BY electricity_consumption_billionkwh DESC), v as (SELECT count(distinct(country)), {COUNTRY} as country_name FROM ene_034_electricity_consumption_edit) SELECT * FROM r INNER JOIN v ON r.country_name = v.country_name WHERE r.country_name = {COUNTRY}",
         "param": "COUNTRY",
-        "name": "Electricity consumption (billion kWh)",
+        "name": "Total electricity consumption (billion kWh)",
         "world": true,
         "country": true,
         "format": ".3s",
@@ -56,7 +56,7 @@
         "datasetID": "a290675c-9528-4a51-8201-f6c2d7848744",
         "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total_including_lucf DESC) AS ranking, country as country_name, total_including_lucf as x, unit, year FROM cli_008a_greenhouse_gas_emissions_country_sector WHERE year = 2016 AND year IS NOT NULL AND total_including_lucf IS NOT NULL ORDER BY total_including_lucf DESC), v as (SELECT count(distinct(country)), {COUNTRY} as country_name FROM cli_008a_greenhouse_gas_emissions_country_sector) SELECT * FROM r INNER JOIN v ON r.country_name = v.country_name WHERE r.country_name = {COUNTRY}",
         "param": "COUNTRY",
-        "name": "Greenhouse Gas Emissions per capita (tCO2e/person)",
+        "name": "Total greenhouse gas emissions per capita (tCO2e/person)",
         "world": false,
         "country": true,
         "format": ".3s"
@@ -64,8 +64,8 @@
     ],
     "sections": [
         {
-            "header": "Power in relation to energy",
-            "description": "The power sector is a small share of the energy sector, but most climate scenarios show that compliance with the *[Paris Agreement](https://en.wikipedia.org/wiki/Paris_Agreement)* will require a strong electrification of the economy.",
+            "header": "What is the relationship of the power and energy sector?",
+            "description": "The power sector is a small share of the energy sector (which  includes direct fossil fuel use by transport, industry and building). Most climate scenarios show that achieve the goals of the *[Paris Agreement](https://www.wri.org/climate/expert-perspective/paris-agreement-strategy-longer-term)* will require to *[optimize, electrify and decarbonize](https://www.wri.org/blog/2020/01/6-lessons-energy-decarbonization-countries-leading-way)* the energy sector. This means reducing total energy use through improved efficiency, shift energy demand from direct fossil fuel burining to electricity and ensure this electricity is zero carbon. The charts below show if efficiency is improving and if the energy sector is electrifying.",
             "widgets": [
               {
                 "id": "de318066-eaad-4f4f-a9ed-75c30b50e1aa",
@@ -96,15 +96,6 @@
                     ]
                 },
                 {
-                    "name": "Power demand",
-                    "datasets": [
-                        "dbca28fe-d6bf-464f-9f86-fc8b1d81e381",
-                        "65c0e15b-dad0-4681-934e-91c0a378d2fb",
-                        "249cb5ff-0ad1-461c-bcaa-15fb44f45d72",
-                        "b6ceb159-efd8-42de-9c6a-d658801d8922"
-                     ]
-                },
-                {
                     "name": "Natural hazards",
                     "datasets": [
                         "b3ebc10d-9de8-4ee6-870d-1d049e8e2a99",
@@ -115,16 +106,24 @@
                         "ea2db3a6-49c8-4d41-a2ab-758eb6fe4bc0",
                         "444138cd-8ef4-48b3-b197-73e324175ad0"
                     ]
+                }, 
+                {
+                    "name": "Power demand",
+                    "datasets": [
+                        "dbca28fe-d6bf-464f-9f86-fc8b1d81e381",
+                        "65c0e15b-dad0-4681-934e-91c0a378d2fb",
+                        "b6ceb159-efd8-42de-9c6a-d658801d8922"
+                     ]
                 }
             ],
-            "header": "Power sector infrastructure can be affected by natural hazards",
-            "description": "Societies rely on the critical electricity infrastructure, like power plants and transmission lines to ensure reliability. This infrastructure is susceptible to natural hazards including floods, fires, earthquakes, and many others that need to be managed to reduce vulnerabilities to the power sector and to inform strategic, forward-looking investments and reliable operations.",
-            "mapTitle": "Power infrastructure and natural hazards that might impact them",
+            "header": "How can power be affected by natural hazards?",
+            "description": "Societies rely on the critical electricity infrastructure, which is susceptible to natural hazards including floods, fires, earthquakes, and many others. To better understand those hazards and managed vulnerabilities you can overlay power supply and demand data with natural hazards below.",
+            "mapTitle": "Power sector assets and natural hazards that might impact them",
             "map": true
         },
         {
-            "header": "Power consumption",
-            "description": "Countries generation electricity from different sources. Those include fossil fuels (coal, oil, gas), nuclear, and renewables (hydro, wind, solar, biomass) and others.",
+            "header": "Power generation and consumption",
+            "description": "Changes in countries' power consumption can drive an increase or decrease in demand. An increase in demand can be met by generation based on fossil fuels (coal, oil, gas), nuclear, and renewables (hydro, wind, solar, biomass). The charts below show you how consumption is changing and how demand is met with renewable and non-renewable sources.",
             "widgets": [
               {
                 "id": "17354eda-9d85-4efd-8159-81adee50c0d5",
@@ -147,8 +146,8 @@
             ]
         },
         {
-            "header": "Providing reliable and sustainable energy for all",
-            "description": "Clean and convenient modern electricity is still out of reach for many, but the energy transition also provides many opportunities for action.",
+            "header": "Who is lacking access to electricity?",
+            "description": "Clean and convenient modern electricity is still out of reach for many, but the energy transition also provides many opportunities for action. The charts below how many people lack acess to electricity, and what potential there is for investment in new renewable power generation.",
             "widgets": [
               {
                 "id": "8d0a16d7-b609-4ab9-9b46-0a9c8e296508",
@@ -156,14 +155,6 @@
               },
               {
                 "id": "6d268807-e70a-4d79-84e9-37de1b743e74",
-                "widgetsPerRow": 2
-              },
-              {
-                "id": "779301a3-4e61-4c21-bb87-a6ecc62933d1",
-                "widgetsPerRow": 2
-              },
-              {
-                "id": "91721bdc-31ab-43b1-a3cd-4881f80186d8",
                 "widgetsPerRow": 2
               },
               {
@@ -182,14 +173,6 @@
                 "widgetsPerRow": 2
               },
               {
-                "id": "779301a3-4e61-4c21-bb87-a6ecc62933d1",
-                "widgetsPerRow": 2
-              },
-              {
-                "id": "91721bdc-31ab-43b1-a3cd-4881f80186d8",
-                "widgetsPerRow": 2
-              },
-              {
                 "id": "68eb3203-170c-4d5b-8a07-6e463283570e",
                 "widgetsPerRow": 1,
                 "explicitHeight": 650
@@ -197,12 +180,40 @@
             ]
         },
         {
-            "header": "Power sector greenhouse gas emissions, countries climate targets and projections",
-            "description": "The power sector is the single largest greenhouse gas emitter globally, but the share in national emissions vary. To achieve the Paris Agreement most countries need to increase the share of renewables and 73% of countries have set energy sector targets.",
+            "header": "Where can we expand wind and solar power?",
+            "description": "Compared to 2009, the global average costs of renewable have dropped by *[89% for solar, 70% for wind and 87% for battery storage by 2019](https://www.wri.org/publication/tracking-progress-2020-climate-turning-point)*, making it *[the cheapest power for 67% of the world](https://www.wri.org/blog/2020/05/setting-record-straight-about-renewable-energy)*. Use the maps to explore the potential of new wind and solar power generation.", 
+            "widgets": [
+              {
+                "id": "779301a3-4e61-4c21-bb87-a6ecc62933d1",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "91721bdc-31ab-43b1-a3cd-4881f80186d8",
+                "widgetsPerRow": 2
+              }
+            ],
+            "widgetsWorld": [
+              {
+                "id": "779301a3-4e61-4c21-bb87-a6ecc62933d1",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "91721bdc-31ab-43b1-a3cd-4881f80186d8",
+                "widgetsPerRow": 2
+              }
+            ]
+        },
+        {
+            "header": "How much does power contribute to climate change and what are countries doing about it?",
+            "description": "The power sector is the *[single largest greenhouse gas emitter globally](https://www.climatewatchdata.org/ghg-emissions?breakBy=sector&chartType=area&sectors=agriculture%2Cindustrial-processes%2Cland-use-change-and-forestry%2Cwaste%2Cbuilding%2Celectricity-heat%2Cfugitive-emissions%2Cmanufacturing-construction%2Cother-fuel-combustion%2Ctransportation)* , but the share in national emissions vary. See below how *[Climate Watch](https://www.climatewatchdata.org)* data on *[power sector emissions](https://www.climatewatchdata.org/ghg-emissions)* , proposed *[climate targets in their national cliamte committments (NDCs)](https://www.climatewatchdata.org/ndcs-content)* , and what *[models tell us about future pathways](https://www.climatewatchdata.org/pathways)*.", 
             "widgets": [
               {
                 "id": "e3014344-ba33-409b-a2c2-055895a4f776",
-                "widgetsPerRow": 1
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "bef127e2-0b51-4c5d-90e9-aa882ddbb9bd",
+                "widgetsPerRow": 2
               }
             ],
             "widgetsWorld": [
