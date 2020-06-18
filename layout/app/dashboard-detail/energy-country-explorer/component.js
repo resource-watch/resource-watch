@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 
 // Components
 import { Tooltip } from 'vizzuality-components';
@@ -32,7 +33,11 @@ function EnergyCountryExplorer(props) {
   useEffect(() => {
     // Load config
     fetchCountryPowerExplorerConfig()
-      .then(data => setConfig(data));
+      .then(data => setConfig(data))
+      .catch(err => {
+        toastr.error('Error loading configuration file');
+        console.error(err);
+      });
 
     // Load countries
     axios.get('https://api.resourcewatch.org/v1/query/a86d906d-9862-4783-9e30-cdb68cd808b8?sql=SELECT distinct(country_long) as country, country as iso FROM powerwatch_data_20180102 ORDER BY country_long ASC')
@@ -96,9 +101,7 @@ function EnergyCountryExplorer(props) {
                     <h1>
                       {selectedCountryObj && selectedCountryObj.label}
                     </h1>
-                    <p>
-                      {config && config.countrySelector.mainText}
-                    </p>
+                    <ReactMarkdown linkTarget="_blank" source={config && config.countrySelector.mainText} />
                     <Tooltip
                       visible={tooltipOpen}
                       overlay={

@@ -55,7 +55,7 @@ function DashboardWidgetCard(props) {
         'c-dashboard-widget-card': true,
         '-embed-widget': widgetIsEmbed
     });
-
+    
     return (
         <div className={classNameValue}>
             <header>
