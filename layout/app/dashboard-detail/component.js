@@ -73,7 +73,10 @@ function DashboardsDetailPage(props) {
   useEffect(() => {
     fetchCountryPowerExplorerConfig()
         .then(config => setHeaderDescription(config.headerText))
-        .catch(err => toastr.error('Error loading country power explorer config', err));
+        .catch(err => {
+          toastr.error('Error loading country power explorer config'); 
+          console.error(err);
+        });
   }, []);
 
   return (

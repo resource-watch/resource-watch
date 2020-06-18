@@ -24,7 +24,7 @@ export const fetchCountryPowerExplorerConfig = () =>
 
     axios.get('https://raw.githubusercontent.com/resource-watch/resource-watch/develop/public/static/data/CountryEnergyExplorer.json')
       .then(response => resolve(response.data))
-      .catch(error => reject(new Error('There was an error loading the Country Power Explorer config', error)));
+      .catch(error => reject(new Error(`There was an error loading the Country Power Explorer config: ${error}`)));
   });
 
 export default {
