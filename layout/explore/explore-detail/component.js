@@ -49,7 +49,6 @@ class ExploreDetailComponent extends React.Component {
     const layers = dataset && dataset.layer;
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
     const defaultWidget = dataset && dataset.widget && dataset.widget.find(w => w.default === 'true');
-    const showVisualizationSection = dataset && dataset.type !== 'raster';
     const showLayersSection = dataset && dataset.layer && dataset.layer.length > 0;
     const showTags = tags && tags.length > 0;
 
@@ -93,14 +92,12 @@ class ExploreDetailComponent extends React.Component {
                   <DatasetLayers layers={layers} dataset={dataset} />
                 </div>
               }
-              { showVisualizationSection &&
-                <div id="visualization" className="metadata-section">
-                  <ExploreDetailVisualization
-                    datasetId={dataset.id}
-                    widgetId={defaultWidget && defaultWidget.id}
-                  />
-                </div>
-              }
+              <div id="visualization" className="metadata-section">
+                <ExploreDetailVisualization
+                  datasetId={dataset.id}
+                  widgetId={defaultWidget && defaultWidget.id}
+                />
+              </div>
               <div id="further_information" className="metadata-section">
                 <FurtherInformation metadata={metadata} />
               </div>
@@ -108,7 +105,7 @@ class ExploreDetailComponent extends React.Component {
                 <RelatedContent datasetID={dataset.id} />
               </div>
             </div>
-            <ExploreDetailFooter showVizualizationLink={showVisualizationSection} />
+            <ExploreDetailFooter />
           </Fragment>
         }
         {!metadata && !datasetLoading &&
