@@ -42,6 +42,9 @@ function DashboardWidgetCard(props) {
     const widgetIsRanking = widgetConfig && widgetConfig.type === 'ranking';
     const widgetEmbedUrl = widgetIsEmbed && widgetConfig.url;
     const isInACollection = widget && belongsToACollection(user, widget);
+    const isMapWidget = widgetType === 'widget' 
+        && widgetConfig && widgetConfig.paramsConfig 
+        && widgetConfig.paramsConfig.visualizationType === 'map';
     const starIconName = classnames({
         'icon-star-full': isInACollection,
         'icon-star-empty': !isInACollection
@@ -55,13 +58,17 @@ function DashboardWidgetCard(props) {
         'c-dashboard-widget-card': true,
         '-embed-widget': widgetIsEmbed
     });
+
+    console.log('widgetConfig', widgetConfig);
+    console.log('isMapWidget', isMapWidget);
+    
+    
     
     return (
         <div className={classNameValue}>
             <header>
                 <div className="header-container">
                     <Title className="-default">{widget ? widget.name : '–'}</Title>
-
                     <div className="buttons">
                         <ul>
                             <li>
@@ -143,7 +150,11 @@ function DashboardWidgetCard(props) {
                     }
 
                     {widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking &&
-                        <Renderer widgetConfig={widgetConfig} />
+                        <Renderer 
+                            widgetConfig={widgetConfig} 
+                            {...(isMapWidget && { changeBbox: widgetConfig.bbox})}
+                            {...(isMapWidget && { interactionEnabled: true })}
+                        />
                     }
 
                     {widgetIsEmbed &&
