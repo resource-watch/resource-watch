@@ -58,11 +58,6 @@ function DashboardWidgetCard(props) {
         'c-dashboard-widget-card': true,
         '-embed-widget': widgetIsEmbed
     });
-
-    console.log('widgetConfig', widgetConfig);
-    console.log('isMapWidget', isMapWidget);
-    
-    
     
     return (
         <div className={classNameValue}>
