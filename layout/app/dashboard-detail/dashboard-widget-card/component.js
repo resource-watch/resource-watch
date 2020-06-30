@@ -58,6 +58,11 @@ function DashboardWidgetCard(props) {
         'c-dashboard-widget-card': true,
         '-embed-widget': widgetIsEmbed
     });
+
+    const classNameWidgetContainer = classnames({
+        'widget-container': true,
+        '-full-height': widgetIsEmbed
+    });
     
     return (
         <div className={classNameValue}>
@@ -134,8 +139,7 @@ function DashboardWidgetCard(props) {
                 </div>
             </header>
             <ErrorBoundary message="There was an error loading the visualization">
-
-                <div className="widget-container">
+                <div className={classNameWidgetContainer}>
                     <Spinner isLoading={loading} className="-light -small" />
                     {widgetType === 'text' && widget &&
                         <TextChart
