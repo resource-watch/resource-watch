@@ -38,6 +38,7 @@ function DashboardWidgetCard(props) {
         widget.metadata[0].info)) || {};
 
     const widgetLinks = metadataInfo.widgetLinks || [];
+    const caption = metadataInfo.caption;
     const widgetIsEmbed = widgetConfig && widgetConfig.type === 'embed';
     const widgetIsRanking = widgetConfig && widgetConfig.type === 'ranking';
     const widgetEmbedUrl = widgetIsEmbed && widgetConfig.url;
@@ -199,6 +200,12 @@ function DashboardWidgetCard(props) {
                                             </li>
                                         ))}
                                     </ul>
+                                </div>
+                            }
+
+                            {caption &&
+                                <div className="caption-container">
+                                    {caption}
                                 </div>
                             }
                         </div>
