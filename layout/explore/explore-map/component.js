@@ -13,9 +13,11 @@ import {
   LegendItemButtonVisibility,
   LegendItemButtonInfo,
   LegendItemTypes,
-  LegendItemTimeStep,
-  LegendItemTimeline
+  LegendItemTimeStep
 } from 'vizzuality-components';
+import {
+  LegendItemTimeline
+} from 'old-vizzuality-components';
 
 // components
 import Modal from 'components/modal/modal-component';
