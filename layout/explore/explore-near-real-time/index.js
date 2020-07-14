@@ -22,7 +22,8 @@ const ExploreNearRealTimeContainer = (props) => {
     fetchDatasets({
       'concepts[0][0]': 'near_real_time',
       'page[size]': 99,
-      includes: 'layer,metadata'
+      includes: 'layer,metadata',
+      published: true
     })
       .then((data) => {
         const newDatasets = {
