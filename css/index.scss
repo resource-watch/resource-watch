@@ -8,7 +8,6 @@
 @import '../node_modules/react-progress-2/main';
 @import '../node_modules/react-redux-toastr/src/styles/index';
 @import '../node_modules/react-input-range/src/scss/index.scss';
-@import '../node_modules/widget-editor/dist/styles.min';
 @import '../node_modules/vizzuality-components/dist/bundle';
 
 
@@ -53,7 +52,6 @@
 @import "./components/ui/modal2";
 @import "./components/ui/paginator";
 @import "./components/ui/progress-bar";
-@import "./components/ui/read-more";
 @import "./components/ui/related-content";
 @import "./components/ui/search";
 @import "./components/ui/search-input";
@@ -70,10 +68,10 @@
 @import "./components/ui/terms";
 @import "./components/ui/title";
 @import "./components/ui/tooltip";
+@import "./components/ui/rc-tooltip";
 @import "./components/ui/tooltip-global";
 @import "./components/ui/tree_selector";
 @import "./components/ui/user-report";
-@import "./components/ui/zoom_control";
 @import "./components/ui/dataset-table";
 @import "./components/ui/browser";
 
@@ -94,9 +92,6 @@
 
 // areas
 @import "./components/areas/areas_form";
-@import "./components/areas/areas_list";
-@import "./components/areas/area_card";
-@import "./components/areas/area_actions_tooltip";
 @import "./components/areas/upload_area";
 
 
@@ -117,8 +112,6 @@
 
 // Map
 @import "./components/map/map";
-@import "./components/map/map-controls";
-@import "./components/map/map-search-control";
 @import "./components/map/map-popup";
 @import './components/map/map-side-by-side-layout';
 @import './components/map/map-side-by-side-range';
@@ -158,8 +151,6 @@
 @import "./components/widgets/sort_container";
 @import "./components/widgets/table_view";
 @import "./components/widgets/limit_container";
-@import "./components/widgets/widget_card";
-@import "./components/widgets/widget_list";
 @import "./components/widgets/widget_dock";
 @import "./components/widgets/widget-tooltip-list";
 @import "./components/widgets/chart_tooltip";
@@ -180,8 +171,6 @@
 
 
 // Widgets
-@import "./components/admin/widget/card";
-@import "./components/admin/widget/list";
 @import "./components/admin/widget/chart";
 @import "./components/admin/widget/widget_chart";
 @import "./components/admin/widget/placeholder_chart";
@@ -211,7 +200,6 @@
 
 // PAGES
 @import "./components/app/pages/explore";
-@import "./components/app/pages/explore_detail";
 @import "./components/app/pages/submit_insight";
 @import "./components/app/pages/partner_detail";
 @import "./components/app/pages/getInvolved";
@@ -221,9 +209,6 @@
 @import "./components/app/pages/newsletter";
 
 // EXPLORE
-// new
-@import "./components/app/explore/explore-datasets";
-@import "./components/app/explore/explore-datasets-header";
 
 // old
 @import "./components/app/explore/dataset_placeholder_chart";
@@ -234,22 +219,12 @@
 @import "./components/app/explore/explore_dataset_filters";
 @import "./components/app/explore/similar_datasets";
 
-// EXPLORE DETAIL
-@import "./components/explore-detail/explore-detail-actions";
-@import "./components/explore-detail/explore-detail-tags";
-@import "./components/explore-detail/explore-detail-widget-editor";
-@import "./components/explore-detail/explore-detail-info";
-
 // DASHBOARDS
 @import './components/dashboards/list';
 @import './components/dashboards/template-selector';
 @import './components/dashboards/dashboards-subheader-block';
 
-// TOPICS
-@import './components/topics/topics-thumbnail-list';
-
 // MyRW
-// @import "./components/app/pages/myrw/activity";
 @import "./components/app/pages/myrw/myrw_edit_profile";
 @import "./components/app/pages/myrw/myrw_subscriptions";
 @import "./components/app/pages/myrw/myrw_common";

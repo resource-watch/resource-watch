@@ -22,13 +22,6 @@ import Toastr from 'react-redux-toastr';
 import Search from 'layout/header/search';
 import GDPRBanner from 'components/ui/gdpr-banner';
 
-import {
-  setConfig,
-  Modal as WidgetModal,
-  Tooltip as WidgetTooltip,
-  Icons as WidgetIcons
-} from 'widget-editor';
-
 class LayoutAdmin extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -41,27 +34,10 @@ class LayoutAdmin extends PureComponent {
     toggleTooltip: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired,
-    setLocale: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    setLocale: PropTypes.func.isRequired
   };
 
   static defaultProps = { className: null };
-
-  constructor(props) {
-    super(props);
-
-    // WIDGET EDITOR
-    // Change the configuration according to your needs
-    setConfig({
-      url: process.env.WRI_API_URL,
-      env: 'production,preproduction',
-      applications: process.env.APPLICATIONS,
-      authUrl: process.env.CONTROL_TOWER_URL,
-      assetsPath: '/static/images/widget-editor/',
-      userToken: props.user.token2,
-      userEmail: props.user.email
-    });
-  }
 
   state = { modalOpen: false }
 
@@ -153,11 +129,6 @@ class LayoutAdmin extends PureComponent {
         />
 
         <Toastr preventDuplicates transitionIn="fadeIn" transitionOut="fadeOut" />
-
-        {/* Widget editor */}
-        <WidgetModal />
-        <WidgetTooltip />
-        <WidgetIcons />
       </div>
     );
   }

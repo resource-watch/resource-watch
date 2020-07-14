@@ -12,14 +12,10 @@ export const STATE_DEFAULT = {
   form: {
     // STEP 1
     application: [process.env.APPLICATIONS],
-    name: '',
-    queryUrl: '',
-    description: '',
     dataset: null,
     source: '',
     sourceUrl: '',
     authors: '',
-    widgetConfig: {},
     default: false,
     published: false
   }
@@ -43,15 +39,3 @@ export const FORM_ELEMENTS = {
     return valid;
   }
 };
-
-export const CONFIG_TEMPLATE = {
-  bar: bar({ templateMode: true }),
-  line: line({ templateMode: true }),
-  pie: pie({ templateMode: true })
-};
-
-export const CONFIG_TEMPLATE_OPTIONS = [
-  { label: 'Bar', value: 'bar' },
-  { label: 'Line', value: 'line' },
-  { label: 'Pie', value: 'pie' }
-];

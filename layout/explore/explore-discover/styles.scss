@@ -1,0 +1,76 @@
+@import 'css/settings';
+
+.c-explore-discover {
+    display: flex;
+    flex-direction: column;
+    margin: 2 * $space 4 * $space 2 * $space 3 * $space;
+
+    .discover-section {
+        margin: 2 * $space 0px 2 * $space 0px;
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2 * $space;
+    
+            h4 {
+                margin: 0px;
+            }
+    
+            .header-button {
+                font-size: $font-size-tiny;
+                font-weight: bold;
+                line-height: 10px;
+                color: $dark-pink;
+                cursor: pointer;
+            }
+
+            a {
+                text-decoration: none;
+            }
+        }
+
+        &.trending-datasets {
+            min-height: 200px;
+            
+            .column {
+                padding: 0px;
+            }
+        }
+
+        &.related-topics {
+            .column {
+
+                &:nth-child(odd) {
+                    padding: $space $space $space 0px;
+                }
+                
+                &:nth-child(even) {
+                    padding: $space 0px $space $space;
+                }
+
+                .topic-button {
+                    height: 120px;
+                    margin: 0px;
+                }
+            }
+        }
+
+        &.recently-added {
+            .column {
+                padding: 0px;
+            }
+        }
+
+        &.recent-updated {
+            .column {
+                padding: 0px;
+            }
+        }
+    }
+
+    &.-hidden {
+        display: none;
+    }
+}

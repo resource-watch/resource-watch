@@ -4,7 +4,7 @@ import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
 // Services
-import FaqsService from 'services/faqs';
+import { fetchFaq, updateFaq, createFaq } from 'services/faqs';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/faqs/form/constants';
 
@@ -26,10 +26,6 @@ class FaqsForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onStepChange = this.onStepChange.bind(this);
-
-    this.service = new FaqsService({
-      authorization: props.authorization
-    });
   }
 
   componentDidMount() {
@@ -37,7 +33,7 @@ class FaqsForm extends React.Component {
     // Get the faqs and fill the
     // state form with its params if the id exists
     if (id) {
-      this.service.fetchData(id)
+      fetchFaq(id)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
@@ -70,33 +66,12 @@ class FaqsForm extends React.Component {
       if (valid) {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
-          const { id } = this.state;
-
           // Start the submitting
           this.setState({ submitting: true });
 
-          // Save data
-          this.service.saveData({
-            id: id || '',
-            type: (id) ? 'PATCH' : 'POST',
-            body: new Serializer('faq', {
-              keyForAttribute: 'dash-case',
-              attributes: Object.keys(this.state.form)
-            }).serialize(this.state.form)
-          })
-            .then((data) => {
-              toastr.success('Success', `The faq "${data.id}" - "${data.question}" has been uploaded correctly`);
-
-              if (this.props.onSubmit) this.props.onSubmit();
-            })
-            .catch((err) => {
-              this.setState({ submitting: false });
-              toastr.error('Error', `Oops! There was an error, try again. ${err}`);
-            });
+          this.saveDataHandler();
         } else {
-          this.setState({
-            step: this.state.step + 1
-          });
+          this.setState({ step: this.state.step + 1 });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
@@ -155,6 +130,39 @@ class FaqsForm extends React.Component {
     });
 
     return newForm;
+  }
+
+  saveDataHandler = () => {
+    const { form, id } = this.state;
+    const { authorization: token } = this.props;
+    const body = new Serializer('faq', {
+      keyForAttribute: 'dash-case',
+      attributes: Object.keys(form)
+    }).serialize(form);
+
+    if (id) {
+      updateFaq(id, body, token)
+        .then((data) => {
+          toastr.success('Success', `The faq "${data.id}" - "${data.question}" has been uploaded correctly`);
+
+          if (this.props.onSubmit) this.props.onSubmit();
+        })
+        .catch((err) => {
+          this.setState({ submitting: false });
+          toastr.error('Error', `Oops! There was an error, try again. ${err}`);
+        });
+    } else {
+      createFaq(body, token)
+        .then((data) => {
+          toastr.success('Success', `The faq "${data.id}" - "${data.question}" has been uploaded correctly`);
+
+          if (this.props.onSubmit) this.props.onSubmit();
+        })
+        .catch((err) => {
+          this.setState({ submitting: false });
+          toastr.error('Error', `Oops! There was an error, try again. ${err}`);
+        });
+    }
   }
 
   render() {

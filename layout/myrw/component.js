@@ -10,7 +10,7 @@ import Profile from 'components/app/myrw/profile';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
-import AreasTab from 'components/app/myrw/areas/AreasTab';
+import AreasTabs from 'components/app/myrw/areas';
 import CollectionsTab from 'components/app/myrw/collections/CollectionsTab';
 
 // constants
@@ -61,7 +61,7 @@ class LayoutMyRW extends PureComponent {
                 {(currentTab === 'profile') && (<Profile />)}
                 {(currentTab === 'datasets') && (<DatasetsTab tab={currentTab} subtab={subtab} />)}{' '}
                 {(currentTab === 'dashboards') && (<DashboardsTab tab={currentTab} subtab={subtab} />)}
-                {(currentTab === 'areas') && (<AreasTab tag={currentTab} subtab={currentTab} />)}
+                {(currentTab === 'areas') && (<AreasTabs tab={currentTab} subtab={currentTab} />)}
                 {(currentTab === 'widgets') && (<WidgetsTab tab={currentTab} subtab={subtab} />)}
                 {(currentTab === 'collections') && (<CollectionsTab tab={currentTab} subtab={subtab} />)}
                 {(currentTab !== 'profile') && (currentTab !== 'datasets') && (tab !== 'widgets') && (

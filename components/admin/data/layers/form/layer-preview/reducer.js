@@ -13,7 +13,7 @@ export default {
     ...state,
     interaction: {
       ...state.interaction,
-      [payload.id]: { data: payload.data }
+      ...payload
     }
   })
 };

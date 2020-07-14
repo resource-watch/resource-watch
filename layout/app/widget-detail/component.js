@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 // components
 import Layout from 'layout/layout/layout-app';
-import WidgetCard from 'components/widgets/list/WidgetCard';
+import DashboardWidgetCard from 'layout/app/dashboard-detail/dashboard-widget-card';
 import WidgetDetailHeader from './widget-detail-header';
 
 class LayoutWidgetDetail extends PureComponent {
@@ -42,7 +42,12 @@ class LayoutWidgetDetail extends PureComponent {
               <div className="row">
                 <div className="column">
                   {/* I'm using this component but we need to create a proper one */}
-                  <WidgetCard widget={widget} />
+                  { typeof window !== 'undefined' && 
+                    <DashboardWidgetCard
+                      widget={widget}
+                      loading={false}
+                    />
+                  }
                 </div>
               </div>
             </div>

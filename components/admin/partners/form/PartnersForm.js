@@ -4,7 +4,7 @@ import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
 // Services
-import PartnersService from 'services/partners';
+import { fetchPartner, updatePartner, createPartner } from 'services/partners';
 
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/admin/partners/form/constants';
 
@@ -13,31 +13,18 @@ import Step1 from 'components/admin/partners/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class PartnersForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = Object.assign({}, STATE_DEFAULT, {
-      id: props.id,
-      loading: !!props.id,
-      form: STATE_DEFAULT.form
-    });
-
-    // BINDINGS
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onStepChange = this.onStepChange.bind(this);
-
-    this.service = new PartnersService({
-      authorization: props.authorization
-    });
-  }
+  state = Object.assign({}, STATE_DEFAULT, {
+    id: this.props.id,
+    loading: !!this.props.id,
+    form: STATE_DEFAULT.form
+  });
 
   componentDidMount() {
     const { id } = this.state;
     // Get the partners and fill the
     // state form with its params if the id exists
     if (id) {
-      this.service.fetchData(id)
+      fetchPartner(id)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
@@ -55,8 +42,9 @@ class PartnersForm extends React.Component {
    * UI EVENTS
    * - onSubmit
    * - onChange
+   * - onStepChange
   */
-  onSubmit(event) {
+  onSubmit = (event) => {
     event.preventDefault();
 
     // Validate the form
@@ -70,33 +58,12 @@ class PartnersForm extends React.Component {
       if (valid) {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
-          const { id } = this.state;
-
           // Start the submitting
           this.setState({ submitting: true });
-
           // Save data
-          this.service.saveData({
-            id: id || '',
-            type: (id) ? 'PATCH' : 'POST',
-            body: new Serializer('partner', {
-              keyForAttribute: 'dash-case',
-              attributes: Object.keys(this.state.form)
-            }).serialize(this.state.form)
-          })
-            .then((data) => {
-              toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
-
-              if (this.props.onSubmit) this.props.onSubmit();
-            })
-            .catch((err) => {
-              this.setState({ submitting: false });
-              toastr.error('Error', `Oops! There was an error, try again. ${err}`);
-            });
+          this.saveDataHandler();
         } else {
-          this.setState({
-            step: this.state.step + 1
-          });
+          this.setState({ step: this.state.step + 1 });
         }
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
@@ -104,12 +71,12 @@ class PartnersForm extends React.Component {
     }, 0);
   }
 
-  onChange(obj) {
+  onChange = (obj) => {
     const form = Object.assign({}, this.state.form, obj);
     this.setState({ form });
   }
 
-  onStepChange(step) {
+  onStepChange = (step) => {
     this.setState({ step });
   }
 
@@ -126,7 +93,7 @@ class PartnersForm extends React.Component {
           }
           break;
         }
-        case 'white_logo': {
+        case 'white-logo': {
           if (params[f] && params[f].original !== '/images/original/missing.png') {
             newForm[f] = params[f].original;
           }
@@ -157,6 +124,39 @@ class PartnersForm extends React.Component {
     return newForm;
   }
 
+  saveDataHandler = () => {
+    const { form, id } = this.state;
+    const { token } = this.props;
+    const body = new Serializer('partner', {
+      keyForAttribute: 'dash-case',
+      attributes: Object.keys(form)
+    }).serialize(form);
+
+    if (id) {
+      updatePartner(id, body, token)
+        .then((data) => {
+          toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
+
+          if (this.props.onSubmit) this.props.onSubmit();
+        })
+        .catch((err) => {
+          this.setState({ submitting: false });
+          toastr.error('Error', `Oops! There was an error, try again. ${err}`);
+        });
+    } else {
+      createPartner(body, token)
+        .then((data) => {
+          toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
+
+          if (this.props.onSubmit) this.props.onSubmit();
+        })
+        .catch((err) => {
+          this.setState({ submitting: false });
+          toastr.error('Error', `Oops! There was an error, try again. ${err}`);
+        });
+    }
+  }
+
   render() {
     return (
       <form className="c-form" onSubmit={this.onSubmit} noValidate>
@@ -184,9 +184,9 @@ class PartnersForm extends React.Component {
 }
 
 PartnersForm.propTypes = {
-  authorization: PropTypes.string,
   id: PropTypes.string,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  token: PropTypes.string.isRequired
 };
 
 export default PartnersForm;

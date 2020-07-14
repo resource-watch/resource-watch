@@ -30,6 +30,11 @@
 
   border-radius: 4px;
 
+  .c-error-boundary {
+    min-width: 100%;
+    min-height: 100%;
+  }
+
   .widget-title {
     position: relative;
     flex-shrink: 0;
@@ -94,22 +99,22 @@
       }
     }
 
-    .c-map {
-      // Do not change the positionning of this
-      // element without testing it on Chrome and Firefox
-      // in the dashboards AND as a standalone widget
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
+    // .c-map {
+    //   // Do not change the positionning of this
+    //   // element without testing it on Chrome and Firefox
+    //   // in the dashboards AND as a standalone widget
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    //   height: 100%;
+    //   width: 100%;
 
-      // Without this property, the legend is hidden behind
-      // the map
-      .leaflet-pane {
-        z-index: 1;
-      }
-    }
+    //   // Without this property, the legend is hidden behind
+    //   // the map
+    //   .leaflet-pane {
+    //     z-index: 1;
+    //   }
+    // }
 
     .widget-modal {
       position: absolute;

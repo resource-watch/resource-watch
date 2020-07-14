@@ -60,12 +60,12 @@ class CollectionsForm extends React.Component {
           resources: []
         }).then(
         () => {
-          logEvent('Myrw Collections', 'Edit collection', collection.id);
+          logEvent('Myrw Collections', 'Create collection', name);
           toastr.success('Success', 'Collection successully Created');
           Router.pushRoute('myrw', { tab: 'collections' });
           this.setState({ submitting: false });
         },
-        () => toastr.error('Error', `Could not create Collection ${collection.name}`)
+        () => toastr.error('Error', `Could not create Collection ${name}`)
       );
     } else {
       updateCollection(user.token, collection.id, { name }).then(
@@ -75,7 +75,7 @@ class CollectionsForm extends React.Component {
           Router.pushRoute('myrw', { tab: 'collections' });
           this.setState({ submitting: false });
         },
-        () => toastr.error('Error', `Could not edit Collection ${collection.name}`)
+        () => toastr.error('Error', `Could not edit Collection ${collection.id}`)
       );
     }
   }

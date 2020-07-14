@@ -1,0 +1,13 @@
+@import 'css/settings';
+
+.c-related-content {
+    .column {
+        padding: 0px;
+    }
+    .actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2 * $space;
+    }
+}

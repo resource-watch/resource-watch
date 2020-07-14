@@ -1,25 +1,29 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import flatten from 'lodash/flatten';
+import isEmpty from 'lodash/isEmpty';
+import debounce from 'lodash/debounce';
+import { Popup } from 'react-map-gl';
 import {
-  Map,
-  MapControls,
-  ZoomControl,
   Legend,
   LegendListItem,
   LegendItemTypes
 } from 'vizzuality-components';
-import { LayerManager, Layer } from 'layer-manager/dist/components';
-import { PluginLeaflet } from 'layer-manager';
+import { Link } from 'routes';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
+import Map from 'components/map';
+import LayerManager from 'components/map/layer-manager';
+import MapControls from 'components/map/controls';
+import ZoomControls from 'components/map/controls/zoom';
+import ResetViewControls from 'components/map/controls/reset-view';
+import LayerPopup from 'components/map/popup';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/icon';
 
 // constants
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+import { DEFAULT_VIEWPORT, MAPSTYLES } from 'components/map/constants';
 
 // utils
 import { paramIsTrue } from 'utils/utils';
@@ -29,16 +33,16 @@ class LayoutEmbedMap extends PureComponent {
   static propTypes = {
     widget: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
+    mapProps: PropTypes.object.isRequired,
+    activeLayers: PropTypes.array.isRequired,
     layerGroups: PropTypes.array.isRequired,
+    activeInteractiveLayers: PropTypes.array.isRequired,
     error: PropTypes.string,
-    zoom: PropTypes.number.isRequired,
-    latLng: PropTypes.object.isRequired,
     favourited: PropTypes.bool.isRequired,
     referer: PropTypes.string,
     user: PropTypes.object.isRequired,
     url: PropTypes.object.isRequired,
     webshot: PropTypes.bool.isRequired,
-    toggleLayerGroupVisibility: PropTypes.func.isRequired,
     checkIfFavorited: PropTypes.func.isRequired,
     setIfFavorited: PropTypes.func.isRequired
   };
@@ -48,32 +52,71 @@ class LayoutEmbedMap extends PureComponent {
     referer: ''
   };
 
-  state = { modalOpened: false }
-
-  componentDidMount() {
-    const {
-      url,
-      user
-    } = this.props;
-    const { query } = url;
-    if (user && user.id) this.props.checkIfFavorited(query.id);
-  }
-
-  componentWillUnmount() {
-    if (this.timeout) clearTimeout(this.timeout);
-  }
-
-  onLayerLoading = (isLoading) => {
-    if (!isLoading) {
-      this.timeout = setTimeout(() => {
-        window.WEBSHOT_READY = true;
-      }, 3000);
+  state = {
+    modalOpened: false,
+    viewport: DEFAULT_VIEWPORT,
+    interaction: {
+      data: {},
+      selected: 0,
+      point: null
     }
+  }
+
+  componentWillMount() {
+    const {
+      url: { query: { id } },
+      user,
+      mapProps: { viewport }
+    } = this.props;
+
+    this.setState({ viewport });
+
+    if (user && user.id) this.props.checkIfFavorited(id);
+  }
+
+  onChangeInteractiveLayer = (selected) => {
+    this.setState({
+      interaction: {
+        ...this.state.interaction,
+        selected
+      }
+    });
+  }
+
+  onClickLayer = ({ features, lngLat }) => {
+    const { interaction } = this.state;
+    let interactions = {};
+
+    // if the user clicks on a zone where there is no data in any current layer
+    // we will reset the current interaction of those layers to display "no data available" message
+    if (!features.length) {
+      interactions = Object.keys(interaction.data).reduce((accumulator, currentValue) => ({
+        ...accumulator,
+        [currentValue]: {}
+      }), {});
+    } else {
+      interactions = features.reduce((accumulator, currentValue) => ({
+        ...accumulator,
+        [currentValue.layer.source]: { data: currentValue.properties }
+      }), {});
+    }
+
+    const _lngLat = {
+      longitude: lngLat[0],
+      latitude: lngLat[1]
+    };
+
+    this.setState({
+      interaction: {
+        ...this.state.interaction,
+        data: interactions,
+        point: _lngLat
+      }
+    });
   }
 
   getModal() {
     const { widget: { description } } = this.props;
-
 
     return (
       <div className="widget-modal">
@@ -88,46 +131,95 @@ class LayoutEmbedMap extends PureComponent {
     );
   }
 
+  handleViewport = debounce((viewport) => {
+    this.setState({ viewport });
+  }, 250)
+
+  handleZoom = (zoom) => {
+    const { viewport: currentViewport } = this.state;
+
+    this.setState({
+      viewport: {
+        ...currentViewport,
+        zoom
+      }
+    });
+  }
+
+  handleResetView = () => {
+    this.setState({
+      viewport: {
+        bearing: 0,
+        pitch: 0,
+        // transitionDuration is always set to avoid mixing
+        // durations of other actions (like flying)
+        transitionDuration: 250
+      }
+    });
+  }
+
+  handleClosePopup = () => {
+    this.setState({
+      interaction: {
+        data: {},
+        selected: 0,
+        point: null
+      }
+    });
+  }
+
   render() {
     const {
       widget,
       loading,
       layerGroups,
       error,
-      zoom,
-      latLng,
       favourited,
       user,
-      url,
+      url: { query: { disableZoom, legendExpanded } },
       referer,
-      webshot
+      webshot,
+      mapProps: {
+        basemap,
+        labels,
+        boundaries,
+        bounds
+      },
+      activeLayers,
+      activeInteractiveLayers
     } = this.props;
-    const { modalOpened } = this.state;
-    const { disableZoom, legendExpanded } = url.query;
+    const { viewport, interaction, modalOpened } = this.state;
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
     const isExternal = isLoadedExternally(referer);
     const {
       name,
       description,
       dataset,
-      widgetConfig,
       id,
       thumbnailUrl
     } = widget;
+    const { pitch, bearing } = viewport;
+    const resetViewBtnClass = classnames({
+      '-with-transition': true,
+      '-visible': pitch !== 0 || bearing !== 0
+    });    
 
     if (loading) {
       return (
         <LayoutEmbed
           title="Loading widget..."
           description=""
-
         >
           <div className="c-embed-widget -map">
-            <Spinner isLoading={loading} className="-light" />
+            <Spinner
+              isLoading={loading}
+              className="-light"
+            />
           </div>
         </LayoutEmbed>
       );
     }
+
     if (error) {
       return (
         <LayoutEmbed
@@ -142,26 +234,26 @@ class LayoutEmbedMap extends PureComponent {
               <p>{'Sorry, the widget couldn\'t be loaded'}</p>
             </div>
 
-            { isExternal && (
+            {isExternal && (
               <div className="widget-footer">
-                <a href="/" target="_blank" rel="noopener noreferrer">
-                  <img
-                    className="embed-logo"
-                    src="/static/images/logo-embed.png"
-                    alt="Resource Watch"
-                  />
-                </a>
+                <Link route="home">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img
+                      className="embed-logo"
+                      src="/static/images/logo-embed.png"
+                      alt="Resource Watch"
+                    />
+                  </a>
+                </Link>
               </div>
-            ) }
+            )}
           </div>
         </LayoutEmbed>
       );
     }
-
-
-    // widget loaded
-    const basemap = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.basemap) ? widgetConfig.basemapLayers.basemap : 'dark';
-    const label = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.labels) ? widgetConfig.basemapLayers.labels : 'light';
 
     return (
       <LayoutEmbed
@@ -172,9 +264,14 @@ class LayoutEmbedMap extends PureComponent {
         <div className="c-embed-widget -map">
           {!webshot && (
             <div className="widget-title">
-              <a href={`/data/explore/${dataset}`} target="_blank" rel="noopener noreferrer">
-                <h4>{name}</h4>
-              </a>
+              <Link
+                route="explore"
+                params={{ dataset }}
+              >
+                <a target="_blank" rel="noopener noreferrer">
+                  <h4>{name}</h4>
+                </a>
+              </Link>
               <div className="buttons">
                 {
                   user && user.id && (
@@ -195,55 +292,72 @@ class LayoutEmbedMap extends PureComponent {
             </div>)}
 
           <div className={classnames('widget-content', { '-external': isExternal })}>
-            <div className="c-map">
-              <Map
-                mapOptions={{
-                  zoom,
-                  center: latLng
-                }}
-                basemap={{
-                  url: BASEMAPS[basemap].value,
-                  options: BASEMAPS[basemap].options
-                }}
-                label={{
-                  url: LABELS[label].value,
-                  options: LABELS[label].options
-                }}
-                scrollZoomEnabled={false}
-              >
-                {map => (
-                  <Fragment>
-                    {/* Controls */}
-                    {!webshot &&
-                      <MapControls
-                        customClass="c-map-controls -embed"
-                      >
-                        {!paramIsTrue(disableZoom) &&
-                          <ZoomControl map={map} />}
-                      </MapControls>}
+            <Map
+              mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+              onClick={this.onClickLayer}
+              interactiveLayerIds={activeInteractiveLayers}
+              mapStyle={MAPSTYLES}
+              viewport={viewport}
+              basemap={basemap}
+              labels={labels}
+              bounds={bounds}
+              boundaries={boundaries}
+              scrollZoom={false}
+              onViewportChange={this.handleViewport}
+            >
+              {_map =>
+               (
+                <Fragment>
+                  <LayerManager
+                    map={_map}
+                    layers={activeLayers}
+                  />
 
-                    {/* LayerManager */}
-                    <LayerManager
-                      map={map}
-                      plugin={PluginLeaflet}
-                      onLayerLoading={this.onLayerLoading}
-                      // It shouldn't be here
-                      // onLayerReady={(l) => { if (!l) window.WEBSHOT_READY = true; }}
+                  {!isEmpty(interaction.point) &&
+                    activeLayers.length &&
+                    !isEmpty(interaction.data) &&
+                    <Popup
+                      {...interaction.point}
+                      closeButton
+                      closeOnClick={false}
+                      onClose={this.handleClosePopup}
+                      className="rw-popup-layer"
+                      maxWidth="250px"
                     >
-                      {flatten(layerGroups.map(lg =>
-                        lg.layers.filter(l => l.active === true))).map((l, i) => (
-                          <Layer
-                            {...l}
-                            key={l.id}
-                            opacity={l.opacity || 1}
-                            zIndex={1000 - i}
-                          />
-                        ))}
-                    </LayerManager>
-                  </Fragment>
-                )}
-              </Map>
-            </div>
+                      <LayerPopup
+                        data={{
+                          // data available in certain point
+                          layersInteraction: interaction.data,
+                          // ID of the layer will display data (defualts into the first layer)
+                          layersInteractionSelected: interaction.selected,
+                          // current active layers to get their layerConfig attributes
+                          layers: activeLayers
+                        }}
+                        latlng={{
+                          lat: interaction.point.latitude,
+                          lng: interaction.point.longitude
+                        }}
+                        onChangeInteractiveLayer={this.onChangeInteractiveLayer}
+                      />
+                    </Popup>
+                  }
+                </Fragment>
+              )}
+            </Map>
+
+            {!webshot && (
+              <MapControls>
+                {!paramIsTrue(disableZoom) && (
+                  <ZoomControls
+                    viewport={viewport}
+                    onClick={this.handleZoom}
+                  />)}
+                <ResetViewControls
+                  className={resetViewBtnClass}
+                  onResetView={this.handleResetView}
+                />
+              </MapControls>
+            )}
 
             <div className="c-legend-map -embed">
               <Legend
@@ -267,13 +381,18 @@ class LayoutEmbedMap extends PureComponent {
           {(isExternal && !webshot) && (
             <div className="widget-footer -map">
               Powered by
-              <a href="/" target="_blank" rel="noopener noreferrer">
-                <img
-                  className="embed-logo"
-                  src="/static/images/logo-embed.png"
-                  alt="Resource Watch"
-                />
-              </a>
+              <Link route="home">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    className="embed-logo"
+                    src="/static/images/logo-embed.png"
+                    alt="Resource Watch"
+                  />
+                </a>
+              </Link>
             </div>
           )}
         </div>

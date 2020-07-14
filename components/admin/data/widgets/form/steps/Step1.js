@@ -1,52 +1,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import WidgetEditor from '@widget-editor/widget-editor';
+import RwAdapter from '@widget-editor/rw-adapter';
 
 // Redux
 import { connect } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
 
 // Constants
-import { FORM_ELEMENTS, CONFIG_TEMPLATE, CONFIG_TEMPLATE_OPTIONS } from 'components/admin/data/widgets/form/constants';
+import { FORM_ELEMENTS } from 'components/admin/data/widgets/form/constants';
 
 // Components
 import Field from 'components/form/Field';
-import Input from 'components/form/Input';
-import TextArea from 'components/form/TextArea';
 import Select from 'components/form/SelectInput';
-import Code from 'components/form/Code';
 import Checkbox from 'components/form/Checkbox';
-import SwitchOptions from 'components/ui/SwitchOptions';
-import Spinner from 'components/ui/Spinner';
 
-// Widget editor
-import WidgetEditor, { VegaChart, getVegaTheme } from 'widget-editor';
-
-const defaultTheme = getVegaTheme();
+// Utils
+import DefaultTheme from 'utils/widgets/theme';
 
 class Step1 extends Component {
   static propTypes = {
     id: PropTypes.string,
     user: PropTypes.object.isRequired,
     form: PropTypes.object,
-    mode: PropTypes.string,
     datasets: PropTypes.array,
     onChange: PropTypes.func,
-    onModeChange: PropTypes.func,
-    showEditor: PropTypes.bool,
-    onGetWidgetConfig: PropTypes.func,
+    onSave: PropTypes.func,
     query: PropTypes.object.isRequired
   };
-
-  static defaultProps = { showEditor: true }
 
   state = {
     id: this.props.id,
     form: this.props.form,
-    loadingVegaChart: false
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {    
     this.setState({
       form: {
         ...nextProps.form,
@@ -55,49 +42,12 @@ class Step1 extends Component {
     });
   }
 
-  /**
-   * HELPERS
-   * - triggerChangeMode
-  */
-  triggerChangeMode = (mode) => {
-    if (mode === 'editor') {
-      toastr.confirm('By switching you will start editing from scratch', {
-        onOk: () => {
-          this.props.onModeChange(mode);
-        },
-        onCancel: () => {
-          this.props.onModeChange(this.props.mode);
-        }
-      });
-    } else {
-      toastr.confirm('By switching you can edit your current widget but you can\'t go back to the editor', {
-        onOk: () => {
-          this.props.onModeChange(mode);
-        },
-        onCancel: () => {
-          this.props.onModeChange(this.props.mode);
-        }
-      });
-    }
-  }
-
-  triggerToggleLoadingVegaChart = (loading) => {
-    this.setState({ loadingVegaChart: loading });
-  }
-
-  refreshWidgetPreview = () => {
-    this.forceChartUpdate();
-  }
-
   render() {
-    const { id, loadingVegaChart } = this.state;
-    const { user, showEditor, query } = this.props;
-
+    const { id } = this.state;
+    const { user, query } = this.props;
+    
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
-
-    const editorFieldContainerClass = classnames({ '-expanded': this.props.mode === 'editor' });
-    const widgetTypeEmbed = this.state.form.widgetConfig.type === 'embed';
 
     return (
       <fieldset className="c-field-container">
@@ -106,8 +56,7 @@ class Step1 extends Component {
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
             onChange={value => this.props.onChange({
-              dataset: value,
-              widgetConfig: {}
+              dataset: value
             })}
             validations={['required']}
             className="-fluid"
@@ -123,38 +72,6 @@ class Step1 extends Component {
             }}
           >
             {Select}
-          </Field>
-
-          {/* NAME */}
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-            onChange={value => this.props.onChange({ name: value })}
-            validations={['required']}
-            className="-fluid"
-            properties={{
-              name: 'name',
-              label: 'Name',
-              type: 'text',
-              required: true,
-              default: this.state.form.name,
-              value: this.state.form.name
-            }}
-          >
-            {Input}
-          </Field>
-
-          {/* DESCRIPTION */}
-          <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-            onChange={value => this.props.onChange({ description: value })}
-            className="-fluid"
-            properties={{
-              name: 'description',
-              label: 'Description',
-              default: this.state.form.description
-            }}
-          >
-            {TextArea}
           </Field>
 
           {(user.role === 'ADMIN') &&
@@ -232,7 +149,9 @@ class Step1 extends Component {
                 label: this.props.id ? '' : 'Do you want to freeze this widget?',
                 value: 'freeze',
                 title: 'Freeze',
-                checked: this.props.form.freeze
+                checked: this.props.form.freeze,
+                // Temporarily disabled --> we need to review the implementation
+                disabled: true
               }}
             >
               {Checkbox}
@@ -245,111 +164,17 @@ class Step1 extends Component {
           </div>
         </fieldset>
 
-        {this.state.form.dataset && showEditor &&
-          <fieldset className={`c-field-container ${editorFieldContainerClass}`}>
-            <div className="l-row row align-right">
-              <div className="column shrink">
-                <SwitchOptions
-                  selected={this.props.mode}
-                  options={[{
-                    value: 'advanced',
-                    label: 'Advanced'
-                  }, {
-                    value: 'editor',
-                    label: 'Editor'
-                  }]}
-                  onChange={selected => this.triggerChangeMode(selected.value)}
-                />
-              </div>
-            </div>
-
-            {this.props.mode === 'editor' &&
-              <WidgetEditor
-                datasetId={this.state.form.dataset}
-                widgetId={this.props.id}
-                saveButtonMode="never"
-                embedButtonMode="never"
-                titleMode="never"
-                provideWidgetConfig={this.props.onGetWidgetConfig}
-              />
-            }
-
-            {this.props.mode === 'advanced' &&
-              <Field
-                onChange={value => this.props.onChange({
-                  widgetConfig: CONFIG_TEMPLATE[value] || {}
-                })}
-                options={CONFIG_TEMPLATE_OPTIONS}
-                properties={{
-                  name: 'template',
-                  label: 'Template',
-                  instanceId: 'selectTemplate'
-                }}
-              >
-                {Select}
-              </Field>
-            }
-
-            {this.props.mode === 'advanced' &&
-              <div className="advanced-mode-container">
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetConfig = c; }}
-                  onChange={value => this.props.onChange({ widgetConfig: value })}
-                  properties={{
-                    name: 'widgetConfig',
-                    label: 'Widget config',
-                    default: this.state.form.widgetConfig,
-                    value: this.state.form.widgetConfig
-                  }}
-                >
-                  {Code}
-                </Field>
-                <div className="c-field vega-preview">
-                  <h5>Widget preview</h5>
-                  {!widgetTypeEmbed &&
-                    <div className="">
-                      <Spinner isLoading={loadingVegaChart} className="-light -relative" />
-                      {this.state.form.widgetConfig && this.state.form.widgetConfig.data && (
-                        <VegaChart
-                          data={this.state.form.widgetConfig}
-                          theme={defaultTheme}
-                          showLegend
-                          reloadOnResize
-                          toggleLoading={this.triggerToggleLoadingVegaChart}
-                          getForceUpdate={(func) => { this.forceChartUpdate = func; }}
-                        />
-                      )}
-                      <div className="actions">
-                        <button
-                          type="button"
-                          className="c-button -primary"
-                          onClick={this.refreshWidgetPreview}
-                        >
-                            Refresh
-                        </button>
-                      </div>
-                    </div>
-                  }
-                  {widgetTypeEmbed &&
-                    <iframe src={this.state.form.widgetConfig.url} width="100%" height="100%" frameBorder="0"></iframe>
-                  }
-                </div>
-              </div>
-            }
-
-          </fieldset>
-        }
-        {!showEditor && this.state.form.dataset &&
-          <div>
-            <Spinner isLoading={loadingVegaChart} className="-light -relative" />
-            <VegaChart
-              data={this.state.form.widgetConfig}
-              theme={defaultTheme}
-              showLegend
-              reloadOnResize
-              toggleLoading={this.triggerToggleLoadingVegaChart}
-            />
-          </div>
+        {this.state.form.dataset &&
+          <WidgetEditor 
+            datasetId={this.state.form.dataset}
+            {...(id && { widgetId: id })}
+            application="rw"
+            onSave={this.props.onSave}
+            theme={DefaultTheme}
+            adapter={RwAdapter}
+            authenticated={true}
+            compact={false}
+          />
         }
       </fieldset>
     );

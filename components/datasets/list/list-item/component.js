@@ -16,6 +16,7 @@ import { breakpoints } from 'utils/responsive';
 // Tooltip
 import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
+import { getTooltipContainer } from 'utils/tooltip';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -42,35 +43,14 @@ class DatasetListItem extends React.Component {
     responsive: PropTypes.object
   };
 
-  static defaultProps = {
-    mode: 'grid'
-  }
-
-  /**
-   * HELPER
-   * - getTooltipContainer
-   * - fetchDatasets
-  */
-  getTooltipContainer() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (document.querySelector('.sidebar-content')) {
-        return document.querySelector('.sidebar-content');
-      }
-
-      return document.body;
-    }
-
-    return null;
-  }
+  static defaultProps = { mode: 'grid' }
 
   /**
    * HELPER
    * - renderChart
   */
   renderChart = () => {
-    const {
-      dataset, widget, layer, mode
-    } = this.props;
+    const { dataset, widget, layer, mode } = this.props;
 
     const isWidgetMap = widget && widget.widgetConfig.type === 'map';
     const isEmbedWidget = widget && widget.widgetConfig.type === 'embed';
@@ -80,7 +60,7 @@ class DatasetListItem extends React.Component {
     if (widget && !isWidgetMap && !isEmbedWidget) {
       return (
         <div className="list-item-chart">
-          <WidgetChart widget={widget} mode="thumbnail" />
+          <WidgetChart widget={widget} thumbnail={true} />
         </div>
       );
     } else if (layer || isWidgetMap) {
@@ -93,7 +73,7 @@ class DatasetListItem extends React.Component {
 
     return (
       <div className="list-item-chart">
-        <Link route="explore_detail" params={{ id: dataset.id }}>
+        <Link route="explore" params={{ dataset: dataset.slug }}>
           <a>
             <PlaceholderChart />
           </a>
@@ -103,9 +83,7 @@ class DatasetListItem extends React.Component {
   }
 
   render() {
-    const {
-      dataset, metadata, mode, user, actions, tags, responsive
-    } = this.props;
+    const { dataset, metadata, mode, user, actions, tags, responsive } = this.props;
 
     const isInACollection = belongsToACollection(user, dataset);
     const starIconName = classnames({
@@ -136,7 +114,7 @@ class DatasetListItem extends React.Component {
           values={{ deviceWidth: responsive.fakeWidth }}
         >
           <Link
-            route="explore_detail"
+            route="explore"
             params={{ id: this.props.dataset.slug }}
           >
             {this.renderChart()}
@@ -150,8 +128,8 @@ class DatasetListItem extends React.Component {
             <div className="title-container">
               <h4>
                 <Link
-                  route="explore_detail"
-                  params={{ id: this.props.dataset.slug }}
+                  route="explore"
+                  params={{ dataset: this.props.dataset.slug }}
                 >
                   <a>
                     {(metadata && metadata.info && metadata.info.name) || dataset.name}
@@ -170,7 +148,7 @@ class DatasetListItem extends React.Component {
                     overlayClassName="c-rc-tooltip"
                     placement="bottomRight"
                     trigger="click"
-                    getTooltipContainer={this.getTooltipContainer}
+                    getTooltipContainer={getTooltipContainer}
                     monitorWindowResize
                   >
                     <button

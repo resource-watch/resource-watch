@@ -1,0 +1,48 @@
+@import 'css/settings';
+
+.c-indicator-card {
+    position: relative;
+    width: 160px;
+    height: 175px;
+    border: 1px solid rgba(26,28,34,0.1);
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,0.09);
+
+    .c-spinner {
+        top: 50%;
+    }
+
+    .indicator-name {
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: $dove-grey;
+        font-size: $font-size-extra-small;
+    }
+
+    .info-button {
+        position: absolute;
+        top: $space;
+        right: $space;
+
+        .c-icon {
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+        }
+    }
+
+    .indicator-value {
+        width: 100%;
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $sea-blue;
+        font-size: 42px;
+        font-weight: $font-weight-light;
+    }
+}

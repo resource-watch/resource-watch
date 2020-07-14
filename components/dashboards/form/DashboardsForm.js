@@ -85,8 +85,6 @@ class DashboardsForm extends PureComponent {
       };
 
       if (valid) {
-        logEvent('My RW', 'User creates a new dashboard', form.name);
-
         // if we are in the last step we will submit the form
         if (step === stepLength && !submitting) {
           const { id } = this.props;
@@ -97,10 +95,12 @@ class DashboardsForm extends PureComponent {
             createDashboard(form, token)
               .then(onFetchSuccess)
               .catch(onFetchError);
+            logEvent('My RW', 'User creates a new dashboard', form.name);
           } else {
             updateDashboard(id, form, token)
               .then(onFetchSuccess)
               .catch(onFetchError);
+            logEvent('My RW', 'User updates an existing dashboard', form.name);
           }
         } else {
           this.setState({ step: step + 1 });

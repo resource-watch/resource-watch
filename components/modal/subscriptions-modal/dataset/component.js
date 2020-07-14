@@ -11,9 +11,6 @@ import Spinner from 'components/ui/Spinner';
 import DatasetsManager from '../dataset-manager';
 import SubscriptionsPreview from '../subscriptions-preview';
 
-// constants
-// import { SUBSCRIPTION_FREQUENCY_OPTIONS } from './constants';
-
 class DatasetSubscriptionsModal extends PureComponent {
   static propTypes = {
     userSelection: PropTypes.object.isRequired,
@@ -22,7 +19,6 @@ class DatasetSubscriptionsModal extends PureComponent {
     areaFound: PropTypes.bool.isRequired,
     activeArea: PropTypes.object,
     activeDataset: PropTypes.object.isRequired,
-    subscriptions: PropTypes.array.isRequired,
     subscription: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
     setUserSelection: PropTypes.func.isRequired,
@@ -73,9 +69,7 @@ class DatasetSubscriptionsModal extends PureComponent {
   handleSubscribe = () => {
     const {
       userSelection,
-      subscriptions,
       userAreas,
-      activeArea,
       areaFound,
       createSubscriptionToArea,
       createSubscriptionOnNewArea,
@@ -85,31 +79,27 @@ class DatasetSubscriptionsModal extends PureComponent {
 
     if (userSelection.area) {
       if (userSelection.area.areaID) {
-        // user selects an area previously created
         if (areaFound) {
-          toastr.confirm(`There already exist a subscription for the selected area.
+          // The user selected one of his/her areas - with subscriptions
+          toastr.confirm(`There already exists a subscription for the selected area.
             Do you want to update it?`, {
             onOk: () => {
-              if (!activeArea) {
-                const subscriptionToUpdate = subscriptions.find(_subscription =>
-                  _subscription.attributes.params.area === userSelection.area.areaID);
-                updateSubscription(subscriptionToUpdate);
-              } else {
-                const { subscription } = activeArea;
-                updateSubscription(subscription);
-              }
+              updateSubscription();
             },
             onCancel: () => { }
           });
         } else {
+          // The user selected one of his/her areas - with no subscriptions
           createSubscriptionToArea();
         }
         // ++++++++++ THE USER SELECTED A COUNTRY +++++++++++++++
         // Check if the user already has an area with that country
-      } else if (userAreas.map(val => val.value).includes(userSelection.area.value)) {
+      } else if (userAreas.map(val => val.geostore).includes(userSelection.area.value)) {
+        // The user selected a country for which he/she already has an area
         createSubscriptionToArea();
       } else {
-        // In the case there's no user area for the selected country we create one on the fly
+        // The user selected a country he/she has no area for.
+        // In this case, we create a new area on the fly
         createSubscriptionOnNewArea()
           .then(() => {
             if (showSubscribePreview) {
@@ -149,7 +139,7 @@ class DatasetSubscriptionsModal extends PureComponent {
 
     const datasetName = activeDataset && activeDataset.metadata && activeDataset.metadata.name;
     if (Object.keys(activeDataset).length) headerText = `Subscribe to ${datasetName}`;
-    if (activeArea) headerText = `${activeArea.attributes.name} subscriptions`;
+    if (activeArea) headerText = `${activeArea.name} subscriptions`;
 
     const paragraphText = success ?
       (
@@ -198,21 +188,6 @@ class DatasetSubscriptionsModal extends PureComponent {
                   value={userSelection.area ? userSelection.area.value : null}
                 />
               </Field>
-              {/* <Field
-                properties={{
-                  name: 'frequency',
-                  label: 'Frequency of notifications'
-                }}
-              >
-                <CustomSelect
-                  placeholder="Frequency of notifications"
-                  options={SUBSCRIPTION_FREQUENCY_OPTIONS}
-                  onValueChange={(frequency = {}) =>
-                    setUserSelection({ frequency: frequency.value || null })}
-                  allowNonLeafSelection={false}
-                  value={userSelection.frequency}
-                />
-              </Field> */}
             </div>
             <div className="separator" />
             <DatasetsManager activeArea={activeArea} />

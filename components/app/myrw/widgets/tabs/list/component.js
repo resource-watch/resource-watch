@@ -9,7 +9,7 @@ import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 import SearchInput from 'components/ui/SearchInput';
 import CollectionListAside from 'components/collection-list-aside';
-import WidgetList from 'components/widgets/list/WidgetList';
+import WidgetCardList from 'components/widgets/card-list';
 import Paginator from 'components/ui/Paginator';
 
 // constants
@@ -32,8 +32,11 @@ class MyRWWidgets extends PureComponent {
     handleDisplay: PropTypes.func.isRequired,
     handlePageChange: PropTypes.func.isRequired,
     handleWidgetRemoved: PropTypes.func.isRequired,
-    handleRefresh: PropTypes.func.isRequired
+    handleRefresh: PropTypes.func.isRequired,
+    thumbnail: PropTypes.bool
   };
+
+  static defaultProps = { thumbnail: false };
 
   render() {
     const {
@@ -49,7 +52,8 @@ class MyRWWidgets extends PureComponent {
       handleSearch,
       handleSortChange,
       handleWidgetRemoved,
-      handleRefresh
+      handleRefresh,
+      thumbnail
     } = this.props;
     const { page, size, limit, pages } = pagination;
     const sortIcon = classnames({
@@ -137,14 +141,15 @@ class MyRWWidgets extends PureComponent {
                         isLoading={loading}
                         className="-light"
                       />
-                      <WidgetList
-                        isLoading={loading}
-                        widgets={_widgets}
-                        mode={display}
-                        onWidgetRemove={handleWidgetRemoved}
-                        showActions
-                        showRemove
-                      />
+                      {!loading && (
+                        <WidgetCardList
+                          widgets={_widgets}
+                          mode={display}
+                          onWidgetRemove={handleWidgetRemoved}
+                          showActions
+                          showRemove
+                          thumbnail={thumbnail}
+                        />)}
                       {(pages > 1) && (
                         <Paginator
                           options={{

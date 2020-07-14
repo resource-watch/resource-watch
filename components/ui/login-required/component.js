@@ -8,8 +8,11 @@ import LoginModal from 'components/modal/login-modal';
 class LoginRequired extends PureComponent {
   static propTypes = {
     children: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    clickCallback: PropTypes.func
   };
+
+  static defaultProps = { clickCallback: null };
 
   state = { isOpen: false };
 
@@ -17,6 +20,9 @@ class LoginRequired extends PureComponent {
     e.stopPropagation();
     e.preventDefault();
     this.setState({ isOpen: true });
+    if (this.props.clickCallback) {
+      this.props.clickCallback();
+    }
   }
 
   closePrompt = () => { this.setState({ isOpen: false }); }

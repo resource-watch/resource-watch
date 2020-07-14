@@ -1,18 +1,32 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-// Next
-import { Link } from 'routes';
+// Components
+import Icon from 'components/ui/icon';
+import LoginRequired from 'components/ui/login-required';
 
-class ExploreDatasetsActionsComponent extends React.Component {
+// Tooltip
+import { Tooltip } from 'vizzuality-components';
+import CollectionsPanel from 'components/collections-panel';
+import { getTooltipContainer } from 'utils/tooltip';
+
+// helpers
+import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+
+// Utils
+import { logEvent } from 'utils/analytics';
+
+import './styles.scss';
+
+class ExploreDatasetsActionsComponent extends PureComponent {
   static propTypes = {
-    dataset: PropTypes.object,
-    layer: PropTypes.object,
-    layerGroups: PropTypes.array,
-
-    // Actions
-    toggleMapLayerGroup: PropTypes.func
+    dataset: PropTypes.object.isRequired,
+    layer: PropTypes.object.isRequired,
+    layerGroups: PropTypes.array.isRequired,
+    toggleMapLayerGroup: PropTypes.func.isRequired,
+    resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
   };
 
   isActive = () => {
@@ -20,34 +34,90 @@ class ExploreDatasetsActionsComponent extends React.Component {
     return !!layerGroups.find(l => l.dataset === dataset.id);
   }
 
-  render() {
-    const { dataset, layer } = this.props;
+  handleToggleLayerGroup = (event) => {
+    event.stopPropagation();
+    const { dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction } = this.props;
     const isActive = this.isActive();
 
+    toggleMapLayerGroup({ dataset, toggle: !isActive });
+    resetMapLayerGroupsInteraction();
+  }
+
+  render() {
+    const { dataset, layer, user } = this.props;
+    const isActive = this.isActive();
+    const userIsLoggedIn = user.token;
+    const datasetName = dataset && dataset.metadata && dataset.metadata[0] &&
+      dataset.metadata[0].info && dataset.metadata[0].info.name;
+    
+    const isInACollection = belongsToACollection(user, dataset);
+    const starIconName = classnames({
+      'icon-star-full': isInACollection,
+      'icon-star-empty': !isInACollection
+    });
+    const starIconClass = classnames({
+      '-small': true,
+      '-filled': isInACollection,
+      '-empty': !isInACollection
+    });
+
     return (
-      <div className="actions">
+      <div className="c-explore-datasets-actions">
         <button
           className={classnames({
             'c-button': true,
             '-secondary': !isActive,
             '-primary': isActive,
             '-compressed': true,
-            '-disable': !layer
+            '-disable': !layer,
+            '-fullwidth': true
           })}
           disabled={!layer}
-          onClick={() => this.props.toggleMapLayerGroup({ dataset, toggle: !isActive })}
+          onClick={this.handleToggleLayerGroup}
         >
-          {isActive ? 'Remove from map' : 'Add to map'}
+          {isActive ? 'Active' : 'Add to map'}
         </button>
-
-        <Link
-          route="explore_detail"
-          params={{ id: dataset.slug }}
+        {/* Favorite dataset icon */}
+        <LoginRequired
+          clickCallback={() => {
+            if (!userIsLoggedIn) {
+              logEvent('Explore Menu', 'Anonymous user Clicks Star', datasetName);
+            }
+          }}
         >
-          <a className="c-button -tertiary -compressed">
-            Details
-          </a>
-        </Link>
+          <Tooltip
+            overlay={
+              <CollectionsPanel
+                resource={dataset}
+                resourceType="dataset"
+                context="Explore Menu"
+                onClick={e => e.stopPropagation()}
+                onKeyPress={e => e.stopPropagation()}
+              />
+            }
+            overlayClassName="c-rc-tooltip"
+            placement="bottomRight"
+            trigger="click"
+            getTooltipContainer={getTooltipContainer}
+            monitorWindowResize
+          >
+            <button
+              className="c-button -secondary -compressed"
+              tabIndex={-1}
+              onClick={(event) => {
+                event.stopPropagation();
+                if (userIsLoggedIn) {
+                  logEvent('Explore Menu', 'Authenticated user Clicks Star', datasetName);
+                }
+              }}
+            >
+              <Icon
+                name={starIconName}
+                className={starIconClass}
+              />
+            </button>
+          </Tooltip>
+        </LoginRequired>
       </div>
     );
   }

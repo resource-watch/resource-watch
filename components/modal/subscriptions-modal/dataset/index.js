@@ -5,6 +5,7 @@ import sortBy from 'lodash/sortBy';
 import isEqual from 'lodash/isEqual';
 
 // actions
+import { getUserAreas } from 'redactions/user';
 import * as actions from '../actions';
 
 // selectors
@@ -150,12 +151,12 @@ class DatasetSubscriptionModalContainer extends Component {
 }
 
 export default connect(
-  state => ({
+  (state, props) => ({
     userSelection: state.subscriptions.userSelection,
     areas: getAvailableAreas(state),
     areaFound: isAreaFound(state),
-    userAreas: state.subscriptions.userAreas.list,
-    activeDataset: state.layerCardPulse.dataset || state.exploreDetail.data,
+    userAreas: state.user.areas.items,
+    activeDataset: state.layerCardPulse.dataset || props.dataset,
     subscriptions: state.subscriptions.list,
     subscription: state.subscriptions.subscriptionCreation,
     preview: state.subscriptions.list.preview,
@@ -164,5 +165,8 @@ export default connect(
     // loading: state.subscriptions.loading || state.subscriptions.areas.loading ||
     //   state.subscriptions.userAreas.loading || state.subscriptions.datasets.loading
   }),
-  actions
+  {
+    getUserAreas,
+    ...actions
+  }
 )(DatasetSubscriptionModalContainer);

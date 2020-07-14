@@ -10,6 +10,8 @@ import { TAGS_BLACKLIST } from 'utils/tags';
 import { Tooltip } from 'vizzuality-components';
 import Tag from 'components/ui/Tag';
 import TagsTooltip from './tooltip';
+import { getTooltipContainer } from 'utils/tooltip';
+
 
 class ExploreDatasetsTagsComponent extends React.Component {
   static propTypes = {
@@ -43,9 +45,7 @@ class ExploreDatasetsTagsComponent extends React.Component {
   }
 
   onVisibleChange = (visible) => {
-    const {
-      vocabulary
-    } = this.props;
+    const { vocabulary } = this.props;
 
     if (visible) {
       this.setState({ tagsLoading: true });
@@ -65,20 +65,8 @@ class ExploreDatasetsTagsComponent extends React.Component {
 
   /**
    * HELPER
-   * - getTooltipContainer
    * - fetchDatasets
   */
-  getTooltipContainer() {
-    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-      if (document.querySelector('.sidebar-content')) {
-        return document.querySelector('.sidebar-content');
-      }
-
-      return document.body;
-    }
-
-    return null;
-  }
 
   fetchDatasets = debounce((page) => {
     this.props.setDatasetsPage(page);
@@ -137,7 +125,7 @@ class ExploreDatasetsTagsComponent extends React.Component {
               trigger="click"
               monitorWindowResize
               destroyTooltipOnHide
-              getTooltipContainer={this.getTooltipContainer}
+              getTooltipContainer={getTooltipContainer}
               onVisibleChange={this.onVisibleChange}
             >
               <button>

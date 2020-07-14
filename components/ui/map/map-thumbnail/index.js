@@ -25,17 +25,11 @@ class MapThumbnail extends React.Component {
   async componentDidMount() {
     const { width, height } = this.getSize();
 
-    const {
-      zoom, lat, lng, layerSpec
-    } = this.props;
+    const { zoom, lat, lng, layerSpec } = this.props;
 
-    const thumbnail = await getLayerImage({
-      width, height, zoom, lat, lng, layerSpec
-    });
+    const thumbnail = await getLayerImage({ width, height, zoom, lat, lng, layerSpec });
 
-    const basemap = await getBasemapImage({
-      width, height, zoom, lat, lng, layerSpec
-    });
+    const basemap = await getBasemapImage({ width, height, zoom, lat, lng, layerSpec });
 
     this.setStateAsync({
       imageSrc: thumbnail,
@@ -49,10 +43,12 @@ class MapThumbnail extends React.Component {
     });
   }
 
-  getSize() {
+  getSize() {    
     return {
-      width: this.chart ? this.chart.offsetWidth : 100,
-      height: this.chart ? this.chart.offsetHeight : 100
+      width: this.chart && this.chart.offsetWidth 
+        ? this.chart.offsetWidth : 100,
+      height: this.chart && this.chart.offsetHeight 
+        ? this.chart.offsetHeight : 100
     };
   }
 

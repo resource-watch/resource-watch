@@ -86,6 +86,36 @@ const Icons = () => (
           d="M.748 0h41.17L21.333 16.468.748 0zm41.919 4.865v23.728l-8.24-10.259-3.326 2.672L39.931 32H2.73l8.781-11.003-3.335-2.661L0 28.581V4.866l21.333 17.067L42.666 4.866z"
         />
       </symbol>
+      <symbol id="icon-draw-polygon" viewBox="0 0 27 32">
+        <title>draw-polygon</title>
+        <path d="M9.81 0c1.964 0 3.556 1.592 3.556 3.556 0 0.322-0.043 0.633-0.123 0.93l8.091 8.079c0.294-0.079 0.602-0.12 0.921-0.12 1.964 0 3.556 1.592 3.556 3.556s-1.592 3.556-3.556 3.556c-0.318 0-0.626-0.042-0.919-0.12l-8.089 8.091c0.078 0.293 0.119 0.6 0.119 0.917 0 1.964-1.592 3.556-3.556 3.556s-3.556-1.592-3.556-3.556c0-0.026 0-0.051 0.001-0.077l-6.255-3.79 1.842-3.041 6.256 3.791c0.508-0.279 1.091-0.438 1.712-0.438 0.319 0 0.628 0.042 0.923 0.121l8.087-8.089c-0.079-0.294-0.12-0.602-0.12-0.921 0-0.317 0.042-0.625 0.119-0.917l-8.098-8.089c-0.291 0.077-0.596 0.118-0.91 0.118-0.015 0-0.030-0-0.045-0l-5.108 8.693-3.065-1.801 5.117-8.706c-0.289-0.514-0.454-1.108-0.454-1.74 0-1.964 1.592-3.556 3.556-3.556z" />
+      </symbol>
+      <symbol id="icon-bin" viewBox="0 0 32 32">
+        <title>bin</title>
+        <path d="M4 10v20c0 1.1 0.9 2 2 2h18c1.1 0 2-0.9 2-2v-20h-22zM10 28h-2v-14h2v14zM14 28h-2v-14h2v14zM18 28h-2v-14h2v14zM22 28h-2v-14h2v14z" />
+        <path d="M26.5 4h-6.5v-2.5c0-0.825-0.675-1.5-1.5-1.5h-7c-0.825 0-1.5 0.675-1.5 1.5v2.5h-6.5c-0.825 0-1.5 0.675-1.5 1.5v2.5h26v-2.5c0-0.825-0.675-1.5-1.5-1.5zM18 4h-6v-1.975h6v1.975z" />
+      </symbol>
+      <symbol id="icon-compass" viewBox="0 0 32 32">
+        <title>compass</title>
+        <path d="M9.144 22.987l9.84-4.032 4.032-9.935-9.934 3.939-3.938 10.028zM16.029 14.029c1.104 0 2 0.896 2 2s-0.896 2-2 2-2-0.896-2-2 0.896-2 2-2zM16 0c-8.837 0-16 7.163-16 16s7.163 16 16 16 16-7.163 16-16-7.163-16-16-16zM16.112 28.021c-6.647 0-12.035-5.388-12.035-12.034s5.388-12.035 12.035-12.035c6.646 0 12.034 5.389 12.034 12.036s-5.387 12.033-12.034 12.033z" />
+      </symbol>
+      <symbol id="icon-learn-more" viewBox="0 0 32 32">
+        <title>learn-more</title>
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="butt" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M30.4 20.8v6.4c0 1.767-1.433 3.2-3.2 3.2h-23.2c-1.767 0-3.2-1.433-3.2-3.2v-23.2c0-1.767 1.433-3.2 3.2-3.2h6.4" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="butt" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M20 0.8h10.4v10.4" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="butt" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M30.4 0.8l-15.2 15.2" />
+      </symbol>
+      <symbol id="icon-download" viewBox="0 0 32 32">
+        <title>download</title>
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M16 0.8v19.2" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M27.6 10l-11.6 11.621-11.6-11.621" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="butt" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M30.4 20.8v6.4c0 1.767-1.433 3.2-3.2 3.2h-22.4c-1.767 0-3.2-1.433-3.2-3.2v-6.4" />
+      </symbol>
+      <symbol id="icon-subscription" viewBox="0 0 32 32">
+        <title>subscription</title>
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M4 4h24c1.767 0 3.2 1.433 3.2 3.2v17.6c0 1.767-1.433 3.2-3.2 3.2h-24c-1.767 0-3.2-1.433-3.2-3.2v-17.6c0-1.767 1.433-3.2 3.2-3.2z" />
+        <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M5.6 8.8l10.424 8.8 10.376-8.8" />
+      </symbol>
     </defs>
   </svg>
 );

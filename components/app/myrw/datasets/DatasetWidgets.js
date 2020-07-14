@@ -11,7 +11,7 @@ import { fetchWidgets } from 'services/widget';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetList from 'components/widgets/list/WidgetList';
+import WidgetCardList from 'components/widgets/card-list';
 import Icon from 'components/ui/icon';
 
 class DatasetWidgets extends React.Component {
@@ -124,7 +124,7 @@ class DatasetWidgets extends React.Component {
               className="-fixed -light"
             />
             {widgets &&
-            <WidgetList
+            <WidgetCardList
               widgets={widgets}
               mode={mode}
               onWidgetClick={this.handleClickWidget}

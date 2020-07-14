@@ -34,10 +34,10 @@ node {
     stage ('Build docker') {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
-          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg apiEnv=production --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg wriApiUrl=https://staging-api.globalforestwatch.org/v1 --build-arg callbackUrl=https://staging.resourcewatch.org/auth --build-arg controlTowerUrl=https://staging-api.globalforestwatch.org .")
+          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg wriApiUrl=https://staging-api.globalforestwatch.org/v1 --build-arg callbackUrl=https://staging.resourcewatch.org/auth --build-arg controlTowerUrl=https://staging-api.globalforestwatch.org .")
           break
         case "preproduction":
-          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg apiEnv=preproduction --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth .")
+          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth .")
           break
         default:
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} -t ${imageTag} .")
@@ -65,7 +65,7 @@ node {
     stage ("Deploy Application") {
       switch ("${env.BRANCH_NAME}") {
 
-        // Roll out to staging
+        // Roll out to production
         case "develop":
           sh("echo Deploying to PROD cluster")
           sh("kubectl config use-context ${KUBECTL_CONTEXT_PREFIX}_${CLOUD_PROJECT_NAME}_${CLOUD_PROJECT_ZONE}_${KUBE_PROD_CLUSTER}")

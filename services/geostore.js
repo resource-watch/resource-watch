@@ -1,3 +1,4 @@
+import axios from 'axios';
 import WRISerializer from 'wri-json-api-serializer';
 
 // utils
@@ -10,10 +11,10 @@ import { logger } from 'utils/logs';
  * @param {String} id - geostore ID.
  * @returns {Object} serialized geostore object.
  */
-export const fetchGeostore = (id) => {
+export const fetchGeostore = (id, params = {}) => {
   logger.info(`Fetch geostore ${id}`);
 
-  return WRIAPI.get(`geostore/${id}`)
+  return WRIAPI.get(`geostore/${id}`, { ...params })
     .then((response) => {
       const { status, statusText, data } = response;
 
@@ -24,10 +25,14 @@ export const fetchGeostore = (id) => {
 
       return WRISerializer(data);
     })
-    .catch(({ response }) => {
-      const { status, statusText } = response;
-      logger.error(`Error fetching geostore ${id}: ${status}: ${statusText}`);
-      throw new Error(`Error fetching geostore ${id}: ${status}: ${statusText}`);
+    .catch((thrown) => {
+      if (axios.isCancel(thrown)) {
+        throw new Error(thrown.message);
+      } else {
+        const { status, statusText } = thrown;
+        logger.error(`Error fetching geostore ${id}: ${status}: ${statusText}`);
+        throw new Error(`Error fetching geostore ${id}: ${status}: ${statusText}`);
+      }
     });
 };
 
@@ -38,9 +43,23 @@ export const fetchGeostore = (id) => {
  */
 export const createGeostore = (geojson) => {
   logger.info('Create geostore');
-  return WRIAPI.post('geostore', geojson)
-    .then(response => response.data.data)
-    .catch((response) => {
+  return WRIAPI.post('geostore', { geojson }, {
+    transformResponse: [].concat(
+      WRIAPI.defaults.transformResponse,
+      (({ data }) => ({ geostore: data }))
+    )
+  })
+    .then((response) => {
+      const { status, statusText, data } = response;
+      const { geostore } = data;
+      if (status >= 300) {
+        logger.error(`Error creating geostore: ${status}: ${statusText}`);
+        throw new Error(`Error creating geostore: ${status}: ${statusText}`);
+      }
+
+      return geostore;
+    })
+    .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating geostore: ${status}: ${statusText}`);
       throw new Error(`Error creating geostore: ${status}: ${statusText}`);
@@ -65,15 +84,14 @@ export const fetchCountries = () => {
         // eslint-disable-line no-else-return
         return 0;
       }))
-    .catch((response) => {
-      const { status, statusText } = response;
-      logger.error(`Error fetching countries: ${status}: ${statusText}`);
-      throw new Error(`Error fetching countries: ${status}: ${statusText}`);
+    .catch((error) => {
+      logger.error(`Error fetching countries: ${error}`);
+      throw new Error(`Error fetching countries: ${error}`);
     });
 };
 
 /**
- * Get country
+ * Fetch country
  * @param {String} iso
  */
 export const fetchCountry = (iso) => {

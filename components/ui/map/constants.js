@@ -1,3 +1,5 @@
+// TO-DO: deprecated. Replaced by components/map/constants
+
 const BASEMAPS = {
   dark: {
     id: 'dark',

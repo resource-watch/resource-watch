@@ -1,0 +1,13 @@
+{
+  "explore": {
+    "discover": {
+      "related-topics": ["energy", "society", "food_and_agriculture", "climate"],
+      "subtitles": {
+        "highlighted-datasets": "Start Exploring",
+        "related-topics": "Related Topics",
+        "recently-added-datasets": "Recently Added Datasets",
+        "recently-updated-datasets": "Recently Updated Datasets"
+      }
+    }
+  }
+}

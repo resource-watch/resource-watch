@@ -2,19 +2,19 @@ require('dotenv').load();
 
 const path = require('path');
 const withSass = require('@zeit/next-sass');
+const withCSS = require('@zeit/next-css')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssnano = require('cssnano');
 const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER) ?
   require('webpack-bundle-analyzer') : {};
 
-module.exports = withSass({
+module.exports = withCSS(withSass({
   useFileSystemPublicRoutes: false,
 
   env: {
     RW_NODE_ENV: process.env.RW_NODE_ENV || 'development',
     APPLICATIONS: process.env.APPLICATIONS,
-    BASEMAP_TILE_URL: process.env.BASEMAP_TILE_URL,
     CALLBACK_URL: process.env.CALLBACK_URL,
     CONTROL_TOWER_URL: process.env.CONTROL_TOWER_URL,
     WRI_API_URL: process.env.WRI_API_URL,
@@ -27,7 +27,8 @@ module.exports = withSass({
     GOOGLE_ANALYTICS: process.env.GOOGLE_ANALYTICS,
     RW_GOGGLE_API_TOKEN_SHORTENER: process.env.RW_GOGGLE_API_TOKEN_SHORTENER,
     BITLY_TOKEN: process.env.BITLY_TOKEN,
-    PARDOT_NEWSLETTER_URL: process.env.PARDOT_NEWSLETTER_URL
+    PARDOT_NEWSLETTER_URL: process.env.PARDOT_NEWSLETTER_URL,
+    RW_MAPBOX_API_TOKEN: process.env.RW_MAPBOX_API_TOKEN
   },
 
   webpack: (config) => {
@@ -62,4 +63,4 @@ module.exports = withSass({
 
     return _config;
   }
-});
+}));

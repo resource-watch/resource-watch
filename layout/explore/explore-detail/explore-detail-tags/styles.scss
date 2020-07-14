@@ -1,0 +1,19 @@
+@import 'css/settings';
+
+.c-explore-detail-tags {
+    margin-top: 7 * $space;
+
+    .title {
+        margin-bottom: 3 * $space;
+    }
+
+    .tags {
+        button {
+            margin-bottom: $space;
+
+            &:not(:last-child) {
+                margin-right: $space;
+            }
+        }
+    }
+}

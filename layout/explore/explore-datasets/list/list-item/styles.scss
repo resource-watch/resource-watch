@@ -1,0 +1,96 @@
+@import 'css/settings';
+
+.c-explore-dataset-list-item {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  min-height: 130px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 1px 6px 0 rgba(0,0,0,.0);
+  box-sizing: border-box;
+  transition: all $animation-time-2 $ease-in-out-sine;
+  cursor: pointer;
+  background-color: white;
+
+  &:hover {
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.05), 0 20px 30px rgba(0,0,0,.2);
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px);
+    z-index: 99;
+  }
+
+  &.-active {
+    border: none;
+    box-shadow: 0 0 0 2px $dark-pink, 0 1px 6px 0 rgba(0,0,0,.0);
+
+    &:hover {
+      box-shadow: 0 0 0 2px $dark-pink, 0 20px 30px rgba(0,0,0,.2);
+    }
+  }
+
+    // Chart
+  .list-item-chart {
+    width: 130px;
+    min-height: 100%;
+    flex-shrink: 0;
+    border-radius: 4px 0px 0px 4px;
+    overflow: hidden;
+    background-color: $porcelain;
+
+    .c-widget-chart {
+      min-height: 130px;
+      max-height: 130px;
+      height: 100%;
+      display: flex;
+      flex-grow: 1;
+    }
+
+    .c-layer-chart {
+      .c-we-chart {
+        height: 100%;
+      }
+    }
+
+    &.-expanded-chart {
+      width: 50%;
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 170px;
+    padding: 2 * $space 3 * $space 3 * $space 2 * $space;
+
+    .source-date {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: $font-size-tiny;
+      font-weight: bold;
+      line-height: 10px;
+      color: $dove-grey;
+
+      .source {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          margin-right: 4 * $space;
+          max-width: 100px;
+      }
+    }  
+
+    .title-actions {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+}

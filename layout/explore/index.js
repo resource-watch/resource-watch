@@ -1,20 +1,21 @@
-// Redux
 import { connect } from 'react-redux';
-import * as actions from './explore-actions';
-import * as reducers from './explore-reducers';
-import initialState from './explore-default-state';
 
-import ExploreComponent from './explore-component';
+import * as actions from './actions';
+import * as reducers from './reducers';
+import initialState from './initial-state';
+
+// component
+import LayoutExplore from './component';
 
 // Mandatory
-export {
-  actions, reducers, initialState
-};
+export { actions, reducers, initialState };
 
 export default connect(
   state => ({
-    // Store
-    responsive: state.responsive
+    responsive: state.responsive,
+    explore: state.explore,
+    userIsLoggedIn: !!state.user.id,
+    hostname: state.common.hostname
   }),
   actions
-)(ExploreComponent);
+)(LayoutExplore);

@@ -2,6 +2,11 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
 import { handleModule } from 'redux-tools';
+import {
+  reducers as WEReducers,
+  middleware as WEmiddleware,
+  sagas
+} from '@widget-editor/widget-editor';
 
 // TO-DO: move redactions to modules
 import * as reducers from 'redactions';
@@ -34,9 +39,6 @@ import * as relatedTools from 'components/tools/related-tools';
 // Explore
 import * as explore from 'layout/explore';
 
-// Explore detail
-import * as exploreDetail from 'layout/explore-detail';
-
 // Pulse
 import * as pulse from 'layout/app/pulse';
 import * as layerContainer from 'layout/app/pulse/layer-container';
@@ -54,22 +56,14 @@ import * as getInvolvedDetail from 'layout/get-involved-detail';
 import * as adminInteractions from 'components/admin/data/layers/form/interactions';
 import * as adminLayerPreview from 'components/admin/data/layers/form/layer-preview';
 
-// Widget editor
-import { reducers as widgetEditorModules } from 'widget-editor';
-
 // React responsive redux
 import { reducer as responsiveReducer } from 'react-responsive-redux';
-
-// Embed
-import * as embedMapSwipe from 'layout/embed/map-swipe';
 
 // REDUCERS
 const reducer = combineReducers({
   ...reducers,
+  ...WEReducers,
   ...modules,
-
-  // widgetEditor
-  ...widgetEditorModules,
 
   // React responsive
   responsive: responsiveReducer,
@@ -89,7 +83,6 @@ const reducer = combineReducers({
 
   // Explore
   explore: handleModule(explore),
-  exploreDetail: handleModule(exploreDetail),
 
   // Pulse
   layerContainerPulse: handleModule(layerContainer),
@@ -119,18 +112,16 @@ const reducer = combineReducers({
   interactions: handleModule(adminInteractions),
 
   // Admin layer preview
-  adminLayerPreview: handleModule(adminLayerPreview),
-
-  // Embed
-  embedMapSwipe: handleModule(embedMapSwipe)
+  adminLayerPreview: handleModule(adminLayerPreview)
 });
 
-export const initStore = (initialState = {}) => createStore(
-  reducer,
-  initialState,
-  composeWithDevTools(
-    /* The router middleware MUST be before thunk otherwise the URL changes
-    * inside a thunk function won't work properly */
-    applyMiddleware(thunk)
-  )
-);
+export const initStore = (initialState = {}) => {
+  const middlewares = applyMiddleware(thunk, WEmiddleware);
+  const enhancers = composeWithDevTools(middlewares);
+  // create store
+  const store = createStore(reducer, initialState, enhancers);
+
+  WEmiddleware.run(sagas);
+
+  return store;
+};

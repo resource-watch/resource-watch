@@ -25,13 +25,6 @@ import Search from 'layout/header/search';
 import NoBrowserSupport from 'components/app/common/Browser';
 import GDPRBanner from 'components/ui/gdpr-banner';
 
-import {
-  setConfig,
-  Modal as WidgetModal,
-  Tooltip as WidgetTooltip,
-  Icons as WidgetIcons
-} from 'widget-editor';
-
 class LayoutApp extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -45,7 +38,8 @@ class LayoutApp extends Component {
     isFullScreen: PropTypes.bool.isRequired,
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
-    updateIsLoading: PropTypes.func.isRequired
+    updateIsLoading: PropTypes.func.isRequired,
+    explicitHostname: PropTypes.string
   };
 
   static defaultProps = {
@@ -53,25 +47,11 @@ class LayoutApp extends Component {
     description: null,
     className: null,
     pageHeader: false,
-    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
+    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
+    explicitHostname: null
   }
 
   state = { modalOpen: false }
-
-  UNSAFE_componentWillMount() {
-    const { user: { token2, email } } = this.props;
-
-    // WIDGET EDITOR – change the configuration according to your needs
-    setConfig({
-      url: process.env.WRI_API_URL,
-      env: 'production,preproduction',
-      applications: process.env.APPLICATIONS,
-      authUrl: process.env.CONTROL_TOWER_URL,
-      assetsPath: '/static/images/widget-editor/',
-      userToken: token2,
-      userEmail: email
-    });
-  }
 
   componentDidMount() {
     Router.onRouteChangeStart = () => {
@@ -108,7 +88,8 @@ class LayoutApp extends Component {
       isFullScreen,
       children,
       toggleModal,
-      setModalOptions
+      setModalOptions,
+      explicitHostname
     } = this.props;
     const { modalOpen } = this.state;
     const componentClass = classnames(
@@ -124,6 +105,7 @@ class LayoutApp extends Component {
         <HeadApp
           title={title}
           description={description}
+          explicitHostname={explicitHostname}
           {...thumbnail && { thumbnail }}
         />
 
@@ -168,11 +150,6 @@ class LayoutApp extends Component {
         />
 
         <UserReport />
-
-        {/* widget editor */}
-        <WidgetModal />
-        <WidgetTooltip />
-        <WidgetIcons />
       </div>
     );
   }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import HeadNext from 'next/head';
 
 // constants
-import { CESIUM_ROUTES } from 'constants/app';
+import { CESIUM_ROUTES, HOTJAR_ROUTES } from 'constants/app';
 
 class HeadApp extends PureComponent {
   static propTypes = {
@@ -11,13 +11,15 @@ class HeadApp extends PureComponent {
     description: PropTypes.string,
     thumbnail: PropTypes.string,
     routes: PropTypes.object.isRequired,
-    hostname: PropTypes.string.isRequired
+    hostname: PropTypes.string.isRequired,
+    explicitHostname: PropTypes.string
   };
 
   static defaultProps = {
     title: null,
     description: null,
-    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg'
+    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
+    explicitHostname: null
   }
 
   getCrazyEgg() {
@@ -78,18 +80,48 @@ class HeadApp extends PureComponent {
     return null;
   }
 
+  getHotJar() {
+    const { routes: { pathname } } = this.props;
+    const isProduction = process.env.RW_NODE_ENV === 'production';
+    const isBrowser = typeof window !== 'undefined';
+    const isRouteIncluded = 
+      HOTJAR_ROUTES.filter(route => pathname.startsWith(route)).length > 0;    
+
+    if (isProduction && isBrowser && isRouteIncluded) {
+      return (
+        // Hotjar Tracking Code for https://resourcewatch.org/ -->
+        <script
+          type="text/javascript"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: `
+            (function(h,o,t,j,a,r){
+              h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+              h._hjSettings={hjid:1798352,hjsv:6};
+              a=o.getElementsByTagName('head')[0];
+              r=o.createElement('script');r.async=1;
+              r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+              a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+          `}}
+        />  
+      );
+    }
+  }
+
   render() {
     const {
       title,
       description,
       thumbnail,
-      hostname
+      hostname,
+      explicitHostname
     } = this.props;
     return (
       <HeadNext>
         <title>{title ? `${title} | Resource Watch` : 'Resource Watch'}</title>
 
-        <meta property="og:url" content={hostname} />
+        <meta property="og:url" content={explicitHostname ? explicitHostname : hostname} />
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -101,9 +133,9 @@ class HeadApp extends PureComponent {
         {/* Leaflet styles are here to allow our chunk css (custom styles) override them */}
         <link
           rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-          crossOrigin=""
+          href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""
         />
         <link
           rel="stylesheet"
@@ -114,6 +146,7 @@ class HeadApp extends PureComponent {
         {this.getCesium()}
         {this.getCrazyEgg()}
         {this.getUserReport()}
+        {this.getHotJar()}
       </HeadNext>
     );
   }

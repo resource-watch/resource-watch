@@ -1,0 +1,36 @@
+@import 'css/settings';
+
+.c-explore-login {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 4 * $space 0px 3 * $space;
+
+    .card {
+        margin: 2 * $space 0px 2 * $space 0px;
+
+        &.-empty {
+            height: 130px;
+            background-color: $sea-blue;
+            opacity: 0.05;
+        }
+
+        &.-login {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+            h4 {
+                width: 180px;
+            }
+
+            p {
+                padding: 0px $space 0px $space;
+            }
+
+            button {
+                width: 100px;
+            }
+        }
+    }
+}

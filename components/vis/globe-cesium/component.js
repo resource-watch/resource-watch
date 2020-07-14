@@ -270,11 +270,11 @@ class GlobeCesiumComponent extends PureComponent {
     let shapes = [];
     if (layerPoints) {
       shapes = compact(layerPoints.map((elem) => {
-        if (!layerActive.attributes.interactionConfig) {
+        if (!layerActive.interactionConfig) {
           return null;
         }
 
-        const tooltipContentObj = layerActive.attributes.interactionConfig.output.map(obj =>
+        const tooltipContentObj = layerActive.interactionConfig.output.map(obj =>
           ({ key: obj.property, value: elem[obj.column], type: obj.type }));
         const description = tooltipContentObj.map((val) => {
           if (val.type === 'url') {
@@ -450,7 +450,7 @@ class GlobeCesiumComponent extends PureComponent {
       this.removeContextLayers();
       this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
-        l.attributes.id,
+        l.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
       if (labelsPulse.labelsLayerActive) {
@@ -472,7 +472,7 @@ class GlobeCesiumComponent extends PureComponent {
       this.removeContextLayers();
       this.removeLabelsLayer();
       activeContextLayers.forEach(l => this.addAdditionalLayerOption(
-        l.attributes.id,
+        l.id,
         new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
       ));
       if (labelsPulse.labelsLayerActive) {
@@ -490,7 +490,7 @@ class GlobeCesiumComponent extends PureComponent {
   initGlobe() {
     this.addAdditionalLayerOption(
       'default',
-      new Cesium.UrlTemplateImageryProvider({ url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w' }), 1, true
+      new Cesium.UrlTemplateImageryProvider({ url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g' }), 1, true
     );
     if (this.props.onInit) {
       this.props.onInit(this.viewer);
@@ -504,9 +504,7 @@ class GlobeCesiumComponent extends PureComponent {
           const position = Cesium.Cartesian3.fromDegrees(shape.lon, shape.lat);
           this.viewer.entities.add({
             position,
-            billboard: {
-              image: shape.image
-            },
+            billboard: { image: shape.image },
             name: shape.name,
             type: 'billboard',
             imageSelected: shape.imageSelected,
@@ -560,7 +558,7 @@ GlobeCesiumComponent.propTypes = {
   // Store
   setShapesCreated: PropTypes.func.isRequired,
   globeCesium: PropTypes.object.isRequired,
-  labelsPulse:PropTypes.object.isRequired,
+  labelsPulse: PropTypes.object.isRequired,
 
   // Callbacks
   onClick: PropTypes.func,

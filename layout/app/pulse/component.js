@@ -79,10 +79,10 @@ class LayoutPulse extends PureComponent {
     const newId = (nextLayerActive) ? nextLayerActive.id : null;
     if (lastId !== newId) {
       if (nextLayerActive) {
-        this.setState({ interactionConfig: nextLayerActive.attributes.interactionConfig });
+        this.setState({ interactionConfig: nextLayerActive.interactionConfig });
 
         if (nextLayerActive.threedimensional) {
-          const url = nextLayerActive.attributes.layerConfig.pulseConfig.url;
+          const url = nextLayerActive.layerConfig.pulseConfig.url;
           this.props.getLayerPoints(url);
         } else {
           this.props.resetLayerPoints();

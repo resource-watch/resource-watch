@@ -1,169 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import flatten from 'lodash/flatten';
+import axios from 'axios';
 
-// Components
+// components
 import LayoutEmbed from 'layout/layout/layout-embed';
+import CompareMaps from 'components/map/plugins/compare';
+import Spinner from 'components/ui/Spinner';
 
-import {
-  Map,
-  MapControls,
-  MapSideBySide,
-  ZoomControl,
-  Legend,
-  LegendListItem,
-  LegendItemTypes
-} from 'vizzuality-components';
+// services
+import { fetchLayer } from 'services/layer';
 
-import { LayerManager, Layer } from 'layer-manager/dist/components';
-import { PluginLeaflet } from 'layer-manager';
+const LayoutEmbedMapSwipe = (props) => {
+  const { layerIds, bbox } = props;
+  const [loading, setLoading] = useState(true);
+  const [layers, setlayers] = useState([]);
 
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+  useEffect(() => {
+    if (layerIds && layerIds.length === 2) {
+      const promises = layerIds.map(_layerId => fetchLayer(_layerId));
 
-class EmbedMapSwipe extends React.Component {
-  static propTypes = {
-    layerGroups: PropTypes.array,
-    zoom: PropTypes.number,
-    latLng: PropTypes.object,
-    isLoadedExternally: PropTypes.bool
-  };
+      axios.all(promises)
+        .then(axios.spread((leftLayer, rightLayer) => {
+          setlayers([leftLayer, rightLayer]);
+        }))
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [layerIds]);
 
-  static defaultProps = {
-    layerGroups: [],
-    zoom: 3,
-    latLng: { lat: 0, lng: 0 }
-  };
+  return (
+    <LayoutEmbed
+      title="Map comparison"
+      description=""
+    >
+      {loading && (
+        <Spinner
+          isLoading={loading}
+          className="-light"
+        />)}
 
-  render() {
-    const {
-      zoom,
-      latLng,
-      layerGroups,
-      isLoadedExternally
-    } = this.props;
+      {!loading && (<CompareMaps layers={layers} bbox={bbox} />)}
+    </LayoutEmbed>
+  );
+};
 
-    return (
-      <LayoutEmbed
-        title="Map comparison"
-        description=""
-      >
-        <div className="c-embed-widget -map">
-          {/* <div className="widget-title">
-            Map comparison
-          </div> */}
+LayoutEmbedMapSwipe.propTypes = { layerIds: PropTypes.array };
 
-          <div
-            className={classnames({
-              'widget-content': true,
-              '-external': isLoadedExternally
-            })}
-          >
-            <div>
-              <div className="c-map">
-                <Map
-                  mapOptions={{
-                    zoom,
-                    center: latLng
-                  }}
-                  basemap={{
-                    url: BASEMAPS.dark.value,
-                    options: BASEMAPS.dark.options
-                  }}
-                  label={{
-                    url: LABELS.light.value,
-                    options: LABELS.light.options
-                  }}
-                >
-                  {map => (
-                    <React.Fragment>
-                      <MapControls customClass="c-map-controls -embed">
-                        <ZoomControl map={map} />
-                      </MapControls>
+LayoutEmbedMapSwipe.defaultProps = { layerIds: [] };
 
-                      <LayerManager
-                        map={map}
-                        plugin={PluginLeaflet}
-                        onReady={(layers) => {
-                          const setLayers = {
-                            0: 'setLeftLayers',
-                            1: 'setRightLayers'
-                          };
-
-                          layers.forEach((lm, index) => {
-                            const { mapLayer } = lm;
-                            if (mapLayer.group) {
-                              mapLayer.getLayers().forEach((ml, j) => {
-                                if (j === 0) {
-                                  this.sideBySide[setLayers[index]](ml);
-                                }
-                              });
-                            } else {
-                              this.sideBySide[setLayers[index]](mapLayer);
-                            }
-                          });
-                        }}
-                      >
-                        {layerGroups && flatten((layerGroups).map(lg => lg.layers.filter(l => l.active === true))).map((l, i) => (
-                          <Layer
-                            {...l}
-                            key={l.id}
-                            zIndex={1000 - i}
-                          />
-                        ))}
-                      </LayerManager>
-
-                      {/* MapSideBySide */}
-                      <MapSideBySide
-                        map={map}
-                        onReady={(sideBySide) => { this.sideBySide = sideBySide; }}
-                      />
-                    </React.Fragment>
-                  )}
-                </Map>
-              </div>
-            </div>
-          </div>
-
-          <div className="widget-content-row">
-            {layerGroups.map((lg, i) => (
-              <Legend
-                key={lg.dataset}
-                maxWidth="50%"
-                maxHeight={150}
-                sortable={false}
-                collapsable={false}
-              >
-                <LegendListItem
-                  index={i}
-                  key={lg.dataset}
-                  layerGroup={lg}
-                >
-                  <LegendItemTypes />
-                </LegendListItem>
-              </Legend>
-            ))}
-          </div>
-
-          {/* {isLoadedExternally && (
-            <div className="widget-footer">
-              <div className="widget-footer">
-                Powered by
-                <a href="/" target="_blank" rel="noopener noreferrer">
-                  <img
-                    className="embed-logo"
-                    src="/static/images/logo-embed.png"
-                    alt="Resource Watch"
-                  />
-                </a>
-              </div>
-            </div>
-          )} */}
-
-        </div>
-      </LayoutEmbed>
-    );
-  }
-}
-
-export default EmbedMapSwipe;
+export default LayoutEmbedMapSwipe;

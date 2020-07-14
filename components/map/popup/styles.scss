@@ -1,0 +1,52 @@
+@import 'css/settings';
+@import 'css/mapbox';
+
+.c-layer-popup {
+  width: 100%;
+
+  > .popup-header {
+    border-bottom: 1px solid $light-grey;
+
+    > .popup-header-select {
+      width: calc(100% - #{$space * 9});
+      height: $space * 9;
+      border: none;
+      outline: none;
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  > .popup-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 4 * $space;
+    max-height: 290px;
+    cursor: default;
+
+    overflow-y: auto;
+
+    font-family: $body-font-family;
+    font-size: $font-size-small;
+    color: $charcoal-grey;
+
+    .popup-field {
+      margin-bottom: $space;
+      max-width: calc(100% - 1px);
+
+      .field-title {
+        font-weight: bold;
+      }
+      .field-value {
+        cursor: text;
+        user-select: text;
+      }
+    }
+  }
+
+  .popup-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

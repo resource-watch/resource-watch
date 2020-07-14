@@ -36,7 +36,7 @@ class LayerCardComponent extends PureComponent {
       (this.props.layerMenuPulse.layerActive && this.props.layerMenuPulse.layerActive.id)) {
       this.loadWidgets(nextProps);
       this.props.loadDatasetData(nextProps.layerMenuPulse.layerActive
-        ? { id: nextProps.layerMenuPulse.layerActive.attributes.dataset }
+        ? { id: nextProps.layerMenuPulse.layerActive.dataset }
         : null);
     }
   }
@@ -74,7 +74,7 @@ class LayerCardComponent extends PureComponent {
       Object.keys(dataset.subscribable).length > 0;
 
     const source = dataset && dataset.metadata && dataset.metadata.source;
-    const layerName = layerActive && layerActive.attributes && layerActive.attributes.name;
+    const layerName = layerActive && layerActive.name;
     const rotatableGlobe = layerActive && layerActive.rotatableGlobe;
     const lastUpdateDate = dataset && dataset.dataLastUpdated;
 
@@ -83,7 +83,7 @@ class LayerCardComponent extends PureComponent {
       '-hidden': layerActive === null
     });
 
-    const datasetId = (layerActive !== null) ? layerActive.attributes.dataset : null;
+    const datasetId = (layerActive !== null) ? layerActive.dataset : null;
 
     return (
       <div className={className}>
@@ -128,7 +128,7 @@ class LayerCardComponent extends PureComponent {
                     onRequestClose={() => this.setState({ showInfoModal: false })}
                   >
                     <LayerInfoModal
-                      layer={layerActive && layerActive.attributes}
+                      layer={layerActive}
                     />
                   </Modal>
                 </button>
@@ -148,9 +148,9 @@ class LayerCardComponent extends PureComponent {
               <div className="context-layers-legends">
                 {
                   activeContextLayers.map(ctLayer => (
-                    <div key={ctLayer.attributes.name}>
+                    <div key={ctLayer.name}>
                       <div className="layer-container">
-                        <span>{ctLayer.attributes.name}</span>
+                        <span>{ctLayer.name}</span>
                         <button
                           type="button"
                           className="info"
@@ -165,7 +165,7 @@ class LayerCardComponent extends PureComponent {
                             onRequestClose={() => this.setState({ showContextLayersInfoModal: false })}
                           >
                             <LayerInfoModal
-                              layer={ctLayer.attributes}
+                              layer={ctLayer}
                             />
                           </Modal>
                         </button>
@@ -186,18 +186,18 @@ class LayerCardComponent extends PureComponent {
               <div
                 key={widget.id}
                 className="widget-card"
-                onClick={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
-                onKeyDown={() => Router.pushRoute('explore_detail', { id: widget.attributes.dataset })}
+                onClick={() => Router.pushRoute('explore', { dataset: widget.dataset })}
+                onKeyDown={() => Router.pushRoute('explore', { dataset: widget.dataset })}
                 role="button"
                 tabIndex={-1}
               >
                 <div className="widget-title">
-                  {widget.attributes.name}
+                  {widget.name}
                 </div>
 
                 <WidgetChart
-                  widget={widget.attributes}
-                  mode="thumbnail"
+                  widget={widget}
+                  thumbnail={true}
                 />
               </div>
             </div>
@@ -205,8 +205,8 @@ class LayerCardComponent extends PureComponent {
           <div className="card-buttons">
             {datasetId &&
               <Link
-                route="explore_detail"
-                params={{ id: datasetId }}
+                route="explore"
+                params={{ dataset: datasetId }}
               >
                 <a className="c-button -tertiary link_button" >Details</a>
               </Link>

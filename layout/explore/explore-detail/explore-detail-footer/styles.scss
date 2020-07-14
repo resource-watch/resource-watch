@@ -1,0 +1,26 @@
+@import 'css/settings';
+
+.c-explore-detail-footer {
+    position: sticky;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    padding-left: 8 * $space;
+    padding-right: 8 * $space;
+    display: flex;
+    justify-content: space-between;
+    height: $space * 8;
+    background-color: $color-12;
+    align-items: center;
+    font-size: $font-size-tiny;
+    line-height: 10px;
+    font-weight: bold;
+
+    a{
+        cursor: pointer;
+        
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

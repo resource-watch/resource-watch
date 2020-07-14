@@ -7,6 +7,7 @@ import Tabs from 'components/ui/Tabs';
 import DatasetsIndex from 'components/admin/data/datasets/pages/list';
 import WidgetsIndex from 'components/admin/data/widgets/pages/list';
 import LayersIndex from 'components/admin/data/layers/pages/list';
+import ExploreForm from 'components/admin/data/explore-form';
 
 // constants
 import { DATA_TABS } from './constants';
@@ -49,6 +50,7 @@ class LayoutAdminData extends PureComponent {
                 {(currentTab === 'datasets') && (<DatasetsIndex />)}
                 {(currentTab === 'widgets') && (<WidgetsIndex />)}
                 {(currentTab === 'layers') && (<LayersIndex />)}
+                {(currentTab === 'explore') && (<ExploreForm />)}
               </div>
             </div>
           </div>

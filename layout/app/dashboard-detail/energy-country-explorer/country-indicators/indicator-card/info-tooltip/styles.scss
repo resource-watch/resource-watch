@@ -1,0 +1,20 @@
+@import 'css/settings';
+
+.c-info-tooltip {
+    width: 280px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+
+    .description {
+        height: 100%;
+        max-height: 120px;
+        overflow-y: auto;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 3 * $space;
+    }
+}

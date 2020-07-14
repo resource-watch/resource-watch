@@ -1,0 +1,78 @@
+@import 'css/settings';
+
+.c-widget-card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid $color-12;
+  border-radius: 4px;
+
+  .widget-preview {
+    min-height: 150px;
+  }
+
+  .detail {
+    position: relative;
+    padding-right: $space * 4;
+
+    > .favourite-button {
+      z-index: 2;
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+  }
+
+  .c-widget-chart {
+    height: 100%;
+    min-height: 150px;
+    max-height: 150px;
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
+  .info {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: $space * 3;
+    background: $white;
+    border-radius: 4px;
+
+    .detail {
+      margin-bottom: 20px;
+
+      a {
+        text-decoration: none;
+        color: $charcoal-grey;
+      }
+
+      p {
+        margin: 10px 0 0;
+        word-break: break-word;
+        font-size: $font-size-normal;
+        color: $dove-grey;
+      }
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .c-button {
+        height: 30px;
+        padding: 0 $space * 2;
+      }
+    }
+  }
+
+  &.-selected {
+    border-color: $color-primary;
+  }
+}

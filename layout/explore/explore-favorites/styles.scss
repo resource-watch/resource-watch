@@ -1,0 +1,26 @@
+@import 'css/settings';
+
+.c-explore-favorites {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 4 * $space 2 * $space 3 * $space;
+
+    &.-hidden {
+        display: none;
+    }
+
+    .c-spinner {
+        top: 300px;
+    }
+
+    .empty-card {
+        height: 130px;
+        background-color: $sea-blue;
+        opacity: 0.05;
+        margin: 2 * $space 0px 2 * $space 0px;
+    }
+
+    .message {
+        text-align: center;
+    }
+}

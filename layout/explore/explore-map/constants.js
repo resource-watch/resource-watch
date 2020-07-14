@@ -1,16 +1,23 @@
+// docs: https://react-component.github.io/slider/#common-api
 export const LEGEND_TIMELINE_PROPERTIES = {
   trackStyle: [
-    { backgroundColor: 'transparent' },
+    { backgroundColor: '#caccd0' },
     { backgroundColor: '#caccd0' }
   ],
   railStyle: {
     backgroundColor: '#caccd0',
-    height: 2,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)'
+    height: 2
   },
   handleStyle: [
+    {
+      backgroundColor: '#c32d7b',
+      width: 21,
+      height: 21,
+      borderWidth: 3,
+      borderColor: '#fff',
+      transform: 'translate(calc(-50% + 6px), calc(-50% + 12px))',
+      top: 0
+    },
     {
       backgroundColor: '#c32d7b',
       width: 21,
@@ -46,4 +53,7 @@ export const LEGEND_TIMELINE_PROPERTIES = {
 
 export const TIMELINE_THRESHOLD = 5;
 
-export default { LEGEND_TIMELINE_PROPERTIES };
+export default {
+  LEGEND_TIMELINE_PROPERTIES,
+  TIMELINE_THRESHOLD
+};

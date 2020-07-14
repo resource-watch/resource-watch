@@ -67,6 +67,7 @@
     height: 100%;
     min-height: 150px;
     flex-shrink: 0;
+    overflow: hidden;
 
     @media screen and (min-width: map-get($breakpoints, medium)) {
       width: 100%;

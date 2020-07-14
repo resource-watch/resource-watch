@@ -1,13 +1,10 @@
 // Redux
 import { connect } from 'react-redux';
-import * as actions from 'layout/explore/explore-actions';
+import * as actions from 'layout/explore/actions';
 
-import ExploreSidebarComponent from './explore-sidebar-component';
+import ExploreSidebarComponent from './component';
 
 export default connect(
-  state => ({
-    loading: state.explore.datasets.loading,
-    ...state.explore.sidebar
-  }),
+  state => ({ ...state.explore.sidebar }),
   actions
 )(ExploreSidebarComponent);

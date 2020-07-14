@@ -10,35 +10,20 @@ import { connect } from 'react-redux';
 import { createWidget } from 'services/widget';
 import { fetchDatasets } from 'services/dataset';
 
+// Widget Editor
+import WidgetEditor from '@widget-editor/widget-editor';
+import RwAdapter from '@widget-editor/rw-adapter';
+
+// Utils
+import DefaultTheme from 'utils/widgets/theme';
+
 // Components
 import Spinner from 'components/ui/Spinner';
-import WidgetEditor from 'widget-editor';
-import Button from 'components/ui/Button';
-import Input from 'components/form/Input';
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
 // Utils
 import { logEvent } from 'utils/analytics';
-
-const FORM_ELEMENTS = {
-  elements: { },
-  validate() {
-    const elements = this.elements;
-    Object.keys(this.elements).forEach((k) => {
-      elements[k].validate();
-    });
-  },
-  isValid() {
-    const elements = this.elements;
-    const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
-
-    return valid;
-  }
-};
 
 class WidgetsNew extends React.Component {
   static propTypes = {
@@ -53,50 +38,38 @@ class WidgetsNew extends React.Component {
     loading: false,
     loadingPublishedDatasets: true,
     loadingUserDatasets: true,
-    submitting: false,
     datasets: [],
-    selectedDataset: this.props.dataset,
-    widget: {}
+    selectedDataset: this.props.dataset
   };
 
   UNSAFE_componentWillMount() {
     this.loadDatasets();
   }
 
-  onSubmit = async (event) => {
-    if (event) event.preventDefault();
-
-    const { widget, selectedDataset } = this.state;
+  onSaveWidget = (data) => {
+    const { selectedDataset } = this.state;
     const { user } = this.props;
+    // The widget creation endpoint expects the application property to be
+    // of array type
+    const newWidget = {
+      ...data.attributes,
+      published: false,
+      application: process.env.APPLICATIONS.split(','),
+      env: process.env.API_ENV
+    };
 
     logEvent('My RW', 'User creates new widget', this.state.datasets.find(d => d.id === this.state.selectedDataset).label);
 
     this.setState({ loading: true });
 
-    setTimeout(async () => {
-      const widgetConfig = (this.onGetWidgetConfig) ? await this.getWidgetConfig() : {};
-
-      const widgetObj = Object.assign(
-        {},
-        widget,
-        { widgetConfig }
-      );
-
-      createWidget(widgetObj, selectedDataset, user.token)
-        .then(() => {
-          Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
-          toastr.success('Success', 'Widget created successfully!');
-        }).catch((err) => {
-          this.setState({ loading: false });
-          toastr.error('Error', err);
-        });
-    }, 0);
-  }
-
-  getWidgetConfig() {
-    return this.onGetWidgetConfig()
-      .then(widgetConfig => widgetConfig)
-      .catch(() => ({}));
+    createWidget(newWidget, selectedDataset, user.token)
+      .then(() => {
+        Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+        toastr.success('Success', 'Widget created successfully!');
+      }).catch((err) => {
+        this.setState({ loading: false });
+        toastr.error('Error', err);
+      });
   }
 
   loadDatasets() {
@@ -140,11 +113,6 @@ class WidgetsNew extends React.Component {
       });
   }
 
-  handleChange = (value) => {
-    const newWidgetObj = Object.assign({}, this.state.widget, value);
-    this.setState({ widget: newWidgetObj });
-  }
-
   handleDatasetSelected = (value) => {
     this.setState({ selectedDataset: value });
   }
@@ -152,7 +120,6 @@ class WidgetsNew extends React.Component {
   render() {
     const {
       loading,
-      submitting,
       datasets,
       selectedDataset,
       loadingUserDatasets,
@@ -185,59 +152,17 @@ class WidgetsNew extends React.Component {
           </div>
         }
         {selectedDataset &&
-        <div>
-          <WidgetEditor
-            datasetId={selectedDataset}
-            widgetId={null}
-            saveButtonMode="never"
-            embedButtonMode="never"
-            titleMode="never"
-            provideWidgetConfig={(func) => { this.onGetWidgetConfig = func; }}
-          />
-          <div className="form-container">
-            <form className="form-container" onSubmit={this.onSubmit}>
-              <fieldset className="c-field-container">
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                  onChange={value => this.handleChange({ name: value })}
-                  validations={['required']}
-                  properties={{
-                    title: 'title',
-                    label: 'Title',
-                    type: 'text',
-                    required: true,
-                    placeholder: 'Widget title'
-                  }}
-                >
-                  {Input}
-                </Field>
-                <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-                  onChange={value => this.handleChange({ description: value })}
-                  properties={{
-                    title: 'description',
-                    label: 'Description',
-                    type: 'text',
-                    placeholder: 'Widget description'
-                  }}
-                >
-                  {Input}
-                </Field>
-              </fieldset>
-              <div className="buttons-container">
-                <Button
-                  properties={{
-                    type: 'submit',
-                    disabled: submitting,
-                    className: '-a'
-                  }}
-                >
-                  Save
-                </Button>
-              </div>
-            </form>
+          <div>
+            <WidgetEditor
+              datasetId={selectedDataset}
+              application="rw"
+              onSave={this.onSaveWidget}
+              theme={DefaultTheme}
+              adapter={RwAdapter}
+              authenticated
+              disable={['advanced-editor']}
+            />
           </div>
-        </div>
         }
       </div>
     );

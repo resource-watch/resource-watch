@@ -1,12 +1,15 @@
 import { connect } from 'react-redux';
 
 // actions
+import { checkIfFavorited, setIfFavorited } from 'redactions/widget';
+
+// selectors
 import {
-  getWidget,
-  toggleLayerGroupVisibility,
-  checkIfFavorited,
-  setIfFavorited
-} from 'redactions/widget';
+  getMapProps,
+  embedWidgetMapGetUpdatedLayerGroups,
+  embedWidgetMapGetUpdatedLayers,
+  embedWidgetMapGetActiveInteractiveLayers
+} from './selectors';
 
 // component
 import LayoutEmbedMap from './component';
@@ -16,16 +19,15 @@ export default connect(
     widget: state.widget.data,
     loading: state.widget.loading,
     error: state.widget.error,
-    layerGroups: state.widget.layerGroups,
-    zoom: state.widget.zoom,
     favourited: state.widget.favourite.favourited,
-    latLng: state.widget.latLng,
     user: state.user,
-    webshot: state.common.webshot
+    webshot: state.common.webshot,
+    mapProps: getMapProps(state),
+    activeLayers: embedWidgetMapGetUpdatedLayers(state),
+    layerGroups: embedWidgetMapGetUpdatedLayerGroups(state),
+    activeInteractiveLayers: embedWidgetMapGetActiveInteractiveLayers(state)
   }),
   {
-    getWidget,
-    toggleLayerGroupVisibility,
     checkIfFavorited,
     setIfFavorited
   }

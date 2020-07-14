@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import d3 from 'd3';
-import { VegaChart, getVegaTheme } from 'widget-editor';
+import Renderer from '@widget-editor/renderer';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
@@ -13,8 +13,6 @@ import ShareModal from 'components/modal/share-modal';
 // utils
 import { logEvent } from 'utils/analytics';
 import { isLoadedExternally } from 'utils/embed';
-
-const defaultTheme = getVegaTheme();
 
 class LayoutEmbedWidget extends PureComponent {
   static propTypes = {
@@ -243,12 +241,10 @@ class LayoutEmbedWidget extends PureComponent {
             </div>
           </div>)}
           <div className="widget-content">
-            <VegaChart
-              data={widget.widgetConfig}
-              theme={defaultTheme}
-              toggleLoading={this.handleToggleLoading}
-              reloadOnResize
-            />
+            {typeof window !== 'undefined' && 
+            
+              <Renderer widgetConfig={widget.widgetConfig} />
+            }
             {modalOpened && this.getModal()}
           </div>
           {(isExternal && !webshot) && (

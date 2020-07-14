@@ -109,7 +109,7 @@ export const createPage = (page, token) => {
 
 /**
  * Delete page
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#fetch-page|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#delete-page|here}
  * @param {String} id Page id.
  * @param {String} token Authentication token.
  * @param {Object} params Request paremeters.

@@ -4,9 +4,7 @@ import Select, { Creatable } from 'react-select';
 import FormElement from './FormElement';
 
 class SelectInput extends FormElement {
-  static defaultProps = {
-    options: []
-  };
+  static defaultProps = { options: [] };
 
   static propTypes = {
     properties: PropTypes.object.isRequired,
@@ -19,9 +17,7 @@ class SelectInput extends FormElement {
   constructor(props) {
     super(props);
 
-    this.state = {
-      value: props.properties.default || null
-    };
+    this.state = { value: props.properties.default || null };
   }
 
   /**

@@ -1,0 +1,32 @@
+@import 'css/settings';
+
+.c-energy-country-explorer {
+    
+    .country-section {
+        background-color: $porcelain;
+
+        .country-container {
+            display: flex;
+            
+            .country-selector {
+                width: 45%;
+            }
+            .c-country-indicators {
+                width: 55%;
+            }
+        }
+    }
+
+    .c-custom-section {
+        padding: 8 * $space 0px 0px 0px;
+    }
+    
+    .energy-profile-map {
+        min-height: 300px;
+        width: 100%;
+    }
+
+    .ndcs-container {
+        padding-top: 8 * $space;
+    }
+}

@@ -1,138 +1,146 @@
-import { WRIAPI } from 'utils/axios';
 import WRISerializer from 'wri-json-api-serializer';
 
-import 'isomorphic-fetch';
-import { get, post, remove } from 'utils/request';
-
-import sortBy from 'lodash/sortBy';
-import { Deserializer } from 'jsonapi-serializer';
-
-export default class ToolsService {
-  constructor(options = {}) {
-    this.opts = options;
-  }
-
-  // GET ALL DATA
-  fetchAllData() {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/tool/?published=all&env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        },
-        {
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, tools) => {
-            resolve(sortBy(tools, 'name'));
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
-  fetchData(id) {
-    return new Promise((resolve, reject) => {
-      get({
-        url: `${process.env.WRI_API_URL}/tool/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`,
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        },
-        {
-          key: 'Upgrade-Insecure-Requests',
-          value: 1
-        }],
-        onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, tool) => {
-            resolve(tool);
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
-  saveData({ type, body, id }) {
-    return new Promise((resolve, reject) => {
-      post({
-        url: `${process.env.WRI_API_URL}/tool/${id}`,
-        type,
-        body: {
-          ...body,
-          env: process.env.API_ENV,
-          application: process.env.APPLICATIONS
-        },
-        headers: [{
-          key: 'Content-Type',
-          value: 'application/json'
-        }, {
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: (response) => {
-          new Deserializer({
-            keyForAttribute: 'underscore_case'
-          }).deserialize(response, (err, tool) => {
-            resolve(tool);
-          });
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-
-  deleteData(id) {
-    return new Promise((resolve, reject) => {
-      remove({
-        url: `${process.env.WRI_API_URL}/tool/${id}`,
-        headers: [{
-          key: 'Authorization',
-          value: this.opts.authorization
-        }],
-        onSuccess: (response) => {
-          resolve(response);
-        },
-        onError: (error) => {
-          reject(error);
-        }
-      });
-    });
-  }
-}
+// utils
+import { WRIAPI } from 'utils/axios';
+import { logger } from 'utils/logs';
 
 /**
- * Fetchs a specific tool.
- *
- * @param {String} id - tool id.
- * @returns {Object[]} tool serialized.
+ * Fetch tools
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#fetch-tools|here}
+ * @param {Object} params Request paremeters.
+ * @param {Object} headers Request headers.
  */
-
-export const fetchTool = id =>
-  WRIAPI.get(`/tool/${id}?env=${process.env.API_ENV}&application=${process.env.APPLICATIONS}`)
-    .then((response) => {
-      const { status, statusText, data } = response;
-      if (status >= 400) throw new Error(statusText);
-      return WRISerializer(data);
+export const fetchTools = (token, params = {}, headers = {}) => {
+  logger.info('Fetch tools');
+  return WRIAPI.get(
+    'tool',
+    {
+      headers: {
+        ...headers,
+        Authorization: token
+      },
+      params: {
+        published: 'all',
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV,
+        ...params
+      }
+    }
+  )
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching tools: ${status}: ${statusText}`);
+      throw new Error(`Error fetching tools: ${status}: ${statusText}`);
     });
+};
+
+
+/**
+ * Fetch tool
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#fetch-tool|here}
+ * @param {String} id Tool id.
+ * @param {String} token Authentication token.
+ * @param {Object} params Request paremeters.
+ * @param {Object} headers Request headers.
+ */
+export const fetchTool = (id, token, params = {}, headers = {}) => {
+  logger.info(`Fetch tool ${id}`);
+  return WRIAPI.get(
+    `tool/${id}`,
+    {
+      headers: {
+        ...headers,
+        Authorization: token
+      },
+      params: { ...params }
+    }
+  )
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error fetching tool ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error fetching tool ${id}: ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Update tool
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#update-tool|here}
+ * @param {Object} tool Tool to be updated.
+ * @param {Object} token Authentication token.
+ */
+export const updateTool = (tool, token) => {
+  logger.info(`Update tool ${tool.id}`);
+  return WRIAPI.patch(`tool/${tool.id}`,
+    { data: { attributes: { ...tool } } }
+    , { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error updating tool ${tool.id}: ${status}: ${statusText}`);
+      throw new Error(`Error updating tool ${tool.id}: ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Create a new tool.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#create-a-tool|here}
+ * @param {Object} tool Tool to be updated.
+ * @param {Object} token Authentication token.
+ */
+export const createTool = (tool, token) => {
+  logger.info('Create tool');
+  return WRIAPI.post('tool',
+    {
+      data: {
+        application: process.env.APPLICATIONS,
+        env: process.env.API_ENV,
+        attributes: { ...tool }
+      }
+    },
+    { headers: { Authorization: token } })
+    .then(response => WRISerializer(response.data))
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error creating tool ${status}: ${statusText}`);
+      throw new Error(`Error creating tool ${status}: ${statusText}`);
+    });
+};
+
+/**
+ * Delete tool
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#fetch-tool|here}
+ * @param {String} id Tool id.
+ * @param {String} token Authentication token.
+ * @param {Object} params Request paremeters.
+ * @param {Object} headers Request headers.
+ */
+export const deleteTool = (id, token, params = {}, headers = {}) => {
+  logger.info(`Delete tool ${id}`);
+  return WRIAPI.delete(
+    `tool/${id}`,
+    {
+      headers: {
+        ...headers,
+        Authorization: token
+      },
+      params: { ...params }
+    }
+  )
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error(`Error deleting tool ${id}: ${status}: ${statusText}`);
+      throw new Error(`Error deleting tool ${id}: ${status}: ${statusText}`);
+    });
+};
+
+
+export default {
+  fetchTools,
+  fetchTool,
+  createTool,
+  updateTool,
+  deleteTool
+};
 

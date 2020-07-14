@@ -1,3 +1,4 @@
+// TO-DO: replace with components/map/popup
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -14,7 +15,8 @@ class LayerPopup extends React.Component {
   static propTypes = {
     latlng: PropTypes.object,
     popup: PropTypes.object,
-    data: PropTypes.object
+    data: PropTypes.object,
+    onChangeInteractiveLayer: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -83,7 +85,7 @@ class LayerPopup extends React.Component {
   formatValue(item, data) {
     if (item.type === 'date' && item.format && data) {
       data = moment(data).format(item.format);
-    } else if (item.type === 'number' && item.format && data) {
+    } else if (item.type === 'number' && item.format && (data || data === 0)) {
       data = numeral(data).format(item.format);
     }
 
@@ -115,7 +117,7 @@ class LayerPopup extends React.Component {
       popup.remove();
       return null;
     }
-    // Get interactionConfig
+
     const { interactionConfig } = layer;
     const { output } = interactionConfig;
 

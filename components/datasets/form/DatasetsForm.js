@@ -121,7 +121,7 @@ class DatasetsForm extends PureComponent {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
           const { form, layers } = this.state;
-          logEvent('My RW', 'Add New Dataset', this.state.name);
+          logEvent('My RW', 'Add New Dataset', form.name);
 
           // Start the submitting
           this.setState({ submitting: true });
@@ -216,7 +216,7 @@ class DatasetsForm extends PureComponent {
   }
 
   // HELPERS
-  setFormFromParams(params) {
+  setFormFromParams(params) {    
     const form = Object.keys(this.state.form);
     const newForm = {};
 
@@ -234,7 +234,7 @@ class DatasetsForm extends PureComponent {
           newForm[f] = params[f] || this.state.form[f];
         }
       }
-    });
+    });    
     return newForm;
   }
 

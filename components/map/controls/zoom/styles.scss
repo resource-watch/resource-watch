@@ -1,0 +1,42 @@
+@import 'css/settings';
+
+.c-zoom-control {
+  display: flex;
+  flex-direction: column;
+
+  > .zoom-control--btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    padding: $space / 2;
+    box-shadow: 0 1px 1px 0 rgba($black, .5);
+    background-color: $white;
+
+    > svg {
+      fill: $charcoal-grey;
+    }
+
+    &:hover {
+      background: $porcelain;
+    }
+
+    &:first-child {
+      border-radius: 3px 3px 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 3px 3px;
+      border-top: 1px solid $light-grey;
+    }
+
+    &.-disabled {
+      pointer-events: none;
+      opacity: .85;
+      cursor: default;
+    }
+  }
+}

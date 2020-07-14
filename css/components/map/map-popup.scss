@@ -1,18 +1,16 @@
+// TO-DO: replace with components/map/popup/styles once Leaflet is gone
 .c-map-popup {
   width: 100%;
+  max-width: 250px;
 
   .popup-header {
-    border-bottom: 1px solid #CCC;
+    border-bottom: 1px solid $light-grey;
 
     .popup-header-select {
-      width: calc(100% - 46px);
-      margin: 0;
-      border: none;
-      border-radius: 0;
-      padding: 10px;
-      box-shadow: none;
-      outline: none;
+      width: calc(100% - #{$space * 9});
       height: 46px;
+      border: none;
+      outline: none;
       font-weight: $font-weight-bold;
     }
   }
@@ -22,6 +20,10 @@
     max-height: 290px;
 
     overflow-y: auto;
+
+    font-family: $body-font-family;
+    font-size: $font-size-small;
+    color: $charcoal-grey;
   }
 
   .popup-loader {
@@ -54,19 +56,22 @@
   margin-bottom: 20px;
 }
 
-.leaflet-popup-content-wrapper {
+.leaflet-popup-content-wrapper,
+.mapboxgl-popup-content {
   padding: 0px;
   text-align: left;
   border-radius: 0;
 }
 
-.leaflet-popup-content {
+.leaflet-popup-content,
+.mapboxgl-popup-content {
   margin: 0;
   line-height: 1.4;
   min-height: 46px;
 }
 
-.leaflet-popup-content p {
+.leaflet-popup-content p,
+.mapboxgl-popup-content p {
   margin: 18px 0;
 }
 
@@ -99,7 +104,8 @@
   box-shadow: 0 3px 14px rgba(0,0,0,0.4);
 }
 
-.leaflet-container a.leaflet-popup-close-button {
+.leaflet-container a.leaflet-popup-close-button,
+.mapboxgl-popup-close-button {
   display: flex;
   align-items: center;
   justify-content: center;

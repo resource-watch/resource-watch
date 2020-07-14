@@ -2,22 +2,20 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import flatten from 'lodash/flatten';
-import { VegaChart, getVegaTheme } from 'widget-editor';
+import Renderer from '@widget-editor/renderer';
+
 import {
-  Map,
-  MapControls,
-  ZoomControl,
   Tooltip,
   Legend,
   LegendListItem,
   LegendItemTypes
 } from 'vizzuality-components';
 
-import { LayerManager, Layer } from 'layer-manager/dist/components';
-import { PluginLeaflet } from 'layer-manager';
-
 // components
+import Map from 'components/map';
+import LayerManager from 'components/map/layer-manager';
+import MapControls from 'components/map/controls';
+import ZoomControls from 'components/map/controls/zoom';
 import TextChart from 'components/widgets/charts/TextChart';
 import LoginRequired from 'components/ui/login-required';
 import Icon from 'components/ui/icon';
@@ -26,9 +24,10 @@ import Spinner from 'components/ui/Spinner';
 import CollectionsPanel from 'components/collections-panel';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
+import ErrorBoundary from 'components/ui/error-boundary';
 
 // constants
-import { BASEMAPS, LABELS } from 'components/ui/map/constants';
+import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
 
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
@@ -39,7 +38,7 @@ import { logEvent } from 'utils/analytics';
 // styles
 import './styles.scss';
 
-const defaultTheme = getVegaTheme();
+// const defaultTheme = getVegaTheme();
 
 class WidgetBlock extends PureComponent {
   static propTypes = {
@@ -57,23 +56,43 @@ class WidgetBlock extends PureComponent {
     onToggleLoading: null
   };
 
-  state = { shareWidget: null }
+  state = {
+    shareWidget: null,
+    viewport: DEFAULT_VIEWPORT,
+    isInitMap: false
+  }
 
-  getMapOptions(widget = {}) {
-    if (!widget.widgetConfig) return {};
-    const { widgetConfig: { lat, lng, zoom } } = widget;
-
-    if (lat && lng && zoom) {
-      return {
-        zoom,
-        center: {
-          lat,
-          lng
-        }
-      };
+  componentDidUpdate() {
+    const { viewport, isInitMap } = this.state;
+    if (
+      isInitMap === false &&
+      viewport.latitude === 0 &&
+      viewport.longitude === 0
+    ) {
+      this.setViewportByProps();
     }
+  }
 
-    return {};
+  /** A function that sets default map viewport from props */
+  setViewportByProps = () => {
+    const { data, item } = this.props;
+    const { viewport } = this.state;
+    let newViewport = viewport;
+    const id = `${item.content.widgetId}/${item.id}`;
+    if (!data[id]) {
+      return null;
+    }
+    const { widget: { widgetConfig }, widgetType } = data[id];
+    if (widgetType && widgetType === 'map' && widgetConfig) {
+      const { lat, lng, zoom } = widgetConfig;
+      const center = { latitude: lat, longitude: lng, zoom };
+      newViewport = { ...viewport, ...center };
+      this.setState({
+        viewport: newViewport,
+        isInitMap: true
+      });
+    }
+    return true;
   }
 
   getMapBounds(widget = {}) {
@@ -91,10 +110,7 @@ class WidgetBlock extends PureComponent {
 
     const basemap = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.basemap) ? widgetConfig.basemapLayers.basemap : 'dark';
 
-    return {
-      url: BASEMAPS[basemap].value,
-      options: BASEMAPS[basemap].options
-    };
+    return BASEMAPS[basemap].value;
   }
 
   getMapLabel(widget = {}) {
@@ -103,14 +119,26 @@ class WidgetBlock extends PureComponent {
 
     const label = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.labels) ? widgetConfig.basemapLayers.labels : 'light';
 
-    return {
-      url: LABELS[label].value,
-      options: LABELS[label].options
-    };
+    return LABELS[label].value;
   }
 
-  handleToggleShareModal(widget) {
+  handleToggleShareModal = (widget) => {
     this.setState({ shareWidget: widget });
+  }
+
+  handleViewport = (viewportNew) => {
+    this.setState({ viewport: { ...viewportNew } });
+  }
+
+  handleZoom = (zoom) => {
+    const { viewport } = this.state;
+    this.setState({
+      viewport: {
+        ...viewport,
+        zoom,
+        transitionDuration: 250
+      }
+    });
   }
 
   render() {
@@ -121,6 +149,8 @@ class WidgetBlock extends PureComponent {
       onToggleModal,
       onToggleLoading
     } = this.props;
+
+    const { viewport, isInitMap } = this.state;
 
     const id = `${item.content.widgetId}/${item.id}`;
 
@@ -156,6 +186,15 @@ class WidgetBlock extends PureComponent {
       'icon-cross': widgetModal,
       'icon-info': !widgetModal
     });
+
+    const filteredLayers = [];
+    layers.map(
+      layerGroup => layerGroup.layers.filter(
+        l => l.active === true
+      ).forEach(
+        l => filteredLayers.push(l)
+      )
+    );
 
     return (
       <div className={componentClass}>
@@ -231,127 +270,122 @@ class WidgetBlock extends PureComponent {
           </div>
         </header>
 
-        <div className="widget-container">
-          <Spinner isLoading={widgetLoading || layersLoading} className="-light -small" />
+        <ErrorBoundary message="There was an error loading the visualization">
+          <div className="widget-container">
+            <Spinner isLoading={widgetLoading || layersLoading} className="-light -small" />
 
-          {!widgetError && widgetType === 'text' && widget &&
-            <TextChart
-              widgetConfig={widget.widgetConfig}
-              toggleLoading={loading => onToggleLoading(loading)}
-            />
-          }
+            {!widgetError && widgetType === 'text' && widget &&
+              <TextChart
+                widgetConfig={widget.widgetConfig}
+                toggleLoading={loading => onToggleLoading(loading)}
+              />
+            }
 
-          {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget &&
-            <VegaChart
-              data={widget.widgetConfig}
-              theme={defaultTheme}
-              toggleLoading={loading => onToggleLoading(loading)}
-              reloadOnResize
-            />
-          }
+            {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget &&
+              <Renderer widgetConfig={widget.widgetConfig} />
+            }
 
-          {widgetIsEmbed &&
-            <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
-          }
+            {widgetIsEmbed &&
+              <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
+            }
 
-          {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && (
-            <Fragment>
-              <div className="c-map">
-                <Map
-                  mapOptions={this.getMapOptions(widget)}
-                  bbox={this.getMapBounds(widget)}
-                  basemap={this.getMapBasemap(widget)}
-                  label={this.getMapLabel(widget)}
-                  scrollZoomEnabled={false}
-                >
-                  {map => (
-                    <Fragment>
-                      {/* Controls */}
-                      <MapControls customClass="c-map-controls -embed">
-                        <ZoomControl map={map} />
-                      </MapControls>
-
-                      {/* LayerManager */}
-                      <LayerManager map={map} plugin={PluginLeaflet}>
-                        {flatten(layers.map(layerGroup =>
-                          layerGroup.layers.filter(l => l.active === true))).map((l, i) => (
-                            <Layer
-                              {...l}
-                              key={l.id}
-                              zIndex={1000 - i}
-                            />
-                          ))}
-                      </LayerManager>
-                    </Fragment>
-                  )}
-                </Map>
-              </div>
-
-              <div className="c-legend-map -embed">
-                <Legend
-                  maxHeight={140}
-                  sortable={false}
-                >
-                  {layers.map((lg, i) => (
-                    <LegendListItem
-                      index={i}
-                      key={lg.dataset}
-                      layerGroup={lg}
-                    >
-                      <LegendItemTypes />
-                    </LegendListItem>
-                  ))}
-                </Legend>
-              </div>
-            </Fragment>
-          )}
-
-          {!widgetError && !layersError && !item && !item.content.widgetId &&
-            <div className="message">
-              <div className="no-data">No data</div>
-            </div>
-          }
-
-          {(widgetError || layersError) &&
-            <div className="message">
-              <div className="error">Unable to load</div>
-            </div>
-          }
-
-          {widgetModal &&
-            <div className="widget-modal">
-              {widget && !widget.description &&
-                <p>No additional information is available</p>
-              }
-
-              {widget && widget.description && (
-                <div>
-                  <h4>Description</h4>
-                  <p>{widget.description}</p>
+            {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && isInitMap && (
+              <Fragment>
+                <div className="c-map">
+                  <Map
+                    mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+                    mapStyle={MAPSTYLES}
+                    viewport={viewport}
+                    basemap={this.getMapBasemap(widget)}
+                    onViewportChange={this.handleViewport}
+                    labels={this.getMapLabel(widget)}
+                    scrollZoom={false}
+                    bounds={this.getMapBounds(widget)}
+                  >
+                    {_map => (
+                      <Fragment>
+                        <LayerManager
+                          map={_map}
+                          layers={filteredLayers}
+                        />
+                      </Fragment>
+                    )}
+                  </Map>
+                  <MapControls customClass="c-map-controls -embed">
+                    <ZoomControls
+                      viewport={viewport}
+                      onClick={this.handleZoom}
+                    />
+                  </MapControls>
                 </div>
-              )}
 
-              { widgetLinks.length > 0 &&
-                <div className="widget-links-container">
-                  <h4>Links</h4>
-                  <ul>
-                    { widgetLinks.map(link => (
-                      <li>
-                        <a
-                          href={link.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {link.name}
-                        </a>
-                      </li>
-                            ))}
-                  </ul>
+                <div className="c-legend-map -embed">
+                  <Legend
+                    maxHeight={140}
+                    sortable={false}
+                  >
+                    {layers.map((lg, i) => (
+                      <LegendListItem
+                        index={i}
+                        key={lg.dataset}
+                        layerGroup={lg}
+                      >
+                        <LegendItemTypes />
+                      </LegendListItem>
+                    ))}
+                  </Legend>
                 </div>
-              }
-            </div>
-          }
-        </div>
+              </Fragment>
+            )}
+
+            {!widgetError && !layersError && !item && !item.content.widgetId &&
+              <div className="message">
+                <div className="no-data">No data</div>
+              </div>
+            }
+
+            {(widgetError || layersError) &&
+              <div className="message">
+                <div className="error">Unable to load</div>
+              </div>
+            }
+
+            {widgetModal &&
+              <div className="widget-modal">
+                {widget && !widget.description &&
+                  <p>No additional information is available</p>
+                }
+
+                {widget && widget.description && (
+                  <div>
+                    <h4>Description</h4>
+                    <p>{widget.description}</p>
+                  </div>
+                )}
+
+                {widgetLinks.length > 0 &&
+                  <div className="widget-links-container">
+                    <h4>Links</h4>
+                    <ul>
+                      {widgetLinks.map(link => (
+                        <li>
+                          <a
+                            href={link.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {link.name}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </ErrorBoundary>
+
 
         {caption &&
           <div className="caption-container">

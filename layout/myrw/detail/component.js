@@ -7,7 +7,7 @@ import { singular } from 'pluralize';
 // components
 import Layout from 'layout/layout/layout-app';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import AreasTab from 'components/app/myrw/areas/AreasTab';
+import AreasTabs from 'components/app/myrw/areas';
 import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
@@ -32,7 +32,6 @@ class LayoutMyRWDetail extends PureComponent {
     query: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
-    myrwdetail: PropTypes.object.isRequired,
     alerts: PropTypes.object.isRequired
   }
 
@@ -96,8 +95,8 @@ class LayoutMyRWDetail extends PureComponent {
       return alert.map((a, k) => (
         <span>
           <Link
-            route="explore_detail"
-            params={{ id: a.id }}
+            route="explore"
+            params={{ dataset: a.dataset }}
           >
             <a>
               {getLabel(a.dataset)}
@@ -110,7 +109,6 @@ class LayoutMyRWDetail extends PureComponent {
 
   render() {
     const {
-      myrwdetail,
       query: { tab, subtab, id }
     } = this.props;
 
@@ -132,15 +130,8 @@ class LayoutMyRWDetail extends PureComponent {
                     {this.getName()}
                   </Title>
                   {(subtab === 'alerts') &&
-                    (<div className="page-header-info">Alerts for {this.getAlerts()}</div>)}
-                  {myrwdetail.dataset &&
-                    (
-                      <div className="page-header-info">
-                        <ul>
-                          <li>Dataset: <Link route="explore_detail" params={{ id: myrwdetail.dataset.id }}><a>{myrwdetail.dataset.name}</a></Link></li>
-                        </ul>
-                      </div>
-                    )}
+                    (<div className="page-header-info">Alerts for {this.getAlerts()}</div>)
+                  }
                 </div>
               </div>
             </div>
@@ -152,7 +143,7 @@ class LayoutMyRWDetail extends PureComponent {
               <div className="column small-12">
                 <div className="page-header-content">
                   {(tab === 'datasets') && (<DatasetsTab tab={tab} subtab={subtab} id={id} />)}
-                  {(tab === 'areas') && (<AreasTab tab={tab} subtab={subtab} id={id} />)}
+                  {(tab === 'areas') && (<AreasTabs tab={tab} subtab={subtab} id={id} />)}
                   {(tab === 'widgets') && (<WidgetsTab tab={tab} subtab={subtab} id={id} dataset={id} />)}
                   {(tab === 'dashboards') && (<DashboardsTab tab={tab} subtab={subtab} id={id} />)}
                   {(tab === 'collections') && (<CollectionsTab tab={tab} subtab={subtab} id={id} />)}

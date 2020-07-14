@@ -14,6 +14,9 @@ import HeaderGetInvolved from 'layout/header/header-get-involved';
 // constants
 import { APP_HEADER_ITEMS } from 'layout/header/constants';
 
+// Utils
+import { logEvent } from 'utils/analytics';
+
 class HeaderMenu extends PureComponent {
   static propTypes = {
     routes: PropTypes.object.isRequired,
@@ -46,11 +49,16 @@ class HeaderMenu extends PureComponent {
 
             const activeClassName = classnames({ '-active': item.pathnames && item.pathnames.includes(routes.pathname) });
             const component = this.headerComponents[item.id];
-
+            
             return (
               <li
                 key={item.label}
                 className={activeClassName}
+                onClick={() => {
+                  if (item.label === 'App Gallery') {
+                    logEvent('App Gallery Link Clicked', 'Header');
+                  }
+                }}
               >
                 {!component && item.route &&
                   <Link

@@ -1,0 +1,57 @@
+@import 'css/settings';
+
+.c-explore-menu {
+    min-width: 200px;
+    max-width: 200px;
+    height: 100%;
+    position: sticky;
+    top: 0px;
+    left: 0px;
+
+    .c-dataset-search {
+        position: absolute;
+        z-index: 999;
+        background-color: $white;
+        width: 100%;
+        padding: 2 * $space 0px 2 * $space 2 * $space;
+    }
+
+    .menu-options {
+        margin-top: 14 * $space;
+        .menu-option {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            height: 45px;
+            cursor: pointer;
+            
+            img {
+                margin: 0px 5 * $space 0px 4 * $space;
+            }
+
+            .collection-name {
+                margin-left: 5 * $space;
+            }
+
+            &.-active {
+                border-left: $space solid $sea-blue;
+                background-color: rgba(44,117,176,0.05);
+
+                img {
+                    margin: 0px 5 * $space 0px 3 * $space;
+                }
+                .collection-name {
+                    margin-left: 4 * $space;
+                }
+            }
+        }
+    }
+
+    hr {
+        margin: 2 * $space 5 * $space 2 * $space 5 * $space;
+    }
+
+    &.-hidden {
+        display: none;
+    }
+}

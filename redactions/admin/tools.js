@@ -1,5 +1,4 @@
-import 'isomorphic-fetch';
-import ToolsService from 'services/tools';
+import { fetchTools } from 'services/tools';
 
 /**
  * CONSTANTS
@@ -21,7 +20,6 @@ const initialState = {
   filters: [] // Filters for the list of tools
 };
 
-const service = new ToolsService();
 /**
  * REDUCER
  * @export
@@ -78,7 +76,7 @@ export function getTools() {
   return (dispatch) => {
     dispatch({ type: GET_TOOLS_LOADING });
 
-    service.fetchAllData()
+    fetchTools()
       .then((data) => {
         dispatch({ type: GET_TOOLS_SUCCESS, payload: data });
       })

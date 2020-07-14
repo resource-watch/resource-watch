@@ -24,7 +24,9 @@ const parseUserAreas = createSelector(
     label: userArea.name,
     value: userArea.id,
     isGeostore: userArea.geostore,
-    areaID: userArea.id
+    areaID: userArea.id,
+    subscriptions: userArea.subscriptions,
+    id: userArea.id
   }))
 );
 

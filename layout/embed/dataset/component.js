@@ -1,19 +1,20 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
-import { VegaChart, getVegaTheme } from 'widget-editor';
+
+// Widget editor
+import Renderer from '@widget-editor/renderer'
 
 // components
 import Spinner from 'components/ui/Spinner';
 import LayoutEmbed from 'layout/layout/layout-embed';
+import ErrorBoundary from 'components/ui/error-boundary';
 
 // services
 import { fetchDataset } from 'services/dataset';
 
 // utils
 import { isLoadedExternally } from 'utils/embed';
-
-const defaultTheme = getVegaTheme();
 
 class LayoutEmbedDataset extends PureComponent {
   static propTypes = {
@@ -77,22 +78,19 @@ class LayoutEmbedDataset extends PureComponent {
       >
         <div className="c-embed-dataset">
           {widget &&
-            <div className="widget-content">
-              <VegaChart
-                data={widget.attributes.widgetConfig}
-                theme={defaultTheme}
-                toggleLoading={this.triggerToggleLoading}
-                reloadOnResize
-              />
-            </div>
+            <ErrorBoundary message="There was an error loading the visualization">
+              <div className="widget-content">
+                <Renderer widgetConfig={widget.widgetConfig} />
+              </div>
+            </ErrorBoundary>
           }
           <Spinner isLoading={loadingWidget} className="-light -relative" />
           <div className="info">
             <div className="widget-title">
               <h2>
                 <Link
-                  route="explore_detail"
-                  params={{ id: dataset.id }}
+                  route="explore"
+                  params={{ dataset: dataset.slug }}
                 >
                   <a>{datasetName}</a>
                 </Link>
@@ -113,7 +111,7 @@ class LayoutEmbedDataset extends PureComponent {
                 />
               </a>
             </div>
-          ) }
+          )}
         </div>
       </LayoutEmbed>
     );
