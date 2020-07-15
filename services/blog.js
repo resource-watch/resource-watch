@@ -12,10 +12,7 @@ export const fetchPosts = (params = {}, headers = {}) => {
   logger.info('fetches posts from blog');
 
   return blogAPI.get('/posts', {
-    headers: {
-      ...blogAPI.defaults.headers,
-      ...headers
-    },
+    headers: { ...headers },
     params: { ...params }
   })
     .then((response) => {
