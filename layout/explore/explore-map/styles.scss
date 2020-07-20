@@ -39,7 +39,18 @@
       }
 
       .rc-slider-mark {
-        margin-left: 0;
+        min-width: 100%;
+        margin-left: 0;  
+        display: flex;
+        justify-content: space-between;      
+
+        .rc-slider-mark-text {
+          display: none;
+
+          &:last-child, &:first-child {
+            display: block;
+          }
+        }
       }
     }
   }
