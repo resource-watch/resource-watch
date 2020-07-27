@@ -1,25 +1,40 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import classnames from 'classnames';
+import { useQuery } from 'react-query';
+
+import { fetchPosts } from 'services/blog';
+import { SPOTLIGHT_CATEGORY, ERROR_MESSAGE_FETCH_POSTS, UNCATEGORIZED_CATEGORY } from 'constants/blog';
+import { postParser } from 'utils/blog';
 
 // components
 import CardStatic from 'components/app/common/CardStatic';
 import Rating from '../rating';
 
-class BlogFeed extends PureComponent {
-  static propTypes = {
-    latestPosts: PropTypes.array.isRequired,
-    spotlightPosts: PropTypes.array.isRequired,
-    latestPostsError: PropTypes.string,
-    spotlightPostsError: PropTypes.string
-  };
+const fetchLatestPosts = () => fetchPosts({
+  _embed: true,
+  per_page: 3,
+  categories_exclude: [...SPOTLIGHT_CATEGORY, UNCATEGORIZED_CATEGORY]
+})
+  .then(posts => postParser(posts))
+  .catch(() => ERROR_MESSAGE_FETCH_POSTS);
 
-  static defaultProps = {
-    latestPostsError: null,
-    spotlightPostsError: null
-  }
+const fetchSpotlights = () => fetchPosts({
+  _embed: true,
+  per_page: 3,
+  categories: SPOTLIGHT_CATEGORY.join(',')
+})
+  .then(posts => postParser(posts))
+  .catch(() => ERROR_MESSAGE_FETCH_POSTS);
 
-  getCard = (post = {}) => {
+
+const BlogFeed = () => {
+  const { data: latestPosts, error: latestPostsError } = useQuery('latest-posts', fetchLatestPosts, { initialData: [], initialStale: true });
+  const { data: spotlightPosts, error: spotlightPostsError } = useQuery('spotlights', fetchSpotlights, { initialData: [], initialStale: true });
+
+
+  const errors = latestPostsError !== null || spotlightPostsError !== null;
+
+  const getCard = (post = {}) => {
     const {
       title,
       image,
@@ -56,43 +71,32 @@ class BlogFeed extends PureComponent {
     );
   };
 
-  render() {
-    const {
-      latestPosts,
-      spotlightPosts,
-      latestPostsError,
-      spotlightPostsError
-    } = this.props;
-
-    const errors = latestPostsError !== null || spotlightPostsError !== null;
-
-    return (
-      <div className="c-blog-feed">
-        {errors && (
-          <div className="error">
-            {latestPostsError || spotlightPostsError}
-          </div>
-        )}
-        {!errors && (!!latestPosts.length && !!spotlightPosts.length) && (
-          <div className="insight-cards">
-            <div className="row">
-              <div className="column small-12 medium-8">
-                {spotlightPosts.length ?
-                  this.getCard(spotlightPosts[0]) :
-                  this.getCard(latestPosts[2])
-                }
-              </div>
-              <div className="column small-12 medium-4">
-                <div className="dual">
-                  {this.getCard(latestPosts[0])}
-                  {this.getCard(latestPosts[1])}
-                </div>
+  return (
+    <div className="c-blog-feed">
+      {errors && (
+        <div className="error">
+          {latestPostsError || spotlightPostsError}
+        </div>
+      )}
+      {!errors && (!!latestPosts.length && !!spotlightPosts.length) && (
+        <div className="insight-cards">
+          <div className="row">
+            <div className="column small-12 medium-8">
+              {spotlightPosts.length ?
+                getCard(spotlightPosts[0]) :
+                getCard(latestPosts[2])
+              }
+            </div>
+            <div className="column small-12 medium-4">
+              <div className="dual">
+                {getCard(latestPosts[0])}
+                {getCard(latestPosts[1])}
               </div>
             </div>
-          </div>)}
-      </div>
-    );
-  }
-}
+          </div>
+        </div>)}
+    </div>
+  );
+};
 
 export default BlogFeed;
