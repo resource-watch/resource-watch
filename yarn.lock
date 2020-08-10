@@ -1715,17 +1715,17 @@
     "@webassemblyjs/wast-parser" "1.8.5"
     "@xtuc/long" "4.2.2"
 
-"@widget-editor/core@^2.2.25":
-  version "2.2.25"
-  resolved "https://registry.yarnpkg.com/@widget-editor/core/-/core-2.2.25.tgz#e06e77a87e7c6fe667486aceea0d5260d474e30e"
-  integrity sha512-i9dGYFtmUCJECjEevi72u3lySniOFtaDUsrTJveBeUA/qaBVQZlNMhClGTLoJdWHJ6WOR70uST5VbYRlLtQpUA==
+"@widget-editor/core@^2.2.26":
+  version "2.2.26"
+  resolved "https://registry.yarnpkg.com/@widget-editor/core/-/core-2.2.26.tgz#b0aa884c0bcd80abfe36d3b18cd855d65fb4e188"
+  integrity sha512-bB9AHS9XHEqZWeWA1Kvj+bty9YrhF2U7VGmhVFu7MjK0cgAb2xpjnzluGc2zBpyLQWCxNYiU8Kejei6DgRckQA==
   dependencies:
-    "@widget-editor/types" "^2.2.25"
+    "@widget-editor/types" "^2.2.26"
 
-"@widget-editor/map@^2.2.25":
-  version "2.2.25"
-  resolved "https://registry.yarnpkg.com/@widget-editor/map/-/map-2.2.25.tgz#d2b306065cf6eb4be5dfc58dc0bb9cf5c508fff1"
-  integrity sha512-xINUUCDaXS0TWeFEbtjz0eGiJITgpb7kKQSHEAzIO3P9+E1eMg11t5/yvonqQ59j5/7in5XrfVwESCXfBcO1iA==
+"@widget-editor/map@^2.2.26":
+  version "2.2.26"
+  resolved "https://registry.yarnpkg.com/@widget-editor/map/-/map-2.2.26.tgz#920a32a3ef1d98fc49bec7faaefa997ba48412f4"
+  integrity sha512-eLTEH8BRA6wECpBlus0C9d0zIYQbYLKZuaK/fBFOC5MuLnqYUYjxBJoeaKN66H+Nk5ehEBZlKNEauZ1AYzgDVg==
   dependencies:
     axios "^0.18.0"
     chroma-js "^2.1.0"
@@ -1734,16 +1734,16 @@
     luma.gl "^7.1.1"
     viewport-mercator-project "^6.1.1"
 
-"@widget-editor/renderer@^2.2.25":
-  version "2.2.25"
-  resolved "https://registry.yarnpkg.com/@widget-editor/renderer/-/renderer-2.2.25.tgz#aa0ab3e60d1ba489737782b7d8e9fcf58a80f65e"
-  integrity sha512-7yFQRyNMPtDN80Zlv15xPW7H5wl2VlPVQ5+QVhgvfQO255yJxqfJHuScEI3eUYmClJLBefnmIniWI0LzrV1pJw==
+"@widget-editor/renderer@^2.2.26":
+  version "2.2.26"
+  resolved "https://registry.yarnpkg.com/@widget-editor/renderer/-/renderer-2.2.26.tgz#df804797fee326dfb999e4f2373b9d3d109a3f79"
+  integrity sha512-9nvcYg6fkzvTxkILc2J94D+imSvqiWqVDVM/GasqasuJqxIrtIm4fCWL9tlredBaWQ7dLtOnKyo4O7Lb6LkY1g==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@widget-editor/core" "^2.2.25"
-    "@widget-editor/map" "^2.2.25"
-    "@widget-editor/shared" "^2.2.25"
-    "@widget-editor/types" "^2.2.25"
+    "@widget-editor/core" "^2.2.26"
+    "@widget-editor/map" "^2.2.26"
+    "@widget-editor/shared" "^2.2.26"
+    "@widget-editor/types" "^2.2.26"
     babel-plugin-styled-components "^1.10.6"
     lodash "^4.17.15"
     react-resize-detector "^4.2.1"
@@ -1759,19 +1759,19 @@
     vega-tooltip "^0.21.0"
     vizzuality-redux-tools "^4.1.1"
 
-"@widget-editor/rw-adapter@^2.2.25":
-  version "2.2.25"
-  resolved "https://registry.yarnpkg.com/@widget-editor/rw-adapter/-/rw-adapter-2.2.25.tgz#5a5f0a6580ff92f62015607352027b0886cc9adf"
-  integrity sha512-cjO65MBH16TJOYfig9LCK72g1vET8HQpcOl0YB6e0K8H3ED8/c67+s/znSjabY318HcRL94IAcRCPc1lZVB66Q==
+"@widget-editor/rw-adapter@^2.2.26":
+  version "2.2.26"
+  resolved "https://registry.yarnpkg.com/@widget-editor/rw-adapter/-/rw-adapter-2.2.26.tgz#50eeb516218a4f01020c0cc9909ab9983ef72053"
+  integrity sha512-cmgt86fFeachT+5+Cd+21OwZAJsmUPLkSkOCrne/RIWBHRSFEQ3Os8Iz8YAaLzexsuq0Q6BHyXPaGfe/voW9+Q==
   dependencies:
-    "@widget-editor/core" "^2.2.25"
-    "@widget-editor/types" "^2.2.25"
+    "@widget-editor/core" "^2.2.26"
+    "@widget-editor/types" "^2.2.26"
     lodash "^4.17.15"
 
-"@widget-editor/shared@^2.2.25":
-  version "2.2.25"
-  resolved "https://registry.yarnpkg.com/@widget-editor/shared/-/shared-2.2.25.tgz#1a188092a599eb5e4d02928e70dd9fa7de2ead1d"
-  integrity sha512-kjvJeyRLN6/QOf1BpxxtZHwTtpezGeakZDjl8Hey7nRF5VGHXKdxYIWsiWGB459V3dND0m+qGqcDX4PKLyH1VQ==
+"@widget-editor/shared@^2.2.26":
+  version "2.2.26"
+  resolved "https://registry.yarnpkg.com/@widget-editor/shared/-/shared-2.2.26.tgz#3a29b8610c9ef7906f5bc81d199e2f9e2b1bd028"
+  integrity sha512-NQAsH+eeyfrCfedhGF2CDahQ+1lr+GWkPaSLP5E19e6hwEj9hXskz6nxZ6G8MmvxT49Oz+IXGuH1MnO9B2bUKQ==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     babel-plugin-styled-components "^1.10.6"
@@ -1788,21 +1788,21 @@
     vega-tooltip "^0.21.0"
     vizzuality-redux-tools "^4.1.1"
 
-"@widget-editor/types@^2.2.25":
-  version "2.2.25"
-  resolved "https://registry.yarnpkg.com/@widget-editor/types/-/types-2.2.25.tgz#a8f93c88b3a0e7cfe3428cbdf348b85e8570a81f"
-  integrity sha512-mqskQZnwwRxBVK2bAozVo/z9FhfavLK2r6Uz5N/+ei/j9h7lVqPf9GQFJSQCBqfshH6+pYKql2/YbBanPXGQ4w==
+"@widget-editor/types@^2.2.26":
+  version "2.2.26"
+  resolved "https://registry.yarnpkg.com/@widget-editor/types/-/types-2.2.26.tgz#0dafe0d695d395d2ba5ed19c09b908ad9f131f87"
+  integrity sha512-GbqGi4Kd4GdeIgf2PzjSawXqL8C0LdqlAOEWuRmbl+DI7qeg7qPZAETlRR9XpN9idQPtLUH8y8rb74ZuhpsxoQ==
 
-"@widget-editor/widget-editor@^2.2.25":
-  version "2.2.25"
-  resolved "https://registry.yarnpkg.com/@widget-editor/widget-editor/-/widget-editor-2.2.25.tgz#be6630b096f260d92c8373fb00167e4d7062acf8"
-  integrity sha512-ue1F8V/Gc5ZO3GkxeN9c8XUeMgfxwO5kO+MZ0iUOfutqlCTbc9zXAO9GeILiS7q3cNt8EqJmd8MdyNmL+C9BdA==
+"@widget-editor/widget-editor@^2.2.26":
+  version "2.2.26"
+  resolved "https://registry.yarnpkg.com/@widget-editor/widget-editor/-/widget-editor-2.2.26.tgz#0eadc3c44da1a96a5943965b3c603258383a14af"
+  integrity sha512-WDwZ+xzvphLPcOIMCtZvGf6p94iAgJJX08UaqVOxUOP+K/2zayAWaIvy/XerZcrORJhDuJRWtE4N+kJdwvD5cg==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@widget-editor/core" "^2.2.25"
-    "@widget-editor/renderer" "^2.2.25"
-    "@widget-editor/shared" "^2.2.25"
-    "@widget-editor/types" "^2.2.25"
+    "@widget-editor/core" "^2.2.26"
+    "@widget-editor/renderer" "^2.2.26"
+    "@widget-editor/shared" "^2.2.26"
+    "@widget-editor/types" "^2.2.26"
     babel-plugin-styled-components "^1.10.6"
     lodash "^4.17.15"
     prismjs "^1.20.0"
