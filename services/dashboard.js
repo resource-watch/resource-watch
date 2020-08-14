@@ -182,11 +182,25 @@ export const deleteDashboard = (id, token) => {
  * @param {Object} user - user's token and id.
  * @return {Object} resulting dashboard based on the dashboard provided.
  */
-export const cloneDashboard = (id, user) => {
+export const cloneDashboard = (dashboard, user) => {
+  const { id, name, description, photo, summary } = dashboard;
   logger.info(`Clones dashboard from dashboard ${id}`);
   const { token, id: userId } = user;
   const url = `dashboard/${id}/clone`;
-  const params = { 'user-id': userId };
+  const params = {
+    'user-id': userId,
+    data: {
+      attributes: {
+        published: false,
+        is_featured: false,
+        is_highlighted: false,
+        name,
+        description,
+        photo,
+        summary
+      }
+    }
+  };
   return WRIAPI.post(url, params, {
     headers: {
       ...WRIAPI.defaults.headers,
