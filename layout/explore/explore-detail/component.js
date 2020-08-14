@@ -48,10 +48,10 @@ class ExploreDetailComponent extends React.Component {
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
-    const defaultWidget = dataset && dataset.widget && dataset.widget.find(w => w.default === 'true');
+    const defaultWidget = dataset && dataset.widget && dataset.widget.find(w => w.defaultEditableWidget);
     const showLayersSection = dataset && dataset.layer && dataset.layer.length > 0;
     const showTags = tags && tags.length > 0;
-
+    
     return (
       <div className="c-explore-detail">
         <Spinner isLoading={datasetLoading} className="-light" />
