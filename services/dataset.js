@@ -17,6 +17,11 @@ import { logger } from 'utils/logs';
  */
 export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
   logger.info('Fetch datasets');
+  const newParams = {
+    env: process.env.API_ENV,
+    application: process.env.APPLICATIONS,
+    ...params
+  };
   return WRIAPI.get('/dataset', {
     headers: {
       ...WRIAPI.defaults.headers,
@@ -24,11 +29,7 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
       'Upgrade-Insecure-Requests': 1,
       ...headers
     },
-    params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
-      ...params
-    },
+    params: newParams,
     transformResponse: [].concat(
       WRIAPI.defaults.transformResponse,
       (({ data, meta }) => ({ datasets: data, meta }))
