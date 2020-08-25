@@ -20,7 +20,10 @@ function FurtherInformationComponent(props) {
         cautions, citation,
         sources,
         geographic_coverage,
-        frequency_of_updates
+        frequency_of_updates,
+        license,
+        license_link,
+        date_of_content
       },
       language
     }
@@ -69,6 +72,7 @@ function FurtherInformationComponent(props) {
           }
         </div>
       )}
+
       <div className="row" >
         <div className="column small-6">
           <div className="metadata-field">
@@ -86,6 +90,18 @@ function FurtherInformationComponent(props) {
           <div className="metadata-field">
             <h4>Published language</h4>
             <ReactMarkdown linkTarget="_blank" source={language} />
+          </div>
+        </div>
+        <div className="column small-6">
+          <div className="metadata-field">
+            <h4>License</h4>
+            <a href={license_link} target="_blank">{license}</a>
+          </div>
+        </div>
+        <div className="column small-6">
+          <div className="metadata-field">
+            <h4>Date of content</h4>
+            <ReactMarkdown linkTarget="_blank" source={date_of_content} />
           </div>
         </div>
       </div>
