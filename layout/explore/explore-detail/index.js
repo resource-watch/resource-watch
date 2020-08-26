@@ -39,7 +39,13 @@ const ExploreDetailContainer = (props) => {
       dispatch(setDatasetLoading(true));
       dispatch(setTagsLoading(true));
 
-      fetchDataset(datasetID, { includes: 'metadata,layer,vocabulary,widget' })
+      fetchDataset(datasetID, 
+        { 
+          includes: 'metadata,layer,vocabulary,widget',
+          application: process.env.APPLICATIONS,
+          env: process.env.API_ENV
+        }
+        )
         .then((data) => {
           dispatch(setDataset(data));
           dispatch(setDatasetLoading(false));
