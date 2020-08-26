@@ -48,10 +48,11 @@ class ExploreDetailComponent extends React.Component {
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
-    const defaultWidget = dataset && dataset.widget && dataset.widget.find(w => w.defaultEditableWidget);
+    const defaultWidget = dataset && dataset.widget &&
+      dataset.widget.find(w => w.defaultEditableWidget);
     const showLayersSection = dataset && dataset.layer && dataset.layer.length > 0;
     const showTags = tags && tags.length > 0;
-    
+
     return (
       <div className="c-explore-detail">
         <Spinner isLoading={datasetLoading} className="-light" />
@@ -71,11 +72,11 @@ class ExploreDetailComponent extends React.Component {
                     {dateLastUpdated ? `UPDATED ON ${dateLastUpdated}`.toUpperCase() : ''}
                   </div>
                 </div>
-                <div className="functions">
+                <div className="functions metadata-field">
                   {info && info.functions}
                 </div>
                 <ExploreDetailButtons dataset={dataset} />
-                <div className="description">
+                <div className="description metadata-field">
                   <ReadMore
                     markdown
                     text={metadata.description}
