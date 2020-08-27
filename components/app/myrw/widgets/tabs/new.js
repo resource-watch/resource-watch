@@ -7,7 +7,7 @@ import { Router } from 'routes';
 import { connect } from 'react-redux';
 
 // Services
-import { createWidget } from 'services/widget';
+import { createWidget, createWidgetMetadata } from 'services/widget';
 import { fetchDatasets } from 'services/dataset';
 
 // Widget Editor
@@ -51,8 +51,11 @@ class WidgetsNew extends React.Component {
     const { user } = this.props;
     // The widget creation endpoint expects the application property to be
     // of array type
+
     const newWidget = {
-      ...data.attributes,
+      name: data.name,
+      description: data.description,
+      widgetConfig: data.widgetConfig,
       published: false,
       application: process.env.APPLICATIONS.split(','),
       env: process.env.API_ENV
@@ -63,9 +66,22 @@ class WidgetsNew extends React.Component {
     this.setState({ loading: true });
 
     createWidget(newWidget, selectedDataset, user.token)
-      .then(() => {
-        Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
-        toastr.success('Success', 'Widget created successfully!');
+      .then((widgetResult) => {
+        // we need to create the metadata object for the new widget in the case
+        // where the user entered a caption value for it
+        createWidgetMetadata(
+          widgetResult.id,
+          widgetResult.dataset,
+          {
+            language: 'en',
+            info: { caption: data.metadata.caption }
+          },
+          user.token
+        )
+          .then(() => {
+            Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+            toastr.success('Success', 'Widget created successfully!');
+          });
       }).catch((err) => {
         this.setState({ loading: false });
         toastr.error('Error', err);

@@ -30,10 +30,10 @@ class Step1 extends Component {
 
   state = {
     id: this.props.id,
-    form: this.props.form,
+    form: this.props.form
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {    
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       form: {
         ...nextProps.form,
@@ -45,7 +45,7 @@ class Step1 extends Component {
   render() {
     const { id } = this.state;
     const { user, query } = this.props;
-    
+
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
 
@@ -55,9 +55,7 @@ class Step1 extends Component {
           {/* DATASET */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
-            onChange={value => this.props.onChange({
-              dataset: value
-            })}
+            onChange={value => this.props.onChange({ dataset: value })}
             validations={['required']}
             className="-fluid"
             options={this.props.datasets}
@@ -84,7 +82,7 @@ class Step1 extends Component {
               properties={{
                 name: 'env',
                 label: 'Environment',
-                placeholder: 'Type the columns...',
+                placeholder: 'Choose an environment...',
                 noResultsText: 'Please, type the name of the columns and press enter',
                 promptTextCreator: label => `The name of the column is "${label}"`,
                 default: 'preproduction',
@@ -165,14 +163,14 @@ class Step1 extends Component {
         </fieldset>
 
         {this.state.form.dataset &&
-          <WidgetEditor 
+          <WidgetEditor
             datasetId={this.state.form.dataset}
             {...(id && { widgetId: id })}
             application="rw"
             onSave={this.props.onSave}
             theme={DefaultTheme}
             adapter={RwAdapter}
-            authenticated={true}
+            authenticated
             compact={false}
           />
         }
