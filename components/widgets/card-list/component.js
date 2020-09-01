@@ -15,11 +15,13 @@ const WidgetCardList = (props) => {
     showRemove,
     showActions,
     showEmbed,
+    showFavorite,
     mode,
     className,
     onWidgetClick,
     onWidgetRemove,
-    thumbnail
+    thumbnail,
+    clickable
   } = props;
 
   const componentClass = classnames({
@@ -58,8 +60,10 @@ const WidgetCardList = (props) => {
                       showActions={showActions}
                       showRemove={showRemove}
                       showEmbed={showEmbed}
+                      showFavorite={showFavorite}
                       mode={mode}
                       thumbnail={thumbnail}
+                      clickable={clickable}
                     />
                   )}
                 </div>
@@ -77,6 +81,9 @@ WidgetCardList.propTypes = {
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
+  showFavorite: PropTypes.bool,
+  thumbnail: PropTypes.bool,
+  clickable: PropTypes.bool,
   className: PropTypes.string,
   mode: PropTypes.oneOf(['grid', 'list']).isRequired,
   onWidgetClick: PropTypes.func.isRequired,
@@ -87,7 +94,10 @@ WidgetCardList.defaultProps = {
   className: null,
   showActions: false,
   showRemove: false,
-  showEmbed: false
+  showEmbed: false,
+  thumbnail: false,
+  showFavorite: true,
+  clickable: false
 };
 
 export default WidgetCardList;
