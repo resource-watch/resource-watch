@@ -81,7 +81,7 @@
     transition: box-shadow .3s, transform .3s;
 
     &:hover {
-      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 20px 30px rgba($black, 0.2);
       transform: translateY(-4px);
     }
   }
