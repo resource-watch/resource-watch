@@ -18,7 +18,7 @@ import DefaultTheme from 'utils/widgets/theme';
 import { logEvent } from 'utils/analytics';
 
 // Services
-import { createWidget } from 'services/widget';
+import { createWidget, createWidgetMetadata } from 'services/widget';
 
 function ExploreDetailVisualization(props) {
   const { widgetId, datasetId, authorization } = props;
@@ -32,8 +32,11 @@ function ExploreDetailVisualization(props) {
     } else {
       // The widget creation endpoint expects the application property to be
       // of array type
+
       const newWidget = {
-        ...widget.attributes,
+        name: widget.name,
+        description: widget.description,
+        widgetConfig: widget.widgetConfig,
         published: false,
         application: process.env.APPLICATIONS.split(','),
         env: process.env.API_ENV
@@ -44,15 +47,28 @@ function ExploreDetailVisualization(props) {
       setLoading(true);
 
       createWidget(newWidget, datasetId, authorization)
-        .then(() => {
-          Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
-          toastr.success('Success', 'Widget created successfully!');
+        .then((newWidgetObject) => {
+          // we need to create the metadata object for the new widget in the case
+          // where the user entered a caption value for it
+          createWidgetMetadata(
+            newWidgetObject.id,
+            newWidgetObject.dataset,
+            {
+              language: 'en',
+              info: { caption: widget.metadata.caption }
+            },
+            authorization
+          )
+            .then(() => {
+              Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+              toastr.success('Success', 'Widget created successfully!');
+            });
         }).catch((err) => {
           setLoading(false);
           toastr.error('Error creating widget', err);
         });
     }
-  };  
+  };
 
   return (
     <div className="c-explore-detail-visualization">

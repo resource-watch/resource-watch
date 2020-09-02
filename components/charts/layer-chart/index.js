@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MapThumbnail from 'components/ui/map/map-thumbnail';
 
-function DatasetLayerChart(props) {
+function LayerChart(props) {
   const { layer } = props;
 
   return (
@@ -14,10 +14,9 @@ function DatasetLayerChart(props) {
       </div>
     </div>
   );
-};
+}
 
-DatasetLayerChart.propTypes = {
-  layer: PropTypes.object
-};
+LayerChart.propTypes = { layer: PropTypes.object };
+LayerChart.defaultProps = { layer: null };
 
-export default DatasetLayerChart;
+export default LayerChart;

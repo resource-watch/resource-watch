@@ -8,7 +8,9 @@ import { connect } from 'react-redux';
 // Services
 import {
   fetchWidget,
-  updateWidget
+  updateWidget,
+  createWidgetMetadata,
+  updateWidgetMetadata
 } from 'services/widget';
 
 // Widget Editor
@@ -29,34 +31,67 @@ class WidgetsEdit extends React.Component {
 
   UNSAFE_componentWillMount() {
     const { id } = this.props;
-    fetchWidget(id)
+    fetchWidget(id, { includes: 'metadata' })
       .then((data) => {
         this.setState({
           widget: data,
           loading: false
         });
       })
-      .catch(err => {
+      .catch((err) => {
         toastr.error('Error loading widget');
         console.error('Error loading widget', err);
-      })
+      });
   }
 
   onSaveWidget = (widgetData) => {
-
     this.setState({ loading: true });
     const { widget } = this.state;
     const { user } = this.props;
 
     const widgetObj = {
       ...widget,
-      ...widgetData.attributes
+      name: widgetData.name,
+      description: widgetData.description,
+      widgetConfig: widgetData.widgetConfig
     };
 
     updateWidget(widgetObj, user.token)
       .then(() => {
-        this.setState({ loading: false });
-        toastr.success('Success', 'Widget updated successfully!');
+        const widgetHasMetadata = widget.metadata && widget.metadata.length > 0;
+        if (widgetHasMetadata) {
+          updateWidgetMetadata(
+            widget.id,
+            widget.dataset,
+            {
+              ...widget.metadata[0],
+              info: { 
+                ...widget.metadata[0].info,
+                caption: widgetData.metadata.caption 
+              }
+            },
+            user.token
+          )
+            .then(() => {
+              this.setState({ loading: false });
+              toastr.success('Success', 'Widget updated successfully!');
+            });
+        } else {
+          createWidgetMetadata(
+            widget.id,
+            widget.dataset,
+            {
+              language: 'en',
+              info: { 
+                caption: widgetData.metadata.caption 
+              }
+            },
+            user.token)
+          .then(() => {
+            this.setState({ loading: false });
+            toastr.success('Success', 'Widget updated successfully!');
+          });
+        }
       }).catch((err) => {
         this.setState({ loading: false });
         toastr.error('Error', err);
