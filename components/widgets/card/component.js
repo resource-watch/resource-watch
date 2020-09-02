@@ -299,18 +299,18 @@ const WidgetCard = (props) => {
   });
 
   return (
-    <div className={mainClassname}>
+    <div
+      className={mainClassname}
+      {...(clickable && { tabIndex: -1 })}
+      {...(clickable && { role: 'button' })}
+      {...(clickable && { onClick: () => onWidgetClick && onWidgetClick(widget) })}
+      {...(clickable && { onKeyPress: () => onWidgetClick && onWidgetClick(widget) })}
+    >
       <div className="widget-preview">
         {getWidgetPreview()}
       </div>
       <div className="info">
-        <div
-          className="detail"
-          {...(clickable && { tabIndex: -1 })}
-          {...(clickable && { role: 'button' })}
-          {...(clickable && { onClick: () => onWidgetClick && onWidgetClick(widget) })}
-          {...(clickable && { onKeyPress: () => onWidgetClick && onWidgetClick(widget) })}
-        >
+        <div className="detail">
           {/* Title */}
           <Title className="-default -primary">
             {widget.name}
