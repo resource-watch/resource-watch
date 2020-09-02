@@ -51,7 +51,10 @@ const WidgetCard = (props) => {
     showActions,
     showEmbed,
     showRemove,
-    thumbnail
+    showFavorite,
+    thumbnail,
+    onWidgetClick,
+    clickable
   } = props;
 
   const [state, dispatch] = useReducer(REDUCER, INITIAL_STATE);
@@ -290,17 +293,23 @@ const WidgetCard = (props) => {
     'icon-star-empty': !isInACollection
   });
 
+  const mainClassname = classnames({
+    'c-widget-card': true,
+    '-clickable': clickable
+  });
+
   return (
-    <div className="c-widget-card">
+    <div className={mainClassname}>
       <div className="widget-preview">
         {getWidgetPreview()}
       </div>
       <div className="info">
         <div
           className="detail"
-          // tabIndex={-1}
-          // role="button"
-          // onClick={() => this.props.onWidgetClick && this.props.onWidgetClick(widget)}
+          {...(clickable && { tabIndex: -1 })}
+          {...(clickable && { role: 'button' })}
+          {...(clickable && { onClick: () => onWidgetClick && onWidgetClick(widget) })}
+          {...(clickable && { onKeyPress: () => onWidgetClick && onWidgetClick(widget) })}
         >
           {/* Title */}
           <Title className="-default -primary">
@@ -309,31 +318,33 @@ const WidgetCard = (props) => {
           <p>
             {truncate(widget.description, { length: limitChar, separator: ' ', omission: '...' })}
           </p>
-          <LoginRequired>
-            <Tooltip
-              overlay={
-                <CollectionsPanel
-                  resource={widget}
-                  resourceType="widget"
-                />
-              }
-              overlayClassName="c-rc-tooltip"
-              overlayStyle={{ color: '#fff' }}
-              placement="bottomLeft"
-              trigger="click"
-            >
-              <button
-                type="button"
-                className="c-btn favourite-button"
-                tabIndex={-1}
+          {showFavorite &&
+            <LoginRequired>
+              <Tooltip
+                overlay={
+                  <CollectionsPanel
+                    resource={widget}
+                    resourceType="widget"
+                  />
+                }
+                overlayClassName="c-rc-tooltip"
+                overlayStyle={{ color: '#fff' }}
+                placement="bottomLeft"
+                trigger="click"
               >
-                <Icon
-                  name={starIconName}
-                  className="-star -small"
-                />
-              </button>
-            </Tooltip>
-          </LoginRequired>
+                <button
+                  type="button"
+                  className="c-btn favourite-button"
+                  tabIndex={-1}
+                >
+                  <Icon
+                    name={starIconName}
+                    className="-star -small"
+                  />
+                </button>
+              </Tooltip>
+            </LoginRequired>
+          }
         </div>
 
         {(showActions || showRemove || showEmbed) &&
@@ -386,21 +397,27 @@ WidgetCard.propTypes = {
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
+  showFavorite: PropTypes.bool,
   mode: PropTypes.oneOf(['grid', 'full']).isRequired,
   onWidgetRemove: PropTypes.func.isRequired,
+  onWidgetClick: PropTypes.func,
   limitChar: PropTypes.number,
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
-  thumbnail: PropTypes.bool
+  thumbnail: PropTypes.bool,
+  clickable: PropTypes.bool
 };
 
 WidgetCard.defaultProps = {
   showActions: false,
   showRemove: false,
+  showFavorite: true,
   limitChar: 70,
   showEmbed: false,
-  thumbnail: false
+  thumbnail: false,
+  clickable: false,
+  onWidgetClick: null
 };
 
 export default WidgetCard;
