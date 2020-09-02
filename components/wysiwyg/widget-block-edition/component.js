@@ -83,7 +83,9 @@ class WidgetBlockEdition extends PureComponent {
                       widgets={widgets}
                       mode="grid"
                       onWidgetClick={onSelectWidget}
-                      showFavourite={false}
+                      showFavorite={false}
+                      thumbnail
+                      clickable
                     />
 
                     {pages > 1 && (
