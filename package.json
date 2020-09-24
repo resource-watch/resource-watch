@@ -28,7 +28,6 @@
     "classnames": "2.2.5",
     "connect-redis": "3.3.0",
     "cookie-parser": "1.4.3",
-    "copy-webpack-plugin": "^5.0.2",
     "d3": "3.5.17",
     "deck.gl": "^7.1.10",
     "dotenv": "4.0.0",
