@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - maintenance: updates `eslint` and its plugins. [#174977793](https://www.pivotaltracker.com/story/show/174977793)
 
 ### Fixed
+- widget editor: override of default disabled features. [#174930015](https://www.pivotaltracker.com/story/show/174930015)
 
 ### Removed
 - widget editor: removed deprecated assets. [#174952659](https://www.pivotaltracker.com/story/show/174952659)
