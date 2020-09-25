@@ -10,23 +10,15 @@
     "config": true,
     "Transifex": true
   },
-  "extends": "vizzuality",
+  "extends": [
+    "airbnb",
+    "airbnb/hooks"
+  ],
   "rules": {
-    "class-methods-use-this": 0,
-    "import/prefer-default-export": 0,
-    "import/extensions": 0,
-    "import/no-extraneous-dependencies": 0,
-    "import/no-unresolved": 0,
-    "import/named": 0,
-    "react/prefer-stateless-function": 0,
-    "react/jsx-filename-extension": 0,
-    "linebreak-style": 0,
-    "no-plusplus": 0,
-    "jsx-a11y/href-no-hash": 0,
-    "jsx-a11y/anchor-is-valid": 0,
-    "no-underscore-dangle": 0,
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "import/no-unresolved": "off",
+    "react/jsx-filename-extension": "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "error"
   },
   "parser": "babel-eslint",
   "parserOptions": {
@@ -42,8 +34,7 @@
   ],
   "settings": {
     "import/resolver": {
-      "babel-module": {
-      }
+      "babel-module": {}
     }
   }
 }
