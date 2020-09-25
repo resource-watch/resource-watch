@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Removed
+- maintenance: removed unused `colors` dev dependency.
 - widget editor: removed deprecated assets. [#174952659](https://www.pivotaltracker.com/story/show/174952659)
 
 ## [2.2.1] - 2020-02-03
