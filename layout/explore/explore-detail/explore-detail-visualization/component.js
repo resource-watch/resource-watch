@@ -20,6 +20,9 @@ import { logEvent } from 'utils/analytics';
 // Services
 import { createWidget, createWidgetMetadata } from 'services/widget';
 
+// constants
+import { WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES } from 'constants/widget-editor';
+
 function ExploreDetailVisualization(props) {
   const { widgetId, datasetId, authorization } = props;
   const [loginModalOpen, setLoginModalOpen] = useState(false);
@@ -84,7 +87,12 @@ function ExploreDetailVisualization(props) {
           theme={DefaultTheme}
           adapter={RwAdapter}
           authenticated
-          disable={['theme-selection', 'advanced-editor', 'map']}
+          disable={[
+            ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
+            'theme-selection',
+            'advanced-editor',
+            'map',
+          ]}
         />
       </ErrorBoundary>
       <Modal

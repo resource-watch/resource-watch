@@ -15,6 +15,7 @@ import WidgetEditor from '@widget-editor/widget-editor';
 import RwAdapter from '@widget-editor/rw-adapter';
 
 // Utils
+import { logEvent } from 'utils/analytics';
 import DefaultTheme from 'utils/widgets/theme';
 
 // Components
@@ -22,8 +23,8 @@ import Spinner from 'components/ui/Spinner';
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
-// Utils
-import { logEvent } from 'utils/analytics';
+// constants
+import { WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES } from 'constants/widget-editor';
 
 class WidgetsNew extends React.Component {
   static propTypes = {
@@ -176,7 +177,10 @@ class WidgetsNew extends React.Component {
               theme={DefaultTheme}
               adapter={RwAdapter}
               authenticated
-              disable={['advanced-editor']}
+              disable={[
+                ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
+                'advanced-editor',
+              ]}
             />
           </div>
         }
