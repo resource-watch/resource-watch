@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ### Changed
-- maintenance: updates `eslint` and its plugins. [#174977793](https://www.pivotaltracker.com/story/show/174977793)
+- widget-editor: updated RW-adapter to accept app's params (like API url).
+- maintenance: updated `eslint` and its plugins. [#174977793](https://www.pivotaltracker.com/story/show/174977793)
 
 ### Fixed
 - widget-editor: fixed error updating fields. [#174996497](https://www.pivotaltracker.com/story/show/174996497)

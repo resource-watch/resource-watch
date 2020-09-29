@@ -2,53 +2,44 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
-
-// Redux
-import { connect } from 'react-redux';
-
-// Services
-import { createWidget, createWidgetMetadata } from 'services/widget';
-import { fetchDatasets } from 'services/dataset';
-
-// Widget Editor
 import WidgetEditor from '@widget-editor/widget-editor';
-import RwAdapter from '@widget-editor/rw-adapter';
 
-// Utils
-import { logEvent } from 'utils/analytics';
-import DefaultTheme from 'utils/widgets/theme';
-
-// Components
+// components
 import Spinner from 'components/ui/Spinner';
 import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 
+// services
+import { createWidget, createWidgetMetadata } from 'services/widget';
+import { fetchDatasets } from 'services/dataset';
+
 // constants
 import { WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES } from 'constants/widget-editor';
 
-class WidgetsNew extends React.Component {
-  static propTypes = {
-    dataset: PropTypes.string,
-    // Store
-    user: PropTypes.object.isRequired
-  };
+// utils
+import { logEvent } from 'utils/analytics';
+import DefaultTheme from 'utils/widgets/theme';
 
-  static defaultProps = { dataset: null };
+class MyRWWidgetNewTab extends React.Component {
+  constructor(props) {
+    super(props);
 
-  state = {
-    loading: false,
-    loadingPublishedDatasets: true,
-    loadingUserDatasets: true,
-    datasets: [],
-    selectedDataset: this.props.dataset
-  };
+    this.state = {
+      loading: false,
+      loadingPublishedDatasets: true,
+      loadingUserDatasets: true,
+      datasets: [],
+      selectedDataset: props.dataset,
+    };
+  }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     this.loadDatasets();
   }
 
   onSaveWidget = (data) => {
-    const { selectedDataset } = this.state;
+    const { datasets, selectedDataset } = this.state;
     const { user } = this.props;
     // The widget creation endpoint expects the application property to be
     // of array type
@@ -59,10 +50,10 @@ class WidgetsNew extends React.Component {
       widgetConfig: data.widgetConfig,
       published: false,
       application: process.env.APPLICATIONS.split(','),
-      env: process.env.API_ENV
+      env: process.env.API_ENV,
     };
 
-    logEvent('My RW', 'User creates new widget', this.state.datasets.find(d => d.id === this.state.selectedDataset).label);
+    logEvent('My RW', 'User creates new widget', datasets.find((d) => d.id === selectedDataset).label);
 
     this.setState({ loading: true });
 
@@ -75,9 +66,9 @@ class WidgetsNew extends React.Component {
           widgetResult.dataset,
           {
             language: 'en',
-            info: { caption: data.metadata.caption }
+            info: { caption: data.metadata.caption },
           },
-          user.token
+          user.token,
         )
           .then(() => {
             Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
@@ -89,10 +80,20 @@ class WidgetsNew extends React.Component {
       });
   }
 
+  handleDatasetSelected = (value) => {
+    this.setState({ selectedDataset: value });
+  }
+
   loadDatasets() {
-    fetchDatasets({ published: true, includes: 'metadata', 'page[size]': 999999 }).then((response) => {
-      this.setState({
-        datasets: [...this.state.datasets, ...response.map((dataset) => {
+    const { user } = this.props;
+    fetchDatasets({
+      published: true,
+      includes: 'metadata',
+      sort: 'name',
+      'page[size]': 999999,
+    }).then((response) => {
+      this.setState((prevState) => ({
+        datasets: [...prevState.datasets, ...response.map((dataset) => {
           const metadata = dataset.metadata[0];
           return ({
             id: dataset.id,
@@ -102,17 +103,17 @@ class WidgetsNew extends React.Component {
             label: metadata && metadata.info
               ? metadata.info.name
               : dataset.name,
-            value: dataset.id
+            value: dataset.id,
           });
         })],
-        loadingPublishedDatasets: false
-      });
+        loadingPublishedDatasets: false,
+      }));
     });
 
-    fetchDatasets({ userId: this.props.user.id, includes: 'metadata' })
+    fetchDatasets({ userId: user.id, includes: 'metadata' })
       .then((response) => {
-        this.setState({
-          datasets: [...this.state.datasets, ...response.map((dataset) => {
+        this.setState((prevState) => ({
+          datasets: [...prevState.datasets, ...response.map((dataset) => {
             const metadata = dataset.metadata[0];
             return ({
               id: dataset.id,
@@ -122,16 +123,12 @@ class WidgetsNew extends React.Component {
               label: metadata && metadata.info
                 ? metadata.info.name
                 : dataset.name,
-              value: dataset.id
+              value: dataset.id,
             });
           })],
-          loadingUserDatasets: false
-        });
+          loadingUserDatasets: false,
+        }));
       });
-  }
-
-  handleDatasetSelected = (value) => {
-    this.setState({ selectedDataset: value });
   }
 
   render() {
@@ -140,8 +137,9 @@ class WidgetsNew extends React.Component {
       datasets,
       selectedDataset,
       loadingUserDatasets,
-      loadingPublishedDatasets
+      loadingPublishedDatasets,
     } = this.state;
+    const { RWAdapter } = this.props;
 
     return (
       <div className="c-myrw-widgets-new">
@@ -149,7 +147,7 @@ class WidgetsNew extends React.Component {
           className="-light"
           isLoading={loading || loadingPublishedDatasets || loadingUserDatasets}
         />
-        {datasets &&
+        {datasets && (
           <div className="dataset-selector">
             <Field
               onChange={this.handleDatasetSelected}
@@ -161,34 +159,42 @@ class WidgetsNew extends React.Component {
                 value: selectedDataset,
                 default: selectedDataset,
                 required: true,
-                instanceId: 'selectDataset'
+                instanceId: 'selectDataset',
               }}
             >
               {Select}
             </Field>
           </div>
-        }
-        {selectedDataset &&
-          <div>
-            <WidgetEditor
-              datasetId={selectedDataset}
-              application="rw"
-              onSave={this.onSaveWidget}
-              theme={DefaultTheme}
-              adapter={RwAdapter}
-              authenticated
-              disable={[
-                ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
-                'advanced-editor',
-              ]}
-            />
-          </div>
-        }
+        )}
+        {selectedDataset && (
+          <WidgetEditor
+            datasetId={selectedDataset}
+            onSave={this.onSaveWidget}
+            theme={DefaultTheme}
+            adapter={RWAdapter}
+            authenticated
+            disable={[
+              ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
+              'advanced-editor',
+            ]}
+          />
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({ user: state.user });
+MyRWWidgetNewTab.defaultProps = {
+  dataset: null,
+};
 
-export default connect(mapStateToProps, null)(WidgetsNew);
+MyRWWidgetNewTab.propTypes = {
+  dataset: PropTypes.string,
+  user: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+  }).isRequired,
+  RWAdapter: PropTypes.func.isRequired,
+};
+
+export default MyRWWidgetNewTab;

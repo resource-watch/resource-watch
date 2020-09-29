@@ -4,7 +4,7 @@ import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
 
 // components
-import Step1 from 'components/admin/data/widgets/form/steps/Step1';
+import AdminWidgetForm from 'components/admin/data/widgets/form/steps';
 import Spinner from 'components/ui/Spinner';
 
 // services
@@ -308,7 +308,7 @@ class WidgetForm extends PureComponent {
       <form className="c-form c-widgets-form" noValidate>
         <Spinner isLoading={loading} className="-light" />
         {step === 1 && !loading && (
-          <Step1
+          <AdminWidgetForm
             id={id}
             form={form}
             datasets={datasets}
