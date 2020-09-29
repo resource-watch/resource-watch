@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
-
-// Widget Editor
 import WidgetEditor from '@widget-editor/widget-editor';
-import RwAdapter from '@widget-editor/rw-adapter';
 
 // components
 import Modal from 'components/modal/modal-component';
@@ -13,18 +10,23 @@ import LoginModal from 'components/modal/login-modal';
 import Spinner from 'components/ui/Spinner';
 import ErrorBoundary from 'components/ui/error-boundary';
 
-// Utils
-import DefaultTheme from 'utils/widgets/theme';
-import { logEvent } from 'utils/analytics';
-
-// Services
+// services
 import { createWidget, createWidgetMetadata } from 'services/widget';
 
 // constants
 import { WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES } from 'constants/widget-editor';
 
+// utils
+import DefaultTheme from 'utils/widgets/theme';
+import { logEvent } from 'utils/analytics';
+
 function ExploreDetailVisualization(props) {
-  const { widgetId, datasetId, authorization } = props;
+  const {
+    widgetId,
+    datasetId,
+    authorization,
+    RWAdapter,
+  } = props;
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +44,7 @@ function ExploreDetailVisualization(props) {
         widgetConfig: widget.widgetConfig,
         published: false,
         application: process.env.APPLICATIONS.split(','),
-        env: process.env.API_ENV
+        env: process.env.API_ENV,
       };
 
       logEvent('Explore (Detail)', 'Save Widget', datasetId);
@@ -58,9 +60,9 @@ function ExploreDetailVisualization(props) {
             newWidgetObject.dataset,
             {
               language: 'en',
-              info: { caption: widget.metadata.caption }
+              info: { caption: widget.metadata.caption },
             },
-            authorization
+            authorization,
           )
             .then(() => {
               Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
@@ -82,10 +84,9 @@ function ExploreDetailVisualization(props) {
           datasetId={datasetId}
           {...(widgetId && { widgetId })}
           compact
-          application="rw"
           onSave={onSaveWidget}
           theme={DefaultTheme}
-          adapter={RwAdapter}
+          adapter={RWAdapter}
           authenticated
           disable={[
             ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
@@ -105,15 +106,16 @@ function ExploreDetailVisualization(props) {
   );
 }
 
+ExploreDetailVisualization.defaultProps = {
+  widgetId: null,
+  authorization: null,
+};
+
 ExploreDetailVisualization.propTypes = {
   widgetId: PropTypes.string,
   datasetId: PropTypes.string.isRequired,
-  authorization: PropTypes.string
-};
-
-ExploreDetailVisualization.defaultProps = {
-  widgetId: null,
-  authorization: null
+  authorization: PropTypes.string,
+  RWAdapter: PropTypes.func.isRequired,
 };
 
 export default ExploreDetailVisualization;

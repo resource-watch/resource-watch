@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { getRWAdapter } from 'constants/widget-editor';
 
 // component
-import VisualizationComponent from './component';
+import MyRWWidgetNewTab from './component';
 
 export default connect(
   (state) => ({
-    authorization: state.user.token,
+    user: state.user,
     RWAdapter: getRWAdapter({ locale: state.common.locale }),
   }),
   null,
-)(VisualizationComponent);
+)(MyRWWidgetNewTab);
