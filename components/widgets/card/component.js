@@ -145,16 +145,18 @@ const WidgetCard = (props) => {
 
   const handleTooltipVisibility = (visible) => { dispatch({ type: 'WIDGET-CARD/SET_TOOLTIP', payload: visible }); };
 
-  const getLayer = (layerId) => {
+  const getLayer = async (layerId) => {
     dispatch({ type: 'WIDGET-CARD/SET_LOADING', payload: true });
     dispatch({ type: 'WIDGET-CARD/SET_ERROR', payload: null });
 
-    fetchLayer(layerId)
-      .then((_layer) => {
-        dispatch({ type: 'WIDGET-CARD/SET_LAYER', payload: _layer });
-      })
-      .catch(() => { dispatch({ type: 'WIDGET-CARD/SET_ERROR', payload: 'There was an issue rendering the visualization' }); })
-      .finally(() => { dispatch({ type: 'WIDGET-CARD/SET_LOADING', payload: false }); });
+    try {
+      const layerData = await fetchLayer(layerId);
+      dispatch({ type: 'WIDGET-CARD/SET_LAYER', payload: layerData });
+      dispatch({ type: 'WIDGET-CARD/SET_LOADING', payload: false });
+    } catch (e) {
+      dispatch({ type: 'WIDGET-CARD/SET_ERROR', payload: 'There was an issue rendering the visualization' });
+      dispatch({ type: 'WIDGET-CARD/SET_LOADING', payload: false });
+    }
   };
 
   const getWidgetPreview = () => {
