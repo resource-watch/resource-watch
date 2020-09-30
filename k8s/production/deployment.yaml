@@ -1,12 +1,21 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: rw
   labels:
     name: resource-watch
   name: resource-watch
+  namespace: rw
 spec:
+  progressDeadlineSeconds: 2147483647
   revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      name: resource-watch
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -23,8 +32,7 @@ spec:
                       - webapps
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
+            - podAffinityTerm:
                 labelSelector:
                   matchExpressions:
                     - key: name
@@ -32,35 +40,43 @@ spec:
                       values:
                         - resource-watch
                 topologyKey: kubernetes.io/hostname
-      imagePullSecrets:
-        - name: regcred
+              weight: 100
       containers:
-        - name: resource-watch
-          image: vizzuality/resource-watch
-          imagePullPolicy: Always
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "250m"
-            limits:
-              memory: "1Gi"
-          env:
+        - env:
             - name: SECRET
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets
                   key: RW_SECRET
+                  name: appsecrets
             - name: REDIS_URL
               valueFrom:
                 secretKeyRef:
-                  name: dbsecrets
                   key: REDIS_URI
+                  name: dbsecrets
             - name: RW_GOGGLE_API_TOKEN_SHORTENER
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
-
+                  name: appsecrets
+          image: vizzuality/resource-watch
+          imagePullPolicy: Always
+          name: resource-watch
           ports:
             - containerPort: 3000
+              protocol: TCP
+          resources:
+            limits:
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 128Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+        - name: regcred
       restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: { }
+      terminationGracePeriodSeconds: 30
+status: { }
