@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.15.14] - TBD
 ### Added
+- extra validation step to ensure `widgetConfig` attribute of widgets is present and valid. [#174911795](https://www.pivotaltracker.com/story/show/174911795)
 
 ### Changed
 - widget-editor: updated RW-adapter to accept app's params (like API url).
