@@ -10,6 +10,20 @@ const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && pr
 module.exports = withCSS(withSass({
   useFileSystemPublicRoutes: false,
 
+  exportPathMap: async (defaultPathMap) => ({
+    ...defaultPathMap,
+    '/': { page: '/home' },
+    '/about/contact-us': { page: '/contact-us' },
+    '/about/faqs': { page: '/faqs' },
+    '/about/howto': { page: 'how-to' },
+    '/about/newsletter': { page: 'app/newsletter' },
+    '/about/partners': { page: '/partners' },
+    '/privacy-policy': { page: '/policy' },
+    '/api-attribution-requirements': { page: 'attribution-requirements' },
+    '/data/explore': { page: '/explore' },
+    '/data/pulse': { page: '/pulse' },
+  }),
+
   env: {
     RW_NODE_ENV: process.env.RW_NODE_ENV || 'development',
     APPLICATIONS: process.env.APPLICATIONS,
