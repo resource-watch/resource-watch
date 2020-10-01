@@ -46,23 +46,24 @@ export const fetchDashboards = (params = {
 };
 
 /**
- * fetchs data for a specific dashboard.
+ * fetches data for a specific dashboard.
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#getting-a-dashboard-by-its-id|here}
  * @param {String} id - dashboard id.
  * @returns {Object} serialized specified dashboard.
  */
-export const fetchDashboard = (id) => {
+export const fetchDashboard = (id, params = {}) => {
   logger.info(`Fetch dashboard ${id}`);
   return WRIAPI.get(`dashboard/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1
+      'Upgrade-Insecure-Requests': 1,
     },
     params: {
       env: process.env.API_ENV,
-      application: process.env.APPLICATIONS
-    }
+      application: process.env.APPLICATIONS,
+      ...params,
+    },
   })
     .then((response) => {
       const { status, statusText, data } = response;
