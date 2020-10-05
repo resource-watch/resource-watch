@@ -9,9 +9,9 @@ import InteractionManager from './component';
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
-    interactions: state.interactions
+    interactions: state.interactions,
   }),
-  actions
+  actions,
 )(InteractionManager);
