@@ -1,51 +1,75 @@
 import { createAction, createThunkAction } from 'redux-tools';
 
 // services
-import { fetchFields } from 'services/fields';
+import { fetchCartoFields, fetchFields } from 'services/fields';
 
 // utils
-import { getFieldUrl } from 'utils/fields';
+import { getFieldUrl, parseFields } from 'utils/fields';
 
 export const setCurrentInteractions = createAction('LAYER-INTERACTIONS__SET_CURRENT_INTERACTIONS');
-export const setAvailabletInteractions = createAction('LAYER-INTERACTIONS__SET_AVAILABLE_INTERACTIONS');
+export const setAvailableInteractions = createAction('LAYER-INTERACTIONS__SET_AVAILABLE_INTERACTIONS');
 export const setLoading = createAction('LAYER-INTERACTIONS__SET-LOADING');
 export const resetInteractions = createAction('LAYER-INTERACTIONS__RESET_INTERACTIONS');
 
-export const getCurrentLayerInteractions = createThunkAction('LAYER-INTERACTIONS__GET-CURRENT-LAYER-INTERACTIONS', props => (dispatch) => {
-  const { layer } = props;
-  const { interactionConfig: { output } } = layer;
-
-  if (output) dispatch(setCurrentInteractions(output));
-});
-
-export const getAvailableLayerInteractions = createThunkAction('LAYER-INTERACTIONS__GET-AVAILABLE-LAYER-INTERACTIONS', props => (dispatch) => {
-  const { layer } = props;
+export const getAvailableLayerInteractions = createThunkAction('LAYER-INTERACTIONS__GET-AVAILABLE-LAYER-INTERACTIONS', (layer) => async (dispatch) => {
+  if (!layer) return new Promise((reject) => { reject('Layer is mandatory'); });
 
   dispatch(setLoading(true));
 
-  if (layer && layer.provider !== 'wms') {
-    const url = getFieldUrl({ id: layer.dataset });
-    return fetchFields(url)
-      .then((response) => {
-        const rawFields = response.fields;
-        const parsedFields = ((rawFields && Object.keys(rawFields)) || []).map((fKey) => {
-          const { type } = rawFields[fKey] || null;
-          return { label: fKey || '', value: fKey || '', type };
-        });
+  if (layer.provider === 'cartodb') {
+    const { layerConfig: { account, body: { layers } } } = layer;
+    const { options: { sql } } = layers[0];
 
-        dispatch(setAvailabletInteractions(parsedFields));
-        dispatch(setLoading(false));
+    try {
+      const { fields } = await fetchCartoFields({ account, sql });
+      const parsedFields = parseFields(fields);
+      const { interactionConfig: { output } } = layer;
+
+      const currentInteractions = output.map((interaction) => {
+        const { column } = interaction;
+        const interactionData = parsedFields.find(({ value }) => value === column);
+
+        return ({
+          ...interaction,
+          ...interactionData && { type: interactionData.type },
+        });
       });
+
+      dispatch(setAvailableInteractions(parsedFields));
+      dispatch(setCurrentInteractions(currentInteractions));
+      dispatch(setLoading(false));
+    } catch (error) {
+      dispatch(setLoading(false));
+      throw error;
+    }
+  }
+
+  if (layer.provider && !['cartodb', 'wms'].includes(layer.provider)) {
+    const url = getFieldUrl({ id: layer.dataset });
+
+    try {
+      const { fields } = await fetchFields(url);
+      const parsedFields = parseFields(fields);
+      const { interactionConfig: { output } } = layer;
+
+      const currentInteractions = output.map((interaction) => {
+        const { column } = interaction;
+        const interactionData = parsedFields.find(({ value }) => value === column);
+
+        return ({
+          ...interaction,
+          ...interactionData && { type: interactionData.type },
+        });
+      });
+
+      dispatch(setAvailableInteractions(parsedFields));
+      dispatch(setCurrentInteractions(currentInteractions));
+      dispatch(setLoading(false));
+    } catch (e) {
+      dispatch(setLoading(false));
+      throw new Error(e.message);
+    }
   }
 
   return new Promise((reject) => { reject('Layer provider not supported for getting fields'); });
 });
-
-export default {
-  setCurrentInteractions,
-  setAvailabletInteractions,
-  setLoading,
-  resetInteractions,
-  getCurrentLayerInteractions,
-  getAvailableLayerInteractions
-};

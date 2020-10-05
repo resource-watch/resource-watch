@@ -1,4 +1,9 @@
-export const getFieldUrl = ({ id, provider, type, tableName }) => {
+export const getFieldUrl = ({
+  id,
+  provider,
+  type,
+  tableName,
+}) => {
   let url;
 
   switch (`${provider}-${type}`) {
@@ -21,27 +26,29 @@ export const getFields = (data = {}, provider, type) => {
 
   switch (`${provider}-${type}`) {
     case 'cartodb-raster':
-      fields = Object.keys(data.data || {}).map(field => ({
+      fields = Object.keys(data.data || {}).map((field) => ({
         name: (data.data[field] || {}).numbands,
-        type: null
+        type: null,
       }));
       break;
     case 'gee-raster':
-      fields = ((data.data[0] || {}).bands || []).map(band => ({
+      fields = ((data.data[0] || {}).bands || []).map((band) => ({
         name: band.id,
-        type: null
+        type: null,
       }));
       break;
     default:
-      fields = Object.keys(data.fields || {}).map(field => ({
+      fields = Object.keys(data.fields || {}).map((field) => ({
         name: field,
-        type: (data.fields[field] || {}).type
+        type: (data.fields[field] || {}).type,
       }));
   }
   return fields;
 };
 
-export default {
-  getFieldUrl,
-  getFields
-};
+export const parseFields = (fields = []) => Object.keys(fields)
+  .map((fieldName) => ({
+    label: fieldName || '',
+    value: fieldName || '',
+    type: fields[fieldName] ? fields[fieldName].type : null,
+  }));

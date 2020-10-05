@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.15.14] - TBD
 ### Added
+- new fetching for fields from `carto` datasets. Instead of using WRI's API `/fields` endpoint, points directly to Carto SQL API as it admits query modifications. [#171632711](https://www.pivotaltracker.com/story/show/171632711)
 - better error handling for widget cards fetching layers.
 - extra validation step to ensure `widgetConfig` attribute of widgets is present and valid. [#174911795](https://www.pivotaltracker.com/story/show/174911795)
 
@@ -15,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - maintenance: updated `eslint` and its plugins. [#174977793](https://www.pivotaltracker.com/story/show/174977793)
 
 ### Fixed
+- admin: in layer edition, the interactivity wasn't being applied on first load until the user modifies it for first time. Now it does.
 - widget-editor: fixed error updating fields. [#174996497](https://www.pivotaltracker.com/story/show/174996497)
 - widget-editor: override of default disabled features. [#174930015](https://www.pivotaltracker.com/story/show/174930015)
 
