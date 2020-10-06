@@ -52,6 +52,7 @@
     "next-progressbar": "^1.0.0",
     "next-redux-wrapper": "^2.0.0",
     "next-routes": "^1.4.2",
+    "nextjs-sitemap-generator": "^1.1.1",
     "normalize.css": "7.0.0",
     "nuka-carousel": "^4.4.0",
     "numeral": "^2.0.6",
@@ -143,7 +144,8 @@
     "dev": "node $NODE_DEBUG_OPTION index.js",
     "build": "better-npm-run build",
     "start": "better-npm-run start",
-    "bundle-analyzer": "better-npm-run bundle-analyzer"
+    "bundle-analyzer": "better-npm-run bundle-analyzer",
+    "sitemap": "better-npm-run sitemap"
   },
   "husky": {
     "hooks": {
@@ -175,6 +177,9 @@
       "env": {
         "BUNDLE_ANALYZER": "1"
       }
+    },
+    "sitemap": {
+      "command": "node next-sitemap.js"
     }
   },
   "engines": {

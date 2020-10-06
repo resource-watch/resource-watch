@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.15.14] - TBD
 ### Added
+- sitemap generation.
 - new fetching for fields from `carto` datasets. Instead of using WRI's API `/fields` endpoint, points directly to Carto SQL API as it admits query modifications. [#171632711](https://www.pivotaltracker.com/story/show/171632711)
 - better error handling for widget cards fetching layers.
 - extra validation step to ensure `widgetConfig` attribute of widgets is present and valid. [#174911795](https://www.pivotaltracker.com/story/show/174911795)
