@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - extra validation step to ensure `widgetConfig` attribute of widgets is present and valid. [#174911795](https://www.pivotaltracker.com/story/show/174911795)
 
 ### Changed
+- maintenance: moved `webpack` from `dependencies` to `devDependencies`.
 - widget-editor: updated RW-adapter to accept app's params (like API url).
 - maintenance: updated `eslint` and its plugins. [#174977793](https://www.pivotaltracker.com/story/show/174977793)
 
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: override of default disabled features. [#174930015](https://www.pivotaltracker.com/story/show/174930015)
 
 ### Removed
+- maintenance: removed unused `next-progressbar` and `webpackbar` dev dependencies.
 - maintenance: removed unused `colors` dev dependency.
 - widget-editor: removed deprecated assets. [#174952659](https://www.pivotaltracker.com/story/show/174952659)
 
