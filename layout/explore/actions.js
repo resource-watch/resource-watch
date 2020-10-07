@@ -25,8 +25,8 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
   const { explore, common } = getState();
 
   const concepts = Object.keys(explore.filters.selected)
-    .map(s => explore.filters.selected[s])
-    .filter(selected => selected.length);
+    .map((s) => explore.filters.selected[s])
+    .filter((selected) => selected.length);
 
   const params = {
     language: common.locale,
@@ -41,12 +41,12 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
       ...o,
       ...s.reduce((o2, s2, j) => ({
         ...o2,
-        [`concepts[${i}][${j}]`]: s2
-      }), {})
+        [`concepts[${i}][${j}]`]: s2,
+      }), {}),
     }), {}),
     // Page
     'page[number]': explore.datasets.page,
-    'page[size]': explore.datasets.limit
+    'page[size]': explore.datasets.limit,
   };
 
   dispatch(setDatasetsLoading(true));
@@ -60,9 +60,9 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     })
     .then((data) => {
       // Show only published layers
-      const datasets = data.map(d => ({
+      const datasets = data.map((d) => ({
         ...d,
-        layer: d.layer.filter(l => l.published)
+        layer: d.layer.filter((l) => l.published),
       }));
 
       dispatch(setDatasetsLoading(false));
@@ -75,16 +75,16 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     });
 });
 
-
 // MAP
 export const setViewport = createAction('EXPLORE-MAP__SET-VIEWPORT');
 export const setBasemap = createAction('EXPLORE-MAP__SET-BASEMAP');
 export const setLabels = createAction('EXPLORE-MAP__SET-LABELS');
 export const setBounds = createAction('EXPLORE-MAP__SET-BOUNDS');
 export const setBoundaries = createAction('EXPLORE-MAP__SET-BOUNDARIES');
-// TO-DO: REMOVE
-export const setMapZoom = createAction('EXPLORE/setMapZoom');
-export const setMapLatLng = createAction('EXPLORE/setMapLatLng');
+export const setGeostore = createAction('EXPLORE-MAP__SET-GEOSTORE');
+export const setIsDrawing = createAction('EXPLORE-MAP__DRAWER__SET-IS-DRAWING');
+export const setDataDrawing = createAction('EXPLORE-MAP__DRAWER__SET-DATA');
+export const stopDrawing = createAction('EXPLORE-MAP__DRAWER__STOP-DRAWING');
 
 // LAYERS
 export const toggleMapLayerGroup = createAction('EXPLORE/toggleMapLayerGroup');
@@ -105,30 +105,28 @@ export const setMapLayerGroupsInteractionSelected = createAction('EXPLORE/setMap
 export const setMapLayerGroupsInteractionLatLng = createAction('EXPLORE/setMapLayerGroupsInteractionLatLng');
 export const resetMapLayerGroupsInteraction = createAction('EXPLORE/resetMapLayerGroupsInteraction');
 
-
 export const setMapLayerGroups = createAction('EXPLORE/setMapLayerGroups');
-export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', payload => (dispatch, getState) => {
+export const fetchMapLayerGroups = createThunkAction('EXPLORE/fetchMapLayers', (payload) => (dispatch, getState) => {
   const { common } = getState();
 
   const params = {
     language: common.locale,
     includes: 'layer',
-    ids: payload.map(lg => lg.dataset).join(','),
-    'page[size]': 999
+    ids: payload.map((lg) => lg.dataset).join(','),
+    'page[size]': 999,
   };
 
   return fetchDatasetsService(params)
     .then((data) => {
       dispatch(setMapLayerGroups({
         datasets: data,
-        params: payload
+        params: payload,
       }));
     })
     .catch((err) => {
       console.error(err);
     });
 });
-
 
 // FILTERS
 export const setFiltersOpen = createAction('EXPLORE/setFiltersOpen');
@@ -139,7 +137,7 @@ export const setFiltersSelected = createAction('EXPLORE/setFiltersSelected');
 export const toggleFiltersSelected = createAction('EXPLORE/toggleFiltersSelected');
 export const resetFiltersSelected = createAction('EXPLORE/resetFiltersSelected');
 
-export const fetchFiltersTags = createThunkAction('EXPLORE/fetchFiltersTags', () => dispatch => fetchAllTags()
+export const fetchFiltersTags = createThunkAction('EXPLORE/fetchFiltersTags', () => (dispatch) => fetchAllTags()
   .then((data) => {
     dispatch(setFiltersTags(data.filter((tag) => {
       const isBlack = TAGS_BLACKLIST.includes(tag.id);
@@ -163,7 +161,11 @@ export const resetFiltersSort = createAction('EXPLORE/resetFiltersSort');
 export const setSidebarOpen = createAction('EXPLORE/setSidebarOpen');
 export const setSidebarAnchor = createAction('EXPLORE/setSidebarAnchor');
 export const setSidebarSection = createAction('EXPLORE/setSidebarSection');
+export const setSidebarSubsection = createAction('EXPLORE/setSidebarSubsection');
 export const setSidebarSelectedCollection = createAction('EXPLORE/setSidebarSelectedCollection');
+export const clearSidebarSubsection = createAction('EXPLORE/clearSidebarSubsection');
+export const setSelectedItem = createAction('EXPLORE/setSelectedItem');
+export const clearSelectedItem = createAction('EXPLORE/clearSelectedItem');
 
 // TAGS TOOLTIP
 export const setTags = createAction('EXPLORE/setTags');
@@ -173,14 +175,14 @@ export const setTagsError = createAction('EXPLORE/setTagsError');
 export const resetTags = createAction('EXPLORE/resetTags');
 
 // Async actions
-export const fetchTags = createThunkAction('EXPLORE/fetchTags', tags => (dispatch) => {
+export const fetchTags = createThunkAction('EXPLORE/fetchTags', (tags) => (dispatch) => {
   dispatch(setTagsLoading(true));
 
   return fetchInferredTags({ concepts: tags.join(',') })
     .then((data) => {
       dispatch(setTags(sortBy(
-        data.filter(tag => !TAGS_BLACKLIST.includes(tag.id) && !!tag.labels[1] && tag.labels[1] !== 'GEOGRAPHY'),
-        t => t.label
+        data.filter((tag) => !TAGS_BLACKLIST.includes(tag.id) && !!tag.labels[1] && tag.labels[1] !== 'GEOGRAPHY'),
+        (t) => t.label,
       )));
       dispatch(setTagsLoading(false));
       dispatch(setTagsError(null));

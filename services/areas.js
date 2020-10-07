@@ -8,7 +8,7 @@ import { logger } from 'utils/logs';
  * Get area.
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-area|here}
  * @param {String} id Area id.
- * @param {Object} params Request paremeters.
+ * @param {Object} params Request parameters.
  * @param {Object} headers Request headers.
  * @returns {Object}
  */
@@ -19,12 +19,12 @@ export const fetchArea = (id, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        'Upgrade-Insecure-Requests': 1
+        'Upgrade-Insecure-Requests': 1,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching area ${id}: ${status}: ${statusText}`);
@@ -43,10 +43,10 @@ export const fetchUserAreas = (token) => {
   return WRIAPI.get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
     headers: {
       Authorization: token,
-      'Upgrade-Insecure-Requests': 1
-    }
+      'Upgrade-Insecure-Requests': 1,
+    },
   })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching user areas: ${status}: ${statusText}`);
@@ -85,11 +85,11 @@ export const createArea = (name, geostore, token) => {
     name,
     application: process.env.APPLICATIONS,
     env: process.env.API_ENV,
-    geostore
+    geostore,
   };
 
   return WRIAPI.post('area', bodyObj, { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating area: ${status}: ${statusText}`);
@@ -112,11 +112,11 @@ export const updateArea = (id, name, token, geostore) => {
     name,
     application: process.env.APPLICATIONS,
     env: process.env.API_ENV,
-    geostore
+    geostore,
   };
 
   return WRIAPI.patch(`area/${id}`, bodyObj, { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating area ${id}: ${status}: ${statusText}`);
@@ -129,5 +129,5 @@ export default {
   fetchUserAreas,
   deleteArea,
   createArea,
-  updateArea
+  updateArea,
 };

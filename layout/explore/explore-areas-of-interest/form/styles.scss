@@ -1,0 +1,26 @@
+@import 'css/settings';
+
+.c-explore-area-form {
+  .areas-actions {
+    display: flex;
+    justify-content: space-between;
+    margin: ($space * 4) 0 0;
+
+    > *:not(:first-child) {
+      margin: 0 0 0 ($space * 2);
+    }
+
+    button {
+      flex: 1;
+    }
+  }
+
+  .specs {
+    margin: ($space * 4) 0 0;
+
+    > p {
+      font-style: italic;
+      color: $dove-grey;
+    }
+  }
+}

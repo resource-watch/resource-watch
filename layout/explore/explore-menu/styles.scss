@@ -1,57 +1,65 @@
 @import 'css/settings';
 
 .c-explore-menu {
-    min-width: 200px;
-    max-width: 200px;
-    height: 100%;
-    position: sticky;
-    top: 0px;
-    left: 0px;
+  min-width: 200;
+  max-width: 200;
+  height: 100%;
+  position: sticky;
+  top: 0;
+  left: 0;
 
-    .c-dataset-search {
-        position: absolute;
-        z-index: 999;
-        background-color: $white;
-        width: 100%;
-        padding: 2 * $space 0px 2 * $space 2 * $space;
-    }
+  .c-dataset-search {
+    position: absolute;
+    z-index: 999;
+    background-color: $white;
+    width: 100%;
+    padding: (2 * $space) 0 (2 * $space) (2 * $space);
+  }
 
-    .menu-options {
-        margin-top: 14 * $space;
-        .menu-option {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            height: 45px;
-            cursor: pointer;
-            
-            img {
-                margin: 0px 5 * $space 0px 4 * $space;
-            }
+  .menu-options {
+    margin-top: (14 * $space);
 
-            .collection-name {
-                margin-left: 5 * $space;
-            }
+    > .menu-option {
+      display: flex;
+      align-items: center;
+      height: 45px;
+      cursor: pointer;
 
-            &.-active {
-                border-left: $space solid $sea-blue;
-                background-color: rgba(44,117,176,0.05);
+      svg {
+        width: 25px;
+        height: 25px;
+        margin: 0 (4 * $space);
+      }
 
-                img {
-                    margin: 0px 5 * $space 0px 3 * $space;
-                }
-                .collection-name {
-                    margin-left: 4 * $space;
-                }
-            }
+      .collection-name {
+        margin-left: (5 * $space);
+      }
+
+      &.-active {
+        position: relative;
+
+        &:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: 5px;
+          background: $sea-blue;
         }
-    }
 
-    hr {
-        margin: 2 * $space 5 * $space 2 * $space 5 * $space;
+        .collection-name {
+          margin-left: (4 * $space);
+        }
+      }
     }
+  }
 
-    &.-hidden {
-        display: none;
-    }
+  hr {
+    margin: (2 * $space) (5 * $space) (2 * $space) (5 * $space);
+  }
+
+  &.-hidden {
+    display: none;
+  }
 }

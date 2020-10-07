@@ -1,7 +1,15 @@
 import React from 'react';
 
 const Icons = () => (
-  <svg aria-hidden="true" style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>
+  <svg
+    aria-hidden="true"
+    style={{
+      position: 'absolute',
+      width: 0,
+      height: 0,
+      overflow: 'hidden',
+    }}
+  >
     <defs>
       <symbol id="icon-rw-logo" viewBox="0 0 177 32">
         <title>rw-logo</title>
@@ -115,6 +123,146 @@ const Icons = () => (
         <title>subscription</title>
         <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M4 4h24c1.767 0 3.2 1.433 3.2 3.2v17.6c0 1.767-1.433 3.2-3.2 3.2h-24c-1.767 0-3.2-1.433-3.2-3.2v-17.6c0-1.767 1.433-3.2 3.2-3.2z" />
         <path fill="none" stroke="#c32d7b" strokeWidth="1.6" strokeMiterlimit="4" strokeLinecap="square" strokeLinejoin="miter" style={{ stroke: 'var(--color1, #c32d7b)' }} d="M5.6 8.8l10.424 8.8 10.376-8.8" />
+      </symbol>
+      <symbol id="icon-all-on" viewBox="0 0 25 25">
+        <title>all-on</title>
+        <g id="all-on" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+          <g id="Group-3" transform="translate(5.000000, 5.000000)" fill="#2C75B0">
+            <rect id="Rectangle" x="0" y="0" width="15" height="4" rx="1" />
+            <rect id="Rectangle" x="0" y="5" width="15" height="4" rx="1" />
+            <rect id="Rectangle" x="0" y="10" width="15" height="4" rx="1" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-all-off" viewBox="0 0 25 25">
+        <title>all-off</title>
+        <g id="all-off" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" opacity="0.699999988">
+          <g id="Group-3" transform="translate(5.000000, 5.000000)" stroke="#393F44">
+            <rect id="Rectangle" x="0.5" y="0.5" width="14" height="3" rx="1" />
+            <rect id="Rectangle" x="0.5" y="5.5" width="14" height="3" rx="1" />
+            <rect id="Rectangle" x="0.5" y="10.5" width="14" height="3" rx="1" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-discover-on" viewBox="0 0 25 25">
+        <title>discover-on</title>
+        <g id="discover-on" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+          <g id="Group-6" transform="translate(5.000000, 5.000000)" fill="#2C75B0">
+            <polygon id="Path-2" transform="translate(7.750000, 4.500000) rotate(-90.000000) translate(-7.750000, -4.500000) " points="3.25 12.25 3.25 -3.25 12.25 -3.25 12.25 12.25 7.75 7.25" />
+            <rect id="Rectangle" x="0" y="0" width="1" height="16" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-discover-off" viewBox="0 0 25 25">
+        <title>discover-off</title>
+        <g id="discover-off" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+          <g id="Group-2" transform="translate(5.000000, 5.000000)">
+            <path d="M11.75,-2.75 L3.75,-2.75 L3.75,10.9470209 L7.75,6.50257644 L11.75,10.9470209 L11.75,-2.75 Z" id="Path-2" stroke="#393F44" opacity="0.699999988" transform="translate(7.750000, 4.500000) rotate(-90.000000) translate(-7.750000, -4.500000) " />
+            <rect id="Rectangle" fill="#74787C" x="0" y="0" width="1" height="16" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-insights-on" viewBox="0 0 25 25">
+        <title>insights-on</title>
+        <g id="insights-on" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+          <path d="M13.4387559,20.7672862 L11.2374744,21.5273411 L11.5638458,22.4725827 L13.7651274,21.7125278 L13.4387559,20.7672862 Z M14.6175213,18.7205436 L10.2149579,19.4805982 L10.3850804,20.4660211 L14.7876439,19.7059665 L14.6175213,18.7205436 Z M14.6175213,16.6938913 L10.2149578,17.4539463 L10.3850805,18.4393692 L14.7876439,17.6793142 L14.6175213,16.6938913 Z M12.5013011,2.5 C11.0445246,2.5 9.58680702,3.04411055 8.43883127,4.133703 C7.3214529,5.19428903 6.67649976,6.60353713 6.53147522,8.06528621 C6.38615703,9.52999512 6.74306262,11.046318 7.63557951,12.3292391 C7.85350475,12.6199899 8.09889749,12.8889802 8.34099169,13.1531807 C8.85624191,13.71548 9.39935905,14.2410931 9.39935905,15.0331564 C9.39935905,15.465931 9.56690754,15.8807296 9.86207993,16.1864958 C10.163738,16.4989859 10.5737868,16.6732386 11,16.6732386 L14,16.6732386 C14.4262132,16.6732386 14.836262,16.4989859 15.1379232,16.1864926 C15.4330925,15.8807296 15.600641,15.465931 15.600641,15.0331564 C15.600641,14.2396538 16.1444804,13.7119481 16.6603589,13.1477822 C16.9013744,12.8842071 17.1456244,12.615928 17.3731415,12.3118527 C18.2554684,11.0430312 18.6133816,9.52704823 18.4688896,8.06283068 C18.3247502,6.60218639 17.6809471,5.19409722 16.5637764,4.1337086 C15.4158393,3.04411484 13.9580802,2.5 12.5013011,2.5 Z" id="Shape" stroke="#F4F8FB" fill="#2C75B0" />
+        </g>
+      </symbol>
+      <symbol id="icon-insights-off" viewBox="0 0 25 25">
+        <title>insights-off</title>
+        <g id="insights-off" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" opacity="0.699999988">
+          <g id="Shape-2" transform="translate(7.000000, 3.000000)" fill="#393F44">
+            <path d="M5.50130106,8.8817842e-16 C6.83491065,8.8817842e-16 8.16888764,0.492522822 9.21955926,1.47667968 C11.2793724,3.40608796 11.5853502,6.60485174 9.96263861,8.90768848 C9.20741563,9.90203847 8.10064095,10.6226489 8.10064095,11.8749108 C8.10064095,12.1731569 7.98448682,12.4594923 7.77818988,12.6703829 C7.57189331,12.8812769 7.29178014,13 7,13 L4,13 C3.70821986,13 3.42810669,12.8812769 3.22181012,12.6703829 C3.01551318,12.4594923 2.89935905,12.1731569 2.89935905,11.8749108 C2.89935905,10.6226489 1.79089356,9.90496759 1.03567057,8.91061723 C-0.587040766,6.60778087 -0.276770066,3.40608796 1.78304249,1.47667968 C2.83375077,0.492522822 4.1676911,8.8817842e-16 5.50130106,8.8817842e-16 Z M5.50130106,0.747126782 C4.34654524,0.747126782 3.19175275,1.17464947 2.27891773,2.02970234 C0.453211397,3.73980069 0.209676306,6.58379774 1.71715065,8.59198835 C2.50528307,9.6903116 3.63311956,10.514389 3.63311956,11.8749108 C3.63311956,11.9745186 3.67171526,12.069634 3.7406156,12.140068 C3.80951556,12.2105024 3.9025565,12.2499408 4,12.2499408 L7,12.2499408 C7.0974435,12.2499408 7.19048444,12.2105024 7.2593844,12.140068 C7.32828474,12.069634 7.36688044,11.9745186 7.36688044,11.8749108 C7.36688044,10.514389 8.50025385,9.69256197 9.28834959,8.59418585 C10.7957874,6.58599524 10.5493903,3.73980069 8.72368402,2.02970234 C7.810849,1.17464947 6.65605651,0.747126782 5.50130106,0.747126782 Z M7.7025826,14.0000376 C7.83489154,13.9981268 7.95795784,14.0691863 8.02465779,14.1860063 C8.09135775,14.3028264 8.09135775,14.4473084 8.02465779,14.5641285 C7.95795784,14.6809485 7.83489154,14.752008 7.7025826,14.7500972 L3.30001915,14.7500972 C3.16771021,14.752008 3.04464391,14.6809485 2.97794395,14.5641285 C2.911244,14.4473084 2.911244,14.3028264 2.97794395,14.1860063 C3.04464391,14.0691863 3.16771021,13.9981268 3.30001915,14.0000376 L7.7025826,14.0000376 L7.7025826,14.0000376 Z M7.7025826,16.0000378 C7.83489457,15.9981222 7.95796572,16.0691805 8.02466858,16.1860025 C8.09137144,16.3028245 8.09137144,16.4473103 8.02466858,16.5641323 C7.95796572,16.6809543 7.83489457,16.7520126 7.7025826,16.750097 L3.30001915,16.750097 C3.16770718,16.7520126 3.04463603,16.6809543 2.97793316,16.5641323 C2.9112303,16.4473103 2.9112303,16.3028245 2.97793316,16.1860025 C3.04463603,16.0691805 3.16770718,15.9981222 3.30001915,16.0000378 L7.7025826,16.0000378 L7.7025826,16.0000378 Z M6.60194164,18.0000376 C6.73425059,17.9981268 6.85731688,18.0691863 6.92401684,18.1860063 C6.9907168,18.3028264 6.9907168,18.4473084 6.92401684,18.5641285 C6.85731688,18.6809485 6.73425059,18.752008 6.60194164,18.7500972 L4.4006601,18.7500972 C4.26835116,18.752008 4.14528486,18.6809485 4.07858491,18.5641285 C4.01188495,18.4473084 4.01188495,18.3028264 4.07858491,18.1860063 C4.14528486,18.0691863 4.26835116,17.9981268 4.4006601,18.0000376 L6.60194164,18.0000376 Z" id="Shape" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-recent-on" viewBox="0 0 25 25">
+        <title>recent-on</title>
+        <g id="recent-on" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+          <path d="M13,4 C17.418278,4 21,7.581722 21,12 C21,16.418278 17.418278,20 13,20 C8.581722,20 5,16.418278 5,12 C5,7.581722 8.581722,4 13,4 Z M14,7 L13,7 L13,12 L10,12 L10,13 L14,13 L14,7 Z" id="Combined-Shape" fill="#2C75B0" />
+        </g>
+      </symbol>
+      <symbol id="icon-recent-off" viewBox="0 0 25 25">
+        <title>recent-off</title>
+        <g id="recent-off" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" opacity="0.699999988">
+          <g id="Group-2" transform="translate(5.000000, 4.000000)" stroke="#393F44">
+            <circle id="Oval" cx="8" cy="8" r="7.5" />
+          </g>
+          <path d="M10,13 L10,12 L13,12 L13,7 L14,7 L14,13 L10,13 Z" id="Combined-Shape" fill="#393F44" fillRule="nonzero" />
+        </g>
+      </symbol>
+      <symbol id="icon-topics-on" viewBox="0 0 25 25">
+        <title>topics-on</title>
+        <g id="topics-on" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+          <g id="Group" transform="translate(5.000000, 5.000000)" fill="#2C75B0" stroke="#F4F8FB">
+            <rect id="Rectangle" x="-0.5" y="-0.5" width="8" height="8" rx="3.5" />
+            <rect id="Rectangle" x="-0.5" y="7.5" width="8" height="8" rx="3.5" />
+            <rect id="Rectangle" x="7.5" y="-0.5" width="8" height="8" rx="3.5" />
+            <rect id="Rectangle" x="7.5" y="7.5" width="8" height="8" rx="3.5" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-topics-off" viewBox="0 0 25 25">
+        <title>topics-off</title>
+        <g id="topics-off" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" opacity="0.699999988">
+          <g id="Group" transform="translate(5.000000, 5.000000)" stroke="#393F44">
+            <rect id="Rectangle" x="0.5" y="0.5" width="6" height="6" rx="3" />
+            <rect id="Rectangle" x="0.5" y="8.5" width="6" height="6" rx="3" />
+            <rect id="Rectangle" x="8.5" y="0.5" width="6" height="6" rx="3" />
+            <rect id="Rectangle" x="8.5" y="8.5" width="6" height="6" rx="3" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-aoi-on" viewBox="0 0 25 25">
+        <title>aoi-on</title>
+        <g id="aoi-on" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round">
+          <g id="position-marker-outline-16" transform="translate(6.000000, 4.000000)">
+            <line x1="6.5" y1="12.5" x2="6.5" y2="8.5" id="Path" stroke="#2C75B0" />
+            <circle id="Oval" stroke="#F4F8FB" fill="#2C75B0" cx="6.5" cy="4.5" r="5" />
+            <path d="M9,11.681 C11.066,11.997 12.5,12.693 12.5,13.5 C12.5,14.605 9.814,15.5 6.5,15.5 C3.186,15.5 0.5,14.605 0.5,13.5 C0.5,12.693 1.934,12 4,11.681" id="Path" stroke="#2C75B0" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-aoi-off" viewBox="0 0 25 25">
+        <title>aoi-off</title>
+        <g id="aoi-off" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd" opacity="0.699999988" strokeLinecap="round" strokeLinejoin="round">
+          <g id="position-marker-outline-16" transform="translate(6.000000, 4.000000)" stroke="#393F44">
+            <line x1="6.5" y1="12.5" x2="6.5" y2="8.5" id="Path" />
+            <circle id="Oval" cx="6.5" cy="4.5" r="4" />
+            <path d="M9,11.681 C11.066,11.997 12.5,12.693 12.5,13.5 C12.5,14.605 9.814,15.5 6.5,15.5 C3.186,15.5 0.5,14.605 0.5,13.5 C0.5,12.693 1.934,12 4,11.681" id="Path" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-meta-upload" viewBox="0 0 40 40">
+        <title>meta-upload</title>
+        <g id="meta-upload" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+          <g id="Group" transform="translate(20.000000, 14.000000) scale(1, -1) translate(-20.000000, -14.000000) translate(5.500000, 0.500000)" stroke="#C32D7B" strokeLinecap="square" strokeWidth="2">
+            <line x1="14.5" y1="0.5" x2="14.5" y2="24.5" id="Line-3" />
+            <polyline id="Path" points="29 12 14.5 26.5258789 0 12 0 12" />
+          </g>
+          <g id="meta-icon-more" transform="translate(2.000000, 26.000000)" stroke="#C32D7B" strokeWidth="2">
+            <path d="M36,0 L36,8 C36,10.209139 34.209139,12 32,12 L4,12 C1.790861,12 2.705415e-16,10.209139 0,8 L0,0 L0,0" id="Path" />
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-meta-select" viewBox="0 0 40 40">
+        <title>meta-select</title>
+        <g id="meta-select" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+          <g id="meta-icon-more" transform="translate(1.000000, 1.000000)" stroke="#C32D7B" strokeWidth="2">
+            <path d="M37,25 L37,33 C37,35.209139 35.209139,37 33,37 L4,37 C1.790861,37 2.705415e-16,35.209139 0,33 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 L12,0 L12,0" id="Path" />
+            <g id="Group" transform="translate(27.500000, 9.500000) rotate(-180.000000) translate(-27.500000, -9.500000) translate(18.000000, -0.000000)">
+              <polyline id="Path" transform="translate(12.500000, 6.500000) rotate(-180.000000) translate(-12.500000, -6.500000) " points="19 13 6 13 6 0" />
+              <line x1="19" y1="1.8189894e-12" x2="0" y2="19" id="Path-3" />
+            </g>
+          </g>
+        </g>
+      </symbol>
+      <symbol id="icon-meta-draw" viewBox="0 0 40 40">
+        <title>meta-draw</title>
+        <g id="meta-draw" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+          <path d="M39,38 L5,38 C2.790861,38 1,36.209139 1,34 L1,33 C1,30.790861 2.790861,29 5,29 L13,29 L13,29" id="Path" stroke="#C32D7B" strokeWidth="2" />
+          <polygon id="Path" stroke="#C32D7B" strokeWidth="2" transform="translate(26.000000, 14.000000) rotate(-360.000000) translate(-26.000000, -14.000000) " points="38 7 19 26 14 26 14 21 33 2" />
+        </g>
       </symbol>
     </defs>
   </svg>

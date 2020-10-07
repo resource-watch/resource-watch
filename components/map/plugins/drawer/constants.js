@@ -10,12 +10,12 @@ export const DRAWER_CONFIG = {
       filter: ['all', ['==', '$type', 'LineString'], ['!=', 'mode', 'static']],
       layout: {
         'line-cap': 'round',
-        'line-join': 'round'
+        'line-join': 'round',
       },
       paint: {
         'line-color': '#fab72e',
-        'line-width': 2
-      }
+        'line-width': 2,
+      },
     },
     // polygon fill
     {
@@ -24,8 +24,8 @@ export const DRAWER_CONFIG = {
       filter: ['all', ['==', '$type', 'Polygon'], ['!=', 'mode', 'static']],
       paint: {
         'fill-color': '#fab72e',
-        'fill-opacity': 0.2
-      }
+        'fill-opacity': 0.2,
+      },
     },
     // polygon outline stroke
     // This doesn't style the first edge of the polygon, which uses the line stroke styling instead
@@ -35,12 +35,12 @@ export const DRAWER_CONFIG = {
       filter: ['all', ['==', '$type', 'Polygon'], ['!=', 'mode', 'static']],
       layout: {
         'line-cap': 'round',
-        'line-join': 'round'
+        'line-join': 'round',
       },
       paint: {
         'line-color': '#fab72e',
-        'line-width': 2
-      }
+        'line-width': 2,
+      },
     },
     // vertex point halos
     {
@@ -49,8 +49,8 @@ export const DRAWER_CONFIG = {
       filter: ['all', ['==', 'meta', 'vertex'], ['==', '$type', 'Point']],
       paint: {
         'circle-radius': 8,
-        'circle-color': '#000'
-      }
+        'circle-color': '#000',
+      },
     },
     // vertex points
     {
@@ -59,8 +59,8 @@ export const DRAWER_CONFIG = {
       filter: ['all', ['==', 'meta', 'vertex'], ['==', '$type', 'Point']],
       paint: {
         'circle-radius': 6,
-        'circle-color': '#fff'
-      }
+        'circle-color': '#fff',
+      },
     },
 
     // INACTIVE (static, already drawn)
@@ -71,12 +71,12 @@ export const DRAWER_CONFIG = {
       filter: ['all', ['==', '$type', 'LineString'], ['==', 'mode', 'static']],
       layout: {
         'line-cap': 'round',
-        'line-join': 'round'
+        'line-join': 'round',
       },
       paint: {
         'line-color': '#fab72e',
-        'line-width': 2
-      }
+        'line-width': 2,
+      },
     },
     // polygon fill
     {
@@ -86,8 +86,8 @@ export const DRAWER_CONFIG = {
       paint: {
         'fill-color': '#000',
         'fill-outline-color': '#000',
-        'fill-opacity': 0.1
-      }
+        'fill-opacity': 0.1,
+      },
     },
     // polygon outline
     {
@@ -96,12 +96,12 @@ export const DRAWER_CONFIG = {
       filter: ['all', ['==', '$type', 'Polygon'], ['==', 'mode', 'static']],
       layout: {
         'line-cap': 'round',
-        'line-join': 'round'
+        'line-join': 'round',
       },
       paint: {
         'line-color': '#000',
-        'line-width': 2
-      }
+        'line-width': 2,
+      },
     },
     {
       id: 'gl-draw-point-static',
@@ -109,10 +109,10 @@ export const DRAWER_CONFIG = {
       filter: ['all', ['==', 'mode', 'static'], ['==', '$type', 'Point']],
       paint: {
         'circle-radius': 5,
-        'circle-color': '#ff0000'
-      }
-    }
-  ]
+        'circle-color': '#ff0000',
+      },
+    },
+  ],
 };
 
 export default { DRAWER_CONFIG };

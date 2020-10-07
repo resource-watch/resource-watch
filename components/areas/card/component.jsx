@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
@@ -24,40 +24,57 @@ import AreaActionsTooltip from './tooltip';
 import './styles.scss';
 
 const AreaCard = (props) => {
-  const { area, removeUserArea } = props;
+  const {
+    area,
+    removeUserArea,
+    onMapView,
+    onEditArea,
+    onDeletionArea,
+  } = props;
   const {
     subscriptions,
     subscription,
     name,
-    geostore: geostoreId
+    geostore: geostoreId,
   } = area;
   const [modal, setModalState] = useState({ open: false, mode: 'new' });
   const [tooltip, setTooltipState] = useState({ open: false });
   const [loading, setLoadingState] = useState(true);
   const [layer, setLayerState] = useState({ bounds: {}, geojson: null });
+  const handleMapView = useCallback(() => onMapView(area), [onMapView, area]);
 
   const handleEditArea = () => {
     const { id } = area;
-    Router.pushRoute('myrw_detail', { id, tab: 'areas' });
+    if (onEditArea) onEditArea(area);
+    else Router.pushRoute('myrw_detail', { id, tab: 'areas' });
   };
 
   const handleEditSubscription = (modalState = true) => {
     setModalState({
       open: modalState,
-      mode: subscription ? 'edit' : 'new'
+      mode: subscription ? 'edit' : 'new',
     });
   };
 
   const handleDeleteArea = () => {
     toastr.confirm(`Are you sure you want to delete the area ${area.name}?
       Deleting an area will delete all the subscriptions associated to it`,
-    { onOk: () => { removeUserArea(area); } });
+    {
+      onOk: async () => {
+        try {
+          await removeUserArea(area);
+          onDeletionArea();
+        } catch (e) {
+          toastr.error(e.message);
+        }
+      },
+    });
   };
 
   const handleTooltip = (isTooltipOpen) => {
     setTooltipState({
       ...tooltip,
-      open: isTooltipOpen
+      open: isTooltipOpen,
     });
   };
 
@@ -70,7 +87,7 @@ const AreaCard = (props) => {
 
         setLayerState({
           bounds: { bbox, options: { padding: 30 } },
-          geojson
+          geojson,
         });
       })
       .catch(() => {
@@ -85,7 +102,7 @@ const AreaCard = (props) => {
   const { bounds, geojson } = layer;
   const mapContainerClass = classnames({
     'map-container': true,
-    '-ready': !loading
+    '-ready': !loading,
   });
 
   return (
@@ -120,7 +137,7 @@ const AreaCard = (props) => {
             });
           }}
         >
-          {_map => (
+          {(_map) => (
             <LayerManager
               map={_map}
               layers={geojson ? [{
@@ -131,24 +148,24 @@ const AreaCard = (props) => {
                   data: geojson,
                   body: {
                     vectorLayers: [
-                    {
-                      id: 'user-area-line',
-                      type: 'line',
-                      source: 'user-area',
-                      paint: { 'line-color': '#fab72e' }
-                    },
-                    {
-                      id: 'user-area-fill',
-                      type: 'fill',
-                      source: 'user-area',
-                      paint: {
-                        'fill-color': '#fab72e',
-                        'fill-opacity': 0.2
-                      }
-                    }
-                  ]
-                  }
-                }
+                      {
+                        id: 'user-area-line',
+                        type: 'line',
+                        source: 'user-area',
+                        paint: { 'line-color': '#fab72e' },
+                      },
+                      {
+                        id: 'user-area-fill',
+                        type: 'fill',
+                        source: 'user-area',
+                        paint: {
+                          'fill-color': '#fab72e',
+                          'fill-opacity': 0.2,
+                        },
+                      },
+                    ],
+                  },
+                },
               }] : []}
             />
           )}
@@ -159,40 +176,50 @@ const AreaCard = (props) => {
           <h4>{name}</h4>
         </div>
         <div className="subscriptions-container">
-          {subscriptions && subscriptions.length > 0 &&
+          {subscriptions && subscriptions.length > 0 && (
             <div className="datasets-container">
               <div className="datasets-list">
-                {subscriptions.map(_subscription => (
+                {subscriptions.map((_subscription) => (
                   <div
                     className="dataset-element"
                     key={_subscription.id}
                   >
                     <div className="dataset-subscription-type">
                       {_subscription.datasetsQuery[0].type}
-                      &nbsp;({_subscription.datasetsQuery[0].threshold})
+                      &nbsp;
+                      (
+                      {_subscription.datasetsQuery[0].threshold}
+                      )
                     </div>
                     <div className="subscription-status">
                       <div className="status-label">
-                        {!_subscription.confirmed &&
+                        {!_subscription.confirmed && (
                           <div className="pending-label">
                             Pending email confirmation
                           </div>
-                        }
+                        )}
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-          }
+          )}
         </div>
-        <div className="actions-div">
+        <div className="actions-container">
+          <button
+            type="button"
+            className="c-btn -secondary -compressed -fs-medium"
+            onClick={handleMapView}
+          >
+            View on map
+          </button>
           <Tooltip
             visible={isTooltipOpen}
             overlayClassName="c-rc-tooltip -default"
             placement="top"
             destroyTooltipOnHide
-            overlay={
+            overlay={(
               <AreaActionsTooltip
                 onEditArea={handleEditArea}
                 onEditSubscriptions={handleEditSubscription}
@@ -200,20 +227,20 @@ const AreaCard = (props) => {
                 onMouseDown={() => { handleTooltip(false); }}
                 area={area}
               />
-            }
+            )}
           >
             <button
               type="button"
-              className="c-btn -secondary -compressed"
+              className="c-btn -clean"
               onClick={() => { handleTooltip(true); }}
             >
-              Area Options
+              Edit
             </button>
           </Tooltip>
         </div>
       </div>
 
-      {isModalOpen &&
+      {isModalOpen && (
         <Modal
           isOpen
           onRequestClose={() => handleEditSubscription(false)}
@@ -222,14 +249,26 @@ const AreaCard = (props) => {
             activeArea={area}
             onRequestClose={() => handleEditSubscription(false)}
           />
-        </Modal>}
+        </Modal>
+      )}
     </div>
   );
 };
 
 AreaCard.propTypes = {
-  area: PropTypes.object.isRequired,
-  removeUserArea: PropTypes.func.isRequired
+  area: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    geostore: PropTypes.string.isRequired,
+    subscriptions: PropTypes.arrayOf(
+      PropTypes.shape({}).isRequired,
+    ),
+    subscription: PropTypes.shape({}),
+  }).isRequired,
+  onMapView: PropTypes.func.isRequired,
+  onEditArea: PropTypes.func.isRequired,
+  onDeletionArea: PropTypes.func.isRequired,
+  removeUserArea: PropTypes.func.isRequired,
 };
 
 export default AreaCard;

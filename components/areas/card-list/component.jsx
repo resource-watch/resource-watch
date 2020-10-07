@@ -10,38 +10,56 @@ import AreaCard from '../card';
 // styles
 import './styles.scss';
 
-const AreaCardList = ({ areas, className }) => {
+const AreaCardList = ({
+  areas,
+  className,
+  isColumn,
+  showNewArea,
+  onMapView,
+  onEditArea,
+  onDeletionArea,
+}) => {
   const componentClass = classnames({
     'c-areas-list': true,
-    [className]: !!className
+    [className]: !!className,
   });
 
   return (
     <div className={componentClass}>
-      <div className="row">
-        {areas.map(area => (
+      <div className={classnames({ row: !isColumn })}>
+        {areas.map((area) => (
           <div
             key={area.id}
-            className="column small-12 medium-4"
+            className={classnames({ 'column small-12 medium-4': !isColumn })}
           >
             <InView
               triggerOnce
-              threshold={0.35}
+              threshold={0.25}
             >
               {({ ref, inView }) => (
                 <div
                   ref={ref}
                   className="card-container"
+                  style={{
+                    height: isColumn ? 325 : 390,
+                  }}
                 >
-                  {inView && (<AreaCard area={area} />)}
+                  {inView && (
+                    <AreaCard
+                      area={area}
+                      onMapView={onMapView}
+                      onDeletionArea={onDeletionArea}
+                      onEditArea={onEditArea}
+                    />
+                  )}
                 </div>
               )}
             </InView>
           </div>
         ))}
 
-        {areas.length !== 0 && (
-          <div className="column small-12 medium-4">
+        {(areas.length !== 0 && showNewArea) && (
+          <div className={classnames({ 'column small-12 medium-4': !isColumn })}>
             <div className="card-container">
               <div className="new-area-card">
                 <Link
@@ -67,11 +85,25 @@ const AreaCardList = ({ areas, className }) => {
   );
 };
 
-AreaCardList.propTypes = {
-  areas: PropTypes.array.isRequired,
-  className: PropTypes.string
+AreaCardList.defaultProps = {
+  className: null,
+  isColumn: false,
+  showNewArea: true,
+  onMapView: () => {},
+  onEditArea: null,
+  onDeletionArea: () => {},
 };
 
-AreaCardList.defaultProps = { className: null };
+AreaCardList.propTypes = {
+  areas: PropTypes.arrayOf(
+    PropTypes.shape({}),
+  ).isRequired,
+  className: PropTypes.string,
+  isColumn: PropTypes.bool,
+  showNewArea: PropTypes.bool,
+  onMapView: PropTypes.func,
+  onEditArea: PropTypes.func,
+  onDeletionArea: PropTypes.func,
+};
 
 export default AreaCardList;

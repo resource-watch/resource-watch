@@ -1,0 +1,35 @@
+@import 'css/settings';
+
+.c-country-selector {
+  > .search-container {
+    z-index: 2;
+    position: sticky;
+    top: 0;
+    background: $white;
+  }
+
+  > .countries-container {
+    position: relative;
+    min-height: 50px;
+
+    > .country-list {
+      max-height: 250px;
+      overflow: auto;
+
+      > .country-list-item {
+        margin: $space 0;
+
+        > button {
+          font-size: $font-size-medium;
+          color: $dove-grey;
+          text-align: left;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}

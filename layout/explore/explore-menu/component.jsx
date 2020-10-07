@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 // Components
 import DatasetSearch from 'components/datasets/search';
+import Icon from 'components/ui/icon';
 
 // Utils
 import { logEvent } from 'utils/analytics';
@@ -13,37 +14,6 @@ import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 import './styles.scss';
 
 class ExploreMenuComponent extends React.Component {
-  static propTypes = {
-    open: PropTypes.bool,
-    tab: PropTypes.string,
-    tags: PropTypes.array,
-    options: PropTypes.object,
-    selected: PropTypes.object,
-    search: PropTypes.string.isRequired,
-    sortSelected: PropTypes.string.isRequired,
-    shouldAutoUpdateSortDirection: PropTypes.bool,
-    section: PropTypes.string.isRequired,
-    collections: PropTypes.array.isRequired,
-    userIsLoggedIn: PropTypes.bool.isRequired,
-    selectedCollection: PropTypes.string.isRequired,
-    selectedDataset: PropTypes.string.isRequired,
-
-    // ACTIONS
-    fetchDatasets: PropTypes.func.isRequired,
-    setDatasetsPage: PropTypes.func.isRequired,
-    setFiltersOpen: PropTypes.func.isRequired,
-    setFiltersTab: PropTypes.func.isRequired,
-    setFiltersSearch: PropTypes.func.isRequired,
-    setFiltersSelected: PropTypes.func.isRequired,
-    setSortSelected: PropTypes.func.isRequired,
-    setSortDirection: PropTypes.func.isRequired,
-    toggleFiltersSelected: PropTypes.func.isRequired,
-    resetFiltersSelected: PropTypes.func.isRequired,
-    resetFiltersSort: PropTypes.func.isRequired,
-    setSidebarSection: PropTypes.func.isRequired,
-    setSidebarSelectedCollection: PropTypes.func.isRequired
-  }
-
   onChangeTextSearch = (search) => {
     const {
       resetFiltersSort,
@@ -52,7 +22,7 @@ class ExploreMenuComponent extends React.Component {
       setSidebarSection,
       sortSelected,
       shouldAutoUpdateSortDirection,
-      setFiltersSearch
+      setFiltersSearch,
     } = this.props;
 
     if (!search && sortSelected === 'relevance') {
@@ -79,26 +49,42 @@ class ExploreMenuComponent extends React.Component {
   }
 
   onChangeSelected = (payload = []) => {
-    const { tab } = this.props;
+    const {
+      tab,
+      setFiltersSelected,
+    } = this.props;
 
-    this.props.setFiltersSelected({ key: tab, list: payload });
+    setFiltersSelected({ key: tab, list: payload });
 
     this.fetchDatasets();
     logEvent('Explore Menu', `filter ${tab}`, payload.join(','));
   }
 
   onResetSelected = () => {
-    this.props.resetFiltersSelected();
-    if (this.props.sortSelected === 'relevance') {
-      this.props.resetFiltersSort();
+    const {
+      resetFiltersSelected,
+      sortSelected,
+      resetFiltersSort,
+    } = this.props;
+
+    resetFiltersSelected();
+
+    if (sortSelected === 'relevance') {
+      resetFiltersSort();
     }
+
     this.fetchDatasets();
     logEvent('Explore Menu', 'Clear filters', 'click');
   }
 
   fetchDatasets() {
-    this.props.setDatasetsPage(1);
-    this.props.fetchDatasets();
+    const {
+      setDatasetsPage,
+      fetchDatasets,
+    } = this.props;
+
+    setDatasetsPage(1);
+    fetchDatasets();
   }
 
   render() {
@@ -113,20 +99,19 @@ class ExploreMenuComponent extends React.Component {
       selectedCollection,
       setSidebarSection,
       setSidebarSelectedCollection,
+      setFiltersOpen,
+      setFiltersTab,
       userIsLoggedIn,
       collections,
-      selectedDataset
+      selectedDataset,
     } = this.props;
-
-    const iconsBaseURL = '/static/images/components/layout/explore/menu/';
 
     return (
       <div className={classnames({
         'c-explore-menu': true,
-        '-hidden': selectedDataset
+        '-hidden': selectedDataset,
       })}
       >
-
         <DatasetSearch
           open={open}
           tab={tab}
@@ -134,8 +119,8 @@ class ExploreMenuComponent extends React.Component {
           search={search}
           options={options}
           selected={selected}
-          onChangeOpen={this.props.setFiltersOpen}
-          onChangeTab={this.props.setFiltersTab}
+          onChangeOpen={setFiltersOpen}
+          onChangeTab={setFiltersTab}
           onChangeTextSearch={this.onChangeTextSearch}
           onToggleSelected={this.onToggleSelected}
           onChangeSelected={this.onChangeSelected}
@@ -145,9 +130,9 @@ class ExploreMenuComponent extends React.Component {
         <div className="menu-options">
           <div
             className={classnames({
-                'menu-option': true,
-                '-active': section === EXPLORE_SECTIONS.DISCOVER
-              })}
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.DISCOVER,
+            })}
             role="button"
             tabIndex={0}
             onKeyPress={() => {
@@ -159,14 +144,14 @@ class ExploreMenuComponent extends React.Component {
               logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.DISCOVER);
             }}
           >
-            <img alt="" src={`${iconsBaseURL}discover-${section === EXPLORE_SECTIONS.DISCOVER ? 'on' : 'off'}.svg`} />
+            <Icon name={`icon-discover-${section === EXPLORE_SECTIONS.DISCOVER ? 'on' : 'off'}`} />
             Discover
           </div>
           <div
             className={classnames({
-                'menu-option': true,
-                '-active': section === EXPLORE_SECTIONS.ALL_DATA
-              })}
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.ALL_DATA,
+            })}
             role="button"
             tabIndex={0}
             onKeyPress={() => {
@@ -178,14 +163,14 @@ class ExploreMenuComponent extends React.Component {
               logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.ALL_DATA);
             }}
           >
-            <img alt="" src={`${iconsBaseURL}all-${section === EXPLORE_SECTIONS.ALL_DATA ? 'on' : 'off'}.svg`} />
+            <Icon name={`icon-all-${section === EXPLORE_SECTIONS.ALL_DATA ? 'on' : 'off'}`} />
             All Data
           </div>
           <div
             className={classnames({
-                'menu-option': true,
-                '-active': section === EXPLORE_SECTIONS.NEAR_REAL_TIME
-              })}
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.NEAR_REAL_TIME,
+            })}
             role="button"
             tabIndex={0}
             onKeyPress={() => {
@@ -197,14 +182,14 @@ class ExploreMenuComponent extends React.Component {
               logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.NEAR_REAL_TIME);
             }}
           >
-            <img alt="" src={`${iconsBaseURL}recent-${section === EXPLORE_SECTIONS.NEAR_REAL_TIME ? 'on' : 'off'}.svg`} />
+            <Icon name={`icon-recent-${section === EXPLORE_SECTIONS.NEAR_REAL_TIME ? 'on' : 'off'}`} />
             Near Real-Time
           </div>
           <div
             className={classnames({
-                'menu-option': true,
-                '-active': section === EXPLORE_SECTIONS.TOPICS
-              })}
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.TOPICS,
+            })}
             role="button"
             tabIndex={0}
             onKeyPress={() => {
@@ -216,16 +201,35 @@ class ExploreMenuComponent extends React.Component {
               logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.TOPICS);
             }}
           >
-            <img alt="" src={`${iconsBaseURL}topics-${section === EXPLORE_SECTIONS.TOPICS ? 'on' : 'off'}.svg`} />
+            <Icon name={`icon-topics-${section === EXPLORE_SECTIONS.TOPICS ? 'on' : 'off'}`} />
             Topics
           </div>
-
-          <hr noshade />
           <div
             className={classnames({
-                'menu-option': true,
-                '-active': section === EXPLORE_SECTIONS.FAVORITES
-              })}
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.AREAS_OF_INTEREST,
+            })}
+            role="button"
+            tabIndex={0}
+            onKeyPress={() => {
+              setSidebarSection(EXPLORE_SECTIONS.AREAS_OF_INTEREST);
+              logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.AREAS_OF_INTEREST);
+            }}
+            onClick={() => {
+              setSidebarSection(EXPLORE_SECTIONS.AREAS_OF_INTEREST);
+              logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.AREAS_OF_INTEREST);
+            }}
+          >
+            <Icon name={`icon-aoi-${section === EXPLORE_SECTIONS.AREAS_OF_INTEREST ? 'on' : 'off'}`} />
+            Areas of Interest
+          </div>
+
+          <hr />
+          <div
+            className={classnames({
+              'menu-option': true,
+              '-active': section === EXPLORE_SECTIONS.FAVORITES,
+            })}
             role="button"
             tabIndex={0}
             onKeyPress={() => {
@@ -239,13 +243,13 @@ class ExploreMenuComponent extends React.Component {
           >
             <span className="collection-name">Your favorites</span>
           </div>
-          {userIsLoggedIn && collections.map(collection => (
+          {userIsLoggedIn && collections.map((collection) => (
             <div
               className={classnames({
                 'menu-option': true,
                 collection: true,
-                '-active': section === EXPLORE_SECTIONS.COLLECTIONS && selectedCollection === collection.id
-                })}
+                '-active': section === EXPLORE_SECTIONS.COLLECTIONS && selectedCollection === collection.id,
+              })}
               role="button"
               tabIndex={0}
               onKeyPress={() => {
@@ -263,9 +267,44 @@ class ExploreMenuComponent extends React.Component {
             </div>
           ))}
         </div>
-      </div >
+      </div>
     );
   }
 }
+
+ExploreMenuComponent.propTypes = {
+  open: PropTypes.bool.isRequired,
+  tab: PropTypes.string.isRequired,
+  tags: PropTypes.arrayOf(
+    PropTypes.shape({}),
+  ).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({}),
+  ).isRequired,
+  selected: PropTypes.shape({}).isRequired,
+  search: PropTypes.string.isRequired,
+  sortSelected: PropTypes.string.isRequired,
+  shouldAutoUpdateSortDirection: PropTypes.bool.isRequired,
+  section: PropTypes.string.isRequired,
+  collections: PropTypes.arrayOf(
+    PropTypes.shape({}).isRequired,
+  ).isRequired,
+  userIsLoggedIn: PropTypes.bool.isRequired,
+  selectedCollection: PropTypes.string.isRequired,
+  selectedDataset: PropTypes.string.isRequired,
+  fetchDatasets: PropTypes.func.isRequired,
+  setDatasetsPage: PropTypes.func.isRequired,
+  setFiltersOpen: PropTypes.func.isRequired,
+  setFiltersTab: PropTypes.func.isRequired,
+  setFiltersSearch: PropTypes.func.isRequired,
+  setFiltersSelected: PropTypes.func.isRequired,
+  setSortSelected: PropTypes.func.isRequired,
+  setSortDirection: PropTypes.func.isRequired,
+  toggleFiltersSelected: PropTypes.func.isRequired,
+  resetFiltersSelected: PropTypes.func.isRequired,
+  resetFiltersSort: PropTypes.func.isRequired,
+  setSidebarSection: PropTypes.func.isRequired,
+  setSidebarSelectedCollection: PropTypes.func.isRequired,
+};
 
 export default ExploreMenuComponent;

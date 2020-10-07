@@ -36,11 +36,11 @@ $min-width-sidebar-closed: 10px;
       padding: 0;
     }
 
-    > * {
-      &:last-child {
-        padding: 0;
-      }
-    }
+    // > * {
+    //   &:last-child {
+    //     padding: 0;
+    //   }
+    // }
 
     &:after {
       content: "";
