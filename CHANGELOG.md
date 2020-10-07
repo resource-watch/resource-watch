@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - maintenance: updated `eslint` and its plugins. [#174977793](https://www.pivotaltracker.com/story/show/174977793)
 
 ### Fixed
+- widget-editor: fixed a WE crash when the user changes the visualization type in a map-only widget. [#175165737](https://www.pivotaltracker.com/story/show/175165737)
 - admin: in layer edition, the interactivity wasn't being applied on first load until the user modifies it for first time. Now it does.
 - widget-editor: fixed error updating fields. [#174996497](https://www.pivotaltracker.com/story/show/174996497)
 - widget-editor: override of default disabled features. [#174930015](https://www.pivotaltracker.com/story/show/174930015)

@@ -92,7 +92,6 @@ function ExploreDetailVisualization(props) {
             ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
             'theme-selection',
             'advanced-editor',
-            'map',
           ]}
         />
       </ErrorBoundary>
