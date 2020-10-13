@@ -16,27 +16,15 @@ import InteractionsItems from './interactions-items';
 import './styles.scss';
 
 class InteractionManager extends PureComponent {
-  static propTypes = {
-    layer: PropTypes.object.isRequired,
-    interactions: PropTypes.object.isRequired,
-    setCurrentInteractions: PropTypes.func.isRequired,
-    getCurrentLayerInteractions: PropTypes.func.isRequired,
-    getAvailableLayerInteractions: PropTypes.func.isRequired,
-    resetInteractions: PropTypes.func.isRequired
-  }
-
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const {
       layer,
-      getCurrentLayerInteractions,
-      getAvailableLayerInteractions
+      getAvailableLayerInteractions,
     } = this.props;
-    // gets interaction from interactionConfig layer attribute
-    getCurrentLayerInteractions({ ...this.props });
 
-    // fetchs for all available fields available in the dataset
-    getAvailableLayerInteractions({ ...this.props })
-      .catch(() => toastr.error('Something went wrong', `Error fetching fields for dataset ${layer.id} `));
+    // fetches all fields available in the dataset
+    getAvailableLayerInteractions(layer)
+      .catch((e) => toastr.error('Error fetching fields', e.message));
   }
 
   componentWillUnmount() {
@@ -58,20 +46,20 @@ class InteractionManager extends PureComponent {
     if (options.length < interactions.added.length) {
       let interactionsRemoved = interactions.added;
       options.forEach((item) => {
-        interactionsRemoved = interactionsRemoved.filter(t => t.column !== item);
+        interactionsRemoved = interactionsRemoved.filter((t) => t.column !== item);
       });
-      interactionsRemoved.forEach(interaction => FORM_ELEMENTS.removeInteraction(interaction));
+      interactionsRemoved.forEach((interaction) => FORM_ELEMENTS.removeInteraction(interaction));
     }
 
     // Remove layer if its not in options
     if (interactions.added) {
       interactions.added = interactions.added
-        .filter(item => options.includes(item.column));
+        .filter((item) => options.includes(item.column));
     }
 
     if (!interactions.added || options.length > interactions.added.length) {
       const optionSelected = options[options.length - 1];
-      const selected = interactions.available.find(item => item.label === optionSelected);
+      const selected = interactions.available.find(({ label }) => label === optionSelected);
 
       interactions.added.push({
         column: selected.label,
@@ -79,7 +67,7 @@ class InteractionManager extends PureComponent {
         prefix: '',
         property: selected.label,
         suffix: '',
-        type: selected.type
+        type: selected.type,
       });
     }
 
@@ -87,20 +75,35 @@ class InteractionManager extends PureComponent {
   }
 
   editInteraction(data) {
+    let dataToModify = data;
     const { interactions, setCurrentInteractions } = this.props;
 
     if (data.key.toLowerCase() === 'label') {
-      data.field.property = data.value;
+      dataToModify = {
+        ...dataToModify,
+        field: {
+          ...dataToModify.field,
+          property: dataToModify.value,
+        },
+      };
     } else {
-      data.field[data.key.toLowerCase()] = data.value;
+      dataToModify = {
+        ...dataToModify,
+        field: {
+          ...dataToModify.field,
+          [data.key.toLowerCase()]: data.value,
+        },
+      };
     }
-    interactions.added[findIndex(interactions.added, data.field)] = Object.assign({}, data.field);
+    interactions.added[findIndex(interactions.added, data.field)] = {
+      ...dataToModify.field,
+    };
     setCurrentInteractions(interactions.added);
   }
 
   removeInteraction(interaction) {
     const { interactions, setCurrentInteractions } = this.props;
-    interactions.added = interactions.added.filter(item => item.column !== interaction.column);
+    interactions.added = interactions.added.filter((item) => item.column !== interaction.column);
 
     // Remove interaction references from validation
     FORM_ELEMENTS.removeInteraction(interaction);
@@ -113,10 +116,10 @@ class InteractionManager extends PureComponent {
 
     return (
       <div className="c-interactions">
-        {interactions.available &&
+        {interactions.available && (
           <Field
             options={interactions.available}
-            onChange={value => this.addInteractions(value)}
+            onChange={(value) => this.addInteractions(value)}
             properties={{
               className: 'Select--large',
               name: 'selected_columns',
@@ -127,16 +130,17 @@ class InteractionManager extends PureComponent {
               removeSelected: true,
               multi: true,
               value: interactions.added ? FORMAT.options(interactions.added) : [],
-              default: interactions.added ? FORMAT.options(interactions.added) : []
+              default: interactions.added ? FORMAT.options(interactions.added) : [],
             }}
           >
             {Select}
-          </Field>}
+          </Field>
+        )}
 
         <InteractionsItems
           interactions={interactions}
-          editInteraction={data => this.editInteraction(data)}
-          removeInteraction={data => this.removeInteraction(data)}
+          editInteraction={(data) => this.editInteraction(data)}
+          removeInteraction={(data) => this.removeInteraction(data)}
           axis="y"
           lockAxis="y"
           useDragHandle
@@ -147,5 +151,20 @@ class InteractionManager extends PureComponent {
     );
   }
 }
+
+InteractionManager.propTypes = {
+  layer: PropTypes.shape({}).isRequired,
+  interactions: PropTypes.shape({
+    added: PropTypes.arrayOf(
+      PropTypes.shape({}).isRequired,
+    ).isRequired,
+    available: PropTypes.arrayOf(
+      PropTypes.shape({}).isRequired,
+    ).isRequired,
+  }).isRequired,
+  setCurrentInteractions: PropTypes.func.isRequired,
+  getAvailableLayerInteractions: PropTypes.func.isRequired,
+  resetInteractions: PropTypes.func.isRequired,
+};
 
 export default InteractionManager;

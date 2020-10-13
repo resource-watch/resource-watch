@@ -4,7 +4,7 @@ import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
 
 // components
-import Step1 from 'components/admin/data/widgets/form/steps/Step1';
+import AdminWidgetForm from 'components/admin/data/widgets/form/steps';
 import Spinner from 'components/ui/Spinner';
 
 // services
@@ -94,9 +94,9 @@ class WidgetForm extends PureComponent {
   }
 
 
-  onWidgetSave = (widget) => {
+  onWidgetSave = (_widget) => {
     const { step, form, id } = this.state;
-    const { widgetConfig, name, description, metadata } = widget;
+    const { widgetConfig, name, description, metadata } = _widget;
     // Validate the form
     FORM_ELEMENTS.validate(step);
 
@@ -104,10 +104,10 @@ class WidgetForm extends PureComponent {
     if (valid) {
       this.setState({ loading: true });
       const formObj = {
+        ...form,
         widgetConfig,
         name,
         description,
-        ...form
       };
 
       if (formObj.sourceUrl === '') {
@@ -226,20 +226,22 @@ class WidgetForm extends PureComponent {
       });
   }
 
-  updateWidget(widget, metadata) {
+  updateWidget(widget, updatedMetadata) {
     const { onSubmit, authorization } = this.props;
-    const { widgetMetadata } = this.state;
+    const { metadata } = widget;
+
     updateWidgetService(widget, authorization)
       .then((response) => {
         const { id, name, dataset } = response;
-        if (widgetMetadata) {
+        if (metadata && metadata.length) {
           // A metadata object already exists for this widget so we have to update it
           updateWidgetMetadata(
             id,
             dataset,
             {
               language: 'en',
-              info: { caption: metadata.caption }
+              info: { caption: updatedMetadata.caption },
+              application: process.env.APPLICATIONS,
             },
             authorization
           )
@@ -255,7 +257,8 @@ class WidgetForm extends PureComponent {
             dataset,
             {
               language: 'en',
-              info: { caption: metadata.caption }
+              info: { caption: metadata.caption },
+              application: process.env.APPLICATIONS,
             },
             authorization
           )
@@ -305,7 +308,7 @@ class WidgetForm extends PureComponent {
       <form className="c-form c-widgets-form" noValidate>
         <Spinner isLoading={loading} className="-light" />
         {step === 1 && !loading && (
-          <Step1
+          <AdminWidgetForm
             id={id}
             form={form}
             datasets={datasets}

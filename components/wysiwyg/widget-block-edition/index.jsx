@@ -6,6 +6,9 @@ import { useDebouncedCallback } from 'use-debounce';
 // services
 import { fetchWidgets } from 'services/widget';
 
+// utils
+import { hasValidConfiguration } from 'utils/widget';
+
 import {
   setWidgets,
   setTab,
@@ -14,7 +17,7 @@ import {
   setLoading,
   setError,
   setTotal,
-  setPages
+  setPages,
 } from './actions';
 import reducer from './reducer';
 import initialState from './initial-state';
@@ -29,7 +32,7 @@ const WidgetBlockEdition = (props) => {
     (searchTerm) => {
       dispatch(setPage(initialPage));
       dispatch(setSearch(searchTerm));
-    }, 250
+    }, 250,
   );
 
   useEffect(() => {
@@ -38,15 +41,15 @@ const WidgetBlockEdition = (props) => {
         ...(tab === 'my-widgets' && { userId: user.id }),
         ...(tab === 'my-favourites' && { favourite: true }),
         ...(!!search && { name: search }),
-        'page[number]': page
+        'page[number]': page,
       },
       { Authorization: user.token },
-      true
+      true,
     )
       .then(({ widgets, meta }) => {
         dispatch(setLoading(false));
         dispatch(setError(null));
-        dispatch(setWidgets(widgets));
+        dispatch(setWidgets(widgets.filter((_widget) => hasValidConfiguration(_widget))));
         dispatch(setTotal(meta['total-items']));
         dispatch(setPages(meta['total-pages']));
       })
@@ -54,7 +57,7 @@ const WidgetBlockEdition = (props) => {
         dispatch(setLoading(false));
         dispatch(setError(err.message));
       });
-  }, [search, tab, page]);
+  }, [search, tab, page, user]);
 
   return (
     <WidgetBlockEditionComponent
@@ -63,7 +66,7 @@ const WidgetBlockEdition = (props) => {
         onSubmit({
           widgetId: widget.id,
           datasetId: widget.dataset,
-          categories: []
+          categories: [],
         });
       }}
       onChangeTab={(newTab) => {
@@ -80,11 +83,14 @@ const WidgetBlockEdition = (props) => {
 };
 
 WidgetBlockEdition.propTypes = {
-  user: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  user: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+  }).isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default connect(
-  state => ({ user: state.user }),
-  null
+  (state) => ({ user: state.user }),
+  null,
 )(WidgetBlockEdition);

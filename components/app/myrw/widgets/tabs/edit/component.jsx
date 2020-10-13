@@ -1,46 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import WidgetEditor from '@widget-editor/widget-editor';
 
-// Redux
-import { connect } from 'react-redux';
+// components
+import Spinner from 'components/ui/Spinner';
 
-// Services
+// cervices
 import {
   fetchWidget,
   updateWidget,
   createWidgetMetadata,
-  updateWidgetMetadata
+  updateWidgetMetadata,
 } from 'services/widget';
 
-// Widget Editor
-import WidgetEditor from '@widget-editor/widget-editor';
-import RwAdapter from '@widget-editor/rw-adapter';
-
-// Utils
+// utils
 import DefaultTheme from 'utils/widgets/theme';
 
-// Components
-import Spinner from 'components/ui/Spinner';
+class MyRWWidgetEditTab extends React.Component {
+  constructor(props) {
+    super(props);
 
-class WidgetsEdit extends React.Component {
-  state = {
-    loading: true,
-    widget: null
-  };
+    this.state = {
+      loading: true,
+      widget: null,
+    };
+  }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     const { id } = this.props;
     fetchWidget(id, { includes: 'metadata' })
       .then((data) => {
         this.setState({
           widget: data,
-          loading: false
+          loading: false,
         });
       })
-      .catch((err) => {
+      .catch(() => {
         toastr.error('Error loading widget');
-        console.error('Error loading widget', err);
       });
   }
 
@@ -53,7 +51,7 @@ class WidgetsEdit extends React.Component {
       ...widget,
       name: widgetData.name,
       description: widgetData.description,
-      widgetConfig: widgetData.widgetConfig
+      widgetConfig: widgetData.widgetConfig,
     };
 
     updateWidget(widgetObj, user.token)
@@ -65,12 +63,12 @@ class WidgetsEdit extends React.Component {
             widget.dataset,
             {
               ...widget.metadata[0],
-              info: { 
+              info: {
                 ...widget.metadata[0].info,
-                caption: widgetData.metadata.caption 
-              }
+                caption: widgetData.metadata.caption,
+              },
             },
-            user.token
+            user.token,
           )
             .then(() => {
               this.setState({ loading: false });
@@ -82,15 +80,16 @@ class WidgetsEdit extends React.Component {
             widget.dataset,
             {
               language: 'en',
-              info: { 
-                caption: widgetData.metadata.caption 
-              }
+              info: {
+                caption: widgetData.metadata.caption,
+              },
             },
-            user.token)
-          .then(() => {
-            this.setState({ loading: false });
-            toastr.success('Success', 'Widget updated successfully!');
-          });
+            user.token,
+          )
+            .then(() => {
+              this.setState({ loading: false });
+              toastr.success('Success', 'Widget updated successfully!');
+            });
         }
       }).catch((err) => {
         this.setState({ loading: false });
@@ -99,40 +98,35 @@ class WidgetsEdit extends React.Component {
   }
 
   render() {
+    const { RWAdapter } = this.props;
     const { loading, widget } = this.state;
+
     return (
       <div className="c-myrw-widgets-edit">
         <Spinner
           className="-light"
           isLoading={loading}
         />
-        {widget &&
-          <div>
-            <WidgetEditor
-              datasetId={widget.dataset}
-              widgetId={widget.id}
-              application="rw"
-              onSave={this.onSaveWidget}
-              theme={DefaultTheme}
-              adapter={RwAdapter}
-            />
-          </div>
-        }
+        {widget && (
+          <WidgetEditor
+            datasetId={widget.dataset}
+            widgetId={widget.id}
+            onSave={this.onSaveWidget}
+            theme={DefaultTheme}
+            adapter={RWAdapter}
+          />
+        )}
       </div>
     );
   }
 }
 
-WidgetsEdit.propTypes = {
+MyRWWidgetEditTab.propTypes = {
   id: PropTypes.string.isRequired,
-  // Store
-  user: PropTypes.object.isRequired,
-  locale: PropTypes.string.isRequired
+  user: PropTypes.shape({
+    token: PropTypes.string.isRequired,
+  }).isRequired,
+  RWAdapter: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  user: state.user,
-  locale: state.common.locale
-});
-
-export default connect(mapStateToProps, null)(WidgetsEdit);
+export default MyRWWidgetEditTab;

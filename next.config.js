@@ -1,9 +1,7 @@
 require('dotenv').load();
 
-const path = require('path');
 const withSass = require('@zeit/next-sass');
-const withCSS = require('@zeit/next-css')
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const withCSS = require('@zeit/next-css');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssnano = require('cssnano');
 const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER) ?
@@ -11,6 +9,20 @@ const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && pr
 
 module.exports = withCSS(withSass({
   useFileSystemPublicRoutes: false,
+
+  exportPathMap: async (defaultPathMap) => ({
+    ...defaultPathMap,
+    '/': { page: '/home' },
+    '/about/contact-us': { page: '/contact-us' },
+    '/about/faqs': { page: '/faqs' },
+    '/about/howto': { page: 'how-to' },
+    '/about/newsletter': { page: 'app/newsletter' },
+    '/about/partners': { page: '/partners' },
+    '/privacy-policy': { page: '/policy' },
+    '/api-attribution-requirements': { page: 'attribution-requirements' },
+    '/data/explore': { page: '/explore' },
+    '/data/pulse': { page: '/pulse' },
+  }),
 
   env: {
     RW_NODE_ENV: process.env.RW_NODE_ENV || 'development',
@@ -47,16 +59,6 @@ module.exports = withCSS(withSass({
         cssProcessor: cssnano,
         cssProcessorPluginOptions: { preset: ['default', { discardComments: { removeAll: true } }] }
       })
-    );
-
-    // Copy the images of the widget-editor
-    _config.plugins.push(
-      new CopyWebpackPlugin([
-        {
-          from: path.join(__dirname, 'node_modules/widget-editor/dist/images'),
-          to: path.join(__dirname, 'public/static/images/widget-editor/')
-        }
-      ])
     );
 
     if (process.env.BUNDLE_ANALYZER) _config.plugins.push(new BundleAnalyzerPlugin());
