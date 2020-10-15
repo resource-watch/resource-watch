@@ -3,8 +3,18 @@ import { usePaginatedQuery } from 'react-query';
 // services
 import { fetchUserAreas } from 'services/areas';
 
-const fetcher = (key, id, params) => fetchUserAreas(id, params);
+const fetcher = (key, token, params) => fetchUserAreas(token, params, true);
 
-const useUserArea = (id, ...restProps) => usePaginatedQuery(['paginated-user-areas', id, ...restProps], fetcher, { initialData: [], initialStale: true });
+const usePaginatedUserAreas = (token, params) => usePaginatedQuery(
+  ['paginated-user-areas', token, params],
+  fetcher,
+  {
+    initialData: {
+      areas: [],
+      meta: {},
+    },
+    initialStale: true,
+  },
+);
 
-export default useUserArea;
+export default usePaginatedUserAreas;

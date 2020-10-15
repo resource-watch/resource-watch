@@ -1,4 +1,9 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -25,16 +30,22 @@ const ExploreAreasOfInterest = ({
 }) => {
   const [pagination, setPagination] = useState({
     page: 1,
-    limit: 5,
-    size: 15,
+    limit: 3,
+    size: 0,
   });
-  const { page } = pagination;
   const {
-    resolvedData,
+    resolvedData: {
+      areas: userAreas,
+      meta,
+    },
     isFetching,
     isSuccess,
     refetch,
-  } = usePaginatedUserAreas(token, page);
+  } = usePaginatedUserAreas(token, {
+    'page[size]': pagination.limit,
+    'page[number]': pagination.page,
+    sort: '-updatedAt',
+  });
   const handleNewArea = useCallback(() => {
     setSidebarSubsection(EXPLORE_SUBSECTIONS.NEW_AREA);
   }, [setSidebarSubsection]);
@@ -56,9 +67,16 @@ const ExploreAreasOfInterest = ({
   const handleDeletionArea = useCallback(() => { refetch(); }, [refetch]);
 
   const areas = useMemo(
-    () => resolvedData.map((_area) => ({ ..._area, isVisible: areasOnMap.includes(_area.id) })),
-    [resolvedData, areasOnMap],
+    () => userAreas.map((_area) => ({ ..._area, isVisible: areasOnMap.includes(_area.id) })),
+    [userAreas, areasOnMap],
   );
+
+  useEffect(() => {
+    setPagination((prevPagination) => ({
+      ...prevPagination,
+      size: meta['total-items'],
+    }));
+  }, [meta]);
 
   return (
     <div className="c-explore-areas-of-interest">
@@ -90,10 +108,12 @@ const ExploreAreasOfInterest = ({
             onEditArea={handleAreaEdition}
             onDeletionArea={handleDeletionArea}
           />
-          <Paginator
-            options={pagination}
-            onChange={handlePagination}
-          />
+          {(pagination.size > pagination.limit) && (
+            <Paginator
+              options={pagination}
+              onChange={handlePagination}
+            />
+          )}
         </>
       )}
     </div>

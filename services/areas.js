@@ -38,15 +38,41 @@ export const fetchArea = (id, params = {}, headers = {}) => {
  * @param {String} token user's token.
  * @returns {Object}
  */
-export const fetchUserAreas = (token) => {
+export const fetchUserAreas = (token, params = {}, _meta = false) => {
   logger.info('Fetch user areas');
-  return WRIAPI.get(`area?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`, {
+  return WRIAPI.get('area', {
     headers: {
       Authorization: token,
       'Upgrade-Insecure-Requests': 1,
     },
+    params: {
+      application: process.env.APPLICATIONS,
+      env: process.env.API_ENV,
+      ...params,
+    },
+    transformResponse: [].concat(
+      WRIAPI.defaults.transformResponse,
+      (({ data, meta }) => ({ areas: data, meta })),
+    ),
   })
-    .then((response) => WRISerializer(response.data))
+    .then((response) => {
+      const { status, statusText, data } = response;
+      const { areas, meta } = data;
+
+      if (status >= 300) {
+        logger.error('Error fetching areas:', `${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
+
+      if (_meta) {
+        return {
+          areas: WRISerializer({ data: areas }),
+          meta,
+        };
+      }
+
+      return WRISerializer({ data: areas });
+    })
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching user areas: ${status}: ${statusText}`);
