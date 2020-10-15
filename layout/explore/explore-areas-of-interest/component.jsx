@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -18,9 +18,10 @@ import './styles.scss';
 
 const ExploreAreasOfInterest = ({
   token,
+  areasOnMap,
   setSidebarSubsection,
   setSelectedItem,
-  setGeostore,
+  toggleArea,
 }) => {
   const [pagination, setPagination] = useState({
     page: 1,
@@ -43,12 +44,21 @@ const ExploreAreasOfInterest = ({
       page: _nextPage,
     });
   }, [pagination]);
-  const handleMapView = useCallback(({ geostore }) => { setGeostore(geostore); }, [setGeostore]);
+  const handleMapView = useCallback(
+    ({ id, geostore }) => {
+      toggleArea({ id, geostore });
+    }, [toggleArea],
+  );
   const handleAreaEdition = useCallback(({ id }) => {
     setSelectedItem(id);
     setSidebarSubsection(EXPLORE_SUBSECTIONS.EDIT_AREA);
   }, [setSelectedItem, setSidebarSubsection]);
   const handleDeletionArea = useCallback(() => { refetch(); }, [refetch]);
+
+  const areas = useMemo(
+    () => resolvedData.map((_area) => ({ ..._area, isVisible: areasOnMap.includes(_area.id) })),
+    [resolvedData, areasOnMap],
+  );
 
   return (
     <div className="c-explore-areas-of-interest">
@@ -69,11 +79,11 @@ const ExploreAreasOfInterest = ({
           className="-transparent"
         />
       )}
-      {(isSuccess && resolvedData.length > 0) && (
+      {(isSuccess && areas.length > 0) && (
         <>
           <h4>Your saved areas</h4>
           <AreaCardList
-            areas={resolvedData}
+            areas={areas}
             isColumn
             showNewArea={false}
             onMapView={handleMapView}
@@ -92,9 +102,12 @@ const ExploreAreasOfInterest = ({
 
 ExploreAreasOfInterest.propTypes = {
   token: PropTypes.string.isRequired,
+  areasOnMap: PropTypes.arrayOf(
+    PropTypes.string,
+  ).isRequired,
   setSidebarSubsection: PropTypes.func.isRequired,
   setSelectedItem: PropTypes.func.isRequired,
-  setGeostore: PropTypes.func.isRequired,
+  toggleArea: PropTypes.func.isRequired,
 };
 
 export default ExploreAreasOfInterest;

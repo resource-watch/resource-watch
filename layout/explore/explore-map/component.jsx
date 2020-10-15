@@ -87,7 +87,7 @@ const ExploreMap = (props) => {
     setBasemap,
     setLabels,
     setDataDrawing,
-    geostore,
+    areas,
   } = props;
   const [mapState, setMapState] = useState({
     layer: null,
@@ -282,33 +282,36 @@ const ExploreMap = (props) => {
   // let displayedLayers = aoi ? [...activeLayers, aoi] : activeLayers;
 
   useEffect(() => {
-    setDisplayedLayers([
-      ...activeLayers,
+    setDisplayedLayers((prevLayers) => [
+      ...prevLayers.filter(({ provider }) => provider === 'geojson'),
       ...aoi || [],
+      ...activeLayers,
     ]);
   }, [activeLayers, aoi]);
 
   useEffect(() => {
     const cancelToken = CancelToken.source();
 
-    const loadGeostore = async () => {
+    const loadUserAreas = async () => {
       try {
-        const { geojson } = await fetchGeostore(geostore, { cancelToken: cancelToken.token });
-        const userAreaLayer = getUserAreaLayer({ geojson });
+        const geostores = await Promise.all(
+          areas.map(({ geostore }) => fetchGeostore(geostore, { cancelToken: cancelToken.token })),
+        );
+        const userAreaLayers = geostores.map(({ id, geojson }, index) => getUserAreaLayer({ id: `${id}-${index}`, geojson }));
 
         setDisplayedLayers((prevLayers) => [
-          ...[userAreaLayer],
-          ...prevLayers,
+          ...userAreaLayers,
+          ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
         ]);
       } catch (e) {
         //  do something
       }
     };
 
-    if (geostore) loadGeostore();
+    loadUserAreas();
 
     return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
-  }, [geostore]);
+  }, [areas]);
 
   return (
     <div className="l-explore-map -relative">
@@ -478,7 +481,6 @@ ExploreMap.defaultProps = {
   layerGroupsInteractionLatLng: null,
   exploreBehavior: true,
   aoi: null,
-  geostore: null,
   onLayerInfoButtonClick: null,
 };
 
@@ -537,7 +539,11 @@ ExploreMap.propTypes = {
   drawer: PropTypes.shape({
     isDrawing: PropTypes.bool.isRequired,
   }).isRequired,
-  geostore: PropTypes.string,
+  areas: PropTypes.arrayOf(
+    PropTypes.shape({
+      geostore: PropTypes.string,
+    }),
+  ).isRequired,
   setDataDrawing: PropTypes.func.isRequired,
   stopDrawing: PropTypes.func.isRequired,
 };

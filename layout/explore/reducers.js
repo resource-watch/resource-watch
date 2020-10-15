@@ -186,13 +186,24 @@ export default {
       drawer: initialState.map.drawer,
     },
   }),
-  [actions.setGeostore]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      geostore: payload,
-    },
-  }),
+  [actions.toggleArea]: (state, { payload }) => {
+    const isAdded = (state.map.areas.findIndex(({ id }) => id === payload.id) !== -1);
+    let { areas } = state.map;
+
+    if (isAdded) {
+      areas = areas.filter(({ id }) => id !== payload.id);
+    } else {
+      areas = [...state.map.areas, payload];
+    }
+
+    return ({
+      ...state,
+      map: {
+        ...state.map,
+        areas,
+      },
+    });
+  },
   // LAYERS
   [actions.toggleMapLayerGroup]: (state, action) => {
     const layerGroups = [...state.map.layerGroups];
@@ -203,10 +214,10 @@ export default {
 
     // sorts layers if applies
     if (
-      applicationConfig &&
-      applicationConfig[process.env.APPLICATIONS] &&
-      applicationConfig[process.env.APPLICATIONS].layerOrder &&
-      layers.length > 1) {
+      applicationConfig
+      && applicationConfig[process.env.APPLICATIONS]
+      && applicationConfig[process.env.APPLICATIONS].layerOrder
+      && layers.length > 1) {
       const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
       _layers = sortLayers(_layers, layerOrder);
     }
@@ -270,8 +281,7 @@ export default {
     const layerGroups = [...state.map.layerGroups];
 
     // Sort by new order
-    layerGroups.sort((a, b) =>
-      (datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1));
+    layerGroups.sort((a, b) => (datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1));
 
     const map = { ...state.map, layerGroups };
     return { ...state, map };
@@ -289,10 +299,10 @@ export default {
 
         // sorts layers if applies
         if (
-          applicationConfig &&
-          applicationConfig[process.env.APPLICATIONS] &&
-          applicationConfig[process.env.APPLICATIONS].layerOrder &&
-          layers.length > 1) {
+          applicationConfig
+          && applicationConfig[process.env.APPLICATIONS]
+          && applicationConfig[process.env.APPLICATIONS].layerOrder
+          && layers.length > 1) {
           const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
           _layers = sortLayers(_layers, layerOrder);
         }
@@ -322,8 +332,8 @@ export default {
   // AREA OF INTEREST
   [actions.setAOI]: (state, action) => {
     const { geojson } = action.payload;
-    const newUserArea = geojson &&
-      {
+    const newUserArea = geojson
+      && {
         id: 'user-area',
         provider: 'geojson',
         layerConfig: {

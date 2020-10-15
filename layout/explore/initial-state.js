@@ -79,7 +79,7 @@ export default {
       isDrawing: false,
       data: null,
     },
-    geostore: null,
+    areas: [],
     // contains params to be modified in the layerSpec of every layer
     // 'layer-id': {
     //  'key-to-modify: {

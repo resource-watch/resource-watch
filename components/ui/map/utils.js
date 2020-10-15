@@ -7,15 +7,15 @@ export const getUserAreaLayer = ({ id = 'user-area', geojson }) => ({
     body: {
       vectorLayers: [
         {
-          id: 'user-area-line',
+          id: `${id}-line`,
           type: 'line',
-          source: 'user-area',
+          source: id,
           paint: { 'line-color': '#fab72e' },
         },
         {
-          id: 'user-area-fill',
+          id: `${id}-fill`,
           type: 'fill',
-          source: 'user-area',
+          source: id,
           paint: {
             'fill-color': '#fab72e',
             'fill-opacity': 0.2,

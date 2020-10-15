@@ -36,6 +36,7 @@ const AreaCard = (props) => {
     subscription,
     name,
     geostore: geostoreId,
+    isVisible,
   } = area;
   const [modal, setModalState] = useState({ open: false, mode: 'new' });
   const [tooltip, setTooltipState] = useState({ open: false });
@@ -209,10 +210,13 @@ const AreaCard = (props) => {
         <div className="actions-container">
           <button
             type="button"
-            className="c-btn -secondary -compressed -fs-medium"
+            className={classnames('c-btn -compressed -fs-medium', {
+              '-primary': isVisible,
+              '-secondary': !isVisible,
+            })}
             onClick={handleMapView}
           >
-            View on map
+            {isVisible ? 'Remove from map' : 'View on map'}
           </button>
           <Tooltip
             visible={isTooltipOpen}
@@ -264,6 +268,7 @@ AreaCard.propTypes = {
       PropTypes.shape({}).isRequired,
     ),
     subscription: PropTypes.shape({}),
+    isVisible: PropTypes.bool,
   }).isRequired,
   onMapView: PropTypes.func.isRequired,
   onEditArea: PropTypes.func.isRequired,
