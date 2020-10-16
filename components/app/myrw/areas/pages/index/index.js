@@ -4,6 +4,6 @@ import { connect } from 'react-redux';
 import AreasIndex from './component';
 
 export default connect(
-  state => ({ areas: state.user.areas.items }),
-  null
+  (state) => ({ token: state.user.token }),
+  null,
 )(AreasIndex);

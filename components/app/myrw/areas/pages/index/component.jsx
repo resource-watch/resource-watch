@@ -1,19 +1,12 @@
-import React, {
-  useState,
-  useCallback,
-  useMemo,
-  useEffect,
-} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'routes';
+import { useRouter } from 'next/router';
 
 // components
-import AreaCardList from 'components/areas/card-list';
 import Spinner from 'components/ui/Spinner';
-import Icon from 'components/ui/icon';
+import AreaCardList from 'components/areas/card-list';
 import Paginator from 'components/ui/Paginator';
-
-// constants
-import { EXPLORE_SUBSECTIONS } from 'layout/explore/constants';
 
 // hooks
 import usePaginatedUserAreas from 'hooks/user-areas/paginated-user-areas';
@@ -21,13 +14,10 @@ import usePaginatedUserAreas from 'hooks/user-areas/paginated-user-areas';
 // styles
 import './styles.scss';
 
-const ExploreAreasOfInterest = ({
+const AreasIndex = ({
   token,
-  areasOnMap,
-  setSidebarSubsection,
-  setSelectedItem,
-  toggleArea,
 }) => {
+  const router = useRouter();
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 3,
@@ -46,24 +36,20 @@ const ExploreAreasOfInterest = ({
     'page[number]': pagination.page,
     sort: '-updatedAt',
   });
-  const handleNewArea = useCallback(() => {
-    setSidebarSubsection(EXPLORE_SUBSECTIONS.NEW_AREA);
-  }, [setSidebarSubsection]);
+
   const handlePagination = useCallback((_nextPage) => {
     setPagination({
       ...pagination,
       page: _nextPage,
     });
   }, [pagination]);
+
   const handleMapView = useCallback(
     ({ id, geostore }) => {
-      toggleArea({ id, geostore });
-    }, [toggleArea],
+      router.push(`/data/explore?area=${id}&geostore=${geostore}`);
+    }, [router],
   );
-  const handleAreaEdition = useCallback(({ id }) => {
-    setSelectedItem(id);
-    setSidebarSubsection(EXPLORE_SUBSECTIONS.EDIT_AREA);
-  }, [setSelectedItem, setSidebarSubsection]);
+
   const handleDeletionArea = useCallback(() => {
     setPagination((prevPagination) => ({
       ...prevPagination,
@@ -71,11 +57,6 @@ const ExploreAreasOfInterest = ({
     }));
     refetch();
   }, [refetch]);
-
-  const areas = useMemo(
-    () => userAreas.map((_area) => ({ ..._area, isVisible: areasOnMap.includes(_area.id) })),
-    [userAreas, areasOnMap],
-  );
 
   useEffect(() => {
     setPagination((prevPagination) => ({
@@ -85,34 +66,37 @@ const ExploreAreasOfInterest = ({
   }, [meta]);
 
   return (
-    <div className="c-explore-areas-of-interest">
-      <div className="menu">
-        <button
-          className="c-button"
-          type="button"
-          onClick={handleNewArea}
-        >
-          <Icon name="icon-plus" />
-          New Area
-        </button>
-
+    <div className="c-areas-index">
+      <div className="c-button-container">
+        <ul>
+          <li>
+            <Link href="/myrw-detail/areas/new">
+              <button
+                type="button"
+                className="c-button -secondary"
+              >
+                New area
+              </button>
+            </Link>
+          </li>
+        </ul>
       </div>
+
       {isFetching && (
         <Spinner
           isLoading
-          className="-transparent"
+          className="-light"
         />
       )}
-      {(isSuccess && areas.length > 0) && (
+
+      {isSuccess && (
         <>
-          <h4>Your saved areas</h4>
           <AreaCardList
-            areas={areas}
-            isColumn
+            areas={userAreas}
             onMapView={handleMapView}
-            onEditArea={handleAreaEdition}
             onDeletionArea={handleDeletionArea}
           />
+
           {(pagination.size > pagination.limit) && (
             <Paginator
               options={pagination}
@@ -125,14 +109,8 @@ const ExploreAreasOfInterest = ({
   );
 };
 
-ExploreAreasOfInterest.propTypes = {
+AreasIndex.propTypes = {
   token: PropTypes.string.isRequired,
-  areasOnMap: PropTypes.arrayOf(
-    PropTypes.string,
-  ).isRequired,
-  setSidebarSubsection: PropTypes.func.isRequired,
-  setSelectedItem: PropTypes.func.isRequired,
-  toggleArea: PropTypes.func.isRequired,
 };
 
-export default ExploreAreasOfInterest;
+export default AreasIndex;

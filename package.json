@@ -118,8 +118,7 @@
     "vizz-wysiwyg": "^2.1.2",
     "vizzuality-components": "^3.0.3",
     "whatwg-fetch": "2.0.2",
-    "wri-json-api-serializer": "1.0.1",
-    "yarn": "^1.22.10"
+    "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
