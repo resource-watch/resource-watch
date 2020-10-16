@@ -6,33 +6,28 @@ import Modal from 'components/modal/modal-component';
 import LoginModal from 'components/modal/login-modal';
 
 class LoginRequired extends PureComponent {
-  static propTypes = {
-    children: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    clickCallback: PropTypes.func
-  };
+  constructor(props) {
+    super(props);
 
-  static defaultProps = { clickCallback: null };
-
-  state = { isOpen: false };
+    this.state = { isOpen: false };
+  }
 
   promptLogin = (e) => {
+    const { clickCallback } = this.props;
     e.stopPropagation();
     e.preventDefault();
     this.setState({ isOpen: true });
-    if (this.props.clickCallback) {
-      this.props.clickCallback();
-    }
+    if (clickCallback) clickCallback();
   }
 
   closePrompt = () => { this.setState({ isOpen: false }); }
 
   render() {
-    const { user, children } = this.props;
+    const { user, children, redirect } = this.props;
     const { isOpen } = this.state;
 
     return user.token ? children : (
-      <Fragment>
+      <>
         <div
           className="c-login-required"
           onClickCapture={this.promptLogin}
@@ -43,11 +38,25 @@ class LoginRequired extends PureComponent {
           isOpen={isOpen}
           onRequestClose={this.closePrompt}
         >
-          <LoginModal />
+          <LoginModal redirect={redirect} />
         </Modal>
-      </Fragment>
+      </>
     );
   }
 }
+
+LoginRequired.defaultProps = {
+  clickCallback: null,
+  redirect: true,
+};
+
+LoginRequired.propTypes = {
+  children: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({
+    token: PropTypes.string.isRequired,
+  }).isRequired,
+  redirect: PropTypes.bool,
+  clickCallback: PropTypes.func,
+};
 
 export default LoginRequired;

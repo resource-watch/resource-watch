@@ -19,22 +19,24 @@ import { FORM_ELEMENTS } from './constants';
 import './styles.scss';
 
 class LoginModal extends PureComponent {
-  static propTypes = { setUser: PropTypes.func.isRequired }
+  constructor(props) {
+    super(props);
 
-  state = {
-    email: '',
-    password: '',
-    repeatPassword: '',
-    captcha: null,
-    register: false,
-    loading: false
-  };
+    this.state = {
+      email: '',
+      password: '',
+      repeatPassword: '',
+      captcha: null,
+      register: false,
+      loading: false,
+    };
+  }
 
   onSubmit = (e) => {
     if (e) e.preventDefault();
     FORM_ELEMENTS.validate();
     const isValid = FORM_ELEMENTS.isValid();
-    const { setUser } = this.props;
+    const { setUser, redirect } = this.props;
     const { register, captcha, ...userSettings } = this.state;
 
     if (captcha === null && register) toastr.error('Please fill the captcha');
@@ -58,15 +60,14 @@ class LoginModal extends PureComponent {
         loginUser(userSettings)
           .then((data) => {
             setUser(data);
-            // redirects the user to /myrw once logged-in
-            window.location.href = '/myrw';
+            if (redirect) window.location.href = '/myrw';
           })
           .catch((err) => {
             const { status, statusText } = err.response;
 
-            const message = status === 401 ?
-              'Your email and password combination is incorrect.' :
-              `${status}:${statusText}`;
+            const message = status === 401
+              ? 'Your email and password combination is incorrect.'
+              : `${status}:${statusText}`;
 
             toastr.error(message);
           });
@@ -80,7 +81,7 @@ class LoginModal extends PureComponent {
       password,
       repeatPassword,
       register,
-      loading
+      loading,
     } = this.state;
 
     return (
@@ -97,7 +98,7 @@ class LoginModal extends PureComponent {
                 <form onSubmit={this.onSubmit}>
                   <Field
                     ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
-                    onChange={value => this.setState({ email: value })}
+                    onChange={(value) => this.setState({ email: value })}
                     className="-fluid"
                     validations={['required', 'email']}
                     properties={{
@@ -105,14 +106,14 @@ class LoginModal extends PureComponent {
                       label: 'Email',
                       required: true,
                       default: email,
-                      placeholder: 'example@resourcewatch.org'
+                      placeholder: 'example@resourcewatch.org',
                     }}
                   >
                     {Input}
                   </Field>
                   <Field
                     ref={(c) => { if (c) FORM_ELEMENTS.elements.password = c; }}
-                    onChange={value => this.setState({ password: value })}
+                    onChange={(value) => this.setState({ password: value })}
                     className="-fluid"
                     validations={['required']}
                     properties={{
@@ -121,18 +122,24 @@ class LoginModal extends PureComponent {
                       required: true,
                       default: password,
                       type: 'password',
-                      placeholder: '*********'
+                      placeholder: '*********',
                     }}
                   >
                     {Input}
                   </Field>
                   {!register && (
-                    <Link to="forgot-password">
-                      <a className="forgot-password-link">Have you forgotten your password?</a>
-                    </Link>)}
+                    <Link href="/forgot-password">
+                      <button
+                        type="button"
+                        className="c-btn -clean forgot-password-link"
+                      >
+                        Have you forgotten your password?
+                      </button>
+                    </Link>
+                  )}
 
-                  {register &&
-                    <Fragment>
+                  {register && (
+                    <>
                       <Field
                         ref={(c) => { if (c) FORM_ELEMENTS.elements.repeatPassword = c; }}
                         onChange={(value) => { this.setState({ repeatPassword: value }); }}
@@ -140,7 +147,7 @@ class LoginModal extends PureComponent {
                         validations={['required', {
                           type: 'equal',
                           data: password,
-                          condition: 'Passwords don\'t match'
+                          condition: 'Passwords don\'t match',
                         }]}
                         properties={{
                           name: 'repeat-password',
@@ -148,7 +155,7 @@ class LoginModal extends PureComponent {
                           required: true,
                           default: repeatPassword,
                           type: 'password',
-                          placeholder: '*********'
+                          placeholder: '*********',
                         }}
                       >
                         {Input}
@@ -159,12 +166,15 @@ class LoginModal extends PureComponent {
                           onChange={(value) => { this.setState({ captcha: value }); }}
                         />
                       </div>
-                    </Fragment>
-                  }
+                    </>
+                  )}
                   <div className="c-button-container form-buttons">
                     <ul>
                       <li>
-                        <button className="c-button -primary">
+                        <button
+                          type="submit"
+                          className="c-button -primary"
+                        >
                           {register ? 'Register' : 'Log in'}
                         </button>
                       </li>
@@ -217,5 +227,14 @@ class LoginModal extends PureComponent {
     );
   }
 }
+
+LoginModal.defaultProps = {
+  redirect: true,
+};
+
+LoginModal.propTypes = {
+  redirect: PropTypes.bool,
+  setUser: PropTypes.func.isRequired,
+};
 
 export default LoginModal;
