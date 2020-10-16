@@ -50,6 +50,12 @@ const AreasIndex = ({
     }, [router],
   );
 
+  const handleAreaEdition = useCallback(
+    ({ id }) => {
+      router.push(`/myrw-detail/areas/${id}`);
+    }, [router],
+  );
+
   const handleDeletionArea = useCallback(() => {
     setPagination((prevPagination) => ({
       ...prevPagination,
@@ -94,6 +100,7 @@ const AreasIndex = ({
           <AreaCardList
             areas={userAreas}
             onMapView={handleMapView}
+            onEditArea={handleAreaEdition}
             onDeletionArea={handleDeletionArea}
           />
 

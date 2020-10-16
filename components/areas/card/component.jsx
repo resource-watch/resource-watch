@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
-import { Router } from 'routes';
 import { Tooltip } from 'vizzuality-components';
 import { CancelToken } from 'axios';
 
@@ -24,6 +28,7 @@ import AreaActionsTooltip from './tooltip';
 import './styles.scss';
 
 const AreaCard = (props) => {
+  const tooltipRef = useRef(null);
   const {
     area,
     removeUserArea,
@@ -44,20 +49,18 @@ const AreaCard = (props) => {
   const [layer, setLayerState] = useState({ bounds: {}, geojson: null });
   const handleMapView = useCallback(() => onMapView(area), [onMapView, area]);
 
-  const handleEditArea = () => {
-    const { id } = area;
-    if (onEditArea) onEditArea(area);
-    else Router.pushRoute('myrw_detail', { id, tab: 'areas' });
-  };
+  const handleEditArea = useCallback(() => {
+    onEditArea(area);
+  }, [area, onEditArea]);
 
-  const handleEditSubscription = (modalState = true) => {
+  const handleEditSubscription = useCallback((modalState = true) => {
     setModalState({
       open: modalState,
       mode: subscription ? 'edit' : 'new',
     });
-  };
+  }, [subscription]);
 
-  const handleDeleteArea = () => {
+  const handleDeleteArea = useCallback(() => {
     toastr.confirm(`Are you sure you want to delete the area ${area.name}?
       Deleting an area will delete all the subscriptions associated to it`,
     {
@@ -70,14 +73,14 @@ const AreaCard = (props) => {
         }
       },
     });
-  };
+  }, [removeUserArea, onDeletionArea, area]);
 
-  const handleTooltip = (isTooltipOpen) => {
-    setTooltipState({
-      ...tooltip,
+  const handleTooltip = useCallback((isTooltipOpen) => {
+    setTooltipState((prevTooltip) => ({
+      ...prevTooltip,
       open: isTooltipOpen,
-    });
-  };
+    }));
+  }, []);
 
   useEffect(() => {
     const cancelToken = CancelToken.source();
@@ -223,11 +226,13 @@ const AreaCard = (props) => {
             overlayClassName="c-rc-tooltip -default"
             placement="top"
             destroyTooltipOnHide
+            onPopupAlign={(ref) => { tooltipRef.current = ref; }}
             overlay={(
               <AreaActionsTooltip
                 onEditArea={handleEditArea}
                 onEditSubscriptions={handleEditSubscription}
                 onDeleteArea={handleDeleteArea}
+                tooltipRef={tooltipRef}
                 onMouseDown={() => { handleTooltip(false); }}
                 area={area}
               />

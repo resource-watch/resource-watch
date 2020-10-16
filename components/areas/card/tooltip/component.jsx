@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 // Utils
@@ -13,10 +13,11 @@ const AreaActionsTooltip = (props) => {
     onEditArea,
     onEditSubscriptions,
     onDeleteArea,
-    area
+    area,
+    tooltipRef,
   } = props;
 
-  const handleClick = (action) => {
+  const handleClick = useCallback((action) => {
     switch (action) {
       case 'edit_area':
         onEditArea();
@@ -34,12 +35,12 @@ const AreaActionsTooltip = (props) => {
     }
 
     onMouseDown();
-  };
+  }, [area, onEditArea, onEditSubscriptions, onDeleteArea, onMouseDown]);
 
   useEffect(() => {
     const triggerMouseDown = (e) => {
-      const el = document.querySelector('.c-rc-tooltip');
-      const clickOutside = el && el.contains && !el.contains(e.target);
+      const tooltipDOM = tooltipRef.current;
+      const clickOutside = tooltipDOM && !tooltipDOM.contains(e.target);
       if (clickOutside) onMouseDown();
     };
 
@@ -48,7 +49,7 @@ const AreaActionsTooltip = (props) => {
     return () => {
       window.removeEventListener('mousedown', triggerMouseDown);
     };
-  }, [onMouseDown]);
+  }, [onMouseDown, tooltipRef]);
 
   return (
     <div className="c-area-actions-tooltip">
@@ -86,12 +87,18 @@ const AreaActionsTooltip = (props) => {
 };
 
 AreaActionsTooltip.propTypes = {
+  area: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  tooltipRef: PropTypes.shape({
+    current: PropTypes.shape({
+      contains: PropTypes.func,
+    }),
+  }).isRequired,
   onMouseDown: PropTypes.func.isRequired,
   onEditArea: PropTypes.func.isRequired,
   onEditSubscriptions: PropTypes.func.isRequired,
   onDeleteArea: PropTypes.func.isRequired,
-  area: PropTypes.object.isRequired
 };
 
 export default AreaActionsTooltip;
-

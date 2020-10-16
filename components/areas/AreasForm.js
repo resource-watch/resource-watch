@@ -268,6 +268,8 @@ class AreasForm extends React.Component {
     const { id, mode } = this.props;
     const mapClass = classnames({ 'no-pointer-events': isDrawing });
 
+    console.log('id', id);
+
     return (
       <div className="c-areas-form">
         <form
