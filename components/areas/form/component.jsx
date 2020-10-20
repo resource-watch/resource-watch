@@ -22,7 +22,7 @@ import Input from 'components/form/Input';
 import UploadArea from 'components/areas/UploadArea';
 
 // hooks
-import useCountries from 'hooks/countries/countries';
+import useCountries from 'hooks/country/country-list';
 
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES } from 'components/map/constants';

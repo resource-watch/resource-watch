@@ -1,24 +1,15 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useQuery } from 'react-query';
 
 // components
 import SearchInput from 'components/ui/SearchInput';
 import Spinner from 'components/ui/Spinner';
 
-// services
-import { fetchCountries } from 'services/geostore';
+// hooks
+import useCountries from 'hooks/country/country-list';
 
 // styles
 import './styles.scss';
-
-const fetcher = () => fetchCountries()
-  .then((data) => data
-    .filter(({ name }) => !!name)
-    .map(({ name, geostoreId }) => ({
-      name,
-      geostoreId,
-    })));
 
 const CountrySelector = ({ onClickCountry }) => {
   const [search, setSearch] = useState('');
@@ -31,13 +22,19 @@ const CountrySelector = ({ onClickCountry }) => {
     data,
     isFetching,
     isSuccess,
-  } = useQuery(['country-list-fetch'], fetcher, {
-    initialData: [],
-    initialStale: true,
-  });
-  const results = useMemo(() => data
+  } = useCountries();
+
+  const countryList = useMemo(() => data
+    .filter(({ name }) => !!name)
+    .map(({ name, geostoreId }) => ({
+      name,
+      geostoreId,
+    })),
+  [data]);
+
+  const results = useMemo(() => countryList
     .filter(({ name }) => name.toLocaleLowerCase().includes(search.toLocaleLowerCase())),
-  [data, search]);
+  [countryList, search]);
 
   return (
     <div className="c-country-selector">
