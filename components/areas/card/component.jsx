@@ -33,6 +33,7 @@ const AreaCard = (props) => {
     area,
     removeUserArea,
     onMapView,
+    enableSubscriptions,
     onEditArea,
     onDeletionArea,
   } = props;
@@ -229,12 +230,13 @@ const AreaCard = (props) => {
             onPopupAlign={(ref) => { tooltipRef.current = ref; }}
             overlay={(
               <AreaActionsTooltip
+                area={area}
+                tooltipRef={tooltipRef}
+                enableSubscriptions={enableSubscriptions}
+                onMouseDown={() => { handleTooltip(false); }}
                 onEditArea={handleEditArea}
                 onEditSubscriptions={handleEditSubscription}
                 onDeleteArea={handleDeleteArea}
-                tooltipRef={tooltipRef}
-                onMouseDown={() => { handleTooltip(false); }}
-                area={area}
               />
             )}
           >
@@ -275,6 +277,7 @@ AreaCard.propTypes = {
     subscription: PropTypes.shape({}),
     isVisible: PropTypes.bool,
   }).isRequired,
+  enableSubscriptions: PropTypes.bool.isRequired,
   onMapView: PropTypes.func.isRequired,
   onEditArea: PropTypes.func.isRequired,
   onDeletionArea: PropTypes.func.isRequired,

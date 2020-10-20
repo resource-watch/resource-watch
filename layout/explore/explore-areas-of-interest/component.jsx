@@ -109,6 +109,7 @@ const ExploreAreasOfInterest = ({
           <AreaCardList
             areas={areas}
             isColumn
+            enableSubscriptions={false}
             onMapView={handleMapView}
             onEditArea={handleAreaEdition}
             onDeletionArea={handleDeletionArea}

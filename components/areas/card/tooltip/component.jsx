@@ -15,6 +15,7 @@ const AreaActionsTooltip = (props) => {
     onDeleteArea,
     area,
     tooltipRef,
+    enableSubscriptions,
   } = props;
 
   const handleClick = useCallback((action) => {
@@ -63,15 +64,17 @@ const AreaActionsTooltip = (props) => {
             Edit area
           </button>
         </li>
-        <li>
-          <button
-            type="button"
-            className="c-button -desktopOnly"
-            onClick={() => handleClick('edit_subscriptions')}
-          >
-            Edit subscriptions
-          </button>
-        </li>
+        {enableSubscriptions && (
+          <li>
+            <button
+              type="button"
+              className="c-button -desktopOnly"
+              onClick={() => handleClick('edit_subscriptions')}
+            >
+              Edit subscriptions
+            </button>
+          </li>
+        )}
         <li>
           <button
             type="button"
@@ -95,6 +98,7 @@ AreaActionsTooltip.propTypes = {
       contains: PropTypes.func,
     }),
   }).isRequired,
+  enableSubscriptions: PropTypes.bool.isRequired,
   onMouseDown: PropTypes.func.isRequired,
   onEditArea: PropTypes.func.isRequired,
   onEditSubscriptions: PropTypes.func.isRequired,

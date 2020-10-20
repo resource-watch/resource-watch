@@ -13,6 +13,7 @@ const AreaCardList = ({
   areas,
   className,
   isColumn,
+  enableSubscriptions,
   onMapView,
   onEditArea,
   onDeletionArea,
@@ -45,6 +46,7 @@ const AreaCardList = ({
                   {inView && (
                     <AreaCard
                       area={area}
+                      enableSubscriptions={enableSubscriptions}
                       onMapView={onMapView}
                       onDeletionArea={onDeletionArea}
                       onEditArea={onEditArea}
@@ -63,7 +65,7 @@ const AreaCardList = ({
 AreaCardList.defaultProps = {
   className: null,
   isColumn: false,
-  onEditArea: null,
+  enableSubscriptions: true,
 };
 
 AreaCardList.propTypes = {
@@ -72,8 +74,9 @@ AreaCardList.propTypes = {
   ).isRequired,
   className: PropTypes.string,
   isColumn: PropTypes.bool,
+  enableSubscriptions: PropTypes.bool,
   onMapView: PropTypes.func.isRequired,
-  onEditArea: PropTypes.func,
+  onEditArea: PropTypes.func.isRequired,
   onDeletionArea: PropTypes.func.isRequired,
 };
 
