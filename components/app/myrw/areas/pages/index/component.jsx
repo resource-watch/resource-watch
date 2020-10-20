@@ -20,7 +20,7 @@ const AreasIndex = ({
   const router = useRouter();
   const [pagination, setPagination] = useState({
     page: 1,
-    limit: 3,
+    limit: 6,
     size: 0,
   });
   const {
