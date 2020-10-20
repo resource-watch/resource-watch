@@ -57,6 +57,12 @@ const AreaCardList = ({
             </InView>
           </div>
         ))}
+
+        {!areas.length && (
+          <div className="no-areas-container">
+            There are no areas to display. Try creating a new one.
+          </div>
+        )}
       </div>
     </div>
   );

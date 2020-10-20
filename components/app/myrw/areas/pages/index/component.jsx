@@ -30,6 +30,7 @@ const AreasIndex = ({
     },
     isFetching,
     isSuccess,
+    isFetchedAfterMount,
     refetch,
   } = usePaginatedUserAreas(token, {
     'page[size]': pagination.limit,
@@ -95,7 +96,7 @@ const AreasIndex = ({
         />
       )}
 
-      {isSuccess && (
+      {(isSuccess && isFetchedAfterMount) && (
         <>
           <AreaCardList
             areas={userAreas}

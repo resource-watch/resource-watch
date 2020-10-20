@@ -40,6 +40,7 @@ const ExploreAreasOfInterest = ({
     },
     isFetching,
     isSuccess,
+    isFetchedAfterMount,
     refetch,
   } = usePaginatedUserAreas(token, {
     'page[size]': pagination.limit,
@@ -103,7 +104,7 @@ const ExploreAreasOfInterest = ({
           className="-transparent"
         />
       )}
-      {(isSuccess && areas.length > 0) && (
+      {(isSuccess && isFetchedAfterMount) && (
         <>
           <h4>Your saved areas</h4>
           <AreaCardList
@@ -114,6 +115,7 @@ const ExploreAreasOfInterest = ({
             onEditArea={handleAreaEdition}
             onDeletionArea={handleDeletionArea}
           />
+
           {(pagination.size > pagination.limit) && (
             <Paginator
               options={pagination}

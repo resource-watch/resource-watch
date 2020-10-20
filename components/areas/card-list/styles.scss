@@ -5,4 +5,14 @@
     display: flex;
     margin: ($space * 4) 0 0;
   }
+
+  .no-areas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    width: 100%;
+    padding: 0 ($space * 5);
+    text-align: center;
+  }
 }
