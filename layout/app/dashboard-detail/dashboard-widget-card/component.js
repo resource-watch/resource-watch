@@ -29,7 +29,13 @@ import { belongsToACollection } from 'components/collections-panel/collections-p
 import './styles.scss';
 
 function DashboardWidgetCard(props) {
-    const { user, widget, loading, explicitHeight } = props;
+    const {
+      user,
+      widget,
+      loading,
+      explicitHeight,
+      RWAdapter,
+    } = props;
     const widgetConfig = widget && widget.widgetConfig;
     const [shareModalOpen, setShareModalOpen] = useState(false);
     const [infoCardOpen, setInfoCardOpen] = useState(false);
@@ -43,8 +49,8 @@ function DashboardWidgetCard(props) {
     const widgetIsRanking = widgetConfig && widgetConfig.type === 'ranking';
     const widgetEmbedUrl = widgetIsEmbed && widgetConfig.url;
     const isInACollection = widget && belongsToACollection(user, widget);
-    const isMapWidget = widgetType === 'widget' 
-        && widgetConfig && widgetConfig.paramsConfig 
+    const isMapWidget = widgetType === 'widget'
+        && widgetConfig && widgetConfig.paramsConfig
         && widgetConfig.paramsConfig.visualizationType === 'map';
     const starIconName = classnames({
         'icon-star-full': isInACollection,
@@ -64,7 +70,7 @@ function DashboardWidgetCard(props) {
         'widget-container': true,
         '-full-height': widgetIsEmbed
     });
-    
+
     return (
         <div className={classNameValue}>
             <header>
@@ -149,13 +155,14 @@ function DashboardWidgetCard(props) {
                         />
                     }
 
-                    {widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking &&
-                        <Renderer 
-                            widgetConfig={widgetConfig} 
-                            {...(isMapWidget && { changeBbox: widgetConfig.bbox})}
-                            {...(isMapWidget && { interactionEnabled: true })}
-                        />
-                    }
+                  {widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking && (
+                    <Renderer
+                      adapter={RWAdapter}
+                      widgetConfig={widgetConfig}
+                      {...(isMapWidget && { changeBbox: widgetConfig.bbox})}
+                      {...(isMapWidget && { interactionEnabled: true })}
+                    />
+                  )}
 
                     {widgetIsEmbed &&
                         <iframe
@@ -217,10 +224,11 @@ function DashboardWidgetCard(props) {
 };
 
 DashboardWidgetCard.propTypes = {
-    user: PropTypes.object.isRequired,
-    widget: PropTypes.object.isRequired,
-    loading: PropTypes.bool,
-    explicitHeight: PropTypes.number
+  user: PropTypes.object.isRequired,
+  widget: PropTypes.object.isRequired,
+  loading: PropTypes.bool,
+  explicitHeight: PropTypes.number,
+  RWAdapter: PropTypes.func.isRequired,
 };
 
 DashboardWidgetCard.defaultProps = {

@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 // actions
 import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 
+// constants
+import { getRWAdapter } from 'constants/widget-editor';
+
 // component
 import LayoutEmbedWidget from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     widget: state.widget.data,
     loading: state.widget.loading,
     error: state.widget.error,
@@ -15,11 +18,12 @@ export default connect(
     bandStats: state.widget.bandStats,
     favourited: state.widget.favourite.favourited,
     user: state.user,
-    webshot: state.common.webshot
+    webshot: state.common.webshot,
+    RWAdapter: getRWAdapter({ locale: state.common.locale }),
   }),
   {
     getWidget,
     checkIfFavorited,
-    setIfFavorited
+    setIfFavorited,
   }
 )(LayoutEmbedWidget);

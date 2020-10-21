@@ -46,7 +46,8 @@ class WidgetBlock extends PureComponent {
     data: PropTypes.object,
     item: PropTypes.object,
     onToggleModal: PropTypes.func,
-    onToggleLoading: PropTypes.func
+    onToggleLoading: PropTypes.func,
+    RWAdapter: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -147,7 +148,8 @@ class WidgetBlock extends PureComponent {
       data,
       item,
       onToggleModal,
-      onToggleLoading
+      onToggleLoading,
+      RWAdapter,
     } = this.props;
 
     const { viewport, isInitMap } = this.state;
@@ -281,9 +283,12 @@ class WidgetBlock extends PureComponent {
               />
             }
 
-            {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget &&
-              <Renderer widgetConfig={widget.widgetConfig} />
-            }
+            {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget && (
+              <Renderer
+                adapter={RWAdapter}
+                widgetConfig={widget.widgetConfig}
+              />
+            )}
 
             {widgetIsEmbed &&
               <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
