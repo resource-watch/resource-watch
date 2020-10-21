@@ -356,7 +356,6 @@ const ExploreMap = (props) => {
               map={_map}
               drawing={isDrawing}
               onEscapeKey={handleDrawEscapeKey}
-              // onReady={(_drawer) => { drawer = _drawer; }}
               onDrawComplete={handleDrawComplete}
             />
 

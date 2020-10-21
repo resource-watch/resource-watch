@@ -1,4 +1,8 @@
-import React, { useState, useMemo, Fragment } from 'react';
+import React, {
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 
@@ -37,12 +41,15 @@ function Explore(props) {
     explore: {
       datasets: { selected },
       sidebar: { section, subsection },
+      map: { drawer: { isDrawing } },
     },
     userIsLoggedIn,
     hostname,
+    stopDrawing,
   } = props;
   const [mobileWarningOpened, setMobileWarningOpened] = useState(true);
   const [dataset, setDataset] = useState(null);
+  const handleClearPolygon = useCallback(() => { stopDrawing(); }, [stopDrawing]);
   const isAuthenticatedSection = useMemo(() => [
     EXPLORE_SECTIONS.COLLECTIONS,
     EXPLORE_SECTIONS.FAVORITES,
@@ -125,6 +132,17 @@ function Explore(props) {
             >
               {getSidebarLayout()}
             </ExploreSidebar>
+            {isDrawing && (
+              <div className="clear-polygon-container">
+                <button
+                  type="button"
+                  onClick={handleClearPolygon}
+                  className="c-btn -primary -alt"
+                >
+                  Clear Polygon
+                </button>
+              </div>
+            )}
             <ExploreMap />
           </>
         </MediaQuery>
@@ -170,9 +188,16 @@ Explore.propTypes = {
       section: PropTypes.string.isRequired,
       subsection: PropTypes.string,
     }).isRequired,
+    map: PropTypes.shape({
+      drawer: PropTypes.shape({
+        isDrawing: PropTypes.bool.isRequired,
+      }).isRequired,
+    }).isRequired,
   }).isRequired,
   userIsLoggedIn: PropTypes.bool.isRequired,
   hostname: PropTypes.string.isRequired,
+  stopDrawing: PropTypes.func.isRequired,
+  setIsDrawing: PropTypes.func.isRequired,
 };
 
 export default Explore;
