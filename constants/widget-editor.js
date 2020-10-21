@@ -8,9 +8,7 @@ export const WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES = [
 
 export const getRWAdapter = (config = {}) => AdapterModifier(RWAdapter, {
   endpoint: process.env.WRI_API_URL,
-  dataEndpoint: `${process.env.WRI_API_URL}/query`,
   env: process.env.API_ENV,
   applications: process.env.APPLICATIONS.split(','),
-  // locale: process.env.locale,
   ...config,
 });

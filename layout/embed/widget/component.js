@@ -24,7 +24,8 @@ class LayoutEmbedWidget extends PureComponent {
     user: PropTypes.object.isRequired,
     webshot: PropTypes.bool.isRequired,
     referer: PropTypes.string,
-    setIfFavorited: PropTypes.func.isRequired
+    setIfFavorited: PropTypes.func.isRequired,
+    RWAdapter: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -121,7 +122,8 @@ class LayoutEmbedWidget extends PureComponent {
       favourited,
       user,
       webshot,
-      referer
+      referer,
+      RWAdapter,
     } = this.props;
     const { modalOpened } = this.state;
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
@@ -241,10 +243,12 @@ class LayoutEmbedWidget extends PureComponent {
             </div>
           </div>)}
           <div className="widget-content">
-            {typeof window !== 'undefined' && 
-            
-              <Renderer widgetConfig={widget.widgetConfig} />
-            }
+            {typeof window !== 'undefined' && (
+              <Renderer
+                adapter={RWAdapter}
+                widgetConfig={widget.widgetConfig}
+              />
+            )}
             {modalOpened && this.getModal()}
           </div>
           {(isExternal && !webshot) && (
