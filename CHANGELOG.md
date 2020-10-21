@@ -5,20 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.15.15] - TBD
+## [2.16.0] - TBD
 ### Added
+- possibility of drawing custom areas in Explore map. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
+- added pagination for areas in MyRW. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
+- user areas of interest can now be displayed in Explore map. Also, edition is available. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
 - sitemap generation.
 - new fetching for fields from `carto` datasets. Instead of using WRI's API `/fields` endpoint, points directly to Carto SQL API as it admits query modifications. [#171632711](https://www.pivotaltracker.com/story/show/171632711)
 - better error handling for widget cards fetching layers.
 - extra validation step to ensure `widgetConfig` attribute of widgets is present and valid. [#174911795](https://www.pivotaltracker.com/story/show/174911795)
 
 ### Changed
+- login in Explore page won't redirect to MyRW anymore, the user will remain in the Explore page. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
+- unified design of area cards in explore and MyRW. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
 - widget-editor@2.4.1
 - maintenance: moved `webpack` from `dependencies` to `devDependencies`.
 - widget-editor: updated RW-adapter to accept app's params (like API url).
 - maintenance: updated `eslint` and its plugins. [#174977793](https://www.pivotaltracker.com/story/show/174977793)
 
 ### Fixed
+- intermittent area edition bug where the area to edit wasn't loaded properly. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
 - widget-editor: fixed a WE crash when the user changes the visualization type in a map-only widget. [#175165737](https://www.pivotaltracker.com/story/show/175165737)
 - admin: in layer edition, the interactivity wasn't being applied on first load until the user modifies it for first time. Now it does.
 - widget-editor: fixed error updating fields. [#174996497](https://www.pivotaltracker.com/story/show/174996497)

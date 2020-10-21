@@ -13,6 +13,6 @@ export default connect(
   (state, props) => ({ activeAlerts: getActiveAlerts(state, props) }),
   {
     removeUserArea,
-    getUserAreaLayerGroups
-  }
+    getUserAreaLayerGroups,
+  },
 )(AreaCard);

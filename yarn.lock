@@ -14109,6 +14109,13 @@ react-proxy@^3.0.0-alpha.0:
   dependencies:
     lodash "^4.6.1"
 
+react-query@^2.23.1:
+  version "2.23.1"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-2.23.1.tgz#7d676f56d3c6e96b4de4d0b178baf6bb6a0ec272"
+  integrity sha512-qIma0Kvr//LWgWFah7RcntvD4FurXXdQaQeIfqhCWKdhihhe3Xs5BHsljAP68jo719/+xhWxL3I96SvrU4gGHA==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+
 react-quill@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-quill/-/react-quill-1.1.0.tgz#348dbd36252607fd31cad140f1c95e969da18d53"

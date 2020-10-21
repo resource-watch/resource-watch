@@ -1,0 +1,54 @@
+@import 'css/settings';
+
+.c-explore-areas-of-interest {
+  position: relative;
+  padding: 0 (2 * $space) (2 * $space);
+
+  > .menu {
+    z-index: 2;
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: (2 * $space) 0;
+    backdrop-filter: blur(4px);
+
+    > button {
+      display: flex;
+      align-items: center;
+      padding: $space * 2;
+      margin: 0 ($space * 2) 0 0;
+      border: 1px solid rgba($black, .03);
+      border-radius: 4px;
+      box-shadow: 0 2px 6px 0 rgba($black, .1);
+      background: $white;
+      font-size: $font-size-tiny;
+      font-weight: $font-weight-bold;
+      color: $dove-grey;
+      text-transform: uppercase;
+      transition: transform $animation-time $ease-in-out-sine;
+
+      &:active,
+      &:hover {
+        transform: translate(0, -2px);
+      }
+
+      > svg {
+        width: 12px;
+        height: 12px;
+        margin: 0 $space 0 0;
+        fill: $dark-pink;
+      }
+    }
+  }
+
+  > .user-areas-header {
+    position: relative;
+    margin: 0 0 $space 0;
+
+    > .c-spinner {
+      transform: translate(-21px, 0);
+    }
+  }
+}

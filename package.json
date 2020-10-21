@@ -89,6 +89,7 @@
     "react-markdown": "^4.0.3",
     "react-modal": "3.1.13",
     "react-progress-2": "4.4.1",
+    "react-query": "^2.23.1",
     "react-quill": "1.1.0",
     "react-redux": "5.0.6",
     "react-redux-toastr": "7.2.3",

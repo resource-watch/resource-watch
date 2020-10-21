@@ -44,7 +44,9 @@ class ExplorePage extends PureComponent {
       layers,
       dataset,
       section,
-      selectedCollection
+      selectedCollection,
+      area,
+      geostore,
     } = query;
 
     // Query
@@ -78,6 +80,7 @@ class ExplorePage extends PureComponent {
     if (basemap) dispatch(actions.setBasemap(basemap));
     if (labels) dispatch(actions.setLabels(labels));
     if (boundaries) dispatch(actions.setBoundaries(!!boundaries));
+    if (area && geostore) dispatch(actions.toggleArea({ id: area, geostore }));
 
     // Fetch layers
     if (layers) await dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
@@ -91,7 +94,7 @@ class ExplorePage extends PureComponent {
     return {};
   }
 
-  componentDidUpdate(prevProps) {    
+  componentDidUpdate(prevProps) {
     if (this.shouldUpdateUrl(prevProps)) {
       this.setExploreURL();
     }
@@ -160,14 +163,14 @@ class ExplorePage extends PureComponent {
         { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) }
     };
 
-    if (typeof window !== 'undefined') {      
+    if (typeof window !== 'undefined') {
       Router.replaceRoute('explore', query, { shallow: true });
     }
   }
 
   shouldUpdateUrl(prevProps) {
     const { explore: { datasets, filters, sort, map } } = this.props;
-    
+
     const {
       explore: {
         datasets: prevDatasets,

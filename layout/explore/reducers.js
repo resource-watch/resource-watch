@@ -5,7 +5,6 @@ import { sortLayers } from 'utils/layers';
 import * as actions from './actions';
 import initialState from './initial-state';
 
-
 export default {
   // EXPLORE
   [actions.resetExplore]: () => initialState,
@@ -45,8 +44,6 @@ export default {
     const datasets = { ...state.datasets, selected: action.payload };
     return { ...state, datasets };
   },
-
-
   //
   // FILTERS
   //
@@ -79,7 +76,7 @@ export default {
     if (!arr.includes(tag.id)) {
       arr.push(tag.id);
     } else {
-      const index = arr.findIndex(s => s === tag.id);
+      const index = arr.findIndex((s) => s === tag.id);
       arr.splice(index, 1);
     }
 
@@ -92,7 +89,7 @@ export default {
     const filters = {
       ...state.filters,
       search: initialState.filters.search,
-      selected: initialState.filters.selected
+      selected: initialState.filters.selected,
     };
     return { ...state, filters };
   },
@@ -105,7 +102,7 @@ export default {
   [actions.setSortIsUserSelected]: (state) => {
     const sort = {
       ...state.sort,
-      isSetFromDefaultState: false
+      isSetFromDefaultState: false,
     };
     return { ...state, sort };
   },
@@ -117,12 +114,10 @@ export default {
     const sort = {
       ...state.sort,
       selected: initialState.sort.selected,
-      direction: initialState.sort.direction
+      direction: initialState.sort.direction,
     };
     return { ...state, sort };
   },
-
-
   //
   // MAP
   //
@@ -132,47 +127,83 @@ export default {
       ...state.map,
       viewport: {
         ...state.map.viewport,
-        ...payload
-      }
-    }
+        ...payload,
+      },
+    },
   }),
-  [actions.setMapZoom]: (state, action) => {
-    const map = { ...state.map, zoom: action.payload };
-    return { ...state, map };
-  },
-  [actions.setMapLatLng]: (state, action) => {
-    const map = { ...state.map, latLng: action.payload };
-    return { ...state, map };
-  },
   [actions.setBasemap]: (state, { payload }) => ({
     ...state,
     map: {
       ...state.map,
-      basemap: payload
-    }
+      basemap: payload,
+    },
   }),
   [actions.setLabels]: (state, { payload }) => ({
     ...state,
     map: {
       ...state.map,
-      labels: payload
-    }
+      labels: payload,
+    },
   }),
   [actions.setBoundaries]: (state, { payload }) => ({
     ...state,
     map: {
       ...state.map,
-      boundaries: payload
-    }
+      boundaries: payload,
+    },
   }),
   [actions.setBounds]: (state, { payload }) => ({
     ...state,
     map: {
       ...state.map,
-      bounds: payload
-    }
+      bounds: payload,
+    },
   }),
+  [actions.setIsDrawing]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      drawer: {
+        ...state.map.drawer,
+        isDrawing: payload,
+      },
+    },
+  }),
+  [actions.setDataDrawing]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      drawer: {
+        ...state.map.drawer,
+        data: payload,
+      },
+    },
+  }),
+  [actions.stopDrawing]: (state) => ({
+    ...state,
+    map: {
+      ...state.map,
+      drawer: initialState.map.drawer,
+    },
+  }),
+  [actions.toggleArea]: (state, { payload }) => {
+    const isAdded = (state.map.areas.findIndex(({ id }) => id === payload.id) !== -1);
+    let { areas } = state.map;
 
+    if (isAdded) {
+      areas = areas.filter(({ id }) => id !== payload.id);
+    } else {
+      areas = [...state.map.areas, payload];
+    }
+
+    return ({
+      ...state,
+      map: {
+        ...state.map,
+        areas,
+      },
+    });
+  },
   // LAYERS
   [actions.toggleMapLayerGroup]: (state, action) => {
     const layerGroups = [...state.map.layerGroups];
@@ -183,10 +214,10 @@ export default {
 
     // sorts layers if applies
     if (
-      applicationConfig &&
-      applicationConfig[process.env.APPLICATIONS] &&
-      applicationConfig[process.env.APPLICATIONS].layerOrder &&
-      layers.length > 1) {
+      applicationConfig
+      && applicationConfig[process.env.APPLICATIONS]
+      && applicationConfig[process.env.APPLICATIONS].layerOrder
+      && layers.length > 1) {
       const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
       _layers = sortLayers(_layers, layerOrder);
     }
@@ -195,14 +226,14 @@ export default {
       layerGroups.unshift({
         dataset: dataset.id,
         visibility: true,
-        layers: _layers.map(l => ({ ...l, active: l.default }))
+        layers: _layers.map((l) => ({ ...l, active: l.default })),
       });
       if (layerGroups[0].layers.length) {
-        logEvent('Explore Map', 'Add layer', 
+        logEvent('Explore Map', 'Add layer',
           `${layerGroups[0].layers[0].name} [${layerGroups[0].layers[0].id}]`);
       }
     } else {
-      const index = layerGroups.findIndex(l => l.dataset === dataset.id);
+      const index = layerGroups.findIndex((l) => l.dataset === dataset.id);
       layerGroups.splice(index, 1);
     }
 
@@ -214,7 +245,7 @@ export default {
     const { dataset, visibility } = action.payload;
     const layerGroups = state.map.layerGroups.map((lg) => {
       if (lg.dataset !== dataset.id) return lg;
-      const layers = lg.layers.map(l => ({ ...l, visibility }));
+      const layers = lg.layers.map((l) => ({ ...l, visibility }));
       return { ...lg, layers, visibility };
     });
 
@@ -225,7 +256,7 @@ export default {
     const { dataset, opacity } = action.payload;
     const layerGroups = state.map.layerGroups.map((lg) => {
       if (lg.dataset !== dataset.id) return lg;
-      const layers = lg.layers.map(l => ({ ...l, opacity }));
+      const layers = lg.layers.map((l) => ({ ...l, opacity }));
       return { ...lg, layers, opacity };
     });
 
@@ -237,7 +268,7 @@ export default {
     const layerGroups = state.map.layerGroups.map((lg) => {
       if (lg.dataset !== dataset.id) return lg;
 
-      const layers = lg.layers.map(l => ({ ...l, active: l.id === active }));
+      const layers = lg.layers.map((l) => ({ ...l, active: l.id === active }));
 
       return { ...lg, layers };
     });
@@ -250,8 +281,7 @@ export default {
     const layerGroups = [...state.map.layerGroups];
 
     // Sort by new order
-    layerGroups.sort((a, b) =>
-      (datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1));
+    layerGroups.sort((a, b) => (datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1));
 
     const map = { ...state.map, layerGroups };
     return { ...state, map };
@@ -263,16 +293,16 @@ export default {
     const layerGroups = datasets
       .map((_dataset) => {
         const { id, layer: layers, applicationConfig } = _dataset;
-        const dParams = params.find(p => p.dataset === id);
+        const dParams = params.find((p) => p.dataset === id);
         // gets only pusblished layers
-        let _layers = layers.filter(_layer => _layer.published);
+        let _layers = layers.filter((_layer) => _layer.published);
 
         // sorts layers if applies
         if (
-          applicationConfig &&
-          applicationConfig[process.env.APPLICATIONS] &&
-          applicationConfig[process.env.APPLICATIONS].layerOrder &&
-          layers.length > 1) {
+          applicationConfig
+          && applicationConfig[process.env.APPLICATIONS]
+          && applicationConfig[process.env.APPLICATIONS].layerOrder
+          && layers.length > 1) {
           const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
           _layers = sortLayers(_layers, layerOrder);
         }
@@ -281,31 +311,29 @@ export default {
           dataset: id,
           opacity: dParams.opacity,
           visibility: dParams.visibility,
-          layers: _layers.map(_layer => ({
+          layers: _layers.map((_layer) => ({
             ..._layer,
             active: dParams.layer === _layer.id,
             opacity: dParams.opacity,
-            visibility: dParams.visibility
-          }))
+            visibility: dParams.visibility,
+          })),
         };
       })
       .sort((a, b) => {
-        const aIndex = params.findIndex(p => p.dataset === a.dataset);
-        const bIndex = params.findIndex(p => p.dataset === b.dataset);
+        const aIndex = params.findIndex((p) => p.dataset === a.dataset);
+        const bIndex = params.findIndex((p) => p.dataset === b.dataset);
 
         return (aIndex > bIndex ? 1 : -1);
       });
-
-
     const map = { ...state.map, layerGroups };
     return { ...state, map };
   },
 
   // AREA OF INTEREST
   [actions.setAOI]: (state, action) => {
-    const geojson = action.payload.geojson
-    const newUserArea = geojson && 
-      {
+    const { geojson } = action.payload;
+    const newUserArea = geojson
+      && {
         id: 'user-area',
         provider: 'geojson',
         layerConfig: {
@@ -313,23 +341,23 @@ export default {
           data: geojson,
           body: {
             vectorLayers: [
-            {
-              id: 'user-area-line',
-              type: 'line',
-              source: 'user-area',
-              paint: { 'line-color': '#fab72e' }
-            }
-          ]
-          }
-        }
+              {
+                id: 'user-area-line',
+                type: 'line',
+                source: 'user-area',
+                paint: { 'line-color': '#fab72e' },
+              },
+            ],
+          },
+        },
       };
 
-    return { 
-      ...state, 
+    return {
+      ...state,
       map: {
         ...state.map,
-        aoi: newUserArea 
-      }
+        aoi: newUserArea,
+      },
     };
   },
 
@@ -337,7 +365,7 @@ export default {
   [actions.setMapLayerGroupsInteraction]: (state, action) => {
     const layerGroupsInteraction = {
       ...state.map.layerGroupsInteraction,
-      ...action.payload
+      ...action.payload,
     };
 
     const map = { ...state.map, layerGroupsInteraction };
@@ -356,7 +384,7 @@ export default {
       ...state.map,
       layerGroupsInteraction: {},
       layerGroupsInteractionLatLng: null,
-      layerGroupsInteractionSelected: null
+      layerGroupsInteractionSelected: null,
     };
     return { ...state, map };
   },
@@ -370,15 +398,15 @@ export default {
 
     parametrization[id] = {
       ...parametrization[id],
-      ...nextConfig
+      ...nextConfig,
     };
 
     return {
       ...state,
       map: {
         ...state.map,
-        parametrization: { ...parametrization }
-      }
+        parametrization: { ...parametrization },
+      },
     };
   },
 
@@ -392,16 +420,16 @@ export default {
       ...state,
       map: {
         ...state.map,
-        parametrization: { ...parametrization }
-      }
+        parametrization: { ...parametrization },
+      },
     };
   },
-  [actions.resetLayerParametrization]: state => ({
+  [actions.resetLayerParametrization]: (state) => ({
     ...state,
     map: {
       ...state.map,
-      parametrization: { ...initialState.map.parametrization }
-    }
+      parametrization: { ...initialState.map.parametrization },
+    },
   }),
   //
   // SIDEBAR
@@ -422,7 +450,34 @@ export default {
     const sidebar = { ...state.sidebar, selectedCollection: action.payload };
     return { ...state, sidebar };
   },
-
+  [actions.setSidebarSubsection]: (state, { payload }) => ({
+    ...state,
+    sidebar: {
+      ...state.sidebar,
+      subsection: payload,
+    },
+  }),
+  [actions.clearSidebarSubsection]: (state) => ({
+    ...state,
+    sidebar: {
+      ...state.sidebar,
+      subsection: initialState.sidebar.subsection,
+    },
+  }),
+  [actions.setSelectedItem]: (state, { payload }) => ({
+    ...state,
+    sidebar: {
+      ...state.sidebar,
+      selected: payload,
+    },
+  }),
+  [actions.clearSelectedItem]: (state) => ({
+    ...state,
+    sidebar: {
+      ...state.sidebar,
+      selected: initialState.sidebar.selected,
+    },
+  }),
   //
   // TAGS
   //
@@ -445,5 +500,5 @@ export default {
   [actions.resetTags]: (state) => {
     const { tags } = initialState;
     return { ...state, tags };
-  }
+  },
 };

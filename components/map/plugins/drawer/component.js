@@ -1,4 +1,9 @@
-import { useCallback, useEffect, useState, useRef } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
@@ -14,7 +19,7 @@ const Drawer = (props) => {
     map,
     onDrawComplete,
     onReady,
-    onEscapeKey
+    onEscapeKey,
   } = props;
   const draw = useRef(new MapboxDraw(DRAWER_CONFIG)).current;
   const [mounted, setMountedState] = useState(false);
@@ -58,16 +63,16 @@ const Drawer = (props) => {
 };
 
 Drawer.propTypes = {
-  map: PropTypes.object.isRequired,
+  map: PropTypes.shape({}).isRequired,
   drawing: PropTypes.bool.isRequired,
   onDrawComplete: PropTypes.func.isRequired,
   onEscapeKey: PropTypes.func,
-  onReady: PropTypes.func
+  onReady: PropTypes.func,
 };
 
 Drawer.defaultProps = {
   onReady: null,
-  onEscapeKey: null
+  onEscapeKey: null,
 };
 
 export default Drawer;
