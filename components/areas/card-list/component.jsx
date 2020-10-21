@@ -41,6 +41,7 @@ const AreaCardList = ({
                   className="card-container"
                   style={{
                     height: isColumn ? 325 : 390,
+                    width: isColumn ? 300 : 'auto',
                   }}
                 >
                   {inView && (
