@@ -19,7 +19,8 @@ import { isLoadedExternally } from 'utils/embed';
 class LayoutEmbedDataset extends PureComponent {
   static propTypes = {
     routes: PropTypes.object.isRequired,
-    referer: PropTypes.string.isRequired
+    referer: PropTypes.string.isRequired,
+    RWAdapter: PropTypes.func.isRequired,
   }
 
   state = {
@@ -40,7 +41,7 @@ class LayoutEmbedDataset extends PureComponent {
   triggerToggleLoading = () => { this.setState({ loadingWidget: false }); }
 
   render() {
-    const { referer } = this.props;
+    const { referer, RWAdapter } = this.props;
     const { dataset, loadingDataset, loadingWidget } = this.state;
     const widgets = dataset && dataset.attributes.widget;
     const metadataObj = dataset && dataset.attributes.metadata[0];
@@ -77,13 +78,16 @@ class LayoutEmbedDataset extends PureComponent {
         description={datasetDescription}
       >
         <div className="c-embed-dataset">
-          {widget &&
+          {widget && (
             <ErrorBoundary message="There was an error loading the visualization">
               <div className="widget-content">
-                <Renderer widgetConfig={widget.widgetConfig} />
+                <Renderer
+                  adapter={RWAdapter}
+                  widgetConfig={widget.widgetConfig}
+                />
               </div>
             </ErrorBoundary>
-          }
+          )}
           <Spinner isLoading={loadingWidget} className="-light -relative" />
           <div className="info">
             <div className="widget-title">

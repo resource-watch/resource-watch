@@ -1,28 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-// Widget editor
-import Renderer from '@widget-editor/renderer';
+// constants
+import { getRWAdapter } from 'constants/widget-editor';
 
-function WidgetChart(props) {
+// component
+import WidgetChart from './component';
 
-  const { thumbnail, widget } = props;
-
-  return (
-    <div className="c-widget-chart">
-      <Renderer
-        widgetConfig={widget.widgetConfig}
-        thumbnail={thumbnail}
-      />
-    </div>
-  );
-}
-
-WidgetChart.propTypes = {
-  widget: PropTypes.object.isRequired,
-  thumbnail: PropTypes.bool
-};
-
-WidgetChart.defaultProps = { thumbnail: false };
-
-export default WidgetChart;
+export default connect(
+  (state) => ({
+    RWAdapter: getRWAdapter({ locale: state.common.locale }),
+  }),
+  null,
+)(WidgetChart);

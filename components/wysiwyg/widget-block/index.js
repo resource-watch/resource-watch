@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 // helpers
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
+// constants
+import { getRWAdapter } from 'constants/widget-editor';
 
 import * as actions from './actions';
 import * as reducers from './reducers';
@@ -22,7 +24,8 @@ class WidgetBlock extends PureComponent {
     setWidgetLoading: PropTypes.func.isRequired,
     setWidgetModal: PropTypes.func.isRequired,
     removeWidget: PropTypes.func.isRequired,
-    setLayers: PropTypes.func.isRequired
+    setLayers: PropTypes.func.isRequired,
+    RWAdapter: PropTypes.func.isRequired,
   };
 
   UNSAFE_componentWillMount() {
@@ -68,8 +71,10 @@ class WidgetBlock extends PureComponent {
   })
 
   render() {
+    const { RWAdapter } = this.props;
     return (
       <WidgetBlockComponent
+        RWAdapter={RWAdapter}
         onToggleModal={(modal) => {
           const { item } = this.props;
 
@@ -107,9 +112,10 @@ class WidgetBlock extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     data: state.widgetBlock,
-    user: state.user
+    user: state.user,
+    RWAdapter: getRWAdapter({ locale: state.common.locale }),
   }),
-  actions
+  actions,
 )(WidgetBlock);
