@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -11,18 +11,32 @@ const ProminentButton = ({
   icon,
   text,
   onClick,
-}) => (
-  <button
-    type="button"
-    className="c-prominent-button"
-    onClick={onClick}
-  >
-    <Icon name={`icon-${icon}`} />
-    <span>
-      {text}
-    </span>
-  </button>
-);
+}) => {
+  const buttonRef = useRef(null);
+  const handleEscapeKey = useCallback((e) => {
+    if (e.key !== 'Escape') return null;
+    return buttonRef.current.blur();
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleEscapeKey);
+    return () => { window.removeEventListener('keydown', handleEscapeKey); };
+  }, [handleEscapeKey]);
+
+  return (
+    <button
+      ref={buttonRef}
+      type="button"
+      className="c-prominent-button"
+      onClick={onClick}
+    >
+      <Icon name={`icon-${icon}`} />
+      <span>
+        {text}
+      </span>
+    </button>
+  );
+};
 
 ProminentButton.defaultProps = {
   onClick: () => {},

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -39,6 +39,11 @@ const ExploreAreasOfInterestNewArea = ({
   const handleCancelForm = useCallback(() => {
     clearSidebarSubsection();
   }, [clearSidebarSubsection]);
+
+  useEffect(() => () => {
+    if (drawer.isDrawing) stopDrawing();
+  },
+  [drawer.isDrawing, stopDrawing]);
 
   return (
     <div className="c-explore-areas-of-interest-new-area">
