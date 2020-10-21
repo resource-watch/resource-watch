@@ -17,8 +17,8 @@ export const fetchFields = (url) => {
     headers: {
       ...axios.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1
-    }
+      'Upgrade-Insecure-Requests': 1,
+    },
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -42,4 +42,24 @@ export const fetchFields = (url) => {
     });
 };
 
-export default { fetchFields };
+/**
+ * Fetches fields from CARTO datasets.
+ * @param {Object} config - contains "account" and "sql" attributes to fetch CARTO fields.
+ * @returns {Object} array of dataset fields.
+ */
+export const fetchCartoFields = (config = {}) => {
+  const { account, sql } = config;
+  if (!account) throw new Error('account attribute not found.');
+  if (!sql) throw new Error('SQL attribute not found.');
+
+  return axios.get(`https://${account}.carto.com/api/v2/sql?q=${sql} limit 0`, {
+    headers: {
+      ...axios.defaults.headers,
+    },
+  })
+    .then(({ data }) => data)
+    .catch(({ response }) => {
+      const { data: { error } } = response;
+      throw new Error(error[0] || 'Error fetching fields from CARTO');
+    });
+};

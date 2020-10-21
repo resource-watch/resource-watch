@@ -19,17 +19,17 @@ const DATA_FORMATS = {
     { label: 'Percent Integer', value: '0,0%' },
     { label: 'Percent Float', value: '0,0[.0]%' },
     { label: 'Scientific notation', value: '0,0.0[0]e+0' },
-    { label: 'Years', value: '0000' }
+    { label: 'Years', value: '0000' },
   ],
   date: [
     { label: 'YYYY/MM/DD', value: 'YYYY/MM/DD' },
     { label: 'YYYY', value: 'YYYY' },
     { label: 'MM', value: 'MM' },
-    { label: 'DD', value: 'DD' }
+    { label: 'DD', value: 'DD' },
   ],
   getAll() {
     return this.number.concat(this.date);
-  }
+  },
 };
 
 const InteractionsItem = (props) => {
@@ -37,14 +37,14 @@ const InteractionsItem = (props) => {
     interaction,
     removeInteraction,
     editInteraction,
-    custom
+    custom,
   } = props;
 
   const interactionsFieldClasses = classnames({
     'c-field-flex': true,
     'c-sortable-row': true,
     'c-interactions__field': true,
-    'c-interactions__field--custom': custom
+    'c-interactions__field--custom': custom,
   });
 
   return (
@@ -54,17 +54,24 @@ const InteractionsItem = (props) => {
     >
       <InteractionsHandler />
 
-      {custom && <p className="c-interactions__warning"><strong>Custom interaction</strong> Make sure the data matches the format you want. Otherwise it wont display correctly.</p>}
+      {custom && (
+        <p className="c-interactions__warning">
+          <strong>
+            Custom interaction
+          </strong>
+          &nbsp;Make sure the data matches the format you want. Otherwise it wont display correctly.
+        </p>
+      )}
 
       {['Field', 'Label', 'Prefix', 'Suffix'].map((label) => {
-      const validations = label === 'Label' ? ['required'] : [];
+        const validations = label === 'Label' ? ['required'] : [];
         return (
           <Field
             key={interaction.column + label}
             ref={(c) => {
-                if (c) FORM_ELEMENTS.elements[label.toLowerCase() + interaction.column] = c;
+              if (c) FORM_ELEMENTS.elements[label.toLowerCase() + interaction.column] = c;
             }}
-            onChange={value => editInteraction({ value, key: label, field: interaction })}
+            onChange={(value) => editInteraction({ value, key: label, field: interaction })}
             validations={validations}
             properties={{
               name: label.toLowerCase() + interaction.column,
@@ -72,7 +79,7 @@ const InteractionsItem = (props) => {
               type: 'text',
               disabled: /Field/.test(label),
               required: /Label/.test(label),
-              default: interaction[FORMAT.resolveKey(label)]
+              default: interaction[FORMAT.resolveKey(label)],
             }}
           >
             {Input}
@@ -83,14 +90,14 @@ const InteractionsItem = (props) => {
         <Field
           key={`${interaction.column}format`}
           ref={(c) => { if (c) FORM_ELEMENTS.elements[`format${interaction.column}`] = c; }}
-          onChange={value => editInteraction({ value, key: 'format', field: interaction })}
+          onChange={(value) => editInteraction({ value, key: 'format', field: interaction })}
           options={custom ? DATA_FORMATS.getAll() : DATA_FORMATS[interaction.type]}
           properties={{
             name: `${interaction.column}format`,
             label: 'Format',
             type: 'text',
             disabled: /string/.test(interaction.type),
-            default: typeof interaction.format === 'string' ? interaction.format : ''
+            default: typeof interaction.format === 'string' ? interaction.format : '',
           }}
         >
           {Select}
@@ -98,14 +105,19 @@ const InteractionsItem = (props) => {
       </section>
 
       <button type="button" className="c-btn" onClick={() => removeInteraction(interaction)}>Remove</button>
-    </li>);
+    </li>
+  );
 };
 
 InteractionsItem.propTypes = {
-  interaction: PropTypes.object.isRequired,
+  interaction: PropTypes.shape({
+    column: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    format: PropTypes.string.isRequired,
+  }).isRequired,
   editInteraction: PropTypes.func.isRequired,
   removeInteraction: PropTypes.func.isRequired,
-  custom: PropTypes.bool
+  custom: PropTypes.bool,
 };
 
 InteractionsItem.defaultProps = { custom: false };
