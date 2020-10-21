@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - extra validation step to ensure `widgetConfig` attribute of widgets is present and valid. [#174911795](https://www.pivotaltracker.com/story/show/174911795)
 
 ### Changed
-- widget-editor@2.4.0
+- widget-editor@2.4.1
 - maintenance: moved `webpack` from `dependencies` to `devDependencies`.
 - widget-editor: updated RW-adapter to accept app's params (like API url).
 - maintenance: updated `eslint` and its plugins. [#174977793](https://www.pivotaltracker.com/story/show/174977793)
