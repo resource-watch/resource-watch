@@ -19,6 +19,11 @@
     transform: translateY(-4px);
   }
 
+  &:active,
+  &:focus {
+    border-color: $dark-pink;
+  }
+
   > svg{
     height: 40px;
     width: 40px;

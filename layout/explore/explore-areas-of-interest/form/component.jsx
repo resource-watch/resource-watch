@@ -17,7 +17,9 @@ import './styles.scss';
 
 const ExploreAreaForm = ({
   area,
+  isDrawing,
   setIsDrawing,
+  stopDrawing,
   onSubmit,
   onCancel,
 }) => {
@@ -46,10 +48,16 @@ const ExploreAreaForm = ({
     setForm({ ...form, geostore });
     setVisibility(false);
   }, [setForm, form]);
-  const handleVisibility = useCallback((_visible) => { setVisibility(_visible); }, []);
+  const handleVisibility = useCallback((_visible) => {
+    if (isDrawing) stopDrawing();
+    setVisibility(_visible);
+  }, [isDrawing, stopDrawing]);
   const handleDrawArea = useCallback(() => { setIsDrawing(true); }, [setIsDrawing]);
 
-  const handleDropzoneClick = useCallback(() => { dropzoneRef.current.open(); }, []);
+  const handleDropzoneClick = useCallback(() => {
+    if (isDrawing) stopDrawing();
+    dropzoneRef.current.open();
+  }, [isDrawing, stopDrawing]);
 
   const onDragEnter = useCallback(() => {
     setDropzone({ ...dropzone, dropzoneActive: true });
@@ -191,7 +199,9 @@ ExploreAreaForm.propTypes = {
     name: PropTypes.string,
     geostore: PropTypes.string,
   }),
+  isDrawing: PropTypes.bool.isRequired,
   setIsDrawing: PropTypes.func.isRequired,
+  stopDrawing: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };
