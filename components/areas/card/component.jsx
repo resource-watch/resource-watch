@@ -220,7 +220,7 @@ const AreaCard = (props) => {
             })}
             onClick={handleMapView}
           >
-            {isVisible ? 'Remove from map' : 'View on map'}
+            {isVisible ? 'Active' : 'Show area'}
           </button>
           <Tooltip
             visible={isTooltipOpen}
