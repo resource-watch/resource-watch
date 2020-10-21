@@ -3,7 +3,6 @@
 .c-explore-areas-of-interest {
   overflow: auto;
   position: relative;
-  height: 100%;
   padding: 0 (2 * $space) (2 * $space);
 
   > .menu {
@@ -44,7 +43,12 @@
     }
   }
 
-  > h4 {
+  > .user-areas-header {
+    position: relative;
     margin: 0 0 $space 0;
+
+    > .c-spinner {
+      transform: translate(-7px, 0);
+    }
   }
 }

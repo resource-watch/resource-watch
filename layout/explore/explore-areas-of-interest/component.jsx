@@ -98,15 +98,18 @@ const ExploreAreasOfInterest = ({
         </button>
 
       </div>
-      {isFetching && (
-        <Spinner
-          isLoading
-          className="-transparent"
-        />
-      )}
+
+      <div className="user-areas-header">
+        <h4>Your saved areas</h4>
+        {isFetching && (
+          <Spinner
+            isLoading
+            className="-tiny -transparent -right"
+          />
+        )}
+      </div>
       {(isSuccess && isFetchedAfterMount) && (
         <>
-          <h4>Your saved areas</h4>
           <AreaCardList
             areas={areas}
             isColumn
