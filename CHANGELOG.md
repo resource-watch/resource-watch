@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.16.0] - TBD
+## [2.16.1] - TBD
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [2.16.0] - 10-21-2020
 ### Added
 - possibility of drawing custom areas in Explore map. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
 - added pagination for areas in MyRW. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
