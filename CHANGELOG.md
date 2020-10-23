@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.16.1] - TBD
 ### Added
+- widget-editor: WRI's colour scheme.
 
 ### Changed
+- widget-editor: better separation of utils and constants.
 
 ### Fixed
 

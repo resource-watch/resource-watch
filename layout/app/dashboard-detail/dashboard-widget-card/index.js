@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 
 // constants
-import { getRWAdapter } from 'constants/widget-editor';
+import {
+  getRWAdapter,
+} from 'utils/widget-editor';
 
 // component
 import DashboardWidgetCardComponent from './component';

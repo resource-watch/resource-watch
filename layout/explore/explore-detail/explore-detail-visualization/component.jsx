@@ -14,10 +14,15 @@ import ErrorBoundary from 'components/ui/error-boundary';
 import { createWidget, createWidgetMetadata } from 'services/widget';
 
 // constants
-import { WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES } from 'constants/widget-editor';
+import {
+  WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
+  WIDGET_EDITOR_COLOUR_SCHEMES,
+} from 'constants/widget-editor';
 
 // utils
-import DefaultTheme from 'utils/widgets/theme';
+import {
+  getDefaultTheme,
+} from 'utils/widget-editor';
 import { logEvent } from 'utils/analytics';
 
 function ExploreDetailVisualization(props) {
@@ -85,12 +90,12 @@ function ExploreDetailVisualization(props) {
           {...(widgetId && { widgetId })}
           compact
           onSave={onSaveWidget}
-          theme={DefaultTheme}
+          theme={getDefaultTheme}
           adapter={RWAdapter}
+          schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
           authenticated
           disable={[
             ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
-            'theme-selection',
             'advanced-editor',
           ]}
         />
