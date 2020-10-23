@@ -5,12 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.16.5] - TBD
+## [2.16.6] - TBD
 ### Added
 - Embed maps: display user areas. [#175394222](https://www.pivotaltracker.com/story/show/175394222)
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- Explore map and area cards now use different styles for areas.
 - unified methods to process files when a user uploads an area.
 - moved `favicon` to `public` root.
 - changed from `static` to `public` the folder where the server serves statics.
