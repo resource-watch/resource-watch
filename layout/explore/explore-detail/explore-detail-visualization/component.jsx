@@ -20,7 +20,9 @@ import {
 } from 'constants/widget-editor';
 
 // utils
-import DefaultTheme from 'utils/widgets/theme';
+import {
+  getDefaultTheme,
+} from 'utils/widget-editor';
 import { logEvent } from 'utils/analytics';
 
 function ExploreDetailVisualization(props) {
@@ -88,7 +90,7 @@ function ExploreDetailVisualization(props) {
           {...(widgetId && { widgetId })}
           compact
           onSave={onSaveWidget}
-          theme={DefaultTheme}
+          theme={getDefaultTheme}
           adapter={RWAdapter}
           schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
           authenticated

@@ -21,7 +21,9 @@ import {
 
 // utils
 import { logEvent } from 'utils/analytics';
-import DefaultTheme from 'utils/widgets/theme';
+import {
+  getDefaultTheme,
+} from 'utils/widget-editor';
 
 class MyRWWidgetNewTab extends React.Component {
   constructor(props) {
@@ -173,7 +175,7 @@ class MyRWWidgetNewTab extends React.Component {
           <WidgetEditor
             datasetId={selectedDataset}
             onSave={this.onSaveWidget}
-            theme={DefaultTheme}
+            theme={getDefaultTheme}
             adapter={RWAdapter}
             schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
             authenticated

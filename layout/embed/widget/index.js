@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 
 // constants
-import { getRWAdapter } from 'constants/widget-editor';
+import {
+  getRWAdapter,
+} from 'utils/widget-editor';
 
 // component
 import LayoutEmbedWidget from './component';

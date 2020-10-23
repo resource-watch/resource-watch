@@ -6,7 +6,9 @@ import { connect } from 'react-redux';
 import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
 
 // constants
-import { getRWAdapter } from 'constants/widget-editor';
+import {
+  getRWAdapter,
+} from 'utils/widget-editor';
 
 import * as actions from './actions';
 import * as reducers from './reducers';

@@ -16,7 +16,9 @@ import {
 } from 'constants/widget-editor';
 
 // Utils
-import DefaultTheme from 'utils/widgets/theme';
+import {
+  getDefaultTheme,
+} from 'utils/widget-editor';
 
 class AdminWidgetForm extends Component {
   constructor(props) {
@@ -174,7 +176,7 @@ class AdminWidgetForm extends Component {
             {...(id && { widgetId: id })}
             application="rw"
             onSave={onSave}
-            theme={DefaultTheme}
+            theme={getDefaultTheme}
             adapter={RWAdapter}
             schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
             authenticated
