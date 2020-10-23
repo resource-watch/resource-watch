@@ -14,6 +14,11 @@ import {
   updateWidgetMetadata,
 } from 'services/widget';
 
+// constants
+import {
+  WIDGET_EDITOR_COLOUR_SCHEMES,
+} from 'constants/widget-editor';
+
 // utils
 import DefaultTheme from 'utils/widgets/theme';
 
@@ -114,6 +119,7 @@ class MyRWWidgetEditTab extends React.Component {
             onSave={this.onSaveWidget}
             theme={DefaultTheme}
             adapter={RWAdapter}
+            schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
           />
         )}
       </div>

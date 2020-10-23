@@ -10,6 +10,11 @@ import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 import Checkbox from 'components/form/Checkbox';
 
+// constants
+import {
+  WIDGET_EDITOR_COLOUR_SCHEMES,
+} from 'constants/widget-editor';
+
 // Utils
 import DefaultTheme from 'utils/widgets/theme';
 
@@ -171,6 +176,7 @@ class AdminWidgetForm extends Component {
             onSave={onSave}
             theme={DefaultTheme}
             adapter={RWAdapter}
+            schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
             authenticated
             compact={false}
           />
