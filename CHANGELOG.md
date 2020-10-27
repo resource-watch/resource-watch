@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.16.1] - TBD
 ### Added
+- Embed maps: display user areas. [#175394222](https://www.pivotaltracker.com/story/show/175394222)
 - widget-editor: WRI's colour scheme.
 
 ### Changed
