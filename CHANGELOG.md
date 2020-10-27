@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.16.1] - TBD
+## [2.16.4] - TBD
 ### Added
 - Embed maps: display user areas. [#175394222](https://www.pivotaltracker.com/story/show/175394222)
 - widget-editor: WRI's colour scheme.
@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Removed
+- deprecated widget schemas and utils replaced by `widget-editor`
+- `canvas` and `vega` dependencies.
 
 ## [2.16.0] - 10-21-2020
 ### Added

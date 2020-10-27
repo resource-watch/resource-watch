@@ -19,9 +19,6 @@ import {
 } from 'services/widget';
 import { fetchQuery } from 'services/query';
 
-// utils
-import { getDataURL, getChartInfo } from 'utils/widgets/WidgetHelper';
-
 // constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
@@ -114,47 +111,6 @@ class WidgetForm extends PureComponent {
         delete formObj.sourceUrl;
       }
 
-      // The widget has to be "frozen" first
-      // TO-DO: review this
-      // if (formObj.freeze && widgetConfig.paramsConfig.visualizationType === 'chart') {
-      //   const datasetObj = this.state.datasets.find(d => d.value === form.dataset);
-      //   const tempBand = formObj.widgetConfig.paramsConfig
-      //     ? formObj.widgetConfig.paramsConfig.band
-      //     : null;
-      //   getDataURL(
-      //     datasetObj.value,
-      //     datasetObj.type,
-      //     datasetObj.tableName,
-      //     tempBand,
-      //     datasetObj.provider,
-      //     getChartInfo(datasetObj.value, datasetObj.type, datasetObj.provider, widgetEditor),
-      //     false,
-      //     datasetObj.slug
-      //   ).then((dataURL) => {
-      //     const sqlSt = dataURL.split('sql=')[1];
-
-      //     fetchQuery(authorization, sqlSt, { freeze: true }).then((resp) => {
-      //       const { url } = resp;
-      //       formObj.queryUrl = url;
-      //       formObj.widgetConfig.data = [
-      //         {
-      //           format: {
-      //             property: 'data',
-      //             type: 'json'
-      //           },
-      //           name: 'table',
-      //           url
-      //         }
-      //       ];
-
-      //       if (id) {
-      //         this.updateWidget(formObj);
-      //       } else {
-      //         this.createWidget(formObj);
-      //       }
-      //     });
-      //   });
-      // } else
       if (id) {
         this.updateWidget(formObj, metadata);
       } else {
