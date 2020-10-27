@@ -14,7 +14,7 @@ export default class MyDocument extends Document {
           <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta name="author" content="Vizzuality" />
-          <link rel="icon" href="/static/favicon.ico" />
+          <link rel="icon" href="/favicon.ico" />
           <link
             rel="stylesheet"
             media="screen"

@@ -142,8 +142,8 @@ _Legacy note_: you will find services as classes with custom options. The intent
 ### **./utils**
 Contains functions that make thing easier and are used across the app. Like `constants`, think about the scope of your util before implementing it here, perhaps just adding it at component's level is enough.
 
-### **./static**
-It's the `public` Next's folder. Contains assets accessible across the app, like `images`, `icons`, `favicon`, `robots`, ...
+### **./public**
+Folder to serve static files. It's accessible everywhere.
 
 # Routing
 _Next_ provides an easy way to manage our app's routes via [next-routes](https://github.com/fridays/next-routes). All app routes are served in `./routes`. A quick look at it:

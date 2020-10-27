@@ -90,7 +90,7 @@ server.use(cookieParser());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(session(sessionOptions));
-server.use(serveStatic(path.join(__dirname, 'static')));
+server.use(serveStatic(path.join(__dirname, 'public')));
 
 // Middleware check: Make sure that we trigger auth if a token is passed to RW
 server.use((req, res, nextAction) => {

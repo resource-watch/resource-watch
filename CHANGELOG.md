@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- moved `favicon` to `public` root.
+- changed from `static` to `public` the folder where the server serves statics.
+- `next@9.1.7`
 - widget-editor: better separation of utils and constants.
 
 ### Fixed
