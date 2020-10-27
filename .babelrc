@@ -32,7 +32,6 @@
           "modules": "./modules",
           "utils": "./utils",
           "selectors": "./selectors",
-          "static": "./public/static",
           "services": "./services",
           "constants": "./constants",
           "hooks": "./hooks"

@@ -12,7 +12,7 @@ export default class HeadAdmin extends React.Component {
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="Vizzuality" />
-        <link rel="icon" href="/static/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
         <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
         {/* TO-DO: remove this when Axios is completely implemented */}
         <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
