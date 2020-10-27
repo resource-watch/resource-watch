@@ -19,7 +19,7 @@ import CustomSelect from 'components/ui/CustomSelect';
 import Spinner from 'components/ui/Spinner';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
-import UploadArea from 'components/areas/UploadArea';
+import UploadArea from 'components/areas/form/upload-area';
 
 // hooks
 import useCountries from 'hooks/country/country-list';
