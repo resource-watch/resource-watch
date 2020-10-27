@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 
 // hooks
-import useGetUserFavorites from 'hooks/favorite/get-favorites';
+import useFetchUserFavorites from 'hooks/favorite/fetch-favorites';
 
 const useIsFavorite = (id, token) => {
   const {
     data: userFavorites,
     refetch,
-  } = useGetUserFavorites(
+  } = useFetchUserFavorites(
     [token],
     {
       enabled: token,

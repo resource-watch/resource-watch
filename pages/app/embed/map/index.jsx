@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import LayoutEmbedMap from 'layout/embed/map';
 
 // hooks
-import useFetchWidget from 'hooks/widget/get-widget';
-import useFetchLayer from 'hooks/layer/get-layer';
+import useFetchWidget from 'hooks/widget/fetch-widget';
+import useFetchLayer from 'hooks/layer/fetch-layer';
 
 const EmbedMapPage = () => {
   const {
