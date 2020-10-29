@@ -29,9 +29,6 @@ import ErrorBoundary from 'components/ui/error-boundary';
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
 
-// helpers
-import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
-
 // utils
 import { logEvent } from 'utils/analytics';
 
@@ -45,6 +42,7 @@ class WidgetBlock extends PureComponent {
     user: PropTypes.object.isRequired,
     data: PropTypes.object,
     item: PropTypes.object,
+    isInACollection: PropTypes.bool.isRequired,
     onToggleModal: PropTypes.func,
     onToggleLoading: PropTypes.func,
     RWAdapter: PropTypes.func.isRequired,
@@ -144,12 +142,12 @@ class WidgetBlock extends PureComponent {
 
   render() {
     const {
-      user,
       data,
       item,
       onToggleModal,
       onToggleLoading,
       RWAdapter,
+      isInACollection,
     } = this.props;
 
     const { viewport, isInitMap } = this.state;
@@ -179,14 +177,13 @@ class WidgetBlock extends PureComponent {
     const widgetEmbedUrl = widgetIsEmbed && widget.widgetConfig.url;
     const caption = metadataInfo && metadataInfo.caption;
     const componentClass = classnames('c-widget-block', { [`-${widgetType}`]: !!widgetType });
-    const isInACollection = belongsToACollection(user, widget);
     const starIconName = classnames({
       'icon-star-full': isInACollection,
-      'icon-star-empty': !isInACollection
+      'icon-star-empty': !isInACollection,
     });
     const modalIcon = classnames({
       'icon-cross': widgetModal,
-      'icon-info': !widgetModal
+      'icon-info': !widgetModal,
     });
 
     const filteredLayers = [];
@@ -235,7 +232,7 @@ class WidgetBlock extends PureComponent {
                 </li>
 
                 <li>
-                  <LoginRequired>
+                  <LoginRequired redirect={false}>
                     <Tooltip
                       overlay={<CollectionsPanel
                         resource={widget}

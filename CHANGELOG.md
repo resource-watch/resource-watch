@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- In MyRW, collections without resources are hide depending on the tab the user is.
+- updates icons for widgets and datasets in collections table.
+- moved collections away from redux. 
 - Updated styles for primary buttons when they are disabled according to UI Kit.
 - Explore: disallows to create an area if the respective fields are not populated correctly.
 - Explore: unified button styles of top bar buttons.
@@ -24,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: better separation of utils and constants.
 
 ### Fixed
+- collections more consistent across the app. [#175272462](https://www.pivotaltracker.com/story/show/175272462)
 - Explore: glitch in country selector inside new are form.
 
 ### Removed

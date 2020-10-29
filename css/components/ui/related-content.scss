@@ -21,6 +21,7 @@
         padding: $space-1 / 2 6px;
         border-radius: 4px;
         font-size: $font-size-default;
+        cursor: pointer;
 
         > * {
           margin: 0 0 0 $space-1/2;
@@ -37,6 +38,18 @@
           color: $color-white;
           fill: $color-white;
           background: $color-text-1;
+        }
+      }
+
+      &.-is-disabled {
+        > a {
+          pointer-events: none;
+          cursor: default;
+          color: rgba($color-text-1, .3);
+
+          > svg {
+            fill: rgba($color-text-1, .3);
+          }
         }
       }
     }

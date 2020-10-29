@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 
 // Components
@@ -21,6 +24,24 @@ import './styles.scss';
 function ExploreDetailHeaderComponent(props) {
   const { dataset, setSelectedDataset, userIsLoggedIn } = props;
   const [showShareModal, setShowShareModal] = useState(false);
+  const handleToggleFavorite = useCallback((isFavorite, resource) => {
+    const datasetName = resource?.metadata[0]?.info?.name;
+    if (isFavorite) {
+      logEvent('Explore Menu', 'Add dataset to favorites', datasetName);
+    } else {
+      logEvent('Explore Menu', 'Remove dataset from favorites', datasetName);
+    }
+  }, [])
+
+  const handleToggleCollection = useCallback((isAdded, resource) => {
+    const datasetName = resource?.metadata[0]?.info?.name;
+    if (isAdded) {
+      logEvent('Explore Menu', 'Add dataset to a collection', datasetName);
+    } else {
+      logEvent('Explore Menu', 'Remove dataset from a collection', datasetName);
+    }
+  }, []);
+
   const location = typeof window !== 'undefined' && window.location;
   const datasetName = dataset && dataset.metadata && dataset.metadata[0] &&
       dataset.metadata[0].info && dataset.metadata[0].info.name;
@@ -48,7 +69,8 @@ function ExploreDetailHeaderComponent(props) {
               <CollectionsPanel
                 resource={dataset}
                 resourceType="dataset"
-                context="Explore (Detail)"
+                onToggleFavorite={handleToggleFavorite}
+                onToggleCollection={handleToggleCollection}
               />
             }
             overlayClassName="c-rc-tooltip"

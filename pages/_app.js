@@ -12,7 +12,6 @@ import { setRouter } from 'redactions/routes';
 import {
   setUser,
   getUserFavourites,
-  getUserCollections
 } from 'redactions/user';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { getFeaturedDashboards } from 'modules/dashboards/actions';
@@ -25,9 +24,7 @@ import { containsString } from 'utils/string';
 // constants
 import {
   PAGES_WITHOUT_DASHBOARDS,
-  PAGES_WITH_USER_COLLECTIONS,
-  PAGES_WITH_USER_COLLECTIONS_FORCE,
-  FULLSCREEN_PAGES
+  FULLSCREEN_PAGES,
 } from 'constants/app';
 
 // global styles
@@ -56,7 +53,6 @@ class RWApp extends App {
       partners: { published: { list: publishedPartners } },
       user: {
         favourites: { items: userFavorites, isFirstLoad: userFavoritesFirstLoad },
-        collections: { items: userCollections, isFirstLoad: userCollectionsFirstLoad }
       }
     } = store.getState();
     if (user) {
@@ -65,17 +61,6 @@ class RWApp extends App {
       // fetches user's favorites
       if (!userFavorites.length && !userFavoritesFirstLoad) {
         await store.dispatch(getUserFavourites());
-      }
-      // fetches user's collections
-      if (
-        (
-          !userCollections.length &&
-          !userCollectionsFirstLoad &&
-          containsString(pathname, PAGES_WITH_USER_COLLECTIONS)
-        ) ||
-        containsString(pathname, PAGES_WITH_USER_COLLECTIONS_FORCE)
-      ) {
-        await store.dispatch(getUserCollections());
       }
     }
 

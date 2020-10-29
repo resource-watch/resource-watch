@@ -1,5 +1,5 @@
 import { PureComponent } from 'react';
-import { setUser, getUserFavourites, getUserCollections } from 'redactions/user';
+import { setUser, getUserFavourites } from 'redactions/user';
 import { setRouter } from 'redactions/routes';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { setMobileOpened } from 'layout/header/actions';
@@ -29,7 +29,6 @@ class Page extends PureComponent {
 
     await store.dispatch(setUser(user));
     await store.dispatch(getUserFavourites());
-    await store.dispatch(getUserCollections());
 
     // Mobile detection
     if (isServer) {
