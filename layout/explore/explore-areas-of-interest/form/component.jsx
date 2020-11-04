@@ -1,4 +1,9 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Dropzone from 'react-dropzone';
@@ -104,6 +109,10 @@ const ExploreAreaForm = ({
   }, [form]);
 
   const { name } = form;
+
+  useEffect(() => {
+    if (!isDrawing) setAction(null);
+  }, [isDrawing]);
 
   return (
     <form
