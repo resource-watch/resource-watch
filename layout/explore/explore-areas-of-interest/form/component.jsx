@@ -10,6 +10,7 @@ import { processFile } from 'utils/areas';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import ProminentButton from 'components/prominent-button';
+import Icon from 'components/ui/icon';
 import CountrySelector from './country-selector';
 
 // styles
@@ -115,10 +116,13 @@ const ExploreAreaForm = ({
         <>
           <div className="areas-actions">
             <ProminentButton
-              icon="meta-draw"
-              text="Draw your area in the map"
               onClick={handleDrawArea}
-            />
+            >
+              <Icon name="icon-meta-draw" />
+              <span>
+                Draw your area in the map
+              </span>
+            </ProminentButton>
 
             <Tooltip
               overlay={
@@ -131,15 +135,17 @@ const ExploreAreaForm = ({
               onVisibleChange={handleVisibility}
               destroyTooltipOnHide
             >
-              <ProminentButton
-                icon="meta-select"
-                text="Select a preset area"
-              />
+              <ProminentButton>
+                <Icon name="icon-meta-select" />
+                <span>
+                  Select a preset area
+                </span>
+              </ProminentButton>
             </Tooltip>
 
             <Dropzone
               ref={dropzoneRef}
-              className="c-dropzone"
+              className="dropzone-container"
               activeClassName="-active"
               rejectClassName="-reject"
               multiple={false}
@@ -150,10 +156,13 @@ const ExploreAreaForm = ({
               onDragLeave={onDragLeave}
             >
               <ProminentButton
-                icon="meta-upload"
-                text="Upload a shapefile"
                 onClick={handleDropzoneClick}
-              />
+              >
+                <Icon name="icon-meta-upload" />
+                <span>
+                  Upload a shapefile
+                </span>
+              </ProminentButton>
             </Dropzone>
 
           </div>

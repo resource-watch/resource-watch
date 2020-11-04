@@ -1,16 +1,14 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
-// components
-import Icon from 'components/ui/icon';
+import classnames from 'classnames';
 
 // styles
 import './styles.scss';
 
 const ProminentButton = ({
-  icon,
-  text,
+  isLink,
   onClick,
+  children,
 }) => {
   const buttonRef = useRef(null);
   const handleEscapeKey = useCallback((e) => {
@@ -27,24 +25,27 @@ const ProminentButton = ({
     <button
       ref={buttonRef}
       type="button"
-      className="c-prominent-button"
+      className={classnames('c-prominent-button', { '-is-link': isLink })}
       onClick={onClick}
     >
-      <Icon name={`icon-${icon}`} />
-      <span>
-        {text}
-      </span>
+      {children}
     </button>
   );
 };
 
 ProminentButton.defaultProps = {
   onClick: () => {},
+  isLink: false,
 };
 
 ProminentButton.propTypes = {
-  icon: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.element,
+    ),
+    PropTypes.element,
+  ]).isRequired,
+  isLink: PropTypes.bool,
   onClick: PropTypes.func,
 };
 

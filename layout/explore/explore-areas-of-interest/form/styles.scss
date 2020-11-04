@@ -13,6 +13,10 @@
     button {
       flex: 1;
     }
+
+    > .dropzone-container {
+      display: flex;
+    }
   }
 
   .specs {
