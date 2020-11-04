@@ -49,7 +49,7 @@ const CountrySelector = ({ onClickCountry }) => {
   }, []);
 
   return (
-    <div className="c-country-selector">
+    <div className="c-country-search-selector">
       <div className="search-container">
         <SearchInput
           getRef={getSearchBoxRef}
