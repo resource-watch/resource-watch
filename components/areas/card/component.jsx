@@ -225,7 +225,7 @@ const AreaCard = (props) => {
           >
             <button
               type="button"
-              className="c-btn -clean"
+              className="c-btn -tertiary -compressed -fs-medium"
               onClick={() => { handleTooltip(true); }}
             >
               Edit

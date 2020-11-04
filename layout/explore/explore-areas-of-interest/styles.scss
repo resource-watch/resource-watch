@@ -11,28 +11,11 @@
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    padding: (2 * $space) 0;
-    backdrop-filter: blur(4px);
+    padding: (2 * $space);
+    pointer-events: none;
 
     > button {
-      display: flex;
-      align-items: center;
-      padding: $space * 2;
-      margin: 0 ($space * 2) 0 0;
-      border: 1px solid rgba($black, .03);
-      border-radius: 4px;
-      box-shadow: 0 2px 6px 0 rgba($black, .1);
-      background: $white;
-      font-size: $font-size-tiny;
-      font-weight: $font-weight-bold;
-      color: $dove-grey;
-      text-transform: uppercase;
-      transition: transform $animation-time $ease-in-out-sine;
-
-      &:active,
-      &:hover {
-        transform: translate(0, -2px);
-      }
+      pointer-events: all;
 
       > svg {
         width: 12px;
