@@ -27,6 +27,7 @@
   svg{
     height: 40px;
     width: 40px;
+    stroke: $dark-pink;
   }
 
   span {
@@ -36,6 +37,18 @@
     text-transform: uppercase;
     font-weight: $font-weight-bold;
     color: $dove-grey;
+  }
+
+  &.-alt {
+    background: $dark-pink;
+
+    svg {
+      stroke: $porcelain;
+    }
+
+    span {
+      color: $porcelain;
+    }
   }
 
   &.-is-link {

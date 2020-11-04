@@ -8,6 +8,7 @@ import './styles.scss';
 const ProminentButton = ({
   isLink,
   onClick,
+  className,
   children,
 }) => {
   const buttonRef = useRef(null);
@@ -25,7 +26,10 @@ const ProminentButton = ({
     <button
       ref={buttonRef}
       type="button"
-      className={classnames('c-prominent-button', { '-is-link': isLink })}
+      className={classnames('c-prominent-button', {
+        [className]: !!className,
+        '-is-link': isLink,
+      })}
       onClick={onClick}
     >
       {children}
@@ -36,6 +40,7 @@ const ProminentButton = ({
 ProminentButton.defaultProps = {
   onClick: () => {},
   isLink: false,
+  className: null,
 };
 
 ProminentButton.propTypes = {
@@ -46,6 +51,7 @@ ProminentButton.propTypes = {
     PropTypes.element,
   ]).isRequired,
   isLink: PropTypes.bool,
+  className: PropTypes.string,
   onClick: PropTypes.func,
 };
 

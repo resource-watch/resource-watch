@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Dropzone from 'react-dropzone';
 import { Tooltip } from 'vizzuality-components';
+import { toastr } from 'react-redux-toastr';
 
 // utils
 import { processFile } from 'utils/areas';
@@ -15,6 +17,12 @@ import CountrySelector from './country-selector';
 
 // styles
 import './styles.scss';
+
+const AREA_ACTIONS = {
+  'draw-area': 'DRAW_AREA',
+  'preset-country': 'PRESET_COUNTRY',
+  'upload-file': 'UPLOAD_FILE',
+};
 
 const ExploreAreaForm = ({
   area,
@@ -31,6 +39,7 @@ const ExploreAreaForm = ({
     geostore: area ? area.geostore : null,
   });
   const [visibility, setVisibility] = useState(false);
+  const [action, setAction] = useState(null);
   const [dropzone, setDropzone] = useState({
     accepted: null,
     rejected: null,
@@ -51,12 +60,18 @@ const ExploreAreaForm = ({
   }, [setForm, form]);
   const handleVisibility = useCallback((_visible) => {
     if (isDrawing) stopDrawing();
+    setAction(_visible ? AREA_ACTIONS['preset-country'] : null);
     setVisibility(_visible);
   }, [isDrawing, stopDrawing]);
-  const handleDrawArea = useCallback(() => { setIsDrawing(true); }, [setIsDrawing]);
+  const handleDrawArea = useCallback(() => {
+    const isSelected = action !== AREA_ACTIONS['draw-area'];
+    setIsDrawing(isSelected);
+    setAction(isSelected ? AREA_ACTIONS['draw-area'] : null);
+  }, [action, setIsDrawing]);
 
   const handleDropzoneClick = useCallback(() => {
     if (isDrawing) stopDrawing();
+    setAction(null);
     dropzoneRef.current.open();
   }, [isDrawing, stopDrawing]);
 
@@ -68,6 +83,7 @@ const ExploreAreaForm = ({
   }, [dropzone]);
 
   const onDropFile = useCallback(async (accepted, rejected) => {
+    setAction(AREA_ACTIONS['upload-file']);
     setDropzone({
       accepted: accepted[0],
       rejected: rejected[0],
@@ -83,7 +99,7 @@ const ExploreAreaForm = ({
         geostore,
       });
     } catch (e) {
-      // do something
+      toastr.error('There was an error processing the file', e.message);
     }
   }, [form]);
 
@@ -117,6 +133,7 @@ const ExploreAreaForm = ({
           <div className="areas-actions">
             <ProminentButton
               onClick={handleDrawArea}
+              className={classnames({ '-alt': action === AREA_ACTIONS['draw-area'] })}
             >
               <Icon name="icon-meta-draw" />
               <span>
@@ -125,9 +142,11 @@ const ExploreAreaForm = ({
             </ProminentButton>
 
             <Tooltip
-              overlay={
-                (<CountrySelector onClickCountry={handleCountry} />)
-              }
+              overlay={(
+                <CountrySelector
+                  onClickCountry={handleCountry}
+                />
+              )}
               overlayClassName="c-rc-tooltip -default"
               placement="bottom"
               trigger="click"
@@ -135,7 +154,9 @@ const ExploreAreaForm = ({
               onVisibleChange={handleVisibility}
               destroyTooltipOnHide
             >
-              <ProminentButton>
+              <ProminentButton
+                className={classnames({ '-alt': action === AREA_ACTIONS['preset-country'] })}
+              >
                 <Icon name="icon-meta-select" />
                 <span>
                   Select a preset area
@@ -157,6 +178,7 @@ const ExploreAreaForm = ({
             >
               <ProminentButton
                 onClick={handleDropzoneClick}
+                className={classnames({ '-alt': action === AREA_ACTIONS['upload-file'] })}
               >
                 <Icon name="icon-meta-upload" />
                 <span>

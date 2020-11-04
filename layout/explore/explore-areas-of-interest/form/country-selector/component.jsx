@@ -17,7 +17,9 @@ import useCountries from 'hooks/country/country-list';
 // styles
 import './styles.scss';
 
-const CountrySelector = ({ onClickCountry }) => {
+const CountrySelector = ({
+  onClickCountry,
+}) => {
   const searchBoxRef = useRef(null);
   const [search, setSearch] = useState('');
   const handleSearch = useCallback((_search) => { setSearch(_search); }, [setSearch]);
