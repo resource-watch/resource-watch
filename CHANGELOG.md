@@ -5,12 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.16.6] - TBD
+## [2.16.7] - TBD
 ### Added
+- Explore: added active state for prominent buttons in new area form.
 - Embed maps: display user areas. [#175394222](https://www.pivotaltracker.com/story/show/175394222)
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- Updated styles for primary buttons when they are disabled according to UI Kit.
+- Explore: disallows to create an area if the respective fields are not populated correctly.
+- Explore: unified button styles of top bar buttons.
+- Explore: unified prominent button styles from datasets and areas.
 - Explore map and area cards now use different styles for areas.
 - unified methods to process files when a user uploads an area.
 - moved `favicon` to `public` root.
@@ -19,8 +24,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: better separation of utils and constants.
 
 ### Fixed
+- Explore: glitch in country selector inside new are form.
 
 ### Removed
+- Explore: top bars of sidebar are now clickable.
 - deprecated widget schemas and utils replaced by `widget-editor`
 - `canvas` and `vega` dependencies.
 
