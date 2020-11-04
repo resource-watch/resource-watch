@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -31,12 +32,16 @@ const AREA_ACTIONS = {
 
 const ExploreAreaForm = ({
   area,
-  isDrawing,
+  drawer,
   setIsDrawing,
   stopDrawing,
   onSubmit,
   onCancel,
 }) => {
+  const {
+    isDrawing,
+    data: areaDrawn,
+  } = drawer;
   const dropzoneRef = useRef(null);
   const editionMode = !!area;
   const [form, setForm] = useState({
@@ -45,6 +50,7 @@ const ExploreAreaForm = ({
   });
   const [visibility, setVisibility] = useState(false);
   const [action, setAction] = useState(null);
+  const [countryLabel, setCountryLabel] = useState('select a preset area');
   const [dropzone, setDropzone] = useState({
     accepted: null,
     rejected: null,
@@ -59,8 +65,9 @@ const ExploreAreaForm = ({
   const handleName = useCallback((value) => {
     setForm({ ...form, name: value });
   }, [setForm, form]);
-  const handleCountry = useCallback((geostore) => {
+  const handleCountry = useCallback(({ name, geostore }) => {
     setForm({ ...form, geostore });
+    setCountryLabel(name);
     setVisibility(false);
   }, [setForm, form]);
   const handleVisibility = useCallback((_visible) => {
@@ -113,6 +120,25 @@ const ExploreAreaForm = ({
   useEffect(() => {
     if (!isDrawing) setAction(null);
   }, [isDrawing]);
+
+  useEffect(() => {
+    if (action !== AREA_ACTIONS['preset-country']) {
+      setCountryLabel('select a preset area');
+      setForm(((prevFormState) => ({
+        ...prevFormState,
+        geostore: null,
+      })));
+    }
+  }, [action]);
+
+  const isSaveDisabled = useMemo(() => {
+    if (!action) return true;
+    if (!form.name || form.name === '') return true;
+    if (action === AREA_ACTIONS['draw-area'] && !areaDrawn) return true;
+    if (action === AREA_ACTIONS['preset-country'] && !form.geostore) return true;
+    if (action === AREA_ACTIONS['upload-file'] && !dropzone.accepted) return true;
+    return false;
+  }, [action, form.name, areaDrawn, form.geostore, dropzone.accepted]);
 
   return (
     <form
@@ -168,7 +194,7 @@ const ExploreAreaForm = ({
               >
                 <Icon name="icon-meta-select" />
                 <span>
-                  Select a preset area
+                  {countryLabel}
                 </span>
               </ProminentButton>
             </Tooltip>
@@ -195,19 +221,38 @@ const ExploreAreaForm = ({
                 </span>
               </ProminentButton>
             </Dropzone>
-
           </div>
 
-          <div className="specs">
-            <p>
-              Recommended maximum file size: 1MB. Anything larger than that may not work properly.
-            </p>
-            <p>
-              Supported file formats: .csv (must contain a geom column
-              that contains geographic information), .geojson, .kml, .kmz,
-              .wkt, .shp (must include the .shp, .shx, .dbf and .prj files)
-            </p>
-          </div>
+          {action === AREA_ACTIONS['upload-file'] && (
+            <>
+              {dropzone.accepted && (
+                <div className="accepted-file-container">
+                  <Field
+                    properties={{
+                      name: 'accepted',
+                      type: 'text',
+                      disabled: true,
+                      default: dropzone.accepted.name,
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                </div>
+              )}
+
+              <div className="specs">
+                <p>
+                  Recommended maximum file size: 1MB.
+                  Anything larger than that may not work properly.
+                </p>
+                <p>
+                  Supported file formats: .csv (must contain a geom column
+                  that contains geographic information), .geojson, .kml, .kmz,
+                  .wkt, .shp (must include the .shp, .shx, .dbf and .prj files)
+                </p>
+              </div>
+            </>
+          )}
         </>
       )}
 
@@ -215,6 +260,7 @@ const ExploreAreaForm = ({
         <button
           type="submit"
           className="c-btn -primary"
+          disabled={isSaveDisabled}
         >
           Save
         </button>
@@ -239,7 +285,10 @@ ExploreAreaForm.propTypes = {
     name: PropTypes.string,
     geostore: PropTypes.string,
   }),
-  isDrawing: PropTypes.bool.isRequired,
+  drawer: PropTypes.shape({
+    isDrawing: PropTypes.bool.isRequired,
+    data: PropTypes.shape({}),
+  }).isRequired,
   setIsDrawing: PropTypes.func.isRequired,
   stopDrawing: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

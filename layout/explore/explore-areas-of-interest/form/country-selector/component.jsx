@@ -25,8 +25,13 @@ const CountrySelector = ({
   const handleSearch = useCallback((_search) => { setSearch(_search); }, [setSearch]);
   const getSearchBoxRef = useCallback((ref) => { searchBoxRef.current = ref; }, []);
   const handleCountry = useCallback(({ target }) => {
-    const { dataset: { geostore } } = target;
-    onClickCountry(geostore);
+    const {
+      dataset: {
+        geostore,
+        name,
+      },
+    } = target;
+    onClickCountry({ name, geostore });
   }, [onClickCountry]);
   const {
     data,
@@ -80,6 +85,7 @@ const CountrySelector = ({
                   type="button"
                   onClick={handleCountry}
                   data-geostore={geostoreId}
+                  data-name={name}
                 >
                   {name}
                 </button>
