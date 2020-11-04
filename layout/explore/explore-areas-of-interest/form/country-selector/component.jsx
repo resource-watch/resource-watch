@@ -17,14 +17,21 @@ import useCountries from 'hooks/country/country-list';
 // styles
 import './styles.scss';
 
-const CountrySelector = ({ onClickCountry }) => {
+const CountrySelector = ({
+  onClickCountry,
+}) => {
   const searchBoxRef = useRef(null);
   const [search, setSearch] = useState('');
   const handleSearch = useCallback((_search) => { setSearch(_search); }, [setSearch]);
   const getSearchBoxRef = useCallback((ref) => { searchBoxRef.current = ref; }, []);
   const handleCountry = useCallback(({ target }) => {
-    const { dataset: { geostore } } = target;
-    onClickCountry(geostore);
+    const {
+      dataset: {
+        geostore,
+        name,
+      },
+    } = target;
+    onClickCountry({ name, geostore });
   }, [onClickCountry]);
   const {
     data,
@@ -49,7 +56,7 @@ const CountrySelector = ({ onClickCountry }) => {
   }, []);
 
   return (
-    <div className="c-country-selector">
+    <div className="c-country-search-selector">
       <div className="search-container">
         <SearchInput
           getRef={getSearchBoxRef}
@@ -78,6 +85,7 @@ const CountrySelector = ({ onClickCountry }) => {
                   type="button"
                   onClick={handleCountry}
                   data-geostore={geostoreId}
+                  data-name={name}
                 >
                   {name}
                 </button>

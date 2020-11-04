@@ -11,7 +11,7 @@ import ExploreAreaForm from './component';
 
 export default connect(
   (state) => ({
-    isDrawing: state.explore.map.drawer.isDrawing,
+    drawer: state.explore.map.drawer,
   }),
   {
     setIsDrawing,

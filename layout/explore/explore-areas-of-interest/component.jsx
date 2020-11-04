@@ -89,7 +89,7 @@ const ExploreAreasOfInterest = ({
     <div className="c-explore-areas-of-interest">
       <div className="menu">
         <button
-          className="c-button"
+          className="c-button -quaternary -compressed -fs-tiny"
           type="button"
           onClick={handleNewArea}
         >

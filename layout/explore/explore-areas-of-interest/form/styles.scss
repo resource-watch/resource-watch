@@ -13,6 +13,14 @@
     button {
       flex: 1;
     }
+
+    > .dropzone-container {
+      display: flex;
+    }
+  }
+
+  .accepted-file-container {
+    margin: ($space * 5) 0 0;
   }
 
   .specs {

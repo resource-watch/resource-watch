@@ -24,7 +24,7 @@ function ExploreDetailHeaderComponent(props) {
   const location = typeof window !== 'undefined' && window.location;
   const datasetName = dataset && dataset.metadata && dataset.metadata[0] &&
       dataset.metadata[0].info && dataset.metadata[0].info.name;
-  
+
   return (
     <div className="c-explore-detail-header">
       <button
@@ -58,7 +58,7 @@ function ExploreDetailHeaderComponent(props) {
             monitorWindowResize
           >
             <button
-              className="c-btn -secondary -compressed -fs-tiny" 
+              className="c-btn -quaternary -compressed -fs-tiny"
               onClick={() => {
                 if (userIsLoggedIn) {
                   logEvent('Explore (Detail)', 'Authenticated user Clicks Save', datasetName);
@@ -72,7 +72,7 @@ function ExploreDetailHeaderComponent(props) {
         </LoginRequired>
 
         <button
-          className="c-btn -secondary -compressed -fs-tiny share-button"
+          className="c-btn -quaternary -compressed -fs-tiny share-button"
           onClick={() => setShowShareModal(true)}
         >
           <Icon className="-small" name="icon-arrow-up-2" />

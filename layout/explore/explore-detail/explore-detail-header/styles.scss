@@ -1,32 +1,39 @@
 @import 'css/settings';
 
 .c-explore-detail-header {
-    position: sticky;
-    top: 0px;
-    left: 0px;
-    z-index: 999999999;
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: (2 * $space) (8 * $space);
+  pointer-events: none;
+
+  button {
+    pointer-events: all;
+  }
+
+  .all-datasets-button {
+    .c-icon {
+      height: 10px;
+    }
+  }
+
+  .right-buttons {
     display: flex;
-    width: 100%;
-    justify-content: space-between;
-    padding: 2 * $space 8 * $space 2 * $space 8 * $space;
-    background-color: $white;
 
-    .all-datasets-button {
-        .c-icon {
-            height: 10px;
-        }
+    > button {
+      &:not(:first-child) {
+        margin: 0 0 0 ($space * 2);
+      }
     }
 
-    .right-buttons {
-        display: flex;
-        button:first-child {
-            margin-right: $space;
-        }
-
-        .share-button {
-            .c-icon {
-                height: 13px;
-            }
-        }
+    .share-button {
+      .c-icon {
+        height: 13px;
+      }
     }
+  }
 }

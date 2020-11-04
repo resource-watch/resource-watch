@@ -235,20 +235,20 @@ const Icons = () => (
       </symbol>
       <symbol id="icon-meta-upload" viewBox="0 0 40 40">
         <title>meta-upload</title>
-        <g id="meta-upload" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-          <g id="Group" transform="translate(20.000000, 14.000000) scale(1, -1) translate(-20.000000, -14.000000) translate(5.500000, 0.500000)" stroke="#C32D7B" strokeLinecap="square" strokeWidth="2">
+        <g id="meta-upload" strokeWidth="1" fill="none" fillRule="evenodd">
+          <g id="Group" transform="translate(20.000000, 14.000000) scale(1, -1) translate(-20.000000, -14.000000) translate(5.500000, 0.500000)" strokeLinecap="square" strokeWidth="2">
             <line x1="14.5" y1="0.5" x2="14.5" y2="24.5" id="Line-3" />
             <polyline id="Path" points="29 12 14.5 26.5258789 0 12 0 12" />
           </g>
-          <g id="meta-icon-more" transform="translate(2.000000, 26.000000)" stroke="#C32D7B" strokeWidth="2">
+          <g id="meta-icon-more" transform="translate(2.000000, 26.000000)" strokeWidth="2">
             <path d="M36,0 L36,8 C36,10.209139 34.209139,12 32,12 L4,12 C1.790861,12 2.705415e-16,10.209139 0,8 L0,0 L0,0" id="Path" />
           </g>
         </g>
       </symbol>
       <symbol id="icon-meta-select" viewBox="0 0 40 40">
         <title>meta-select</title>
-        <g id="meta-select" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-          <g id="meta-icon-more" transform="translate(1.000000, 1.000000)" stroke="#C32D7B" strokeWidth="2">
+        <g id="meta-select" strokeWidth="1" fill="none" fillRule="evenodd">
+          <g id="meta-icon-more" transform="translate(1.000000, 1.000000)" strokeWidth="2">
             <path d="M37,25 L37,33 C37,35.209139 35.209139,37 33,37 L4,37 C1.790861,37 2.705415e-16,35.209139 0,33 L0,4 C-2.705415e-16,1.790861 1.790861,4.05812251e-16 4,0 L12,0 L12,0" id="Path" />
             <g id="Group" transform="translate(27.500000, 9.500000) rotate(-180.000000) translate(-27.500000, -9.500000) translate(18.000000, -0.000000)">
               <polyline id="Path" transform="translate(12.500000, 6.500000) rotate(-180.000000) translate(-12.500000, -6.500000) " points="19 13 6 13 6 0" />
@@ -259,9 +259,9 @@ const Icons = () => (
       </symbol>
       <symbol id="icon-meta-draw" viewBox="0 0 40 40">
         <title>meta-draw</title>
-        <g id="meta-draw" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-          <path d="M39,38 L5,38 C2.790861,38 1,36.209139 1,34 L1,33 C1,30.790861 2.790861,29 5,29 L13,29 L13,29" id="Path" stroke="#C32D7B" strokeWidth="2" />
-          <polygon id="Path" stroke="#C32D7B" strokeWidth="2" transform="translate(26.000000, 14.000000) rotate(-360.000000) translate(-26.000000, -14.000000) " points="38 7 19 26 14 26 14 21 33 2" />
+        <g id="meta-draw" strokeWidth="1" fill="none" fillRule="evenodd">
+          <path d="M39,38 L5,38 C2.790861,38 1,36.209139 1,34 L1,33 C1,30.790861 2.790861,29 5,29 L13,29 L13,29" id="Path" strokeWidth="2" />
+          <polygon id="Path" strokeWidth="2" transform="translate(26.000000, 14.000000) rotate(-360.000000) translate(-26.000000, -14.000000) " points="38 7 19 26 14 26 14 21 33 2" />
         </g>
       </symbol>
     </defs>
