@@ -38,13 +38,16 @@ import LayerPopup from 'components/map/popup';
 
 // Utils
 import { logEvent } from 'utils/analytics';
-import { getUserAreaLayer } from 'components/ui/map/utils';
+import { getUserAreaLayer } from 'components/map/utils';
 
 // services
 import { fetchGeostore } from 'services/geostore';
 
 // constants
-import { MAPSTYLES } from 'components/map/constants';
+import {
+  MAPSTYLES,
+  USER_AREA_LAYER_TEMPLATES,
+} from 'components/map/constants';
 import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
 
 // styles
@@ -279,7 +282,6 @@ const ExploreMap = (props) => {
     '-visible': pitch !== 0 || bearing !== 0,
   });
   const mapClass = classnames({ 'no-pointer-events': isDrawing });
-  // let displayedLayers = aoi ? [...activeLayers, aoi] : activeLayers;
 
   useEffect(() => {
     setDisplayedLayers((prevLayers) => [
@@ -297,7 +299,13 @@ const ExploreMap = (props) => {
         const geostores = await Promise.all(
           areas.map(({ geostore }) => fetchGeostore(geostore, { cancelToken: cancelToken.token })),
         );
-        const userAreaLayers = geostores.map(({ id, geojson }, index) => getUserAreaLayer({ id: `${id}-${index}`, geojson }));
+        const userAreaLayers = geostores.map(({ id, geojson }, index) => getUserAreaLayer(
+          {
+            id: `${id}-${index}`,
+            geojson,
+          },
+          USER_AREA_LAYER_TEMPLATES.explore,
+        ));
 
         setDisplayedLayers((prevLayers) => [
           ...userAreaLayers,

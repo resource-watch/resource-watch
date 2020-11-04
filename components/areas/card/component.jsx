@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useCallback,
   useRef,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -14,7 +15,10 @@ import { CancelToken } from 'axios';
 import { fetchGeostore } from 'services/geostore';
 
 // constants
-import { DEFAULT_VIEWPORT, MAPSTYLES } from 'components/map/constants';
+import {
+  DEFAULT_VIEWPORT,
+  MAPSTYLES,
+} from 'components/map/constants';
 
 // components
 import Map from 'components/map';
@@ -22,7 +26,10 @@ import LayerManager from 'components/map/layer-manager';
 import Spinner from 'components/ui/Spinner';
 import Modal from 'components/modal/modal-component';
 import SubscriptionsModal from 'components/modal/subscriptions-modal/area';
-import AreaActionsTooltip from './tooltip';
+import AreaActionsTooltip from 'components/areas/card/tooltip';
+
+// utils
+import { getUserAreaLayer } from 'components/map/utils';
 
 // styles
 import './styles.scss';
@@ -110,6 +117,8 @@ const AreaCard = (props) => {
     '-ready': !loading,
   });
 
+  const userAreaLayer = useMemo(() => (geojson ? [getUserAreaLayer({ id: 'user-area', geojson })] : []), [geojson]);
+
   return (
     <div className="c-area-card">
       <div className={mapContainerClass}>
@@ -145,33 +154,7 @@ const AreaCard = (props) => {
           {(_map) => (
             <LayerManager
               map={_map}
-              layers={geojson ? [{
-                id: 'user-area',
-                provider: 'geojson',
-                layerConfig: {
-                  parse: false,
-                  data: geojson,
-                  body: {
-                    vectorLayers: [
-                      {
-                        id: 'user-area-line',
-                        type: 'line',
-                        source: 'user-area',
-                        paint: { 'line-color': '#fab72e' },
-                      },
-                      {
-                        id: 'user-area-fill',
-                        type: 'fill',
-                        source: 'user-area',
-                        paint: {
-                          'fill-color': '#fab72e',
-                          'fill-opacity': 0.2,
-                        },
-                      },
-                    ],
-                  },
-                },
-              }] : []}
+              layers={userAreaLayer}
             />
           )}
         </Map>

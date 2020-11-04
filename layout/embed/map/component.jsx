@@ -44,12 +44,16 @@ import {
 } from 'services/geostore';
 
 // constants
-import { DEFAULT_VIEWPORT, MAPSTYLES } from 'components/map/constants';
+import {
+  DEFAULT_VIEWPORT,
+  MAPSTYLES,
+  USER_AREA_LAYER_TEMPLATES,
+} from 'components/map/constants';
 
 // utils
 import { paramIsTrue } from 'utils/utils';
 import { isLoadedExternally } from 'utils/embed';
-import { getUserAreaLayer } from 'components/ui/map/utils';
+import { getUserAreaLayer } from 'components/map/utils';
 
 const LayoutEmbedMap = (props) => {
   const {
@@ -245,7 +249,13 @@ const LayoutEmbedMap = (props) => {
             ({ geostore }) => fetchGeostore(geostore, { cancelToken: cancelToken.token }),
           ),
         );
-        const areaLayers = geostores.map(({ id: geostoreId, geojson }, index) => getUserAreaLayer({ id: `${geostoreId}-${index}`, geojson }));
+        const areaLayers = geostores.map(({ id: geostoreId, geojson }, index) => getUserAreaLayer(
+          {
+            id: `${geostoreId}-${index}`,
+            geojson
+          },
+          USER_AREA_LAYER_TEMPLATES.explore,
+        ));
 
         setDisplayedLayers((prevLayers) => [
           ...areaLayers,
