@@ -11,6 +11,7 @@ import AreaCardList from 'components/areas/card-list';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/icon';
 import Paginator from 'components/ui/Paginator';
+import ExploreAreasOfInterestIntro from 'layout/explore/explore-areas-of-interest/intro';
 
 // constants
 import { EXPLORE_SUBSECTIONS } from 'layout/explore/constants';
@@ -96,8 +97,9 @@ const ExploreAreasOfInterest = ({
           <Icon name="icon-plus" />
           New Area
         </button>
-
       </div>
+
+      <ExploreAreasOfInterestIntro />
 
       <div className="user-areas-header">
         <h4>Your saved areas</h4>

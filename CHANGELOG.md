@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.16.7] - TBD
 ### Added
+- call action in areas of interest to go to all-data section.
 - Explore: added active state for prominent buttons in new area form.
 - Embed maps: display user areas. [#175394222](https://www.pivotaltracker.com/story/show/175394222)
 - widget-editor: WRI's colour scheme.
