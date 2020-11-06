@@ -9,8 +9,11 @@ function TopicsListComponent(props) {
   return (
     <div className="c-topics-list">
       <div className="row">
-        {topics.map(topic => (
-          <div className="column small-6">
+        {topics.map((topic) => (
+          <div
+            key={topic.id}
+            className="column small-6"
+          >
             <div
               id={topic.id}
               className="topic-button"
@@ -22,10 +25,10 @@ function TopicsListComponent(props) {
               <div
                 className="topic-image"
                 style={{
-                  background: `linear-gradient(${topic.backgroundColor},${topic.backgroundColor}),
+                  'backgroundImage': `linear-gradient(${topic.backgroundColor},${topic.backgroundColor}),
                     linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.30)),url(${topic.backgroundURL})`,
-                  'background-position': 'center',
-                  'background-size': 'cover'
+                  'backgroundPosition': 'center',
+                  'backgroundSize': 'cover'
                 }}
               />
               <div className="topic-title">

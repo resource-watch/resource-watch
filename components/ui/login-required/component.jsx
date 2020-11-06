@@ -53,7 +53,7 @@ LoginRequired.defaultProps = {
 LoginRequired.propTypes = {
   children: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({
-    token: PropTypes.string.isRequired,
+    token: PropTypes.string,
   }).isRequired,
   redirect: PropTypes.bool,
   clickCallback: PropTypes.func,

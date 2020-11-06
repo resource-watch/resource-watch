@@ -255,6 +255,7 @@ const ExploreMenu = ({
         </div>
         {userIsLoggedIn && collectionsWithDatasets.map((collection) => (
           <div
+            key={collection.id}
             className={classnames({
               'menu-option': true,
               collection: true,
@@ -281,24 +282,28 @@ const ExploreMenu = ({
   );
 };
 
+ExploreMenu.defaultProps = {
+  token: null,
+  selectedCollection: null,
+  selectedDataset: null,
+};
+
 ExploreMenu.propTypes = {
-  token: PropTypes.string.isRequired,
+  token: PropTypes.string,
   open: PropTypes.bool.isRequired,
   tab: PropTypes.string.isRequired,
   tags: PropTypes.arrayOf(
     PropTypes.shape({}),
   ).isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({}),
-  ).isRequired,
+  options: PropTypes.shape({}).isRequired,
   selected: PropTypes.shape({}).isRequired,
   search: PropTypes.string.isRequired,
   sortSelected: PropTypes.string.isRequired,
   shouldAutoUpdateSortDirection: PropTypes.bool.isRequired,
   section: PropTypes.string.isRequired,
   userIsLoggedIn: PropTypes.bool.isRequired,
-  selectedCollection: PropTypes.string.isRequired,
-  selectedDataset: PropTypes.string.isRequired,
+  selectedCollection: PropTypes.string,
+  selectedDataset: PropTypes.string,
   fetchDatasets: PropTypes.func.isRequired,
   setDatasetsPage: PropTypes.func.isRequired,
   setFiltersOpen: PropTypes.func.isRequired,

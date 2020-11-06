@@ -60,12 +60,12 @@ class DatasetList extends PureComponent {
               />
             </div>
           ))}
-          {loading && placeholders.map(e => (
-            <div className="column small-12">
-              <div
-                className="dataset-placeholder"
-                key={`dataset-placeholder-${e}`}
-              />
+          {loading && placeholders.map((e) => (
+            <div
+              className="column small-12"
+              key={`dataset-placeholder-${e}`}
+            >
+              <div className="dataset-placeholder" />
             </div>
           ))}
         </div>
