@@ -2,10 +2,7 @@ import { connect } from 'react-redux';
 import * as actions from 'layout/explore/actions';
 
 // component
-import ExploreMenuComponent from './component';
-
-// selectors
-import { getCollectionsFiltered } from './selectors';
+import ExploreMenu from './component';
 
 export default connect(
   (state) => ({
@@ -15,8 +12,8 @@ export default connect(
     section: state.explore.sidebar.section,
     selectedCollection: state.explore.sidebar.selectedCollection,
     userIsLoggedIn: !!state.user.id,
-    collections: getCollectionsFiltered(state),
     selectedDataset: state.explore.datasets.selected,
+    token: state.user.token,
   }),
   actions,
-)(ExploreMenuComponent);
+)(ExploreMenu);

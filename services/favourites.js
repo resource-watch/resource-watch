@@ -71,9 +71,3 @@ export const deleteFavourite = (token, resourceId) => {
       throw new Error(`Error deleting favourite ${resourceId} ${status}: ${statusText}`);
     });
 };
-
-export default {
-  fetchFavourites,
-  deleteFavourite,
-  createFavourite,
-};

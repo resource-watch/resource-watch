@@ -21,16 +21,6 @@ export const PAGES_WITHOUT_DASHBOARDS = [
   '/embed'
 ];
 
-export const PAGES_WITH_USER_COLLECTIONS = [
-  '/myrw-detail/',
-  '/myrw/',
-  '/data/explore'
-];
-
-export const PAGES_WITH_USER_COLLECTIONS_FORCE = [
-  '/myrw/collections'
-];
-
 export const CESIUM_ROUTES = [
   '/data/pulse'
 ];
@@ -38,11 +28,3 @@ export const CESIUM_ROUTES = [
 export const HOTJAR_ROUTES = [
   '/data/explore'
 ];
-
-export default {
-  TRANSIFEX_BLACKLIST,
-  FULLSCREEN_PAGES,
-  PAGES_WITHOUT_DASHBOARDS,
-  PAGES_WITH_USER_COLLECTIONS,
-  CESIUM_ROUTES
-};

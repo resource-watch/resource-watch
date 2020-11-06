@@ -6,7 +6,7 @@ import useFetchUserFavorites from 'hooks/favorite/fetch-favorites';
 const useIsFavorite = (id, token) => {
   const {
     data: userFavorites,
-    refetch,
+    ...fetcherProps
   } = useFetchUserFavorites(
     [token],
     {
@@ -25,7 +25,7 @@ const useIsFavorite = (id, token) => {
   return ({
     isFavorite: !!favorite,
     data: favorite,
-    refetch,
+    ...fetcherProps,
   });
 };
 

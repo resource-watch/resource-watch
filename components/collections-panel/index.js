@@ -1,19 +1,11 @@
 import { connect } from 'react-redux';
-import { addCollection, toggleFavourite, toggleCollection } from 'redactions/user';
-import Component from './collections-panel-component';
-import { parseCollections, parseFavourites } from './collections-panel-selectors';
 
-const mapStateToProps = state => ({
-  collections: parseCollections(state),
-  favourites: parseFavourites(state),
-  collectionsLoadingQueue: state.user.collections.loadingQueue,
-  favouritesLoading: state.user.favourites.loading
-});
+// component
+import CollectionsPanel from './component';
 
-const mapDispatchToProps = ({
-  addCollection,
-  toggleCollection,
-  toggleFavourite
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  (state) => ({
+    token: state.user.token,
+  }),
+  null,
+)(CollectionsPanel);
