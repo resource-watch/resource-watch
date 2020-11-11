@@ -26,6 +26,9 @@ const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
 // Express app creation
 const server = express();
 
+// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
+server.disable('x-powered-by');
+
 function checkBasicAuth(credentials) {
   return function authMiddleware(req, res, nextAction) {
     if (!/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])) {
