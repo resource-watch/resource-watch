@@ -88,6 +88,7 @@ const ExploreMap = (props) => {
     setMapLayerParametrization,
     setBoundaries,
     setViewport,
+    setBounds,
     setBasemap,
     setLabels,
     setDataDrawing,
@@ -217,14 +218,12 @@ const ExploreMap = (props) => {
     resetMapLayerGroupsInteraction();
   }, [resetMapLayerGroupsInteraction]);
 
-  const handleSearch = (locationParams) => {
-    const { setBounds } = props;
-
+  const handleSearch = useCallback((locationParams) => {
     setBounds({
       ...locationParams,
       options: { zoom: 2 },
     });
-  };
+  }, [setBounds]);
 
   const [handleViewport] = useDebouncedCallback((_viewport) => {
     setViewport(_viewport);
@@ -301,7 +300,11 @@ const ExploreMap = (props) => {
           Authorization: token,
           cancelToken: cancelToken.token,
         });
-        const { id, geojson } = await fetchGeostore(geostoreId, { cancelToken: cancelToken.token });
+        const {
+          id,
+          geojson,
+          bbox,
+        } = await fetchGeostore(geostoreId, { cancelToken: cancelToken.token });
 
         const userAreaLayers = getUserAreaLayer(
           {
@@ -315,6 +318,13 @@ const ExploreMap = (props) => {
           userAreaLayers,
           ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
         ]);
+
+        setBounds({
+          bbox,
+          options: {
+            padding: 50,
+          },
+        });
       } catch (e) {
         //  do something
       }
@@ -330,7 +340,7 @@ const ExploreMap = (props) => {
     }
 
     return () => { cancelToken.cancel('Fetching area of interest: operation canceled by the user.'); };
-  }, [aoi, token]);
+  }, [aoi, token, setBounds]);
 
   return (
     <div className="l-explore-map -relative">
