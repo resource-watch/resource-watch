@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.17.7] - TBD
+## [2.17.8] - TBD
 ### Added
 - pagination for collections coming from API.
 - call action in areas of interest to go to all-data section.
@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: better separation of utils and constants.
 
 ### Fixed
+- visual glitch with top bar in explore detail.
 - collections more consistent across the app. [#175272462](https://www.pivotaltracker.com/story/show/175272462)
 - Explore: glitch in country selector inside new are form.
 
