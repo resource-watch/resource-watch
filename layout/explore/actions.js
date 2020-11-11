@@ -81,7 +81,7 @@ export const setBasemap = createAction('EXPLORE-MAP__SET-BASEMAP');
 export const setLabels = createAction('EXPLORE-MAP__SET-LABELS');
 export const setBounds = createAction('EXPLORE-MAP__SET-BOUNDS');
 export const setBoundaries = createAction('EXPLORE-MAP__SET-BOUNDARIES');
-export const toggleArea = createAction('EXPLORE-MAP__TOGGLE-AREA');
+export const setAreaOfInterest = createAction('EXPLORE-MAP__SET_AREA_OF_INTEREST');
 export const setIsDrawing = createAction('EXPLORE-MAP__DRAWER__SET-IS-DRAWING');
 export const setDataDrawing = createAction('EXPLORE-MAP__DRAWER__SET-DATA');
 export const stopDrawing = createAction('EXPLORE-MAP__DRAWER__STOP-DRAWING');
@@ -95,9 +95,6 @@ export const setMapLayerGroupsOrder = createAction('EXPLORE/setMapLayerGroupsOrd
 export const setMapLayerParametrization = createAction('EXPLORE/setMapLayerParametrization');
 export const removeLayerParametrization = createAction('EXPLORE/removeLayerParametrization');
 export const resetLayerParametrization = createAction('EXPLORE/resetLayerParametrization');
-
-// AREA OF INTEREST
-export const setAOI = createAction('EXPLORE/setAOI');
 
 // INTERACTION
 export const setMapLayerGroupsInteraction = createAction('EXPLORE/setMapLayerGroupsInteraction');

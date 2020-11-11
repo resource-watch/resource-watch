@@ -186,24 +186,13 @@ export default {
       drawer: initialState.map.drawer,
     },
   }),
-  [actions.toggleArea]: (state, { payload }) => {
-    const isAdded = (state.map.areas.findIndex(({ id }) => id === payload.id) !== -1);
-    let { areas } = state.map;
-
-    if (isAdded) {
-      areas = areas.filter(({ id }) => id !== payload.id);
-    } else {
-      areas = [...state.map.areas, payload];
-    }
-
-    return ({
-      ...state,
-      map: {
-        ...state.map,
-        areas,
-      },
-    });
-  },
+  [actions.setAreaOfInterest]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      aoi: payload,
+    },
+  }),
   // LAYERS
   [actions.toggleMapLayerGroup]: (state, action) => {
     const layerGroups = [...state.map.layerGroups];
@@ -327,38 +316,6 @@ export default {
       });
     const map = { ...state.map, layerGroups };
     return { ...state, map };
-  },
-
-  // AREA OF INTEREST
-  [actions.setAOI]: (state, action) => {
-    const { geojson } = action.payload;
-    const newUserArea = geojson
-      && {
-        id: 'user-area',
-        provider: 'geojson',
-        layerConfig: {
-          parse: false,
-          data: geojson,
-          body: {
-            vectorLayers: [
-              {
-                id: 'user-area-line',
-                type: 'line',
-                source: 'user-area',
-                paint: { 'line-color': '#fab72e' },
-              },
-            ],
-          },
-        },
-      };
-
-    return {
-      ...state,
-      map: {
-        ...state.map,
-        aoi: newUserArea,
-      },
-    };
   },
 
   // INTERACTION

@@ -41,6 +41,7 @@ import { logEvent } from 'utils/analytics';
 import { getUserAreaLayer } from 'components/map/utils';
 
 // services
+import { fetchArea } from 'services/areas';
 import { fetchGeostore } from 'services/geostore';
 
 // constants
@@ -55,6 +56,7 @@ import './styles.scss';
 
 const ExploreMap = (props) => {
   const {
+    token,
     embed,
     viewport,
     basemap,
@@ -67,7 +69,6 @@ const ExploreMap = (props) => {
     layerGroupsInteraction,
     layerGroupsInteractionSelected,
     layerGroupsInteractionLatLng,
-    aoi,
     drawer: { isDrawing },
     stopDrawing,
     exploreBehavior,
@@ -87,10 +88,11 @@ const ExploreMap = (props) => {
     setMapLayerParametrization,
     setBoundaries,
     setViewport,
+    setBounds,
     setBasemap,
     setLabels,
     setDataDrawing,
-    areas,
+    aoi,
   } = props;
   const [mapState, setMapState] = useState({
     layer: null,
@@ -98,7 +100,7 @@ const ExploreMap = (props) => {
   });
   const [displayedLayers, setDisplayedLayers] = useState([
     ...activeLayers,
-    ...aoi || [],
+    // ...aoi || [],
   ]);
 
   const onChangeInfo = useCallback((layer) => {
@@ -216,14 +218,12 @@ const ExploreMap = (props) => {
     resetMapLayerGroupsInteraction();
   }, [resetMapLayerGroupsInteraction]);
 
-  const handleSearch = (locationParams) => {
-    const { setBounds } = props;
-
+  const handleSearch = useCallback((locationParams) => {
     setBounds({
       ...locationParams,
       options: { zoom: 2 },
     });
-  };
+  }, [setBounds]);
 
   const [handleViewport] = useDebouncedCallback((_viewport) => {
     setViewport(_viewport);
@@ -286,7 +286,7 @@ const ExploreMap = (props) => {
   useEffect(() => {
     setDisplayedLayers((prevLayers) => [
       ...prevLayers.filter(({ provider }) => provider === 'geojson'),
-      ...aoi || [],
+      // ...aoi || [],
       ...activeLayers,
     ]);
   }, [activeLayers, aoi]);
@@ -294,32 +294,53 @@ const ExploreMap = (props) => {
   useEffect(() => {
     const cancelToken = CancelToken.source();
 
-    const loadUserAreas = async () => {
+    const fetchAreaOfInterest = async () => {
       try {
-        const geostores = await Promise.all(
-          areas.map(({ geostore }) => fetchGeostore(geostore, { cancelToken: cancelToken.token })),
-        );
-        const userAreaLayers = geostores.map(({ id, geojson }, index) => getUserAreaLayer(
+        const { geostore: geostoreId } = await fetchArea(aoi, {}, {
+          Authorization: token,
+          cancelToken: cancelToken.token,
+        });
+        const {
+          id,
+          geojson,
+          bbox,
+        } = await fetchGeostore(geostoreId, { cancelToken: cancelToken.token });
+
+        const aoiLayer = getUserAreaLayer(
           {
-            id: `${id}-${index}`,
+            id,
             geojson,
           },
           USER_AREA_LAYER_TEMPLATES.explore,
-        ));
+        );
 
         setDisplayedLayers((prevLayers) => [
-          ...userAreaLayers,
+          aoiLayer,
           ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
         ]);
+
+        setBounds({
+          bbox,
+          options: {
+            padding: 50,
+          },
+        });
       } catch (e) {
         //  do something
       }
     };
 
-    loadUserAreas();
+    if (aoi) {
+      fetchAreaOfInterest();
+    } else {
+      // if the user removes the AoI, filter it to avoid display it in the map
+      setDisplayedLayers((prevLayers) => [
+        ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
+      ]);
+    }
 
-    return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
-  }, [areas]);
+    return () => { cancelToken.cancel('Fetching area of interest: operation canceled by the user.'); };
+  }, [aoi, token, setBounds]);
 
   return (
     <div className="l-explore-map -relative">
@@ -483,6 +504,7 @@ const ExploreMap = (props) => {
 };
 
 ExploreMap.defaultProps = {
+  token: null,
   embed: false,
   layerGroupsInteractionSelected: null,
   layerGroupsInteractionLatLng: null,
@@ -492,6 +514,7 @@ ExploreMap.defaultProps = {
 };
 
 ExploreMap.propTypes = {
+  token: PropTypes.string,
   embed: PropTypes.bool,
   open: PropTypes.bool.isRequired,
   viewport: PropTypes.shape({
@@ -542,15 +565,10 @@ ExploreMap.propTypes = {
   setSidebarAnchor: PropTypes.func.isRequired,
   exploreBehavior: PropTypes.bool,
   onLayerInfoButtonClick: PropTypes.func,
-  aoi: PropTypes.shape({}),
+  aoi: PropTypes.string,
   drawer: PropTypes.shape({
     isDrawing: PropTypes.bool.isRequired,
   }).isRequired,
-  areas: PropTypes.arrayOf(
-    PropTypes.shape({
-      geostore: PropTypes.string,
-    }),
-  ).isRequired,
   setDataDrawing: PropTypes.func.isRequired,
   stopDrawing: PropTypes.func.isRequired,
 };

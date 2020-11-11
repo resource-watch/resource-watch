@@ -40,8 +40,8 @@ function CustomSection(props) {
                     ...resp.widgetConfig,
                     url: newURL
                   };
-                  return  ({ 
-                    ...acc, 
+                  return  ({
+                    ...acc,
                     [resp.id]: {
                       ...resp,
                       widgetConfig: newWidgetConfig
@@ -63,7 +63,7 @@ function CustomSection(props) {
                 //-----------------------------------------------------------------------------------
 
                 const newURL = resp.widgetConfig.url.replace(new RegExp(
-                  '{{country}}', 'g'), `'${countryName}'`);                
+                  '{{country}}', 'g'), `'${countryName}'`);
 
                 const newWidgetConfig = {
                   ...resp.widgetConfig,
@@ -110,7 +110,7 @@ function CustomSection(props) {
 
                   return ({ ...acc, [resp.id]: newWidget });
                 } else if (visualizationType === 'map') {
-                  // Replacing Bounding box with that from the selected country                
+                  // Replacing Bounding box with that from the selected country
                   const newWidgetConfig = {
                     ...resp.widgetConfig,
                     bbox
@@ -168,6 +168,7 @@ function CustomSection(props) {
             }
             {map &&
               <PowerGenerationMap
+                id={countryIsWorld ? 'world' : country.value}
                 groups={groups}
                 mapTitle={mapTitle}
                 bbox={bbox}

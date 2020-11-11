@@ -79,11 +79,11 @@ export default {
       isDrawing: false,
       data: null,
     },
-    areas: [],
+    aoi: null,
     // contains params to be modified in the layerSpec of every layer
     // 'layer-id': {
     //  'key-to-modify: {
-    //    stardDate: '09-09-2018',
+    //    startDate: '09-09-2018',
     //    endDate: '12-31-2019',
     //    zoom: 4,
     //    ...
@@ -91,7 +91,6 @@ export default {
     // }
     //
     parametrization: {},
-    aoi: null,
   },
 
   // Sidebar

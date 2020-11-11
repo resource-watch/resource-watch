@@ -5,8 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.17.8] - TBD
+## [2.18.0] - TBD
 ### Added
+- Explore: area of interest bounds.
+- Explore: added `aoi` param to URL to allow loading areas of interest from the URL.
 - pagination for collections coming from API.
 - call action in areas of interest to go to all-data section.
 - Explore: added active state for prominent buttons in new area form.
@@ -14,6 +16,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- Unified way of working with areas of interest in map explore in energy dashboard.
+- Explore map now displays one area of interest at the same time. 
 - In MyRW, collections without resources are hide depending on the tab the user is.
 - updates icons for widgets and datasets in collections table.
 - moved collections away from redux. 
