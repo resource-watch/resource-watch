@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Explore: glitch in country selector inside new are form.
 
 ### Removed
+- `x-powered-by` headers.
 - Explore: top bars of sidebar are now clickable.
 - deprecated widget schemas and utils replaced by `widget-editor`
 - `canvas` and `vega` dependencies.
