@@ -76,7 +76,7 @@ const LayoutEmbedMap = (props) => {
     query: {
       disableZoom,
       legendExpanded,
-      areas,
+      aoi,
     },
   } = useRouter();
   const [mapState, setMapState] = useState({
@@ -235,53 +235,48 @@ const LayoutEmbedMap = (props) => {
   useEffect(() => {
     const cancelToken = CancelToken.source();
 
-    const loadAreas = async () => {
+    const fetchAreaOfInterest = async () => {
       try {
-        const areasId = areas.split(',');
-        const areasData = await Promise.all(
-          areasId.map((_areaId) => fetchArea(_areaId, {}, {
-            cancelToken: cancelToken.token,
-            Authorization: user.token,
-          })),
-        );
-        const geostores = await Promise.all(
-          areasData.map(
-            ({ geostore }) => fetchGeostore(geostore, { cancelToken: cancelToken.token }),
-          ),
-        );
-        const areaLayers = geostores.map(({ id: geostoreId, geojson }, index) => getUserAreaLayer(
+        const { geostore: geostoreId } = await fetchArea(aoi, {}, {
+          Authorization: user.token,
+          cancelToken: cancelToken.token,
+        });
+        const {
+          geojson,
+          bbox,
+        } = await fetchGeostore(geostoreId, { cancelToken: cancelToken.token });
+
+        const aoiLayer = getUserAreaLayer(
           {
-            id: `${geostoreId}-${index}`,
-            geojson
+            id: geostoreId,
+            geojson,
           },
           USER_AREA_LAYER_TEMPLATES.explore,
-        ));
+        );
 
         setDisplayedLayers((prevLayers) => [
-          ...areaLayers,
+          aoiLayer,
           ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
         ]);
 
-        if (geostores.length === 1) {
-          setMapState((prevMapState) => ({
-            ...prevMapState,
-            bounds: {
-              bbox: geostores[0].bbox,
-              options: {
-                padding: 50,
-              },
+        setMapState((prevMapState) => ({
+          ...prevMapState,
+          bounds: {
+            bbox,
+            options: {
+              padding: 50,
             },
-          }));
-        }
+          },
+        }));
       } catch (e) {
         //  do something
       }
     };
 
-    if (user.token) loadAreas();
+    if (user.token) fetchAreaOfInterest();
 
     return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
-  }, [areas, user]);
+  }, [aoi, user]);
 
   const {
     viewport,

@@ -306,7 +306,7 @@ const ExploreMap = (props) => {
           bbox,
         } = await fetchGeostore(geostoreId, { cancelToken: cancelToken.token });
 
-        const userAreaLayers = getUserAreaLayer(
+        const aoiLayer = getUserAreaLayer(
           {
             id,
             geojson,
@@ -315,7 +315,7 @@ const ExploreMap = (props) => {
         );
 
         setDisplayedLayers((prevLayers) => [
-          userAreaLayers,
+          aoiLayer,
           ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
         ]);
 
