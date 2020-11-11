@@ -41,6 +41,7 @@ import { logEvent } from 'utils/analytics';
 import { getUserAreaLayer } from 'components/map/utils';
 
 // services
+import { fetchArea } from 'services/areas';
 import { fetchGeostore } from 'services/geostore';
 
 // constants
@@ -55,6 +56,7 @@ import './styles.scss';
 
 const ExploreMap = (props) => {
   const {
+    token,
     embed,
     viewport,
     basemap,
@@ -67,7 +69,6 @@ const ExploreMap = (props) => {
     layerGroupsInteraction,
     layerGroupsInteractionSelected,
     layerGroupsInteractionLatLng,
-    aoi,
     drawer: { isDrawing },
     stopDrawing,
     exploreBehavior,
@@ -90,7 +91,7 @@ const ExploreMap = (props) => {
     setBasemap,
     setLabels,
     setDataDrawing,
-    areas,
+    aoi,
   } = props;
   const [mapState, setMapState] = useState({
     layer: null,
@@ -98,7 +99,7 @@ const ExploreMap = (props) => {
   });
   const [displayedLayers, setDisplayedLayers] = useState([
     ...activeLayers,
-    ...aoi || [],
+    // ...aoi || [],
   ]);
 
   const onChangeInfo = useCallback((layer) => {
@@ -286,7 +287,7 @@ const ExploreMap = (props) => {
   useEffect(() => {
     setDisplayedLayers((prevLayers) => [
       ...prevLayers.filter(({ provider }) => provider === 'geojson'),
-      ...aoi || [],
+      // ...aoi || [],
       ...activeLayers,
     ]);
   }, [activeLayers, aoi]);
@@ -294,21 +295,24 @@ const ExploreMap = (props) => {
   useEffect(() => {
     const cancelToken = CancelToken.source();
 
-    const loadUserAreas = async () => {
+    const fetchAreaOfInterest = async () => {
       try {
-        const geostores = await Promise.all(
-          areas.map(({ geostore }) => fetchGeostore(geostore, { cancelToken: cancelToken.token })),
-        );
-        const userAreaLayers = geostores.map(({ id, geojson }, index) => getUserAreaLayer(
+        const { geostore: geostoreId } = await fetchArea(aoi, {}, {
+          Authorization: token,
+          cancelToken: cancelToken.token,
+        });
+        const { id, geojson } = await fetchGeostore(geostoreId, { cancelToken: cancelToken.token });
+
+        const userAreaLayers = getUserAreaLayer(
           {
-            id: `${id}-${index}`,
+            id,
             geojson,
           },
           USER_AREA_LAYER_TEMPLATES.explore,
-        ));
+        );
 
         setDisplayedLayers((prevLayers) => [
-          ...userAreaLayers,
+          userAreaLayers,
           ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
         ]);
       } catch (e) {
@@ -316,10 +320,17 @@ const ExploreMap = (props) => {
       }
     };
 
-    loadUserAreas();
+    if (aoi) {
+      fetchAreaOfInterest();
+    } else {
+      // if the user removes the AoI, filter it to avoid display it in the map
+      setDisplayedLayers((prevLayers) => [
+        ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
+      ]);
+    }
 
-    return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
-  }, [areas]);
+    return () => { cancelToken.cancel('Fetching area of interest: operation canceled by the user.'); };
+  }, [aoi, token]);
 
   return (
     <div className="l-explore-map -relative">
@@ -483,6 +494,7 @@ const ExploreMap = (props) => {
 };
 
 ExploreMap.defaultProps = {
+  token: null,
   embed: false,
   layerGroupsInteractionSelected: null,
   layerGroupsInteractionLatLng: null,
@@ -492,6 +504,7 @@ ExploreMap.defaultProps = {
 };
 
 ExploreMap.propTypes = {
+  token: PropTypes.string,
   embed: PropTypes.bool,
   open: PropTypes.bool.isRequired,
   viewport: PropTypes.shape({
@@ -542,15 +555,10 @@ ExploreMap.propTypes = {
   setSidebarAnchor: PropTypes.func.isRequired,
   exploreBehavior: PropTypes.bool,
   onLayerInfoButtonClick: PropTypes.func,
-  aoi: PropTypes.shape({}),
+  aoi: PropTypes.string,
   drawer: PropTypes.shape({
     isDrawing: PropTypes.bool.isRequired,
   }).isRequired,
-  areas: PropTypes.arrayOf(
-    PropTypes.shape({
-      geostore: PropTypes.string,
-    }),
-  ).isRequired,
   setDataDrawing: PropTypes.func.isRequired,
   stopDrawing: PropTypes.func.isRequired,
 };

@@ -186,24 +186,13 @@ export default {
       drawer: initialState.map.drawer,
     },
   }),
-  [actions.toggleArea]: (state, { payload }) => {
-    const isAdded = (state.map.areas.findIndex(({ id }) => id === payload.id) !== -1);
-    let { areas } = state.map;
-
-    if (isAdded) {
-      areas = areas.filter(({ id }) => id !== payload.id);
-    } else {
-      areas = [...state.map.areas, payload];
-    }
-
-    return ({
-      ...state,
-      map: {
-        ...state.map,
-        areas,
-      },
-    });
-  },
+  [actions.setAreaOfInterest]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      aoi: payload,
+    },
+  }),
   // LAYERS
   [actions.toggleMapLayerGroup]: (state, action) => {
     const layerGroups = [...state.map.layerGroups];

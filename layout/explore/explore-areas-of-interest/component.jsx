@@ -24,10 +24,10 @@ import './styles.scss';
 
 const ExploreAreasOfInterest = ({
   token,
-  areasOnMap,
+  aoi,
   setSidebarSubsection,
   setSelectedItem,
-  toggleArea,
+  setAreaOfInterest,
 }) => {
   const [pagination, setPagination] = useState({
     page: 1,
@@ -58,9 +58,9 @@ const ExploreAreasOfInterest = ({
     });
   }, [pagination]);
   const handleMapView = useCallback(
-    ({ id, geostore }) => {
-      toggleArea({ id, geostore });
-    }, [toggleArea],
+    ({ id }) => {
+      setAreaOfInterest((aoi && aoi === id) ? null : id);
+    }, [setAreaOfInterest, aoi],
   );
   const handleAreaEdition = useCallback(({ id }) => {
     setSelectedItem(id);
@@ -75,8 +75,11 @@ const ExploreAreasOfInterest = ({
   }, [refetch]);
 
   const areas = useMemo(
-    () => userAreas.map((_area) => ({ ..._area, isVisible: areasOnMap.includes(_area.id) })),
-    [userAreas, areasOnMap],
+    () => userAreas.map((_area) => ({
+      ..._area,
+      isVisible: aoi === _area.id,
+    })),
+    [userAreas, aoi],
   );
 
   useEffect(() => {
@@ -133,14 +136,16 @@ const ExploreAreasOfInterest = ({
   );
 };
 
+ExploreAreasOfInterest.defaultProps = {
+  aoi: null,
+};
+
 ExploreAreasOfInterest.propTypes = {
   token: PropTypes.string.isRequired,
-  areasOnMap: PropTypes.arrayOf(
-    PropTypes.string,
-  ).isRequired,
+  aoi: PropTypes.string,
   setSidebarSubsection: PropTypes.func.isRequired,
   setSelectedItem: PropTypes.func.isRequired,
-  toggleArea: PropTypes.func.isRequired,
+  setAreaOfInterest: PropTypes.func.isRequired,
 };
 
 export default ExploreAreasOfInterest;
