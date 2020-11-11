@@ -318,38 +318,6 @@ export default {
     return { ...state, map };
   },
 
-  // AREA OF INTEREST
-  [actions.setAOI]: (state, action) => {
-    const { geojson } = action.payload;
-    const newUserArea = geojson
-      && {
-        id: 'user-area',
-        provider: 'geojson',
-        layerConfig: {
-          parse: false,
-          data: geojson,
-          body: {
-            vectorLayers: [
-              {
-                id: 'user-area-line',
-                type: 'line',
-                source: 'user-area',
-                paint: { 'line-color': '#fab72e' },
-              },
-            ],
-          },
-        },
-      };
-
-    return {
-      ...state,
-      map: {
-        ...state.map,
-        aoi: newUserArea,
-      },
-    };
-  },
-
   // INTERACTION
   [actions.setMapLayerGroupsInteraction]: (state, action) => {
     const layerGroupsInteraction = {

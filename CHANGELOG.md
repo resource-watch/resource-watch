@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- Unified way of working with areas of interest in map explore in energy dashboard.
 - Explore map now displays one area of interest at the same time. 
 - In MyRW, collections without resources are hide depending on the tab the user is.
 - updates icons for widgets and datasets in collections table.

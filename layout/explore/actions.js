@@ -96,9 +96,6 @@ export const setMapLayerParametrization = createAction('EXPLORE/setMapLayerParam
 export const removeLayerParametrization = createAction('EXPLORE/removeLayerParametrization');
 export const resetLayerParametrization = createAction('EXPLORE/resetLayerParametrization');
 
-// AREA OF INTEREST
-export const setAOI = createAction('EXPLORE/setAOI');
-
 // INTERACTION
 export const setMapLayerGroupsInteraction = createAction('EXPLORE/setMapLayerGroupsInteraction');
 export const setMapLayerGroupsInteractionSelected = createAction('EXPLORE/setMapLayerGroupsInteractionSelected');
