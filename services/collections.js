@@ -13,6 +13,7 @@ import { logger } from 'utils/logs';
 export const fetchAllCollections = (
   token,
   params = {},
+  _meta = false,
 ) => {
   logger.info('Fetch all collections');
   return WRIAPI.get('collection', {
@@ -25,8 +26,33 @@ export const fetchAllCollections = (
       application: process.env.APPLICATIONS,
       ...params,
     },
+    ..._meta && {
+      transformResponse: [].concat(
+        WRIAPI.defaults.transformResponse,
+        (({ data, meta }) => ({
+          collections: data,
+          meta,
+        })),
+      ),
+    },
   })
-    .then((response) => WRISerializer(response.data))
+    .then((response) => {
+      const { status, statusText, data } = response;
+      const { collections, meta } = data;
+
+      if (status >= 300) {
+        logger.error('Error fetching collections:', `${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
+
+      if (_meta) {
+        return {
+          collections: WRISerializer({ data: collections }),
+          meta,
+        };
+      }
+      return WRISerializer(data);
+    })
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching all collections: ${status}: ${statusText}`);
@@ -55,7 +81,7 @@ export const fetchCollection = (
       env: process.env.API_ENV,
       application: process.env.APPLICATIONS,
       ...params,
-    }
+    },
   })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
@@ -77,7 +103,7 @@ export const createCollection = (token, data = {}) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: token,
-    }
+    },
   })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
@@ -111,7 +137,7 @@ export const deleteCollection = (token, collectionId) => {
 };
 
 /**
- * Update an existing collection associataed to the authenticated user
+ * Update an existing collection associated to the authenticated user
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#update-collection|here}
  * @param {String} token User's token
  * @param {String} collectionId Id of the collection to be edited
@@ -123,7 +149,7 @@ export const updateCollection = (token, collectionId, data) => {
     headers: {
       'content-type': 'application/json',
       Authorization: token,
-    }
+    },
   })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {

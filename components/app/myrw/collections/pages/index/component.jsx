@@ -1,32 +1,81 @@
-import React from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
+import { useQueryCache } from 'react-query';
 
 // components
 import Spinner from 'components/ui/Spinner';
 import CollectionsList from 'components/collections-list';
 
 // hooks
-import useFetchCollections from 'hooks/collection/fetch-collections';
+import usePaginatedCollections from 'hooks/collection/fetch-paginated-collections';
 
 const CollectionsIndex = ({
   token,
 }) => {
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 20,
+    size: 0,
+    pages: 0,
+  });
+  const queryCache = useQueryCache();
   const {
-    data: collections,
+    resolvedData: {
+      collections,
+      meta,
+    },
+    isFetchedAfterMount,
     isFetching,
     isSuccess,
-    refetch,
-  } = useFetchCollections(
+  } = usePaginatedCollections(
     token,
     {
-      initialData: [],
+      'page[size]': pagination.limit,
+      'page[number]': pagination.page,
+    },
+    {
+      initialData: {
+        collections: [],
+        meta: {},
+      },
       initialStale: true,
     },
   );
 
+  const handlePagination = useCallback((_nextPage) => {
+    setPagination({
+      ...pagination,
+      page: _nextPage,
+    });
+  }, [pagination]);
+
+  const handleAfterDeleteCollection = useCallback(async () => {
+    await queryCache.invalidateQueries(['paginated-collections']);
+    setPagination((prevPagination) => ({
+      ...prevPagination,
+      page: 1,
+    }));
+  }, [queryCache]);
+
+  useEffect(() => {
+    setPagination((prevPagination) => ({
+      ...prevPagination,
+      ...meta['total-items'] && {
+        size: meta['total-items'],
+      },
+      ...meta['total-pages'] && {
+        pages: meta['total-pages'],
+      },
+    }));
+  }, [meta]);
+
   return (
     <>
-      {isFetching && (
+      {(isFetching && isFetchedAfterMount) && (
         <Spinner
           isLoading
           className="-transparent"
@@ -35,7 +84,9 @@ const CollectionsIndex = ({
       {isSuccess && (
         <CollectionsList
           collections={collections}
-          onRowDelete={refetch}
+          pagination={pagination}
+          onChangePage={handlePagination}
+          onRowDelete={handleAfterDeleteCollection}
         />
       )}
     </>

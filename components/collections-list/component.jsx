@@ -6,33 +6,24 @@ import React, {
 import PropTypes from 'prop-types';
 
 // components
-import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
+import CustomTable from 'components/ui/customtable/CustomTable';
 import EditAction from './actions/edit';
 import DeleteAction from './actions/delete';
 import NameTD from './td/name';
 import RelatedContentTD from './td/related-content';
 
-// constants
-import { INITIAL_PAGINATION } from './constants';
-
 const CollectionsList = ({
+  pagination,
   collections,
   onRowDelete,
+  onChangePage,
 }) => {
-  const [paginationState, setPaginationState] = useState(INITIAL_PAGINATION);
   const [searchState, setSearchState] = useState(null);
 
   const handleSearch = useCallback((value) => {
     if (value.length > 0 && value.length < 3) return false;
     return setSearchState(value);
-  }, []);
-
-  const handlePageChange = useCallback((page) => {
-    setPaginationState((prevPaginationState) => ({
-      ...prevPaginationState,
-      page,
-    }));
   }, []);
 
   const filteredCollections = useMemo(() => {
@@ -43,7 +34,7 @@ const CollectionsList = ({
   }, [collections, searchState]);
 
   return (
-    <div className="c-dataset-table">
+    <>
       <SearchInput
         input={{
           placeholder: 'Search collections',
@@ -90,29 +81,34 @@ const CollectionsList = ({
               name: 'Remove',
               route: 'myrw_detail',
               params: { tab: 'collections', subtab: 'remove', id: '{{id}}' },
+              onRowDelete,
               component: DeleteAction,
             },
           ],
         }}
         sort={{
-          field: 'updatedAt',
-          value: -1,
+          field: 'name',
+          value: 1,
         }}
         filters={false}
         data={filteredCollections}
         onRowDelete={onRowDelete}
-        manualPagination
-        onChangePage={handlePageChange}
-        pagination={paginationState}
+        onChangePage={onChangePage}
+        pagination={pagination}
       />
-    </div>
+    </>
   );
 };
 
 CollectionsList.propTypes = {
+  pagination: PropTypes.shape({
+    size: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired,
+  }).isRequired,
   collections: PropTypes.arrayOf(
     PropTypes.shape({}),
   ).isRequired,
+  onChangePage: PropTypes.func.isRequired,
   onRowDelete: PropTypes.func.isRequired,
 };
 

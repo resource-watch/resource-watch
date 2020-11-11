@@ -5,8 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.16.7] - TBD
+## [2.17.7] - TBD
 ### Added
+- pagination for collections coming from API.
 - call action in areas of interest to go to all-data section.
 - Explore: added active state for prominent buttons in new area form.
 - Embed maps: display user areas. [#175394222](https://www.pivotaltracker.com/story/show/175394222)
