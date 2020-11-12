@@ -37,6 +37,7 @@
 
       &.-active {
         position: relative;
+        background-color: rgba($sea-blue, .05);
 
         &:before {
           content: '';

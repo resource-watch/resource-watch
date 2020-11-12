@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import {
   setSidebarSubsection,
-  setSelectedItem,
   setAreaOfInterest,
 } from 'layout/explore/actions';
 
@@ -15,7 +14,6 @@ export default connect(
   }),
   {
     setSidebarSubsection,
-    setSelectedItem,
     setAreaOfInterest,
   },
 )(ExploreAreasOfInterest);

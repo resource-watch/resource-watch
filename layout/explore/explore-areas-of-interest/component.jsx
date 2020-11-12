@@ -26,7 +26,6 @@ const ExploreAreasOfInterest = ({
   token,
   aoi,
   setSidebarSubsection,
-  setSelectedItem,
   setAreaOfInterest,
 }) => {
   const [pagination, setPagination] = useState({
@@ -62,10 +61,6 @@ const ExploreAreasOfInterest = ({
       setAreaOfInterest((aoi && aoi === id) ? null : id);
     }, [setAreaOfInterest, aoi],
   );
-  const handleAreaEdition = useCallback(({ id }) => {
-    setSelectedItem(id);
-    setSidebarSubsection(EXPLORE_SUBSECTIONS.EDIT_AREA);
-  }, [setSelectedItem, setSidebarSubsection]);
   const handleDeletionArea = useCallback(() => {
     setPagination((prevPagination) => ({
       ...prevPagination,
@@ -118,9 +113,8 @@ const ExploreAreasOfInterest = ({
           <AreaCardList
             areas={areas}
             isColumn
-            enableSubscriptions={false}
             onMapView={handleMapView}
-            onEditArea={handleAreaEdition}
+            onEditArea={refetch}
             onDeletionArea={handleDeletionArea}
           />
 
@@ -144,7 +138,6 @@ ExploreAreasOfInterest.propTypes = {
   token: PropTypes.string.isRequired,
   aoi: PropTypes.string,
   setSidebarSubsection: PropTypes.func.isRequired,
-  setSelectedItem: PropTypes.func.isRequired,
   setAreaOfInterest: PropTypes.func.isRequired,
 };
 

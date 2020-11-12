@@ -10,33 +10,32 @@ import './styles.scss';
 const AreaActionsTooltip = (props) => {
   const {
     onMouseDown,
-    onEditArea,
+    onRenameArea,
     onEditSubscriptions,
     onDeleteArea,
     area,
     tooltipRef,
-    enableSubscriptions,
   } = props;
 
   const handleClick = useCallback((action) => {
     switch (action) {
-      case 'edit_area':
-        onEditArea();
-        break;
-      case 'edit_subscriptions':
-        logEvent('My RW', 'Edit subscription', area.name);
-        onEditSubscriptions();
-        break;
-      case 'delete_area':
-        onDeleteArea();
-        break;
-      default: {
-        throw Error(`Action '${action}' not supported`);
-      }
+    case 'rename':
+      onRenameArea();
+      break;
+    case 'edit_subscriptions':
+      logEvent('My RW', 'Edit subscription', area.name);
+      onEditSubscriptions();
+      break;
+    case 'delete_area':
+      onDeleteArea();
+      break;
+    default: {
+      throw Error(`Action '${action}' not supported`);
+    }
     }
 
     onMouseDown();
-  }, [area, onEditArea, onEditSubscriptions, onDeleteArea, onMouseDown]);
+  }, [area, onRenameArea, onEditSubscriptions, onDeleteArea, onMouseDown]);
 
   useEffect(() => {
     const triggerMouseDown = (e) => {
@@ -59,22 +58,20 @@ const AreaActionsTooltip = (props) => {
           <button
             type="button"
             className="c-button"
-            onClick={() => handleClick('edit_area')}
+            onClick={() => handleClick('rename')}
           >
-            Edit area
+            Rename
           </button>
         </li>
-        {enableSubscriptions && (
-          <li>
-            <button
-              type="button"
-              className="c-button -desktopOnly"
-              onClick={() => handleClick('edit_subscriptions')}
-            >
-              Edit subscriptions
-            </button>
-          </li>
-        )}
+        <li>
+          <button
+            type="button"
+            className="c-button -desktopOnly"
+            onClick={() => handleClick('edit_subscriptions')}
+          >
+            Edit subscriptions
+          </button>
+        </li>
         <li>
           <button
             type="button"
@@ -98,9 +95,8 @@ AreaActionsTooltip.propTypes = {
       contains: PropTypes.func,
     }),
   }).isRequired,
-  enableSubscriptions: PropTypes.bool.isRequired,
   onMouseDown: PropTypes.func.isRequired,
-  onEditArea: PropTypes.func.isRequired,
+  onRenameArea: PropTypes.func.isRequired,
   onEditSubscriptions: PropTypes.func.isRequired,
   onDeleteArea: PropTypes.func.isRequired,
 };

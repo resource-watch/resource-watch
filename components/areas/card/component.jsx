@@ -13,6 +13,7 @@ import { CancelToken } from 'axios';
 
 // services
 import { fetchGeostore } from 'services/geostore';
+import { updateArea } from 'services/areas';
 
 // constants
 import {
@@ -35,31 +36,34 @@ import { getUserAreaLayer } from 'components/map/utils';
 import './styles.scss';
 
 const AreaCard = (props) => {
-  const tooltipRef = useRef(null);
   const {
     area,
+    token,
     removeUserArea,
     onMapView,
-    enableSubscriptions,
     onEditArea,
     onDeletionArea,
   } = props;
   const {
+    id,
+    geostore,
     subscriptions,
     subscription,
     name,
     geostore: geostoreId,
     isVisible,
   } = area;
+  const tooltipRef = useRef(null);
+  const formRef = useRef(null);
+  const nameRef = useRef(null);
+
   const [modal, setModalState] = useState({ open: false, mode: 'new' });
+  const [areaName, setAreaName] = useState(name);
   const [tooltip, setTooltipState] = useState({ open: false });
   const [loading, setLoadingState] = useState(true);
   const [layer, setLayerState] = useState({ bounds: {}, geojson: null });
-  const handleMapView = useCallback(() => onMapView(area), [onMapView, area]);
 
-  const handleEditArea = useCallback(() => {
-    onEditArea(area);
-  }, [area, onEditArea]);
+  const handleMapView = useCallback(() => onMapView(area), [onMapView, area]);
 
   const handleEditSubscription = useCallback((modalState = true) => {
     setModalState({
@@ -90,12 +94,44 @@ const AreaCard = (props) => {
     }));
   }, []);
 
+  const handleRenameArea = useCallback(() => {
+    nameRef.current.select();
+  }, []);
+
+  const handleClick = useCallback(() => {
+    nameRef.current.select();
+  }, []);
+
+  const handleChange = useCallback((evt) => {
+    setAreaName(evt.target.value);
+  }, []);
+
+  const handleKeyDown = useCallback(async (evt) => {
+    if (evt.key === 'Escape') {
+      setAreaName(name);
+      nameRef.current.blur();
+    }
+  }, [name]);
+
+  const handleSubmit = useCallback(async (evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    try {
+      await updateArea(id, areaName, token, geostore);
+      nameRef.current.blur();
+      if (onEditArea) onEditArea(id);
+    } catch (e) {
+      toastr.error('Something went wrong updating the area.');
+    }
+  }, [id, areaName, geostore, token, onEditArea]);
+
   useEffect(() => {
     const cancelToken = CancelToken.source();
 
     fetchGeostore(geostoreId, { cancelToken: cancelToken.token })
-      .then((geostore = {}) => {
-        const { bbox, geojson } = geostore;
+      .then((_geostore = {}) => {
+        const { bbox, geojson } = _geostore;
 
         setLayerState({
           bounds: { bbox, options: { padding: 30 } },
@@ -108,6 +144,10 @@ const AreaCard = (props) => {
 
     return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
   }, [area, geostoreId, name]);
+
+  useEffect(() => {
+    setAreaName(name);
+  }, [name]);
 
   const { open: isModalOpen } = modal;
   const { open: isTooltipOpen } = tooltip;
@@ -160,9 +200,24 @@ const AreaCard = (props) => {
         </Map>
       </div>
       <div className="text-container">
-        <div className="name-container">
-          <h4>{name}</h4>
-        </div>
+        <form
+          ref={(ref) => { formRef.current = ref; }}
+          onSubmit={handleSubmit}
+        >
+          <input
+            type="text"
+            id="area-name"
+            name="area-name"
+            required
+            minLength={3}
+            ref={(ref) => { nameRef.current = ref; }}
+            onChange={handleChange}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            value={areaName}
+            className="editable-name"
+          />
+        </form>
         <div className="subscriptions-container">
           {subscriptions && subscriptions.length > 0 && (
             <div className="datasets-container">
@@ -215,9 +270,8 @@ const AreaCard = (props) => {
               <AreaActionsTooltip
                 area={area}
                 tooltipRef={tooltipRef}
-                enableSubscriptions={enableSubscriptions}
                 onMouseDown={() => { handleTooltip(false); }}
-                onEditArea={handleEditArea}
+                onRenameArea={handleRenameArea}
                 onEditSubscriptions={handleEditSubscription}
                 onDeleteArea={handleDeleteArea}
               />
@@ -249,7 +303,12 @@ const AreaCard = (props) => {
   );
 };
 
+AreaCard.defaultProps = {
+  onEditArea: null,
+};
+
 AreaCard.propTypes = {
+  token: PropTypes.string.isRequired,
   area: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -260,9 +319,8 @@ AreaCard.propTypes = {
     subscription: PropTypes.shape({}),
     isVisible: PropTypes.bool,
   }).isRequired,
-  enableSubscriptions: PropTypes.bool.isRequired,
   onMapView: PropTypes.func.isRequired,
-  onEditArea: PropTypes.func.isRequired,
+  onEditArea: PropTypes.func,
   onDeletionArea: PropTypes.func.isRequired,
   removeUserArea: PropTypes.func.isRequired,
 };

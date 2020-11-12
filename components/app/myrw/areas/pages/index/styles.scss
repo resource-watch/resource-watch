@@ -3,4 +3,12 @@
 .c-areas-index {
   position: relative;
   min-height: 250px;
+
+  > .areas-header {
+    position: relative;
+
+    > .spinner {
+      transform: translate(-10px, 0);
+    }
+  }
 }

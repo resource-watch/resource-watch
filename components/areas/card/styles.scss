@@ -7,13 +7,7 @@
   flex: 1;
   width: 100%;
   border-radius: 4px;
-  transition: transform $animation-time $ease-in-out-sine;
   box-shadow: 0 2px 6px 0 rgba($black, .1);
-
-  &:active,
-  &:hover {
-    transform: translate(0, -2px);
-  }
 
   h4, h5 {
     margin: 0px;
@@ -40,11 +34,26 @@
     height: 100%;
     padding: $space * 3;
 
-    .name-container {
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: $space * 2;
-      min-height: 20px;
+    .editable-name {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100%;
+      padding: 7.5px ($space *2);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      &:focus {
+        outline: 0;
+        border-color: $border-color-2;
+
+        &:invalid {
+          border-color: $color-13;
+          background-color: rgba($color-13, 0.05);
+        }
+      }
     }
 
     .subscriptions-container {
