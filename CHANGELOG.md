@@ -5,8 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.19.0] - TBD
+## [2.19.1] - TBD
 ### Added
+- Explore detail: added `spatial_-_resolution` metadata field. [#175672826](https://www.pivotaltracker.com/story/show/175672826)
 - In area cards, now it's possible to rename the area there without navigating somewhere.
 - Explore: area of interest bounds.
 - Explore: added `aoi` param to URL to allow loading areas of interest from the URL.
