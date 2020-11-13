@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.19.1] - TBD
+## [2.19.2] - TBD
 ### Added
 - Explore detail: added `spatial_-_resolution` metadata field. [#175672826](https://www.pivotaltracker.com/story/show/175672826)
 - In area cards, now it's possible to rename the area there without navigating somewhere.
@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- `widget-editor@2.5.0`
 - Enabled subscriptions for area cards regardless where the cards are displayed.
 - Unified way of working with areas of interest in map explore in energy dashboard.
 - Explore map now displays one area of interest at the same time. 

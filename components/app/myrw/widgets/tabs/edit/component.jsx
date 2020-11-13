@@ -16,13 +16,9 @@ import {
 
 // constants
 import {
+  WIDGET_EDITOR_DEFAULT_THEME,
   WIDGET_EDITOR_COLOUR_SCHEMES,
 } from 'constants/widget-editor';
-
-// utils
-import {
-  getDefaultTheme,
-} from 'utils/widget-editor';
 
 class MyRWWidgetEditTab extends React.Component {
   constructor(props) {
@@ -119,7 +115,7 @@ class MyRWWidgetEditTab extends React.Component {
             datasetId={widget.dataset}
             widgetId={widget.id}
             onSave={this.onSaveWidget}
-            theme={getDefaultTheme}
+            theme={WIDGET_EDITOR_DEFAULT_THEME}
             adapter={RWAdapter}
             schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
           />

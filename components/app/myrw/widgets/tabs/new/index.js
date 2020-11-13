@@ -11,7 +11,12 @@ import MyRWWidgetNewTab from './component';
 export default connect(
   (state) => ({
     user: state.user,
-    RWAdapter: getRWAdapter({ locale: state.common.locale }),
+    RWAdapter: getRWAdapter({
+      locale: state.common.locale,
+      ...state.user.token && {
+        userToken: state.user.token.split(' ')[1],
+      },
+    }),
   }),
   null,
 )(MyRWWidgetNewTab);
