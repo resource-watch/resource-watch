@@ -5,9 +5,6 @@ import axios from 'axios';
 // Utils
 import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/areas';
 
-// actions
-import { getDatasetsByTab } from 'redactions/admin/datasets';
-
 // services
 import {
   fetchUserAreas,
@@ -164,18 +161,12 @@ export function setUser(user) {
     const userObj = { ...user };
 
     if (userObj.token) {
-      userObj.token2 = userObj.token.includes('Bearer') ? userObj.token2 : userObj.token;
       userObj.token = userObj.token.includes('Bearer') ? userObj.token : `Bearer ${userObj.token}`;
     }
-
-    // TO-DO: this "serialization" should be done in the API
-    // eslint-disable-next-line no-underscore-dangle
-    if (userObj._id) userObj.id = userObj._id;
 
     dispatch({ type: SET_USER, payload: userObj });
   };
 }
-
 
 // FAVOURITES
 export const setFavouriteLoading = createAction(SET_USER_FAVOURITES_LOADING);

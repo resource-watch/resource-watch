@@ -2132,37 +2132,39 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@widget-editor/core@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/core/-/core-2.4.1.tgz#bce2f5376b39bd8c1a5d6fae440437f0c0d26417"
-  integrity sha512-p6BJ9YmMphOKvUQWtP82mJbbXdLmj9/jM2KG5MczGd9OoTzTCm9v0yD4W6Bu2dMJTkHtJTalLJbgQ8eUhUr4gQ==
+"@widget-editor/core@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/core/-/core-2.5.0.tgz#92dee198004545396f3834a0c75a6be4a8cdfbab"
+  integrity sha512-NQf+lbZcGur/YbBDbdU0t7r2Nmv4QT6y22ZqfzCONZy4Pj4ql98uWUjiZEx6IOaE23KgWBUH2zemA4U6+70boA==
   dependencies:
-    "@widget-editor/types" "^2.4.1"
+    "@widget-editor/types" "^2.5.0"
 
-"@widget-editor/map@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/map/-/map-2.4.1.tgz#a93a7ca0edff67d69266b7d6956dc3e2f3e11503"
-  integrity sha512-mTTxKstfMvBoV6bznTqJf7GkOuAPoJJx0hTQzlvmoACsn+8HGUO8zwS8QqYiqDyX7j0m0FPleCTUYwg7v6H6dw==
+"@widget-editor/map@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/map/-/map-2.5.0.tgz#c15d6c9a245581986a1af2f46311c88953accf6e"
+  integrity sha512-IQ1zJTU/mpNCdHuDtFPv0hW6UpkOhoEOmXc5QouqYEbYv43Dkd9D+Mi8bWRd/6YaT9hx3QULoMoeqkOlsp6M2A==
   dependencies:
     axios "^0.18.0"
     chroma-js "^2.1.0"
     deck.gl "^7.1.10"
     layer-manager "^2.0.9"
     luma.gl "^7.1.1"
+    prop-types "15.7.2"
     viewport-mercator-project "^6.1.1"
 
-"@widget-editor/renderer@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/renderer/-/renderer-2.4.1.tgz#00a49a83971cb64367dfc54c40237ef52410fef8"
-  integrity sha512-FK0p4qit/fU98w8AhwNbe8Gf8fM8hBU/2VBhKYaGkhm1bVkCbq1LMfF0z+mFbRidbijkiY23NUXyFeOHGsAKUA==
+"@widget-editor/renderer@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/renderer/-/renderer-2.5.0.tgz#6a9b53668dddf39f9b9cfe46508856932768f02b"
+  integrity sha512-ihQVxEtSsFySOF5f5hBfWvtV+0ypELjR7p0Ke73+/VHbi+hxzrLSfsmvIIBn0fFDEh5nZWlOIzOyKsNr+LoC9g==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@widget-editor/core" "^2.4.1"
-    "@widget-editor/map" "^2.4.1"
-    "@widget-editor/shared" "^2.4.1"
-    "@widget-editor/types" "^2.4.1"
+    "@widget-editor/core" "^2.5.0"
+    "@widget-editor/map" "^2.5.0"
+    "@widget-editor/shared" "^2.5.0"
+    "@widget-editor/types" "^2.5.0"
     babel-plugin-styled-components "^1.10.6"
     lodash "^4.17.15"
+    prop-types "15.7.2"
     react-select "^3.0.8"
     react-slick "^0.25.2"
     react-slider "^1.0.2"
@@ -2175,23 +2177,24 @@
     vega-tooltip "0.8.0"
     vizzuality-redux-tools "^4.1.1"
 
-"@widget-editor/rw-adapter@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/rw-adapter/-/rw-adapter-2.4.1.tgz#2fc3fe97765b6af6fb5d0503c6024634f00a1781"
-  integrity sha512-+usQfzSG0Ys6B7i8glj9CqDppgGdFz95ab016G4PGtomEuNmH+PsBGfMyvzU8S9ukp1lUW3gm68vIwippGVh9g==
+"@widget-editor/rw-adapter@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/rw-adapter/-/rw-adapter-2.5.0.tgz#22212307c8ee8a74d02c4ac4fde44ff99e4e6f82"
+  integrity sha512-B1sQl4DIyVbY89MZ9XN37OJD9z4/KeAOXSSYzD3ku81uvzGxhXq60qbqQwGTowVUonHQKRUDOdFhel1rEFf+mQ==
   dependencies:
-    "@widget-editor/core" "^2.4.1"
-    "@widget-editor/types" "^2.4.1"
+    "@widget-editor/core" "^2.5.0"
+    "@widget-editor/types" "^2.5.0"
     axios "^0.19.2"
     lodash "^4.17.15"
 
-"@widget-editor/shared@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/shared/-/shared-2.4.1.tgz#a2d36cd5af62bb0f1abc7e20f12257cb2a1a98f0"
-  integrity sha512-YvdyK6Jcf7GGxE6M6JrvJznuxM/VtMu3hjnnNqbADurODiA6cbDLKcpXoNqrTO/XjW0FxTf/S1dGXvy3ewvUeA==
+"@widget-editor/shared@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/shared/-/shared-2.5.0.tgz#848874c77ffa8974492a7d37092a9c451e498108"
+  integrity sha512-9UDLMRmyafb/pSAVCYnBAjlmzTAFmXVpfvHAghIj5nBzT5L4keyIzRgK+iORyurbCknxLF2u0XJAP89jmzJByw==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     babel-plugin-styled-components "^1.10.6"
+    prop-types "15.7.2"
     react-select "^3.0.8"
     react-slick "^0.25.2"
     react-slider "^1.0.2"
@@ -2204,24 +2207,25 @@
     vega-tooltip "0.8.0"
     vizzuality-redux-tools "^4.1.1"
 
-"@widget-editor/types@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/types/-/types-2.4.1.tgz#7e5d5e6dd0a04bbe1db888b1067052639cd86954"
-  integrity sha512-pEXsBYWgyvncDLLvdMHgEQqMoa2d5vazUxhF3QC1LnhFc9YTJuS62yOsq3gPv62dOWtFg/hgBhRl1KLQCQ+yBg==
+"@widget-editor/types@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/types/-/types-2.5.0.tgz#ee0866deca6742d992c94f2be599c6c38889d055"
+  integrity sha512-aIYmwHJUxWPr9k3g7vi5NoVkDQZ4LBEYeedsfsPg4t32XDVdaIceLv78+qejrIJti3Qg+uWZiTIEzEvwjSZDIw==
 
-"@widget-editor/widget-editor@^2.4.1":
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/widget-editor/-/widget-editor-2.4.1.tgz#6df646dc2869c1f1813cff7d64f4ac540895b7bd"
-  integrity sha512-UOK80WivoRoF9ozzl1WDu89RpaDog6XsnuD8PcMtrDnjXhENboSNSosTqTepCreLDaLUIJA3oB5mgr1ZrUUoMw==
+"@widget-editor/widget-editor@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@widget-editor/widget-editor/-/widget-editor-2.5.0.tgz#cea9d99d54df7a6826d72a3f8f96e33bd87ca7f0"
+  integrity sha512-uypAYwMbbaISPFPQ+V5+1rAHuNfnD6yV0rKXDfDtg0BI2yhRxr1hlb3Qhz3zU94u6PDVvEQVgWSs2rQjBPN/Rg==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@widget-editor/core" "^2.4.1"
-    "@widget-editor/renderer" "^2.4.1"
-    "@widget-editor/shared" "^2.4.1"
-    "@widget-editor/types" "^2.4.1"
+    "@widget-editor/core" "^2.5.0"
+    "@widget-editor/renderer" "^2.5.0"
+    "@widget-editor/shared" "^2.5.0"
+    "@widget-editor/types" "^2.5.0"
     babel-plugin-styled-components "^1.10.6"
     lodash "^4.17.15"
     prismjs "^1.20.0"
+    prop-types "15.7.2"
     rc-slider "^9.2.4"
     react-select "^3.0.8"
     react-simple-code-editor "^0.11.0"

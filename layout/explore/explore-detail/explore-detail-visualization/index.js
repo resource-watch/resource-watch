@@ -11,7 +11,13 @@ import VisualizationComponent from './component';
 export default connect(
   (state) => ({
     authorization: state.user.token,
-    RWAdapter: getRWAdapter({ locale: state.common.locale }),
+    aoi: state.explore.map.aoi,
+    RWAdapter: getRWAdapter({
+      locale: state.common.locale,
+      ...state.user.token && {
+        userToken: state.user.token.split(' ')[1],
+      },
+    }),
   }),
   null,
 )(VisualizationComponent);
