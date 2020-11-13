@@ -46,14 +46,8 @@ const AreasIndex = ({
   }, [pagination]);
 
   const handleMapView = useCallback(
-    ({ id, geostore }) => {
-      router.push(`/data/explore?area=${id}&geostore=${geostore}`);
-    }, [router],
-  );
-
-  const handleAreaEdition = useCallback(
     ({ id }) => {
-      router.push(`/myrw-detail/areas/${id}`);
+      router.push(`/data/explore?aoi=${id}`);
     }, [router],
   );
 
@@ -74,34 +68,35 @@ const AreasIndex = ({
 
   return (
     <div className="c-areas-index">
-      <div className="c-button-container">
-        <ul>
-          <li>
-            <Link href="/myrw-detail/areas/new">
-              <button
-                type="button"
-                className="c-button -secondary"
-              >
-                New area
-              </button>
-            </Link>
-          </li>
-        </ul>
+      <div className="areas-header">
+        <div className="c-button-container">
+          <ul>
+            <li>
+              <Link href="/myrw-detail/areas/new">
+                <button
+                  type="button"
+                  className="c-button -secondary"
+                >
+                  New area
+                </button>
+              </Link>
+            </li>
+          </ul>
+        </div>
+        {isFetching && (
+          <Spinner
+            isLoading
+            className="spinner -small -right -transparent"
+          />
+        )}
       </div>
-
-      {isFetching && (
-        <Spinner
-          isLoading
-          className="-light"
-        />
-      )}
 
       {(isSuccess && isFetchedAfterMount) && (
         <>
           <AreaCardList
             areas={userAreas}
             onMapView={handleMapView}
-            onEditArea={handleAreaEdition}
+            onEditArea={refetch}
             onDeletionArea={handleDeletionArea}
           />
 

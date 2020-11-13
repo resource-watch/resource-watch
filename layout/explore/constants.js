@@ -10,5 +10,4 @@ export const EXPLORE_SECTIONS = {
 
 export const EXPLORE_SUBSECTIONS = {
   NEW_AREA: 'area/new',
-  EDIT_AREA: 'area/edit',
 };

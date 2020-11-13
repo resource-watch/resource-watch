@@ -38,7 +38,6 @@ const CollectionsPanel = ({
   token,
   resource,
   resourceType,
-  // context,
   onKeyPress,
   onClick,
   onToggleFavorite,

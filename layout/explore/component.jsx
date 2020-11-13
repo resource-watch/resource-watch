@@ -21,7 +21,6 @@ import ExploreDetail from 'layout/explore/explore-detail';
 import ExploreTopics from 'layout/explore/explore-topics';
 import ExploreAreasOfInterest from 'layout/explore/explore-areas-of-interest';
 import ExploreAreasOfInterestNewArea from 'layout/explore/explore-areas-of-interest-new-area';
-import ExploreAreasOfInterestEditArea from 'layout/explore/explore-areas-of-interest-edit-area';
 import ExploreCollections from 'layout/explore/explore-collections';
 import ExploreLogin from 'layout/explore/explore-login';
 import ExploreDiscover from 'layout/explore/explore-discover';
@@ -100,7 +99,6 @@ function Explore(props) {
         />
       )}
       {subsection === EXPLORE_SUBSECTIONS.NEW_AREA && (<ExploreAreasOfInterestNewArea />)}
-      {subsection === EXPLORE_SUBSECTIONS.EDIT_AREA && (<ExploreAreasOfInterestEditArea />)}
     </>
   );
 

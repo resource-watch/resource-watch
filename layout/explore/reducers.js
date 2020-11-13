@@ -421,20 +421,6 @@ export default {
       subsection: initialState.sidebar.subsection,
     },
   }),
-  [actions.setSelectedItem]: (state, { payload }) => ({
-    ...state,
-    sidebar: {
-      ...state.sidebar,
-      selected: payload,
-    },
-  }),
-  [actions.clearSelectedItem]: (state) => ({
-    ...state,
-    sidebar: {
-      ...state.sidebar,
-      selected: initialState.sidebar.selected,
-    },
-  }),
   //
   // TAGS
   //

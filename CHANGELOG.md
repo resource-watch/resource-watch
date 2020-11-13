@@ -5,8 +5,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.18.0] - TBD
+## [2.19.0] - TBD
 ### Added
+- In area cards, now it's possible to rename the area there without navigating somewhere.
 - Explore: area of interest bounds.
 - Explore: added `aoi` param to URL to allow loading areas of interest from the URL.
 - pagination for collections coming from API.
@@ -16,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- Enabled subscriptions for area cards regardless where the cards are displayed.
 - Unified way of working with areas of interest in map explore in energy dashboard.
 - Explore map now displays one area of interest at the same time. 
 - In MyRW, collections without resources are hide depending on the tab the user is.
@@ -38,6 +40,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Explore: glitch in country selector inside new are form.
 
 ### Removed
+- Explore: panel to edit area.
+- MyRW: tab to edit area.
 - `x-powered-by` headers.
 - Explore: top bars of sidebar are now clickable.
 - deprecated widget schemas and utils replaced by `widget-editor`
