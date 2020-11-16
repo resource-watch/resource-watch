@@ -10,6 +10,7 @@ import {
   LegendListItem,
   LegendItemTypes
 } from 'vizzuality-components';
+import { toastr } from 'react-redux-toastr';
 
 // components
 import Map from 'components/map';
@@ -138,6 +139,11 @@ class WidgetBlock extends PureComponent {
         transitionDuration: 250
       }
     });
+  }
+
+  handleMapErrors = (error) => {
+    const { item: { id } } = this.props;
+    toastr.error(`There was an error loading item ${id}`, error);
   }
 
   render() {
@@ -303,6 +309,7 @@ class WidgetBlock extends PureComponent {
                     labels={this.getMapLabel(widget)}
                     scrollZoom={false}
                     bounds={this.getMapBounds(widget)}
+                    onError={this.handleMapErrors}
                   >
                     {_map => (
                       <Fragment>
