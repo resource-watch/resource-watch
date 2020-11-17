@@ -347,6 +347,7 @@ class Map extends PureComponent {
       touchRotate,
       doubleClickZoom,
       disableEventsOnFly,
+      onError,
       ...mapboxProps
     } = this.props;
     const { viewport, flying, loaded } = this.state;
