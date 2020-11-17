@@ -1,21 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import classnames from 'classnames';
-import { Router } from 'routes';
+import { useRouter } from 'next/router';
 import { toastr } from 'react-redux-toastr';
+import flatten from 'lodash/flatten';
+import compact from 'lodash/compact';
 
 // components
 import Layout from 'layout/layout/layout-app';
 import Tabs from 'components/ui/Tabs';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
+import Spinner from 'components/ui/Spinner';
 import Title from 'components/ui/Title';
 import Icon from 'components/ui/icon';
 import DashboardDetail from 'components/dashboards/detail';
 import SimilarDatasets from 'components/datasets/similar-datasets/similar-datasets';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
-import EnergyCountryExplorer from './energy-country-explorer';
+import EnergyCountryExplorer from 'layout/app/dashboard-detail/energy-country-explorer';
 
 // utils
 import { logEvent } from 'utils/analytics';
@@ -26,35 +34,43 @@ import { fetchCountryPowerExplorerConfig } from 'services/config';
 // constants
 import { ENERGY_TABS } from './constants';
 
-function DashboardsDetailPage(props) {
+const LayoutDashboardDetail = ({
+  dashboardState,
+}) => {
   const {
     data: dashboard,
-    datasetIds,
-    query: { tab }
-  } = props;
+    isSuccess,
+    isFetchedAfterMount,
+  } = dashboardState;
   const {
     name,
     summary,
     description,
-    slug
+    slug,
   } = dashboard;
+  const router = useRouter();
+  const {
+    query: {
+      tab,
+    },
+  } = router;
   const [showShareModal, setShowShareModal] = useState(false);
   const [headerDescription, setHeaderDescription] = useState(summary);
   const isEnergyDashboard = slug === 'energy';
   const currentTab = tab || 'global';
   const headerClassName = classnames({
     'page-header-content': true,
-    '-with-tabs': isEnergyDashboard
+    '-with-tabs': isEnergyDashboard,
   });
-  const headerText = (isEnergyDashboard && tab === 'country') ? 
-    headerDescription : summary;
+  const headerText = (isEnergyDashboard && tab === 'country')
+    ? headerDescription : summary;
 
   // Temporary logic to show the country explorer only in preproduction and localhost
   const hostname = typeof window !== 'undefined' && window.location.hostname;
-  const showCountryExplorer = hostname &&
-    (hostname.startsWith('preproduction') || hostname.startsWith('localhost'));
+  const showCountryExplorer = hostname
+    && (hostname.startsWith('preproduction') || hostname.startsWith('localhost'));
 
-  const handleTagSelected = (tag, labels = ['TOPIC']) => {
+  const handleTagSelected = useCallback((tag, labels = ['TOPIC']) => {
     const tagSt = `["${tag.id}"]`;
     let treeSt = 'topics';
     if (labels.includes('TOPIC')) {
@@ -65,19 +81,66 @@ function DashboardsDetailPage(props) {
       treeSt = 'dataTypes';
     }
 
-    Router.pushRoute('explore', { [treeSt]: tagSt });
-  };
+    router.push({
+      pathname: 'explore',
+      query: {
+        [treeSt]: tagSt,
+      },
+    });
+  }, [router]);
 
-  const handleToggleShareModal = showShareModal => setShowShareModal(showShareModal);
+  const handleToggleShareModal = useCallback(
+    (_showShareModal) => { setShowShareModal(_showShareModal); },
+    [setShowShareModal],
+  );
 
   useEffect(() => {
-    fetchCountryPowerExplorerConfig()
-        .then(config => setHeaderDescription(config.headerText))
-        .catch(err => {
-          toastr.error('Error loading country power explorer config'); 
-          console.error(err);
+    const loadCountryPowerExplorerConfig = async () => {
+      try {
+        const config = await fetchCountryPowerExplorerConfig();
+        setHeaderDescription(config.headerText);
+      } catch (e) {
+        toastr.error('Error loading country power explorer config');
+      }
+    };
+
+    if (isEnergyDashboard && tab === 'country') loadCountryPowerExplorerConfig();
+  }, [isEnergyDashboard, tab]);
+
+  const datasets = useMemo(() => {
+    const { content } = dashboard;
+    let parsedContent = [];
+
+    if (!content) return [];
+
+    try {
+      parsedContent = JSON.parse(content);
+    } catch (e) {
+      toastr.error('There was an error parsing the content of the dashboard');
+    }
+
+    const datasetIds = parsedContent.map((block) => {
+      if (!block) return null;
+
+      if (block.type === 'widget') {
+        return block.content.datasetId;
+      }
+
+      if (block.type === 'grid') {
+        return block.content.map((b) => {
+          if (!b) return null;
+
+          if (b.type === 'widget') return b.content.datasetId;
+
+          return null;
         });
-  }, []);
+      }
+
+      return null;
+    });
+
+    return compact(flatten(datasetIds));
+  }, [dashboard]);
 
   return (
     <Layout
@@ -94,16 +157,20 @@ function DashboardsDetailPage(props) {
                 <Breadcrumbs items={[
                   {
                     name: 'Dashboards',
-                    href: '/dashboards'
-                  }
+                    href: '/dashboards',
+                  },
                 ]}
                 />
-                <h1>{name}</h1>
-                {headerText && (<h3>{headerText}</h3>)}
+                <h1>
+                  {(!isFetchedAfterMount) && 'Loading...'}
+                  {(isSuccess) && name}
+                </h1>
+                {(isSuccess && headerText) && (<h3>{headerText}</h3>)}
                 <div className="page-header-info">
                   <ul>
                     <li>
                       <button
+                        type="button"
                         className="c-btn -tertiary -alt -clean"
                         onClick={() => handleToggleShareModal(true)}
                       >
@@ -122,76 +189,89 @@ function DashboardsDetailPage(props) {
                         <ShareModal
                           links={{
                             link: typeof window !== 'undefined' && window.location.href,
-                            embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${slug}`
+                            embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${slug}`,
                           }}
                           analytics={{
                             facebook: () => logEvent('Share', `Share dashboard: ${name}`, 'Facebook'),
                             twitter: () => logEvent('Share', `Share dashboard: ${name}`, 'Twitter'),
                             email: () => logEvent('Share', `Share dashboard: ${name}`, 'Email'),
-                            copy: type => logEvent('Share', `Share dashboard: ${name}`, `Copy ${type}`)
+                            copy: (type) => logEvent('Share', `Share dashboard: ${name}`, `Copy ${type}`),
                           }}
                         />
                       </Modal>
                     </li>
                   </ul>
                 </div>
-                {isEnergyDashboard && showCountryExplorer &&
+                {(isEnergyDashboard && showCountryExplorer) && (
                   <Tabs
                     options={ENERGY_TABS}
                     defaultSelected={currentTab}
                     selected={currentTab}
                   />
-                }
+                )}
               </div>
             </div>
           </div>
         </div>
       </header>
 
+      {!isFetchedAfterMount && (
+        <div className="l-section">
+          <div className="l-container">
+            <Spinner
+              className="-center -transparent"
+              isLoading
+            />
+          </div>
+        </div>
+      )}
 
-      {isEnergyDashboard && tab === 'country' &&
-        <EnergyCountryExplorer />
-      }
-      {(!isEnergyDashboard || (isEnergyDashboard && tab !== 'country')) &&
+      {((isFetchedAfterMount && isSuccess) && isEnergyDashboard && tab === 'country') && (<EnergyCountryExplorer />)}
+
+      {((isFetchedAfterMount && isSuccess) && (!isEnergyDashboard || (isEnergyDashboard && tab !== 'country'))) && (
         <div className="l-section">
           <div className="l-container">
             <div className="row">
               {description && (
                 <div className="column small-12">
                   <ReactMarkdown linkTarget="_blank" source={description} />
-                </div>)
-              }
+                </div>
+              )}
               <div className="column small-12">
-                <DashboardDetail />
+                <DashboardDetail dashboard={dashboard} />
               </div>
             </div>
           </div>
         </div>
-      }
+      )}
 
-      <div className="l-section">
-        <div className="l-container">
-          <div className="row">
-            <div className="column small-12">
-              <Title className="-extrabig -secondary -p-secondary">
-                Similar datasets
+      {(isFetchedAfterMount && datasets.length > 0) && (
+        <div className="l-section">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <Title className="-extrabig -secondary -p-secondary">
+                  Similar datasets
                 </Title>
-
-              <SimilarDatasets
-                datasetIds={datasetIds}
-                onTagSelected={handleTagSelected}
-              />
+                <SimilarDatasets
+                  datasetIds={datasets}
+                  onTagSelected={handleTagSelected}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </Layout>
   );
 };
 
-DashboardsDetailPage.propTypes = {
-  data: PropTypes.object.isRequired,
-  datasetIds: PropTypes.array.isRequired
+LayoutDashboardDetail.propTypes = {
+  dashboardState: PropTypes.shape({
+    data: PropTypes.shape({}).isRequired,
+    isFetchedAfterMount: PropTypes.bool.isRequired,
+    isSuccess: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
-export default DashboardsDetailPage;
+export default LayoutDashboardDetail;

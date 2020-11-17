@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.19.2] - TBD
+## [2.19.3] - TBD
 ### Added
 - Dashboards: added better error handling for maps instead of crashing. [#175408544](https://www.pivotaltracker.com/story/show/175408544)
 - Explore detail: added `spatial_-_resolution` metadata field. [#175672826](https://www.pivotaltracker.com/story/show/175672826)
@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- improves the way the dashboard detail page is loaded avoiding empty sections during data fetching [#172928273](https://www.pivotaltracker.com/story/show/172928273).
 - Dashboards: now the blocks renders with the scroll user instead of loading everything at once.
 This should reduce the page workload and impact. [#175408544](https://www.pivotaltracker.com/story/show/175408544)
 - `widget-editor@2.5.0`
