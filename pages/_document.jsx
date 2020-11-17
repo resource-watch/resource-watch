@@ -1,12 +1,11 @@
 import React from 'react';
-import Document, { Main, NextScript, Head } from 'next/document';
+import Document, {
+  Main,
+  NextScript,
+  Head,
+} from 'next/document';
 
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx) {
-    const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
-  }
-
   render() {
     return (
       <html lang="en">
@@ -42,7 +41,7 @@ export default class MyDocument extends Document {
           <script
             src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
             integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-            crossorigin=""
+            crossOrigin=""
           />
           <script
             src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.js"
