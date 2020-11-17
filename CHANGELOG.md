@@ -46,6 +46,7 @@ This should reduce the page workload and impact. [#175408544](https://www.pivota
 - Explore: glitch in country selector inside new are form.
 
 ### Removed
+- unused `layout/page` component.
 - Explore: panel to edit area.
 - MyRW: tab to edit area.
 - `x-powered-by` headers.
