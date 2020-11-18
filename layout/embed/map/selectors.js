@@ -36,13 +36,19 @@ export const getIsLoading = (state, props) => {
   const {
     fetchWidgetState: {
       isFetching: isWidgetFetching,
+      isFetchedAfterMount: isWidgetFetchedAfterMount,
     },
     fetchLayerState: {
       isFetching: isLayerFetching,
+      isFetchedAfterMount: isLayerFetchedAfterMount,
     },
   } = props;
 
-  return (isWidgetFetching || isLayerFetching);
+  if (isWidgetFetchedAfterMount || isLayerFetchedAfterMount) {
+    return (isWidgetFetching || isLayerFetching);
+  }
+
+  return true;
 };
 
 export const getIsError = (state, props) => {

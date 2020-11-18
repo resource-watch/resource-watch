@@ -273,7 +273,7 @@ const LayoutEmbedMap = (props) => {
       }
     };
 
-    if (user.token) fetchAreaOfInterest();
+    if (user.token && aoi) fetchAreaOfInterest();
 
     return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
   }, [aoi, user]);
@@ -554,7 +554,7 @@ LayoutEmbedMap.propTypes = {
           ),
         }),
       }),
-    ).isRequired,
+    ),
   }).isRequired,
   isLoading: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,
@@ -571,7 +571,7 @@ LayoutEmbedMap.propTypes = {
     PropTypes.shape({}),
   ).isRequired,
   activeInteractiveLayers: PropTypes.arrayOf(
-    PropTypes.shape({}),
+    PropTypes.string,
   ).isRequired,
   user: PropTypes.shape({
     id: PropTypes.string,
