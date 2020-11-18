@@ -99,23 +99,6 @@
       }
     }
 
-    // .c-map {
-    //   // Do not change the positionning of this
-    //   // element without testing it on Chrome and Firefox
-    //   // in the dashboards AND as a standalone widget
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   height: 100%;
-    //   width: 100%;
-
-    //   // Without this property, the legend is hidden behind
-    //   // the map
-    //   .leaflet-pane {
-    //     z-index: 1;
-    //   }
-    // }
-
     .widget-modal {
       position: absolute;
       top: 0;
@@ -141,10 +124,10 @@
         ul {
           list-style-type: circle;
 
-          li {
-            margin-left: 35px;
+          > li {
+            margin-left: ($space * 7);
 
-            a {
+            > a {
               color: $link-font-color;
             }
           }
@@ -156,6 +139,12 @@
   .widget-content-row {
     display: flex;
     justify-content: space-between;
+  }
+
+  .caption-container {
+    padding: ($space * 1) ($space * 3);
+    font-size: $font-size-small;
+    font-style: italic;
   }
 
   .widget-footer {

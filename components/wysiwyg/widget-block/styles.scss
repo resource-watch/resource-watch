@@ -129,9 +129,9 @@
   }
 
   .caption-container {
-    font-style: italic;
-    padding: 8px 15px;
+    padding: ($space * 1) ($space * 3);
     font-size: $font-size-small;
+    font-style: italic;
   }
 
   &.-embed {
