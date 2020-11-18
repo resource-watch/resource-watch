@@ -410,30 +410,30 @@ const LayoutEmbedMap = (props) => {
                     {!isEmpty(interaction.point)
                       && activeLayers.length
                       && !isEmpty(interaction.data) && (
-                        <Popup
-                          {...interaction.point}
-                          closeButton
-                          closeOnClick={false}
-                          onClose={handleClosePopup}
-                          className="rw-popup-layer"
-                          maxWidth="250px"
-                        >
-                          <LayerPopup
-                            data={{
-                              // data available in certain point
-                              layersInteraction: interaction.data,
-                              // ID of the layer will display data (defaults into the first layer)
-                              layersInteractionSelected: interaction.selected,
-                              // current active layers to get their layerConfig attributes
-                              layers: activeLayers,
-                            }}
-                            latlng={{
-                              lat: interaction.point.latitude,
-                              lng: interaction.point.longitude,
-                            }}
-                            onChangeInteractiveLayer={onChangeInteractiveLayer}
-                          />
-                        </Popup>
+                      <Popup
+                        {...interaction.point}
+                        closeButton
+                        closeOnClick={false}
+                        onClose={handleClosePopup}
+                        className="rw-popup-layer"
+                        maxWidth="250px"
+                      >
+                        <LayerPopup
+                          data={{
+                            // data available in certain point
+                            layersInteraction: interaction.data,
+                            // ID of the layer will display data (defaults into the first layer)
+                            layersInteractionSelected: interaction.selected,
+                            // current active layers to get their layerConfig attributes
+                            layers: activeLayers,
+                          }}
+                          latlng={{
+                            lat: interaction.point.latitude,
+                            lng: interaction.point.longitude,
+                          }}
+                          onChangeInteractiveLayer={onChangeInteractiveLayer}
+                        />
+                      </Popup>
                     )}
                   </>
                 )}
@@ -473,7 +473,7 @@ const LayoutEmbedMap = (props) => {
               </div>
               {modalVisibility && (
                 <div className="widget-modal">
-                  {!description && (
+                  {(!description && !widget?.metadata[0]) && (
                     <p>No additional information is available</p>
                   )}
                   {description && (
@@ -482,9 +482,32 @@ const LayoutEmbedMap = (props) => {
                       <p>{description}</p>
                     </>
                   )}
+                  {widget?.metadata && widget?.metadata[0]?.info?.widgetLinks && (
+                    <div className="widget-links-container">
+                      <h4>Links</h4>
+                      <ul>
+                        {widget.metadata[0].info.widgetLinks.map(({ name: linkName, link }) => (
+                          <li key={link}>
+                            <a
+                              href={link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {linkName}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
+            {(widget?.metadata && widget?.metadata[0]?.info?.caption && !modalVisibility) && (
+              <div className="caption-container">
+                {widget.metadata[0].info.caption}
+              </div>
+            )}
             {(isExternal && !webshot) && (
               <div className="widget-footer -map">
                 Powered by
@@ -519,6 +542,19 @@ LayoutEmbedMap.propTypes = {
     description: PropTypes.string,
     dataset: PropTypes.string,
     thumbnailUrl: PropTypes.string,
+    metadata: PropTypes.arrayOf(
+      PropTypes.shape({
+        info: PropTypes.shape({
+          caption: PropTypes.string,
+          widgetLinks: PropTypes.arrayOf(
+            PropTypes.shape({
+              name: PropTypes.string,
+              link: PropTypes.string,
+            }),
+          ),
+        }),
+      }),
+    ).isRequired,
   }).isRequired,
   isLoading: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,
