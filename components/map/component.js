@@ -2,7 +2,7 @@ import React, { PureComponent, createRef } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import ReactMapGL, { FlyToInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
-import WebMercatorViewport from 'viewport-mercator-project';
+import WebMercatorViewport from '@math.gl/web-mercator';
 import isEqual from 'react-fast-compare';
 import isEmpty from 'lodash/isEmpty';
 
@@ -155,12 +155,12 @@ class Map extends PureComponent {
     this.setBoundaries();
 
     if (!isEmpty(bounds) && !!bounds.bbox) {
-      this.fitBounds(0);
+      this.fitBounds();
     }
 
     onLoad({
       map: this.map.current.getMap(),
-      mapContainer: this.mapContainer.current
+      mapContainer: this.mapContainer.current,
     });
   }
 
