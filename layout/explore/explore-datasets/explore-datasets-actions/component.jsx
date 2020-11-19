@@ -53,17 +53,17 @@ const ExploreDatasetsActions = ({
   }, [isActive, dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction]);
 
   const handleToggleFavorite = useCallback((isFavorite, resource) => {
-    refetch();
+    if (selectedCollection) refetch();
     const datasetName = resource?.metadata[0]?.info?.name;
     if (isFavorite) {
       logEvent('Explore Menu', 'Add dataset to favorites', datasetName);
     } else {
       logEvent('Explore Menu', 'Remove dataset from favorites', datasetName);
     }
-  }, [refetch]);
+  }, [selectedCollection, refetch]);
 
   const handleToggleCollection = useCallback((isAdded, resource) => {
-    refetch();
+    if (selectedCollection) refetch();
     const datasetName = resource?.metadata[0]?.info?.name;
 
     if (isAdded) {
@@ -71,7 +71,7 @@ const ExploreDatasetsActions = ({
     } else {
       logEvent('Explore Menu', 'Remove dataset from a collection', datasetName);
     }
-  }, [refetch]);
+  }, [selectedCollection, refetch]);
 
   const userIsLoggedIn = user.token;
   const datasetName = dataset?.metadata[0]?.info?.name;

@@ -1,14 +1,11 @@
-// Redux
 import { connect } from 'react-redux';
-import * as actions from 'layout/explore/actions';
 
-import { getFilteredFavorites } from './selectors';
-import ExploreFavoritesComponent from './component';
+// component
+import ExploreFavorites from './component';
 
 export default connect(
-  state => ({
-    favorites: getFilteredFavorites(state),
-    selectedDataset: state.explore.datasets.selected
+  (state) => ({
+    userToken: state.user.token,
   }),
-  actions
-)(ExploreFavoritesComponent);
+  null,
+)(ExploreFavorites);

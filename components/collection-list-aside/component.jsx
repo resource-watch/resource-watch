@@ -66,7 +66,9 @@ CollectionListAside.defaultProps = { additionalTabs: [] };
 CollectionListAside.propTypes = {
   token: PropTypes.string.isRequired,
   selected: PropTypes.string.isRequired,
-  additionalTabs: PropTypes.arrayOf({}),
+  additionalTabs: PropTypes.arrayOf(
+    PropTypes.shape({}),
+  ),
 };
 
 export default CollectionListAside;
