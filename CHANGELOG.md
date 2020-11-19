@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- text tweaks for AoIs. [#175788944](https://www.pivotaltracker.com/story/show/175788944)
 - replaces deprecated `viewport-mercator-project` with `@math.gl/web-mercator`;
 - improves the way the dashboard detail page is loaded avoiding empty sections during data fetching [#172928273](https://www.pivotaltracker.com/story/show/172928273).
 - Dashboards: now the blocks renders with the scroll user instead of loading everything at once.

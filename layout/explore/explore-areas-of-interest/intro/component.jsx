@@ -18,9 +18,14 @@ const ExploreAreasOfInterestIntro = ({
 
   return (
     <div className="c-explore-areas-of-interest-intro">
-      <h4>Analyse local data</h4>
+      <h4 className="-text-center">
+        Analyze data in the areas
+        <br />
+        you&apos;re most interested in
+      </h4>
       <p className="-text-center">
-        Use your areas of interest as a filter in the widget editor in any dataset
+        Use your areas of interest as a &quot;geographic filter&quot;
+        in the custom visualization creator for any of the datasets in the catalog.
       </p>
       <button
         type="button"
