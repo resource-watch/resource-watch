@@ -27,7 +27,14 @@ const ExploreCollections = ({
   const {
     data: collection,
     isFetching: collectionIsFetching,
-  } = useFetchCollection(selectedCollection, token);
+  } = useFetchCollection(
+    selectedCollection,
+    token,
+    {},
+    {
+      enabled: selectedCollection,
+    },
+  );
 
   useEffect(() => {
     if (!collection) return () => {};

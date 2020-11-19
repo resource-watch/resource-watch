@@ -48,6 +48,7 @@ This should reduce the page workload and impact. [#175408544](https://www.pivota
 - Explore: glitch in country selector inside new are form.
 
 ### Removed
+- user favorites management from redux.
 - unused `layout/page` component.
 - Explore: panel to edit area.
 - MyRW: tab to edit area.

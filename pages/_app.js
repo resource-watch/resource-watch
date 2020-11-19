@@ -11,7 +11,6 @@ import finallyShim from 'promise.prototype.finally';
 import { setRouter } from 'redactions/routes';
 import {
   setUser,
-  getUserFavourites,
 } from 'redactions/user';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 import { getFeaturedDashboards } from 'modules/dashboards/actions';
@@ -51,20 +50,11 @@ class RWApp extends App {
     const {
       dashboards: { featured: { list: featuredDashboards } },
       partners: { published: { list: publishedPartners } },
-      user: {
-        favourites: { items: userFavorites, isFirstLoad: userFavoritesFirstLoad },
-      }
     } = store.getState();
-    if (user) {
-      store.dispatch(setUser(user));
+    if (user) store.dispatch(setUser(user));
 
-      // fetches user's favorites
-      if (!userFavorites.length && !userFavoritesFirstLoad) {
-        await store.dispatch(getUserFavourites());
-      }
-    }
-
-    // fetches published featured dashboards to populate dashboars menu in the app header and footer
+    // fetches published featured dashboards
+    // to populate dashboards menu in the app header and footer
     if (!containsString(pathname, PAGES_WITHOUT_DASHBOARDS) && !featuredDashboards.length) {
       await store.dispatch(getFeaturedDashboards());
     }
