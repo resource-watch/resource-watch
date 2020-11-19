@@ -10,7 +10,7 @@ import WidgetChart from './component';
 
 export default connect(
   (state) => ({
-    RWAdapter: getRWAdapter({ locale: state.common.locale }),
+    RWAdapter: getRWAdapter(state),
   }),
   null,
 )(WidgetChart);

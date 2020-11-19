@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Renderer from '@widget-editor/renderer';
@@ -224,6 +227,11 @@ function DashboardWidgetCard(props) {
   );
 };
 
+DashboardWidgetCard.defaultProps = {
+  loading: false,
+  explicitHeight: null
+};
+
 DashboardWidgetCard.propTypes = {
   user: PropTypes.object.isRequired,
   widget: PropTypes.object.isRequired,
@@ -232,9 +240,5 @@ DashboardWidgetCard.propTypes = {
   RWAdapter: PropTypes.func.isRequired,
 };
 
-DashboardWidgetCard.defaultProps = {
-    loading: false,
-    explicitHeight: null
-};
 
 export default DashboardWidgetCard;

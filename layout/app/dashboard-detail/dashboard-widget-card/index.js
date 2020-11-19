@@ -11,7 +11,7 @@ import DashboardWidgetCardComponent from './component';
 export default connect(
   (state) => ({
     user: state.user,
-    RWAdapter: getRWAdapter({ locale: state.common.locale }),
+    RWAdapter: getRWAdapter(state),
   }),
   null,
 )(DashboardWidgetCardComponent);

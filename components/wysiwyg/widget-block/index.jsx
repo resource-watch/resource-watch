@@ -128,7 +128,7 @@ export default connect(
   (state) => ({
     data: state.widgetBlock,
     user: state.user,
-    RWAdapter: getRWAdapter({ locale: state.common.locale }),
+    RWAdapter: getRWAdapter(state),
   }),
   actions,
 )(WidgetBlock);

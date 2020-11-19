@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import d3 from 'd3';
+import { format } from 'd3-format';
 import Renderer from '@widget-editor/renderer';
 
 // components
@@ -96,7 +96,7 @@ class LayoutEmbedWidget extends PureComponent {
                 <tbody>
                   <tr>
                     {Object.keys(bandStats).map((name) => {
-                      const number = d3.format('.4s')(bandStats[name]);
+                      const number = format('.4s')(bandStats[name]);
                       return (<td key={name}>{number}</td>);
                     })}
                   </tr>

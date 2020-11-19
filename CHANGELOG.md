@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.19.4] - TBD
+## [2.19.5] - TBD
 ### Added
 - map-type widget embed: widget links. [#175408294](https://www.pivotaltracker.com/story/show/175408294)
 - Dashboards: added better error handling for maps instead of crashing. [#175408544](https://www.pivotaltracker.com/story/show/175408544)
@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- memoizes `widget-editor` adapter to avoid unexpected re-renders. [#175594527](https://www.pivotaltracker.com/story/show/175594527)
 - text tweaks for AoIs. [#175788944](https://www.pivotaltracker.com/story/show/175788944)
 - replaces deprecated `viewport-mercator-project` with `@math.gl/web-mercator`;
 - improves the way the dashboard detail page is loaded avoiding empty sections during data fetching [#172928273](https://www.pivotaltracker.com/story/show/172928273).
