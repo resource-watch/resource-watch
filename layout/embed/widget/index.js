@@ -21,7 +21,7 @@ export default connect(
     favourited: state.widget.favourite.favourited,
     user: state.user,
     webshot: state.common.webshot,
-    RWAdapter: getRWAdapter({ locale: state.common.locale }),
+    RWAdapter: getRWAdapter(state),
   }),
   {
     getWidget,
