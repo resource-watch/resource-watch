@@ -11,6 +11,11 @@ import {
   getActiveInteractiveLayers,
 } from 'components/map/selectors';
 
+// utils
+import {
+  parseBbox,
+} from 'components/map/utils';
+
 // states
 export const getWidget = (state, props) => {
   const {
@@ -145,7 +150,11 @@ export const getBoundaries = createSelector(
 export const getBounds = createSelector(
   [getWidget],
   (_widget = {}) => {
-    if (_widget?.widgetConfig?.bbox) return ({ bbox: _widget.widgetConfig.bbox });
+    if (_widget?.widgetConfig?.bbox) {
+      return ({
+        bbox: parseBbox(_widget.widgetConfig.bbox),
+      });
+    }
 
     return ({});
   },

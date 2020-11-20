@@ -32,6 +32,9 @@ import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/co
 
 // utils
 import { logEvent } from 'utils/analytics';
+import {
+  parseBbox,
+} from 'components/map/utils';
 
 // styles
 import './styles.scss';
@@ -96,12 +99,13 @@ class WidgetBlock extends PureComponent {
   }
 
   getMapBounds(widget = {}) {
-    const { widgetConfig } = widget;
-    if (!widgetConfig) return {};
+    if (widget?.widgetConfig?.bbox) {
+      return ({
+        bbox: parseBbox(widget.widgetConfig.bbox),
+      });
+    }
 
-    if (widgetConfig.bbox) return { bbox: widgetConfig.bbox };
-
-    return {};
+    return ({});
   }
 
   getMapBasemap(widget = {}) {

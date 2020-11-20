@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- parses bbox coming from `widget-editor` to display in a Mapbox map. [#175450361](https://www.pivotaltracker.com/story/show/175450361)
 - memoizes `widget-editor` adapter to avoid unexpected re-renders. [#175594527](https://www.pivotaltracker.com/story/show/175594527)
 - text tweaks for AoIs. [#175788944](https://www.pivotaltracker.com/story/show/175788944)
 - replaces deprecated `viewport-mercator-project` with `@math.gl/web-mercator`;
