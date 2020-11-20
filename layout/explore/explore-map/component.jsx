@@ -330,7 +330,7 @@ const ExploreMap = (props) => {
       }
     };
 
-    if (aoi) {
+    if (aoi && token) {
       fetchAreaOfInterest();
     } else {
       // if the user removes the AoI, filter it to avoid display it in the map
@@ -542,7 +542,7 @@ ExploreMap.propTypes = {
     longitude: PropTypes.number,
   }),
   activeInteractiveLayers: PropTypes.arrayOf(
-    PropTypes.shape({}),
+    PropTypes.string,
   ).isRequired,
   setViewport: PropTypes.func.isRequired,
   setBounds: PropTypes.func.isRequired,
