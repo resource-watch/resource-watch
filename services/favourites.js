@@ -10,23 +10,23 @@ import { logger } from 'utils/logs';
  * @param {String} token User's token
  */
 export const fetchFavourites = (token) => {
-  logger.info('Fetch favourites');
+  logger.info('Fetch favorites');
   return WRIAPI.get('favourite',
     {
       headers: {
         Authorization: token,
-        'Upgrade-Insecure-Requests': 1
+        'Upgrade-Insecure-Requests': 1,
       },
       params: {
         application: process.env.APPLICATIONS,
-        env: process.env.API_ENV
-      }
+        env: process.env.API_ENV,
+      },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error fetching favourites: ${status}: ${statusText}`);
-      throw new Error(`Error fetching favourites: ${status}: ${statusText}`);
+      logger.error(`Error fetching favorites: ${status}: ${statusText}`);
+      throw new Error(`Error fetching favorites: ${status}: ${statusText}`);
     });
 };
 
@@ -43,10 +43,10 @@ export const createFavourite = (token, { resourceId, resourceType }) => {
     {
       application: process.env.APPLICATIONS,
       resourceId,
-      resourceType
+      resourceType,
     },
     { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating favourite: ${status}: ${statusText}`);
@@ -64,16 +64,10 @@ export const deleteFavourite = (token, resourceId) => {
   logger.info(`Delete favourite ${resourceId}`);
   return WRIAPI.delete(`/favourite/${resourceId}`,
     { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error deleting favourite ${resourceId} ${status}: ${statusText}`);
       throw new Error(`Error deleting favourite ${resourceId} ${status}: ${statusText}`);
     });
-};
-
-export default {
-  fetchFavourites,
-  deleteFavourite,
-  createFavourite
 };

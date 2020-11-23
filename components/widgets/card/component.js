@@ -10,8 +10,8 @@ import { Tooltip } from 'vizzuality-components';
 import { deleteWidget } from 'services/widget';
 import { fetchLayer } from 'services/layer';
 
-// helpers
-import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
+// hooks
+import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 
 // utils
 import {
@@ -65,6 +65,9 @@ const WidgetCard = (props) => {
     error,
     tooltip
   } = state;
+  const {
+    isInACollection,
+  } = useBelongsToCollection(widget.id, user.token);
 
   const handleRemoveVisualization = () => {
     const { user: { token }, onWidgetRemove } = props;
@@ -287,8 +290,6 @@ const WidgetCard = (props) => {
     widget.metadata[0].info &&
     widget.metadata[0].info.widgetLinks) || [];
   const isWidgetOwner = widget.userId === user.id;
-
-  const isInACollection = belongsToACollection(user, widget);
 
   const starIconName = classnames({
     'icon-star-full': isInACollection,

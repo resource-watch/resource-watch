@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'routes';
 
 // Widget editor
-import Renderer from '@widget-editor/renderer'
+import Renderer from '@widget-editor/renderer';
 
 // components
 import Spinner from 'components/ui/Spinner';

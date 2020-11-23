@@ -1,0 +1,9 @@
+@import 'css/settings';
+
+.c-explore-areas-of-interest-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: ($space * 8) ($space * 2);
+}

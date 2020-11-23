@@ -10,4 +10,11 @@
     min-width: 330px;
     max-width: 330px;
   }
+
+  .clear-polygon-container {
+    z-index: 2;
+    position: absolute;
+    top: calc(#{$header-main-height} + 30px);
+    left: calc(530px + (30px * 2));
+  }
 }

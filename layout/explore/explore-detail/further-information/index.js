@@ -1,4 +1,1 @@
-// component
-import FurtherInformationComponent from './component';
-
-export default FurtherInformationComponent;
+export { default } from './component';

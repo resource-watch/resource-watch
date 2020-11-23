@@ -5,20 +5,84 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.15.15] - TBD
+## [2.19.6] - TBD
 ### Added
+- map-type widget embed: widget links. [#175408294](https://www.pivotaltracker.com/story/show/175408294)
+- Dashboards: added better error handling for maps instead of crashing. [#175408544](https://www.pivotaltracker.com/story/show/175408544)
+- Explore detail: added `spatial_-_resolution` metadata field. [#175672826](https://www.pivotaltracker.com/story/show/175672826)
+- In area cards, now it's possible to rename the area there without navigating somewhere.
+- Explore: area of interest bounds.
+- Explore: added `aoi` param to URL to allow loading areas of interest from the URL.
+- pagination for collections coming from API.
+- call action in areas of interest to go to all-data section.
+- Explore: added active state for prominent buttons in new area form.
+- Embed maps: display user areas. [#175394222](https://www.pivotaltracker.com/story/show/175394222)
+- widget-editor: WRI's colour scheme.
+
+### Changed
+- `widget-editor@2.5.2`
+- sorts collections by name by default.
+- `widget-editor@2.5.1`
+- parses bbox coming from `widget-editor` to display in a Mapbox map. [#175450361](https://www.pivotaltracker.com/story/show/175450361)
+- memoizes `widget-editor` adapter to avoid unexpected re-renders. [#175594527](https://www.pivotaltracker.com/story/show/175594527)
+- text tweaks for AoIs. [#175788944](https://www.pivotaltracker.com/story/show/175788944)
+- replaces deprecated `viewport-mercator-project` with `@math.gl/web-mercator`;
+- improves the way the dashboard detail page is loaded avoiding empty sections during data fetching [#172928273](https://www.pivotaltracker.com/story/show/172928273).
+- Dashboards: now the blocks renders with the scroll user instead of loading everything at once.
+This should reduce the page workload and impact. [#175408544](https://www.pivotaltracker.com/story/show/175408544)
+- `widget-editor@2.5.0`
+- Enabled subscriptions for area cards regardless where the cards are displayed.
+- Unified way of working with areas of interest in map explore in energy dashboard.
+- Explore map now displays one area of interest at the same time. 
+- In MyRW, collections without resources are hide depending on the tab the user is.
+- updates icons for widgets and datasets in collections table.
+- moved collections away from redux. 
+- Updated styles for primary buttons when they are disabled according to UI Kit.
+- Explore: disallows to create an area if the respective fields are not populated correctly.
+- Explore: unified button styles of top bar buttons.
+- Explore: unified prominent button styles from datasets and areas.
+- Explore map and area cards now use different styles for areas.
+- unified methods to process files when a user uploads an area.
+- moved `favicon` to `public` root.
+- changed from `static` to `public` the folder where the server serves statics.
+- `next@9.1.7`
+- widget-editor: better separation of utils and constants.
+
+### Fixed
+- visual glitch with top bar in explore detail.
+- collections more consistent across the app. [#175272462](https://www.pivotaltracker.com/story/show/175272462)
+- Explore: glitch in country selector inside new are form.
+
+### Removed
+- user favorites management from redux.
+- unused `layout/page` component.
+- Explore: panel to edit area.
+- MyRW: tab to edit area.
+- `x-powered-by` headers.
+- Explore: top bars of sidebar are now clickable.
+- deprecated widget schemas and utils replaced by `widget-editor`
+- `canvas` and `vega` dependencies.
+
+## [2.16.0] - 10-21-2020
+### Added
+- possibility of drawing custom areas in Explore map. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
+- added pagination for areas in MyRW. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
+- user areas of interest can now be displayed in Explore map. Also, edition is available. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
 - sitemap generation.
 - new fetching for fields from `carto` datasets. Instead of using WRI's API `/fields` endpoint, points directly to Carto SQL API as it admits query modifications. [#171632711](https://www.pivotaltracker.com/story/show/171632711)
 - better error handling for widget cards fetching layers.
 - extra validation step to ensure `widgetConfig` attribute of widgets is present and valid. [#174911795](https://www.pivotaltracker.com/story/show/174911795)
 
 ### Changed
+- login in Explore page won't redirect to MyRW anymore, the user will remain in the Explore page. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
+- unified design of area cards in explore and MyRW. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
 - widget-editor@2.4.1
 - maintenance: moved `webpack` from `dependencies` to `devDependencies`.
 - widget-editor: updated RW-adapter to accept app's params (like API url).
 - maintenance: updated `eslint` and its plugins. [#174977793](https://www.pivotaltracker.com/story/show/174977793)
 
 ### Fixed
+- intermittent area edition bug where the area to edit wasn't loaded properly. [#175261981](https://www.pivotaltracker.com/story/show/175261981)
 - widget-editor: fixed a WE crash when the user changes the visualization type in a map-only widget. [#175165737](https://www.pivotaltracker.com/story/show/175165737)
 - admin: in layer edition, the interactivity wasn't being applied on first load until the user modifies it for first time. Now it does.
 - widget-editor: fixed error updating fields. [#174996497](https://www.pivotaltracker.com/story/show/174996497)

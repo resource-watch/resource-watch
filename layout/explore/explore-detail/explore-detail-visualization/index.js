@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 
 // constants
-import { getRWAdapter } from 'constants/widget-editor';
+import {
+  getRWAdapter,
+} from 'utils/widget-editor';
 
 // component
 import VisualizationComponent from './component';
@@ -9,7 +11,8 @@ import VisualizationComponent from './component';
 export default connect(
   (state) => ({
     authorization: state.user.token,
-    RWAdapter: getRWAdapter({ locale: state.common.locale }),
+    aoi: state.explore.map.aoi,
+    RWAdapter: getRWAdapter(state),
   }),
   null,
 )(VisualizationComponent);

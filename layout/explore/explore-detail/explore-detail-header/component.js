@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+  useState,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 
 // Components
@@ -21,10 +24,28 @@ import './styles.scss';
 function ExploreDetailHeaderComponent(props) {
   const { dataset, setSelectedDataset, userIsLoggedIn } = props;
   const [showShareModal, setShowShareModal] = useState(false);
+  const handleToggleFavorite = useCallback((isFavorite, resource) => {
+    const datasetName = resource?.metadata[0]?.info?.name;
+    if (isFavorite) {
+      logEvent('Explore Menu', 'Add dataset to favorites', datasetName);
+    } else {
+      logEvent('Explore Menu', 'Remove dataset from favorites', datasetName);
+    }
+  }, [])
+
+  const handleToggleCollection = useCallback((isAdded, resource) => {
+    const datasetName = resource?.metadata[0]?.info?.name;
+    if (isAdded) {
+      logEvent('Explore Menu', 'Add dataset to a collection', datasetName);
+    } else {
+      logEvent('Explore Menu', 'Remove dataset from a collection', datasetName);
+    }
+  }, []);
+
   const location = typeof window !== 'undefined' && window.location;
   const datasetName = dataset && dataset.metadata && dataset.metadata[0] &&
       dataset.metadata[0].info && dataset.metadata[0].info.name;
-  
+
   return (
     <div className="c-explore-detail-header">
       <button
@@ -48,7 +69,8 @@ function ExploreDetailHeaderComponent(props) {
               <CollectionsPanel
                 resource={dataset}
                 resourceType="dataset"
-                context="Explore (Detail)"
+                onToggleFavorite={handleToggleFavorite}
+                onToggleCollection={handleToggleCollection}
               />
             }
             overlayClassName="c-rc-tooltip"
@@ -58,7 +80,7 @@ function ExploreDetailHeaderComponent(props) {
             monitorWindowResize
           >
             <button
-              className="c-btn -secondary -compressed -fs-tiny" 
+              className="c-btn -quaternary -compressed -fs-tiny"
               onClick={() => {
                 if (userIsLoggedIn) {
                   logEvent('Explore (Detail)', 'Authenticated user Clicks Save', datasetName);
@@ -72,7 +94,7 @@ function ExploreDetailHeaderComponent(props) {
         </LoginRequired>
 
         <button
-          className="c-btn -secondary -compressed -fs-tiny share-button"
+          className="c-btn -quaternary -compressed -fs-tiny share-button"
           onClick={() => setShowShareModal(true)}
         >
           <Icon className="-small" name="icon-arrow-up-2" />

@@ -10,25 +10,37 @@ import LoginModal from 'components/modal/login-modal';
 import Spinner from 'components/ui/Spinner';
 import ErrorBoundary from 'components/ui/error-boundary';
 
+// hooks
+import useFetchArea from 'hooks/user-areas/fetch-area';
+
 // services
 import { createWidget, createWidgetMetadata } from 'services/widget';
 
 // constants
-import { WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES } from 'constants/widget-editor';
+import {
+  WIDGET_EDITOR_DEFAULT_THEME,
+  WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
+  WIDGET_EDITOR_COLOUR_SCHEMES,
+} from 'constants/widget-editor';
 
 // utils
-import DefaultTheme from 'utils/widgets/theme';
 import { logEvent } from 'utils/analytics';
 
 function ExploreDetailVisualization(props) {
   const {
     widgetId,
     datasetId,
+    aoi,
     authorization,
     RWAdapter,
   } = props;
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const {
+    data: area,
+  } = useFetchArea(aoi, authorization, {}, {
+    enabled: aoi && authorization,
+  });
 
   const onSaveWidget = (widget) => {
     if (!authorization) {
@@ -83,14 +95,15 @@ function ExploreDetailVisualization(props) {
         <WidgetEditor
           datasetId={datasetId}
           {...(widgetId && { widgetId })}
+          {...area?.geostore && { areaIntersection: area.geostore }}
           compact
           onSave={onSaveWidget}
-          theme={DefaultTheme}
+          theme={WIDGET_EDITOR_DEFAULT_THEME}
           adapter={RWAdapter}
+          schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
           authenticated
           disable={[
             ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
-            'theme-selection',
             'advanced-editor',
           ]}
         />
@@ -108,11 +121,13 @@ function ExploreDetailVisualization(props) {
 ExploreDetailVisualization.defaultProps = {
   widgetId: null,
   authorization: null,
+  aoi: null,
 };
 
 ExploreDetailVisualization.propTypes = {
   widgetId: PropTypes.string,
   datasetId: PropTypes.string.isRequired,
+  aoi: PropTypes.string,
   authorization: PropTypes.string,
   RWAdapter: PropTypes.func.isRequired,
 };

@@ -9,6 +9,7 @@ const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && pr
 
 module.exports = withCSS(withSass({
   useFileSystemPublicRoutes: false,
+  poweredByHeader: false,
 
   exportPathMap: async (defaultPathMap) => ({
     ...defaultPathMap,

@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
-import CollectionListAside from './collection-list-aside-component';
-import { getParsedCollections } from './collection-list-aside-selector';
-
-const mapStateToProps = state => ({ collections: getParsedCollections(state) });
+// component
+import CollectionListAside from './component';
 
 export default connect(
-  mapStateToProps,
-  {}
+  (state) => ({
+    token: state.user.token,
+  }),
+  null,
 )(CollectionListAside);

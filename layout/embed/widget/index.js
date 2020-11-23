@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 
 // constants
-import { getRWAdapter } from 'constants/widget-editor';
+import {
+  getRWAdapter,
+} from 'utils/widget-editor';
 
 // component
 import LayoutEmbedWidget from './component';
@@ -19,7 +21,7 @@ export default connect(
     favourited: state.widget.favourite.favourited,
     user: state.user,
     webshot: state.common.webshot,
-    RWAdapter: getRWAdapter({ locale: state.common.locale }),
+    RWAdapter: getRWAdapter(state),
   }),
   {
     getWidget,

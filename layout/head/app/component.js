@@ -6,22 +6,6 @@ import HeadNext from 'next/head';
 import { CESIUM_ROUTES, HOTJAR_ROUTES } from 'constants/app';
 
 class HeadApp extends PureComponent {
-  static propTypes = {
-    title: PropTypes.string,
-    description: PropTypes.string,
-    thumbnail: PropTypes.string,
-    routes: PropTypes.object.isRequired,
-    hostname: PropTypes.string.isRequired,
-    explicitHostname: PropTypes.string
-  };
-
-  static defaultProps = {
-    title: null,
-    description: null,
-    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
-    explicitHostname: null
-  }
-
   getCrazyEgg() {
     if (process.env.RW_NODE_ENV === 'production' && typeof window !== 'undefined') {
       return (
@@ -68,12 +52,12 @@ class HeadApp extends PureComponent {
 
     if (CESIUM_ROUTES.includes(pathname)) {
       return (
-        <Fragment>
+        <>
           <script src="/static/cesium/cesium.js" />
           <script src="/static/cesium/cesium-navigation.js" />
           <link rel="stylesheet" href="/static/cesium/navigation.css" />
           <link rel="stylesheet" href="/static/cesium/Widgets/widgets.css" />
-        </Fragment>
+        </>
       );
     }
 
@@ -84,8 +68,7 @@ class HeadApp extends PureComponent {
     const { routes: { pathname } } = this.props;
     const isProduction = process.env.RW_NODE_ENV === 'production';
     const isBrowser = typeof window !== 'undefined';
-    const isRouteIncluded = 
-      HOTJAR_ROUTES.filter(route => pathname.startsWith(route)).length > 0;    
+    const isRouteIncluded = HOTJAR_ROUTES.filter((route) => pathname.startsWith(route)).length > 0;
 
     if (isProduction && isBrowser && isRouteIncluded) {
       return (
@@ -104,7 +87,7 @@ class HeadApp extends PureComponent {
               a.appendChild(r);
             })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
           `}}
-        />  
+        />
       );
     }
   }
@@ -115,13 +98,13 @@ class HeadApp extends PureComponent {
       description,
       thumbnail,
       hostname,
-      explicitHostname
+      explicitHostname,
     } = this.props;
     return (
       <HeadNext>
         <title>{title ? `${title} | Resource Watch` : 'Resource Watch'}</title>
 
-        <meta property="og:url" content={explicitHostname ? explicitHostname : hostname} />
+        <meta property="og:url" content={explicitHostname || hostname} />
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -135,7 +118,7 @@ class HeadApp extends PureComponent {
           rel="stylesheet"
           href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-          crossorigin=""
+          crossOrigin=""
         />
         <link
           rel="stylesheet"
@@ -151,5 +134,23 @@ class HeadApp extends PureComponent {
     );
   }
 }
+
+HeadApp.defaultProps = {
+  title: null,
+  description: null,
+  thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
+  explicitHostname: null,
+};
+
+HeadApp.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+  thumbnail: PropTypes.string,
+  routes: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
+  hostname: PropTypes.string.isRequired,
+  explicitHostname: PropTypes.string,
+};
 
 export default HeadApp;

@@ -10,6 +10,7 @@ import {
   LegendListItem,
   LegendItemTypes
 } from 'vizzuality-components';
+import { toastr } from 'react-redux-toastr';
 
 // components
 import Map from 'components/map';
@@ -29,11 +30,11 @@ import ErrorBoundary from 'components/ui/error-boundary';
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
 
-// helpers
-import { belongsToACollection } from 'components/collections-panel/collections-panel-helpers';
-
 // utils
 import { logEvent } from 'utils/analytics';
+import {
+  parseBbox,
+} from 'components/map/utils';
 
 // styles
 import './styles.scss';
@@ -45,6 +46,7 @@ class WidgetBlock extends PureComponent {
     user: PropTypes.object.isRequired,
     data: PropTypes.object,
     item: PropTypes.object,
+    isInACollection: PropTypes.bool.isRequired,
     onToggleModal: PropTypes.func,
     onToggleLoading: PropTypes.func,
     RWAdapter: PropTypes.func.isRequired,
@@ -97,12 +99,13 @@ class WidgetBlock extends PureComponent {
   }
 
   getMapBounds(widget = {}) {
-    const { widgetConfig } = widget;
-    if (!widgetConfig) return {};
+    if (widget?.widgetConfig?.bbox) {
+      return ({
+        bbox: parseBbox(widget.widgetConfig.bbox),
+      });
+    }
 
-    if (widgetConfig.bbox) return { bbox: widgetConfig.bbox };
-
-    return {};
+    return ({});
   }
 
   getMapBasemap(widget = {}) {
@@ -142,14 +145,19 @@ class WidgetBlock extends PureComponent {
     });
   }
 
+  handleMapErrors = (error) => {
+    const { item: { id } } = this.props;
+    toastr.error(`There was an error loading item ${id}`, error);
+  }
+
   render() {
     const {
-      user,
       data,
       item,
       onToggleModal,
       onToggleLoading,
       RWAdapter,
+      isInACollection,
     } = this.props;
 
     const { viewport, isInitMap } = this.state;
@@ -179,14 +187,13 @@ class WidgetBlock extends PureComponent {
     const widgetEmbedUrl = widgetIsEmbed && widget.widgetConfig.url;
     const caption = metadataInfo && metadataInfo.caption;
     const componentClass = classnames('c-widget-block', { [`-${widgetType}`]: !!widgetType });
-    const isInACollection = belongsToACollection(user, widget);
     const starIconName = classnames({
       'icon-star-full': isInACollection,
-      'icon-star-empty': !isInACollection
+      'icon-star-empty': !isInACollection,
     });
     const modalIcon = classnames({
       'icon-cross': widgetModal,
-      'icon-info': !widgetModal
+      'icon-info': !widgetModal,
     });
 
     const filteredLayers = [];
@@ -235,7 +242,7 @@ class WidgetBlock extends PureComponent {
                 </li>
 
                 <li>
-                  <LoginRequired>
+                  <LoginRequired redirect={false}>
                     <Tooltip
                       overlay={<CollectionsPanel
                         resource={widget}
@@ -306,6 +313,7 @@ class WidgetBlock extends PureComponent {
                     labels={this.getMapLabel(widget)}
                     scrollZoom={false}
                     bounds={this.getMapBounds(widget)}
+                    onError={this.handleMapErrors}
                   >
                     {_map => (
                       <Fragment>

@@ -1,34 +1,29 @@
 import { connect } from 'react-redux';
 
-// actions
-import { checkIfFavorited, setIfFavorited } from 'redactions/widget';
-
 // selectors
 import {
+  getWidget,
+  getIsLoading,
+  getIsError,
   getMapProps,
   embedWidgetMapGetUpdatedLayerGroups,
   embedWidgetMapGetUpdatedLayers,
-  embedWidgetMapGetActiveInteractiveLayers
+  embedWidgetMapGetActiveInteractiveLayers,
 } from './selectors';
 
 // component
 import LayoutEmbedMap from './component';
 
 export default connect(
-  state => ({
-    widget: state.widget.data,
-    loading: state.widget.loading,
-    error: state.widget.error,
-    favourited: state.widget.favourite.favourited,
+  (state, props) => ({
+    widget: getWidget(state, props),
+    isLoading: getIsLoading(state, props),
+    isError: getIsError(state, props),
     user: state.user,
-    webshot: state.common.webshot,
-    mapProps: getMapProps(state),
-    activeLayers: embedWidgetMapGetUpdatedLayers(state),
-    layerGroups: embedWidgetMapGetUpdatedLayerGroups(state),
-    activeInteractiveLayers: embedWidgetMapGetActiveInteractiveLayers(state)
+    mapProps: getMapProps(state, props),
+    activeLayers: embedWidgetMapGetUpdatedLayers(state, props),
+    layerGroups: embedWidgetMapGetUpdatedLayerGroups(state, props),
+    activeInteractiveLayers: embedWidgetMapGetActiveInteractiveLayers(state, props),
   }),
-  {
-    checkIfFavorited,
-    setIfFavorited
-  }
+  null,
 )(LayoutEmbedMap);

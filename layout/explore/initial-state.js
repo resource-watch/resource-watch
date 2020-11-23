@@ -1,4 +1,9 @@
-import { TOPICS, DATA_TYPES, FREQUENCIES, TIME_PERIODS } from 'utils/concepts';
+import {
+  TOPICS,
+  DATA_TYPES,
+  FREQUENCIES,
+  TIME_PERIODS,
+} from 'utils/concepts';
 import { BASEMAPS, LABELS } from 'components/map/constants';
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
@@ -11,7 +16,7 @@ export default {
     page: 1,
     limit: 30,
     total: 0,
-    selected: null
+    selected: null,
   },
   filters: {
     open: false,
@@ -25,16 +30,16 @@ export default {
       custom: {
         label: 'Others',
         value: 'custom',
-        list: []
-      }
+        list: [],
+      },
     },
     selected: {
       topics: [],
       data_types: [],
       frequencies: [],
       time_periods: [],
-      custom: []
-    }
+      custom: [],
+    },
   },
   sort: {
     selected: 'most-viewed',
@@ -45,8 +50,8 @@ export default {
       { value: 'most-viewed', label: 'Most viewed' },
       { value: 'most-favorited', label: 'Most favorited' },
       { value: 'relevance', label: 'Relevance' },
-      { value: 'createdAt', label: 'Date added' }
-    ]
+      { value: 'createdAt', label: 'Date added' },
+    ],
   },
 
   // Map
@@ -57,11 +62,11 @@ export default {
       longitude: 0,
       pitch: 0,
       bearing: 0,
-      transitionDuration: 250
+      transitionDuration: 250,
     },
     bounds: {
       box: null,
-      options: {}
+      options: {},
     },
     basemap: BASEMAPS.dark.id,
     labels: LABELS.light.id,
@@ -70,10 +75,15 @@ export default {
     layerGroupsInteraction: {},
     layerGroupsInteractionSelected: null,
     layerGroupsInteractionLatLng: null,
+    drawer: {
+      isDrawing: false,
+      data: null,
+    },
+    aoi: null,
     // contains params to be modified in the layerSpec of every layer
     // 'layer-id': {
     //  'key-to-modify: {
-    //    stardDate: '09-09-2018',
+    //    startDate: '09-09-2018',
     //    endDate: '12-31-2019',
     //    zoom: 4,
     //    ...
@@ -81,7 +91,6 @@ export default {
     // }
     //
     parametrization: {},
-    aoi: null
   },
 
   // Sidebar
@@ -89,13 +98,15 @@ export default {
     open: true,
     anchor: null,
     section: EXPLORE_SECTIONS.DISCOVER,
-    selectedCollection: null
+    subsection: null,
+    selected: null,
+    selectedCollection: null,
   },
 
   tags: {
     tooltip: false,
     list: [],
     loading: false,
-    error: null
-  }
+    error: null,
+  },
 };
