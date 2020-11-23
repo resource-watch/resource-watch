@@ -26,6 +26,7 @@ const useBelongsToCollection = (resourceId, token) => {
     refetch: refetchCollections,
   } = useFetchCollections(
     token,
+    {},
     {
       enabled: token,
       refetchOnWindowFocus: false,

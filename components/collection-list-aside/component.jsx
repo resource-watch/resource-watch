@@ -30,6 +30,9 @@ const CollectionListAside = ({
   } = useFetchCollections(
     token,
     {
+      sort: 'name',
+    },
+    {
       initialData: [],
       initialStale: true,
     },

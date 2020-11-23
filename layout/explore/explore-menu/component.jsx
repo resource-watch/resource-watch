@@ -52,6 +52,9 @@ const ExploreMenu = ({
   } = useFetchCollections(
     token,
     {
+      sort: 'name',
+    },
+    {
       initialData: [],
       initialStale: true,
       enabled: token,
