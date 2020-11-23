@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- `widget-editor@2.5.2`
 - sorts collections by name by default.
 - `widget-editor@2.5.1`
 - parses bbox coming from `widget-editor` to display in a Mapbox map. [#175450361](https://www.pivotaltracker.com/story/show/175450361)
