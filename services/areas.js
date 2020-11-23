@@ -1,7 +1,10 @@
 import WRISerializer from 'wri-json-api-serializer';
 
 // utils
-import { WRIAPI } from 'utils/axios';
+import {
+  WRIAPI,
+  WRIAPI_V2,
+} from 'utils/axios';
 import { logger } from 'utils/logs';
 
 /**
@@ -14,7 +17,10 @@ import { logger } from 'utils/logs';
  */
 export const fetchArea = (id, params = {}, headers = {}) => {
   logger.info(`Fetch area ${id}`);
-  return WRIAPI.get(
+
+  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
+
+  return API.get(
     `area/${id}`,
     {
       headers: {
@@ -40,7 +46,9 @@ export const fetchArea = (id, params = {}, headers = {}) => {
  */
 export const fetchUserAreas = (token, params = {}, _meta = false) => {
   logger.info('Fetch user areas');
-  return WRIAPI.get('area', {
+  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
+
+  return API.get('area', {
     headers: {
       Authorization: token,
       'Upgrade-Insecure-Requests': 1,
@@ -51,7 +59,7 @@ export const fetchUserAreas = (token, params = {}, _meta = false) => {
       ...params,
     },
     transformResponse: [].concat(
-      WRIAPI.defaults.transformResponse,
+      API.defaults.transformResponse,
       (({ data, meta }) => ({ areas: data, meta })),
     ),
   })
@@ -89,7 +97,9 @@ export const fetchUserAreas = (token, params = {}, _meta = false) => {
  */
 export const deleteArea = (areaId, token) => {
   logger.info(`Delete area ${areaId}`);
-  return WRIAPI.delete(`area/${areaId}`, { headers: { Authorization: token } })
+  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
+
+  return API.delete(`area/${areaId}`, { headers: { Authorization: token } })
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error deleting area ${areaId}: ${status}: ${statusText}`);
@@ -107,6 +117,8 @@ export const deleteArea = (areaId, token) => {
  */
 export const createArea = (name, geostore, token) => {
   logger.info('Create area');
+  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
+
   const bodyObj = {
     name,
     application: process.env.APPLICATIONS,
@@ -114,7 +126,7 @@ export const createArea = (name, geostore, token) => {
     geostore,
   };
 
-  return WRIAPI.post('area', bodyObj, { headers: { Authorization: token } })
+  return API.post('area', bodyObj, { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -124,36 +136,32 @@ export const createArea = (name, geostore, token) => {
 };
 
 /**
- * Update area.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#areas|here}
- * @param {String} id
- * @param {String} name Name of the new area
+ * updates an area.
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#updating-an-area|here}
+ * @param {String} id area ID.
+ * @param {Object} params request parameters.
  * @param {String} token user's token.
- * @param {String} geostore Geostore ID
  * @returns {Object}
  */
-export const updateArea = (id, name, token, geostore) => {
+export const updateArea = (id, params, token) => {
   logger.info(`Update area ${id}`);
-  const bodyObj = {
-    name,
+
+  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
+
+  return API.patch(`area/${id}`, {
     application: process.env.APPLICATIONS,
     env: process.env.API_ENV,
-    geostore,
-  };
-
-  return WRIAPI.patch(`area/${id}`, bodyObj, { headers: { Authorization: token } })
+    ...params,
+  },
+  {
+    headers: {
+      Authorization: token,
+    },
+  })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating area ${id}: ${status}: ${statusText}`);
       throw new Error(`Error updating area ${id}: ${status}: ${statusText}`);
     });
-};
-
-export default {
-  fetchArea,
-  fetchUserAreas,
-  deleteArea,
-  createArea,
-  updateArea,
 };

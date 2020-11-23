@@ -97,6 +97,7 @@ const AreasIndex = ({
             areas={userAreas}
             onMapView={handleMapView}
             onEditArea={refetch}
+            onChangedVisibility={refetch}
             onDeletionArea={handleDeletionArea}
           />
 

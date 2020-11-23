@@ -42,6 +42,7 @@ const AreaCard = (props) => {
     removeUserArea,
     onMapView,
     onEditArea,
+    onChangedVisibility,
     onDeletionArea,
   } = props;
   const {
@@ -87,6 +88,24 @@ const AreaCard = (props) => {
     });
   }, [removeUserArea, onDeletionArea, area]);
 
+  const handleChangeVisibility = useCallback(async () => {
+    const {
+      public: isAreaPublic,
+    } = area;
+    try {
+      await updateArea(
+        id,
+        {
+          public: !isAreaPublic,
+        },
+        token,
+      );
+      onChangedVisibility();
+    } catch (e) {
+      toastr.error('Something went wrong updating the area.');
+    }
+  }, [id, area, token, onChangedVisibility]);
+
   const handleTooltip = useCallback((isTooltipOpen) => {
     setTooltipState((prevTooltip) => ({
       ...prevTooltip,
@@ -118,7 +137,14 @@ const AreaCard = (props) => {
     evt.stopPropagation();
 
     try {
-      await updateArea(id, areaName, token, geostore);
+      await updateArea(
+        id,
+        {
+          name: areaName,
+          geostore,
+        },
+        token,
+      );
       nameRef.current.blur();
       if (onEditArea) onEditArea(id);
     } catch (e) {
@@ -205,24 +231,27 @@ const AreaCard = (props) => {
         </Map>
       </div>
       <div className="text-container">
-        <form
-          ref={(ref) => { formRef.current = ref; }}
-          onSubmit={handleSubmit}
-        >
-          <input
-            type="text"
-            id="area-name"
-            name="area-name"
-            required
-            minLength={3}
-            ref={(ref) => { nameRef.current = ref; }}
-            onChange={handleChange}
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            value={areaName}
-            className="editable-name"
-          />
-        </form>
+        <div className="basic-info">
+          <form
+            ref={(ref) => { formRef.current = ref; }}
+            onSubmit={handleSubmit}
+          >
+            <input
+              type="text"
+              id="area-name"
+              name="area-name"
+              required
+              minLength={3}
+              ref={(ref) => { nameRef.current = ref; }}
+              onChange={handleChange}
+              onClick={handleClick}
+              onKeyDown={handleKeyDown}
+              value={areaName}
+              className="editable-name"
+            />
+          </form>
+          {area.public && <span className="is-public">Public</span>}
+        </div>
         <div className="subscriptions-container">
           {subscriptions && subscriptions.length > 0 && (
             <div className="datasets-container">
@@ -277,6 +306,7 @@ const AreaCard = (props) => {
                 tooltipRef={tooltipRef}
                 onMouseDown={() => { handleTooltip(false); }}
                 onRenameArea={handleRenameArea}
+                onChangeVisibility={handleChangeVisibility}
                 onEditSubscriptions={handleEditSubscription}
                 onDeleteArea={handleDeleteArea}
               />
@@ -323,9 +353,11 @@ AreaCard.propTypes = {
     ),
     subscription: PropTypes.shape({}),
     isVisible: PropTypes.bool,
+    public: PropTypes.bool.isRequired,
   }).isRequired,
   onMapView: PropTypes.func.isRequired,
   onEditArea: PropTypes.func,
+  onChangedVisibility: PropTypes.func.isRequired,
   onDeletionArea: PropTypes.func.isRequired,
   removeUserArea: PropTypes.func.isRequired,
 };

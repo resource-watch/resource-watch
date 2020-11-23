@@ -237,10 +237,20 @@ const LayoutEmbedMap = (props) => {
 
     const fetchAreaOfInterest = async () => {
       try {
-        const { geostore: geostoreId } = await fetchArea(aoi, {}, {
+        const {
+          geostore: geostoreId,
+          public: isPublicArea,
+          userId: areaUserId,
+        } = await fetchArea(aoi, {}, {
           Authorization: user.token,
           cancelToken: cancelToken.token,
         });
+
+        if (process.env.RW_FEATURE_FLAG_AREAS_V2
+          && !isPublicArea
+          && (areaUserId !== user.id)
+        ) throw new Error('Error loading area: this area is private.');
+
         const {
           geojson,
           bbox,
@@ -269,11 +279,17 @@ const LayoutEmbedMap = (props) => {
           },
         }));
       } catch (e) {
-        //  do something
+        // eslint-disable-next-line no-console
+        console.error(e.message);
       }
     };
 
-    if (user.token && aoi) fetchAreaOfInterest();
+    if (aoi) {
+      // in 'v1/areas' areas are private.
+      if (!process.env.RW_FEATURE_FLAG_AREAS_V2 && user.token) fetchAreaOfInterest();
+      // in 'v2/areas' areas can be private or public
+      if (process.env.RW_FEATURE_FLAG_AREAS_V2) fetchAreaOfInterest();
+    }
 
     return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
   }, [aoi, user]);

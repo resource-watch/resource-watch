@@ -34,27 +34,45 @@
     height: 100%;
     padding: $space * 3;
 
-    .editable-name {
-      overflow-x: hidden;
-      width: 100%;
-      max-width: 100%;
-      padding: 7.5px ($space *2);
-      border: 1px solid transparent;
-      border-radius: 4px;
-      cursor: pointer;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+    .basic-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-      &:focus {
-        outline: 0;
-        border-color: $border-color-2;
+      > form {
+        max-width: 75%;
+        width: 100%;
 
-        &:invalid {
-          border-color: $color-13;
-          background-color: rgba($color-13, 0.05);
+        .editable-name {
+          overflow-x: hidden;
+          width: 100%;
+          max-width: 100%;
+          padding: 7.5px ($space *2);
+          border: 1px solid transparent;
+          border-radius: 4px;
+          cursor: pointer;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+
+          &:focus {
+            outline: 0;
+            border-color: $border-color-2;
+
+            &:invalid {
+              border-color: $color-13;
+              background-color: rgba($color-13, 0.05);
+            }
+          }
         }
       }
+
+
+      > .is-public {
+        font-size: $font-size-small;
+        color: $color-14;
+      }
     }
+
 
     .subscriptions-container {
       .datasets-list {

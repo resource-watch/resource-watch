@@ -115,6 +115,7 @@ const ExploreAreasOfInterest = ({
             isColumn
             onMapView={handleMapView}
             onEditArea={refetch}
+            onChangedVisibility={refetch}
             onDeletionArea={handleDeletionArea}
           />
 

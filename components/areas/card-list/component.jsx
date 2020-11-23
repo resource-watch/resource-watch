@@ -15,6 +15,7 @@ const AreaCardList = ({
   isColumn,
   onMapView,
   onEditArea,
+  onChangedVisibility,
   onDeletionArea,
 }) => {
   const componentClass = classnames({
@@ -48,6 +49,7 @@ const AreaCardList = ({
                       area={area}
                       onMapView={onMapView}
                       onEditArea={onEditArea}
+                      onChangedVisibility={onChangedVisibility}
                       onDeletionArea={onDeletionArea}
                     />
                   )}
@@ -81,6 +83,7 @@ AreaCardList.propTypes = {
   isColumn: PropTypes.bool,
   onMapView: PropTypes.func.isRequired,
   onEditArea: PropTypes.func,
+  onChangedVisibility: PropTypes.func.isRequired,
   onDeletionArea: PropTypes.func.isRequired,
 };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { toastr } from 'react-redux-toastr';
 import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import { useDebouncedCallback } from 'use-debounce';
@@ -57,6 +58,7 @@ import './styles.scss';
 const ExploreMap = (props) => {
   const {
     token,
+    userId,
     embed,
     viewport,
     basemap,
@@ -100,7 +102,6 @@ const ExploreMap = (props) => {
   });
   const [displayedLayers, setDisplayedLayers] = useState([
     ...activeLayers,
-    // ...aoi || [],
   ]);
 
   const onChangeInfo = useCallback((layer) => {
@@ -286,7 +287,6 @@ const ExploreMap = (props) => {
   useEffect(() => {
     setDisplayedLayers((prevLayers) => [
       ...prevLayers.filter(({ provider }) => provider === 'geojson'),
-      // ...aoi || [],
       ...activeLayers,
     ]);
   }, [activeLayers, aoi]);
@@ -296,10 +296,20 @@ const ExploreMap = (props) => {
 
     const fetchAreaOfInterest = async () => {
       try {
-        const { geostore: geostoreId } = await fetchArea(aoi, {}, {
+        const {
+          geostore: geostoreId,
+          public: isPublicArea,
+          userId: areaUserId,
+        } = await fetchArea(aoi, {}, {
           Authorization: token,
           cancelToken: cancelToken.token,
         });
+
+        if (process.env.RW_FEATURE_FLAG_AREAS_V2
+          && !isPublicArea
+          && (areaUserId !== userId)
+        ) throw new Error('This area is private.');
+
         const {
           id,
           geojson,
@@ -326,12 +336,15 @@ const ExploreMap = (props) => {
           },
         });
       } catch (e) {
-        //  do something
+        toastr.error(e.message);
       }
     };
 
-    if (aoi && token) {
-      fetchAreaOfInterest();
+    if (aoi) {
+      // in 'v1/areas' areas are private.
+      if (!process.env.RW_FEATURE_FLAG_AREAS_V2 && token) fetchAreaOfInterest();
+      // in 'v2/areas' areas can be private or public
+      if (process.env.RW_FEATURE_FLAG_AREAS_V2) fetchAreaOfInterest();
     } else {
       // if the user removes the AoI, filter it to avoid display it in the map
       setDisplayedLayers((prevLayers) => [
@@ -340,7 +353,7 @@ const ExploreMap = (props) => {
     }
 
     return () => { cancelToken.cancel('Fetching area of interest: operation canceled by the user.'); };
-  }, [aoi, token, setBounds]);
+  }, [aoi, token, userId, setBounds]);
 
   return (
     <div className="l-explore-map -relative">
@@ -505,6 +518,7 @@ const ExploreMap = (props) => {
 
 ExploreMap.defaultProps = {
   token: null,
+  userId: null,
   embed: false,
   layerGroupsInteractionSelected: null,
   layerGroupsInteractionLatLng: null,
@@ -515,6 +529,7 @@ ExploreMap.defaultProps = {
 
 ExploreMap.propTypes = {
   token: PropTypes.string,
+  userId: PropTypes.string,
   embed: PropTypes.bool,
   open: PropTypes.bool.isRequired,
   viewport: PropTypes.shape({
