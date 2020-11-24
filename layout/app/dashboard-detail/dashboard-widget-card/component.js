@@ -46,7 +46,7 @@ function DashboardWidgetCard(props) {
   } = useBelongsToCollection(widget.id, user.token);
   const widgetType = widget && widget.type;
   const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0 &&
-      widget.metadata[0].info)) || {};
+    widget.metadata[0].info)) || {};
 
   const widgetLinks = metadataInfo.widgetLinks || [];
   const { caption } = metadataInfo;
@@ -76,154 +76,153 @@ function DashboardWidgetCard(props) {
   });
 
   return (
-      <div className={classNameValue}>
-          <header>
-              <div className="header-container">
-                  <Title className="-default">{widget ? widget.name : '–'}</Title>
-                  <div className="buttons">
-                      <ul>
-                          <li>
-                              <button
-                                  className="c-btn -tertiary -clean"
-                                  onClick={() => setShareModalOpen(true)}
-                              >
-                                  <Icon
-                                      name="icon-share"
-                                      className="-small"
-                                  />
-                              </button>
-
-                              <Modal
-                                  isOpen={shareModalOpen}
-                                  className="-medium"
-                                  onRequestClose={() => setShareModalOpen(false)}
-                              >
-                                  <ShareModal
-                                      links={{
-                                          link: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
-                                          embed: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`
-                                      }}
-                                      analytics={{
-                                          facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
-                                          twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
-                                          email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
-                                          copy: type => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`)
-                                      }}
-                                  />
-                              </Modal>
-                          </li>
-
-                          <li>
-                              <LoginRequired>
-                                  <Tooltip
-                                      overlay={<CollectionsPanel
-                                          resource={widget}
-                                          resourceType="widget"
-                                      />}
-                                      overlayClassName="c-rc-tooltip"
-                                      overlayStyle={{ color: '#fff' }}
-                                      placement="bottomLeft"
-                                      trigger="click"
-                                  >
-                                      <button
-                                          className="c-btn favourite-button"
-                                          tabIndex={-1}
-                                      >
-                                          <Icon
-                                              name={starIconName}
-                                              className="-star -small"
-                                          />
-                                      </button>
-                                  </Tooltip>
-                              </LoginRequired>
-                          </li>
-                          <li>
-                              <button
-                                  type="button"
-                                  onClick={() => setInfoCardOpen(!infoCardOpen)}
-                              >
-                                  <Icon name={modalIcon} className="-small" />
-                              </button>
-                          </li>
-                      </ul>
-                  </div>
-              </div>
-          </header>
-          <ErrorBoundary message="There was an error loading the visualization">
-              <div className={classNameWidgetContainer}>
-                  <Spinner isLoading={loading} className="-light -small" />
-                  {widgetType === 'text' && widget &&
-                      <TextChart
-                          widgetConfig={widgetConfig}
-                          toggleLoading={loading => onToggleLoading(loading)}
-                      />
-                  }
-
-                {widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking && (
-                  <Renderer
-                    adapter={RWAdapter}
-                    widgetConfig={widgetConfig}
-                    {...(isMapWidget && { changeBbox: widgetConfig.bbox})}
-                    {...(isMapWidget && { interactionEnabled: true })}
+    <div className={classNameValue}>
+      <header>
+        <div className="header-container">
+          <Title className="-default">{widget ? widget.name : '–'}</Title>
+          <div className="buttons">
+            <ul>
+              <li>
+                <button
+                  className="c-btn -tertiary -clean"
+                  onClick={() => setShareModalOpen(true)}
+                >
+                  <Icon
+                    name="icon-share"
+                    className="-small"
                   />
-                )}
+                </button>
 
-                  {widgetIsEmbed &&
-                      <iframe
-                          title={widget.name}
-                          src={widgetEmbedUrl}
-                          width="100%"
-                          height={!!explicitHeight ? `${explicitHeight}px` : '100%'}
-                          frameBorder="0"
+                <Modal
+                  isOpen={shareModalOpen}
+                  className="-medium"
+                  onRequestClose={() => setShareModalOpen(false)}
+                >
+                  <ShareModal
+                    links={{
+                      link: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
+                      embed: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`
+                    }}
+                    analytics={{
+                      facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
+                      twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
+                      email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
+                      copy: type => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`)
+                    }}
+                  />
+                </Modal>
+              </li>
+
+              <li>
+                <LoginRequired>
+                  <Tooltip
+                    overlay={<CollectionsPanel
+                      resource={widget}
+                      resourceType="widget"
+                    />}
+                    overlayClassName="c-rc-tooltip"
+                    overlayStyle={{ color: '#fff' }}
+                    placement="bottomLeft"
+                    trigger="click"
+                  >
+                    <button
+                      className="c-btn favourite-button"
+                      tabIndex={-1}
+                    >
+                      <Icon
+                        name={starIconName}
+                        className="-star -small"
                       />
-                  }
+                    </button>
+                  </Tooltip>
+                </LoginRequired>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => setInfoCardOpen(!infoCardOpen)}
+                >
+                  <Icon name={modalIcon} className="-small" />
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <ErrorBoundary message="There was an error loading the visualization">
+        <div className={classNameWidgetContainer}>
+          <Spinner isLoading={loading} className="-light -small" />
+          {widgetType === 'text' && widget &&
+            <TextChart
+              widgetConfig={widgetConfig}
+              toggleLoading={loading => onToggleLoading(loading)}
+            />
+          }
 
-                  {widgetIsRanking &&
-                      <RankingWidget widgetConfig={widgetConfig} />
-                  }
+          {widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking && (
+            <Renderer
+              adapter={RWAdapter}
+              widgetConfig={widgetConfig}
+              {...(isMapWidget && { changeBbox: widgetConfig.bbox })}
+              {...(isMapWidget && { interactionEnabled: true })}
+            />
+          )}
 
-                  {infoCardOpen &&
-                      <div className="widget-modal">
-                          {widget && !widget.description &&
-                              <p>No additional information is available</p>
-                          }
+          {widgetIsEmbed &&
+            <iframe
+              title={widget.name}
+              src={widgetEmbedUrl}
+              width="100%"
+              height={!!explicitHeight ? `${explicitHeight}px` : '100%'}
+              frameBorder="0"
+            />
+          }
 
-                          {widget && widget.description && (
-                              <div>
-                                  <h4>Description</h4>
-                                  <p>{widget.description}</p>
-                              </div>
-                          )}
+          {widgetIsRanking &&
+            <RankingWidget widgetConfig={widgetConfig} />
+          }
 
-                          {widgetLinks.length > 0 &&
-                              <div className="widget-links-container">
-                                  <h4>Links</h4>
-                                  <ul>
-                                      {widgetLinks.map(link => (
-                                          <li>
-                                              <a
-                                                  href={link.link}
-                                                  target="_blank"
-                                                  rel="noopener noreferrer"
-                                              >
-                                                  {link.name}
-                                              </a>
-                                          </li>
-                                      ))}
-                                  </ul>
-                              </div>
-                          }
+          {infoCardOpen &&
+            <div className="widget-modal">
+              {widget && !widget.description &&
+                <p>No additional information is available</p>
+              }
 
-                          {caption &&
-                              <div className="caption-container">
-                                  {caption}
-                              </div>
-                          }
-                      </div>
-                  }
-              </div>
-          </ErrorBoundary>
-      </div>
+              {widget && widget.description && (
+                <div>
+                  <h4>Description</h4>
+                  <p>{widget.description}</p>
+                </div>
+              )}
+
+              {widgetLinks.length > 0 &&
+                <div className="widget-links-container">
+                  <h4>Links</h4>
+                  <ul>
+                    {widgetLinks.map(link => (
+                      <li>
+                        <a
+                          href={link.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {link.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              }
+            </div>
+          }
+        </div>
+        {caption &&
+          <div className="caption-container">
+            {caption}
+          </div>
+        }
+      </ErrorBoundary>
+    </div>
   );
 };
 

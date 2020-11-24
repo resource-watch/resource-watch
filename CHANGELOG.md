@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.19.6] - TBD
 ### Added
+- captions to widgets in energy/countries dashboard (only in preproduction).
 - map-type widget embed: widget links. [#175408294](https://www.pivotaltracker.com/story/show/175408294)
 - Dashboards: added better error handling for maps instead of crashing. [#175408544](https://www.pivotaltracker.com/story/show/175408544)
 - Explore detail: added `spatial_-_resolution` metadata field. [#175672826](https://www.pivotaltracker.com/story/show/175672826)
