@@ -40,7 +40,11 @@ function EnergyCountryExplorer(props) {
       });
 
     // Load countries
-    axios.get('https://api.resourcewatch.org/v1/query/a86d906d-9862-4783-9e30-cdb68cd808b8?sql=SELECT distinct(country_long) as country, country as iso FROM powerwatch_data_20180102 ORDER BY country_long ASC')
+    axios.get('https://api.resourcewatch.org/v1/query/a86d906d-9862-4783-9e30-cdb68cd808b8', {
+      params: {
+        sql: 'SELECT distinct country_long as country, country as iso FROM powerwatch_data_20180102 ORDER BY country_long ASC',
+      },
+    })
       .then((data) => {
         setCountries({
           loading: false,
