@@ -16,8 +16,8 @@ const fetcher = () => fetchCountries()
       geostoreId,
     })));
 
-const useCountries = (queryProps) => useQuery(
-  ['countries'],
+const useCountryList = (queryProps) => useQuery(
+  ['fetch-countries'],
   fetcher,
   {
     initialData: [],
@@ -26,4 +26,4 @@ const useCountries = (queryProps) => useQuery(
   },
 );
 
-export default useCountries;
+export default useCountryList;

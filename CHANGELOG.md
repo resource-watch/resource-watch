@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- hides cancelled areas requests from app notifications (now they display in the console quietly).
 - `widget-editor@2.5.2`
 - sorts collections by name by default.
 - `widget-editor@2.5.1`

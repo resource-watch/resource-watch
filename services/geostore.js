@@ -1,4 +1,3 @@
-import axios from 'axios';
 import WRISerializer from 'wri-json-api-serializer';
 
 // utils
@@ -24,15 +23,6 @@ export const fetchGeostore = (id, params = {}) => {
       }
 
       return WRISerializer(data);
-    })
-    .catch((thrown) => {
-      if (axios.isCancel(thrown)) {
-        throw new Error(thrown.message);
-      } else {
-        const { status, statusText } = thrown;
-        logger.error(`Error fetching geostore ${id}: ${status}: ${statusText}`);
-        throw new Error(`Error fetching geostore ${id}: ${status}: ${statusText}`);
-      }
     });
 };
 
@@ -46,8 +36,8 @@ export const createGeostore = (geojson) => {
   return WRIAPI.post('geostore', { geojson }, {
     transformResponse: [].concat(
       WRIAPI.defaults.transformResponse,
-      (({ data }) => ({ geostore: data }))
-    )
+      (({ data }) => ({ geostore: data })),
+    ),
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -74,16 +64,15 @@ export const createGeostore = (geojson) => {
 export const fetchCountries = () => {
   logger.info('Fetch countries');
   return WRIAPI.get('geostore/admin/list')
-    .then(array =>
-      array.data.data.sort((a, b) => {
-        if (a.name < b.name) {
-          return -1;
-        } else if (a.name > b.name) {
-          return 1;
-        }
-        // eslint-disable-line no-else-return
-        return 0;
-      }))
+    .then((array) => array.data.data.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      } if (a.name > b.name) {
+        return 1;
+      }
+      // eslint-disable-line no-else-return
+      return 0;
+    }))
     .catch((error) => {
       logger.error(`Error fetching countries: ${error}`);
       throw new Error(`Error fetching countries: ${error}`);
@@ -102,11 +91,4 @@ export const fetchCountry = (iso) => {
       logger.error(`Error fetching country ${iso}: ${status}: ${statusText}`);
       throw new Error(`Error fetching country ${iso}: ${status}: ${statusText}`);
     });
-};
-
-export default {
-  createGeostore,
-  fetchGeostore,
-  fetchCountries,
-  fetchCountry
 };
