@@ -161,12 +161,13 @@ class LayerPopup extends PureComponent {
         </header>
 
         <div className="popup-content">
-          {(interaction.data || interactionState.data) &&
+          {!isEmpty(interaction.data || interactionState.data) &&
             output.map((outputItem) => {
               const { column } = outputItem;
               const columnArray = column.split('.');
               const value = columnArray.reduce((acc, c) => acc[c],
                 interaction.data || interactionState.data);
+
                 return (
                   <div
                     className="popup-field"
@@ -199,7 +200,7 @@ class LayerPopup extends PureComponent {
               <Spinner isLoading className="-tiny -inline -pink-color" />
             </div>}
 
-          {!this.state.loading && (!interaction.data && !interactionState.data) &&
+          {!this.state.loading && (!interaction.data && !interactionState.data || isEmpty(interaction.data || interactionState.data)) &&
             interactionConfig.config && interactionConfig.config.url &&
             'No data available'}
 
