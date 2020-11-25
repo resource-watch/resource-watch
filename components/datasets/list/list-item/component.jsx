@@ -102,11 +102,7 @@ const DatasetListItem = (props) => {
         maxDeviceWidth={breakpoints.medium}
         values={{ deviceWidth: responsive.fakeWidth }}
       >
-        <Link
-          href={`explore/${dataset.slug}`}
-          // route="explore"
-          // params={{ id: this.props.dataset.slug }}
-        >
+        <Link href={`explore/${dataset.slug}`}>
           {renderChart()}
         </Link>
       </MediaQuery>
@@ -224,7 +220,7 @@ DatasetListItem.propTypes = {
   }),
   mode: PropTypes.string,
   user: PropTypes.shape({
-    token: PropTypes.string.isRequired,
+    token: PropTypes.string,
   }).isRequired,
   tags: PropTypes.node,
   actions: PropTypes.node,

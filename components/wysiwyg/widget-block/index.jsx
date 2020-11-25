@@ -103,7 +103,7 @@ const WidgetBlock = (props) => {
 
 WidgetBlock.propTypes = {
   user: PropTypes.shape({
-    token: PropTypes.string.isRequired,
+    token: PropTypes.string,
   }).isRequired,
   item: PropTypes.shape({
     id: PropTypes.oneOf([
