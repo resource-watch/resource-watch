@@ -1,24 +1,20 @@
 @import 'css/settings';
 
 .c-custom-section {
+  .text-container {
+    max-width: 790px;
+    margin-bottom: 12 * $space;
+  }
 
-    .text-container {
-        max-width: 790px;
-        margin-bottom: 12 * $space;
-    }
+  .widget-blocks {
+    .column {
+      padding-bottom: 8 * $space;
 
-    .widget-blocks {
-        .column {
-            padding-bottom: 8 * $space;
-
-            .c-dashboard-widget-card {
-                max-height: 480px;
-        
-                &.-embed-widget {
-                    max-height: none;
-                }
-            }
+      .c-dashboard-widget-card {
+        &.-embed-widget {
+          max-height: none;
         }
+      }
     }
-    
+  }
 }

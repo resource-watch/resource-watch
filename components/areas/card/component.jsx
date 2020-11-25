@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
 import { Tooltip } from 'vizzuality-components';
-import { CancelToken } from 'axios';
+import axios, { CancelToken } from 'axios';
 
 // services
 import { fetchGeostore } from 'services/geostore';
@@ -138,8 +138,13 @@ const AreaCard = (props) => {
           geojson,
         });
       })
-      .catch(() => {
-        toastr.error(`Something went wrong loading your area "${name}"`);
+      .catch((_error) => {
+        if (axios.isCancel(_error)) {
+          // eslint-disable-next-line no-console
+          console.error('Cancelled by user');
+        } else {
+          toastr.error(`Something went wrong loading your area "${name}"`);
+        }
       });
 
     return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };

@@ -40,6 +40,7 @@ const LayoutDashboardDetail = ({
   const {
     data: dashboard,
     isSuccess,
+    isFetching,
     isFetchedAfterMount,
   } = dashboardState;
   const {
@@ -162,10 +163,10 @@ const LayoutDashboardDetail = ({
                 ]}
                 />
                 <h1>
-                  {(!isFetchedAfterMount) && 'Loading...'}
-                  {(isSuccess) && name}
+                  {(!isFetchedAfterMount && isFetching) && 'Loading...'}
+                  {(isFetchedAfterMount && isSuccess) && name}
                 </h1>
-                {(isSuccess && headerText) && (<h3>{headerText}</h3>)}
+                {(isFetchedAfterMount && isSuccess && headerText) && (<h3>{headerText}</h3>)}
                 <div className="page-header-info">
                   <ul>
                     <li>

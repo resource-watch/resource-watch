@@ -12,7 +12,7 @@ import SearchInput from 'components/ui/SearchInput';
 import Spinner from 'components/ui/Spinner';
 
 // hooks
-import useCountries from 'hooks/country/country-list';
+import useCountryList from 'hooks/country/country-list';
 
 // styles
 import './styles.scss';
@@ -34,18 +34,22 @@ const CountrySelector = ({
     onClickCountry({ name, geostore });
   }, [onClickCountry]);
   const {
-    data,
+    data: countries,
     isFetching,
     isSuccess,
-  } = useCountries();
+    isInitialData,
+  } = useCountryList({
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,
+  });
 
-  const countryList = useMemo(() => data
+  const countryList = useMemo(() => countries
     .filter(({ name }) => !!name)
     .map(({ name, geostoreId }) => ({
       name,
       geostoreId,
     })),
-  [data]);
+  [countries]);
 
   const results = useMemo(() => countryList
     .filter(({ name }) => name.toLocaleLowerCase().includes(search.toLocaleLowerCase())),
@@ -68,7 +72,7 @@ const CountrySelector = ({
         />
       </div>
       <div className="countries-container">
-        {isFetching && (
+        {(isInitialData && isFetching) && (
           <Spinner
             isLoading
             className="-small -transparent"

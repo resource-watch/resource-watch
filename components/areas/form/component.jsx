@@ -22,7 +22,7 @@ import Input from 'components/form/Input';
 import UploadArea from 'components/areas/form/upload-area';
 
 // hooks
-import useCountries from 'hooks/country/country-list';
+import useCountryList from 'hooks/country/country-list';
 
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES } from 'components/map/constants';
@@ -44,7 +44,7 @@ const AreasForm = ({
   const {
     data: countries,
     isFetching: countriesLoading,
-  } = useCountries();
+  } = useCountryList();
 
   const handleSubmit = useCallback((evt) => {
     evt.preventDefault();
