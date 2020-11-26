@@ -35,70 +35,48 @@
     padding: $space * 3;
 
     .basic-info {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      .name-visibility {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-      > form {
-        max-width: 75%;
-        width: 100%;
-
-        .editable-name {
-          overflow-x: hidden;
+        > form {
+          max-width: 75%;
           width: 100%;
-          max-width: 100%;
-          padding: 7.5px ($space *2);
-          border: 1px solid transparent;
-          border-radius: 4px;
-          cursor: pointer;
-          white-space: nowrap;
-          text-overflow: ellipsis;
 
-          &:focus {
-            outline: 0;
-            border-color: $border-color-2;
+          .editable-name {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
+            padding: 7.5px ($space *2);
+            border: 1px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            text-overflow: ellipsis;
 
-            &:invalid {
-              border-color: $color-13;
-              background-color: rgba($color-13, 0.05);
+            &:focus {
+              outline: 0;
+              border-color: $border-color-2;
+
+              &:invalid {
+                border-color: $color-13;
+                background-color: rgba($color-13, 0.05);
+              }
             }
           }
         }
-      }
 
-
-      > .is-public {
-        font-size: $font-size-small;
-        color: $color-14;
-      }
-    }
-
-
-    .subscriptions-container {
-      .datasets-list {
-        .dataset-element {
-          display: flex;
-          justify-content: space-between;
+        > .is-public {
+          font-size: $font-size-small;
+          color: $color-14;
         }
       }
 
-      .subscription-status {
-        display: flex;
-        justify-content: space-between;
-
-        .pending-label {
-          color: $blue-turquoise;
+      .subscriptions {
+        > button {
+          font-size: $font-size-normal;
         }
-      }
-
-      .new-subscription-container {
-        display: flex;
-        justify-content: flex-end;
-      }
-
-      a {
-        color: $dove-grey;
-        cursor: pointer;
       }
     }
 
