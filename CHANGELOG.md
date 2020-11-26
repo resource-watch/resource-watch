@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.19.8] - TBD
+## [2.20.0] - TBD
 ### Added
 - captions to widgets in energy/countries dashboard (only in preproduction).
 - map-type widget embed: widget links. [#175408294](https://www.pivotaltracker.com/story/show/175408294)
@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- now the area card displays a resume of the subscriptions instead of the subscriptions.
+- migrates to `v2 areas`.
 - hides cancelled areas requests from app notifications (now they display in the console quietly).
 - `widget-editor@2.5.2`
 - sorts collections by name by default.
