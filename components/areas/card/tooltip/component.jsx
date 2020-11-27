@@ -11,6 +11,7 @@ const AreaActionsTooltip = (props) => {
   const {
     onMouseDown,
     onRenameArea,
+    onChangeVisibility,
     onEditSubscriptions,
     onDeleteArea,
     area,
@@ -19,23 +20,26 @@ const AreaActionsTooltip = (props) => {
 
   const handleClick = useCallback((action) => {
     switch (action) {
-    case 'rename':
-      onRenameArea();
-      break;
-    case 'edit_subscriptions':
-      logEvent('My RW', 'Edit subscription', area.name);
-      onEditSubscriptions();
-      break;
-    case 'delete_area':
-      onDeleteArea();
-      break;
-    default: {
-      throw Error(`Action '${action}' not supported`);
-    }
+      case 'rename':
+        onRenameArea();
+        break;
+      case 'change-visibility':
+        onChangeVisibility();
+        break;
+      case 'edit_subscriptions':
+        logEvent('My RW', 'Edit subscription', area.name);
+        onEditSubscriptions();
+        break;
+      case 'delete_area':
+        onDeleteArea();
+        break;
+      default: {
+        throw Error(`Action '${action}' not supported`);
+      }
     }
 
     onMouseDown();
-  }, [area, onRenameArea, onEditSubscriptions, onDeleteArea, onMouseDown]);
+  }, [area, onRenameArea, onChangeVisibility, onEditSubscriptions, onDeleteArea, onMouseDown]);
 
   useEffect(() => {
     const triggerMouseDown = (e) => {
@@ -63,6 +67,17 @@ const AreaActionsTooltip = (props) => {
             Rename
           </button>
         </li>
+        {process.env.RW_FEATURE_FLAG_AREAS_V2 && (
+          <li>
+            <button
+              type="button"
+              className="c-button"
+              onClick={() => handleClick('change-visibility')}
+            >
+              {`Make ${area.public ? 'Private' : 'Public'}`}
+            </button>
+          </li>
+        )}
         <li>
           <button
             type="button"
@@ -89,6 +104,7 @@ const AreaActionsTooltip = (props) => {
 AreaActionsTooltip.propTypes = {
   area: PropTypes.shape({
     name: PropTypes.string.isRequired,
+    public: PropTypes.bool.isRequired,
   }).isRequired,
   tooltipRef: PropTypes.shape({
     current: PropTypes.shape({
@@ -97,6 +113,7 @@ AreaActionsTooltip.propTypes = {
   }).isRequired,
   onMouseDown: PropTypes.func.isRequired,
   onRenameArea: PropTypes.func.isRequired,
+  onChangeVisibility: PropTypes.func.isRequired,
   onEditSubscriptions: PropTypes.func.isRequired,
   onDeleteArea: PropTypes.func.isRequired,
 };
