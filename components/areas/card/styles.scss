@@ -34,53 +34,57 @@
     height: 100%;
     padding: $space * 3;
 
-    .editable-name {
-      overflow-x: hidden;
-      width: 100%;
-      max-width: 100%;
-      padding: 7.5px ($space *2);
-      border: 1px solid transparent;
-      border-radius: 4px;
-      cursor: pointer;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-
-      &:focus {
-        outline: 0;
-        border-color: $border-color-2;
-
-        &:invalid {
-          border-color: $color-13;
-          background-color: rgba($color-13, 0.05);
-        }
-      }
-    }
-
-    .subscriptions-container {
-      .datasets-list {
-        .dataset-element {
-          display: flex;
-          justify-content: space-between;
-        }
-      }
-
-      .subscription-status {
+    .basic-info {
+      .name-visibility {
         display: flex;
+        align-items: center;
         justify-content: space-between;
 
-        .pending-label {
-          color: $blue-turquoise;
+        > form {
+          max-width: 75%;
+          width: 100%;
+
+          .editable-name {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
+            padding: 7.5px ($space *2);
+            border: 1px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: $font-size-medium;
+            font-weight: $font-weight-bold;
+
+            &:focus {
+              outline: 0;
+              border-color: $border-color-2;
+
+              &:invalid {
+                border-color: $color-13;
+                background-color: rgba($color-13, 0.05);
+              }
+            }
+          }
+        }
+
+        > .is-public {
+          font-size: $font-size-small;
+          color: $color-14;
         }
       }
 
-      .new-subscription-container {
-        display: flex;
-        justify-content: flex-end;
-      }
+      .subscriptions {
+        > button,
+        > span {
+          font-size: $font-size-normal;
+          color: $charcoal-grey;
+        }
 
-      a {
-        color: $dove-grey;
-        cursor: pointer;
+        > span {
+          font-style: italic;
+        }
       }
     }
 

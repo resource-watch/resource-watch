@@ -11,9 +11,12 @@ import * as actions from '../actions';
 // selectors
 import {
   getAvailableAreas,
-  isAreaFound
+  isAreaFound,
 } from '../selectors';
-import { getSubscriptionsByArea } from './selectors';
+import {
+  getSubscriptionsByArea,
+  getActiveArea,
+} from './selectors';
 
 // component
 import AreaSubscriptionsModal from './component';
@@ -50,16 +53,17 @@ class AreaSubscriptionsModalContainer extends Component {
       setUserSelection,
       getAreas,
       getDatasets,
-      getUserSubscriptions
+      getUserSubscriptions,
+      getUserAreas
     } = this.props;
 
-    // fetchs areas to populate areas selector
-    getAreas();
-    // fetchs user areas to populate areas selector
-    this.props.getUserAreas();
-    // fetchs suscribable datasets to populate datasets selector
+    // fetches areas to populate areas selector
+    // getAreas();
+    // fetches user areas to populate areas selector
+    getUserAreas();
+    // fetches subscribable datasets to populate datasets selector
     getDatasets();
-    // fetchs user subscriptions
+    // fetches user subscriptions
     getUserSubscriptions();
 
     setUserSelection({ area: activeArea });
@@ -112,11 +116,12 @@ class AreaSubscriptionsModalContainer extends Component {
 }
 
 export default connect(
-  state => ({
+  (state, props) => ({
     userSelection: state.subscriptions.userSelection,
+    activeArea: getActiveArea(state, props),
     areas: getAvailableAreas(state),
     areaFound: isAreaFound(state),
-    userAreas: state.subscriptions.userAreas.list,
+    userAreas: state.user.areas.items,
     subscriptionsByArea: getSubscriptionsByArea(state),
     subscription: state.subscriptions.userSelection,
     subscriptionCreation: state.subscriptions.subscriptionCreation,

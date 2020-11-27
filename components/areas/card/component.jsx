@@ -29,6 +29,9 @@ import Modal from 'components/modal/modal-component';
 import SubscriptionsModal from 'components/modal/subscriptions-modal/area';
 import AreaActionsTooltip from 'components/areas/card/tooltip';
 
+// hooks
+import useSubscriptionsByArea from 'hooks/subscription/fetch-subscriptions-by-area';
+
 // utils
 import { getUserAreaLayer } from 'components/map/utils';
 
@@ -42,12 +45,12 @@ const AreaCard = (props) => {
     removeUserArea,
     onMapView,
     onEditArea,
+    onChangedVisibility,
     onDeletionArea,
   } = props;
   const {
     id,
     geostore,
-    subscriptions,
     subscription,
     name,
     geostore: geostoreId,
@@ -62,6 +65,11 @@ const AreaCard = (props) => {
   const [tooltip, setTooltipState] = useState({ open: false });
   const [loading, setLoadingState] = useState(true);
   const [layer, setLayerState] = useState({ bounds: {}, geojson: null });
+
+  const {
+    data: subscriptionsByArea,
+    refetch,
+  } = useSubscriptionsByArea(id, token);
 
   const handleMapView = useCallback(() => onMapView(area), [onMapView, area]);
 
@@ -86,6 +94,24 @@ const AreaCard = (props) => {
       },
     });
   }, [removeUserArea, onDeletionArea, area]);
+
+  const handleChangeVisibility = useCallback(async () => {
+    const {
+      public: isAreaPublic,
+    } = area;
+    try {
+      await updateArea(
+        id,
+        {
+          public: !isAreaPublic,
+        },
+        token,
+      );
+      onChangedVisibility();
+    } catch (e) {
+      toastr.error('Something went wrong updating the area.');
+    }
+  }, [id, area, token, onChangedVisibility]);
 
   const handleTooltip = useCallback((isTooltipOpen) => {
     setTooltipState((prevTooltip) => ({
@@ -118,13 +144,29 @@ const AreaCard = (props) => {
     evt.stopPropagation();
 
     try {
-      await updateArea(id, areaName, token, geostore);
+      await updateArea(
+        id,
+        {
+          name: areaName,
+          geostore,
+        },
+        token,
+      );
       nameRef.current.blur();
       if (onEditArea) onEditArea(id);
     } catch (e) {
       toastr.error('Something went wrong updating the area.');
     }
   }, [id, areaName, geostore, token, onEditArea]);
+
+  const openSubscriptionsModal = useCallback(() => {
+    handleEditSubscription(true);
+  }, [handleEditSubscription]);
+
+  const closeSubscriptionsModal = useCallback(() => {
+    handleEditSubscription(false);
+    refetch();
+  }, [handleEditSubscription, refetch]);
 
   useEffect(() => {
     const cancelToken = CancelToken.source();
@@ -163,6 +205,10 @@ const AreaCard = (props) => {
   });
 
   const userAreaLayer = useMemo(() => (geojson ? [getUserAreaLayer({ id: 'user-area', geojson })] : []), [geojson]);
+
+  const subscriptionsToConfirm = useMemo(() => subscriptionsByArea
+    .filter(({ confirmed }) => !confirmed),
+  [subscriptionsByArea]);
 
   return (
     <div className="c-area-card">
@@ -205,54 +251,46 @@ const AreaCard = (props) => {
         </Map>
       </div>
       <div className="text-container">
-        <form
-          ref={(ref) => { formRef.current = ref; }}
-          onSubmit={handleSubmit}
-        >
-          <input
-            type="text"
-            id="area-name"
-            name="area-name"
-            required
-            minLength={3}
-            ref={(ref) => { nameRef.current = ref; }}
-            onChange={handleChange}
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            value={areaName}
-            className="editable-name"
-          />
-        </form>
-        <div className="subscriptions-container">
-          {subscriptions && subscriptions.length > 0 && (
-            <div className="datasets-container">
-              <div className="datasets-list">
-                {subscriptions.map((_subscription) => (
-                  <div
-                    className="dataset-element"
-                    key={_subscription.id}
-                  >
-                    <div className="dataset-subscription-type">
-                      {_subscription.datasetsQuery[0].type}
-                      &nbsp;
-                      (
-                      {_subscription.datasetsQuery[0].threshold}
-                      )
-                    </div>
-                    <div className="subscription-status">
-                      <div className="status-label">
-                        {!_subscription.confirmed && (
-                          <div className="pending-label">
-                            Pending email confirmation
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+        <div className="basic-info">
+          <div className="name-visibility">
+            <form
+              ref={(ref) => { formRef.current = ref; }}
+              onSubmit={handleSubmit}
+            >
+              <input
+                type="text"
+                id={`area-name-${id}`}
+                name="area-name"
+                required
+                minLength={3}
+                ref={(ref) => { nameRef.current = ref; }}
+                onChange={handleChange}
+                onClick={handleClick}
+                onKeyDown={handleKeyDown}
+                value={areaName}
+                className="editable-name"
+              />
+            </form>
+            {area.public && <span className="is-public">Public</span>}
+          </div>
+          <div className="subscriptions">
+            {subscriptionsByArea.length > 0 && (
+              <button
+                type="button"
+                className="c-btn -clean"
+                onClick={openSubscriptionsModal}
+              >
+                {`${subscriptionsByArea.length} subscription`}
+                {subscriptionsByArea.length > 1 && 's'}
+                {subscriptionsToConfirm.length > 0 && ` (${subscriptionsToConfirm.length} to confirm)`}
+              </button>
+            )}
+            {!subscriptionsByArea.length && (
+              <span>
+                No subscriptions
+              </span>
+            )}
+          </div>
         </div>
         <div className="actions-container">
           <button
@@ -277,7 +315,8 @@ const AreaCard = (props) => {
                 tooltipRef={tooltipRef}
                 onMouseDown={() => { handleTooltip(false); }}
                 onRenameArea={handleRenameArea}
-                onEditSubscriptions={handleEditSubscription}
+                onChangeVisibility={handleChangeVisibility}
+                onEditSubscriptions={openSubscriptionsModal}
                 onDeleteArea={handleDeleteArea}
               />
             )}
@@ -296,11 +335,11 @@ const AreaCard = (props) => {
       {isModalOpen && (
         <Modal
           isOpen
-          onRequestClose={() => handleEditSubscription(false)}
+          onRequestClose={closeSubscriptionsModal}
         >
           <SubscriptionsModal
-            activeArea={area}
-            onRequestClose={() => handleEditSubscription(false)}
+            area={area.id}
+            onRequestClose={closeSubscriptionsModal}
           />
         </Modal>
       )}
@@ -323,9 +362,11 @@ AreaCard.propTypes = {
     ),
     subscription: PropTypes.shape({}),
     isVisible: PropTypes.bool,
+    public: PropTypes.bool.isRequired,
   }).isRequired,
   onMapView: PropTypes.func.isRequired,
   onEditArea: PropTypes.func,
+  onChangedVisibility: PropTypes.func.isRequired,
   onDeletionArea: PropTypes.func.isRequired,
   removeUserArea: PropTypes.func.isRequired,
 };

@@ -45,7 +45,7 @@ const ExploreAreasOfInterest = ({
   } = usePaginatedUserAreas(token, {
     'page[size]': pagination.limit,
     'page[number]': pagination.page,
-    sort: '-updatedAt',
+    sort: 'name',
   });
   const handleNewArea = useCallback(() => {
     setSidebarSubsection(EXPLORE_SUBSECTIONS.NEW_AREA);
@@ -115,6 +115,7 @@ const ExploreAreasOfInterest = ({
             isColumn
             onMapView={handleMapView}
             onEditArea={refetch}
+            onChangedVisibility={refetch}
             onDeletionArea={handleDeletionArea}
           />
 

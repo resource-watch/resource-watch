@@ -35,7 +35,7 @@ const AreasIndex = ({
   } = usePaginatedUserAreas(token, {
     'page[size]': pagination.limit,
     'page[number]': pagination.page,
-    sort: '-updatedAt',
+    sort: 'name',
   });
 
   const handlePagination = useCallback((_nextPage) => {
@@ -97,6 +97,7 @@ const AreasIndex = ({
             areas={userAreas}
             onMapView={handleMapView}
             onEditArea={refetch}
+            onChangedVisibility={refetch}
             onDeletionArea={handleDeletionArea}
           />
 
