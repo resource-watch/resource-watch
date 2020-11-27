@@ -259,7 +259,7 @@ const AreaCard = (props) => {
             >
               <input
                 type="text"
-                id="area-name"
+                id={`area-name-${id}`}
                 name="area-name"
                 required
                 minLength={3}
@@ -273,8 +273,8 @@ const AreaCard = (props) => {
             </form>
             {area.public && <span className="is-public">Public</span>}
           </div>
-          {subscriptionsByArea.length > 0 && (
-            <div className="subscriptions">
+          <div className="subscriptions">
+            {subscriptionsByArea.length > 0 && (
               <button
                 type="button"
                 className="c-btn -clean"
@@ -284,8 +284,13 @@ const AreaCard = (props) => {
                 {subscriptionsByArea.length > 1 && 's'}
                 {subscriptionsToConfirm.length > 0 && ` (${subscriptionsToConfirm.length} to confirm)`}
               </button>
-            </div>
-          )}
+            )}
+            {!subscriptionsByArea.length && (
+              <span>
+                No subscriptions
+              </span>
+            )}
+          </div>
         </div>
         <div className="actions-container">
           <button

@@ -35,7 +35,7 @@ const AreasIndex = ({
   } = usePaginatedUserAreas(token, {
     'page[size]': pagination.limit,
     'page[number]': pagination.page,
-    sort: '-updatedAt',
+    sort: 'name',
   });
 
   const handlePagination = useCallback((_nextPage) => {

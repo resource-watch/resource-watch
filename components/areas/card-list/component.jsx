@@ -40,7 +40,7 @@ const AreaCardList = ({
                   ref={ref}
                   className="card-container"
                   style={{
-                    height: isColumn ? 325 : 390,
+                    height: isColumn ? 335 : 390,
                     width: isColumn ? 300 : 'auto',
                   }}
                 >

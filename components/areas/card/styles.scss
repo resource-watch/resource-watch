@@ -54,6 +54,8 @@
             cursor: pointer;
             white-space: nowrap;
             text-overflow: ellipsis;
+            font-size: $font-size-medium;
+            font-weight: $font-weight-bold;
 
             &:focus {
               outline: 0;
@@ -74,8 +76,14 @@
       }
 
       .subscriptions {
-        > button {
+        > button,
+        > span {
           font-size: $font-size-normal;
+          color: $charcoal-grey;
+        }
+
+        > span {
+          font-style: italic;
         }
       }
     }
