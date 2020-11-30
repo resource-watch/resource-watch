@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.20.0] - TBD
+## [2.20.1] - TBD
 ### Added
 - captions to widgets in energy/countries dashboard (only in preproduction).
 - map-type widget embed: widget links. [#175408294](https://www.pivotaltracker.com/story/show/175408294)
@@ -53,6 +53,7 @@ This should reduce the page workload and impact. [#175408544](https://www.pivota
 - widget-editor: better separation of utils and constants.
 
 ### Fixed
+- wrong height page loading certain pages. [#172928273](https://www.pivotaltracker.com/story/show/172928273)
 - avoids passing null/undefined widgets in GEDC. [#175594527](https://www.pivotaltracker.com/story/show/175594527)
 - tooltip crashing when data is undefined. [#175888099](https://www.pivotaltracker.com/story/show/175888099)
 - query not fetching country list in Energy dashboard. [#175594527](https://www.pivotaltracker.com/story/show/175594527)
