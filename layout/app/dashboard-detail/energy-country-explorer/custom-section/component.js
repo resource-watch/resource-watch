@@ -155,10 +155,12 @@ function CustomSection(props) {
                     'medium-6': wB.widgetsPerRow === 2,
                     'large-4': wB.widgetsPerRow === 3
                   });
+
+                  if (!data[wB.id]) return null;
                   return (<div className={widgetBlockClassName}>
                     <DashboardWidgetCard
-                      widget={data && data[wB.id]}
-                      loading={widgetsLoading}
+                      widget={data[wB.id]}
+                      loading={false}
                       key={`dashboard-widget-card-${wB.id}`}
                       explicitHeight={wB.explicitHeight}
                     />
