@@ -1,6 +1,6 @@
 .c-page-explore {
   display: flex;
-  height: calc(100% - #{$header-main-height});
+  height: calc(100vh - #{$header-main-height});
 
   .explore-sidebar {
     display: flex;
