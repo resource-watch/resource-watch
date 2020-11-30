@@ -53,6 +53,7 @@ This should reduce the page workload and impact. [#175408544](https://www.pivota
 - widget-editor: better separation of utils and constants.
 
 ### Fixed
+- avoids passing null/undefined widgets in GEDC. [#175594527](https://www.pivotaltracker.com/story/show/175594527)
 - tooltip crashing when data is undefined. [#175888099](https://www.pivotaltracker.com/story/show/175888099)
 - query not fetching country list in Energy dashboard. [#175594527](https://www.pivotaltracker.com/story/show/175594527)
 - visual glitch with top bar in explore detail.
