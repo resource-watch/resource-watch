@@ -43,6 +43,7 @@ const AreaCard = (props) => {
     area,
     token,
     removeUserArea,
+    showSubscriptions,
     onMapView,
     onEditArea,
     onChangedVisibility,
@@ -313,6 +314,7 @@ const AreaCard = (props) => {
               <AreaActionsTooltip
                 area={area}
                 tooltipRef={tooltipRef}
+                showSubscriptions={showSubscriptions}
                 onMouseDown={() => { handleTooltip(false); }}
                 onRenameArea={handleRenameArea}
                 onChangeVisibility={handleChangeVisibility}
@@ -364,6 +366,7 @@ AreaCard.propTypes = {
     isVisible: PropTypes.bool,
     public: PropTypes.bool.isRequired,
   }).isRequired,
+  showSubscriptions: PropTypes.bool.isRequired,
   onMapView: PropTypes.func.isRequired,
   onEditArea: PropTypes.func,
   onChangedVisibility: PropTypes.func.isRequired,

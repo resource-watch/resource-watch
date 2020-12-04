@@ -15,6 +15,7 @@ const AreaActionsTooltip = (props) => {
     onEditSubscriptions,
     onDeleteArea,
     area,
+    showSubscriptions,
     tooltipRef,
   } = props;
 
@@ -78,15 +79,23 @@ const AreaActionsTooltip = (props) => {
             </button>
           </li>
         )}
-        <li>
-          <button
-            type="button"
-            className="c-button -desktopOnly"
-            onClick={() => handleClick('edit_subscriptions')}
-          >
-            Edit subscriptions
-          </button>
-        </li>
+        {
+        /**
+        * * Enable subscriptions unconditionally when they work properly.
+        * * Currently, they are disabled in Explore.
+        */
+        }
+        {showSubscriptions && (
+          <li>
+            <button
+              type="button"
+              className="c-button -desktopOnly"
+              onClick={() => handleClick('edit_subscriptions')}
+            >
+              Edit subscriptions
+            </button>
+          </li>
+        )}
         <li>
           <button
             type="button"
@@ -111,6 +120,7 @@ AreaActionsTooltip.propTypes = {
       contains: PropTypes.func,
     }),
   }).isRequired,
+  showSubscriptions: PropTypes.bool.isRequired,
   onMouseDown: PropTypes.func.isRequired,
   onRenameArea: PropTypes.func.isRequired,
   onChangeVisibility: PropTypes.func.isRequired,
