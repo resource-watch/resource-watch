@@ -113,6 +113,7 @@ const ExploreAreasOfInterest = ({
           <AreaCardList
             areas={areas}
             isColumn
+            showSubscriptions={false}
             onMapView={handleMapView}
             onEditArea={refetch}
             onChangedVisibility={refetch}

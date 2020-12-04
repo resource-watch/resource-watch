@@ -13,6 +13,7 @@ const AreaCardList = ({
   areas,
   className,
   isColumn,
+  showSubscriptions,
   onMapView,
   onEditArea,
   onChangedVisibility,
@@ -47,6 +48,7 @@ const AreaCardList = ({
                   {inView && (
                     <AreaCard
                       area={area}
+                      showSubscriptions={showSubscriptions}
                       onMapView={onMapView}
                       onEditArea={onEditArea}
                       onChangedVisibility={onChangedVisibility}
@@ -72,6 +74,7 @@ const AreaCardList = ({
 AreaCardList.defaultProps = {
   className: null,
   isColumn: false,
+  showSubscriptions: true,
   onEditArea: null,
 };
 
@@ -81,6 +84,7 @@ AreaCardList.propTypes = {
   ).isRequired,
   className: PropTypes.string,
   isColumn: PropTypes.bool,
+  showSubscriptions: PropTypes.bool,
   onMapView: PropTypes.func.isRequired,
   onEditArea: PropTypes.func,
   onChangedVisibility: PropTypes.func.isRequired,
