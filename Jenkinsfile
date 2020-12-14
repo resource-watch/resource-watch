@@ -5,7 +5,7 @@ node {
   // Variables
   def tokens = "${env.JOB_NAME}".tokenize('/')
   def appName = tokens[0]
-  def dockerUsername = "${DOCKER_USERNAME}"
+  def dockerUsername = "${DOCKER_WRI_USERNAME}"
   def imageTag = "${dockerUsername}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
 
   currentBuild.result = "SUCCESS"
@@ -20,14 +20,16 @@ node {
     stage ('Build docker') {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
-          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg wriApiUrl=https://staging-api.globalforestwatch.org/v1 --build-arg callbackUrl=https://staging.resourcewatch.org/auth --build-arg controlTowerUrl=https://staging-api.globalforestwatch.org --build-arg RW_FEATURE_FLAG_AREAS_V2=true .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg wriApiUrl=https://staging-api.globalforestwatch.org/v1 --build-arg callbackUrl=https://staging.resourcewatch.org/auth --build-arg controlTowerUrl=https://staging-api.globalforestwatch.org --build-arg RW_FEATURE_FLAG_AREAS_V2=true -t ${imageTag} .")
           break
         case "preproduction":
-          sh("docker -H :2375 build -t ${imageTag} --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth --build-arg RW_FEATURE_FLAG_AREAS_V2=true .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth --build-arg RW_FEATURE_FLAG_AREAS_V2=true -t ${imageTag} .")
           break
+        case "master":
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg RW_FEATURE_FLAG_AREAS_V2=true -t ${imageTag} .")
         default:
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} -t ${imageTag} --build-arg RW_FEATURE_FLAG_AREAS_V2=true .")
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} -t ${dockerUsername}/${appName}:latest .")
+          sh("echo NOT DEPLOYED")
+          currentBuild.result = 'SUCCESS'
       }
     }
 
@@ -38,8 +40,8 @@ node {
     }
 
     stage('Push Docker') {
-      withCredentials([usernamePassword(credentialsId: 'Vizzuality Docker Hub', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-        sh("docker -H :2375 login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}")
+      withCredentials([usernamePassword(credentialsId: 'WRI Docker Hub', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+        sh("docker -H :2375 login -u ${DOCKER_HUB_USERNAME} -p '${DOCKER_HUB_PASSWORD}'")
         sh("docker -H :2375 push ${imageTag}")
         if ("${env.BRANCH_NAME}" == 'master') {
           sh("docker -H :2375 push ${dockerUsername}/${appName}:latest")
