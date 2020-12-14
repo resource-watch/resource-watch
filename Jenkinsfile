@@ -26,7 +26,7 @@ node {
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth --build-arg RW_FEATURE_FLAG_AREAS_V2=true -t ${imageTag} .")
           break
         case "master":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg RW_FEATURE_FLAG_AREAS_V2=true -t ${imageTag} .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg RW_FEATURE_FLAG_AREAS_V2=true -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
         default:
           sh("echo NOT DEPLOYED")
           currentBuild.result = 'SUCCESS'
