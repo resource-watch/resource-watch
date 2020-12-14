@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - widget-editor: WRI's colour scheme.
 
 ### Changed
+- `widget-editor@2.5.4`
 - Explore: disables area subscriptions.
 - now the area card displays a resume of the subscriptions instead of the subscriptions.
 - migrates to `v2 areas`.
