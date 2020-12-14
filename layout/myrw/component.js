@@ -11,7 +11,7 @@ import DatasetsTab from 'components/app/myrw/datasets/DatasetsTab';
 import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
 import WidgetsTab from 'components/app/myrw/widgets/WidgetsTab';
 import AreasTabs from 'components/app/myrw/areas';
-import CollectionsTab from 'components/app/myrw/collections/CollectionsTab';
+import CollectionsTab from 'components/app/myrw/collections';
 
 // constants
 import { MYRW_TABS } from './constants';

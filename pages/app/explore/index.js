@@ -44,7 +44,8 @@ class ExplorePage extends PureComponent {
       layers,
       dataset,
       section,
-      selectedCollection
+      selectedCollection,
+      aoi,
     } = query;
 
     // Query
@@ -70,14 +71,15 @@ class ExplorePage extends PureComponent {
       ...zoom && { zoom: +zoom },
       ...(lat && lng) && {
         latitude: +lat,
-        longitude: +lng
+        longitude: +lng,
       },
       ...pitch && { pitch: +pitch },
-      ...bearing && { bearing: +bearing }
+      ...bearing && { bearing: +bearing },
     }));
     if (basemap) dispatch(actions.setBasemap(basemap));
     if (labels) dispatch(actions.setLabels(labels));
     if (boundaries) dispatch(actions.setBoundaries(!!boundaries));
+    if (aoi) dispatch(actions.setAreaOfInterest(aoi));
 
     // Fetch layers
     if (layers) await dispatch(actions.fetchMapLayerGroups(JSON.parse(decodeURIComponent(layers))));
@@ -91,7 +93,7 @@ class ExplorePage extends PureComponent {
     return {};
   }
 
-  componentDidUpdate(prevProps) {    
+  componentDidUpdate(prevProps) {
     if (this.shouldUpdateUrl(prevProps)) {
       this.setExploreURL();
     }
@@ -114,10 +116,11 @@ class ExplorePage extends PureComponent {
           basemap,
           labels,
           boundaries,
-          layerGroups
+          layerGroups,
+          aoi,
         },
-        sidebar: { anchor, section, selectedCollection }
-      }
+        sidebar: { anchor, section, selectedCollection },
+      },
     } = this.props;
 
     const query = {
@@ -144,6 +147,7 @@ class ExplorePage extends PureComponent {
             layer: lg.layers.find(l => l.active === true).id
           }))))
         },
+      aoi,
 
       // Datasets
       page: datasets.page,
@@ -157,17 +161,17 @@ class ExplorePage extends PureComponent {
       ...!!filters.selected.frequencies.length &&
         { frequencies: encodeURIComponent(JSON.stringify(filters.selected.frequencies)) },
       ...!!filters.selected.time_periods.length &&
-        { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) }
+        { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) },
     };
 
-    if (typeof window !== 'undefined') {      
+    if (typeof window !== 'undefined') {
       Router.replaceRoute('explore', query, { shallow: true });
     }
   }
 
   shouldUpdateUrl(prevProps) {
     const { explore: { datasets, filters, sort, map } } = this.props;
-    
+
     const {
       explore: {
         datasets: prevDatasets,
@@ -202,7 +206,7 @@ class ExplorePage extends PureComponent {
       map.labels.id !== prevMap.labels.id ||
       map.boundaries !== prevMap.boundaries ||
       layers !== prevLayers ||
-
+      map.aoi !== prevMap.aoi ||
       // Datasets
       datasets.selected !== prevDatasets.selected ||
       datasets.page !== prevDatasets.page ||

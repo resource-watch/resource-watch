@@ -34,7 +34,7 @@ function ExploreDiscover(props) {
     responsive,
     selectedDataset,
     setSortSelected,
-    setSortIsUserSelected
+    setSortIsUserSelected,
   } = props;
   const [config, setConfig] = useState(null);
   const [highlightedDatasets, setHighlightedDatasets] = useState({ loading: true, list: [] });
@@ -85,7 +85,7 @@ function ExploreDiscover(props) {
   return (
     <div className={classnames({
         'c-explore-discover': true,
-        '-hidden': selectedDataset
+        '-hidden': selectedDataset,
       })}
     >
       <div className="trending-datasets discover-section">
@@ -230,6 +230,10 @@ function ExploreDiscover(props) {
   );
 }
 
+ExploreDiscover.defaultProps = {
+  selectedDataset: null,
+};
+
 ExploreDiscover.propTypes = {
   setSidebarSection: PropTypes.func.isRequired,
   setFiltersSearch: PropTypes.func.isRequired,
@@ -239,8 +243,8 @@ ExploreDiscover.propTypes = {
   setFiltersSelected: PropTypes.func.isRequired,
   setSortSelected: PropTypes.func.isRequired,
   setSortIsUserSelected: PropTypes.func.isRequired,
-  responsive: PropTypes.object.isRequired,
-  selectedDataset: PropTypes.string.isRequired
+  responsive: PropTypes.shape({}).isRequired,
+  selectedDataset: PropTypes.string,
 };
 
 export default ExploreDiscover;

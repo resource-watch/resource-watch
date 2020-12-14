@@ -1,14 +1,16 @@
-// Redux
 import { connect } from 'react-redux';
+
+// actions
 import * as actions from 'layout/explore/actions';
 
-import { getCollection } from './selectors';
+// component
 import ExploreCollectionsComponent from './component';
 
 export default connect(
-  state => ({
-    collection: getCollection(state),
-    selectedDataset: state.explore.datasets.selected
+  (state) => ({
+    token: state.user.token,
+    selectedDataset: state.explore.datasets.selected,
+    selectedCollection: state.explore.sidebar.selectedCollection,
   }),
-  actions
+  actions,
 )(ExploreCollectionsComponent);

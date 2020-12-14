@@ -61,10 +61,25 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
     height: 45px;
   }
 
+  &.-disabled,
+    &[disabled] {
+      pointer-events: none;
+      cursor: default;
+      color: rgba($ui-font-color, 0.5);
+      fill: rgba($ui-font-color, 0.5);
+      background-color: rgba($ui-font-color, 0.5);
+      border-color: $border-color-1;
+
+      &:hover {
+        transform: translateY(0);
+        box-shadow: none;
+      }
+    }
+
   &.-a,
   &.-primary {
-    color: $alt-font-color;
-    fill: $alt-font-color;
+    color: $white;
+    fill: $white;
     background-color: $color-primary;
 
     &:hover {
@@ -82,21 +97,10 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
       }
     }
 
-    &.-disabled,
     &[disabled] {
-      pointer-events: none;
-      cursor: default;
-      color: rgba($ui-font-color, 0.5);
-      fill: rgba($ui-font-color, 0.5);
-      background-color: rgba($ui-font-color, 0.5);
-      border-color: $border-color-1;
-
-      &:hover {
-        transform: translateY(0);
-        box-shadow: none;
-      }
+      background: rgba($dark-pink, .3);
+      border-color: transparent;
     }
-
   }
 
   &.-b,
@@ -147,6 +151,24 @@ $btn-hover-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.2);
       &:not(.-clean):hover {
         background-color: rgba($body-bg-color, 0.1);
       }
+    }
+  }
+
+  &.-quaternary {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba($black, .03);
+    border-radius: 4px;
+    box-shadow: 0 2px 6px 0 rgba($black, .1);
+    background: $white;
+    font-size: $font-size-tiny;
+    font-weight: $font-weight-bold;
+    color: $dove-grey;
+    text-transform: uppercase;
+    transition: transform $animation-time $ease-in-out-sine;
+
+    &:hover {
+      transform: translate(0, -2px);
     }
   }
 

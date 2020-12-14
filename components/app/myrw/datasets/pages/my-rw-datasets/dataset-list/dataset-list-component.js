@@ -8,19 +8,10 @@ import { deleteDataset } from 'services/dataset';
 
 // Components
 import Spinner from 'components/ui/Spinner';
-import DatasetsListCard from './dataset-list-card-component';
+import DatasetsListCard from './dataset-list-card';
 
 class DatasetsList extends PureComponent {
-  static defaultProps = {
-    routes: {
-      index: '',
-      detail: ''
-    },
-    subtab: ''
-  };
-
   static propTypes = {
-    routes: PropTypes.object,
     datasets: PropTypes.array.isRequired,
     filters: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired,
@@ -51,7 +42,7 @@ class DatasetsList extends PureComponent {
   };
 
   render() {
-    const { datasets, routes, user, filters, loading } = this.props;
+    const { datasets, filters, loading } = this.props;
 
     return (
       <div className="c-myrw-datasets-list">
@@ -62,8 +53,6 @@ class DatasetsList extends PureComponent {
             <div className="column list-item small-12 medium-4" key={dataset.id}>
               <DatasetsListCard
                 dataset={dataset}
-                routes={routes}
-                user={user}
                 onDatasetRemoved={this.handleDatasetDelete}
               />
             </div>

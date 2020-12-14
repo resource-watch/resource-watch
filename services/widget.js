@@ -19,17 +19,17 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1,
-      ...headers
+      ...headers,
     },
     params: {
       env: process.env.API_ENV,
       application: process.env.APPLICATIONS,
-      ...params
+      ...params,
     },
     transformResponse: [].concat(
       WRIAPI.defaults.transformResponse,
-      (({ data, meta }) => ({ widgets: data, meta }))
-    )
+      (({ data, meta }) => ({ widgets: data, meta })),
+    ),
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -42,7 +42,7 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
       if (_meta) {
         return {
           widgets: WRISerializer({ data: widgets }),
-          meta
+          meta,
         };
       }
 
@@ -55,7 +55,6 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
       throw new Error(`Error fetching widgets: ${status}: ${statusText}`);
     });
 };
-
 
 /**
  * Fetches data for a specific widget.
@@ -71,13 +70,13 @@ export const fetchWidget = (id, params = {}) => {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1
+      'Upgrade-Insecure-Requests': 1,
     },
     params: {
-      ...params,
       env: process.env.API_ENV,
-      application: process.env.APPLICATIONS
-    }
+      application: process.env.APPLICATIONS,
+      ...params,
+    },
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -114,8 +113,8 @@ export const deleteWidget = (widgetId, datasetId, token) => {
   return WRIAPI.delete(`dataset/${datasetId}/widget/${widgetId}`, {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
     .then((response) => {
       const { status, statusText } = response;
@@ -147,7 +146,7 @@ export const deleteWidget = (widgetId, datasetId, token) => {
 export const updateWidget = (widget, token) => {
   logger.info(`Update widget: ${widget.id}`);
   return WRIAPI.patch(`widget/${widget.id}`, widget, { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating widget ${widget.id}: ${status}: ${statusText}`);
@@ -168,10 +167,10 @@ export const createWidget = (widget, datasetId, token) => {
     {
       application: process.env.APPLICATIONS.split(','),
       env: process.env.API_ENV,
-      ...widget
+      ...widget,
     },
     { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating widget ${status}: ${statusText}`);
@@ -195,10 +194,10 @@ export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => 
       params: {
         application: process.env.APPLICATIONS,
         env: process.env.API_ENV,
-        ...params
-      }
+        ...params,
+      },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching widget metadata ${widgetId}: ${status}: ${statusText}`);
@@ -219,7 +218,7 @@ export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
   return WRIAPI.patch(`dataset/${datasetId}/widget/${widgetId}/metadata`,
     metadata,
     { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating widget metadata ${widgetId}: ${status}: ${statusText}`);
@@ -241,10 +240,10 @@ export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
     {
       ...metadata,
       application: process.env.APPLICATIONS,
-      env: process.env.API_ENV
+      env: process.env.API_ENV,
     },
     { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating widget metadata ${widgetId}: ${status}: ${statusText}`);
@@ -260,5 +259,5 @@ export default {
   fetchWidgetMetadata,
   updateWidgetMetadata,
   createWidgetMetadata,
-  deleteWidget
+  deleteWidget,
 };

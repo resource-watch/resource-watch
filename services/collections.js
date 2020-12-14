@@ -12,20 +12,47 @@ import { logger } from 'utils/logs';
  */
 export const fetchAllCollections = (
   token,
-  params = {
-    env: process.env.API_ENV,
-    application: process.env.APPLICATIONS
-  }
+  params = {},
+  _meta = false,
 ) => {
   logger.info('Fetch all collections');
   return WRIAPI.get('collection', {
     headers: {
       Authorization: token,
-      'Upgrade-Insecure-Requests': 1
+      'Upgrade-Insecure-Requests': 1,
     },
-    params
+    params: {
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
+      ...params,
+    },
+    ..._meta && {
+      transformResponse: [].concat(
+        WRIAPI.defaults.transformResponse,
+        (({ data, meta }) => ({
+          collections: data,
+          meta,
+        })),
+      ),
+    },
   })
-    .then(response => WRISerializer(response.data))
+    .then((response) => {
+      const { status, statusText, data } = response;
+      const { collections, meta } = data;
+
+      if (status >= 300) {
+        logger.error('Error fetching collections:', `${status}: ${statusText}`);
+        throw new Error(statusText);
+      }
+
+      if (_meta) {
+        return {
+          collections: WRISerializer({ data: collections }),
+          meta,
+        };
+      }
+      return WRISerializer(data);
+    })
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching all collections: ${status}: ${statusText}`);
@@ -42,20 +69,21 @@ export const fetchAllCollections = (
 export const fetchCollection = (
   token,
   collectionId,
-  params = {
-    env: process.env.API_ENV,
-    application: process.env.APPLICATIONS
-  }
+  params = {},
 ) => {
   logger.info(`Fetch collection ${collectionId}`);
   return WRIAPI.get(`collection/${collectionId}`, {
     headers: {
       Authorization: token,
-      'Upgrade-Insecure-Requests': 1
+      'Upgrade-Insecure-Requests': 1,
     },
-    params
+    params: {
+      env: process.env.API_ENV,
+      application: process.env.APPLICATIONS,
+      ...params,
+    },
   })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching collection ${collectionId}: ${status}: ${statusText}`);
@@ -74,10 +102,10 @@ export const createCollection = (token, data = {}) => {
   return WRIAPI.post(`${process.env.WRI_API_URL}/collection`, data, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating collection: ${status}: ${statusText}`);
@@ -100,7 +128,7 @@ export const createCollection = (token, data = {}) => {
 export const deleteCollection = (token, collectionId) => {
   logger.info(`Delete collection ${collectionId}`);
   return WRIAPI.delete(`collection/${collectionId}`, { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error deleting collection ${collectionId}: ${status}: ${statusText}`);
@@ -109,7 +137,7 @@ export const deleteCollection = (token, collectionId) => {
 };
 
 /**
- * Update an existing collection associataed to the authenticated user
+ * Update an existing collection associated to the authenticated user
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#update-collection|here}
  * @param {String} token User's token
  * @param {String} collectionId Id of the collection to be edited
@@ -120,10 +148,10 @@ export const updateCollection = (token, collectionId, data) => {
   return WRIAPI.patch(`collection/${collectionId}`, data, {
     headers: {
       'content-type': 'application/json',
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating collection ${collectionId}: ${status}: ${statusText}`);
@@ -148,16 +176,16 @@ export const addResourceToCollection = (token, collectionId, resource = {}) => {
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: token
-      }
-    }
+        Authorization: token,
+      },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error adding resource to collection ${collectionId}: ${status}: ${statusText}`);
       throw new Error(
-        `Error adding resource to collection ${collectionId}: ${status}: ${statusText}`
+        `Error adding resource to collection ${collectionId}: ${status}: ${statusText}`,
       );
     });
 };
@@ -173,24 +201,14 @@ export const removeResourceFromCollection = (token, collectionId, resource = {})
   logger.info(`Remove resource from collection ${collectionId}`);
   const { type, id } = resource;
   return WRIAPI.delete(`collection/${collectionId}/resource/${type}/${id}`, { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(
-        `Error removing resource from collection ${collectionId}: ${status}: ${statusText}`
+        `Error removing resource from collection ${collectionId}: ${status}: ${statusText}`,
       );
       throw new Error(
-        `Error removing resource from collection ${collectionId}: ${status}: ${statusText}`
+        `Error removing resource from collection ${collectionId}: ${status}: ${statusText}`,
       );
     });
-};
-
-export default {
-  fetchAllCollections,
-  fetchCollection,
-  createCollection,
-  deleteCollection,
-  updateCollection,
-  addResourceToCollection,
-  removeResourceFromCollection
 };

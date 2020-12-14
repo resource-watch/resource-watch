@@ -11,11 +11,11 @@ import LayoutExplore from './component';
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
+  (state) => ({
     responsive: state.responsive,
     explore: state.explore,
     userIsLoggedIn: !!state.user.id,
-    hostname: state.common.hostname
+    hostname: state.common.hostname,
   }),
-  actions
+  actions,
 )(LayoutExplore);

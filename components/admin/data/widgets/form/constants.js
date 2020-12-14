@@ -1,8 +1,3 @@
-import bar from 'utils/widgets/bar';
-import pie from 'utils/widgets/pie';
-import line from 'utils/widgets/line';
-
-
 export const STATE_DEFAULT = {
   step: 1,
   stepLength: 1,

@@ -1,6 +1,6 @@
 .c-page-explore {
   display: flex;
-  height: calc(100% - #{$header-main-height});
+  height: calc(100vh - #{$header-main-height});
 
   .explore-sidebar {
     display: flex;
@@ -9,5 +9,12 @@
   .explore-sidebar-content {
     min-width: 330px;
     max-width: 330px;
+  }
+
+  .clear-polygon-container {
+    z-index: 2;
+    position: absolute;
+    top: calc(#{$header-main-height} + 30px);
+    left: calc(530px + (30px * 2));
   }
 }

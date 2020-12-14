@@ -30,33 +30,33 @@ export const BASEMAPS = {
     value: 'aqueduct',
     label: 'Hydrography',
     options: { attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>' }
-  }
+  },
 };
 
 export const LABELS = {
   none: {
     id: 'none',
     label: 'No labels',
-    value: 'none'
+    value: 'none',
   },
   light: {
     id: 'light',
     label: 'Labels light',
-    value: 'light'
+    value: 'light',
   },
   dark: {
     id: 'dark',
     label: 'Labels dark',
-    value: 'dark'
-  }
+    value: 'dark',
+  },
 };
 
 export const BOUNDARIES = {
   dark: {
     id: 'dark',
     label: 'Boundaries',
-    value: false
-  }
+    value: false,
+  },
 };
 
 export const DEFAULT_VIEWPORT = {
@@ -65,12 +65,63 @@ export const DEFAULT_VIEWPORT = {
   longitude: 0,
   pitch: 0,
   bearing: 0,
-  transitionDuration: 250
+  transitionDuration: 250,
 };
 
-export default {
-  MAPSTYLES,
-  BASEMAPS,
-  LABELS,
-  BOUNDARIES
+export const USER_AREA_LAYER_TEMPLATES = {
+  explore: ({ id, geojson }) => ({
+    id,
+    provider: 'geojson',
+    layerConfig: {
+      parse: false,
+      data: geojson,
+      body: {
+        vectorLayers: [
+          {
+            id: `${id}-glow`,
+            type: 'line',
+            source: id,
+            paint: {
+              'line-color': 'hsl(40, 95%, 58%)',
+              'line-width': 2,
+              'line-offset': -2,
+            },
+          },
+          {
+            id: `${id}-line`,
+            type: 'line',
+            source: id,
+            paint: {},
+          },
+        ],
+      },
+    }
+  }),
+  'area-card': ({ id, geojson }) => ({
+    id,
+    provider: 'geojson',
+    layerConfig: {
+      parse: false,
+      data: geojson,
+      body: {
+        vectorLayers: [
+          {
+            id: `${id}-line`,
+            type: 'line',
+            source: id,
+            paint: { 'line-color': '#fab72e' },
+          },
+          {
+            id: `${id}-fill`,
+            type: 'fill',
+            source: id,
+            paint: {
+              'fill-color': '#fab72e',
+              'fill-opacity': 0.2,
+            },
+          },
+        ],
+      },
+    },
+  }),
 };

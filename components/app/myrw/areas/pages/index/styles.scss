@@ -2,11 +2,13 @@
 
 .c-areas-index {
   position: relative;
-  min-height: 390px;
+  min-height: 250px;
 
-  > .no-areas-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  > .areas-header {
+    position: relative;
+
+    > .spinner {
+      transform: translate(-10px, 0);
+    }
   }
 }

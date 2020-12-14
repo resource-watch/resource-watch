@@ -6,8 +6,8 @@
   flex-direction: column;
   flex: 1;
   width: 100%;
-  height: 100%;
   border-radius: 4px;
+  box-shadow: 0 2px 6px 0 rgba($black, .1);
 
   h4, h5 {
     margin: 0px;
@@ -16,10 +16,10 @@
   .map-container {
     position: relative;
     width: 100%;
-    height: 200px;
+    min-height: 200px;
     border: 1px solid $color-12;
     border-bottom: 0;
-    border-radius: 8px 8px 0 0;
+    border-radius: 4px 4px 0 0;
     overflow: hidden;
 
     &.-ready {
@@ -31,59 +31,67 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: calc(100% - 200px);
+    height: 100%;
     padding: $space * 3;
-    border: 1px solid $color-12;
-    border-top: 0;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
 
-    .name-container {
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: $space * 2;
-      min-height: 20px;
-    }
-
-    .subscriptions-container {
-      .datasets-list {
-        .dataset-element {
-          display: flex;
-          justify-content: space-between;
-        }
-      }
-
-      .subscription-status {
+    .basic-info {
+      .name-visibility {
         display: flex;
+        align-items: center;
         justify-content: space-between;
 
-        .pending-label {
-          color: $blue-turquoise;
+        > form {
+          max-width: 75%;
+          width: 100%;
+
+          .editable-name {
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100%;
+            padding: 7.5px ($space *2);
+            border: 1px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: $font-size-medium;
+            font-weight: $font-weight-bold;
+
+            &:focus {
+              outline: 0;
+              border-color: $border-color-2;
+
+              &:invalid {
+                border-color: $color-13;
+                background-color: rgba($color-13, 0.05);
+              }
+            }
+          }
+        }
+
+        > .is-public {
+          font-size: $font-size-small;
+          color: $color-14;
         }
       }
 
-      .new-subscription-container {
-        display: flex;
-        justify-content: flex-end;
-      }
+      .subscriptions {
+        > button,
+        > span {
+          font-size: $font-size-normal;
+          color: $charcoal-grey;
+        }
 
-      a {
-        color: $dove-grey;
-        cursor: pointer;
+        > span {
+          font-style: italic;
+        }
       }
     }
 
-    .actions-div {
+    .actions-container {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 5px;
-      margin-bottom: 0px;
-
-      a {
-        color: $color-dark-pink;
-        cursor: pointer;
-      }
     }
   }
 }

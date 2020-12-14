@@ -46,6 +46,12 @@ $this: 'c-search-input';
   > .c-field {
     position: relative;
 
+    .field-container {
+      > input {
+        padding-right: ($space * 6);
+      }
+    }
+
     svg {
       position: absolute;
       top: 50%;

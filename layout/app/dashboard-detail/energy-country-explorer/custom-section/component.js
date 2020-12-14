@@ -23,7 +23,7 @@ function CustomSection(props) {
   const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
   const widgetBlocks = countryIsWorld ? widgetsWorld : widgets;
   const [data, setData] = useState(null);
-  const [widgetsLoading, setWidgetsLoading] = useState(false);
+  const [widgetsLoading, setWidgetsLoading] = useState(true);
 
   useEffect(() => {
     if (widgetBlocks) {
@@ -40,8 +40,8 @@ function CustomSection(props) {
                     ...resp.widgetConfig,
                     url: newURL
                   };
-                  return  ({ 
-                    ...acc, 
+                  return  ({
+                    ...acc,
                     [resp.id]: {
                       ...resp,
                       widgetConfig: newWidgetConfig
@@ -63,7 +63,7 @@ function CustomSection(props) {
                 //-----------------------------------------------------------------------------------
 
                 const newURL = resp.widgetConfig.url.replace(new RegExp(
-                  '{{country}}', 'g'), `'${countryName}'`);                
+                  '{{country}}', 'g'), `'${countryName}'`);
 
                 const newWidgetConfig = {
                   ...resp.widgetConfig,
@@ -110,7 +110,7 @@ function CustomSection(props) {
 
                   return ({ ...acc, [resp.id]: newWidget });
                 } else if (visualizationType === 'map') {
-                  // Replacing Bounding box with that from the selected country                
+                  // Replacing Bounding box with that from the selected country
                   const newWidgetConfig = {
                     ...resp.widgetConfig,
                     bbox
@@ -130,12 +130,12 @@ function CustomSection(props) {
           }
           setWidgetsLoading(false);
         })
-        .catch(err => {
+        .catch((err) => {
           toastr.error(`Error loading widget ${err}`);
           console.error(err);
         });
     }
-  }, [country, bbox]);
+  }, [country, bbox, countryIsWorld, widgetBlocks]);
 
   return (
     <div className="c-custom-section l-section">
@@ -146,7 +146,7 @@ function CustomSection(props) {
               <h2>{header}</h2>
               <ReactMarkdown linkTarget="_blank" source={description} />
             </div>
-            {!map &&
+            {(!map && !widgetsLoading) &&
               <div className="row widget-blocks">
                 {widgetBlocks && widgetBlocks.map(wB => {
                   const widgetBlockClassName = classnames({
@@ -155,10 +155,12 @@ function CustomSection(props) {
                     'medium-6': wB.widgetsPerRow === 2,
                     'large-4': wB.widgetsPerRow === 3
                   });
+
+                  if (!data[wB.id]) return null;
                   return (<div className={widgetBlockClassName}>
                     <DashboardWidgetCard
-                      widget={data && data[wB.id]}
-                      loading={widgetsLoading}
+                      widget={data[wB.id]}
+                      loading={false}
                       key={`dashboard-widget-card-${wB.id}`}
                       explicitHeight={wB.explicitHeight}
                     />
@@ -168,6 +170,7 @@ function CustomSection(props) {
             }
             {map &&
               <PowerGenerationMap
+                id={countryIsWorld ? 'world' : country.value}
                 groups={groups}
                 mapTitle={mapTitle}
                 bbox={bbox}
@@ -185,7 +188,7 @@ CustomSection.propTypes = {
   section: PropTypes.object.isRequired,
   country: PropTypes.object.isRequired,
   bbox: PropTypes.array,
-  geojson: PropTypes.obj
+  geojson: PropTypes.shape({}),
 };
 
 CustomSection.defaultProps = {

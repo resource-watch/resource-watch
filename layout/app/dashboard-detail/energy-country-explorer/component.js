@@ -40,7 +40,11 @@ function EnergyCountryExplorer(props) {
       });
 
     // Load countries
-    axios.get('https://api.resourcewatch.org/v1/query/a86d906d-9862-4783-9e30-cdb68cd808b8?sql=SELECT distinct(country_long) as country, country as iso FROM powerwatch_data_20180102 ORDER BY country_long ASC')
+    axios.get('https://api.resourcewatch.org/v1/query/a86d906d-9862-4783-9e30-cdb68cd808b8', {
+      params: {
+        sql: 'SELECT distinct country_long as country, country as iso FROM powerwatch_data_20180102 ORDER BY country_long ASC',
+      },
+    })
       .then((data) => {
         setCountries({
           loading: false,
@@ -51,7 +55,7 @@ function EnergyCountryExplorer(props) {
         });
       })
       .catch(err => toastr.error('Error loading countries', err));
-    
+
     loadSelectedCountry();
   }, []);
 
@@ -59,14 +63,14 @@ function EnergyCountryExplorer(props) {
     loadSelectedCountry();
   }, [selectedCountry]);
 
-  const loadSelectedCountry = () => {    
+  const loadSelectedCountry = () => {
     if (selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
       if (selectedCountry === 'USA') {
         setSelectedCountryBbox(US_COUNTRY_VALUES.bbox);
       } else {
         axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
-        .then((data) => {        
-          const atts = data.data.data.attributes;          
+        .then((data) => {
+          const atts = data.data.data.attributes;
           setSelectedCountryBbox(atts.bbox);
           setSelectedCountryGeojson(atts.geojson);
         })
@@ -83,10 +87,10 @@ function EnergyCountryExplorer(props) {
   const selectedCountryObj = selectedCountry ?
     countries.list.find(c => c.value === selectedCountry) :
     WORLD_COUNTRY;
-  
-  const showCustomSections = config && (!selectedCountry || (selectedCountryObj && 
-    (selectedCountryIsWorld || (!selectedCountryIsWorld && selectedCountryBbox))));  
-    
+
+  const showCustomSections = config && (!selectedCountry || (selectedCountryObj &&
+    (selectedCountryIsWorld || (!selectedCountryIsWorld && selectedCountryBbox))));
+
   const ndcsURL = `https://www.climatewatchdata.org/embed/countries/${selectedCountry}/ndc-content-overview?isNdcp=true#ndc-content-overview`;
 
   return (
@@ -155,7 +159,7 @@ function EnergyCountryExplorer(props) {
           <div className="row">
             <div className="column small-12">
             <iframe
-              title="NDC targets" 
+              title="NDC targets"
               src={ndcsURL}
               width="100%"
               height="600px"

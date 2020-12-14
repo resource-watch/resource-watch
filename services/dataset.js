@@ -20,14 +20,14 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
   const newParams = {
     env: process.env.API_ENV,
     application: process.env.APPLICATIONS,
-    ...params
+    ...params,
   };
   return WRIAPI.get('/dataset', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1,
-      ...headers
+      ...headers,
     },
     params: newParams,
     transformResponse: [].concat(
@@ -47,7 +47,7 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
       if (_meta) {
         return {
           datasets: WRISerializer({ data: datasets }),
-          meta
+          meta,
         };
       }
 
@@ -60,7 +60,6 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
       throw new Error(`Error fetching datasets: ${status}: ${statusText}`);
     });
 };
-
 
 /**
  * Fetches a dataset by id.

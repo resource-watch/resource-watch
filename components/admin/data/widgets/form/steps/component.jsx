@@ -10,8 +10,11 @@ import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 import Checkbox from 'components/form/Checkbox';
 
-// Utils
-import DefaultTheme from 'utils/widgets/theme';
+// constants
+import {
+  WIDGET_EDITOR_DEFAULT_THEME,
+  WIDGET_EDITOR_COLOUR_SCHEMES,
+} from 'constants/widget-editor';
 
 class AdminWidgetForm extends Component {
   constructor(props) {
@@ -169,8 +172,9 @@ class AdminWidgetForm extends Component {
             {...(id && { widgetId: id })}
             application="rw"
             onSave={onSave}
-            theme={DefaultTheme}
+            theme={WIDGET_EDITOR_DEFAULT_THEME}
             adapter={RWAdapter}
+            schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
             authenticated
             compact={false}
           />

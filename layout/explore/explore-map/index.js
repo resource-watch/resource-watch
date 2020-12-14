@@ -8,20 +8,22 @@ import {
   getMapProps,
   exploreMapGetUpdatedLayerGroups,
   exploreMapGetUpdatedLayers,
-  exploreMapGetActiveInteractiveLayers
+  exploreMapGetActiveInteractiveLayers,
 } from './selectors';
 
 // components
 import ExploreMap from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     ...state.explore.sidebar,
     ...state.explore.map,
+    token: state.user.token,
+    userId: state.user.id,
     activeLayers: exploreMapGetUpdatedLayers(state),
     activeInteractiveLayers: exploreMapGetActiveInteractiveLayers(state),
     layerGroups: exploreMapGetUpdatedLayerGroups(state),
-    ...getMapProps(state)
+    ...getMapProps(state),
   }),
-  actions
+  actions,
 )(ExploreMap);

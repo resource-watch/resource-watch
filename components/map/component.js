@@ -2,7 +2,7 @@ import React, { PureComponent, createRef } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import ReactMapGL, { FlyToInterpolator, TRANSITION_EVENTS } from 'react-map-gl';
-import WebMercatorViewport from 'viewport-mercator-project';
+import WebMercatorViewport from '@math.gl/web-mercator';
 import isEqual from 'react-fast-compare';
 import isEmpty from 'lodash/isEmpty';
 
@@ -66,6 +66,9 @@ class Map extends PureComponent {
      * reference. */
     onLoad: PropTypes.func,
 
+    /** function invoked if something is wrong */
+    onError: PropTypes.func,
+
     /** A function that exposes the viewport */
     onViewportChange: PropTypes.func,
 
@@ -90,6 +93,7 @@ class Map extends PureComponent {
 
     onViewportChange: () => {},
     onLoad: () => {},
+    onError: null,
     getCursor: ({ isHovering, isDragging }) => {
       if (isHovering) return 'pointer';
       if (isDragging) return 'grabbing';
@@ -151,12 +155,12 @@ class Map extends PureComponent {
     this.setBoundaries();
 
     if (!isEmpty(bounds) && !!bounds.bbox) {
-      this.fitBounds(0);
+      this.fitBounds();
     }
 
     onLoad({
       map: this.map.current.getMap(),
-      mapContainer: this.mapContainer.current
+      mapContainer: this.mapContainer.current,
     });
   }
 
@@ -288,34 +292,43 @@ class Map extends PureComponent {
 
   fitBounds = () => {
     const { viewport: currentViewport } = this.state;
-    const { bounds, onViewportChange, fitBoundsOptions } = this.props;
+    const {
+      bounds,
+      onViewportChange,
+      fitBoundsOptions,
+      onError,
+    } = this.props;
     const { bbox, options } = bounds;
 
     const viewport = {
       width: this.mapContainer.current.offsetWidth,
       height: this.mapContainer.current.offsetHeight,
-      ...currentViewport
-    };
-
-    const { longitude, latitude, zoom } = new WebMercatorViewport(viewport).fitBounds(
-      [[bbox[0], bbox[1]], [bbox[2], bbox[3]]],
-      options
-    );    
-
-    const newViewport = {
       ...currentViewport,
-      longitude,
-      latitude,
-      zoom,
-      ...fitBoundsOptions,
-      transitionInterruption: TRANSITION_EVENTS.UPDATE
     };
 
-    this.setState({
-      flying: true,
-      viewport: newViewport
-    });
-    onViewportChange(newViewport);
+    try {
+      const { longitude, latitude, zoom } = new WebMercatorViewport(viewport).fitBounds(
+        [[bbox[0], bbox[1]], [bbox[2], bbox[3]]],
+        options,
+      );
+
+      const newViewport = {
+        ...currentViewport,
+        longitude,
+        latitude,
+        zoom,
+        ...fitBoundsOptions,
+        transitionInterruption: TRANSITION_EVENTS.UPDATE,
+      };
+
+      this.setState({
+        flying: true,
+        viewport: newViewport,
+      });
+      onViewportChange(newViewport);
+    } catch (e) {
+      if (onError) onError('There was an error fitting bounds. Please, check your bbox values.');
+    }
 
     setTimeout(() => {
       this.setState({ flying: false });
@@ -334,6 +347,7 @@ class Map extends PureComponent {
       touchRotate,
       doubleClickZoom,
       disableEventsOnFly,
+      onError,
       ...mapboxProps
     } = this.props;
     const { viewport, flying, loaded } = this.state;

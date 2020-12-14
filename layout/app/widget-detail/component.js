@@ -42,7 +42,7 @@ class LayoutWidgetDetail extends PureComponent {
               <div className="row">
                 <div className="column">
                   {/* I'm using this component but we need to create a proper one */}
-                  { typeof window !== 'undefined' && 
+                  { typeof window !== 'undefined' &&
                     <DashboardWidgetCard
                       widget={widget}
                       loading={false}

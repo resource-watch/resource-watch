@@ -8,6 +8,7 @@
   background: rgba($color-black, 0.5);
   visibility: hidden;
   opacity: 0;
+  pointer-events: none;
 
   // Spinner
   .spinner-box {
@@ -71,6 +72,11 @@
       position: static;
       transform: none;
     }
+  }
+
+  &.-right {
+    right: 0;
+    left: auto;
   }
 
   // Sizes

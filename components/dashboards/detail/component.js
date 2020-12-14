@@ -3,8 +3,30 @@ import PropTypes from 'prop-types';
 
 // components
 import Wysiwyg from 'vizz-wysiwyg';
+import InView from 'components/in-view';
 import WidgetBlock from 'components/wysiwyg/widget-block';
 import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition';
+
+const WidgetBlockInView = (props) => (
+  <InView
+    triggerOnce
+    threshold={0.25}
+  >
+    {({ ref, inView }) => (
+      <div
+        ref={ref}
+        style={{
+          display: 'flex',
+          width: '100%',
+        }}
+      >
+        {inView && (
+          <WidgetBlock {...props} />
+        )}
+      </div>
+    )}
+  </InView>
+);
 
 class DashboardDetail extends PureComponent {
   static propTypes = { dashboard: PropTypes.object.isRequired }
@@ -36,24 +58,22 @@ class DashboardDetail extends PureComponent {
       items = JSON.parse(content);
     } catch (e) { console.error(e); }
 
+    if (typeof window === 'undefined' || isUpdate) return null;
+
     return (
-      <Fragment>
-        {!isUpdate && (
-          <Wysiwyg
-            readOnly
-            items={items}
-            blocks={{
-              widget: {
-                Component: WidgetBlock,
-                EditionComponent: WidgetBlockEdition,
-                icon: 'icon-widget',
-                label: 'Visualization',
-                renderer: 'modal'
-              }
-            }}
-          />
-        )}
-      </Fragment>
+      <Wysiwyg
+        readOnly
+        items={items}
+        blocks={{
+          widget: {
+            Component: WidgetBlockInView,
+            EditionComponent: WidgetBlockEdition,
+            icon: 'icon-widget',
+            label: 'Visualization',
+            renderer: 'modal',
+          },
+        }}
+      />
     );
   }
 }

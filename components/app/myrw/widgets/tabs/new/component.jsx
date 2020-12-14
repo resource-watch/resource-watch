@@ -14,11 +14,14 @@ import { createWidget, createWidgetMetadata } from 'services/widget';
 import { fetchDatasets } from 'services/dataset';
 
 // constants
-import { WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES } from 'constants/widget-editor';
+import {
+  WIDGET_EDITOR_DEFAULT_THEME,
+  WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
+  WIDGET_EDITOR_COLOUR_SCHEMES,
+} from 'constants/widget-editor';
 
 // utils
 import { logEvent } from 'utils/analytics';
-import DefaultTheme from 'utils/widgets/theme';
 
 class MyRWWidgetNewTab extends React.Component {
   constructor(props) {
@@ -170,8 +173,9 @@ class MyRWWidgetNewTab extends React.Component {
           <WidgetEditor
             datasetId={selectedDataset}
             onSave={this.onSaveWidget}
-            theme={DefaultTheme}
+            theme={WIDGET_EDITOR_DEFAULT_THEME}
             adapter={RWAdapter}
+            schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
             authenticated
             disable={[
               ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,

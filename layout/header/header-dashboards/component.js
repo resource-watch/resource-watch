@@ -48,7 +48,7 @@ class HeaderDashboards extends PureComponent {
             {dashboards.map(_dashboard => (
               <li
                 className="header-dropdown-list-item"
-                key={_dashboard.label}
+                key={_dashboard.params.slug}
               >
                 <Link
                   route={_dashboard.route}

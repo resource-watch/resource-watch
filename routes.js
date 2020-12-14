@@ -42,10 +42,8 @@ routes.add('newsletter', '/about/newsletter', 'app/newsletter');
 routes.add('newsletter-thank-you', '/about/newsletter-thank-you', 'app/newsletter-thank-you');
 
 // ----- DATA -----
-// routes.add('data', '/data', 'app/Explore'); // TODO: create the data page
 routes.add('explore', '/data/explore/:dataset?', 'app/explore');
 routes.add('explore_embed', '/embed/data/explore/:dataset?', 'app/explore/embed');
-
 routes.add('pulse', '/data/pulse', 'app/pulse');
 
 // ----- DASHBOARDS -----
