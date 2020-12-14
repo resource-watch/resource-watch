@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.20.1] - TBD
+## [2.20.X] - TBD
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [2.20.1] - 2020-12-14
 ### Added
 - captions to widgets in energy/countries dashboard (only in preproduction).
 - map-type widget embed: widget links. [#175408294](https://www.pivotaltracker.com/story/show/175408294)
