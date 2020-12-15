@@ -8,7 +8,7 @@ ARG controlTowerUrl=https://production-api.globalforestwatch.org
 ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 ARG RW_MAPBOX_API_TOKEN=not_valid
 ARG RW_FEATURE_FLAG_AREAS_V2=
-ARG WRI_API_URL_V2=https://staging-api.globalforestwatch.org/v2
+ARG WRI_API_URL_V2=https://api.resourcewatch.org/v2
 
 ENV NODE_ENV production
 ENV WRI_API_URL $wriApiUrl
