@@ -43,6 +43,7 @@
     "layer-manager": "^2.0.9",
     "leaflet-utfgrid": "^0.3.0",
     "lodash": "^4.17.19",
+    "lodash.isnumber": "^3.0.3",
     "luma.gl": "^7.1.1",
     "mapbox-gl-compare": "^0.2.1",
     "moment": "^2.24.0",
