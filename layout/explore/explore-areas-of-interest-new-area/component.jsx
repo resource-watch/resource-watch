@@ -1,8 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
+import { toastr } from 'react-redux-toastr';
 
 // components
 import Icon from 'components/ui/icon';
+import Spinner from 'components/ui/Spinner';
 import ExploreAreaForm from 'layout/explore/explore-areas-of-interest/form';
 
 // services
@@ -18,10 +24,13 @@ const ExploreAreasOfInterestNewArea = ({
   clearSidebarSubsection,
   stopDrawing,
 }) => {
+  const [isFetching, setFetching] = useState(false);
   const handleGoBack = useCallback(() => { clearSidebarSubsection(); }, [clearSidebarSubsection]);
   const handleSubmitForm = useCallback(async (form) => {
     const { isDrawing, data } = drawer;
     const { name, geostore } = form;
+
+    setFetching(true);
 
     try {
       if (isDrawing && data) {
@@ -32,8 +41,12 @@ const ExploreAreasOfInterestNewArea = ({
         await createArea(name, geostore, token);
       }
       clearSidebarSubsection();
+      setFetching(false);
     } catch (e) {
-      // do something
+      // eslint-disable-next-line no-console
+      console.error(e.message);
+      toastr.error('There was an error creating the area');
+      setFetching(false);
     }
   }, [token, drawer, stopDrawing, clearSidebarSubsection]);
   const handleCancelForm = useCallback(() => {
@@ -47,22 +60,32 @@ const ExploreAreasOfInterestNewArea = ({
 
   return (
     <div className="c-explore-areas-of-interest-new-area">
-      <div className="menu">
-        <button
-          type="button"
-          className="c-btn -primary -compressed -fs-tiny"
-          onClick={handleGoBack}
-        >
-          <Icon name="icon-arrow-left-2" />
-          <span>All areas</span>
-        </button>
-      </div>
-      <span className="section-name">Area of Interest</span>
-      <h2>New Area</h2>
-      <ExploreAreaForm
-        onSubmit={handleSubmitForm}
-        onCancel={handleCancelForm}
-      />
+      {isFetching && (
+        <Spinner
+          isLoading
+          className="-transparent"
+        />
+      )}
+      {!isFetching && (
+        <>
+          <div className="menu">
+            <button
+              type="button"
+              className="c-btn -primary -compressed -fs-tiny"
+              onClick={handleGoBack}
+            >
+              <Icon name="icon-arrow-left-2" />
+              <span>All areas</span>
+            </button>
+          </div>
+          <span className="section-name">Area of Interest</span>
+          <h2>New Area</h2>
+          <ExploreAreaForm
+            onSubmit={handleSubmitForm}
+            onCancel={handleCancelForm}
+          />
+        </>
+      )}
     </div>
   );
 };
