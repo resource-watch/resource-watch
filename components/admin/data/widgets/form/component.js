@@ -61,7 +61,7 @@ class WidgetForm extends PureComponent {
       })
     ];
 
-    // fetchs the widget if exists
+    // fetches the widget if exists
     if (id) promises.push(fetchWidget(id, { includes: 'metadata' }));
 
     Promise.all(promises)
@@ -178,10 +178,14 @@ class WidgetForm extends PureComponent {
       })
       .catch((error) => {
         this.setState({ loading: false });
-        toastr.error('Tnere was an error', error);
+        toastr.error('There was an error', error);
       });
   }
-
+  /**
+   *
+   * @param {Object} widget - widget object with possible changes (metadata changes not included)
+   * @param {Object} updatedMetadata - widget metadata updated by widget-editor
+   */
   updateWidget(widget, updatedMetadata) {
     const { onSubmit, authorization } = this.props;
     const { metadata } = widget;
@@ -189,15 +193,17 @@ class WidgetForm extends PureComponent {
     updateWidgetService(widget, authorization)
       .then((response) => {
         const { id, name, dataset } = response;
+        // A metadata object already exists for this widget so we have to update it
         if (metadata && metadata.length) {
-          // A metadata object already exists for this widget so we have to update it
           updateWidgetMetadata(
             id,
             dataset,
             {
-              language: 'en',
-              info: { caption: updatedMetadata.caption },
-              application: process.env.APPLICATIONS,
+              ...metadata[0] || {},
+              info: {
+                ...metadata[0]?.info || {},
+                caption: updatedMetadata.caption
+              },
             },
             authorization
           )
@@ -227,7 +233,7 @@ class WidgetForm extends PureComponent {
       })
       .catch((error) => {
         this.setState({ loading: false });
-        toastr.error('Tnere was an error', error);
+        toastr.error('There was an error', error);
       });
   }
 
