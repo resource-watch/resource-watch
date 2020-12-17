@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.20.3] - TBD
+## [2.20.4] - TBD
 ### Added
 - Explore: added spinner to area creation as it takes several seconds to finish.
 
@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `widget-editor@2.5.5`
 
 ### Fixed
-- restored URL params (zoom, latitude, longitude) for map-swipe [#176121901](https://www.pivotaltracker.com/story/show/176121901)
+- admin: fixed widget metadata override when the user saved the widget via `widget-editor`. [#175408294](https://www.pivotaltracker.com/story/show/175408294/comments/220475227)
+- restored URL params (zoom, latitude, longitude) for map-swipe. [#176121901](https://www.pivotaltracker.com/story/show/176121901)
 
 ### Removed
 
