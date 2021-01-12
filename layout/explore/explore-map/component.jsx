@@ -305,8 +305,7 @@ const ExploreMap = (props) => {
           cancelToken: cancelToken.token,
         });
 
-        if (process.env.RW_FEATURE_FLAG_AREAS_V2
-          && !isPublicArea
+        if (!isPublicArea
           && (areaUserId !== userId)
         ) throw new Error('This area is private.');
 
@@ -341,10 +340,7 @@ const ExploreMap = (props) => {
     };
 
     if (aoi) {
-      // in 'v1/areas' areas are private.
-      if (!process.env.RW_FEATURE_FLAG_AREAS_V2 && token) fetchAreaOfInterest();
-      // in 'v2/areas' areas can be private or public
-      if (process.env.RW_FEATURE_FLAG_AREAS_V2) fetchAreaOfInterest();
+      fetchAreaOfInterest();
     } else {
       // if the user removes the AoI, filter it to avoid display it in the map
       setDisplayedLayers((prevLayers) => [

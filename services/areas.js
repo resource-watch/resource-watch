@@ -2,7 +2,6 @@ import WRISerializer from 'wri-json-api-serializer';
 
 // utils
 import {
-  WRIAPI,
   WRIAPI_V2,
 } from 'utils/axios';
 import { logger } from 'utils/logs';
@@ -18,9 +17,7 @@ import { logger } from 'utils/logs';
 export const fetchArea = (id, params = {}, headers = {}) => {
   logger.info(`Fetch area ${id}`);
 
-  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
-
-  return API.get(
+  return WRIAPI_V2.get(
     `area/${id}`,
     {
       headers: {
@@ -46,9 +43,8 @@ export const fetchArea = (id, params = {}, headers = {}) => {
  */
 export const fetchUserAreas = (token, params = {}, _meta = false) => {
   logger.info('Fetch user areas');
-  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
 
-  return API.get('area', {
+  return WRIAPI_V2.get('area', {
     headers: {
       Authorization: token,
       'Upgrade-Insecure-Requests': 1,
@@ -59,7 +55,7 @@ export const fetchUserAreas = (token, params = {}, _meta = false) => {
       ...params,
     },
     transformResponse: [].concat(
-      API.defaults.transformResponse,
+      WRIAPI_V2.defaults.transformResponse,
       (({ data, meta }) => ({ areas: data, meta })),
     ),
   })
@@ -97,9 +93,8 @@ export const fetchUserAreas = (token, params = {}, _meta = false) => {
  */
 export const deleteArea = (areaId, token) => {
   logger.info(`Delete area ${areaId}`);
-  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
 
-  return API.delete(`area/${areaId}`, { headers: { Authorization: token } })
+  return WRIAPI_V2.delete(`area/${areaId}`, { headers: { Authorization: token } })
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error deleting area ${areaId}: ${status}: ${statusText}`);
@@ -117,7 +112,6 @@ export const deleteArea = (areaId, token) => {
  */
 export const createArea = (name, geostore, token) => {
   logger.info('Create area');
-  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
 
   const bodyObj = {
     name,
@@ -126,7 +120,7 @@ export const createArea = (name, geostore, token) => {
     geostore,
   };
 
-  return API.post('area', bodyObj, { headers: { Authorization: token } })
+  return WRIAPI_V2.post('area', bodyObj, { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -146,9 +140,7 @@ export const createArea = (name, geostore, token) => {
 export const updateArea = (id, params, token) => {
   logger.info(`Update area ${id}`);
 
-  const API = process.env.RW_FEATURE_FLAG_AREAS_V2 ? WRIAPI_V2 : WRIAPI;
-
-  return API.patch(`area/${id}`, {
+  return WRIAPI_V2.patch(`area/${id}`, {
     application: process.env.APPLICATIONS,
     env: process.env.API_ENV,
     ...params,

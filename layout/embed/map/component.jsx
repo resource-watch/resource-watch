@@ -246,8 +246,7 @@ const LayoutEmbedMap = (props) => {
           cancelToken: cancelToken.token,
         });
 
-        if (process.env.RW_FEATURE_FLAG_AREAS_V2
-          && !isPublicArea
+        if (!isPublicArea
           && (areaUserId !== user.id)
         ) throw new Error('Error loading area: this area is private.');
 
@@ -285,10 +284,7 @@ const LayoutEmbedMap = (props) => {
     };
 
     if (aoi) {
-      // in 'v1/areas' areas are private.
-      if (!process.env.RW_FEATURE_FLAG_AREAS_V2 && user.token) fetchAreaOfInterest();
-      // in 'v2/areas' areas can be private or public
-      if (process.env.RW_FEATURE_FLAG_AREAS_V2) fetchAreaOfInterest();
+      fetchAreaOfInterest();
     }
 
     return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
