@@ -67,17 +67,18 @@ const ExploreMenu = ({
   }, [setDatasetsPage, fetchDatasets]);
 
   const onChangeTextSearch = useCallback((_search) => {
-    if (!search && sortSelected === 'relevance') {
+    if (!_search && sortSelected === 'relevance') {
       resetFiltersSort();
     }
     setFiltersSearch(_search);
-    if (search && shouldAutoUpdateSortDirection) {
+    if (_search && shouldAutoUpdateSortDirection) {
       setSortSelected('relevance');
       setSortDirection(-1);
-      setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
     }
+
+    setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
     loadDatasets();
-    logEvent('Explore Menu', 'search', search);
+    logEvent('Explore Menu', 'search', _search);
   }, [
     resetFiltersSort,
     setFiltersSearch,
@@ -85,7 +86,6 @@ const ExploreMenu = ({
     setSortDirection,
     setSidebarSection,
     loadDatasets,
-    search,
     shouldAutoUpdateSortDirection,
     sortSelected,
   ]);
