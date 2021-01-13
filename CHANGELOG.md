@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Explore: search not working first time. [#176263572](https://www.pivotaltracker.com/story/show/176263572)
 
 ### Removed
+- RW_FEATURE_FLAG_AREAS_V2 feature flag.
 
 ## [2.20.4] - 2012-12-17
 ### Added

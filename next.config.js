@@ -43,8 +43,6 @@ module.exports = withCSS(withSass({
     BITLY_TOKEN: process.env.BITLY_TOKEN,
     PARDOT_NEWSLETTER_URL: process.env.PARDOT_NEWSLETTER_URL,
     RW_MAPBOX_API_TOKEN: process.env.RW_MAPBOX_API_TOKEN,
-    // feature flags
-    RW_FEATURE_FLAG_AREAS_V2: process.env.RW_FEATURE_FLAG_AREAS_V2,
   },
 
   webpack: (config) => {
