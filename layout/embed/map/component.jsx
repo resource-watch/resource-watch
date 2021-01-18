@@ -365,10 +365,10 @@ const LayoutEmbedMap = (props) => {
             {!webshot && (
               <div className="widget-title">
                 <Link
-                  href={`/explore/${dataset}`}
+                  href={`/data/explore/${dataset}`}
                 >
                   <a
-                    href={`/explore/${dataset}`}
+                    href={`/data/explore/${dataset}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
