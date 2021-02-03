@@ -23,19 +23,19 @@ yarn dev # runs the development server
 ```
 The application will be served in [http://localhost:9000/](http://localhost:9000/) (if you didn't change the default port in the `.env` file).
 
-Don't forget to update your [environmental variables](https://en.wikipedia.org/wiki/Environment_variable) to the `.env` file.
-
 ## Production build
 If you need a production-ready build, run:
 ```bash
-yarn build --build-arg RW_FEATURE_FLAG_AREAS_V2=true
+yarn build
 ```
 this will generate your build in `./next` folder ready to run.
 
 Happy coding!
 
-## env
-There's an `.env.sample` file you will need to duplicate and rename to `.env` in order to make the app work. Populate it properly and that's all.
+## Environmental variables
+Before running the project for first time, don't forget to update your [environmental variables](https://en.wikipedia.org/wiki/Environment_variable) to the `.env` file.
+
+There is a quick reference of the environmental variables of the project in the `.env.sample` file.
 
 ## Troubleshooting 🤔
 You might run into some problems installing dependencies:
