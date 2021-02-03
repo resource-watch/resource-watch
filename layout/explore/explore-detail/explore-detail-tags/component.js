@@ -34,7 +34,7 @@ function ExploreDetailTags(props) {
         <h4>Tags</h4>
       </div>
       <div className="tags">
-        {tags.map(tag => (
+        {tags.map((tag) => (
           <button
             className="c-button -secondary -compressed"
             onClick={() => {
@@ -60,7 +60,7 @@ ExploreDetailTags.propTypes = {
   setDatasetsPage: PropTypes.func.isRequired,
   fetchDatasets: PropTypes.func.isRequired,
   setSelectedDataset: PropTypes.func.isRequired,
-  setSidebarSection: PropTypes.func.isRequired
+  setSidebarSection: PropTypes.func.isRequired,
 };
 
 export default ExploreDetailTags;

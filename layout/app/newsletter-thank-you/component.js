@@ -34,9 +34,14 @@ const LayoutNewsletter = () => (
           <div className="column small-12 medium-8">
             <h2>Thank you!</h2>
             <p>
-              Thank you for letting us know you want to hear from Resource Watch. <br />
+              Thank you for letting us know you want to hear from Resource Watch.
+              {' '}
               <br />
-              You may wish to read our <a href="/privacy-policy">privacy policy</a>, which provides
+              <br />
+              You may wish to read our
+              {' '}
+              <a href="/privacy-policy">privacy policy</a>
+              , which provides
               further information about how we use personal data.
             </p>
             <div className="image-container">
@@ -65,7 +70,9 @@ const LayoutNewsletter = () => (
             >
               <p className="-claim">
                 Let&rsquo;s build a more sustainable
-                <br /> world together.
+                <br />
+                {' '}
+                world together.
               </p>
               <Link to="about_partners">
                 <a className="c-btn -primary">Partners</a>

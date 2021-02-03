@@ -7,11 +7,11 @@ import areaAlerts from 'selectors/user/areaAlerts';
 import LayoutMyRWDetail from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
     query: state.routes.query,
     locale: state.common.locale,
     myrwdetail: state.myrwdetail,
-    alerts: areaAlerts(state)
-  })
+    alerts: areaAlerts(state),
+  }),
 )(LayoutMyRWDetail);

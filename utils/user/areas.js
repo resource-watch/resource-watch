@@ -1,12 +1,12 @@
 export const mergeSubscriptions = (userAreas = [], userSubscriptions = [], datasets = []) => {
-  const subscriptionsWithDatasets = userSubscriptions.map(_userSubscription => ({
+  const subscriptionsWithDatasets = userSubscriptions.map((_userSubscription) => ({
     ..._userSubscription,
-    datasets: _userSubscription.datasets.map(val => datasets.find(_dataset => _dataset.id === val))
+    datasets: _userSubscription.datasets.map((val) => datasets.find((_dataset) => _dataset.id === val)),
   }));
 
   // Load datasets info
   subscriptionsWithDatasets.forEach((sub) => {
-    const tempArea = userAreas.find(val => val.id === sub.params.area);
+    const tempArea = userAreas.find((val) => val.id === sub.params.area);
 
     if (tempArea) {
       tempArea.subscriptions = [...(tempArea.subscriptions || []), sub];
@@ -20,7 +20,7 @@ export function setGeoLayer(geo) {
   const obj = geo.data;
   const bounds = [
     [obj.attributes.bbox[0], obj.attributes.bbox[1]],
-    [obj.attributes.bbox[2], obj.attributes.bbox[3]]
+    [obj.attributes.bbox[2], obj.attributes.bbox[3]],
   ];
   const fakeLayer = {
     id: `${obj.id}`,
@@ -29,14 +29,14 @@ export function setGeoLayer(geo) {
     layerConfig: {
       data: obj.attributes.geojson,
       fitBounds: true,
-      bounds: { type: 'Polygon', coordinates: [bounds] }
-    }
+      bounds: { type: 'Polygon', coordinates: [bounds] },
+    },
   };
 
   return {
     dataset: null,
     visible: true,
-    layers: [fakeLayer]
+    layers: [fakeLayer],
   };
 }
 
@@ -48,9 +48,9 @@ export function setCountryLayer(res) {
       {
         type: 'Feature',
         properties: {},
-        geometry: JSON.parse(country.geojson)
-      }
-    ]
+        geometry: JSON.parse(country.geojson),
+      },
+    ],
   };
   const fakeLayer = {
     id: `-${country.label}`,
@@ -59,19 +59,19 @@ export function setCountryLayer(res) {
     layerConfig: {
       data: newGeoJson,
       fitBounds: true,
-      bounds: JSON.parse(country.bounds)
-    }
+      bounds: JSON.parse(country.bounds),
+    },
   };
 
   return {
     dataset: null,
     visible: true,
-    layers: [fakeLayer]
+    layers: [fakeLayer],
   };
 }
 
 export default {
   mergeSubscriptions,
   setGeoLayer,
-  setCountryLayer
+  setCountryLayer,
 };

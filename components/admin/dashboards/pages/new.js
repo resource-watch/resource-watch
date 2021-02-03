@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 // Redux
 import { connect } from 'react-redux';
 
-
 // Components
 import DashboardsForm from 'components/dashboards/form/DashboardsForm';
 
@@ -24,11 +23,11 @@ function DashboardsNew(props) {
 
 DashboardsNew.propTypes = {
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
-  user: state.user
+const mapStateToProps = (state) => ({
+  user: state.user,
 });
 
 export default connect(mapStateToProps, null)(DashboardsNew);

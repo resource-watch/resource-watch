@@ -15,7 +15,7 @@ class GetInvolvedDetail extends PureComponent {
   static propTypes = {
     routes: PropTypes.object.isRequired,
     breadCrumb: PropTypes.array.isRequired,
-    getInvolvedDetail: PropTypes.object.isRequired
+    getInvolvedDetail: PropTypes.object.isRequired,
   };
 
   getPostContent(id, props = {}) {
@@ -27,7 +27,7 @@ class GetInvolvedDetail extends PureComponent {
       'contribute-data': () => <ContributeDataPostContent {...props} />,
       'join-the-community': () => <JoinCommunityPostContent {...props} />,
       'develop-your-app': () => <DevelopYourAppPostContent {...props} />,
-      apps: () => <AppsPostContent {...props} />
+      apps: () => <AppsPostContent {...props} />,
     };
 
     return pages[id] || pageNotFound;
@@ -37,14 +37,13 @@ class GetInvolvedDetail extends PureComponent {
     const {
       getInvolvedDetail: { staticData: data },
       breadCrumb,
-      routes: { query: { id } }
+      routes: { query: { id } },
     } = this.props;
 
     if (!data) return null;
 
     const postContent = this.getPostContent(id, data);
-    const descriptions =
-      data.description && data.description.split('\n').filter(line => line.length > 0);
+    const descriptions = data.description && data.description.split('\n').filter((line) => line.length > 0);
 
     return (
       <Layout
@@ -75,7 +74,7 @@ class GetInvolvedDetail extends PureComponent {
                 </div>
                 {descriptions.length > 0 && (
                   <div className="row">
-                    {descriptions.map(description => (
+                    {descriptions.map((description) => (
                       <div className={`column small-${12 / descriptions.length}`}>
                         {description}
                       </div>

@@ -29,19 +29,22 @@ class AdminHeaderMenu extends PureComponent {
                 key={item.label}
                 className={activeClassName}
               >
-                {!component && item.route &&
+                {!component && item.route
+                  && (
                   <Link
                     route={item.route}
                     params={item.params}
                   >
                     <a>{item.label}</a>
                   </Link>
-                }
+                  )}
 
-                {!component && item.href &&
+                {!component && item.href
+                  && (
                   <a href={item.href}>
                     {item.label}
-                  </a>}
+                  </a>
+                  )}
 
                 {!!component && component}
               </li>

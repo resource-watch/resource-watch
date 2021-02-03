@@ -19,7 +19,7 @@ class HeaderMenuMobile extends PureComponent {
     header: PropTypes.object.isRequired,
     routes: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    setMobileOpened: PropTypes.func.isRequired
+    setMobileOpened: PropTypes.func.isRequired,
   }
 
   componentDidUpdate() {
@@ -46,7 +46,7 @@ class HeaderMenuMobile extends PureComponent {
       header: { mobileOpened },
       routes: { pathname },
       user: { role, token },
-      setMobileOpened
+      setMobileOpened,
     } = this.props;
     const classNames = classnames({ '-opened': mobileOpened });
 
@@ -95,7 +95,8 @@ class HeaderMenuMobile extends PureComponent {
                     key={item.label}
                     className={activeClassName}
                   >
-                    {item.route &&
+                    {item.route
+                      && (
                       <h2>
                         <Link
                           route={item.route}
@@ -104,9 +105,10 @@ class HeaderMenuMobile extends PureComponent {
                           <a>{item.label}</a>
                         </Link>
                       </h2>
-                    }
+                      )}
 
-                    {item.href &&
+                    {item.href
+                      && (
                       <h2>
                         <a
                           href={item.href}
@@ -114,11 +116,12 @@ class HeaderMenuMobile extends PureComponent {
                           {item.label}
                         </a>
                       </h2>
-                    }
+                      )}
 
                     {!item.route && !item.href && (<h2>{item.label}</h2>)}
 
-                    {item.children &&
+                    {item.children
+                      && (
                       <ul>
                         {item.children.map((c) => {
                           // If user is defined and is not equal to the current token
@@ -133,34 +136,37 @@ class HeaderMenuMobile extends PureComponent {
 
                           return (
                             <li key={c.label}>
-                              {!!c.route &&
+                              {!!c.route
+                                && (
                                 <Link
                                   route={c.route}
                                   params={c.params}
                                 >
                                   <a>{c.label}</a>
                                 </Link>
-                              }
+                                )}
 
-                              {!!c.href &&
+                              {!!c.href
+                                && (
                                 <a href={c.href}>
                                   {c.label}
                                 </a>
-                              }
+                                )}
 
-                              {c.id === 'logout' &&
+                              {c.id === 'logout'
+                                && (
                                 <a
                                   onClick={this.logout}
                                   href={c.href}
                                 >
                                   {c.label}
                                 </a>
-                              }
+                                )}
                             </li>
                           );
                         })}
                       </ul>
-                    }
+                      )}
                   </li>
                 );
               })}

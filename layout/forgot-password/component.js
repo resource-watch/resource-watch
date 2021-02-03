@@ -56,7 +56,7 @@ class ForgotPassword extends PureComponent {
                     <form onSubmit={this.onSubmit}>
                       <Field
                         ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
-                        onChange={value => this.setState({ email: value })}
+                        onChange={(value) => this.setState({ email: value })}
                         className="-fluid -log-in"
                         validations={['required', 'email']}
                         properties={{
@@ -64,7 +64,7 @@ class ForgotPassword extends PureComponent {
                           label: 'Email',
                           required: true,
                           default: email,
-                          placeholder: 'example@resourcewatch.org'
+                          placeholder: 'example@resourcewatch.org',
                         }}
                       >
                         {Input}

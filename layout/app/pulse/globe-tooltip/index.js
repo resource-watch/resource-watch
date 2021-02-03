@@ -5,7 +5,7 @@ import GlobeTooltipComponent from './component';
 class GlobeTooltipContainer extends Component {
   render() {
     return createElement(GlobeTooltipComponent, {
-      ...this.props
+      ...this.props,
     });
   }
 }

@@ -6,6 +6,9 @@ storiesOf('Buttons', module)
   .add('Primary', () => (
     <Button properties={{
       type: 'button',
-      className: '-primary'
-    }}>Submit</Button>
+      className: '-primary',
+    }}
+    >
+      Submit
+    </Button>
   ));

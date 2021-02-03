@@ -20,12 +20,12 @@ export const fetchQuery = (token, sql, params = {}) => {
   return WRIAPI.get('query', {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
+      Authorization: token,
     },
     params: {
       sql,
-      ...params
-    }
+      ...params,
+    },
   })
     .then((response) => {
       if (response.status === 200) return response;

@@ -7,6 +7,6 @@ import { setUser } from 'redactions/user';
 import Profile from './component';
 
 export default connect(
-  state => ({ user: state.user }),
-  { setUser }
+  (state) => ({ user: state.user }),
+  { setUser },
 )(Profile);

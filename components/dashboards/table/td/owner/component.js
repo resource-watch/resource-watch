@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 class OwnerTD extends PureComponent {
   static propTypes = {
     value: PropTypes.string,
-    index: PropTypes.string
+    index: PropTypes.string,
   }
 
   static defaultProps = {
     value: null,
-    index: null
+    index: null,
   }
 
   render() {

@@ -18,8 +18,8 @@ const initialState = {
     list: [], // Actual list of pages
     loading: false, // Are we loading the data?
     error: null, // An error was produced while loading the data
-    filters: [] // Filters for the list of pages
-  }
+    filters: [], // Filters for the list of pages
+  },
 };
 
 /**
@@ -31,33 +31,36 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_PAGES_LOADING: {
-      const pages = Object.assign({}, state.pages, {
+      const pages = {
+        ...state.pages,
         loading: true,
-        error: null
-      });
-      return Object.assign({}, state, { pages });
+        error: null,
+      };
+      return { ...state, pages };
     }
 
     case GET_PAGES_SUCCESS: {
-      const pages = Object.assign({}, state.pages, {
+      const pages = {
+        ...state.pages,
         list: action.payload,
         loading: false,
-        error: null
-      });
-      return Object.assign({}, state, { pages });
+        error: null,
+      };
+      return { ...state, pages };
     }
 
     case GET_PAGES_ERROR: {
-      const pages = Object.assign({}, state.pages, {
+      const pages = {
+        ...state.pages,
         loading: false,
-        error: action.payload
-      });
-      return Object.assign({}, state, { pages });
+        error: action.payload,
+      };
+      return { ...state, pages };
     }
 
     case SET_PAGES_FILTERS: {
-      const pages = Object.assign({}, state.pages, { filters: action.payload });
-      return Object.assign({}, state, { pages });
+      const pages = { ...state.pages, filters: action.payload };
+      return { ...state, pages };
     }
 
     default:
@@ -94,8 +97,8 @@ export function getPages() {
  * @param {{ key: string, value: string|number }[]} filters List of filters
  */
 export function setFilters(filters) {
-  return dispatch => dispatch({
+  return (dispatch) => dispatch({
     type: SET_PAGES_FILTERS,
-    payload: filters
+    payload: filters,
   });
 }

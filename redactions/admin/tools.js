@@ -17,7 +17,7 @@ const initialState = {
   list: [], // Actual list of tools
   loading: false, // Are we loading the data?
   error: null, // An error was produced while loading the data
-  filters: [] // Filters for the list of tools
+  filters: [], // Filters for the list of tools
 };
 
 /**
@@ -29,32 +29,35 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_TOOLS_LOADING: {
-      const tools = Object.assign({}, state, {
+      const tools = {
+        ...state,
         loading: true,
-        error: null
-      });
+        error: null,
+      };
       return tools;
     }
 
     case GET_TOOLS_SUCCESS: {
-      const tools = Object.assign({}, state, {
+      const tools = {
+        ...state,
         list: action.payload,
         loading: false,
-        error: null
-      });
+        error: null,
+      };
       return tools;
     }
 
     case GET_TOOLS_ERROR: {
-      const tools = Object.assign({}, state, {
+      const tools = {
+        ...state,
         loading: false,
-        error: action.payload
-      });
+        error: action.payload,
+      };
       return tools;
     }
 
     case SET_TOOLS_FILTERS: {
-      const tools = Object.assign({}, state, { filters: action.payload });
+      const tools = { ...state, filters: action.payload };
       return tools;
     }
 
@@ -92,8 +95,8 @@ export function getTools() {
  * @param {{ key: string, value: string|number }[]} filters List of filters
  */
 export function setFilters(filters) {
-  return dispatch => dispatch({
+  return (dispatch) => dispatch({
     type: SET_TOOLS_FILTERS,
-    payload: filters
+    payload: filters,
   });
 }

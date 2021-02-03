@@ -71,7 +71,6 @@ class LayoutAdminDataDetail extends PureComponent {
     }
   }
 
-
   render() {
     const { query: { tab, dataset } } = this.props;
 
@@ -86,16 +85,18 @@ class LayoutAdminDataDetail extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  {dataset && tab !== 'datasets' &&
-                    (<Breadcrumbs
+                  {dataset && tab !== 'datasets'
+                    && (
+                    <Breadcrumbs
                       items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data_detail', params: { tab: 'datasets', subtab: tab, id: dataset } }]}
-                    />)
-                  }
-                  {!dataset &&
-                    (<Breadcrumbs
+                    />
+                    )}
+                  {!dataset
+                    && (
+                    <Breadcrumbs
                       items={[{ name: capitalizeFirstLetter(tab), route: 'admin_data', params: { tab } }]}
-                    />)
-                  }
+                    />
+                    )}
                   <h1>{this.getName()}</h1>
                 </div>
               </div>

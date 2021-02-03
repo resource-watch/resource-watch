@@ -7,6 +7,6 @@ import { setDropdownOpened } from '../actions';
 import HeaderGetInvolved from './component';
 
 export default connect(
-  state => ({ header: state.header }),
-  { setDropdownOpened }
+  (state) => ({ header: state.header }),
+  { setDropdownOpened },
 )(HeaderGetInvolved);

@@ -1,12 +1,9 @@
-version: "2"
+version: "3"
 services:
-  redis:
-    image: redis
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file: ./.env
+    build: .
+    env_file: .env
+    command: develop
     environment:
       - RW_NODE_ENV=production
       - PORT=3000
@@ -17,3 +14,6 @@ services:
     container_name: resource-watch
     depends_on:
       - redis
+
+  redis:
+    image: redis

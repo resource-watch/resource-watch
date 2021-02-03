@@ -21,7 +21,7 @@ class Code extends FormElement {
     this.state = {
       value: JSON.stringify(this.props.properties.default || {}, null, 2),
       valid: null,
-      error: []
+      error: [],
     };
   }
 
@@ -83,7 +83,7 @@ class Code extends FormElement {
 Code.propTypes = {
   properties: PropTypes.object.isRequired,
   validations: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default Code;

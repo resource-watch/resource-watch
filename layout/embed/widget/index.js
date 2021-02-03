@@ -27,5 +27,5 @@ export default connect(
     getWidget,
     checkIfFavorited,
     setIfFavorited,
-  }
+  },
 )(LayoutEmbedWidget);

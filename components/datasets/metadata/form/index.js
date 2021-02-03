@@ -7,9 +7,9 @@ import { setSources, resetSources } from 'redactions/admin/sources';
 import DatasetMetadataForm from './component';
 
 export default connect(
-  state => ({ user: state.user }),
+  (state) => ({ user: state.user }),
   {
     setSources,
-    resetSources
-  }
+    resetSources,
+  },
 )(DatasetMetadataForm);

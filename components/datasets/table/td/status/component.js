@@ -8,8 +8,8 @@ const classesDic = {
     failed: '-failed',
     saved: '-saved',
     deleted: '-deleted',
-    pending: '-pending'
-  }
+    pending: '-pending',
+  },
 };
 
 class StatusTD extends PureComponent {
@@ -19,7 +19,7 @@ class StatusTD extends PureComponent {
     const { value } = this.props;
     const tdClass = classnames(
       'status',
-      { [classesDic.status[value]]: !!classesDic.status[value] }
+      { [classesDic.status[value]]: !!classesDic.status[value] },
     );
 
     return (

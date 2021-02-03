@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import LayoutEmbedSimilarDatasets from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     loading: state.similarDatasets.loading,
-    routes: state.routes
+    routes: state.routes,
   }),
-  null
+  null,
 )(LayoutEmbedSimilarDatasets);

@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 // components
-import Wysiwyg from 'vizz-wysiwyg';
+import Wysiwyg from '@vizzuality/wysiwyg';
 import InView from 'components/in-view';
 import WidgetBlock from 'components/wysiwyg/widget-block';
 import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition';

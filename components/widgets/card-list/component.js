@@ -21,24 +21,24 @@ const WidgetCardList = (props) => {
     onWidgetClick,
     onWidgetRemove,
     thumbnail,
-    clickable
+    clickable,
   } = props;
 
   const componentClass = classnames({
     'c-widget-list': true,
-    [className]: !!className
+    [className]: !!className,
   });
 
   const columnClassName = classnames({
     column: true,
     'small-12': true,
-    'medium-4': mode === 'grid'
+    'medium-4': mode === 'grid',
   });
 
   return (
     <div className={componentClass}>
       <ul className="row">
-        {widgets.map(widget => (
+        {widgets.map((widget) => (
           <li
             key={widget.id}
             className={columnClassName}
@@ -70,7 +70,7 @@ const WidgetCardList = (props) => {
               )}
             </InView>
           </li>
-          ))}
+        ))}
       </ul>
     </div>
   );
@@ -87,7 +87,7 @@ WidgetCardList.propTypes = {
   className: PropTypes.string,
   mode: PropTypes.oneOf(['grid', 'list']).isRequired,
   onWidgetClick: PropTypes.func.isRequired,
-  onWidgetRemove: PropTypes.func.isRequired
+  onWidgetRemove: PropTypes.func.isRequired,
 };
 
 WidgetCardList.defaultProps = {
@@ -97,7 +97,7 @@ WidgetCardList.defaultProps = {
   showEmbed: false,
   thumbnail: false,
   showFavorite: true,
-  clickable: false
+  clickable: false,
 };
 
 export default WidgetCardList;

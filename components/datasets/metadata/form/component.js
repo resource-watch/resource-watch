@@ -23,7 +23,7 @@ class DatasetMetadataForm extends PureComponent {
     user: PropTypes.object.isRequired,
     onSubmit: PropTypes.func,
     setSources: PropTypes.func.isRequired,
-    resetSources: PropTypes.func.isRequired
+    resetSources: PropTypes.func.isRequired,
   }
 
   static defaultProps = { onSubmit: null }
@@ -34,7 +34,7 @@ class DatasetMetadataForm extends PureComponent {
     columns: [],
     loading: !!this.props.dataset,
     loadingColumns: true,
-    form: STATE_DEFAULT.form
+    form: STATE_DEFAULT.form,
   };
 
   componentDidMount() {
@@ -50,7 +50,7 @@ class DatasetMetadataForm extends PureComponent {
             metadata,
             type: type || 'tabular',
             // Stop the loading
-            loading: false
+            loading: false,
           });
 
           if (metadata[0]) {
@@ -65,7 +65,7 @@ class DatasetMetadataForm extends PureComponent {
                 const columns = getFields(rawFields, provider, type);
                 this.setState({
                   columns,
-                  loadingColumns: false
+                  loadingColumns: false,
                 });
               })
               .catch(() => {
@@ -94,7 +94,7 @@ class DatasetMetadataForm extends PureComponent {
   onSubmit = (event) => {
     const {
       user: { token },
-      onSubmit
+      onSubmit,
     } = this.props;
     event.preventDefault();
 
@@ -118,7 +118,7 @@ class DatasetMetadataForm extends PureComponent {
             const hasApp = m.application === form.application;
 
             return hasLang && hasApp;
-          })
+          }),
         );
 
         // Set the request
@@ -152,7 +152,7 @@ class DatasetMetadataForm extends PureComponent {
   }
 
   onChange = (obj) => {
-    const form = Object.assign({}, this.state.form, obj.form);
+    const form = { ...this.state.form, ...obj.form };
     this.setState({ form });
   }
 
@@ -183,7 +183,7 @@ class DatasetMetadataForm extends PureComponent {
       loadingColumns,
       stepLength,
       submitting,
-      step
+      step,
     } = this.state;
     return (
       <div className="c-metadata-form">
@@ -200,7 +200,7 @@ class DatasetMetadataForm extends PureComponent {
           )}
           {!loading && (
             <Step1
-              onChange={value => this.onChange(value)}
+              onChange={(value) => this.onChange(value)}
               columns={columns}
               type={type}
               form={form}

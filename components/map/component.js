@@ -28,7 +28,7 @@ class Map extends PureComponent {
     /** An object that defines the bounds */
     bounds: PropTypes.shape({
       bbox: PropTypes.array,
-      options: PropTypes.shape({})
+      options: PropTypes.shape({}),
     }),
 
     /** An object that defines how fitting bounds behaves */
@@ -73,7 +73,7 @@ class Map extends PureComponent {
     onViewportChange: PropTypes.func,
 
     /** A function that exposes the viewport */
-    getCursor: PropTypes.func
+    getCursor: PropTypes.func,
   }
 
   static defaultProps = {
@@ -98,16 +98,16 @@ class Map extends PureComponent {
       if (isHovering) return 'pointer';
       if (isDragging) return 'grabbing';
       return 'grab';
-    }
+    },
   }
 
   state = {
     viewport: {
       ...DEFAULT_VIEWPORT,
-      ...this.props.viewport
+      ...this.props.viewport,
     },
     flying: false,
-    loaded: false
+    loaded: false,
   }
 
   componentDidUpdate(prevProps) {
@@ -116,14 +116,14 @@ class Map extends PureComponent {
       bounds: prevBounds,
       basemap: prevBasemap,
       labels: prevLabels,
-      boundaries: prevBoundaries
+      boundaries: prevBoundaries,
     } = prevProps;
     const {
       viewport,
       bounds,
       labels,
       basemap,
-      boundaries
+      boundaries,
     } = this.props;
     const { viewport: stateViewport } = this.state;
     const basemapChanged = prevBasemap !== basemap;
@@ -135,8 +135,8 @@ class Map extends PureComponent {
       this.setState({ // eslint-disable-line
         viewport: {
           ...stateViewport,
-          ...viewport
-        }
+          ...viewport,
+        },
       });
     }
 
@@ -176,7 +176,7 @@ class Map extends PureComponent {
     const { viewport } = this.state;
     const newViewport = {
       ...viewport,
-      ..._viewport
+      ..._viewport,
     };
 
     this.setState({ viewport: newViewport });
@@ -191,16 +191,16 @@ class Map extends PureComponent {
     const basemapGroups = Object.keys(metadata['mapbox:groups']).filter((k) => {
       const { name } = metadata['mapbox:groups'][k];
 
-      const matchedGroups = BASEMAP_GROUPS.map(rgr => name.toLowerCase().includes(rgr));
+      const matchedGroups = BASEMAP_GROUPS.map((rgr) => name.toLowerCase().includes(rgr));
 
-      return matchedGroups.some(bool => bool);
+      return matchedGroups.some((bool) => bool);
     });
 
-    const basemapsWithMeta = basemapGroups.map(_groupId => ({
+    const basemapsWithMeta = basemapGroups.map((_groupId) => ({
       ...metadata['mapbox:groups'][_groupId],
-      id: _groupId
+      id: _groupId,
     }));
-    const basemapToDisplay = basemapsWithMeta.find(_basemap => _basemap.name.includes(basemap));
+    const basemapToDisplay = basemapsWithMeta.find((_basemap) => _basemap.name.includes(basemap));
 
     const basemapLayers = layers.filter((l) => {
       const { metadata: layerMetadata } = l;
@@ -233,16 +233,16 @@ class Map extends PureComponent {
     const labelGroups = Object.keys(metadata['mapbox:groups']).filter((k) => {
       const { name } = metadata['mapbox:groups'][k];
 
-      const matchedGroups = LABELS_GROUP.filter(rgr => name.toLowerCase().includes(rgr));
+      const matchedGroups = LABELS_GROUP.filter((rgr) => name.toLowerCase().includes(rgr));
 
-      return matchedGroups.some(bool => bool);
+      return matchedGroups.some((bool) => bool);
     });
 
-    const labelsWithMeta = labelGroups.map(_groupId => ({
+    const labelsWithMeta = labelGroups.map((_groupId) => ({
       ...metadata['mapbox:groups'][_groupId],
-      id: _groupId
+      id: _groupId,
     }));
-    const labelsToDisplay = labelsWithMeta.find(_basemap => _basemap.name.includes(labels)) || {};
+    const labelsToDisplay = labelsWithMeta.find((_basemap) => _basemap.name.includes(labels)) || {};
 
     const labelLayers = layers.filter((l) => {
       const { metadata: layerMetadata } = l;
@@ -268,9 +268,9 @@ class Map extends PureComponent {
     const boundariesGroups = Object.keys(metadata['mapbox:groups']).filter((k) => {
       const { name } = metadata['mapbox:groups'][k];
 
-      const labelsGroup = LABELS_GROUP.map(rgr => name.toLowerCase().includes(rgr));
+      const labelsGroup = LABELS_GROUP.map((rgr) => name.toLowerCase().includes(rgr));
 
-      return labelsGroup.some(bool => bool);
+      return labelsGroup.some((bool) => bool);
     });
 
     const boundariesLayers = layers.filter((l) => {
@@ -357,7 +357,7 @@ class Map extends PureComponent {
         ref={this.mapContainer}
         className={classnames({
           'c-map': true,
-          [className]: !!className
+          [className]: !!className,
         })}
       >
         <ReactMapGL

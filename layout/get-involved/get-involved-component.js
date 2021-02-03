@@ -14,7 +14,7 @@ class GetInvolvedComponent extends React.PureComponent {
   static propTypes = {
     getInvolvedIndex: PropTypes.object,
     user: PropTypes.object,
-    url: PropTypes.string
+    url: PropTypes.string,
   };
 
   render() {
@@ -30,13 +30,12 @@ class GetInvolvedComponent extends React.PureComponent {
       styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})`;
     }
 
-
-    const cardsStatic = cards.map(c => (
+    const cardsStatic = cards.map((c) => (
       <div
         key={c.id}
         className={classnames({
           'column small-12 medium-6': !c.grid,
-          [c.grid]: !!c.grid
+          [c.grid]: !!c.grid,
         })}
       >
         <CardStatic className={`-alt ${c.className}`} background={c.background} clickable={false}>
@@ -45,7 +44,7 @@ class GetInvolvedComponent extends React.PureComponent {
             <p>{c.intro}</p>
           </div>
           <div className="buttons -align-left">
-            {c.buttons.map(b => (
+            {c.buttons.map((b) => (
               <Link key={b.route + b.params.id} route={b.route} params={b.params}>
                 <a className={`c-button ${b.className}`}>{b.text}</a>
               </Link>
@@ -122,7 +121,9 @@ class GetInvolvedComponent extends React.PureComponent {
                   bgImage="/static/images/backgrounds/partners-02@2x.jpg"
                 >
                   <p className="-claim">
-                    Questions, comments, or feedback? <br />
+                    Questions, comments, or feedback?
+                    {' '}
+                    <br />
                     Help us improve Resource Watch.
                   </p>
                   <Link to="about_contact-us">

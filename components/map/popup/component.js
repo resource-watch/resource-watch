@@ -16,35 +16,35 @@ class LayerPopup extends PureComponent {
   static propTypes = {
     latlng: PropTypes.object,
     data: PropTypes.object,
-    onChangeInteractiveLayer: PropTypes.func.isRequired
+    onChangeInteractiveLayer: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     latlng: {},
-    data: {}
+    data: {},
   };
 
   state = {
     loading: true,
-    interaction: {}
+    interaction: {},
   }
 
   componentWillMount() {
     const { latlng, data: popupData } = this.props;
     const {
       layers,
-      layersInteractionSelected
+      layersInteractionSelected,
     } = popupData;
-    const layer = layers.find(_layer => _layer.id === layersInteractionSelected) || layers[0];
+    const layer = layers.find((_layer) => _layer.id === layersInteractionSelected) || layers[0];
 
     if (layer) {
       const { interactionConfig } = layer;
 
       if (
-        !isEmpty(latlng) &&
-        !!layers.length &&
-        !!interactionConfig.config &&
-        !!interactionConfig.config.url
+        !isEmpty(latlng)
+        && !!layers.length
+        && !!interactionConfig.config
+        && !!interactionConfig.config.url
       ) {
         this.fetchDataUrl(layer, latlng);
       }
@@ -54,24 +54,24 @@ class LayerPopup extends PureComponent {
   componentWillReceiveProps(nextProps) {
     const {
       data: { layersInteractionSelected: nextLayersInteractionSelected },
-      latlng: nextLatLng
+      latlng: nextLatLng,
     } = nextProps;
     const {
       data: popupData,
-      latlng
+      latlng,
     } = this.props;
 
     const { layers } = popupData;
-    const layer = layers.find(_layer => _layer.id === nextLayersInteractionSelected) || layers[0];
+    const layer = layers.find((_layer) => _layer.id === nextLayersInteractionSelected) || layers[0];
 
     if (layer) {
       const { interactionConfig } = layer;
 
       if (
-        !isEmpty(latlng) &&
-        !!layers.length &&
-        !!interactionConfig.config &&
-        !!interactionConfig.config.url
+        !isEmpty(latlng)
+        && !!layers.length
+        && !!interactionConfig.config
+        && !!interactionConfig.config.url
       ) {
         this.fetchDataUrl(layer, nextLatLng);
       }
@@ -85,8 +85,8 @@ class LayerPopup extends PureComponent {
       loading: true,
       interaction: {
         ...interaction,
-        [layer.id]: {}
-      }
+        [layer.id]: {},
+      },
     }, () => {
       axios.get(replace(interactionConfig.config.url, latlng))
         .then(({ data }) => {
@@ -95,9 +95,9 @@ class LayerPopup extends PureComponent {
           this.setState({
             interaction: {
               ...currentInteractions,
-              [layer.id]: { data: _data[0] }
+              [layer.id]: { data: _data[0] },
             },
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -114,7 +114,7 @@ class LayerPopup extends PureComponent {
   formatValue(item, data) {
     if (item.type === 'date' && item.format && data) {
       data = moment(data).format(item.format);
-    } else if (item.type === 'number' && item.format && (data || data ===0)) {
+    } else if (item.type === 'number' && item.format && (data || data === 0)) {
       data = numeral(data).format(item.format);
     }
 
@@ -132,10 +132,10 @@ class LayerPopup extends PureComponent {
     const {
       layers,
       layersInteraction,
-      layersInteractionSelected
+      layersInteractionSelected,
     } = data;
 
-    const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
+    const layer = layers.find((l) => l.id === layersInteractionSelected) || layers[0];
 
     if (!layer) return null;
 
@@ -153,31 +153,31 @@ class LayerPopup extends PureComponent {
             className="popup-header-select"
             name="interactionLayers"
             value={layer.id}
-            onChange={e => this.props.onChangeInteractiveLayer(e.target.value)}
+            onChange={(e) => this.props.onChangeInteractiveLayer(e.target.value)}
           >
-            {layers.map(o =>
-              <option key={o.id} value={o.id}>{o.name}</option>)}
+            {layers.map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
           </select>
         </header>
 
         <div className="popup-content">
-          {!isEmpty(interaction.data || interactionState.data) &&
-            output.map((outputItem) => {
+          {!isEmpty(interaction.data || interactionState.data)
+            && output.map((outputItem) => {
               const { column } = outputItem;
               const columnArray = column.split('.');
               const value = columnArray.reduce((acc, c) => acc[c],
                 interaction.data || interactionState.data);
 
-                return (
-                  <div
-                    className="popup-field"
-                    key={outputItem.property || outputItem.column}
-                  >
-                    <div className="field-title">
-                      {outputItem.property || outputItem.column}
-                    </div>
-                    <div className="field-value">
-                      {(outputItem.property || outputItem.column) === 'Link' &&
+              return (
+                <div
+                  className="popup-field"
+                  key={outputItem.property || outputItem.column}
+                >
+                  <div className="field-title">
+                    {outputItem.property || outputItem.column}
+                  </div>
+                  <div className="field-value">
+                    {(outputItem.property || outputItem.column) === 'Link'
+                        && (
                         <a
                           href={value}
                           target="_blank"
@@ -185,29 +185,29 @@ class LayerPopup extends PureComponent {
                         >
                           {value}
                         </a>
-                      }
-                      {(outputItem.property || outputItem.column) !== 'Link' &&
-                        this.formatValue(outputItem, value)}
-                    </div>
+                        )}
+                    {(outputItem.property || outputItem.column) !== 'Link'
+                        && this.formatValue(outputItem, value)}
                   </div>
-                );
-              })
-          }
+                </div>
+              );
+            })}
 
-          {this.state.loading && (!interaction.data || !interactionState.data) &&
-            interactionConfig.config && interactionConfig.config.url &&
+          {this.state.loading && (!interaction.data || !interactionState.data)
+            && interactionConfig.config && interactionConfig.config.url
+            && (
             <div className="popup-loader">
               <Spinner isLoading className="-tiny -inline -pink-color" />
-            </div>}
+            </div>
+            )}
 
-          {!this.state.loading && (!interaction.data && !interactionState.data || isEmpty(interaction.data || interactionState.data)) &&
-            interactionConfig.config && interactionConfig.config.url &&
-            'No data available'}
+          {!this.state.loading && (!interaction.data && !interactionState.data || isEmpty(interaction.data || interactionState.data))
+            && interactionConfig.config && interactionConfig.config.url
+            && 'No data available'}
 
-
-          {(!interaction.data && !interactionState.data) &&
-            (!interactionConfig.config || !interactionConfig.config.url) &&
-            'No data available'}
+          {(!interaction.data && !interactionState.data)
+            && (!interactionConfig.config || !interactionConfig.config.url)
+            && 'No data available'}
         </div>
       </div>
     );

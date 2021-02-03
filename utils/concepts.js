@@ -8,134 +8,134 @@ export const TOPICS = {
       label: 'Biodiversity',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'natural_disaster',
       label: 'Natural disasters',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
       synonyms: [
-        'Disaster'
-      ]
+        'Disaster',
+      ],
     },
     {
       id: 'energy',
       label: 'Energy',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'food_and_agriculture',
       label: 'Food and Agriculture',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'climate',
       label: 'Climate',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'land',
       label: 'Land',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
       synonyms: [
-        'Area'
-      ]
+        'Area',
+      ],
     },
     {
       id: 'forest',
       label: 'Forests',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
       synonyms: [
         'Forest',
-        'Trees'
-      ]
+        'Trees',
+      ],
     },
     {
       id: 'water',
       label: 'Water',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'ocean',
       label: 'Oceans',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
       synonyms: [
-        'Ocean'
-      ]
+        'Ocean',
+      ],
     },
     {
       id: 'urban',
       label: 'Cities',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
       synonyms: [
         'Settlement',
         'Cities',
-        'Infrastructure'
-      ]
+        'Infrastructure',
+      ],
     },
     {
       id: 'commerce',
       label: 'Commerce',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'society',
       label: 'Society',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
       synonyms: [
-        'People'
-      ]
+        'People',
+      ],
     },
     {
       id: 'infrastructure',
       label: 'Infrastructure',
       type: [
         'CONCEPT',
-        'TOPIC'
+        'TOPIC',
       ],
-      synonyms: ''
-    }
-  ]
+      synonyms: '',
+    },
+  ],
 };
 
 export const DATA_TYPES = {
@@ -149,38 +149,38 @@ export const DATA_TYPES = {
       label: 'Raster',
       type: [
         'CONCEPT',
-        'DATA_TYPE'
+        'DATA_TYPE',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'geospatial',
       label: 'Geospatial',
       type: [
         'CONCEPT',
-        'DATA_TYPE'
+        'DATA_TYPE',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'vector',
       label: 'Vector',
       type: [
         'CONCEPT',
-        'DATA_TYPE'
+        'DATA_TYPE',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'table',
       label: 'Table',
       type: [
         'CONCEPT',
-        'DATA_TYPE'
+        'DATA_TYPE',
       ],
-      synonyms: ''
-    }
-  ]
+      synonyms: '',
+    },
+  ],
 };
 
 export const FREQUENCIES = {
@@ -194,56 +194,56 @@ export const FREQUENCIES = {
       label: 'Not Updated',
       type: [
         'CONCEPT',
-        'FREQUENCY'
+        'FREQUENCY',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'annual',
       label: 'Annual',
       type: [
         'CONCEPT',
-        'FREQUENCY'
+        'FREQUENCY',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'weekly',
       label: 'Weekly',
       type: [
         'CONCEPT',
-        'FREQUENCY'
+        'FREQUENCY',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'monthly',
       label: 'Monthly',
       type: [
         'CONCEPT',
-        'FREQUENCY'
+        'FREQUENCY',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'daily',
       label: 'Daily',
       type: [
         'CONCEPT',
-        'FREQUENCY'
+        'FREQUENCY',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'near_real_time',
       label: 'Near Real Time',
       type: [
         'CONCEPT',
-        'FREQUENCY'
+        'FREQUENCY',
       ],
-      synonyms: ''
-    }
-  ]
+      synonyms: '',
+    },
+  ],
 };
 
 export const TIME_PERIODS = {
@@ -256,18 +256,18 @@ export const TIME_PERIODS = {
       label: 'Future',
       type: [
         'CONCEPT',
-        'TIME_PERIOD'
+        'TIME_PERIOD',
       ],
-      synonyms: ''
+      synonyms: '',
     },
     {
       id: 'historical',
       label: 'Historical',
       type: [
         'CONCEPT',
-        'TIME_PERIOD'
+        'TIME_PERIOD',
       ],
-      synonyms: ''
-    }
-  ]
+      synonyms: '',
+    },
+  ],
 };

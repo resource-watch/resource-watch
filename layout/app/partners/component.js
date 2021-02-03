@@ -17,8 +17,8 @@ class LayoutPartners extends PureComponent {
         founders,
         funders,
         anchorFunders,
-        partners
-      }
+        partners,
+      },
     } = this.props;
 
     return (
@@ -67,13 +67,14 @@ class LayoutPartners extends PureComponent {
               </div>
             </div>
             <div className="row">
-              {founders.map(p => (
+              {founders.map((p) => (
                 <div
                   className="column small-12 medium-6"
                   key={p.id}
                 >
                   <PartnerBlock item={p} />
-                </div>))}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -86,13 +87,14 @@ class LayoutPartners extends PureComponent {
               </div>
             </div>
             <div className="row">
-              {anchorFunders.map(p => (
+              {anchorFunders.map((p) => (
                 <div
                   className="column small-12"
                   key={p.id}
                 >
                   <PartnerBlock item={p} />
-                </div>))}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -105,13 +107,14 @@ class LayoutPartners extends PureComponent {
               </div>
             </div>
             <div className="row">
-              {funders.map(p => (
+              {funders.map((p) => (
                 <div
                   className="column small-12 medium-6"
                   key={p.id}
                 >
                   <PartnerBlock item={p} />
-                </div>))}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -130,13 +133,14 @@ class LayoutPartners extends PureComponent {
               </div>
             </div>
             <div className="row">
-              {partners.map(p => (
+              {partners.map((p) => (
                 <div
                   className="column small-12 medium-6"
                   key={p.id}
                 >
                   <PartnerBlock item={p} />
-                </div>))}
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -150,27 +154,39 @@ class LayoutPartners extends PureComponent {
                   <p>Partners support Resource Watch by</p>
                   <ul>
                     <li>
-                      <strong>Providing technical resources</strong> such as
+                      <strong>Providing technical resources</strong>
+                      {' '}
+                      such as
                       storage, computing, and technical expertise,
                     </li>
                     <li>
-                      <strong>Contributing data and insights</strong> on what’s
+                      <strong>Contributing data and insights</strong>
+                      {' '}
+                      on what’s
                       happening around the world and how data can be used to drive action,
                     </li>
                     <li>
-                      <strong>Guiding system design</strong> to ensure Resource Watch
+                      <strong>Guiding system design</strong>
+                      {' '}
+                      to ensure Resource Watch
                       is useful to a wide variety of users,
                     </li>
                     <li>
-                      <strong>Supporting the use of Resource Watch</strong> in specific
+                      <strong>Supporting the use of Resource Watch</strong>
+                      {' '}
+                      in specific
                       communities who can utilize the data to advance a more sustainable future,
                     </li>
                     <li>
-                      <strong>Building on Resource Watch</strong> to create custom products
+                      <strong>Building on Resource Watch</strong>
+                      {' '}
+                      to create custom products
                       and applications, and
                     </li>
                     <li>
-                      <strong>Providing financial support</strong> to enable Resource Watch
+                      <strong>Providing financial support</strong>
+                      {' '}
+                      to enable Resource Watch
                       to stay up to date and provide free information to people around the globe.
                     </li>
                   </ul>
@@ -188,7 +204,9 @@ class LayoutPartners extends PureComponent {
                   bgImage="/static/images/backgrounds/partners-02@2x.jpg"
                 >
                   <p className="-claim">
-                    Questions, comments, or feedback? <br />
+                    Questions, comments, or feedback?
+                    {' '}
+                    <br />
                     Help us improve Resource Watch.
                   </p>
                   <Link to="/about/contact-us">

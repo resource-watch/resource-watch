@@ -13,7 +13,7 @@ class SearchPage extends PureComponent {
     term: PropTypes.string.isRequired,
     page: PropTypes.number.isRequired,
     setSearchTerm: PropTypes.func.isRequired,
-    fetchSearch: PropTypes.func.isRequired
+    fetchSearch: PropTypes.func.isRequired,
   };
 
   static async getInitialProps({ store }) {
@@ -35,8 +35,8 @@ class SearchPage extends PureComponent {
     const { term: oldTerm, page: oldPage } = this.props;
 
     if (
-      newTerm !== oldTerm ||
-      newPage !== oldPage
+      newTerm !== oldTerm
+      || newPage !== oldPage
     ) {
       window.scrollTo(0, 0);
       this.props.fetchSearch();
@@ -55,6 +55,6 @@ class SearchPage extends PureComponent {
 }
 
 export default connect(
-  state => ({ ...state.search }),
-  actions
+  (state) => ({ ...state.search }),
+  actions,
 )(SearchPage);

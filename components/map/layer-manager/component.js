@@ -9,7 +9,7 @@ import CANVAS_DECODERS from 'utils/layers/canvas-decoders';
 class LayerManager extends PureComponent {
   static propTypes = {
     map: PropTypes.object.isRequired,
-    layers: PropTypes.array
+    layers: PropTypes.array,
   }
 
   static defaultProps = { layers: [] }
@@ -17,7 +17,7 @@ class LayerManager extends PureComponent {
   render() {
     const {
       map,
-      layers
+      layers,
     } = this.props;
 
     return (
@@ -25,12 +25,12 @@ class LayerManager extends PureComponent {
         map={map}
         plugin={PluginMapboxGl}
       >
-        {layers.map(_layer => (
+        {layers.map((_layer) => (
           <Layer
             key={_layer.id}
             {..._layer}
-            {...(_layer.layerConfig.decoder && CANVAS_DECODERS[_layer.layerConfig.decoder]) &&
-              { decodeFunction: CANVAS_DECODERS[_layer.layerConfig.decoder] }}
+            {...(_layer.layerConfig.decoder && CANVAS_DECODERS[_layer.layerConfig.decoder])
+              && { decodeFunction: CANVAS_DECODERS[_layer.layerConfig.decoder] }}
           />
         ))}
       </VizzLayerManager>

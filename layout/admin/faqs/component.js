@@ -27,7 +27,7 @@ class LayoutAdminFaqs extends PureComponent {
         <div className="c-page-header -admin">
           <div className="l-container -admin">
             <div className="page-header-content -with-tabs">
-              <Title className="-primary -huge page-header-title" >
+              <Title className="-primary -huge page-header-title">
                 FAQs
               </Title>
               <Tabs

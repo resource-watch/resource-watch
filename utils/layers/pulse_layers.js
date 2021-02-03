@@ -18,7 +18,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-        The vegetation health index (VHI) is an indicator of water and heat stress on crops and natural vegetation. Values below 40 may indicate reduced crop yields or greater fire risk. VHI is derived from data from the VIIRS sensor on the Suomi NPP satellite.
+      The vegetation health index (VHI) is an indicator of water and heat stress on crops and natural vegetation. Values below 40 may indicate reduced crop yields or greater fire risk. VHI is derived from data from the VIIRS sensor on the Suomi NPP satellite.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -32,8 +32,8 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'other',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Satellite Imagery',
@@ -42,7 +42,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              The VIIRS sensor aboard the Suomi NPP satellite collects imagery as it orbits the Earth every 100 minutes. Passing over the poles 14 times per day, it crosses the equator at at 1:30am local time, photographing the entire world each day.
+      The VIIRS sensor aboard the Suomi NPP satellite collects imagery as it orbits the Earth every 100 minutes. Passing over the poles 14 times per day, it crosses the equator at at 1:30am local time, photographing the entire world each day.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -55,8 +55,8 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'other',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Nighttime Imagery',
@@ -65,7 +65,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              The VIIRS sensor aboard the Suomi NPP satellite collects nighttime imagery as it orbits the Earth every 100 minutes. Passing over the poles 14 times per day, it crosses the equator at on the nighttime side of the Earth at 1:30am local time.
+      The VIIRS sensor aboard the Suomi NPP satellite collects nighttime imagery as it orbits the Earth every 100 minutes. Passing over the poles 14 times per day, it crosses the equator at on the nighttime side of the Earth at 1:30am local time.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -78,10 +78,10 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
-      }
-    ]
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
+      },
+    ],
   },
   {
     label: 'Water',
@@ -93,7 +93,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Major floods can devastate affected areas, displacing people and disrupting the local economy. The Dartmouth Flood Observatory aggregates flood reports from news, governmental, instrumental, and remote sensing sources.
+      Major floods can devastate affected areas, displacing people and disrupting the local economy. The Dartmouth Flood Observatory aggregates flood reports from news, governmental, instrumental, and remote sensing sources.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -107,8 +107,8 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Droughts',
@@ -120,7 +120,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              The 6-month Standardized Precipitation-Evapotranspiration Index (SPEI) is an indicator of short-term drought affecting rainfed crops and vegetation. SPEI is calculated by comparing the past six months’ rainfall and evaporation rate to a historical baseline (1950-2010).
+      The 6-month Standardized Precipitation-Evapotranspiration Index (SPEI) is an indicator of short-term drought affecting rainfed crops and vegetation. SPEI is calculated by comparing the past six months’ rainfall and evaporation rate to a historical baseline (1950-2010).
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -131,10 +131,10 @@ export const LAYERS_PLANET_PULSE = [
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         basemap: {
           name: 'other',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
-      }
-    ]
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
+      },
+    ],
   },
   {
     label: 'Air Quality',
@@ -148,7 +148,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Dust particles less than 10 microns in diameter from road dust, industrial pollution and other sources affect human health. These air quality measurements are collected from government and research stations by OpenAQ.
+      Dust particles less than 10 microns in diameter from road dust, industrial pollution and other sources affect human health. These air quality measurements are collected from government and research stations by OpenAQ.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -160,8 +160,8 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Fine Particulate Matter (PM 2.5)',
@@ -169,7 +169,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Fine particles less than 2.5 microns in diameter are known to have more severe health impacts than their larger cousins. Air quality measurements are collected from government and research stations by OpenAQ.
+      Fine particles less than 2.5 microns in diameter are known to have more severe health impacts than their larger cousins. Air quality measurements are collected from government and research stations by OpenAQ.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -184,8 +184,8 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
 
       {
@@ -197,7 +197,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Sufur dioxide (SO₂) is released into the air from the burning of fossil fuels.  It contributes to particulate matter concentrations and can cause acid rain.  These air quality measurements are collected from government and research stations by OpenAQ.
+      Sufur dioxide (SO₂) is released into the air from the burning of fossil fuels.  It contributes to particulate matter concentrations and can cause acid rain.  These air quality measurements are collected from government and research stations by OpenAQ.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -209,8 +209,8 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Nitrogen Dioxide (NO₂)',
@@ -221,7 +221,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Nitrogen dioxide (NO₂) is released into the atmosphere from the burning of fossil fuels.  Breathing air with high concentrations of NO₂ can result in respiratory symptoms.  These air quality measurements are collected from government and research stations by OpenAQ.
+      Nitrogen dioxide (NO₂) is released into the atmosphere from the burning of fossil fuels.  Breathing air with high concentrations of NO₂ can result in respiratory symptoms.  These air quality measurements are collected from government and research stations by OpenAQ.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -233,8 +233,8 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Ozone (Tropospheric/Ground-level O₃)',
@@ -245,7 +245,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Unlike stratospheric ozone that protects from ultraviolet rays, ground-level, or tropospheric ozone (O3) is created through the interactions of the emissions of volatile organic compounds (from gasoline burning engines) and nitrogen oxides (from the burning of fossil fuels) in the presence of heat and sunlight. These air quality measurements are collected from government and research stations by OpenAQ.
+      Unlike stratospheric ozone that protects from ultraviolet rays, ground-level, or tropospheric ozone (O3) is created through the interactions of the emissions of volatile organic compounds (from gasoline burning engines) and nitrogen oxides (from the burning of fossil fuels) in the presence of heat and sunlight. These air quality measurements are collected from government and research stations by OpenAQ.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -257,8 +257,8 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Carbon Monoxide (CO)',
@@ -269,7 +269,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Carbon monoxide (CO) is a colorless, odorless gas released into the atmosphere when burning materials.  It can be harmful to human health if inhaled in high concentrations.  These air quality measurements are collected from government and research stations by OpenAQ.
+      Carbon monoxide (CO) is a colorless, odorless gas released into the atmosphere when burning materials.  It can be harmful to human health if inhaled in high concentrations.  These air quality measurements are collected from government and research stations by OpenAQ.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -281,8 +281,8 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Black Carbon (BC)',
@@ -293,7 +293,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              High black carbon (BC) concentrations have negative implications for both human health and the climate, and are caused by the burning of fossil fuels. These air quality measurements are collected from government and research stations by OpenAQ.
+      High black carbon (BC) concentrations have negative implications for both human health and the climate, and are caused by the burning of fossil fuels. These air quality measurements are collected from government and research stations by OpenAQ.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -305,10 +305,10 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
-      }
-    ]
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
+      },
+    ],
   },
   {
     label: 'Climate',
@@ -325,7 +325,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Sea ice grows and shrinks with temperature, affecting global weather patterns and shipping routes. Sea ice extent typically peaks in March and reaches its lowest point in September in the Northern Hemisphere. Extents are measured the National Oceanic and Atmospheric Administration (NOAA) using data from the Defense Meteorological Satellite Program satellites.
+      Sea ice grows and shrinks with temperature, affecting global weather patterns and shipping routes. Sea ice extent typically peaks in March and reaches its lowest point in September in the Northern Hemisphere. Extents are measured the National Oceanic and Atmospheric Administration (NOAA) using data from the Defense Meteorological Satellite Program satellites.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -335,8 +335,8 @@ export const LAYERS_PLANET_PULSE = [
   </div>,
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Antarctic Sea Ice',
@@ -350,7 +350,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Sea ice grows and shrinks with temperature, affecting global weather patterns and shipping routes. Sea ice extent typically peaks in September and reaches its lowest point in February in the Southern Hemisphere. Extents are measured the National Oceanic and Atmospheric Administration (NOAA) using data from the Defense Meteorological Satellite Program satellites.
+      Sea ice grows and shrinks with temperature, affecting global weather patterns and shipping routes. Sea ice extent typically peaks in September and reaches its lowest point in February in the Southern Hemisphere. Extents are measured the National Oceanic and Atmospheric Administration (NOAA) using data from the Defense Meteorological Satellite Program satellites.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -360,8 +360,8 @@ export const LAYERS_PLANET_PULSE = [
   </div>,
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Coral Reef Bleaching',
@@ -370,7 +370,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Abnormally high ocean temperatures can damage coral reefs, turning them a bleached white. The National Oceanic and Atmospheric Administration (NOAA) generates bleaching alerts from sea surface temperature data derived from a combination of global weather satellites.
+      Abnormally high ocean temperatures can damage coral reefs, turning them a bleached white. The National Oceanic and Atmospheric Administration (NOAA) generates bleaching alerts from sea surface temperature data derived from a combination of global weather satellites.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -384,10 +384,10 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
-      }
-    ]
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
+      },
+    ],
   },
   {
     label: 'Humanitarian',
@@ -401,7 +401,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Crop failure, conflict, and market failures can limit people’s ability to access enough food to survive. FEWS NET monitors conditions that could lead to severe food insecurity through a combination of on-the-ground reports, satellite data, and expert knowledge of economic conditions. The data are for select countries only.
+      Crop failure, conflict, and market failures can limit people’s ability to access enough food to survive. FEWS NET monitors conditions that could lead to severe food insecurity through a combination of on-the-ground reports, satellite data, and expert knowledge of economic conditions. The data are for select countries only.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -410,9 +410,9 @@ export const LAYERS_PLANET_PULSE = [
   </div>,
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
         },
-        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
       },
       {
         label: 'Conflicts and Protests',
@@ -420,7 +420,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              The Armed Conflict Location and Event Data Project (ACLED) gathers and reports dates and locations of violence and protests in Africa and 10 countries in South and Southeast Asia. Larger point sizes indicate events with fatalities. The data are for select countries only.
+      The Armed Conflict Location and Event Data Project (ACLED) gathers and reports dates and locations of violence and protests in Africa and 10 countries in South and Southeast Asia. Larger point sizes indicate events with fatalities. The data are for select countries only.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -434,9 +434,9 @@ export const LAYERS_PLANET_PULSE = [
         markerType: 'default',
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
         },
-        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
       },
       {
         label: 'Migrant Deaths',
@@ -444,7 +444,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Migrants seek to cross international borders to flee hardship or find a better life. The International Organization for Migration (IOM) records deaths of migrants who die during their journies in accidents, shipwrecks, violent attacks, or from medical complications.
+      Migrants seek to cross international borders to flee hardship or find a better life. The International Organization for Migration (IOM) records deaths of migrants who die during their journies in accidents, shipwrecks, violent attacks, or from medical complications.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -456,11 +456,11 @@ export const LAYERS_PLANET_PULSE = [
         '3d': false,
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
         },
-        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
-      }
-    ]
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
+      },
+    ],
   },
   {
     label: 'Hazards',
@@ -472,7 +472,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-          Fires may occur naturally or be set by people, often to clear land or by accident. Smoke from fires can be a major health hazard. NASA detects fires using the VIIRS sensor on the Suomi NPP satellite.
+      Fires may occur naturally or be set by people, often to clear land or by accident. Smoke from fires can be a major health hazard. NASA detects fires using the VIIRS sensor on the Suomi NPP satellite.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -483,15 +483,15 @@ export const LAYERS_PLANET_PULSE = [
   </div>,
         contextLayers: [
           '8edf50a7-2cc7-4f30-9dc1-b8cc420e7287',
-          '396b74f7-643d-4299-8ff6-4780b27138cc'
+          '396b74f7-643d-4299-8ff6-4780b27138cc',
         ],
         contextLayersOnTop: false,
         widgets: [],
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
         basemap: {
           name: 'other',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
       },
       {
         label: 'Landslide Warnings',
@@ -500,7 +500,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Landslides often occur when heavy rains destabilize hillsides. The National Aeronautics and Space Administration (NASA) publishes real-time landslide hazard alerts based on recent precipitation, combined with information on roads, tree cover loss, slope steepness, and bedrock structure.
+      Landslides often occur when heavy rains destabilize hillsides. The National Aeronautics and Space Administration (NASA) publishes real-time landslide hazard alerts based on recent precipitation, combined with information on roads, tree cover loss, slope steepness, and bedrock structure.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -513,16 +513,16 @@ export const LAYERS_PLANET_PULSE = [
         widgets: [],
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
         },
-        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
       },
       {
         label: 'Earthquakes',
         id: 'd63fff22-8cda-467e-b4ef-df3ab2613505',
         contextLayers: [
           '47a1b1d7-e5ad-4b79-9f52-bc9435c6ca06',
-          '396b74f7-643d-4299-8ff6-4780b27138cc'
+          '396b74f7-643d-4299-8ff6-4780b27138cc',
         ],
         contextLayersOnTop: false,
         '3d': false,
@@ -531,7 +531,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              Earthquakes occur when the Earth’s crust shifts and releases energy in the form of massive vibrations. The U.S. Geological Survey (USGS) monitors earthquakes globally though a network of ground sensors. Larger point sizes indicate larger Earthquakes.
+      Earthquakes occur when the Earth’s crust shifts and releases energy in the form of massive vibrations. The U.S. Geological Survey (USGS) monitors earthquakes globally though a network of ground sensors. Larger point sizes indicate larger Earthquakes.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -542,9 +542,9 @@ export const LAYERS_PLANET_PULSE = [
   </div>,
         basemap: {
           name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
         },
-        initialPosition: { latitude: 0, longitude: 0, height: 20000000 }
+        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
       },
       {
         label: 'Volcanoes',
@@ -556,7 +556,7 @@ export const LAYERS_PLANET_PULSE = [
         descriptionPulse:
   <div className="description">
     <div className="description-text">
-              The Smithsonian Institution (SI) and U.S. Geological Survey (USGS) aggregate reports of volcanic ash cloud releases and new and significant changes in volcanic activity.
+      The Smithsonian Institution (SI) and U.S. Geological Survey (USGS) aggregate reports of volcanic ash cloud releases and new and significant changes in volcanic activity.
     </div>
     <div className="view-with-container">
       <span className="view-with-label"><strong>View with:</strong></span>
@@ -567,9 +567,9 @@ export const LAYERS_PLANET_PULSE = [
         initialPosition: { latitude: -239.0625, longitude: 16.29905101458183, height: 20000000 },
         basemap: {
           name: 'other',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w'
-        }
-      }
-    ]
-  }
+          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cjhqiecof53wv2rl9gw4cehmy/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
+        },
+      },
+    ],
+  },
 ];

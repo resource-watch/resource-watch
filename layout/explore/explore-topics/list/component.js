@@ -25,10 +25,10 @@ function TopicsListComponent(props) {
               <div
                 className="topic-image"
                 style={{
-                  'backgroundImage': `linear-gradient(${topic.backgroundColor},${topic.backgroundColor}),
+                  backgroundImage: `linear-gradient(${topic.backgroundColor},${topic.backgroundColor}),
                     linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.30)),url(${topic.backgroundURL})`,
-                  'backgroundPosition': 'center',
-                  'backgroundSize': 'cover'
+                  backgroundPosition: 'center',
+                  backgroundSize: 'cover',
                 }}
               />
               <div className="topic-title">
@@ -36,7 +36,7 @@ function TopicsListComponent(props) {
               </div>
             </div>
           </div>
-                ))}
+        ))}
       </div>
     </div>
   );
@@ -44,7 +44,7 @@ function TopicsListComponent(props) {
 
 TopicsListComponent.propTypes = {
   onClick: PropTypes.func.isRequired,
-  topics: PropTypes.array.isRequired
+  topics: PropTypes.array.isRequired,
 };
 
 export default TopicsListComponent;

@@ -8,7 +8,7 @@ import PagesForm from 'components/admin/pages/form/PagesForm';
 class PagesShow extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   handleSubmit = () => Router.pushRoute('admin_pages', { tab: 'pages' })
@@ -16,7 +16,7 @@ class PagesShow extends PureComponent {
   render() {
     const {
       id,
-      user: { token }
+      user: { token },
     } = this.props;
 
     return (

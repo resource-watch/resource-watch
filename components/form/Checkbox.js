@@ -5,7 +5,6 @@ import Icon from 'components/ui/icon';
 
 import FormElement from './FormElement';
 
-
 export default class Checkbox extends FormElement {
   /**
    * UI EVENTS
@@ -16,14 +15,16 @@ export default class Checkbox extends FormElement {
 
     this.props.onChange && this.props.onChange({
       value,
-      checked: evt.currentTarget.checked
+      checked: evt.currentTarget.checked,
     });
   }
 
   render() {
-    const { name, value, title, className } = this.props.properties;
+    const {
+      name, value, title, className,
+    } = this.props.properties;
     const customClassName = classnames({
-      [className]: !!className
+      [className]: !!className,
     });
 
     return (
@@ -47,5 +48,5 @@ export default class Checkbox extends FormElement {
 
 Checkbox.propTypes = {
   properties: PropTypes.object,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };

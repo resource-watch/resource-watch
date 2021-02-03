@@ -100,11 +100,11 @@ const decodes = {
   } else {
     alpha = 0.;
   }
-  `
+  `,
 };
 
 export default {
   'tree-cover-loss': decodes.treeCoverLoss,
   'biomass-loss': decodes.biomassLoss,
-  glad: decodes.GLADs
+  glad: decodes.GLADs,
 };

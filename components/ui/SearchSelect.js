@@ -9,11 +9,11 @@ export default class SearchSelect extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedItem: props.options ? props.options.find(item => item.value === props.value) : null,
+      selectedItem: props.options ? props.options.find((item) => item.value === props.value) : null,
       closed: true,
       filteredOptions: props.options || [],
       selectedIndex: 0,
-      value: props.value
+      value: props.value,
     };
 
     // Bindings
@@ -31,11 +31,11 @@ export default class SearchSelect extends React.Component {
     if (!isEqual(this.props.options, options)) {
       this.setState({
         filteredOptions: options,
-        selectedItem: options.find(item => item.value === value)
+        selectedItem: options.find((item) => item.value === value),
       });
     }
     if (this.props.value !== value) {
-      this.setState({ selectedItem: this.props.options.find(item => item.value === value) });
+      this.setState({ selectedItem: this.props.options.find((item) => item.value === value) });
     }
   }
 
@@ -49,17 +49,17 @@ export default class SearchSelect extends React.Component {
     switch (evt.keyCode) {
       // key up
       case 38: {
-        const index = this.state.selectedIndex > 0 ?
-          this.state.selectedIndex - 1 :
-          this.state.filteredOptions.length - 1;
+        const index = this.state.selectedIndex > 0
+          ? this.state.selectedIndex - 1
+          : this.state.filteredOptions.length - 1;
         this.setSelectedIndex(index);
         break;
       }
       // key down
       case 40: {
-        const index = (this.state.selectedIndex < this.state.filteredOptions.length - 1) ?
-          this.state.selectedIndex + 1 :
-          0;
+        const index = (this.state.selectedIndex < this.state.filteredOptions.length - 1)
+          ? this.state.selectedIndex + 1
+          : 0;
         this.setSelectedIndex(index);
         break;
       }
@@ -79,8 +79,8 @@ export default class SearchSelect extends React.Component {
       }
       // Typing text
       default: {
-        const value = evt.currentTarget.value;
-        const filteredOptions = this.props.options.filter(item => item.label
+        const { value } = evt.currentTarget;
+        const filteredOptions = this.props.options.filter((item) => item.label
           .toLowerCase().match(value.toLowerCase()));
         this.setState({ filteredOptions }, () => {
           if (this.props.onKeyPressed) this.props.onKeyPressed({ value }, [], 'name');
@@ -138,7 +138,7 @@ export default class SearchSelect extends React.Component {
     this.setState({
       closed: true,
       filteredOptions: this.props.options,
-      value: this.input.value
+      value: this.input.value,
     }, this.resetSelectedIndex);
   }
 
@@ -169,10 +169,10 @@ export default class SearchSelect extends React.Component {
             onChange={this.onType}
           />
         </span>
-        {noResults &&
-          <span className="no-results">No results</span>
-        }
-        {!this.state.closed && !this.props.hideList &&
+        {noResults
+          && <span className="no-results">No results</span>}
+        {!this.state.closed && !this.props.hideList
+          && (
           <ul className="custom-select-options">
             {this.state.filteredOptions.map((item, index) => {
               const cName = (index === this.state.selectedIndex) ? '-selected' : '';
@@ -188,7 +188,7 @@ export default class SearchSelect extends React.Component {
               );
             })}
           </ul>
-        }
+          )}
       </div>
     );
   }
@@ -201,5 +201,5 @@ SearchSelect.propTypes = {
   className: PropTypes.string,
   placeholder: PropTypes.string,
   onValueChange: PropTypes.func,
-  onKeyPressed: PropTypes.func
+  onKeyPressed: PropTypes.func,
 };

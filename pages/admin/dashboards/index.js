@@ -12,7 +12,7 @@ const DATA_TABS = [{
   label: 'Dashboards',
   value: 'dashboards',
   route: 'admin_dashboards',
-  params: { tab: 'dashboards' }
+  params: { tab: 'dashboards' },
 }];
 
 class AdminDashboardsPage extends PureComponent {
@@ -26,7 +26,7 @@ class AdminDashboardsPage extends PureComponent {
     this.state = {
       tab: url.query.tab || 'dashboards',
       id: url.query.id,
-      subtab: url.query.subtab
+      subtab: url.query.subtab,
     };
   }
 
@@ -36,7 +36,7 @@ class AdminDashboardsPage extends PureComponent {
     this.setState({
       tab: url.query.tab || 'dashboards',
       id: url.query.id,
-      subtab: url.query.subtab
+      subtab: url.query.subtab,
     });
   }
 
@@ -44,7 +44,7 @@ class AdminDashboardsPage extends PureComponent {
     const {
       tab,
       subtab,
-      id
+      id,
     } = this.state;
 
     return (
@@ -59,7 +59,7 @@ class AdminDashboardsPage extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content -with-tabs">
-                  <Title className="-primary -huge page-header-title" >
+                  <Title className="-primary -huge page-header-title">
                     Dashboards
                   </Title>
                   <Tabs

@@ -19,13 +19,13 @@ import { MYRW_TABS } from './constants';
 class LayoutMyRW extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    query: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired,
   };
 
   render() {
     const {
       user,
-      query: { tab, subtab }
+      query: { tab, subtab },
     } = this.props;
     const userName = user.name ? ` ${user.name.split(' ')[0]}` : '';
     const title = userName ? `Hi${userName}!` : 'My Resource Watch';
@@ -59,7 +59,8 @@ class LayoutMyRW extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 {(currentTab === 'profile') && (<Profile />)}
-                {(currentTab === 'datasets') && (<DatasetsTab tab={currentTab} subtab={subtab} />)}{' '}
+                {(currentTab === 'datasets') && (<DatasetsTab tab={currentTab} subtab={subtab} />)}
+                {' '}
                 {(currentTab === 'dashboards') && (<DashboardsTab tab={currentTab} subtab={subtab} />)}
                 {(currentTab === 'areas') && (<AreasTabs tab={currentTab} subtab={currentTab} />)}
                 {(currentTab === 'widgets') && (<WidgetsTab tab={currentTab} subtab={subtab} />)}
@@ -71,8 +72,8 @@ class LayoutMyRW extends PureComponent {
                     </ul>
                     <Link route={currentTab !== 'dashboards' ? 'explore' : 'topics'}>
                       <a className="c-button -secondary">
-                        {(currentTab !== 'dashboards') ?
-                          'Explore Datasets' : 'Discover Topics'}
+                        {(currentTab !== 'dashboards')
+                          ? 'Explore Datasets' : 'Discover Topics'}
                       </a>
                     </Link>
                   </div>

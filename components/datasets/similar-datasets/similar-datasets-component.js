@@ -9,7 +9,7 @@ class SimilarDatasets extends PureComponent {
   static propTypes = {
     // Store
     data: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
   };
 
   render() {
@@ -19,16 +19,16 @@ class SimilarDatasets extends PureComponent {
       <div className="c-similar-datasets">
         <Spinner isLoading={loading} className="-light" />
 
-        {!loading && !data.length &&
-          <p>No data available</p>
-        }
+        {!loading && !data.length
+          && <p>No data available</p>}
 
-        {!!data.length &&
+        {!!data.length
+          && (
           <DatasetList
             list={data}
             mode="grid"
           />
-        }
+          )}
       </div>
     );
   }

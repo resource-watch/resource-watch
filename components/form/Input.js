@@ -34,7 +34,7 @@ class Input extends FormElement {
 Input.propTypes = {
   properties: PropTypes.object.isRequired,
   validations: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default Input;

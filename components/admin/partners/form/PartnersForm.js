@@ -13,10 +13,11 @@ import Step1 from 'components/admin/partners/form/steps/Step1';
 import Spinner from 'components/ui/Spinner';
 
 class PartnersForm extends React.Component {
-  state = Object.assign({}, STATE_DEFAULT, {
+  state = ({
+    ...STATE_DEFAULT,
     id: this.props.id,
     loading: !!this.props.id,
-    form: STATE_DEFAULT.form
+    form: STATE_DEFAULT.form,
   });
 
   componentDidMount() {
@@ -29,7 +30,7 @@ class PartnersForm extends React.Component {
           this.setState({
             form: this.setFormFromParams(data),
             // Stop the loading
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -72,7 +73,7 @@ class PartnersForm extends React.Component {
   }
 
   onChange = (obj) => {
-    const form = Object.assign({}, this.state.form, obj);
+    const form = { ...this.state.form, ...obj };
     this.setState({ form });
   }
 
@@ -113,8 +114,8 @@ class PartnersForm extends React.Component {
         }
 
         default: {
-          if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
-              (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+          if ((typeof params[f] !== 'undefined' || params[f] !== null)
+              || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -129,7 +130,7 @@ class PartnersForm extends React.Component {
     const { token } = this.props;
     const body = new Serializer('partner', {
       keyForAttribute: 'dash-case',
-      attributes: Object.keys(form)
+      attributes: Object.keys(form),
     }).serialize(form);
 
     if (id) {
@@ -162,22 +163,24 @@ class PartnersForm extends React.Component {
       <form className="c-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={this.state.loading} className="-light" />
 
-        {(this.state.step === 1 && !this.state.loading) &&
+        {(this.state.step === 1 && !this.state.loading)
+          && (
           <Step1
-            onChange={value => this.onChange(value)}
+            onChange={(value) => this.onChange(value)}
             form={this.state.form}
             id={this.state.id}
           />
-        }
+          )}
 
-        {!this.state.loading &&
+        {!this.state.loading
+          && (
           <Navigation
             step={this.state.step}
             stepLength={this.state.stepLength}
             submitting={this.state.submitting}
             onStepChange={this.onStepChange}
           />
-        }
+          )}
       </form>
     );
   }
@@ -186,7 +189,7 @@ class PartnersForm extends React.Component {
 PartnersForm.propTypes = {
   id: PropTypes.string,
   onSubmit: PropTypes.func,
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
 };
 
 export default PartnersForm;

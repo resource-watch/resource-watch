@@ -6,11 +6,11 @@ export default {
     page: 1,
     size: null,
     pages: null,
-    limit: 6
+    limit: 6,
   },
   widgets: {
     list: [],
     loading: true,
-    error: null
-  }
+    error: null,
+  },
 };

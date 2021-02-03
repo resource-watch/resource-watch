@@ -7,7 +7,7 @@ import Tag from 'components/ui/Tag';
 class DatasetTagsTooltip extends React.Component {
   static propTypes = {
     tags: PropTypes.array.isRequired,
-    onTagSelected: PropTypes.func
+    onTagSelected: PropTypes.func,
   };
 
   render() {
@@ -16,7 +16,7 @@ class DatasetTagsTooltip extends React.Component {
     return (
       <div className="c-dataset-tags-tooltip">
         <div className="c-tag-list">
-          {tags.map(tag => (
+          {tags.map((tag) => (
             <Tag
               className="-primary"
               key={tag.id}

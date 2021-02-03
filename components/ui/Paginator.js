@@ -5,7 +5,7 @@ import Pagination from 'rc-pagination';
 class Paginator extends PureComponent {
   static propTypes = {
     options: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -14,7 +14,7 @@ class Paginator extends PureComponent {
     this.state = {
       size: props.options.size,
       page: props.options.page,
-      limit: props.options.limit
+      limit: props.options.limit,
     };
 
     // BINDINGS
@@ -25,7 +25,7 @@ class Paginator extends PureComponent {
     this.setState({
       size: nextProps.options.size,
       page: nextProps.options.page,
-      limit: nextProps.options.limit
+      limit: nextProps.options.limit,
     });
   }
 

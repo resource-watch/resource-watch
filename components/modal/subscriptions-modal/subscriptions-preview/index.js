@@ -10,13 +10,12 @@ import { parseTableData } from './selectors';
 import SubscribePreview from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     data: parseTableData(state),
     loading: state.subscriptions.preview.loading,
     activeDataset: state.layerCardPulse.dataset,
     preview: state.subscriptions.preview,
-    datasetTitle: state.subscriptions.userSelection.datasets
+    datasetTitle: state.subscriptions.userSelection.datasets,
   }),
-  { getUserSubscriptionsPreview }
+  { getUserSubscriptionsPreview },
 )(SubscribePreview);
-

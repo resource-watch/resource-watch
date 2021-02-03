@@ -20,7 +20,7 @@ class AdminDashboardsDetailPage extends PureComponent {
 
   state = {
     ...this.props.url.query,
-    data: {}
+    data: {},
   }
 
   componentDidMount() {
@@ -74,7 +74,7 @@ class AdminDashboardsDetailPage extends PureComponent {
                   <Breadcrumbs
                     items={[{ name: capitalizeFirstLetter(tab), route: 'admin_dashboards', params: { tab } }]}
                   />
-                  <Title className="-primary -huge page-header-title" >
+                  <Title className="-primary -huge page-header-title">
                     {this.getName()}
                   </Title>
                 </div>

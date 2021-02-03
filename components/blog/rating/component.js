@@ -11,7 +11,7 @@ import './styles.scss';
 class Rating extends PureComponent {
   static propTypes = {
     rating: PropTypes.number.isRequired,
-    className: PropTypes.any
+    className: PropTypes.any,
   }
 
   static defaultProps = { className: null }

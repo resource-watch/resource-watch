@@ -13,7 +13,7 @@ const defaultSettings = {
   renderTopCenterControls: () => {},
   renderCenterLeftControls: () => {},
   renderCenterRightControls: () => {},
-  renderBottomCenterControls: () => {}
+  renderBottomCenterControls: () => {},
 };
 
 function Carousel({ settings = defaultSettings, items = [] }) {
@@ -25,7 +25,7 @@ function Carousel({ settings = defaultSettings, items = [] }) {
   return (
     <div className="c-carousel">
       <Slider {...settings}>
-        {items.map(item => item)}
+        {items.map((item) => item)}
       </Slider>
     </div>
   );
@@ -33,7 +33,7 @@ function Carousel({ settings = defaultSettings, items = [] }) {
 
 Carousel.propTypes = {
   items: PropTypes.array.isRequired,
-  settings: PropTypes.object
+  settings: PropTypes.object,
 };
 
 export default Carousel;

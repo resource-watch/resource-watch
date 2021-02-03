@@ -15,8 +15,8 @@ class SearchComponent extends React.PureComponent {
   static propTypes = {
     search: PropTypes.shape({
       term: PropTypes.string,
-      loading: PropTypes.bool
-    }).isRequired
+      loading: PropTypes.bool,
+    }).isRequired,
   }
 
   render() {
@@ -36,7 +36,10 @@ class SearchComponent extends React.PureComponent {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <h1>Search{term && `: ${term}`}</h1>
+                  <h1>
+                    Search
+                    {term && `: ${term}`}
+                  </h1>
                 </div>
               </div>
             </div>
@@ -60,8 +63,8 @@ class SearchComponent extends React.PureComponent {
 }
 
 export default connect(
-  state => ({
-    search: state.search
+  (state) => ({
+    search: state.search,
   }),
-  null
+  null,
 )(SearchComponent);

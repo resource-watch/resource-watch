@@ -18,15 +18,15 @@ class FileImage extends FormElement {
     const { getUrlImage } = props;
 
     this.state = {
-      value: (defaultValue && !getUrlImage) ?
-        this.getBase64FromURL(previewURL) :
-        '',
-      accepted: (defaultValue) ?
-        [{ name: defaultValue, preview: previewURL }] :
-        [],
+      value: (defaultValue && !getUrlImage)
+        ? this.getBase64FromURL(previewURL)
+        : '',
+      accepted: (defaultValue)
+        ? [{ name: defaultValue, preview: previewURL }]
+        : [],
       rejected: [],
       dropzoneActive: false,
-      loading: false
+      loading: false,
     };
 
     // BINDINGS
@@ -44,13 +44,13 @@ class FileImage extends FormElement {
   */
   onDragEnter() {
     this.setState({
-      dropzoneActive: true
+      dropzoneActive: true,
     });
   }
 
   onDragLeave() {
     this.setState({
-      dropzoneActive: false
+      dropzoneActive: false,
     });
   }
 
@@ -58,7 +58,7 @@ class FileImage extends FormElement {
     this.setState({
       accepted,
       rejected,
-      dropzoneActive: false
+      dropzoneActive: false,
     }, () => {
       if (accepted.length) {
         switch (this.props.mode) {
@@ -69,7 +69,7 @@ class FileImage extends FormElement {
             this.props.getUrlImage(accepted[0])
               .then((value) => {
                 this.setState({
-                  value
+                  value,
                 }, () => {
                   // Publish the new value to the form
                   if (this.props.onChange) this.props.onChange(this.state.value);
@@ -94,7 +94,7 @@ class FileImage extends FormElement {
     reader.readAsDataURL(file);
     reader.onload = () => {
       this.setState({
-        value: reader.result
+        value: reader.result,
       }, () => {
         // Publish the new value to the form
         if (this.props.onChange) this.props.onChange(this.state.value);
@@ -105,7 +105,7 @@ class FileImage extends FormElement {
     reader.onerror = (error) => {
       this.setState({
         value: '',
-        error
+        error,
       }, () => {
         // Publish the new value to the form
         if (this.props.onChange) this.props.onChange(this.state.value);
@@ -137,7 +137,7 @@ class FileImage extends FormElement {
     if (accepted.length) {
       this.setState({
         accepted: [],
-        value: ''
+        value: '',
       }, () => {
         // Publish the new value to the form
         if (this.props.onChange) this.props.onChange(this.state.value);
@@ -151,7 +151,7 @@ class FileImage extends FormElement {
 
   triggerChange(e) {
     this.setState({
-      value: e.currentTarget.value
+      value: e.currentTarget.value,
     }, () => {
       // Publish the new value to the form
       if (this.props.onChange) this.props.onChange(this.state.value);
@@ -192,20 +192,22 @@ class FileImage extends FormElement {
           onDragEnter={this.onDragEnter}
           onDragLeave={this.onDragLeave}
         >
-          {!accepted.length &&
+          {!accepted.length
+            && (
             <div className="file-placeholder" onClick={this.triggerBrowseOrCancel}>
               {properties.placeholder}
             </div>
-          }
+            )}
 
-          {!!accepted.length && accepted[0].preview &&
+          {!!accepted.length && accepted[0].preview
+            && (
             <div className="file-preview">
               <img className="file-image" src={accepted[0].preview} alt={accepted[0].name} />
               <button onClick={this.triggerBrowseOrCancel} className="file-button c-button">
                 <Icon name="icon-cross" className="-small" />
               </button>
             </div>
-          }
+            )}
         </Dropzone>
       </div>
     );
@@ -215,7 +217,7 @@ class FileImage extends FormElement {
 FileImage.propTypes = {
   properties: PropTypes.object.isRequired,
   validations: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default FileImage;

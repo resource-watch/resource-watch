@@ -26,16 +26,15 @@ class LayoutEmbedDataset extends PureComponent {
   state = {
     dataset: null,
     loadingWidget: true,
-    loadingDataset: true
+    loadingDataset: true,
   }
 
   UNSAFE_componentWillMount() {
     fetchDataset(this.props.routes.query.id, { includes: 'widget, metadata' })
-      .then(data =>
-        this.setState({
-          dataset: data,
-          loadingDataset: false
-        }));
+      .then((data) => this.setState({
+        dataset: data,
+        loadingDataset: false,
+      }));
   }
 
   triggerToggleLoading = () => { this.setState({ loadingWidget: false }); }
@@ -45,15 +44,15 @@ class LayoutEmbedDataset extends PureComponent {
     const { dataset, loadingDataset, loadingWidget } = this.state;
     const widgets = dataset && dataset.attributes.widget;
     const metadataObj = dataset && dataset.attributes.metadata[0];
-    const datasetName = metadataObj && metadataObj.attributes.info ?
-      metadataObj.attributes.info.name : dataset && dataset.attributes.name;
-    const datasetDescription = metadataObj && metadataObj.attributes ?
-      metadataObj.attributes.description : dataset && dataset.attributes.description;
+    const datasetName = metadataObj && metadataObj.attributes.info
+      ? metadataObj.attributes.info.name : dataset && dataset.attributes.name;
+    const datasetDescription = metadataObj && metadataObj.attributes
+      ? metadataObj.attributes.description : dataset && dataset.attributes.description;
     const isExternal = isLoadedExternally(referer);
     let widget = null;
 
     if (widgets) {
-      widget = widgets.find(value => value.attributes.default === true);
+      widget = widgets.find((value) => value.attributes.default === true);
     }
 
     if (loadingDataset) {

@@ -15,8 +15,8 @@ class JoinCommunity extends PureComponent {
         link: {
           route: '/about/contact-us',
           label: 'Contact us',
-          external: false
-        }
+          external: false,
+        },
       },
       {
         id: 'twitter',
@@ -25,8 +25,8 @@ class JoinCommunity extends PureComponent {
         link: {
           route: 'https://twitter.com/resource_watch',
           label: '@resource_watch',
-          external: true
-        }
+          external: true,
+        },
       },
       {
         id: 'newsletter',
@@ -34,9 +34,9 @@ class JoinCommunity extends PureComponent {
         description: 'Sign up for our newsletter to receive highlights and updates.',
         link: {
           route: '/about/newsletter',
-          label: 'Subscribe'
-        }
-      }
+          label: 'Subscribe',
+        },
+      },
     ];
 
     return (
@@ -44,7 +44,7 @@ class JoinCommunity extends PureComponent {
         <aside className="l-postcontent">
           <div className="l-container">
             <div className="row">
-              {cards.map(card => (
+              {cards.map((card) => (
                 <div key={card.id} className="column small-12 medium-4 large-4 c-card-column">
                   <CardApp
                     title={card.title}
@@ -65,7 +65,10 @@ class JoinCommunity extends PureComponent {
               <div className="column small-12">
                 <Banner className="-text-center" bgImage="/static/images/backgrounds/bg-partner-maryland.jpg">
                   <p className="-claim">
-                    Let&rsquo;s build a more sustainable<br /> world together.
+                    Let&rsquo;s build a more sustainable
+                    <br />
+                    {' '}
+                    world together.
                   </p>
                   <Link to="about_partners">
                     <a className="c-btn -primary -alt">Partners</a>

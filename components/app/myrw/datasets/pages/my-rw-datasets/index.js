@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // actions
-import { setFilters, setPaginationPage, setOrderDirection, getDatasetsByTab } from 'redactions/admin/datasets';
+import {
+  setFilters, setPaginationPage, setOrderDirection, getDatasetsByTab,
+} from 'redactions/admin/datasets';
 
 import MyRWDatasetsMy from './my-rw-datasets-component';
 
@@ -11,7 +13,7 @@ class MyRWDatasetsMyContainer extends PureComponent {
   static propTypes = {
     subtab: PropTypes.string,
     setFilters: PropTypes.func,
-    setPaginationPage: PropTypes.func
+    setPaginationPage: PropTypes.func,
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -29,27 +31,27 @@ class MyRWDatasetsMyContainer extends PureComponent {
         {...this.props}
         routes={{
           index: 'myrw',
-          detail: 'myrw_detail'
+          detail: 'myrw_detail',
         }}
       />
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
   subtab: state.routes.query.subtab,
   orderDirection: state.datasets.datasets.orderDirection,
   filters: state.datasets.datasets.filters,
   pagination: state.datasets.datasets.pagination,
-  routes: state.routes
+  routes: state.routes,
 });
 
 const mapDispatchToProps = {
   setFilters,
   setPaginationPage,
   setOrderDirection,
-  getDatasetsByTab
+  getDatasetsByTab,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyRWDatasetsMyContainer);

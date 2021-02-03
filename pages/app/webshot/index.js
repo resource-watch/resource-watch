@@ -1,4 +1,3 @@
-
 import { PureComponent } from 'react';
 
 // utils
@@ -15,10 +14,10 @@ class Webshot extends PureComponent {
       params: { application: process.env.APPLICATIONS },
       transformResponse: [].concat(
         WRIAPI.defaults.transformResponse,
-        ({ data }) => data
-      )
+        ({ data }) => data,
+      ),
     })
-      .then(response => WRISerializer(response))
+      .then((response) => WRISerializer(response))
       .then((widget) => {
         const { widgetConfig } = widget;
         const { type } = widgetConfig;

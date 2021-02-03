@@ -8,14 +8,14 @@ import GetInvolvedComponent from './get-involved-component';
 
 // Mandatory
 export {
-  actions, reducers, initialState
+  actions, reducers, initialState,
 };
 
 export default connect(
-  state => ({
+  (state) => ({
     // Store
     getInvolvedIndex: state.getInvolvedIndex,
-    user: state.user
+    user: state.user,
   }),
-  actions
+  actions,
 )(GetInvolvedComponent);

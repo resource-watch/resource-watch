@@ -6,31 +6,31 @@ export default {
   userSelection: {
     area: null,
     frequency: null,
-    datasets: []
+    datasets: [],
   },
   areas: {
     list: [],
     loading: false,
-    error: null
+    error: null,
   },
   userAreas: {
     list: [],
     loading: false,
-    error: null
+    error: null,
   },
   subscriptionCreation: {
     success: false,
     loading: false,
-    error: null
+    error: null,
   },
   datasets: {
     list: [],
     loading: false,
-    error: null
+    error: null,
   },
   preview: {
     list: [],
     loading: false,
-    error: null
-  }
+    error: null,
+  },
 };

@@ -10,6 +10,7 @@
     "@mapbox/mapbox-gl-draw": "^1.1.2",
     "@mapbox/mapbox-gl-sync-move": "^0.3.0",
     "@math.gl/web-mercator": "^3.3.1",
+    "@vizzuality/wysiwyg": "^3.0.0",
     "@widget-editor/renderer": "^2.5.5",
     "@widget-editor/rw-adapter": "^2.5.5",
     "@widget-editor/widget-editor": "^2.5.5",
@@ -17,6 +18,7 @@
     "@zeit/next-sass": "^1.0.1",
     "autoprefixer": "^9.4.2",
     "axios": "^0.18.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "basic-auth": "1.1.0",
     "bcrypt": "^3.0.2",
     "better-npm-run": "^0.1.1",
@@ -53,6 +55,7 @@
     "next-redux-wrapper": "^2.0.0",
     "next-routes": "^1.4.2",
     "nextjs-sitemap-generator": "^1.1.1",
+    "node-sass": "^5.0.0",
     "normalize.css": "7.0.0",
     "nuka-carousel": "^4.4.0",
     "numeral": "^2.0.6",
@@ -113,21 +116,21 @@
     "three": "0.83.0",
     "use-debounce": "^2.1.0",
     "vega-lib": "^4.4.0",
-    "vizz-wysiwyg": "^2.1.2",
     "vizzuality-components": "^3.0.3",
     "whatwg-fetch": "2.0.2",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-eslint": "^10.1.0",
-    "babel-preset-env": "1.6.0",
+    "@babel/cli": "^7.12.13",
+    "@babel/eslint-parser": "^7.12.13",
+    "@babel/eslint-plugin": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
     "cssnano": "^4.1.10",
-    "eslint": "5.16.0",
+    "eslint": "^7.19.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-import-resolver-babel-module": "^5.1.2",
     "eslint-plugin-babel": "^5.3.1",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.21.1",
     "eslint-plugin-react-hooks": "3.0.0",
@@ -138,12 +141,15 @@
   },
   "scripts": {
     "test": "yarn lint",
-    "lint": "eslint .",
+    "lint": "eslint . --ext .js,.jsx",
     "dev": "node $NODE_DEBUG_OPTION index.js",
     "build": "better-npm-run build",
     "start": "better-npm-run start",
     "bundle-analyzer": "better-npm-run bundle-analyzer",
     "sitemap": "better-npm-run sitemap"
+  },
+  "engines": {
+    "node": ">=14.15"
   },
   "husky": {
     "hooks": {
@@ -179,8 +185,5 @@
     "sitemap": {
       "command": "node next-sitemap.js"
     }
-  },
-  "engines": {
-    "node": "8.x.x"
   }
 }

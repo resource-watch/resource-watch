@@ -10,7 +10,7 @@ class DatasetsIndex extends PureComponent {
         <DatasetsTable
           routes={{
             index: 'admin_data',
-            detail: 'admin_data_detail'
+            detail: 'admin_data_detail',
           }}
         />
       </div>

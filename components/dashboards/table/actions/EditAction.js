@@ -30,7 +30,7 @@ class EditAction extends React.Component {
 
 EditAction.propTypes = {
   data: PropTypes.object,
-  action: PropTypes.object
+  action: PropTypes.object,
 };
 
 export default EditAction;

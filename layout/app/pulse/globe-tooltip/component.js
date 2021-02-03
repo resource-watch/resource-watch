@@ -9,10 +9,20 @@ class GlobeTooltip extends React.Component {
     if (val.type === 'url') {
       return (
         <div>
-          <strong>{val.key}</strong>: <a href={val.value} target="_blank">{val.value}</a>
-        </div>);
+          <strong>{val.key}</strong>
+          :
+          <a href={val.value} target="_blank">{val.value}</a>
+        </div>
+      );
     } else { // eslint-disable-line no-else-return
-      return <div><strong>{val.key}</strong>: {val.value}</div>;
+      return (
+        <div>
+          <strong>{val.key}</strong>
+          :
+          {' '}
+          {val.value}
+        </div>
+      );
     }
   }
 
@@ -28,12 +38,13 @@ class GlobeTooltip extends React.Component {
         onClick={this.handleClick}
       >
         {this.props.value.map(
-          val =>
-            (<div
+          (val) => (
+            <div
               key={val.key}
             >
               {this.getContent(val)}
-            </div>)
+            </div>
+          ),
         )}
       </div>
     );
@@ -42,7 +53,7 @@ class GlobeTooltip extends React.Component {
 
 GlobeTooltip.propTypes = {
   // Define the chart data
-  value: PropTypes.array.isRequired
+  value: PropTypes.array.isRequired,
 };
 
 export default GlobeTooltip;
