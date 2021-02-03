@@ -27,7 +27,6 @@
     "react/jsx-filename-extension": "warn",
     "react/jsx-props-no-spreading": "off",
     "react-hooks/exhaustive-deps": "warn",
-    "react-hooks/rules-of-hooks": "error",
     "react-hooks/rules-of-hooks": "error"
   },
   "parser": "@babel/eslint-parser",
