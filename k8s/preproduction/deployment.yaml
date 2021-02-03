@@ -68,7 +68,7 @@ spec:
                 secretKeyRef:
                   key: RW_PREPROD_AUTH_PASSWORD
                   name: appsecrets
-          image: vizzuality/resource-watch
+          image: gfwdockerhub/resource-watch
           imagePullPolicy: Always
           name: resource-watch-preproduction
           ports:
