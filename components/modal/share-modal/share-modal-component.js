@@ -22,12 +22,12 @@ class ShareModalComponent extends PureComponent {
       facebook: PropTypes.func.isRequired,
       twitter: PropTypes.func.isRequired,
       email: PropTypes.func.isRequired,
-      copy: PropTypes.func.isRequired
+      copy: PropTypes.func.isRequired,
     }),
 
     // Actions
     fetchShortUrl: PropTypes.func,
-    resetShortLinks: PropTypes.func
+    resetShortLinks: PropTypes.func,
   };
 
   static defaultProps = {
@@ -37,8 +37,8 @@ class ShareModalComponent extends PureComponent {
       facebook: () => {},
       twitter: () => {},
       email: () => {},
-      copy: () => {}
-    }
+      copy: () => {},
+    },
   };
 
   constructor(props) {
@@ -74,8 +74,8 @@ class ShareModalComponent extends PureComponent {
       this.setState({
         copied: {
           ...this.state.copied,
-          [type]: true
-        }
+          [type]: true,
+        },
       });
 
       this.props.analytics.copy(type);
@@ -84,8 +84,8 @@ class ShareModalComponent extends PureComponent {
         this.setState({
           copied: {
             ...this.state.copied,
-            [type]: false
-          }
+            [type]: false,
+          },
         });
       }, 1000);
     } catch (err) {
@@ -147,7 +147,7 @@ class ShareModalComponent extends PureComponent {
                         <a
                           className="c-btn -secondary -compressed -square"
                           href={`https://twitter.com/share?url=${url}&text=${encodeURIComponent(
-                            document.title
+                            document.title,
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"

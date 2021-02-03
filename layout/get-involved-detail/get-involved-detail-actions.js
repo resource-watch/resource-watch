@@ -11,7 +11,7 @@ const lookup = {
   'app-review-guidelines': 'app-review-guidelines',
   'partner-application-guidelines': 'partner-application-guidelines',
   'data-policy': 'data-policy',
-  'apps': 'app-gallery'
+  apps: 'app-gallery',
 };
 
 // Actions
@@ -21,7 +21,7 @@ export const setStaticDataError = createAction('GET-INVOLVED-DETAIL/setStaticDat
 
 export const fetchStaticData = createThunkAction(
   'GET-INVOLVED-DETAIL/fetchStaticData',
-  payload => (dispatch) => {
+  (payload) => (dispatch) => {
     dispatch(setStaticDataLoading(true));
     dispatch(setStaticDataError(null));
 
@@ -39,4 +39,5 @@ export const fetchStaticData = createThunkAction(
         dispatch(setStaticDataLoading(false));
         dispatch(setStaticDataError(err));
       });
-});
+  },
+);

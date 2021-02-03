@@ -10,7 +10,7 @@ class Button extends React.Component {
 
     onClick: PropTypes.func,
     onMouseOver: PropTypes.func,
-    onMouseOut: PropTypes.func
+    onMouseOut: PropTypes.func,
   };
 
   constructor(props) {
@@ -38,9 +38,10 @@ class Button extends React.Component {
     this.props.onMouseOut(e);
   }
 
-
   render() {
-    const { children, properties, onClick, onMouseOver, onMouseOut, disabled } = this.props;
+    const {
+      children, properties, onClick, onMouseOver, onMouseOut, disabled,
+    } = this.props;
 
     if (disabled) {
       return (

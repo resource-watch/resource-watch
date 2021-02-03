@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const pages = state => state.pages.pages.list;
-const filters = state => state.pages.pages.filters;
+const pages = (state) => state.pages.pages.list;
+const filters = (state) => state.pages.pages.filters;
 
 /**
  * Return the pages that comply with the filters

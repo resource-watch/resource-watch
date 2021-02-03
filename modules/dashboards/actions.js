@@ -13,7 +13,7 @@ export const getFeaturedDashboards = createThunkAction('DASHBOARDS__GET-FEATURED
   () => (dispatch) => {
     const params = {
       published: 'true',
-      'is-featured': true
+      'is-featured': true,
     };
 
     dispatch(setLoading({ key: 'featured', value: true }));
@@ -35,7 +35,7 @@ export const getHighlightedDashboards = createThunkAction('DASHBOARDS__GET-HIGHL
     const params = {
       published: 'true',
       'is-highlighted': true,
-      includes: 'user'
+      includes: 'user',
     };
 
     dispatch(setLoading({ key: 'highlighted', value: true }));
@@ -56,7 +56,7 @@ export const getPublishedDashboards = createThunkAction('DASHBOARDS__GET-PUBLISH
   () => (dispatch) => {
     const params = {
       'filter[published]': 'true',
-      includes: 'user'
+      includes: 'user',
     };
 
     dispatch(setLoading({ key: 'published', value: true }));
@@ -74,7 +74,7 @@ export const getPublishedDashboards = createThunkAction('DASHBOARDS__GET-PUBLISH
   });
 
 export const getDashboard = createThunkAction('DASHBOARDS__GET-DASHBOARD',
-  id => (dispatch) => {
+  (id) => (dispatch) => {
     if (!id) throw new Error('A dashboard ID is mandatory to perform this action.');
     dispatch(setLoading({ key: 'detail', value: true }));
     dispatch(setError({ key: 'detail', value: null }));
@@ -96,5 +96,5 @@ export default {
   setLoading,
   setError,
   getPublishedDashboards,
-  getDashboard
+  getDashboard,
 };

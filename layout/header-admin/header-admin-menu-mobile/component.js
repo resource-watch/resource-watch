@@ -13,7 +13,7 @@ class AdminHeaderMenuMobile extends PureComponent {
   static propTypes = {
     header: PropTypes.object.isRequired,
     routes: PropTypes.object.isRequired,
-    setMobileOpened: PropTypes.func.isRequired
+    setMobileOpened: PropTypes.func.isRequired,
   }
 
   componentDidUpdate() {
@@ -26,7 +26,7 @@ class AdminHeaderMenuMobile extends PureComponent {
     const {
       header: { mobileOpened },
       routes: { pathname },
-      setMobileOpened
+      setMobileOpened,
     } = this.props;
     const classNames = classnames({ '-opened': mobileOpened });
 
@@ -64,7 +64,8 @@ class AdminHeaderMenuMobile extends PureComponent {
                     key={item.label}
                     className={activeClassName}
                   >
-                    {item.route &&
+                    {item.route
+                      && (
                       <h2>
                         <Link
                           route={item.route}
@@ -73,35 +74,40 @@ class AdminHeaderMenuMobile extends PureComponent {
                           <a>{item.label}</a>
                         </Link>
                       </h2>
-                    }
+                      )}
 
-                    {item.href &&
+                    {item.href
+                      && (
                       <a href={item.href}>
                         {item.label}
-                      </a>}
+                      </a>
+                      )}
 
-                    {item.children &&
+                    {item.children
+                      && (
                       <ul>
-                        {item.children.map(c => (
+                        {item.children.map((c) => (
                           <li key={c.route || c.href}>
-                            {!!c.route &&
+                            {!!c.route
+                              && (
                               <Link
                                 route={c.route}
                                 params={c.params}
                               >
                                 <a>{c.label}</a>
                               </Link>
-                            }
+                              )}
 
-                            {!!c.href &&
+                            {!!c.href
+                              && (
                               <a href={c.href}>
                                 {c.label}
                               </a>
-                            }
+                              )}
                           </li>
-                         ))}
+                        ))}
                       </ul>
-                    }
+                      )}
                   </li>
                 );
               })}

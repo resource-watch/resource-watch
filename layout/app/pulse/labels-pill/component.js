@@ -12,7 +12,7 @@ class LayerPillComponent extends PureComponent {
       'c-button': true,
       '-secondary': !labelsLayerActive,
       '-primary': labelsLayerActive,
-      '-active': labelsLayerActive
+      '-active': labelsLayerActive,
     });
 
     return (
@@ -33,7 +33,7 @@ LayerPillComponent.propTypes = {
   label: PropTypes.string.isRequired,
   // Store
   labelsPulse: PropTypes.object.isRequired,
-  toggleLabelsLayer: PropTypes.func.isRequired
+  toggleLabelsLayer: PropTypes.func.isRequired,
 };
 
 export default LayerPillComponent;

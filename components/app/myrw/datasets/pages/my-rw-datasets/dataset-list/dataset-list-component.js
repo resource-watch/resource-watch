@@ -17,7 +17,7 @@ class DatasetsList extends PureComponent {
     loading: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
     subtab: PropTypes.string,
-    getDatasetsByTab: PropTypes.func.isRequired
+    getDatasetsByTab: PropTypes.func.isRequired,
   };
 
   handleDatasetDelete = (dataset) => {
@@ -36,8 +36,8 @@ class DatasetsList extends PureComponent {
               getDatasetsByTab(subtab);
             })
             .catch(({ message }) => toastr.error('Error deleting the dataset', message));
-        }
-      }
+        },
+      },
     );
   };
 
@@ -49,7 +49,7 @@ class DatasetsList extends PureComponent {
         {loading && <Spinner className="-light" isLoading={loading} />}
 
         <div className="l-row row list -equal-height">
-          {datasets.map(dataset => (
+          {datasets.map((dataset) => (
             <div className="column list-item small-12 medium-4" key={dataset.id}>
               <DatasetsListCard
                 dataset={dataset}
@@ -62,12 +62,12 @@ class DatasetsList extends PureComponent {
           <div className="no-data-div">
             {!!filters.length && `Your search '${filters[0].value}' didn't return any results`}
           </div>
-          )}
-        {!datasets.length &&
-          !loading &&
-          !filters.length && (
+        )}
+        {!datasets.length
+          && !loading
+          && !filters.length && (
             <div className="no-data-div">There are no datasets added in this collection yet</div>
-          )}
+        )}
 
         <div className="c-button-container -j-center c-field-buttons">
           <Link route="explore">

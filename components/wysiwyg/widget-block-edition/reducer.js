@@ -7,7 +7,7 @@ import {
   SET_PAGES,
   SET_PAGE_SIZE,
   SET_TOTAL,
-  SET_SEARCH
+  SET_SEARCH,
 } from './actions';
 
 export default (state, { type, payload }) => {

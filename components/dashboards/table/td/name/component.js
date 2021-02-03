@@ -6,7 +6,7 @@ class NameTD extends PureComponent {
   static propTypes = {
     row: PropTypes.object.isRequired,
     value: PropTypes.string.isRequired,
-    index: PropTypes.string.isRequired
+    index: PropTypes.string.isRequired,
   }
 
   render() {

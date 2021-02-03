@@ -8,10 +8,10 @@ export const EXPLORE_CARDS = [
         text: 'Launch Planet Pulse',
         path: '/data/pulse',
         anchor: true,
-        className: '-primary'
-      }
+        className: '-primary',
+      },
     ],
-    background: 'url(/static/images/homepage/home-data-bg4.png) 67% center'
+    background: 'url(/static/images/homepage/home-data-bg4.png) 67% center',
   },
   {
     tag: 'Explore Data',
@@ -21,10 +21,10 @@ export const EXPLORE_CARDS = [
       {
         text: 'Explore data',
         path: 'explore',
-        className: '-primary'
-      }
+        className: '-primary',
+      },
     ],
-    background: 'url(/static/images/homepage/home-data-bg1.png)'
+    background: 'url(/static/images/homepage/home-data-bg1.png)',
   },
   {
     tag: 'Dashboards',
@@ -36,10 +36,10 @@ export const EXPLORE_CARDS = [
         path: '/myrw/dashboards',
         anchor: true,
         loginRequired: 'Log in to create a dashboard',
-        className: '-primary'
-      }
+        className: '-primary',
+      },
     ],
-    background: 'url(/static/images/homepage/home-data-bg2.png)'
+    background: 'url(/static/images/homepage/home-data-bg2.png)',
   },
   {
     tag: 'Alerts',
@@ -51,11 +51,11 @@ export const EXPLORE_CARDS = [
         path: '/myrw/areas',
         anchor: true,
         loginRequired: 'Log in to sign up for alerts',
-        className: '-primary'
-      }
+        className: '-primary',
+      },
     ],
-    background: 'url(/static/images/homepage/home-data-bg3.png) 67% center'
-  }
+    background: 'url(/static/images/homepage/home-data-bg3.png) 67% center',
+  },
 ];
 
 export default { EXPLORE_CARDS };

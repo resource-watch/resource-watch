@@ -9,7 +9,7 @@ export const setLoading = createAction('STATIC-PAGES__SET-LOADING');
 export const setError = createAction('STATIC-PAGES__SET-ERROR');
 
 export const getStaticPage = createThunkAction('STATIC-PAGES__GET-STATIC-PAGE',
-  page => (dispatch) => {
+  (page) => (dispatch) => {
     dispatch(setLoading({ key: page, value: true }));
     dispatch(setError(true));
 
@@ -28,5 +28,5 @@ export default {
   setContentPage,
   setLoading,
   setError,
-  getStaticPage
+  getStaticPage,
 };

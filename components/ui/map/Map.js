@@ -32,7 +32,7 @@ if (typeof window !== 'undefined') {
         const tileSize = this.getTileSize();
         tile.style.width = `${tileSize.x + 1}px`;
         tile.style.height = `${tileSize.y + 1}px`;
-      }
+      },
     });
   }());
 }
@@ -42,9 +42,9 @@ const MAP_CONFIG = {
   minZoom: 2,
   latLng: {
     lat: 30,
-    lng: -120
+    lng: -120,
   },
-  zoomControl: true
+  zoomControl: true,
 };
 
 const VOID = () => {};
@@ -78,7 +78,7 @@ class Map extends React.Component {
     onMapParams: PropTypes.func,
     setLayerInteraction: PropTypes.func,
     setLayerInteractionSelected: PropTypes.func,
-    setLayerInteractionLatLng: PropTypes.func
+    setLayerInteractionLatLng: PropTypes.func,
   };
 
   static defaultProps = {
@@ -110,18 +110,18 @@ class Map extends React.Component {
     onMapParams: VOID,
     setLayerInteraction: VOID,
     setLayerInteractionSelected: VOID,
-    setLayerInteractionLatLng: VOID
+    setLayerInteractionLatLng: VOID,
   };
 
   state = {
     loading: false,
-    mapHasInvalidState: false
+    mapHasInvalidState: false,
   }
 
   componentDidMount() {
     this.hasBeenMounted = true;
 
-    const mapOptions = Object.assign({}, MAP_CONFIG, this.props.mapConfig || {});
+    const mapOptions = { ...MAP_CONFIG, ...this.props.mapConfig || {} };
 
     if (!this.mapNode) return;
 
@@ -148,7 +148,9 @@ class Map extends React.Component {
     if (this.props.canDraw) {
       this.editableLayers = new L.FeatureGroup();
 
-      const DRAW_SHAPE_STYLES = { fillOpacity: 0.2, weight: 3, opacity: 1, color: '#FAB72E' };
+      const DRAW_SHAPE_STYLES = {
+        fillOpacity: 0.2, weight: 3, opacity: 1, color: '#FAB72E',
+      };
 
       this.drawConfig = {
         position: 'topright',
@@ -158,24 +160,24 @@ class Map extends React.Component {
             shapeOptions: DRAW_SHAPE_STYLES,
             icon: new L.DivIcon({
               iconSize: new L.Point(10, 10),
-              className: 'leaflet-div-icon leaflet-editing-icon c-map__draw--icon'
-            })
+              className: 'leaflet-div-icon leaflet-editing-icon c-map__draw--icon',
+            }),
           },
           polyline: false,
           circle: false,
           rectangle: false,
           marker: false,
-          circlemarker: false
+          circlemarker: false,
         },
         edit: {
           polygon: {
             showArea: true,
-            shapeOptions: DRAW_SHAPE_STYLES
+            shapeOptions: DRAW_SHAPE_STYLES,
           },
           featureGroup: this.editableLayers,
           edit: false,
-          remove: true
-        }
+          remove: true,
+        },
       };
 
       this.drawControl = new L.Control.Draw(this.drawConfig);
@@ -214,8 +216,8 @@ class Map extends React.Component {
     this.setLayerManager();
 
     const layers = this.props.layerGroups
-      .filter(l => l.visible)
-      .map(l => l.layers.find(la => la.active));
+      .filter((l) => l.visible)
+      .map((l) => l.layers.find((la) => la.active));
 
     this.addLayers(layers, this.props.filters);
 
@@ -237,30 +239,30 @@ class Map extends React.Component {
     const oldlayerGroups = this.props.layerGroups;
     const nextLayerGroups = nextProps.layerGroups;
 
-    const oldLayers = oldlayerGroups.map(l => l.layers.find(la => la.active));
-    const nextLayers = nextLayerGroups.map(l => l.layers.find(la => la.active));
+    const oldLayers = oldlayerGroups.map((l) => l.layers.find((la) => la.active));
+    const nextLayers = nextLayerGroups.map((l) => l.layers.find((la) => la.active));
     const unionLayers = new Set([...oldLayers, ...nextLayers]);
 
-    const oldLayersIds = oldLayers.map(l => l.id);
-    const nextLayersIds = nextLayers.map(l => l.id);
+    const oldLayersIds = oldLayers.map((l) => l.id);
+    const nextLayersIds = nextLayers.map((l) => l.id);
 
     // Check if the interactions updated in admin,
     // if so, we need to update the interaction for that layer
-    if (!isEqual(this.props.availableInteractions, nextProps.availableInteractions) &&
-        nextLayers.length === 1) {
+    if (!isEqual(this.props.availableInteractions, nextProps.availableInteractions)
+        && nextLayers.length === 1) {
       this.removeLayers(oldLayers);
 
-      const modifyInteractionConfig = Object.assign(
-        {},
-        nextLayers[0].interactionConfig,
-        { output: nextProps.availableInteractions }
-      );
+      const modifyInteractionConfig = {
 
-      const addInteractionConfigToLayer = Object.assign(
-        {},
-        nextLayers[0],
-        { interactionConfig: modifyInteractionConfig }
-      );
+        ...nextLayers[0].interactionConfig,
+        output: nextProps.availableInteractions,
+      };
+
+      const addInteractionConfigToLayer = {
+
+        ...nextLayers[0],
+        interactionConfig: modifyInteractionConfig,
+      };
 
       this.addLayers([addInteractionConfigToLayer]);
     }
@@ -268,9 +270,9 @@ class Map extends React.Component {
     if (oldLayersIds.length !== nextLayersIds.length) {
       // Test whether old & new layers are the same
       unionLayers.forEach((layer) => {
-        if (!oldLayersIds.find(id => id === layer.id)) {
+        if (!oldLayersIds.find((id) => id === layer.id)) {
           this.addLayers([layer]);
-        } else if (!nextLayersIds.find(id => id === layer.id)) {
+        } else if (!nextLayersIds.find((id) => id === layer.id)) {
           this.removeLayers([layer]);
         }
       });
@@ -282,11 +284,10 @@ class Map extends React.Component {
     } else {
       // Set layer opacity
       if (!isEqual(
-        oldlayerGroups.map(d => d.opacity),
-        nextLayerGroups.map(d => d.opacity)
+        oldlayerGroups.map((d) => d.opacity),
+        nextLayerGroups.map((d) => d.opacity),
       )) {
-        const layers = nextLayerGroups.map(lg =>
-          ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
+        const layers = nextLayerGroups.map((lg) => ({ ...lg.layers.find((l) => l.active), opacity: lg.opacity, visible: lg.visible }));
 
         this.layerManager.setOpacity(layers);
 
@@ -298,11 +299,10 @@ class Map extends React.Component {
 
       // Set layer visibility
       if (!isEqual(
-        oldlayerGroups.map(d => d.visible),
-        nextLayerGroups.map(d => d.visible)
+        oldlayerGroups.map((d) => d.visible),
+        nextLayerGroups.map((d) => d.visible),
       )) {
-        const layers = nextLayerGroups.map(lg =>
-          ({ ...lg.layers.find(l => l.active), opacity: lg.opacity, visible: lg.visible }));
+        const layers = nextLayerGroups.map((lg) => ({ ...lg.layers.find((l) => l.active), opacity: lg.opacity, visible: lg.visible }));
 
         this.layerManager.setVisibility(layers);
 
@@ -320,9 +320,9 @@ class Map extends React.Component {
       // Set layer active
       if (!isEqual(oldLayersIds, nextLayersIds)) {
         unionLayers.forEach((layer) => {
-          if (!oldLayersIds.find(id => id === layer.id)) {
+          if (!oldLayersIds.find((id) => id === layer.id)) {
             this.addLayers([layer]);
-          } else if (!nextLayersIds.find(id => id === layer.id)) {
+          } else if (!nextLayersIds.find((id) => id === layer.id)) {
             this.removeLayers([layer]);
           }
         });
@@ -347,7 +347,7 @@ class Map extends React.Component {
     // LOCATION
     if (!isEqual(
       this.props.location,
-      nextProps.location
+      nextProps.location,
     )) {
       if (!isEqual(this.props.location.bbox, nextProps.location.bbox)) {
         this.fitBounds({ bbox: nextProps.location.bbox });
@@ -360,7 +360,7 @@ class Map extends React.Component {
       if (this.props.location.lat !== nextProps.location.lng) {
         this.map.setView(
           [nextProps.location.lat, nextProps.location.lng],
-          nextProps.location.zoom
+          nextProps.location.zoom,
         );
       }
     }
@@ -370,15 +370,14 @@ class Map extends React.Component {
       this.setBoundaries(nextProps.boundaries);
     }
 
-
     // INTERACTION
     if (
-      nextProps.interactionLatLng &&
-      (
+      nextProps.interactionLatLng
+      && (
         // interactionSelected changed
         (// interaction changed
-          this.props.interactionSelected !== nextProps.interactionSelected || !isEmpty(nextProps.interaction) &&
-        !isEqual(this.props.interaction, nextProps.interaction))
+          this.props.interactionSelected !== nextProps.interactionSelected || !isEmpty(nextProps.interaction)
+        && !isEqual(this.props.interaction, nextProps.interaction))
       )
     ) {
       const popupContainer = document.createElement('div');
@@ -387,16 +386,15 @@ class Map extends React.Component {
         <LayerPopup
           interaction={nextProps.interaction}
           interactionSelected={nextProps.interactionSelected}
-          interactionLayers={compact(nextLayerGroups.map(g =>
-            g.layers.find(l => l.active && !isEmpty(l.interactionConfig))))}
+          interactionLayers={compact(nextLayerGroups.map((g) => g.layers.find((l) => l.active && !isEmpty(l.interactionConfig))))}
           onChangeInteractiveLayer={this.props.setLayerInteractionSelected}
         />,
-        popupContainer
+        popupContainer,
       );
 
       this.popup = this.popup || L.popup({
         maxWidth: 400,
-        minWidth: 240
+        minWidth: 240,
       });
 
       this.popup
@@ -435,7 +433,7 @@ class Map extends React.Component {
       this.setState({ loading: false });
 
       // Set the zIndex after each layer add
-      const layers = this.props.layerGroups.map(l => l.layers.find(la => la.active));
+      const layers = this.props.layerGroups.map((l) => l.layers.find((la) => la.active));
       this.layerManager.setZIndex(layers);
       this.layerManager.setVisibility(layers);
       this.layerManager.setOpacity(layers);
@@ -450,7 +448,7 @@ class Map extends React.Component {
           this.props.setLayerInteractionLatLng(layer.latlng);
         }
         if (this.props.setLayerInteraction) this.props.setLayerInteraction(layer);
-      }
+      },
     });
   }
 
@@ -512,7 +510,7 @@ class Map extends React.Component {
   getMapParams() {
     const params = {
       zoom: this.getZoom(),
-      latLng: this.getCenter()
+      latLng: this.getCenter(),
     };
 
     return params;
@@ -547,21 +545,20 @@ class Map extends React.Component {
 
     if (same) {
       layers.forEach((layer, key) => {
-        same = !same ||
-          !isEqual(layer.interactionConfig, nextLayers[key].interactionConfig);
+        same = !same
+          || !isEqual(layer.interactionConfig, nextLayers[key].interactionConfig);
       });
     }
 
     return same;
   }
 
-
   fitBounds({ bbox, geometry }) {
     let bounds;
     if (bbox) {
       bounds = [
         [bbox[1], bbox[0]],
-        [bbox[3], bbox[2]]
+        [bbox[3], bbox[2]],
       ];
     }
 
@@ -606,11 +603,11 @@ class Map extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   basemap: state.explore.map.basemap,
   labels: state.explore.map.labels,
   boundaries: state.explore.map.boundaries,
-  sidebar: state.explore.sidebar
+  sidebar: state.explore.sidebar,
 });
 
 export default connect(mapStateToProps, null)(Map);

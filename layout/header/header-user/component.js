@@ -12,7 +12,7 @@ class HeaderUser extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
     header: PropTypes.object.isRequired,
-    setDropdownOpened: PropTypes.func.isRequired
+    setDropdownOpened: PropTypes.func.isRequired,
   }
 
   logout(e) {
@@ -34,8 +34,10 @@ class HeaderUser extends PureComponent {
 
   render() {
     const {
-      user: { token, photo, role, email },
-      header: { dropdownOpened }
+      user: {
+        token, photo, role, email,
+      },
+      header: { dropdownOpened },
     } = this.props;
 
     if (token) {
@@ -55,15 +57,17 @@ class HeaderUser extends PureComponent {
                 onMouseEnter={() => this.toggleDropdown(true)}
                 onMouseLeave={() => this.toggleDropdown(false)}
               >
-                {(!photo && email) &&
-                  <span className="avatar-letter" >
+                {(!photo && email)
+                  && (
+                  <span className="avatar-letter">
                     {email.split('')[0]}
                   </span>
-                }
+                  )}
               </a>
             </Link>
             {/* Second child: If present, this item will be tethered to the the first child */}
-            {dropdownOpened.myrw &&
+            {dropdownOpened.myrw
+              && (
               <div
                 onMouseEnter={() => this.toggleDropdown(true)}
                 onMouseLeave={() => this.toggleDropdown(false)}
@@ -98,7 +102,7 @@ class HeaderUser extends PureComponent {
                       route="myrw"
                       params={{
                         tab: 'datasets',
-                        subtab: 'my_datasets'
+                        subtab: 'my_datasets',
                       }}
                     >
                       <a>Datasets</a>
@@ -109,7 +113,7 @@ class HeaderUser extends PureComponent {
                       route="myrw"
                       params={{
                         tab: 'widgets',
-                        subtab: 'my_widgets'
+                        subtab: 'my_widgets',
                       }}
                     >
                       <a>Visualizations</a>
@@ -122,19 +126,20 @@ class HeaderUser extends PureComponent {
                       <a>Profile</a>
                     </Link>
                   </li>
-                  {role === 'ADMIN' &&
+                  {role === 'ADMIN'
+                    && (
                     <li className="header-dropdown-list-item">
                       <Link route="admin_home">
                         <a>Admin</a>
                       </Link>
                     </li>
-                  }
+                    )}
                   <li className="header-dropdown-list-item">
                     <a onClick={this.logout} href="/logout">Logout</a>
                   </li>
                 </ul>
               </div>
-            }
+              )}
           </TetherComponent>
         </div>
       );
@@ -148,7 +153,8 @@ class HeaderUser extends PureComponent {
             className="-medium user-icon"
           />
         </a>
-      </Link>);
+      </Link>
+    );
   }
 }
 

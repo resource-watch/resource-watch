@@ -7,7 +7,7 @@ import { Link } from 'routes';
 import { logEvent } from 'utils/analytics';
 
 const CompoundMenu = ({ items = [] }) => {
-  const menuItems = items.map(submenu => (
+  const menuItems = items.map((submenu) => (
     <div className="c-compound-menu-item" key={submenu[0].label}>
       <ul className="submenu">
         {submenu.map((item, j) => { // eslint-disable-line arrow-body-style
@@ -31,7 +31,7 @@ const CompoundMenu = ({ items = [] }) => {
                   if (item.logEvent) {
                     logEvent('Menu link clicked', item.label);
                   }
-              }}
+                }}
               >
                 {item.label}
               </a>
@@ -69,7 +69,7 @@ const CompoundMenu = ({ items = [] }) => {
 
 CompoundMenu.propTypes = {
   /* Array of arrays */
-  items: PropTypes.array
+  items: PropTypes.array,
 };
 
 export default CompoundMenu;

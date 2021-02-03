@@ -10,7 +10,7 @@ import './styles.scss';
 
 function RelatedContent(props) {
   const { datasets: { list, loading }, setSelectedDataset } = props;
-  
+
   return (
     <div className="c-related-content">
       <h3>Related content</h3>
@@ -26,7 +26,7 @@ function RelatedContent(props) {
           className="c-button -secondary"
           onClick={() => setSelectedDataset(null)}
         >
-            See all datasets
+          See all datasets
         </button>
       </div>
     </div>
@@ -35,7 +35,7 @@ function RelatedContent(props) {
 
 RelatedContent.propTypes = {
   datasets: PropTypes.array.isRequired,
-  setSelectedDataset: PropTypes.func.isRequired
+  setSelectedDataset: PropTypes.func.isRequired,
 };
 
 export default RelatedContent;

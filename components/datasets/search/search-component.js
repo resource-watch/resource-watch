@@ -24,7 +24,7 @@ class SearchComponent extends React.Component {
     onChangeTextSearch: PropTypes.func,
     onToggleSelected: PropTypes.func,
     onChangeSelected: PropTypes.func,
-    onResetSelected: PropTypes.func
+    onResetSelected: PropTypes.func,
   };
 
   constructor(props) {
@@ -35,16 +35,16 @@ class SearchComponent extends React.Component {
     this.fuse = new Fuse(list, {
       keys: [{
         name: 'label',
-        weight: 0.6
+        weight: 0.6,
       }, {
         name: 'synonyms',
-        weight: 0.3
+        weight: 0.3,
       }, {
         name: 'id',
-        weight: 0.1
+        weight: 0.1,
       }],
       threshold: 0.2,
-      minMatchCharLength: 2
+      minMatchCharLength: 2,
     });
   }
 
@@ -52,9 +52,8 @@ class SearchComponent extends React.Component {
     index: 0,
     value: '',
     filteredList: [],
-    groupedFilteredList: {}
+    groupedFilteredList: {},
   }
-
 
   // UI EVENTS:
   // - onScreenClick
@@ -109,7 +108,7 @@ class SearchComponent extends React.Component {
           index: 0,
           value: '',
           filteredList: [],
-          groupedFilteredList: {}
+          groupedFilteredList: {},
         });
         if (this.input) this.input.blur();
       }
@@ -133,8 +132,7 @@ class SearchComponent extends React.Component {
     const { value, index, groupedFilteredList } = this.state;
 
     if (index !== 0) {
-      const filteredList = flatten(Object.keys(groupedFilteredList).map(g =>
-        groupedFilteredList[g]));
+      const filteredList = flatten(Object.keys(groupedFilteredList).map((g) => groupedFilteredList[g]));
 
       const tag = filteredList[index - 1];
 
@@ -149,7 +147,6 @@ class SearchComponent extends React.Component {
   onListItemMouseOver = (index) => {
     this.setState({ index });
   }
-
 
   onChangeSearch = (e) => {
     const { value } = e.currentTarget;
@@ -166,7 +163,7 @@ class SearchComponent extends React.Component {
       const exactMatch2 = b.label.toLowerCase() === value.toLowerCase();
       if (exactMatch1) {
         return -1;
-      } else if (exactMatch2) {
+      } if (exactMatch2) {
         return 1;
       }
       return index1 > index2;
@@ -179,7 +176,7 @@ class SearchComponent extends React.Component {
       index: Object.keys(newGroupFilteredList).length > 0 ? 1 : 0,
       value,
       filteredList,
-      groupedFilteredList: newGroupFilteredList
+      groupedFilteredList: newGroupFilteredList,
     });
   }
 
@@ -195,7 +192,7 @@ class SearchComponent extends React.Component {
           <button
             className={classnames({
               'search-icon': true,
-              '-search': true
+              '-search': true,
             })}
           >
             <Icon name="icon-search" className="-small" />
@@ -205,7 +202,7 @@ class SearchComponent extends React.Component {
             ref={(c) => { this.input = c; }}
             className={classnames({
               'search-input': true,
-              '-open': open
+              '-open': open,
             })}
             type="search"
             placeholder="Search datasets"
@@ -215,14 +212,20 @@ class SearchComponent extends React.Component {
         </div>
 
         {/* Dropdown search */}
-        {open && value &&
+        {open && value
+          && (
           <div className="search-dropdown">
             <div className="search-dropdown-list">
-              {Object.keys(groupedFilteredList).map(g => (
+              {Object.keys(groupedFilteredList).map((g) => (
                 <div className="search-dropdown-list-item" key={g}>
-                  {!!g && g.toLowerCase &&
-                    <h4>Filter by {g.toLowerCase()}:</h4>
-                  }
+                  {!!g && g.toLowerCase
+                    && (
+                    <h4>
+                      Filter by
+                      {g.toLowerCase()}
+                      :
+                    </h4>
+                    )}
 
                   <ul className="list-item-results">
                     {groupedFilteredList[g].map((l) => {
@@ -270,7 +273,7 @@ class SearchComponent extends React.Component {
               </div>
             </div>
           </div>
-        }
+          )}
       </div>
 
     );

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 // actions
 import {
   getAllPartners,
-  setFilters
+  setFilters,
 } from 'modules/partners/actions';
 
 // selectors
@@ -13,12 +13,12 @@ import { getFilteredPartners } from './selectors';
 import AdminPartnersTable from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     ...state.partners.all,
-    list: getFilteredPartners(state)
+    list: getFilteredPartners(state),
   }),
   {
     getAllPartners,
-    setFilters
-  }
+    setFilters,
+  },
 )(AdminPartnersTable);

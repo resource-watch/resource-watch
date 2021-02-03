@@ -5,9 +5,9 @@ import * as actions from 'layout/explore/actions';
 import ExploreDatasetsHeaderComponent from './explore-datasets-header-component';
 
 export default connect(
-  state => ({
+  (state) => ({
     ...state.explore.datasets,
-    responsive: state.responsive
+    responsive: state.responsive,
   }),
-  actions
+  actions,
 )(ExploreDatasetsHeaderComponent);

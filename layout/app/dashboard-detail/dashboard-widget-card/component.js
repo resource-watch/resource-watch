@@ -19,13 +19,13 @@ import CollectionsPanel from 'components/collections-panel';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 import ErrorBoundary from 'components/ui/error-boundary';
-import RankingWidget from './ranking-widget';
 
 // utils
 import { logEvent } from 'utils/analytics';
 
 // hooks
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
+import RankingWidget from './ranking-widget';
 
 // Styles
 import './styles.scss';
@@ -45,8 +45,8 @@ function DashboardWidgetCard(props) {
     isInACollection,
   } = useBelongsToCollection(widget.id, user.token);
   const widgetType = widget && widget.type;
-  const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0 &&
-    widget.metadata[0].info)) || {};
+  const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0
+    && widget.metadata[0].info)) || {};
 
   const widgetLinks = metadataInfo.widgetLinks || [];
   const { caption } = metadataInfo;
@@ -101,13 +101,13 @@ function DashboardWidgetCard(props) {
                   <ShareModal
                     links={{
                       link: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
-                      embed: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`
+                      embed: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
                     }}
                     analytics={{
                       facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
                       twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
                       email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
-                      copy: type => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`)
+                      copy: (type) => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`),
                     }}
                   />
                 </Modal>
@@ -116,10 +116,12 @@ function DashboardWidgetCard(props) {
               <li>
                 <LoginRequired>
                   <Tooltip
-                    overlay={<CollectionsPanel
-                      resource={widget}
-                      resourceType="widget"
-                    />}
+                    overlay={(
+                      <CollectionsPanel
+                        resource={widget}
+                        resourceType="widget"
+                      />
+)}
                     overlayClassName="c-rc-tooltip"
                     overlayStyle={{ color: '#fff' }}
                     placement="bottomLeft"
@@ -152,12 +154,13 @@ function DashboardWidgetCard(props) {
       <ErrorBoundary message="There was an error loading the visualization">
         <div className={classNameWidgetContainer}>
           <Spinner isLoading={loading} className="-light -small" />
-          {widgetType === 'text' && widget &&
+          {widgetType === 'text' && widget
+            && (
             <TextChart
               widgetConfig={widgetConfig}
-              toggleLoading={loading => onToggleLoading(loading)}
+              toggleLoading={(loading) => onToggleLoading(loading)}
             />
-          }
+            )}
 
           {widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking && (
             <Renderer
@@ -168,38 +171,39 @@ function DashboardWidgetCard(props) {
             />
           )}
 
-          {widgetIsEmbed &&
+          {widgetIsEmbed
+            && (
             <iframe
               title={widget.name}
               src={widgetEmbedUrl}
               width="100%"
-              height={!!explicitHeight ? `${explicitHeight}px` : '100%'}
+              height={explicitHeight ? `${explicitHeight}px` : '100%'}
               frameBorder="0"
             />
-          }
+            )}
 
-          {widgetIsRanking &&
-            <RankingWidget widgetConfig={widgetConfig} />
-          }
+          {widgetIsRanking
+            && <RankingWidget widgetConfig={widgetConfig} />}
 
-          {infoCardOpen &&
+          {infoCardOpen
+            && (
             <div className="widget-modal">
-              {widget && !widget.description &&
-                <p>No additional information is available</p>
-              }
+              {widget && !widget.description
+                && <p>No additional information is available</p>}
 
               {widget && widget.description && (
-                <div>
-                  <h4>Description</h4>
-                  <p>{widget.description}</p>
-                </div>
+              <div>
+                <h4>Description</h4>
+                <p>{widget.description}</p>
+              </div>
               )}
 
-              {widgetLinks.length > 0 &&
+              {widgetLinks.length > 0
+                && (
                 <div className="widget-links-container">
                   <h4>Links</h4>
                   <ul>
-                    {widgetLinks.map(link => (
+                    {widgetLinks.map((link) => (
                       <li>
                         <a
                           href={link.link}
@@ -212,23 +216,24 @@ function DashboardWidgetCard(props) {
                     ))}
                   </ul>
                 </div>
-              }
+                )}
             </div>
-          }
+            )}
         </div>
-        {caption &&
+        {caption
+          && (
           <div className="caption-container">
             {caption}
           </div>
-        }
+          )}
       </ErrorBoundary>
     </div>
   );
-};
+}
 
 DashboardWidgetCard.defaultProps = {
   loading: false,
-  explicitHeight: null
+  explicitHeight: null,
 };
 
 DashboardWidgetCard.propTypes = {
@@ -238,6 +243,5 @@ DashboardWidgetCard.propTypes = {
   explicitHeight: PropTypes.number,
   RWAdapter: PropTypes.func.isRequired,
 };
-
 
 export default DashboardWidgetCard;

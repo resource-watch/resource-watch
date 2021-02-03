@@ -26,20 +26,20 @@ class Step1 extends PureComponent {
     basic: PropTypes.bool,
     user: PropTypes.object.isRequired,
     mode: PropTypes.string,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     form: {},
     basic: false,
-    mode: 'new'
+    mode: 'new',
   }
 
   state = {
     form: {
       ...this.props.form,
-      content: TEMPLATES[0].content
-    }
+      content: TEMPLATES[0].content,
+    },
   };
 
   componentDidMount() {
@@ -74,7 +74,7 @@ class Step1 extends PureComponent {
           {/* NAME */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-            onChange={value => this.props.onChange({ name: value })}
+            onChange={(value) => this.props.onChange({ name: value })}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -82,7 +82,7 @@ class Step1 extends PureComponent {
               label: 'Name',
               type: 'text',
               required: true,
-              default: this.state.form.name
+              default: this.state.form.name,
             }}
           >
             {Input}
@@ -91,13 +91,13 @@ class Step1 extends PureComponent {
           {/* SUMMARY */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.summary = c; }}
-            onChange={value => this.props.onChange({ summary: value })}
+            onChange={(value) => this.props.onChange({ summary: value })}
             className="-fluid"
             properties={{
               name: 'summary',
               label: 'Summary',
               rows: '6',
-              default: this.state.form.summary
+              default: this.state.form.summary,
             }}
           >
             {TextArea}
@@ -106,13 +106,13 @@ class Step1 extends PureComponent {
           {/* DESCRIPTION */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-            onChange={value => this.props.onChange({ description: value })}
+            onChange={(value) => this.props.onChange({ description: value })}
             className="-fluid"
             properties={{
               name: 'description',
               label: 'Description',
               rows: '6',
-              default: this.state.form.description
+              default: this.state.form.description,
             }}
           >
             {TextArea}
@@ -137,7 +137,7 @@ class Step1 extends PureComponent {
                     label: 'Photo',
                     placeholder: 'Browse file',
                     baseUrl: process.env.STATIC_SERVER_URL,
-                    default: this.state.form.photo
+                    default: this.state.form.photo,
                   }}
                 >
                   {FileImage}
@@ -147,12 +147,13 @@ class Step1 extends PureComponent {
           </div>
 
           {/* PUBLISHED */}
-          {!this.props.basic &&
+          {!this.props.basic
+            && (
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-              onChange={value => this.props.onChange({
+              onChange={(value) => this.props.onChange({
                 published: value.checked,
-                private: !value.checked
+                private: !value.checked,
               })}
               properties={{
                 name: 'published',
@@ -160,82 +161,86 @@ class Step1 extends PureComponent {
                 value: 'published',
                 title: 'Published',
                 defaultChecked: this.props.form.published,
-                checked: this.props.form.published
+                checked: this.props.form.published,
               }}
             >
               {Checkbox}
             </Field>
-          }
+            )}
 
-          {!this.props.basic &&
+          {!this.props.basic
+            && (
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements.preproduction = c; }}
-              onChange={value => this.props.onChange({ preproduction: value.checked })}
+              onChange={(value) => this.props.onChange({ preproduction: value.checked })}
               properties={{
                 name: 'preproduction',
                 label: 'Do you want to set this dashboard as pre-production?',
                 value: 'preproduction',
                 title: 'Pre-production',
                 defaultChecked: this.props.form.preproduction,
-                checked: this.props.form.preproduction
+                checked: this.props.form.preproduction,
               }}
             >
               {Checkbox}
             </Field>
-          }
+            )}
 
-          {!this.props.basic &&
+          {!this.props.basic
+            && (
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements.production = c; }}
-              onChange={value => this.props.onChange({ production: value.checked })}
+              onChange={(value) => this.props.onChange({ production: value.checked })}
               properties={{
                 name: 'production',
                 label: 'Do you want to set this dashboard as production?',
                 value: 'production',
                 title: 'Production',
                 defaultChecked: this.props.form.production,
-                checked: this.props.form.production
+                checked: this.props.form.production,
               }}
             >
               {Checkbox}
             </Field>
-          }
+            )}
 
           {/* IS-HIGHLIGHTED */}
-          {!this.props.basic &&
+          {!this.props.basic
+            && (
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements['is-highlighted'] = c; }}
-              onChange={value => this.props.onChange({ 'is-highlighted': value.checked })}
+              onChange={(value) => this.props.onChange({ 'is-highlighted': value.checked })}
               properties={{
                 name: 'is-highlighted',
                 label: 'Highlight in Dashboards gallery',
                 value: 'is-highlighted',
                 title: 'Is highlighted',
                 defaultChecked: this.props.form['is-highlighted'],
-                checked: this.props.form['is-highlighted']
+                checked: this.props.form['is-highlighted'],
               }}
             >
               {Checkbox}
             </Field>
-          }
+            )}
 
           {/* IS-FEATURED */}
-          {!this.props.basic &&
+          {!this.props.basic
+            && (
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements['is-featured'] = c; }}
-              onChange={value => this.props.onChange({ 'is-featured': value.checked })}
+              onChange={(value) => this.props.onChange({ 'is-featured': value.checked })}
               properties={{
                 name: 'is-featured',
                 label: 'Add to Featured dashboards',
                 value: 'is-featured',
                 title: 'Featured',
                 defaultChecked: this.props.form['is-featured'],
-                checked: this.props.form['is-featured']
+                checked: this.props.form['is-featured'],
               }}
             >
               {Checkbox}
             </Field>
-          }
+            )}
         </fieldset>
 
         <fieldset className="c-field-container">
@@ -246,7 +251,7 @@ class Step1 extends PureComponent {
           {/* CONTENT */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.content = c; }}
-            onChange={value => this.props.onChange({ content: value })}
+            onChange={(value) => this.props.onChange({ content: value })}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -260,10 +265,10 @@ class Step1 extends PureComponent {
                   EditionComponent: WidgetBlockEdition,
                   icon: 'icon-widget',
                   label: 'Visualization',
-                  renderer: 'modal'
-                }
+                  renderer: 'modal',
+                },
               },
-              onUploadImage: files => new Promise((resolve, reject) => {
+              onUploadImage: (files) => new Promise((resolve, reject) => {
                 const file = files[0];
                 const formData = new FormData();
                 formData.append('image', file);
@@ -271,9 +276,9 @@ class Step1 extends PureComponent {
                 fetch(`${process.env.WRI_API_URL}/temporary_content_image`, {
                   method: 'POST',
                   headers: { Authorization: this.props.user.token },
-                  body: formData
+                  body: formData,
                 })
-                  .then(response => response.json())
+                  .then((response) => response.json())
                   .then((response) => {
                     resolve(response.url);
                   })
@@ -281,7 +286,7 @@ class Step1 extends PureComponent {
                     toastr.error('Error', 'We couldn\'t upload the image. Try again');
                     reject(e);
                   });
-              })
+              }),
             }}
           >
             {Wysiwyg}

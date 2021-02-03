@@ -21,17 +21,17 @@ import {
   setDataset,
   setDatasetLoading,
   setTags,
-  setTagsLoading
+  setTagsLoading,
 } from './actions';
 
 const ExploreDetailContainer = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { 
+  const {
     datasetID,
     anchor,
     onDatasetLoaded,
     layerGroups,
-    toggleMapLayerGroup
+    toggleMapLayerGroup,
   } = props;
 
   useEffect(() => {
@@ -39,13 +39,12 @@ const ExploreDetailContainer = (props) => {
       dispatch(setDatasetLoading(true));
       dispatch(setTagsLoading(true));
 
-      fetchDataset(datasetID, 
-        { 
+      fetchDataset(datasetID,
+        {
           includes: 'metadata,layer,vocabulary,widget',
           application: process.env.APPLICATIONS,
-          env: process.env.API_ENV
-        }
-        )
+          env: process.env.API_ENV,
+        })
         .then((data) => {
           dispatch(setDataset(data));
           dispatch(setDatasetLoading(false));
@@ -60,7 +59,7 @@ const ExploreDetailContainer = (props) => {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
 
-          // Set default layer as active when Explore Detail has been 
+          // Set default layer as active when Explore Detail has been
           // directly loaded from the URL (no user navigation involved)
           const datasetHasLayers = data.layer.length > 0;
           if (layerGroups.length === 0 && datasetHasLayers) {
@@ -68,14 +67,13 @@ const ExploreDetailContainer = (props) => {
           }
 
           // Load tags
-          const knowledgeGraphVoc = data.vocabulary && data.vocabulary.find(v => v.name === 'knowledge_graph');
+          const knowledgeGraphVoc = data.vocabulary && data.vocabulary.find((v) => v.name === 'knowledge_graph');
           const tags = knowledgeGraphVoc && knowledgeGraphVoc.tags;
           if (tags) {
             fetchInferredTags({ concepts: tags.join(',') })
               .then((inferredTags) => {
-                dispatch(setTags(inferredTags.filter(tag =>
-                  tag.labels.find(type => type === 'TOPIC' || type === 'GEOGRAPHY') &&
-                  !TAGS_BLACKLIST.includes(tag.id))));
+                dispatch(setTags(inferredTags.filter((tag) => tag.labels.find((type) => type === 'TOPIC' || type === 'GEOGRAPHY')
+                  && !TAGS_BLACKLIST.includes(tag.id))));
                 dispatch(setTagsLoading(false));
               })
               .catch((error) => {
@@ -92,7 +90,6 @@ const ExploreDetailContainer = (props) => {
     }
   }, [anchor, datasetID]);
 
-
   useEffect(() => {
     const element = document.getElementById(anchor);
     if (element) {
@@ -104,21 +101,22 @@ const ExploreDetailContainer = (props) => {
     <ExploreDetailComponent
       {...state}
       {...props}
-    />);
+    />
+  );
 };
 
 ExploreDetailContainer.propTypes = {
   datasetID: PropTypes.string.isRequired,
   anchor: PropTypes.string.isRequired,
-  onDatasetLoaded: PropTypes.func.isRequired
+  onDatasetLoaded: PropTypes.func.isRequired,
 };
 
 export default connect(
-  state => ({
+  (state) => ({
     // Store
     datasetID: state.explore.datasets.selected,
     anchor: state.explore.sidebar.anchor,
-    layerGroups: state.explore.map.layerGroups
+    layerGroups: state.explore.map.layerGroups,
   }),
-  actions
+  actions,
 )(ExploreDetailContainer);

@@ -18,5 +18,4 @@ class AttributionRequirementsPage extends PureComponent {
   }
 }
 
-
 export default AttributionRequirementsPage;

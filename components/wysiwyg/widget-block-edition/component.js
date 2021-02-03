@@ -23,7 +23,7 @@ class WidgetBlockEdition extends PureComponent {
     page: PropTypes.number.isRequired,
     pages: PropTypes.number.isRequired,
     pageSize: PropTypes.number.isRequired,
-    widgets: PropTypes.array.isRequired
+    widgets: PropTypes.array.isRequired,
   };
 
   render() {
@@ -38,7 +38,7 @@ class WidgetBlockEdition extends PureComponent {
       onChangeTab,
       onChangePage,
       onChangeSearch,
-      onSelectWidget
+      onSelectWidget,
     } = this.props;
 
     return (
@@ -54,7 +54,7 @@ class WidgetBlockEdition extends PureComponent {
                       options={[
                         { label: 'My visualizations', value: 'my-widgets' },
                         { label: 'My favourites', value: 'my-favourites' },
-                        { label: 'All visualizations', value: 'all-widgets' }
+                        { label: 'All visualizations', value: 'all-widgets' },
                       ]}
                       defaultSelected={tab}
                       selected={tab}
@@ -94,7 +94,7 @@ class WidgetBlockEdition extends PureComponent {
                           size: total,
                           page,
                           pages,
-                          limit: pageSize
+                          limit: pageSize,
                         }}
                         onChange={onChangePage}
                       />

@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import LayerInfoModalComponent from './layer-info-modal-component';
 
 export default connect(
-  state => ({
-    embed: state.common.embed
+  (state) => ({
+    embed: state.common.embed,
   }),
-  null
+  null,
 )(LayerInfoModalComponent);

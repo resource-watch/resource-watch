@@ -7,9 +7,9 @@ import { setDropdownOpened } from '../actions';
 import AdminHeaderUser from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     header: state.headerAdmin,
-    user: state.user
+    user: state.user,
   }),
-  { setDropdownOpened }
+  { setDropdownOpened },
 )(AdminHeaderUser);

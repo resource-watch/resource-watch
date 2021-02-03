@@ -16,11 +16,12 @@ class FaqsForm extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = Object.assign({}, STATE_DEFAULT, {
+    this.state = {
+      ...STATE_DEFAULT,
       id: props.id,
       loading: !!props.id,
-      form: STATE_DEFAULT.form
-    });
+      form: STATE_DEFAULT.form,
+    };
 
     // BINDINGS
     this.onSubmit = this.onSubmit.bind(this);
@@ -38,7 +39,7 @@ class FaqsForm extends React.Component {
           this.setState({
             form: this.setFormFromParams(data),
             // Stop the loading
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -80,7 +81,7 @@ class FaqsForm extends React.Component {
   }
 
   onChange(obj) {
-    const form = Object.assign({}, this.state.form, obj);
+    const form = { ...this.state.form, ...obj };
     this.setState({ form });
   }
 
@@ -121,8 +122,8 @@ class FaqsForm extends React.Component {
         }
 
         default: {
-          if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
-              (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+          if ((typeof params[f] !== 'undefined' || params[f] !== null)
+              || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -137,7 +138,7 @@ class FaqsForm extends React.Component {
     const { authorization: token } = this.props;
     const body = new Serializer('faq', {
       keyForAttribute: 'dash-case',
-      attributes: Object.keys(form)
+      attributes: Object.keys(form),
     }).serialize(form);
 
     if (id) {
@@ -170,22 +171,24 @@ class FaqsForm extends React.Component {
       <form className="c-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={this.state.loading} className="-light" />
 
-        {(this.state.step === 1 && !this.state.loading) &&
+        {(this.state.step === 1 && !this.state.loading)
+          && (
           <Step1
-            onChange={value => this.onChange(value)}
+            onChange={(value) => this.onChange(value)}
             form={this.state.form}
             id={this.state.id}
           />
-        }
+          )}
 
-        {!this.state.loading &&
+        {!this.state.loading
+          && (
           <Navigation
             step={this.state.step}
             stepLength={this.state.stepLength}
             submitting={this.state.submitting}
             onStepChange={this.onStepChange}
           />
-        }
+          )}
       </form>
     );
   }
@@ -194,7 +197,7 @@ class FaqsForm extends React.Component {
 FaqsForm.propTypes = {
   authorization: PropTypes.string,
   id: PropTypes.string,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
 };
 
 export default FaqsForm;

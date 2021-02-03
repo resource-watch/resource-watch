@@ -8,8 +8,8 @@ class AlertsTable extends PureComponent {
     alerts: PropTypes.shape({
       title: PropTypes.string.isRequired,
       keys: PropTypes.array.isRequired,
-      data: PropTypes.array
-    }).isRequired
+      data: PropTypes.array,
+    }).isRequired,
   }
 
   render() {
@@ -32,7 +32,8 @@ class AlertsTable extends PureComponent {
                 {(keys || []).map((_key, o) => (
                   <th key={`${_key}-${o}`}>
                     {_key}
-                  </th>))}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -41,10 +42,13 @@ class AlertsTable extends PureComponent {
                   {(keys || []).map((k, x) => (
                     <td className="preview-table-element" key={`${row[k]}-${x}`}>
                       {row[k]}
-                    </td>))}
-                </tr>))}
+                    </td>
+                  ))}
+                </tr>
+              ))}
             </tbody>
-          </table>)}
+          </table>
+        )}
       </div>
     );
   }

@@ -9,7 +9,7 @@ const AVAILABLE_DATE_RANGES = [
       .utc(),
     end: moment().utc(),
     label: 'past week',
-    duration: 24 * 7
+    duration: 24 * 7,
   },
   {
     start: moment()
@@ -17,7 +17,7 @@ const AVAILABLE_DATE_RANGES = [
       .utc(),
     end: moment().utc(),
     label: 'past 72 hours',
-    duration: 72
+    duration: 72,
   },
   {
     start: moment()
@@ -25,7 +25,7 @@ const AVAILABLE_DATE_RANGES = [
       .utc(),
     end: moment().utc(),
     label: 'past 48 hours',
-    duration: 48
+    duration: 48,
   },
   {
     start: moment()
@@ -33,8 +33,8 @@ const AVAILABLE_DATE_RANGES = [
       .utc(),
     end: moment().utc(),
     label: 'past 24 hours',
-    duration: 24
-  }
+    duration: 24,
+  },
 ];
 
 export function getRangeForDates(dates, range) {
@@ -75,9 +75,9 @@ export const formatDate = (date, format = 'YYYY-MM-DD') => {
   return compact([year, month, day]).join('-');
 };
 
-export const getYear = date => new Date(date).getUTCFullYear();
+export const getYear = (date) => new Date(date).getUTCFullYear();
 
-export const getDayOfYear = date => new Date(date).getDate();
+export const getDayOfYear = (date) => new Date(date).getDate();
 
 export const formatDatePretty = (date, dateFormat = 'YYYY-MM-DD') => {
   const d = new Date(date);
@@ -95,7 +95,7 @@ export const formatDatePretty = (date, dateFormat = 'YYYY-MM-DD') => {
     'SEPT',
     'OCT',
     'NOV',
-    'DEC'
+    'DEC',
   ];
   let day = d.getDate().toString();
   const month = d.getMonth();

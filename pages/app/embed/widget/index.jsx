@@ -12,7 +12,7 @@ class EmbedWidgetPage extends PureComponent {
     const { dispatch, getState } = store;
     const {
       routes: { query: { id, webshot } },
-      user
+      user,
     } = getState();
 
     dispatch(setEmbed(true));

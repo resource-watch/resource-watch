@@ -10,7 +10,7 @@ class WidgetActionsTooltip extends PureComponent {
     onShareEmbed: PropTypes.func.isRequired,
     onEditWidget: PropTypes.func.isRequired,
     onDownloadPDF: PropTypes.func.isRequired,
-    onRemove: PropTypes.func.isRequired
+    onRemove: PropTypes.func.isRequired,
   }
 
   static defaultProps = { widgetLinks: [] }
@@ -36,7 +36,7 @@ class WidgetActionsTooltip extends PureComponent {
       onShareEmbed,
       onDownloadPDF,
       onRemove,
-      toggleTooltip
+      toggleTooltip,
     } = this.props;
 
     switch (action) {
@@ -97,14 +97,16 @@ class WidgetActionsTooltip extends PureComponent {
               </button>
             </li>
           )}
-          {widgetLinks.map(link => (
+          {widgetLinks.map((link) => (
             <li>
               <a
                 href={link.link}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Go to {link.name}
+                Go to
+                {' '}
+                {link.name}
               </a>
             </li>
           ))}

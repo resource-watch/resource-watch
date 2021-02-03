@@ -22,7 +22,7 @@ class LayoutEmbedEmbed extends PureComponent {
       url,
       user,
       getWidget,
-      checkIfFavorited
+      checkIfFavorited,
     } = this.props;
 
     getWidget(url.query.id);
@@ -35,9 +35,8 @@ class LayoutEmbedEmbed extends PureComponent {
 
     return (
       <div className="widget-modal">
-        {!description &&
-          <p>No additional information is available</p>
-        }
+        {!description
+          && <p>No additional information is available</p>}
 
         {description && (
           <div>
@@ -66,7 +65,7 @@ class LayoutEmbedEmbed extends PureComponent {
       description,
       dataset,
       id,
-      widgetConfig
+      widgetConfig,
     } = widget;
 
     if (loading) {
@@ -152,13 +151,14 @@ class LayoutEmbedEmbed extends PureComponent {
             </div>
           </div>
           <div className="widget-content">
-            { !modalOpened &&
+            { !modalOpened
+              && (
               <iframe
                 title={name}
                 src={widgetConfig.url}
                 frameBorder="0"
               />
-            }
+              )}
             {modalOpened && this.getModal()}
           </div>
           {isExternal && (

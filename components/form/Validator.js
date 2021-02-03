@@ -9,7 +9,7 @@ class Validator {
         },
         message() {
           return 'The field is required';
-        }
+        },
       },
 
       email: {
@@ -19,7 +19,7 @@ class Validator {
         },
         message() {
           return 'The field should be an email';
-        }
+        },
       },
 
       url: {
@@ -29,16 +29,16 @@ class Validator {
         },
         message() {
           return 'The field should be an url: http://example.com';
-        }
+        },
       },
 
       unique: {
         validate(value, condition, data) {
-          return data.filter(d => d[condition] === value).length <= 1;
+          return data.filter((d) => d[condition] === value).length <= 1;
         },
         message(condition) {
           return `${condition} fields can not have the same value`;
-        }
+        },
       },
 
       min: {
@@ -47,7 +47,7 @@ class Validator {
         },
         message(condition) {
           return `The field should be greater than ${condition}`;
-        }
+        },
       },
 
       max: {
@@ -56,12 +56,12 @@ class Validator {
         },
         message(condition) {
           return `The field should be lower than ${condition}`;
-        }
+        },
       },
       equal: {
         validate(value, condition, data) { return value === data; },
-        message(message) { return message; }
-      }
+        message(message) { return message; },
+      },
     };
   }
 
@@ -84,7 +84,7 @@ class Validator {
 
       return {
         valid,
-        error: (!valid) ? { message } : null
+        error: (!valid) ? { message } : null,
       };
     });
   }

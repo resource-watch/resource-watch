@@ -34,7 +34,7 @@ class ToolsTable extends PureComponent {
     filteredTools: PropTypes.array.isRequired,
     error: PropTypes.string,
     getTools: PropTypes.func.isRequired,
-    setFilters: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired,
   };
 
   state = { pagination: INITIAL_PAGINATION }
@@ -55,8 +55,8 @@ class ToolsTable extends PureComponent {
         ...pagination,
         size: nextTools.length,
         ...(toolsChanged && { page: 1 }),
-        pages: Math.ceil(nextTools.length / pagination.limit)
-      }
+        pages: Math.ceil(nextTools.length / pagination.limit),
+      },
     });
   }
 
@@ -78,8 +78,8 @@ class ToolsTable extends PureComponent {
     this.setState({
       pagination: {
         ...pagination,
-        page
-      }
+        page,
+      },
     });
   }
 
@@ -105,7 +105,10 @@ class ToolsTable extends PureComponent {
         <Spinner className="-light" isLoading={this.props.loading} />
 
         {this.props.error && (
-          <p>Error: {this.props.error}</p>
+          <p>
+            Error:
+            {this.props.error}
+          </p>
         )}
 
         <SearchInput
@@ -113,7 +116,7 @@ class ToolsTable extends PureComponent {
           link={{
             label: 'New tool',
             route: 'admin_tools_detail',
-            params: { tab: 'tools', id: 'new' }
+            params: { tab: 'tools', id: 'new' },
           }}
           onSearch={this.onSearch}
         />
@@ -123,18 +126,22 @@ class ToolsTable extends PureComponent {
             columns={[
               { label: 'Name', value: 'title', td: TitleTD },
               { label: 'Role', value: 'role', td: RoleTD },
-              { label: 'Published', value: 'published', td: PublishedTD }
+              { label: 'Published', value: 'published', td: PublishedTD },
             ]}
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_tools_detail', params: { tab: 'tools', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_tools_detail', params: { tab: 'tools', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
-              ]
+                {
+                  name: 'Edit', route: 'admin_tools_detail', params: { tab: 'tools', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
+                },
+                {
+                  name: 'Remove', route: 'admin_tools_detail', params: { tab: 'tools', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization },
+                },
+              ],
             }}
             sort={{
               field: 'title',
-              value: 1
+              value: 1,
             }}
             filters={false}
             data={filteredTools}
@@ -149,15 +156,15 @@ class ToolsTable extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.tools.loading,
   tools: state.tools.list,
   filteredTools: getFilteredTools(state),
-  error: state.tools.error
+  error: state.tools.error,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getTools: () => dispatch(getTools()),
-  setFilters: filters => dispatch(setFilters(filters))
+  setFilters: (filters) => dispatch(setFilters(filters)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ToolsTable);

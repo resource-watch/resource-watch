@@ -2,19 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-function Banner({ styles = {}, overlay, useBackground = true, className, bgImage, viel, children }) {
-  const classNamesProps = classNames({ 
+function Banner({
+  styles = {}, overlay, useBackground = true, className, bgImage, viel, children,
+}) {
+  const classNamesProps = classNames({
     'c-banner': true,
     '-light': true,
     '-use-background': useBackground,
     '-overlay': overlay,
-    [className]: className
+    [className]: className,
   });
 
   if (styles && bgImage) {
     styles.backgroundImage = `url(${bgImage})`;
   }
-
 
   return (
     <section
@@ -35,7 +36,7 @@ Banner.propTypes = {
   className: PropTypes.string,
   styles: PropTypes.object,
   viel: PropTypes.bool,
-  useBackground: PropTypes.bool
+  useBackground: PropTypes.bool,
 };
 
 export default Banner;

@@ -18,13 +18,14 @@ function Intro({ title = '', intro = '', styles = {} }) {
           <div className="column small-12 medium-8 medium-offset-2">
             <h1 className="c-text -header-big -thin -dark">{title}</h1>
             <p className="c-text -huge -italic">
-              {!isIntroString ?
-                intro.map((line, i) => (
+              {!isIntroString
+                ? intro.map((line, i) => (
                   <span key={i}>
-                    {line}{(i !== intro.length - 1) && <br /> }
-                  </span>)) :
-                intro
-              }
+                    {line}
+                    {(i !== intro.length - 1) && <br /> }
+                  </span>
+                ))
+                : intro}
             </p>
           </div>
         </div>
@@ -36,7 +37,7 @@ function Intro({ title = '', intro = '', styles = {} }) {
 Intro.propTypes = {
   title: PropTypes.string.isRequired,
   intro: PropTypes.any,
-  styles: PropTypes.object
+  styles: PropTypes.object,
 };
 
 export default Intro;

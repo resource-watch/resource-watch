@@ -6,14 +6,14 @@ class NameTD extends PureComponent {
   static propTypes = {
     row: PropTypes.object.isRequired,
     route: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.string.isRequired,
   }
 
   render() {
     const {
       row: { id },
       value,
-      route
+      route,
     } = this.props;
 
     return (
@@ -22,7 +22,7 @@ class NameTD extends PureComponent {
           route={route}
           params={{
             tab: 'datasets',
-            id
+            id,
           }}
         >
           <a>{value}</a>

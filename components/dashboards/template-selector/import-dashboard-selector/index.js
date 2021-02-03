@@ -3,9 +3,9 @@ import { getFeaturedDashboards } from 'modules/dashboards/actions';
 import importSelector from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
-    dashboards: state.dashboards.featured.list
+    dashboards: state.dashboards.featured.list,
   }),
-  { getFeaturedDashboards }
+  { getFeaturedDashboards },
 )(importSelector);

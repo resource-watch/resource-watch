@@ -14,7 +14,7 @@ class FormElement extends React.Component {
       // otherwise React will throw a warning
       value: this.props.properties.default || '',
       valid: null,
-      error: []
+      error: [],
     };
 
     // VALIDATOR
@@ -50,7 +50,6 @@ class FormElement extends React.Component {
     }
   }
 
-
   triggerValidate() {
     const { validations: validationsProps } = this.props;
     const { validations: validationsState, value } = this.state;
@@ -66,8 +65,8 @@ class FormElement extends React.Component {
     //       if required validation is present
     if (validations && (isValuePresent || validations.indexOf('required') !== -1)) {
       const validateArr = this.validator.validate(validations, value);
-      valid = validateArr.every(element => element.valid);
-      error = (!valid) ? validateArr.map(element => element.error) : [];
+      valid = validateArr.every((element) => element.valid);
+      error = (!valid) ? validateArr.map((element) => element.error) : [];
     } else {
       valid = (isValuePresent) ? true : null;
       error = [];
@@ -76,7 +75,7 @@ class FormElement extends React.Component {
     // Save the valid and the error in the state
     this.setState({
       valid,
-      error
+      error,
     }, () => {
       if (this.props.onValid) this.props.onValid(valid, error);
     });
@@ -90,7 +89,7 @@ class FormElement extends React.Component {
 FormElement.propTypes = {
   properties: PropTypes.object.isRequired,
   validations: PropTypes.array,
-  onValid: PropTypes.func
+  onValid: PropTypes.func,
 };
 
 export default FormElement;

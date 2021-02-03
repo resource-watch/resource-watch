@@ -16,18 +16,18 @@ class LayerPopup extends React.Component {
     latlng: PropTypes.object,
     popup: PropTypes.object,
     data: PropTypes.object,
-    onChangeInteractiveLayer: PropTypes.func.isRequired
+    onChangeInteractiveLayer: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     latlng: {},
     popup: {},
-    data: {}
+    data: {},
   };
 
   state = {
     loading: true,
-    interaction: {}
+    interaction: {},
   }
 
   componentDidMount() {
@@ -35,20 +35,20 @@ class LayerPopup extends React.Component {
 
     const {
       layers,
-      layersInteractionSelected
+      layersInteractionSelected,
     } = data;
 
-    const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
+    const layer = layers.find((l) => l.id === layersInteractionSelected) || layers[0];
 
     if (!layer) return false;
 
     const { interactionConfig } = layer;
 
     if (
-      !isEmpty(latlng) &&
-      !!layers.length &&
-      !!interactionConfig.config &&
-      !!interactionConfig.config.url
+      !isEmpty(latlng)
+      && !!layers.length
+      && !!interactionConfig.config
+      && !!interactionConfig.config.url
     ) {
       fetch(replace(interactionConfig.config.url, latlng))
         .then((response) => {
@@ -61,10 +61,10 @@ class LayerPopup extends React.Component {
               ...this.state.interaction,
               [layer.id]: {
                 ...layer,
-                data: data[0]
-              }
+                data: data[0],
+              },
             },
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -100,7 +100,7 @@ class LayerPopup extends React.Component {
   render() {
     const {
       data,
-      popup
+      popup,
     } = this.props;
 
     if (!data) return null;
@@ -108,10 +108,10 @@ class LayerPopup extends React.Component {
     const {
       layers,
       layersInteraction,
-      layersInteractionSelected
+      layersInteractionSelected,
     } = data;
 
-    const layer = layers.find(l => l.id === layersInteractionSelected) || layers[0];
+    const layer = layers.find((l) => l.id === layersInteractionSelected) || layers[0];
 
     if (!layer) {
       popup.remove();
@@ -132,15 +132,15 @@ class LayerPopup extends React.Component {
             className="popup-header-select"
             name="interactionLayers"
             value={layer.id}
-            onChange={e => this.props.onChangeInteractiveLayer(e.target.value)}
+            onChange={(e) => this.props.onChangeInteractiveLayer(e.target.value)}
           >
-            {layers.map(o =>
-              <option key={o.id} value={o.id}>{o.name}</option>)}
+            {layers.map((o) => <option key={o.id} value={o.id}>{o.name}</option>)}
           </select>
         </header>
 
         <div className="popup-content">
-          {(interaction.data || interactionState.data) &&
+          {(interaction.data || interactionState.data)
+            && (
             <table className="popup-table">
               <tbody>
                 {output.map((outputItem) => {
@@ -148,37 +148,35 @@ class LayerPopup extends React.Component {
                   const columnArray = column.split('.');
                   const value = columnArray.reduce((acc, c) => acc[c],
                     interaction.data || interactionState.data);
-                    return (
-                      <tr
-                        className="dc"
-                        key={outputItem.property || outputItem.column}
-                      >
-                        <td className="dt">
-                          {outputItem.property || outputItem.column}:
-                        </td>
-                        <td className="dd">{this.formatValue(outputItem, value)}</td>
-                      </tr>
-                    );
-                  }
-              )}
+                  return (
+                    <tr
+                      className="dc"
+                      key={outputItem.property || outputItem.column}
+                    >
+                      <td className="dt">
+                        {outputItem.property || outputItem.column}
+                        :
+                      </td>
+                      <td className="dd">{this.formatValue(outputItem, value)}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
-          }
+            )}
 
-          {this.state.loading && (!interaction.data || !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
+          {this.state.loading && (!interaction.data || !interactionState.data) && interactionConfig.config && interactionConfig.config.url
+            && (
             <div className="popup-loader">
               <Spinner isLoading className="-tiny -inline -pink-color" />
             </div>
-          }
+            )}
 
-          {!this.state.loading && (!interaction.data && !interactionState.data) && interactionConfig.config && interactionConfig.config.url &&
-            'No data available'
-          }
+          {!this.state.loading && (!interaction.data && !interactionState.data) && interactionConfig.config && interactionConfig.config.url
+            && 'No data available'}
 
-
-          {(!interaction.data && !interactionState.data) && (!interactionConfig.config || !interactionConfig.config.url) &&
-            'No data available'
-          }
+          {(!interaction.data && !interactionState.data) && (!interactionConfig.config || !interactionConfig.config.url)
+            && 'No data available'}
         </div>
       </div>
     );

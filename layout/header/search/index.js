@@ -8,13 +8,13 @@ import { setSearchOpened } from '../actions';
 import HeaderSearch from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     header: state.header,
-    search: state.search
+    search: state.search,
   }),
   {
     setSearchOpened,
     setSearchTerm,
-    fetchSearch
-  }
+    fetchSearch,
+  },
 )(HeaderSearch);

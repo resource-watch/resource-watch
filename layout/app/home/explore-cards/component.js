@@ -10,7 +10,7 @@ import { EXPLORE_CARDS } from './constants';
 
 class ExploreCards extends PureComponent {
   render() {
-    return EXPLORE_CARDS.map(c => (
+    return EXPLORE_CARDS.map((c) => (
       <div
         key={`explore-card-${c.title}-${c.tag}`}
         className="column small-12 medium-6"

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import LayersTab from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
-    id: state.routes.query.id
+    id: state.routes.query.id,
   }),
-  null
+  null,
 )(LayersTab);

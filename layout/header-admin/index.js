@@ -9,10 +9,10 @@ import AdminHeader from './component';
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
+  (state) => ({
     pageHeader: true,
     header: state.headerAdmin,
-    responsive: state.responsive
+    responsive: state.responsive,
   }),
-  actions
+  actions,
 )(AdminHeader);

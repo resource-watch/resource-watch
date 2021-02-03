@@ -2,9 +2,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 // components
-import AreasIndex from 'components/app/myrw/areas/pages/index';
-import AreasNew from 'components/app/myrw/areas/pages/new';
-import AreasAlerts from 'components/app/myrw/areas/pages/alerts';
+import AreasIndex from './tabs/index';
+import AreasNew from './tabs/new';
+import AreasAlerts from './tabs/alerts';
 
 const AreasTabs = () => {
   const router = useRouter();

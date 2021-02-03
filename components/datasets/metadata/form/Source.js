@@ -20,12 +20,12 @@ class Source extends React.Component {
     index: Proptypes.number,
     values: Proptypes.object,
     setTmpSources: Proptypes.func,
-    tmpSources: Proptypes.array
+    tmpSources: Proptypes.array,
   };
 
   static defaultProps = {
     values: {},
-    tmpSources: []
+    tmpSources: [],
   };
 
   constructor(props) {
@@ -44,8 +44,8 @@ class Source extends React.Component {
     this.setState({
       values: {
         ...this.state.values,
-        [name]: value
-      }
+        [name]: value,
+      },
     }, () => {
       this.onAddSource(this.state.values, this.props.index);
     });
@@ -84,14 +84,14 @@ class Source extends React.Component {
           <div className="column small-4">
             <Field
               ref={(c) => { if (c) SOURCE_ELEMENTS.elements[`source-name-${index + 1}`] = c; }}
-              onChange={value => this.onChange('source-name', value)}
+              onChange={(value) => this.onChange('source-name', value)}
               validations={['url']}
               properties={{
                 name: 'source-name',
                 label: 'Source',
                 type: 'text',
                 default: values['source-name'] || '',
-                value: values['source-name'] || ''
+                value: values['source-name'] || '',
               }}
             >
               {Input}
@@ -101,14 +101,14 @@ class Source extends React.Component {
           <div className="column small-5">
             <Field
               ref={(c) => { if (c) SOURCE_ELEMENTS.elements[`source-description-${index + 1}`] = c; }}
-              onChange={value => this.onChange('source-description', value)}
+              onChange={(value) => this.onChange('source-description', value)}
               validations={[]}
               properties={{
                 name: 'source-description',
                 label: 'Description',
                 type: 'text',
                 default: values['source-description'] || '',
-                value: values['source-description'] || ''
+                value: values['source-description'] || '',
               }}
             >
               {Input}

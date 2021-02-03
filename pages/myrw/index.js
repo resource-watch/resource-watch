@@ -22,5 +22,5 @@ class MyRWPage extends PureComponent {
 
 export default connect(
   null,
-  { getUserAreas }
+  { getUserAreas },
 )(MyRWPage);

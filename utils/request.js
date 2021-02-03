@@ -1,4 +1,6 @@
-function get({ url, headers = [], withCredentials, onSuccess, onError }) {
+function get({
+  url, headers = [], withCredentials, onSuccess, onError,
+}) {
   const request = new XMLHttpRequest();
   request.open('GET', url);
   request.withCredentials = withCredentials;
@@ -26,7 +28,9 @@ function get({ url, headers = [], withCredentials, onSuccess, onError }) {
   return request;
 }
 
-function post({ type, url, body, headers = [], onSuccess, onError, multipart }) {
+function post({
+  type, url, body, headers = [], onSuccess, onError, multipart,
+}) {
   const request = new XMLHttpRequest();
   request.open(type || 'POST', url, true);
   // Set request headers
@@ -58,7 +62,9 @@ function post({ type, url, body, headers = [], onSuccess, onError, multipart }) 
   return request;
 }
 
-function remove({ url, headers = [], onSuccess, onError }) {
+function remove({
+  url, headers = [], onSuccess, onError,
+}) {
   const request = new XMLHttpRequest();
   request.open('DELETE', url);
   // Set request headers

@@ -9,9 +9,9 @@ import initialState from './initial-state';
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
-    responsive: state.responsive
+    responsive: state.responsive,
   }),
-  actions
+  actions,
 )(DatasetListItemComponent);

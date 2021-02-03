@@ -1,14 +1,15 @@
-FROM node:8.14.0-alpine
+FROM node:14.15-alpine
+LABEL maintainer="hello@vizzuality.com"
 
 ARG apiEnv=production
 ARG apiUrl=https://api.resourcewatch.org
 ARG wriApiUrl=https://api.resourcewatch.org/v1
+ARG WRI_API_URL_V2=https://api.resourcewatch.org/v2
 ARG callbackUrl=https://resourcewatch.org/auth
-ARG controlTowerUrl=https://production-api.globalforestwatch.org
+ARG controlTowerUrl=https://api.resourcewatch.org
 ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 ARG RW_MAPBOX_API_TOKEN=not_valid
 ARG RW_FEATURE_FLAG_AREAS_V2=
-ARG WRI_API_URL_V2=https://api.resourcewatch.org/v2
 
 ENV NODE_ENV production
 ENV WRI_API_URL $wriApiUrl
@@ -38,13 +39,12 @@ RUN apk update && apk add --no-cache \
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json yarn.lock /usr/src/app/
-RUN yarn install --frozen-lockfile --no-cache --production
+COPY . .
 
-# Bundle app source
-COPY . /usr/src/app
-RUN yarn run build
+RUN yarn install --frozen-lockfile --production=false
+
+RUN yarn build
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+ENTRYPOINT ["sh", "./entrypoint.sh"]

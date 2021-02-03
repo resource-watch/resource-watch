@@ -24,7 +24,7 @@ class DeleteAction extends React.Component {
           .catch((err) => {
             toastr.error('Error', `The page "${data.id}" - "${data.title}" was not deleted. Try again. ${err}`);
           });
-      }
+      },
     });
   }
 
@@ -40,7 +40,7 @@ class DeleteAction extends React.Component {
 DeleteAction.propTypes = {
   data: PropTypes.object.isRequired,
   authorization: PropTypes.string.isRequired,
-  onRowDelete: PropTypes.func.isRequired
+  onRowDelete: PropTypes.func.isRequired,
 };
 
 export default DeleteAction;

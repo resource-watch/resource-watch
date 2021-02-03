@@ -9,6 +9,5 @@ export default {
   blog: handleModule(blogModule),
   dashboards: handleModule(dashboardsModule),
   partners: handleModule(partnersModule),
-  staticPages: handleModule(staticPagesModules)
+  staticPages: handleModule(staticPagesModules),
 };
-

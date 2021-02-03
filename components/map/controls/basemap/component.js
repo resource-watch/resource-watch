@@ -23,7 +23,7 @@ class BasemapControls extends PureComponent {
     boundaries: PropTypes.bool,
     onChangeBasemap: PropTypes.func,
     onChangeLabels: PropTypes.func,
-    onChangeBoundaries: PropTypes.func
+    onChangeBoundaries: PropTypes.func,
   };
 
   static defaultProps = {
@@ -35,7 +35,7 @@ class BasemapControls extends PureComponent {
     // ACTIONS
     onChangeBasemap: (b) => { console.info(b); },
     onChangeLabels: (l) => { console.info(l); },
-    onChangeBoundaries: (b) => { console.info(b); }
+    onChangeBoundaries: (b) => { console.info(b); },
   };
 
   state = { active: false }
@@ -107,14 +107,15 @@ class BasemapControls extends PureComponent {
           </button>
 
           {/* Second child: If present, this item will be tethered to the the first child */}
-          {active &&
+          {active
+            && (
             <div>
               <RadioGroup
                 options={Object.keys(BASEMAPS).map((k) => {
                   const bs = BASEMAPS[k];
                   return {
                     label: bs.label,
-                    value: bs.id
+                    value: bs.id,
                   };
                 })}
                 name="basemap"
@@ -125,9 +126,9 @@ class BasemapControls extends PureComponent {
               <div className="divisor" />
 
               <RadioGroup
-                options={Object.keys(LABELS).map(k => ({
+                options={Object.keys(LABELS).map((k) => ({
                   label: LABELS[k].label,
-                  value: LABELS[k].id
+                  value: LABELS[k].id,
                 }))}
                 name="labels"
                 properties={{ default: labels.id }}
@@ -141,12 +142,12 @@ class BasemapControls extends PureComponent {
                   name: 'boundaries',
                   title: 'Boundaries',
                   value: 'boundaries',
-                  checked: boundaries
+                  checked: boundaries,
                 }}
                 onChange={this.onBoundariesChange}
               />
             </div>
-          }
+            )}
         </TetherComponent>
       </div>
     );

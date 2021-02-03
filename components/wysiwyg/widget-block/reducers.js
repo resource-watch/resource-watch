@@ -15,9 +15,8 @@ const defaultWidget = {
   // Favourites
   favourite: {},
   favouriteLoading: false,
-  favouriteError: null
+  favouriteError: null,
 };
-
 
 export default {
   [actions.setWidget]: (state, action) => {
@@ -26,7 +25,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      widget: action.payload.value
+      widget: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -37,7 +36,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      widgetLoading: action.payload.value
+      widgetLoading: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -48,7 +47,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      widgetError: action.payload.value
+      widgetError: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -59,7 +58,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      widgetType: action.payload.value
+      widgetType: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -70,7 +69,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      widgetModal: action.payload.value
+      widgetModal: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -88,7 +87,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      layers: action.payload.value
+      layers: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -99,7 +98,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      layersLoading: action.payload.value
+      layersLoading: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -110,7 +109,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      layersError: action.payload.value
+      layersError: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -121,7 +120,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      favourite: action.payload.value
+      favourite: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -132,7 +131,7 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      favouriteLoading: action.payload.value
+      favouriteLoading: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
   },
@@ -143,9 +142,9 @@ export default {
     const widget = {
       ...defaultWidget,
       ...state[action.payload.id],
-      favouriteError: action.payload.value
+      favouriteError: action.payload.value,
     };
     return { ...state, [action.payload.id]: widget };
-  }
+  },
 
 };

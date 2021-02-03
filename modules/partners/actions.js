@@ -3,7 +3,7 @@ import { createAction, createThunkAction } from 'redux-tools';
 // services
 import {
   fetchPartners,
-  fetchPartner
+  fetchPartner,
 } from 'services/partners';
 import { fetchDatasets } from 'services/dataset';
 
@@ -50,7 +50,7 @@ export const getAllPartners = createThunkAction('PARTNERS/GET-ALL-PARTNERS',
   });
 
 export const getPartner = createThunkAction('PARTNERS/GET-PARTNER',
-  id => (dispatch) => {
+  (id) => (dispatch) => {
     if (!id) throw new Error('A partner ID is mandatory to perform this action.');
     dispatch(setLoading({ key: 'detail', value: true }));
     dispatch(setError({ key: 'detail', value: null }));
@@ -76,7 +76,7 @@ export const getDatasetsByPartner = createThunkAction('PARTNERS/GET-PARTNER',
       ids: datasetIds.join(','),
       language: locale,
       includes,
-      'page[size]': 100
+      'page[size]': 100,
     })
       .then((datasets) => {
         dispatch(setPartner({ key: 'datasetsByPartner', value: datasets }));
@@ -84,11 +84,10 @@ export const getDatasetsByPartner = createThunkAction('PARTNERS/GET-PARTNER',
       .catch((err) => { dispatch(setError({ key: 'datasetsByPartner', value: err.message })); });
   });
 
-
 export default {
   setFilters,
   getPublishedPartners,
   getAllPartners,
   getPartner,
-  getDatasetsByPartner
+  getDatasetsByPartner,
 };

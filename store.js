@@ -5,7 +5,7 @@ import { handleModule } from 'redux-tools';
 import {
   reducers as WEReducers,
   middleware as WEmiddleware,
-  sagas
+  sagas,
 } from '@widget-editor/widget-editor';
 
 // TO-DO: move redactions to modules
@@ -112,7 +112,7 @@ const reducer = combineReducers({
   interactions: handleModule(adminInteractions),
 
   // Admin layer preview
-  adminLayerPreview: handleModule(adminLayerPreview)
+  adminLayerPreview: handleModule(adminLayerPreview),
 });
 
 export const initStore = (initialState = {}) => {

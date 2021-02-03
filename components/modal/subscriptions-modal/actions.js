@@ -13,7 +13,7 @@ import {
   fetchSubscriptions,
   createSubscriptionToArea as createSubscriptionToAreaService,
   updateSubscriptionToArea,
-  deleteSubscription
+  deleteSubscription,
 } from 'services/subscriptions';
 
 import { fetchDatasets } from 'services/dataset';
@@ -46,7 +46,7 @@ export const getUserSubscriptions = createThunkAction(
         dispatch(setSubscriptionsError(err));
         toastr.error('Error loading user subscriptions', err);
       });
-  }
+  },
 );
 
 // actions - user subscriptions preview
@@ -61,12 +61,12 @@ export const getUserSubscriptionsPreview = createThunkAction(
     // provisionally, sets date range from yesterday to a week ago
     const params = {
       begin: yesterday.subtract(1, 'week').format('MM-DD-YYYY'),
-      end: yesterday.format('MM-DD-YYYY')
+      end: yesterday.format('MM-DD-YYYY'),
     };
     const fetchs = datasets
       .map((dataset) => {
         const selectedSubscription = dataset.subscriptions.find(
-          _subscription => _subscription.selected
+          (_subscription) => _subscription.selected,
         );
 
         if (selectedSubscription) {
@@ -76,7 +76,7 @@ export const getUserSubscriptionsPreview = createThunkAction(
 
         return null;
       })
-      .filter(e => e !== null);
+      .filter((e) => e !== null);
 
     dispatch(setSubscriptionsLoadingPreview(true));
 
@@ -84,8 +84,8 @@ export const getUserSubscriptionsPreview = createThunkAction(
       .all(fetchs)
       .then(
         axios.spread((...responses) => {
-          dispatch(setAlertsPreview(responses.map(response => response.data.data)));
-        })
+          dispatch(setAlertsPreview(responses.map((response) => response.data.data)));
+        }),
       )
       .catch((err) => {
         dispatch(setSubscriptionsError(err));
@@ -94,7 +94,7 @@ export const getUserSubscriptionsPreview = createThunkAction(
       .then(() => {
         dispatch(setSubscriptionsLoadingPreview(false));
       });
-  }
+  },
 );
 
 // actions – areas
@@ -121,24 +121,23 @@ export const setDatasets = createAction('SUBSCRIPTIONS__SET-DATASETS');
 export const setDatasetsLoading = createAction('SUBSCRIPTIONS__SET-DATASETS-LOADING');
 export const setDatasetsError = createAction('SUBSCRIPTIONS__SET-DATASETS-ERROR');
 
-export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () =>
-  (dispatch) => {
-    dispatch(setDatasetsLoading(true));
+export const getDatasets = createThunkAction('SUBSCRIPTIONS__GET-DATASETS', () => (dispatch) => {
+  dispatch(setDatasetsLoading(true));
 
-    fetchDatasets({
-      includes: 'metadata',
-      subscribable: true,
-      'page[size]': 9999999
+  fetchDatasets({
+    includes: 'metadata',
+    subscribable: true,
+    'page[size]': 9999999,
+  })
+    .then((datasets = []) => {
+      dispatch(setDatasets(datasets.filter((dataset) => Object.keys(dataset.subscribable).length)));
+      dispatch(setDatasetsLoading(false));
     })
-      .then((datasets = []) => {
-        dispatch(setDatasets(datasets.filter(dataset => Object.keys(dataset.subscribable).length)));
-        dispatch(setDatasetsLoading(false));
-      })
-      .catch((err) => {
-        dispatch(setDatasetsError(err));
-        toastr.error('Error loading suscribable datasets', err);
-      });
-  });
+    .catch((err) => {
+      dispatch(setDatasetsError(err));
+      toastr.error('Error loading suscribable datasets', err);
+    });
+});
 
 // actions – user selection
 export const setUserSelection = createAction('SUBSCRIPTIONS__SET-USER-SELECTION');
@@ -171,9 +170,9 @@ export const createSubscriptionToArea = createThunkAction(
           const datasetId = _dataset.id;
           const datasetQuery = {
             d: _dataset.id,
-            type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {})
+            type: (_dataset.subscriptions.find((_subscription) => _subscription.selected) || {})
               .value,
-            threshold: _dataset.threshold
+            threshold: _dataset.threshold,
           };
 
           return createSubscriptionToAreaService({
@@ -181,7 +180,7 @@ export const createSubscriptionToArea = createThunkAction(
             datasets: datasetId,
             datasetsQuery: datasetQuery,
             user,
-            language: locale
+            language: locale,
           })
             .then(() => {
               dispatch(setSubscriptionSuccess(true));
@@ -193,13 +192,13 @@ export const createSubscriptionToArea = createThunkAction(
 
               toastr.error('Error: unable to create the subscription', err);
             });
-        })
+        }),
     )
       .then(() => {
         // Reload user areas
         dispatch(getUserAreas());
       });
-  }
+  },
 );
 
 export const createSubscriptionOnNewArea = createThunkAction(
@@ -225,9 +224,9 @@ export const createSubscriptionOnNewArea = createThunkAction(
               const datasetId = _dataset.id;
               const datasetQuery = {
                 d: _dataset.id,
-                type: (_dataset.subscriptions.find(_subscription => _subscription.selected) || {})
+                type: (_dataset.subscriptions.find((_subscription) => _subscription.selected) || {})
                   .value,
-                threshold: _dataset.threshold
+                threshold: _dataset.threshold,
               };
 
               return createSubscriptionToAreaService({
@@ -235,7 +234,7 @@ export const createSubscriptionOnNewArea = createThunkAction(
                 datasets: datasetId,
                 datasetsQuery: datasetQuery,
                 user,
-                language: locale
+                language: locale,
               })
                 .then(() => {
                   dispatch(setSubscriptionSuccess(true));
@@ -247,7 +246,7 @@ export const createSubscriptionOnNewArea = createThunkAction(
 
                   toastr.error('Error: unable to create the subscription', err);
                 });
-            })
+            }),
         )
           .then(() => {
             toastr.success('Subscriptions created successfully');
@@ -260,7 +259,7 @@ export const createSubscriptionOnNewArea = createThunkAction(
         dispatch(setSubscriptionLoading(false));
         toastr.error('Error: unable to create area', err);
       });
-  }
+  },
 );
 
 export const updateSubscription = createThunkAction(
@@ -272,38 +271,37 @@ export const updateSubscription = createThunkAction(
       datasets,
       area: {
         id: areaId,
-        subscriptions: newSubscriptions
-      }
+        subscriptions: newSubscriptions,
+      },
     } = userSelection;
     const { locale } = common;
     const promises = [];
 
-    const oldDatasets = newSubscriptions.map(s => ({
+    const oldDatasets = newSubscriptions.map((s) => ({
       subscription: {
         id: s.id,
-        ...datasets.filter(d => d.id === s.datasets[0].id).map(_d =>
-          ({
-            threshold: _d.threshold,
-            type: _d.subscriptions[0].value
-          }))[0]
+        ...datasets.filter((d) => d.id === s.datasets[0].id).map((_d) => ({
+          threshold: _d.threshold,
+          type: _d.subscriptions[0].value,
+        }))[0],
       },
-      datasetId: s.datasets[0].id
+      datasetId: s.datasets[0].id,
     }));
 
-    const oldDatasetsIds = oldDatasets.map(d => d.datasetId);
-    const newDatasetsIds = datasets.map(d => d.id);
+    const oldDatasetsIds = oldDatasets.map((d) => d.datasetId);
+    const newDatasetsIds = datasets.map((d) => d.id);
 
     // Removed datasets
-    const removedDatasetsIds = oldDatasetsIds.filter(dId => !newDatasetsIds.find(e => e === dId));
+    const removedDatasetsIds = oldDatasetsIds.filter((dId) => !newDatasetsIds.find((e) => e === dId));
     const removedDatasets = oldDatasets.filter(
-      d => !!removedDatasetsIds.find(e => d.datasetId === e)
+      (d) => !!removedDatasetsIds.find((e) => d.datasetId === e),
     );
     // Added datasets
-    const addedDatasetsIds = newDatasetsIds.filter(dId => !oldDatasetsIds.find(e => e === dId));
-    const addedDatasets = datasets.filter(d => !!addedDatasetsIds.find(e => d.id === e));
+    const addedDatasetsIds = newDatasetsIds.filter((dId) => !oldDatasetsIds.find((e) => e === dId));
+    const addedDatasets = datasets.filter((d) => !!addedDatasetsIds.find((e) => d.id === e));
     // Datasets kept
-    const datasetsKeptIds = oldDatasetsIds.filter(dId => newDatasetsIds.find(e => e === dId));
-    const datasetsKept = oldDatasets.filter(d => datasetsKeptIds.find(e => d.datasetId === e));
+    const datasetsKeptIds = oldDatasetsIds.filter((dId) => newDatasetsIds.find((e) => e === dId));
+    const datasetsKept = oldDatasets.filter((d) => datasetsKeptIds.find((e) => d.datasetId === e));
 
     dispatch(setSubscriptionSuccess(false));
     dispatch(setSubscriptionLoading(true));
@@ -314,7 +312,7 @@ export const updateSubscription = createThunkAction(
       const datasetQuery = {
         d: datasetId,
         type: subscription.type,
-        threshold: subscription.threshold
+        threshold: subscription.threshold,
       };
       const promise = updateSubscriptionToArea(
         subscription.id,
@@ -322,7 +320,7 @@ export const updateSubscription = createThunkAction(
         datasetQuery,
         user,
         locale,
-        areaId
+        areaId,
       )
         .then(() => {
           dispatch(setSubscriptionSuccess(true));
@@ -361,7 +359,7 @@ export const updateSubscription = createThunkAction(
       const datasetQuery = {
         d: id,
         type: subsArray[0].value,
-        threshold
+        threshold,
       };
 
       const promise = createSubscriptionToAreaService({
@@ -369,7 +367,7 @@ export const updateSubscription = createThunkAction(
         datasets: [id],
         datasetsQuery: datasetQuery,
         user,
-        language: locale
+        language: locale,
       })
         .then(() => {
           dispatch(setSubscriptionSuccess(true));
@@ -398,7 +396,7 @@ export const updateSubscription = createThunkAction(
         dispatch(setSubscriptionLoading(false));
         toastr.error('Unable to update the subscription', err);
       });
-  }
+  },
 );
 
 export default {
@@ -430,5 +428,5 @@ export default {
 
   createSubscriptionToArea,
   createSubscriptionOnNewArea,
-  updateSubscription
+  updateSubscription,
 };

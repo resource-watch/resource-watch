@@ -19,7 +19,7 @@ module.exports = (() => {
   const strategy = new Strategy({
     controlTowerUrl: process.env.CONTROL_TOWER_URL,
     callbackUrl: process.env.CALLBACK_URL,
-    applications: process.env.APPLICATIONS || 'rw'
+    applications: process.env.APPLICATIONS || 'rw',
   });
   const localStrategy = new LocalStrategy(
     { usernameField: 'email', passwordField: 'password', session: true },
@@ -28,20 +28,20 @@ module.exports = (() => {
         callbackUrl: process.env.CALLBACK_URL,
         applications: 'rw',
         token: true,
-        origin: 'rw'
+        origin: 'rw',
       });
 
       fetch(`${process.env.CONTROL_TOWER_URL}/auth/login?${queryParams}`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
       })
         .then((response) => {
           if (response.ok) return response.json();
           throw response;
         })
         .then(({ data }) => done(null, data))
-        .catch(err => done(err));
+        .catch((err) => done(err));
     },
   );
   passport.use(strategy);
@@ -52,26 +52,25 @@ module.exports = (() => {
       server.use(passport.initialize());
       server.use(passport.session());
     },
-    authenticate: authOptions => passport.authenticate('control-tower', authOptions),
+    authenticate: (authOptions) => passport.authenticate('control-tower', authOptions),
     login: (req, res) => strategy.login(req, res),
     // local sign-in
-    signin: (req, res, done) =>
-      passport.authenticate('local-signin', (err, user) => {
-        if (err) {
-          return res.status(401).json({ status: 'error', message: err.statusText });
+    signin: (req, res, done) => passport.authenticate('local-signin', (err, user) => {
+      if (err) {
+        return res.status(401).json({ status: 'error', message: err.statusText });
+      }
+      if (!user) {
+        return res
+          .status(401)
+          .json({ status: 'error', message: 'Invalid Login' });
+      }
+      return req.login(user, {}, (loginError) => {
+        if (loginError) {
+          return res.status(401).json({ status: 'error', message: loginError });
         }
-        if (!user) {
-          return res
-            .status(401)
-            .json({ status: 'error', message: 'Invalid Login' });
-        }
-        return req.login(user, {}, (loginError) => {
-          if (loginError) {
-            return res.status(401).json({ status: 'error', message: loginError });
-          }
-          return res.json(req.user);
-        });
-      })(req, res, done),
+        return res.json(req.user);
+      });
+    })(req, res, done),
     updateUser: (req, res) => {
       const { body } = req;
       const { userObj, token } = body;
@@ -81,21 +80,20 @@ module.exports = (() => {
         body: JSON.stringify(userObj),
         headers: {
           'Content-Type': 'application/json',
-          Authorization: token
-        }
+          Authorization: token,
+        },
       })
         .then((response) => {
           if (response.status >= 400) throw new Error(response.statusText);
           return response.json();
         })
-        .then(user =>
-          req.login({ ...user, token }, {}, (err) => {
-            if (err) return res.status(401).json({ status: 'error', message: err });
-            return res.json({
-              ...user,
-              token: userObj.token
-            });
-          }));
-    }
+        .then((user) => req.login({ ...user, token }, {}, (err) => {
+          if (err) return res.status(401).json({ status: 'error', message: err });
+          return res.json({
+            ...user,
+            token: userObj.token,
+          });
+        }));
+    },
   };
 })();

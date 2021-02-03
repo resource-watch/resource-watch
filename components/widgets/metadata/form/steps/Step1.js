@@ -16,7 +16,7 @@ class Step1 extends React.Component {
 
     this.state = {
       widgetLinksSelected: props.form.info.widgetLinks && props.form.info.widgetLinks.length > 0,
-      form: props.form
+      form: props.form,
     };
 
     // ------------------------- Bindings ----------------------------
@@ -29,9 +29,9 @@ class Step1 extends React.Component {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
-      widgetLinksSelected: nextProps.form.info.widgetLinks &&
-        nextProps.form.info.widgetLinks.length > 0,
-      form: nextProps.form
+      widgetLinksSelected: nextProps.form.info.widgetLinks
+        && nextProps.form.info.widgetLinks.length > 0,
+      form: nextProps.form,
     });
   }
 
@@ -44,13 +44,14 @@ class Step1 extends React.Component {
   */
   onWidgetLinkChange(obj) {
     const widgetLinks = this.props.form.info.widgetLinks.slice(0);
-    const index = widgetLinks.findIndex(elem => elem.id === obj.id);
+    const index = widgetLinks.findIndex((elem) => elem.id === obj.id);
     widgetLinks[index] = {
       ...widgetLinks[index],
-      ...obj
+      ...obj,
     };
-    this.props.onChange({ info: Object.assign({}, this.state.form.info, { widgetLinks }) });
+    this.props.onChange({ info: { ...this.state.form.info, widgetLinks } });
   }
+
   onWidgetLinksCheckboxChange(checked) {
     this.setState({ widgetLinksSelected: checked });
     let newWidgetLinks = [];
@@ -58,24 +59,25 @@ class Step1 extends React.Component {
       newWidgetLinks = [{ name: '', link: '', id: Date.now() }];
     }
     this.props.onChange({
-      info: Object.assign(
-        {},
-        this.state.form.info,
-        { widgetLinks: newWidgetLinks }
-      )
+      info: {
+
+        ...this.state.form.info,
+        widgetLinks: newWidgetLinks,
+      },
     });
   }
+
   handleRemoveWidgetLink(id) {
     const widgetLinks = this.props.form.info.widgetLinks.slice(0);
-    const index = widgetLinks.findIndex(s => s.id === id);
+    const index = widgetLinks.findIndex((s) => s.id === id);
     widgetLinks.splice(index, 1);
-    this.props.onChange({ info: Object.assign({}, this.state.form.info, { widgetLinks }) });
+    this.props.onChange({ info: { ...this.state.form.info, widgetLinks } });
   }
 
   handleAddWidgetLink() {
     const widgetLinks = this.props.form.info.widgetLinks.slice(0);
     widgetLinks.push({ name: '', link: '', id: Date.now() });
-    this.props.onChange({ info: Object.assign({}, this.state.form.info, { widgetLinks }) });
+    this.props.onChange({ info: { ...this.state.form.info, widgetLinks } });
   }
 
   render() {
@@ -91,14 +93,14 @@ class Step1 extends React.Component {
           {/* CAPTION */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.caption = c; }}
-            onChange={value => this.props.onChange({ info: Object.assign({}, this.state.form.info, { caption: value }) })}
+            onChange={(value) => this.props.onChange({ info: { ...this.state.form.info, caption: value } })}
             className="-fluid"
             properties={{
               name: 'caption',
               label: 'Caption',
               type: 'text',
               default: this.state.form.info.caption,
-              value: this.state.form.info.caption
+              value: this.state.form.info.caption,
             }}
           >
             {Input}
@@ -111,19 +113,20 @@ class Step1 extends React.Component {
           <div className="widget-links-container">
             <Field
               ref={(c) => { if (c) FORM_ELEMENTS.elements.widget_links = c; }}
-              onChange={value => this.onWidgetLinksCheckboxChange(value.checked)}
+              onChange={(value) => this.onWidgetLinksCheckboxChange(value.checked)}
               properties={{
                 name: 'widget_links',
                 title: 'Widget links',
-                checked: info.widgetLinks && info.widgetLinks.length > 0
+                checked: info.widgetLinks && info.widgetLinks.length > 0,
               }}
             >
               {Checkbox}
             </Field>
-            {widgetLinksSelected &&
+            {widgetLinksSelected
+              && (
               <div>
                 {
-                  this.state.form.info.widgetLinks.map(elem => (
+                  this.state.form.info.widgetLinks.map((elem) => (
                     <div
                       className="c-field-row"
                       key={elem.id}
@@ -132,10 +135,10 @@ class Step1 extends React.Component {
                         <div className="column small-3">
                           <Field
                             ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetLinkName = c; }}
-                            onChange={value => this.onWidgetLinkChange({
-                                name: value,
-                                id: elem.id
-                              })}
+                            onChange={(value) => this.onWidgetLinkChange({
+                              name: value,
+                              id: elem.id,
+                            })}
                             validations={['required']}
                             className="-fluid"
                             properties={{
@@ -143,7 +146,7 @@ class Step1 extends React.Component {
                               label: 'Name',
                               type: 'text',
                               default: elem.name,
-                              required: true
+                              required: true,
                             }}
                           >
                             {Input}
@@ -152,7 +155,7 @@ class Step1 extends React.Component {
                         <div className="column small-6">
                           <Field
                             ref={(c) => { if (c) FORM_ELEMENTS.elements.widgetLinkLink = c; }}
-                            onChange={value => this.onWidgetLinkChange({ link: value, id: elem.id })}
+                            onChange={(value) => this.onWidgetLinkChange({ link: value, id: elem.id })}
                             validations={['required', 'url']}
                             className="-fluid"
                             properties={{
@@ -160,7 +163,7 @@ class Step1 extends React.Component {
                               label: 'Link',
                               type: 'text',
                               default: elem.link,
-                              required: true
+                              required: true,
                             }}
                           >
                             {Input}
@@ -173,7 +176,7 @@ class Step1 extends React.Component {
                             onClick={() => this.handleRemoveWidgetLink(elem.id)}
                             disabled={this.state.form.info.widgetLinks.length === 1}
                           >
-                              Remove
+                            Remove
                           </button>
                         </div>
                       </div>
@@ -194,7 +197,7 @@ class Step1 extends React.Component {
                   </div>
                 </div>
               </div>
-            }
+              )}
           </div>
         </fieldset>
       </div>
@@ -204,7 +207,7 @@ class Step1 extends React.Component {
 
 Step1.propTypes = {
   form: PropTypes.object,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default Step1;

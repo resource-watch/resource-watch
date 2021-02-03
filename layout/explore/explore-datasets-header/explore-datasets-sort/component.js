@@ -21,7 +21,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
     setSortSelected: PropTypes.func.isRequired,
     setSortIsUserSelected: PropTypes.func.isRequired,
     setSortDirection: PropTypes.func.isRequired,
-    fetchDatasets: PropTypes.func.isRequired
+    fetchDatasets: PropTypes.func.isRequired,
   };
 
   onSortSelected = (selected) => {
@@ -29,7 +29,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
       setSortSelected,
       setSortDirection,
       setSortIsUserSelected,
-      fetchDatasets
+      fetchDatasets,
     } = this.props;
 
     setSortSelected(selected);
@@ -47,7 +47,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
       canChangeSortDirection,
       setSortDirection,
       setSortIsUserSelected,
-      fetchDatasets
+      fetchDatasets,
     } = this.props;
 
     if (!canChangeSortDirection) {
@@ -63,20 +63,20 @@ class ExploreDatasetsSortComponent extends PureComponent {
       selected,
       direction,
       options,
-      canChangeSortDirection
+      canChangeSortDirection,
     } = this.props;
 
     return (
       <div className="c-explore-datasets-sort">
         <Tooltip
-          overlay={
+          overlay={(
             <RadioGroup
               name="sort"
               properties={{ default: selected }}
               options={options}
               onChange={this.onSortSelected}
             />
-          }
+          )}
           overlayClassName="c-rc-tooltip -default"
           placement="top"
           trigger={['click']}
@@ -87,24 +87,22 @@ class ExploreDatasetsSortComponent extends PureComponent {
           <button
             className="actions-sort-button"
           >
-            <span>{`SORT BY ${options.find(o => o.value === selected).label.toUpperCase()}`}</span>
+            <span>{`SORT BY ${options.find((o) => o.value === selected).label.toUpperCase()}`}</span>
           </button>
         </Tooltip>
 
         <button
           className={classnames({
             'actions-sort-button': true,
-            isInteractive: canChangeSortDirection
+            isInteractive: canChangeSortDirection,
           })}
           onClick={this.onSortDirection}
         >
-          {direction < 0 &&
-            <Icon className="-small" name="icon-arrow-down" />
-          }
+          {direction < 0
+            && <Icon className="-small" name="icon-arrow-down" />}
 
-          {direction > 0 &&
-            <Icon className="-small" name="icon-arrow-up" />
-          }
+          {direction > 0
+            && <Icon className="-small" name="icon-arrow-up" />}
         </button>
       </div>
     );

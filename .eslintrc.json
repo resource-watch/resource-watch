@@ -14,14 +14,23 @@
     "airbnb",
     "airbnb/hooks"
   ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.js",
+        "**/*.js"
+      ]
+    }
+  ],
   "rules": {
     "import/no-unresolved": "off",
     "react/jsx-filename-extension": "warn",
     "react/jsx-props-no-spreading": "off",
     "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "error",
     "react-hooks/rules-of-hooks": "error"
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 7,
     "ecmaFeatures": {
@@ -30,7 +39,7 @@
     "sourceType": "module"
   },
   "plugins": [
-    "babel",
+    "@babel",
     "react-hooks"
   ],
   "settings": {

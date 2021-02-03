@@ -12,7 +12,8 @@ const GDPRBanner = ({ handleGDPR }) => (
         <div className="column small-9 medium-10">
           This website uses cookies to provide you with an improved user experience. By
           continuing to browse this site, you consent to the use of cookies and similar
-          technologies. Please visit our{' '}
+          technologies. Please visit our
+          {' '}
           <Link route="privacy-policy">
             <a
               target="_blank"
@@ -20,7 +21,8 @@ const GDPRBanner = ({ handleGDPR }) => (
             >
               privacy policy
             </a>
-          </Link>{' '}
+          </Link>
+          {' '}
           for further details.
         </div>
         <div className="column small-3 medium-2">

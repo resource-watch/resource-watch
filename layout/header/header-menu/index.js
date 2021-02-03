@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import HeaderMenu from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     routes: state.routes,
-    user: state.user
+    user: state.user,
   }),
-  null
+  null,
 )(HeaderMenu);

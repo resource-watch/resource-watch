@@ -13,7 +13,7 @@ export default class LayerGlobeManager {
     const method = {
       cartodb: this.addCartoLayer,
       leaflet: this.addLeafletLayer,
-      gee: this.addGeeLayer
+      gee: this.addGeeLayer,
     }[layer.provider];
 
     // Check for active request to prevent adding more than one layer at a time
@@ -41,7 +41,7 @@ export default class LayerGlobeManager {
     opts.onLayerAddedSuccess({
       attributes: { ...layerSpec },
       url: layerSpec.layerConfig.url,
-      active: false
+      active: false,
     });
   }
 
@@ -49,22 +49,23 @@ export default class LayerGlobeManager {
     opts.onLayerAddedSuccess({
       attributes: { ...layerSpec },
       url: `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`,
-      active: false
+      active: false,
     });
   }
 
   async addCartoLayer(layerSpec, opts, awaitMode = false) {
-    const layer = Object.assign({}, layerSpec.layerConfig, {
+    const layer = {
+      ...layerSpec.layerConfig,
       id: layerSpec.id,
       order: layerSpec.order,
       opacity: layerSpec.opacity,
-      hidden: layerSpec.hidden
-    });
+      hidden: layerSpec.hidden,
+    };
 
     const layerTpl = {
       version: '1.3.0',
       stat_tag: 'API',
-      layers: layer.body.layers
+      layers: layer.body.layers,
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
@@ -82,7 +83,7 @@ export default class LayerGlobeManager {
         opts.onLayerAddedSuccess({
           ...layerSpec,
           url: tileUrl,
-          active: false
+          active: false,
         });
       });
 

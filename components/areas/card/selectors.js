@@ -11,10 +11,9 @@ export const getActiveAlerts = createSelector(
     const { id } = _userArea;
     return (_alerts[id] || []).map((_alert, index) => ({
       ..._alert,
-      id: `${id}-${index}`
+      id: `${id}-${index}`,
     }));
-  }
+  },
 );
-
 
 export default { getActiveAlerts };

@@ -50,7 +50,7 @@ FaqsListItem.propTypes = {
   editAction: PropTypes.object,
   removeAction: PropTypes.object,
   authorization: PropTypes.string,
-  getFaqs: PropTypes.func
+  getFaqs: PropTypes.func,
 };
 
 export default SortableElement(FaqsListItem);

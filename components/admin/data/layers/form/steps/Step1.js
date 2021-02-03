@@ -29,12 +29,12 @@ class Step1 extends PureComponent {
     onChange: PropTypes.func.isRequired,
     onChangeDataset: PropTypes.func.isRequired,
     verifyLayerConfig: PropTypes.func.isRequired,
-    query: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
     id: null,
-    datasets: []
+    datasets: [],
   }
 
   handleRefreshPreview = () => {
@@ -44,14 +44,15 @@ class Step1 extends PureComponent {
   layerConfigStatus(title, err) {
     const classes = classnames({
       'layer-config-status': true,
-      errors: !!err
+      errors: !!err,
     });
 
     return (
       <section className={classes}>
         <h4>{title}</h4>
         {err && err.errors && <ul>{err.errors.map((e, k) => <li key={k}>{e}</li>)}</ul>}
-      </section>);
+      </section>
+    );
   }
 
   render() {
@@ -61,15 +62,16 @@ class Step1 extends PureComponent {
       verifyLayerConfig,
       query,
       form,
-      id
+      id,
     } = this.props;
 
     return (
       <fieldset className="c-field-container">
-        {!id &&
+        {!id
+          && (
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
-            onChange={value => this.props.onChangeDataset(value)}
+            onChange={(value) => this.props.onChangeDataset(value)}
             validations={['required']}
             options={this.props.datasets}
             properties={{
@@ -78,57 +80,59 @@ class Step1 extends PureComponent {
               type: 'text',
               required: true,
               default: form.dataset || query.dataset,
-              value: form.dataset || query.dataset
+              value: form.dataset || query.dataset,
             }}
           >
             {Select}
           </Field>
-        }
+          )}
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-          onChange={value => this.props.onChange({ name: value })}
+          onChange={(value) => this.props.onChange({ name: value })}
           validations={['required']}
           properties={{
             name: 'name',
             label: 'Title',
             type: 'text',
             required: true,
-            default: form.name
+            default: form.name,
           }}
         >
           {Input}
         </Field>
 
-        {(user.role === 'ADMIN') &&
+        {(user.role === 'ADMIN')
+          && (
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
             hint={'Choose "preproduction" to see this dataset only as admin, "production" option will show it in the public site.'}
             className="-fluid"
             options={[{ label: 'Pre-production', value: 'preproduction' }, { label: 'Production', value: 'production' }]}
-            onChange={value => this.props.onChange({ env: value })}
+            onChange={(value) => this.props.onChange({ env: value })}
             properties={{
               name: 'env',
               label: 'Environment',
               placeholder: 'Choose an environment...',
               noResultsText: 'Please, choose an environment for this layer',
               default: 'preproduction',
-              value: this.props.form.env
+              value: this.props.form.env,
             }}
           >
             {Select}
-          </Field>}
+          </Field>
+          )}
 
         {/* PUBLISHED */}
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-          onChange={value => this.props.onChange({ published: value.checked })}
+          onChange={(value) => this.props.onChange({ published: value.checked })}
           properties={{
             name: 'published',
             label: 'Do you want to set this widget as published?',
             value: 'published',
             title: 'Published',
-            checked: this.props.form.published
+            checked: this.props.form.published,
           }}
         >
           {Checkbox}
@@ -136,7 +140,7 @@ class Step1 extends PureComponent {
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
-          onChange={value => this.props.onChange({ provider: value })}
+          onChange={(value) => this.props.onChange({ provider: value })}
           validations={['required']}
           options={PROVIDER_OPTIONS}
           properties={{
@@ -144,7 +148,7 @@ class Step1 extends PureComponent {
             label: 'Provider',
             type: 'text',
             required: true,
-            default: form.provider
+            default: form.provider,
           }}
         >
           {Select}
@@ -152,12 +156,12 @@ class Step1 extends PureComponent {
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-          onChange={value => this.props.onChange({ description: value })}
+          onChange={(value) => this.props.onChange({ description: value })}
           properties={{
             name: 'description',
             label: 'Description',
             type: 'textarea',
-            default: form.description
+            default: form.description,
           }}
         >
           {Textarea}
@@ -165,23 +169,24 @@ class Step1 extends PureComponent {
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.layerConfig = c; }}
-          onChange={value => this.props.onChange({ layerConfig: value })}
+          onChange={(value) => this.props.onChange({ layerConfig: value })}
           properties={{
             name: 'layerConfig',
             label: 'Layer config',
-            default: form.layerConfig
+            default: form.layerConfig,
           }}
         >
           {Code}
         </Field>
 
-        {layerPreview.errors &&
-          this.layerConfigStatus('Layer config not valid!', layerPreview.errors)}
+        {layerPreview.errors
+          && this.layerConfigStatus('Layer config not valid!', layerPreview.errors)}
 
-        {layerPreview.errors === false &&
-          this.layerConfigStatus('Layer config valid')}
+        {layerPreview.errors === false
+          && this.layerConfigStatus('Layer config valid')}
 
-        {form.provider === 'cartodb' &&
+        {form.provider === 'cartodb'
+          && (
           <div className="c-button-container -full-width -j-end">
             <button
               type="button"
@@ -191,15 +196,15 @@ class Step1 extends PureComponent {
               Verify config
             </button>
           </div>
-        }
+          )}
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.legendConfig = c; }}
-          onChange={value => this.props.onChange({ legendConfig: value })}
+          onChange={(value) => this.props.onChange({ legendConfig: value })}
           properties={{
             name: 'legendConfig',
             label: 'Legend config',
-            default: form.legendConfig
+            default: form.legendConfig,
           }}
         >
           {Code}
@@ -208,19 +213,20 @@ class Step1 extends PureComponent {
         {form.provider === 'cartodb' && (
           <InteractionManager layer={form} />)}
 
-        {form.provider !== 'cartodb' &&
+        {form.provider !== 'cartodb'
+          && (
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.interactionConfig = c; }}
-            onChange={value => this.props.onChange({ interactionConfig: value })}
+            onChange={(value) => this.props.onChange({ interactionConfig: value })}
             properties={{
               name: 'interactionConfig',
               label: 'Raster interactivity',
-              default: form.interactionConfig
+              default: form.interactionConfig,
             }}
           >
             {Code}
           </Field>
-        }
+          )}
 
         <LayerPreviewComponent
           layer={form}
@@ -228,14 +234,14 @@ class Step1 extends PureComponent {
 
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
-          onChange={value => this.props.onChange({ default: value.checked })}
+          onChange={(value) => this.props.onChange({ default: value.checked })}
           option={{ label: 'Default' }}
           properties={{
             name: 'default',
             label: 'Do you want to set this layer as the default one. (Only one default layer per dataset is allowed at a time)',
             value: 'default',
             title: 'Default',
-            checked: this.props.form.default
+            checked: this.props.form.default,
           }}
         >
           {Checkbox}
@@ -245,9 +251,9 @@ class Step1 extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
-  query: state.routes.query
+  query: state.routes.query,
 });
 
 export default connect(mapStateToProps, null)(Step1);

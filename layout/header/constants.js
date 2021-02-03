@@ -11,21 +11,21 @@ export const APP_HEADER_ITEMS = [
         label: 'App Gallery',
         route: 'get_involved_detail',
         params: { id: 'apps' },
-        logEvent: true
-      }
-    ]
+        logEvent: true,
+      },
+    ],
   },
   {
     id: 'dashboards',
     label: 'Dashboards',
     route: 'dashboards',
     pathnames: ['/app/dashboards', '/app/dashboards-detail'],
-    children: []
+    children: [],
   },
   {
     id: 'blog',
     label: 'Blog',
-    href: 'https://blog.resourcewatch.org'
+    href: 'https://blog.resourcewatch.org',
   },
   {
     id: 'about',
@@ -36,8 +36,8 @@ export const APP_HEADER_ITEMS = [
       { label: 'Partners', route: 'about_partners' },
       { label: 'FAQs', route: 'about_faqs' },
       { label: 'How to', route: 'about_howto' },
-      { label: 'Contact us', route: 'about_contact-us' }
-    ]
+      { label: 'Contact us', route: 'about_contact-us' },
+    ],
   },
   {
     id: 'get_involved',
@@ -48,38 +48,38 @@ export const APP_HEADER_ITEMS = [
       {
         label: 'Suggest a story',
         route: 'get_involved_detail',
-        params: { id: 'suggest-a-story' }
+        params: { id: 'suggest-a-story' },
       },
       {
         label: 'Contribute data',
         route: 'get_involved_detail',
-        params: { id: 'contribute-data' }
+        params: { id: 'contribute-data' },
       },
       {
         label: 'Join the community',
         route: 'get_involved_detail',
-        params: { id: 'join-the-community' }
+        params: { id: 'join-the-community' },
       },
       {
         label: 'Develop your app',
         route: 'get_involved_detail',
-        params: { id: 'develop-your-app' }
+        params: { id: 'develop-your-app' },
       },
       {
         label: 'Sign up',
         route: 'sign-in',
-        params: {}
-      }
-    ]
+        params: {},
+      },
+    ],
   },
   {
     id: 'search',
-    label: 'Search'
+    label: 'Search',
   },
   {
     user: false,
     id: 'myrw',
-    label: 'Log in'
+    label: 'Log in',
   },
   {
     user: true,
@@ -89,9 +89,9 @@ export const APP_HEADER_ITEMS = [
     children: [
       { label: 'Profile', route: 'myrw', params: { tab: 'profile' } },
       { label: 'Admin', route: 'admin_home', admin: true },
-      { label: 'Logout', id: 'logout' }
-    ]
-  }
+      { label: 'Logout', id: 'logout' },
+    ],
+  },
 ];
 
 export default { APP_HEADER_ITEMS };

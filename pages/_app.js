@@ -34,7 +34,9 @@ finallyShim.shim();
 class RWApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     const { asPath } = router;
-    const { req, store, query, isServer } = ctx;
+    const {
+      req, store, query, isServer,
+    } = ctx;
     const pathname = req ? asPath : ctx.asPath;
 
     // sets app routes
@@ -73,14 +75,18 @@ class RWApp extends App {
       ? await Component.getInitialProps(ctx)
       : {};
 
-    return { pageProps: { ...pageProps, user, isServer, url } };
+    return {
+      pageProps: {
+        ...pageProps, user, isServer, url,
+      },
+    };
   }
 
   render() {
     const {
       Component,
       pageProps,
-      store
+      store,
     } = this.props;
 
     return (

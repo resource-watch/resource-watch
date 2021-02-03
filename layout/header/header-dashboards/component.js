@@ -8,7 +8,7 @@ class HeaderDashboards extends PureComponent {
   static propTypes = {
     header: PropTypes.object.isRequired,
     dashboards: PropTypes.array.isRequired,
-    setDropdownOpened: PropTypes.func.isRequired
+    setDropdownOpened: PropTypes.func.isRequired,
   };
 
   toggleDropdown = debounce((bool) => {
@@ -19,7 +19,7 @@ class HeaderDashboards extends PureComponent {
   render() {
     const {
       header: { dropdownOpened },
-      dashboards
+      dashboards,
     } = this.props;
 
     return (
@@ -39,13 +39,14 @@ class HeaderDashboards extends PureComponent {
           </a>
         </Link>
         {/* second child: if present, this item will be tethered to the the first child */}
-        {dropdownOpened.dashboards &&
+        {dropdownOpened.dashboards
+          && (
           <ul
             className="header-dropdown-list"
             onMouseEnter={() => this.toggleDropdown(true)}
             onMouseLeave={() => this.toggleDropdown(false)}
           >
-            {dashboards.map(_dashboard => (
+            {dashboards.map((_dashboard) => (
               <li
                 className="header-dropdown-list-item"
                 key={_dashboard.params.slug}
@@ -59,7 +60,7 @@ class HeaderDashboards extends PureComponent {
               </li>
             ))}
           </ul>
-        }
+          )}
       </TetherComponent>
     );
   }

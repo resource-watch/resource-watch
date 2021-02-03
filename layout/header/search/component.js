@@ -14,7 +14,7 @@ class HeaderSearch extends PureComponent {
     header: PropTypes.object.isRequired,
     setSearchOpened: PropTypes.func.isRequired,
     setSearchTerm: PropTypes.func.isRequired,
-    fetchSearch: PropTypes.func.isRequired
+    fetchSearch: PropTypes.func.isRequired,
   }
 
   closeSearch() {
@@ -29,11 +29,11 @@ class HeaderSearch extends PureComponent {
   render() {
     const {
       header: { searchOpened },
-      search: { loading }
+      search: { loading },
     } = this.props;
     const searchClass = classnames(
       'c-search',
-      { '-opened': searchOpened }
+      { '-opened': searchOpened },
     );
 
     return (
@@ -65,4 +65,3 @@ class HeaderSearch extends PureComponent {
 }
 
 export default HeaderSearch;
-

@@ -7,15 +7,15 @@ import initialState from './initial-state';
 
 import LayerContainerComponent from './component';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   displayed: state.layerContainerPulse.displayed,
-  layerActive: state.layerMenuPulse.layerActive
+  layerActive: state.layerMenuPulse.layerActive,
 });
 
 class LayerContainerContainer extends Component {
   render() {
     return createElement(LayerContainerComponent, {
-      ...this.props
+      ...this.props,
     });
   }
 }

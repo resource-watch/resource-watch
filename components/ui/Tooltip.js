@@ -13,7 +13,7 @@ class Tooltip extends React.Component {
     this.state = {
       // Horizontal offset of the tooltip's tip from its
       // initial position (center)
-      tipOffset: 0
+      tipOffset: 0,
     };
 
     // Bindings
@@ -65,7 +65,7 @@ class Tooltip extends React.Component {
       left: `${bottomPos}px`,
       width: '1px',
       height: '1px',
-      visibility: 'hidden'
+      visibility: 'hidden',
     };
   }
 
@@ -81,7 +81,7 @@ class Tooltip extends React.Component {
     // Position of the target dot from the sides of the screen
     const target = {
       left: this.props.tooltip.position.x,
-      right: window.innerWidth - this.props.tooltip.position.x
+      right: window.innerWidth - this.props.tooltip.position.x,
     };
 
     // Horizontal offset that must be applied to the tooltip's
@@ -90,7 +90,7 @@ class Tooltip extends React.Component {
     // prevent it)
     let tipOffset = 0;
 
-    const width = this.el.parentNode.getBoundingClientRect().width;
+    const { width } = this.el.parentNode.getBoundingClientRect();
 
     if (width / 2 > target.left) {
       tipOffset = target.left - (width / 2);
@@ -104,15 +104,15 @@ class Tooltip extends React.Component {
   }
 
   render() {
-    const direction = this.props.tooltip.direction;
-    const className = this.props.tooltip.className;
+    const { direction } = this.props.tooltip;
+    const { className } = this.props.tooltip;
 
     const tooltipClasses = classnames({
       'c-tooltip': true,
       '-hidden': !this.props.tooltip.opened,
       '-arrow-top': direction === 'top',
       '-arrow-bottom': direction === 'bottom',
-      [className]: !!className
+      [className]: !!className,
     });
 
     return (
@@ -128,7 +128,7 @@ class Tooltip extends React.Component {
           to: 'window',
           // We don't pin at the top or the bottom because the tooltip
           // is either displayed above or below the target
-          pin: ['left', 'right']
+          pin: ['left', 'right'],
         }]}
         classes={{ element: tooltipClasses }}
         offset={`${(direction === 'bottom' ? 1 : -1) * 20}px 0`} // The offset is needed for the follow option
@@ -136,12 +136,13 @@ class Tooltip extends React.Component {
         <div
           style={this.getStyles()}
         />
-        { this.props.tooltip.opened &&
+        { this.props.tooltip.opened
+          && (
           <div ref={(node) => { this.el = node; }}>
             {this.getContent()}
             <div className="tip" style={{ left: `calc(50% + (${this.state.tipOffset}px))` }} />
           </div>
-        }
+          )}
       </TetherComponent>
     );
   }
@@ -150,7 +151,7 @@ class Tooltip extends React.Component {
 Tooltip.propTypes = {
   // STORE
   tooltip: PropTypes.object,
-  setTooltipPosition: PropTypes.func
+  setTooltipPosition: PropTypes.func,
 };
 
 const mapStateToProps = ({ tooltip }) => ({ tooltip });

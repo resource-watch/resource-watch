@@ -17,11 +17,11 @@ export const fetchPartners = (params = {}, headers = {}) => {
     params: {
       ...params,
       env: process.env.API_ENV,
-      application: process.env.APPLICATIONS
+      application: process.env.APPLICATIONS,
     },
-    headers: { ...headers }
+    headers: { ...headers },
   })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching partners: ${status}: ${statusText}`);
@@ -46,11 +46,11 @@ export const fetchPartner = (id, params = {}, headers = {}) => {
       params: {
         ...params,
         env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
-      }
-    }
+        application: process.env.APPLICATIONS,
+      },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching partner ${id}: ${status}: ${statusText}`);
@@ -74,9 +74,9 @@ export const updatePartner = (id, partner, token, params = {}, headers = {}) => 
     { ...partner },
     {
       params: { ...params },
-      headers: { ...headers, Authorization: token }
+      headers: { ...headers, Authorization: token },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating partner ${id} ${status}: ${statusText}`);
@@ -101,11 +101,11 @@ export const createPartner = (partner, token, params = {}, headers = {}) => {
       params: {
         ...params,
         env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
+        application: process.env.APPLICATIONS,
       },
-      headers: { ...headers, Authorization: token }
+      headers: { ...headers, Authorization: token },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating partner ${status}: ${statusText}`);
@@ -128,13 +128,13 @@ export const deletePartner = (id, token, params = {}, headers = {}) => {
     {
       params: {
         ...params,
-        application: process.env.APPLICATIONS
+        application: process.env.APPLICATIONS,
       },
       headers: {
         ...headers,
-        Authorization: token
-      }
-    }
+        Authorization: token,
+      },
+    },
   )
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -148,5 +148,5 @@ export default {
   fetchPartner,
   deletePartner,
   createPartner,
-  updatePartner
+  updatePartner,
 };

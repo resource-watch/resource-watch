@@ -4,30 +4,33 @@ export const STATE_DEFAULT = {
   form: {
     topic: 'General question or feedback',
     email: '',
-    text: ''
-  }
+    text: '',
+  },
 };
 
 export const FORM_TOPICS = {
   options: [
     {
       value: 'General question or feedback',
-      label: 'General question or feedback'
+      label: 'General question or feedback',
     },
-    { value: 'Bug report',
-      label: 'Bug report'
+    {
+      value: 'Bug report',
+      label: 'Bug report',
     },
     {
       value: 'Data request or suggestion',
-      label: 'Data request or suggestion'
+      label: 'Data request or suggestion',
     },
-    { value: 'Media inquiry',
-      label: 'Media inquiry'
+    {
+      value: 'Media inquiry',
+      label: 'Media inquiry',
     },
-    { value: 'Other',
-      label: 'Other'
-    }
-  ]
+    {
+      value: 'Other',
+      label: 'Other',
+    },
+  ],
 };
 
 export const FORM_ELEMENTS = {
@@ -42,10 +45,10 @@ export const FORM_ELEMENTS = {
   isValid() {
     const { elements } = this;
     const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
+      .map((k) => elements[k].isValid())
+      .filter((v) => v !== null)
+      .every((element) => element);
 
     return valid;
-  }
+  },
 };

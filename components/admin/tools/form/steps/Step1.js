@@ -17,7 +17,7 @@ class Step1 extends React.Component {
 
     this.state = {
       id: props.id,
-      form: props.form
+      form: props.form,
     };
   }
 
@@ -35,7 +35,7 @@ class Step1 extends React.Component {
           {/* TITLE */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-            onChange={value => this.props.onChange({ title: value })}
+            onChange={(value) => this.props.onChange({ title: value })}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -43,7 +43,7 @@ class Step1 extends React.Component {
               label: 'Title',
               type: 'text',
               required: true,
-              default: this.state.form.title
+              default: this.state.form.title,
             }}
           >
             {Input}
@@ -52,12 +52,12 @@ class Step1 extends React.Component {
           {/* SUMMARY */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.summary = c; }}
-            onChange={value => this.props.onChange({ summary: value })}
+            onChange={(value) => this.props.onChange({ summary: value })}
             className="-fluid"
             properties={{
               name: 'summary',
               label: 'Summary',
-              default: this.state.form.summary
+              default: this.state.form.summary,
             }}
           >
             {TextArea}
@@ -66,12 +66,12 @@ class Step1 extends React.Component {
           {/* DESCRIPTION */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-            onChange={value => this.props.onChange({ description: value })}
+            onChange={(value) => this.props.onChange({ description: value })}
             className="-fluid"
             properties={{
               name: 'description',
               label: 'Description',
-              default: this.state.form.description
+              default: this.state.form.description,
             }}
           >
             {TextArea}
@@ -80,14 +80,14 @@ class Step1 extends React.Component {
           {/* URL */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.url = c; }}
-            onChange={value => this.props.onChange({ url: value })}
+            onChange={(value) => this.props.onChange({ url: value })}
             validations={['url']}
             className="-fluid"
             properties={{
               name: 'url',
               label: 'Url',
               type: 'text',
-              default: this.state.form.url
+              default: this.state.form.url,
             }}
           >
             {Input}
@@ -109,7 +109,7 @@ class Step1 extends React.Component {
                     label: 'Photo',
                     placeholder: 'Browse file',
                     default: this.state.form.thumbnail,
-                    required: true
+                    required: true,
                   }}
                 >
                   {FileImage}
@@ -121,14 +121,14 @@ class Step1 extends React.Component {
           {/* PUBLISHED */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-            onChange={value => this.props.onChange({ published: value.checked })}
+            onChange={(value) => this.props.onChange({ published: value.checked })}
             properties={{
               name: 'published',
               label: 'Do you want to set this dasboard as published?',
               value: 'published',
               title: 'Published',
               defaultChecked: this.props.form.published,
-              checked: this.props.form.published
+              checked: this.props.form.published,
             }}
           >
             {Checkbox}
@@ -142,7 +142,7 @@ class Step1 extends React.Component {
 Step1.propTypes = {
   id: PropTypes.string,
   form: PropTypes.object,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default Step1;

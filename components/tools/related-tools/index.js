@@ -9,8 +9,8 @@ import RelatedToolsComponent from './component';
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
-    ...state.relatedTools
+  (state) => ({
+    ...state.relatedTools,
   }),
-  actions
+  actions,
 )(RelatedToolsComponent);

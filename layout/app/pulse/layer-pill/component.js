@@ -5,15 +5,15 @@ import classnames from 'classnames';
 class LayerPillComponent extends PureComponent {
   render() {
     const { contextLayersPulse, layerId, label } = this.props;
-    const contextLayer = contextLayersPulse.activeLayers &&
-      contextLayersPulse.activeLayers.find(l => l === layerId);
+    const contextLayer = contextLayersPulse.activeLayers
+      && contextLayersPulse.activeLayers.find((l) => l === layerId);
 
     const className = classnames({
       'layer-pill': true,
       'c-button': true,
       '-secondary': !contextLayer,
       '-primary': contextLayer,
-      '-active': contextLayer
+      '-active': contextLayer,
     });
 
     return (
@@ -35,7 +35,7 @@ LayerPillComponent.propTypes = {
   label: PropTypes.string.isRequired,
   // Store
   contextLayersPulse: PropTypes.object.isRequired,
-  toggleContextualLayer: PropTypes.func.isRequired
+  toggleContextualLayer: PropTypes.func.isRequired,
 };
 
 export default LayerPillComponent;

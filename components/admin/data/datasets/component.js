@@ -8,7 +8,7 @@ import DatasetShow from 'components/admin/data/datasets/pages/show';
 class DatasetsTab extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    id: PropTypes.string
+    id: PropTypes.string,
   }
 
   static defaultProps = { id: null }
@@ -16,7 +16,7 @@ class DatasetsTab extends PureComponent {
   render() {
     const {
       id,
-      user: { token }
+      user: { token },
     } = this.props;
 
     return (

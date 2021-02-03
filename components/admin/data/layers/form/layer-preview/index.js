@@ -13,11 +13,11 @@ import LayerPreviewComponent from './component';
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
     adminLayerPreview: state.adminLayerPreview,
     interactions: state.interactions.added,
-    layers: getLayers(state)
+    layers: getLayers(state),
   }),
-  actions
+  actions,
 )(LayerPreviewComponent);

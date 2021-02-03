@@ -8,7 +8,7 @@ class HeaderGetInvolved extends PureComponent {
   static propTypes = {
     header: PropTypes.object.isRequired,
     children: PropTypes.array,
-    setDropdownOpened: PropTypes.func.isRequired
+    setDropdownOpened: PropTypes.func.isRequired,
   }
 
   static defaultProps = { children: [] }
@@ -21,7 +21,7 @@ class HeaderGetInvolved extends PureComponent {
   render() {
     const {
       header: { dropdownOpened },
-      children
+      children,
     } = this.props;
 
     return (
@@ -32,7 +32,7 @@ class HeaderGetInvolved extends PureComponent {
         classes={{ element: 'c-header-dropdown' }}
       >
         {/* first child: this is what the item will be tethered to */}
-        <Link route="get_involved" >
+        <Link route="get_involved">
           <a
             onMouseEnter={() => this.toggleDropdown(true)}
             onMouseLeave={() => this.toggleDropdown(false)}
@@ -41,38 +41,42 @@ class HeaderGetInvolved extends PureComponent {
           </a>
         </Link>
         {/* second child: ff present, this item will be tethered to the the first child */}
-        {dropdownOpened.get_involved &&
+        {dropdownOpened.get_involved
+        && (
         <ul
           className="header-dropdown-list"
           onMouseEnter={() => this.toggleDropdown(true)}
           onMouseLeave={() => this.toggleDropdown(false)}
         >
-          {children.map(c => (
+          {children.map((c) => (
             <li
               className="header-dropdown-list-item"
               key={c.label}
             >
-              {!!c.route &&
+              {!!c.route
+                && (
                 <Link route={c.route} params={c.params}>
                   <a>{c.label}</a>
                 </Link>
-              }
+                )}
 
-              {!!c.href &&
+              {!!c.href
+                && (
                 <a href={c.href}>
                   {c.label}
                 </a>
-              }
+                )}
 
-              {!c.route && !c.href &&
+              {!c.route && !c.href
+                && (
                 <span>
                   {c.label}
                 </span>
-              }
+                )}
             </li>
           ))}
         </ul>
-      }
+        )}
       </TetherComponent>
     );
   }

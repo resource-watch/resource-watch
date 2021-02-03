@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import {
   fetchDataset,
   createDataset,
-  updateDataset
+  updateDataset,
 } from 'services/dataset';
 import { fetchFields } from 'services/fields';
 
@@ -34,20 +34,21 @@ class DatasetsForm extends PureComponent {
     authorization: PropTypes.string.isRequired,
     dataset: PropTypes.string,
     basic: PropTypes.bool,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
   }
 
   static defaultProps = {
     dataset: null,
     basic: true,
-    onSubmit: null
+    onSubmit: null,
   }
 
-  state = Object.assign({}, STATE_DEFAULT, {
+  state = ({
+    ...STATE_DEFAULT,
     loading: !!this.props.dataset,
     loadingColumns: !!this.props.dataset,
     columns: [],
-    form: Object.assign({}, STATE_DEFAULT.form, { application: this.props.application })
+    form: { ...STATE_DEFAULT.form, application: this.props.application },
   });
 
   UNSAFE_componentWillMount() {
@@ -61,10 +62,10 @@ class DatasetsForm extends PureComponent {
 
           // sorts layers if applies
           if (
-            applicationConfig &&
-            applicationConfig[process.env.APPLICATIONS] &&
-            applicationConfig[process.env.APPLICATIONS].layerOrder &&
-            layers.length > 1) {
+            applicationConfig
+            && applicationConfig[process.env.APPLICATIONS]
+            && applicationConfig[process.env.APPLICATIONS].layerOrder
+            && layers.length > 1) {
             const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
             _layers = sortLayers(layers, layerOrder);
           }
@@ -74,7 +75,7 @@ class DatasetsForm extends PureComponent {
             loading: false,
             loadingColumns: true,
             layers: _layers,
-            dataDataset: dataset
+            dataDataset: dataset,
           });
 
           if (provider !== 'wms') {
@@ -86,7 +87,7 @@ class DatasetsForm extends PureComponent {
                 const columns = getFields(rawFields, provider, type);
                 this.setState({
                   columns,
-                  loadingColumns: false
+                  loadingColumns: false,
                 });
               })
               .catch(({ message }) => {
@@ -131,30 +132,28 @@ class DatasetsForm extends PureComponent {
             type: dataset ? 'PATCH' : 'POST',
             omit: dataset
               ? ['connectorUrlHint', 'connectorType', 'provider']
-              : ['connectorUrlHint']
+              : ['connectorUrlHint'],
           };
 
           let bodyObj = omit(form, requestOptions.omit);
 
           bodyObj.subscribable = {};
           form.subscribable.forEach((_subscription) => {
-            bodyObj.subscribable[_subscription.type] = Object.assign(
-              {},
-              {
-                dataQuery: _subscription.dataQuery,
-                subscriptionQuery: _subscription.subscriptionQuery
-              }
-            );
+            bodyObj.subscribable[_subscription.type] = {
+
+              dataQuery: _subscription.dataQuery,
+              subscriptionQuery: _subscription.subscriptionQuery,
+            };
           });
 
           // every updated dataset will contain set the layer order in its config
           // if it doesn't previously
           if (
-            dataset &&
-            layers.length &&
-            (!bodyObj.applicationConfig ||
-            !bodyObj.applicationConfig[process.env.APPLICATIONS] ||
-            !bodyObj.applicationConfig[process.env.APPLICATIONS].layerOrder)
+            dataset
+            && layers.length
+            && (!bodyObj.applicationConfig
+            || !bodyObj.applicationConfig[process.env.APPLICATIONS]
+            || !bodyObj.applicationConfig[process.env.APPLICATIONS].layerOrder)
           ) {
             bodyObj = {
               ...bodyObj,
@@ -162,9 +161,9 @@ class DatasetsForm extends PureComponent {
                 ...form.applicationConfig,
                 [process.env.APPLICATIONS]: {
                   ...(form.applicationConfig && form.applicationConfig[process.env.APPLICATIONS]),
-                  layerOrder: layers.map(_layer => _layer.id)
-                }
-              }
+                  layerOrder: layers.map((_layer) => _layer.id),
+                },
+              },
             };
           }
 
@@ -174,7 +173,7 @@ class DatasetsForm extends PureComponent {
                 this.setState({ submitting: false });
                 toastr.success(
                   'Success',
-                  `The dataset "${data.id}" - "${data.name}" has been updated correctly`
+                  `The dataset "${data.id}" - "${data.name}" has been updated correctly`,
                 );
                 if (this.props.onSubmit) this.props.onSubmit(data.id);
               })
@@ -188,7 +187,7 @@ class DatasetsForm extends PureComponent {
                 this.setState({ submitting: false });
                 toastr.success(
                   'Success',
-                  `The dataset "${data.id}" - "${data.name}" has been created correctly`
+                  `The dataset "${data.id}" - "${data.name}" has been created correctly`,
                 );
                 if (this.props.onSubmit) this.props.onSubmit(data.id);
               })
@@ -207,7 +206,7 @@ class DatasetsForm extends PureComponent {
   }
 
   onChange = (obj) => {
-    const form = Object.assign({}, this.state.form, obj);
+    const form = { ...this.state.form, ...obj };
     this.setState({ form });
   }
 
@@ -216,7 +215,7 @@ class DatasetsForm extends PureComponent {
   }
 
   // HELPERS
-  setFormFromParams(params) {    
+  setFormFromParams(params) {
     const form = Object.keys(this.state.form);
     const newForm = {};
 
@@ -228,13 +227,13 @@ class DatasetsForm extends PureComponent {
             type: prop,
             dataQuery: subscribable[prop].dataQuery,
             subscriptionQuery: subscribable[prop].subscriptionQuery,
-            id: i
+            id: i,
           }));
         } else {
           newForm[f] = params[f] || this.state.form[f];
         }
       }
-    });    
+    });
     return newForm;
   }
 
@@ -248,7 +247,7 @@ class DatasetsForm extends PureComponent {
       columns,
       stepLength,
       submitting,
-      dataDataset
+      dataDataset,
     } = this.state;
     const { dataset, basic, authorization } = this.props;
 
@@ -258,7 +257,7 @@ class DatasetsForm extends PureComponent {
 
         {step === 1 && !loading && (
           <Step1
-            onChange={value => this.onChange(value)}
+            onChange={(value) => this.onChange(value)}
             basic={basic}
             form={form}
             dataset={dataset}
@@ -283,10 +282,9 @@ class DatasetsForm extends PureComponent {
   }
 }
 
-
-const mapStateToProps = state => ({ locale: state.common.locale });
+const mapStateToProps = (state) => ({ locale: state.common.locale });
 
 export default connect(
   mapStateToProps,
-  null
+  null,
 )(DatasetsForm);

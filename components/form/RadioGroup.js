@@ -27,7 +27,7 @@ class RadioGroup extends FormElement {
 
     return (
       <div className={`c-radio-box ${this.props.className}`}>
-        {options.map(item => (
+        {options.map((item) => (
           <div key={`${item.value}`} className="c-radio">
             <input
               {...properties}
@@ -54,7 +54,7 @@ RadioGroup.propTypes = {
   options: PropTypes.array.isRequired,
   properties: PropTypes.object.isRequired,
   className: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default RadioGroup;

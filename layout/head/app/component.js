@@ -38,7 +38,7 @@ class HeadApp extends PureComponent {
               var s = document.getElementsByTagName('script')[0];
               s.parentNode.insertBefore(ur, s);
               })();
-            `
+            `,
           }}
         />
       );
@@ -86,7 +86,8 @@ class HeadApp extends PureComponent {
               r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
               a.appendChild(r);
             })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-          `}}
+          `,
+          }}
         />
       );
     }

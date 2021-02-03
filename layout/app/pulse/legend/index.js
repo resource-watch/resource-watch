@@ -5,7 +5,7 @@ import LegendComponent from './component';
 class LegendContainer extends Component {
   render() {
     return createElement(LegendComponent, {
-      ...this.props
+      ...this.props,
     });
   }
 }

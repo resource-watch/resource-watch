@@ -1,12 +1,12 @@
 import { createSelector } from 'reselect';
 
 // Get datasets
-const datasetList = state => state.explore.datasets.list;
-const filters = state => state.explore.filters;
-const exploreDatasetFilters = state => state.exploreDatasetFilters.filters;
-const datasetPage = state => state.explore.datasets.page;
-const datasetLimit = state => state.explore.datasets.limit;
-const datasetSorting = state => state.explore.sorting;
+const datasetList = (state) => state.explore.datasets.list;
+const filters = (state) => state.explore.filters;
+const exploreDatasetFilters = (state) => state.exploreDatasetFilters.filters;
+const datasetPage = (state) => state.explore.datasets.page;
+const datasetLimit = (state) => state.explore.datasets.limit;
+const datasetSorting = (state) => state.explore.sorting;
 
 const getPaginatedDatasets = (_list, _page, _limit) => {
   const from = (_page - 1) * _limit;
@@ -47,14 +47,14 @@ const getFilteredDatasets = (_list, _filters, _exploreDatasetFilters, _page, _li
   if (!haveResults && areFiltersApplied && !search) {
     return {
       totalFilteredDatasets: [],
-      filteredDatasets: getPaginatedDatasets([], _page, _limit)
+      filteredDatasets: getPaginatedDatasets([], _page, _limit),
     };
   }
 
   if (!areFiltersApplied) {
     return {
       totalFilteredDatasets: _list || [],
-      filteredDatasets: getPaginatedDatasets(getSortedDatasets(_list, _sorting), _page, _limit)
+      filteredDatasets: getPaginatedDatasets(getSortedDatasets(_list, _sorting), _page, _limit),
     };
   }
 
@@ -81,7 +81,7 @@ const getFilteredDatasets = (_list, _filters, _exploreDatasetFilters, _page, _li
       }
       if (it.attributes.vocabulary.length > 0) {
         const vocabulary = it.attributes.vocabulary[0];
-        const tagsCheck = vocabulary.attributes.tags.find(tag => tag.toLowerCase().indexOf(searchSt) >= 0);
+        const tagsCheck = vocabulary.attributes.tags.find((tag) => tag.toLowerCase().indexOf(searchSt) >= 0);
         if (tagsCheck) {
           searchFilterPassed = true;
         }
@@ -93,10 +93,10 @@ const getFilteredDatasets = (_list, _filters, _exploreDatasetFilters, _page, _li
     }
 
     const searchCheck = (search && searchFilterPassed) || !search;
-    const conceptsCheck = (datasetsFilteredByConcepts.length &&
-      datasetsFilteredByConcepts.length > 0
-      && conceptsCheckPassed) ||
-      !datasetsFilteredByConcepts.length || !datasetsFilteredByConcepts.length > 0;
+    const conceptsCheck = (datasetsFilteredByConcepts.length
+      && datasetsFilteredByConcepts.length > 0
+      && conceptsCheckPassed)
+      || !datasetsFilteredByConcepts.length || !datasetsFilteredByConcepts.length > 0;
 
     return searchCheck && conceptsCheck;
   });
@@ -105,7 +105,7 @@ const getFilteredDatasets = (_list, _filters, _exploreDatasetFilters, _page, _li
 
   return {
     totalFilteredDatasets: sortedFilteredDatasets || [],
-    filteredDatasets: getPaginatedDatasets(sortedFilteredDatasets, _page, _limit)
+    filteredDatasets: getPaginatedDatasets(sortedFilteredDatasets, _page, _limit),
   };
 };
 
@@ -117,5 +117,5 @@ export default createSelector(
   datasetPage,
   datasetLimit,
   datasetSorting,
-  getFilteredDatasets
+  getFilteredDatasets,
 );

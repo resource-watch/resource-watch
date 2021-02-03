@@ -6,12 +6,12 @@ import ReactMarkdown from 'react-markdown';
 
 // Components
 import { Tooltip } from 'vizzuality-components';
+import { fetchCountryPowerExplorerConfig } from 'services/config';
 import CountrySelector from './country-selector';
 import CustomSection from './custom-section';
 import CountryIndicators from './country-indicators';
 
 // Services
-import { fetchCountryPowerExplorerConfig } from 'services/config';
 
 // Constants
 import { WORLD_COUNTRY, US_COUNTRY_VALUES } from './constants';
@@ -23,7 +23,7 @@ function EnergyCountryExplorer(props) {
   const { selectedCountry } = props;
   const [countries, setCountries] = useState({
     loading: true,
-    list: []
+    list: [],
   });
   const [config, setConfig] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -33,8 +33,8 @@ function EnergyCountryExplorer(props) {
   useEffect(() => {
     // Load config
     fetchCountryPowerExplorerConfig()
-      .then(data => setConfig(data))
-      .catch(err => {
+      .then((data) => setConfig(data))
+      .catch((err) => {
         toastr.error('Error loading configuration file');
         console.error(err);
       });
@@ -50,11 +50,11 @@ function EnergyCountryExplorer(props) {
           loading: false,
           list: [
             WORLD_COUNTRY,
-            ...data.data.data.map(c => ({ label: c.country, value: c.iso }))
-          ]
+            ...data.data.data.map((c) => ({ label: c.country, value: c.iso })),
+          ],
         });
       })
-      .catch(err => toastr.error('Error loading countries', err));
+      .catch((err) => toastr.error('Error loading countries', err));
 
     loadSelectedCountry();
   }, []);
@@ -69,12 +69,12 @@ function EnergyCountryExplorer(props) {
         setSelectedCountryBbox(US_COUNTRY_VALUES.bbox);
       } else {
         axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
-        .then((data) => {
-          const atts = data.data.data.attributes;
-          setSelectedCountryBbox(atts.bbox);
-          setSelectedCountryGeojson(atts.geojson);
-        })
-        .catch(err => toastr.error(`Error loading country: ${selectedCountry}`, err));
+          .then((data) => {
+            const atts = data.data.data.attributes;
+            setSelectedCountryBbox(atts.bbox);
+            setSelectedCountryGeojson(atts.geojson);
+          })
+          .catch((err) => toastr.error(`Error loading country: ${selectedCountry}`, err));
       }
     } else {
       setSelectedCountryBbox(WORLD_COUNTRY.bbox);
@@ -84,12 +84,12 @@ function EnergyCountryExplorer(props) {
 
   const selectedCountryIsWorld = selectedCountry === WORLD_COUNTRY.value || !selectedCountry;
 
-  const selectedCountryObj = selectedCountry ?
-    countries.list.find(c => c.value === selectedCountry) :
-    WORLD_COUNTRY;
+  const selectedCountryObj = selectedCountry
+    ? countries.list.find((c) => c.value === selectedCountry)
+    : WORLD_COUNTRY;
 
-  const showCustomSections = config && (!selectedCountry || (selectedCountryObj &&
-    (selectedCountryIsWorld || (!selectedCountryIsWorld && selectedCountryBbox))));
+  const showCustomSections = config && (!selectedCountry || (selectedCountryObj
+    && (selectedCountryIsWorld || (!selectedCountryIsWorld && selectedCountryBbox))));
 
   const ndcsURL = `https://www.climatewatchdata.org/embed/countries/${selectedCountry}/ndc-content-overview?isNdcp=true#ndc-content-overview`;
 
@@ -108,14 +108,14 @@ function EnergyCountryExplorer(props) {
                     <ReactMarkdown linkTarget="_blank" source={config && config.countrySelector.mainText} />
                     <Tooltip
                       visible={tooltipOpen}
-                      overlay={
+                      overlay={(
                         <CountrySelector
                           countries={countries.list}
                           loading={countries.loading}
                           onCountrySelected={() => setTooltipOpen(false)}
                           selectedCountry={selectedCountry || WORLD_COUNTRY}
                         />
-                                            }
+                      )}
                       overlayClassName="c-rc-tooltip -default -no-max-width"
                       placement="bottom"
                       trigger="click"
@@ -125,17 +125,18 @@ function EnergyCountryExplorer(props) {
                         tabIndex={-1}
                         onClick={() => setTooltipOpen(true)}
                       >
-                                                Select country
+                        Select country
                       </button>
                     </Tooltip>
                   </div>
                 </div>
-                {selectedCountryObj && config && config.countryIndicators &&
+                {selectedCountryObj && config && config.countryIndicators
+                  && (
                   <CountryIndicators
                     indicators={config.countryIndicators}
                     country={selectedCountryObj}
                   />
-                }
+                  )}
               </div>
             </div>
           </div>
@@ -143,32 +144,33 @@ function EnergyCountryExplorer(props) {
       </div>
 
       {/* ------- CUSTOM SECTIONS ---------- */}
-      {showCustomSections &&
-                config.sections.map(section =>
-                  (<CustomSection
+      {showCustomSections
+                && config.sections.map((section) => (
+                  <CustomSection
                     section={section}
                     bbox={selectedCountryBbox}
                     geojson={selectedCountryGeojson}
                     country={selectedCountryObj}
                     key={`section-${section.header}`}
-                  />))
-            }
+                  />
+                ))}
       {/* ------- NDCs ---------- */}
-      {!selectedCountryIsWorld &&
+      {!selectedCountryIsWorld
+        && (
         <div className="ndcs-container l-container">
           <div className="row">
             <div className="column small-12">
-            <iframe
-              title="NDC targets"
-              src={ndcsURL}
-              width="100%"
-              height="600px"
-              frameBorder="0"
-            />
+              <iframe
+                title="NDC targets"
+                src={ndcsURL}
+                width="100%"
+                height="600px"
+                frameBorder="0"
+              />
             </div>
           </div>
         </div>
-      }
+        )}
     </div>
   );
 }

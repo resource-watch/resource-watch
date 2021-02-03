@@ -13,7 +13,7 @@ export const fetchPosts = (params = {}, headers = {}) => {
 
   return blogAPI.get('/posts', {
     headers: { ...headers },
-    params: { ...params }
+    params: { ...params },
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -29,7 +29,7 @@ export const fetchPosts = (params = {}, headers = {}) => {
       const { data } = response;
       const {
         message,
-        data: { status }
+        data: { status },
       } = data;
 
       logger.error(`Error fetching posts from blog: ${status}: ${message}`);

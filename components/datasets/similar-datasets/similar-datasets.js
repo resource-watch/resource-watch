@@ -12,7 +12,7 @@ class SimilarDatasetsContainer extends Component {
   static propTypes = {
     datasetIds: PropTypes.array.isRequired,
     getSimilarDatasets: PropTypes.func.isRequired,
-    resetSimilarDatasets: PropTypes.func.isRequired
+    resetSimilarDatasets: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -37,6 +37,6 @@ class SimilarDatasetsContainer extends Component {
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({ ...state.similarDatasets }),
-  actions
+  (state) => ({ ...state.similarDatasets }),
+  actions,
 )(SimilarDatasetsContainer);
