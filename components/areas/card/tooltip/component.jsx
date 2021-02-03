@@ -68,17 +68,15 @@ const AreaActionsTooltip = (props) => {
             Rename
           </button>
         </li>
-        {process.env.RW_FEATURE_FLAG_AREAS_V2 && (
-          <li>
-            <button
-              type="button"
-              className="c-button"
-              onClick={() => handleClick('change-visibility')}
-            >
-              {`Make ${area.public ? 'Private' : 'Public'}`}
-            </button>
-          </li>
-        )}
+        <li>
+          <button
+            type="button"
+            className="c-button"
+            onClick={() => handleClick('change-visibility')}
+          >
+            {`Make ${area.public ? 'Private' : 'Public'}`}
+          </button>
+        </li>
         {
         /**
         * * Enable subscriptions unconditionally when they work properly.
