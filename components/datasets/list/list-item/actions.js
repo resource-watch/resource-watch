@@ -11,7 +11,7 @@ export const setTagsError = createAction('DATASET_LIST_ITEM/setTagsError');
 export const resetTags = createAction('DATASET_LIST_ITEM/resetTags');
 
 // Async actions
-export const fetchTags = createThunkAction('DATASET_LIST_ITEM/fetchTags', tags => (dispatch) => {
+export const fetchTags = createThunkAction('DATASET_LIST_ITEM/fetchTags', (tags) => (dispatch) => {
   dispatch(setTagsLoading(true));
 
   return fetch(`${process.env.WRI_API_URL}//dataset/${this.datasetId}?application=${process.env.APPLICATIONS}&language=${this.opts.language}&includes="metadata"&page[size]=999`)
@@ -21,8 +21,8 @@ export const fetchTags = createThunkAction('DATASET_LIST_ITEM/fetchTags', tags =
     })
     .then(({ data }) => {
       dispatch(setTags(sortBy(
-        data.filter(tag => !TAGS_BLACKLIST.includes(tag.id)),
-        t => t.label
+        data.filter((tag) => !TAGS_BLACKLIST.includes(tag.id)),
+        (t) => t.label,
       )));
       dispatch(setTagsLoading(false));
     })

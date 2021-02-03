@@ -10,5 +10,5 @@ export default {
   setMobileOpened,
   setDropdownOpened,
   setSearchOpened,
-  setSearchTerm
+  setSearchTerm,
 };

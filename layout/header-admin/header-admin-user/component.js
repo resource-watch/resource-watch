@@ -15,7 +15,7 @@ class AdminHeaderUser extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
     header: PropTypes.object.isRequired,
-    setDropdownOpened: PropTypes.func.isRequired
+    setDropdownOpened: PropTypes.func.isRequired,
   }
 
   logout(e) {
@@ -30,7 +30,7 @@ class AdminHeaderUser extends PureComponent {
       },
       onError: (err) => {
         toastr.error('Error', err);
-      }
+      },
     });
   }
 
@@ -58,15 +58,17 @@ class AdminHeaderUser extends PureComponent {
                 onMouseEnter={() => this.toggleDropdown(true)}
                 onMouseLeave={() => this.toggleDropdown(false)}
               >
-                {(!user.photo && user.email) &&
-                  <span className="avatar-letter" >
+                {(!user.photo && user.email)
+                  && (
+                  <span className="avatar-letter">
                     {user.email.split('')[0]}
                   </span>
-                }
+                  )}
               </a>
             </Link>
             {/* Second child: If present, this item will be tethered to the the first child */}
-            {this.props.header.dropdownOpened.myrw &&
+            {this.props.header.dropdownOpened.myrw
+              && (
               <ul
                 className="header-dropdown-list"
                 onMouseEnter={() => this.toggleDropdown(true)}
@@ -77,18 +79,19 @@ class AdminHeaderUser extends PureComponent {
                     <a>Profile</a>
                   </Link>
                 </li>
-                {user.role === 'ADMIN' &&
+                {user.role === 'ADMIN'
+                  && (
                   <li className="header-dropdown-list-item">
                     <Link route="admin_home">
                       <a>Admin</a>
                     </Link>
                   </li>
-                }
+                  )}
                 <li className="header-dropdown-list-item">
                   <a onClick={this.logout} href="/logout">Logout</a>
                 </li>
               </ul>
-            }
+              )}
           </TetherComponent>
         </div>
       );
@@ -112,7 +115,8 @@ class AdminHeaderUser extends PureComponent {
           </span>
 
           {/* Second child: If present, this item will be tethered to the the first child */}
-          {this.props.header.dropdownOpened.myrw &&
+          {this.props.header.dropdownOpened.myrw
+            && (
             <ul
               className="header-dropdown-list"
               onMouseEnter={() => this.toggleDropdown(true)}
@@ -134,7 +138,7 @@ class AdminHeaderUser extends PureComponent {
                 </a>
               </li>
             </ul>
-          }
+            )}
         </TetherComponent>
       );
     }

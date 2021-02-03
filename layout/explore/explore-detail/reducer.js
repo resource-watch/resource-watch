@@ -2,7 +2,7 @@ import {
   SET_DATASET_LOADING,
   SET_DATASET,
   SET_TAGS,
-  SET_TAGS_LOADING
+  SET_TAGS_LOADING,
 } from './actions';
 
 export default (state, { type, payload }) => {

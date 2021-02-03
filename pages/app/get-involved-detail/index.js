@@ -20,14 +20,14 @@ class GetInvolvedDetailPage extends PureComponent {
         latestPosts,
         spotlightPosts,
         latestPostsError,
-        spotlightPostsError
-      }
+        spotlightPostsError,
+      },
     } = getState();
 
     // fetches posts from blog when there are no posts
     // to display or when an error happened previously
-    if (id === 'suggest-a-story' && ((!latestPosts.length && !spotlightPosts.length) ||
-    (latestPostsError || spotlightPostsError))) {
+    if (id === 'suggest-a-story' && ((!latestPosts.length && !spotlightPosts.length)
+    || (latestPostsError || spotlightPostsError))) {
       // fetches posts from blog
       await dispatch(getLatestPosts());
       await dispatch(getSpotlightPosts());
@@ -36,9 +36,9 @@ class GetInvolvedDetailPage extends PureComponent {
     // fetchs static data
     await dispatch(actions.fetchStaticData(id));
 
-    const breadcrumbsItems = source === 'home' ?
-      [{ name: 'Home', href: '/' }] :
-      [{ name: 'Get involved', href: '/get-involved' }];
+    const breadcrumbsItems = source === 'home'
+      ? [{ name: 'Home', href: '/' }]
+      : [{ name: 'Get involved', href: '/get-involved' }];
 
     return { breadCrumb: breadcrumbsItems };
   }
@@ -51,9 +51,9 @@ class GetInvolvedDetailPage extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     getInvolvedDetail: state.getInvolvedDetail,
-    user: state.user
+    user: state.user,
   }),
-  actions
+  actions,
 )(GetInvolvedDetailPage);

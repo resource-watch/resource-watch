@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 // actions
-import { getDatasetsByTab, setPaginationPage, setPaginationTotal, resetDatasets } from 'redactions/admin/datasets';
+import {
+  getDatasetsByTab, setPaginationPage, setPaginationTotal, resetDatasets,
+} from 'redactions/admin/datasets';
 
 // components
 import DatasetList from './dataset-list-component';
@@ -18,7 +20,7 @@ class DatasetListContainer extends PureComponent {
     getDatasetsByTab: PropTypes.func.isRequired,
     setPaginationPage: PropTypes.func.isRequired,
     setPaginationTotal: PropTypes.func.isRequired,
-    resetDatasets: PropTypes.func.isRequired
+    resetDatasets: PropTypes.func.isRequired,
   }
 
   UNSAFE_componentWillMount() {
@@ -26,7 +28,9 @@ class DatasetListContainer extends PureComponent {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { pathname, subtab, orderDirection, pagination } = this.props;
+    const {
+      pathname, subtab, orderDirection, pagination,
+    } = this.props;
     const { page } = pagination;
     const isMyRW = pathname.startsWith('/myrw');
     const tabChanged = subtab !== nextProps.subtab;
@@ -49,7 +53,7 @@ class DatasetListContainer extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   datasets: state.datasets.datasets.list,
   filters: state.datasets.datasets.filters,
   loading: state.datasets.datasets.loading,
@@ -59,14 +63,14 @@ const mapStateToProps = state => ({
   tab: state.routes.query.tab,
   subtab: state.routes.query.subtab,
   user: state.user,
-  locale: state.common.locale
+  locale: state.common.locale,
 });
 
 const mapDispatchToProps = {
   getDatasetsByTab,
   setPaginationPage,
   setPaginationTotal,
-  resetDatasets
+  resetDatasets,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetListContainer);

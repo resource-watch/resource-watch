@@ -26,7 +26,7 @@ class File extends FormElement {
       accepted: [],
       rejected: [],
       dropzoneActive: false,
-      loading: false
+      loading: false,
     };
 
     // BINDINGS
@@ -44,13 +44,13 @@ class File extends FormElement {
   */
   onDragEnter() {
     this.setState({
-      dropzoneActive: true
+      dropzoneActive: true,
     });
   }
 
   onDragLeave() {
     this.setState({
-      dropzoneActive: false
+      dropzoneActive: false,
     });
   }
 
@@ -58,7 +58,7 @@ class File extends FormElement {
     this.setState({
       accepted,
       rejected,
-      dropzoneActive: false
+      dropzoneActive: false,
     }, () => {
       if (this.state.accepted.length) {
         this.uploadFile(this.state.accepted[0]);
@@ -77,12 +77,12 @@ class File extends FormElement {
       this.setState({
         accepted: [],
         value: '',
-        validations: ['required', 'url']
+        validations: ['required', 'url'],
       }, () => {
         // Publish the new value to the form
         if (this.props.onChange) {
           this.props.onChange({
-            value: this.state.value
+            value: this.state.value,
           });
         }
         // Trigger validation
@@ -96,12 +96,12 @@ class File extends FormElement {
   triggerChange(e) {
     this.setState({
       value: e.currentTarget.value,
-      validations: ['required', 'url']
+      validations: ['required', 'url'],
     }, () => {
       // Publish the new value to the form
       if (this.props.onChange) {
         this.props.onChange({
-          value: this.state.value
+          value: this.state.value,
         });
       }
       // Trigger validation
@@ -137,7 +137,7 @@ class File extends FormElement {
       type: 'POST',
       url: `${process.env.WRI_API_URL}/dataset/upload`,
       headers: [{
-        key: 'Authorization', value: this.props.properties.authorization
+        key: 'Authorization', value: this.props.properties.authorization,
       }],
       body: formData,
       multipart: true,
@@ -145,16 +145,16 @@ class File extends FormElement {
         this.setState({
           value: connectorUrl,
           validations: ['required'],
-          loading: false
+          loading: false,
         }, () => {
           // Publish the new value to the form
           if (this.props.onChange) {
             this.props.onChange({
               ...COLUMN_FORMAT.includes(provider) && {
                 // filters non-empty fields
-                fields: fields.filter(field => (field || '').length)
+                fields: fields.filter((field) => (field || '').length),
               },
-              value: connectorUrl
+              value: connectorUrl,
             });
           }
           // Trigger validation
@@ -164,10 +164,10 @@ class File extends FormElement {
       onError: (err) => {
         this.setState({
           accepted: [],
-          loading: false
+          loading: false,
         });
         if (this.props.onValid) this.props.onValid(false, err);
-      }
+      },
     });
   }
 
@@ -176,7 +176,7 @@ class File extends FormElement {
     const { accepted, loading } = this.state;
 
     const inputClassName = classnames({
-      [properties.className]: !!properties.className
+      [properties.className]: !!properties.className,
     });
 
     return (
@@ -223,7 +223,7 @@ class File extends FormElement {
 File.propTypes = {
   properties: PropTypes.object.isRequired,
   validations: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default File;

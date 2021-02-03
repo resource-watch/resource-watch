@@ -54,13 +54,13 @@ class LayoutEmbedDashboard extends PureComponent {
                           <ShareModal
                             links={{
                               link: typeof window !== 'undefined' && window.location.href,
-                              embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${dashboard.slug}`
+                              embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${dashboard.slug}`,
                             }}
                             analytics={{
                               facebook: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, 'Facebook'),
                               twitter: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, 'Twitter'),
                               email: () => logEvent('Share', `Share dashboard: ${dashboard.name}`, 'Email'),
-                              copy: type => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, `Copy ${type}`)
+                              copy: (type) => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, `Copy ${type}`),
                             }}
                           />
                         </Modal>

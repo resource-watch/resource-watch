@@ -18,7 +18,7 @@ class Step1 extends React.Component {
 
     this.state = {
       id: props.id,
-      form: props.form
+      form: props.form,
     };
   }
 
@@ -35,14 +35,14 @@ class Step1 extends React.Component {
         {/* QUESTION */}
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.question = c; }}
-          onChange={value => this.props.onChange({ question: value })}
+          onChange={(value) => this.props.onChange({ question: value })}
           className="-fluid"
           validations={['required']}
           properties={{
             name: 'question',
             label: 'Question',
             required: true,
-            default: this.state.form.question
+            default: this.state.form.question,
           }}
         >
           {TextArea}
@@ -51,14 +51,14 @@ class Step1 extends React.Component {
         {/* QUESTION */}
         <Field
           ref={(c) => { if (c) FORM_ELEMENTS.elements.answer = c; }}
-          onChange={value => this.props.onChange({ answer: value })}
+          onChange={(value) => this.props.onChange({ answer: value })}
           className="-fluid"
           validations={['required']}
           properties={{
             name: 'answer',
             label: 'Answer',
             required: true,
-            default: this.state.form.answer
+            default: this.state.form.answer,
           }}
         >
           {TextArea}
@@ -71,7 +71,7 @@ class Step1 extends React.Component {
 Step1.propTypes = {
   id: PropTypes.string,
   form: PropTypes.object,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default Step1;

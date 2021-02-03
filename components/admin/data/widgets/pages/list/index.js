@@ -4,6 +4,6 @@ import { connect } from 'react-redux';
 import WidgetsIndex from './component';
 
 export default connect(
-  state => ({ user: state.user }),
-  null
+  (state) => ({ user: state.user }),
+  null,
 )(WidgetsIndex);

@@ -20,7 +20,7 @@ export default class CustomTable extends PureComponent {
     manualPagination: PropTypes.bool,
     sort: PropTypes.object,
     onToggleSelectedRow: PropTypes.func,
-    onRowDelete: PropTypes.func
+    onRowDelete: PropTypes.func,
   };
 
   /* Property default values */
@@ -31,7 +31,7 @@ export default class CustomTable extends PureComponent {
       enabled: true,
       pageSize: 20,
       page: 1,
-      total: null
+      total: null,
     },
     manualPagination: false,
     sort: {},
@@ -39,12 +39,12 @@ export default class CustomTable extends PureComponent {
       show: true,
       list: [
         { name: 'Edit', path: '#' },
-        { name: 'Remove', path: '#' }
-      ]
+        { name: 'Remove', path: '#' },
+      ],
     },
     filters: true,
     onToggleSelectedRow: null,
-    onRowDelete: null
+    onRowDelete: null,
   };
 
   /**
@@ -54,16 +54,16 @@ export default class CustomTable extends PureComponent {
    * - setTableData
   */
   static getColumnKeys(data) {
-    return uniq(flatten(data.map(d => Object.keys(d))));
+    return uniq(flatten(data.map((d) => Object.keys(d))));
   }
 
   static getColumnValues(data) {
     const columnsKeys = CustomTable.getColumnKeys(data);
     const columns = {};
     columnsKeys.forEach((key) => {
-      const values = uniq(data.map(d => d[key]))
+      const values = uniq(data.map((d) => d[key]))
         .sort((a, b) => a - b)
-        .map(d => d && d.toString());
+        .map((d) => d && d.toString());
       columns[key] = values;
     });
     return columns;
@@ -73,7 +73,7 @@ export default class CustomTable extends PureComponent {
     const { data } = props;
     return {
       data,
-      columnValues: CustomTable.getColumnValues(data)
+      columnValues: CustomTable.getColumnValues(data),
     };
   }
 
@@ -86,7 +86,7 @@ export default class CustomTable extends PureComponent {
       initialSort: props.sort,
       search: {},
       columnQueries: {},
-      rowSelection: []
+      rowSelection: [],
     };
   }
 
@@ -109,7 +109,7 @@ export default class CustomTable extends PureComponent {
         sort: nextProps.sort,
         search: {},
         columnQueries: {},
-        rowSelection: []
+        rowSelection: [],
       });
     }
   }
@@ -142,14 +142,14 @@ export default class CustomTable extends PureComponent {
 
   onRowDelete = (id) => {
     const data = this.state.data.slice();
-    const index = data.findIndex(row => row.id === id);
+    const index = data.findIndex((row) => row.id === id);
     data.splice(index, 1);
 
     this.setState({
       // Data
       data,
       // Columns
-      columnValues: CustomTable.getColumnValues(data)
+      columnValues: CustomTable.getColumnValues(data),
     }, () => {
       this.filter();
       if (this.props.onRowDelete) {
@@ -166,7 +166,7 @@ export default class CustomTable extends PureComponent {
     if (q.value) {
       columnQueries = {
         ...this.state.columnQueries,
-        [q.field]: q.value
+        [q.field]: q.value,
       };
     } else if (columnQueries[q.field]) {
       delete columnQueries[q.field];
@@ -187,7 +187,7 @@ export default class CustomTable extends PureComponent {
     } else {
       const newSortingRule = {
         field: s.field,
-        value: s.value
+        value: s.value,
       };
       this.setState({ sort: newSortingRule });
     }
@@ -196,7 +196,7 @@ export default class CustomTable extends PureComponent {
   onSearch = (s) => {
     const search = {
       field: s.field,
-      value: s.value
+      value: s.value,
     };
 
     this.setState({ search }, () => {
@@ -209,8 +209,8 @@ export default class CustomTable extends PureComponent {
     this.setState({
       pagination: {
         ...this.state.pagination,
-        page
-      }
+        page,
+      },
     });
     this.props.onChangePage(page);
   }
@@ -231,9 +231,9 @@ export default class CustomTable extends PureComponent {
           .includes(search.value.toString().toLowerCase());
       }
 
-      const filteredByQuery = Object.keys(columnQueries).map(field => columnQueries[field]
-        .map(val => row[field].toString().toLowerCase() === val.toString()
-          .toLowerCase()).some(match => match)).every(match => match);
+      const filteredByQuery = Object.keys(columnQueries).map((field) => columnQueries[field]
+        .map((val) => row[field].toString().toLowerCase() === val.toString()
+          .toLowerCase()).some((match) => match)).every((match) => match);
 
       return filteredByQuery && filteredBySearch;
     });
@@ -241,8 +241,8 @@ export default class CustomTable extends PureComponent {
     if (manualPagination) {
       const maxPage = Math.ceil(filteredData.length / pagination.pageSize);
       // Check if the page is equal to the total
-      const page = (pagination.page !== 0 && pagination.page === maxPage) ?
-        pagination.page - 1 : pagination.page;
+      const page = (pagination.page !== 0 && pagination.page === maxPage)
+        ? pagination.page - 1 : pagination.page;
 
       this.setState({
         filteredData,
@@ -250,8 +250,8 @@ export default class CustomTable extends PureComponent {
           ...pagination,
           // page,
           ...(search && (search.value || '').length > 0 ? { page: 1 } : { page }),
-          total: filteredData.length
-        }
+          total: filteredData.length,
+        },
       });
     }
 

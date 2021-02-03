@@ -14,22 +14,19 @@ function DashboardsTab(props) {
     tab,
     subtab,
     id,
-    user
+    user,
   } = props;
 
   return (
     <div className="c-dashboards-tab">
-      {user.token && !id &&
-        <DashboardsIndex tab={tab} subtab={subtab} id={id} user={user} />
-      }
+      {user.token && !id
+        && <DashboardsIndex tab={tab} subtab={subtab} id={id} user={user} />}
 
-      {user.token && id && id === 'new' &&
-        <DashboardsNew tab={tab} subtab={subtab} id={id} user={user} />
-      }
+      {user.token && id && id === 'new'
+        && <DashboardsNew tab={tab} subtab={subtab} id={id} user={user} />}
 
-      {user.token && id && id !== 'new' &&
-        <DashboardsShow tab={tab} subtab={subtab} id={id} user={user} />
-      }
+      {user.token && id && id !== 'new'
+        && <DashboardsShow tab={tab} subtab={subtab} id={id} user={user} />}
     </div>
   );
 }
@@ -38,11 +35,11 @@ DashboardsTab.propTypes = {
   user: PropTypes.object,
   tab: PropTypes.string,
   id: PropTypes.string,
-  subtab: PropTypes.string
+  subtab: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  user: state.user
+const mapStateToProps = (state) => ({
+  user: state.user,
 });
 
 export default connect(mapStateToProps, null)(DashboardsTab);

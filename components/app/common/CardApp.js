@@ -8,28 +8,31 @@ import Title from 'components/ui/Title';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-function CardApp({ background, title, description, link, className, buttonType, logEvent = false }) {
+function CardApp({
+  background, title, description, link, className, buttonType, logEvent = false,
+}) {
   const classNames = classnames({
-    [className]: className
+    [className]: className,
   });
 
   const buttonClasses = classnames({
     '-secondary': !buttonType,
-    '-primary': buttonType && buttonType === 'primary'
+    '-primary': buttonType && buttonType === 'primary',
   });
 
   return (
     <div
       className={`c-card-app ${classNames}`}
     >
-      {!!(background) &&
+      {!!(background)
+        && (
         <div
           className="card-background"
           style={{
-            backgroundImage: `url(${background})`
+            backgroundImage: `url(${background})`,
           }}
         />
-      }
+        )}
 
       <div className="card-container">
         <Title className="-default">
@@ -41,7 +44,8 @@ function CardApp({ background, title, description, link, className, buttonType, 
         </div>
 
         <div className="card-footer">
-          {!!link &&
+          {!!link
+            && (
             <a
               href={link.route}
               target={(!!link.external && '_blank') || '_self'}
@@ -54,7 +58,7 @@ function CardApp({ background, title, description, link, className, buttonType, 
             >
               {link.label}
             </a>
-          }
+            )}
         </div>
       </div>
     </div>
@@ -68,7 +72,7 @@ CardApp.propTypes = {
   link: PropTypes.object,
   buttonType: PropTypes.string,
   className: PropTypes.any,
-  logEvent: PropTypes.bool
+  logEvent: PropTypes.bool,
 };
 
 export default CardApp;

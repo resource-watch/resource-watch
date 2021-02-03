@@ -8,7 +8,7 @@ import LayersShow from 'components/admin/data/layers/pages/show';
 class LayersTab extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    id: PropTypes.string
+    id: PropTypes.string,
   }
 
   static defaultProps = { id: null }
@@ -16,7 +16,7 @@ class LayersTab extends PureComponent {
   render() {
     const {
       id,
-      user: { token }
+      user: { token },
     } = this.props;
 
     return (

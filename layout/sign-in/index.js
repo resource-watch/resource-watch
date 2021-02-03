@@ -9,5 +9,5 @@ import SigIn from './component';
 
 export default connect(
   null,
-  { setUser }
+  { setUser },
 )(SigIn);

@@ -10,7 +10,7 @@ class ImportSelector extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
     dashboards: PropTypes.array.isRequired,
-    getFeaturedDashboards: PropTypes.func.isRequired
+    getFeaturedDashboards: PropTypes.func.isRequired,
   };
 
   state = { isOpen: false }
@@ -36,7 +36,7 @@ class ImportSelector extends PureComponent {
             const { message } = error;
             toastr.error(message);
           });
-      }
+      },
     });
   }
 
@@ -59,13 +59,14 @@ class ImportSelector extends PureComponent {
           <h4 className="template-name">Clone a dashboard page</h4>
           <span className="template-description">Clone a dashboad page into a new dashboard</span>
         </li>
-        {isOpen &&
+        {isOpen
+          && (
           <ul
             className="header-dropdown-list"
             onMouseEnter={() => this.setState({ isOpen: true })}
             onMouseLeave={() => this.setState({ isOpen: false })}
           >
-            {dashboards.map(_dashboard => (
+            {dashboards.map((_dashboard) => (
               <li
                 className="header-dropdown-list-item"
                 key={_dashboard.id}
@@ -74,7 +75,7 @@ class ImportSelector extends PureComponent {
               </li>
             ))}
           </ul>
-        }
+          )}
       </TetherComponent>
     );
   }

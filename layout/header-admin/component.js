@@ -16,7 +16,7 @@ class AdminHeader extends PureComponent {
   static propTypes = {
     header: PropTypes.object.isRequired,
     responsive: PropTypes.object.isRequired,
-    pageHeader: PropTypes.bool
+    pageHeader: PropTypes.bool,
   };
 
   static defaultProps = { pageHeader: false };
@@ -25,16 +25,16 @@ class AdminHeader extends PureComponent {
     const {
       header: { admin },
       pageHeader,
-      responsive: { fakeWidth }
+      responsive: { fakeWidth },
     } = this.props;
     const { medium } = breakpoints;
     const headerClass = classnames(
       'l-header',
-      { '-transparent': pageHeader }
+      { '-transparent': pageHeader },
     );
     const containerClass = classnames(
       'l-container',
-      { '-admin': admin }
+      { '-admin': admin },
     );
 
     return (

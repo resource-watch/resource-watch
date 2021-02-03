@@ -20,19 +20,18 @@ export const fetchFaqs = (params = {}, headers = {}) => {
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
         ...params,
-        published: 'all'
+        published: 'all',
       },
-      headers: { ...headers }
-    }
+      headers: { ...headers },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching faqs: ${status}: ${statusText}`);
       throw new Error(`Error fetching faqs: ${status}: ${statusText}`);
     });
 };
-
 
 /**
  * Get FAQ by its ID.
@@ -50,12 +49,12 @@ export const fetchFaq = (id, params = {}, headers = {}) => {
       params: {
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        ...params
+        ...params,
       },
-      headers: { ...headers }
-    }
+      headers: { ...headers },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching faq ${id}: ${status}: ${statusText}`);
@@ -78,10 +77,10 @@ export const deleteFaq = (id, token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -108,12 +107,12 @@ export const updateFaq = (id, faq, token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating faq ${id}: ${status}: ${statusText}`);
@@ -138,12 +137,12 @@ export const createFaq = (faq, token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating faq: ${status}: ${statusText}`);
@@ -168,12 +167,12 @@ export const updateFaqOrder = (order, token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating faq order: ${status}: ${statusText}`);

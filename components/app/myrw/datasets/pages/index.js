@@ -14,21 +14,21 @@ const DATASET_SUBTABS = [{
   label: 'My datasets',
   value: 'my_datasets',
   route: 'myrw',
-  params: { tab: 'datasets', subtab: 'my_datasets' }
+  params: { tab: 'datasets', subtab: 'my_datasets' },
 }, {
   label: 'Favourites',
   value: 'favourites',
   route: 'myrw',
-  params: { tab: 'datasets', subtab: 'favourites' }
+  params: { tab: 'datasets', subtab: 'favourites' },
 }];
 
 class DatasetIndex extends PureComponent {
   static defaultProps = {
-    subtab: 'my_datasets'
+    subtab: 'my_datasets',
   };
 
   static propTypes = {
-    subtab: PropTypes.string
+    subtab: PropTypes.string,
   };
 
   render() {
@@ -63,9 +63,9 @@ class DatasetIndex extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
-  subtab: state.routes.query.subtab
+  subtab: state.routes.query.subtab,
 });
 
 export default connect(mapStateToProps, null)(DatasetIndex);

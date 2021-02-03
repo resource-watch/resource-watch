@@ -10,13 +10,13 @@ class DashboardThumbnailList extends PureComponent {
   static propTypes = {
     dashboards: PropTypes.array,
     onSelect: PropTypes.func,
-    user: PropTypes.bool
+    user: PropTypes.bool,
   }
 
   static defaultProps = {
     onSelect: () => {},
     dashboards: [],
-    user: false
+    user: false,
   }
 
   render() {
@@ -27,14 +27,14 @@ class DashboardThumbnailList extends PureComponent {
       <div className="c-dashboards-thumbnail-list">
         <div className="row l-row -equal-height">
           {
-            dashboards.map(dashboard => (
+            dashboards.map((dashboard) => (
               <div
                 key={dashboard.slug}
                 className={classnames({
                   column: true,
                   'small-12': true,
                   'medium-6': true,
-                  'large-3': true
+                  'large-3': true,
                 })}
               >
                 <button

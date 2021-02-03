@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import VizzWysiwyg from 'vizz-wysiwyg';
+import VizzWysiwyg from '@vizzuality/wysiwyg';
 import FormElement from './FormElement';
 
 class Wysiwyg extends FormElement {
@@ -17,7 +17,7 @@ class Wysiwyg extends FormElement {
       id: Date.now(),
       value: this.props.properties.default,
       valid: null,
-      error: []
+      error: [],
     };
   }
 
@@ -40,7 +40,7 @@ class Wysiwyg extends FormElement {
   setValue(value) {
     this.setState({
       id: Date.now(),
-      value
+      value,
     });
   }
 
@@ -68,7 +68,7 @@ class Wysiwyg extends FormElement {
 
 Wysiwyg.propTypes = {
   properties: PropTypes.object.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default Wysiwyg;

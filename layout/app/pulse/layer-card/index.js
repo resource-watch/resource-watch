@@ -13,10 +13,10 @@ import { getUpdatedDataset } from './selectors';
 
 import LayerCardComponent from './component';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   layerMenuPulse: state.layerMenuPulse,
   layerCardPulse: { ...state.layerCardPulse, dataset: getUpdatedDataset(state) },
-  activeContextLayers: activeContextLayers(state)
+  activeContextLayers: activeContextLayers(state),
 });
 
 class LayerCardContainer extends Component {

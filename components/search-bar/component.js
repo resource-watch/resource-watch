@@ -11,7 +11,7 @@ class SearchBar extends PureComponent {
     search: PropTypes.shape({
       term: PropTypes.string,
       selected: PropTypes.number,
-      list: PropTypes.array
+      list: PropTypes.array,
     }).isRequired,
     header: PropTypes.shape({ searchOpened: PropTypes.bool }).isRequired,
     isHeader: PropTypes.bool,
@@ -21,12 +21,12 @@ class SearchBar extends PureComponent {
     setSearchUrl: PropTypes.func.isRequired,
     fetchSearch: PropTypes.func.isRequired,
     setSearchOpened: PropTypes.func.isRequired,
-    setSearchSelected: PropTypes.func.isRequired
+    setSearchSelected: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     isHeader: false,
-    selected: null
+    selected: null,
   }
 
   componentDidUpdate() {
@@ -50,7 +50,7 @@ class SearchBar extends PureComponent {
       setSearchPage,
       setSearchTerm,
       setSearchUrl,
-      fetchSearch
+      fetchSearch,
     } = this.props;
 
     if (!isHeader) {
@@ -68,7 +68,7 @@ class SearchBar extends PureComponent {
     const {
       search,
       selected,
-      setSearchSelected
+      setSearchSelected,
     } = this.props;
 
     const keyTargets = /Arrow(Up|Down)|Enter/.test(key);
@@ -102,7 +102,7 @@ class SearchBar extends PureComponent {
     const {
       setSearchTerm,
       fetchSearch,
-      setSearchOpened
+      setSearchOpened,
     } = this.props;
 
     if (!opened) {
@@ -117,7 +117,7 @@ class SearchBar extends PureComponent {
   render() {
     const {
       search: { term },
-      isHeader
+      isHeader,
     } = this.props;
 
     return (
@@ -125,15 +125,16 @@ class SearchBar extends PureComponent {
         <SearchInput
           isHeader={isHeader}
           getRef={(c) => { this.input = c; }}
-          onKeyDown={e => this.onKeyDown(e)}
+          onKeyDown={(e) => this.onKeyDown(e)}
           input={{
             placeholder: 'Search term',
-            value: term
+            value: term,
           }}
           onSearch={this.onSearch}
         />
 
-        {isHeader &&
+        {isHeader
+          && (
           <button
             className="search-close"
             type="button"
@@ -144,7 +145,7 @@ class SearchBar extends PureComponent {
               className="-smaller"
             />
           </button>
-        }
+          )}
       </div>
     );
   }

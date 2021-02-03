@@ -8,11 +8,11 @@ export const VIDEO_OPTIONS = {
     showinfo: 0,
     rel: 0,
     loop: 1,
-    playlist: VIDEO_ID
-  }
+    playlist: VIDEO_ID,
+  },
 };
 
 export default {
   VIDEO_ID,
-  VIDEO_OPTIONS
+  VIDEO_OPTIONS,
 };

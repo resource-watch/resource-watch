@@ -24,4 +24,3 @@ class DashboardsPage extends PureComponent {
 }
 
 export default DashboardsPage;
-

@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import LayoutAdminDataDetail from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     query: state.routes.query,
     user: state.user,
-    locale: state.common.locale
+    locale: state.common.locale,
   }),
-  null
+  null,
 )(LayoutAdminDataDetail);

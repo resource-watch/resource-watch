@@ -27,7 +27,7 @@ class LayoutFaqs extends PureComponent {
   render() {
     const { faqs } = this.props;
     // TO-DO: move this from here
-    const orderedFaqs = sortBy(faqs, faq => faq.order);
+    const orderedFaqs = sortBy(faqs, (faq) => faq.order);
 
     return (
       <Layout
@@ -54,7 +54,7 @@ class LayoutFaqs extends PureComponent {
             <Accordion
               allowMultipleExpanded
               allowZeroExpanded
-              items={orderedFaqs.map(e => ({ id: e.id, content: e.answer, title: e.question }))}
+              items={orderedFaqs.map((e) => ({ id: e.id, content: e.answer, title: e.question }))}
             />
           </div>
         </section>
@@ -68,7 +68,9 @@ class LayoutFaqs extends PureComponent {
                   bgImage="/static/images/backgrounds/partners-02@2x.jpg"
                 >
                   <p className="-claim">
-                    Questions, comments, or feedback? <br />
+                    Questions, comments, or feedback?
+                    {' '}
+                    <br />
                     Help us improve Resource Watch.
                   </p>
                   <Link to="about_contact-us">

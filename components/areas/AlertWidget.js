@@ -35,7 +35,7 @@ import {
   LegendListItem,
   LegendItemToolbar,
   LegendItemButtonInfo,
-  LegendItemTypes
+  LegendItemTypes,
 } from 'vizzuality-components';
 
 class AlertWidget extends React.Component {
@@ -45,13 +45,13 @@ class AlertWidget extends React.Component {
       dataset,
       subscriptionData,
       user,
-      id
+      id,
     } = props;
 
     const { areas } = user;
 
     this.state = {
-      area: areas.items.find(a => a.id === id),
+      area: areas.items.find((a) => a.id === id),
       alertTable: null,
       subscriptionData,
       modalOpen: false,
@@ -60,7 +60,7 @@ class AlertWidget extends React.Component {
       layer: null,
       latLng: {
         lat: 0,
-        lng: 0
+        lng: 0,
       },
       layerGroups: [{
         dataset: dataset ? dataset.id : null,
@@ -71,9 +71,9 @@ class AlertWidget extends React.Component {
           name: d.name,
           layerConfig: d.layerConfig,
           legendConfig: d.legendConfig,
-          provider: d.provider
-        })) : null
-      }]
+          provider: d.provider,
+        })) : null,
+      }],
     };
   }
 
@@ -90,7 +90,7 @@ class AlertWidget extends React.Component {
 
   UNSAFE_componentWillUpdate(nextProps) {
     if ((nextProps.subscriptionData !== this.state.subscriptionData) && !this.state.alertTable) {
-      this.getAlertHistory(nextProps).then(table => this.setState({ alertTable: table }));
+      this.getAlertHistory(nextProps).then((table) => this.setState({ alertTable: table }));
     }
   }
 
@@ -102,13 +102,13 @@ class AlertWidget extends React.Component {
   onChangeLayer = (l) => {
     const { layerGroups } = this.state;
 
-    const layers = layerGroups.length && 'layers' in layerGroups[0] ?
-      layerGroups[0].layers.map((layer) => {
+    const layers = layerGroups.length && 'layers' in layerGroups[0]
+      ? layerGroups[0].layers.map((layer) => {
         layer.active = layer.id === l.id;
         return layer;
       }) : [];
 
-    layerGroups[0] = Object.assign({}, layerGroups[0], layers);
+    layerGroups[0] = { ...layerGroups[0], ...layers };
     this.setState({ layerGroups });
   }
 
@@ -126,17 +126,17 @@ class AlertWidget extends React.Component {
   getAlertInfoFromKey(key) {
     return {
       id: key.substr(0, 36),
-      title: key.substring(37)
+      title: key.substring(37),
     };
   }
 
   getAlertHistory(props) {
     const { subscriptionData, dataset } = props;
-    const layer = dataset ? dataset.layer.find(l => l.default) : null;
+    const layer = dataset ? dataset.layer.find((l) => l.default) : null;
 
     const o = {
       columns: [],
-      data: []
+      data: [],
     };
 
     return new Promise((resolve) => {
@@ -165,8 +165,10 @@ class AlertWidget extends React.Component {
 
   render() {
     const { dataset } = this.props;
-    const layer = dataset ? dataset.layer.find(l => l.default) : null;
-    const { zoom, latLng, layerGroups, alertTable, geostore } = this.state;
+    const layer = dataset ? dataset.layer.find((l) => l.default) : null;
+    const {
+      zoom, latLng, layerGroups, alertTable, geostore,
+    } = this.state;
 
     return (
       <div className="c-alerts-page__widget">
@@ -180,7 +182,8 @@ class AlertWidget extends React.Component {
           </button>
         </div>
 
-        {layer &&
+        {layer
+          && (
           <div className="c-alerts-page__graph">
             <Map
               mapConfig={{ zoom, latLng }}
@@ -188,21 +191,21 @@ class AlertWidget extends React.Component {
               onReady={(map) => { this.map = map; }}
               basemap={{
                 url: BASEMAPS.dark.value,
-                options: BASEMAPS.dark.options
+                options: BASEMAPS.dark.options,
               }}
               label={{
                 url: LABELS.light.value,
-                options: LABELS.light.options
+                options: LABELS.light.options,
               }}
               {...geostore && {
                 bounds: {
                   bbox: geostore.bbox,
-                  options: { padding: [20, 20] }
-                }
+                  options: { padding: [20, 20] },
+                },
               }}
             >
-              {map => (
-                <React.Fragment>
+              {(map) => (
+                <>
                   <MapControls
                     customClass="c-map-controls"
                   >
@@ -219,30 +222,31 @@ class AlertWidget extends React.Component {
                   </MapControls>
 
                   <LayerManager map={map} plugin={PluginLeaflet}>
-                    <React.Fragment>
+                    <>
                       <Layer {...layer} />
-                      {geostore &&
+                      {geostore
+                      && (
                       <Layer
                         id={geostore.id}
                         name="Geojson"
                         provider="leaflet"
                         layerConfig={{
-                              type: 'geoJSON',
-                              body: geostore.geojson
-                            }}
+                          type: 'geoJSON',
+                          body: geostore.geojson,
+                        }}
                             // Interaction
                         interactivity
                         events={{
-                              mouseover: (e) => {
-                                console.info(e);
-                              }
-                            }}
+                          mouseover: (e) => {
+                            console.info(e);
+                          },
+                        }}
                       />
-                        }
-                    </React.Fragment>
+                      )}
+                    </>
                   </LayerManager>
 
-                </React.Fragment>
+                </>
               )}
             </Map>
 
@@ -258,26 +262,29 @@ class AlertWidget extends React.Component {
                     key={lg.dataset}
                     layerGroup={lg}
                     onChangeInfo={this.onChangeInfo}
-                    toolbar={
+                    toolbar={(
                       <LegendItemToolbar>
                         <LegendItemButtonInfo />
                       </LegendItemToolbar>
-                    }
+                    )}
                   >
                     <LegendItemTypes />
                   </LegendListItem>
-              ))}
+                ))}
               </Legend>
             </div>
           </div>
-        }
+          )}
 
-        {alertTable ? <DataTable
-          title="10 Most Recent Changes"
-          table={alertTable}
-        /> : <p>There are no alerts for this subscription yet.</p>}
+        {alertTable ? (
+          <DataTable
+            title="10 Most Recent Changes"
+            table={alertTable}
+          />
+        ) : <p>There are no alerts for this subscription yet.</p>}
 
-        {this.state.modalOpen &&
+        {this.state.modalOpen
+          && (
           <Modal
             isOpen
             onRequestClose={() => this.handleEditSubscription(false)}
@@ -290,9 +297,11 @@ class AlertWidget extends React.Component {
               subscriptionType
               subscriptionThreshold
             /> */}
-          </Modal>}
+          </Modal>
+          )}
 
-        {!!this.state.layer &&
+        {!!this.state.layer
+          && (
           <Modal
             isOpen={!!this.state.layer}
             className="-medium"
@@ -302,9 +311,10 @@ class AlertWidget extends React.Component {
               layer={this.state.layer}
             />
           </Modal>
-        }
+          )}
 
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -313,13 +323,13 @@ AlertWidget.propTypes = {
   subscriptionData: PropTypes.array,
   subscription: PropTypes.object,
   user: PropTypes.object,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
   locale: state.common.locale,
-  alerts: areaAlerts(state)
+  alerts: areaAlerts(state),
 });
 
 export default connect(mapStateToProps, null)(AlertWidget);

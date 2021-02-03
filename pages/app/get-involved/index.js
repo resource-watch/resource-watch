@@ -23,9 +23,9 @@ class GetInvolvedPage extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     getInvolvedIndex: state.getInvolvedIndex,
-    user: state.user
+    user: state.user,
   }),
-  actions
+  actions,
 )(GetInvolvedPage);

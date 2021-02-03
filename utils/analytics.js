@@ -23,7 +23,7 @@ export const logEvent = (category = '', action = '', label = '') => {
       ReactGA.event({
         category,
         action,
-        ...!!label && { label }
+        ...!!label && { label },
       });
     }
   } else {

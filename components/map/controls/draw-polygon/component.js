@@ -1,4 +1,3 @@
-
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -15,12 +14,12 @@ class DrawPolygonControls extends PureComponent {
     drawing: PropTypes.bool.isRequired,
     showRemovePolygonButton: PropTypes.bool,
     onDrawPolygon: PropTypes.func.isRequired,
-    onRemovePolygon: PropTypes.func.isRequired
+    onRemovePolygon: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     className: null,
-    showRemovePolygonButton: true
+    showRemovePolygonButton: true,
   }
 
   handleDrawPolygon = () => {
@@ -39,12 +38,12 @@ class DrawPolygonControls extends PureComponent {
     const { className, drawing, showRemovePolygonButton } = this.props;
     const componentClass = classnames({
       'c-draw-polygon-control': true,
-      [className]: !!className
+      [className]: !!className,
     });
 
     const drawPolygonBtnClass = classnames({
       'draw-polygon--btn': true,
-      '-drawing': drawing
+      '-drawing': drawing,
     });
 
     return (
@@ -63,7 +62,8 @@ class DrawPolygonControls extends PureComponent {
             onClick={this.handleRemovePolygon}
           >
             <Icon name="icon-bin" />
-          </button>)}
+          </button>
+        )}
       </div>
     );
   }

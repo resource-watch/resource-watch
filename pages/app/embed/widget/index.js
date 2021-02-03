@@ -12,7 +12,7 @@ class EmbedWidgetPage extends PureComponent {
     const { dispatch, getState } = store;
     const {
       routes: { query: { id, webshot } },
-      user
+      user,
     } = getState();
     const referer = isServer ? req.headers.referer : window.location.href;
 

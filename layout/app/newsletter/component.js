@@ -18,7 +18,7 @@ import { FORM_COUNTRIES } from './constants';
 class LayoutNewsletter extends PureComponent {
   state = {
     modal: false,
-    data: {}
+    data: {},
   }
 
   onSubmit = () => { this.setState({ modal: true }); }
@@ -58,8 +58,8 @@ class LayoutNewsletter extends PureComponent {
                 </h2>
                 <p>
                   Don’t miss out on training announcements, our monthly newsletter,
-                   exclusive tips for using the platform,
-                   and the latest stories on the pulse of the planet.
+                  exclusive tips for using the platform,
+                  and the latest stories on the pulse of the planet.
                 </p>
               </div>
             </div>
@@ -75,12 +75,12 @@ class LayoutNewsletter extends PureComponent {
                     <Field
                       validations={['required']}
                       className="-fluid"
-                      onChange={value => this.onChange({ first_name: value })}
+                      onChange={(value) => this.onChange({ first_name: value })}
                       properties={{
                         name: 'first_name',
                         label: 'First name',
                         type: 'text',
-                        required: true
+                        required: true,
                       }}
                     >
                       {Input}
@@ -88,12 +88,12 @@ class LayoutNewsletter extends PureComponent {
                     <Field
                       validations={['required']}
                       className="-fluid"
-                      onChange={value => this.onChange({ last_name: value })}
+                      onChange={(value) => this.onChange({ last_name: value })}
                       properties={{
                         name: 'last_name',
                         label: 'Last name',
                         type: 'text',
-                        required: true
+                        required: true,
                       }}
                     >
                       {Input}
@@ -102,12 +102,12 @@ class LayoutNewsletter extends PureComponent {
                   <Field
                     validations={['required', 'email']}
                     className="-fluid"
-                    onChange={value => this.onChange({ email: value })}
+                    onChange={(value) => this.onChange({ email: value })}
                     properties={{
                       name: 'email',
                       label: 'Email',
                       type: 'email',
-                      required: true
+                      required: true,
                     }}
                   >
                     {Input}
@@ -116,12 +116,12 @@ class LayoutNewsletter extends PureComponent {
                     <Field
                       validations={['required']}
                       className="-fluid"
-                      onChange={value => this.onChange({ city: value })}
+                      onChange={(value) => this.onChange({ city: value })}
                       properties={{
                         name: 'city',
                         label: 'City',
                         type: 'text',
-                        required: true
+                        required: true,
                       }}
                     >
                       {Input}
@@ -129,13 +129,13 @@ class LayoutNewsletter extends PureComponent {
                     <Field
                       validations={['required']}
                       className="-fluid"
-                      onChange={value => this.onChange({ country: value })}
+                      onChange={(value) => this.onChange({ country: value })}
                       options={FORM_COUNTRIES.options}
                       properties={{
                         name: 'country',
                         label: 'Country',
                         type: 'text',
-                        required: true
+                        required: true,
                       }}
                     >
                       {Select}
@@ -145,24 +145,24 @@ class LayoutNewsletter extends PureComponent {
                     <Field
                       validations={['required']}
                       className="-fluid"
-                      onChange={value => this.onChange({ company: value })}
+                      onChange={(value) => this.onChange({ company: value })}
                       properties={{
                         name: 'company',
                         label: 'Company',
                         type: 'text',
-                        required: true
+                        required: true,
                       }}
                     >
                       {Input}
                     </Field>
                     <Field
                       className="-fluid"
-                      onChange={value => this.onChange({ job_title: value })}
+                      onChange={(value) => this.onChange({ job_title: value })}
                       properties={{
                         name: 'job_title',
                         label: 'Job title',
                         type: 'text',
-                        required: false
+                        required: false,
                       }}
                     >
                       {Input}
@@ -171,12 +171,11 @@ class LayoutNewsletter extends PureComponent {
 
                   <div className="form-row">
                     <Field
-                      onChange={value =>
-                        this.onChange({ resource_watch_feature_test_group: value.checked })}
+                      onChange={(value) => this.onChange({ resource_watch_feature_test_group: value.checked })}
                       properties={{
                         name: 'resource_watch_feature_test_group',
                         defaultChecked: false,
-                        title: 'Are you interested in testing or providing feedback on new features?'
+                        title: 'Are you interested in testing or providing feedback on new features?',
                       }}
                     >
                       {Checkbox}
@@ -189,7 +188,7 @@ class LayoutNewsletter extends PureComponent {
                       name: 'pi_extra_field',
                       label: 'Comments',
                       type: 'text',
-                      required: false
+                      required: false,
                     }}
                   >
                     {Input}
@@ -215,7 +214,10 @@ class LayoutNewsletter extends PureComponent {
               <div className="column small-12">
                 <Banner className="-text-center" bgImage="/static/images/backgrounds/partners-02@2x.jpg">
                   <p className="-claim">
-                    Let&rsquo;s build a more sustainable<br /> world together.
+                    Let&rsquo;s build a more sustainable
+                    <br />
+                    {' '}
+                    world together.
                   </p>
                   <Link to="about_partners">
                     <a className="c-btn -primary">Partners</a>

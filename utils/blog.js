@@ -13,12 +13,12 @@ export const postParser = (posts = []) => posts.map((post) => {
     author: author && {
       img: author.avatar_urls['96'],
       path: author.link,
-      name: author.name
+      name: author.name,
     },
-    image: media && media.media_details && media.media_details.sizes &&
-      media.media_details.sizes.full &&
-      media.media_details.sizes.full.source_url,
-    description: post.except ? post.excerpt.rendered : post.content.rendered
+    image: media && media.media_details && media.media_details.sizes
+      && media.media_details.sizes.full
+      && media.media_details.sizes.full.source_url,
+    description: post.except ? post.excerpt.rendered : post.content.rendered,
   });
 });
 

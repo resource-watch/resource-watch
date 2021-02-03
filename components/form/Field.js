@@ -8,13 +8,13 @@ class Field extends PureComponent {
     hint: PropTypes.string,
     className: PropTypes.string,
     button: PropTypes.node,
-    children: PropTypes.any.isRequired
+    children: PropTypes.any.isRequired,
   }
 
   static defaultProps = {
     hint: null,
     button: null,
-    className: null
+    className: null,
   }
 
   constructor(props) {
@@ -22,14 +22,14 @@ class Field extends PureComponent {
 
     this.state = {
       valid: null,
-      error: []
+      error: [],
     };
   }
 
   onValid = (valid, error) => {
     this.setState({
       valid,
-      error
+      error,
     });
   }
 
@@ -42,7 +42,9 @@ class Field extends PureComponent {
   }
 
   render() {
-    const { properties, children, className, hint, button } = this.props;
+    const {
+      properties, children, className, hint, button,
+    } = this.props;
     const { valid, error } = this.state;
 
     // Set classes
@@ -50,37 +52,40 @@ class Field extends PureComponent {
       [className]: !!className,
       '-disabled': properties.disabled,
       '-valid': (valid === true),
-      '-error': (valid === false)
+      '-error': (valid === false),
     });
 
     return (
       <div className={`c-field ${fieldClasses}`}>
-        {properties.label &&
+        {properties.label
+          && (
           <label htmlFor={`input-${properties.name}`} className="label">
-            {properties.label} {properties.required && <abbr title="required">*</abbr>}
+            {properties.label}
+            {' '}
+            {properties.required && <abbr title="required">*</abbr>}
           </label>
-        }
+          )}
 
-        {hint &&
-          <p className="hint" dangerouslySetInnerHTML={{ __html: hint }} />
-        }
+        {hint
+          && <p className="hint" dangerouslySetInnerHTML={{ __html: hint }} />}
 
         <div className="field-container">
           {React.isValidElement(children) && children}
-          {children && typeof children === 'function' &&
+          {children && typeof children === 'function'
+            && (
             <this.props.children
               {...this.props}
               ref={(c) => { if (c) this.child = c; }}
               onValid={this.onValid}
-            />}
+            />
+            )}
 
-          {!!button &&
-            button
-          }
+          {!!button
+            && button}
         </div>
 
-        {error &&
-          error.map((err, i) => {
+        {error
+          && error.map((err, i) => {
             if (err) {
               return (
                 <p key={i} className="error">
@@ -89,8 +94,7 @@ class Field extends PureComponent {
               );
             }
             return null;
-          })
-        }
+          })}
 
       </div>
     );

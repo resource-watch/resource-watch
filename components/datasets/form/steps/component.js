@@ -6,7 +6,7 @@ import compact from 'lodash/compact';
 import {
   PROVIDER_TYPES_DICTIONARY,
   FORM_ELEMENTS,
-  DATASET_TYPES
+  DATASET_TYPES,
 } from 'components/datasets/form/constants';
 
 // components
@@ -32,12 +32,12 @@ class Step1 extends PureComponent {
     authorization: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     sortedLayers: PropTypes.array,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     dataDataset: null,
-    sortedLayers: []
+    sortedLayers: [],
   };
 
   state = {
@@ -46,7 +46,7 @@ class Step1 extends PureComponent {
     form: this.props.form,
     carto: {},
     subscribableSelected: this.props.form.subscribable.length > 0,
-    activeSubscriptionModal: null
+    activeSubscriptionModal: null,
   };
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -61,7 +61,7 @@ class Step1 extends PureComponent {
   };
 
   onLegendChange(obj) {
-    const legend = Object.assign({}, this.props.form.legend, obj);
+    const legend = { ...this.props.form.legend, ...obj };
     this.props.onChange({ legend });
   }
 
@@ -70,7 +70,7 @@ class Step1 extends PureComponent {
 
     subscribable = subscribable.map((s) => {
       if (s.id === obj.id) {
-        return Object.assign({}, s, obj);
+        return { ...s, ...obj };
       }
       return s;
     });
@@ -99,7 +99,7 @@ class Step1 extends PureComponent {
         if (PROVIDER_TYPES_DICTIONARY[key].basic) {
           return {
             label: PROVIDER_TYPES_DICTIONARY[key].label,
-            value: PROVIDER_TYPES_DICTIONARY[key].value
+            value: PROVIDER_TYPES_DICTIONARY[key].value,
           };
         }
 
@@ -108,7 +108,7 @@ class Step1 extends PureComponent {
 
       return {
         label: PROVIDER_TYPES_DICTIONARY[key].label,
-        value: PROVIDER_TYPES_DICTIONARY[key].value
+        value: PROVIDER_TYPES_DICTIONARY[key].value,
       };
     });
 
@@ -117,7 +117,7 @@ class Step1 extends PureComponent {
 
   handleRemoveSubscription(id) {
     let { subscribable } = this.state.form;
-    subscribable = subscribable.filter(s => s.id !== id);
+    subscribable = subscribable.filter((s) => s.id !== id);
 
     this.props.onChange({ subscribable });
   }
@@ -137,16 +137,17 @@ class Step1 extends PureComponent {
         ...applicationConfig,
         [process.env.APPLICATIONS]: {
           ...(applicationConfig && applicationConfig[process.env.APPLICATIONS]),
-          layerOrder: layers.map(_layer => _layer.id)
-        }
-      }
+          layerOrder: layers.map((_layer) => _layer.id),
+        },
+      },
     });
   };
 
   renderMainDateOptions(option) {
     return (
       <div>
-        {option.value}{' '}
+        {option.value}
+        {' '}
         {option.type && typeof option.type === 'string' ? (
           <small className="_right">{option.type}</small>
         ) : null}
@@ -155,7 +156,9 @@ class Step1 extends PureComponent {
   }
 
   render() {
-    const { user, columns, loadingColumns, basic, sortedLayers, authorization } = this.props;
+    const {
+      user, columns, loadingColumns, basic, sortedLayers, authorization,
+    } = this.props;
     const { dataset, subscribableSelected } = this.state;
     const { provider, columnFields, application } = this.state.form;
 
@@ -173,8 +176,8 @@ class Step1 extends PureComponent {
     const isWMS = provider === 'wms';
     const isDocument = isJson || isXml || isCsv || isTsv;
 
-    const dateColumns = columns.map(f => ({ label: f.name, value: f.name, type: f.type }));
-    const columnFieldsOptions = (columnFields || []).map(f => ({ label: f, value: f }));
+    const dateColumns = columns.map((f) => ({ label: f.name, value: f.name, type: f.type }));
+    const columnFieldsOptions = (columnFields || []).map((f) => ({ label: f, value: f }));
 
     return (
       <div>
@@ -190,17 +193,17 @@ class Step1 extends PureComponent {
               className="-fluid"
               options={[
                 { label: 'Pre-production', value: 'preproduction' },
-                { label: 'Production', value: 'production' }
+                { label: 'Production', value: 'production' },
               ]}
-              onChange={value => this.props.onChange({ env: value })}
+              onChange={(value) => this.props.onChange({ env: value })}
               properties={{
                 name: 'env',
                 label: 'Environment',
                 placeholder: 'Type the columns...',
                 noResultsText: 'Please, type the name of the columns and press enter',
-                promptTextCreator: label => `The name of the column is "${label}"`,
+                promptTextCreator: (label) => `The name of the column is "${label}"`,
                 default: 'preproduction',
-                value: this.props.form.env
+                value: this.props.form.env,
               }}
             >
               {Select}
@@ -219,7 +222,7 @@ class Step1 extends PureComponent {
                 disabled: true,
                 readOnly: true,
                 default: application,
-                value: application
+                value: application,
               }}
             >
               {Input}
@@ -231,14 +234,14 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.published = c;
               }}
-              onChange={value => this.props.onChange({ published: value.checked })}
+              onChange={(value) => this.props.onChange({ published: value.checked })}
               validations={['required']}
               properties={{
                 name: 'published',
                 label: 'Do you want to set this dataset as published?',
                 value: 'published',
                 title: 'Published',
-                defaultChecked: !dataset ? user.role === 'ADMIN' : this.props.form.published
+                defaultChecked: !dataset ? user.role === 'ADMIN' : this.props.form.published,
               }}
             >
               {Checkbox}
@@ -250,14 +253,14 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.protected = c;
               }}
-              onChange={value => this.props.onChange({ protected: value.checked })}
+              onChange={(value) => this.props.onChange({ protected: value.checked })}
               validations={['required']}
               properties={{
                 name: 'protected',
                 label: 'Do you want to set this dataset as protected?',
                 value: 'protected',
                 title: 'Protected',
-                defaultChecked: this.props.form.protected
+                defaultChecked: this.props.form.protected,
               }}
             >
               {Checkbox}
@@ -269,16 +272,16 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.isHighlighted = c;
               }}
-              onChange={value => this.props.onChange({ applicationConfig: { rw: { highlighted: value.checked } } })}
+              onChange={(value) => this.props.onChange({ applicationConfig: { rw: { highlighted: value.checked } } })}
               properties={{
                 name: 'isHighlighted',
                 label: 'Do you want to set this dataset as highlighted?',
-                value: this.state.form.applicationConfig && this.state.form.applicationConfig.rw &&
-                  this.state.form.applicationConfig.rw.highlighted,
+                value: this.state.form.applicationConfig && this.state.form.applicationConfig.rw
+                  && this.state.form.applicationConfig.rw.highlighted,
                 title: 'Highlighted',
-                defaultChecked: !dataset ? user.role === 'ADMIN' :
-                  this.props.form.applicationConfig && this.props.form.applicationConfig.rw
-                  && this.props.form.applicationConfig.rw.highlighted
+                defaultChecked: !dataset ? user.role === 'ADMIN'
+                  : this.props.form.applicationConfig && this.props.form.applicationConfig.rw
+                  && this.props.form.applicationConfig.rw.highlighted,
               }}
             >
               {Checkbox}
@@ -289,7 +292,7 @@ class Step1 extends PureComponent {
             ref={(c) => {
               if (c) FORM_ELEMENTS.elements.name = c;
             }}
-            onChange={value => this.props.onChange({ name: value })}
+            onChange={(value) => this.props.onChange({ name: value })}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -297,7 +300,7 @@ class Step1 extends PureComponent {
               label: 'Title',
               type: 'text',
               required: true,
-              default: this.state.form.name
+              default: this.state.form.name,
             }}
           >
             {Input}
@@ -307,13 +310,13 @@ class Step1 extends PureComponent {
             ref={(c) => {
               if (c) FORM_ELEMENTS.elements.subtitle = c;
             }}
-            onChange={value => this.props.onChange({ subtitle: value })}
+            onChange={(value) => this.props.onChange({ subtitle: value })}
             className="-fluid"
             properties={{
               name: 'subtitle',
               label: 'Subtitle',
               type: 'text',
-              default: this.state.form.subtitle
+              default: this.state.form.subtitle,
             }}
           >
             {Input}
@@ -327,7 +330,7 @@ class Step1 extends PureComponent {
               onChange={(value) => {
                 this.props.onChange({
                   type: value,
-                  ...(value === 'raster' && { geoInfo: true })
+                  ...(value === 'raster' && { geoInfo: true }),
                 });
               }}
               className="-fluid"
@@ -346,7 +349,7 @@ class Step1 extends PureComponent {
                 value: this.state.form.type,
                 disabled: !!this.state.dataset,
                 required: true,
-                instanceId: 'selectType'
+                instanceId: 'selectType',
               }}
             >
               {Select}
@@ -357,7 +360,7 @@ class Step1 extends PureComponent {
             ref={(c) => {
               if (c) FORM_ELEMENTS.elements.geoInfo = c;
             }}
-            onChange={value => this.props.onChange({ geoInfo: value.checked })}
+            onChange={(value) => this.props.onChange({ geoInfo: value.checked })}
             validations={['required']}
             properties={{
               name: 'geoInfo',
@@ -366,7 +369,7 @@ class Step1 extends PureComponent {
               value: 'geoInfo',
               title: 'Yes',
               disabled: this.state.form.type === 'raster',
-              defaultChecked: this.props.form.geoInfo
+              defaultChecked: this.props.form.geoInfo,
             }}
           >
             {Checkbox}
@@ -384,12 +387,12 @@ class Step1 extends PureComponent {
                   lat: undefined,
                   long: undefined,
                   date: [],
-                  country: []
+                  country: [],
                 },
                 connectorType: PROVIDER_TYPES_DICTIONARY[value]
                   ? PROVIDER_TYPES_DICTIONARY[value].connectorType
                   : null,
-                columnFields: null
+                columnFields: null,
               });
             }}
             className="-fluid"
@@ -402,7 +405,7 @@ class Step1 extends PureComponent {
               value: this.state.form.provider,
               disabled: !!this.state.dataset,
               required: true,
-              instanceId: 'selectProvider'
+              instanceId: 'selectProvider',
             }}
           >
             {Select}
@@ -423,12 +426,12 @@ class Step1 extends PureComponent {
                   {
                     carto: {
                       ...this.state.carto,
-                      cartoAccountUsername: value
-                    }
+                      cartoAccountUsername: value,
+                    },
                   },
                   () => {
                     this.onCartoFieldsChange('cartoAccountUsername', value);
-                  }
+                  },
                 );
               }}
               validations={['required']}
@@ -438,7 +441,7 @@ class Step1 extends PureComponent {
                 label: 'Carto account username',
                 type: 'text',
                 default: this.state.form.cartoAccountUsername,
-                required: true
+                required: true,
               }}
             >
               {Input}
@@ -455,12 +458,12 @@ class Step1 extends PureComponent {
                   {
                     carto: {
                       ...this.state.carto,
-                      tableName: value
-                    }
+                      tableName: value,
+                    },
                   },
                   () => {
                     this.onCartoFieldsChange('tableName', value);
-                  }
+                  },
                 );
               }}
               validations={['required']}
@@ -470,7 +473,7 @@ class Step1 extends PureComponent {
                 label: 'Table name',
                 type: 'text',
                 default: this.state.form.tableName,
-                required: true
+                required: true,
               }}
             >
               {Input}
@@ -490,7 +493,7 @@ class Step1 extends PureComponent {
                 type: 'text',
                 default: this.state.form.connectorUrl,
                 disabled: !!this.state.dataset,
-                required: true
+                required: true,
               }}
             >
               {Input}
@@ -507,7 +510,7 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.tableName = c;
               }}
-              onChange={value => this.props.onChange({ tableName: value })}
+              onChange={(value) => this.props.onChange({ tableName: value })}
               validations={['required']}
               className="-fluid"
               hint="Please add fusion table (ft:id) or an image. Example: projects/wri-datalab/HansenComposite_14-15`"
@@ -517,7 +520,7 @@ class Step1 extends PureComponent {
                 type: 'text',
                 default: this.state.form.tableName,
                 disabled: !!this.state.dataset,
-                required: true
+                required: true,
               }}
             >
               {Input}
@@ -534,7 +537,7 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.tableName = c;
               }}
-              onChange={value => this.props.onChange({ tableName: value })}
+              onChange={(value) => this.props.onChange({ tableName: value })}
               validations={['required']}
               className="-fluid"
               hint="Please verify that the scenario and model is already incorporated in Rasdaman. Example: scenario/model"
@@ -544,7 +547,7 @@ class Step1 extends PureComponent {
                 type: 'text',
                 default: this.state.form.tableName,
                 disabled: !!this.state.dataset,
-                required: true
+                required: true,
               }}
             >
               {Input}
@@ -561,7 +564,7 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.connectorUrl = c;
               }}
-              onChange={value => this.props.onChange({ connectorUrl: value })}
+              onChange={(value) => this.props.onChange({ connectorUrl: value })}
               validations={['required', 'url']}
               className="-fluid"
               hint="Example: http://gis-gfw.wri.org/arcgis/rest/services/prep/nex_gddp_indicators/MapServer/6?f=pjson"
@@ -571,7 +574,7 @@ class Step1 extends PureComponent {
                 type: 'text',
                 default: this.state.form.connectorUrl,
                 disabled: !!this.state.dataset,
-                required: true
+                required: true,
               }}
             >
               {Input}
@@ -588,7 +591,7 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.connectorUrl = c;
               }}
-              onChange={value => this.props.onChange({ connectorUrl: value })}
+              onChange={(value) => this.props.onChange({ connectorUrl: value })}
               validations={['required', 'url']}
               className="-fluid"
               hint="This connector will only display the data as a wms map layer. The data will not be available through queries."
@@ -598,7 +601,7 @@ class Step1 extends PureComponent {
                 type: 'text',
                 default: this.state.form.connectorUrl,
                 disabled: !!this.state.dataset,
-                required: true
+                required: true,
               }}
             >
               {Input}
@@ -616,11 +619,11 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.subscribable = c;
               }}
-              onChange={value => this.onSubscribableCheckboxChange(value.checked)}
+              onChange={(value) => this.onSubscribableCheckboxChange(value.checked)}
               properties={{
                 name: 'subscribable',
                 title: 'Subscribable',
-                checked: Object.keys(this.state.form.subscribable).length > 0
+                checked: Object.keys(this.state.form.subscribable).length > 0,
               }}
             >
               {Checkbox}
@@ -628,12 +631,16 @@ class Step1 extends PureComponent {
           )}
 
           {subscribableSelected && this.state.form.subscribable.length && (
-            <h3>Subscriptions ({this.state.form.subscribable.length})</h3>
+            <h3>
+              Subscriptions (
+              {this.state.form.subscribable.length}
+              )
+            </h3>
           )}
 
           {subscribableSelected && (
             <div>
-              {this.state.form.subscribable.map(elem => (
+              {this.state.form.subscribable.map((elem) => (
                 <div className="c-field-row subscription-container" key={elem.id}>
                   <div className="l-row row">
                     <div className="column small-12">
@@ -641,12 +648,10 @@ class Step1 extends PureComponent {
                         ref={(c) => {
                           if (c) FORM_ELEMENTS.elements.subscribableType = c;
                         }}
-                        onChange={type =>
-                          this.onSubscribableChange({
-                            type,
-                            id: elem.id
-                          })
-                        }
+                        onChange={(type) => this.onSubscribableChange({
+                          type,
+                          id: elem.id,
+                        })}
                         validations={[
                           'required',
                           {
@@ -654,8 +659,8 @@ class Step1 extends PureComponent {
                             value: elem.type,
                             default: elem.type,
                             condition: 'type',
-                            data: this.state.form.subscribable
-                          }
+                            data: this.state.form.subscribable,
+                          },
                         ]}
                         className="-fluid"
                         properties={{
@@ -663,7 +668,7 @@ class Step1 extends PureComponent {
                           label: 'Type',
                           type: 'text',
                           default: elem.type,
-                          required: true
+                          required: true,
                         }}
                       >
                         {Input}
@@ -675,12 +680,10 @@ class Step1 extends PureComponent {
                         ref={(c) => {
                           if (c) FORM_ELEMENTS.elements.dataQuery = c;
                         }}
-                        onChange={dataQuery =>
-                          this.onSubscribableChange({ dataQuery, id: elem.id })
-                        }
+                        onChange={(dataQuery) => this.onSubscribableChange({ dataQuery, id: elem.id })}
                         validations={['required']}
                         className="-fluid"
-                        button={
+                        button={(
                           <button
                             type="button"
                             className="c-button -secondary"
@@ -688,13 +691,13 @@ class Step1 extends PureComponent {
                           >
                             Try it
                           </button>
-                        }
+                        )}
                         properties={{
                           name: 'dataQuery',
                           label: 'Data query',
                           type: 'text',
                           default: elem.dataQuery,
-                          required: true
+                          required: true,
                         }}
                       >
                         {Input}
@@ -712,12 +715,10 @@ class Step1 extends PureComponent {
                         ref={(c) => {
                           if (c) FORM_ELEMENTS.elements.subscriptionQuery = c;
                         }}
-                        onChange={subscriptionQuery =>
-                          this.onSubscribableChange({ subscriptionQuery, id: elem.id })
-                        }
+                        onChange={(subscriptionQuery) => this.onSubscribableChange({ subscriptionQuery, id: elem.id })}
                         validations={['required']}
                         className="-fluid"
-                        button={
+                        button={(
                           <button
                             type="button"
                             className="c-button -secondary"
@@ -725,13 +726,13 @@ class Step1 extends PureComponent {
                           >
                             Try it
                           </button>
-                        }
+                        )}
                         properties={{
                           name: 'subscriptionQuery',
                           label: 'Subscription query',
                           type: 'text',
                           default: elem.subscriptionQuery,
-                          required: true
+                          required: true,
                         }}
                       >
                         {Input}
@@ -784,14 +785,14 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.verified = c;
               }}
-              onChange={value => this.props.onChange({ verified: value.checked })}
+              onChange={(value) => this.props.onChange({ verified: value.checked })}
               validations={['required']}
               properties={{
                 name: 'verified',
                 label: 'Is this dataset verified?',
                 value: 'verified',
                 title: 'Verified',
-                checked: this.props.form.verified
+                checked: this.props.form.verified,
               }}
             >
               {Checkbox}
@@ -806,7 +807,7 @@ class Step1 extends PureComponent {
               onChange={({ fields, value }) => {
                 this.props.onChange({
                   connectorUrl: value,
-                  ...(!!fields && { columnFields: fields })
+                  ...(!!fields && { columnFields: fields }),
                 });
               }}
               validations={['required', 'url']}
@@ -820,7 +821,7 @@ class Step1 extends PureComponent {
                 provider: this.state.form.provider,
                 default: this.state.form.connectorUrl,
                 disabled: !!this.state.dataset,
-                required: true
+                required: true,
               }}
             >
               {File}
@@ -843,7 +844,7 @@ class Step1 extends PureComponent {
                 type: 'text',
                 default: this.state.form.connectorUrl,
                 disabled: !!this.state.dataset,
-                required: true
+                required: true,
               }}
             >
               {Input}
@@ -855,7 +856,7 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.dataPath = c;
               }}
-              onChange={value => this.props.onChange({ dataPath: value })}
+              onChange={(value) => this.props.onChange({ dataPath: value })}
               hint="Name of the element that you want to import"
               validations={isXml ? ['required'] : []}
               className="-fluid"
@@ -865,7 +866,7 @@ class Step1 extends PureComponent {
                 type: 'text',
                 default: this.state.form.dataPath,
                 disabled: !!this.state.dataset,
-                required: isXml
+                required: isXml,
               }}
             >
               {Input}
@@ -877,7 +878,7 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.mainDateField = c;
               }}
-              onChange={value => this.props.onChange({ mainDateField: value })}
+              onChange={(value) => this.props.onChange({ mainDateField: value })}
               options={dateColumns}
               className="-fluid"
               properties={{
@@ -886,7 +887,7 @@ class Step1 extends PureComponent {
                 type: 'text',
                 placeholder: 'Select or type',
                 optionRenderer: this.renderMainDateOptions,
-                default: this.state.form.mainDateField
+                default: this.state.form.mainDateField,
               }}
             >
               {Select}
@@ -901,7 +902,7 @@ class Step1 extends PureComponent {
                     ref={(c) => {
                       if (c) FORM_ELEMENTS.elements.lat = c;
                     }}
-                    onChange={value => this.onLegendChange({ lat: value })}
+                    onChange={(value) => this.onLegendChange({ lat: value })}
                     hint="Name of column with latitude value"
                     options={columnFieldsOptions}
                     className="-fluid"
@@ -911,7 +912,7 @@ class Step1 extends PureComponent {
                       type: 'text',
                       placeholder: 'Select or type the column...',
                       disabled: !!this.state.dataset,
-                      default: this.state.form.legend.lat
+                      default: this.state.form.legend.lat,
                     }}
                   >
                     {Select}
@@ -923,7 +924,7 @@ class Step1 extends PureComponent {
                     ref={(c) => {
                       if (c) FORM_ELEMENTS.elements.long = c;
                     }}
-                    onChange={value => this.onLegendChange({ long: value })}
+                    onChange={(value) => this.onLegendChange({ long: value })}
                     hint="Name of column with longitude value"
                     options={columnFieldsOptions}
                     className="-fluid"
@@ -933,7 +934,7 @@ class Step1 extends PureComponent {
                       type: 'text',
                       placeholder: 'Select or type the column...',
                       disabled: !!this.state.dataset,
-                      default: this.state.form.legend.long
+                      default: this.state.form.legend.long,
                     }}
                   >
                     {Select}
@@ -945,7 +946,7 @@ class Step1 extends PureComponent {
                     ref={(c) => {
                       if (c) FORM_ELEMENTS.elements.date = c;
                     }}
-                    onChange={value => this.onLegendChange({ date: value })}
+                    onChange={(value) => this.onLegendChange({ date: value })}
                     hint="Name of columns with date value (ISO Format)"
                     options={columnFieldsOptions}
                     className="-fluid"
@@ -954,7 +955,7 @@ class Step1 extends PureComponent {
                       label: 'Date',
                       type: 'text',
                       disabled: !!this.state.dataset,
-                      placeholder: 'Select or type the column..'
+                      placeholder: 'Select or type the column..',
                     }}
                   >
                     {Select}
@@ -966,7 +967,7 @@ class Step1 extends PureComponent {
                     ref={(c) => {
                       if (c) FORM_ELEMENTS.elements.country = c;
                     }}
-                    onChange={value => this.onLegendChange({ country: value })}
+                    onChange={(value) => this.onLegendChange({ country: value })}
                     hint="Name of columns with country value (ISO3 code)"
                     options={columnFieldsOptions}
                     className="-fluid"
@@ -975,7 +976,7 @@ class Step1 extends PureComponent {
                       label: 'Country',
                       type: 'text',
                       disabled: !!this.state.dataset,
-                      placeholder: 'Select or type the column...'
+                      placeholder: 'Select or type the column...',
                     }}
                   >
                     {Select}
@@ -999,11 +1000,11 @@ class Step1 extends PureComponent {
                 <div className="l-row row">
                   <div className="column small-12 medium-6">
                     <Field
-                      options={columns.map(c => ({ label: c.name, value: c.name }))}
+                      options={columns.map((c) => ({ label: c.name, value: c.name }))}
                       ref={(c) => {
                         if (c) FORM_ELEMENTS.elements.widgetRelevantProps = c;
                       }}
-                      onChange={value => this.props.onChange({ widgetRelevantProps: value })}
+                      onChange={(value) => this.props.onChange({ widgetRelevantProps: value })}
                       className="-fluid"
                       properties={{
                         name: 'widgetRelevantProps',
@@ -1011,14 +1012,14 @@ class Step1 extends PureComponent {
                         multi: true,
                         instanceId: 'selectWidgetRelevantProps',
                         placeholder: 'Select the dataset columns...',
-                        default: this.state.form.widgetRelevantProps.map(column => ({
+                        default: this.state.form.widgetRelevantProps.map((column) => ({
                           label: column,
-                          value: column
+                          value: column,
                         })),
-                        value: this.state.form.widgetRelevantProps.map(column => ({
+                        value: this.state.form.widgetRelevantProps.map((column) => ({
                           label: column,
-                          value: column
-                        }))
+                          value: column,
+                        })),
                       }}
                     >
                       {Select}
@@ -1027,11 +1028,11 @@ class Step1 extends PureComponent {
 
                   <div className="column small-12 medium-6">
                     <Field
-                      options={columns.map(c => ({ label: c.name, value: c.name }))}
+                      options={columns.map((c) => ({ label: c.name, value: c.name }))}
                       ref={(c) => {
                         if (c) FORM_ELEMENTS.elements.layerRelevantProps = c;
                       }}
-                      onChange={value => this.props.onChange({ layerRelevantProps: value })}
+                      onChange={(value) => this.props.onChange({ layerRelevantProps: value })}
                       className="-fluid"
                       properties={{
                         name: 'layerRelevantProps',
@@ -1039,14 +1040,14 @@ class Step1 extends PureComponent {
                         multi: true,
                         instanceId: 'selectLayerRelevantProps',
                         placeholder: 'Select the dataset columns...',
-                        default: this.state.form.layerRelevantProps.map(column => ({
+                        default: this.state.form.layerRelevantProps.map((column) => ({
                           label: column,
-                          value: column
+                          value: column,
                         })),
-                        value: this.state.form.layerRelevantProps.map(column => ({
+                        value: this.state.form.layerRelevantProps.map((column) => ({
                           label: column,
-                          value: column
-                        }))
+                          value: column,
+                        })),
                       }}
                     >
                       {Select}

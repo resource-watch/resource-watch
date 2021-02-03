@@ -19,7 +19,7 @@ import { browserSupported } from 'utils/browser';
 // constants
 import {
   VIDEO_ID,
-  VIDEO_OPTIONS
+  VIDEO_OPTIONS,
 } from './constants';
 
 // styles
@@ -28,7 +28,7 @@ import './styles.scss';
 class LayoutHome extends PureComponent {
   static propTypes = {
     responsive: PropTypes.object.isRequired,
-    dashFeatured: PropTypes.array
+    dashFeatured: PropTypes.array,
   }
 
   static defaultProps = { dashFeatured: [] };
@@ -42,7 +42,7 @@ class LayoutHome extends PureComponent {
     const { videoReady } = this.state;
     const videoForegroundClass = classnames(
       'video-foreground',
-      { '-ready': videoReady }
+      { '-ready': videoReady },
     );
 
     return (
@@ -97,7 +97,7 @@ class LayoutHome extends PureComponent {
               <div className="row">
                 <div className="column small-12">
                   <div className=" buttons">
-                    <Link route="newsletter" >
+                    <Link route="newsletter">
                       <a className="c-button -secondary join-us-button">
                         Subscribe to our newsletter
                       </a>

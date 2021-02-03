@@ -19,7 +19,7 @@ import { capitalizeFirstLetter } from 'utils/utils';
 class LayoutAdminPagesDetail extends PureComponent {
   static propTypes = {
     query: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   state = { data: null }
@@ -47,7 +47,7 @@ class LayoutAdminPagesDetail extends PureComponent {
   render() {
     const {
       query: { tab, id },
-      user: { token }
+      user: { token },
     } = this.props;
 
     return (
@@ -64,7 +64,7 @@ class LayoutAdminPagesDetail extends PureComponent {
                   <Breadcrumbs
                     items={[{ name: capitalizeFirstLetter(tab), route: 'admin_pages', params: { tab } }]}
                   />
-                  <Title className="-primary -huge page-header-title" >
+                  <Title className="-primary -huge page-header-title">
                     {this.getName()}
                   </Title>
                 </div>
@@ -86,6 +86,5 @@ class LayoutAdminPagesDetail extends PureComponent {
     );
   }
 }
-
 
 export default LayoutAdminPagesDetail;

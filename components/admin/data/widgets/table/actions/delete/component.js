@@ -9,13 +9,13 @@ class DeleteAction extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
     data: PropTypes.object.isRequired,
-    onRowDelete: PropTypes.func.isRequired
+    onRowDelete: PropTypes.func.isRequired,
   }
 
   handleOnClickDelete = () => {
     const {
       data: { id, name, dataset },
-      user: { token }
+      user: { token },
     } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${name}"`, {
@@ -28,7 +28,7 @@ class DeleteAction extends PureComponent {
           .catch((err) => {
             toastr.error('Error', `The widget "${id}" - "${name}" was not deleted. Try again. ${err}`);
           });
-      }
+      },
     });
   }
 
@@ -49,7 +49,7 @@ class DeleteAction extends PureComponent {
 DeleteAction.propTypes = {
   data: PropTypes.object,
   authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
+  onRowDelete: PropTypes.func,
 };
 
 export default DeleteAction;

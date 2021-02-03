@@ -19,7 +19,9 @@ const prod = process.env.RW_NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
-const handle = routes.getRequestHandler(app, ({ req, res, route, query }) => {
+const handle = routes.getRequestHandler(app, ({
+  req, res, route, query,
+}) => {
   app.render(req, res, route.page, query);
 });
 
@@ -65,7 +67,7 @@ function isAdmin(req, res, nextAction) {
 const sessionOptions = {
   secret: process.env.SECRET || 'keyboard cat',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
 };
 
 if (prod) {
@@ -73,7 +75,7 @@ if (prod) {
   sessionOptions.store = new RedisStore({
     client: redisClient,
     logErrors: true,
-    prefix: 'resourcewatch_sess_'
+    prefix: 'resourcewatch_sess_',
   });
 }
 
@@ -83,8 +85,8 @@ if (prod && (RW_USERNAME && RW_PASSWORD)) {
   server.use(
     checkBasicAuth({
       name: RW_USERNAME,
-      pass: RW_PASSWORD
-    })
+      pass: RW_PASSWORD,
+    }),
   );
 }
 
@@ -138,7 +140,7 @@ app.prepare().then(() => {
       }
 
       return res.redirect(authRedirect);
-    }
+    },
   );
 
   // Authenticate specific service, and set authUrl cookie so we remember where we where
@@ -161,7 +163,7 @@ app.prepare().then(() => {
     return res.redirect(
       `${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${
         process.env.CALLBACK_URL
-      }&applications=rw&token=true&origin=rw`
+      }&applications=rw&token=true&origin=rw`,
     );
   });
 
@@ -198,8 +200,8 @@ app.prepare().then(() => {
   server.listen(port, (err) => {
     if (err) throw err;
     console.info(
-      `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV ||
-        'development'}]`
+      `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV
+        || 'development'}]`,
     );
   });
 });

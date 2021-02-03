@@ -32,13 +32,13 @@ class DatasetListItem extends React.Component {
     expandedChart: PropTypes.bool,
     toggleMapLayerGroup: PropTypes.func.isRequired,
     resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
-    setMapLayerGroupActive: PropTypes.func.isRequired
+    setMapLayerGroupActive: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     layer: null,
     widget: null,
-    expandedChart: false
+    expandedChart: false,
   };
 
   /**
@@ -46,23 +46,24 @@ class DatasetListItem extends React.Component {
    * - renderChart
   */
   renderChart = () => {
-    const { dataset, widget, layer, expandedChart } = this.props;
+    const {
+      dataset, widget, layer, expandedChart,
+    } = this.props;
 
     const isWidgetMap = widget && widget.widgetConfig.type === 'map';
     const isEmbedWidget = widget && widget.widgetConfig.type === 'embed';
     const classNameValue = classnames({
       'list-item-chart': true,
-      '-expanded-chart': expandedChart
+      '-expanded-chart': expandedChart,
     });
-    
 
     if (widget && !isWidgetMap && !isEmbedWidget) {
       return (
         <div className={classNameValue}>
-          <WidgetChart widget={widget} thumbnail={true} />
+          <WidgetChart widget={widget} thumbnail />
         </div>
       );
-    } else if (layer || isWidgetMap) {
+    } if (layer || isWidgetMap) {
       return (
         <div className={classNameValue}>
           <LayerChart layer={layer} />
@@ -87,13 +88,13 @@ class DatasetListItem extends React.Component {
       toggleMapLayerGroup,
       resetMapLayerGroupsInteraction,
       setMapLayerGroupActive,
-      layer
+      layer,
     } = this.props;
 
     Router.pushRoute('explore', { dataset: dataset.slug });
 
     // Add default layer to the map only if not active already
-    if (!this.props.active && layer) {  
+    if (!this.props.active && layer) {
       toggleMapLayerGroup({ dataset, toggle: true });
       setMapLayerGroupActive({ dataset: { id: dataset.id }, active: layer.id });
       resetMapLayerGroupsInteraction();
@@ -101,12 +102,14 @@ class DatasetListItem extends React.Component {
   }
 
   render() {
-    const { dataset, metadata, actions, responsive, active } = this.props;
+    const {
+      dataset, metadata, actions, responsive, active,
+    } = this.props;
 
     const dateLastUpdated = getDateConsideringTimeZone(dataset.dataLastUpdated, true);
     const classNameValue = classnames({
       'c-explore-dataset-list-item': true,
-      '-active': active
+      '-active': active,
     });
 
     return (
@@ -166,12 +169,11 @@ class DatasetListItem extends React.Component {
                 </a>
               </Link>
             </h4>
-            {!!actions &&
-              React.cloneElement(
+            {!!actions
+              && React.cloneElement(
                 actions,
-                { ...this.props }
-              )
-            }
+                { ...this.props },
+              )}
           </div>
         </div>
       </div>

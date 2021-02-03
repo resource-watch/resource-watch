@@ -13,17 +13,17 @@ class LayoutEmbedTable extends PureComponent {
   static propTypes = {
     isLoading: PropTypes.bool,
     referer: PropTypes.string,
-    routes: PropTypes.object.isRequired
+    routes: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     isLoading: true,
-    referer: ''
+    referer: '',
   };
 
   state = {
     isLoading: this.props.isLoading,
-    tableData: []
+    tableData: [],
   };
 
   UNSAFE_componentWillMount() {
@@ -34,11 +34,11 @@ class LayoutEmbedTable extends PureComponent {
 
   loadTableData(query) {
     fetch(query)
-      .then(response => response.json())
+      .then((response) => response.json())
       .then((response) => {
         this.setState({
           isLoading: false,
-          tableData: response.data
+          tableData: response.data,
         });
       })
       .catch((error) => { console.error(error); })
@@ -49,7 +49,7 @@ class LayoutEmbedTable extends PureComponent {
     const { referer } = this.props;
     const {
       isLoading,
-      tableData
+      tableData,
     } = this.state;
 
     const header = tableData && tableData.length > 0 && Object.keys(tableData[0]);
@@ -72,43 +72,43 @@ class LayoutEmbedTable extends PureComponent {
           <div className="visualization">
             <Spinner isLoading={isLoading} className="-light" />
             <div className="table-content c-table">
-              {tableData &&
+              {tableData
+                && (
                 <table>
                   <thead>
                     <tr>
-                      {header && header.map(val => (
+                      {header && header.map((val) => (
                         <th
                           key={`header_${val}`}
                         >
                           {val}
                         </th>
-                      ))
-                      }
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {(tableData || []).map((row, i) =>
-                        (
-                          <tr
-                            key={`row${i}`} // eslint-disable-line
-                          >
-                            {Object.keys(row).map(column => (<td key={`td${column}`}>{row[column]}</td>))}
-                          </tr>
-                        ))
-                    }
+                    {(tableData || []).map((row, i) => (
+                      <tr
+                        key={`row${i}`}
+                      >
+                        {Object.keys(row).map((column) => (<td key={`td${column}`}>{row[column]}</td>))}
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
-              }
+                )}
             </div>
           </div>
-          {isExternal &&
+          {isExternal
+            && (
             <img
               className="embed-logo"
               height={21}
               width={129}
               src="/static/images/logo-embed.png"
               alt="Resource Watch"
-            /> }
+            />
+            ) }
         </div>
       </LayoutEmbed>
     );

@@ -2,7 +2,9 @@ import { connect } from 'react-redux';
 
 // actions
 import { setSearchOpened } from 'layout/header/actions';
-import { setSearchPage, setSearchUrl, setSearchTerm, fetchSearch, setSearchSelected } from 'components/search-results/actions';
+import {
+  setSearchPage, setSearchUrl, setSearchTerm, fetchSearch, setSearchSelected,
+} from 'components/search-results/actions';
 
 // selectors
 import { selectedSearchItem } from './selectors';
@@ -11,10 +13,10 @@ import { selectedSearchItem } from './selectors';
 import SearchBar from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     search: state.search,
     selected: selectedSearchItem(state),
-    header: state.header
+    header: state.header,
   }),
   {
     setSearchPage,
@@ -22,6 +24,6 @@ export default connect(
     setSearchTerm,
     fetchSearch,
     setSearchOpened,
-    setSearchSelected
-  }
+    setSearchSelected,
+  },
 )(SearchBar);

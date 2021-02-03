@@ -12,22 +12,20 @@ export const STATE_DEFAULT = {
     interactionConfig: {},
     status: 1,
     default: false,
-    published: true
-  }
+    published: true,
+  },
 };
 
 export const FORMAT = {
   options(o) {
-    return o.map((item) => {
-      return { label: item.column, value: item.column };
-    });
+    return o.map((item) => ({ label: item.column, value: item.column }));
   },
   mapInteractionTypes(interactions, added) {
     if (!interactions || !added) {
       return [];
     }
     return added.map((item) => {
-      const interaction = interactions.fields.find(field => field.label === item.column);
+      const interaction = interactions.fields.find((field) => field.label === item.column);
 
       if (interaction) {
         item.type = interaction.type;
@@ -48,7 +46,7 @@ export const FORMAT = {
       default:
         return labelLower;
     }
-  }
+  },
 };
 
 export const FORM_ELEMENTS = {
@@ -56,8 +54,7 @@ export const FORM_ELEMENTS = {
   },
   removeInteraction(interaction) {
     const { elements } = this;
-    ['Field', 'Label', 'Prefix', 'Suffix', 'Format'].map(item =>
-      delete elements[`${item.toLowerCase()}${interaction.column}`]);
+    ['Field', 'Label', 'Prefix', 'Suffix', 'Format'].map((item) => delete elements[`${item.toLowerCase()}${interaction.column}`]);
   },
   validate() {
     const { elements } = this;
@@ -68,19 +65,18 @@ export const FORM_ELEMENTS = {
   isValid() {
     const { elements } = this;
     const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
+      .map((k) => elements[k].isValid())
+      .filter((v) => v !== null)
+      .every((element) => element);
 
     return valid;
-  }
+  },
 };
-
 
 export const PROVIDER_OPTIONS = [
   { label: 'Carto', value: 'cartodb' },
   { label: 'ARCGIS: Feature service', value: 'featureservice' },
   { label: 'Leaflet', value: 'leaflet' },
   { label: 'WMS', value: 'wms' },
-  { label: 'GEE', value: 'gee' }
+  { label: 'GEE', value: 'gee' },
 ];

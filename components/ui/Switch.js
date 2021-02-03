@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 class Switch extends React.Component {
   static defaultProps = {
     active: false,
-    onChange: () => ({})
+    onChange: () => ({}),
   };
 
   static propTypes = {
     active: PropTypes.bool,
     classNames: PropTypes.string,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
   };
 
   constructor(props) {

@@ -37,7 +37,7 @@ ExploreTopicsComponent.propTypes = {
   fetchDatasets: PropTypes.func.isRequired,
   resetFiltersSort: PropTypes.func.isRequired,
   setSidebarSection: PropTypes.func.isRequired,
-  setFiltersSearch: PropTypes.func.isRequired
+  setFiltersSearch: PropTypes.func.isRequired,
 };
 
 export default ExploreTopicsComponent;

@@ -11,11 +11,12 @@ function TableHeaderActions(props) {
           <TableSorts {...props} />
         </li>
 
-        {props.filters &&
+        {props.filters
+          && (
           <li className="action filter-action">
             <TableFilters {...props} />
           </li>
-        }
+          )}
       </ul>
     </div>
   );
@@ -27,7 +28,7 @@ TableHeaderActions.propTypes = {
   selected: PropTypes.array,
   filters: PropTypes.bool,
   onFilter: PropTypes.func,
-  onSort: PropTypes.func
+  onSort: PropTypes.func,
 };
 
 // TableHeaderActions.defaultProps = {

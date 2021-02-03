@@ -44,7 +44,7 @@ class AreaSubscriptionsModalContainer extends Component {
     createSubscriptionOnNewArea: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
     clearSubscriptions: PropTypes.func.isRequired,
-    clearLocalSubscriptions: PropTypes.func.isRequired
+    clearLocalSubscriptions: PropTypes.func.isRequired,
   }
 
   UNSAFE_componentWillMount() {
@@ -54,7 +54,7 @@ class AreaSubscriptionsModalContainer extends Component {
       getAreas,
       getDatasets,
       getUserSubscriptions,
-      getUserAreas
+      getUserAreas,
     } = this.props;
 
     // fetches areas to populate areas selector
@@ -85,14 +85,14 @@ class AreaSubscriptionsModalContainer extends Component {
               label: dataset.name,
               value: dataset.name,
               subscriptions: sortBy(Object.keys(dataset.subscribable)
-                .map(val => ({
+                .map((val) => ({
                   label: val,
                   value: val,
-                  ...(datasetQuery.type.includes(val) && { selected: true })
+                  ...(datasetQuery.type.includes(val) && { selected: true }),
                 })), 'label'),
-              threshold: datasetQuery.threshold
+              threshold: datasetQuery.threshold,
             };
-          })
+          }),
         });
       }
     }
@@ -102,7 +102,7 @@ class AreaSubscriptionsModalContainer extends Component {
     const {
       clearSubscriptions,
       clearUserSelection,
-      clearLocalSubscriptions
+      clearLocalSubscriptions,
     } = this.props;
 
     clearLocalSubscriptions();
@@ -126,11 +126,11 @@ export default connect(
     subscription: state.subscriptions.userSelection,
     subscriptionCreation: state.subscriptions.subscriptionCreation,
     preview: state.subscriptions.list.preview,
-    loading: state.subscriptions.areas.loading ||
-      state.subscriptions.userAreas.loading || state.subscriptions.datasets.loading
+    loading: state.subscriptions.areas.loading
+      || state.subscriptions.userAreas.loading || state.subscriptions.datasets.loading,
   }),
   {
     ...actions,
-    getUserAreas
-  }
+    getUserAreas,
+  },
 )(AreaSubscriptionsModalContainer);

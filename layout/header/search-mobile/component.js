@@ -8,13 +8,13 @@ import SearchInput from 'components/ui/SearchInput';
 class SearchMobile extends PureComponent {
   static propTypes = {
     header: PropTypes.object.isRequired,
-    setSearchTerm: PropTypes.func.isRequired
+    setSearchTerm: PropTypes.func.isRequired,
   }
 
   render() {
     const {
       header: { searchTerm },
-      setSearchTerm
+      setSearchTerm,
     } = this.props;
 
     return (
@@ -29,7 +29,7 @@ class SearchMobile extends PureComponent {
         <SearchInput
           input={{
             placeholder: 'Search',
-            value: searchTerm
+            value: searchTerm,
           }}
           onSearch={setSearchTerm}
         />

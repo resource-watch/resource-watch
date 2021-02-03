@@ -9,8 +9,8 @@ import TrySubscriptionModalComponent from './try-subscription-modal-component';
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
-    ...state.trySubscriptionModal
+  (state) => ({
+    ...state.trySubscriptionModal,
   }),
-  actions
+  actions,
 )(TrySubscriptionModalComponent);

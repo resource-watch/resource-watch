@@ -43,7 +43,7 @@ function LayerInfoModal(props) {
 
 LayerInfoModal.propTypes = {
   layer: PropTypes.object.isRequired,
-  onRequestClose: PropTypes.func.isRequired
+  onRequestClose: PropTypes.func.isRequired,
 };
 
 export default LayerInfoModal;

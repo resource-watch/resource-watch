@@ -17,7 +17,6 @@ const DELETE_DASHBOARD_SUCCESS = 'dashboards/DELETE_DASHBOARD_SUCCESS';
 const DELETE_DASHBOARD_ERROR = 'dashboards/DELETE_DASHBOARD_ERROR';
 const DELETE_DASHBOARD_LOADING = 'dashboards/DELETE_DASHBOARD_LOADING';
 
-
 /**
  * STORE
  * @property {string} dashboards.error
@@ -28,8 +27,8 @@ const initialState = {
     list: [], // Actual list of dashboards
     loading: false, // Are we loading the data?
     error: null, // An error was produced while loading the data
-    filters: [] // Filters for the list of dashboards
-  }
+    filters: [], // Filters for the list of dashboards
+  },
 };
 
 // const service = new DashboardsService();
@@ -43,33 +42,36 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_DASHBOARDS_LOADING: {
-      const dashboards = Object.assign({}, state.dashboards, {
+      const dashboards = {
+        ...state.dashboards,
         loading: true,
-        error: null
-      });
-      return Object.assign({}, state, { dashboards });
+        error: null,
+      };
+      return { ...state, dashboards };
     }
 
     case GET_DASHBOARDS_SUCCESS: {
-      const dashboards = Object.assign({}, state.dashboards, {
+      const dashboards = {
+        ...state.dashboards,
         list: action.payload,
         loading: false,
-        error: null
-      });
-      return Object.assign({}, state, { dashboards });
+        error: null,
+      };
+      return { ...state, dashboards };
     }
 
     case GET_DASHBOARDS_ERROR: {
-      const dashboards = Object.assign({}, state.dashboards, {
+      const dashboards = {
+        ...state.dashboards,
         loading: false,
-        error: action.payload
-      });
-      return Object.assign({}, state, { dashboards });
+        error: action.payload,
+      };
+      return { ...state, dashboards };
     }
 
     case SET_DASHBOARDS_FILTERS: {
-      const dashboards = Object.assign({}, state.dashboards, { filters: action.payload });
-      return Object.assign({}, state, { dashboards });
+      const dashboards = { ...state.dashboards, filters: action.payload };
+      return { ...state, dashboards };
     }
 
     default:
@@ -86,14 +88,13 @@ export default function (state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the dashboards from
  */
-export const getDashboards = (options, headers) =>
-  (dispatch) => {
-    dispatch({ type: GET_DASHBOARDS_LOADING });
+export const getDashboards = (options, headers) => (dispatch) => {
+  dispatch({ type: GET_DASHBOARDS_LOADING });
 
-    fetchDashboards(options, headers)
-      .then((data) => { dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: sortBy(data, 'name') }); })
-      .catch((err) => { dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message }); });
-  };
+  fetchDashboards(options, headers)
+    .then((data) => { dispatch({ type: GET_DASHBOARDS_SUCCESS, payload: sortBy(data, 'name') }); })
+    .catch((err) => { dispatch({ type: GET_DASHBOARDS_ERROR, payload: err.message }); });
+};
 
 /**
  * Set the filters for the list of dashboards
@@ -101,9 +102,9 @@ export const getDashboards = (options, headers) =>
  * @param {{ key: string, value: string|number }[]} filters List of filters
  */
 export function setFilters(filters) {
-  return dispatch => dispatch({
+  return (dispatch) => dispatch({
     type: SET_DASHBOARDS_FILTERS,
-    payload: filters
+    payload: filters,
   });
 }
 

@@ -20,7 +20,7 @@ import { logEvent } from 'utils/analytics';
 class HeaderMenu extends PureComponent {
   static propTypes = {
     routes: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   headerComponents = {
@@ -29,13 +29,13 @@ class HeaderMenu extends PureComponent {
     dashboards: <HeaderDashboards />,
     myrw: <HeaderUser />,
     search: <HeaderSearch />,
-    get_involved: <HeaderGetInvolved />
+    get_involved: <HeaderGetInvolved />,
   }
 
   render() {
     const {
       user: { token },
-      routes
+      routes,
     } = this.props;
 
     return (
@@ -49,7 +49,7 @@ class HeaderMenu extends PureComponent {
 
             const activeClassName = classnames({ '-active': item.pathnames && item.pathnames.includes(routes.pathname) });
             const component = this.headerComponents[item.id];
-            
+
             return (
               <li
                 key={item.label}
@@ -60,20 +60,22 @@ class HeaderMenu extends PureComponent {
                   }
                 }}
               >
-                {!component && item.route &&
+                {!component && item.route
+                  && (
                   <Link
                     route={item.route}
                     params={item.params}
                   >
                     <a>{item.label}</a>
                   </Link>
-                }
+                  )}
 
-                {!component && item.href &&
+                {!component && item.href
+                  && (
                   <a href={item.href}>
                     {item.label}
                   </a>
-                }
+                  )}
 
                 {!!component && cloneElement(component, item)}
               </li>

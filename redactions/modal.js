@@ -15,24 +15,26 @@ const initialState = {
     size: '',
     // Callback executed if the user closes the modal (user interaction)
     // (not executed when toggleModal is executed)
-    onCloseModal: null
+    onCloseModal: null,
   },
-  loading: false
+  loading: false,
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case MODAL_TOGGLE:
-      return Object.assign({}, state, { open: action.payload });
+      return { ...state, open: action.payload };
     case MODAL_SET_OPTIONS:
-      return Object.assign({}, state, {
-        options: Object.assign({}, state.options, action.payload, {
-          // We remove the callback if not present
-          onCloseModal: action.payload.onCloseModal ? action.payload.onCloseModal : null
-        })
-      });
+      return {
+        ...state,
+        options: {
+          ...state.options,
+          ...action.payload, // We remove the callback if not present
+          onCloseModal: action.payload.onCloseModal ? action.payload.onCloseModal : null,
+        },
+      };
     case MODAL_LOADING:
-      return Object.assign({}, state, { loading: action.payload });
+      return { ...state, loading: action.payload };
     case MODAL_EXECUTE_CLOSE_CALLBACK:
       if (state.options.onCloseModal) {
         // We make the call asynchronous to avoid blocking the state
@@ -53,7 +55,7 @@ export default function (state = initialState, action) {
  * - setModalOptions
 */
 export function closeModal() {
-  return dispatch => dispatch({ type: MODAL_TOGGLE });
+  return (dispatch) => dispatch({ type: MODAL_TOGGLE });
 }
 
 export function toggleModal(open, opts = {}, userInteraction = false) {
@@ -71,9 +73,9 @@ export function toggleModal(open, opts = {}, userInteraction = false) {
 }
 
 export function modalLoading(loading) {
-  return dispatch => dispatch({ type: MODAL_LOADING, payload: loading });
+  return (dispatch) => dispatch({ type: MODAL_LOADING, payload: loading });
 }
 
 export function setModalOptions(opts) {
-  return dispatch => dispatch({ type: MODAL_SET_OPTIONS, payload: opts });
+  return (dispatch) => dispatch({ type: MODAL_SET_OPTIONS, payload: opts });
 }

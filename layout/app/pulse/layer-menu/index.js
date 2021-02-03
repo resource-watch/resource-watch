@@ -7,15 +7,15 @@ import initialState from './initial-state';
 
 import LayerMenuComponent from './component';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   responsive: state.responsive,
-  layerActive: state.pulse.layerActive
+  layerActive: state.pulse.layerActive,
 });
 
 class LayerMenuContainer extends Component {
   render() {
     return createElement(LayerMenuComponent, {
-      ...this.props
+      ...this.props,
     });
   }
 }

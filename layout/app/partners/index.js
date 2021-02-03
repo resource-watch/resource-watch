@@ -7,6 +7,6 @@ import { getFilteredPartners } from './selectors';
 import LayoutPartners from './component';
 
 export default connect(
-  state => ({ allPartners: getFilteredPartners(state) }),
-  null
+  (state) => ({ allPartners: getFilteredPartners(state) }),
+  null,
 )(LayoutPartners);

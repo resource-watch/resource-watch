@@ -3,7 +3,7 @@ export const INITIAL_STATE = {
   mapLoading: true,
   error: null,
   layer: null,
-  tooltip: false
+  tooltip: false,
 };
 
 export const REDUCER = (state, { type, payload }) => {
@@ -25,5 +25,5 @@ export const REDUCER = (state, { type, payload }) => {
 
 export default {
   INITIAL_STATE,
-  REDUCER
+  REDUCER,
 };

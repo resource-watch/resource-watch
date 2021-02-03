@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import renderHTML from 'react-render-html';
 
-
 const StaticContentComponent = ({ content = '' }) => {
   const emptyContent = '<p><br></p>';
   if (content === emptyContent) return null;

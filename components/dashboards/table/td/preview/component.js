@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class PreviewTD extends PureComponent {
   static propTypes = {
     value: PropTypes.bool.isRequired,
-    index: PropTypes.string.isRequired
+    index: PropTypes.string.isRequired,
   }
 
   render() {

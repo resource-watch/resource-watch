@@ -6,5 +6,5 @@ export default {
   selected: null,
   page: 1,
   total: 0,
-  limit: 10
+  limit: 10,
 };

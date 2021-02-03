@@ -8,7 +8,7 @@ import './styles.scss';
 class MapControls extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    customClass: PropTypes.string
+    customClass: PropTypes.string,
   }
 
   static defaultProps = { customClass: null }
@@ -17,7 +17,7 @@ class MapControls extends PureComponent {
     const { customClass, children } = this.props;
     const componentClass = classnames({
       'c-map-controls': true,
-      [customClass]: !!customClass
+      [customClass]: !!customClass,
     });
 
     return (
@@ -27,7 +27,8 @@ class MapControls extends PureComponent {
             React.isValidElement(c) && (
             <li className="map-controls--list-item" key={i}>
               {React.cloneElement(c)}
-            </li>)
+            </li>
+            )
           ))}
         </ul>
       </div>

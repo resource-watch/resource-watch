@@ -11,14 +11,14 @@ class SubscriptionSelector extends React.Component {
     const {
       datasets,
       alert,
-      onChangeSubscription
+      onChangeSubscription,
     } = this.props;
     const { dataset } = alert;
 
     const typeOptions = dataset ? Object.keys(dataset.subscribable)
-      .map(opt => ({ label: opt, value: opt })) : [];
+      .map((opt) => ({ label: opt, value: opt })) : [];
 
-    const selectedDataset = dataset ? datasets.find(ds => ds.label === dataset.label) : [];
+    const selectedDataset = dataset ? datasets.find((ds) => ds.label === dataset.label) : [];
 
     return (
       <div className="c-subscription-selector" ref={(node) => { this.el = node; }}>
@@ -29,10 +29,10 @@ class SubscriptionSelector extends React.Component {
             properties={{
               value: selectedDataset,
               default: selectedDataset,
-              placeholder: 'Select a dataset'
+              placeholder: 'Select a dataset',
             }}
             options={datasets}
-            onChange={v => onChangeSubscription(v, 'dataset', this.props.index)}
+            onChange={(v) => onChangeSubscription(v, 'dataset', this.props.index)}
           />
         </div>
 
@@ -43,22 +43,22 @@ class SubscriptionSelector extends React.Component {
               default: alert.type,
               placeholder: 'Select a type',
               className: 'type-select',
-              disabled: typeOptions.length === 0
+              disabled: typeOptions.length === 0,
             }}
             options={typeOptions}
-            onChange={v => onChangeSubscription(v, 'type', this.props.index)}
+            onChange={(v) => onChangeSubscription(v, 'type', this.props.index)}
           />
         </div>
 
         <div className="col col--threshhold">
           <Field
             className="threshold-input"
-            onChange={v => onChangeSubscription(v, 'threshold', this.props.index)}
+            onChange={(v) => onChangeSubscription(v, 'threshold', this.props.index)}
             properties={{
               name: 'threshold',
               type: 'number',
               default: alert.threshold,
-              value: alert.threshold
+              value: alert.threshold,
             }}
           >
             {Input}
@@ -83,7 +83,7 @@ SubscriptionSelector.propTypes = {
   datasets: PropTypes.array.isRequired,
   alert: PropTypes.object.isRequired,
   onChangeSubscription: PropTypes.func.isRequired,
-  onRemoveDataset: PropTypes.func.isRequired
+  onRemoveDataset: PropTypes.func.isRequired,
 };
 
 export default SubscriptionSelector;

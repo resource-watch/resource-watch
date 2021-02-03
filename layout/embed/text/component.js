@@ -15,7 +15,7 @@ class LayoutEmbedText extends PureComponent {
     loading: PropTypes.bool.isRequired,
     routes: PropTypes.object.isRequired,
     referer: PropTypes.string,
-    getWidget: PropTypes.func.isRequired
+    getWidget: PropTypes.func.isRequired,
   };
 
   static defaultProps = { referer: '' }
@@ -25,7 +25,7 @@ class LayoutEmbedText extends PureComponent {
   UNSAFE_componentWillMount() {
     const {
       getWidget,
-      routes: { query: { id } }
+      routes: { query: { id } },
     } = this.props;
 
     getWidget(id);
@@ -42,7 +42,7 @@ class LayoutEmbedText extends PureComponent {
     const {
       name,
       description,
-      widgetConfig
+      widgetConfig,
     } = widget;
 
     if (loading) {
@@ -77,14 +77,16 @@ class LayoutEmbedText extends PureComponent {
               {description}
             </p>
           </div>
-          {isExternal &&
+          {isExternal
+            && (
             <img
               className="embed-logo"
               height={21}
               width={129}
               src="/static/images/logo-embed.png"
               alt="Resource Watch"
-            /> }
+            />
+            ) }
         </div>
       </LayoutEmbed>
     );

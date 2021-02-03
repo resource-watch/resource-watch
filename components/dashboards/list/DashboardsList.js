@@ -18,12 +18,12 @@ class DashboardsList extends React.Component {
   static defaultProps = {
     routes: {
       index: '',
-      detail: ''
+      detail: '',
     },
     getDashboardsFilters: {},
     // Store
     loading: false,
-    filters: []
+    filters: [],
   };
 
   static propTypes = {
@@ -38,7 +38,7 @@ class DashboardsList extends React.Component {
     // Actions
     getDashboards: PropTypes.func.isRequired,
     onDeleteDashboard: PropTypes.func.isRequired,
-    setFilters: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired,
   };
 
   state = { loading: true };
@@ -83,7 +83,7 @@ class DashboardsList extends React.Component {
           .catch((err) => {
             toastr.error('Error', `The dashboard "${dashboard.id}" - "${dashboard.name}" was not deleted. Try again. ${err}`);
           });
-      }
+      },
     });
   }
 
@@ -103,13 +103,13 @@ class DashboardsList extends React.Component {
           link={{
             label: 'New dashboard',
             route: routes.detail,
-            params: { tab: 'dashboards', id: 'new' }
+            params: { tab: 'dashboards', id: 'new' },
           }}
           onSearch={this.onSearch}
         />
 
         <div className="l-row row list">
-          {dashboards.map(dashboard => (
+          {dashboards.map((dashboard) => (
             <div
               className="column list-item small-12 medium-4"
               key={dashboard.id}
@@ -121,34 +121,36 @@ class DashboardsList extends React.Component {
               />
             </div>
           ))}
-          {!loading && dashboards.length === 0 && filters.length === 0 &&
+          {!loading && dashboards.length === 0 && filters.length === 0
+            && (
             <div className="text-container">
               You currently have no dashboards
             </div>
-          }
-          {!loading && dashboards.length === 0 && filters.length > 0 &&
+            )}
+          {!loading && dashboards.length === 0 && filters.length > 0
+            && (
             <div className="text-container">
               { `There were no dashboards found with the text provided: '${filters[0].value}'` }
             </div>
-          }
+            )}
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
   loading: state.adminDashboards.dashboards.loading,
   dashboards: getAllFilteredDashboards(state),
   error: state.adminDashboards.dashboards.error,
-  filters: state.clientDashboards.filters
+  filters: state.clientDashboards.filters,
 });
 
 const mapDispatchToProps = {
   getDashboards,
   onDeleteDashboard,
-  setFilters
+  setFilters,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardsList);

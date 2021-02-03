@@ -10,7 +10,7 @@ import './styles.scss';
 function ExploreDetailFooterComponent(props) {
   const {
     setSidebarAnchor,
-    showVizualizationLink
+    showVizualizationLink,
   } = props;
 
   return (
@@ -27,7 +27,7 @@ function ExploreDetailFooterComponent(props) {
         role="button"
         tabIndex={0}
       >
-             OVERVIEW
+        OVERVIEW
       </a>
       <a
         onClick={() => {
@@ -41,9 +41,10 @@ function ExploreDetailFooterComponent(props) {
         role="button"
         tabIndex={0}
       >
-             LAYERS
+        LAYERS
       </a>
-      {showVizualizationLink &&
+      {showVizualizationLink
+        && (
         <a
           onClick={() => {
             setSidebarAnchor('visualization');
@@ -56,9 +57,9 @@ function ExploreDetailFooterComponent(props) {
           role="button"
           tabIndex={0}
         >
-              VISUALIZATION
+          VISUALIZATION
         </a>
-      }
+        )}
       <a
         onClick={() => {
           setSidebarAnchor('further_information');
@@ -71,19 +72,19 @@ function ExploreDetailFooterComponent(props) {
         role="button"
         tabIndex={0}
       >
-             FURTHER INFORMATION
+        FURTHER INFORMATION
       </a>
     </div>
   );
 }
 
-ExploreDetailFooterComponent.propTypes = { 
+ExploreDetailFooterComponent.propTypes = {
   setSidebarAnchor: PropTypes.func.isRequired,
-  showVizualizationLink: PropTypes.bool
+  showVizualizationLink: PropTypes.bool,
 };
 
-ExploreDetailFooterComponent.defaultProps = { 
-  showVizualizationLink: true
+ExploreDetailFooterComponent.defaultProps = {
+  showVizualizationLink: true,
 };
 
 export default ExploreDetailFooterComponent;

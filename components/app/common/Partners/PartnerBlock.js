@@ -15,7 +15,7 @@ function PartnerBlock(props) {
     <article className="c-partners-block">
       <div className="logo-container">
         <Link
-          route={'partner'}
+          route="partner"
           params={{ id: partner.slug }}
         >
           <img src={imgPath} className="logo" title={partner.name} alt={partner.name} />
@@ -24,7 +24,7 @@ function PartnerBlock(props) {
       <p>{partner.summary}</p>
       <div className="buttons -align-center">
         <Link
-          route={'partner'}
+          route="partner"
           params={{ id: partner.slug }}
         >
           <a className="c-btn -secondary">Read more</a>
@@ -35,7 +35,7 @@ function PartnerBlock(props) {
 }
 
 PartnerBlock.propTypes = {
-  item: PropTypes.object
+  item: PropTypes.object,
 };
 
 export default PartnerBlock;

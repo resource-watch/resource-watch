@@ -12,15 +12,15 @@ import { isFullScreen } from './selectors';
 import LayoutApp from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     modal: state.modal,
     user: state.user,
-    isFullScreen: isFullScreen(state)
+    isFullScreen: isFullScreen(state),
   }),
   {
     toggleModal,
     setModalOptions,
     toggleTooltip,
-    updateIsLoading
-  }
+    updateIsLoading,
+  },
 )(LayoutApp);

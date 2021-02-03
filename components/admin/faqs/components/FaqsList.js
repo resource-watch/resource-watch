@@ -7,7 +7,6 @@ import { SortableContainer } from 'react-sortable-hoc';
 // Components
 import FaqsListItem from './FaqsListItem';
 
-
 const FaqsList = (props) => {
   const { items } = props;
 
@@ -20,25 +19,25 @@ const FaqsList = (props) => {
             params: {
               id: faq.id,
               subtab: 'edit',
-              tab: 'faqs'
+              tab: 'faqs',
             },
-            route: 'admin_faqs_detail'
+            route: 'admin_faqs_detail',
           },
           removeAction: {
             name: 'Remove',
             params: {
               id: faq.id,
               subtab: 'remove',
-              tab: 'faqs'
+              tab: 'faqs',
             },
-            route: 'admin_faqs_detail'
+            route: 'admin_faqs_detail',
           },
           data: {
             id: faq.id,
             order: faq.order,
             question: faq.question,
-            answer: faq.answer
-          }
+            answer: faq.answer,
+          },
         };
 
         return (
@@ -59,7 +58,7 @@ const FaqsList = (props) => {
 FaqsList.propTypes = {
   getFaqs: PropTypes.func,
   items: PropTypes.array,
-  authorization: PropTypes.string
+  authorization: PropTypes.string,
 };
 
 export default SortableContainer(FaqsList);

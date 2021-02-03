@@ -10,21 +10,20 @@ import MyRWWidgetEditTab from 'components/app/myrw/widgets/tabs/edit';
 import MyRWWidgetNewTab from 'components/app/myrw/widgets/tabs/new';
 
 function WidgetsTab(props) {
-  const { tab, subtab, id, user, dataset } = props;
+  const {
+    tab, subtab, id, user, dataset,
+  } = props;
 
   return (
     <div className="c-widgets-tab">
-      {!id && user.token &&
-        <WidgetsIndex tab={tab} subtab={subtab} id={id} />
-      }
+      {!id && user.token
+        && <WidgetsIndex tab={tab} subtab={subtab} id={id} />}
 
-      {id && subtab === 'edit' && user.token &&
-        <MyRWWidgetEditTab tab={tab} subtab={subtab} id={id} dataset={dataset} />
-      }
+      {id && subtab === 'edit' && user.token
+        && <MyRWWidgetEditTab tab={tab} subtab={subtab} id={id} dataset={dataset} />}
 
-      {id === 'new' && user.token &&
-        <MyRWWidgetNewTab tab={tab} subtab={subtab} dataset={dataset === 'new' ? null : dataset} />
-      }
+      {id === 'new' && user.token
+        && <MyRWWidgetNewTab tab={tab} subtab={subtab} dataset={dataset === 'new' ? null : dataset} />}
     </div>
   );
 }
@@ -34,9 +33,9 @@ WidgetsTab.propTypes = {
   tab: PropTypes.string,
   id: PropTypes.string,
   subtab: PropTypes.string,
-  dataset: PropTypes.string
+  dataset: PropTypes.string,
 };
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = (state) => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(WidgetsTab);

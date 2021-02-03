@@ -22,5 +22,5 @@ class AdminPartnersPage extends PureComponent {
 
 export default connect(
   null,
-  { getAllPartners }
+  { getAllPartners },
 )(AdminPartnersPage);

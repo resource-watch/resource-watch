@@ -12,8 +12,8 @@ export const STATE_DEFAULT = {
     sourceUrl: '',
     authors: '',
     default: false,
-    published: false
-  }
+    published: false,
+  },
 };
 
 export const FORM_ELEMENTS = {
@@ -27,10 +27,10 @@ export const FORM_ELEMENTS = {
   isValid() {
     const { elements } = this;
     const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
+      .map((k) => elements[k].isValid())
+      .filter((v) => v !== null)
+      .every((element) => element);
 
     return valid;
-  }
+  },
 };

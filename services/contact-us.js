@@ -19,4 +19,3 @@ export const contactUs = (params) => {
 };
 
 export default { contactUs };
-

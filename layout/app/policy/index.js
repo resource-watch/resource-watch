@@ -4,6 +4,6 @@ import { connect } from 'react-redux';
 import LayoutPolicy from './component';
 
 export default connect(
-  state => ({ data: state.staticPages['privacy-policy'] }),
-  null
+  (state) => ({ data: state.staticPages['privacy-policy'] }),
+  null,
 )(LayoutPolicy);

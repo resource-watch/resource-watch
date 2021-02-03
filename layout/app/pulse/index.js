@@ -8,13 +8,13 @@ import PulseComponent from './component';
 
 // Mandatory
 export {
-  actions, reducers, initialState
+  actions, reducers, initialState,
 };
 
 export default connect(
-  state => ({
+  (state) => ({
     // Store
-    pulse: state.pulse
+    pulse: state.pulse,
   }),
-  actions
+  actions,
 )(PulseComponent);

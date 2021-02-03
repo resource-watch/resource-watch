@@ -7,29 +7,30 @@ Resource Watch features hundreds of data sets all in one place on the state of t
 
 Native execution requires the following:
 
-- [Nodejs v8.x](https://nodejs.org/en/) 
+- [Nodejs v14](https://nodejs.org/en/) 
 - [yarn](https://yarnpkg.com/)
 - [RW API](https://api.resourcewatch.org/)
 
 There are included [Dockerfile](https://docs.docker.com/engine/reference/builder/) and [docker compose](https://docs.docker.com/compose/) configuration files that may make it easier to run the application locally.
 
-# Installation (native) 📦
-Run
+# Installation
+We strongly recommend to use [NVM](https://github.com/nvm-sh/nvm) to handle different Node versions.
+
 ```bash
-yarn
+nvm use # loads the Node version indicated in the .nvmrc file
+yarn # install all dependencies
+yarn dev # runs the development server
 ```
-in your terminal will install all dependencies. Once done, type:
-```bash
-yarn dev
-```
-and your app will be served in [http://localhost:9000/](http://localhost:9000/) (if you didn't change the default port in the `.env`).
+The application will be served in [http://localhost:9000/](http://localhost:9000/) (if you didn't change the default port in the `.env` file).
+
+Don't forget to update your [environmental variables](https://en.wikipedia.org/wiki/Environment_variable) to the `.env` file.
 
 ## Production build
 If you need a production-ready build, run:
 ```bash
-yarn build
+yarn build --build-arg RW_FEATURE_FLAG_AREAS_V2=true
 ```
-this will generate your build in `./dist` folder ready to run 
+this will generate your build in `./next` folder ready to run.
 
 Happy coding!
 
@@ -59,6 +60,7 @@ Resource Watch application is split into the next main folders:
 - redactions (legacy)
 - selectors (legacy)
 - css
+- hooks
 - constants
 - services
 - utils
@@ -129,6 +131,9 @@ _Legacy note:_ in the `./css/components` folder you will notice a lot of styles 
 Constants are variables available across the application. They can be used anywhere without exception. When you are about to add a new one here, please keep in mind the scope of this/these constants and if they are worth it to place here or inside the component is going to use them.
 
 As constants, they must be written in uppercase and using [Snake Case](https://en.wikipedia.org/wiki/Snake_case) notation. Example: `MY_AWESOME_CONSTANT`
+
+### **./hooks**
+Contains [hooks](https://reactjs.org/docs/hooks-overview.html) used along the application. These hooks must be agnostic.
 
 ### **./services**
 Services are in charge of connecting the application with external APIs/other services. Every service contains a set of fetches (usually based on [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)), it's possible to extend them if needed, but take into account there can't be any app-related logic here. Every fetch should be able to be used in any context. TLDR: make services agnostic.

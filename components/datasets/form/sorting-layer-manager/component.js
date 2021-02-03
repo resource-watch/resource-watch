@@ -10,7 +10,7 @@ import './styles.scss';
 class SortingLayerManager extends PureComponent {
   static propTypes = {
     layers: PropTypes.array.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
   }
 
   state = { layers: this.props.layers }
@@ -32,7 +32,7 @@ class SortingLayerManager extends PureComponent {
     }
 
     // filter out the currently dragged item
-    const layers = this.state.layers.filter(layer => layer !== this.draggedLayer);
+    const layers = this.state.layers.filter((layer) => layer !== this.draggedLayer);
 
     // add the dragged layer after the dragged over layer
     layers.splice(index, 0, this.draggedLayer);

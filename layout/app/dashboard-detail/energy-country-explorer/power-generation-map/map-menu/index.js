@@ -4,16 +4,15 @@ import { connect } from 'react-redux';
 import {
   toggleMapLayerGroup,
   setMapLayerGroupActive,
-  resetMapLayerGroupsInteraction
+  resetMapLayerGroupsInteraction,
 } from 'layout/explore/actions';
 
 import MapMenuComponent from './component';
 
-export default connect(state => (
+export default connect((state) => (
   { responsive: state.responsive }),
-  {
-    toggleMapLayerGroup,
-    setMapLayerGroupActive,
-    resetMapLayerGroupsInteraction
-  }
-)(MapMenuComponent);
+{
+  toggleMapLayerGroup,
+  setMapLayerGroupActive,
+  resetMapLayerGroupsInteraction,
+})(MapMenuComponent);

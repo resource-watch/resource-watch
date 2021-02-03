@@ -22,7 +22,7 @@ function DatasetsNew(props) {
 
 DatasetsNew.propTypes = {
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
 export default DatasetsNew;

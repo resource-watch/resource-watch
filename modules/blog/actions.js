@@ -20,7 +20,7 @@ export const getLatestPosts = createThunkAction('BLOG/GET_LATEST_POSTS', () => (
   return fetchPosts({
     _embed: true,
     per_page: 3,
-    categories_exclude: [...SPOTLIGHT_CATEGORY, UNCATEGORIZED_CATEGORY]
+    categories_exclude: [...SPOTLIGHT_CATEGORY, UNCATEGORIZED_CATEGORY],
   })
     .then((posts) => { dispatch(setLatestPosts(postParser(posts))); })
     .catch(() => { dispatch(setLatestPostsError(ERROR_MESSAGE_FETCH_POSTS)); });
@@ -32,7 +32,7 @@ export const getSpotlightPosts = createThunkAction('BLOG_POSTS_LATEST_FETCH_DATA
   return fetchPosts({
     _embed: true,
     per_page: 3,
-    categories: SPOTLIGHT_CATEGORY.join(',')
+    categories: SPOTLIGHT_CATEGORY.join(','),
   })
     .then((posts) => { dispatch(setSpotlightPosts(postParser(posts))); })
     .catch(() => { dispatch(setSpotlightPostsError(ERROR_MESSAGE_FETCH_POSTS)); });
@@ -40,5 +40,5 @@ export const getSpotlightPosts = createThunkAction('BLOG_POSTS_LATEST_FETCH_DATA
 
 export default {
   getLatestPosts,
-  getSpotlightPosts
+  getSpotlightPosts,
 };

@@ -4,8 +4,8 @@ export default {
     about: false,
     myrw: false,
     dashboards: false,
-    get_involved: false
+    get_involved: false,
   },
   mobileOpened: false,
-  searchOpened: false
+  searchOpened: false,
 };

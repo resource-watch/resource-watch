@@ -8,12 +8,12 @@ import SearchComponent from './search-component';
 
 // Mandatory
 export {
-  actions, reducers, initialState
+  actions, reducers, initialState,
 };
 
 export default connect(
-  state => ({
-    ...state.search
+  (state) => ({
+    ...state.search,
   }),
-  actions
+  actions,
 )(SearchComponent);

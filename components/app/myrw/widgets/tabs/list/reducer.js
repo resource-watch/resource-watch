@@ -3,7 +3,7 @@ import {
   SET_SORT,
   SET_SEARCH,
   SET_PAGINATION,
-  SET_WIDGET_STATE
+  SET_WIDGET_STATE,
 } from './actions';
 
 export default (state, { type, payload }) => {
@@ -19,16 +19,16 @@ export default (state, { type, payload }) => {
         ...state,
         pagination: {
           ...state.pagination,
-          ...payload
-        }
+          ...payload,
+        },
       };
     case SET_WIDGET_STATE:
       return {
         ...state,
         widgets: {
           ...state.widgets,
-          ...payload
-        }
+          ...payload,
+        },
       };
     default:
       throw new Error('action not found');

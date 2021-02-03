@@ -11,21 +11,21 @@ export const FOOTER_LINKS = [
         label: 'App Gallery',
         route: 'get_involved_detail',
         params: { id: 'apps' },
-        logEvent: true
-      }
-    ]
+        logEvent: true,
+      },
+    ],
   },
   {
     id: 'dashboards',
     label: 'Dashboards',
     route: 'dashboards',
     pathnames: ['/app/dashboards', '/app/dashboards-detail'],
-    children: []
+    children: [],
   },
   {
     id: 'blog',
     label: 'Blog',
-    href: 'https://blog.resourcewatch.org'
+    href: 'https://blog.resourcewatch.org',
   },
   {
     id: 'about',
@@ -39,8 +39,8 @@ export const FOOTER_LINKS = [
       { label: 'Contact us', route: 'about_contact-us' },
       { label: 'Terms of service', route: 'terms-of-service' },
       { label: 'Privacy Policy', route: 'privacy-policy' },
-      { label: 'Attribution requirements', route: 'attribution-requirements' }
-    ]
+      { label: 'Attribution requirements', route: 'attribution-requirements' },
+    ],
   },
   {
     id: 'get_involved',
@@ -51,38 +51,38 @@ export const FOOTER_LINKS = [
       {
         label: 'Suggest a story',
         route: 'get_involved_detail',
-        params: { id: 'suggest-a-story' }
+        params: { id: 'suggest-a-story' },
       },
       {
         label: 'Contribute data',
         route: 'get_involved_detail',
-        params: { id: 'contribute-data' }
+        params: { id: 'contribute-data' },
       },
       {
         label: 'Join the community',
         route: 'get_involved_detail',
-        params: { id: 'join-the-community' }
+        params: { id: 'join-the-community' },
       },
       {
         label: 'Develop your app',
         route: 'get_involved_detail',
-        params: { id: 'develop-your-app' }
+        params: { id: 'develop-your-app' },
       },
       {
         label: 'Sign up',
         route: 'sign-in',
-        params: {}
-      }
-    ]
+        params: {},
+      },
+    ],
   },
   {
     id: 'search',
-    label: 'Search'
+    label: 'Search',
   },
   {
     user: false,
     id: 'myrw',
-    label: 'Log in'
+    label: 'Log in',
   },
   {
     user: true,
@@ -92,9 +92,9 @@ export const FOOTER_LINKS = [
     children: [
       { label: 'Profile', route: 'myrw', params: { tab: 'profile' } },
       { label: 'Admin', route: 'admin_home', admin: true },
-      { label: 'Logout', id: 'logout' }
-    ]
-  }
+      { label: 'Logout', id: 'logout' },
+    ],
+  },
 ];
 
 export default { FOOTER_LINKS };
