@@ -12,7 +12,8 @@
   },
   "extends": [
     "airbnb",
-    "airbnb/hooks"
+    "airbnb/hooks",
+    "plugin:cypress/recommended"
   ],
   "overrides": [
     {
@@ -39,7 +40,8 @@
   },
   "plugins": [
     "@babel",
-    "react-hooks"
+    "react-hooks",
+    "cypress"
   ],
   "settings": {
     "import/resolver": {
