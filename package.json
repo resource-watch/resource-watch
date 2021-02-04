@@ -124,16 +124,14 @@
     "@babel/eslint-parser": "^7.12.13",
     "@babel/eslint-plugin": "^7.12.13",
     "@babel/preset-env": "^7.12.13",
-    "babel-cli": "6.26.0",
-    "babel-eslint": "^10.1.0",
     "babel-plugin-module-resolver": "^4.1.0",
-    "babel-preset-env": "1.6.0",
     "cssnano": "^4.1.10",
-    "eslint": "5.16.0",
+    "cypress": "^6.4.0",
+    "eslint": "^7.19.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-import-resolver-babel-module": "^5.1.2",
-    "eslint-plugin-babel": "^5.3.1",
-    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.21.1",
     "eslint-plugin-react-hooks": "3.0.0",
@@ -143,13 +141,15 @@
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "scripts": {
-    "test": "yarn lint",
+    "test": "yarn cy:run",
     "lint": "eslint . --ext .js,.jsx",
     "dev": "node $NODE_DEBUG_OPTION index.js",
     "build": "better-npm-run build",
     "start": "better-npm-run start",
     "bundle-analyzer": "better-npm-run bundle-analyzer",
-    "sitemap": "better-npm-run sitemap"
+    "sitemap": "better-npm-run sitemap",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run"
   },
   "engines": {
     "node": ">=14.15"
