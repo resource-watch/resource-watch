@@ -38,12 +38,43 @@ RUN apk update && apk add --no-cache \
 # Add app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY . .
+# Copy app folders
+COPY components ./components
+COPY constants ./constants
+COPY css ./css
+COPY hooks ./hooks
+COPY layout ./layout
+COPY lib ./lib
+COPY modules ./modules
+COPY pages ./pages
+COPY public ./public
+COPY redactions ./redactions
+COPY selectors ./selectors
+COPY services ./services
+COPY static ./static
+COPY utils ./utils
+
+# Copy single files
+
+COPY .babelrc .
+COPY .browserlistrc .
+COPY package.json .
+COPY yarn.lock .
+COPY api.md .
+COPY auth.js .
+COPY index.js .
+COPY next.config.js .
+COPY next-sitemap.js .
+COPY now.json .
+COPY postcss.config.js .
+COPY routes.js .
+COPY store.js .
 
 RUN yarn install --frozen-lockfile --production=false
 
 RUN yarn build
+
+COPY entrypoint.sh .
 
 EXPOSE 3000
 
