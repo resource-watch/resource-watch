@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:9000",
+  "baseUrl": "http://localhost:3000",
   "integrationFolder": ".",
   "testFiles": ["**/*__test__.js"],
   "nodeVersion": "system"

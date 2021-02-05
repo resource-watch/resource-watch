@@ -8,7 +8,7 @@ case "$1" in
         exec yarn dev
         ;;
     test)
-        echo "Running tests"
+        echo "Running test server"
         exec yarn test
         ;;
     start)

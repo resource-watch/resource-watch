@@ -1,0 +1,12 @@
+name: Run tests for the base branch
+
+on: [pull_request]
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run tests using docker-compose
+      run: ./resourcewatch.sh test
