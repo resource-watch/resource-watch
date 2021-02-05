@@ -2,15 +2,47 @@ version: "3"
 services:
   app:
     build: .
-    command: test
+    command: start
     environment:
-      WRI_API_URL: https://api.resourcewatch.org/v1
+      WRI_API_URL: https://staging-api.globalforestwatch.org/v1
+      PORT: 3000
+      RW_NODE_ENV: production
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: development
+      SECRET: keyboard cat
+      STATIC_SERVER_URL:
+      API_ENV: production,preproduction
+      CALLBACK_URL: http://localhost:3000/auth
+      APPLICATIONS: rw
+      CONTROL_TOWER_URL: https://staging-api.globalforestwatch.org
+      BLOG_API_URL_: https://blog.resourcewatch.org/wp-json/wp/v2
+      BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
+      TRANSIFEX_LIVE_API: fca0343bce994bf8ba3dcdeaab389136
+      GOOGLE_ANALYTICS: UA-67196006-1
+      RW_GOGGLE_API_TOKEN_SHORTENER: AIzaSyBdMtSDFhpWrs2OSJsMsfpHGdjopCpRrVg
+      ADD_SEARCH_KEY: ea4c79622844ade140170b141c36f14f
+      BING_MAPS_API_KEY: PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-y1QukRox537t604Je0pxhygfcraTQGVWr7Ko9LwPoS7-MHW0qY
+      PARDOT_NEWSLETTER_URL: https://go.pardot.com/l/120942/2018-01-25/3nzl13
+      LOGGER_LEVEL: debug
+      RW_MAPBOX_API_TOKEN: pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w
     ports:
       - "3000:3000"
     restart: always
     container_name: resource-watch
     depends_on:
       - redis
+
+  cypress:
+    image: "cypress/included:6.4.0"
+    volumes:
+      - ./cypress:/cypress
+      - ./cypress.json:/cypress.json
+    environment:
+      - CYPRESS_baseUrl=http://app:3000
+      - DEBUG=cypress:server:*
+    command: "--headless"
+    depends_on:
+      - app
 
   redis:
     image: redis
