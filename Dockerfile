@@ -51,7 +51,6 @@ COPY public ./public
 COPY redactions ./redactions
 COPY selectors ./selectors
 COPY services ./services
-COPY static ./static
 COPY utils ./utils
 
 # Copy single files
