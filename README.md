@@ -206,6 +206,24 @@ Merging to `develop` branch will deploy [RW Staging](https://staging.resourcewat
 
 To deploy [Resource Watch (production)](http://resourcewatch.org) you will need to access to Jenkins and deploy manually the `master` branch.
 
+# Testing
+Resource Watch uses [Cypress](https://www.cypress.io/) to handle e2e tests. Tests are available everywhere but in `./pages` folder (NextJS doesn't support anything but a function/React component in this folder).
+
+There is a `cypress.json` file where you can set up Cypress and see where tests are placed. If you are going to add a new test in a place not declared already, do not forget to add it.
+
+There are two ways to run tests locally:
+
+- `yarn cy:open` will open the Cypress GUI. This interface will show all tests available in the application and let you know any or all of them.
+- `yarn cy:run` will run Cypress in the command line. All the tests will run.
+
+In both cases, do not forget to run your server locally before and be sure the `baseUrl` field in the `cypress.json` file matches with your server.
+
+You can find more info about Cypress and its API in [their docs](https://docs.cypress.io/guides/overview/why-cypress.html).
+
+## Testing with Docker
+
+TO-DO
+
 # Documentation 📝
 Every change in the app must be documented in the `./CHANGELOG.md` file according to [keep a changelog](https://keepachangelog.com/en/1.0.0/) specs.
 
