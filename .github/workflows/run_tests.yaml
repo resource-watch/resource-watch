@@ -63,7 +63,7 @@ jobs:
 #      - run: yarn test
 
       - name: Run tests with coverage
-        uses: paambaati/codeclimate-action@v2.2.4
+        uses: paambaati/codeclimate-action@v2.7.5
         with:
           coverageCommand: yarn test
 
