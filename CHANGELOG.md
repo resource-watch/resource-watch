@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ### Changed
+- Removed "BETA" from Resource Watch logo. [#176843582](https://www.pivotaltracker.com/story/show/176843582)
 
 ### Fixed
 - Explore: search not working first time. [#176263572](https://www.pivotaltracker.com/story/show/176263572)

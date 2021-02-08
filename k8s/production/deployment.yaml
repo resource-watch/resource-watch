@@ -58,7 +58,7 @@ spec:
                 secretKeyRef:
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
                   name: appsecrets
-          image: vizzuality/resource-watch
+          image: gfwdockerhub/resource-watch
           imagePullPolicy: Always
           name: resource-watch
           ports:
