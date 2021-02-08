@@ -27,8 +27,9 @@ export const fetchDashboards = (params = {
     },
     params,
   }).then((response) => {
-    const { data } = response;
+    const { status, statusText, data } = response;
     const { meta } = data;
+    logger.debug(`Fetched dashboards: ${status} - ${statusText}: ${JSON.stringify(data)}`);
 
     if (_meta) {
       return {

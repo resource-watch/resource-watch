@@ -9,7 +9,7 @@ import { logger } from 'utils/logs';
  * @returns {Object[]} array of parsed posts.
  */
 export const fetchPosts = (params = {}, headers = {}) => {
-  logger.info('fetches posts from blog');
+  logger.info('Fetch posts from blog');
 
   return blogAPI.get('/posts', {
     headers: { ...headers },
@@ -17,6 +17,7 @@ export const fetchPosts = (params = {}, headers = {}) => {
   })
     .then((response) => {
       const { status, statusText, data } = response;
+      logger.debug(`Fetched posts from blog: ${status} - ${statusText}: ${JSON.stringify(data)}`);
 
       if (status >= 300) {
         logger.error('Error fetching posts from blog:', `${status}: ${statusText}`);
