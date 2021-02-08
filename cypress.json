@@ -1,6 +1,12 @@
 {
   "baseUrl": "http://localhost:3000",
   "integrationFolder": ".",
-  "testFiles": ["**/*__test__.js"],
+  "testFiles": [
+    "pages/**/*spec.js",
+    "components/**/*spec.{js,jsx}",
+    "utils/**/*spec.js"
+  ],
+  "experimentalComponentTesting": true,
+  "componentFolder": "components",
   "nodeVersion": "system"
 }
