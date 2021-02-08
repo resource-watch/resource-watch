@@ -21,7 +21,7 @@ jobs:
       PORT: 3000
       RW_NODE_ENV: development
       REDIS_URL: redis://redis:6379
-      NODE_ENV: development
+      NODE_ENV: test
       SECRET: keyboard cat
       STATIC_SERVER_URL:
       API_ENV: production,preproduction
