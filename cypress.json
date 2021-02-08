@@ -4,8 +4,11 @@
   "testFiles": [
     "layout/**/*spec.js",
     "components/**/*spec.{js,jsx}",
-    "utils/**/*spec.js"
+    "utils/**/*spec.js",
+    "cypress/**/*spec.{js,jsx}"
   ],
+  "pluginsFile": "node_modules/@cypress/code-coverage/plugins",
+  "supportFile": "node_modules/@cypress/code-coverage/support",
   "experimentalComponentTesting": true,
   "componentFolder": "components",
   "nodeVersion": "system"
