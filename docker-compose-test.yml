@@ -38,6 +38,9 @@ services:
     volumes:
       - ./cypress:/e2e/cypress
       - ./cypress.json:/e2e/cypress.json
+      - ./node_modules:/e2e/node_modules
+      - ./.nyc_output:/e2e/.nyc_output
+      - ./coverage:/e2e/coverage
     environment:
       - CYPRESS_baseUrl=http://app:3000
     command: "--headless --browser=firefox"
