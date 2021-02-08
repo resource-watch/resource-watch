@@ -38,6 +38,8 @@ jobs:
       BING_MAPS_API_KEY: fakeBingToken
       LOGGER_LEVEL: info
       RW_MAPBOX_API_TOKEN: fakeMapboxToken
+      CC_TEST_REPORTER_ID: 1a3b4790c97b84d93856c16cd0ceac7070a43c7620444d9de945c75c2edfa676
+
 
     steps:
       - name: Checkout code
@@ -53,8 +55,6 @@ jobs:
       - run: yarn start
 #      - run: yarn test
       - uses: paambaati/codeclimate-action@v2.2.4
-          env:
-            CC_TEST_REPORTER_ID: 1a3b4790c97b84d93856c16cd0ceac7070a43c7620444d9de945c75c2edfa676
           with:
             coverageCommand: yarn test
 
