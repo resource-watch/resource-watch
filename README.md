@@ -214,7 +214,7 @@ There is a `cypress.json` file where you can set up Cypress and see where tests 
 There are two ways to run tests locally:
 
 - `yarn cy:open` will open the Cypress GUI. This interface will show all tests available in the application and let you know any or all of them.
-- `yarn cy:run` will run Cypress in the command line. All the tests will run.
+- `yarn cy:run` (or `yarn test`) will run Cypress in the command line. All the tests will run.
 
 In both cases, do not forget to run your server locally before and be sure the `baseUrl` field in the `cypress.json` file matches with your server.
 
