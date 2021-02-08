@@ -13,13 +13,12 @@ describe('loads homepage successfully', () => {
   });
 });
 
-
 describe('clicking on \'Explore Data\' button in the homepage goes to Explore page', () => {
   before(() => {
     cy.intercept({
       pathname: '/data/explore',
     }).as('explore');
-  })
+  });
 
   it('visits explore page from homepage', () => {
     cy.visit('/');
@@ -28,7 +27,7 @@ describe('clicking on \'Explore Data\' button in the homepage goes to Explore pa
       .first()
       .then(($link) => {
         const href = $link.attr('href');
-        cy.visit(href)
+        cy.visit(href);
       });
 
     cy.wait('@explore').its('response.statusCode').should('eq', 200);
