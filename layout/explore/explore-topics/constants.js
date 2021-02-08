@@ -54,5 +54,19 @@ export const TOPICS = [
     backgroundURL: '/static/images/components/layout/explore/topics/topics-cities.jpg',
     backgroundColor: 'rgba(5,181,120,0.7)',
     slug: 'cities'
+  },
+  {
+    id: 'coral_reef',
+    label: 'Coral Reefs',
+    backgroundURL: '/static/images/components/layout/explore/topics/topics-corals.jpg',
+    backgroundColor: 'rgba(250,136,102,0.7)',
+    slug: 'coral-reefs',
+  },
+  {
+    id: 'air_quality',
+    label: 'Air Quality',
+    backgroundURL: '/static/images/components/layout/explore/topics/topics-air.jpg',
+    backgroundColor: 'rgba(89,127,165,0.7)',
+    slug: 'air-quality',
   }
 ];
