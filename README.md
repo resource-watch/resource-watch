@@ -1,6 +1,9 @@
 ![screen shot 2017-06-08 at 9 25 50 am](https://user-images.githubusercontent.com/545342/26916938-86333e38-4c2c-11e7-952c-012bd65700a5.png)
 
 # Resource Watch 🌍👓
+
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a4b807bda6ce10d8e5f9/test_coverage)](https://codeclimate.com/github/resource-watch/resource-watch/test_coverage)
+
 Resource Watch features hundreds of data sets all in one place on the state of the planet’s resources and citizens. Users can visualize challenges facing people and the planet, from climate change to poverty, water risk to state instability, air pollution to human migration, and more.
 
 # Requirements
