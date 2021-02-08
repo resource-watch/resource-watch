@@ -1,11 +1,7 @@
 {
   "baseUrl": "http://localhost:3000",
-  "integrationFolder": ".",
   "testFiles": [
-    "layout/**/*spec.js",
-    "components/**/*spec.{js,jsx}",
-    "utils/**/*spec.js",
-    "cypress/**/*spec.{js,jsx}"
+    "**/*spec.{js,jsx}"
   ],
   "pluginsFile": "node_modules/@cypress/code-coverage/plugins",
   "supportFile": "node_modules/@cypress/code-coverage/support",

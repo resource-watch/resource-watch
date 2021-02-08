@@ -144,15 +144,14 @@
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "scripts": {
-    "test": "yarn cy:run",
     "lint": "eslint . --ext .js,.jsx",
     "dev": "node $NODE_DEBUG_OPTION index.js",
     "build": "better-npm-run build",
     "start": "better-npm-run start",
     "bundle-analyzer": "better-npm-run bundle-analyzer",
     "sitemap": "better-npm-run sitemap",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "test": "cypress run",
+    "cy:open": "cypress open"
   },
   "engines": {
     "node": ">=14.15"
