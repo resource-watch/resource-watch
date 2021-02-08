@@ -21,7 +21,11 @@ export const fetchPartners = (params = {}, headers = {}) => {
     },
     headers: { ...headers },
   })
-    .then((response) => WRISerializer(response.data))
+    .then((response) => {
+      const { status, statusText, data } = response;
+      logger.debug(`Fetched partners: ${status} - ${statusText}: ${JSON.stringify(data)}`);
+      return WRISerializer(data);
+    })
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching partners: ${status}: ${statusText}`);
