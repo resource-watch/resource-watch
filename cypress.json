@@ -2,7 +2,7 @@
   "baseUrl": "http://localhost:3000",
   "integrationFolder": ".",
   "testFiles": [
-    "pages/**/*spec.js",
+    "layout/**/*spec.js",
     "components/**/*spec.{js,jsx}",
     "utils/**/*spec.js"
   ],
