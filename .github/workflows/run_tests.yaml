@@ -64,7 +64,9 @@ jobs:
 
       - name: Start server
         run: yarn start &
-      #      - run: yarn test
+
+      #      - name: Run tests
+      #        run: yarn test
 
       - name: Run tests with coverage
         uses: paambaati/codeclimate-action@v2.7.5
