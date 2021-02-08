@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         node: ['14.15', '14', '15']
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     env:
       WRI_API_URL: https://staging-api.globalforestwatch.org/v1
@@ -47,11 +46,12 @@ jobs:
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
-          node: ${{ matrix.node }}
-          - run: yarn install
-          - run: yarn build
-          - run: yarn start
-          - run: yarn test
+          node-version: ${{ matrix.node }}
+
+      - run: yarn install
+      - run: yarn build
+      - run: yarn start
+      - run: yarn test
 
 
 #      - name: Run tests using docker-compose

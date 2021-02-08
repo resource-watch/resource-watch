@@ -19,6 +19,11 @@
       ]
     }
   },
+  "ignore": [
+    "cypress",
+    ".next",
+    "node_modules"
+  ],
   "plugins": [
     [
       "module-resolver",

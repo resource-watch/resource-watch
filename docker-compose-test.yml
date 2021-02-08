@@ -6,9 +6,9 @@ services:
     environment:
       WRI_API_URL: https://staging-api.globalforestwatch.org/v1
       PORT: 3000
-      RW_NODE_ENV: development
+      RW_NODE_ENV: test
       REDIS_URL: redis://redis:6379
-      NODE_ENV: development
+      NODE_ENV: test
       SECRET: keyboard cat
       STATIC_SERVER_URL:
       API_ENV: production,preproduction

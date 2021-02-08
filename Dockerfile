@@ -2,6 +2,7 @@ FROM node:14.15-alpine
 LABEL maintainer="hello@vizzuality.com"
 
 ARG apiEnv=production
+ARG NODE_ENV=production
 ARG apiUrl=https://api.resourcewatch.org
 ARG wriApiUrl=https://api.resourcewatch.org/v1
 ARG WRI_API_URL_V2=https://api.resourcewatch.org/v2
@@ -11,7 +12,7 @@ ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 ARG RW_MAPBOX_API_TOKEN=not_valid
 ARG RW_FEATURE_FLAG_AREAS_V2=
 
-ENV NODE_ENV production
+ENV NODE_ENV $NODE_ENV
 ENV WRI_API_URL $wriApiUrl
 ENV CONTROL_TOWER_URL $controlTowerUrl
 ENV CALLBACK_URL $callbackUrl
