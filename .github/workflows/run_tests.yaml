@@ -21,7 +21,7 @@ jobs:
       WRI_API_URL: https://staging-api.globalforestwatch.org/v1
       PORT: 3000
       RW_NODE_ENV: development
-      REDIS_URL: redis://redis:6379
+      REDIS_URL: redis://localhost:6379
       NODE_ENV: test
       SECRET: keyboard cat
       STATIC_SERVER_URL:
