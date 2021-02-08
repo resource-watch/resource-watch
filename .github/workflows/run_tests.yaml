@@ -55,8 +55,8 @@ jobs:
       - run: yarn start
 #      - run: yarn test
       - uses: paambaati/codeclimate-action@v2.2.4
-          with:
-            coverageCommand: yarn test
+        with:
+          coverageCommand: yarn test
 
 #  coverage:
 #    needs: [ test ]
