@@ -55,6 +55,14 @@ module.exports = withCSS(withSass({
       tls: 'empty',
     };
 
+    // excludes tests from compilation
+    _config.module.rules.push(
+      {
+        test: /\.spec.js$/,
+        use: ['ignore-loader'],
+      },
+    );
+
     _config.plugins.push(
       // optimizes any css file generated
       new OptimizeCssAssetsPlugin({
