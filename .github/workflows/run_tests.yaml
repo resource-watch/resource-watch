@@ -14,7 +14,8 @@ jobs:
 
     strategy:
       matrix:
-        node: [ '14.15', '14', '15' ]
+        node: [ '14.15' ]
+#        node: [ '14.15', '14', '15' ]
 
     env:
       WRI_API_URL: https://staging-api.globalforestwatch.org/v1
@@ -50,11 +51,19 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - run: yarn install
-      - run: yarn build
-      - run: yarn start
+      - name: Install dependencies
+        run: yarn install
+
+
+      - name: Build
+        run: yarn build
+
+      - name: Start server
+        run: yarn start
 #      - run: yarn test
-      - uses: paambaati/codeclimate-action@v2.2.4
+
+      - name: Run tests with coverage
+        uses: paambaati/codeclimate-action@v2.2.4
         with:
           coverageCommand: yarn test
 
