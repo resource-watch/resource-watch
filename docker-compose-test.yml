@@ -24,7 +24,7 @@ services:
       BING_MAPS_API_KEY: PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-y1QukRox537t604Je0pxhygfcraTQGVWr7Ko9LwPoS7-MHW0qY
       PARDOT_NEWSLETTER_URL: https://go.pardot.com/l/120942/2018-01-25/3nzl13
       LOGGER_LEVEL: info
-      RW_MAPBOX_API_TOKEN: pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w
+      RW_MAPBOX_API_TOKEN: fakeMapboxToken
     ports:
       - "3000:3000"
     restart: always
@@ -38,9 +38,6 @@ services:
     volumes:
       - ./cypress:/e2e/cypress
       - ./cypress.json:/e2e/cypress.json
-      - ./layout:/e2e/layout
-      - ./components:/e2e/components
-      - ./utils:/e2e/utils
       - ./node_modules:/e2e/node_modules
       - ./.nyc_output:/e2e/.nyc_output
       - ./coverage:/e2e/coverage
