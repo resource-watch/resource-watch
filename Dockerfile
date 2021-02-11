@@ -65,7 +65,6 @@ COPY auth.js .
 COPY index.js .
 COPY next.config.js .
 COPY next-sitemap.js .
-COPY now.json .
 COPY postcss.config.js .
 COPY routes.js .
 COPY store.js .
