@@ -52,16 +52,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - uses: actions/cache@v2
-        with:
-          path: '/home/runner/.cache/Cypress/6.4.0/Cypress/Cypress'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install dependencies
         run: yarn install
 
@@ -71,29 +61,7 @@ jobs:
       - name: Start server
         run: yarn start &
 
-      #      - name: Run tests
-      #        run: yarn test
-
       - name: Run tests with coverage
         uses: paambaati/codeclimate-action@v2.7.5
         with:
           coverageCommand: yarn test
-
-#  coverage:
-#    needs: [ test ]
-#    name: coverage
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - uses: actions/setup-node@v2
-#        with:
-#          node-version: '14.15'
-#      - run: yarn install
-#      - run: yarn build
-#      - run: yarn start
-#      - run: yarn test
-#      - uses: paambaati/codeclimate-action@v2.2.4
-#        env:
-#          CC_TEST_REPORTER_ID: 1a3b4790c97b84d93856c16cd0ceac7070a43c7620444d9de945c75c2edfa676
-#        with:
-#          coverageCommand: yarn coverage
