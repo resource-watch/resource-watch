@@ -47,10 +47,8 @@ export const fetchSearch = createThunkAction('SEARCH/fetchSearch', () => (dispat
   dispatch(setSearchSelected(null));
 });
 
+export const setSearchUrl = createThunkAction('SEARCH/setSearchUrl', () => (dispatch, getState) => {
+  const { search: { term, page } } = getState();
 
-export const setSearchUrl = createThunkAction('SEARCH/setSearchUrl', () =>
-  (dispatch, getState) => {
-    const { search: { term, page } } = getState();
-
-    Router.replaceRoute('search', { term, page });
-  });
+  Router.replaceRoute('search', { term, page });
+});

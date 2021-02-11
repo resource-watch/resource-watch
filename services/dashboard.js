@@ -15,7 +15,7 @@ import { logger } from 'utils/logs';
  */
 export const fetchDashboards = (params = {
   env: process.env.API_ENV,
-  application: process.env.APPLICATIONS
+  application: process.env.APPLICATIONS,
 }, headers = {}, _meta = false) => {
   logger.info('Fetch dashboards');
   return WRIAPI.get('dashboard', {
@@ -23,17 +23,18 @@ export const fetchDashboards = (params = {
       ...WRIAPI.defaults.headers,
       ...headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1
+      'Upgrade-Insecure-Requests': 1,
     },
-    params
+    params,
   }).then((response) => {
-    const { data } = response;
+    const { status, statusText, data } = response;
     const { meta } = data;
+    logger.debug(`Fetched dashboards: ${status} - ${statusText}: ${JSON.stringify(data)}`);
 
     if (_meta) {
       return {
         dashboards: WRISerializer(data),
-        meta
+        meta,
       };
     }
 
@@ -94,13 +95,13 @@ export const createDashboard = (body, token) => {
     data: {
       attributes: { ...body },
       application: [process.env.APPLICATIONS],
-      env: process.env.API_ENV
-    }
+      env: process.env.API_ENV,
+    },
   }, {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -133,8 +134,8 @@ export const updateDashboard = (id, body, token) => {
     {
       headers: {
         ...WRIAPI.defaults.headers,
-        Authorization: token
-      }
+        Authorization: token,
+      },
     })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -164,8 +165,8 @@ export const deleteDashboard = (id, token) => {
   return WRIAPI.delete(`dashboard/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -184,7 +185,9 @@ export const deleteDashboard = (id, token) => {
  * @return {Object} resulting dashboard based on the dashboard provided.
  */
 export const cloneDashboard = (dashboard, user) => {
-  const { id, name, description, photo, summary } = dashboard;
+  const {
+    id, name, description, photo, summary,
+  } = dashboard;
   logger.info(`Clones dashboard from dashboard ${id}`);
   const { token, id: userId } = user;
   const url = `dashboard/${id}/clone`;
@@ -198,15 +201,15 @@ export const cloneDashboard = (dashboard, user) => {
         name,
         description,
         photo,
-        summary
-      }
-    }
+        summary,
+      },
+    },
   };
   return WRIAPI.post(url, params, {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
     .then((response) => {
       const { data } = response;
@@ -225,5 +228,5 @@ export default {
   createDashboard,
   updateDashboard,
   deleteDashboard,
-  cloneDashboard
+  cloneDashboard,
 };

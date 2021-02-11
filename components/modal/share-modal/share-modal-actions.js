@@ -27,5 +27,5 @@ export const fetchShortUrl = createThunkAction(
         dispatch(setLoading(false));
         dispatch(setError(err));
       });
-  }
+  },
 );

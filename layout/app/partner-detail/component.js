@@ -10,12 +10,12 @@ import DatasetList from 'components/datasets/list';
 class LayoutPartnerDetail extends PureComponent {
   static propTypes = {
     partner: PropTypes.object,
-    datasets: PropTypes.array
+    datasets: PropTypes.array,
   };
 
   static defaultProps = {
     partner: {},
-    datasets: []
+    datasets: [],
   };
 
   handleTagSelected(tag) {
@@ -25,7 +25,7 @@ class LayoutPartnerDetail extends PureComponent {
   render() {
     const {
       partner,
-      datasets
+      datasets,
     } = this.props;
     const {
       name,
@@ -33,7 +33,7 @@ class LayoutPartnerDetail extends PureComponent {
       website,
       'white-logo': whiteLogo,
       cover,
-      body
+      body,
     } = partner;
     const logoPath = whiteLogo ? whiteLogo.medium : '';
     const coverPath = cover && cover.cover;
@@ -49,13 +49,16 @@ class LayoutPartnerDetail extends PureComponent {
           className="logo"
           src={`${process.env.STATIC_SERVER_URL}${logoPath}`}
         />
-      </a>) :
-      (<img
-        title={name}
-        alt={name}
-        className="logo"
-        src={`${process.env.STATIC_SERVER_URL}${logoPath}`}
-      />);
+      </a>
+    )
+      : (
+        <img
+          title={name}
+          alt={name}
+          className="logo"
+          src={`${process.env.STATIC_SERVER_URL}${logoPath}`}
+        />
+      );
     const bannerStyles = { backgroundImage: `url(${process.env.STATIC_SERVER_URL}${coverPath})` };
 
     return (
@@ -93,7 +96,8 @@ class LayoutPartnerDetail extends PureComponent {
                   <p>{body}</p>
                 </div>
               </div>
-              {!!datasets.length &&
+              {!!datasets.length
+                && (
                 <div className="row align-center">
                   <div className="column small-12 datasets-container">
                     <div>
@@ -107,7 +111,8 @@ class LayoutPartnerDetail extends PureComponent {
                       />
                     </div>
                   </div>
-                </div>}
+                </div>
+                )}
             </div>
           </section>
 
@@ -116,7 +121,9 @@ class LayoutPartnerDetail extends PureComponent {
               <div className="column small-12">
                 <Banner className="-text-center">
                   <p className="-claim">
-                    Learn more about <br />
+                    Learn more about
+                    {' '}
+                    <br />
                     {name}
                   </p>
                   <a

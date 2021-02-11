@@ -12,13 +12,13 @@ class Apps extends React.Component {
   static propTypes = {
     tools: PropTypes.object.isRequired,
     getTools: PropTypes.func.isRequired,
-    setFilters: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     tools: {
-      list: []
-    }
+      list: [],
+    },
   };
 
   componentDidMount() {
@@ -32,20 +32,20 @@ class Apps extends React.Component {
         <div className="l-section">
           <div className="l-container">
             <div className="row">
-            {this.props.tools.list.map(app => (
-              <div key={app.id} className="column small-12 medium-4 c-card-column">
-                <CardApp
-                  background={app.thumbnail.medium}
-                  title={app.title}
-                  description={app.summary}
-                  link={{
-                    label: 'Go to site',
-                    route: app.url,
-                    external: true
-                  }}
-                />
-              </div>
-            ))}
+              {this.props.tools.list.map((app) => (
+                <div key={app.id} className="column small-12 medium-4 c-card-column">
+                  <CardApp
+                    background={app.thumbnail.medium}
+                    title={app.title}
+                    description={app.summary}
+                    link={{
+                      label: 'Go to site',
+                      route: app.url,
+                      external: true,
+                    }}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -55,7 +55,9 @@ class Apps extends React.Component {
               <div className="column small-12">
                 <Banner className="-text-center" bgImage="/static/images/pages/app/bg-banner-planetPulse.jpg">
                   <p className="-claim">
-                    View near-real-time data <br />
+                    View near-real-time data
+                    {' '}
+                    <br />
                     on the Planet
                   </p>
                   <Link to="pulse">
@@ -72,8 +74,8 @@ class Apps extends React.Component {
 }
 
 export default connect(
-  state => ({
-    tools: state.tools
+  (state) => ({
+    tools: state.tools,
   }),
-  { getTools, setFilters }
+  { getTools, setFilters },
 )(Apps);

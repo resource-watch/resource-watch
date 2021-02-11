@@ -13,7 +13,7 @@ class SubscriptionsPreview extends PureComponent {
     getUserSubscriptionsPreview: PropTypes.func.isRequired,
     handleState: PropTypes.func.isRequired,
     handleCancel: PropTypes.func.isRequired,
-    handleSubscribe: PropTypes.func.isRequired
+    handleSubscribe: PropTypes.func.isRequired,
   }
 
   static defaultProps = { data: [] }
@@ -35,7 +35,7 @@ class SubscriptionsPreview extends PureComponent {
       data,
       handleCancel,
       handleSubscribe,
-      activeDataset
+      activeDataset,
     } = this.props;
 
     if (loading) {
@@ -43,7 +43,8 @@ class SubscriptionsPreview extends PureComponent {
         <Spinner
           className="-light"
           isLoading
-        />);
+        />
+      );
     }
 
     const datasetName = activeDataset && activeDataset.metadata && activeDataset.metadata.name;
@@ -54,7 +55,7 @@ class SubscriptionsPreview extends PureComponent {
           <h2>{datasetName}</h2>
         </div>
         <div className="preview-table">
-          {data.map(_d => (<AlertsTable alerts={_d} />))}
+          {data.map((_d) => (<AlertsTable alerts={_d} />))}
         </div>
         <div className="preview-buttons">
           <button

@@ -7,6 +7,7 @@
       "presets": ["next/babel"]
     },
     "test": {
+      "plugins": ["istanbul"],
       "presets": [
         [
           "next/babel",
@@ -19,6 +20,11 @@
       ]
     }
   },
+  "ignore": [
+    "cypress",
+    ".next",
+    "node_modules"
+  ],
   "plugins": [
     [
       "module-resolver",

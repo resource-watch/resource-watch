@@ -8,7 +8,7 @@ import PartnersForm from 'components/admin/partners/form/PartnersForm';
 class PartnersShow extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   handleSubmit = () => Router.pushRoute('admin_partners', { tab: 'partners' })
@@ -16,7 +16,7 @@ class PartnersShow extends PureComponent {
   render() {
     const {
       id,
-      user: { token }
+      user: { token },
     } = this.props;
 
     return (

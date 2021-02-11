@@ -15,7 +15,7 @@ class TrySubscriptionModal extends PureComponent {
     error: PropTypes.any,
 
     getTrySubscriptionModal: PropTypes.func,
-    resetTrySubscriptionModal: PropTypes.func
+    resetTrySubscriptionModal: PropTypes.func,
   };
 
   componentDidMount() {
@@ -35,7 +35,7 @@ class TrySubscriptionModal extends PureComponent {
 
   render() {
     const {
-      data, loading, error, query
+      data, loading, error, query,
     } = this.props;
 
     return (
@@ -48,7 +48,7 @@ class TrySubscriptionModal extends PureComponent {
             name: 'query-result',
             label: 'Query result',
             value: (!!data.length && data) || error || [],
-            disabled: true
+            disabled: true,
           }}
         >
           {Code}

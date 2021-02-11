@@ -8,7 +8,7 @@ import ToolsForm from 'components/admin/tools/form/ToolsForm';
 class ToolsShow extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   handleSubmit = () => Router.pushRoute('admin_tools', { tab: 'tools' });
@@ -16,7 +16,7 @@ class ToolsShow extends PureComponent {
   render() {
     const {
       id,
-      user: { token }
+      user: { token },
     } = this.props;
 
     return (

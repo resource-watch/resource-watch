@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
 
-
 // components
 import Navigation from 'components/form/Navigation';
 import Spinner from 'components/ui/Spinner';
@@ -23,13 +22,13 @@ class DashboardsForm extends PureComponent {
     user: PropTypes.object.isRequired,
     id: PropTypes.string,
     basic: PropTypes.bool,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
   }
 
   static defaultProps = {
     id: null,
     basic: false,
-    onSubmit: null
+    onSubmit: null,
   }
 
   state = {
@@ -37,8 +36,8 @@ class DashboardsForm extends PureComponent {
     loading: !!this.props.id,
     form: {
       ...STATE_DEFAULT.form,
-      user_id: this.props.user.id
-    }
+      user_id: this.props.user.id,
+    },
   }
 
   componentDidMount() {
@@ -50,7 +49,7 @@ class DashboardsForm extends PureComponent {
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => { toastr.error(err.message); });
@@ -63,7 +62,7 @@ class DashboardsForm extends PureComponent {
       step,
       form,
       submitting,
-      stepLength
+      stepLength,
     } = this.state;
     event.preventDefault();
 
@@ -112,7 +111,7 @@ class DashboardsForm extends PureComponent {
   }
 
   onChange =(obj) => {
-    const form = Object.assign({}, this.state.form, obj);
+    const form = { ...this.state.form, ...obj };
     this.setState({ form });
   }
 
@@ -141,8 +140,8 @@ class DashboardsForm extends PureComponent {
           break;
         }
         default: {
-          if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
-              (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+          if ((typeof params[f] !== 'undefined' || params[f] !== null)
+              || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -159,7 +158,7 @@ class DashboardsForm extends PureComponent {
       form,
       step,
       stepLength,
-      submitting
+      submitting,
     } = this.state;
 
     return (
@@ -173,17 +172,19 @@ class DashboardsForm extends PureComponent {
           className="-light"
         />
 
-        {(this.state.step === 1 && !loading) &&
+        {(this.state.step === 1 && !loading)
+          && (
           <Step1
-            onChange={value => this.onChange(value)}
+            onChange={(value) => this.onChange(value)}
             basic={basic}
             form={form}
             id={id}
             {...this.props}
           />
-        }
+          )}
 
-        {!loading &&
+        {!loading
+          && (
           <Navigation
             step={step}
             stepLength={stepLength}
@@ -191,7 +192,7 @@ class DashboardsForm extends PureComponent {
             onStepChange={this.onStepChange}
             onBack={this.onCancel}
           />
-        }
+          )}
       </form>
     );
   }

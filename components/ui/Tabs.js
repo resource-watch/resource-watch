@@ -35,14 +35,14 @@ export default class Tabs extends React.Component {
       <header
         className={classnames({
           'c-tabs': true,
-          [className]: !!className
+          [className]: !!className,
         })}
       >
         <div className="row l-row">
           {options.map((option) => {
             const btnClasses = classnames({
               '-active': option.value === selected,
-              '-desktopOnly': option.desktopOnly
+              '-desktopOnly': option.desktopOnly,
             });
 
             return (
@@ -50,21 +50,23 @@ export default class Tabs extends React.Component {
                 key={option.value}
                 className="column shrink"
               >
-                {option.route &&
-                  <Link route={option.route} params={option.params} >
+                {option.route
+                  && (
+                  <Link route={option.route} params={option.params}>
                     <a className={`tabs-btn ${btnClasses}`}>
                       <span className="title">{option.label}</span>
                       {!!option.number && <span className="number">{option.number}</span>}
                     </a>
                   </Link>
-                }
+                  )}
 
-                {!option.route &&
+                {!option.route
+                  && (
                   <button className={`tabs-btn ${btnClasses}`} onClick={() => this.onChangeTab(option.value)}>
                     <span className="title">{option.label}</span>
                     {!!option.number && <span className="number">{option.number}</span>}
                   </button>
-                }
+                  )}
               </div>
             );
           })}
@@ -79,5 +81,5 @@ Tabs.propTypes = {
   options: PropTypes.array.isRequired,
   selected: PropTypes.string,
   defaultSelected: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };

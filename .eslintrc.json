@@ -12,7 +12,16 @@
   },
   "extends": [
     "airbnb",
-    "airbnb/hooks"
+    "airbnb/hooks",
+    "plugin:cypress/recommended"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.js",
+        "**/*.js"
+      ]
+    }
   ],
   "rules": {
     "import/no-unresolved": "off",
@@ -21,7 +30,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error"
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 7,
     "ecmaFeatures": {
@@ -30,8 +39,9 @@
     "sourceType": "module"
   },
   "plugins": [
-    "babel",
-    "react-hooks"
+    "@babel",
+    "react-hooks",
+    "cypress"
   ],
   "settings": {
     "import/resolver": {

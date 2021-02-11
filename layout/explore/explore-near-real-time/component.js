@@ -15,16 +15,18 @@ import './styles.scss';
 
 function ExploreNearRealTimeComponent(props) {
   const {
-    datasets: { today, week, month, loading },
+    datasets: {
+      today, week, month, loading,
+    },
     responsive,
-    selectedDataset
+    selectedDataset,
   } = props;
 
   return (
     <div className={classnames({
-        'c-explore-near-real-time': true,
-        '-hidden': selectedDataset
-      })}
+      'c-explore-near-real-time': true,
+      '-hidden': selectedDataset,
+    })}
     >
       <div className="explore-near-real-time-section">
         <div className="header">
@@ -37,14 +39,14 @@ function ExploreNearRealTimeComponent(props) {
           loading={loading}
           numberOfPlaceholders={4}
           list={today}
-          actions={
+          actions={(
             <MediaQuery
               minDeviceWidth={breakpoints.medium}
               values={{ deviceWidth: responsive.fakeWidth }}
             >
               <ExploreDatasetsActions />
             </MediaQuery>
-          }
+          )}
         />
       </div>
       <div className="explore-near-real-time-section">
@@ -58,14 +60,14 @@ function ExploreNearRealTimeComponent(props) {
           loading={loading}
           numberOfPlaceholders={4}
           list={week}
-          actions={
+          actions={(
             <MediaQuery
               minDeviceWidth={breakpoints.medium}
               values={{ deviceWidth: responsive.fakeWidth }}
             >
               <ExploreDatasetsActions />
             </MediaQuery>
-          }
+          )}
         />
       </div>
       <div className="explore-near-real-time-section">
@@ -79,14 +81,14 @@ function ExploreNearRealTimeComponent(props) {
           loading={loading}
           numberOfPlaceholders={4}
           list={month}
-          actions={
+          actions={(
             <MediaQuery
               minDeviceWidth={breakpoints.medium}
               values={{ deviceWidth: responsive.fakeWidth }}
             >
               <ExploreDatasetsActions />
             </MediaQuery>
-          }
+          )}
         />
       </div>
     </div>
@@ -96,7 +98,7 @@ function ExploreNearRealTimeComponent(props) {
 ExploreNearRealTimeComponent.propTypes = {
   datasets: PropTypes.array.isRequired,
   responsive: PropTypes.object.isRequired,
-  selectedDataset: PropTypes.string.isRequired
+  selectedDataset: PropTypes.string.isRequired,
 };
 
 export default ExploreNearRealTimeComponent;

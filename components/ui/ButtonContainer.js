@@ -29,7 +29,7 @@ function ButtonContainer(props) {
 }
 
 ButtonContainer.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default ButtonContainer;

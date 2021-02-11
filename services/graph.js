@@ -17,10 +17,10 @@ export const fetchAllTags = (params = {}) => {
       params: {
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        ...params
-      }
+        ...params,
+      },
     })
-    .then(response => response.data.data)
+    .then((response) => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching all tags: ${status}: ${statusText}`);
@@ -41,10 +41,10 @@ export const fetchInferredTags = (params = {}) => {
       params: {
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        ...params
-      }
+        ...params,
+      },
     })
-    .then(response => response.data.data)
+    .then((response) => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching inferred tags ${status}: ${statusText}`);
@@ -68,8 +68,8 @@ export const countDatasetView = (datasetId, token, params = {}) => {
       params: {
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        ...params
-      }
+        ...params,
+      },
     })
     .catch((response) => {
       const { status, statusText } = response;
@@ -91,11 +91,11 @@ export const fetchMostViewedDatasets = (params = {}) => {
       params: {
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        ...params
+        ...params,
       },
-      headers: { 'Upgrade-Insecure-Requests': 1 }
+      headers: { 'Upgrade-Insecure-Requests': 1 },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching most viewed datasets: ${status}: ${statusText}`);
@@ -115,11 +115,11 @@ export const fetchMostFavoritedDatasets = (params = {}) => {
       params: {
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        ...params
+        ...params,
       },
-      headers: { 'Upgrade-Insecure-Requests': 1 }
+      headers: { 'Upgrade-Insecure-Requests': 1 },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching most favorited datasets: ${status}: ${statusText}`);
@@ -143,12 +143,12 @@ export const fetchSimilarDatasets = (params = {}, withAncestors = true) => {
       params: {
         env: process.env.API_ENV,
         application: process.env.APPLICATIONS,
-        ...params
+        ...params,
       },
-      headers: { 'Upgrade-Insecure-Requests': 1 }
-    }
+      headers: { 'Upgrade-Insecure-Requests': 1 },
+    },
   )
-    .then(response => response.data.data)
+    .then((response) => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching similart datasets ${status}: ${statusText}`);
@@ -162,5 +162,5 @@ export default {
   fetchSimilarDatasets,
   countDatasetView,
   fetchInferredTags,
-  fetchAllTags
+  fetchAllTags,
 };

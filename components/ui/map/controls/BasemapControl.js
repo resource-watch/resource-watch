@@ -20,7 +20,7 @@ class BasemapControl extends React.Component {
     // ACTIONS
     onChangeBasemap: PropTypes.func,
     onChangeLabels: PropTypes.func,
-    onChangeBoundaries: PropTypes.func
+    onChangeBoundaries: PropTypes.func,
   };
 
   static defaultProps = {
@@ -32,11 +32,11 @@ class BasemapControl extends React.Component {
     // ACTIONS
     onChangeBasemap: (b) => { console.info(b); },
     onChangeLabels: (l) => { console.info(l); },
-    onChangeBoundaries: (b) => { console.info(b); }
+    onChangeBoundaries: (b) => { console.info(b); },
   };
 
   state = {
-    active: false
+    active: false,
   }
 
   componentWillUnmount() {
@@ -88,11 +88,11 @@ class BasemapControl extends React.Component {
       <TetherComponent
         attachment="top right"
         constraints={[{
-          to: 'window'
+          to: 'window',
         }]}
         targetOffset="8px 100%"
         classes={{
-          element: 'c-tooltip -arrow-right'
+          element: 'c-tooltip -arrow-right',
         }}
       >
         {/* First child: This is what the item will be tethered to */}
@@ -101,19 +101,20 @@ class BasemapControl extends React.Component {
         </button>
 
         {/* Second child: If present, this item will be tethered to the the first child */}
-        {active &&
+        {active
+          && (
           <div>
             <RadioGroup
               options={Object.keys(BASEMAPS).map((k) => {
                 const bs = BASEMAPS[k];
                 return {
                   label: bs.label,
-                  value: bs.id
+                  value: bs.id,
                 };
               })}
               name="basemap"
               properties={{
-                default: basemap.id
+                default: basemap.id,
               }}
               onChange={this.onBasemapChange}
             />
@@ -121,13 +122,13 @@ class BasemapControl extends React.Component {
             <div className="divisor" />
 
             <RadioGroup
-              options={Object.keys(LABELS).map(k => ({
+              options={Object.keys(LABELS).map((k) => ({
                 label: LABELS[k].label,
-                value: LABELS[k].id
+                value: LABELS[k].id,
               }))}
               name="labels"
               properties={{
-                default: labels.id
+                default: labels.id,
               }}
               onChange={this.onLabelsChange}
             />
@@ -139,12 +140,12 @@ class BasemapControl extends React.Component {
                 name: 'boundaries',
                 title: 'Boundaries',
                 value: 'boundaries',
-                checked: boundaries
+                checked: boundaries,
               }}
               onChange={this.onBoundariesChange}
             />
           </div>
-        }
+          )}
       </TetherComponent>
     );
   }

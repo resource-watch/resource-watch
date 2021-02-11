@@ -18,8 +18,8 @@ function ContributeData() {
         route:
           'https://docs.google.com/forms/d/e/1FAIpQLSfXsPGQxM6p8KloU920t5Tfhx9FYFOq8-Rjml07UDH9EvsI1w/viewform?usp=sf_link',
         label: 'Request data',
-        external: true
-      }
+        external: true,
+      },
     },
     {
       id: 'submit-data',
@@ -29,9 +29,9 @@ function ContributeData() {
         route:
           'https://docs.google.com/forms/d/e/1FAIpQLSfbVoP6rAfMtxepShok8l7idQdr4KbOV4gK8ZA7_mwGx46kHA/viewform?usp=sf_link',
         label: 'Submit a dataset',
-        external: true
-      }
-    }
+        external: true,
+      },
+    },
   ];
 
   return (
@@ -48,18 +48,26 @@ function ContributeData() {
                 </p>
                 <ul>
                   <li>
-                    <strong>Open:</strong> Data that can be freely used, reused, and redistributed
+                    <strong>Open:</strong>
+                    {' '}
+                    Data that can be freely used, reused, and redistributed
                   </li>
                   <li>
-                    <strong>Relevant:</strong> Data that help answer questions to address urgent,
+                    <strong>Relevant:</strong>
+                    {' '}
+                    Data that help answer questions to address urgent,
                     global challenges
                   </li>
                   <li>
-                    <strong>Reliable:</strong> Peer-reviewed or official government data produced by
+                    <strong>Reliable:</strong>
+                    {' '}
+                    Peer-reviewed or official government data produced by
                     transparent, established methodologies
                   </li>
                   <li>
-                    <strong>Timely:</strong> Most up-to-date, and complete information available
+                    <strong>Timely:</strong>
+                    {' '}
+                    Most up-to-date, and complete information available
                   </li>
                 </ul>
               </div>
@@ -68,10 +76,12 @@ function ContributeData() {
           <div className="row">
             <div className="column small-12">
               <p>
-                Before submitting a dataset, please make sure to browse our catalog and review our{' '}
+                Before submitting a dataset, please make sure to browse our catalog and review our
+                {' '}
                 <Link route="get_involved_detail" params={{ id: 'data-policy' }}>
                   <a>data policy</a>
-                </Link>{' '}
+                </Link>
+                {' '}
                 and submission guidelines.
               </p>
             </div>
@@ -79,7 +89,7 @@ function ContributeData() {
 
           <div className="l-section">
             <div className="row">
-              {cards.map(card => (
+              {cards.map((card) => (
                 <div key={card.id} className="column small-12 medium-6 large-6 c-card-column">
                   <CardApp
                     title={card.title}
@@ -103,7 +113,9 @@ function ContributeData() {
                 bgImage="/static/images/pages/app/bg-banner-planetPulse.jpg"
               >
                 <p className="-claim">
-                  View near-real-time data <br />
+                  View near-real-time data
+                  {' '}
+                  <br />
                   on the Planet
                 </p>
                 <Link to="pulse">

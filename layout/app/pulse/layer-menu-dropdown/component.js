@@ -19,18 +19,17 @@ class LayerMenuDropdownComponent extends PureComponent {
     return (
       <div className="c-layer-menu-dropdown dropdown">
         <ul>
-          {layers.map(layer =>
-            (
-              <li
-                key={layer.label}
-                onClick={() => triggerClick(layer)}
-              >
-                <Switch active={(layerActive && (layerActive.id === layer.id))} />
-                <span className="name">
-                  {layer.label}
-                </span>
-              </li>
-            ))}
+          {layers.map((layer) => (
+            <li
+              key={layer.label}
+              onClick={() => triggerClick(layer)}
+            >
+              <Switch active={(layerActive && (layerActive.id === layer.id))} />
+              <span className="name">
+                {layer.label}
+              </span>
+            </li>
+          ))}
         </ul>
       </div>
     );
@@ -40,12 +39,11 @@ class LayerMenuDropdownComponent extends PureComponent {
 LayerMenuDropdownComponent.propTypes = {
   layers: PropTypes.array,
   triggerClick: PropTypes.func,
-  layerActive: PropTypes.object
+  layerActive: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  layerActive: state.layerMenuPulse.layerActive
+const mapStateToProps = (state) => ({
+  layerActive: state.layerMenuPulse.layerActive,
 });
-
 
 export default connect(mapStateToProps, null)(LayerMenuDropdownComponent);

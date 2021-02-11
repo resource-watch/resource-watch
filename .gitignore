@@ -13,18 +13,14 @@
 *.log*
 
 # Compiled files
-/dist
-.next
-.yalc
-/build
-# Images added at build time
-static/images/widget-editor
+/.next
 
-# Next files
-.next
-
-# Ignore environment variables
+# Environmental variables
 .env
 
-# Don't upload npm lock file
-package-lock.json
+# cypress
+/cypress/screenshots
+/cypress/videos
+
+.nyc_output
+coverage

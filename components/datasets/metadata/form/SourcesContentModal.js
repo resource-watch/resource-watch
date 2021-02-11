@@ -20,12 +20,12 @@ class SourcesContentModal extends React.Component {
     setSources: PropTypes.func.isRequired,
     setTmpSources: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     sources: [{}],
-    tmpSources: []
+    tmpSources: [],
   };
 
   UNSAFE_componentWillMount() {
@@ -98,12 +98,12 @@ class SourcesContentModal extends React.Component {
 
 const mapStateToProps = ({ sources }) => ({
   sources: sources.sources,
-  tmpSources: sources.tmpSources
+  tmpSources: sources.tmpSources,
 });
 
 const mapDispatchToProps = {
   setSources,
-  setTmpSources
+  setTmpSources,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SourcesContentModal);

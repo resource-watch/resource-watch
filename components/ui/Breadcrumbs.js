@@ -6,7 +6,7 @@ import Icon from 'components/ui/icon';
 function Breadcrumbs({ items = [] }) {
   return (
     <ul className="c-breadcrumbs">
-      {items.map(item => (
+      {items.map((item) => (
         <li key={item.name} className="item">
           {item.route ? (
             <Link route={item.route} params={item.params}>

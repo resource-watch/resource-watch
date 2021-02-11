@@ -4,5 +4,5 @@ import { connect } from 'react-redux';
 import FaqsNew from './component';
 
 export default connect(
-  state => ({ user: state.user })
+  (state) => ({ user: state.user }),
 )(FaqsNew);

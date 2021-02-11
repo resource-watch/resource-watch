@@ -16,7 +16,7 @@ function DashboardsIndex(props) {
         getDashboardsFilters={{ 'filter[user]': user.id }}
         routes={{
           index: 'myrw',
-          detail: 'myrw_detail'
+          detail: 'myrw_detail',
         }}
       />
     </div>
@@ -25,6 +25,6 @@ function DashboardsIndex(props) {
 
 DashboardsIndex.propTypes = { user: PropTypes.object.isRequired };
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = (state) => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DashboardsIndex);

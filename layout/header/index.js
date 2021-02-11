@@ -9,10 +9,10 @@ import Header from './component';
 export { actions, reducers, initialState };
 
 export default connect(
-  state => ({
+  (state) => ({
     header: state.header,
     user: state.user,
-    responsive: state.responsive
+    responsive: state.responsive,
   }),
-  actions
+  actions,
 )(Header);

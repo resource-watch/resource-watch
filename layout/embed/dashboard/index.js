@@ -4,6 +4,6 @@ import { connect } from 'react-redux';
 import LayoutEmbedDashboard from './component';
 
 export default connect(
-  state => ({ dashboard: state.dashboards.detail.data }),
-  null
+  (state) => ({ dashboard: state.dashboards.detail.data }),
+  null,
 )(LayoutEmbedDashboard);

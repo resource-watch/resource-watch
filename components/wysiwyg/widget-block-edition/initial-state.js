@@ -7,5 +7,5 @@ export default {
   pages: 1,
   pageSize: 9,
   total: 0,
-  search: ''
+  search: '',
 };

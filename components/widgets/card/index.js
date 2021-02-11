@@ -8,10 +8,10 @@ import { toggleTooltip } from 'redactions/tooltip';
 import WidgetCard from './component';
 
 export default connect(
-  state => ({ user: state.user }),
+  (state) => ({ user: state.user }),
   {
     toggleModal,
     setModalOptions,
-    toggleTooltip
-  }
+    toggleTooltip,
+  },
 )(WidgetCard);

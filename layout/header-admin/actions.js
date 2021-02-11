@@ -8,5 +8,5 @@ export const setSearchOpened = createAction('HEADER_SET_SEARCH_OPENED');
 export default {
   setMobileOpened,
   setDropdownOpened,
-  setSearchOpened
+  setSearchOpened,
 };

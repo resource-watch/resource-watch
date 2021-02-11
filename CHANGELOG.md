@@ -5,7 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.20.5] - TBD
+## [3.0.0] - X
+### Added
+- added new service and entrypoint to launch Docker.
+
+### Changed
+- updates `Node` version from `v8` to current `LTS` (`v14`).
+- `@vizzuality/wysiwyg` (former `vizz-wysiwyg`) has been updated removing a lot of unused/deprecated dependencies that were blocking the application to upgrade the Node version.
+- renamed some internal folders called `pages` to `tabs` as they were giving some issues with the new Node version.
+
+### Fixed
+
+### Removed
+
+## [2.20.5] - 2021-02-03
 ### Added
 
 ### Changed
@@ -17,7 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - RW_FEATURE_FLAG_AREAS_V2 feature flag.
 
-## [2.20.4] - 2012-12-17
+## [2.20.4] - 2020-12-17
 ### Added
 - Explore: added spinner to area creation as it takes several seconds to finish.
 

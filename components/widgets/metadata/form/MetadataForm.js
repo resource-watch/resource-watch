@@ -10,7 +10,7 @@ import Step1 from 'components/widgets/metadata/form/steps/Step1';
 import {
   fetchWidget,
   updateWidgetMetadata,
-  createWidgetMetadata
+  createWidgetMetadata,
 } from 'services/widget';
 
 // Contants
@@ -21,19 +21,21 @@ class MetadataForm extends React.Component {
     widget: PropTypes.string.isRequired,
     authorization: PropTypes.string.isRequired,
     application: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
   };
 
-  state = Object.assign({}, STATE_DEFAULT, {
+  state = ({
+    ...STATE_DEFAULT,
     metadata: [],
     columns: [],
     loading: !!this.props.widget,
     loadingColumns: true,
-    form: Object.assign({}, STATE_DEFAULT.form, {
+    form: {
+      ...STATE_DEFAULT.form,
       application: this.props.application,
-      authorization: this.props.authorization
-    }),
-    dataset: null
+      authorization: this.props.authorization,
+    },
+    dataset: null,
   });
 
   UNSAFE_componentWillMount() {
@@ -42,13 +44,13 @@ class MetadataForm extends React.Component {
       fetchWidget(widget, { includes: 'metadata' })
         .then(({ metadata, dataset }) => {
           this.setState({
-            form: (metadata && metadata.length) ?
-              this.setFormFromParams(metadata[0]) :
-              this.state.form,
+            form: (metadata && metadata.length)
+              ? this.setFormFromParams(metadata[0])
+              : this.state.form,
             metadata,
             dataset,
             // Stop the loading
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -89,8 +91,7 @@ class MetadataForm extends React.Component {
 
         // Remove the id field
         const formObj = this.state.form;
-        formObj.info.widgetLinks = formObj.info.widgetLinks.map(elem =>
-          ({ link: elem.link, name: elem.name }));
+        formObj.info.widgetLinks = formObj.info.widgetLinks.map((elem) => ({ link: elem.link, name: elem.name }));
 
         if (widget && thereIsMetadata) {
           updateWidgetMetadata(widget, dataset, formObj, authorization)
@@ -124,7 +125,7 @@ class MetadataForm extends React.Component {
   }
 
   onChange = (obj) => {
-    const form = Object.assign({}, this.state.form, obj);
+    const form = { ...this.state.form, ...obj };
     this.setState({ form });
   }
 
@@ -151,21 +152,23 @@ class MetadataForm extends React.Component {
       <div className="c-widget-metadata-form">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
           {this.state.loading && 'loading'}
-          {!this.state.loading &&
+          {!this.state.loading
+            && (
             <Step1
-              onChange={value => this.onChange(value)}
+              onChange={(value) => this.onChange(value)}
               form={this.state.form}
             />
-          }
+            )}
 
-          {!this.state.loading &&
+          {!this.state.loading
+            && (
             <Navigation
               step={this.state.step}
               stepLength={this.state.stepLength}
               submitting={this.state.submitting}
               onStepChange={this.onStepChange}
             />
-          }
+            )}
         </form>
       </div>
     );

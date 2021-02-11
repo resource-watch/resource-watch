@@ -7,7 +7,7 @@ import LayersTable from 'components/admin/data/layers/table';
 class LayersIndex extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    dataset: PropTypes.string
+    dataset: PropTypes.string,
   }
 
   static defaultProps = { dataset: null }
@@ -15,7 +15,7 @@ class LayersIndex extends PureComponent {
   render() {
     const {
       user: { token },
-      dataset
+      dataset,
     } = this.props;
 
     return (

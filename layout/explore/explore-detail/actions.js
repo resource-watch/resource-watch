@@ -10,10 +10,9 @@ export const setDatasetLoading = createAction(SET_DATASET_LOADING);
 export const setTags = createAction(SET_TAGS);
 export const setTagsLoading = createAction(SET_TAGS_LOADING);
 
-
 export default {
   setDataset,
   setDatasetLoading,
   setTags,
-  setTagsLoading
+  setTagsLoading,
 };

@@ -7,9 +7,9 @@ import { getFeaturedPartners, getMenu } from './selectors';
 import Footer from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     partners: getFeaturedPartners(state),
-    menu: getMenu(state)
+    menu: getMenu(state),
   }),
-  null
+  null,
 )(Footer);

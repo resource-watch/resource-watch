@@ -7,9 +7,9 @@ import { setSearchPage, setSearchUrl } from './actions';
 import SearchResults from './component';
 
 export default connect(
-  state => ({ search: state.search }),
+  (state) => ({ search: state.search }),
   ({
     setSearchPage,
-    setSearchUrl
-  })
+    setSearchUrl,
+  }),
 )(SearchResults);

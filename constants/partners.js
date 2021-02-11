@@ -19,14 +19,14 @@ export const PARTNERS_CONNECTIONS = {
     'ed521429-58b4-4c55-9bbe-4f4bfd2fcb1f',
     '86fff033-dd27-41be-be64-2ec8983b3db1',
     '7bcf2f48-8ebd-4900-a485-57a75f9f4e85',
-    'c2142922-84d9-4564-8216-a4867b9e48c5'
+    'c2142922-84d9-4564-8216-a4867b9e48c5',
   ],
   'google-inc': [
     '0087944f-871c-44bc-b4d9-cd5acfc27023',
     'e2869a81-6b83-49b2-a50d-428c54b72593',
     '0448c79d-0ee0-42ff-9331-aeee70cef301',
     '60be01b0-99fb-459c-8a08-b934270f8c4b',
-    'b8307c16-fd77-4e35-9b68-8726a025f401'
+    'b8307c16-fd77-4e35-9b68-8726a025f401',
   ],
   umd: [
     '0087944f-871c-44bc-b4d9-cd5acfc27023',
@@ -34,14 +34,14 @@ export const PARTNERS_CONNECTIONS = {
     '71b81fe0-23fc-4154-8601-ba987381594c',
     'e2869a81-6b83-49b2-a50d-428c54b72593',
     '0448c79d-0ee0-42ff-9331-aeee70cef301',
-    'fc8cf356-f4be-4635-a896-fb468aaaa832'
+    'fc8cf356-f4be-4635-a896-fb468aaaa832',
   ],
   undp: [
     'd4ca3cc4-c162-469c-b341-b52284a73eaa',
     'bea122ce-1e4b-465d-8b7b-fa11aadd20f7',
     'a89c95c7-0b82-4162-b9d8-cc0205e9f7ec',
     '11278cb6-b298-49a1-bf71-f1e269f40758',
-    '4d7ce999-1e37-418f-b8a6-1816b29e901a'
+    '4d7ce999-1e37-418f-b8a6-1816b29e901a',
   ],
   unep: [
     '3624554e-b240-4edb-9110-1f010642c3f3',
@@ -53,12 +53,12 @@ export const PARTNERS_CONNECTIONS = {
     '995ec4fe-b3cc-4cf4-bd48-b89d4e3ea072',
     'c61c364b-1d68-4dd9-ae3d-76c2a0022280',
     '37d5db2e-8ab8-4870-bfcc-534cdd5bdb76',
-    '8ab2606d-1b1c-4b71-ab29-c6e0a687e9fd'
+    '8ab2606d-1b1c-4b71-ab29-c6e0a687e9fd',
   ],
   vaisala: [
     'cefd2836-3cc1-43dc-a9d1-bfecf79a6252',
-    '9ea634db-53af-445e-a767-60ec9efc321e'
-  ]
+    '9ea634db-53af-445e-a767-60ec9efc321e',
+  ],
 };
 
 export default { PARTNERS_CONNECTIONS };

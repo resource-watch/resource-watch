@@ -14,28 +14,26 @@ export const setLayerPointsError = createAction('PULSE/setLayerPointsError');
 export const setSimilarWidgets = createAction('PULSE/setSimilarWidgets');
 export const resetLayerPoints = createAction('PULSE/resetLayerPoints');
 
-export const getLayers = createThunkAction('PULSE/getLayers', () =>
-  (dispatch) => {
-    // Waiting for fetch from server -> Dispatch loading
-    dispatch(setLayersLoading(true));
+export const getLayers = createThunkAction('PULSE/getLayers', () => (dispatch) => {
+  // Waiting for fetch from server -> Dispatch loading
+  dispatch(setLayersLoading(true));
 
-    const layers = LAYERS_PLANET_PULSE;
-    dispatch(setLayers(layers));
-  });
+  const layers = LAYERS_PLANET_PULSE;
+  dispatch(setLayers(layers));
+});
 
-export const getLayerPoints = createThunkAction('PULSE/getLayerPoints', queryUrl =>
-  (dispatch) => {
-    dispatch(setLayerPointsLoading(true));
-    fetch(new Request(queryUrl))
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then((response) => {
-        dispatch(setLayerPoints(response.data));
-      })
-      .catch((err) => {
+export const getLayerPoints = createThunkAction('PULSE/getLayerPoints', (queryUrl) => (dispatch) => {
+  dispatch(setLayerPointsLoading(true));
+  fetch(new Request(queryUrl))
+    .then((response) => {
+      if (response.ok) return response.json();
+      throw new Error(response.statusText);
+    })
+    .then((response) => {
+      dispatch(setLayerPoints(response.data));
+    })
+    .catch((err) => {
       // Fetch from server ko -> Dispatch error
-        dispatch(setLayerPointsError(err));
-      });
-  });
+      dispatch(setLayerPointsError(err));
+    });
+});

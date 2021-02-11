@@ -11,12 +11,12 @@ class BlogFeed extends PureComponent {
     latestPosts: PropTypes.array.isRequired,
     spotlightPosts: PropTypes.array.isRequired,
     latestPostsError: PropTypes.string,
-    spotlightPostsError: PropTypes.string
+    spotlightPostsError: PropTypes.string,
   };
 
   static defaultProps = {
     latestPostsError: null,
-    spotlightPostsError: null
+    spotlightPostsError: null,
   }
 
   getCard = (post = {}) => {
@@ -26,7 +26,7 @@ class BlogFeed extends PureComponent {
       link,
       date,
       author: { path, name, img: authorImage },
-      ranking
+      ranking,
     } = post;
     const clardClass = classnames('-alt', { '-clickable': !!link });
 
@@ -47,7 +47,9 @@ class BlogFeed extends PureComponent {
           <div className="source">
             <span style={{ backgroundImage: `url(${authorImage}` }} />
             <div className="source-name">
-              by <a href={path} target="_blank" rel="noopener noreferrer">{name}</a>
+              by
+              {' '}
+              <a href={path} target="_blank" rel="noopener noreferrer">{name}</a>
             </div>
           </div>
           {ranking && (<Rating rating={ranking} />)}
@@ -61,7 +63,7 @@ class BlogFeed extends PureComponent {
       latestPosts,
       spotlightPosts,
       latestPostsError,
-      spotlightPostsError
+      spotlightPostsError,
     } = this.props;
 
     const errors = latestPostsError !== null || spotlightPostsError !== null;
@@ -77,10 +79,9 @@ class BlogFeed extends PureComponent {
           <div className="insight-cards">
             <div className="row">
               <div className="column small-12 medium-8">
-                {spotlightPosts.length ?
-                  this.getCard(spotlightPosts[0]) :
-                  this.getCard(latestPosts[2])
-                }
+                {spotlightPosts.length
+                  ? this.getCard(spotlightPosts[0])
+                  : this.getCard(latestPosts[2])}
               </div>
               <div className="column small-12 medium-4">
                 <div className="dual">
@@ -89,7 +90,8 @@ class BlogFeed extends PureComponent {
                 </div>
               </div>
             </div>
-          </div>)}
+          </div>
+        )}
       </div>
     );
   }

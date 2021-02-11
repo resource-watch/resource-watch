@@ -38,8 +38,8 @@ const initialState = {
   error: null, // An error was produced while loading the data
   favourite: {
     id: null,
-    favourited: false
-  }
+    favourited: false,
+  },
 };
 
 /**
@@ -50,63 +50,65 @@ export default function (state = initialState, action) {
     case SET_WIDGET_LOADING: {
       const widget = {
         loading: true,
-        error: null
+        error: null,
       };
-      return Object.assign({}, state, widget);
+      return { ...state, ...widget };
     }
 
     case SET_WIDGET_SUCCESS: {
       const widget = {
         loading: false,
-        error: null
+        error: null,
       };
-      return Object.assign({}, state, widget);
+      return { ...state, ...widget };
     }
 
     case GET_WIDGET_ERROR: {
       const widget = {
         loading: false,
-        error: action.payload
+        error: action.payload,
       };
-      return Object.assign({}, state, widget);
+      return { ...state, ...widget };
     }
 
     case SET_WIDGET_DATA: {
       const widget = { data: action.payload };
-      return Object.assign({}, state, widget);
+      return { ...state, ...widget };
     }
 
     case SET_WIDGET_DATASET: {
       const widget = { dataset: action.payload };
-      return Object.assign({}, state, widget);
+      return { ...state, ...widget };
     }
 
     case SET_WIDGET_BAND_DESCRIPTION: {
       const widget = { bandDescription: action.payload };
-      return Object.assign({}, state, widget);
+      return { ...state, ...widget };
     }
 
     case SET_WIDGET_BAND_STATS: {
       const widget = { bandStats: action.payload };
-      return Object.assign({}, state, widget);
+      return { ...state, ...widget };
     }
 
     case SET_WIDGET_LAYERGROUPS: {
       const widget = { layerGroups: action.payload };
-      return Object.assign({}, state, widget);
+      return { ...state, ...widget };
     }
 
     case SET_WIDGET_ZOOM: {
-      return Object.assign({}, state, { zoom: action.payload });
+      return { ...state, zoom: action.payload };
     }
 
     case SET_WIDGET_LATLNG: {
-      return Object.assign({}, state, { latLng: action.payload });
+      return { ...state, latLng: action.payload };
     }
 
     case GET_WIDGET_FAVORITE: {
-      return Object.assign({}, state,
-        { favourite: Object.assign({}, state.favourite, action.payload) });
+      return {
+        ...state,
+        favourite: { ...state.favourite, ...action.payload },
+      };
     }
 
     default:
@@ -125,9 +127,8 @@ export default function (state = initialState, action) {
  * @param {string} datasetId
  * @returns {Promise<void>}
  */
-const getDataset = datasetId =>
-  dispatch => fetchDataset(datasetId, { includes: 'metadata' })
-    .then(dataset => dispatch({ type: SET_WIDGET_DATASET, payload: dataset }));
+const getDataset = (datasetId) => (dispatch) => fetchDataset(datasetId, { includes: 'metadata' })
+  .then((dataset) => dispatch({ type: SET_WIDGET_DATASET, payload: dataset }));
 
 /**
  * Get the information of band of a raster dataset
@@ -178,15 +179,15 @@ function fetchRasterBandInfo(datasetId, bandName) {
  * @param {string} layerId Layer ID
  */
 function getLayer(datasetId, layerId) {
-  return dispatch => fetchLayer(layerId)
+  return (dispatch) => fetchLayer(layerId)
     .then((layer) => {
       const layerGroups = [{
         dataset: datasetId,
         visible: true,
         layers: [{
           active: true,
-          ...layer
-        }]
+          ...layer,
+        }],
       }];
       dispatch({ type: SET_WIDGET_LAYERGROUPS, payload: layerGroups });
       dispatch({ type: SET_WIDGET_SUCCESS });
@@ -194,11 +195,11 @@ function getLayer(datasetId, layerId) {
 }
 
 export function setZoom(zoom) {
-  return dispatch => dispatch({ type: SET_WIDGET_ZOOM, payload: zoom });
+  return (dispatch) => dispatch({ type: SET_WIDGET_ZOOM, payload: zoom });
 }
 
 export function setLatLng(latLng) {
-  return dispatch => dispatch({ type: SET_WIDGET_LATLNG, payload: latLng });
+  return (dispatch) => dispatch({ type: SET_WIDGET_LATLNG, payload: latLng });
 }
 
 /**
@@ -252,7 +253,7 @@ export function toggleLayerGroupVisibility(layerGroup) {
   return (dispatch, getState) => {
     const layerGroups = getState().widget.layerGroups.map((l) => {
       if (l.dataset !== layerGroup.dataset) return l;
-      return Object.assign({}, l, { visible: !layerGroup.visible });
+      return { ...l, visible: !layerGroup.visible };
     });
 
     dispatch({ type: SET_WIDGET_LAYERGROUPS, payload: [...layerGroups] });
@@ -275,14 +276,14 @@ export function checkIfFavorited(widgetId) {
     } else {
       fetchFavourites(user.token)
         .then((res) => {
-          const favourite = res.find && res.find(elem => elem.attributes.resourceId === widgetId);
+          const favourite = res.find && res.find((elem) => elem.attributes.resourceId === widgetId);
 
           dispatch({
             type: GET_WIDGET_FAVORITE,
             payload: {
               id: favourite ? favourite.id : null,
-              favourited: !!favourite
-            }
+              favourited: !!favourite,
+            },
           });
         });
     }
@@ -308,7 +309,7 @@ export function setIfFavorited(widgetId, toFavorite) {
 
     if (toFavorite) {
       createFavourite(user.token, { resourceType: 'widget', resourceId: widgetId })
-        .then(res => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: res.data.id } }))
+        .then((res) => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: res.data.id } }))
         .catch(() => dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null } }));
     } else {
       const { favourite: { id } } = widget;

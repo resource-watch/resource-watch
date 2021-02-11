@@ -12,5 +12,5 @@ export const ERROR_MESSAGE_FETCH_POSTS = 'Ops, something went wrong getting late
 export default {
   SPOTLIGHT_CATEGORY,
   UNCATEGORIZED_CATEGORY,
-  ERROR_MESSAGE_FETCH_POSTS
+  ERROR_MESSAGE_FETCH_POSTS,
 };

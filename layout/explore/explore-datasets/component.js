@@ -32,15 +32,14 @@ function ExploreDatasetsComponent(props) {
       total,
       limit,
       page,
-      loading
+      loading,
     },
     responsive,
     selectedTags,
-    search
+    search,
   } = props;
 
-  const relatedDashboards =
-    TOPICS.filter(topic => selectedTags.find(tag => tag.id === topic.id));
+  const relatedDashboards = TOPICS.filter((topic) => selectedTags.find((tag) => tag.id === topic.id));
 
   const fetchDatasets = debounce((page) => {
     props.setDatasetsPage(page);
@@ -53,7 +52,7 @@ function ExploreDatasetsComponent(props) {
 
   const classValue = classnames({
     'c-explore-datasets': true,
-    '-hidden': selected
+    '-hidden': selected,
   });
 
   return (
@@ -62,8 +61,8 @@ function ExploreDatasetsComponent(props) {
         <div className="left-container">
           <ExploreDatasetsSort />
           <div className="tags-container">
-            {selectedTags.length > 0 &&
-              selectedTags.map(t => (
+            {selectedTags.length > 0
+              && selectedTags.map((t) => (
                 <button
                   key={t.id}
                   className="c-button -primary -compressed"
@@ -113,7 +112,8 @@ function ExploreDatasetsComponent(props) {
         </div>
       </div>
 
-      {relatedDashboards.length > 0 &&
+      {relatedDashboards.length > 0
+        && (
         <div className="related-dashboards">
           <div className="header">
             <h4>Related dashboards</h4>
@@ -123,14 +123,14 @@ function ExploreDatasetsComponent(props) {
               </a>
             </Link>
           </div>
-          {relatedDashboards.map(dashboard => (
+          {relatedDashboards.map((dashboard) => (
             <Link to="dashboards_detail" params={{ slug: dashboard.slug }}>
               <div
                 className="dashboard-button"
                 style={{
                   background: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.30)),url(${dashboard.backgroundURL})`,
                   'background-position': 'center',
-                  'background-size': 'cover'
+                  'background-size': 'cover',
                 }}
                 onClick={() => logEvent('Explore Menu', 'Select Dashboard', dashboard.label)}
               >
@@ -141,9 +141,10 @@ function ExploreDatasetsComponent(props) {
             </Link>
           ))}
         </div>
-      }
+        )}
 
-      {!list.length && !loading &&
+      {!list.length && !loading
+        && (
         <div className="request-data-container">
           <div className="request-data-text">
             Oops! We couldn&#39;t find data for your search...
@@ -157,28 +158,29 @@ function ExploreDatasetsComponent(props) {
             Request data
           </a>
         </div>
-      }
+        )}
 
       <DatasetList
         loading={loading}
         numberOfPlaceholders={20}
         list={list}
-        actions={
+        actions={(
           <MediaQuery
             minDeviceWidth={breakpoints.medium}
             values={{ deviceWidth: responsive.fakeWidth }}
           >
             <ExploreDatasetsActions />
           </MediaQuery>
-        }
+        )}
       />
 
-      {!!list.length && total > limit &&
+      {!!list.length && total > limit
+        && (
         <Paginator
           options={{
             page,
             limit,
-            size: total
+            size: total,
           }}
           onChange={(p) => {
             // ------- Scroll to the top of the list -------------------
@@ -194,7 +196,7 @@ function ExploreDatasetsComponent(props) {
             fetchDatasets(p);
           }}
         />
-      }
+        )}
 
     </div>
   );
@@ -215,7 +217,7 @@ ExploreDatasetsComponent.propTypes = {
   setDatasetsPage: PropTypes.func.isRequired,
   toggleFiltersSelected: PropTypes.func.isRequired,
   resetFiltersSort: PropTypes.func.isRequired,
-  setFiltersSearch: PropTypes.func.isRequired
+  setFiltersSearch: PropTypes.func.isRequired,
 };
 
 export default ExploreDatasetsComponent;

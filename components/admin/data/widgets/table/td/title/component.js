@@ -5,13 +5,13 @@ import { Link } from 'routes';
 class TitleTD extends PureComponent {
   static propTypes = {
     row: PropTypes.object.isRequired,
-    value: PropTypes.string.isRequired
+    value: PropTypes.string.isRequired,
   }
 
   render() {
     const {
       row: { id, dataset },
-      value
+      value,
     } = this.props;
 
     return (
@@ -22,7 +22,7 @@ class TitleTD extends PureComponent {
             tab: 'widgets',
             subtab: 'edit',
             id,
-            dataset
+            dataset,
           }}
         >
           <a>{value}</a>

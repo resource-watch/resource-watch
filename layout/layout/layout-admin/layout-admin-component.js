@@ -34,7 +34,7 @@ class LayoutAdmin extends PureComponent {
     toggleTooltip: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired,
-    setLocale: PropTypes.func.isRequired
+    setLocale: PropTypes.func.isRequired,
   };
 
   static defaultProps = { className: null };
@@ -96,7 +96,7 @@ class LayoutAdmin extends PureComponent {
       modal,
       className,
       toggleModal,
-      setModalOptions
+      setModalOptions,
     } = this.props;
     const { modalOpen } = this.state;
     const componentClass = classnames('l-page', { [className]: !!className });

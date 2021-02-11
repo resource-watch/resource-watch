@@ -8,5 +8,5 @@ const types = { bar, line };
  * @return {String}
  */
 export default function getParsedConfig(type, parsedConfig) {
-  return Object.assign({}, types[type], parsedConfig);
+  return { ...types[type], ...parsedConfig };
 }

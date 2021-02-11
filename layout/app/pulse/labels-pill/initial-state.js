@@ -1,4 +1,4 @@
 export default {
   url: null,
-  labelsLayerActive: false
+  labelsLayerActive: false,
 };

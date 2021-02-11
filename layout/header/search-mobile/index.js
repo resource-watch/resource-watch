@@ -7,6 +7,6 @@ import { setSearchTerm } from '../actions';
 import SearchMobile from './component';
 
 export default connect(
-  state => ({ header: state.header }),
-  { setSearchTerm }
+  (state) => ({ header: state.header }),
+  { setSearchTerm },
 )(SearchMobile);

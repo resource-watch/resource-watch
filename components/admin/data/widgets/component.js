@@ -8,7 +8,7 @@ import WidgetsShow from 'components/admin/data/widgets/pages/show';
 class WidgetsTab extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    id: PropTypes.string
+    id: PropTypes.string,
   }
 
   static defaultProps = { id: null }
@@ -16,7 +16,7 @@ class WidgetsTab extends PureComponent {
   render() {
     const {
       id,
-      user: { token }
+      user: { token },
     } = this.props;
 
     return (

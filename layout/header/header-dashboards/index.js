@@ -10,9 +10,9 @@ import { parseDashboards } from './selectors';
 import HeaderDashboardsComponent from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     header: state.header,
-    dashboards: parseDashboards(state)
+    dashboards: parseDashboards(state),
   }),
-  { setDropdownOpened }
+  { setDropdownOpened },
 )(HeaderDashboardsComponent);

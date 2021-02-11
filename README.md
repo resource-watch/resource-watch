@@ -1,40 +1,44 @@
 ![screen shot 2017-06-08 at 9 25 50 am](https://user-images.githubusercontent.com/545342/26916938-86333e38-4c2c-11e7-952c-012bd65700a5.png)
 
 # Resource Watch 🌍👓
+
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a4b807bda6ce10d8e5f9/test_coverage)](https://codeclimate.com/github/resource-watch/resource-watch/test_coverage)
+
 Resource Watch features hundreds of data sets all in one place on the state of the planet’s resources and citizens. Users can visualize challenges facing people and the planet, from climate change to poverty, water risk to state instability, air pollution to human migration, and more.
 
 # Requirements
 
 Native execution requires the following:
 
-- [Nodejs v8.x](https://nodejs.org/en/) 
+- [Nodejs v14](https://nodejs.org/en/) 
 - [yarn](https://yarnpkg.com/)
 - [RW API](https://api.resourcewatch.org/)
 
 There are included [Dockerfile](https://docs.docker.com/engine/reference/builder/) and [docker compose](https://docs.docker.com/compose/) configuration files that may make it easier to run the application locally.
 
-# Installation (native) 📦
-Run
+# Installation
+We strongly recommend to use [NVM](https://github.com/nvm-sh/nvm) to handle different Node versions.
+
 ```bash
-yarn
+nvm use # loads the Node version indicated in the .nvmrc file
+yarn # install all dependencies
+yarn dev # runs the development server
 ```
-in your terminal will install all dependencies. Once done, type:
-```bash
-yarn dev
-```
-and your app will be served in [http://localhost:9000/](http://localhost:9000/) (if you didn't change the default port in the `.env`).
+The application will be served in [http://localhost:9000/](http://localhost:9000/) (if you didn't change the default port in the `.env` file).
 
 ## Production build
 If you need a production-ready build, run:
 ```bash
 yarn build
 ```
-this will generate your build in `./dist` folder ready to run 
+this will generate your build in `./next` folder ready to run.
 
 Happy coding!
 
-## env
-There's an `.env.sample` file you will need to duplicate and rename to `.env` in order to make the app work. Populate it properly and that's all.
+## Environmental variables
+Before running the project for first time, don't forget to update your [environmental variables](https://en.wikipedia.org/wiki/Environment_variable) to the `.env` file.
+
+There is a quick reference of the environmental variables of the project in the `.env.sample` file.
 
 ## Troubleshooting 🤔
 You might run into some problems installing dependencies:
@@ -59,6 +63,7 @@ Resource Watch application is split into the next main folders:
 - redactions (legacy)
 - selectors (legacy)
 - css
+- hooks
 - constants
 - services
 - utils
@@ -130,6 +135,9 @@ Constants are variables available across the application. They can be used anywh
 
 As constants, they must be written in uppercase and using [Snake Case](https://en.wikipedia.org/wiki/Snake_case) notation. Example: `MY_AWESOME_CONSTANT`
 
+### **./hooks**
+Contains [hooks](https://reactjs.org/docs/hooks-overview.html) used along the application. These hooks must be agnostic.
+
 ### **./services**
 Services are in charge of connecting the application with external APIs/other services. Every service contains a set of fetches (usually based on [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)), it's possible to extend them if needed, but take into account there can't be any app-related logic here. Every fetch should be able to be used in any context. TLDR: make services agnostic.
 
@@ -197,6 +205,22 @@ You will need access to [Resource Watch Jenkins](https://jenkins.resourcewatch.o
 Merging to `develop` branch will deploy [RW Staging](https://staging.resourcewatch.org) automatically.
 
 To deploy [Resource Watch (production)](http://resourcewatch.org) you will need to access to Jenkins and deploy manually the `master` branch.
+
+# Testing
+Resource Watch uses [Cypress](https://www.cypress.io/) to handle e2e tests. Tests are available in `cypress/integrations` folder.
+
+There are two ways to run tests locally:
+
+- `yarn test` will run Cypress in the command line. All the tests will run.
+- `yarn cy:open` will open the Cypress GUI. This interface will show all tests available in the application and let you know any or all of them.
+
+In both cases, do not forget to run your server locally before and be sure the `baseUrl` field in the `cypress.json` file matches with your server.
+
+You can find more info about Cypress and its API in [their docs](https://docs.cypress.io/guides/overview/why-cypress.html).
+
+## Testing with Docker
+
+TO-DO
 
 # Documentation 📝
 Every change in the app must be documented in the `./CHANGELOG.md` file according to [keep a changelog](https://keepachangelog.com/en/1.0.0/) specs.

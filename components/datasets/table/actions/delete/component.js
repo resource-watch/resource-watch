@@ -9,14 +9,14 @@ class DeleteAction extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    onRowDelete: PropTypes.func.isRequired
+    onRowDelete: PropTypes.func.isRequired,
   }
 
   handleOnClickDelete = () => {
     const {
       data: { id, name },
       user: { token },
-      onRowDelete
+      onRowDelete,
     } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${name}"`, {
@@ -28,12 +28,12 @@ class DeleteAction extends PureComponent {
           })
           .catch((err) => {
             try {
-              err.map(er => toastr.error('Error', `The dataset "${id}" - "${name}" was not deleted. ${er.detail}`));
+              err.map((er) => toastr.error('Error', `The dataset "${id}" - "${name}" was not deleted. ${er.detail}`));
             } catch (e) {
               toastr.error('Error', `The dataset "${id}" - "${name}" was not deleted. Try again.`);
             }
           });
-      }
+      },
     });
   }
 

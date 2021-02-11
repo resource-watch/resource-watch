@@ -6,7 +6,7 @@ import ExploreDetailHeaderComponent from './component';
 
 export default connect(
   (state) => ({
-    userIsLoggedIn: !!state.user.token
+    userIsLoggedIn: !!state.user.token,
   }),
-  actions
+  actions,
 )(ExploreDetailHeaderComponent);

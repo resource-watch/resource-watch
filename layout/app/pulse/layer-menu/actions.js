@@ -32,72 +32,71 @@ export const toggleActiveLayer = createThunkAction('layer-menu/toggleActiveLayer
   contextLayersOnTop,
   label,
   rotatableGlobe,
-  initialPosition
-}) =>
-  (dispatch, state) => {
-    const { layerActive } = state().layerMenuPulse;
-    if (!layerActive || layerActive.id !== id) {
-      // Clear the possible active layers from the previous layer selection
-      dispatch(setContextActiveLayers([]));
-      dispatch(resetLabelsLayer());
-      dispatch(setActiveLayerLoading(true));
+  initialPosition,
+}) => (dispatch, state) => {
+  const { layerActive } = state().layerMenuPulse;
+  if (!layerActive || layerActive.id !== id) {
+    // Clear the possible active layers from the previous layer selection
+    dispatch(setContextActiveLayers([]));
+    dispatch(resetLabelsLayer());
+    dispatch(setActiveLayerLoading(true));
 
-      if (initialPosition) {
-        dispatch(setInitialPosition(initialPosition));
-      }
+    if (initialPosition) {
+      dispatch(setInitialPosition(initialPosition));
+    }
 
-      const layerGlobeManager = new LayerGlobeManager();
+    const layerGlobeManager = new LayerGlobeManager();
 
-      fetchLayer(id)
-        .then((layer) => {
-          layer.threedimensional = threedimensional;
-          layer.markerType = markerType;
-          layer.contextLayersOnTop = contextLayersOnTop;
-          layer.basemap = basemap;
-          layer.contextLayers = [];
-          layer.descriptionPulse = descriptionPulse;
-          layer.label = label;
-          layer.rotatableGlobe = rotatableGlobe;
-          layer.initialPosition = initialPosition;
+    fetchLayer(id)
+      .then((layer) => {
+        layer.threedimensional = threedimensional;
+        layer.markerType = markerType;
+        layer.contextLayersOnTop = contextLayersOnTop;
+        layer.basemap = basemap;
+        layer.contextLayers = [];
+        layer.descriptionPulse = descriptionPulse;
+        layer.label = label;
+        layer.rotatableGlobe = rotatableGlobe;
+        layer.initialPosition = initialPosition;
 
-          layerGlobeManager.addLayer(
-            { ...layer, id },
-            {
-              onLayerAddedSuccess: function success(result) {
-                layer.url = result.url;
-                if (contextLayers.length > 0) {
-                  let layersLoaded = 0;
-                  fetchLayers({ ids: contextLayers.join() })
-                    .then((res) => {
-                      res.forEach((l) => {
-                        layerGlobeManager.addLayer(
-                          { ...l, id: l.id },
-                          {
-                            onLayerAddedSuccess: function successContextLayers(ctxtLayer) {
-                              layer.contextLayers.push(ctxtLayer);
-                              layersLoaded++;
-                              if (contextLayers.length === layersLoaded) {
-                                dispatch(setActiveLayer(layer));
-                              }
+        layerGlobeManager.addLayer(
+          { ...layer, id },
+          {
+            onLayerAddedSuccess: function success(result) {
+              layer.url = result.url;
+              if (contextLayers.length > 0) {
+                let layersLoaded = 0;
+                fetchLayers({ ids: contextLayers.join() })
+                  .then((res) => {
+                    res.forEach((l) => {
+                      layerGlobeManager.addLayer(
+                        { ...l, id: l.id },
+                        {
+                          onLayerAddedSuccess: function successContextLayers(ctxtLayer) {
+                            layer.contextLayers.push(ctxtLayer);
+                            layersLoaded++;
+                            if (contextLayers.length === layersLoaded) {
+                              dispatch(setActiveLayer(layer));
                             }
                           },
-                          true
-                        );
-                      });
+                        },
+                        true,
+                      );
                     });
-                } else {
-                  dispatch(setActiveLayer(layer));
-                }
+                  });
+              } else {
+                dispatch(setActiveLayer(layer));
               }
             },
-            true
-          );
-        })
-        .catch((error) => {
-          // Fetch from server ko -> Dispatch error
-          dispatch(setActiveLayerError(error));
-        });
-    } else {
-      dispatch(resetActiveLayer());
-    }
-  });
+          },
+          true,
+        );
+      })
+      .catch((error) => {
+        // Fetch from server ko -> Dispatch error
+        dispatch(setActiveLayerError(error));
+      });
+  } else {
+    dispatch(resetActiveLayer());
+  }
+});

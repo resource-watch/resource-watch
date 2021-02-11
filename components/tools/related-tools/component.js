@@ -12,7 +12,7 @@ class RelatedTools extends PureComponent {
     active: PropTypes.array,
     loading: PropTypes.bool,
 
-    fetchTools: PropTypes.func
+    fetchTools: PropTypes.func,
   }
 
   componentDidMount() {
@@ -26,14 +26,13 @@ class RelatedTools extends PureComponent {
       <div className="c-related-tools">
         <Spinner isLoading={loading} className="-light" />
 
-        {!loading && !active.length &&
-          <p>No data available</p>
-        }
+        {!loading && !active.length
+          && <p>No data available</p>}
 
         <div className="row">
           {list
-            .filter(t => active.includes(t.slug) || active.includes(t.id))
-            .map(tool => (
+            .filter((t) => active.includes(t.slug) || active.includes(t.id))
+            .map((tool) => (
               <div key={tool.id} className="column small-12 medium-6 large-4 c-card-column">
                 <CardApp
                   background={tool.thumbnail.original}
@@ -43,12 +42,11 @@ class RelatedTools extends PureComponent {
                   link={{
                     label: 'Go to site',
                     route: tool.url,
-                    external: true
+                    external: true,
                   }}
                 />
               </div>
-            ))
-          }
+            ))}
         </div>
       </div>
     );

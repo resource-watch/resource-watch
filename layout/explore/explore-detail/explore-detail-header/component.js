@@ -31,7 +31,7 @@ function ExploreDetailHeaderComponent(props) {
     } else {
       logEvent('Explore Menu', 'Remove dataset from favorites', datasetName);
     }
-  }, [])
+  }, []);
 
   const handleToggleCollection = useCallback((isAdded, resource) => {
     const datasetName = resource?.metadata[0]?.info?.name;
@@ -43,8 +43,8 @@ function ExploreDetailHeaderComponent(props) {
   }, []);
 
   const location = typeof window !== 'undefined' && window.location;
-  const datasetName = dataset && dataset.metadata && dataset.metadata[0] &&
-      dataset.metadata[0].info && dataset.metadata[0].info.name;
+  const datasetName = dataset && dataset.metadata && dataset.metadata[0]
+      && dataset.metadata[0].info && dataset.metadata[0].info.name;
 
   return (
     <div className="c-explore-detail-header">
@@ -65,14 +65,14 @@ function ExploreDetailHeaderComponent(props) {
           }}
         >
           <Tooltip
-            overlay={
+            overlay={(
               <CollectionsPanel
                 resource={dataset}
                 resourceType="dataset"
                 onToggleFavorite={handleToggleFavorite}
                 onToggleCollection={handleToggleCollection}
               />
-            }
+            )}
             overlayClassName="c-rc-tooltip"
             placement="bottomRight"
             trigger="click"
@@ -106,15 +106,15 @@ function ExploreDetailHeaderComponent(props) {
           >
             <ShareModal
               links={{
-                  link: location && location.href,
-                  embed: location && `${location.origin}/embed${location.pathname}${location.search}`
-                }}
+                link: location && location.href,
+                embed: location && `${location.origin}/embed${location.pathname}${location.search}`,
+              }}
               analytics={{
-                  facebook: () => logEvent('Share', 'Share explore', 'Facebook'),
-                  twitter: () => logEvent('Share', 'Share explore', 'Twitter'),
-                  email: () => logEvent('Share', 'Share explore', 'Email'),
-                  copy: type => logEvent('Share', 'Share explore', `Copy ${type}`)
-                }}
+                facebook: () => logEvent('Share', 'Share explore', 'Facebook'),
+                twitter: () => logEvent('Share', 'Share explore', 'Twitter'),
+                email: () => logEvent('Share', 'Share explore', 'Email'),
+                copy: (type) => logEvent('Share', 'Share explore', `Copy ${type}`),
+              }}
             />
           </Modal>
         </button>
@@ -127,7 +127,7 @@ ExploreDetailHeaderComponent.propTypes = {
   dataset: PropTypes.object.isRequired,
   userIsLoggedIn: PropTypes.bool.isRequired,
   // Store
-  setSelectedDataset: PropTypes.func.isRequired
+  setSelectedDataset: PropTypes.func.isRequired,
 };
 
 export default ExploreDetailHeaderComponent;

@@ -11,7 +11,7 @@ import './styles.scss';
 class ResetViewControls extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    onResetView: PropTypes.func.isRequired
+    onResetView: PropTypes.func.isRequired,
   }
 
   static defaultProps = { className: null }
@@ -26,7 +26,7 @@ class ResetViewControls extends PureComponent {
     const { className } = this.props;
     const componentClass = classnames({
       'c-reset-view-control': true,
-      [className]: !!className
+      [className]: !!className,
     });
 
     return (

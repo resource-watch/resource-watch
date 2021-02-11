@@ -14,14 +14,14 @@ class DatasetsShow extends PureComponent {
   static propTypes = {
     tabs: PropTypes.array.isRequired,
     query: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   render() {
     const {
       user,
       tabs,
-      query: { subtab, id }
+      query: { subtab, id },
     } = this.props;
     const currentSubtab = subtab || 'edit';
 
@@ -45,26 +45,28 @@ class DatasetsShow extends PureComponent {
             </div>
 
             <div className="columns small-12 medium-9">
-              {(currentSubtab === 'edit') &&
-                (<DatasetsForm
+              {(currentSubtab === 'edit')
+                && (
+                <DatasetsForm
                   application={[process.env.APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}
                   basic={false}
-                />)
-              }
+                />
+                )}
 
-              {(currentSubtab === 'metadata') &&
-                (<DatasetMetadataForm dataset={id} />)}
+              {(currentSubtab === 'metadata')
+                && (<DatasetMetadataForm dataset={id} />)}
 
-              {(currentSubtab === 'tags') &&
+              {(currentSubtab === 'tags')
+                && (
                 <div>
                   <TagsForm
                     dataset={id}
                     user={user}
                   />
                 </div>
-              }
+                )}
 
               {(currentSubtab === 'widgets') && (<WidgetsIndex dataset={id} />)}
               {(currentSubtab === 'layers') && (<LayersIndex dataset={id} />)}

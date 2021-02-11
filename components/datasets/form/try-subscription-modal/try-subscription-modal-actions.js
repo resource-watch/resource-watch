@@ -11,7 +11,7 @@ export const getTrySubscriptionModal = createThunkAction('try-subscription-modal
   dispatch(setTrySubscriptionModalLoading(true));
 
   return fetch(`${process.env.WRI_API_URL}/query?sql=${query}`)
-    .then(response => response.json())
+    .then((response) => response.json())
     .then(({ data, errors }) => {
       if (errors) {
         dispatch(setTrySubscriptionModalLoading(false));

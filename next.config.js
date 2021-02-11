@@ -4,8 +4,8 @@ const withSass = require('@zeit/next-sass');
 const withCSS = require('@zeit/next-css');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const cssnano = require('cssnano');
-const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER) ?
-  require('webpack-bundle-analyzer') : {};
+const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER)
+  ? require('webpack-bundle-analyzer') : {};
 
 module.exports = withCSS(withSass({
   useFileSystemPublicRoutes: false,
@@ -46,25 +46,25 @@ module.exports = withCSS(withSass({
   },
 
   webpack: (config) => {
-    const _config = Object.assign({}, config);
+    const _config = { ...config };
 
     _config.node = {
       console: true,
       fs: 'empty',
       net: 'empty',
-      tls: 'empty'
+      tls: 'empty',
     };
 
     _config.plugins.push(
       // optimizes any css file generated
       new OptimizeCssAssetsPlugin({
         cssProcessor: cssnano,
-        cssProcessorPluginOptions: { preset: ['default', { discardComments: { removeAll: true } }] }
-      })
+        cssProcessorPluginOptions: { preset: ['default', { discardComments: { removeAll: true } }] },
+      }),
     );
 
     if (process.env.BUNDLE_ANALYZER) _config.plugins.push(new BundleAnalyzerPlugin());
 
     return _config;
-  }
+  },
 }));

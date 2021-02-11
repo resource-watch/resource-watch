@@ -17,24 +17,23 @@ export const fetchTools = (token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
       params: {
         published: 'all',
         application: process.env.APPLICATIONS,
         env: process.env.API_ENV,
-        ...params
-      }
-    }
+        ...params,
+      },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching tools: ${status}: ${statusText}`);
       throw new Error(`Error fetching tools: ${status}: ${statusText}`);
     });
 };
-
 
 /**
  * Fetch tool
@@ -51,12 +50,12 @@ export const fetchTool = (id, token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching tool ${id}: ${status}: ${statusText}`);
@@ -73,9 +72,9 @@ export const fetchTool = (id, token, params = {}, headers = {}) => {
 export const updateTool = (tool, token) => {
   logger.info(`Update tool ${tool.id}`);
   return WRIAPI.patch(`tool/${tool.id}`,
-    { data: { attributes: { ...tool } } }
-    , { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    { data: { attributes: { ...tool } } },
+    { headers: { Authorization: token } })
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating tool ${tool.id}: ${status}: ${statusText}`);
@@ -96,11 +95,11 @@ export const createTool = (tool, token) => {
       data: {
         application: process.env.APPLICATIONS,
         env: process.env.API_ENV,
-        attributes: { ...tool }
-      }
+        attributes: { ...tool },
+      },
     },
     { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating tool ${status}: ${statusText}`);
@@ -123,10 +122,10 @@ export const deleteTool = (id, token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -135,12 +134,10 @@ export const deleteTool = (id, token, params = {}, headers = {}) => {
     });
 };
 
-
 export default {
   fetchTools,
   fetchTool,
   createTool,
   updateTool,
-  deleteTool
+  deleteTool,
 };
-

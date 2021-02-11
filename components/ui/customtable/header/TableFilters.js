@@ -10,12 +10,12 @@ export default class TableFilters extends React.Component {
     field: PropTypes.string.isRequired,
     values: PropTypes.array,
     selected: PropTypes.array,
-    onFilter: PropTypes.func
+    onFilter: PropTypes.func,
   };
 
   static defaultProps = {
     onChange: null,
-    selected: null
+    selected: null,
   };
 
   constructor(props) {
@@ -26,7 +26,7 @@ export default class TableFilters extends React.Component {
       input: '',
       sort: 1,
       values: props.values || [],
-      selected: props.selected || []
+      selected: props.selected || [],
     };
 
     // Bindings
@@ -47,7 +47,7 @@ export default class TableFilters extends React.Component {
     const selected = (nextProps.selected) ? nextProps.selected : nextProps.values;
     this.setState({
       selected,
-      values: nextProps.values
+      values: nextProps.values,
     });
   }
 
@@ -112,7 +112,7 @@ export default class TableFilters extends React.Component {
     this.setState({ input: this.input.value }, () => {
       this.props.onSearch && this.props.onSearch({
         field: this.props.field,
-        value: this.input.value
+        value: this.input.value,
       });
     });
   }
@@ -125,7 +125,7 @@ export default class TableFilters extends React.Component {
     this.setState({ input: '' }, () => {
       this.props.onSearch && this.props.onSearch({
         field: this.props.field,
-        value: this.input.value
+        value: this.input.value,
       });
     });
   }
@@ -135,7 +135,7 @@ export default class TableFilters extends React.Component {
       const { selected, values } = this.state;
       this.props.onFilter && this.props.onFilter({
         field: this.props.field,
-        value: (selected.length !== values.length) ? selected : null
+        value: (selected.length !== values.length) ? selected : null,
       });
     });
   }
@@ -144,7 +144,7 @@ export default class TableFilters extends React.Component {
     this.setState({ selected: null }, () => {
       this.props.onFilter && this.props.onFilter({
         field: this.props.field,
-        value: this.state.selected
+        value: this.state.selected,
       });
     });
   }
@@ -153,7 +153,7 @@ export default class TableFilters extends React.Component {
     this.setState({ selected: [] }, () => {
       this.props.onFilter && this.props.onFilter({
         field: this.props.field,
-        value: this.state.selected
+        value: this.state.selected,
       });
     });
   }
@@ -172,7 +172,7 @@ export default class TableFilters extends React.Component {
       }
       return true;
     });
-    return filteredValues.map(v => ({ label: v, value: v }));
+    return filteredValues.map((v) => ({ label: v, value: v }));
   }
 
   render() {
@@ -187,13 +187,13 @@ export default class TableFilters extends React.Component {
           attachment="top center"
           constraints={[{
             to: 'window',
-            pin: true
+            pin: true,
           }]}
           classes={{ element: 'c-table-tooltip -footer' }}
         >
           {/* First child: This is what the item will be tethered to */}
           <button
-            ref={node => this.btnToggle = node}
+            ref={(node) => this.btnToggle = node}
             onClick={this.onToggle}
             className={`table-header-btn ${btnClass}`}
           >
@@ -201,31 +201,34 @@ export default class TableFilters extends React.Component {
           </button>
 
           {/* Second child: If present, this item will be tethered to the the first child */}
-          {!this.state.closed &&
+          {!this.state.closed
+            && (
             <div className="tooltip-content">
               <div className="content">
                 <div className="search-box">
                   <input
-                    ref={node => this.input = node}
+                    ref={(node) => this.input = node}
                     type="text"
                     value={input}
                     placeholder="Type search"
                     onChange={this.onChangeInput}
                   />
-                  {!input &&
+                  {!input
+                    && (
                     <button className="-search">
                       <Icon name="icon-search" className="-small" />
                     </button>
-                  }
+                    )}
 
-                  {!!input &&
+                  {!!input
+                    && (
                     <button
                       className="-close"
                       onClick={this.onResetInput}
                     >
                       <Icon name="icon-cross" className="-small" />
                     </button>
-                  }
+                    )}
                 </div>
                 <CheckboxGroup
                   name={field}
@@ -250,7 +253,7 @@ export default class TableFilters extends React.Component {
                 </ul>
               </div>
             </div>
-          }
+            )}
         </TetherComponent>
       </div>
     );

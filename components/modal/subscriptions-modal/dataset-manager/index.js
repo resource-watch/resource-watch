@@ -10,9 +10,9 @@ import { getSuscribableDatasets } from './selectors';
 import DatasetManager from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     datasets: getSuscribableDatasets(state),
-    selectedDatasets: state.subscriptions.userSelection.datasets
+    selectedDatasets: state.subscriptions.userSelection.datasets,
   }),
-  { setUserSelection }
+  { setUserSelection },
 )(DatasetManager);

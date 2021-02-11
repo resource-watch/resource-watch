@@ -2,7 +2,7 @@ import find from 'lodash/find';
 import { createSelector } from 'reselect';
 
 // Get the pulse
-const pulse = state => state.pulse;
+const pulse = (state) => state.pulse;
 
 // Create a function to compare the current active datatasets and the current pulseIds
 const getActiveLayersPulse = (_pulse) => {

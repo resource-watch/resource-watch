@@ -7,16 +7,16 @@ import { setLocale } from 'redactions/common';
 import LayoutAdminComponent from './layout-admin-component';
 
 export default connect(
-  state => ({
+  (state) => ({
     modal: state.modal,
     user: state.user,
-    routes: state.routes
+    routes: state.routes,
   }),
   {
     toggleModal,
     setModalOptions,
     toggleTooltip,
     updateIsLoading,
-    setLocale
-  }
+    setLocale,
+  },
 )(LayoutAdminComponent);

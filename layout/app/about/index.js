@@ -4,6 +4,6 @@ import { connect } from 'react-redux';
 import LayoutAbout from './component';
 
 export default connect(
-  state => ({ data: state.staticPages.about }),
-  null
+  (state) => ({ data: state.staticPages.about }),
+  null,
 )(LayoutAbout);

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import LayersIndex from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
-    dataset: state.routes.query.id
+    dataset: state.routes.query.id,
   }),
-  null
+  null,
 )(LayersIndex);
