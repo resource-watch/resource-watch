@@ -33,12 +33,13 @@ services:
       - redis
 
   cypress:
-    image: "cypress/included:6.4.0"
+    build:
+      dockerfile: Dockerfile.cypress
+      context: .
     working_dir: /e2e
     volumes:
       - ./cypress:/e2e/cypress
       - ./cypress.json:/e2e/cypress.json
-      - ./node_modules:/e2e/node_modules
       - ./.nyc_output:/e2e/.nyc_output
       - ./coverage:/e2e/coverage
     environment:

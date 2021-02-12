@@ -1,0 +1,8 @@
+FROM cypress/included:6.4.0
+LABEL maintainer="hello@vizzuality.com"
+
+WORKDIR /e2e
+
+RUN yarn add -D "@cypress/code-coverage@3.9.2"
+
+ENTRYPOINT ["cypress", "run"]
