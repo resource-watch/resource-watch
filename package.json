@@ -47,7 +47,7 @@
     "moment": "^2.24.0",
     "moment-range": "3.0.3",
     "moveto": "1.6.1",
-    "next": "9.1.7",
+    "next": "9.3.2",
     "next-redux-wrapper": "^2.0.0",
     "next-routes": "^1.4.2",
     "nextjs-sitemap-generator": "^1.1.1",
