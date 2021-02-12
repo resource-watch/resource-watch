@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Removed
+- `bcrypt` dependency.
 
 ## [2.20.5] - 2021-02-03
 ### Added
