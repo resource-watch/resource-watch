@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - added new service and entrypoint to launch Docker.
 
 ### Changed
+- moved `@babel/core` to devDependencies.
 - updates `Node` version from `v8` to current `LTS` (`v14`).
 - `@vizzuality/wysiwyg` (former `vizz-wysiwyg`) has been updated removing a lot of unused/deprecated dependencies that were blocking the application to upgrade the Node version.
 - renamed some internal folders called `pages` to `tabs` as they were giving some issues with the new Node version.
