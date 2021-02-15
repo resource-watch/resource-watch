@@ -16,7 +16,7 @@
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "autoprefixer": "^9.4.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "basic-auth": "1.1.0",
     "bitly": "^6.0.8",
     "body-parser": "1.16.0",
