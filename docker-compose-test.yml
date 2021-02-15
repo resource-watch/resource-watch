@@ -4,7 +4,7 @@ services:
     build: .
     command: start
     environment:
-      WRI_API_URL: https://staging-api.globalforestwatch.org/v1
+      WRI_API_URL: https://staging-api.resourcewatch.org/v1
       PORT: 3000
       RW_NODE_ENV: test
       REDIS_URL: redis://redis:6379
@@ -14,7 +14,7 @@ services:
       API_ENV: production,preproduction
       CALLBACK_URL: http://localhost:3000/auth
       APPLICATIONS: rw
-      CONTROL_TOWER_URL: https://staging-api.globalforestwatch.org
+      CONTROL_TOWER_URL: https://staging-api.resourcewatch.org
       BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
       BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
       TRANSIFEX_LIVE_API: fca0343bce994bf8ba3dcdeaab389136
