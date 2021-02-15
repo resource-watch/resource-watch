@@ -5,11 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.0.0] - X
+## [3.0.1] - X
 ### Added
 - added new service and entrypoint to launch Docker.
 
 ### Changed
+- replaced `better-npm-run` with `cross-env`.
 - moved `@babel/core` to devDependencies.
 - updates `Node` version from `v8` to current `LTS` (`v14`).
 - `@vizzuality/wysiwyg` (former `vizz-wysiwyg`) has been updated removing a lot of unused/deprecated dependencies that were blocking the application to upgrade the Node version.
