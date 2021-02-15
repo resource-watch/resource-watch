@@ -1,15 +1,10 @@
 require('dotenv').load();
 
-const withSass = require('@zeit/next-sass');
-const withCSS = require('@zeit/next-css');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const cssnano = require('cssnano');
-const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER)
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  ? require('webpack-bundle-analyzer') : {};
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-module.exports = withCSS(withSass({
+module.exports = {
   useFileSystemPublicRoutes: false,
   poweredByHeader: false,
 
@@ -46,17 +41,16 @@ module.exports = withCSS(withSass({
   },
 
   webpack: (config) => {
-    // eslint-disable-next-line no-underscore-dangle
-    const _config = { ...config };
+    const customConfig = { ...config };
 
-    _config.node = {
+    customConfig.node = {
       console: true,
       fs: 'empty',
       net: 'empty',
       tls: 'empty',
     };
 
-    _config.plugins.push(
+    customConfig.plugins.push(
       // optimizes any css file generated
       new OptimizeCssAssetsPlugin({
         cssProcessor: cssnano,
@@ -64,8 +58,8 @@ module.exports = withCSS(withSass({
       }),
     );
 
-    if (process.env.BUNDLE_ANALYZER) _config.plugins.push(new BundleAnalyzerPlugin());
+    if (process.env.BUNDLE_ANALYZER) customConfig.plugins.push(new BundleAnalyzerPlugin());
 
-    return _config;
+    return customConfig;
   },
-}));
+};
