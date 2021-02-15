@@ -5,14 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.20.6] - X
+## [3.0.2] - X
+### Added
+- added new service and entrypoint to launch Docker.
+
+### Changed
+- replaced `better-npm-run` with `cross-env`.
+- moved `@babel/core` to devDependencies.
+- updates `Node` version from `v8` to current `LTS` (`v14`).
+- `@vizzuality/wysiwyg` (former `vizz-wysiwyg`) has been updated removing a lot of unused/deprecated dependencies that were blocking the application to upgrade the Node version.
+- renamed some internal folders called `pages` to `tabs` as they were giving some issues with the new Node version.
 
 ### Fixed
 - fixed issue where the "Powered By Resource Watch" logo in embeds didn't appear in external sites.
 - fixed issue with user areas overlapping with dataset detail view in Explore page.
 - fixed issue with Twitter card attributes in dashboards. [#177007206](https://www.pivotaltracker.com/story/show/177007206)
 
+<<<<<<< HEAD
 ## [2.20.5] - 2020-02-23
+=======
+### Removed
+- `moveto` dependency.
+- `moment-range` dependency.
+- `three` dependency.
+- `json-loader` dependency.
+- `bcrypt` dependency.
+
+## [2.20.5] - 2021-02-03
+>>>>>>> removes several dependencies
 ### Added
 - Coral and Air Quality topic links.[Contribution](https://github.com/resource-watch/resource-watch/commit/a83244ad31ae68369603592bc3f2c01ed3bab860)
 
