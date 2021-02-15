@@ -11,18 +11,6 @@ describe('Going to authenticated pages should redirect the user to sign-in page'
 });
 
 describe('a user fills the login form', () => {
-  // before(() => {
-  //   cy.fixture('auth').then((authPayload) => {
-  //     cy.intercept(
-  //       {
-  //         method: 'POST',
-  //         url: '/local-sign-in',
-  //       },
-  //       authPayload,
-  //     ).as('getAuthPayload');
-  //   });
-  // });
-
   it('the user ignores the email format for the email field and an error displays', () => {
     cy.visit('/sign-in');
 
@@ -57,22 +45,6 @@ describe('a user fills the login form', () => {
     cy.get('form').find('input[name="password"]').type('something').clear();
     cy.get('p.error').first().should('contain', 'The field is required');
   })
-
-  // it('the user goes to sign-in page, fills the form and gets logged', () => {
-  //   cy.visit('/sign-in');
-
-  //   cy.get('form').find('input[name="email"]').type('john@doe.com');
-  //   cy.get('form').find('input[name="password"]').type('password1234');
-  //   cy.get('form').find('button[type="submit"]').click();
-
-  //   cy.wait('@getAuthPayload').then(({ request, response }) => {
-  //     expect(request.body.email).to.eq('john@doe.com');
-  //     expect(request.body.password).to.eq('password1234');
-
-  //     expect(response.body.email).to.eq('john@doe.com');
-  //     expect(response.body.name).to.eq('John Doe');
-  //   });
-  // });
 });
 
 describe('a user logs in with user + password', () => {
