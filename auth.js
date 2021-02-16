@@ -17,7 +17,7 @@ passport.deserializeUser((obj, done) => {
 
 module.exports = (() => {
   const strategy = new Strategy({
-    controlTowerUrl: process.env.CONTROL_TOWER_URL,
+    controlTowerUrl: process.env.WRI_API_URL,
     callbackUrl: process.env.CALLBACK_URL,
     applications: process.env.APPLICATIONS || 'rw',
   });
@@ -31,7 +31,7 @@ module.exports = (() => {
         origin: 'rw',
       });
 
-      fetch(`${process.env.CONTROL_TOWER_URL}/auth/login?${queryParams}`, {
+      fetch(`${process.env.WRI_API_URL}/auth/login?${queryParams}`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },
@@ -75,7 +75,7 @@ module.exports = (() => {
       const { body } = req;
       const { userObj, token } = body;
 
-      fetch(`${process.env.CONTROL_TOWER_URL}/auth/user/me`, {
+      fetch(`${process.env.WRI_API_URL}/auth/user/me`, {
         method: 'PATCH',
         body: JSON.stringify(userObj),
         headers: {

@@ -11,10 +11,10 @@ export const setTagsError = createAction('DATASET_LIST_ITEM/setTagsError');
 export const resetTags = createAction('DATASET_LIST_ITEM/resetTags');
 
 // Async actions
-export const fetchTags = createThunkAction('DATASET_LIST_ITEM/fetchTags', (tags) => (dispatch) => {
+export const fetchTags = createThunkAction('DATASET_LIST_ITEM/fetchTags', () => (dispatch) => {
   dispatch(setTagsLoading(true));
 
-  return fetch(`${process.env.WRI_API_URL}//dataset/${this.datasetId}?application=${process.env.APPLICATIONS}&language=${this.opts.language}&includes="metadata"&page[size]=999`)
+  return fetch(`${process.env.WRI_API_URL}/v1/dataset/${this.datasetId}?application=${process.env.APPLICATIONS}&language=${this.opts.language}&includes="metadata"&page[size]=999`)
     .then((response) => {
       if (response.status >= 400) throw Error(response.statusText);
       return response.json();

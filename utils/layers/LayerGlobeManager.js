@@ -12,8 +12,8 @@ export default class LayerGlobeManager {
   addLayer(layer, opts = {}, awaitMode = false) {
     const method = {
       cartodb: this.addCartoLayer,
-      leaflet: this.addLeafletLayer,
-      gee: this.addGeeLayer,
+      leaflet: LayerGlobeManager.addLeafletLayer,
+      gee: LayerGlobeManager.addGeeLayer,
     }[layer.provider];
 
     // Check for active request to prevent adding more than one layer at a time
@@ -37,7 +37,7 @@ export default class LayerGlobeManager {
     }
   }
 
-  addLeafletLayer(layerSpec, opts) {
+  static addLeafletLayer(layerSpec, opts) {
     opts.onLayerAddedSuccess({
       attributes: { ...layerSpec },
       url: layerSpec.layerConfig.url,
@@ -45,10 +45,10 @@ export default class LayerGlobeManager {
     });
   }
 
-  addGeeLayer(layerSpec, opts) {
+  static addGeeLayer(layerSpec, opts) {
     opts.onLayerAddedSuccess({
       attributes: { ...layerSpec },
-      url: `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`,
+      url: `${process.env.WRI_API_URL}/v1/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`,
       active: false,
     });
   }

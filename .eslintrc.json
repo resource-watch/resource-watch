@@ -28,7 +28,9 @@
     "react/jsx-filename-extension": "warn",
     "react/jsx-props-no-spreading": "off",
     "react-hooks/exhaustive-deps": "warn",
-    "react-hooks/rules-of-hooks": "error"
+    "react-hooks/rules-of-hooks": "error",
+    "jsx-a11y/anchor-is-valid": "off",
+    "react/button-has-type": "off"
   },
   "parser": "@babel/eslint-parser",
   "parserOptions": {

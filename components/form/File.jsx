@@ -135,7 +135,7 @@ class File extends FormElement {
 
     post({
       type: 'POST',
-      url: `${process.env.WRI_API_URL}/dataset/upload`,
+      url: `${process.env.WRI_API_URL}/v1/dataset/upload`,
       headers: [{
         key: 'Authorization', value: this.props.properties.authorization,
       }],
@@ -221,7 +221,9 @@ class File extends FormElement {
 }
 
 File.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   properties: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   validations: PropTypes.array,
   onChange: PropTypes.func,
 };

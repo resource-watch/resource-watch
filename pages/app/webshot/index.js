@@ -9,7 +9,7 @@ class Webshot extends PureComponent {
     const { query, res } = props;
     const { id } = query;
 
-    await WRIAPI.get(`/widget/${id}`, {
+    await WRIAPI.get(`/v1/widget/${id}`, {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params: { application: process.env.APPLICATIONS },
       transformResponse: [].concat(

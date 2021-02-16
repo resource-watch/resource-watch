@@ -15,7 +15,7 @@ import { logger } from 'utils/logs';
 export const fetchLayers = (params = {}, headers = {}, _meta = false) => {
   logger.info('Fetch layers');
 
-  return WRIAPI.get('/layer', {
+  return WRIAPI.get('/v1/layer', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
@@ -69,7 +69,7 @@ export const fetchLayer = (id, params = {}) => {
   if (!id) throw Error('layer id is mandatory to perform this fetching.');
   logger.info(`Fetches layer: ${id}`);
 
-  return WRIAPI.get(`/layer/${id}`, {
+  return WRIAPI.get(`/v1/layer/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
@@ -115,7 +115,7 @@ export const fetchLayer = (id, params = {}) => {
 export const deleteLayer = (layerId, datasetId, token) => {
   logger.info(`deletes layer: ${layerId}`);
 
-  return WRIAPI.delete(`/dataset/${datasetId}/layer/${layerId}`, {
+  return WRIAPI.delete(`/v1/dataset/${datasetId}/layer/${layerId}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token,
@@ -150,7 +150,7 @@ export const deleteLayer = (layerId, datasetId, token) => {
  */
 export const updateLayer = (layer, datasetId, token) => {
   logger.info(`Update layer: ${layer.id}`);
-  return WRIAPI.patch(`dataset/${datasetId}/layer/${layer.id}`, layer, { headers: { Authorization: token } })
+  return WRIAPI.patch(`/v1/dataset/${datasetId}/layer/${layer.id}`, layer, { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -169,7 +169,7 @@ export const updateLayer = (layer, datasetId, token) => {
  */
 export const createLayer = (layer, datasetId, token) => {
   logger.info('Create layer');
-  return WRIAPI.post(`dataset/${datasetId}/layer`,
+  return WRIAPI.post(`/v1/dataset/${datasetId}/layer`,
     {
       application: process.env.APPLICATIONS.split(','),
       env: process.env.API_ENV,

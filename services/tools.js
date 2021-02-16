@@ -13,7 +13,7 @@ import { logger } from 'utils/logs';
 export const fetchTools = (params = {}, headers = {}) => {
   logger.info('Fetch tools');
   return WRIAPI.get(
-    'tool',
+    '/v1/tool',
     {
       headers: {
         ...headers,
@@ -45,7 +45,7 @@ export const fetchTools = (params = {}, headers = {}) => {
 export const fetchTool = (id, token, params = {}, headers = {}) => {
   logger.info(`Fetch tool ${id}`);
   return WRIAPI.get(
-    `tool/${id}`,
+    `/v1/tool/${id}`,
     {
       headers: {
         ...headers,
@@ -70,7 +70,7 @@ export const fetchTool = (id, token, params = {}, headers = {}) => {
  */
 export const updateTool = (tool, token) => {
   logger.info(`Update tool ${tool.id}`);
-  return WRIAPI.patch(`tool/${tool.id}`,
+  return WRIAPI.patch(`/v1/tool/${tool.id}`,
     { data: { attributes: { ...tool } } },
     { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
@@ -89,7 +89,7 @@ export const updateTool = (tool, token) => {
  */
 export const createTool = (tool, token) => {
   logger.info('Create tool');
-  return WRIAPI.post('tool',
+  return WRIAPI.post('/v1/tool',
     {
       data: {
         application: process.env.APPLICATIONS,
@@ -117,7 +117,7 @@ export const createTool = (tool, token) => {
 export const deleteTool = (id, token, params = {}, headers = {}) => {
   logger.info(`Delete tool ${id}`);
   return WRIAPI.delete(
-    `tool/${id}`,
+    `/v1/tool/${id}`,
     {
       headers: {
         ...headers,

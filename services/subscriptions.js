@@ -12,7 +12,7 @@ import { logger } from 'utils/logs';
  */
 export const fetchSubscriptions = (token, params) => {
   logger.info('Fetch subscriptions');
-  return WRIAPI.get('subscriptions', {
+  return WRIAPI.get('/v1/subscriptions', {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token,
@@ -68,7 +68,7 @@ export const createSubscriptionToArea = ({
     params: { area: areaId },
   };
 
-  return WRIAPI.post('subscriptions',
+  return WRIAPI.post('/v1/subscriptions',
     bodyObj,
     { headers: { Authorization: user.token } })
     .catch(({ response }) => {
@@ -110,7 +110,7 @@ export const updateSubscriptionToArea = (
     params: { area: areaId },
   };
 
-  return WRIAPI.patch(`subscriptions/${subscriptionId}`,
+  return WRIAPI.patch(`/v1/subscriptions/${subscriptionId}`,
     bodyObj,
     { headers: { Authorization: user.token } })
     .catch(({ response }) => {
@@ -128,7 +128,7 @@ export const updateSubscriptionToArea = (
  */
 export const fetchSubscription = (subscriptionId, token) => {
   logger.info(`Fetch subscription: ${subscriptionId}`);
-  return WRIAPI.get(`subscriptions/${subscriptionId}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
+  return WRIAPI.get(`/v1/subscriptions/${subscriptionId}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
     { headers: { Authorization: token } })
     .then((response) => response.data)
     .catch(({ response }) => {
@@ -147,7 +147,7 @@ export const fetchSubscription = (subscriptionId, token) => {
  */
 export const deleteSubscription = (subscriptionId, token) => {
   logger.info(`Delete subscription: ${subscriptionId}`);
-  return WRIAPI.delete(`subscriptions/${subscriptionId}`,
+  return WRIAPI.delete(`/v1/subscriptions/${subscriptionId}`,
     { headers: { Authorization: token } })
     .catch(({ response }) => {
       const { status, statusText } = response;

@@ -131,7 +131,7 @@ export default class LayerManager {
   }
 
   addNexGDDPLayer(layer) {
-    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/nexgddp/{z}/{x}/{y}`;
+    const tileUrl = `${process.env.WRI_API_URL}/v1/layer/${layer.id}/tile/nexgddp/{z}/{x}/{y}`;
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
     this.mapLayers[layer.id] = tileLayer;
 
@@ -141,7 +141,7 @@ export default class LayerManager {
   }
 
   addGeeLayer(layer) {
-    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
+    const tileUrl = `${process.env.WRI_API_URL}/v1/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
     this.mapLayers[layer.id] = tileLayer;
 

@@ -23,7 +23,7 @@ jobs:
         node: [ '14.15', '14', '15' ]
 
     env:
-      WRI_API_URL: https://staging-api.resourcewatch.org.org/v1
+      WRI_API_URL: https://staging-api.resourcewatch.org
       PORT: 3000
       RW_NODE_ENV: development
       REDIS_URL: redis://localhost:6379
@@ -33,7 +33,6 @@ jobs:
       API_ENV: production,preproduction
       CALLBACK_URL: http://localhost:3000/auth
       APPLICATIONS: rw
-      CONTROL_TOWER_URL: https://staging-api.resourcewatch.org.org
       BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
       BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
       TRANSIFEX_LIVE_API: abcdef1234567890abcdef1234567890
