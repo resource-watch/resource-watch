@@ -7,24 +7,14 @@ import Code from 'components/form/Code';
 import Spinner from 'components/ui/Spinner';
 
 class TrySubscriptionModal extends PureComponent {
-  static propTypes = {
-    query: PropTypes.string,
-
-    data: PropTypes.any,
-    loading: PropTypes.bool,
-    error: PropTypes.any,
-
-    getTrySubscriptionModal: PropTypes.func,
-    resetTrySubscriptionModal: PropTypes.func,
-  };
-
   componentDidMount() {
-    const { query } = this.props;
-    this.props.getTrySubscriptionModal({ query });
+    const { query, getTrySubscriptionModal } = this.props;
+    getTrySubscriptionModal({ query });
   }
 
   componentWillUnmount() {
-    this.props.resetTrySubscriptionModal();
+    const { resetTrySubscriptionModal } = this.props;
+    resetTrySubscriptionModal();
   }
 
   getValue() {
@@ -43,7 +33,7 @@ class TrySubscriptionModal extends PureComponent {
         {loading && <Spinner isLoading className="-light -tiny" />}
 
         <Field
-          hint={`${process.env.WRI_API_URL}/query?sql=${encodeURIComponent(query)}`}
+          hint={`${process.env.WRI_API_URL}/v1/query?sql=${encodeURIComponent(query)}`}
           properties={{
             name: 'query-result',
             label: 'Query result',
@@ -58,5 +48,27 @@ class TrySubscriptionModal extends PureComponent {
     );
   }
 }
+
+TrySubscriptionModal.defaultProps = {
+  query: null,
+  data: null,
+  loading: null,
+  error: null,
+  getTrySubscriptionModal: null,
+  resetTrySubscriptionModal: null,
+};
+
+TrySubscriptionModal.propTypes = {
+  query: PropTypes.string,
+
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.any,
+  loading: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  error: PropTypes.any,
+
+  getTrySubscriptionModal: PropTypes.func,
+  resetTrySubscriptionModal: PropTypes.func,
+};
 
 export default TrySubscriptionModal;

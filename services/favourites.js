@@ -11,7 +11,7 @@ import { logger } from 'utils/logs';
  */
 export const fetchFavourites = (token) => {
   logger.info('Fetch favorites');
-  return WRIAPI.get('favourite',
+  return WRIAPI.get('/v1/favourite',
     {
       headers: {
         Authorization: token,
@@ -39,7 +39,7 @@ export const fetchFavourites = (token) => {
  */
 export const createFavourite = (token, { resourceId, resourceType }) => {
   logger.info('Create favourite');
-  return WRIAPI.post('favourite',
+  return WRIAPI.post('/v1/favourite',
     {
       application: process.env.APPLICATIONS,
       resourceId,
@@ -62,7 +62,7 @@ export const createFavourite = (token, { resourceId, resourceType }) => {
  */
 export const deleteFavourite = (token, resourceId) => {
   logger.info(`Delete favourite ${resourceId}`);
-  return WRIAPI.delete(`/favourite/${resourceId}`,
+  return WRIAPI.delete(`/v1/favourite/${resourceId}`,
     { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {

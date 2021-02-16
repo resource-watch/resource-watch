@@ -161,7 +161,7 @@ app.prepare().then(() => {
     // save the current url for redirect if successfull, set it to expire in 5 min
     res.cookie('authUrl', req.headers.referer, { maxAge: 3e5, httpOnly: true });
     return res.redirect(
-      `${process.env.CONTROL_TOWER_URL}/auth/${service}?callbackUrl=${
+      `${process.env.WRI_API_URL}/auth/${service}?callbackUrl=${
         process.env.CALLBACK_URL
       }&applications=rw&token=true&origin=rw`,
     );

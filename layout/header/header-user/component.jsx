@@ -9,17 +9,11 @@ import debounce from 'lodash/debounce';
 import Icon from 'components/ui/icon';
 
 class HeaderUser extends PureComponent {
-  static propTypes = {
-    user: PropTypes.object.isRequired,
-    header: PropTypes.object.isRequired,
-    setDropdownOpened: PropTypes.func.isRequired,
-  }
-
-  logout(e) {
+  static logout(e) {
     if (e) e.preventDefault();
 
     // TO-DO: move this to an action
-    fetch(`${process.env.CONTROL_TOWER_URL}/auth/logout`, { credentials: 'include' })
+    fetch(`${process.env.WRI_API_URL}/auth/logout`, { credentials: 'include' })
       .then(() => {
         window.location.href = `/logout?callbackUrl=${window.location.href}`;
       })
@@ -29,7 +23,8 @@ class HeaderUser extends PureComponent {
   }
 
   toggleDropdown = debounce((bool) => {
-    this.props.setDropdownOpened({ myrw: bool });
+    const { setDropdownOpened } = this.props;
+    setDropdownOpened({ myrw: bool });
   }, 50)
 
   render() {
@@ -135,7 +130,7 @@ class HeaderUser extends PureComponent {
                     </li>
                     )}
                   <li className="header-dropdown-list-item">
-                    <a onClick={this.logout} href="/logout">Logout</a>
+                    <a onClick={HeaderUser.logout} href="/logout">Logout</a>
                   </li>
                 </ul>
               </div>
@@ -157,5 +152,13 @@ class HeaderUser extends PureComponent {
     );
   }
 }
+
+HeaderUser.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  header: PropTypes.object.isRequired,
+  setDropdownOpened: PropTypes.func.isRequired,
+};
 
 export default HeaderUser;

@@ -21,42 +21,33 @@ import { FORM_ELEMENTS } from 'components/dashboards/form/constants';
 import { TEMPLATES } from 'components/dashboards/template-selector/constants';
 
 class Step1 extends PureComponent {
-  static propTypes = {
-    form: PropTypes.object,
-    basic: PropTypes.bool,
-    user: PropTypes.object.isRequired,
-    mode: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
+  constructor(props) {
+    super(props);
+    this.state = {
+      form: {
+        ...props.form,
+        content: TEMPLATES[0].content,
+      },
+    };
   }
-
-  static defaultProps = {
-    form: {},
-    basic: false,
-    mode: 'new',
-  }
-
-  state = {
-    form: {
-      ...this.props.form,
-      content: TEMPLATES[0].content,
-    },
-  };
 
   componentDidMount() {
     const { child: wysiwyg } = FORM_ELEMENTS.elements.content;
+    const { form } = this.props;
 
-    if (!isEmpty(this.props.form.content)) {
-      wysiwyg.setValue(this.props.form.content);
+    if (!isEmpty(form.content)) {
+      wysiwyg.setValue(form.content);
     } else {
       wysiwyg.setValue(JSON.stringify(TEMPLATES[0].content));
     }
   }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ form: nextProps.form });
   }
 
-  onChangeTemplate(nextTemplate) {
+  static onChangeTemplate(nextTemplate) {
     const { child: wysiwyg } = FORM_ELEMENTS.elements.content;
     const { content } = nextTemplate;
 
@@ -64,7 +55,11 @@ class Step1 extends PureComponent {
   }
 
   render() {
-    const { mode } = this.props;
+    const {
+      mode, onChange, form, basic, user,
+    } = this.props;
+    const { form: stateForm } = this.state;
+
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
 
@@ -73,8 +68,10 @@ class Step1 extends PureComponent {
         <fieldset className="c-field-container">
           {/* NAME */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-            onChange={(value) => this.props.onChange({ name: value })}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.name = c;
+            }}
+            onChange={(value) => onChange({ name: value })}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -82,7 +79,7 @@ class Step1 extends PureComponent {
               label: 'Name',
               type: 'text',
               required: true,
-              default: this.state.form.name,
+              default: stateForm.name,
             }}
           >
             {Input}
@@ -90,14 +87,16 @@ class Step1 extends PureComponent {
 
           {/* SUMMARY */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.summary = c; }}
-            onChange={(value) => this.props.onChange({ summary: value })}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.summary = c;
+            }}
+            onChange={(value) => onChange({ summary: value })}
             className="-fluid"
             properties={{
               name: 'summary',
               label: 'Summary',
               rows: '6',
-              default: this.state.form.summary,
+              default: stateForm.summary,
             }}
           >
             {TextArea}
@@ -105,14 +104,16 @@ class Step1 extends PureComponent {
 
           {/* DESCRIPTION */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-            onChange={(value) => this.props.onChange({ description: value })}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.description = c;
+            }}
+            onChange={(value) => onChange({ description: value })}
             className="-fluid"
             properties={{
               name: 'description',
               label: 'Description',
               rows: '6',
-              default: this.state.form.description,
+              default: stateForm.description,
             }}
           >
             {TextArea}
@@ -123,12 +124,14 @@ class Step1 extends PureComponent {
             <div className="row l-row">
               <div className="column small-12 medium-6">
                 <Field
-                  ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
+                  ref={(c) => {
+                    if (c) FORM_ELEMENTS.elements.photo = c;
+                  }}
                   onChange={(value) => {
                     if (value) {
-                      this.props.onChange({ photo: value });
+                      onChange({ photo: value });
                     } else {
-                      this.props.onChange({ photo: null });
+                      onChange({ photo: null });
                     }
                   }}
                   className="-fluid"
@@ -137,7 +140,7 @@ class Step1 extends PureComponent {
                     label: 'Photo',
                     placeholder: 'Browse file',
                     baseUrl: process.env.STATIC_SERVER_URL,
-                    default: this.state.form.photo,
+                    default: stateForm.photo,
                   }}
                 >
                   {FileImage}
@@ -147,11 +150,13 @@ class Step1 extends PureComponent {
           </div>
 
           {/* PUBLISHED */}
-          {!this.props.basic
-            && (
+          {!basic
+          && (
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-              onChange={(value) => this.props.onChange({
+              ref={(c) => {
+                if (c) FORM_ELEMENTS.elements.published = c;
+              }}
+              onChange={(value) => onChange({
                 published: value.checked,
                 private: !value.checked,
               })}
@@ -160,105 +165,115 @@ class Step1 extends PureComponent {
                 label: 'Do you want to set this dasboard as published?',
                 value: 'published',
                 title: 'Published',
-                defaultChecked: this.props.form.published,
-                checked: this.props.form.published,
+                defaultChecked: form.published,
+                checked: form.published,
               }}
             >
               {Checkbox}
             </Field>
-            )}
+          )}
 
-          {!this.props.basic
-            && (
+          {!basic
+          && (
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.preproduction = c; }}
-              onChange={(value) => this.props.onChange({ preproduction: value.checked })}
+              ref={(c) => {
+                if (c) FORM_ELEMENTS.elements.preproduction = c;
+              }}
+              onChange={(value) => onChange({ preproduction: value.checked })}
               properties={{
                 name: 'preproduction',
                 label: 'Do you want to set this dashboard as pre-production?',
                 value: 'preproduction',
                 title: 'Pre-production',
-                defaultChecked: this.props.form.preproduction,
-                checked: this.props.form.preproduction,
+                defaultChecked: form.preproduction,
+                checked: form.preproduction,
               }}
             >
               {Checkbox}
             </Field>
-            )}
+          )}
 
-          {!this.props.basic
-            && (
+          {!basic
+          && (
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.production = c; }}
-              onChange={(value) => this.props.onChange({ production: value.checked })}
+              ref={(c) => {
+                if (c) FORM_ELEMENTS.elements.production = c;
+              }}
+              onChange={(value) => onChange({ production: value.checked })}
               properties={{
                 name: 'production',
                 label: 'Do you want to set this dashboard as production?',
                 value: 'production',
                 title: 'Production',
-                defaultChecked: this.props.form.production,
-                checked: this.props.form.production,
+                defaultChecked: form.production,
+                checked: form.production,
               }}
             >
               {Checkbox}
             </Field>
-            )}
+          )}
 
           {/* IS-HIGHLIGHTED */}
-          {!this.props.basic
-            && (
+          {!basic
+          && (
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements['is-highlighted'] = c; }}
-              onChange={(value) => this.props.onChange({ 'is-highlighted': value.checked })}
+              ref={(c) => {
+                if (c) FORM_ELEMENTS.elements['is-highlighted'] = c;
+              }}
+              onChange={(value) => onChange({ 'is-highlighted': value.checked })}
               properties={{
                 name: 'is-highlighted',
                 label: 'Highlight in Dashboards gallery',
                 value: 'is-highlighted',
                 title: 'Is highlighted',
-                defaultChecked: this.props.form['is-highlighted'],
-                checked: this.props.form['is-highlighted'],
+                defaultChecked: form['is-highlighted'],
+                checked: form['is-highlighted'],
               }}
             >
               {Checkbox}
             </Field>
-            )}
+          )}
 
           {/* IS-FEATURED */}
-          {!this.props.basic
-            && (
+          {!basic
+          && (
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements['is-featured'] = c; }}
-              onChange={(value) => this.props.onChange({ 'is-featured': value.checked })}
+              ref={(c) => {
+                if (c) FORM_ELEMENTS.elements['is-featured'] = c;
+              }}
+              onChange={(value) => onChange({ 'is-featured': value.checked })}
               properties={{
                 name: 'is-featured',
                 label: 'Add to Featured dashboards',
                 value: 'is-featured',
                 title: 'Featured',
-                defaultChecked: this.props.form['is-featured'],
-                checked: this.props.form['is-featured'],
+                defaultChecked: form['is-featured'],
+                checked: form['is-featured'],
               }}
             >
               {Checkbox}
             </Field>
-            )}
+          )}
         </fieldset>
 
         <fieldset className="c-field-container">
           {/* templates */}
           {mode === 'new' && (
-            <TemplateSelector onChange={this.onChangeTemplate} />)}
+            <TemplateSelector onChange={Step1.onChangeTemplate} />)}
 
           {/* CONTENT */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.content = c; }}
-            onChange={(value) => this.props.onChange({ content: value })}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.content = c;
+            }}
+            onChange={(value) => onChange({ content: value })}
             validations={['required']}
             className="-fluid"
             properties={{
               name: 'content',
               label: 'Content',
               required: true,
-              default: this.state.form.content,
+              default: stateForm.content,
               blocks: {
                 widget: {
                   Component: WidgetBlock,
@@ -273,9 +288,9 @@ class Step1 extends PureComponent {
                 const formData = new FormData();
                 formData.append('image', file);
 
-                fetch(`${process.env.WRI_API_URL}/temporary_content_image`, {
+                fetch(`${process.env.WRI_API_URL}/v1/temporary_content_image`, {
                   method: 'POST',
-                  headers: { Authorization: this.props.user.token },
+                  headers: { Authorization: user.token },
                   body: formData,
                 })
                   .then((response) => response.json())
@@ -296,5 +311,29 @@ class Step1 extends PureComponent {
     );
   }
 }
+
+Step1.defaultProps = {
+  form: {},
+  basic: false,
+  mode: 'new',
+};
+Step1.propTypes = {
+  form: PropTypes.shape({
+    content: PropTypes.string,
+    'is-featured': PropTypes.bool,
+    'is-highlighted': PropTypes.bool,
+    production: PropTypes.string,
+    preproduction: PropTypes.string,
+    published: PropTypes.bool,
+    photo: PropTypes.string,
+    description: PropTypes.string,
+  }),
+  basic: PropTypes.bool,
+  user: PropTypes.shape({
+    token: PropTypes.string,
+  }).isRequired,
+  mode: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default Step1;

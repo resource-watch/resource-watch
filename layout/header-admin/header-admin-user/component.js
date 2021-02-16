@@ -12,18 +12,12 @@ import Icon from 'components/ui/icon';
 import { get } from 'utils/request';
 
 class AdminHeaderUser extends PureComponent {
-  static propTypes = {
-    user: PropTypes.object.isRequired,
-    header: PropTypes.object.isRequired,
-    setDropdownOpened: PropTypes.func.isRequired,
-  }
-
-  logout(e) {
+  static logout(e) {
     if (e) e.preventDefault();
 
     // TO-DO: move this to an action
     get({
-      url: `${process.env.CONTROL_TOWER_URL}/auth/logout`,
+      url: `${process.env.WRI_API_URL}/auth/logout`,
       withCredentials: true,
       onSuccess: () => {
         window.location.href = `/logout?callbackUrl=${window.location.href}`;
@@ -35,11 +29,12 @@ class AdminHeaderUser extends PureComponent {
   }
 
   toggleDropdown = debounce((bool) => {
-    this.props.setDropdownOpened({ myrw: bool });
+    const { setDropdownOpened } = this.props;
+    setDropdownOpened({ myrw: bool });
   }, 50)
 
   render() {
-    const { user } = this.props;
+    const { user, header } = this.props;
 
     if (user.token) {
       const photo = (user.photo) ? `url(${user.photo})` : 'none';
@@ -59,16 +54,16 @@ class AdminHeaderUser extends PureComponent {
                 onMouseLeave={() => this.toggleDropdown(false)}
               >
                 {(!user.photo && user.email)
-                  && (
+                && (
                   <span className="avatar-letter">
                     {user.email.split('')[0]}
                   </span>
-                  )}
+                )}
               </a>
             </Link>
             {/* Second child: If present, this item will be tethered to the the first child */}
-            {this.props.header.dropdownOpened.myrw
-              && (
+            {header.dropdownOpened.myrw
+            && (
               <ul
                 className="header-dropdown-list"
                 onMouseEnter={() => this.toggleDropdown(true)}
@@ -80,18 +75,18 @@ class AdminHeaderUser extends PureComponent {
                   </Link>
                 </li>
                 {user.role === 'ADMIN'
-                  && (
+                && (
                   <li className="header-dropdown-list-item">
                     <Link route="admin_home">
                       <a>Admin</a>
                     </Link>
                   </li>
-                  )}
+                )}
                 <li className="header-dropdown-list-item">
-                  <a onClick={this.logout} href="/logout">Logout</a>
+                  <a onClick={AdminHeaderUser.logout} href="/logout">Logout</a>
                 </li>
               </ul>
-              )}
+            )}
           </TetherComponent>
         </div>
       );
@@ -115,8 +110,8 @@ class AdminHeaderUser extends PureComponent {
           </span>
 
           {/* Second child: If present, this item will be tethered to the the first child */}
-          {this.props.header.dropdownOpened.myrw
-            && (
+          {header.dropdownOpened.myrw
+          && (
             <ul
               className="header-dropdown-list"
               onMouseEnter={() => this.toggleDropdown(true)}
@@ -138,12 +133,20 @@ class AdminHeaderUser extends PureComponent {
                 </a>
               </li>
             </ul>
-            )}
+          )}
         </TetherComponent>
       );
     }
     return null;
   }
 }
+
+AdminHeaderUser.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  header: PropTypes.object.isRequired,
+  setDropdownOpened: PropTypes.func.isRequired,
+};
 
 export default AdminHeaderUser;

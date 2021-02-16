@@ -18,7 +18,7 @@ export const fetchDashboards = (params = {
   application: process.env.APPLICATIONS,
 }, headers = {}, _meta = false) => {
   logger.info('Fetch dashboards');
-  return WRIAPI.get('dashboard', {
+  return WRIAPI.get('/v1/dashboard', {
     headers: {
       ...WRIAPI.defaults.headers,
       ...headers,
@@ -54,7 +54,7 @@ export const fetchDashboards = (params = {
  */
 export const fetchDashboard = (id, params = {}) => {
   logger.info(`Fetch dashboard ${id}`);
-  return WRIAPI.get(`dashboard/${id}`, {
+  return WRIAPI.get(`/v1/dashboard/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
@@ -91,7 +91,7 @@ export const fetchDashboard = (id, params = {}) => {
  */
 export const createDashboard = (body, token) => {
   logger.info('Create dashboard');
-  return WRIAPI.post('dashboard', {
+  return WRIAPI.post('/v1/dashboard', {
     data: {
       attributes: { ...body },
       application: [process.env.APPLICATIONS],
@@ -129,7 +129,7 @@ export const createDashboard = (body, token) => {
  */
 export const updateDashboard = (id, body, token) => {
   logger.info(`Updates dashboard ${id}`);
-  return WRIAPI.patch(`dashboard/${id}`,
+  return WRIAPI.patch(`/v1/dashboard/${id}`,
     { data: { attributes: { ...body } } },
     {
       headers: {
@@ -162,7 +162,7 @@ export const updateDashboard = (id, body, token) => {
  */
 export const deleteDashboard = (id, token) => {
   logger.info(`Deletes dashboard ${id}`);
-  return WRIAPI.delete(`dashboard/${id}`, {
+  return WRIAPI.delete(`/v1/dashboard/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token,
@@ -190,7 +190,7 @@ export const cloneDashboard = (dashboard, user) => {
   } = dashboard;
   logger.info(`Clones dashboard from dashboard ${id}`);
   const { token, id: userId } = user;
-  const url = `dashboard/${id}/clone`;
+  const url = `/v1/dashboard/${id}/clone`;
   const params = {
     'user-id': userId,
     data: {
