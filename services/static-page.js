@@ -10,7 +10,7 @@ import WRISerializer from 'wri-json-api-serializer';
  * @returns {Object[]} page content serialized.
  */
 
-export const fetchStaticPage = (id) => WRIAPI.get(`/static_page/${id}`)
+export const fetchStaticPage = (id) => WRIAPI.get(`/v1/static_page/${id}`)
   .then((response) => {
     const { status, statusText, data } = response;
     if (status >= 400) throw new Error(statusText);

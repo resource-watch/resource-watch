@@ -15,30 +15,23 @@ import { APP_HEADER_ITEMS } from 'layout/header/constants';
 import './styles.scss';
 
 class HeaderMenuMobile extends PureComponent {
-  static propTypes = {
-    header: PropTypes.object.isRequired,
-    routes: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    setMobileOpened: PropTypes.func.isRequired,
+  /**
+   * UI EVENTS
+   * - logout
+  */
+  static logout(e) {
+    if (e) e.preventDefault();
+
+    // Get to logout
+    fetch(`${process.env.WRI_API_URL}/auth/logout`, { credentials: 'include' })
+      .then(() => { window.location.href = `/logout?callbackUrl=${window.location.href}`; })
+      .catch((err) => { toastr.error('Error', err); });
   }
 
   componentDidUpdate() {
     const { header: { mobileOpened } } = this.props;
 
     document.body.classList.toggle('no-scroll', mobileOpened);
-  }
-
-  /**
-   * UI EVENTS
-   * - logout
-  */
-  logout(e) {
-    if (e) e.preventDefault();
-
-    // Get to logout
-    fetch(`${process.env.CONTROL_TOWER_URL}/auth/logout`, { credentials: 'include' })
-      .then(() => { window.location.href = `/logout?callbackUrl=${window.location.href}`; })
-      .catch((err) => { toastr.error('Error', err); });
   }
 
   render() {
@@ -61,6 +54,7 @@ class HeaderMenuMobile extends PureComponent {
 
         <div className={`header-menu-mobile-content ${classNames}`}>
           {/* Backdrop */}
+          {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
           <button
             className={`c-button -clean header-menu-mobile-backdrop ${classNames}`}
             onClick={() => setMobileOpened(false)}
@@ -156,7 +150,7 @@ class HeaderMenuMobile extends PureComponent {
                               {c.id === 'logout'
                                 && (
                                 <a
-                                  onClick={this.logout}
+                                  onClick={HeaderMenuMobile.logout}
                                   href={c.href}
                                 >
                                   {c.label}
@@ -177,5 +171,15 @@ class HeaderMenuMobile extends PureComponent {
     );
   }
 }
+
+HeaderMenuMobile.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  header: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  routes: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
+  setMobileOpened: PropTypes.func.isRequired,
+};
 
 export default HeaderMenuMobile;

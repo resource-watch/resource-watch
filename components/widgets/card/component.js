@@ -140,7 +140,7 @@ const WidgetCard = (props) => {
 
     const link = document.createElement('a');
     link.setAttribute('download', '');
-    link.href = `${process.env.CONTROL_TOWER_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&waitFor=8000&url=${origin}/embed/${type}/${id}`;
+    link.href = `${process.env.WRI_API_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&waitFor=8000&url=${origin}/embed/${type}/${id}`;
 
     // link.click() doesn't work on Firefox for some reasons
     // so we have to create an event manually
@@ -400,6 +400,7 @@ const WidgetCard = (props) => {
 };
 
 WidgetCard.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   widget: PropTypes.object.isRequired,
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
@@ -409,6 +410,7 @@ WidgetCard.propTypes = {
   onWidgetRemove: PropTypes.func.isRequired,
   onWidgetClick: PropTypes.func,
   limitChar: PropTypes.number,
+  // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,

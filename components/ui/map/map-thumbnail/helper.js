@@ -90,7 +90,7 @@ export const getImageForGEE = ({ layerSpec }) => {
   if (!layerConfig) throw Error('layerConfig param is required');
   if (!layerConfig.body) throw Error('layerConfig does not have body param');
 
-  const tile = `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/0/0/0`;
+  const tile = `${process.env.WRI_API_URL}/v1/layer/${layerSpec.id}/tile/gee/0/0/0`;
 
   return tile;
 };
@@ -121,7 +121,7 @@ export const getLayerImage = async ({
 }) => {
   if (!layerSpec) throw Error('No layerSpec specified.');
 
-  const { id, layerConfig, provider } = layerSpec;
+  const { layerConfig, provider } = layerSpec;
   let result;
 
   switch (provider) {

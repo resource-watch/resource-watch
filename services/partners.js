@@ -13,7 +13,7 @@ import { logger } from 'utils/logs';
  */
 export const fetchPartners = (params = {}, headers = {}) => {
   logger.info('Fetch partners');
-  return WRIAPI.get('partner', {
+  return WRIAPI.get('/v1/partner', {
     params: {
       ...params,
       env: process.env.API_ENV,
@@ -44,7 +44,7 @@ export const fetchPartners = (params = {}, headers = {}) => {
 export const fetchPartner = (id, params = {}, headers = {}) => {
   logger.info(`Fetch partner ${id}`);
   return WRIAPI.get(
-    `partner/${id}`,
+    `/v1/partner/${id}`,
     {
       headers: { ...headers },
       params: {
@@ -74,7 +74,7 @@ export const fetchPartner = (id, params = {}, headers = {}) => {
  */
 export const updatePartner = (id, partner, token, params = {}, headers = {}) => {
   logger.info(`Update partner ${id}`);
-  return WRIAPI.patch(`partner/${id}`,
+  return WRIAPI.patch(`/v1/partner/${id}`,
     { ...partner },
     {
       params: { ...params },
@@ -99,7 +99,7 @@ export const updatePartner = (id, partner, token, params = {}, headers = {}) => 
  */
 export const createPartner = (partner, token, params = {}, headers = {}) => {
   logger.info('Create partner');
-  return WRIAPI.post('partner',
+  return WRIAPI.post('/v1/partner',
     { ...partner },
     {
       params: {
@@ -128,7 +128,7 @@ export const createPartner = (partner, token, params = {}, headers = {}) => {
 export const deletePartner = (id, token, params = {}, headers = {}) => {
   logger.info(`Delete partner ${id}`);
   return WRIAPI.delete(
-    `partner/${id}`,
+    `/v1/partner/${id}`,
     {
       params: {
         ...params,

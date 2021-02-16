@@ -11,7 +11,7 @@ import { logger } from 'utils/logs';
  */
 export const fetchAllTags = (params = {}) => {
   logger.info('Fetch all tags');
-  return WRIAPI.get('graph/query/list-concepts',
+  return WRIAPI.get('/v1/graph/query/list-concepts',
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params: {
@@ -35,7 +35,7 @@ export const fetchAllTags = (params = {}) => {
  */
 export const fetchInferredTags = (params = {}) => {
   logger.info('Fetch inferred tags');
-  return WRIAPI.get('graph/query/concepts-inferred',
+  return WRIAPI.get('/v1/graph/query/concepts-inferred',
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params: {
@@ -61,7 +61,7 @@ export const fetchInferredTags = (params = {}) => {
  */
 export const countDatasetView = (datasetId, token, params = {}) => {
   logger.info('Count dataset view');
-  return WRIAPI.post(`graph/dataset/${datasetId}/visited`,
+  return WRIAPI.post(`/v1/graph/dataset/${datasetId}/visited`,
     {},
     {
       headers: { Authorization: token },
@@ -86,7 +86,7 @@ export const countDatasetView = (datasetId, token, params = {}) => {
  */
 export const fetchMostViewedDatasets = (params = {}) => {
   logger.info('Fetch most viewed datasets');
-  return WRIAPI.get('graph/query/most-viewed',
+  return WRIAPI.get('/v1/graph/query/most-viewed',
     {
       params: {
         env: process.env.API_ENV,
@@ -110,7 +110,7 @@ export const fetchMostViewedDatasets = (params = {}) => {
  */
 export const fetchMostFavoritedDatasets = (params = {}) => {
   logger.info('Fetch most favorited datasets');
-  return WRIAPI.get('graph/query/most-liked-datasets',
+  return WRIAPI.get('/v1/graph/query/most-liked-datasets',
     {
       params: {
         env: process.env.API_ENV,

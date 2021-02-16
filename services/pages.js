@@ -13,7 +13,7 @@ import { logger } from 'utils/logs';
 export const fetchPages = (token, params = {}, headers = {}) => {
   logger.info('Fetch pages');
   return WRIAPI.get(
-    'static_page',
+    '/v1/static_page',
     {
       headers: {
         ...headers,
@@ -46,7 +46,7 @@ export const fetchPages = (token, params = {}, headers = {}) => {
 export const fetchPage = (id, token, params = {}, headers = {}) => {
   logger.info(`Fetch page ${id}`);
   return WRIAPI.get(
-    `static_page/${id}`,
+    `/v1/static_page/${id}`,
     {
       headers: {
         ...headers,
@@ -71,7 +71,7 @@ export const fetchPage = (id, token, params = {}, headers = {}) => {
  */
 export const updatePage = (page, token) => {
   logger.info(`Update page ${page.id}`);
-  return WRIAPI.patch(`static_page/${page.id}`,
+  return WRIAPI.patch(`/v1/static_page/${page.id}`,
     { data: { attributes: { ...page } } },
     { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
@@ -90,7 +90,7 @@ export const updatePage = (page, token) => {
  */
 export const createPage = (page, token) => {
   logger.info('Create page');
-  return WRIAPI.post('static_page',
+  return WRIAPI.post('/v1/static_page',
     {
       data: {
         application: process.env.APPLICATIONS,

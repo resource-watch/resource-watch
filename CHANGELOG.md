@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - added new service and entrypoint to launch Docker.
 
 ### Changed
+- replace redundant environment variables that pointed to the RW API URL with a single one.
 - replaced staging API URL: `staging-api.globalforestwatch.org` to `staging-api.resourcewatch.org`
 - replaced `better-npm-run` with `cross-env`.
 - moved `@babel/core` to devDependencies.

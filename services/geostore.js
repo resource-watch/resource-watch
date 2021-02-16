@@ -13,7 +13,7 @@ import { logger } from 'utils/logs';
 export const fetchGeostore = (id, params = {}) => {
   logger.info(`Fetch geostore ${id}`);
 
-  return WRIAPI.get(`geostore/${id}`, { ...params })
+  return WRIAPI.get(`/v1/geostore/${id}`, { ...params })
     .then((response) => {
       const { status, statusText, data } = response;
 
@@ -33,7 +33,7 @@ export const fetchGeostore = (id, params = {}) => {
  */
 export const createGeostore = (geojson) => {
   logger.info('Create geostore');
-  return WRIAPI.post('geostore', { geojson }, {
+  return WRIAPI.post('/v1/geostore', { geojson }, {
     transformResponse: [].concat(
       WRIAPI.defaults.transformResponse,
       (({ data }) => ({ geostore: data })),
@@ -63,7 +63,7 @@ export const createGeostore = (geojson) => {
  */
 export const fetchCountries = () => {
   logger.info('Fetch countries');
-  return WRIAPI.get('geostore/admin/list')
+  return WRIAPI.get('/v1/geostore/admin/list')
     .then((array) => array.data.data.sort((a, b) => {
       if (a.name < b.name) {
         return -1;
@@ -85,7 +85,7 @@ export const fetchCountries = () => {
  */
 export const fetchCountry = (iso) => {
   logger.info(`Fetch country: ${iso}`);
-  return WRIAPI.get(`query/134caa0a-21f7-451d-a7fe-30db31a424aa?sql=SELECT name_engli as label, st_asgeojson(the_geom_simple) as geojson, bbox as bounds from gadm28_countries WHERE iso = '${iso}'`)
+  return WRIAPI.get(`/v1/query/134caa0a-21f7-451d-a7fe-30db31a424aa?sql=SELECT name_engli as label, st_asgeojson(the_geom_simple) as geojson, bbox as bounds from gadm28_countries WHERE iso = '${iso}'`)
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching country ${iso}: ${status}: ${statusText}`);

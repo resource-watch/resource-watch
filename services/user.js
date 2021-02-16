@@ -106,7 +106,7 @@ export const uploadPhoto = (file, user) => new Promise((resolve, reject) => {
       },
     };
 
-    return fetch(`${process.env.WRI_API_URL}/profile`, {
+    return fetch(`${process.env.WRI_API_URL}/v1/profile`, {
       method: 'POST',
       body: JSON.stringify(bodyObj),
       headers: {
