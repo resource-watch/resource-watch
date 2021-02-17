@@ -9,6 +9,7 @@
     "@mapbox/mapbox-gl-draw": "^1.1.2",
     "@mapbox/mapbox-gl-sync-move": "^0.3.0",
     "@math.gl/web-mercator": "^3.3.1",
+    "@next/bundle-analyzer": "^10.0.7",
     "@vizzuality/wysiwyg": "^3.0.0",
     "@widget-editor/renderer": "^2.5.5",
     "@widget-editor/rw-adapter": "^2.5.5",
@@ -134,15 +135,14 @@
     "eslint-plugin-react-hooks": "3.0.0",
     "husky": "^3.0.5",
     "lint-staged": "^9.2.5",
-    "webpack": "^4.44.2",
-    "webpack-bundle-analyzer": "^3.3.2"
+    "webpack": "^4.44.2"
   },
   "scripts": {
     "lint": "cross-env eslint . --ext .js,.jsx",
     "dev": "cross-env node index.js",
     "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 RW_NODE_ENV=production next build ",
     "start": "cross-env RW_NODE_ENV=production node index.js",
-    "bundle-analyzer": "cross-env BUNDLE_ANALYZER=1 yarn build",
+    "analyze": "cross-env ANALYZE=true yarn build",
     "sitemap": "cross-env node next-sitemap.js",
     "test": "cross-env cypress run",
     "cy:open": "cross-env cypress open"
