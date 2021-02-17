@@ -192,9 +192,9 @@ Authentication is based on the [RW API user management API](https://resource-wat
 
 # Optimization 🔎
 ## Bundle Analyzer
-[Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) is a development tool that creates an interactive treemap visualization of the contents of all your bundles.
+[@next/bundle-analyzer](https://www.npmjs.com/package/@next/bundle-analyzer) is a tool that creates an interactive treemap visualization of the contents of all your bundles.
 
-To run it: `yarn bundle-analyzer`.
+To run it: `yarn analyze`.
 
 It will run the application in production build (makes a `yarn build` internally) and open a tab in your browser displaying the bundles treemap.
 

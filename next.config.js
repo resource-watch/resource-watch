@@ -5,11 +5,11 @@ const withCSS = require('@zeit/next-css');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const cssnano = require('cssnano');
-const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER)
-  // eslint-disable-next-line import/no-extraneous-dependencies
-  ? require('webpack-bundle-analyzer') : {};
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 
-module.exports = withCSS(withSass({
+module.exports = withBundleAnalyzer(withCSS(withSass({
   useFileSystemPublicRoutes: false,
   poweredByHeader: false,
 
@@ -64,8 +64,6 @@ module.exports = withCSS(withSass({
       }),
     );
 
-    if (process.env.BUNDLE_ANALYZER) _config.plugins.push(new BundleAnalyzerPlugin());
-
     return _config;
   },
-}));
+})));
