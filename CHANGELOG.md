@@ -5,17 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.0.4] - X
+## [3.0.5] - X
 ### Added
 - added tests to verify pages are loaded successfully in `get-involved`, `about`, `data` pages.
 - added new service and entrypoint to launch Docker.
 
 ### Changed
-- replace redundant environment variables that pointed to the RW API URL with a single one.
+- replaced `webpack-bundle-analyzer` dependency with `@next/bundle-analyzer`.
+- replaced redundant environment variables that pointed to the RW API URL with a single one.
 - replaced staging API URL: `staging-api.globalforestwatch.org` to `staging-api.resourcewatch.org`
 - replaced `better-npm-run` with `cross-env`.
 - moved `@babel/core` to devDependencies.
-- updates `Node` version from `v8` to current `LTS` (`v14`).
+- updated `Node` version from `v8` to current `LTS` (`v14`).
 - `@vizzuality/wysiwyg` (former `vizz-wysiwyg`) has been updated removing a lot of unused/deprecated dependencies that were blocking the application to upgrade the Node version.
 - renamed some internal folders called `pages` to `tabs` as they were giving some issues with the new Node version.
 
