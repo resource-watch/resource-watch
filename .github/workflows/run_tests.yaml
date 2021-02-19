@@ -45,6 +45,7 @@ jobs:
       RW_MAPBOX_API_TOKEN: fakeMapboxToken
       CC_TEST_REPORTER_ID: 1a3b4790c97b84d93856c16cd0ceac7070a43c7620444d9de945c75c2edfa676
       CYPRESS_BASE_URL: http://localhost:9000
+      NODE_OPTIONS: "--max-old-space-size=8192"
 
 
     steps:
