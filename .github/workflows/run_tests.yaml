@@ -69,6 +69,4 @@ jobs:
       - name: Run tests with coverage
         uses: paambaati/codeclimate-action@v2.7.5
         with:
-          coverageCommand: yarn cover:merge
-          coverageLocations: |
-            ${{github.workspace}}/coverage.json:json
+          coverageCommand: yarn cover
