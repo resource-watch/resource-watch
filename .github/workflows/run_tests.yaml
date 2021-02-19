@@ -62,10 +62,12 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Start server
-        run: yarn start &
+#      - name: Start server
+#        run: yarn start &
 
       - name: Run tests with coverage
         uses: paambaati/codeclimate-action@v2.7.5
         with:
-          coverageCommand: yarn test
+          coverageCommand: yarn cover:merge
+          coverageLocations: |
+            ${{github.workspace}}/coverage.json:json
