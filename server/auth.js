@@ -1,7 +1,7 @@
 require('isomorphic-fetch');
 
 const passport = require('passport');
-const Strategy = require('passport-control-tower');
+const ControlTowerStrategy = require('passport-control-tower');
 const LocalStrategy = require('passport-local').Strategy;
 const queryString = require('query-string');
 
@@ -16,7 +16,7 @@ passport.deserializeUser((obj, done) => {
 });
 
 module.exports = (() => {
-  const strategy = new Strategy({
+  const strategy = new ControlTowerStrategy({
     controlTowerUrl: process.env.WRI_API_URL,
     callbackUrl: process.env.CALLBACK_URL,
     applications: process.env.APPLICATIONS || 'rw',

@@ -7,9 +7,13 @@ case "$1" in
         echo "Running development server"
         exec yarn dev
         ;;
-    test)
-        echo "Running test server"
-        exec yarn test
+    test-frontend)
+        echo "Running frontend tests"
+        exec yarn test:frontend
+        ;;
+    test-backend)
+        echo "Running backend tests"
+        exec yarn test:backend
         ;;
     start)
         echo "Running server"

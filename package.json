@@ -122,6 +122,8 @@
     "@cypress/code-coverage": "^3.9.2",
     "babel-plugin-istanbul": "^6.0.0",
     "babel-plugin-module-resolver": "^4.1.0",
+    "chai": "^4.3.0",
+    "chai-http": "^4.3.0",
     "cross-env": "^7.0.3",
     "cssnano": "^4.1.10",
     "cypress": "^6.4.0",
@@ -135,6 +137,10 @@
     "eslint-plugin-react-hooks": "3.0.0",
     "husky": "^3.0.5",
     "lint-staged": "^9.2.5",
+    "mocha": "^8.3.0",
+    "nock": "^13.0.7",
+    "nyc": "^15.1.0",
+    "start-server-and-test": "^1.12.0",
     "webpack": "^4.44.2"
   },
   "scripts": {
@@ -144,7 +150,14 @@
     "start": "cross-env RW_NODE_ENV=production node index.js",
     "analyze": "cross-env ANALYZE=true yarn build",
     "sitemap": "cross-env node next-sitemap.js",
-    "test": "cross-env cypress run",
+    "cypress": "cross-env cypress run",
+    "test:frontend": "start-server-and-test 'yarn dev' 9000 'yarn cypress'",
+    "test:backend": "mocha --reporter spec --timeout 60000 --exit",
+    "cover": "npm run cover:frontend && npm run cover:backend && npm run cover:report",
+    "cover:frontend": "NODE_ENV=test nyc --silent --no-clean npm run test:frontend",
+    "cover:backend": "nyc --silent --no-clean npm run test:backend ",
+    "cover:report": "nyc report --reporter=lcov --reporter=text",
+    "cover:merge": "npm run cover:frontend && npm run cover:backend && nyc merge .nyc_output coverage.json",
     "cy:open": "cross-env cypress open"
   },
   "engines": {

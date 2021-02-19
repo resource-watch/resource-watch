@@ -45,7 +45,9 @@ COPY public ./public
 COPY redactions ./redactions
 COPY selectors ./selectors
 COPY services ./services
+COPY server ./server
 COPY utils ./utils
+COPY test ./test
 
 # Copy single files
 
@@ -54,7 +56,6 @@ COPY .browserlistrc .
 COPY package.json .
 COPY yarn.lock .
 COPY api.md .
-COPY auth.js .
 COPY index.js .
 COPY next.config.js .
 COPY next-sitemap.js .
