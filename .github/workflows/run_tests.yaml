@@ -69,4 +69,10 @@ jobs:
       - name: Run tests with coverage
         uses: paambaati/codeclimate-action@v2.7.5
         with:
+<<<<<<< HEAD
           coverageCommand: yarn cover
+=======
+          coverageCommand: yarn cover:merge
+          coverageLocations: |
+            ${{github.workspace}}/coverage.json:json
+>>>>>>> Server+client testing, GH actions, take 1

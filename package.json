@@ -147,15 +147,14 @@
     "analyze": "cross-env ANALYZE=true yarn build",
     "sitemap": "cross-env node next-sitemap.js",
     "cypress": "cross-env cypress run",
-    "cy:open": "cross-env cypress open",
-    "test:frontend": "NODE_ENV=TEST_FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn dev' 9000 'yarn cypress'",
-    "test:backend:mock": "NODE_ENV=TEST_FRONTEND SERVER_ONLY=true mocha --reporter spec --timeout 60000 --exit",
-    "test:backend": "SERVER_ONLY=true mocha --reporter spec --timeout 60000 --exit",
-    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "start-server-and-test 'yarn dev' 9000 'yarn cypress'",
+    "test:backend": "mocha --reporter spec --timeout 60000 --exit",
+    "cover": "npm run cover:frontend && npm run cover:backend && npm run cover:report",
     "cover:frontend": "NODE_ENV=test nyc --silent --no-clean npm run test:frontend",
     "cover:backend": "nyc --silent --no-clean npm run test:backend ",
     "cover:report": "nyc report --reporter=lcov --reporter=text",
-    "cover": "npm run cover:frontend && npm run cover:backend && npm run cover:report"
+    "cover:merge": "npm run cover:frontend && npm run cover:backend && nyc merge .nyc_output coverage.json",
+    "cy:open": "cross-env cypress open"
   },
   "engines": {
     "node": ">=14.15"
