@@ -158,7 +158,7 @@ app.prepare().then(() => {
       res.clearCookie('authUrl');
     }
 
-    // save the current url for redirect if successfull, set it to expire in 5 min
+    // save the current url for redirect if successful, set it to expire in 5 min
     res.cookie('authUrl', req.headers.referer, { maxAge: 3e5, httpOnly: true });
     return res.redirect(
       `${process.env.WRI_API_URL}/auth/${service}?callbackUrl=${
