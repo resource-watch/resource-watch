@@ -24,14 +24,14 @@ jobs:
 
     env:
       WRI_API_URL: https://staging-api.resourcewatch.org
-      PORT: 3000
+      PORT: 9000
       RW_NODE_ENV: development
       REDIS_URL: redis://localhost:6379
       NODE_ENV: test
       SECRET: keyboard cat
       STATIC_SERVER_URL:
       API_ENV: production,preproduction
-      CALLBACK_URL: http://localhost:3000/auth
+      CALLBACK_URL: http://localhost:9000/auth
       APPLICATIONS: rw
       BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
       BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
@@ -44,7 +44,7 @@ jobs:
       LOGGER_LEVEL: info
       RW_MAPBOX_API_TOKEN: fakeMapboxToken
       CC_TEST_REPORTER_ID: 1a3b4790c97b84d93856c16cd0ceac7070a43c7620444d9de945c75c2edfa676
-      CYPRESS_BASE_URL: http://localhost:3000
+      CYPRESS_BASE_URL: http://localhost:9000
 
 
     steps:
