@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
-
+import Tether from 'react-tether';
 import { connect } from 'react-redux';
 
-import TetherComponent from 'react-tether';
-
-// Next components
-import { Link } from 'routes';
-
-// Components
+// components
 import Icon from 'components/ui/icon';
 
 class DatasetsRelatedContent extends React.Component {
@@ -69,7 +65,7 @@ class DatasetsRelatedContent extends React.Component {
           {buttons.widget
             && (
             <li>
-              <TetherComponent
+              <Tether
                 attachment="bottom center"
                 constraints={[{
                   to: 'window',
@@ -78,48 +74,56 @@ class DatasetsRelatedContent extends React.Component {
                 classes={{
                   element: 'c-tooltip',
                 }}
-              >
-                {isOwnerOrAdmin
-                  ? (
-                    <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'widgets' }}>
-                      <a
-                        onMouseEnter={() => this.toggleTooltip('widgetsActive', true)}
-                        onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}
+                renderTarget={(ref) => {
+                  if (isOwnerOrAdmin) {
+                    return (
+                      <Link
+                        href={`${route}/datasets/${dataset.id}/widgets`}
+                        // route={route}
+                        // params={{ tab: 'datasets', id: dataset.id, subtab: 'widgets' }}
                       >
-                        <Icon name="icon-widgets" className="c-icon -small" />
-                        <span>{(dataset.widget && dataset.widget.length) || 0}</span>
-                      </a>
-                    </Link>
-                  )
+                        <a
+                          ref={ref}
+                          onMouseEnter={() => this.toggleTooltip('widgetsActive', true)}
+                          onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}
+                        >
+                          <Icon name="icon-widget" className="c-icon -small" />
+                          <span>{(dataset.widget && dataset.widget.length) || 0}</span>
+                        </a>
+                      </Link>
+                    );
+                  }
 
-                  : (
+                  return (
                     <a
+                      ref={ref}
                       onMouseEnter={() => this.toggleTooltip('widgetsActive', true)}
                       onMouseLeave={() => this.toggleTooltip('widgetsActive', false)}
                     >
-                      <Icon name="icon-widgets" className="c-icon -small" />
+                      <Icon name="icon-widget" className="c-icon -small" />
                       <span>{(dataset.widget && dataset.widget.length) || 0}</span>
                     </a>
-                  )}
+                  );
+                }}
+                renderElement={(ref) => {
+                  if (!this.state.widgetsActive) return null;
 
-                {this.state.widgetsActive
-                  && (
-                  <div>
-                    <span>
+                  return (
+                    <span ref={ref}>
                       {(dataset.widget && dataset.widget.length) || 0}
                       {' '}
                       widgets
                     </span>
-                  </div>
-                  )}
-              </TetherComponent>
+                  );
+                }}
+              />
             </li>
             )}
 
           {route !== 'myrw_detail' && buttons.layer
             && (
             <li>
-              <TetherComponent
+              <Tether
                 attachment="bottom center"
                 constraints={[{
                   to: 'window',
@@ -128,48 +132,56 @@ class DatasetsRelatedContent extends React.Component {
                 classes={{
                   element: 'c-tooltip',
                 }}
-              >
-                {isOwnerOrAdmin
-                  ? (
-                    <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'layers' }}>
-                      <a
-                        onMouseEnter={() => this.toggleTooltip('layersActive', true)}
-                        onMouseLeave={() => this.toggleTooltip('layersActive', false)}
+                renderTarget={(ref) => {
+                  if (isOwnerOrAdmin) {
+                    return (
+                      <Link
+                        href={`${route}/datasets/${dataset.id}/layers`}
+                        // route={route}
+                        // params={{ tab: 'datasets', id: dataset.id, subtab: 'layers' }}
                       >
-                        <Icon name="icon-layers" className="c-icon -small" />
-                        <span>{(dataset.layer && dataset.layer.length) || 0}</span>
-                      </a>
-                    </Link>
-                  )
+                        <a
+                          ref={ref}
+                          onMouseEnter={() => this.toggleTooltip('layersActive', true)}
+                          onMouseLeave={() => this.toggleTooltip('layersActive', false)}
+                        >
+                          <Icon name="icon-layers" className="c-icon -small" />
+                          <span>{(dataset.layer && dataset.layer.length) || 0}</span>
+                        </a>
+                      </Link>
+                    );
+                  }
 
-                  : (
+                  return (
                     <a
+                      ref={ref}
                       onMouseEnter={() => this.toggleTooltip('layersActive', true)}
                       onMouseLeave={() => this.toggleTooltip('layersActive', false)}
                     >
                       <Icon name="icon-layers" className="c-icon -small" />
                       <span>{(dataset.layer && dataset.layer.length) || 0}</span>
                     </a>
-                  )}
+                  );
+                }}
+                renderElement={(ref) => {
+                  if (!this.state.layersActive) return null;
 
-                {this.state.layersActive
-                  && (
-                  <div>
-                    <span>
+                  return (
+                    <span ref={ref}>
                       {(dataset.layer && dataset.layer.length) || 0}
                       {' '}
                       layers
                     </span>
-                  </div>
-                  )}
-              </TetherComponent>
+                  );
+                }}
+              />
             </li>
             )}
 
           {buttons.metadata
             && (
             <li>
-              <TetherComponent
+              <Tether
                 attachment="bottom center"
                 constraints={[{
                   to: 'window',
@@ -178,23 +190,30 @@ class DatasetsRelatedContent extends React.Component {
                 classes={{
                   element: 'c-tooltip',
                 }}
-              >
-                {isOwnerOrAdmin
-                  ? (
-                    <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'metadata' }}>
-                      <a
-                        className={classnames({ '-empty': (!dataset.metadata || !dataset.metadata.length) })}
-                        onMouseEnter={() => this.toggleTooltip('metadataActive', true)}
-                        onMouseLeave={() => this.toggleTooltip('metadataActive', false)}
+                renderTarget={(ref) => {
+                  if (isOwnerOrAdmin) {
+                    return (
+                      <Link
+                        href={`${route}/datasets/${dataset.id}/metadata`}
+                        // route={route}
+                        // params={{ tab: 'datasets', id: dataset.id, subtab: 'metadata' }}
                       >
-                        <Icon name="icon-metadata" className="c-icon -small" />
-                        <span>{(dataset.metadata && dataset.metadata.length) || 0}</span>
-                      </a>
-                    </Link>
-                  )
+                        <a
+                          ref={ref}
+                          className={classnames({ '-empty': (!dataset.metadata || !dataset.metadata.length) })}
+                          onMouseEnter={() => this.toggleTooltip('metadataActive', true)}
+                          onMouseLeave={() => this.toggleTooltip('metadataActive', false)}
+                        >
+                          <Icon name="icon-metadata" className="c-icon -small" />
+                          <span>{(dataset.metadata && dataset.metadata.length) || 0}</span>
+                        </a>
+                      </Link>
+                    );
+                  }
 
-                  : (
+                  return (
                     <a
+                      ref={ref}
                       className={classnames({ '-empty': (!dataset.metadata || !dataset.metadata.length) })}
                       onMouseEnter={() => this.toggleTooltip('metadataActive', true)}
                       onMouseLeave={() => this.toggleTooltip('metadataActive', false)}
@@ -202,26 +221,27 @@ class DatasetsRelatedContent extends React.Component {
                       <Icon name="icon-metadata" className="c-icon -small" />
                       <span>{(dataset.metadata && dataset.metadata.length) || 0}</span>
                     </a>
-                  )}
+                  );
+                }}
+                renderElement={(ref) => {
+                  if (!this.state.metadataActive) return null;
 
-                {this.state.metadataActive
-                  && (
-                  <div>
-                    <span>
+                  return (
+                    <span ref={ref}>
                       {(dataset.metadata && dataset.metadata.length) || 0}
                       {' '}
                       metadata
                     </span>
-                  </div>
-                  )}
-              </TetherComponent>
+                  );
+                }}
+              />
             </li>
             )}
 
           {route !== 'myrw_detail' && buttons.tags
             && (
             <li>
-              <TetherComponent
+              <Tether
                 attachment="bottom center"
                 constraints={[{
                   to: 'window',
@@ -230,22 +250,30 @@ class DatasetsRelatedContent extends React.Component {
                 classes={{
                   element: 'c-tooltip',
                 }}
-              >
-                {isOwnerOrAdmin
-                  ? (
-                    <Link route={route} params={{ tab: 'datasets', id: dataset.id, subtab: 'tags' }}>
-                      <a
-                        className={classnames({ '-empty': (!knowledgeGraphVoc) })}
-                        onMouseEnter={() => this.toggleTooltip('vocabulariesActive', true)}
-                        onMouseLeave={() => this.toggleTooltip('vocabulariesActive', false)}
+                renderTarget={(ref) => {
+                  if (isOwnerOrAdmin) {
+                    return (
+                      <Link
+                        href={`${route}/datasets/${dataset.id}/tags`}
+                        // route={route}
+                        // params={{ tab: 'datasets', id: dataset.id, subtab: 'tags' }}
                       >
-                        <Icon name="icon-type" className="c-icon -smaller" />
-                        <span>{numberOfTags}</span>
-                      </a>
-                    </Link>
-                  )
-                  : (
+                        <a
+                          ref={ref}
+                          className={classnames({ '-empty': (!knowledgeGraphVoc) })}
+                          onMouseEnter={() => this.toggleTooltip('vocabulariesActive', true)}
+                          onMouseLeave={() => this.toggleTooltip('vocabulariesActive', false)}
+                        >
+                          <Icon name="icon-type" className="c-icon -smaller" />
+                          <span>{numberOfTags}</span>
+                        </a>
+                      </Link>
+                    );
+                  }
+
+                  return (
                     <a
+                      ref={ref}
                       className={classnames({ '-empty': (!knowledgeGraphVoc) })}
                       onMouseEnter={() => this.toggleTooltip('vocabulariesActive', true)}
                       onMouseLeave={() => this.toggleTooltip('vocabulariesActive', false)}
@@ -253,19 +281,20 @@ class DatasetsRelatedContent extends React.Component {
                       <Icon name="icon-type" className="c-icon -smaller" />
                       <span>{numberOfTags}</span>
                     </a>
-                  )}
+                  );
+                }}
+                renderElement={(ref) => {
+                  if (!this.state.vocabulariesActive) return null;
 
-                {this.state.vocabulariesActive
-                  && (
-                  <div>
-                    <span>
+                  return (
+                    <span ref={ref}>
                       {numberOfTags}
                       {' '}
                       tags
                     </span>
-                  </div>
-                  )}
-              </TetherComponent>
+                  );
+                }}
+              />
             </li>
             )}
         </ul>

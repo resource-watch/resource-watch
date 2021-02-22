@@ -2,15 +2,24 @@ export const APP_HEADER_ITEMS = [
   {
     id: 'data',
     label: 'Data',
-    route: 'data',
-    pathnames: ['/app/explore', '/app/explore-detail', '/app/pulse'],
+    href: '/data/explore',
+    pages: [
+      '/app/explore',
+      '/app/explore-detail',
+      '/app/pulse',
+    ],
     children: [
-      { label: 'Explore Datasets', route: 'explore' },
-      { label: 'Near Real-Time Data', href: '/data/pulse' },
+      {
+        label: 'Explore Datasets',
+        href: '/data/explore',
+      },
+      {
+        label: 'Near Real-Time Data',
+        href: '/data/pulse',
+      },
       {
         label: 'App Gallery',
-        route: 'get_involved_detail',
-        params: { id: 'apps' },
+        href: '/get-involved/apps',
         logEvent: true,
       },
     ],
@@ -18,57 +27,77 @@ export const APP_HEADER_ITEMS = [
   {
     id: 'dashboards',
     label: 'Dashboards',
-    route: 'dashboards',
-    pathnames: ['/app/dashboards', '/app/dashboards-detail'],
+    href: '/dashboards',
+    pages: [
+      '/app/dashboards',
+      '/app/dashboards-detail',
+    ],
     children: [],
   },
   {
     id: 'blog',
     label: 'Blog',
     href: 'https://blog.resourcewatch.org',
+    external: true,
   },
   {
     id: 'about',
     label: 'About',
-    route: 'about',
-    pathnames: ['/app/About', '/app/Partners'],
+    href: '/about',
+    pages: [
+      '/app/about',
+      '/app/partners',
+      '/app/faqs',
+      '/app/how-to',
+      '/app/contact-us',
+    ],
     children: [
-      { label: 'Partners', route: 'about_partners' },
-      { label: 'FAQs', route: 'about_faqs' },
-      { label: 'How to', route: 'about_howto' },
-      { label: 'Contact us', route: 'about_contact-us' },
+      {
+        label: 'Partners',
+        href: '/about/partners',
+      },
+      {
+        label: 'FAQs',
+        href: '/about/faqs',
+      },
+      {
+        label: 'How to',
+        href: '/about/howto',
+      },
+      {
+        label: 'Contact us',
+        href: '/about/contact-us',
+      },
     ],
   },
   {
-    id: 'get_involved',
+    id: 'get-involved',
     label: 'Get Involved',
-    route: 'get_involved',
-    pathnames: ['/app/get-involved', '/app/get-involved-detail'],
+    href: '/get-involved',
+    pages: [
+      '/app/get-involved',
+      '/app/get-involved-detail',
+    ],
     children: [
       {
         label: 'Suggest a story',
-        route: 'get_involved_detail',
-        params: { id: 'suggest-a-story' },
+        href: '/get-involved/suggest-a-story',
       },
       {
         label: 'Contribute data',
-        route: 'get_involved_detail',
-        params: { id: 'contribute-data' },
+        href: '/get-involved/contribute-data',
       },
       {
         label: 'Join the community',
-        route: 'get_involved_detail',
-        params: { id: 'join-the-community' },
+        href: '/get-involved/join-the-community',
       },
       {
         label: 'Develop your app',
-        route: 'get_involved_detail',
-        params: { id: 'develop-your-app' },
+        href: '/get-involved/develop-your-app',
       },
       {
         label: 'Sign up',
-        route: 'sign-in',
-        params: {},
+        href: '/sign-in',
       },
     ],
   },
@@ -78,18 +107,28 @@ export const APP_HEADER_ITEMS = [
   },
   {
     user: false,
-    id: 'myrw',
+    id: 'user',
     label: 'Log in',
   },
   {
     user: true,
-    id: 'myrw',
-    route: 'myrw',
+    id: 'user',
+    href: '/myrw',
     label: 'My Resource Watch',
     children: [
-      { label: 'Profile', route: 'myrw', params: { tab: 'profile' } },
-      { label: 'Admin', route: 'admin_home', admin: true },
-      { label: 'Logout', id: 'logout' },
+      {
+        label: 'Profile',
+        href: '/myrw/profile',
+      },
+      {
+        label: 'Admin',
+        href: '/admin',
+        admin: true,
+      },
+      {
+        label: 'Logout',
+        id: 'logout',
+      },
     ],
   },
 ];

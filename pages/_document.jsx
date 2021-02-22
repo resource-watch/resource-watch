@@ -1,5 +1,6 @@
 import React from 'react';
 import Document, {
+  Html,
   Main,
   NextScript,
   Head,
@@ -8,7 +9,7 @@ import Document, {
 export default class MyDocument extends Document {
   render() {
     return (
-      <html lang="en">
+      <Html lang="en">
         <Head>
           <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
@@ -61,7 +62,7 @@ export default class MyDocument extends Document {
           <script
             src={`https://maps.googleapis.com/maps/api/js?v=weekly&key=${
               process.env.RW_GOGGLE_API_TOKEN_SHORTENER
-              }&libraries=places`}
+            }&libraries=places`}
           />
 
           {/* Polifyll */}
@@ -72,7 +73,7 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

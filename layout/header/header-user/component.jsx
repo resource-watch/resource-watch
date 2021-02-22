@@ -1,15 +1,21 @@
-import React, { PureComponent } from 'react';
+import React, {
+  useState,
+} from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 import { toastr } from 'react-redux-toastr';
-import TetherComponent from 'react-tether';
-import debounce from 'lodash/debounce';
+import Tether from 'react-tether';
+import { useDebouncedCallback } from 'use-debounce';
 
 // components
 import Icon from 'components/ui/icon';
 
-class HeaderUser extends PureComponent {
-  static logout(e) {
+const HeaderUser = ({
+  user,
+}) => {
+  const [isVisible, setVisibility] = useState(false);
+
+  const logout = (e) => {
     if (e) e.preventDefault();
 
     // TO-DO: move this to an action
@@ -20,37 +26,36 @@ class HeaderUser extends PureComponent {
       .catch((err) => {
         toastr.error('Error', err);
       });
-  }
+  };
 
-  toggleDropdown = debounce((bool) => {
-    const { setDropdownOpened } = this.props;
-    setDropdownOpened({ myrw: bool });
-  }, 50)
+  const [toggleDropdown] = useDebouncedCallback((_isVisible) => {
+    setVisibility(_isVisible);
+  }, 50);
 
-  render() {
-    const {
-      user: {
-        token, photo, role, email,
-      },
-      header: { dropdownOpened },
-    } = this.props;
+  const {
+    token,
+    photo,
+    role,
+    email,
+  } = user;
 
-    if (token) {
-      const userAvatar = photo ? `url(${photo})` : 'none';
+  if (token) {
+    const userAvatar = photo ? `url(${photo})` : 'none';
 
-      return (
-        <div className="c-avatar" style={{ backgroundImage: userAvatar }}>
-          <TetherComponent
-            attachment="top center"
-            constraints={[{ to: 'window' }]}
-            targetOffset="0 0"
-            classes={{ element: 'c-header-dropdown' }}
-          >
-            {/* First child: This is what the item will be tethered to */}
-            <Link route="myrw">
+    return (
+      <div className="c-avatar" style={{ backgroundImage: userAvatar }}>
+        <Tether
+          attachment="top center"
+          constraints={[{
+            to: 'window',
+          }]}
+          classes={{ element: 'c-header-dropdown' }}
+          renderTarget={(ref) => (
+            <Link href="/myrw">
               <a
-                onMouseEnter={() => this.toggleDropdown(true)}
-                onMouseLeave={() => this.toggleDropdown(false)}
+                ref={ref}
+                onMouseEnter={() => toggleDropdown(true)}
+                onMouseLeave={() => toggleDropdown(false)}
               >
                 {(!photo && email)
                   && (
@@ -60,105 +65,90 @@ class HeaderUser extends PureComponent {
                   )}
               </a>
             </Link>
-            {/* Second child: If present, this item will be tethered to the the first child */}
-            {dropdownOpened.myrw
-              && (
+          )}
+          renderElement={(ref) => {
+            if (!isVisible) return null;
+
+            return (
               <div
-                onMouseEnter={() => this.toggleDropdown(true)}
-                onMouseLeave={() => this.toggleDropdown(false)}
+                ref={ref}
+                onMouseEnter={() => toggleDropdown(true)}
+                onMouseLeave={() => toggleDropdown(false)}
               >
                 <ul className="header-dropdown-list myrw-list">
                   <li className="header-dropdown-list-item">
-                    <Link
-                      route="myrw"
-                      params={{ tab: 'areas' }}
-                    >
+                    <Link href="/myrw/areas">
                       <a>Areas of interest</a>
                     </Link>
                   </li>
                   <li className="header-dropdown-list-item">
-                    <Link
-                      route="myrw"
-                      params={{ tab: 'collections' }}
-                    >
+                    <Link href="/myrw/collections">
                       <a>Collections</a>
                     </Link>
                   </li>
                   <li className="header-dropdown-list-item">
-                    <Link
-                      route="myrw"
-                      params={{ tab: 'dashboards' }}
-                    >
+                    <Link href="/myrw/dashboards">
                       <a>Dashboards</a>
                     </Link>
                   </li>
                   <li className="header-dropdown-list-item">
-                    <Link
-                      route="myrw"
-                      params={{
-                        tab: 'datasets',
-                        subtab: 'my_datasets',
-                      }}
-                    >
+                    <Link href="/myrw/datasets/my_datasets">
                       <a>Datasets</a>
                     </Link>
                   </li>
                   <li className="header-dropdown-list-item">
-                    <Link
-                      route="myrw"
-                      params={{
-                        tab: 'widgets',
-                        subtab: 'my_widgets',
-                      }}
-                    >
+                    <Link href="/myrw/widgets/my_widgets">
                       <a>Visualizations</a>
                     </Link>
                   </li>
                 </ul>
                 <ul className="header-dropdown-list user-list">
                   <li className="header-dropdown-list-item">
-                    <Link route="myrw" params={{ tab: 'profile' }}>
+                    <Link href="/myrw/profile">
                       <a>Profile</a>
                     </Link>
                   </li>
                   {role === 'ADMIN'
                     && (
                     <li className="header-dropdown-list-item">
-                      <Link route="admin_home">
+                      <Link
+                        href="/admin"
+                      >
                         <a>Admin</a>
                       </Link>
                     </li>
                     )}
                   <li className="header-dropdown-list-item">
-                    <a onClick={HeaderUser.logout} href="/logout">Logout</a>
+                    <a onClick={logout} href="/logout">Logout</a>
                   </li>
                 </ul>
               </div>
-              )}
-          </TetherComponent>
-        </div>
-      );
-    }
-
-    return (
-      <Link route="sign-in">
-        <a className="header-menu-link">
-          <Icon
-            name="icon-user"
-            className="-medium user-icon"
-          />
-        </a>
-      </Link>
+            );
+          }}
+        />
+      </div>
     );
   }
-}
+
+  return (
+    <Link href="/sign-in">
+      <a className="header-menu-link">
+        <Icon
+          name="icon-user"
+          className="-medium user-icon"
+        />
+      </a>
+    </Link>
+  );
+};
 
 HeaderUser.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  user: PropTypes.object.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  header: PropTypes.object.isRequired,
-  setDropdownOpened: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    token: PropTypes.string,
+    role: PropTypes.string,
+    email: PropTypes.string,
+    photo: PropTypes.string,
+  }).isRequired,
 };
 
 export default HeaderUser;
