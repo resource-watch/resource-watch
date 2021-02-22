@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TetherComponent from 'react-tether';
+import Tether from 'react-tether';
 import classnames from 'classnames';
 import Icon from 'components/ui/icon';
 import CheckboxGroup from '../../../form/CheckboxGroup';
@@ -183,78 +183,83 @@ export default class TableFilters extends React.Component {
 
     return (
       <div className={btnClass}>
-        <TetherComponent
+        <Tether
           attachment="top center"
           constraints={[{
             to: 'window',
             pin: true,
           }]}
           classes={{ element: 'c-table-tooltip -footer' }}
-        >
-          {/* First child: This is what the item will be tethered to */}
-          <button
-            ref={(node) => this.btnToggle = node}
-            onClick={this.onToggle}
-            className={`table-header-btn ${btnClass}`}
-          >
-            <Icon name="icon-filter" className="-smaller" />
-          </button>
+          renderTarget={(ref) => (
+            <button
+              ref={ref}
+              type="button"
+              onClick={this.onToggle}
+              className={`table-header-btn ${btnClass}`}
+            >
+              <Icon name="icon-filter" className="-smaller" />
+            </button>
+          )}
+          renderElement={(ref) => {
+            if (this.state.closed) return null;
 
-          {/* Second child: If present, this item will be tethered to the the first child */}
-          {!this.state.closed
-            && (
-            <div className="tooltip-content">
-              <div className="content">
-                <div className="search-box">
-                  <input
-                    ref={(node) => this.input = node}
-                    type="text"
-                    value={input}
-                    placeholder="Type search"
-                    onChange={this.onChangeInput}
+            return (
+              <div
+                ref={ref}
+                className="tooltip-content"
+              >
+                <div className="content">
+                  <div className="search-box">
+                    <input
+                      ref={(node) => this.input = node}
+                      type="text"
+                      value={input}
+                      placeholder="Type search"
+                      onChange={this.onChangeInput}
+                    />
+                    {!input
+                      && (
+                      <button className="-search">
+                        <Icon name="icon-search" className="-small" />
+                      </button>
+                      )}
+
+                    {!!input
+                      && (
+                      <button
+                        className="-close"
+                        onClick={this.onResetInput}
+                      >
+                        <Icon name="icon-cross" className="-small" />
+                      </button>
+                      )}
+                  </div>
+                  <CheckboxGroup
+                    name={field}
+                    selected={selected || values}
+                    className={`${field}-checkbox-group`}
+                    options={this.getFilteredValues()}
+                    onChange={this.onFilterSelect}
                   />
-                  {!input
-                    && (
-                    <button className="-search">
-                      <Icon name="icon-search" className="-small" />
-                    </button>
-                    )}
-
-                  {!!input
-                    && (
-                    <button
-                      className="-close"
-                      onClick={this.onResetInput}
-                    >
-                      <Icon name="icon-cross" className="-small" />
-                    </button>
-                    )}
                 </div>
-                <CheckboxGroup
-                  name={field}
-                  selected={selected || values}
-                  className={`${field}-checkbox-group`}
-                  options={this.getFilteredValues()}
-                  onChange={this.onFilterSelect}
-                />
+                <div className="footer">
+                  <ul>
+                    <li>
+                      <button className="c-button" onClick={this.onFilterSelectAll}>
+                        Select all
+                      </button>
+                    </li>
+                    <li>
+                      <button className="c-button" onClick={this.onFilterClear}>
+                        Clear
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <div className="footer">
-                <ul>
-                  <li>
-                    <button className="c-button" onClick={this.onFilterSelectAll}>
-                      Select all
-                    </button>
-                  </li>
-                  <li>
-                    <button className="c-button" onClick={this.onFilterClear}>
-                      Clear
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            )}
-        </TetherComponent>
+            );
+          }}
+        />
       </div>
     );
   }
