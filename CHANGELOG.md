@@ -5,19 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [2.20.5] - TBD
+## [2.20.5] - 2020-02-23
 ### Added
+- Coral and Air Quality topic links.[Contribution](https://github.com/resource-watch/resource-watch/commit/a83244ad31ae68369603592bc3f2c01ed3bab860)
 
 ### Changed
 - Removed "BETA" from Resource Watch logo. [#176843582](https://www.pivotaltracker.com/story/show/176843582)
 
 ### Fixed
+- data explore route in embed maps. [Contribution](https://github.com/resource-watch/resource-watch/commit/c5a7f5cb950c1495914d38ca6caef36dc80470af)
 - Explore: search not working first time. [#176263572](https://www.pivotaltracker.com/story/show/176263572)
 
 ### Removed
 - RW_FEATURE_FLAG_AREAS_V2 feature flag.
 
-## [2.20.4] - 2012-12-17
+## [2.20.4] - 2020-12-17
 ### Added
 - Explore: added spinner to area creation as it takes several seconds to finish.
 
