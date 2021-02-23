@@ -153,11 +153,11 @@
     "cypress": "cross-env cypress run",
     "test:frontend": "start-server-and-test 'yarn dev' 9000 'yarn cypress'",
     "test:backend": "mocha --reporter spec --timeout 60000 --exit",
-    "cover": "npm run cover:frontend && npm run cover:backend && npm run cover:report",
+    "test": "npm run test:frontend && npm run test:backend",
     "cover:frontend": "NODE_ENV=test nyc --silent --no-clean npm run test:frontend",
     "cover:backend": "nyc --silent --no-clean npm run test:backend ",
     "cover:report": "nyc report --reporter=lcov --reporter=text",
-    "cover:merge": "npm run cover:frontend && npm run cover:backend && nyc merge .nyc_output coverage.json",
+    "cover": "npm run cover:frontend && npm run cover:backend && npm run cover:report",
     "cy:open": "cross-env cypress open"
   },
   "engines": {
