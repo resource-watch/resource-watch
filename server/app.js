@@ -114,33 +114,47 @@ server.use('/', apiRoutes);
 // Initializing next app before express server
 async function init() {
   return new Promise((resolve, reject) => {
-    app.prepare().then(() => {
-      const handleUrl = (req, res) => {
-        const parsedUrl = parse(req.url, true);
-        return handle(req, res, parsedUrl);
-      };
+    if (process.env.SERVER_ONLY !== 'true') {
+      app.prepare().then(() => {
+        const handleUrl = (req, res) => {
+          const parsedUrl = parse(req.url, true);
+          return handle(req, res, parsedUrl);
+        };
 
-      // authenticated routes
-      server.get('/myrw', isAuthenticated, (req, res) => {
-        res.redirect('/myrw/widgets/my_widgets');
+        // authenticated routes
+        server.get('/myrw', isAuthenticated, (req, res) => {
+          res.redirect('/myrw/widgets/my_widgets');
+        });
+        server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
+        server.get('/myrw*?', isAuthenticated, handleUrl);
+        server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
+
+        server.use(handle);
+
+        const httpListener = server.listen(port, (err) => {
+          if (err) {
+            reject(err);
+          }
+          console.info(
+            `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV
+            || 'development'}]`,
+          );
+          resolve({ httpListener });
+        });
       });
-      server.get('/myrw-detail*?', isAuthenticated, handleUrl); // TODO: review these routes
-      server.get('/myrw*?', isAuthenticated, handleUrl);
-      server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
-
-      server.use(handle);
-
+    } else {
+      // If we want server mode only, we can skip next.prepare(), which does all
+      // the frontend stuff that's not needed for pure API testing.
       const httpListener = server.listen(port, (err) => {
         if (err) {
           reject(err);
         }
         console.info(
-          `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV
-          || 'development'}]`,
+          `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV || 'development'}]`,
         );
         resolve({ httpListener });
       });
-    });
+    }
   });
 }
 
