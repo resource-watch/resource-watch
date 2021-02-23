@@ -28,14 +28,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `three` dependency.
 - `json-loader` dependency.
 - `bcrypt` dependency.
-
-## [2.20.5] - 2021-02-03
+## [2.20.5] - 2020-02-23
 ### Added
+- Coral and Air Quality topic links.[Contribution](https://github.com/resource-watch/resource-watch/commit/a83244ad31ae68369603592bc3f2c01ed3bab860)
 
 ### Changed
 - Removed "BETA" from Resource Watch logo. [#176843582](https://www.pivotaltracker.com/story/show/176843582)
 
 ### Fixed
+- data explore route in embed maps. [Contribution](https://github.com/resource-watch/resource-watch/commit/c5a7f5cb950c1495914d38ca6caef36dc80470af)
 - Explore: search not working first time. [#176263572](https://www.pivotaltracker.com/story/show/176263572)
 
 ### Removed
