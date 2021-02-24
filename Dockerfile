@@ -48,7 +48,6 @@ COPY services ./services
 COPY utils ./utils
 
 # Copy single files
-
 COPY .babelrc .
 COPY .browserlistrc .
 COPY package.json .
@@ -60,7 +59,6 @@ COPY next.config.js .
 COPY next-sitemap.js .
 COPY postcss.config.js .
 COPY routes.js .
-COPY store.js .
 
 RUN yarn install --frozen-lockfile --production=false
 
