@@ -10,7 +10,7 @@
     "@mapbox/mapbox-gl-sync-move": "^0.3.0",
     "@math.gl/web-mercator": "^3.3.1",
     "@next/bundle-analyzer": "^10.0.7",
-    "@vizzuality/wysiwyg": "^3.0.0",
+    "@vizzuality/wysiwyg": "^3.1.0",
     "@widget-editor/renderer": "^2.6.1",
     "@widget-editor/rw-adapter": "^2.6.1",
     "@widget-editor/widget-editor": "^2.6.1",
