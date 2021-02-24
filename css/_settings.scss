@@ -6,12 +6,7 @@
 * in this case you should take a look '_foundation_settings' file.
 */
 
-// Bourbon settings
 @import 'foundation_settings';
-$output-bourbon-deprecation-warnings: false;
-@import "../node_modules/bourbon/app/assets/stylesheets/settings/px-to-em";
-@import "../node_modules/bourbon/app/assets/stylesheets/functions/strip-units";
-@import "../node_modules/bourbon/app/assets/stylesheets/functions/px-to-rem";
 
 // It should be removed
 @import "deprecated";
