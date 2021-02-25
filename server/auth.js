@@ -3,7 +3,9 @@ require('isomorphic-fetch');
 const passport = require('passport');
 const ControlTowerStrategy = require('passport-control-tower');
 const LocalStrategy = require('passport-local').Strategy;
+const MockStrategy = require('passport-mock-strategy');
 const queryString = require('query-string');
+const userPayload = require('../test/payload/user');
 
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
@@ -20,6 +22,9 @@ module.exports = (() => {
     controlTowerUrl: process.env.WRI_API_URL,
     callbackUrl: process.env.CALLBACK_URL,
     applications: process.env.APPLICATIONS || 'rw',
+  });
+  const mockStrategy = new MockStrategy({
+    user: userPayload,
   });
   const localStrategy = new LocalStrategy(
     { usernameField: 'email', passwordField: 'password', session: true },
@@ -53,6 +58,7 @@ module.exports = (() => {
   );
   passport.use(strategy);
   passport.use('local-signin', localStrategy);
+  passport.use('mock-signin', mockStrategy);
 
   return {
     initialize: (server) => {
@@ -124,5 +130,12 @@ module.exports = (() => {
           });
         }));
     },
+    mockSignIn: (req, res, done) => passport.authenticate('mock-signin',
+      (err, user) => req.login(user, {}, (loginError) => {
+        if (loginError) {
+          return res.status(401).json({ status: 'error', message: loginError });
+        }
+        return res.json(req.user);
+      }))(req, res, done),
   };
 })();

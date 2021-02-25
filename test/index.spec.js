@@ -61,10 +61,31 @@ describe('POST /local-sign-in', () => {
       response.body.should.have.property('message').and.equal('There was an issue with the login. Please, try again later.');
   });
 
-    afterEach(() => {
-      if (!nock.isDone()) {
-        throw new Error(`Not all nock interceptors were used: ${nock.pendingMocks()}`);
-      }
+  afterEach(() => {
+    if (!nock.isDone()) {
+      throw new Error(`Not all nock interceptors were used: ${nock.pendingMocks()}`);
+    }
+  });
+});
+
+describe('POST /mock-sign-in', () => {
+  before(async () => {
+    requester = await getTestServer();
+  });
+
+  it('Calling POST /mock-sign-in returns user data', async () => {
+    const response = await requester
+      .post('/mock-sign-in')
+      .send({ email: 'john@doe.com', password: '123456' })
+
+      response.status.should.equal(200);
+      response.body.should.deep.equal(userPayload);
+  });
+
+  afterEach(() => {
+    if (!nock.isDone()) {
+      throw new Error(`Not all nock interceptors were used: ${nock.pendingMocks()}`);
+    }
   });
 });
 
