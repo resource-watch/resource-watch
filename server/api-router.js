@@ -69,13 +69,9 @@ router.get('/logout', (req, res) => {
 });
 
 // local sign-in
-router.post('/local-sign-in', auth.signin);
+router.post('/local-sign-in', (process.env.NODE_ENV === 'TEST_FRONTEND' ? auth.mockSignIn : auth.signin));
 
 // updates user data
 router.post('/update-user', auth.updateUser);
-
-// mock sign-in
-// Used only for testing
-router.post('/mock-sign-in', auth.mockSignIn);
 
 module.exports = router;

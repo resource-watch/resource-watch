@@ -6,59 +6,77 @@ const userPayload = require('./payload/user');
 
 chai.should();
 
-// nock.disableNetConnect();
-// nock.enableNetConnect(process.env.HOST_IP);
+nock.disableNetConnect();
+nock.enableNetConnect(process.env.HOST_IP);
 
 let requester;
 
 describe('POST /local-sign-in', () => {
   before(async () => {
-    // nock.recorder.rec();
+    if (process.env.NODE_ENV !== 'TEST_BACKEND') {
+      throw Error(`Running the backend test suite with NODE_ENV ${process.env.NODE_ENV}. Please use NODE_ENV=TEST_BACKEND.`);
+    }
     requester = await getTestServer();
   });
 
   it('Calling POST /local-sign-in with valid credentials returns user data', async () => {
-    nock('https://api.resourcewatch.org:443', {"encodedQueryParams":true})
-      .post('/auth/login', {"email":"john@doe.com","password":"123456"})
-      .query({"applications":"rw","callbackUrl":"http://localhost:9000/auth","origin":"rw","token":"true"})
+    nock(process.env.WRI_API_URL)
+      .post(
+        '/auth/login',
+        { "email": "john@doe.com", "password": "123456" }
+      )
+      .query({ "applications": "rw", "callbackUrl": process.env.CALLBACK_URL, "origin": "rw", "token": "true" }
+      )
       .reply(200, { "data": userPayload });
 
     const response = await requester
       .post('/local-sign-in')
       .send({ email: 'john@doe.com', password: '123456' });
 
-      response.body.should.deep.equal(userPayload);
-      response.status.should.equal(200);
+    response.body.should.deep.equal(userPayload);
+    response.status.should.equal(200);
   });
 
-  it('Calling POST /local-sign-in with wrong wrong credentials returns invalid login', async () => {
+  it('Calling POST /local-sign-in with wrong credentials returns invalid login', async () => {
+    nock(process.env.WRI_API_URL)
+      .post('/auth/login', { "email": "john@doe.com", "password": "123456" })
+      .query({
+        "applications": "rw",
+        "callbackUrl": process.env.CALLBACK_URL,
+        "origin": "rw",
+        "token": "true"
+      })
+      .reply(401, { "errors": [{ "status": 401, "detail": "Invalid email or password" }] });
+
     const response = await requester
       .post('/local-sign-in')
       .send({ email: 'john@doe.com', password: '123456' });
 
-      response.body.should.deep.equal({
-        status: 'error',
-        statusCode: 401,
-        message: 'Invalid Login',
-      });
-      response.status.should.equal(401);
+    response.body.should.deep.equal({
+      status: 'error',
+      statusCode: 401,
+      message: 'Invalid Login',
+    });
+    response.status.should.equal(401);
   });
 
   it('Calling POST /local-sign-in with credentials returns error', async () => {
-    nock('https://api.resourcewatch.org:443', {"encodedQueryParams":true})
-      .post('/auth/login', {"email":"john@doe.com","password":"123456"})
-      .query({"applications":"rw","callbackUrl":"http://localhost:9000/auth","origin":"rw","token":"true"})
+    nock(process.env.WRI_API_URL)
+      .post('/auth/login', { "email": "john@doe.com", "password": "123456" })
+      .query({ "applications": "rw", "callbackUrl": process.env.CALLBACK_URL, "origin": "rw", "token": "true" })
       .reply(500, {
         errors: [{
+          status: 500,
           detail: "Database unavailable",
         }]
       });
+
     const response = await requester
       .post('/local-sign-in')
       .send({ email: 'john@doe.com', password: '123456' })
 
-      response.status.should.equal(500);
-      response.body.should.have.property('message').and.equal('There was an issue with the login. Please, try again later.');
+    response.status.should.equal(500);
+    response.body.should.have.property('message').and.equal('There was an issue with the login. Please, try again later.');
   });
 
   afterEach(() => {
@@ -68,24 +86,18 @@ describe('POST /local-sign-in', () => {
   });
 });
 
-describe('POST /mock-sign-in', () => {
+describe('POST /local-sign-in', () => {
   before(async () => {
     requester = await getTestServer();
   });
 
-  it('Calling POST /mock-sign-in returns user data', async () => {
+  it.skip('Calling POST /local-sign-in returns user data', async () => {
     const response = await requester
-      .post('/mock-sign-in')
+      .post('/local-sign-in')
       .send({ email: 'john@doe.com', password: '123456' })
 
       response.status.should.equal(200);
       response.body.should.deep.equal(userPayload);
-  });
-
-  afterEach(() => {
-    if (!nock.isDone()) {
-      throw new Error(`Not all nock interceptors were used: ${nock.pendingMocks()}`);
-    }
   });
 });
 
