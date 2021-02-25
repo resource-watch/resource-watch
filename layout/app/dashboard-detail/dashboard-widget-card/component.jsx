@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -53,9 +52,6 @@ function DashboardWidgetCard(props) {
   const widgetIsEmbed = widgetConfig && widgetConfig.type === 'embed';
   const widgetIsRanking = widgetConfig && widgetConfig.type === 'ranking';
   const widgetEmbedUrl = widgetIsEmbed && widgetConfig.url;
-  const isMapWidget = widgetType === 'widget'
-    && widgetConfig && widgetConfig.paramsConfig
-    && widgetConfig.paramsConfig.visualizationType === 'map';
   const starIconName = classnames({
     'icon-star-full': isInACollection,
     'icon-star-empty': !isInACollection,
@@ -121,7 +117,7 @@ function DashboardWidgetCard(props) {
                         resource={widget}
                         resourceType="widget"
                       />
-)}
+                    )}
                     overlayClassName="c-rc-tooltip"
                     overlayStyle={{ color: '#fff' }}
                     placement="bottomLeft"
@@ -154,20 +150,16 @@ function DashboardWidgetCard(props) {
       <ErrorBoundary message="There was an error loading the visualization">
         <div className={classNameWidgetContainer}>
           <Spinner isLoading={loading} className="-light -small" />
-          {widgetType === 'text' && widget
-            && (
+          {widgetType === 'text' && widget && (
             <TextChart
               widgetConfig={widgetConfig}
-              toggleLoading={(loading) => onToggleLoading(loading)}
             />
-            )}
+          )}
 
           {widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking && (
             <Renderer
               adapter={RWAdapter}
               widgetConfig={widgetConfig}
-              {...(isMapWidget && { changeBbox: widgetConfig.bbox })}
-              {...(isMapWidget && { interactionEnabled: true })}
             />
           )}
 
@@ -237,8 +229,23 @@ DashboardWidgetCard.defaultProps = {
 };
 
 DashboardWidgetCard.propTypes = {
-  user: PropTypes.object.isRequired,
-  widget: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    token: PropTypes.string,
+  }).isRequired,
+  widget: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    description: PropTypes.string,
+    type: PropTypes.string,
+    widgetConfig: PropTypes.shape({}).isRequired,
+    metadata: PropTypes.arrayOf(
+      PropTypes.shape({
+        info: PropTypes.shape({
+          caption: PropTypes.string,
+        }),
+      }),
+    ),
+  }).isRequired,
   loading: PropTypes.bool,
   explicitHeight: PropTypes.number,
   RWAdapter: PropTypes.func.isRequired,
