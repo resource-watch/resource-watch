@@ -58,6 +58,7 @@
     "passport": "0.3.2",
     "passport-control-tower": "0.1.8",
     "passport-local": "^1.0.0",
+    "passport-mock-strategy": "^2.0.0",
     "pino": "^5.11.3",
     "pluralize": "5.0.0",
     "postcss-easy-import": "2.0.0",
