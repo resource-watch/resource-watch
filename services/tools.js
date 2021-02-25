@@ -7,7 +7,7 @@ import { logger } from 'utils/logs';
 /**
  * Fetch tools
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#fetch-tools|here}
- * @param {Object} params Request paremeters.
+ * @param {Object} params Request parameters.
  * @param {Object} headers Request headers.
  */
 export const fetchTools = (params = {}, headers = {}) => {
