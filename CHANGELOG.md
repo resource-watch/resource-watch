@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Removed
+- user token from tools endpoint.
 - `moveto` dependency.
 - `moment-range` dependency.
 - `three` dependency.

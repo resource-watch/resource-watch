@@ -10,14 +10,13 @@ import { logger } from 'utils/logs';
  * @param {Object} params Request paremeters.
  * @param {Object} headers Request headers.
  */
-export const fetchTools = (token, params = {}, headers = {}) => {
+export const fetchTools = (params = {}, headers = {}) => {
   logger.info('Fetch tools');
   return WRIAPI.get(
     '/v1/tool',
     {
       headers: {
         ...headers,
-        Authorization: token,
       },
       params: {
         published: 'all',
