@@ -5,12 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.0.5] - X
+## [3.0.6] - X
 ### Added
 - added tests to verify pages are loaded successfully in `get-involved`, `about`, `data` pages.
 - added new service and entrypoint to launch Docker.
 
 ### Changed
+- `widget-editor@2.6.1`
 - replaced `webpack-bundle-analyzer` dependency with `@next/bundle-analyzer`.
 - replaced redundant environment variables that pointed to the RW API URL with a single one.
 - replaced staging API URL: `staging-api.globalforestwatch.org` to `staging-api.resourcewatch.org`
