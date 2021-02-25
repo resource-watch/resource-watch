@@ -74,4 +74,8 @@ router.post('/local-sign-in', auth.signin);
 // updates user data
 router.post('/update-user', auth.updateUser);
 
+// mock sign-in
+// Used only for testing
+router.post('/mock-sign-in', auth.mockSignIn);
+
 module.exports = router;
