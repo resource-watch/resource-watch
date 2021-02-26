@@ -17,9 +17,20 @@
   ],
   "overrides": [
     {
+      "files": ["test/**/*"],
+      "parser": "espree",
+      "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+      },
+      "plugins": [
+        "mocha"
+      ]
+    },
+    {
       "files": [
         "**/*.js",
-        "**/*.js"
+        "**/*.jsx"
       ]
     }
   ],
@@ -43,10 +54,12 @@
   "plugins": [
     "@babel",
     "react-hooks",
-    "cypress"
+    "cypress",
+    "mocha"
   ],
   "settings": {
     "import/resolver": {
+      "node": {},  // need to add this
       "babel-module": {}
     }
   }
