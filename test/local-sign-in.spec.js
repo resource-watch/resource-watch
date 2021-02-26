@@ -14,7 +14,7 @@ let requester;
 describe('POST /local-sign-in', () => {
   before(async function () {
     if (
-      process.env.NODE_ENV !== 'TEST_BACKEND'
+      process.env.NODE_ENV === 'TEST_FRONTEND'
     ) {
       this.skip();
     }
