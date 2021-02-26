@@ -13,6 +13,7 @@ Native execution requires the following:
 - [Nodejs v14](https://nodejs.org/en/) 
 - [yarn](https://yarnpkg.com/)
 - [RW API](https://api.resourcewatch.org/)
+- [Redis](https://redis.io/)
 
 There are included [Dockerfile](https://docs.docker.com/engine/reference/builder/) and [docker compose](https://docs.docker.com/compose/) configuration files that may make it easier to run the application locally.
 
@@ -207,6 +208,13 @@ Merging to `develop` branch will deploy [RW Staging](https://staging.resourcewat
 To deploy [Resource Watch (production)](http://resourcewatch.org) you will need to access to Jenkins and deploy manually the `master` branch.
 
 # Testing
+
+This repository contains both the frontend application for the Resource Watch website, as well as a small API to handle specific actions needed by the frontend application (authentication, server side validation, etc).
+
+As such, testing is architectured in two parts (although some convenience commands exist to run both test suits simultaneously)
+
+## Frontend testing
+
 Resource Watch uses [Cypress](https://www.cypress.io/) to handle e2e tests. Tests are available in `cypress/integrations` folder.
 
 There are two ways to run tests locally:
@@ -218,9 +226,15 @@ In both cases, do not forget to run your server locally before and be sure the `
 
 You can find more info about Cypress and its API in [their docs](https://docs.cypress.io/guides/overview/why-cypress.html).
 
-## Testing with Docker
+Part of the frontend application relies on data provided by the backend API, which is only served if the user is authenticated. To support mocking user authentication across both applications, the frontend test suite relies on [authentication mocking](https://www.npmjs.com/package/passport-mock-strategy) which is only enabled if the `NODE_ENV` environment variable has the `TEST_FRONTEND` value. As such, be sure to use this value when starting the test server that will be used for the frontend testing.
 
-TO-DO
+## Backend testing
+
+The backend API is tested using [Mocha](https://mochajs.org/).
+
+Unlike frontend tests, backend tests do not depend on the application being available as a separate process - the test suite will programmatically start the application server. However, as the application server handles both the backend API and the frontend asset serving (and its preprocessing), it can take some time for it to finish its startup process. As such, it's convenient (but not required) that you set `SERVER_ONLY=true` when running backend tests, so that the underlying application server skips the lengthy frontend asset preprocessing process.
+
+As mentioned in the [Frontend testing section](#frontend-testing), some frontend tests rely on a special mocked authentication mechanism, instead of the "real" one. While not exhaustively, the API tests do cover the mocked authentication mechanism. You can run these tests by running the backend test suite with `NODE_ENV=TEST_FRONTEND`
 
 # Documentation 📝
 Every change in the app must be documented in the `./CHANGELOG.md` file according to [keep a changelog](https://keepachangelog.com/en/1.0.0/) specs.
