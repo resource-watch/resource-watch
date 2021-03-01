@@ -16,7 +16,6 @@ import compact from 'lodash/compact';
 import Layout from 'layout/layout/layout-app';
 import Tabs from 'components/ui/Tabs';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
-import Spinner from 'components/ui/Spinner';
 import Title from 'components/ui/Title';
 import Icon from 'components/ui/icon';
 import DashboardDetail from 'components/dashboards/detail';
@@ -35,14 +34,8 @@ import { fetchCountryPowerExplorerConfig } from 'services/config';
 import { ENERGY_TABS } from './constants';
 
 const LayoutDashboardDetail = ({
-  dashboardState,
+  dashboard,
 }) => {
-  const {
-    data: dashboard,
-    isSuccess,
-    isFetching,
-    isFetchedAfterMount,
-  } = dashboardState;
   const {
     name,
     summary,
@@ -162,11 +155,10 @@ const LayoutDashboardDetail = ({
                   },
                 ]}
                 />
-                <h1>
-                  {(!isFetchedAfterMount && isFetching) && 'Loading...'}
-                  {(isFetchedAfterMount && isSuccess) && name}
-                </h1>
-                {(isFetchedAfterMount && isSuccess && headerText) && (<h3>{headerText}</h3>)}
+                <h1>{name}</h1>
+                {headerText && (
+                  <h3>{headerText}</h3>
+                )}
                 <div className="page-header-info">
                   <ul>
                     <li>
@@ -216,20 +208,9 @@ const LayoutDashboardDetail = ({
         </div>
       </header>
 
-      {!isFetchedAfterMount && (
-        <div className="l-section">
-          <div className="l-container">
-            <Spinner
-              className="-center -transparent"
-              isLoading
-            />
-          </div>
-        </div>
-      )}
+      {(isEnergyDashboard && tab === 'country') && (<EnergyCountryExplorer />)}
 
-      {((isFetchedAfterMount && isSuccess) && isEnergyDashboard && tab === 'country') && (<EnergyCountryExplorer />)}
-
-      {((isFetchedAfterMount && isSuccess) && (!isEnergyDashboard || (isEnergyDashboard && tab !== 'country'))) && (
+      {((!isEnergyDashboard || (isEnergyDashboard && tab !== 'country'))) && (
         <div className="l-section">
           <div className="l-container">
             <div className="row">
@@ -246,7 +227,7 @@ const LayoutDashboardDetail = ({
         </div>
       )}
 
-      {(isFetchedAfterMount && datasets.length > 0) && (
+      {(datasets.length > 0) && (
         <div className="l-section">
           <div className="l-container">
             <div className="row">
@@ -268,10 +249,12 @@ const LayoutDashboardDetail = ({
 };
 
 LayoutDashboardDetail.propTypes = {
-  dashboardState: PropTypes.shape({
-    data: PropTypes.shape({}).isRequired,
-    isFetchedAfterMount: PropTypes.bool.isRequired,
-    isSuccess: PropTypes.bool.isRequired,
+  dashboard: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    summary: PropTypes.string,
+    description: PropTypes.string,
+    slug: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
   }).isRequired,
 };
 

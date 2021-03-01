@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - renamed some internal folders called `pages` to `tabs` as they were giving some issues with the new Node version.
 
 ### Fixed
+- fixed issue with Twitter card attributes in dashboards. [#177007206](https://www.pivotaltracker.com/story/show/177007206)
 
 ### Removed
 - user token from tools endpoint.
