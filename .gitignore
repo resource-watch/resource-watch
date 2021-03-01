@@ -26,5 +26,6 @@ static/images/widget-editor
 # Ignore environment variables
 .env
 
-# Don't upload npm lock file
-package-lock.json
+.nyc_output
+coverage
+coverage.json

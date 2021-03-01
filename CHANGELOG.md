@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.20.6] - X
+
+### Fixed
+- fixed issue with Twitter card attributes in dashboards. [#177007206](https://www.pivotaltracker.com/story/show/177007206)
+
 ## [2.20.5] - 2020-02-23
 ### Added
 - Coral and Air Quality topic links.[Contribution](https://github.com/resource-watch/resource-watch/commit/a83244ad31ae68369603592bc3f2c01ed3bab860)
