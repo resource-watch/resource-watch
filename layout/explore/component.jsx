@@ -27,12 +27,14 @@ import ExploreDiscover from 'layout/explore/explore-discover';
 import ExploreNearRealTime from 'layout/explore/explore-near-real-time';
 import ExploreFavorites from 'layout/explore/explore-favorites';
 
-// constants
-import { EXPLORE_SUBSECTIONS } from 'layout/explore/constants';
-
 // utils
 import { breakpoints } from 'utils/responsive';
-import { EXPLORE_SECTIONS } from './constants';
+
+// constants
+import {
+  EXPLORE_SECTIONS,
+  EXPLORE_SUBSECTIONS,
+} from './constants';
 
 function Explore(props) {
   const {
@@ -57,7 +59,7 @@ function Explore(props) {
 
   const getSidebarLayout = () => (
     <>
-      {!subsection && (
+      {(!subsection && !selected) && (
         <>
           <ExploreMenu />
           <div
@@ -98,7 +100,9 @@ function Explore(props) {
           onDatasetLoaded={(_dataset) => setDataset(_dataset)}
         />
       )}
-      {subsection === EXPLORE_SUBSECTIONS.NEW_AREA && (<ExploreAreasOfInterestNewArea />)}
+      {(!selected && subsection === EXPLORE_SUBSECTIONS.NEW_AREA) && (
+        <ExploreAreasOfInterestNewArea />
+      )}
     </>
   );
 
