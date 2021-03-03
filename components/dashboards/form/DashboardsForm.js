@@ -166,6 +166,7 @@ class DashboardsForm extends PureComponent {
         className="c-form"
         onSubmit={this.onSubmit}
         noValidate
+        data-cy="dashboard-form"
       >
         <Spinner
           isLoading={loading}
