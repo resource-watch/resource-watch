@@ -4,7 +4,7 @@ services:
     build: .
     command: test-backend
     environment:
-      WRI_API_URL: https://staging-api.resourcewatch.org
+      WRI_API_URL: https://api.resourcewatch.org
       PORT: 3001
       RW_NODE_ENV: test
       REDIS_URL: redis://redis:6379
@@ -33,7 +33,7 @@ services:
     build: .
     command: start
     environment:
-      WRI_API_URL: https://staging-api.resourcewatch.org
+      WRI_API_URL: https://api.resourcewatch.org
       PORT: 3000
       RW_NODE_ENV: test
       REDIS_URL: redis://redis:6379
