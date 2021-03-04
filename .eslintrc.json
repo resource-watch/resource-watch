@@ -44,10 +44,5 @@
     "@babel",
     "react-hooks",
     "cypress"
-  ],
-  "settings": {
-    "import/resolver": {
-      "babel-module": {}
-    }
-  }
+  ]
 }

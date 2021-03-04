@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import d3 from 'd3';
+import { format } from 'd3-format';
 import { Tooltip } from 'vizzuality-components';
 
 // Components
@@ -47,7 +47,7 @@ function IndicatorCard(props) {
           if (rows && rows.length > 0) {
             const resObj = rows[0];
             setQueryResult({
-              value: d3.format(indicator.format)(resObj.x).replace('G', 'B'),
+              value: format(indicator.format)(resObj.x).replace('G', 'B'),
               ranking: resObj.ranking,
               count: resObj.count,
               year: resObj.year,

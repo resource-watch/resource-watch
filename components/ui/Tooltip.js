@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TetherComponent from 'react-tether';
+import Tether from 'react-tether';
 import classnames from 'classnames';
 
 import { connect } from 'react-redux';
@@ -116,7 +116,7 @@ class Tooltip extends React.Component {
     });
 
     return (
-      <TetherComponent
+      <Tether
         ref={(node) => { this.tether = node; }}
         attachment={`${direction} center`}
         targetAttachment="top center"
@@ -132,18 +132,23 @@ class Tooltip extends React.Component {
         }]}
         classes={{ element: tooltipClasses }}
         offset={`${(direction === 'bottom' ? 1 : -1) * 20}px 0`} // The offset is needed for the follow option
-      >
-        <div
-          style={this.getStyles()}
-        />
-        { this.props.tooltip.opened
-          && (
-          <div ref={(node) => { this.el = node; }}>
-            {this.getContent()}
-            <div className="tip" style={{ left: `calc(50% + (${this.state.tipOffset}px))` }} />
-          </div>
-          )}
-      </TetherComponent>
+        renderTarget={(ref) => (
+          <div
+            ref={ref}
+            style={this.getStyles()}
+          />
+        )}
+        renderElement={(ref) => {
+          if (!this.props.tooltip.opened) return null;
+
+          return (
+            <div ref={ref}>
+              {this.getContent()}
+              <div className="tip" style={{ left: `calc(50% + (${this.state.tipOffset}px))` }} />
+            </div>
+          );
+        }}
+      />
     );
   }
 }

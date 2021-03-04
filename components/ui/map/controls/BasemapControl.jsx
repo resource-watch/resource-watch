@@ -1,26 +1,23 @@
-import React, { PureComponent } from 'react';
+// TO-DO: deprecated. Replaced by components/map/controls/basemap
+import React from 'react';
 import PropTypes from 'prop-types';
 
-// components
-import TetherComponent from 'react-tether';
+import { BASEMAPS, LABELS } from 'components/map/constants';
+
+// Components
+import Tether from 'react-tether';
 import Icon from 'components/ui/icon';
 import RadioGroup from 'components/form/RadioGroup';
 import Checkbox from 'components/form/Checkbox';
 
-// constants
-import { BASEMAPS, LABELS } from 'components/map/constants';
-
-// Utils
-import { logEvent } from 'utils/analytics';
-
-// styles
-import './styles.scss';
-
-class BasemapControls extends PureComponent {
+class BasemapControl extends React.Component {
   static propTypes = {
+    // STORE
     basemap: PropTypes.object,
     labels: PropTypes.object,
     boundaries: PropTypes.bool,
+
+    // ACTIONS
     onChangeBasemap: PropTypes.func,
     onChangeLabels: PropTypes.func,
     onChangeBoundaries: PropTypes.func,
@@ -38,7 +35,9 @@ class BasemapControls extends PureComponent {
     onChangeBoundaries: (b) => { console.info(b); },
   };
 
-  state = { active: false }
+  state = {
+    active: false,
+  }
 
   componentWillUnmount() {
     document.removeEventListener('click', this.onScreenClick);
@@ -54,7 +53,6 @@ class BasemapControls extends PureComponent {
   }
 
   onBasemapChange = (basemap) => {
-    logEvent('Explore Map', 'change basemap', basemap);
     this.props.onChangeBasemap(BASEMAPS[basemap]);
   }
 
@@ -87,17 +85,20 @@ class BasemapControls extends PureComponent {
     const { active } = this.state;
 
     return (
-      <div className="c-basemap-control">
-        <TetherComponent
-          attachment="top right"
-          constraints={[{ to: 'window' }]}
-          targetOffset="8px 100%"
-          classes={{ element: 'c-tooltip -arrow-right' }}
-        >
-          {/* First child: This is what the item will be tethered to */}
+      <Tether
+        attachment="top right"
+        constraints={[{
+          to: 'window',
+        }]}
+        targetOffset="8px 100%"
+        classes={{
+          element: 'c-tooltip -arrow-right',
+        }}
+        renderTarget={(ref) => (
           <button
+            ref={ref}
             type="button"
-            className="basemap-control--btn"
+            className="basemap-button"
             onClick={() => this.toggleDropdown(true)}
           >
             <Icon
@@ -105,11 +106,12 @@ class BasemapControls extends PureComponent {
               className="-small"
             />
           </button>
+        )}
+        renderElement={(ref) => {
+          if (!active) return null;
 
-          {/* Second child: If present, this item will be tethered to the the first child */}
-          {active
-            && (
-            <div>
+          return (
+            <div ref={ref}>
               <RadioGroup
                 options={Object.keys(BASEMAPS).map((k) => {
                   const bs = BASEMAPS[k];
@@ -119,7 +121,9 @@ class BasemapControls extends PureComponent {
                   };
                 })}
                 name="basemap"
-                properties={{ default: basemap.id }}
+                properties={{
+                  default: basemap.id,
+                }}
                 onChange={this.onBasemapChange}
               />
 
@@ -131,7 +135,9 @@ class BasemapControls extends PureComponent {
                   value: LABELS[k].id,
                 }))}
                 name="labels"
-                properties={{ default: labels.id }}
+                properties={{
+                  default: labels.id,
+                }}
                 onChange={this.onLabelsChange}
               />
 
@@ -147,11 +153,11 @@ class BasemapControls extends PureComponent {
                 onChange={this.onBoundariesChange}
               />
             </div>
-            )}
-        </TetherComponent>
-      </div>
+          );
+        }}
+      />
     );
   }
 }
 
-export default BasemapControls;
+export default BasemapControl;

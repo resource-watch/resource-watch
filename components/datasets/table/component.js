@@ -164,7 +164,7 @@ class DatasetsTable extends PureComponent {
             { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
             { label: 'Applications', value: 'application', td: ApplicationsTD },
             {
-              label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: 'admin_data_detail' },
+              label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: '/admin/data' },
             },
           ]}
           actions={{
