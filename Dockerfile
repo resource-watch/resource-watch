@@ -59,6 +59,7 @@ COPY next.config.js .
 COPY next-sitemap.js .
 COPY postcss.config.js .
 COPY routes.js .
+COPY jsconfig.json .
 
 RUN yarn install --frozen-lockfile --production=false
 
