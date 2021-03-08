@@ -2,13 +2,11 @@ FROM node:14.15-alpine
 LABEL maintainer="hello@vizzuality.com"
 
 ARG apiEnv=production
-ARG NODE_ENV=production
 ARG wriApiUrl=https://api.resourcewatch.org
 ARG callbackUrl=https://resourcewatch.org/auth
 ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 ARG RW_MAPBOX_API_TOKEN=not_valid
 
-ENV NODE_ENV $NODE_ENV
 ENV WRI_API_URL $wriApiUrl
 ENV CALLBACK_URL $callbackUrl
 ENV STATIC_SERVER_URL=

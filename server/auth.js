@@ -3,7 +3,7 @@ require('isomorphic-fetch');
 const passport = require('passport');
 const ControlTowerStrategy = require('passport-control-tower');
 const LocalStrategy = require('passport-local').Strategy;
-const MockStrategy = (process.env.NODE_ENV === 'TEST_FRONTEND' ? require('passport-mock-strategy') : null);
+const MockStrategy = (process.env.APP_ENV === 'TEST_FRONTEND' ? require('passport-mock-strategy') : null);
 const queryString = require('query-string');
 const userPayload = require('../test/payload/user');
 // Passport session setup.
@@ -56,7 +56,7 @@ module.exports = (() => {
   passport.use(strategy);
   passport.use('local-signin', localStrategy);
 
-  if (process.env.NODE_ENV === 'TEST_FRONTEND') {
+  if (process.env.APP_ENV === 'TEST_FRONTEND') {
     passport.use('mock-signin', new MockStrategy({
       user: userPayload,
     }));
@@ -70,7 +70,7 @@ module.exports = (() => {
     authenticate: (authOptions) => passport.authenticate('control-tower', authOptions),
     login: (req, res) => strategy.login(req, res),
     // local sign-in
-    signin: (req, res, done) => passport.authenticate((process.env.NODE_ENV === 'TEST_FRONTEND' ? 'mock-signin' : 'local-signin'),
+    signin: (req, res, done) => passport.authenticate((process.env.APP_ENV === 'TEST_FRONTEND' ? 'mock-signin' : 'local-signin'),
       (err, user) => {
         if (err && err.errors && err.errors[0] && err.errors[0]) {
           const {

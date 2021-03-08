@@ -37,7 +37,7 @@ services:
       PORT: 3000
       RW_NODE_ENV: test
       REDIS_URL: redis://redis:6379
-      NODE_ENV: test
+      APP_ENV: test
       SECRET: keyboard cat
       STATIC_SERVER_URL:
       API_ENV: production,preproduction
