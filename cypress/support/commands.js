@@ -1,5 +1,3 @@
-import { setUser } from '../../redactions/user';
-
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -22,7 +20,7 @@ Cypress.Commands.add("login", (callbackURL) => {
   })
   .then((response) => {
     if (response.status === 200) {
-      cy.window().its('store').invoke('dispatch', setUser(response.body))
+      cy.window().its('store').invoke('dispatch',{ type: 'user/setUser', payload: response.body });
       if (callbackURL) cy.visit(callbackURL);
     }
   });

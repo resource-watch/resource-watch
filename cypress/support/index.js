@@ -13,7 +13,7 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 
-// import '@cypress/code-coverage/support'
+import '@cypress/code-coverage/support';
 
 // helper to test file upload
 import 'cypress-file-upload';
