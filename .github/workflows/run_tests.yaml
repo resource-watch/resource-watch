@@ -23,11 +23,12 @@ jobs:
         node: [ '14.15', '14', '15' ]
 
     env:
-      WRI_API_URL: https://staging-api.resourcewatch.org
+      WRI_API_URL: https://api.resourcewatch.org
       PORT: 9000
       RW_NODE_ENV: development
       REDIS_URL: redis://localhost:6379
       NODE_ENV: test
+      APP_ENV: TEST_FRONTEND
       SECRET: keyboard cat
       STATIC_SERVER_URL:
       API_ENV: production,preproduction

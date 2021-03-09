@@ -149,11 +149,11 @@
     "sitemap": "cross-env node next-sitemap.js",
     "cypress": "cross-env cypress run",
     "cy:open": "cross-env cypress open",
-    "test:frontend": "APP_ENV=TEST_FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn dev' 9000 'yarn cypress'",
+    "test:frontend": "cross-env APP_ENV=TEST_FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn dev' 9000 'yarn cypress'",
     "test:backend:mock": "APP_ENV=TEST_FRONTEND SERVER_ONLY=true mocha --reporter spec --timeout 60000 --exit",
     "test:backend": "APP_ENV=TEST_BACKEND SERVER_ONLY=true mocha --reporter spec --timeout 60000 --exit",
     "test": "npm run test:frontend && npm run test:backend",
-    "cover:frontend": "APP_ENV=test nyc --silent --no-clean npm run test:frontend",
+    "cover:frontend": "nyc --silent --no-clean npm run test:frontend",
     "cover:backend": "nyc --silent --no-clean npm run test:backend",
     "cover:report": "nyc report --reporter=lcov --reporter=text",
     "cover": "npm run cover:frontend && npm run cover:backend && npm run cover:report"
