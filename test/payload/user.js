@@ -11,5 +11,5 @@ module.exports = {
   extraUserData: {
     apps: ['rw', 'gfw', 'prep', 'aqueduct', 'gfw-climate', 'earthhq'],
   },
-  token: 'valid_token',
+  token: 'fake_token',
 };
