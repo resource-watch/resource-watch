@@ -22,6 +22,7 @@
   },
   "ignore": [
     "cypress",
+    "test",
     ".next",
     "node_modules"
   ],

@@ -166,7 +166,8 @@ export const getUserAreas = createThunkAction(
         } else {
           dispatch(setUserAreas(userAreas));
         }
-      }));
+      }))
+      .catch(() => {});
   },
 );
 

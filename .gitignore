@@ -21,7 +21,9 @@
 # cypress
 /cypress/screenshots
 /cypress/videos
+cypress.env.json
 
+# coverage
 .nyc_output
 coverage
 coverage.json

@@ -89,6 +89,11 @@ class RWApp extends App {
       store,
     } = this.props;
 
+    // expose store when run in Cypress
+    if (typeof window !== 'undefined' && window.Cypress) {
+      window.store = store;
+    }
+
     return (
       <Provider store={store}>
         <Component {...pageProps} />
