@@ -72,6 +72,7 @@ services:
       - ./coverage:/e2e/coverage
     environment:
       - CYPRESS_baseUrl=http://frontend-test-server:3000
+      - WRI_API_URL=https://api.resourcewatch.org
     command: "--headless --browser=firefox"
     depends_on:
       - frontend-test-server
