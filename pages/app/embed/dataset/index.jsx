@@ -7,12 +7,12 @@ import { setEmbed } from 'redactions/common';
 import LayoutEmbedDataset from 'layout/embed/dataset';
 
 class EmbedDatasetPage extends PureComponent {
-  static async getInitialProps({ store, isServer, req }) {
+  static async getInitialProps({ store }) {
     const { dispatch } = store;
 
     dispatch(setEmbed(true));
 
-    return { referer: isServer ? req.headers.referer : window.location.href };
+    return ({});
   }
 
   render() {

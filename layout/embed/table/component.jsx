@@ -10,22 +10,16 @@ import Spinner from 'components/ui/Spinner';
 import { isLoadedExternally } from 'utils/embed';
 
 class LayoutEmbedTable extends PureComponent {
-  static propTypes = {
-    isLoading: PropTypes.bool,
-    referer: PropTypes.string,
-    routes: PropTypes.object.isRequired,
-  };
+  constructor(props) {
+    super(props);
 
-  static defaultProps = {
-    isLoading: true,
-    referer: '',
-  };
+    this.state = {
+      isLoading: props.isLoading,
+      tableData: [],
+    };
+  }
 
-  state = {
-    isLoading: this.props.isLoading,
-    tableData: [],
-  };
-
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     const { routes: { query: { queryURL } } } = this.props;
 
@@ -41,19 +35,18 @@ class LayoutEmbedTable extends PureComponent {
           tableData: response.data,
         });
       })
-      .catch((error) => { console.error(error); })
+      .catch(() => {})
       .then(() => { this.setState({ isLoading: false }); });
   }
 
   render() {
-    const { referer } = this.props;
     const {
       isLoading,
       tableData,
     } = this.state;
 
     const header = tableData && tableData.length > 0 && Object.keys(tableData[0]);
-    const isExternal = isLoadedExternally(referer);
+    const isExternal = isLoadedExternally();
 
     if (isEmpty(tableData)) {
       return (
@@ -89,6 +82,7 @@ class LayoutEmbedTable extends PureComponent {
                   <tbody>
                     {(tableData || []).map((row, i) => (
                       <tr
+                        // eslint-disable-next-line react/no-array-index-key
                         key={`row${i}`}
                       >
                         {Object.keys(row).map((column) => (<td key={`td${column}`}>{row[column]}</td>))}
@@ -114,5 +108,18 @@ class LayoutEmbedTable extends PureComponent {
     );
   }
 }
+
+LayoutEmbedTable.defaultProps = {
+  isLoading: true,
+};
+
+LayoutEmbedTable.propTypes = {
+  isLoading: PropTypes.bool,
+  routes: PropTypes.shape({
+    query: PropTypes.shape({
+      queryURL: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
 export default LayoutEmbedTable;

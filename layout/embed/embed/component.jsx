@@ -10,26 +10,13 @@ import Icon from 'components/ui/icon';
 import { isLoadedExternally } from 'utils/embed';
 
 class LayoutEmbedEmbed extends PureComponent {
-  static propTypes = {
-    widget: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired,
-    error: PropTypes.string,
-    favourited: PropTypes.bool.isRequired,
-    url: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    referer: PropTypes.string,
-    getWidget: PropTypes.func.isRequired,
-    checkIfFavorited: PropTypes.func.isRequired,
-    setIfFavorited: PropTypes.func.isRequired,
-  };
+  constructor(props) {
+    super(props);
 
-  static defaultProps = {
-    referer: '',
-    error: null,
+    this.state = { modalOpened: false };
   }
 
-  state = { modalOpened: false }
-
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     const {
       url,
@@ -68,11 +55,11 @@ class LayoutEmbedEmbed extends PureComponent {
       error,
       favourited,
       user,
-      referer,
+      setIfFavorited,
     } = this.props;
     const { modalOpened } = this.state;
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
-    const isExternal = isLoadedExternally(referer);
+    const isExternal = isLoadedExternally();
     const {
       name,
       description,
@@ -143,7 +130,7 @@ class LayoutEmbedEmbed extends PureComponent {
               {
                 user.id && (
                   <button
-                    onClick={() => this.props.setIfFavorited(id, !this.props.favourited)}
+                    onClick={() => { setIfFavorited(id, !favourited); }}
                   >
                     <Icon
                       name={`icon-${favouriteIcon}`}
@@ -194,5 +181,35 @@ class LayoutEmbedEmbed extends PureComponent {
     );
   }
 }
+
+LayoutEmbedEmbed.defaultProps = {
+  error: null,
+};
+
+LayoutEmbedEmbed.propTypes = {
+  widget: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    description: PropTypes.string,
+    dataset: PropTypes.string,
+    widgetConfig: PropTypes.shape({
+      url: PropTypes.string,
+    }),
+  }).isRequired,
+  loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  favourited: PropTypes.bool.isRequired,
+  url: PropTypes.shape({
+    query: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.string,
+  }).isRequired,
+  getWidget: PropTypes.func.isRequired,
+  checkIfFavorited: PropTypes.func.isRequired,
+  setIfFavorited: PropTypes.func.isRequired,
+};
 
 export default LayoutEmbedEmbed;

@@ -10,18 +10,13 @@ import Spinner from 'components/ui/Spinner';
 import { isLoadedExternally } from 'utils/embed';
 
 class LayoutEmbedText extends PureComponent {
-  static propTypes = {
-    widget: PropTypes.object.isRequired,
-    loading: PropTypes.bool.isRequired,
-    routes: PropTypes.object.isRequired,
-    referer: PropTypes.string,
-    getWidget: PropTypes.func.isRequired,
-  };
+  constructor(props) {
+    super(props);
 
-  static defaultProps = { referer: '' }
+    this.state = { isLoading: props.loading };
+  }
 
-  state = { isLoading: this.props.loading };
-
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
     const {
       getWidget,
@@ -36,9 +31,9 @@ class LayoutEmbedText extends PureComponent {
   }
 
   render() {
-    const { widget, referer, loading } = this.props;
+    const { widget, loading } = this.props;
     const { isLoading } = this.state;
-    const isExternal = isLoadedExternally(referer);
+    const isExternal = isLoadedExternally();
     const {
       name,
       description,
@@ -92,5 +87,20 @@ class LayoutEmbedText extends PureComponent {
     );
   }
 }
+
+LayoutEmbedText.propTypes = {
+  widget: PropTypes.shape({
+    name: PropTypes.string,
+    description: PropTypes.string,
+    widgetConfig: PropTypes.shape({}),
+  }).isRequired,
+  loading: PropTypes.bool.isRequired,
+  routes: PropTypes.shape({
+    query: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+  getWidget: PropTypes.func.isRequired,
+};
 
 export default LayoutEmbedText;
