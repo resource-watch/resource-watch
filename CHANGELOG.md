@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.20.6] - X
 
 ### Fixed
+- fixed issue where the "Powered By Resource Watch" logo in embeds didn't appear in external sites.
 - fixed issue with user areas overlapping with dataset detail view in Explore page.
 - fixed issue with Twitter card attributes in dashboards. [#177007206](https://www.pivotaltracker.com/story/show/177007206)
 

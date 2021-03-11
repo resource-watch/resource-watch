@@ -8,13 +8,12 @@ import { setEmbed, setWebshotMode } from 'redactions/common';
 import LayoutEmbedWidget from 'layout/embed/widget';
 
 class EmbedWidgetPage extends PureComponent {
-  static async getInitialProps({ store, isServer, req }) {
+  static async getInitialProps({ store }) {
     const { dispatch, getState } = store;
     const {
       routes: { query: { id, webshot } },
       user
     } = getState();
-    const referer = isServer ? req.headers.referer : window.location.href;
 
     dispatch(setEmbed(true));
     if (webshot) dispatch(setWebshotMode(true));
@@ -25,7 +24,7 @@ class EmbedWidgetPage extends PureComponent {
       if (user && user.id) dispatch(checkIfFavorited(id));
     }
 
-    return { referer };
+    return ({});
   }
 
   render() {

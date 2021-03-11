@@ -17,43 +17,45 @@ import { fetchDataset } from 'services/dataset';
 import { isLoadedExternally } from 'utils/embed';
 
 class LayoutEmbedDataset extends PureComponent {
-  static propTypes = {
-    routes: PropTypes.object.isRequired,
-    referer: PropTypes.string.isRequired,
-    RWAdapter: PropTypes.func.isRequired,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dataset: null,
+      loadingDataset: true,
+    };
   }
 
-  state = {
-    dataset: null,
-    loadingWidget: true,
-    loadingDataset: true
-  }
-
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillMount() {
-    fetchDataset(this.props.routes.query.id, { includes: 'widget, metadata' })
-      .then(data =>
-        this.setState({
-          dataset: data,
-          loadingDataset: false
-        }));
+    const {
+      routes: {
+        query: {
+          id,
+        },
+      },
+    } = this.props;
+    fetchDataset(id, { includes: 'widget, metadata' })
+      .then((data) => this.setState({
+        dataset: data,
+        loadingDataset: false,
+      }));
   }
-
-  triggerToggleLoading = () => { this.setState({ loadingWidget: false }); }
 
   render() {
-    const { referer, RWAdapter } = this.props;
-    const { dataset, loadingDataset, loadingWidget } = this.state;
-    const widgets = dataset && dataset.attributes.widget;
-    const metadataObj = dataset && dataset.attributes.metadata[0];
-    const datasetName = metadataObj && metadataObj.attributes.info ?
-      metadataObj.attributes.info.name : dataset && dataset.attributes.name;
-    const datasetDescription = metadataObj && metadataObj.attributes ?
-      metadataObj.attributes.description : dataset && dataset.attributes.description;
-    const isExternal = isLoadedExternally(referer);
+    const { RWAdapter } = this.props;
+    const { dataset, loadingDataset } = this.state;
+    const widgets = dataset && dataset.widget;
+    const metadataObj = dataset && dataset.metadata[0];
+    const datasetName = metadataObj && metadataObj.info
+      ? metadataObj.info.name : dataset && dataset.name;
+    const datasetDescription = metadataObj && metadataObj
+      ? metadataObj.description : dataset && dataset.description;
+    const isExternal = isLoadedExternally();
     let widget = null;
 
     if (widgets) {
-      widget = widgets.find(value => value.attributes.default === true);
+      widget = widgets.find((value) => value.default === true);
     }
 
     if (loadingDataset) {
@@ -88,7 +90,7 @@ class LayoutEmbedDataset extends PureComponent {
               </div>
             </ErrorBoundary>
           )}
-          <Spinner isLoading={loadingWidget} className="-light -relative" />
+          <Spinner isLoading={loadingDataset} className="-light -relative" />
           <div className="info">
             <div className="widget-title">
               <h2>
@@ -121,5 +123,14 @@ class LayoutEmbedDataset extends PureComponent {
     );
   }
 }
+
+LayoutEmbedDataset.propTypes = {
+  routes: PropTypes.shape({
+    query: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+  RWAdapter: PropTypes.func.isRequired,
+};
 
 export default LayoutEmbedDataset;
