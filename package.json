@@ -149,7 +149,7 @@
     "sitemap": "cross-env node next-sitemap.js",
     "cypress": "cross-env cypress run",
     "cy:open": "cross-env cypress open",
-    "test:frontend": "NODE_ENV=TEST_FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn dev' 9000 'yarn cypress'",
+    "test:frontend": "yarn build && NODE_ENV=TEST_FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn start' 9000 'yarn cypress'",
     "test:backend:mock": "NODE_ENV=TEST_FRONTEND SERVER_ONLY=true mocha --reporter spec --timeout 60000 --exit",
     "test:backend": "NODE_ENV=TEST_BACKEND SERVER_ONLY=true mocha --reporter spec --timeout 60000 --exit",
     "test": "npm run test:frontend && npm run test:backend",

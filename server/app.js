@@ -71,7 +71,7 @@ const sessionOptions = {
   saveUninitialized: true,
 };
 
-if (prod) {
+if (prod && process.env.REDIS_URL) {
   const redisClient = redis.createClient(process.env.REDIS_URL);
   sessionOptions.store = new RedisStore({
     client: redisClient,
