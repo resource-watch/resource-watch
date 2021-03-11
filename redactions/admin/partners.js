@@ -27,7 +27,7 @@ const initialState = {
  * @param {initialState} state
  * @param {{ type: string, payload: any }} action
  */
-export default function (state = initialState, action) {
+export default function Partners(state = initialState, action) {
   switch (action.type) {
     case GET_PARTNERS_LOADING: {
       const partners = {

@@ -39,7 +39,7 @@ const initialState = {
  * @param {initialState} state
  * @param {{ type: string, payload: any }} action
  */
-export default function (state = initialState, action) {
+export default function Dashboards(state = initialState, action) {
   switch (action.type) {
     case GET_DASHBOARDS_LOADING: {
       const dashboards = {

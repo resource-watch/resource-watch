@@ -32,7 +32,7 @@ const initialState = {
  * @param {initialState} state
  * @param {{ type: string, payload: any }} action
  */
-export default function (state = initialState, action) {
+export default function Faqs(state = initialState, action) {
   switch (action.type) {
     case GET_FAQS_LOADING: {
       const faqs = {
