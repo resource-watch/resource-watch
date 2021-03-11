@@ -3,7 +3,6 @@ import { Router } from 'routes';
 const SET_LOCALE = 'common/SET_LOCALE';
 const SET_EMBED = 'common/SET_EMBED';
 const SET_WEBSHOT = 'common/SET_WEBSHOT';
-const SET_IS_LOADED_EXTERNALY = 'common/SET_IS_LOADED_EXTERNALY';
 const SET_IS_SERVER = 'common/SET_IS_SERVER';
 const SET_HOSTNAME = 'common/SET_HOSTNAME';
 
@@ -11,12 +10,11 @@ const initialState = {
   locale: 'en',
   embed: false,
   webshot: false,
-  isLoadedExternally: false,
   isServer: true,
   hostname: 'http://www.resourcewatch.org',
 };
 
-export default function (state = initialState, action) {
+export default function commonReducer(state = initialState, action) {
   switch (action.type) {
     case SET_LOCALE:
       return { ...state, locale: action.payload };
@@ -26,9 +24,6 @@ export default function (state = initialState, action) {
 
     case SET_WEBSHOT:
       return { ...state, webshot: action.payload };
-
-    case SET_IS_LOADED_EXTERNALY:
-      return { ...state, isLoadedExternally: action.payload };
 
     case SET_IS_SERVER:
       return { ...state, isServer: action.payload };
@@ -83,17 +78,6 @@ export function setWebshotMode(webshot) {
   return {
     type: SET_WEBSHOT,
     payload: webshot,
-  };
-}
-
-/**
- * Set if we are on an embed or not
- * @param {boolean} embed Two-letter locale
- */
-export function setIsLoadedExternaly(isLoadedExternally) {
-  return {
-    type: SET_IS_LOADED_EXTERNALY,
-    payload: isLoadedExternally,
   };
 }
 

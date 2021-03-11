@@ -15,28 +15,13 @@ import { logEvent } from 'utils/analytics';
 import { isLoadedExternally } from 'utils/embed';
 
 class LayoutEmbedWidget extends PureComponent {
-  static propTypes = {
-    widget: PropTypes.object.isRequired,
-    bandDescription: PropTypes.string,
-    bandStats: PropTypes.object.isRequired,
-    error: PropTypes.string,
-    favourited: PropTypes.bool.isRequired,
-    user: PropTypes.object.isRequired,
-    webshot: PropTypes.bool.isRequired,
-    referer: PropTypes.string,
-    setIfFavorited: PropTypes.func.isRequired,
-    RWAdapter: PropTypes.func.isRequired,
-  };
+  constructor(props) {
+    super(props);
 
-  static defaultProps = {
-    bandDescription: null,
-    error: null,
-    referer: '',
-  }
-
-  state = {
-    modalOpened: false,
-    shareWidget: null,
+    this.state = {
+      modalOpened: false,
+      shareWidget: null,
+    };
   }
 
   getModal() {
@@ -123,16 +108,19 @@ class LayoutEmbedWidget extends PureComponent {
       favourited,
       user,
       webshot,
-      referer,
       RWAdapter,
+      setIfFavorited,
     } = this.props;
-    const { modalOpened } = this.state;
+    const {
+      modalOpened,
+      shareWidget,
+    } = this.state;
     const favouriteIcon = favourited ? 'star-full' : 'star-empty';
     const widgetAtts = widget && widget;
     const widgetLinks = (widgetAtts && widgetAtts.metadata && widgetAtts.metadata.length > 0
       && widgetAtts.metadata[0].info
       && widgetAtts.metadata[0].info.widgetLinks) || [];
-    const isExternal = isLoadedExternally(referer);
+    const isExternal = isLoadedExternally();
 
     if (error) {
       return (
@@ -204,7 +192,7 @@ class LayoutEmbedWidget extends PureComponent {
                   </button>
 
                   <Modal
-                    isOpen={this.state.shareWidget === widget}
+                    isOpen={shareWidget === widget}
                     className="-medium"
                     onRequestClose={() => this.handleToggleShareModal(null)}
                   >
@@ -225,7 +213,7 @@ class LayoutEmbedWidget extends PureComponent {
                 {user.id && (
                   <li>
                     <button
-                      onClick={() => this.props.setIfFavorited(widget.id, !this.props.favourited)}
+                      onClick={() => { setIfFavorited(widget.id, !favourited); }}
                     >
                       <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
                     </button>
@@ -276,5 +264,31 @@ class LayoutEmbedWidget extends PureComponent {
     );
   }
 }
+
+LayoutEmbedWidget.defaultProps = {
+  bandDescription: null,
+  error: null,
+};
+
+LayoutEmbedWidget.propTypes = {
+  widget: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    description: PropTypes.string,
+    thumbnailUrl: PropTypes.string,
+    dataset: PropTypes.string,
+    widgetConfig: PropTypes.shape({}),
+  }).isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.string,
+  }).isRequired,
+  bandDescription: PropTypes.string,
+  bandStats: PropTypes.shape({}).isRequired,
+  error: PropTypes.string,
+  favourited: PropTypes.bool.isRequired,
+  webshot: PropTypes.bool.isRequired,
+  setIfFavorited: PropTypes.func.isRequired,
+  RWAdapter: PropTypes.func.isRequired,
+};
 
 export default LayoutEmbedWidget;

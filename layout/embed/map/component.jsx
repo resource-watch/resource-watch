@@ -297,7 +297,7 @@ const LayoutEmbedMap = (props) => {
   } = mapState;
   const { pitch, bearing } = viewport;
   const favoriteIcon = isFavorite ? 'star-full' : 'star-empty';
-  const isExternal = typeof window !== 'undefined' ? isLoadedExternally(window?.location?.href) : false;
+  const isExternal = isLoadedExternally();
   const resetViewBtnClass = classnames({
     '-with-transition': true,
     '-visible': pitch !== 0 || bearing !== 0,
