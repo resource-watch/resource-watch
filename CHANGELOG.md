@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - added new service and entrypoint to launch Docker.
 
 ### Changed
+- `bitly@7.1.2`
 - run [name-default-component codemod](https://nextjs.org/docs/advanced-features/codemods#name-default-component).
 - `widget-editor@2.6.1`
 - replaced `webpack-bundle-analyzer` dependency with `@next/bundle-analyzer`.
