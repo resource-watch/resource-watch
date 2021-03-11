@@ -9,7 +9,7 @@ const initialState = {
   tmpSources: [],
 };
 
-export default function (state = initialState, action) {
+export default function Sources(state = initialState, action) {
   switch (action.type) {
     case SET_SOURCES:
       return { ...state, sources: action.payload };

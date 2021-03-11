@@ -26,7 +26,7 @@ const initialState = {
  * @param {initialState} state
  * @param {{ type: string, payload: any }} action
  */
-export default function (state = initialState, action) {
+export default function Tools(state = initialState, action) {
   switch (action.type) {
     case GET_TOOLS_LOADING: {
       const tools = {

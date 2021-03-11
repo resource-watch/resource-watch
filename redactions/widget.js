@@ -45,7 +45,7 @@ const initialState = {
 /**
  * REDUCER
  */
-export default function (state = initialState, action) {
+export default function Widget(state = initialState, action) {
   switch (action.type) {
     case SET_WIDGET_LOADING: {
       const widget = {
@@ -136,6 +136,7 @@ const getDataset = (datasetId) => (dispatch) => fetchDataset(datasetId, { includ
  * @param {string} bandName Name of the band
  */
 function fetchRasterBandInfo(datasetId, bandName) {
+  // eslint-disable-next-line no-async-promise-executor
   return (dispatch, getState) => new Promise(async (resolve) => {
     try {
       if (isEmpty(getState().widget.dataset)) {
@@ -165,7 +166,6 @@ function fetchRasterBandInfo(datasetId, bandName) {
       resolve();
     } catch (err) {
       // We can't use Toastr here because an embed doesn't display a notification
-      console.error(err);
 
       // Even if we failed to load some data, we still resolve because we can still
       // display the graph (only the additional info will be missing)

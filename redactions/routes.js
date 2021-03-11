@@ -5,7 +5,7 @@ const SET_ROUTER_PAGE = 'SET_ROUTER_PAGE';
 // REDUCER
 const initialState = {};
 
-export default function (state = initialState, action) {
+export default function Routes(state = initialState, action) {
   switch (action.type) {
     case SET_ROUTER:
       return { ...state, ...action.payload };
@@ -18,8 +18,16 @@ export default function (state = initialState, action) {
 
 // ACTIONS
 export function setRouter(router) {
-  if (router.query && router.query.page) router.query.page = parseInt(router.query.page, 10);
-  return { type: SET_ROUTER, payload: router };
+  return {
+    type: SET_ROUTER,
+    payload: {
+      ...router,
+      query: {
+        ...router.query,
+        ...router.query.page && { page: parseInt(router.query.page, 10) },
+      },
+    },
+  };
 }
 
 export function setPage(pageNumber = 1) {
