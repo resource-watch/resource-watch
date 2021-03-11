@@ -23,7 +23,7 @@ const initialState = {
   },
 };
 
-export default function (state = initialState, action) {
+export default function Tooltip(state = initialState, action) {
   switch (action.type) {
     case TOOLTIP_TOGGLE:
       return { ...state, opened: action.payload };

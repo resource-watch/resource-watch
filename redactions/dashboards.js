@@ -19,7 +19,7 @@ const initialState = {
   filters: [{ key: 'owner', value: USER_TYPES.ADMIN }], // Filters for the list of dashboards
 };
 
-export default function (state = initialState, action) {
+export default function Dashboards(state = initialState, action) {
   switch (action.type) {
     case GET_DASHBOARDS_SUCCESS: {
       return {
