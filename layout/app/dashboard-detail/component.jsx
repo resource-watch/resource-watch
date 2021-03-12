@@ -166,6 +166,7 @@ const LayoutDashboardDetail = ({
                         type="button"
                         className="c-btn -tertiary -alt -clean"
                         onClick={() => handleToggleShareModal(true)}
+                        data-cy="share-button"
                       >
                         <Icon
                           name="icon-share"
