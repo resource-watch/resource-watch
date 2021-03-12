@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.0.7] - X
 ### Added
+- 404 static page.
 - added tests to verify pages are loaded successfully in `get-involved`, `about`, `data` pages.
 - added new service and entrypoint to launch Docker.
 
