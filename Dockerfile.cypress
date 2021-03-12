@@ -1,9 +1,9 @@
-FROM cypress/included:6.4.0
+FROM cypress/included:6.6.0
 LABEL maintainer="hello@vizzuality.com"
 
 WORKDIR /e2e
 
 RUN yarn add -D "@cypress/code-coverage@3.9.2"
-RUN yarn add -D "cypress-file-upload"
+RUN yarn add -D "cypress-file-upload@5.0.2"
 
 ENTRYPOINT ["cypress", "run"]
