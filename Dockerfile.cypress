@@ -5,5 +5,7 @@ WORKDIR /e2e
 
 RUN yarn add -D "@cypress/code-coverage@3.9.2"
 RUN yarn add -D "cypress-file-upload@5.0.2"
+RUN yarn add -D "cypress-fail-fast@2.2.0"
+RUN yarn add -D "config@3.3.6"
 
 ENTRYPOINT ["cypress", "run"]

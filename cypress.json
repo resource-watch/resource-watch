@@ -1,9 +1,8 @@
 {
-  "baseUrl": "http://localhost:9000",
+  "baseUrl": "http://localhost:3000",
   "testFiles": [
     "**/*spec.{js,jsx}"
   ],
-  "pluginsFile": "node_modules/@cypress/code-coverage/plugins",
   "experimentalComponentTesting": true,
   "componentFolder": "components",
   "nodeVersion": "system",

@@ -34,6 +34,7 @@ WORKDIR /usr/src/app
 
 # Copy app folders
 COPY components ./components
+COPY config ./config
 COPY constants ./constants
 COPY css ./css
 COPY hooks ./hooks

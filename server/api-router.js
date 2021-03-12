@@ -1,4 +1,5 @@
 const express = require('express');
+const config = require('config');
 const auth = require('./auth');
 
 const router = express.Router();
@@ -48,7 +49,7 @@ router.get('/auth/:service', (req, res) => {
   // save the current url for redirect if successful, set it to expire in 5 min
   res.cookie('authUrl', req.headers.referer, { maxAge: 3e5, httpOnly: true });
   return res.redirect(
-    `${process.env.WRI_API_URL}/auth/${service}?callbackUrl=${
+    `${config.get('wriApiUrl')}/auth/${service}?callbackUrl=${
       process.env.CALLBACK_URL
     }&applications=rw&token=true&origin=rw`,
   );
@@ -69,7 +70,7 @@ router.get('/logout', (req, res) => {
 });
 
 // local sign-in
-router.post('/local-sign-in', (process.env.NODE_ENV === 'TEST_FRONTEND' ? auth.mockSignIn : auth.signin));
+router.post('/local-sign-in', ((process.env.NODE_ENV === 'test' && process.env.TEST_ENV === 'FRONTEND') ? auth.mockSignIn : auth.signin));
 
 // updates user data
 router.post('/update-user', auth.updateUser);

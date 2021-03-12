@@ -5,7 +5,7 @@ services:
     env_file: .env
     command: develop
     environment:
-      - RW_NODE_ENV=production
+      - RW_ENV=production
       - PORT=3000
       - REDIS_URL=redis://redis:6379
     ports:

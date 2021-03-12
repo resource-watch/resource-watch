@@ -11,12 +11,20 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
+const applicationConfig = require('config');
 
 /**
  * @type {Cypress.PluginConfig}
  */
 module.exports = (on, config) => {
   require('@cypress/code-coverage/task')(on, config)
+  require("cypress-fail-fast/plugin")(on, config);
+
+  const keys = ['wriApiUrl', 'apiEnv', 'applications'];
+
+  keys.map((varName) => {
+    config.env[varName] = applicationConfig.get(varName);
+  })
 
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config

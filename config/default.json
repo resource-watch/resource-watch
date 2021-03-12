@@ -1,0 +1,6 @@
+{
+  "wriApiUrl": "https://api.resourcewatch.org",
+  "apiEnv": "production",
+  "callbackUrl": "http://localhost:3000/auth",
+  "applications": "rw"
+}

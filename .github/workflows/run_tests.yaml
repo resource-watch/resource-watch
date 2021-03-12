@@ -23,15 +23,16 @@ jobs:
         node: [ '14.15', '14', '15' ]
 
     env:
-      WRI_API_URL: https://staging-api.resourcewatch.org
-      PORT: 9000
-      RW_NODE_ENV: development
+      WRI_API_URL: https://api.resourcewatch.org
+      PORT: 3000
+      RW_ENV: development
       REDIS_URL: redis://localhost:6379
       NODE_ENV: test
+      TEST_ENV: FRONTEND
       SECRET: keyboard cat
       STATIC_SERVER_URL:
-      API_ENV: production,preproduction
-      CALLBACK_URL: http://localhost:9000/auth
+      API_ENV: production
+      CALLBACK_URL: http://localhost:3000/auth
       APPLICATIONS: rw
       BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
       BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
@@ -44,8 +45,9 @@ jobs:
       LOGGER_LEVEL: info
       RW_MAPBOX_API_TOKEN: fakeMapboxToken
       CC_TEST_REPORTER_ID: 1a3b4790c97b84d93856c16cd0ceac7070a43c7620444d9de945c75c2edfa676
-      CYPRESS_BASE_URL: http://localhost:9000
+      CYPRESS_BASE_URL: http://localhost:3000
       NODE_OPTIONS: "--max-old-space-size=8192"
+      FAIL_FAST_ENABLED: false
 
 
     steps:
@@ -60,8 +62,8 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-#      - name: Build
-#        run: yarn build
+      - name: Build
+        run: yarn build
 
 #      - name: Start server
 #        run: yarn start &
