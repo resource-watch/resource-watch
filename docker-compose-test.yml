@@ -2,11 +2,11 @@ version: "3"
 services:
   backend-test:
     build: .
-    command: test-backend
+    command: test
     environment:
       WRI_API_URL: https://api.resourcewatch.org
       PORT: 3001
-      RW_NODE_ENV: test
+      RW_ENV: test
       REDIS_URL: redis://redis:6379
       NODE_ENV: test
       SECRET: keyboard cat
@@ -35,9 +35,10 @@ services:
     environment:
       WRI_API_URL: https://api.resourcewatch.org
       PORT: 3000
-      RW_NODE_ENV: test
+      RW_ENV: test
       REDIS_URL: redis://redis:6379
       NODE_ENV: test
+      TEST_ENV: FRONTEND
       SECRET: keyboard cat
       STATIC_SERVER_URL:
       API_ENV: production,preproduction
@@ -70,9 +71,10 @@ services:
       - ./cypress.json:/e2e/cypress.json
       - ./.nyc_output:/e2e/.nyc_output
       - ./coverage:/e2e/coverage
+      - ./config:/e2e/config
     environment:
-      - CYPRESS_baseUrl=http://frontend-test-server:3000
-      - WRI_API_URL=https://api.resourcewatch.org
+      CYPRESS_baseUrl: http://frontend-test-server:3000
+      WRI_API_URL: https://api.resourcewatch.org
     command: "--headless --browser=firefox"
     depends_on:
       - frontend-test-server

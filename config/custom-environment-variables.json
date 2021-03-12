@@ -1,0 +1,6 @@
+{
+  "wriApiUrl": "WRI_API_URL",
+  "apiEnv": "API_ENV",
+  "callbackUrl": "CALLBACK_URL",
+  "applications":"APPLICATIONS"
+}

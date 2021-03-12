@@ -1,5 +1,6 @@
 require('dotenv').load();
 
+const applicationConfig = require('config');
 const withSass = require('@zeit/next-sass');
 const withCSS = require('@zeit/next-css');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -28,10 +29,10 @@ module.exports = withBundleAnalyzer(withCSS(withSass({
   }),
 
   env: {
-    RW_NODE_ENV: process.env.RW_NODE_ENV || 'development',
+    RW_ENV: process.env.RW_ENV || 'development',
     APPLICATIONS: process.env.APPLICATIONS,
     CALLBACK_URL: process.env.CALLBACK_URL,
-    WRI_API_URL: process.env.WRI_API_URL,
+    WRI_API_URL: applicationConfig.get('wriApiUrl'),
     BLOG_API_URL: process.env.BLOG_API_URL,
     STATIC_SERVER_URL: process.env.STATIC_SERVER_URL,
     ADD_SEARCH_KEY: process.env.ADD_SEARCH_KEY,

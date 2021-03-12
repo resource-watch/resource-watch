@@ -4436,6 +4436,13 @@ concat-with-sourcemaps@^1.0.0:
   dependencies:
     source-map "^0.6.1"
 
+config@^3.3.6:
+  version "3.3.6"
+  resolved "https://registry.yarnpkg.com/config/-/config-3.3.6.tgz#b87799db7399cc34988f55379b5f43465b1b065c"
+  integrity sha512-Hj5916C5HFawjYJat1epbyY2PlAgLpBtDUlr0MxGLgo3p5+7kylyvnRY18PqJHgnNWXcdd0eWDemT7eYWuFgwg==
+  dependencies:
+    json5 "^2.1.1"
+
 confusing-browser-globals@^1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/confusing-browser-globals/-/confusing-browser-globals-1.0.9.tgz#72bc13b483c0276801681871d4898516f8f54fdd"
@@ -4949,6 +4956,11 @@ cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
+
+cypress-fail-fast@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/cypress-fail-fast/-/cypress-fail-fast-2.2.0.tgz#b18f4689db7c0b6f3fa1ab5ad94459d288c81959"
+  integrity sha512-bdAuEb2jmVVOeyjhsGXDY+ofWeUD6b0x0X3EyIjQ2JVNSjsJhQmKcl1/pKKKF8ZoWjCWmtjSnK8lpiPx9SBSEQ==
 
 cypress-file-upload@5.0.2:
   version "5.0.2"
@@ -8769,7 +8781,7 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-json5@^2.1.0, json5@^2.1.2:
+json5@^2.1.0, json5@^2.1.1, json5@^2.1.2:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.0.tgz#2dfefe720c6ba525d9ebd909950f0515316c89a3"
   integrity sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==
@@ -13035,9 +13047,9 @@ redux-thunk@^2.2.0:
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
   integrity sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
 
-"redux-tools@github:vizzuality/redux-tools#3.3.0":
+"redux-tools@git+https://github.com/Vizzuality/redux-tools.git#v3.3.1":
   version "3.3.0"
-  resolved "https://codeload.github.com/vizzuality/redux-tools/tar.gz/e60394e040d62f72f80c14956438b1b604e16011"
+  resolved "git+https://github.com/Vizzuality/redux-tools.git#41ff29da358ab49a9e30205dc5d16a254a627602"
   dependencies:
     ms "^2.0.0"
     reduce-reducers "^0.1.2"

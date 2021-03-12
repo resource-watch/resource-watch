@@ -1,5 +1,6 @@
 const chai = require('chai');
 const nock = require('nock');
+const config = require('config');
 const { getTestServer } = require('./test-server');
 
 const userPayload = require('./payload/user');
@@ -14,7 +15,7 @@ let requester;
 describe('POST /local-sign-in', () => {
   before(async function () {
     if (
-      process.env.NODE_ENV === 'TEST_FRONTEND'
+      process.env.TEST_ENV === 'FRONTEND'
     ) {
       this.skip();
     }
@@ -23,7 +24,7 @@ describe('POST /local-sign-in', () => {
   });
 
   it('Calling POST /local-sign-in with valid credentials returns user data', async () => {
-    nock(process.env.WRI_API_URL)
+    nock(config.get('wriApiUrl'))
       .post(
         '/auth/login',
         { email: 'john@doe.com', password: '123456' },
@@ -42,7 +43,7 @@ describe('POST /local-sign-in', () => {
   });
 
   it('Calling POST /local-sign-in with wrong credentials returns invalid login', async () => {
-    nock(process.env.WRI_API_URL)
+    nock(config.get('wriApiUrl'))
       .post('/auth/login', { email: 'john@doe.com', password: '123456' })
       .query({
         applications: 'rw',
@@ -65,7 +66,7 @@ describe('POST /local-sign-in', () => {
   });
 
   it('Calling POST /local-sign-in with credentials returns error', async () => {
-    nock(process.env.WRI_API_URL)
+    nock(config.get('wriApiUrl'))
       .post('/auth/login', { email: 'john@doe.com', password: '123456' })
       .query({
         applications: 'rw', callbackUrl: process.env.CALLBACK_URL, origin: 'rw', token: 'true',

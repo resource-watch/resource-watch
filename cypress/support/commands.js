@@ -7,9 +7,7 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
+
 Cypress.Commands.add("login", (callbackURL) => {
   // visiting a page is mandatory in order to initialize the store
   cy.visit('/sign-in');
@@ -25,15 +23,10 @@ Cypress.Commands.add("login", (callbackURL) => {
     }
   });
 });
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('validateEnvVar', (varName) => {
+  const varValue = Cypress.env(varName);
+  if (!varValue) {
+    throw new Error(`The '${varName}' env var is missing on cypress.`)
+  }
+});

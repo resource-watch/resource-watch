@@ -16,7 +16,7 @@ const apiRoutes = require('./api-router');
 const routes = require('../routes');
 
 const port = process.env.PORT || 3000;
-const prod = process.env.RW_NODE_ENV === 'production';
+const prod = process.env.RW_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });
@@ -136,8 +136,7 @@ async function init() {
             reject(err);
           }
           console.info(
-            `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV
-            || 'development'}]`,
+            `> Ready on http://localhost:${port} [RW_ENV: ${process.env.RW_ENV || 'development'}] [NODE_ENV: ${process.env.NODE_ENV}]`,
           );
           resolve({ httpListener });
         });
@@ -150,7 +149,7 @@ async function init() {
           reject(err);
         }
         console.info(
-          `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV || 'development'}]`,
+          `> Ready on http://localhost:${port} [RW_ENV: ${process.env.RW_ENV || 'development'}] [NODE_ENV: ${process.env.NODE_ENV}]`,
         );
         resolve({ httpListener });
       });
