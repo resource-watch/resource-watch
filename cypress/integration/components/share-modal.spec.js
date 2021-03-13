@@ -2,7 +2,9 @@
 describe('a user wants to share the page with a shortened link', () => {
   before(() => {
     cy.validateEnvVar('bitlyToken');
+  });
 
+  it('the user gets the shortened link', () => {
     cy.intercept(
       {
         method: 'POST',
@@ -22,15 +24,35 @@ describe('a user wants to share the page with a shortened link', () => {
         }
       },
     ).as('getBitlyLink');
+
+    cy.visit('/dashboards/forests');
+
+    cy.get('.page-header-content').find('button[data-cy="share-button"]').click();
+
+    cy.wait('@getBitlyLink')
+
+    cy.get('.c-share-modal').find('#share-link').then(($btn) => {
+      expect($btn.val()).to.eq('https://bit.ly/test');
+    });
   });
 
-  it('the user gets the shortened link', () => {
+  it('the user gets the standard link if bitly is down', () => {
+    cy.intercept(
+      {
+        method: 'POST',
+        url: 'https://api-ssl.bitly.com/v4/shorten',
+      },
+      {
+        forceNetworkError: true
+      },
+    ).as('getBitlyLink');
+
     cy.visit('/dashboards/forests');
 
     cy.get('.page-header-content').find('button[data-cy="share-button"]').click();
 
     cy.get('.c-share-modal').find('#share-link').then(($btn) => {
-      expect($btn.val()).to.eq('https://bit.ly/test');
+      expect($btn.val()).to.eq(`${Cypress.config().baseUrl}/dashboards/forests`);
     });
   });
 })
