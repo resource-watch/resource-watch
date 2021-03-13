@@ -1,6 +1,8 @@
 
 describe('a user wants to share the page with a shortened link', () => {
   before(() => {
+    cy.validateEnvVar('bitlyToken');
+
     cy.intercept(
       {
         method: 'POST',
