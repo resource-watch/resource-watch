@@ -1,6 +1,7 @@
 {
-  "wriApiUrl": "https://api.resourcewatch.org",
   "apiEnv": "production",
+  "applications": "rw",
+  "bitlyToken": "",
   "callbackUrl": "http://localhost:3000/auth",
-  "applications": "rw"
+  "wriApiUrl": "https://api.resourcewatch.org"
 }

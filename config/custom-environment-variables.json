@@ -1,6 +1,7 @@
 {
-  "wriApiUrl": "WRI_API_URL",
   "apiEnv": "API_ENV",
+  "applications":"APPLICATIONS",
+  "bitlyToken": "BITLY_TOKEN",
   "callbackUrl": "CALLBACK_URL",
-  "applications":"APPLICATIONS"
+  "wriApiUrl": "WRI_API_URL"
 }

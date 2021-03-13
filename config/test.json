@@ -1,5 +1,6 @@
 {
   "wriApiUrl": "https://api.resourcewatch.org",
   "apiEnv": "production",
-  "applications": "rw"
+  "applications": "rw",
+  "bitlyToken": "abcdef"
 }

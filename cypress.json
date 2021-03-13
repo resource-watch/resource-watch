@@ -3,8 +3,6 @@
   "testFiles": [
     "**/*spec.{js,jsx}"
   ],
-  "experimentalComponentTesting": true,
-  "componentFolder": "components",
   "nodeVersion": "system",
   "video": false
 }

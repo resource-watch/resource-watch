@@ -20,7 +20,7 @@ module.exports = (on, config) => {
   require('@cypress/code-coverage/task')(on, config)
   require("cypress-fail-fast/plugin")(on, config);
 
-  const keys = ['wriApiUrl', 'apiEnv', 'applications'];
+  const keys = ['wriApiUrl', 'apiEnv', 'applications', 'bitlyToken'];
 
   keys.map((varName) => {
     config.env[varName] = applicationConfig.get(varName);
