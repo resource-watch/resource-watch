@@ -10,7 +10,7 @@ class LayoutTermsOfService extends PureComponent {
 
   render() {
     const { data } = this.props;
-    const styles = { ...(data && data.photo) && { backgroundImage: `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})` } };
+    const styles = { ...(data && data.photo) && { backgroundImage: `url(${data.photo.cover})` } };
 
     if (!data) return null;
 

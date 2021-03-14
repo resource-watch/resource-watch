@@ -1,7 +1,16 @@
 {
+  "addSearchKey": "ADD_SEARCH_KEY",
   "apiEnv": "API_ENV",
-  "applications":"APPLICATIONS",
+  "applications": "APPLICATIONS",
   "bitlyToken": "BITLY_TOKEN",
+  "bingMapsApiKey": "BING_MAPS_API_KEY",
+  "blogApiUrl": "BLOG_API_URL",
   "callbackUrl": "CALLBACK_URL",
+  "googleAnalytics": "GOOGLE_ANALYTICS",
+  "rwGoggleApiTokenShortener": "RW_GOGGLE_API_TOKEN_SHORTENER",
+  "rwEnv": "RW_ENV",
+  "rwMapboxApiToken": "RW_MAPBOX_API_TOKEN",
+  "pardotNewsletterUrl": "PARDOT_NEWSLETTER_URL",
+  "transifexLiveApi": "TRANSIFEX_LIVE_API",
   "wriApiUrl": "WRI_API_URL"
 }

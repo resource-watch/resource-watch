@@ -164,7 +164,6 @@ class Profile extends PureComponent {
                           name: 'photo',
                           label: 'Photo',
                           placeholder: 'Browse file',
-                          baseUrl: process.env.STATIC_SERVER_URL,
                           default: photo,
                         }}
                       >

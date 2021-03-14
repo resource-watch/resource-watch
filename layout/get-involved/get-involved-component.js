@@ -27,7 +27,7 @@ class GetInvolvedComponent extends React.PureComponent {
     if (!data) return null;
 
     if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})`;
+      styles.backgroundImage = `url(${data.photo.cover})`;
     }
 
     const cardsStatic = cards.map((c) => (

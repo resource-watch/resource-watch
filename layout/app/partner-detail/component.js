@@ -47,7 +47,7 @@ class LayoutPartnerDetail extends PureComponent {
           title={name}
           alt={name}
           className="logo"
-          src={`${process.env.STATIC_SERVER_URL}${logoPath}`}
+          src={`${logoPath}`}
         />
       </a>
     )
@@ -56,10 +56,10 @@ class LayoutPartnerDetail extends PureComponent {
           title={name}
           alt={name}
           className="logo"
-          src={`${process.env.STATIC_SERVER_URL}${logoPath}`}
+          src={`${logoPath}`}
         />
       );
-    const bannerStyles = { backgroundImage: `url(${process.env.STATIC_SERVER_URL}${coverPath})` };
+    const bannerStyles = { backgroundImage: `url(${coverPath})` };
 
     return (
       <Layout
