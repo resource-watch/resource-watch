@@ -1,7 +1,16 @@
 {
+  "addSearchKey": "addSearchKey",
   "apiEnv": "production",
   "applications": "rw",
-  "bitlyToken": "",
+  "bitlyToken": "bitlyToken",
+  "bingMapsApiKey": "bingMapsApiKey",
+  "blogApiUrl": "https://blog.resourcewatch.org/wp-json/wp/v2",
   "callbackUrl": "http://localhost:3000/auth",
+  "googleAnalytics": "googleAnalyticsId",
+  "pardotNewsletterUrl": "https://go.pardot.com/l/120942/2018-01-25/3nzl13",
+  "rwGoggleApiTokenShortener": "myGoogleApiToken",
+  "rwEnv": "development",
+  "rwMapboxApiToken": "myMapboxApiToken",
+  "transifexLiveApi": "myTransifexApiKey",
   "wriApiUrl": "https://api.resourcewatch.org"
 }
