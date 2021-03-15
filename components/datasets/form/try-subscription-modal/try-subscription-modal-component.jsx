@@ -33,7 +33,7 @@ class TrySubscriptionModal extends PureComponent {
         {loading && <Spinner isLoading className="-light -tiny" />}
 
         <Field
-          hint={`${process.env.WRI_API_URL}/v1/query?sql=${encodeURIComponent(query)}`}
+          hint={`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/query?sql=${encodeURIComponent(query)}`}
           properties={{
             name: 'query-result',
             label: 'Query result',

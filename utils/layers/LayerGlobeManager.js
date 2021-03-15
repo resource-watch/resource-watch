@@ -48,7 +48,7 @@ export default class LayerGlobeManager {
   static addGeeLayer(layerSpec, opts) {
     opts.onLayerAddedSuccess({
       attributes: { ...layerSpec },
-      url: `${process.env.WRI_API_URL}/v1/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`,
+      url: `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`,
       active: false,
     });
   }

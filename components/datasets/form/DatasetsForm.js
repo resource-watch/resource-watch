@@ -63,10 +63,10 @@ class DatasetsForm extends PureComponent {
           // sorts layers if applies
           if (
             applicationConfig
-            && applicationConfig[process.env.APPLICATIONS]
-            && applicationConfig[process.env.APPLICATIONS].layerOrder
+            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
+            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
             && layers.length > 1) {
-            const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
+            const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
             _layers = sortLayers(layers, layerOrder);
           }
 
@@ -152,15 +152,15 @@ class DatasetsForm extends PureComponent {
             dataset
             && layers.length
             && (!bodyObj.applicationConfig
-            || !bodyObj.applicationConfig[process.env.APPLICATIONS]
-            || !bodyObj.applicationConfig[process.env.APPLICATIONS].layerOrder)
+            || !bodyObj.applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
+            || !bodyObj.applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder)
           ) {
             bodyObj = {
               ...bodyObj,
               applicationConfig: {
                 ...form.applicationConfig,
-                [process.env.APPLICATIONS]: {
-                  ...(form.applicationConfig && form.applicationConfig[process.env.APPLICATIONS]),
+                [process.env.NEXT_PUBLIC_APPLICATIONS]: {
+                  ...(form.applicationConfig && form.applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]),
                   layerOrder: layers.map((_layer) => _layer.id),
                 },
               },

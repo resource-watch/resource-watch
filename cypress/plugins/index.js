@@ -11,23 +11,38 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
-const applicationConfig = require('config');
+// const applicationConfig = require('config');
+
+const { loadEnvConfig } = require('@next/env');
+
+const projectDir = process.cwd();
+
+loadEnvConfig(
+  projectDir,
+  false,
+);
+
 
 /**
  * @type {Cypress.PluginConfig}
  */
 module.exports = (on, config) => {
+  // `on` is used to hook into various events Cypress emits
+  // `config` is the resolved Cypress config
   require('@cypress/code-coverage/task')(on, config)
   require("cypress-fail-fast/plugin")(on, config);
 
-  const keys = ['wriApiUrl', 'apiEnv', 'applications', 'bitlyToken'];
+  // use this dictionary to pass external env vars to Cypress
+  const envDictionary = {
+    'NEXT_PUBLIC_API_ENV': process.env.NEXT_PUBLIC_API_ENV,
+    'NEXT_PUBLIC_APPLICATIONS': process.env.NEXT_PUBLIC_APPLICATIONS,
+    'NEXT_PUBLIC_BITLY_TOKEN': process.env.NEXT_PUBLIC_BITLY_TOKEN,
+    'NEXT_PUBLIC_WRI_API_URL': process.env.NEXT_PUBLIC_WRI_API_URL,
+  };
 
-  keys.map((varName) => {
-    config.env[varName] = applicationConfig.get(varName);
-  })
-
-  // `on` is used to hook into various events Cypress emits
-  // `config` is the resolved Cypress config
+  Object.keys(envDictionary).map((envKey) => {
+    config.env[envKey] = envDictionary[envKey];
+  });
 
   // IMPORTANT to return the config object
   // with the any changed environment variables

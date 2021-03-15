@@ -23,8 +23,8 @@ export const fetchLayers = (params = {}, headers = {}, _meta = false) => {
       ...headers,
     },
     params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
     transformResponse: [].concat(
@@ -76,8 +76,8 @@ export const fetchLayer = (id, params = {}) => {
       'Upgrade-Insecure-Requests': 1,
     },
     params: {
-      application: process.env.APPLICATIONS,
-      env: process.env.API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
       ...params,
     },
     transformResponse: [].concat(
@@ -171,8 +171,8 @@ export const createLayer = (layer, datasetId, token) => {
   logger.info('Create layer');
   return WRIAPI.post(`/v1/dataset/${datasetId}/layer`,
     {
-      application: process.env.APPLICATIONS.split(','),
-      env: process.env.API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS.split(','),
+      env: process.env.NEXT_PUBLIC_API_ENV,
       ...layer,
     },
     { headers: { Authorization: token } })

@@ -1,4 +1,14 @@
-require('dotenv').load();
+// Load environment variables from .env, .env.local, etc. This explicit call
+// into `@next/env` allows using environment variables before next() is called.
+// More info: https://nextjs.org/docs/basic-features/environment-variables
+const { loadEnvConfig } = require('@next/env');
+
+const projectDir = process.cwd();
+
+loadEnvConfig(
+  projectDir,
+  process.env.NODE_ENV === 'development',
+);
 
 const express = require('express');
 const next = require('next');
@@ -16,7 +26,7 @@ const apiRoutes = require('./api-router');
 const routes = require('../routes');
 
 const port = process.env.PORT || 3000;
-const prod = process.env.RW_ENV === 'production';
+const prod = process.env.NODE_ENV === 'production';
 
 // Next app creation
 const app = next({ dev: !prod });

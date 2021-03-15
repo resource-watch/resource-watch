@@ -55,8 +55,8 @@ function ExploreDetailVisualization(props) {
         description: widget.description,
         widgetConfig: widget.widgetConfig,
         published: false,
-        application: process.env.APPLICATIONS.split(','),
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS.split(','),
+        env: process.env.NEXT_PUBLIC_API_ENV,
       };
 
       logEvent('Explore (Detail)', 'Save Widget', datasetId);

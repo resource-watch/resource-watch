@@ -54,11 +54,11 @@ class WidgetForm extends PureComponent {
     const promises = [
       // TO-DO: replace this for a dynamic search or lazy loading
       fetchDatasets({
-        application: [process.env.APPLICATIONS].join(','),
+        application: [process.env.NEXT_PUBLIC_APPLICATIONS].join(','),
         language: locale,
         'page[size]': 9999999,
         sort: 'name',
-        env: process.env.API_ENV,
+        env: process.env.NEXT_PUBLIC_API_ENV,
       }),
     ];
 
@@ -224,7 +224,7 @@ class WidgetForm extends PureComponent {
             {
               language: 'en',
               info: { caption: metadata.caption },
-              application: process.env.APPLICATIONS,
+              application: process.env.NEXT_PUBLIC_APPLICATIONS,
             },
             authorization,
           )

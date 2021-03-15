@@ -18,8 +18,8 @@ export const fetchFavourites = (token) => {
         'Upgrade-Insecure-Requests': 1,
       },
       params: {
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
       },
     })
     .then((response) => WRISerializer(response.data))
@@ -41,7 +41,7 @@ export const createFavourite = (token, { resourceId, resourceType }) => {
   logger.info('Create favourite');
   return WRIAPI.post('/v1/favourite',
     {
-      application: process.env.APPLICATIONS,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       resourceId,
       resourceType,
     },
