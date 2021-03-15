@@ -25,7 +25,7 @@ export const fetchStaticData = createThunkAction(
     dispatch(setStaticDataLoading(true));
     dispatch(setStaticDataError(null));
 
-    return fetch(new Request(`${process.env.WRI_API_URL}/v1/static_page/${lookup[payload]}`))
+    return fetch(new Request(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/static_page/${lookup[payload]}`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);

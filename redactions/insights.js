@@ -123,7 +123,7 @@ export function getInsights() {
       type: GET_INSIGHTS_SUCCESS,
       payload: INSIGHTS_DATA,
     });
-    // fetch(new Request(`${process.env.WRI_API_URL}/v1/partner`))
+    // fetch(new Request(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/partner`))
     //   .then((response) => {
     //     if (response.ok) return response.json();
     //     throw new Error(response.statusText);

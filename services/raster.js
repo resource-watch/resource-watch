@@ -26,7 +26,7 @@ export default class RasterService {
     }
 
     return fetch(
-      `${process.env.WRI_API_URL}/v1/query/${this.dataset}?sql=${query}`,
+      `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/query/${this.dataset}?sql=${query}`,
       { headers: { 'Upgrade-Insecure-Requests': 1 } },
     )
       .then((response) => {

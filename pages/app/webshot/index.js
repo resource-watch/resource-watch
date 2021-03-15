@@ -11,7 +11,7 @@ class Webshot extends PureComponent {
 
     await WRIAPI.get(`/v1/widget/${id}`, {
       headers: { 'Upgrade-Insecure-Requests': 1 },
-      params: { application: process.env.APPLICATIONS },
+      params: { application: process.env.NEXT_PUBLIC_APPLICATIONS },
       transformResponse: [].concat(
         WRIAPI.defaults.transformResponse,
         ({ data }) => data,

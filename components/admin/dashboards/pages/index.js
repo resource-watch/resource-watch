@@ -9,7 +9,7 @@ export default function DashboardsIndex({ user = {} }) {
     <div className="c-dashboards-index">
       <DashboardsTable
         authorization={user.token}
-        env={process.env.API_ENV}
+        env={process.env.NEXT_PUBLIC_API_ENV}
       />
     </div>
   );

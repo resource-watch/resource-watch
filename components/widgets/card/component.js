@@ -140,7 +140,7 @@ const WidgetCard = (props) => {
 
     const link = document.createElement('a');
     link.setAttribute('download', '');
-    link.href = `${process.env.WRI_API_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&waitFor=8000&url=${origin}/embed/${type}/${id}`;
+    link.href = `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&waitFor=8000&url=${origin}/embed/${type}/${id}`;
 
     // link.click() doesn't work on Firefox for some reasons
     // so we have to create an event manually
@@ -222,7 +222,7 @@ const WidgetCard = (props) => {
             className="-light"
           />
           <Map
-            mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+            mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
             interactiveLayerIds={[]}
             mapStyle={MAPSTYLES}
             bounds={{

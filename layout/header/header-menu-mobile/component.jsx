@@ -30,7 +30,7 @@ const HeaderMenuMobile = ({
     if (e) e.preventDefault();
 
     // Get to logout
-    fetch(`${process.env.WRI_API_URL}/auth/logout`, { credentials: 'include' })
+    fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/logout`, { credentials: 'include' })
       .then(() => { window.location.href = `/logout?callbackUrl=${window.location.href}`; })
       .catch((err) => { toastr.error('Error', err); });
   };

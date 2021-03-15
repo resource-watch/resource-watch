@@ -1,9 +1,9 @@
 describe('An authenticated user edits a dashboard', () => {
   beforeEach(() => {
 
-    cy.validateEnvVar('wriApiUrl');
-    cy.validateEnvVar('apiEnv');
-    cy.validateEnvVar('applications');
+    cy.validateEnvVar('NEXT_PUBLIC_WRI_API_URL');
+    cy.validateEnvVar('NEXT_PUBLIC_API_ENV');
+    cy.validateEnvVar('NEXT_PUBLIC_APPLICATIONS');
 
     cy.login();
 
@@ -11,7 +11,7 @@ describe('An authenticated user edits a dashboard', () => {
       cy.intercept({
           method: 'GET',
           pathname: `/v1/subscriptions?application=rw&env=production`,
-          url: Cypress.env('wriApiUrl')
+          url: Cypress.env('NEXT_PUBLIC_WRI_API_URL')
         },
         subscriptionsPayload
       ).as('getUserSubscriptions');
@@ -21,7 +21,7 @@ describe('An authenticated user edits a dashboard', () => {
       cy.intercept({
           method: 'GET',
           pathname: `/v2/area?application=rw&env=production`,
-          url: Cypress.env('wriApiUrl'),
+          url: Cypress.env('NEXT_PUBLIC_WRI_API_URL'),
           auth: {
             bearer: 'valid_token',
           },
@@ -34,10 +34,10 @@ describe('An authenticated user edits a dashboard', () => {
       cy.intercept({
           method: 'GET',
           pathname: `/v1/dashboard/529`,
-          url: Cypress.env('wriApiUrl'),
+          url: Cypress.env('NEXT_PUBLIC_WRI_API_URL'),
           query: {
-            application: Cypress.env('applications'),
-            env: Cypress.env('apiEnv')
+            application: Cypress.env('NEXT_PUBLIC_APPLICATIONS'),
+            env: Cypress.env('NEXT_PUBLIC_API_ENV')
           }
         },
         dashboardPayload
@@ -48,7 +48,7 @@ describe('An authenticated user edits a dashboard', () => {
       cy.intercept({
           method: 'PATCH',
           pathname: `/v1/dashboard/529`,
-          url: Cypress.env('wriApiUrl')
+          url: Cypress.env('NEXT_PUBLIC_WRI_API_URL')
         },
         dashboardPayload
       ).as('getEditedDashboard');
@@ -56,7 +56,7 @@ describe('An authenticated user edits a dashboard', () => {
       cy.intercept({
           method: 'GET',
           pathname: `/v1/dashboard`,
-          url: Cypress.env('wriApiUrl')
+          url: Cypress.env('NEXT_PUBLIC_WRI_API_URL')
         },
         {
           data: [

@@ -309,7 +309,7 @@ class WidgetBlock extends PureComponent {
               <>
                 <div className="c-map">
                   <Map
-                    mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+                    mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
                     mapStyle={MAPSTYLES}
                     viewport={viewport}
                     basemap={this.getMapBasemap(widget)}

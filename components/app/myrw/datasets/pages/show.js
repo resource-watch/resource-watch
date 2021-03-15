@@ -98,7 +98,7 @@ class DatasetsShow extends React.Component {
                 && (
                 <DatasetsForm
                   basic
-                  application={[process.env.APPLICATIONS]}
+                  application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}
                   onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets' })}

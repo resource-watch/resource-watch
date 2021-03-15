@@ -28,7 +28,7 @@ class HeadApp extends PureComponent {
           dangerouslySetInnerHTML={{
             __html: `
               window._urq = window._urq || [];
-              _urq.push(['setGACode', '${process.env.GOOGLE_ANALYTICS}']);
+              _urq.push(['setGACode', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}']);
               _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
               (function() {
               var ur = document.createElement('script');

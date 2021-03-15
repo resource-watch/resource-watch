@@ -12,7 +12,7 @@ export const getQueryParams = (state = {}, props) => {
   const isCollection = !['my_widgets', 'favourites'].includes(subtab);
 
   return ({
-    application: process.env.APPLICATIONS,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
     'page[size]': limit,
     'page[number]': page,
     sort: sort === 'asc' ? 'updatedAt' : '-updatedAt',
