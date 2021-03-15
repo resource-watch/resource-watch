@@ -11,6 +11,5 @@
   "rwEnv": "RW_ENV",
   "rwMapboxApiToken": "RW_MAPBOX_API_TOKEN",
   "pardotNewsletterUrl": "PARDOT_NEWSLETTER_URL",
-  "transifexLiveApi": "TRANSIFEX_LIVE_API",
   "wriApiUrl": "WRI_API_URL"
 }
