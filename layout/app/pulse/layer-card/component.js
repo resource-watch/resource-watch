@@ -28,12 +28,13 @@ class LayerCardComponent extends PureComponent {
     this.state = {
       showSubscribeToDatasetModal: false,
       showInfoModal: false,
-      showContextLayersInfoModal: false
+      showContextLayersInfoModal: false,
     };
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if ((nextProps.layerMenuPulse.layerActive && nextProps.layerMenuPulse.layerActive.id) !==
-      (this.props.layerMenuPulse.layerActive && this.props.layerMenuPulse.layerActive.id)) {
+    if ((nextProps.layerMenuPulse.layerActive && nextProps.layerMenuPulse.layerActive.id)
+      !== (this.props.layerMenuPulse.layerActive && this.props.layerMenuPulse.layerActive.id)) {
       this.loadWidgets(nextProps);
       this.props.loadDatasetData(nextProps.layerMenuPulse.layerActive
         ? { id: nextProps.layerMenuPulse.layerActive.dataset }
@@ -48,7 +49,7 @@ class LayerCardComponent extends PureComponent {
     if (layerActive) {
       let found = false;
       for (let i = 0; i < LAYERS_PLANET_PULSE.length && !found; i++) {
-        found = LAYERS_PLANET_PULSE[i].layers.find(obj => obj.id === layerActive);
+        found = LAYERS_PLANET_PULSE[i].layers.find((obj) => obj.id === layerActive);
       }
       if (found) {
         const { widgets } = found;
@@ -70,8 +71,8 @@ class LayerCardComponent extends PureComponent {
     const { layerMenuPulse, layerCardPulse, activeContextLayers } = this.props;
     const { layerActive, layerPoints } = layerMenuPulse;
     const { dataset, widget } = layerCardPulse;
-    const subscribable = dataset && dataset.subscribable &&
-      Object.keys(dataset.subscribable).length > 0;
+    const subscribable = dataset && dataset.subscribable
+      && Object.keys(dataset.subscribable).length > 0;
 
     const source = dataset && dataset.metadata && dataset.metadata.source;
     const layerName = layerActive && layerActive.name;
@@ -80,7 +81,7 @@ class LayerCardComponent extends PureComponent {
 
     const className = classNames({
       'c-layer-card': true,
-      '-hidden': layerActive === null
+      '-hidden': layerActive === null,
     });
 
     const datasetId = (layerActive !== null) ? layerActive.dataset : null;
@@ -89,18 +90,23 @@ class LayerCardComponent extends PureComponent {
       <div className={className}>
         <div>
           <h3>{layerActive && layerActive.label}</h3>
-          {source &&
+          {source
+            && (
             <div className="source-container">
               {source}
             </div>
-          }
+            )}
           {layerActive && layerActive.descriptionPulse}
-          {layerPoints && layerPoints.length > 0 &&
+          {layerPoints && layerPoints.length > 0
+            && (
             <div className="number-of-points">
-              Number of objects: {layerPoints.length}
+              Number of objects:
+              {' '}
+              {layerPoints.length}
             </div>
-          }
-          {rotatableGlobe &&
+            )}
+          {rotatableGlobe
+            && (
             <div>
               <button
                 className="c-button -secondary rotate-globe-button"
@@ -109,9 +115,10 @@ class LayerCardComponent extends PureComponent {
                 Rotate globe
               </button>
             </div>
-          }
+            )}
           <div className="legends">
-            {layerName &&
+            {layerName
+              && (
               <div className="layer-container">
                 <div>{layerName}</div>
                 <button
@@ -133,21 +140,26 @@ class LayerCardComponent extends PureComponent {
                   </Modal>
                 </button>
               </div>
-            }
+              )}
             {
-              lastUpdateDate &&
+              lastUpdateDate
+              && (
               <div className="last-update-date-container">
-                Last update: {lastUpdateDate}
+                Last update:
+                {' '}
+                {lastUpdateDate}
               </div>
+              )
             }
             <Legend
               layerActive={layerActive}
               className={{ color: '-dark' }}
             />
-            {activeContextLayers.length > 0 &&
+            {activeContextLayers.length > 0
+              && (
               <div className="context-layers-legends">
                 {
-                  activeContextLayers.map(ctLayer => (
+                  activeContextLayers.map((ctLayer) => (
                     <div key={ctLayer.name}>
                       <div className="layer-container">
                         <span>{ctLayer.name}</span>
@@ -178,9 +190,10 @@ class LayerCardComponent extends PureComponent {
                   ))
                 }
               </div>
-            }
+              )}
           </div>
-          {widget &&
+          {widget
+            && (
             <div>
               <h5>Similar content</h5>
               <div
@@ -197,21 +210,23 @@ class LayerCardComponent extends PureComponent {
 
                 <WidgetChart
                   widget={widget}
-                  thumbnail={true}
+                  thumbnail
                 />
               </div>
             </div>
-          }
+            )}
           <div className="card-buttons">
-            {datasetId &&
+            {datasetId
+              && (
               <Link
                 route="explore"
                 params={{ dataset: datasetId }}
               >
-                <a className="c-button -tertiary link_button" >Details</a>
+                <a className="c-button -tertiary link_button">Details</a>
               </Link>
-            }
-            {subscribable &&
+              )}
+            {subscribable
+              && (
               <LoginRequired>
                 <button
                   className="c-button -secondary link_button"
@@ -228,7 +243,7 @@ class LayerCardComponent extends PureComponent {
                   </Modal>
                 </button>
               </LoginRequired>
-            }
+              )}
           </div>
         </div>
       </div>
@@ -246,7 +261,7 @@ LayerCardComponent.propTypes = {
   loadDatasetData: PropTypes.func.isRequired,
   loadWidgetData: PropTypes.func.isRequired,
   setWidget: PropTypes.func.isRequired,
-  togglePosition: PropTypes.func.isRequired
+  togglePosition: PropTypes.func.isRequired,
 };
 
 export default LayerCardComponent;

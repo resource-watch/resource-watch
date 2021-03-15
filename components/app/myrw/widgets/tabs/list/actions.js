@@ -17,5 +17,5 @@ export default {
   setSort,
   setSearch,
   setPagination,
-  setWidgetState
+  setWidgetState,
 };

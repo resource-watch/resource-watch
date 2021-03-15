@@ -13,7 +13,6 @@ import SearchInput from 'components/ui/SearchInput';
 import Paginator from 'components/ui/Paginator';
 import DatasetsList from './dataset-list';
 
-
 class MyRWDatasets extends PureComponent {
   static propTypes = {
     orderDirection: PropTypes.oneOf(['asc', 'desc']),
@@ -24,7 +23,7 @@ class MyRWDatasets extends PureComponent {
     setOrderDirection: PropTypes.func,
     setFilters: PropTypes.func,
     setPaginationPage: PropTypes.func,
-    getDatasetsByTab: PropTypes.func
+    getDatasetsByTab: PropTypes.func,
   }
 
   handleNewDataset = () => Router.pushRoute('myrw_detail', { tab: 'datasets', id: 'new' });
@@ -47,16 +46,18 @@ class MyRWDatasets extends PureComponent {
     setOrderDirection(orderDirection);
   }
 
-  handlePageChange = page => this.props.setPaginationPage(page);
+  handlePageChange = (page) => this.props.setPaginationPage(page);
 
   render() {
-    const { orderDirection, routes, pagination, filters } = this.props;
+    const {
+      orderDirection, routes, pagination, filters,
+    } = this.props;
     const { page, total, limit } = pagination;
-    const nameSearchValue = (filters.find(filter => filter.key === 'name') || {}).value || '';
+    const nameSearchValue = (filters.find((filter) => filter.key === 'name') || {}).value || '';
 
     const iconName = classnames({
       'icon-arrow-up': orderDirection === 'asc',
-      'icon-arrow-down': orderDirection !== 'asc'
+      'icon-arrow-down': orderDirection !== 'asc',
     });
 
     return (
@@ -64,12 +65,12 @@ class MyRWDatasets extends PureComponent {
         <SearchInput
           input={{
             placeholder: 'Search dataset',
-            value: nameSearchValue
+            value: nameSearchValue,
           }}
           link={{
             label: 'New dataset',
             route: routes.detail,
-            params: { tab: 'datasets', id: 'new' }
+            params: { tab: 'datasets', id: 'new' },
           }}
           onSearch={this.handleSearch}
         />
@@ -89,17 +90,19 @@ class MyRWDatasets extends PureComponent {
             <DatasetsList
               routes={{
                 index: 'myrw',
-                detail: 'myrw_detail'
+                detail: 'myrw_detail',
               }}
             />
-            {!!total && total >= 2 && <Paginator
+            {!!total && total >= 2 && (
+            <Paginator
               options={{
                 size: total,
                 page,
-                limit
+                limit,
               }}
               onChange={this.handlePageChange}
-            />}
+            />
+            )}
           </div>
         </div>
       </div>

@@ -14,7 +14,7 @@ class ExploreSidebarComponent extends React.Component {
     open: PropTypes.bool,
 
     // Actions
-    setSidebarOpen: PropTypes.func.isRequired
+    setSidebarOpen: PropTypes.func.isRequired,
   };
 
   /**
@@ -42,7 +42,7 @@ class ExploreSidebarComponent extends React.Component {
       <aside
         className={classnames({
           'c-sidebar': true,
-          '-open': open
+          '-open': open,
         })}
       >
         <button
@@ -54,7 +54,7 @@ class ExploreSidebarComponent extends React.Component {
             className={classnames({
               '-little': true,
               '-left': open,
-              '-right': !open
+              '-right': !open,
             })}
             name="icon-arrow-down"
           />

@@ -3,5 +3,5 @@ export default {
   interaction: {},
   interactionLatLng: {},
   interactionSelected: null,
-  errors: null
+  errors: null,
 };

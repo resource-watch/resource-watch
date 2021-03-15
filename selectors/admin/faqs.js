@@ -1,9 +1,9 @@
 import sortBy from 'lodash/sortBy';
 import { createSelector } from 'reselect';
 
-const faqs = state => state.faqs.list;
-const filters = state => state.faqs.filters;
-const order = state => state.faqs.order;
+const faqs = (state) => state.faqs.list;
+const filters = (state) => state.faqs.filters;
+const order = (state) => state.faqs.order;
 
 /**
  * Return the faqs that comply with the filters

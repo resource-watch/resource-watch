@@ -20,10 +20,10 @@ node {
     stage ('Build docker') {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg apiUrl=https://staging.resourcewatch.org/api --build-arg wriApiUrl=https://staging-api.globalforestwatch.org/v1 --build-arg WRI_API_URL_V2=https://staging-api.globalforestwatch.org/v2 --build-arg callbackUrl=https://staging.resourcewatch.org/auth --build-arg controlTowerUrl=https://staging-api.globalforestwatch.org -t ${imageTag} .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg wriApiUrl=https://staging-api.resourcewatch.org --build-arg callbackUrl=https://staging.resourcewatch.org/auth -t ${imageTag} .")
           break
         case "preproduction":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg apiEnv=production --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth -t ${imageTag} .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth -t ${imageTag} .")
           break
         case "master":
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
@@ -35,7 +35,7 @@ node {
 
     stage ('Run Tests') {
     //  sh('docker-compose -H :2375 -f docker-compose-test.yml build')
-    //  sh('docker-compose -H :2375 -f docker-compose-test.yml run --rm test')
+    //  sh('docker-compose -H :2375 -f docker-compose-test.yml run --rm cypress')
     //  sh('docker-compose -H :2375 -f docker-compose-test.yml stop')
     }
 
@@ -72,23 +72,25 @@ node {
         case "master":
           def userInput = true
           def didTimeout = false
-          try {
-            timeout(time: 60, unit: 'SECONDS') {
-              userInput = input(
-                id: 'Proceed1', message: 'Confirm deployment', parameters: [
-                [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this deployment']
-              ])
-            }
-          }
-          catch(err) { // timeout reached or input false
-              sh("echo Aborted by user or timeout")
-              if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
-                  didTimeout = true
-              } else {
-                  userInput = false
+          if ("${SKIP_DEPLOYMENT_CONFIRMATION}" != "true") {
+              try {
+                timeout(time: 60, unit: 'SECONDS') {
+                  userInput = input(
+                    id: 'Proceed1', message: 'Confirm deployment', parameters: [
+                    [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this deployment']
+                  ])
+                }
+              }
+              catch(err) { // timeout reached or input false
+                  sh("echo Aborted by user or timeout")
+                  if('SYSTEM' == user.toString()) { // SYSTEM means timeout.
+                      didTimeout = true
+                  } else {
+                      userInput = false
+                  }
               }
           }
-          if (userInput == true && !didTimeout){
+          if ((userInput == true && !didTimeout) || "${SKIP_DEPLOYMENT_CONFIRMATION}" != "true") {
             sh("echo Deploying to PROD cluster")
             sh("kubectl config use-context ${KUBECTL_CONTEXT_PREFIX}_${CLOUD_PROJECT_NAME}_${CLOUD_PROJECT_ZONE}_${KUBE_PROD_CLUSTER}")
             sh("kubectl apply -f k8s/production/")

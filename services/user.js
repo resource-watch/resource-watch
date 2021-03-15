@@ -12,7 +12,7 @@ export const loginUser = ({ email, password }) => {
   logger.info('Login user');
   return localAPI
     .post('local-sign-in', { email, password })
-    .then(response => response.data);
+    .then((response) => response.data);
 };
 
 /**
@@ -26,7 +26,7 @@ export const forgotPassword = ({ email }) => {
   logger.info('Forgot password');
   return controlTowerAPI
     .post('auth/reset-password', { email }, { params: { origin: process.env.APPLICATIONS } })
-    .then(response => response.data)
+    .then((response) => response.data)
     .catch(({ response }) => {
       const { status, statusText } = response;
 
@@ -52,10 +52,10 @@ export const registerUser = ({ email, password, repeatPassword }) => {
         email,
         password,
         repeatPassword,
-        apps: [process.env.APPLICATIONS]
-      }
+        apps: [process.env.APPLICATIONS],
+      },
     )
-    .then(response => response.data)
+    .then((response) => response.data)
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error registering user: ${status}: ${statusText}`);
@@ -77,9 +77,9 @@ export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
   return controlTowerAPI
     .post(
       `auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`,
-      { password, repeatPassword }
+      { password, repeatPassword },
     )
-    .then(response => response.data)
+    .then((response) => response.data)
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error resetting user password: ${status}: ${statusText}`);
@@ -92,44 +92,43 @@ export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
  * @param {Blob} file file data
  * @param {Object} user
  */
-export const uploadPhoto = (file, user) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+export const uploadPhoto = (file, user) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
 
-    reader.onload = () => {
-      const bodyObj = {
-        data: {
-          attributes: {
-            user_id: user.id,
-            avatar: reader.result
-          }
-        }
-      };
-
-      return fetch(`${process.env.WRI_API_URL}/profile`, {
-        method: 'POST',
-        body: JSON.stringify(bodyObj),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: user.token
-        }
-      })
-        .then(response => response.json())
-        .then(({ data }) => {
-          resolve(data.attributes.avatar.original);
-        });
+  reader.onload = () => {
+    const bodyObj = {
+      data: {
+        attributes: {
+          user_id: user.id,
+          avatar: reader.result,
+        },
+      },
     };
 
-    reader.onerror = (error) => {
-      reject(error);
-    };
-  });
+    return fetch(`${process.env.WRI_API_URL}/v1/profile`, {
+      method: 'POST',
+      body: JSON.stringify(bodyObj),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: user.token,
+      },
+    })
+      .then((response) => response.json())
+      .then(({ data }) => {
+        resolve(data.attributes.avatar.original);
+      });
+  };
+
+  reader.onerror = (error) => {
+    reject(error);
+  };
+});
 
 export default {
   loginUser,
   forgotPassword,
   registerUser,
   resetPassword,
-  uploadPhoto
+  uploadPhoto,
 };

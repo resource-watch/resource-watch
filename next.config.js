@@ -3,11 +3,13 @@ require('dotenv').load();
 const withSass = require('@zeit/next-sass');
 const withCSS = require('@zeit/next-css');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const cssnano = require('cssnano');
-const { BundleAnalyzerPlugin } = (process.env.RW_NODE_ENV === 'production' && process.env.BUNDLE_ANALYZER) ?
-  require('webpack-bundle-analyzer') : {};
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 
-module.exports = withCSS(withSass({
+module.exports = withBundleAnalyzer(withCSS(withSass({
   useFileSystemPublicRoutes: false,
   poweredByHeader: false,
 
@@ -29,9 +31,7 @@ module.exports = withCSS(withSass({
     RW_NODE_ENV: process.env.RW_NODE_ENV || 'development',
     APPLICATIONS: process.env.APPLICATIONS,
     CALLBACK_URL: process.env.CALLBACK_URL,
-    CONTROL_TOWER_URL: process.env.CONTROL_TOWER_URL,
     WRI_API_URL: process.env.WRI_API_URL,
-    WRI_API_URL_V2: process.env.WRI_API_URL_V2,
     BLOG_API_URL: process.env.BLOG_API_URL,
     STATIC_SERVER_URL: process.env.STATIC_SERVER_URL,
     ADD_SEARCH_KEY: process.env.ADD_SEARCH_KEY,
@@ -46,25 +46,24 @@ module.exports = withCSS(withSass({
   },
 
   webpack: (config) => {
-    const _config = Object.assign({}, config);
+    // eslint-disable-next-line no-underscore-dangle
+    const _config = { ...config };
 
     _config.node = {
       console: true,
       fs: 'empty',
       net: 'empty',
-      tls: 'empty'
+      tls: 'empty',
     };
 
     _config.plugins.push(
       // optimizes any css file generated
       new OptimizeCssAssetsPlugin({
         cssProcessor: cssnano,
-        cssProcessorPluginOptions: { preset: ['default', { discardComments: { removeAll: true } }] }
-      })
+        cssProcessorPluginOptions: { preset: ['default', { discardComments: { removeAll: true } }] },
+      }),
     );
 
-    if (process.env.BUNDLE_ANALYZER) _config.plugins.push(new BundleAnalyzerPlugin());
-
     return _config;
-  }
-}));
+  },
+})));

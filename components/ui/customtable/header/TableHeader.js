@@ -12,9 +12,9 @@ export default function TableHeader(props) {
     sort,
     onFilter,
     onSort,
-    onSearch
+    onSearch,
   } = props;
-  const actionsShowed = actions.list.filter(a => a.show);
+  const actionsShowed = actions.list.filter((a) => a.show);
 
   return (
     <thead>
@@ -37,9 +37,8 @@ export default function TableHeader(props) {
             </span>
           </th>
         ))}
-        {actions.show && actionsShowed.length &&
-          <th colSpan={`${actionsShowed.length}`} />
-        }
+        {actions.show && actionsShowed.length
+          && <th colSpan={`${actionsShowed.length}`} />}
       </tr>
     </thead>
   );
@@ -54,7 +53,7 @@ TableHeader.defaultProps = {
   onSort: null,
   onSearch: null,
   sort: null,
-  actions: {}
+  actions: {},
 };
 
 TableHeader.propTypes = {
@@ -66,5 +65,5 @@ TableHeader.propTypes = {
   sort: PropTypes.object,
   onFilter: PropTypes.func,
   onSort: PropTypes.func,
-  onSearch: PropTypes.func
+  onSearch: PropTypes.func,
 };

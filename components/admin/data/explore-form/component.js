@@ -14,31 +14,29 @@ import Spinner from 'components/ui/Spinner';
 import './styles.scss';
 
 function ExploreForm(props) {
-  const [highlightedDatasets, setHighlightedDatasets] =
-    useState({ old: [], new: [], loading: true });
+  const [highlightedDatasets, setHighlightedDatasets] = useState({ old: [], new: [], loading: true });
   const [updatingData, setUpdatingData] = useState({
     processingDehighlightedDatasets: false,
-    processingHighlightedDatasets: false
+    processingHighlightedDatasets: false,
   });
   const [search, setSearch] = useState({ loading: false, list: [], value: '' });
 
-  const getDatasetName = d =>
-    (d.metadata.length > 0 && d.metadata[0].name) || d.name;
+  const getDatasetName = (d) => (d.metadata.length > 0 && d.metadata[0].name) || d.name;
 
   useEffect(() => {
     fetchDatasets({
       includes: 'metadata',
       'applicationConfig.rw.highlighted': 'true',
-      'page[size]': 4
+      'page[size]': 4,
     })
       .then((datasets) => {
-        const datasetsMap = datasets.map(d => ({
+        const datasetsMap = datasets.map((d) => ({
           label: getDatasetName(d),
-          id: d.id
+          id: d.id,
         }));
         setHighlightedDatasets({ old: datasetsMap, new: datasetsMap, loading: false });
       })
-      .catch(err => toastr.error('Error loading highlighted datasets', err));
+      .catch((err) => toastr.error('Error loading highlighted datasets', err));
   }, []);
 
   const handleDatasetSearchInputChange = debounce((value) => {
@@ -47,27 +45,27 @@ function ExploreForm(props) {
         includes: 'metadata',
         published: true,
         status: 'saved',
-        name: value
+        name: value,
       })
-        .then(data => setSearch({
-          list: data.map(d => ({
+        .then((data) => setSearch({
+          list: data.map((d) => ({
             label: getDatasetName(d),
-            id: d.id
+            id: d.id,
           })),
           loading: false,
-          value
+          value,
         }))
-        .catch(err => toastr.error('Error performing dataset search', err));
+        .catch((err) => toastr.error('Error performing dataset search', err));
     }
   }, 250);
 
   const handleDatasetSearchChange = (value) => {
-    if (highlightedDatasets.new.find(e => e.id === value.id)) {
+    if (highlightedDatasets.new.find((e) => e.id === value.id)) {
       toastr.error('This dataset is already part of the list');
     } else {
       setHighlightedDatasets({
         ...highlightedDatasets,
-        new: [...highlightedDatasets.new, value]
+        new: [...highlightedDatasets.new, value],
       });
       setSearch({ loading: false, list: [], value: '' });
     }
@@ -77,12 +75,12 @@ function ExploreForm(props) {
     const { token } = props;
     const oldDatasets = highlightedDatasets.old;
     const newDatasets = highlightedDatasets.new;
-    const datasetsToDehighlight = oldDatasets.filter(d => !newDatasets.find(nD => nD.id === d.id));
-    const datasetsToHighlight = newDatasets.filter(d => !oldDatasets.find(oD => oD.id === d.id));
+    const datasetsToDehighlight = oldDatasets.filter((d) => !newDatasets.find((nD) => nD.id === d.id));
+    const datasetsToHighlight = newDatasets.filter((d) => !oldDatasets.find((oD) => oD.id === d.id));
 
     setUpdatingData({
       processingDehighlightedDatasets: datasetsToDehighlight.length > 0,
-      processingHighlightedDatasets: datasetsToHighlight.length > 0
+      processingHighlightedDatasets: datasetsToHighlight.length > 0,
     });
 
     // --- DATASETS TO HIGHLIGHT -----
@@ -90,7 +88,7 @@ function ExploreForm(props) {
       updateDataset(
         dataset.id,
         token,
-        { applicationConfig: { rw: { highlighted: 'true' } } }
+        { applicationConfig: { rw: { highlighted: 'true' } } },
       )
         .then(() => setUpdatingData({ ...updatingData, processingHighlightedDatasets: false }));
     });
@@ -100,7 +98,7 @@ function ExploreForm(props) {
       updateDataset(
         dataset.id,
         token,
-        { applicationConfig: { rw: { highlighted: 'false' } } }
+        { applicationConfig: { rw: { highlighted: 'false' } } },
       )
         .then(() => setUpdatingData({ ...updatingData, processingDehighlightedDatasets: false }));
     });
@@ -111,8 +109,8 @@ function ExploreForm(props) {
       <div className="discover-section">
         <h3>Discover section</h3>
         <Spinner
-          isLoading={updatingData.processingDehighlightedDatasets ||
-            updatingData.processingHighlightedDatasets}
+          isLoading={updatingData.processingDehighlightedDatasets
+            || updatingData.processingHighlightedDatasets}
           className="-light"
         />
         <div className="highlighted-datasets">
@@ -129,7 +127,7 @@ function ExploreForm(props) {
           </div>
           <ul className="highlighted-datasets-list">
             <Spinner isLoading={highlightedDatasets.loading} className="-relative -light" />
-            {highlightedDatasets.new.map(hd => (
+            {highlightedDatasets.new.map((hd) => (
               <li
                 className="highlighted-dataset"
                 key={hd.id}
@@ -138,16 +136,16 @@ function ExploreForm(props) {
                 <button
                   className="c-button -tertiary -compressed"
                   onClick={() => {
-                                        setHighlightedDatasets({
-                                            ...highlightedDatasets,
-                                            new: highlightedDatasets.new.filter(e => e.id !== hd.id)
-                                        });
-                                    }}
+                    setHighlightedDatasets({
+                      ...highlightedDatasets,
+                      new: highlightedDatasets.new.filter((e) => e.id !== hd.id),
+                    });
+                  }}
                 >
-                                    Remove
+                  Remove
                 </button>
               </li>
-                        ))}
+            ))}
           </ul>
         </div>
       </div>
@@ -158,7 +156,7 @@ function ExploreForm(props) {
             saveHighlightedDatasets();
           }}
         >
-                    Save
+          Save
         </button>
       </div>
     </div>

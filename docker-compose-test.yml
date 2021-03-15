@@ -1,0 +1,81 @@
+version: "3"
+services:
+  backend-test:
+    build: .
+    command: test-backend
+    environment:
+      WRI_API_URL: https://api.resourcewatch.org
+      PORT: 3001
+      RW_NODE_ENV: test
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: test
+      SECRET: keyboard cat
+      STATIC_SERVER_URL:
+      API_ENV: production,preproduction
+      CALLBACK_URL: http://localhost:3000/auth
+      APPLICATIONS: rw
+      BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
+      BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
+      TRANSIFEX_LIVE_API: fca0343bce994bf8ba3dcdeaab389136
+      GOOGLE_ANALYTICS: UA-67196006-1
+      RW_GOGGLE_API_TOKEN_SHORTENER: AIzaSyBdMtSDFhpWrs2OSJsMsfpHGdjopCpRrVg
+      ADD_SEARCH_KEY: ea4c79622844ade140170b141c36f14f
+      BING_MAPS_API_KEY: PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-y1QukRox537t604Je0pxhygfcraTQGVWr7Ko9LwPoS7-MHW0qY
+      PARDOT_NEWSLETTER_URL: https://go.pardot.com/l/120942/2018-01-25/3nzl13
+      LOGGER_LEVEL: info
+      RW_MAPBOX_API_TOKEN: fakeMapboxToken
+    restart: always
+    container_name: resource-watch-backend-test
+    depends_on:
+      - redis
+
+  frontend-test-server:
+    build: .
+    command: start
+    environment:
+      WRI_API_URL: https://api.resourcewatch.org
+      PORT: 3000
+      RW_NODE_ENV: test
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: test
+      SECRET: keyboard cat
+      STATIC_SERVER_URL:
+      API_ENV: production,preproduction
+      CALLBACK_URL: http://localhost:3000/auth
+      APPLICATIONS: rw
+      BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
+      BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
+      TRANSIFEX_LIVE_API: fca0343bce994bf8ba3dcdeaab389136
+      GOOGLE_ANALYTICS: UA-67196006-1
+      RW_GOGGLE_API_TOKEN_SHORTENER: AIzaSyBdMtSDFhpWrs2OSJsMsfpHGdjopCpRrVg
+      ADD_SEARCH_KEY: ea4c79622844ade140170b141c36f14f
+      BING_MAPS_API_KEY: PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-y1QukRox537t604Je0pxhygfcraTQGVWr7Ko9LwPoS7-MHW0qY
+      PARDOT_NEWSLETTER_URL: https://go.pardot.com/l/120942/2018-01-25/3nzl13
+      LOGGER_LEVEL: info
+      RW_MAPBOX_API_TOKEN: fakeMapboxToken
+    ports:
+      - "3000:3000"
+    restart: always
+    container_name: resource-watch-frontend-server
+    depends_on:
+      - redis
+
+  cypress:
+    build:
+      dockerfile: Dockerfile.cypress
+      context: .
+    working_dir: /e2e
+    volumes:
+      - ./cypress:/e2e/cypress
+      - ./cypress.json:/e2e/cypress.json
+      - ./.nyc_output:/e2e/.nyc_output
+      - ./coverage:/e2e/coverage
+    environment:
+      - CYPRESS_baseUrl=http://frontend-test-server:3000
+      - WRI_API_URL=https://api.resourcewatch.org
+    command: "--headless --browser=firefox"
+    depends_on:
+      - frontend-test-server
+
+  redis:
+    image: redis

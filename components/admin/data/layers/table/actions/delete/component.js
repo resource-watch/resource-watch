@@ -9,7 +9,7 @@ class DeleteAction extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
     user: PropTypes.object.isRequired,
-    onRowDelete: PropTypes.func.isRequired
+    onRowDelete: PropTypes.func.isRequired,
   };
 
   static defaultProps = { data: {} }
@@ -18,7 +18,7 @@ class DeleteAction extends PureComponent {
     const {
       data: { id, name, dataset },
       user: { token },
-      onRowDelete
+      onRowDelete,
     } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${name}"`, {
@@ -31,10 +31,10 @@ class DeleteAction extends PureComponent {
           .catch((err) => {
             toastr.error(
               'Error',
-              `The layer "${id}" - "${name}" was not deleted. Try again. ${err.message}`
+              `The layer "${id}" - "${name}" was not deleted. Try again. ${err.message}`,
             );
           });
-      }
+      },
     });
   }
 

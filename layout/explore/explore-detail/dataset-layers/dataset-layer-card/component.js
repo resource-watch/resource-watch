@@ -15,18 +15,18 @@ function DatasetLayerCard(props) {
     layerGroup,
     layerIsActive,
     setMapLayerGroupActive,
-    toggleMapLayerGroup
+    toggleMapLayerGroup,
   } = props;
 
   const componentClassname = classnames({
     'c-dataset-layer-card': true,
-    '-active': layerIsActive
+    '-active': layerIsActive,
   });
   const layerButtonClassname = classnames({
     'c-button': true,
     '-secondary': !layerIsActive,
     '-primary': layerIsActive,
-    '-fullwidth': true
+    '-fullwidth': true,
   });
 
   return (
@@ -65,7 +65,7 @@ DatasetLayerCard.propTypes = {
   layerGroup: PropTypes.object.isRequired,
   layerIsActive: PropTypes.bool.isRequired,
   setMapLayerGroupActive: PropTypes.func.isRequired,
-  toggleMapLayerGroup: PropTypes.func.isRequired
+  toggleMapLayerGroup: PropTypes.func.isRequired,
 };
 
 export default DatasetLayerCard;

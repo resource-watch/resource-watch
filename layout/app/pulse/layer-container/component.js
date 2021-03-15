@@ -18,7 +18,7 @@ class LayerContainerComponent extends PureComponent {
     const { displayed, children } = this.props;
     const classNames = classnames(
       'c-layer-container',
-      { '-displayed': displayed }
+      { '-displayed': displayed },
     );
 
     return (
@@ -38,7 +38,7 @@ LayerContainerComponent.propTypes = {
   displayed: PropTypes.bool,
   layerActive: PropTypes.object,
   children: PropTypes.node,
-  setDisplayed: PropTypes.func
+  setDisplayed: PropTypes.func,
 };
 
 export default LayerContainerComponent;

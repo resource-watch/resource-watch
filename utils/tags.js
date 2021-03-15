@@ -9,5 +9,5 @@ export const TAGS_BLACKLIST = [
   'dataset',
   'frequency',
   'time_period',
-  'data_type'
+  'data_type',
 ];

@@ -5,5 +5,5 @@ import ResetPassword from './component';
 
 export default connect(
   null,
-  null
+  null,
 )(ResetPassword);

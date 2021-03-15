@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import TetherComponent from 'react-tether';
+import Tether from 'react-tether';
 import classnames from 'classnames';
 import Icon from 'components/ui/icon';
 import CheckboxGroup from '../../../form/CheckboxGroup';
@@ -10,12 +10,12 @@ export default class TableFilters extends React.Component {
     field: PropTypes.string.isRequired,
     values: PropTypes.array,
     selected: PropTypes.array,
-    onFilter: PropTypes.func
+    onFilter: PropTypes.func,
   };
 
   static defaultProps = {
     onChange: null,
-    selected: null
+    selected: null,
   };
 
   constructor(props) {
@@ -26,7 +26,7 @@ export default class TableFilters extends React.Component {
       input: '',
       sort: 1,
       values: props.values || [],
-      selected: props.selected || []
+      selected: props.selected || [],
     };
 
     // Bindings
@@ -47,7 +47,7 @@ export default class TableFilters extends React.Component {
     const selected = (nextProps.selected) ? nextProps.selected : nextProps.values;
     this.setState({
       selected,
-      values: nextProps.values
+      values: nextProps.values,
     });
   }
 
@@ -112,7 +112,7 @@ export default class TableFilters extends React.Component {
     this.setState({ input: this.input.value }, () => {
       this.props.onSearch && this.props.onSearch({
         field: this.props.field,
-        value: this.input.value
+        value: this.input.value,
       });
     });
   }
@@ -125,7 +125,7 @@ export default class TableFilters extends React.Component {
     this.setState({ input: '' }, () => {
       this.props.onSearch && this.props.onSearch({
         field: this.props.field,
-        value: this.input.value
+        value: this.input.value,
       });
     });
   }
@@ -135,7 +135,7 @@ export default class TableFilters extends React.Component {
       const { selected, values } = this.state;
       this.props.onFilter && this.props.onFilter({
         field: this.props.field,
-        value: (selected.length !== values.length) ? selected : null
+        value: (selected.length !== values.length) ? selected : null,
       });
     });
   }
@@ -144,7 +144,7 @@ export default class TableFilters extends React.Component {
     this.setState({ selected: null }, () => {
       this.props.onFilter && this.props.onFilter({
         field: this.props.field,
-        value: this.state.selected
+        value: this.state.selected,
       });
     });
   }
@@ -153,7 +153,7 @@ export default class TableFilters extends React.Component {
     this.setState({ selected: [] }, () => {
       this.props.onFilter && this.props.onFilter({
         field: this.props.field,
-        value: this.state.selected
+        value: this.state.selected,
       });
     });
   }
@@ -172,7 +172,7 @@ export default class TableFilters extends React.Component {
       }
       return true;
     });
-    return filteredValues.map(v => ({ label: v, value: v }));
+    return filteredValues.map((v) => ({ label: v, value: v }));
   }
 
   render() {
@@ -183,75 +183,83 @@ export default class TableFilters extends React.Component {
 
     return (
       <div className={btnClass}>
-        <TetherComponent
+        <Tether
           attachment="top center"
           constraints={[{
             to: 'window',
-            pin: true
+            pin: true,
           }]}
           classes={{ element: 'c-table-tooltip -footer' }}
-        >
-          {/* First child: This is what the item will be tethered to */}
-          <button
-            ref={node => this.btnToggle = node}
-            onClick={this.onToggle}
-            className={`table-header-btn ${btnClass}`}
-          >
-            <Icon name="icon-filter" className="-smaller" />
-          </button>
+          renderTarget={(ref) => (
+            <button
+              ref={ref}
+              type="button"
+              onClick={this.onToggle}
+              className={`table-header-btn ${btnClass}`}
+            >
+              <Icon name="icon-filter" className="-smaller" />
+            </button>
+          )}
+          renderElement={(ref) => {
+            if (this.state.closed) return null;
 
-          {/* Second child: If present, this item will be tethered to the the first child */}
-          {!this.state.closed &&
-            <div className="tooltip-content">
-              <div className="content">
-                <div className="search-box">
-                  <input
-                    ref={node => this.input = node}
-                    type="text"
-                    value={input}
-                    placeholder="Type search"
-                    onChange={this.onChangeInput}
+            return (
+              <div
+                ref={ref}
+                className="tooltip-content"
+              >
+                <div className="content">
+                  <div className="search-box">
+                    <input
+                      ref={(node) => this.input = node}
+                      type="text"
+                      value={input}
+                      placeholder="Type search"
+                      onChange={this.onChangeInput}
+                    />
+                    {!input
+                      && (
+                      <button className="-search">
+                        <Icon name="icon-search" className="-small" />
+                      </button>
+                      )}
+
+                    {!!input
+                      && (
+                      <button
+                        className="-close"
+                        onClick={this.onResetInput}
+                      >
+                        <Icon name="icon-cross" className="-small" />
+                      </button>
+                      )}
+                  </div>
+                  <CheckboxGroup
+                    name={field}
+                    selected={selected || values}
+                    className={`${field}-checkbox-group`}
+                    options={this.getFilteredValues()}
+                    onChange={this.onFilterSelect}
                   />
-                  {!input &&
-                    <button className="-search">
-                      <Icon name="icon-search" className="-small" />
-                    </button>
-                  }
-
-                  {!!input &&
-                    <button
-                      className="-close"
-                      onClick={this.onResetInput}
-                    >
-                      <Icon name="icon-cross" className="-small" />
-                    </button>
-                  }
                 </div>
-                <CheckboxGroup
-                  name={field}
-                  selected={selected || values}
-                  className={`${field}-checkbox-group`}
-                  options={this.getFilteredValues()}
-                  onChange={this.onFilterSelect}
-                />
+                <div className="footer">
+                  <ul>
+                    <li>
+                      <button className="c-button" onClick={this.onFilterSelectAll}>
+                        Select all
+                      </button>
+                    </li>
+                    <li>
+                      <button className="c-button" onClick={this.onFilterClear}>
+                        Clear
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <div className="footer">
-                <ul>
-                  <li>
-                    <button className="c-button" onClick={this.onFilterSelectAll}>
-                      Select all
-                    </button>
-                  </li>
-                  <li>
-                    <button className="c-button" onClick={this.onFilterClear}>
-                      Clear
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          }
-        </TetherComponent>
+            );
+          }}
+        />
       </div>
     );
   }

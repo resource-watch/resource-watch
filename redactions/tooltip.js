@@ -19,35 +19,35 @@ const initialState = {
   childrenProps: {},
   position: {
     x: 0,
-    y: 0
-  }
+    y: 0,
+  },
 };
 
-export default function (state = initialState, action) {
+export default function Tooltip(state = initialState, action) {
   switch (action.type) {
     case TOOLTIP_TOGGLE:
-      return Object.assign({}, state, { opened: action.payload });
+      return { ...state, opened: action.payload };
     case TOOLTIP_SET_CHILDREN:
-      return Object.assign({}, state, { children: action.payload });
+      return { ...state, children: action.payload };
     case TOOLTIP_LOADING:
-      return Object.assign({}, state, { loading: action.payload });
+      return { ...state, loading: action.payload };
     case TOOLTIP_SET_CHILDREN_PROPS:
-      return Object.assign({}, state, { childrenProps: action.payload });
+      return { ...state, childrenProps: action.payload };
     case TOOLTIP_SET_POSITION:
-      return Object.assign({}, state, { position: { x: action.payload.x, y: action.payload.y } });
+      return { ...state, position: { x: action.payload.x, y: action.payload.y } };
     case TOOLTIP_FOLLOW_TOGGLE:
-      return Object.assign({}, state, { follow: action.payload });
+      return { ...state, follow: action.payload };
     case TOOLTIP_DIRECTION:
-      return Object.assign({}, state, { direction: action.payload });
+      return { ...state, direction: action.payload };
     case TOOLTIP_CLASSNAME:
-      return Object.assign({}, state, { className: action.payload });
+      return { ...state, className: action.payload };
     default:
       return state;
   }
 }
 
 export function setTooltipChildren(children) {
-  return dispatch => dispatch({ type: TOOLTIP_SET_CHILDREN, payload: children });
+  return (dispatch) => dispatch({ type: TOOLTIP_SET_CHILDREN, payload: children });
 }
 
 export function toggleTooltip(opened, opts = {}) {
@@ -99,7 +99,7 @@ export function toggleTooltip(opened, opts = {}) {
       } else if (opts.position) {
         dispatch({
           type: TOOLTIP_SET_POSITION,
-          payload: { x: opts.position.x, y: opts.position.y }
+          payload: { x: opts.position.x, y: opts.position.y },
         });
       }
     } else {
@@ -115,9 +115,9 @@ export function toggleTooltip(opened, opts = {}) {
 }
 
 export function tooltipLoading(loading) {
-  return dispatch => dispatch({ type: TOOLTIP_LOADING, payload: loading });
+  return (dispatch) => dispatch({ type: TOOLTIP_LOADING, payload: loading });
 }
 
 export function setTooltipPosition({ x, y }) {
-  return dispatch => dispatch({ type: TOOLTIP_SET_POSITION, payload: { x, y } });
+  return (dispatch) => dispatch({ type: TOOLTIP_SET_POSITION, payload: { x, y } });
 }

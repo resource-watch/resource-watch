@@ -1,18 +1,15 @@
-FROM node:8.14.0-alpine
+FROM node:14.15-alpine
+LABEL maintainer="hello@vizzuality.com"
 
 ARG apiEnv=production
-ARG apiUrl=https://api.resourcewatch.org
-ARG wriApiUrl=https://api.resourcewatch.org/v1
+ARG NODE_ENV=production
+ARG wriApiUrl=https://api.resourcewatch.org
 ARG callbackUrl=https://resourcewatch.org/auth
-ARG controlTowerUrl=https://production-api.globalforestwatch.org
 ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 ARG RW_MAPBOX_API_TOKEN=not_valid
-ARG RW_FEATURE_FLAG_AREAS_V2=
-ARG WRI_API_URL_V2=https://api.resourcewatch.org/v2
 
-ENV NODE_ENV production
+ENV NODE_ENV $NODE_ENV
 ENV WRI_API_URL $wriApiUrl
-ENV CONTROL_TOWER_URL $controlTowerUrl
 ENV CALLBACK_URL $callbackUrl
 ENV STATIC_SERVER_URL=
 ENV APPLICATIONS rw
@@ -26,8 +23,6 @@ ENV RW_GOGGLE_API_TOKEN_SHORTENER $RW_GOGGLE_API_TOKEN_SHORTENER
 ENV BITLY_TOKEN e3076fc3bfeee976efb9966f49383e1a8fb71c5f
 ENV PARDOT_NEWSLETTER_URL https://go.pardot.com/l/120942/2018-01-25/3nzl13
 ENV RW_MAPBOX_API_TOKEN $RW_MAPBOX_API_TOKEN
-ENV WRI_API_URL_V2 $WRI_API_URL_V2
-ENV RW_FEATURE_FLAG_AREAS_V2 $RW_FEATURE_FLAG_AREAS_V2
 
 RUN apk update && apk add --no-cache \
     build-base gcc bash git \
@@ -37,14 +32,42 @@ RUN apk update && apk add --no-cache \
 # Add app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json yarn.lock /usr/src/app/
-RUN yarn install --frozen-lockfile --no-cache --production
+# Copy app folders
+COPY components ./components
+COPY constants ./constants
+COPY css ./css
+COPY hooks ./hooks
+COPY layout ./layout
+COPY lib ./lib
+COPY modules ./modules
+COPY pages ./pages
+COPY public ./public
+COPY redactions ./redactions
+COPY selectors ./selectors
+COPY services ./services
+COPY server ./server
+COPY utils ./utils
+COPY test ./test
 
-# Bundle app source
-COPY . /usr/src/app
-RUN yarn run build
+# Copy single files
+COPY .babelrc .
+COPY .browserlistrc .
+COPY package.json .
+COPY yarn.lock .
+COPY api.md .
+COPY index.js .
+COPY next.config.js .
+COPY next-sitemap.js .
+COPY postcss.config.js .
+COPY routes.js .
+COPY jsconfig.json .
+
+RUN yarn install --frozen-lockfile --production=false
+
+RUN yarn build
+
+COPY entrypoint.sh .
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+ENTRYPOINT ["sh", "./entrypoint.sh"]

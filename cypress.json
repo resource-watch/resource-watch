@@ -1,0 +1,11 @@
+{
+  "baseUrl": "http://localhost:9000",
+  "testFiles": [
+    "**/*spec.{js,jsx}"
+  ],
+  "pluginsFile": "node_modules/@cypress/code-coverage/plugins",
+  "experimentalComponentTesting": true,
+  "componentFolder": "components",
+  "nodeVersion": "system",
+  "video": false
+}

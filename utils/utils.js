@@ -17,7 +17,7 @@ export function concatenation(string, params) {
   let sql;
   params.forEach((param) => {
     sql = `${compact(param.keyParams.map((p) => {
-      const value = p.value;
+      const { value } = p;
       if (value) {
         return (isNaN(value)) ? `${p.key} = '${value}'` : `${p.key} = ${value}`;
       }

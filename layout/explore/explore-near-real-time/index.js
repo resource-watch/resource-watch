@@ -15,7 +15,7 @@ const ExploreNearRealTimeContainer = (props) => {
     today: [],
     week: [],
     month: [],
-    loading: true
+    loading: true,
   });
 
   useEffect(() => {
@@ -23,14 +23,14 @@ const ExploreNearRealTimeContainer = (props) => {
       'concepts[0][0]': 'near_real_time',
       'page[size]': 99,
       includes: 'layer,metadata',
-      published: true
+      published: true,
     })
       .then((data) => {
         const newDatasets = {
           today: [],
           week: [],
           month: [],
-          loading: false
+          loading: false,
         };
         const now = new Date();
         const oneDay = 1000 * 60 * 60 * 24;
@@ -52,24 +52,24 @@ const ExploreNearRealTimeContainer = (props) => {
         });
         setDatasets(newDatasets);
       })
-      .catch(error => toastr.error('Error loading Near-Real-Time datasets', error));
+      .catch((error) => toastr.error('Error loading Near-Real-Time datasets', error));
   }, []);
 
   return (
     <ExploreNearRealTimeComponent
       datasets={datasets}
       {...props}
-    />);
+    />
+  );
 };
 
 ExploreNearRealTimeContainer.propTypes = { datasetID: PropTypes.string };
 ExploreNearRealTimeContainer.defaultProps = { datasetID: null };
 
-
 export default connect(
-  state => ({
+  (state) => ({
     responsive: state.responsive,
-    selectedDataset: state.explore.datasets.selected
+    selectedDataset: state.explore.datasets.selected,
   }),
-  actions
+  actions,
 )(ExploreNearRealTimeContainer);

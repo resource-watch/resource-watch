@@ -23,7 +23,7 @@ class FaqsSortableList extends PureComponent {
     actions: {},
     // Store
     faqs: [],
-    filteredFaqs: []
+    filteredFaqs: [],
   };
 
   static propTypes = {
@@ -38,7 +38,7 @@ class FaqsSortableList extends PureComponent {
     // Actions
     getFaqs: PropTypes.func.isRequired,
     setFilters: PropTypes.func.isRequired,
-    setFaqOrder: PropTypes.func
+    setFaqOrder: PropTypes.func,
   };
 
   constructor(props) {
@@ -76,7 +76,7 @@ class FaqsSortableList extends PureComponent {
       return;
     }
     const newFaqs = arrayMove(filteredFaqs, oldIndex, newIndex);
-    const newFaqsOrder = newFaqs.map(faq => Number(faq.id));
+    const newFaqsOrder = newFaqs.map((faq) => Number(faq.id));
 
     this.props.setFaqOrder({ ids: newFaqsOrder }, authorization);
   }
@@ -98,12 +98,12 @@ class FaqsSortableList extends PureComponent {
 
         <SearchInput
           input={{
-            placeholder: 'Search faq'
+            placeholder: 'Search faq',
           }}
           link={{
             label: 'New faq',
             route: 'admin_faqs_detail',
-            params: { tab: 'faqs', id: 'new' }
+            params: { tab: 'faqs', id: 'new' },
           }}
           onSearch={this.onSearch}
         />
@@ -122,24 +122,27 @@ class FaqsSortableList extends PureComponent {
         )}
 
         {this.props.error && (
-          <p>Error: {this.props.error}</p>
+          <p>
+            Error:
+            {this.props.error}
+          </p>
         )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.faqs.loading,
   faqs: state.faqs.list,
   filteredFaqs: getFilteredFaqs(state),
   error: state.faqs.error,
-  filters: state.faqs.filters
+  filters: state.faqs.filters,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getFaqs: () => dispatch(getFaqs()),
-  setFilters: filters => dispatch(setFilters(filters)),
-  setFaqOrder: (order, token) => dispatch(setFaqOrder(order, token))
+  setFilters: (filters) => dispatch(setFilters(filters)),
+  setFaqOrder: (order, token) => dispatch(setFaqOrder(order, token)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FaqsSortableList);

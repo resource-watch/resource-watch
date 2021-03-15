@@ -9,7 +9,7 @@ function CustomSelect(props) {
 }
 
 CustomSelect.propTypes = {
-  search: PropTypes.bool
+  search: PropTypes.bool,
 };
 
 export default CustomSelect;

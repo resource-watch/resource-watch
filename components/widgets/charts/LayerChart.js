@@ -8,7 +8,7 @@ class LayerChart extends React.Component {
 
     this.state = {
       basemap: '',
-      background: ''
+      background: '',
     };
   }
 
@@ -19,9 +19,9 @@ class LayerChart extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !isEqual(nextProps.data, this.props.data) ||
-           nextState.background !== this.state.background ||
-           nextState.basemap !== this.state.basemap;
+    return !isEqual(nextProps.data, this.props.data)
+           || nextState.background !== this.state.background
+           || nextState.basemap !== this.state.basemap;
   }
 
   componentWillUnmount() {
@@ -31,7 +31,7 @@ class LayerChart extends React.Component {
   getSize() {
     return {
       width: this.chart ? this.chart.offsetWidth : 0,
-      height: this.chart ? this.chart.offsetHeight : 0
+      height: this.chart ? this.chart.offsetHeight : 0,
     };
   }
 
@@ -46,16 +46,16 @@ class LayerChart extends React.Component {
           options: {
             sql: 'SELECT * FROM gadm28_countries',
             cartocss: '#gadm28_countries{ polygon-fill: #bbbbbb; polygon-opacity: 1; line-color: #FFFFFF; line-width: 0.5; line-opacity: 0.5;}',
-            cartocss_version: '2.3.0'
-          }
-        }]
-      }
+            cartocss_version: '2.3.0',
+          },
+        }],
+      },
     };
 
     const layerTpl = {
       version: '1.3.0',
       stat_tag: 'API',
-      layers: basemap.body.layers
+      layers: basemap.body.layers,
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
     const xmlhttp = new XMLHttpRequest();
@@ -72,11 +72,11 @@ class LayerChart extends React.Component {
             lng: 0,
             width: dimensions.width,
             height: dimensions.height,
-            format: 'png'
+            format: 'png',
           };
 
           this.setState({
-            basemap: `https://${response.cdn_url.https}/${basemap.account}/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
+            basemap: `https://${response.cdn_url.https}/${basemap.account}/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`,
           });
         } else {
           console.error('Basemap could not be loaded');
@@ -96,7 +96,7 @@ class LayerChart extends React.Component {
     const layerTpl = {
       version: '1.3.0',
       stat_tag: 'API',
-      layers: data.body.layers
+      layers: data.body.layers,
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
     const xmlhttp = new XMLHttpRequest();
@@ -114,11 +114,11 @@ class LayerChart extends React.Component {
             lng: 0,
             width: dimensions.width,
             height: dimensions.height,
-            format: 'png'
+            format: 'png',
           };
 
           this.setState({
-            background: `https://${response.cdn_url.https}/${data.account}/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`
+            background: `https://${response.cdn_url.https}/${data.account}/api/v1/map/static/center/${options.token}/${options.z}/${options.lat}/${options.lng}/${options.width}/${options.height}.${options.format}`,
           });
         } else {
           console.error('Basemap could not be loaded');
@@ -145,7 +145,7 @@ LayerChart.propTypes = {
   // Define the chart data
   data: PropTypes.object,
   dimensions: PropTypes.object,
-  toggleLoading: PropTypes.func
+  toggleLoading: PropTypes.func,
 };
 
 export default LayerChart;

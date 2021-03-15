@@ -7,10 +7,10 @@ import DatasetsNew from './component';
 import { parseTabs } from './selectors';
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
     query: state.routes.query,
-    tabs: parseTabs(state)
+    tabs: parseTabs(state),
   }),
-  null
+  null,
 )(DatasetsNew);

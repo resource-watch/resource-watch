@@ -30,9 +30,9 @@ const initialState = {
     pagination: {
       page: 1, // current page of the pagination
       total: 0, // total items to be paginated
-      limit: 9 // size of the pagination
-    }
-  }
+      limit: 9, // size of the pagination
+    },
+  },
 };
 
 /**
@@ -41,36 +41,39 @@ const initialState = {
  * @param {initialState} state
  * @param {{ type: string, payload: any }} action
  */
-export default function (state = initialState, action) {
+export default function Datasets(state = initialState, action) {
   switch (action.type) {
     case GET_DATASETS_LOADING: {
-      const datasets = Object.assign({}, state.datasets, {
+      const datasets = {
+        ...state.datasets,
         loading: true,
-        error: null
-      });
-      return Object.assign({}, state, { datasets });
+        error: null,
+      };
+      return { ...state, datasets };
     }
 
     case GET_DATASETS_SUCCESS: {
-      const datasets = Object.assign({}, state.datasets, {
+      const datasets = {
+        ...state.datasets,
         list: action.payload,
         loading: false,
-        error: null
-      });
-      return Object.assign({}, state, { datasets });
+        error: null,
+      };
+      return { ...state, datasets };
     }
 
     case GET_DATASETS_ERROR: {
-      const datasets = Object.assign({}, state.datasets, {
+      const datasets = {
+        ...state.datasets,
         loading: false,
-        error: action.payload
-      });
-      return Object.assign({}, state, { datasets });
+        error: action.payload,
+      };
+      return { ...state, datasets };
     }
 
     case SET_DATASETS_FILTERS: {
-      const datasets = Object.assign({}, state.datasets, { filters: action.payload });
-      return Object.assign({}, state, { datasets });
+      const datasets = { ...state.datasets, filters: action.payload };
+      return { ...state, datasets };
     }
 
     case SET_DATASETS_ORDER_DIRECTION: {
@@ -84,9 +87,9 @@ export default function (state = initialState, action) {
           ...state.datasets,
           pagination: {
             ...state.datasets.pagination,
-            page: action.payload
-          }
-        }
+            page: action.payload,
+          },
+        },
       };
     }
 
@@ -97,9 +100,9 @@ export default function (state = initialState, action) {
           ...state.datasets,
           pagination: {
             ...state.datasets.pagination,
-            total: action.payload
-          }
-        }
+            total: action.payload,
+          },
+        },
       };
     }
 
@@ -110,19 +113,20 @@ export default function (state = initialState, action) {
           ...state.datasets,
           pagination: {
             ...state.datasets.pagination,
-            limit: action.payload
-          }
-        }
+            limit: action.payload,
+          },
+        },
       };
     }
 
     case RESET_DATASETS: {
-      const datasets = Object.assign({}, state.datasets, {
+      const datasets = {
+        ...state.datasets,
         list: [],
         loading: false,
-        error: null
-      });
-      return Object.assign({}, state, { datasets });
+        error: null,
+      };
+      return { ...state, datasets };
     }
 
     default:
@@ -142,16 +146,16 @@ export const resetDatasets = createAction(RESET_DATASETS);
 
 export const getAllDatasets = createThunkAction(
   'datasets/getAllDatasets',
-  options => (dispatch, getState) => {
+  (options) => (dispatch, getState) => {
     dispatch({ type: GET_DATASETS_LOADING });
     const { user } = getState();
     return fetchDatasets(
       { ...options.filters, includes: options.includes },
       {
         Authorization: user.token,
-        'Upgrade-Insecure-Requests': 1
+        'Upgrade-Insecure-Requests': 1,
       },
-      true
+      true,
     )
       .then((result) => {
         const { datasets, meta } = result;
@@ -159,19 +163,19 @@ export const getAllDatasets = createThunkAction(
 
         dispatch({
           type: GET_DATASETS_SUCCESS,
-          payload: datasets
+          payload: datasets,
         });
         dispatch(setPaginationTotal(totalItems));
       })
       .catch((err) => {
         dispatch({ type: GET_DATASETS_ERROR, payload: err.message });
       });
-  }
+  },
 );
 
 export const getDatasetsByTab = createThunkAction(
   'datasets/getDatasetsByTab',
-  tab => (dispatch, getState) => {
+  (tab) => (dispatch, getState) => {
     const { user, datasets } = getState();
     const { id } = user;
     const { orderDirection, pagination, filters } = datasets.datasets;
@@ -181,9 +185,9 @@ export const getDatasetsByTab = createThunkAction(
         'page[size]': limit,
         'page[number]': page,
         sort: orderDirection === 'asc' ? 'updatedAt' : '-updatedAt',
-        name: (filters.find(filter => filter.key === 'name') || {}).value
+        name: (filters.find((filter) => filter.key === 'name') || {}).value,
       },
-      includes: ['widget', 'layer', 'metadata', 'vocabulary'].join(',')
+      includes: ['widget', 'layer', 'metadata', 'vocabulary'].join(','),
     };
 
     switch (tab) {
@@ -193,8 +197,8 @@ export const getDatasetsByTab = createThunkAction(
           ...options,
           filters: {
             ...options.filters,
-            userId: id
-          }
+            userId: id,
+          },
         };
 
         break;
@@ -205,8 +209,8 @@ export const getDatasetsByTab = createThunkAction(
           ...options,
           filters: {
             ...options.filters,
-            favourite: true
-          }
+            favourite: true,
+          },
         };
         break;
 
@@ -216,11 +220,11 @@ export const getDatasetsByTab = createThunkAction(
           ...options,
           filters: {
             ...options.filters,
-            collection: tab
-          }
+            collection: tab,
+          },
         };
     }
 
     dispatch(getAllDatasets({ ...options }));
-  }
+  },
 );

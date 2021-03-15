@@ -16,14 +16,15 @@ function RankingBar(props) {
   return (
     <div className="c-ranking-bar">
       <div className="bar">
-        {showPoint &&
+        {showPoint
+          && (
           <Tooltip
-            overlay={
+            overlay={(
               <IndicatorTooltip
                 count={count}
                 ranking={ranking}
               />
-            }
+            )}
             overlayClassName="c-rc-tooltip -default"
             placement="top"
             trigger={['hover']}
@@ -35,7 +36,7 @@ function RankingBar(props) {
               style={{ left: `${pointPosition}%` }}
             />
           </Tooltip>
-        }
+          )}
       </div>
     </div>
   );
@@ -44,7 +45,7 @@ function RankingBar(props) {
 RankingBar.propTypes = {
   indicator: PropTypes.object.isRequired,
   country: PropTypes.object.isRequired,
-  showPoint: PropTypes.bool.isRequired
+  showPoint: PropTypes.bool.isRequired,
 };
 
 export default RankingBar;

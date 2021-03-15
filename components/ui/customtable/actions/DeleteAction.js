@@ -24,16 +24,16 @@ class DeleteAction extends React.Component {
           url: `${url}/${data.id}`,
           headers: [{
             key: 'Authorization',
-            value: this.props.authorization
+            value: this.props.authorization,
           }],
           onSuccess: () => {
             this.props.onRowDelete(data.id);
           },
           onError: () => {
             toastr.error('Error', 'There was an error with the request. The object was not deleted');
-          }
+          },
         });
-      }
+      },
     });
   }
 
@@ -59,7 +59,7 @@ DeleteAction.propTypes = {
   url: PropTypes.string,
 
   authorization: PropTypes.string,
-  onRowDelete: PropTypes.func
+  onRowDelete: PropTypes.func,
 };
 
 export default DeleteAction;

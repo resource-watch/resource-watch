@@ -51,10 +51,10 @@ function ExploreDiscover(props) {
           'page[size]': 4,
           published: true,
           'applicationConfig.rw.highlighted': 'true',
-          includes: 'layer,metadata,widget'
+          includes: 'layer,metadata,widget',
         })
-          .then(data => setHighlightedDatasets({ loading: false, list: data }))
-          .catch(err => toastr.error('Error loading highlighted datasets', err));
+          .then((data) => setHighlightedDatasets({ loading: false, list: data }))
+          .catch((err) => toastr.error('Error loading highlighted datasets', err));
 
         // ----- Recently updated datasets -------
         fetchDatasets({
@@ -62,31 +62,31 @@ function ExploreDiscover(props) {
           published: true,
           sort: '-dataLastUpdated',
           includes: 'layer,metadata,widget',
-          'concepts[0][0]': 'near_real_time'
+          'concepts[0][0]': 'near_real_time',
         })
-          .then(data => setRecentUpdatedDatasets({ loading: false, list: data }))
-          .catch(err => toastr.error('Error loading recently updated datasets', err));
+          .then((data) => setRecentUpdatedDatasets({ loading: false, list: data }))
+          .catch((err) => toastr.error('Error loading recently updated datasets', err));
 
         // ----- Recently added datasets --------
         fetchDatasets({
           'page[size]': 4,
           published: true,
           sort: '-createdAt',
-          includes: 'layer,metadata,widget'
+          includes: 'layer,metadata,widget',
         })
-          .then(data => setRecentlyAddedDatasets({ loading: false, list: data }))
-          .catch(err => toastr.error('Error loading recently added datasets', err));
+          .then((data) => setRecentlyAddedDatasets({ loading: false, list: data }))
+          .catch((err) => toastr.error('Error loading recently added datasets', err));
       })
-      .catch(error => toastr.error('Error loading Explore configuration', error));
+      .catch((error) => toastr.error('Error loading Explore configuration', error));
   }, []);
 
   const relatedTopics = config && config.explore.discover['related-topics'];
 
   return (
     <div className={classnames({
-        'c-explore-discover': true,
-        '-hidden': selectedDataset,
-      })}
+      'c-explore-discover': true,
+      '-hidden': selectedDataset,
+    })}
     >
       <div className="trending-datasets discover-section">
         <div className="header">
@@ -104,21 +104,21 @@ function ExploreDiscover(props) {
               logEvent('Explore Menu', 'Click to See All Data', 'Highlighted datasets');
             }}
           >
-                        SEE ALL DATA
+            SEE ALL DATA
           </div>
         </div>
         <DatasetList
           loading={highlightedDatasets.loading}
           numberOfPlaceholders={4}
           list={highlightedDatasets.list}
-          actions={
+          actions={(
             <MediaQuery
               minDeviceWidth={breakpoints.medium}
               values={{ deviceWidth: responsive.fakeWidth }}
             >
               <ExploreDatasetsActions />
             </MediaQuery>
-          }
+          )}
         />
       </div>
       <div className="related-topics discover-section">
@@ -137,12 +137,13 @@ function ExploreDiscover(props) {
               logEvent('Explore Menu', 'Click to See All Topics');
             }}
           >
-                        SEE ALL
+            SEE ALL
           </div>
         </div>
-        {relatedTopics && relatedTopics.length > 0 &&
+        {relatedTopics && relatedTopics.length > 0
+          && (
           <TopicsList
-            topics={TOPICS.filter(t => relatedTopics.find(rT => rT === t.id))}
+            topics={TOPICS.filter((t) => relatedTopics.find((rT) => rT === t.id))}
             onClick={(id) => {
               props.setFiltersSearch('');
               props.resetFiltersSort();
@@ -152,7 +153,7 @@ function ExploreDiscover(props) {
               props.setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
             }}
           />
-        }
+          )}
       </div>
       <div className="recently-added discover-section">
         <div className="header">
@@ -176,21 +177,21 @@ function ExploreDiscover(props) {
               logEvent('Explore Menu', 'Click to See All Data', 'Recently Added Datasets');
             }}
           >
-                        SEE ALL DATA
+            SEE ALL DATA
           </div>
         </div>
         <DatasetList
           loading={recentlyAddedDatasets.loading}
           numberOfPlaceholders={4}
           list={recentlyAddedDatasets.list}
-          actions={
+          actions={(
             <MediaQuery
               minDeviceWidth={breakpoints.medium}
               values={{ deviceWidth: responsive.fakeWidth }}
             >
               <ExploreDatasetsActions />
             </MediaQuery>
-          }
+          )}
         />
       </div>
       <div className="recent-updated discover-section">
@@ -209,21 +210,21 @@ function ExploreDiscover(props) {
               logEvent('Explore Menu', 'Click to See All Data', 'Recently Updated Datasets');
             }}
           >
-                        SEE ALL DATA
+            SEE ALL DATA
           </div>
         </div>
         <DatasetList
           loading={recentUpdatedDatasets.loading}
           numberOfPlaceholders={4}
           list={recentUpdatedDatasets.list}
-          actions={
+          actions={(
             <MediaQuery
               minDeviceWidth={breakpoints.medium}
               values={{ deviceWidth: responsive.fakeWidth }}
             >
               <ExploreDatasetsActions />
             </MediaQuery>
-          }
+          )}
         />
       </div>
     </div>

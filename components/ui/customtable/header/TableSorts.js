@@ -10,11 +10,11 @@ function TableSorts(props) {
     <div>
       <button
         className={classnames({
-          '-active': sort.field === field && sort.value === 1
+          '-active': sort.field === field && sort.value === 1,
         })}
         onClick={() => onSort && onSort({
           field,
-          value: 1
+          value: 1,
         })}
       >
         <Icon name="icon-arrow-up" className="-tiny" />
@@ -22,11 +22,11 @@ function TableSorts(props) {
 
       <button
         className={classnames({
-          '-active': sort.field === field && sort.value === -1
+          '-active': sort.field === field && sort.value === -1,
         })}
         onClick={() => onSort && onSort({
           field,
-          value: -1
+          value: -1,
         })}
       >
         <Icon name="icon-arrow-down" className="-tiny" />
@@ -38,7 +38,7 @@ function TableSorts(props) {
 TableSorts.propTypes = {
   field: PropTypes.string.isRequired,
   onSort: PropTypes.func.isRequired,
-  sort: PropTypes.object
+  sort: PropTypes.object,
 };
 
 export default TableSorts;

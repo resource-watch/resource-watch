@@ -33,7 +33,7 @@ class DatasetsTable extends PureComponent {
     pagination: INITIAL_PAGINATION,
     loading: true,
     datasets: [],
-    filters: { name: null, 'user.role': 'ADMIN' }
+    filters: { name: null, 'user.role': 'ADMIN' },
   };
 
   componentDidMount() {
@@ -44,8 +44,8 @@ class DatasetsTable extends PureComponent {
     this.setState({
       filters: {
         ...this.state.filters,
-        'user.role': value.value
-      }
+        'user.role': value.value,
+      },
     },
     () => this.loadDatasets());
   }
@@ -63,9 +63,9 @@ class DatasetsTable extends PureComponent {
       loading: true,
       filters: {
         ...filters,
-        name: value
+        name: value,
       },
-      pagination: INITIAL_PAGINATION
+      pagination: INITIAL_PAGINATION,
     }, () => this.loadDatasets());
   }, 250)
 
@@ -76,8 +76,8 @@ class DatasetsTable extends PureComponent {
       loading: true,
       pagination: {
         ...pagination,
-        page: nextPage
-      }
+        page: nextPage,
+      },
     }, () => this.loadDatasets());
   }
 
@@ -97,37 +97,37 @@ class DatasetsTable extends PureComponent {
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.APPLICATIONS,
-      ...filters
+      ...filters,
     }, { Authorization: token }, true)
       .then(({ datasets, meta }) => {
         const {
           'total-pages': pages,
-          'total-items': size
+          'total-items': size,
         } = meta;
         const nextPagination = {
           ...pagination,
           size,
-          pages
+          pages,
         };
 
         this.setState({
           loading: false,
           pagination: nextPagination,
-          datasets: datasets.map(_dataset => ({
+          datasets: datasets.map((_dataset) => ({
             ..._dataset,
             owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
-            role: _dataset.user ? _dataset.user.role : ''
-          }))
+            role: _dataset.user ? _dataset.user.role : '',
+          })),
         });
       })
-      .catch(error => toastr.error('There was an error loading the datasets', error));
+      .catch((error) => toastr.error('There was an error loading the datasets', error));
   }
 
   render() {
     const {
       loading,
       pagination,
-      datasets
+      datasets,
     } = this.state;
 
     return (
@@ -146,13 +146,15 @@ class DatasetsTable extends PureComponent {
           link={{
             label: 'New dataset',
             route: 'admin_data_detail',
-            params: { tab: 'datasets', id: 'new' }
+            params: { tab: 'datasets', id: 'new' },
           }}
           onSearch={this.onSearch}
         />
         <CustomTable
           columns={[
-            { label: 'Name', value: 'name', td: NameTD, tdProps: { route: 'admin_data_detail' } },
+            {
+              label: 'Name', value: 'name', td: NameTD, tdProps: { route: 'admin_data_detail' },
+            },
             { label: 'Code', value: 'code', td: CodeTD },
             { label: 'Status', value: 'status', td: StatusTD },
             { label: 'Published', value: 'published', td: PublishedTD },
@@ -161,18 +163,24 @@ class DatasetsTable extends PureComponent {
             { label: 'Role', value: 'role', td: RoleTD },
             { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
             { label: 'Applications', value: 'application', td: ApplicationsTD },
-            { label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: 'admin_data_detail' } }
+            {
+              label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: '/admin/data' },
+            },
           ]}
           actions={{
             show: true,
             list: [
-              { name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction, componentProps: { route: 'admin_data_detail' } },
-              { name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
-            ]
+              {
+                name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction, componentProps: { route: 'admin_data_detail' },
+              },
+              {
+                name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
+              },
+            ],
           }}
           sort={{
             field: 'updatedAt',
-            value: -1
+            value: -1,
           }}
           filters={false}
           data={datasets}

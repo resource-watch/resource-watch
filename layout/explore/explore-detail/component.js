@@ -30,7 +30,7 @@ class ExploreDetailComponent extends React.Component {
     dataset: PropTypes.object,
     datasetLoading: PropTypes.bool.isRequired,
     tags: PropTypes.array.isRequired,
-    setSidebarAnchor: PropTypes.func.isRequired
+    setSidebarAnchor: PropTypes.func.isRequired,
   };
 
   static defaultProps = { dataset: null };
@@ -43,21 +43,22 @@ class ExploreDetailComponent extends React.Component {
 
   render() {
     const { dataset, datasetLoading, tags } = this.props;
-    const metadata = dataset && dataset.metadata &&
-      dataset.metadata.length > 0 && dataset.metadata[0];
+    const metadata = dataset && dataset.metadata
+      && dataset.metadata.length > 0 && dataset.metadata[0];
     const info = metadata && metadata.info;
     const layers = dataset && dataset.layer;
     const dateLastUpdated = getDateConsideringTimeZone(dataset && dataset.dataLastUpdated);
-    const defaultWidget = dataset && dataset.widget &&
-      dataset.widget.find(w => w.defaultEditableWidget);
+    const defaultWidget = dataset && dataset.widget
+      && dataset.widget.find((w) => w.defaultEditableWidget);
     const showLayersSection = dataset && dataset.layer && dataset.layer.length > 0;
     const showTags = tags && tags.length > 0;
 
     return (
       <div className="c-explore-detail">
         <Spinner isLoading={datasetLoading} className="-light" />
-        { metadata &&
-          <Fragment>
+        { metadata
+          && (
+          <>
             <div className="content">
               <ExploreDetailHeader dataset={dataset} />
               <div id="overview" className="overview metadata-section">
@@ -65,7 +66,7 @@ class ExploreDetailComponent extends React.Component {
                   <h2>{info && info.name}</h2>
                 </div>
                 <div className="source-date">
-                  <div className="source" title={metadata.source} >
+                  <div className="source" title={metadata.source}>
                     {`SOURCE: ${metadata.source}`}
                   </div>
                   <div className="date">
@@ -84,15 +85,15 @@ class ExploreDetailComponent extends React.Component {
                     readMoreClicked={() => logEvent('Explore (Detail)', 'Clicks Read More', 'description')}
                   />
                 </div>
-                {showTags &&
-                  <ExploreDetailTags tags={tags} />
-                }
+                {showTags
+                  && <ExploreDetailTags tags={tags} />}
               </div>
-              {showLayersSection &&
+              {showLayersSection
+                && (
                 <div id="layers" className="metadata-section">
                   <DatasetLayers layers={layers} dataset={dataset} />
                 </div>
-              }
+                )}
               <div id="visualization" className="metadata-section">
                 <ExploreDetailVisualization
                   datasetId={dataset.id}
@@ -107,16 +108,17 @@ class ExploreDetailComponent extends React.Component {
               </div>
             </div>
             <ExploreDetailFooter />
-          </Fragment>
-        }
-        {!metadata && !datasetLoading &&
+          </>
+          )}
+        {!metadata && !datasetLoading
+          && (
           <div className="content">
             <ExploreDetailHeader dataset={dataset} />
             <div id="overview" className="overview metadata-section">
               <p>Metadata for this dataset couldn&apos;t be loaded.</p>
             </div>
           </div>
-        }
+          )}
       </div>
     );
   }

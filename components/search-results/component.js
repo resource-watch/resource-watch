@@ -1,4 +1,3 @@
-
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
@@ -19,11 +18,11 @@ class SearchResults extends PureComponent {
       limit: PropTypes.number,
       term: PropTypes.string,
       loading: PropTypes.bool,
-      selected: PropTypes.number
+      selected: PropTypes.number,
     }).isRequired,
     headerSearch: PropTypes.bool,
     setSearchPage: PropTypes.func.isRequired,
-    setSearchUrl: PropTypes.func.isRequired
+    setSearchUrl: PropTypes.func.isRequired,
   }
 
   static defaultProps = { headerSearch: false }
@@ -36,19 +35,22 @@ class SearchResults extends PureComponent {
 
   render() {
     const {
-      search: { term, list, total, page, limit, loading, selected },
-      headerSearch
+      search: {
+        term, list, total, page, limit, loading, selected,
+      },
+      headerSearch,
     } = this.props;
     const searchListClass = classnames(
       'c-search-list',
-      { 'c-search-list--header': headerSearch }
+      { 'c-search-list--header': headerSearch },
     );
     const showPagination = !!total && total > limit && !loading && list.length > 0;
     const noResults = ((!term) || !total) && term.length !== 0 && !loading;
 
     return (
       <div className={searchListClass}>
-        {term && list.length > 0 &&
+        {term && list.length > 0
+          && (
           <ul className="search-list">
             {list.map((l, k) => (
               <li
@@ -68,20 +70,21 @@ class SearchResults extends PureComponent {
               </li>
             ))}
           </ul>
-        }
+          )}
 
         {noResults && (<p className="c-search-list--empty">No results</p>)}
 
-        {!headerSearch && showPagination &&
+        {!headerSearch && showPagination
+          && (
           <Paginator
             options={{
               size: total,
               page,
-              limit
+              limit,
             }}
             onChange={this.onChangePage}
           />
-        }
+          )}
       </div>
     );
   }

@@ -49,7 +49,15 @@ class LayoutContactUs extends PureComponent {
             <div className="row align-center">
               <div className="column small-12 medium-8">
                 <h2>Media inquiries</h2>
-                <p>Please contact Corey Filiault at <a href="mailto://corey.filiault@wri.org">corey.filiault@wri.org</a> or Lauren Zelin at <a href="mailto://lzelin@wri.org">lzelin@wri.org</a> for media inquiries.</p>
+                <p>
+                  Please contact Corey Filiault at
+                  <a href="mailto://corey.filiault@wri.org">corey.filiault@wri.org</a>
+                  {' '}
+                  or Lauren Zelin at
+                  <a href="mailto://lzelin@wri.org">lzelin@wri.org</a>
+                  {' '}
+                  for media inquiries.
+                </p>
               </div>
             </div>
           </div>
@@ -64,7 +72,10 @@ class LayoutContactUs extends PureComponent {
                   bgImage="/static/images/backgrounds/partners-02@2x.jpg"
                 >
                   <p className="-claim">
-                    Let&rsquo;s build a more sustainable<br /> world together.
+                    Let&rsquo;s build a more sustainable
+                    <br />
+                    {' '}
+                    world together.
                   </p>
                   <Link to="about_partners">
                     <a className="c-btn -primary">Partners</a>

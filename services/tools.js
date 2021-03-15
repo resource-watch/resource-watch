@@ -10,31 +10,29 @@ import { logger } from 'utils/logs';
  * @param {Object} params Request paremeters.
  * @param {Object} headers Request headers.
  */
-export const fetchTools = (token, params = {}, headers = {}) => {
+export const fetchTools = (params = {}, headers = {}) => {
   logger.info('Fetch tools');
   return WRIAPI.get(
-    'tool',
+    '/v1/tool',
     {
       headers: {
         ...headers,
-        Authorization: token
       },
       params: {
         published: 'all',
         application: process.env.APPLICATIONS,
         env: process.env.API_ENV,
-        ...params
-      }
-    }
+        ...params,
+      },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching tools: ${status}: ${statusText}`);
       throw new Error(`Error fetching tools: ${status}: ${statusText}`);
     });
 };
-
 
 /**
  * Fetch tool
@@ -47,16 +45,16 @@ export const fetchTools = (token, params = {}, headers = {}) => {
 export const fetchTool = (id, token, params = {}, headers = {}) => {
   logger.info(`Fetch tool ${id}`);
   return WRIAPI.get(
-    `tool/${id}`,
+    `/v1/tool/${id}`,
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching tool ${id}: ${status}: ${statusText}`);
@@ -72,10 +70,10 @@ export const fetchTool = (id, token, params = {}, headers = {}) => {
  */
 export const updateTool = (tool, token) => {
   logger.info(`Update tool ${tool.id}`);
-  return WRIAPI.patch(`tool/${tool.id}`,
-    { data: { attributes: { ...tool } } }
-    , { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+  return WRIAPI.patch(`/v1/tool/${tool.id}`,
+    { data: { attributes: { ...tool } } },
+    { headers: { Authorization: token } })
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating tool ${tool.id}: ${status}: ${statusText}`);
@@ -91,16 +89,16 @@ export const updateTool = (tool, token) => {
  */
 export const createTool = (tool, token) => {
   logger.info('Create tool');
-  return WRIAPI.post('tool',
+  return WRIAPI.post('/v1/tool',
     {
       data: {
         application: process.env.APPLICATIONS,
         env: process.env.API_ENV,
-        attributes: { ...tool }
-      }
+        attributes: { ...tool },
+      },
     },
     { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating tool ${status}: ${statusText}`);
@@ -119,14 +117,14 @@ export const createTool = (tool, token) => {
 export const deleteTool = (id, token, params = {}, headers = {}) => {
   logger.info(`Delete tool ${id}`);
   return WRIAPI.delete(
-    `tool/${id}`,
+    `/v1/tool/${id}`,
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -135,12 +133,10 @@ export const deleteTool = (id, token, params = {}, headers = {}) => {
     });
 };
 
-
 export default {
   fetchTools,
   fetchTool,
   createTool,
   updateTool,
-  deleteTool
+  deleteTool,
 };
-

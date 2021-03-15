@@ -22,7 +22,7 @@ export default function getQueryByFilters(
   arrColumns = [],
   arrOrder = [],
   sortOrder = 'asc',
-  datasetSlug = null
+  datasetSlug = null,
 ) {
   // We compute the WHERE part of the query which corresponds
   // to the filters
@@ -40,7 +40,7 @@ export default function getQueryByFilters(
     }
 
     return null;
-  }).filter(filter => !!filter)
+  }).filter((filter) => !!filter)
     .join(' AND ');
 
   // Get column names
@@ -65,7 +65,7 @@ export default function getQueryByFilters(
 
   let orderBy = '';
   if (arrOrder.length) {
-    const orders = arrOrder.map(order => order.name).join(' ');
+    const orders = arrOrder.map((order) => order.name).join(' ');
 
     orderBy = `ORDER BY ${orders} ${sortOrder}`;
   }
@@ -73,7 +73,7 @@ export default function getQueryByFilters(
   const where = (filtersQuery.length) ? `WHERE ${filtersQuery}` : '';
 
   // The column used to group the data, if exist
-  const groupingColumns = arrColumns.filter(col => col.group);
+  const groupingColumns = arrColumns.filter((col) => col.group);
 
   let groupBy = 'GROUP BY ';
   groupingColumns.forEach((val) => {

@@ -6,7 +6,6 @@ import classnames from 'classnames';
 import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 
-
 // Types
 /**
  * Item of the selector
@@ -37,14 +36,14 @@ export default class SliderSelect extends React.Component {
     // Whether the component should wait for the onValueChange callback to
     // return true before confirming the user's choice; if false, then
     // nothing would happen
-    waitForChangeConfirmation: PropTypes.bool
+    waitForChangeConfirmation: PropTypes.bool,
   };
 
   static defaultProps = {
     onValueChange: () => { },
     clearable: true,
     allowNonLeafSelection: true,
-    waitForChangeConfirmation: false
+    waitForChangeConfirmation: false,
   };
 
   constructor(props) {
@@ -53,7 +52,7 @@ export default class SliderSelect extends React.Component {
     this.state = {
       /** @type {Item} */
       selectedItem: props.options
-        ? props.options.find(item => item.value === props.value)
+        ? props.options.find((item) => item.value === props.value)
         : null,
       closed: true,
       fullList: props.options || [], // Original list of options
@@ -61,7 +60,7 @@ export default class SliderSelect extends React.Component {
       pathToCurrentItemsList: [], // List of all of the items leading to the current list
       pathToSelectedItem: [], // Same as pathToCurrentItemsList but for the selected item
       selectedIndex: 0, // Index of the selected option (via the keyboard)
-      waitingConfirmation: false // Whether we're waiting a selection confirmation
+      waitingConfirmation: false, // Whether we're waiting a selection confirmation
     };
 
     // -------------------- BINDINGS -----------------------
@@ -83,14 +82,14 @@ export default class SliderSelect extends React.Component {
     if (newProps.options.length && !this.state.fullList.length) {
       this.setState({
         fullList: newProps.options || [],
-        filteredOptions: newProps.options || []
+        filteredOptions: newProps.options || [],
       });
     }
 
     // If we get new options...
     if (newProps.options !== this.props.options) {
       const selectedIndex = (newProps.options && newProps.value)
-        ? newProps.options.findIndex(item => item.value === newProps.value)
+        ? newProps.options.findIndex((item) => item.value === newProps.value)
         : -1;
 
       const selectedItem = selectedIndex !== -1
@@ -103,13 +102,13 @@ export default class SliderSelect extends React.Component {
         selectedItem,
         selectedIndex: selectedIndex !== -1 ? selectedIndex : 0,
         pathToCurrentItemsList: [],
-        pathToSelectedItem: []
+        pathToSelectedItem: [],
       });
     } else if (newProps.value !== this.props.value) {
       // If the value of the select is changed via the props, we update
       // the select item in the component
       const selectedItem = this.props.options
-        && this.props.options.find(item => item.value === newProps.value);
+        && this.props.options.find((item) => item.value === newProps.value);
 
       if (selectedItem) {
         this.setState({ selectedItem });
@@ -171,10 +170,10 @@ export default class SliderSelect extends React.Component {
         // the input gets updated
         setTimeout(() => {
           /** @type {string} */
-          const value = target.value;
+          const { value } = target;
           const listTofilter = this.getItemsListAtCurrentLevel(this.state.pathToCurrentItemsList);
           const filteredOptions = listTofilter
-            .filter(item => item.label.toLowerCase().match(value.toLowerCase()));
+            .filter((item) => item.label.toLowerCase().match(value.toLowerCase()));
           this.setState({ filteredOptions });
         }, 0);
         break;
@@ -205,7 +204,7 @@ export default class SliderSelect extends React.Component {
 
     this.setState({
       pathToCurrentItemsList: newPath,
-      filteredOptions: items
+      filteredOptions: items,
     });
   }
 
@@ -223,7 +222,7 @@ export default class SliderSelect extends React.Component {
 
     this.setState({
       pathToCurrentItemsList: newPath,
-      filteredOptions: items
+      filteredOptions: items,
     });
   }
 
@@ -285,7 +284,7 @@ export default class SliderSelect extends React.Component {
 
     if (path.length) {
       for (let i = 0; i < path.length; i++) {
-        const item = list.find(it => it.value === path[i].value);
+        const item = list.find((it) => it.value === path[i].value);
         if (item.items) list = item.items;
         else break;
       }
@@ -337,7 +336,7 @@ export default class SliderSelect extends React.Component {
         pathToCurrentItemsList: [],
         pathToSelectedItem: [],
         filteredOptions: this.state.fullList,
-        selectedIndex: 0
+        selectedIndex: 0,
       });
     } else {
       // If there's a selected option then we restore the
@@ -346,7 +345,7 @@ export default class SliderSelect extends React.Component {
       this.setState({
         pathToCurrentItemsList: this.state.pathToSelectedItem,
         filteredOptions,
-        selectedIndex: filteredOptions.findIndex(item => item === this.state.selectedItem)
+        selectedIndex: filteredOptions.findIndex((item) => item === this.state.selectedItem),
       });
     }
 
@@ -366,7 +365,7 @@ export default class SliderSelect extends React.Component {
     // We wait for the confirmation to select this option
     return new Promise(async (resolve, reject) => {
       this.setState({ waitingConfirmation: true });
-      const res = await this.props.onValueChange(item, path.map(it => it.value), 'vocabulary');
+      const res = await this.props.onValueChange(item, path.map((it) => it.value), 'vocabulary');
       this.setState({ waitingConfirmation: false });
       if (!this.props.waitForChangeConfirmation || !!res) resolve();
       else reject();
@@ -375,7 +374,7 @@ export default class SliderSelect extends React.Component {
       .then(() => {
         this.setState({
           selectedItem: item,
-          pathToSelectedItem: path
+          pathToSelectedItem: path,
         }, () => this.close());
       })
       // If that's denied, we don't care, we just don't do anything
@@ -393,32 +392,41 @@ export default class SliderSelect extends React.Component {
       pathToCurrentItemsList: [],
       pathToSelectedItem: [],
       filteredOptions: this.state.fullList,
-      selectedIndex: 0
+      selectedIndex: 0,
     });
     this.props.onValueChange();
   }
 
   render() {
-    const { className, options, placeholder, clearable } = this.props;
+    const {
+      className, options, placeholder, clearable,
+    } = this.props;
     const {
       closed,
       filteredOptions,
       selectedItem,
       pathToCurrentItemsList,
       selectedIndex,
-      waitingConfirmation
+      waitingConfirmation,
     } = this.state;
 
     const cNames = classnames({
       'c-custom-select -search': true,
-      '-closed': closed
+      '-closed': closed,
     }, className);
 
     const noResults = !!(options.length && !filteredOptions.length);
 
     let selectText = placeholder;
-    if (waitingConfirmation) selectText = <span><Spinner isLoading className="-light -small -inline" /> Waiting for action</span>;
-    else if (selectedItem) selectText = selectedItem.as || selectedItem.label;
+    if (waitingConfirmation) {
+      selectText = (
+        <span>
+          <Spinner isLoading className="-light -small -inline" />
+          {' '}
+          Waiting for action
+        </span>
+      );
+    } else if (selectedItem) selectText = selectedItem.as || selectedItem.label;
 
     return (
       <div ref={(node) => { this.el = node; }} className={cNames}>
@@ -440,19 +448,21 @@ export default class SliderSelect extends React.Component {
                 <Icon name="icon-arrow-down" className="-small icon-arrow-down" />
               </button>
             */}
-            { selectedItem && clearable &&
+            { selectedItem && clearable
+              && (
               <button className="icon-btn clear-button" onClick={this.clearSelectedItem}>
                 <Icon name="icon-cross" className="-smaller icon-cross" />
               </button>
-            }
+              )}
           </div>
         </div>
-        {noResults &&
-          <span className="no-results">No results</span>
-        }
-        {this.state.closed ||
+        {noResults
+          && <span className="no-results">No results</span>}
+        {this.state.closed
+          || (
           <ul className="custom-select-options" role="listbox" aria-label={placeholder} ref={(node) => { this.options = node; }}>
-            {pathToCurrentItemsList.length > 0 &&
+            {pathToCurrentItemsList.length > 0
+              && (
               <li
                 role="option"
                 aria-selected="false"
@@ -465,7 +475,7 @@ export default class SliderSelect extends React.Component {
                   <span>{pathToCurrentItemsList[pathToCurrentItemsList.length - 1].label}</span>
                 </div>
               </li>
-            }
+              )}
             {filteredOptions.map((item, index) => (
               <li
                 role="option"
@@ -473,18 +483,19 @@ export default class SliderSelect extends React.Component {
                 className={classnames({ '-selected': index === selectedIndex })}
                 key={item.id || item.value}
                 onMouseEnter={() => { this.setSelectedIndex(index); }}
-                onMouseDown={e => this.onMouseDownOption(e, item)}
+                onMouseDown={(e) => this.onMouseDownOption(e, item)}
               >
                 <span className="label">{item.label}</span>
-                {item.items && item.items.length &&
-                  <button className="next" onClick={e => this.onSliderNext(e, item)}>
+                {item.items && item.items.length
+                  && (
+                  <button className="next" onClick={(e) => this.onSliderNext(e, item)}>
                     <Icon name="icon-arrow-right-2" className="-small icon-arrow-right-2" />
                   </button>
-                }
+                  )}
               </li>
             ))}
           </ul>
-        }
+          )}
       </div>
     );
   }

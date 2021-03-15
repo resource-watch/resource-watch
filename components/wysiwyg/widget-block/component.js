@@ -8,7 +8,7 @@ import {
   Tooltip,
   Legend,
   LegendListItem,
-  LegendItemTypes
+  LegendItemTypes,
 } from 'vizzuality-components';
 import { toastr } from 'react-redux-toastr';
 
@@ -28,7 +28,9 @@ import ShareModal from 'components/modal/share-modal';
 import ErrorBoundary from 'components/ui/error-boundary';
 
 // constants
-import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
+import {
+  DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS,
+} from 'components/map/constants';
 
 // utils
 import { logEvent } from 'utils/analytics';
@@ -56,21 +58,21 @@ class WidgetBlock extends PureComponent {
     data: {},
     item: {},
     onToggleModal: null,
-    onToggleLoading: null
+    onToggleLoading: null,
   };
 
   state = {
     shareWidget: null,
     viewport: DEFAULT_VIEWPORT,
-    isInitMap: false
+    isInitMap: false,
   }
 
   componentDidUpdate() {
     const { viewport, isInitMap } = this.state;
     if (
-      isInitMap === false &&
-      viewport.latitude === 0 &&
-      viewport.longitude === 0
+      isInitMap === false
+      && viewport.latitude === 0
+      && viewport.longitude === 0
     ) {
       this.setViewportByProps();
     }
@@ -92,7 +94,7 @@ class WidgetBlock extends PureComponent {
       newViewport = { ...viewport, ...center };
       this.setState({
         viewport: newViewport,
-        isInitMap: true
+        isInitMap: true,
       });
     }
     return true;
@@ -140,8 +142,8 @@ class WidgetBlock extends PureComponent {
       viewport: {
         ...viewport,
         zoom,
-        transitionDuration: 250
-      }
+        transitionDuration: 250,
+      },
     });
   }
 
@@ -176,11 +178,11 @@ class WidgetBlock extends PureComponent {
       widgetModal,
       layers,
       layersLoading,
-      layersError
+      layersError,
     } = data[id];
 
-    const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0 &&
-      widget.metadata[0].info)) || {};
+    const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0
+      && widget.metadata[0].info)) || {};
 
     const widgetLinks = metadataInfo.widgetLinks || [];
     const widgetIsEmbed = widget && widget.widgetConfig && widget.widgetConfig.type === 'embed';
@@ -198,11 +200,11 @@ class WidgetBlock extends PureComponent {
 
     const filteredLayers = [];
     layers.map(
-      layerGroup => layerGroup.layers.filter(
-        l => l.active === true
+      (layerGroup) => layerGroup.layers.filter(
+        (l) => l.active === true,
       ).forEach(
-        l => filteredLayers.push(l)
-      )
+        (l) => filteredLayers.push(l),
+      ),
     );
 
     return (
@@ -229,13 +231,13 @@ class WidgetBlock extends PureComponent {
                     <ShareModal
                       links={{
                         link: typeof window !== 'undefined' && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
-                        embed: typeof window !== 'undefined' && `${window.location.origin}/embed/${widgetType}/${widget.id}`
+                        embed: typeof window !== 'undefined' && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
                       }}
                       analytics={{
                         facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
                         twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
                         email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
-                        copy: type => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`)
+                        copy: (type) => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`),
                       }}
                     />
                   </Modal>
@@ -244,10 +246,12 @@ class WidgetBlock extends PureComponent {
                 <li>
                   <LoginRequired redirect={false}>
                     <Tooltip
-                      overlay={<CollectionsPanel
-                        resource={widget}
-                        resourceType="widget"
-                      />}
+                      overlay={(
+                        <CollectionsPanel
+                          resource={widget}
+                          resourceType="widget"
+                        />
+)}
                       overlayClassName="c-rc-tooltip"
                       overlayStyle={{ color: '#fff' }}
                       placement="bottomLeft"
@@ -283,12 +287,13 @@ class WidgetBlock extends PureComponent {
           <div className="widget-container">
             <Spinner isLoading={widgetLoading || layersLoading} className="-light -small" />
 
-            {!widgetError && widgetType === 'text' && widget &&
+            {!widgetError && widgetType === 'text' && widget
+              && (
               <TextChart
                 widgetConfig={widget.widgetConfig}
-                toggleLoading={loading => onToggleLoading(loading)}
+                toggleLoading={(loading) => onToggleLoading(loading)}
               />
-            }
+              )}
 
             {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget && (
               <Renderer
@@ -297,12 +302,11 @@ class WidgetBlock extends PureComponent {
               />
             )}
 
-            {widgetIsEmbed &&
-              <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />
-            }
+            {widgetIsEmbed
+              && <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />}
 
             {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && isInitMap && (
-              <Fragment>
+              <>
                 <div className="c-map">
                   <Map
                     mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
@@ -315,13 +319,13 @@ class WidgetBlock extends PureComponent {
                     bounds={this.getMapBounds(widget)}
                     onError={this.handleMapErrors}
                   >
-                    {_map => (
-                      <Fragment>
+                    {(_map) => (
+                      <>
                         <LayerManager
                           map={_map}
                           layers={filteredLayers}
                         />
-                      </Fragment>
+                      </>
                     )}
                   </Map>
                   <MapControls customClass="c-map-controls -embed">
@@ -348,39 +352,42 @@ class WidgetBlock extends PureComponent {
                     ))}
                   </Legend>
                 </div>
-              </Fragment>
+              </>
             )}
 
-            {!widgetError && !layersError && !item && !item.content.widgetId &&
+            {!widgetError && !layersError && !item && !item.content.widgetId
+              && (
               <div className="message">
                 <div className="no-data">No data</div>
               </div>
-            }
+              )}
 
-            {(widgetError || layersError) &&
+            {(widgetError || layersError)
+              && (
               <div className="message">
                 <div className="error">Unable to load</div>
               </div>
-            }
+              )}
 
-            {widgetModal &&
+            {widgetModal
+              && (
               <div className="widget-modal">
-                {widget && !widget.description &&
-                  <p>No additional information is available</p>
-                }
+                {widget && !widget.description
+                  && <p>No additional information is available</p>}
 
                 {widget && widget.description && (
-                  <div>
-                    <h4>Description</h4>
-                    <p>{widget.description}</p>
-                  </div>
+                <div>
+                  <h4>Description</h4>
+                  <p>{widget.description}</p>
+                </div>
                 )}
 
-                {widgetLinks.length > 0 &&
+                {widgetLinks.length > 0
+                  && (
                   <div className="widget-links-container">
                     <h4>Links</h4>
                     <ul>
-                      {widgetLinks.map(link => (
+                      {widgetLinks.map((link) => (
                         <li>
                           <a
                             href={link.link}
@@ -393,18 +400,18 @@ class WidgetBlock extends PureComponent {
                       ))}
                     </ul>
                   </div>
-                }
+                  )}
               </div>
-            }
+              )}
           </div>
         </ErrorBoundary>
 
-
-        {caption &&
+        {caption
+          && (
           <div className="caption-container">
             {caption}
           </div>
-        }
+          )}
       </div>
     );
   }

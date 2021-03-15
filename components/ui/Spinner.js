@@ -15,7 +15,7 @@ function Spinner({ isLoading, className, style }) {
 Spinner.propTypes = {
   isLoading: PropTypes.bool,
   className: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 export default Spinner;

@@ -8,7 +8,7 @@ export const setLayerInteractionError = createAction('ADMIN_LAYER_PREVIEW_SET_LA
 export const setLayerInteraction = createAction('ADMIN_LAYER_PREVIEW_SET_LAYER_INTERACTION');
 export const setLayerInteractionSelected = createAction('ADMIN_LAYER_PREVIEW_SET_LAYER_INTERACTION_SELECTED');
 export const setLayerInteractionLatLng = createAction('ADMIN_LAYER_PREVIEW_SET_LAYER_INTERACTION_LATLNG');
-export const generateLayerGroups = createThunkAction('ADMIN_LAYER_PREVIEW_GENERATE_LAYER_GROUPS', payload => (dispatch) => {
+export const generateLayerGroups = createThunkAction('ADMIN_LAYER_PREVIEW_GENERATE_LAYER_GROUPS', (payload) => (dispatch) => {
   const { layer, interactions } = payload;
   const layerGroups = [{
     dataset: layer.dataset,
@@ -19,7 +19,7 @@ export const generateLayerGroups = createThunkAction('ADMIN_LAYER_PREVIEW_GENERA
       layerConfig: layer.layerConfig,
       interactionConfig: {
         ...layer.interactionConfig,
-        output: interactions
+        output: interactions,
       },
       legendConfig: layer.legendConfig,
       id: layer.id,
@@ -28,8 +28,8 @@ export const generateLayerGroups = createThunkAction('ADMIN_LAYER_PREVIEW_GENERA
       slug: layer.slug,
       iso: layer.iso,
       description: layer.description,
-      ...layer.layerConfig.layerType && { layerType: layer.layerConfig.layerType }
-    }]
+      ...layer.layerConfig.layerType && { layerType: layer.layerConfig.layerType },
+    }],
   }];
   dispatch(setLayerGroups({ layerGroups }));
 });

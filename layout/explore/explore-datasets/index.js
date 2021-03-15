@@ -8,14 +8,14 @@ import { getUpdatedDatasets, getSelectedTagsWithData } from './selectors';
 import ExploreDatasetsComponent from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     // Store
     datasets: state.explore.datasets,
     list: getUpdatedDatasets(state),
     ...state.explore.filters,
     responsive: state.responsive,
     selectedTags: getSelectedTagsWithData(state),
-    loading: state.explore.datasets.loading
+    loading: state.explore.datasets.loading,
   }),
-  actions
+  actions,
 )(ExploreDatasetsComponent);

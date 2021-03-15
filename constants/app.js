@@ -7,24 +7,24 @@ export const TRANSIFEX_BLACKLIST = [
   '/app/embed/EmbedEmbed',
   '/app/embed/EmbedDataset',
   '/app/embed/EmbedSimilarDatasets',
-  '/app/explore/embed'
+  '/app/explore/embed',
 ];
 
 export const FULLSCREEN_PAGES = [
   '/data/explore',
   '/data/pulse',
-  '/sign-in'
+  '/sign-in',
 ];
 
 export const PAGES_WITHOUT_DASHBOARDS = [
   '/admin',
-  '/embed'
+  '/embed',
 ];
 
 export const CESIUM_ROUTES = [
-  '/data/pulse'
+  '/data/pulse',
 ];
 
 export const HOTJAR_ROUTES = [
-  '/data/explore'
+  '/data/explore',
 ];

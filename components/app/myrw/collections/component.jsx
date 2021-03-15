@@ -2,9 +2,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 // Components
-import CollectionsIndex from 'components/app/myrw/collections/pages/index';
-import CollectionsNew from 'components/app/myrw/collections/pages/new';
-import CollectionsEdit from 'components/app/myrw/collections/pages/edit';
+import CollectionsIndex from './tabs/index';
+import CollectionsNew from './tabs/new';
+import CollectionsEdit from './tabs/edit';
 
 const CollectionsTab = () => {
   const {

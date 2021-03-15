@@ -8,7 +8,7 @@ const getUserToken = (state) => state.user.token;
 export const getRWAdapter = createSelector(
   [getLocale, getUserToken],
   (locale, userToken) => AdapterModifier(RWAdapter, {
-    endpoint: process.env.WRI_API_URL,
+    endpoint: `${process.env.WRI_API_URL}/v1`,
     env: process.env.API_ENV,
     applications: process.env.APPLICATIONS.split(','),
     locale,

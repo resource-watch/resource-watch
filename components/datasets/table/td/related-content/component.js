@@ -7,7 +7,7 @@ import DatasetsRelatedContent from 'components/datasets/common/DatasetsRelatedCo
 class RelatedContentTD extends PureComponent {
   static propTypes = {
     row: PropTypes.object.isRequired,
-    route: PropTypes.string.isRequired
+    route: PropTypes.string.isRequired,
   }
 
   render() {

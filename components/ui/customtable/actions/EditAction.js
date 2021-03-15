@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 class EditAction extends React.Component {
   parseHref() {
     const { action, data } = this.props;
-    const id = data.id;
-    const path = action.path;
+    const { id } = data;
+    const { path } = action;
 
     return path.replace(':id', id);
   }
@@ -23,7 +23,7 @@ class EditAction extends React.Component {
 
 EditAction.propTypes = {
   data: PropTypes.object,
-  action: PropTypes.object
+  action: PropTypes.object,
 };
 
 export default EditAction;

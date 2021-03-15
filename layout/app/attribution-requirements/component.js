@@ -44,7 +44,8 @@ class LayoutAttributionRequirements extends PureComponent {
             </div>
           </header>
           <div className="l-content-body">
-            {!!data.content &&
+            {!!data.content
+              && (
               <div className="l-container">
                 <article>
                   <div className="row align-center">
@@ -56,7 +57,7 @@ class LayoutAttributionRequirements extends PureComponent {
                   </div>
                 </article>
               </div>
-            }
+              )}
           </div>
         </section>
       </Layout>

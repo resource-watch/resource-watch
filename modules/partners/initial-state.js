@@ -2,21 +2,21 @@ export default {
   all: {
     list: [],
     loading: true,
-    error: null
+    error: null,
   },
   published: {
     list: [],
     loading: true,
-    error: null
+    error: null,
   },
   detail: {
     data: null,
-    error: null
+    error: null,
   },
   datasetsByPartner: {
     list: [],
-    error: null
+    error: null,
   },
   // used in admin
-  filters: []
+  filters: [],
 };

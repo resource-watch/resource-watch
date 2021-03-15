@@ -13,15 +13,19 @@ import { logger } from 'utils/logs';
  */
 export const fetchPartners = (params = {}, headers = {}) => {
   logger.info('Fetch partners');
-  return WRIAPI.get('partner', {
+  return WRIAPI.get('/v1/partner', {
     params: {
       ...params,
       env: process.env.API_ENV,
-      application: process.env.APPLICATIONS
+      application: process.env.APPLICATIONS,
     },
-    headers: { ...headers }
+    headers: { ...headers },
   })
-    .then(response => WRISerializer(response.data))
+    .then((response) => {
+      const { status, statusText, data } = response;
+      logger.debug(`Fetched partners: ${status} - ${statusText}: ${JSON.stringify(data)}`);
+      return WRISerializer(data);
+    })
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching partners: ${status}: ${statusText}`);
@@ -40,17 +44,17 @@ export const fetchPartners = (params = {}, headers = {}) => {
 export const fetchPartner = (id, params = {}, headers = {}) => {
   logger.info(`Fetch partner ${id}`);
   return WRIAPI.get(
-    `partner/${id}`,
+    `/v1/partner/${id}`,
     {
       headers: { ...headers },
       params: {
         ...params,
         env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
-      }
-    }
+        application: process.env.APPLICATIONS,
+      },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching partner ${id}: ${status}: ${statusText}`);
@@ -70,13 +74,13 @@ export const fetchPartner = (id, params = {}, headers = {}) => {
  */
 export const updatePartner = (id, partner, token, params = {}, headers = {}) => {
   logger.info(`Update partner ${id}`);
-  return WRIAPI.patch(`partner/${id}`,
+  return WRIAPI.patch(`/v1/partner/${id}`,
     { ...partner },
     {
       params: { ...params },
-      headers: { ...headers, Authorization: token }
+      headers: { ...headers, Authorization: token },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating partner ${id} ${status}: ${statusText}`);
@@ -95,17 +99,17 @@ export const updatePartner = (id, partner, token, params = {}, headers = {}) => 
  */
 export const createPartner = (partner, token, params = {}, headers = {}) => {
   logger.info('Create partner');
-  return WRIAPI.post('partner',
+  return WRIAPI.post('/v1/partner',
     { ...partner },
     {
       params: {
         ...params,
         env: process.env.API_ENV,
-        application: process.env.APPLICATIONS
+        application: process.env.APPLICATIONS,
       },
-      headers: { ...headers, Authorization: token }
+      headers: { ...headers, Authorization: token },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating partner ${status}: ${statusText}`);
@@ -124,17 +128,17 @@ export const createPartner = (partner, token, params = {}, headers = {}) => {
 export const deletePartner = (id, token, params = {}, headers = {}) => {
   logger.info(`Delete partner ${id}`);
   return WRIAPI.delete(
-    `partner/${id}`,
+    `/v1/partner/${id}`,
     {
       params: {
         ...params,
-        application: process.env.APPLICATIONS
+        application: process.env.APPLICATIONS,
       },
       headers: {
         ...headers,
-        Authorization: token
-      }
-    }
+        Authorization: token,
+      },
+    },
   )
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -148,5 +152,5 @@ export default {
   fetchPartner,
   deletePartner,
   createPartner,
-  updatePartner
+  updatePartner,
 };

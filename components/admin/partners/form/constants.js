@@ -20,8 +20,8 @@ export const STATE_DEFAULT = {
     icon: '',
     // States
     featured: false,
-    published: false
-  }
+    published: false,
+  },
 };
 
 export const FORM_ELEMENTS = {
@@ -35,24 +35,24 @@ export const FORM_ELEMENTS = {
   isValid() {
     const { elements } = this;
     const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
+      .map((k) => elements[k].isValid())
+      .filter((v) => v !== null)
+      .every((element) => element);
 
     return valid;
-  }
+  },
 };
 
 export const PARTNER_TYPES = [{
   label: 'Partner',
-  value: 'partner'
+  value: 'partner',
 }, {
   label: 'Founding partner',
-  value: 'founding_partners'
+  value: 'founding_partners',
 }, {
   label: 'Funder',
-  value: 'funders'
+  value: 'funders',
 }, {
   label: 'Anchor Funder',
-  value: 'anchor_funder'
+  value: 'anchor_funder',
 }];

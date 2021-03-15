@@ -15,7 +15,7 @@ const RelatedContentContainer = (props) => {
   const { datasetID } = props;
   const [datasets, setDatasets] = useState({
     list: [],
-    loading: false
+    loading: false,
   });
 
   useEffect(() => {
@@ -24,22 +24,22 @@ const RelatedContentContainer = (props) => {
       fetchSimilarDatasets({
         dataset: datasetID,
         published: true,
-        limit: 3
+        limit: 3,
       }).then((data) => {
         if (data.length > 0) {
           fetchDatasets({
-            ids: data.map(d => d.dataset).join(','),
-            includes: 'widget,metadata,layer,vocabulary'
+            ids: data.map((d) => d.dataset).join(','),
+            includes: 'widget,metadata,layer,vocabulary',
           })
             .then((similarDatasets) => {
               setDatasets({
                 list: similarDatasets,
-                loading: false
+                loading: false,
               });
             });
         }
       })
-        .catch(error => toastr.error('Error loading related content', error));
+        .catch((error) => toastr.error('Error loading related content', error));
     }
   }, [datasetID]);
 

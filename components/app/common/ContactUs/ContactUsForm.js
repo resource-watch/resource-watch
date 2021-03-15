@@ -17,11 +17,11 @@ import SubmitModalComponent from 'components/modal/submit-modal';
 // Constants
 import { FORM_ELEMENTS, STATE_DEFAULT, FORM_TOPICS } from './constants';
 
-
 class ContactUsForm extends React.Component {
-  state = Object.assign({}, STATE_DEFAULT, {
+  state = ({
+    ...STATE_DEFAULT,
     form: STATE_DEFAULT.form,
-    showSubmitModal: false
+    showSubmitModal: false,
   });
 
   /**
@@ -60,7 +60,7 @@ class ContactUsForm extends React.Component {
   }
 
   onChange(obj) {
-    const form = Object.assign({}, this.state.form, obj);
+    const form = { ...this.state.form, ...obj };
     this.setState({ form });
   }
 
@@ -76,7 +76,7 @@ class ContactUsForm extends React.Component {
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.topic = c; }}
-            onChange={value => this.onChange({ topic: value })}
+            onChange={(value) => this.onChange({ topic: value })}
             validations={['required']}
             className="-fluid"
             options={FORM_TOPICS.options}
@@ -85,7 +85,7 @@ class ContactUsForm extends React.Component {
               label: 'Topic',
               type: 'text',
               required: true,
-              default: this.state.form.topic
+              default: this.state.form.topic,
             }}
           >
             {Select}
@@ -93,7 +93,7 @@ class ContactUsForm extends React.Component {
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
-            onChange={value => this.onChange({ email: value })}
+            onChange={(value) => this.onChange({ email: value })}
             validations={['required', 'email']}
             className="-fluid"
             properties={{
@@ -102,7 +102,7 @@ class ContactUsForm extends React.Component {
               type: 'email',
               required: true,
               placeholder: 'Your Email',
-              default: this.state.form.email
+              default: this.state.form.email,
             }}
           >
             {Input}
@@ -110,7 +110,7 @@ class ContactUsForm extends React.Component {
 
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.text = c; }}
-            onChange={value => this.onChange({ text: value })}
+            onChange={(value) => this.onChange({ text: value })}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -118,7 +118,7 @@ class ContactUsForm extends React.Component {
               label: 'Message',
               required: true,
               placeholder: 'Tell us how we can help.',
-              default: this.state.form.text
+              default: this.state.form.text,
             }}
           >
             {TextArea}

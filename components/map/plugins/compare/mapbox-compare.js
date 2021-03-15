@@ -8,14 +8,14 @@ class MapboxCompare extends PureComponent {
     options: PropTypes.object,
     swiper: PropTypes.object,
     leftRef: PropTypes.object,
-    rightRef: PropTypes.object
+    rightRef: PropTypes.object,
   }
 
   static defaultProps = {
     options: {},
     swiper: null,
     leftRef: null,
-    rightRef: null
+    rightRef: null,
   }
 
   componentDidMount() {

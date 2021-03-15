@@ -12,7 +12,7 @@ const INSIGHTS_DATA = [
     slug: 'welcome-to-resource-watch',
     source: { name: 'Resource Watch', path: 'http://www.resourcewatch.org/', img: '/static/images/logo-no-text.svg' },
     background: 'url(/static/tempImages/backgrounds/rw_welcome.jpg) top',
-    body: ''
+    body: '',
   },
   {
     tag: 'April 11, 2018',
@@ -22,7 +22,7 @@ const INSIGHTS_DATA = [
     link: '/splash/coral',
     source: { name: 'Resource Watch', path: 'http://www.resourcewatch.org/', img: '/static/images/logo-no-text.svg' },
     background: 'url(/static/tempImages/backgrounds/BLEACHED-American-Samoa-2-February-2015.jpg)',
-    body: ''
+    body: '',
   },
   {
     tag: 'April 11, 2018',
@@ -31,8 +31,8 @@ const INSIGHTS_DATA = [
     slug: 'we-mapped-the-worlds-power-plants-heres-what-we-learned',
     source: { name: 'Resource Watch', path: 'http://www.resourcewatch.org/', img: '/static/images/logo-no-text.svg' },
     background: 'url(/static/tempImages/backgrounds/rw_powerwatch.jpg)',
-    body: ''
-  }
+    body: '',
+  },
 ];
 
 const GET_INSIGHTS_SUCCESS = 'insights/GET_INSIGHTS_SUCCESS';
@@ -49,53 +49,59 @@ const GET_INSIGHT_DETAIL_LOADING = 'insights/GET_INSIGHT_DETAIL_LOADING';
 const initialState = {
   list: [],
   loading: false,
-  error: false
+  error: false,
 };
 
-export default function (state = initialState, action) {
+export default function Insights(state = initialState, action) {
   switch (action.type) {
     case GET_INSIGHTS_SUCCESS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         list: action.payload,
         loading: false,
-        error: false
-      });
+        error: false,
+      };
     }
 
     case GET_INSIGHTS_ERROR: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         loading: false,
-        error: true
-      });
+        error: true,
+      };
     }
 
     case GET_INSIGHTS_LOADING: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         loading: true,
-        error: false
-      });
+        error: false,
+      };
     }
 
     case GET_INSIGHT_DETAIL_SUCCESS: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         data: action.payload,
         loading: false,
-        error: false
-      });
+        error: false,
+      };
     }
 
     case GET_INSIGHT_DETAIL_ERROR: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         loading: false,
-        error: true
-      });
+        error: true,
+      };
     }
 
     case GET_INSIGHT_DETAIL_LOADING: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         loading: true,
-        error: false
-      });
+        error: false,
+      };
     }
 
     default:
@@ -115,9 +121,9 @@ export function getInsights() {
     // Temporal data
     dispatch({
       type: GET_INSIGHTS_SUCCESS,
-      payload: INSIGHTS_DATA
+      payload: INSIGHTS_DATA,
     });
-    // fetch(new Request(`${process.env.WRI_API_URL}/partner`))
+    // fetch(new Request(`${process.env.WRI_API_URL}/v1/partner`))
     //   .then((response) => {
     //     if (response.ok) return response.json();
     //     throw new Error(response.statusText);
@@ -148,7 +154,7 @@ export function getInsightBySlug(slug) {
     // Temporal data
     dispatch({
       type: GET_INSIGHT_DETAIL_SUCCESS,
-      payload: find(INSIGHTS_DATA, { slug })
+      payload: find(INSIGHTS_DATA, { slug }),
     });
   };
 }

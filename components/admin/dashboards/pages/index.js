@@ -16,6 +16,5 @@ export default function DashboardsIndex({ user = {} }) {
 }
 
 DashboardsIndex.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
-

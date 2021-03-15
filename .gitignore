@@ -13,19 +13,17 @@
 *.log*
 
 # Compiled files
-/dist
-.next
-.yalc
-/build
-# Images added at build time
-static/images/widget-editor
+/.next
 
-# Next files
-.next
-
-# Ignore environment variables
+# Environmental variables
 .env
 
+# cypress
+/cypress/screenshots
+/cypress/videos
+cypress.env.json
+
+# coverage
 .nyc_output
 coverage
 coverage.json

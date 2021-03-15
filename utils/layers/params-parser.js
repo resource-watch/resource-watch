@@ -8,7 +8,9 @@ import { LEGEND_TIMELINE_PROPERTIES } from 'layout/explore/explore-map/constants
 export const reduceParams = (params) => {
   if (!params) return null;
   return params.reduce((obj, param) => {
-    const { format, key, interval, count } = param;
+    const {
+      format, key, interval, count,
+    } = param;
     let paramValue = param.default;
     const isDate = deburrUpper(param.key).includes('DATE');
     if (isDate && !paramValue) {
@@ -20,8 +22,8 @@ export const reduceParams = (params) => {
     const newObj = {
       ...obj,
       [key]: paramValue,
-      ...(key === 'endDate' &&
-        param.url && { latestUrl: param.url })
+      ...(key === 'endDate'
+        && param.url && { latestUrl: param.url }),
     };
     return newObj;
   }, {});
@@ -36,11 +38,11 @@ export const reduceSqlParams = (params) => {
         [param.key]: param.key_params.reduce((subObj, item) => {
           const keyValues = {
             ...subObj,
-            [item.key]: item.value
+            [item.key]: item.value,
           };
           return keyValues;
-        }, {})
-      }
+        }, {}),
+      },
     };
     return newObj;
   }, {});
@@ -53,8 +55,8 @@ export const getTimelineMarks = (timelineParams = {}) => {
     ...accumulator,
     [currentValue]: {
       label: currentValue,
-      style: LEGEND_TIMELINE_PROPERTIES.markStyle
-    }
+      style: LEGEND_TIMELINE_PROPERTIES.markStyle,
+    },
   }), {});
 
   return _marks;
@@ -67,12 +69,12 @@ export const getTimelineParams = (timelineParams = {}) => ({
   minDate: timelineParams.startDate,
   maxDate: timelineParams.endDate,
   trimEndDate: timelineParams.endDate,
-  marks: getTimelineMarks(timelineParams)
+  marks: getTimelineMarks(timelineParams),
 });
 
 export default {
   reduceParams,
   reduceSqlParams,
   getTimelineParams,
-  getTimelineMarks
+  getTimelineMarks,
 };

@@ -22,7 +22,7 @@ class ResetPassword extends PureComponent {
   state ={
     password: '',
     repeatPassword: '',
-    saving: false
+    saving: false,
   };
 
   componentDidMount() {
@@ -52,7 +52,7 @@ class ResetPassword extends PureComponent {
             this.setState({ saving: false });
             err.json()
               .then(({ errors } = {}) => {
-                (errors || []).forEach(_error => toastr.error('Something went wrong', `${_error.status}:${_error.detail}`));
+                (errors || []).forEach((_error) => toastr.error('Something went wrong', `${_error.status}:${_error.detail}`));
               });
           });
       });
@@ -63,7 +63,7 @@ class ResetPassword extends PureComponent {
     const {
       password,
       repeatPassword,
-      saving
+      saving,
     } = this.state;
 
     return (
@@ -85,7 +85,7 @@ class ResetPassword extends PureComponent {
                       <form onSubmit={this.onSubmit}>
                         <Field
                           ref={(c) => { if (c) FORM_ELEMENTS.elements.password = c; }}
-                          onChange={value => this.setState({ password: value })}
+                          onChange={(value) => this.setState({ password: value })}
                           className="-fluid"
                           validations={['required']}
                           properties={{
@@ -94,7 +94,7 @@ class ResetPassword extends PureComponent {
                             required: true,
                             default: password,
                             type: 'password',
-                            placeholder: '*********'
+                            placeholder: '*********',
                           }}
                         >
                           {Input}
@@ -106,7 +106,7 @@ class ResetPassword extends PureComponent {
                           validations={['required', {
                             type: 'equal',
                             data: password,
-                            condition: 'Passwords don\'t match'
+                            condition: 'Passwords don\'t match',
                           }]}
                           properties={{
                             name: 'repeat-password',
@@ -114,7 +114,7 @@ class ResetPassword extends PureComponent {
                             required: true,
                             default: repeatPassword,
                             type: 'password',
-                            placeholder: '*********'
+                            placeholder: '*********',
                           }}
                         >
                           {Input}
@@ -128,11 +128,13 @@ class ResetPassword extends PureComponent {
                                 </button>
                               </li>
                             </ul>
-                          </div>)}
+                          </div>
+                        )}
                         {saving && (
                           <div style={{ position: 'relative', padding: 20 }}>
                             <Spinner isLoading className="-transparent" />
-                          </div>)}
+                          </div>
+                        )}
                       </form>
                     </div>
                   </div>

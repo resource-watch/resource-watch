@@ -9,13 +9,13 @@ import SimilarDatasets from 'components/datasets/similar-datasets/similar-datase
 class LayoutEmbedSimilarDatasets extends PureComponent {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
-    routes: PropTypes.object.isRequired
+    routes: PropTypes.object.isRequired,
   };
 
   render() {
     const {
       routes: { query: { id } },
-      loading
+      loading,
     } = this.props;
     const titleSt = loading ? 'Loading similar datasets...' : '';
 
@@ -27,7 +27,7 @@ class LayoutEmbedSimilarDatasets extends PureComponent {
         <div className="c-embed-similar-datasets">
           <SimilarDatasets
             datasetIds={id}
-            onTagSelected={tag => Router.pushRoute('explore', { topics: `["${tag.id}"]` })}
+            onTagSelected={(tag) => Router.pushRoute('explore', { topics: `["${tag.id}"]` })}
           />
         </div>
       </LayoutEmbed>

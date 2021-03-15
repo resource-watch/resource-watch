@@ -6,11 +6,11 @@ import { format } from 'd3-format';
 class TextChart extends React.Component {
   static propTypes = {
     widgetConfig: PropTypes.object.isRequired,
-    toggleLoading: PropTypes.func // Will be called with the loading state
+    toggleLoading: PropTypes.func, // Will be called with the loading state
   };
 
   static defaultProps = {
-    toggleLoading: () => { }
+    toggleLoading: () => { },
   };
 
   constructor(props) {
@@ -18,7 +18,7 @@ class TextChart extends React.Component {
     this.state = {
       loading: false,
       error: null,
-      data: null
+      data: null,
     };
   }
 
@@ -51,7 +51,7 @@ class TextChart extends React.Component {
 
         this.setState({ data, error: null });
       })
-      .catch(err => this.setState({ error: err.message }))
+      .catch((err) => this.setState({ error: err.message }))
       .then(() => {
         this.props.toggleLoading(false);
         this.setState({ loading: false });
@@ -67,7 +67,7 @@ class TextChart extends React.Component {
     const missingKeys = [];
 
     const content = template_config.reduce((res, config) => {
-      const key = config.key;
+      const { key } = config;
       const value = this.state.data[key];
 
       // If the value can't be found, we just skip the substitution
@@ -78,8 +78,8 @@ class TextChart extends React.Component {
 
       const suffix = config.suffix || '';
       const formatter = config.format && !isNaN(parseInt(value, 10))
-        ? val => format(config.format)(parseInt(val, 10))
-        : val => val;
+        ? (val) => format(config.format)(parseInt(val, 10))
+        : (val) => val;
       const substitution = (!isNaN(parseInt(value, 10)) || formatter(value).length)
         ? `<span class="token">${formatter(value)}${suffix}</span>`
         : '';
@@ -91,7 +91,7 @@ class TextChart extends React.Component {
     // an error message
     if (missingKeys.length) {
       this.setState({
-        error: `The widget is malformed: the key${missingKeys.length > 1 ? 's' : ''} ${missingKeys.join(', ')} can't be found in the data`
+        error: `The widget is malformed: the key${missingKeys.length > 1 ? 's' : ''} ${missingKeys.join(', ')} can't be found in the data`,
       });
     }
 
@@ -101,13 +101,17 @@ class TextChart extends React.Component {
   render() {
     return (
       <div className="c-text-chart">
-        { this.state.error && <div className="error">Unable to load the widget <span>{this.state.error}</span></div> }
+        { this.state.error && (
+        <div className="error">
+          Unable to load the widget
+          <span>{this.state.error}</span>
+        </div>
+        ) }
         { !this.state.error && this.state.data
           && <div className="content" dangerouslySetInnerHTML={{ __html: this.getContent() }} /> // eslint-disable-line react/no-danger
         }
         { !this.state.error && !this.state.loading && !this.state.data
-          && <div className="no-data">No data</div>
-        }
+          && <div className="no-data">No data</div>}
       </div>
     );
   }

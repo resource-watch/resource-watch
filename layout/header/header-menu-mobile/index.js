@@ -7,10 +7,10 @@ import { setMobileOpened } from '../actions';
 import HeaderMenuMobile from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     header: state.header,
     user: state.user,
-    routes: state.routes
+    routes: state.routes,
   }),
-  { setMobileOpened }
+  { setMobileOpened },
 )(HeaderMenuMobile);

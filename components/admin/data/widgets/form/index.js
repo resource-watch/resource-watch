@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import WidgetForm from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     locale: state.common.locale,
     newState: state.routes.query.id === 'new',
-    dataset: state.routes.query.dataset
+    dataset: state.routes.query.dataset,
   }),
-  null
+  null,
 )(WidgetForm);

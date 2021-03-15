@@ -20,7 +20,7 @@ class EmbedExplorePage extends PureComponent {
       basemap,
       labels,
       boundaries,
-      layers
+      layers,
     } = query;
 
     // Embed
@@ -31,10 +31,10 @@ class EmbedExplorePage extends PureComponent {
       ...zoom && { zoom: +zoom },
       ...(lat && lng) && {
         latitude: +lat,
-        longitude: +lng
+        longitude: +lng,
       },
       ...pitch && { pitch: +pitch },
-      ...bearing && { bearing: +bearing }
+      ...bearing && { bearing: +bearing },
     }));
     if (basemap) dispatch(actions.setBasemap(basemap));
     if (labels) dispatch(actions.setLabels(labels));
@@ -52,9 +52,9 @@ class EmbedExplorePage extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     explore: state.explore,
-    routes: state.routes
+    routes: state.routes,
   }),
-  actions
+  actions,
 )(EmbedExplorePage);

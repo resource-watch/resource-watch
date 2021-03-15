@@ -11,7 +11,7 @@ class SelectInput extends FormElement {
     options: PropTypes.array.isRequired,
     creatable: PropTypes.bool,
     onChange: PropTypes.func,
-    defaultValue: PropTypes.any
+    defaultValue: PropTypes.any,
   };
 
   constructor(props) {
@@ -28,7 +28,7 @@ class SelectInput extends FormElement {
     let value;
 
     if (Array.isArray(selected)) {
-      value = (selected) ? selected.map(s => s.value) : null;
+      value = (selected) ? selected.map((s) => s.value) : null;
     } else {
       value = (selected) ? selected.value : null;
     }

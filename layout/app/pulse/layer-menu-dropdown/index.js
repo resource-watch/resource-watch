@@ -7,14 +7,14 @@ import initialState from './initial-state';
 
 import LayerMenuDropdownComponent from './component';
 
-const mapStateToProps = state => ({
-  layerActive: state.pulse.layerActive
+const mapStateToProps = (state) => ({
+  layerActive: state.pulse.layerActive,
 });
 
 class LayerMenuDropdownContainer extends Component {
   render() {
     return createElement(LayerMenuDropdownComponent, {
-      ...this.props
+      ...this.props,
     });
   }
 }

@@ -10,8 +10,7 @@ export const fetchTools = createThunkAction('WIDGET-DETAIL/fetchTools', () => (d
   dispatch(setToolsLoading(true));
   dispatch(setToolsError(null));
 
-
-  return fetch(new Request(`${process.env.WRI_API_URL}/tool`))
+  return fetch(new Request(`${process.env.WRI_API_URL}/v1/tool`))
     .then((response) => {
       if (response.ok) return response.json();
       throw new Error(response.statusText);
@@ -19,7 +18,7 @@ export const fetchTools = createThunkAction('WIDGET-DETAIL/fetchTools', () => (d
     .then(({ data }) => {
       dispatch(setToolsLoading(false));
       dispatch(setToolsError(null));
-      dispatch(setTools(data.map(t => ({ ...t.attributes, id: t.id }))));
+      dispatch(setTools(data.map((t) => ({ ...t.attributes, id: t.id }))));
     })
     .catch((err) => {
       dispatch(setToolsLoading(false));

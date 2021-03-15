@@ -8,13 +8,13 @@ import { substitution } from 'utils/utils';
 class EditAction extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    action: PropTypes.object.isRequired
+    action: PropTypes.object.isRequired,
   }
 
   getParsedParams() {
     const {
       data: { id },
-      action: { params }
+      action: { params },
     } = this.props;
 
     return JSON.parse(substitution(JSON.stringify(params), [{ key: 'id', value: id }]));
@@ -23,19 +23,20 @@ class EditAction extends PureComponent {
   render() {
     const {
       data: { status },
-      action
+      action,
     } = this.props;
 
     return (
       <span>
-        {(status === 'saved') &&
+        {(status === 'saved')
+          && (
           <Link
             route={action.route}
             params={this.getParsedParams()}
           >
             <a className="c-btn">Edit</a>
           </Link>
-        }
+          )}
       </span>
     );
   }

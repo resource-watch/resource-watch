@@ -5,5 +5,5 @@ import ForgotPassword from './component';
 
 export default connect(
   null,
-  null
+  null,
 )(ForgotPassword);

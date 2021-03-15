@@ -10,7 +10,7 @@ import Icon from 'components/ui/icon';
 class ExploreDatasetsSortComponent extends PureComponent {
   static propTypes = {
     mode: PropTypes.string.isRequired,
-    setDatasetsMode: PropTypes.func.isRequired
+    setDatasetsMode: PropTypes.func.isRequired,
   };
 
   render() {
@@ -29,7 +29,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
           <button
             className={classnames({
               'actions-mode-button': true,
-              '-active': (mode === 'grid')
+              '-active': (mode === 'grid'),
             })}
             onClick={() => this.props.setDatasetsMode('grid')}
           >
@@ -48,7 +48,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
           <button
             className={classnames({
               'actions-mode-button': true,
-              '-active': (mode === 'list')
+              '-active': (mode === 'list'),
             })}
             onClick={() => this.props.setDatasetsMode('list')}
           >

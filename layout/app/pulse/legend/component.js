@@ -32,7 +32,7 @@ function Legend(props) {
 
 Legend.propTypes = {
   layerActive: PropTypes.object,
-  className: PropTypes.object
+  className: PropTypes.object,
 };
 
 // Legend.defaultProps = {

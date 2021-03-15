@@ -19,7 +19,7 @@ class DatasetWidgets extends React.Component {
     widgetsLoaded: false,
     widgets: [],
     mode: 'grid',
-    orderDirection: 'asc'
+    orderDirection: 'asc',
   };
 
   UNSAFE_componentWillMount() {
@@ -37,14 +37,14 @@ class DatasetWidgets extends React.Component {
 
     fetchWidgets({
       userId: user.id,
-      sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt'
+      sort: (orderDirection === 'asc') ? 'updatedAt' : '-updatedAt',
     })
       .then((response) => {
         this.setState({
           widgetsLoaded: true,
-          widgets: response.filter(widget => widget.dataset === dataset)
+          widgets: response.filter((widget) => widget.dataset === dataset),
         });
-      }).catch(err => toastr.error('Error', err));
+      }).catch((err) => toastr.error('Error', err));
   }
 
   handleWidgetClick = (w) => {
@@ -66,7 +66,7 @@ class DatasetWidgets extends React.Component {
       widgetsLoaded,
       widgets,
       mode,
-      orderDirection
+      orderDirection,
     } = this.state;
     const { dataset } = this.props;
 
@@ -94,12 +94,10 @@ class DatasetWidgets extends React.Component {
                   <a>
                     Last modified
                   </a>
-                  {orderDirection === 'asc' &&
-                    <Icon className="-small" name="icon-arrow-up" />
-                  }
-                  {orderDirection === 'desc' &&
-                    <Icon className="-small" name="icon-arrow-down" />
-                  }
+                  {orderDirection === 'asc'
+                    && <Icon className="-small" name="icon-arrow-up" />}
+                  {orderDirection === 'desc'
+                    && <Icon className="-small" name="icon-arrow-down" />}
                 </div>
                 <div className="mode-buttons">
                   <button
@@ -123,7 +121,8 @@ class DatasetWidgets extends React.Component {
               isLoading={!widgetsLoaded}
               className="-fixed -light"
             />
-            {widgets &&
+            {widgets
+            && (
             <WidgetCardList
               widgets={widgets}
               mode={mode}
@@ -132,12 +131,13 @@ class DatasetWidgets extends React.Component {
               showActions
               showRemove
             />
-            }
-            {widgets && widgets.length === 0 &&
+            )}
+            {widgets && widgets.length === 0
+            && (
             <div className="no-widgets-div">
               This dataset has no widgets yet
             </div>
-            }
+            )}
           </div>
         </div>
       </div>
@@ -148,9 +148,9 @@ class DatasetWidgets extends React.Component {
 DatasetWidgets.propTypes = {
   dataset: PropTypes.string.isRequired,
   // Store
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = (state) => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DatasetWidgets);

@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import DashboardsLayout from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     data: state.staticPages.dashboards,
     dashHighlighted: state.dashboards.highlighted.list,
-    dashFeatured: state.dashboards.featured.list
+    dashFeatured: state.dashboards.featured.list,
   }),
-  null
+  null,
 )(DashboardsLayout);

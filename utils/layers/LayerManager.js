@@ -59,7 +59,7 @@ export default class LayerManager {
       geojson: this.addGeoJsonLayer,
       // GEE
       gee: this.addGeeLayer,
-      nexgddp: this.addNexGDDPLayer
+      nexgddp: this.addNexGDDPLayer,
     }[layer.provider];
 
     if (method) method.call(this, layer, { ...opts });
@@ -131,7 +131,7 @@ export default class LayerManager {
   }
 
   addNexGDDPLayer(layer) {
-    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/nexgddp/{z}/{x}/{y}`;
+    const tileUrl = `${process.env.WRI_API_URL}/v1/layer/${layer.id}/tile/nexgddp/{z}/{x}/{y}`;
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
     this.mapLayers[layer.id] = tileLayer;
 
@@ -141,7 +141,7 @@ export default class LayerManager {
   }
 
   addGeeLayer(layer) {
-    const tileUrl = `${process.env.WRI_API_URL}/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
+    const tileUrl = `${process.env.WRI_API_URL}/v1/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
     const tileLayer = L.tileLayer(tileUrl).addTo(this.map);
     this.mapLayers[layer.id] = tileLayer;
 
@@ -159,7 +159,7 @@ export default class LayerManager {
 
       this.map.fitBounds([
         bounds.getNorthWest(),
-        bounds.getSouthEast()
+        bounds.getSouthEast(),
       ], { padding: [20, 20] });
     }
 
@@ -188,9 +188,9 @@ export default class LayerManager {
         layer = L.tileLayer.wms(layerData.url, layerData.body); // eslint-disable-line
         break;
       case 'tileLayer':
-        if (layerData.body.style &&
-            typeof layerData.body.style === 'string' &&
-            layerData.body.indexOf('style: "function') >= 0) {
+        if (layerData.body.style
+            && typeof layerData.body.style === 'string'
+            && layerData.body.indexOf('style: "function') >= 0) {
           layerData.body.style = eval(`(${layerData.body.style})`); // eslint-disable-line
         }
         layer = L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
@@ -202,8 +202,8 @@ export default class LayerManager {
     }
 
     if (layer) {
-      const eventName = (layerData.type === 'wms' ||
-      layerData.type === 'tileLayer') ? 'tileload' : 'load';
+      const eventName = (layerData.type === 'wms'
+      || layerData.type === 'tileLayer') ? 'tileload' : 'load';
       layer.on(eventName, () => {
         delete this.layersLoading[layerData.id];
       });
@@ -233,9 +233,9 @@ export default class LayerManager {
 
     // first, we check if layer exist in leaflet
     if (L[layer.type]) {
-      if (layerData.body.style &&
-          typeof layerData.body.style === 'string' &&
-          layerData.body.indexOf('style: "function') >= 0) {
+      if (layerData.body.style
+          && typeof layerData.body.style === 'string'
+          && layerData.body.indexOf('style: "function') >= 0) {
         layerData.body.style = eval(`(${layerData.body.style})`); // eslint-disable-line
       }
       const newLayer = new L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
@@ -262,8 +262,8 @@ export default class LayerManager {
     } else if (L.esri[layer.type]) {
       const layerConfig = JSON.parse(bodyStringified);
       layerConfig.pane = 'tilePane';
-      if (layerConfig.style &&
-        layerConfig.style.indexOf('function') >= 0) {
+      if (layerConfig.style
+        && layerConfig.style.indexOf('function') >= 0) {
         layerConfig.style = eval(`(${layerConfig.style})`); // eslint-disable-line
       }
       const newLayer = L.esri[layer.type](layerConfig);
@@ -305,21 +305,22 @@ export default class LayerManager {
   }
 
   addCartoLayer(layerSpec, verifyLayersOnly = false, callback) {
-    const layer = Object.assign({}, layerSpec.layerConfig, {
+    const layer = {
+      ...layerSpec.layerConfig,
       id: layerSpec.id,
       name: layerSpec.name,
       order: layerSpec.order,
       opacity: layerSpec.opacity,
       hidden: layerSpec.hidden,
-      sideBySide: layerSpec.sideBySide
-    });
+      sideBySide: layerSpec.sideBySide,
+    };
 
     this.layersLoading[layer.id] = true;
 
     // is it interactive?
-    const isInteractive = !isEmpty(layerSpec.interactionConfig) &&
-                          !!layerSpec.interactionConfig.output &&
-                          !!layerSpec.interactionConfig.output.length;
+    const isInteractive = !isEmpty(layerSpec.interactionConfig)
+                          && !!layerSpec.interactionConfig.output
+                          && !!layerSpec.interactionConfig.output.length;
 
     const layerTpl = {
       version: '1.3.0',
@@ -330,12 +331,12 @@ export default class LayerManager {
             ...l,
             options: {
               ...l.options,
-              interactivity: layerSpec.interactionConfig.output.map(o => o.column)
-            }
+              interactivity: layerSpec.interactionConfig.output.map((o) => o.column),
+            },
           };
         }
         return l;
-      })
+      }),
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
@@ -371,7 +372,6 @@ export default class LayerManager {
           this.swipeLayer(this.mapLayers[layer.id], layer.sideBySide);
         }
 
-
         // Add interactivity
         if (isInteractive) {
           const gridUrl = `https://${layer.account}.carto.com/api/v1/map/${data.layergroupid}/0/{z}/{x}/{y}.grid.json`;
@@ -391,7 +391,7 @@ export default class LayerManager {
   setZIndex(layers) {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
-      const order = layers.findIndex(l => l.id === layerId);
+      const order = layers.findIndex((l) => l.id === layerId);
       this.mapLayers[layerId].setZIndex(100 - order);
     });
   }
@@ -399,7 +399,7 @@ export default class LayerManager {
   setOpacity(layers) {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
-      const layer = layers.find(l => l.id === layerId);
+      const layer = layers.find((l) => l.id === layerId);
       if (!layer) return;
       let opacity = layer.opacity !== undefined ? layer.opacity : 1;
       opacity = layer.visible === false ? 0 : opacity;
@@ -412,7 +412,7 @@ export default class LayerManager {
   setVisibility(layers) {
     const layerIds = Object.keys(this.mapLayers);
     layerIds.forEach((layerId) => {
-      const layer = layers.find(l => l.id === layerId);
+      const layer = layers.find((l) => l.id === layerId);
       if (!layer) return;
       let opacity = layer.opacity !== undefined ? layer.opacity : 1;
       opacity = layer.visible === false ? 0 : opacity;

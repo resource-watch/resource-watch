@@ -4,27 +4,26 @@ import PropTypes from 'prop-types';
 // Redux
 import { connect } from 'react-redux';
 
-
 // Components
 import DashboardsIndex from 'components/app/myrw/dashboards/pages/index';
 import DashboardsNew from 'components/app/myrw/dashboards/pages/new';
 import DashboardsShow from 'components/app/myrw/dashboards/pages/show';
 
 function DashboardsTab(props) {
-  const { tab, subtab, id, user } = props;
+  const {
+    tab, subtab, id, user,
+  } = props;
 
   return (
     <div className="c-dashboards-tab">
-      {user.token && !id &&
-        <DashboardsIndex tab={tab} subtab={subtab} id={id} user={user} />
-      }
+      {user.token && !id
+        && <DashboardsIndex tab={tab} subtab={subtab} id={id} user={user} />}
 
-      {user.token && id && id === 'new' &&
-        <DashboardsNew />}
+      {user.token && id && id === 'new'
+        && <DashboardsNew />}
 
-      {user.token && id && id !== 'new' &&
-        <DashboardsShow tab={tab} subtab={subtab} id={id} user={user} />
-      }
+      {user.token && id && id !== 'new'
+        && <DashboardsShow tab={tab} subtab={subtab} id={id} user={user} />}
     </div>
   );
 }
@@ -33,15 +32,15 @@ DashboardsTab.propTypes = {
   user: PropTypes.object.isRequired,
   tab: PropTypes.string,
   id: PropTypes.string,
-  subtab: PropTypes.string
+  subtab: PropTypes.string,
 };
 
 DashboardsTab.defaultProps = {
   tab: null,
   id: null,
-  subtab: null
+  subtab: null,
 };
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = (state) => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DashboardsTab);

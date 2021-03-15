@@ -8,7 +8,6 @@ import { getUserAreas } from 'redactions/user';
 // components
 import LayoutMyRWDetail from 'layout/myrw/detail';
 
-
 class MyRWDetailPage extends PureComponent {
   static propTypes = { getUserAreas: PropTypes.func.isRequired }
 
@@ -23,5 +22,5 @@ class MyRWDetailPage extends PureComponent {
 
 export default connect(
   null,
-  { getUserAreas }
+  { getUserAreas },
 )(MyRWDetailPage);

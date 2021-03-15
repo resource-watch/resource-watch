@@ -18,11 +18,13 @@ const MaintenaceBannerContainer = () => {
     memoizedCallback();
   };
 
-  return !maintenanceBannerAccepted ?
-    <MaintenaceBanner
-      handleMaintenanceBanner={handleMaintenanceBanner}
-      timeText="Monday 27th April 2020 (10:00 to 16:00 CET)"
-    /> : null;
+  return !maintenanceBannerAccepted
+    ? (
+      <MaintenaceBanner
+        handleMaintenanceBanner={handleMaintenanceBanner}
+        timeText="Monday 27th April 2020 (10:00 to 16:00 CET)"
+      />
+    ) : null;
 };
 
 export default MaintenaceBannerContainer;

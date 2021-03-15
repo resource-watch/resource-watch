@@ -15,22 +15,22 @@ import { logger } from 'utils/logs';
 export const fetchLayers = (params = {}, headers = {}, _meta = false) => {
   logger.info('Fetch layers');
 
-  return WRIAPI.get('/layer', {
+  return WRIAPI.get('/v1/layer', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1,
-      ...headers
+      ...headers,
     },
     params: {
       env: process.env.API_ENV,
       application: process.env.APPLICATIONS,
-      ...params
+      ...params,
     },
     transformResponse: [].concat(
       WRIAPI.defaults.transformResponse,
-      (({ data, meta }) => ({ layers: data, meta }))
-    )
+      (({ data, meta }) => ({ layers: data, meta })),
+    ),
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -44,7 +44,7 @@ export const fetchLayers = (params = {}, headers = {}, _meta = false) => {
       if (_meta) {
         return {
           layers: WRISerializer({ data: layers }),
-          meta
+          meta,
         };
       }
 
@@ -69,21 +69,21 @@ export const fetchLayer = (id, params = {}) => {
   if (!id) throw Error('layer id is mandatory to perform this fetching.');
   logger.info(`Fetches layer: ${id}`);
 
-  return WRIAPI.get(`/layer/${id}`, {
+  return WRIAPI.get(`/v1/layer/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1
+      'Upgrade-Insecure-Requests': 1,
     },
     params: {
       application: process.env.APPLICATIONS,
       env: process.env.API_ENV,
-      ...params
+      ...params,
     },
     transformResponse: [].concat(
       WRIAPI.defaults.transformResponse,
-      ({ data }) => data
-    )
+      ({ data }) => data,
+    ),
   }).then((response) => {
     const { status, statusText, data } = response;
 
@@ -115,11 +115,11 @@ export const fetchLayer = (id, params = {}) => {
 export const deleteLayer = (layerId, datasetId, token) => {
   logger.info(`deletes layer: ${layerId}`);
 
-  return WRIAPI.delete(`/dataset/${datasetId}/layer/${layerId}`, {
+  return WRIAPI.delete(`/v1/dataset/${datasetId}/layer/${layerId}`, {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
     .then((response) => {
       const { status, statusText } = response;
@@ -150,8 +150,8 @@ export const deleteLayer = (layerId, datasetId, token) => {
  */
 export const updateLayer = (layer, datasetId, token) => {
   logger.info(`Update layer: ${layer.id}`);
-  return WRIAPI.patch(`dataset/${datasetId}/layer/${layer.id}`, layer, { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+  return WRIAPI.patch(`/v1/dataset/${datasetId}/layer/${layer.id}`, layer, { headers: { Authorization: token } })
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating layer ${layer.id}: ${status}: ${statusText}`);
@@ -169,14 +169,14 @@ export const updateLayer = (layer, datasetId, token) => {
  */
 export const createLayer = (layer, datasetId, token) => {
   logger.info('Create layer');
-  return WRIAPI.post(`dataset/${datasetId}/layer`,
+  return WRIAPI.post(`/v1/dataset/${datasetId}/layer`,
     {
       application: process.env.APPLICATIONS.split(','),
       env: process.env.API_ENV,
-      ...layer
+      ...layer,
     },
     { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating layer ${status}: ${statusText}`);
@@ -189,5 +189,5 @@ export default {
   fetchLayer,
   deleteLayer,
   createLayer,
-  updateLayer
+  updateLayer,
 };

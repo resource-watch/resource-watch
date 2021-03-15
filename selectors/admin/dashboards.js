@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const dashboards = state => state.adminDashboards.dashboards.list;
-const filters = state => state.adminDashboards.dashboards.filters;
+const dashboards = (state) => state.adminDashboards.dashboards.list;
+const filters = (state) => state.adminDashboards.dashboards.filters;
 
 /**
  * Return the dashboards that comply with the filters
@@ -31,14 +31,13 @@ export const getFilteredDashboards = (dashboards, filters) => { // eslint-disabl
 export const getAllFilteredDashboards = createSelector(dashboards, filters, getFilteredDashboards);
 
 export const getDashboards = createSelector([getAllFilteredDashboards],
-  data => data.map(_dashboard => ({
+  (data) => data.map((_dashboard) => ({
     ..._dashboard,
     owner: _dashboard.user ? _dashboard.user.name || (_dashboard.user.email || '').split('@')[0] : '',
-    role: _dashboard.user ? _dashboard.user.role || '' : ''
+    role: _dashboard.user ? _dashboard.user.role || '' : '',
   })));
 
 export default {
   getDashboards,
-  getFilteredDashboards
+  getFilteredDashboards,
 };
-

@@ -1,0 +1,90 @@
+{
+  "data": [
+    {
+      "type": "subscription",
+      "id": "5caeee8f69b2ac71100904277",
+      "attributes": {
+        "name": "",
+        "createdAt": "2019-04-11T07:36:47.134Z",
+        "userId": "59b01b28q5214e50001ce7f93",
+        "resource": {
+          "type": "EMAIL",
+          "content": "john.doe@email.com"
+        },
+        "datasets": [
+          "51861c34-f67a-46562-b0b6-1b7f265c6d23"
+        ],
+        "params": {},
+        "confirmed": true,
+        "language": "en",
+        "datasetsQuery": [
+          {
+            "threshold": 1,
+            "type": "Maximum observed concentration",
+            "historical": [],
+            "lastSentDate": "2019-04-11T07:36:47.134Z"
+          }
+        ],
+        "env": "production"
+      }
+    },
+    {
+      "type": "subscription",
+      "id": "5d88d29q179b7dd000130cb127",
+      "attributes": {
+        "name": "",
+        "createdAt": "2019-09-23T14:11:29.844Z",
+        "userId": "59b01b285214e50001ce7f93",
+        "resource": {
+          "type": "EMAIL",
+          "content": "john.doe@email.com"
+        },
+        "datasets": [
+          "8746e75d-2749-405e-8f3b-0c120978x60a1"
+        ],
+        "params": {},
+        "confirmed": false,
+        "language": "en",
+        "datasetsQuery": [
+          {
+            "threshold": 1,
+            "type": "Number of incidents",
+            "historical": [],
+            "lastSentDate": "2019-09-23T14:11:29.844Z"
+          }
+        ],
+        "env": "production"
+      }
+    },
+    {
+      "type": "subscription",
+      "id": "5fbe797fe75b77001bn5ded53",
+      "attributes": {
+        "name": "",
+        "createdAt": "2020-11-25T15:34:23.389Z",
+        "userId": "59b01b285214e50001ce7f93",
+        "resource": {
+          "type": "EMAIL",
+          "content": "john.doe@email.com"
+        },
+        "datasets": [
+          "764318db-bb4b-442c-b533-8a3cb38768a0c"
+        ],
+        "params": {
+          "area": "5f7e2d7b38270fd001aa463b5f"
+        },
+        "confirmed": false,
+        "language": "en",
+        "datasetsQuery": [
+          {
+            "threshold": 1,
+            "type": "Average observed concentration",
+            "lastSentDate": "2020-11-25T15:34:38.510Z",
+            "historical": []
+          }
+        ],
+        "env": "production"
+      }
+    }
+  ]
+}

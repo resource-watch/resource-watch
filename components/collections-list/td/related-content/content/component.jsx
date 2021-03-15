@@ -3,9 +3,9 @@ import React, {
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import TetherComponent from 'react-tether';
 import Link from 'next/link';
+import classnames from 'classnames';
+import Tether from 'react-tether';
 
 // components
 import Icon from 'components/ui/icon';
@@ -35,77 +35,95 @@ const CollectionsRelatedContent = ({
     <div className="c-related-content">
       <ul>
         <li className={classnames({ '-is-disabled': !tooltipState.datasets.length })}>
-          <TetherComponent
+          <Tether
             attachment="bottom center"
-            constraints={[{ to: 'window' }]}
+            constraints={[{
+              to: 'window',
+            }]}
             targetOffset="-4px 0"
-            classes={{ element: 'c-tooltip' }}
-          >
-            <Link
-              href={`/myrw/datasets/${collection.id}`}
-              passHref
-            >
-              <ForwardLink
-                onMouseEnter={() => toggleTooltip('datasetsActive', true)}
-                onMouseLeave={() => toggleTooltip('datasetsActive', false)}
+            classes={{
+              element: 'c-tooltip',
+            }}
+            renderTarget={(ref) => (
+              <Link
+                href={`/myrw/datasets/${collection.id}`}
+                passHref
               >
-                <Icon
-                  name="icon-dataset"
-                  style={{
-                    width: 15,
-                    height: 15,
-                  }}
-                />
-                <span>
+                <ForwardLink
+                  ref={ref}
+                  onMouseEnter={() => toggleTooltip('datasetsActive', true)}
+                  onMouseLeave={() => toggleTooltip('datasetsActive', false)}
+                >
+                  <Icon
+                    name="icon-dataset"
+                    style={{
+                      width: 15,
+                      height: 15,
+                    }}
+                  />
+                  <span>
+                    {tooltipState.datasets.length}
+                  </span>
+                </ForwardLink>
+              </Link>
+            )}
+            renderElement={(ref) => {
+              if (!tooltipState.datasetsActive) return null;
+
+              return (
+                <span ref={ref}>
+                  Datasets
+                  &nbsp;
                   {tooltipState.datasets.length}
                 </span>
-              </ForwardLink>
-            </Link>
-
-            {tooltipState.datasetsActive && (
-              <span>
-                Datasets
-                &nbsp;
-                {tooltipState.datasets.length}
-              </span>
-            )}
-          </TetherComponent>
+              );
+            }}
+          />
         </li>
 
         <li className={classnames({ '-is-disabled': !tooltipState.widgets.length })}>
-          <TetherComponent
+          <Tether
             attachment="bottom center"
-            constraints={[{ to: 'window' }]}
+            constraints={[{
+              to: 'window',
+            }]}
             targetOffset="-4px 0"
-            classes={{ element: 'c-tooltip' }}
-          >
-            <Link
-              href={`/myrw/widgets/${collection.id}`}
-              passHref
-            >
-              <ForwardLink
-                onMouseEnter={() => toggleTooltip('widgetsActive', true)}
-                onMouseLeave={() => toggleTooltip('widgetsActive', false)}
+            classes={{
+              element: 'c-tooltip',
+            }}
+            renderTarget={(ref) => (
+              <Link
+                href={`/myrw/widgets/${collection.id}`}
+                passHref
               >
-                <Icon
-                  name="icon-widget"
-                  style={{
-                    width: 15,
-                    height: 15,
-                  }}
-                />
-                <span>{tooltipState.widgets.length}</span>
-              </ForwardLink>
-            </Link>
-            {tooltipState.widgetsActive && (
-              <span>
-                Widgets
-                &nbsp;
-                {tooltipState.widgets.length}
-              </span>
-
+                <ForwardLink
+                  ref={ref}
+                  onMouseEnter={() => toggleTooltip('widgetsActive', true)}
+                  onMouseLeave={() => toggleTooltip('widgetsActive', false)}
+                >
+                  <Icon
+                    name="icon-widget"
+                    style={{
+                      width: 15,
+                      height: 15,
+                    }}
+                  />
+                  <span>{tooltipState.widgets.length}</span>
+                </ForwardLink>
+              </Link>
             )}
-          </TetherComponent>
+            renderElement={(ref) => {
+              if (!tooltipState.widgetsActive) return null;
+
+              return (
+                <span ref={ref}>
+                  Widgets
+                  &nbsp;
+                  {tooltipState.widgets.length}
+                </span>
+              );
+            }}
+          />
         </li>
       </ul>
     </div>

@@ -12,13 +12,13 @@ class Aside extends PureComponent {
   static propTypes = {
     items: PropTypes.array,
     style: PropTypes.object,
-    selected: PropTypes.string
+    selected: PropTypes.string,
   };
 
   static defaultProps = {
     items: [],
     style: {},
-    selected: null
+    selected: null,
   };
 
   render() {
@@ -27,7 +27,7 @@ class Aside extends PureComponent {
       <aside className="c-aside" style={style}>
         <nav>
           <ul>
-            {items.filter(i => i.params).map((s) => {
+            {items.filter((i) => i.params).map((s) => {
               const active = (s.params || {}).subtab === selected;
               const activeClass = classnames({ '-active': active });
 

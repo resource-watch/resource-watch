@@ -13,13 +13,13 @@ class DashboardsLayout extends PureComponent {
   static propTypes = {
     data: PropTypes.object,
     dashHighlighted: PropTypes.array,
-    dashFeatured: PropTypes.array
+    dashFeatured: PropTypes.array,
   }
 
   static defaultProps = {
     data: {},
     dashHighlighted: [],
-    dashFeatured: []
+    dashFeatured: [],
   }
 
   render() {
@@ -75,7 +75,8 @@ class DashboardsLayout extends PureComponent {
             </div>
           </div>
         </div>
-        {dashHighlighted.length > 0 &&
+        {dashHighlighted.length > 0
+          && (
           <div id="dashboardsGallery" className="l-section -small">
             <div className="l-container">
               <div className="row">
@@ -101,14 +102,17 @@ class DashboardsLayout extends PureComponent {
               </div>
             </div>
           </div>
-        }
+          )}
         <aside className="l-postcontent">
           <div className="l-container">
             <div className="row align-center">
               <div className="column small-12">
                 <Banner className="-text-center">
                   <p className="-claim">
-                    Create and share <br />custom visualizations.
+                    Create and share
+                    {' '}
+                    <br />
+                    custom visualizations.
                   </p>
                   <LoginRequired>
                     <a

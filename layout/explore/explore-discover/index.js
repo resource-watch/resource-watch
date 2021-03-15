@@ -5,9 +5,9 @@ import * as actions from 'layout/explore/actions';
 import ExploreDiscoverComponent from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     responsive: state.responsive,
-    selectedDataset: state.explore.datasets.selected
+    selectedDataset: state.explore.datasets.selected,
   }),
-  actions
+  actions,
 )(ExploreDiscoverComponent);

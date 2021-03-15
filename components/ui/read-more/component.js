@@ -9,7 +9,9 @@ import './styles.scss';
 
 function ReadMore(props) {
   const [visible, setVisible] = useState(false);
-  const { text, limitChar, markdown, readMoreClicked } = props;
+  const {
+    text, limitChar, markdown, readMoreClicked,
+  } = props;
 
   if (text.length <= limitChar) {
     return (
@@ -20,12 +22,12 @@ function ReadMore(props) {
     );
   }
 
-  const shortenedText = (visible) ?
-    text :
-    truncate(text, { length: limitChar, separator: '', omission: '...' });
+  const shortenedText = (visible)
+    ? text
+    : truncate(text, { length: limitChar, separator: '', omission: '...' });
   const classValue = classnames({
     'c-read-more': true,
-    '-truncated': !visible
+    '-truncated': !visible,
   });
 
   return (
@@ -52,14 +54,14 @@ ReadMore.propTypes = {
   text: PropTypes.string,
   limitChar: PropTypes.number,
   markdown: PropTypes.bool,
-  readMoreClicked: PropTypes.func
+  readMoreClicked: PropTypes.func,
 };
 
 ReadMore.defaultProps = {
   text: '',
   limitChar: 1300,
   markdown: false,
-  readMoreClicked: null
+  readMoreClicked: null,
 };
 
 export default ReadMore;

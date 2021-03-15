@@ -14,14 +14,14 @@ class ExploreDatasetsHeaderComponent extends PureComponent {
     page: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
-    responsive: PropTypes.object.isRequired
+    responsive: PropTypes.object.isRequired,
   }
 
   getTotalDatasets = () => {
     const {
       page,
       limit,
-      total
+      total,
     } = this.props;
 
     const from = (page === 1) ? page : ((page - 1) * limit) + 1;
@@ -40,7 +40,9 @@ class ExploreDatasetsHeaderComponent extends PureComponent {
     return (
       <div className="c-explore-datasets-header">
         <div className="total">
-          {this.getTotalDatasets()} datasets
+          {this.getTotalDatasets()}
+          {' '}
+          datasets
         </div>
 
         <div className="actions">

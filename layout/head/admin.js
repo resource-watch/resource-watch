@@ -8,7 +8,11 @@ export default class HeadAdmin extends React.Component {
 
     return (
       <HeadNext>
-        <title>{title} | RW Content Manager</title>
+        <title>
+          {title}
+          {' '}
+          | RW Content Manager
+        </title>
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="Vizzuality" />
@@ -46,5 +50,5 @@ export default class HeadAdmin extends React.Component {
 
 HeadAdmin.propTypes = {
   title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
+  description: PropTypes.string.isRequired,
 };

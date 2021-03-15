@@ -23,7 +23,7 @@ const initialState = {
   loading: false, // Are we loading the data?
   error: null, // An error was produced while loading the data
   filters: [], // Filters for the list of faqs
-  order: []
+  order: [],
 };
 
 /**
@@ -32,45 +32,48 @@ const initialState = {
  * @param {initialState} state
  * @param {{ type: string, payload: any }} action
  */
-export default function (state = initialState, action) {
+export default function Faqs(state = initialState, action) {
   switch (action.type) {
     case GET_FAQS_LOADING: {
-      const faqs = Object.assign({}, state, {
+      const faqs = {
+        ...state,
         loading: true,
-        error: null
-      });
+        error: null,
+      };
       return faqs;
     }
 
     case GET_FAQS_SUCCESS: {
-      const faqs = Object.assign({}, state, {
+      const faqs = {
+        ...state,
         list: action.payload,
         loading: false,
-        error: null
-      });
+        error: null,
+      };
       return faqs;
     }
 
     case GET_FAQS_ERROR: {
-      const faqs = Object.assign({}, state, {
+      const faqs = {
+        ...state,
         loading: false,
-        error: action.payload
-      });
+        error: action.payload,
+      };
       return faqs;
     }
 
     case SET_FAQS_FILTERS: {
-      const faqs = Object.assign({}, state, { filters: action.payload });
+      const faqs = { ...state, filters: action.payload };
       return faqs;
     }
 
     case SET_FAQS_ORDER: {
-      const faqs = Object.assign({}, state, { order: action.payload });
+      const faqs = { ...state, order: action.payload };
       return faqs;
     }
 
     case SET_FAQS_ORDER_SUCCESS: {
-      const faqs = Object.assign({}, state, { list: action.payload });
+      const faqs = { ...state, list: action.payload };
       return faqs;
     }
 
@@ -94,7 +97,7 @@ export function getFaqs() {
 
     return fetchFaqs()
       .then((data) => {
-        dispatch({ type: SET_FAQS_ORDER, payload: data.map(d => +d.id) });
+        dispatch({ type: SET_FAQS_ORDER, payload: data.map((d) => +d.id) });
         dispatch({ type: GET_FAQS_SUCCESS, payload: data });
       })
       .catch((err) => {
@@ -110,7 +113,7 @@ export function getFaqs() {
  */
 export function setFaqOrder(order, token) {
   return (dispatch) => {
-    dispatch({ type: SET_FAQS_ORDER, payload: order.ids.map(o => +o) });
+    dispatch({ type: SET_FAQS_ORDER, payload: order.ids.map((o) => +o) });
 
     dispatch({ type: SET_FAQS_ORDER_LOADING });
 
@@ -130,8 +133,8 @@ export function setFaqOrder(order, token) {
  * @param {{ key: string, value: string|number }[]} filters List of filters
  */
 export function setFilters(filters) {
-  return dispatch => dispatch({
+  return (dispatch) => dispatch({
     type: SET_FAQS_FILTERS,
-    payload: filters
+    payload: filters,
   });
 }

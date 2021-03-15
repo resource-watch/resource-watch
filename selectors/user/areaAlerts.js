@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 // Get the pulse
-const user = state => state.user;
+const user = (state) => state.user;
 
 // Create a function to compare the current active datatasets and the current pulseIds
 const getAreaAlerts = ({ areas }) => {
@@ -20,7 +20,7 @@ const getAreaAlerts = ({ areas }) => {
         datasetsQuery.map((query, key) => {
           alerts[area.id].push({
             ...query,
-            dataset: datasets[key]
+            dataset: datasets[key],
           });
           return query;
         });

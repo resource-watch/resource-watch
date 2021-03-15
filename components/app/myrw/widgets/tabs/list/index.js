@@ -13,7 +13,7 @@ import {
   setPagination,
   setSearch,
   setSort,
-  setWidgetState
+  setWidgetState,
 } from './actions';
 import initialState from './initial-state';
 
@@ -28,11 +28,11 @@ const WidgetListTabContainer = (props) => {
   const {
     search,
     sort,
-    pagination: { page }
+    pagination: { page },
   } = state;
   const {
     subtab,
-    user: { token }
+    user: { token },
   } = props;
 
   const getWidgets = () => {
@@ -40,22 +40,22 @@ const WidgetListTabContainer = (props) => {
 
     dispatch(setWidgetState({
       loading: true,
-      error: null
+      error: null,
     }));
     fetchWidgets(queryParams, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
         const {
           'total-pages': pages,
-          'total-items': size
+          'total-items': size,
         } = meta;
         const nextPagination = {
           size,
-          pages
+          pages,
         };
 
         dispatch(setWidgetState({
           loading: false,
-          list: widgets
+          list: widgets,
         }));
 
         dispatch(setPagination(nextPagination));
@@ -63,7 +63,7 @@ const WidgetListTabContainer = (props) => {
       .catch(({ message }) => {
         dispatch(setWidgetState({
           loading: false,
-          error: message
+          error: message,
         }));
       });
   };
@@ -79,7 +79,7 @@ const WidgetListTabContainer = (props) => {
       {...state}
       routes={{
         index: 'myrw',
-        detail: 'myrw_detail'
+        detail: 'myrw_detail',
       }}
       sideTab={subtab}
       handlePageChange={(nextPage) => { dispatch(setPagination({ page: nextPage })); }}
@@ -99,14 +99,15 @@ const WidgetListTabContainer = (props) => {
         dispatch(setPagination({ page: 1 }));
       }, 300)}
       handleRefresh={() => { getWidgets(); }}
-      thumbnail={true}
-    />);
+      thumbnail
+    />
+  );
 };
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
-    subtab: state.routes.query.subtab
+    subtab: state.routes.query.subtab,
   }),
-  null
+  null,
 )(WidgetListTabContainer);

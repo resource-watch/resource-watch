@@ -7,7 +7,7 @@ import initialState from './initial-state';
 
 import LabelsPillComponent from './component';
 
-const mapStateToProps = state => ({ labelsPulse: state.labelsPulse });
+const mapStateToProps = (state) => ({ labelsPulse: state.labelsPulse });
 
 class LabelsPillContainer extends Component {
   render() {

@@ -2,7 +2,7 @@ import App from 'next/app';
 import React from 'react';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
-import { initStore } from 'store';
+import initStore from 'lib/store';
 
 // es6 shim for .finally() in promises
 import finallyShim from 'promise.prototype.finally';
@@ -34,7 +34,9 @@ finallyShim.shim();
 class RWApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     const { asPath } = router;
-    const { req, store, query, isServer } = ctx;
+    const {
+      req, store, query, isServer,
+    } = ctx;
     const pathname = req ? asPath : ctx.asPath;
 
     // sets app routes
@@ -73,15 +75,24 @@ class RWApp extends App {
       ? await Component.getInitialProps(ctx)
       : {};
 
-    return { pageProps: { ...pageProps, user, isServer, url } };
+    return {
+      pageProps: {
+        ...pageProps, user, isServer, url,
+      },
+    };
   }
 
   render() {
     const {
       Component,
       pageProps,
-      store
+      store,
     } = this.props;
+
+    // expose store when run in Cypress
+    if (typeof window !== 'undefined' && window.Cypress) {
+      window.store = store;
+    }
 
     return (
       <Provider store={store}>

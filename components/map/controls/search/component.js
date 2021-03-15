@@ -24,14 +24,16 @@ class SearchControls extends PureComponent {
       const viewport = gmaps.geometry && gmaps.geometry.viewport;
 
       if (viewport) {
-        const { south, west, north, east } = viewport.toJSON();
+        const {
+          south, west, north, east,
+        } = viewport.toJSON();
         onSelectLocation({ bbox: [east, south, west, north] });
       }
 
       if (!viewport && location) {
         onSelectLocation({
           ...location,
-          zoom: 7
+          zoom: 7,
         });
       }
 
@@ -56,13 +58,14 @@ class SearchControls extends PureComponent {
 
     return (
       <div className="c-search-control">
-        {showSearchInput &&
+        {showSearchInput
+          && (
           <Geosuggest
             ref={(r) => { this.geosuggest = r; }}
             onSuggestSelect={this.onSuggestSelect}
             onKeyDown={this.onKeyDown}
           />
-        }
+          )}
         <button
           type="button"
           className="search-control--btn"

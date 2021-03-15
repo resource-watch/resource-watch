@@ -11,7 +11,7 @@ const lookup = {
   'app-review-guidelines': 'app-review-guidelines',
   'partner-application-guidelines': 'partner-application-guidelines',
   'data-policy': 'data-policy',
-  'apps': 'app-gallery'
+  apps: 'app-gallery',
 };
 
 // Actions
@@ -21,11 +21,11 @@ export const setStaticDataError = createAction('GET-INVOLVED-DETAIL/setStaticDat
 
 export const fetchStaticData = createThunkAction(
   'GET-INVOLVED-DETAIL/fetchStaticData',
-  payload => (dispatch) => {
+  (payload) => (dispatch) => {
     dispatch(setStaticDataLoading(true));
     dispatch(setStaticDataError(null));
 
-    return fetch(new Request(`${process.env.WRI_API_URL}/static_page/${lookup[payload]}`))
+    return fetch(new Request(`${process.env.WRI_API_URL}/v1/static_page/${lookup[payload]}`))
       .then((response) => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -39,4 +39,5 @@ export const fetchStaticData = createThunkAction(
         dispatch(setStaticDataLoading(false));
         dispatch(setStaticDataError(err));
       });
-});
+  },
+);

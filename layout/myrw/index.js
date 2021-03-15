@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import LayoutMyRW from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     user: state.user,
-    query: state.routes.query
-  })
+    query: state.routes.query,
+  }),
 )(LayoutMyRW);

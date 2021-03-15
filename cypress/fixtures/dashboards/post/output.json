@@ -1,0 +1,36 @@
+{
+  "data": {
+    "id": "446",
+    "type": "dashboards",
+    "attributes": {
+      "name": "lorem test dashboard",
+      "slug": "lorem-test-dashboard-7d731795-546b-408f-8766-2cbd5f7c6f35",
+      "summary": "lorem test dashboard summary",
+      "description": "lorem test dashboard description",
+      "content": "[{\"id\":1530625866277,\"type\":\"text\",\"content\":\"\\\"\\u003ch1\\u003elorem test dashboard title\\u003c/h1\\u003e\\\"\"},{\"id\":1530625884504,\"type\":\"grid\",\"content\":[null,null]}]",
+      "published": false,
+      "photo": {
+        "cover": "https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/dashboards/photos/000/000/446/cover/data?1614768507",
+        "thumb": "https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/dashboards/photos/000/000/446/thumb/data?1614768507",
+        "original": "https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/dashboards/photos/000/000/446/original/data?1614768507"
+      },
+      "user-id": "fake_user_id",
+      "private": true,
+      "production": true,
+      "preproduction": false,
+      "staging": false,
+      "user": null,
+      "application": [
+        "rw"
+      ],
+      "is-highlighted": false,
+      "is-featured": false,
+      "author-title": "",
+      "author-image": {
+        "cover": "/author_images/cover/missing.png",
+        "thumb": "/author_images/thumb/missing.png",
+        "original": "/author_images/original/missing.png"
+      }
+    }
+  }
+}

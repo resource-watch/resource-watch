@@ -1,40 +1,45 @@
 ![screen shot 2017-06-08 at 9 25 50 am](https://user-images.githubusercontent.com/545342/26916938-86333e38-4c2c-11e7-952c-012bd65700a5.png)
 
 # Resource Watch 🌍👓
+
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a4b807bda6ce10d8e5f9/test_coverage)](https://codeclimate.com/github/resource-watch/resource-watch/test_coverage)
+
 Resource Watch features hundreds of data sets all in one place on the state of the planet’s resources and citizens. Users can visualize challenges facing people and the planet, from climate change to poverty, water risk to state instability, air pollution to human migration, and more.
 
 # Requirements
 
 Native execution requires the following:
 
-- [Nodejs v8.x](https://nodejs.org/en/) 
+- [Nodejs v14](https://nodejs.org/en/) 
 - [yarn](https://yarnpkg.com/)
 - [RW API](https://api.resourcewatch.org/)
+- [Redis](https://redis.io/)
 
 There are included [Dockerfile](https://docs.docker.com/engine/reference/builder/) and [docker compose](https://docs.docker.com/compose/) configuration files that may make it easier to run the application locally.
 
-# Installation (native) 📦
-Run
+# Installation
+We strongly recommend to use [NVM](https://github.com/nvm-sh/nvm) to handle different Node versions.
+
 ```bash
-yarn
+nvm use # loads the Node version indicated in the .nvmrc file
+yarn # install all dependencies
+yarn dev # runs the development server
 ```
-in your terminal will install all dependencies. Once done, type:
-```bash
-yarn dev
-```
-and your app will be served in [http://localhost:9000/](http://localhost:9000/) (if you didn't change the default port in the `.env`).
+The application will be served in [http://localhost:9000/](http://localhost:9000/) (if you didn't change the default port in the `.env` file).
 
 ## Production build
 If you need a production-ready build, run:
 ```bash
 yarn build
 ```
-this will generate your build in `./dist` folder ready to run 
+this will generate your build in `./next` folder ready to run.
 
 Happy coding!
 
-## env
-There's an `.env.sample` file you will need to duplicate and rename to `.env` in order to make the app work. Populate it properly and that's all.
+## Environmental variables
+Before running the project for first time, don't forget to update your [environmental variables](https://en.wikipedia.org/wiki/Environment_variable) to the `.env` file.
+
+There is a quick reference of the environmental variables of the project in the `.env.sample` file.
 
 ## Troubleshooting 🤔
 You might run into some problems installing dependencies:
@@ -59,6 +64,7 @@ Resource Watch application is split into the next main folders:
 - redactions (legacy)
 - selectors (legacy)
 - css
+- hooks
 - constants
 - services
 - utils
@@ -130,6 +136,9 @@ Constants are variables available across the application. They can be used anywh
 
 As constants, they must be written in uppercase and using [Snake Case](https://en.wikipedia.org/wiki/Snake_case) notation. Example: `MY_AWESOME_CONSTANT`
 
+### **./hooks**
+Contains [hooks](https://reactjs.org/docs/hooks-overview.html) used along the application. These hooks must be agnostic.
+
 ### **./services**
 Services are in charge of connecting the application with external APIs/other services. Every service contains a set of fetches (usually based on [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete)), it's possible to extend them if needed, but take into account there can't be any app-related logic here. Every fetch should be able to be used in any context. TLDR: make services agnostic.
 
@@ -184,9 +193,9 @@ Authentication is based on the [RW API user management API](https://resource-wat
 
 # Optimization 🔎
 ## Bundle Analyzer
-[Bundle Analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) is a development tool that creates an interactive treemap visualization of the contents of all your bundles.
+[@next/bundle-analyzer](https://www.npmjs.com/package/@next/bundle-analyzer) is a tool that creates an interactive treemap visualization of the contents of all your bundles.
 
-To run it: `yarn bundle-analyzer`.
+To run it: `yarn analyze`.
 
 It will run the application in production build (makes a `yarn build` internally) and open a tab in your browser displaying the bundles treemap.
 
@@ -197,6 +206,35 @@ You will need access to [Resource Watch Jenkins](https://jenkins.resourcewatch.o
 Merging to `develop` branch will deploy [RW Staging](https://staging.resourcewatch.org) automatically.
 
 To deploy [Resource Watch (production)](http://resourcewatch.org) you will need to access to Jenkins and deploy manually the `master` branch.
+
+# Testing
+
+This repository contains both the frontend application for the Resource Watch website, as well as a small API to handle specific actions needed by the frontend application (authentication, server side validation, etc).
+
+As such, testing is architectured in two parts (although some convenience commands exist to run both test suits simultaneously)
+
+## Frontend testing
+
+Resource Watch uses [Cypress](https://www.cypress.io/) to handle e2e tests. Tests are available in `cypress/integrations` folder.
+
+There are two ways to run tests locally:
+
+- `yarn test` will run Cypress in the command line. All the tests will run.
+- `yarn cy:open` will open the Cypress GUI. This interface will show all tests available in the application and let you know any or all of them.
+
+In both cases, do not forget to run your server locally before and be sure the `baseUrl` field in the `cypress.json` file matches with your server.
+
+You can find more info about Cypress and its API in [their docs](https://docs.cypress.io/guides/overview/why-cypress.html).
+
+Part of the frontend application relies on data provided by the backend API, which is only served if the user is authenticated. To support mocking user authentication across both applications, the frontend test suite relies on [authentication mocking](https://www.npmjs.com/package/passport-mock-strategy) which is only enabled if the `NODE_ENV` environment variable has the `TEST_FRONTEND` value. As such, be sure to use this value when starting the test server that will be used for the frontend testing.
+
+## Backend testing
+
+The backend API is tested using [Mocha](https://mochajs.org/).
+
+Unlike frontend tests, backend tests do not depend on the application being available as a separate process - the test suite will programmatically start the application server. However, as the application server handles both the backend API and the frontend asset serving (and its preprocessing), it can take some time for it to finish its startup process. As such, it's convenient (but not required) that you set `SERVER_ONLY=true` when running backend tests, so that the underlying application server skips the lengthy frontend asset preprocessing process.
+
+As mentioned in the [Frontend testing section](#frontend-testing), some frontend tests rely on a special mocked authentication mechanism, instead of the "real" one. While not exhaustively, the API tests do cover the mocked authentication mechanism. You can run these tests by running the backend test suite with `NODE_ENV=TEST_FRONTEND`
 
 # Documentation 📝
 Every change in the app must be documented in the `./CHANGELOG.md` file according to [keep a changelog](https://keepachangelog.com/en/1.0.0/) specs.

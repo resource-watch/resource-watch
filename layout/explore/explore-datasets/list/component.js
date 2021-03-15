@@ -15,14 +15,14 @@ class DatasetList extends PureComponent {
     tags: PropTypes.node,
     expandedChart: PropTypes.bool,
     loading: PropTypes.bool,
-    numberOfPlaceholders: PropTypes.number
+    numberOfPlaceholders: PropTypes.number,
   };
 
   static defaultProps = {
     expandedChart: false,
     tags: [],
     loading: false,
-    numberOfPlaceholders: 4
+    numberOfPlaceholders: 4,
   }
 
   render() {
@@ -32,7 +32,7 @@ class DatasetList extends PureComponent {
       tags,
       expandedChart,
       numberOfPlaceholders,
-      loading
+      loading,
     } = this.props;
     const placeholders = [];
     for (let i = 0; i < numberOfPlaceholders; i++) {
@@ -43,17 +43,17 @@ class DatasetList extends PureComponent {
       <div className="c-explore-dataset-list">
         <Spinner isLoading={loading} className="-light" />
         <div className="l-row row">
-          {!loading && list.map(dataset => (
+          {!loading && list.map((dataset) => (
             <div
               className="column small-12"
               key={dataset.id}
             >
               <DatasetListItem
                 dataset={dataset}
-                widget={dataset.widget ? dataset.widget.find(w => w.default) : null}
-                layer={dataset.layer ? dataset.layer.find(l => l.default) : null}
-                metadata={dataset.metadata && Array.isArray(dataset.metadata) ?
-                  dataset.metadata[0] : dataset.metadata}
+                widget={dataset.widget ? dataset.widget.find((w) => w.default) : null}
+                layer={dataset.layer ? dataset.layer.find((l) => l.default) : null}
+                metadata={dataset.metadata && Array.isArray(dataset.metadata)
+                  ? dataset.metadata[0] : dataset.metadata}
                 actions={actions}
                 tags={tags}
                 expandedChart={expandedChart}

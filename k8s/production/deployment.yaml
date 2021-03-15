@@ -42,7 +42,9 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 100
       containers:
-        - env:
+        - args:
+            - start
+          env:
             - name: SECRET
               valueFrom:
                 secretKeyRef:
@@ -79,4 +81,3 @@ spec:
       schedulerName: default-scheduler
       securityContext: { }
       terminationGracePeriodSeconds: 30
-status: { }

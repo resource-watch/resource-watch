@@ -48,7 +48,7 @@ function DashboardsListCard({ dashboard = {}, routes = { index: '', detail: '' }
 DashboardsListCard.propTypes = {
   dashboard: PropTypes.object,
   routes: PropTypes.object,
-  onDelete: PropTypes.func
+  onDelete: PropTypes.func,
 };
 
 export default DashboardsListCard;
