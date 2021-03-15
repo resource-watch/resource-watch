@@ -58,7 +58,7 @@ jobs:
         run: yarn install
 
       - name: Build
-        run: yarn build
+        run: yarn test:build
 
 #      - name: Start server
 #        run: yarn start &
