@@ -10,6 +10,5 @@
   "rwGoggleApiTokenShortener": "RW_GOGGLE_API_TOKEN_SHORTENER",
   "rwEnv": "RW_ENV",
   "rwMapboxApiToken": "RW_MAPBOX_API_TOKEN",
-  "pardotNewsletterUrl": "PARDOT_NEWSLETTER_URL",
   "wriApiUrl": "WRI_API_URL"
 }
