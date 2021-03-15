@@ -146,6 +146,7 @@
     "dev": "cross-env NODE_ENV=development NODE_OPTIONS=--max_old_space_size=4096 node index.js",
     "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 RW_ENV=production next build",
     "start": "cross-env RW_ENV=production node index.js",
+    "test:build": "cross-env NODE_ENV=test NODE_OPTIONS=--max_old_space_size=4096 RW_ENV=test next build",
     "test:start": "cross-env NODE_ENV=test RW_ENV=TEST node index.js",
     "analyze": "cross-env ANALYZE=true yarn build",
     "sitemap": "cross-env node next-sitemap.js",
