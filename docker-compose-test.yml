@@ -15,7 +15,6 @@ services:
       APPLICATIONS: rw
       BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
       BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
-      TRANSIFEX_LIVE_API: fca0343bce994bf8ba3dcdeaab389136
       GOOGLE_ANALYTICS: UA-67196006-1
       RW_GOGGLE_API_TOKEN_SHORTENER: AIzaSyBdMtSDFhpWrs2OSJsMsfpHGdjopCpRrVg
       ADD_SEARCH_KEY: ea4c79622844ade140170b141c36f14f
@@ -44,7 +43,6 @@ services:
       APPLICATIONS: rw
       BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
       BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
-      TRANSIFEX_LIVE_API: fca0343bce994bf8ba3dcdeaab389136
       GOOGLE_ANALYTICS: UA-67196006-1
       RW_GOGGLE_API_TOKEN_SHORTENER: AIzaSyBdMtSDFhpWrs2OSJsMsfpHGdjopCpRrVg
       ADD_SEARCH_KEY: ea4c79622844ade140170b141c36f14f

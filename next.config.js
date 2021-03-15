@@ -41,7 +41,6 @@ module.exports = withBundleAnalyzer(withCSS(withSass({
     RW_ENV: applicationConfig.get('rwEnv'),
     RW_GOGGLE_API_TOKEN_SHORTENER: applicationConfig.get('rwGoggleApiTokenShortener'),
     RW_MAPBOX_API_TOKEN: applicationConfig.get('rwMapboxApiToken'),
-    TRANSIFEX_LIVE_API: applicationConfig.get('transifexLiveApi'),
     WRI_API_URL: applicationConfig.get('wriApiUrl'),
   },
 

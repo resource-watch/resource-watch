@@ -35,7 +35,6 @@ jobs:
       APPLICATIONS: rw
       BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
       BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
-      TRANSIFEX_LIVE_API: abcdef1234567890abcdef1234567890
       GOOGLE_ANALYTICS: UA-12345678-9
       PARDOT_NEWSLETTER_URL: https://go.pardot.com/l/123456/2020-02-02/3ab4cd
       ADD_SEARCH_KEY: abcdef1234567890abcdef1234567890

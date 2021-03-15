@@ -11,6 +11,5 @@
   "rwGoggleApiTokenShortener": "myGoogleApiToken",
   "rwEnv": "development",
   "rwMapboxApiToken": "myMapboxApiToken",
-  "transifexLiveApi": "myTransifexApiKey",
   "wriApiUrl": "https://api.resourcewatch.org"
 }
