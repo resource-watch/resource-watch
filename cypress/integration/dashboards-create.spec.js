@@ -2,30 +2,20 @@ describe('An authenticated user creates a new dashboard', () => {
   beforeEach(() => {
     cy.validateEnvVar('NEXT_PUBLIC_WRI_API_URL');
 
-    cy.fixture('dashboards/post/output').then((dashboardPayload) => {
-      cy.intercept({
-        method: 'POST',
-        url: Cypress.env('NEXT_PUBLIC_WRI_API_URL'),
-        pathname: `/v1/dashboard`
-      },
-      dashboardPayload
-      ).as('createDashboard');
-    });
-
-    cy.fixture('dashboards/get-all/output').then((dashboardsPayload) => {
-      cy.intercept({
-        method: 'GET',
-        url: Cypress.env('NEXT_PUBLIC_WRI_API_URL'),
-        pathname: `/v1/dashboard`
-      },
-      dashboardsPayload
-      ).as('getDashboards');
-    });
-
     cy.login();
   });
 
   it ('a user creates a new dashboard from scratch', () => {
+    cy.fixture('dashboards/post/output').then((dashboardPayload) => {
+      cy.intercept({
+          method: 'POST',
+          url: Cypress.env('NEXT_PUBLIC_WRI_API_URL'),
+          pathname: `/v1/dashboard`
+        },
+        dashboardPayload
+      ).as('createDashboard');
+    });
+
     cy.visit('/myrw-detail/dashboards/new');
 
     cy.fixture('dashboards/post/input').then((dashboard) => {
@@ -52,6 +42,16 @@ describe('An authenticated user creates a new dashboard', () => {
   });
 
   it ('a user goes to its dashboard page', () => {
+    cy.fixture('dashboards/get-all/output').then((dashboardsPayload) => {
+      cy.intercept({
+          method: 'GET',
+          url: Cypress.env('NEXT_PUBLIC_WRI_API_URL'),
+          pathname: `/v1/dashboard`
+        },
+        dashboardsPayload
+      ).as('getDashboards');
+    });
+
     cy.visit('/myrw/dashboards');
 
     cy.fixture('dashboards/get-all/output').then((dashboardsPayload) => {
