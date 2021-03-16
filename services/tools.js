@@ -20,8 +20,8 @@ export const fetchTools = (params = {}, headers = {}) => {
       },
       params: {
         published: 'all',
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
         ...params,
       },
     },
@@ -92,8 +92,8 @@ export const createTool = (tool, token) => {
   return WRIAPI.post('/v1/tool',
     {
       data: {
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
         attributes: { ...tool },
       },
     },

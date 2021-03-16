@@ -2,7 +2,7 @@ export const convertToJSON = (file) => {
   const formData = new FormData();
   formData.append('file', file);
 
-  return fetch(`${process.env.WRI_API_URL}/v1/ogr/convert`, {
+  return fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/ogr/convert`, {
     method: 'POST',
     body: formData,
     multipart: true,
@@ -51,7 +51,7 @@ export const processFile = async (file) => new Promise((resolve, reject) => {
   }
 })
   // Second: we store it in the geostore
-  .then((geojson) => fetch(`${process.env.WRI_API_URL}/v1/geostore`, {
+  .then((geojson) => fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/geostore`, {
     method: 'POST',
     headers: new Headers({ 'content-type': 'application/json' }),
     body: JSON.stringify({ geojson }),

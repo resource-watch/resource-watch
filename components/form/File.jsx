@@ -135,7 +135,7 @@ class File extends FormElement {
 
     post({
       type: 'POST',
-      url: `${process.env.WRI_API_URL}/v1/dataset/upload`,
+      url: `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/dataset/upload`,
       headers: [{
         key: 'Authorization', value: this.props.properties.authorization,
       }],

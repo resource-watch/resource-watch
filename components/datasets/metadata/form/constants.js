@@ -22,7 +22,7 @@ export const STATE_DEFAULT = {
     language: 'en',
     info: {},
     columns: {},
-    application: process.env.APPLICATIONS,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
   },
 };
 

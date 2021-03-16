@@ -7,8 +7,18 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-// constants
 import { APP_HEADER_ITEMS } from 'layout/header/constants';
+
+const header = {
+  about: import('../header-about'),
+  dashboards: import('../header-dashboards'),
+  data: import('../header-data'),
+  'get-involved': import('../header-get-involved'),
+  menu: import('../header-menu'),
+  'menu-mobile': import('../header-menu-mobile'),
+  search: import('../header-search'),
+  user: import('../header-user'),
+};
 
 const HeaderMenu = ({
   user,
@@ -33,7 +43,7 @@ const HeaderMenu = ({
           const activeClassName = classnames({ '-active': item.pages && item.pages.includes(pathname) });
           let DropdownMenu;
           if (item.id !== 'blog') {
-            DropdownMenu = dynamic(() => import(`../header-${item.id}`));
+            DropdownMenu = dynamic(() => header[item.id]);
           }
 
           return (

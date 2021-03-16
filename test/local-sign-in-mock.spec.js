@@ -14,7 +14,7 @@ let requester;
 describe('POST /local-sign-in (mocked version)', () => {
   before(async function () {
     if (
-      process.env.NODE_ENV !== 'TEST_FRONTEND'
+      process.env.TEST_ENV !== 'FRONTEND'
     ) {
       this.skip();
     }

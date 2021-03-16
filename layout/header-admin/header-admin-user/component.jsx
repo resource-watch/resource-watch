@@ -19,7 +19,7 @@ const AdminHeaderUser = ({
     if (e) e.preventDefault();
 
     // TO-DO: move this to an action
-    fetch(`${process.env.WRI_API_URL}/auth/logout`, { credentials: 'include' })
+    fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/logout`, { credentials: 'include' })
       .then(() => {
         window.location.href = `/logout?callbackUrl=${window.location.href}`;
       })

@@ -66,7 +66,7 @@ class LayoutPulse extends PureComponent {
   componentDidMount() {
     // Init Cesium var
     Cesium = window.Cesium; // eslint-disable-line prefer-destructuring
-    Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
+    Cesium.BingMapsApi.defaultKey = process.env.NEXT_PUBLIC_BING_MAPS_API_KEY;
 
     this.props.getLayers();
     document.addEventListener('click', this.handleMouseClick);

@@ -46,7 +46,7 @@ class GlobeCesiumComponent extends PureComponent {
   componentDidMount() {
     // Init Cesium var
     Cesium = window.Cesium; // eslint-disable-line prefer-destructuring
-    Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
+    Cesium.BingMapsApi.defaultKey = process.env.NEXT_PUBLIC_BING_MAPS_API_KEY;
 
     // Create viewer object
     this.viewer = new Cesium.Viewer('cesiumContainer', {

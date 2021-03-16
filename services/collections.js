@@ -22,8 +22,8 @@ export const fetchAllCollections = (
       'Upgrade-Insecure-Requests': 1,
     },
     params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
     ..._meta && {
@@ -78,8 +78,8 @@ export const fetchCollection = (
       'Upgrade-Insecure-Requests': 1,
     },
     params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
   })

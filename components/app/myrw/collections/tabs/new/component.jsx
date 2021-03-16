@@ -26,8 +26,8 @@ const CollectionsNew = ({
       await createCollection(token,
         {
           name,
-          env: process.env.API_ENV,
-          application: process.env.APPLICATIONS,
+          env: process.env.NEXT_PUBLIC_API_ENV,
+          application: process.env.NEXT_PUBLIC_APPLICATIONS,
           resources: [],
         });
       logEvent('Myrw Collections', 'Create collection', name);

@@ -14,8 +14,8 @@ import { logger } from 'utils/logs';
  * @returns {Object[]} array of serialized dashboards.
  */
 export const fetchDashboards = (params = {
-  env: process.env.API_ENV,
-  application: process.env.APPLICATIONS,
+  env: process.env.NEXT_PUBLIC_API_ENV,
+  application: process.env.NEXT_PUBLIC_APPLICATIONS,
 }, headers = {}, _meta = false) => {
   logger.info('Fetch dashboards');
   return WRIAPI.get('/v1/dashboard', {
@@ -61,8 +61,8 @@ export const fetchDashboard = (id, params = {}) => {
       'Upgrade-Insecure-Requests': 1,
     },
     params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
   })
@@ -94,8 +94,8 @@ export const createDashboard = (body, token) => {
   return WRIAPI.post('/v1/dashboard', {
     data: {
       attributes: { ...body },
-      application: [process.env.APPLICATIONS],
-      env: process.env.API_ENV,
+      application: [process.env.NEXT_PUBLIC_APPLICATIONS],
+      env: process.env.NEXT_PUBLIC_API_ENV,
     },
   }, {
     headers: {

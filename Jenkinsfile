@@ -20,13 +20,13 @@ node {
     stage ('Build docker') {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg wriApiUrl=https://staging-api.resourcewatch.org --build-arg callbackUrl=https://staging.resourcewatch.org/auth -t ${imageTag} .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_WRI_API_URL=https://staging-api.resourcewatch.org --build-arg NEXT_PUBLIC_CALLBACK_URL=https://staging.resourcewatch.org/auth -t ${imageTag} .")
           break
         case "preproduction":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg callbackUrl=https://preproduction.resourcewatch.org/auth -t ${imageTag} .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_CALLBACK_URL=https://preproduction.resourcewatch.org/auth -t ${imageTag} .")
           break
         case "master":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
         default:
           sh("echo NOT DEPLOYED")
           currentBuild.result = 'SUCCESS'
@@ -34,9 +34,10 @@ node {
     }
 
     stage ('Run Tests') {
-    //  sh('docker-compose -H :2375 -f docker-compose-test.yml build')
-    //  sh('docker-compose -H :2375 -f docker-compose-test.yml run --rm cypress')
-    //  sh('docker-compose -H :2375 -f docker-compose-test.yml stop')
+     sh('docker-compose -H :2375 -f docker-compose-test.yml build')
+     sh('docker-compose -H :2375 up --abort-on-container-exit --exit-code-from cypress cypress frontend-test-server')
+     sh('docker-compose -H :2375 up --abort-on-container-exit --exit-code-from backend-test backend-test')
+     sh('docker-compose -H :2375 -f docker-compose-test.yml stop')
     }
 
     stage('Push Docker') {

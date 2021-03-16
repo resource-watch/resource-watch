@@ -28,7 +28,7 @@ class Footer extends PureComponent {
           <a>
             <img
               className="-img"
-              src={`${process.env.STATIC_SERVER_URL}${_partner.logo.thumb}`}
+              src={`${_partner.logo.thumb}`}
               alt={_partner.name}
             />
           </a>

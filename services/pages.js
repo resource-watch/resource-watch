@@ -21,8 +21,8 @@ export const fetchPages = (token, params = {}, headers = {}) => {
       },
       params: {
         published: 'all',
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
         ...params,
       },
     },
@@ -93,8 +93,8 @@ export const createPage = (page, token) => {
   return WRIAPI.post('/v1/static_page',
     {
       data: {
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
         attributes: { ...page },
       },
     },

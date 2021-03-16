@@ -10,7 +10,7 @@ export const fetchTools = createThunkAction('WIDGET-DETAIL/fetchTools', () => (d
   dispatch(setToolsLoading(true));
   dispatch(setToolsError(null));
 
-  return fetch(new Request(`${process.env.WRI_API_URL}/v1/tool`))
+  return fetch(new Request(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/tool`))
     .then((response) => {
       if (response.ok) return response.json();
       throw new Error(response.statusText);

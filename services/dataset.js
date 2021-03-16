@@ -18,8 +18,8 @@ import { logger } from 'utils/logs';
 export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
   logger.info('Fetch datasets');
   const newParams = {
-    env: process.env.API_ENV,
-    application: process.env.APPLICATIONS,
+    env: process.env.NEXT_PUBLIC_API_ENV,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
     ...params,
   };
   return WRIAPI.get('/v1/dataset', {
@@ -221,8 +221,8 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
     return WRIAPI.patch(`/v1/dataset/${datasetId}/vocabulary/knowledge_graph`,
       {
         tags,
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
       },
       { headers: { Authorization: token } })
       .then((response) => WRISerializer(response.data))
@@ -237,8 +237,8 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
       {
         knowledge_graph: {
           tags,
-          application: process.env.APPLICATIONS,
-          env: process.env.API_ENV,
+          application: process.env.NEXT_PUBLIC_APPLICATIONS,
+          env: process.env.NEXT_PUBLIC_API_ENV,
         },
       },
       { headers: { Authorization: token } })
@@ -253,8 +253,8 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
     {
       headers: { Authorization: token },
       params: {
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
       },
     })
     .then((response) => WRISerializer(response.data))

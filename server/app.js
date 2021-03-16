@@ -1,4 +1,14 @@
-require('dotenv').load();
+// Load environment variables from .env, .env.local, etc. This explicit call
+// into `@next/env` allows using environment variables before next() is called.
+// More info: https://nextjs.org/docs/basic-features/environment-variables
+const { loadEnvConfig } = require('@next/env');
+
+const projectDir = process.cwd();
+
+loadEnvConfig(
+  projectDir,
+  process.env.NODE_ENV === 'development',
+);
 
 const express = require('express');
 const next = require('next');
@@ -16,7 +26,10 @@ const apiRoutes = require('./api-router');
 const routes = require('../routes');
 
 const port = process.env.PORT || 3000;
-const prod = process.env.RW_NODE_ENV === 'production';
+
+// We need next in prod mode for production and testing environments
+// Otherwise, in test, next will compile crap on the fly and timeout tests
+const prod = process.env.NODE_ENV !== 'development';
 
 // Next app creation
 const app = next({ dev: !prod });
@@ -136,8 +149,7 @@ async function init() {
             reject(err);
           }
           console.info(
-            `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV
-            || 'development'}]`,
+            `> Ready on http://localhost:${port} [RW_ENV: ${process.env.NEXT_PUBLIC_RW_ENV || 'development'}] [NODE_ENV: ${process.env.NODE_ENV}]`,
           );
           resolve({ httpListener });
         });
@@ -150,7 +162,7 @@ async function init() {
           reject(err);
         }
         console.info(
-          `> Ready on http://localhost:${port} [${process.env.RW_NODE_ENV || 'development'}]`,
+          `> Ready on http://localhost:${port} [RW_ENV: ${process.env.NEXT_PUBLIC_RW_ENV || 'development'}] [NODE_ENV: ${process.env.NODE_ENV}]`,
         );
         resolve({ httpListener });
       });

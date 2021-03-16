@@ -32,7 +32,7 @@ class LayersNew extends PureComponent {
     return (
       <div className="c-layers-new">
         <LayersForm
-          application={[process.env.APPLICATIONS]}
+          application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
           authorization={token}
           onSubmit={this.handleSubmit}
           dataset={dataset}
