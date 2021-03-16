@@ -18,8 +18,8 @@ export const fetchSubscriptions = (token, params) => {
       Authorization: token,
     },
     params: {
-      application: process.env.APPLICATIONS,
-      env: process.env.API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
       ...params,
     },
   })
@@ -56,8 +56,8 @@ export const createSubscriptionToArea = ({
   logger.info(`Create subscription to area: ${areaId}`);
   const bodyObj = {
     name,
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
+    env: process.env.NEXT_PUBLIC_API_ENV,
     language: language || 'en',
     datasets,
     datasetsQuery,
@@ -98,8 +98,8 @@ export const updateSubscriptionToArea = (
 ) => {
   logger.info(`Update subscription: ${subscriptionId}`);
   const bodyObj = {
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
+    env: process.env.NEXT_PUBLIC_API_ENV,
     language: language || 'en',
     datasets,
     datasetsQuery,
@@ -128,7 +128,7 @@ export const updateSubscriptionToArea = (
  */
 export const fetchSubscription = (subscriptionId, token) => {
   logger.info(`Fetch subscription: ${subscriptionId}`);
-  return WRIAPI.get(`/v1/subscriptions/${subscriptionId}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
+  return WRIAPI.get(`/v1/subscriptions/${subscriptionId}?application=${process.env.NEXT_PUBLIC_APPLICATIONS}&env=${process.env.NEXT_PUBLIC_API_ENV}`,
     { headers: { Authorization: token } })
     .then((response) => response.data)
     .catch(({ response }) => {

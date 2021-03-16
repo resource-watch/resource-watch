@@ -52,8 +52,8 @@ class MyRWWidgetNewTab extends React.Component {
       description: data.description,
       widgetConfig: data.widgetConfig,
       published: false,
-      application: process.env.APPLICATIONS.split(','),
-      env: process.env.API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS.split(','),
+      env: process.env.NEXT_PUBLIC_API_ENV,
     };
 
     logEvent('My RW', 'User creates new widget', datasets.find((d) => d.id === selectedDataset).label);

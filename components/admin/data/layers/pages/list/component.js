@@ -21,7 +21,7 @@ class LayersIndex extends PureComponent {
     return (
       <div className="c-layers-index">
         <LayersTable
-          application={[process.env.APPLICATIONS]}
+          application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
           dataset={dataset}
           authorization={token}
         />

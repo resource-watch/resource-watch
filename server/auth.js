@@ -1,4 +1,3 @@
-const config = require('config');
 require('isomorphic-fetch');
 
 const passport = require('passport');
@@ -19,22 +18,22 @@ passport.deserializeUser((obj, done) => {
 
 module.exports = (() => {
   const strategy = new ControlTowerStrategy({
-    controlTowerUrl: config.get('wriApiUrl'),
-    callbackUrl: process.env.CALLBACK_URL,
-    applications: process.env.APPLICATIONS || 'rw',
+    controlTowerUrl: process.env.NEXT_PUBLIC_WRI_API_URL,
+    callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL,
+    applications: process.env.NEXT_PUBLIC_APPLICATIONS || 'rw',
   });
 
   const localStrategy = new LocalStrategy(
     { usernameField: 'email', passwordField: 'password', session: true },
     (email, password, done) => {
       const queryParams = queryString.stringify({
-        callbackUrl: process.env.CALLBACK_URL,
+        callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL,
         applications: 'rw',
         token: true,
         origin: 'rw',
       });
 
-      fetch(`${config.get('wriApiUrl')}/auth/login?${queryParams}`, {
+      fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/login?${queryParams}`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },
@@ -114,7 +113,7 @@ module.exports = (() => {
       const { body } = req;
       const { userObj, token } = body;
 
-      fetch(`${config.get('wriApiUrl')}/auth/user/me`, {
+      fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/user/me`, {
         method: 'PATCH',
         body: JSON.stringify(userObj),
         headers: {

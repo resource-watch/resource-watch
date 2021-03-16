@@ -1,5 +1,0 @@
-{
-  "apiEnv": "production",
-  "applications": "rw",
-  "callbackUrl": "https://resourcewatch.org/auth"
-}

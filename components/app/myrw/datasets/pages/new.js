@@ -12,7 +12,7 @@ function DatasetsNew(props) {
     <div className="c-datasets-new">
       <DatasetsForm
         basic
-        application={[process.env.APPLICATIONS]}
+        application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
         authorization={user.token}
         onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets', subtab: 'my_datasets' })}
       />

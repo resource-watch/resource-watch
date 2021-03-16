@@ -1954,6 +1954,11 @@
   resolved "https://registry.yarnpkg.com/@next/env/-/env-10.0.7.tgz#7b3e87a9029ca37491e2ec25c27593f0906725f9"
   integrity sha512-/vnz2SL/mk3Tei58WfRtVnvz5xHmAqcBmZL5sTBEy1CZG6OtZGNx0qAFCjtVkeJ5m1Bh4Ut+WFh/RF333wx8Sg==
 
+"@next/env@10.0.8":
+  version "10.0.8"
+  resolved "https://registry.yarnpkg.com/@next/env/-/env-10.0.8.tgz#3306c9de20ef187438affbafce0ef966c9e43c3b"
+  integrity sha512-vWdxAHD6gJn52tN5bxj1VoRgu5lNtRPc/HyYf7V014k2GZ9eKhqoFQGSSMNGHB7WgdUxLVw75+o9Ek9ClOOAjw==
+
 "@next/polyfill-module@10.0.7":
   version "10.0.7"
   resolved "https://registry.yarnpkg.com/@next/polyfill-module/-/polyfill-module-10.0.7.tgz#ec45ec1f28f47beed15ed67dffc907edd7143094"
@@ -4436,13 +4441,6 @@ concat-with-sourcemaps@^1.0.0:
   dependencies:
     source-map "^0.6.1"
 
-config@^3.3.6:
-  version "3.3.6"
-  resolved "https://registry.yarnpkg.com/config/-/config-3.3.6.tgz#b87799db7399cc34988f55379b5f43465b1b065c"
-  integrity sha512-Hj5916C5HFawjYJat1epbyY2PlAgLpBtDUlr0MxGLgo3p5+7kylyvnRY18PqJHgnNWXcdd0eWDemT7eYWuFgwg==
-  dependencies:
-    json5 "^2.1.1"
-
 confusing-browser-globals@^1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/confusing-browser-globals/-/confusing-browser-globals-1.0.9.tgz#72bc13b483c0276801681871d4898516f8f54fdd"
@@ -5762,11 +5760,6 @@ dot-prop@^4.1.1:
   integrity sha512-tUMXrxlExSW6U2EXiiKGSBVdYgtV8qlHL+C10TsW4PURY/ic+eaysnSkwB4kA/mBlCyy/IKDJ+Lc3wbWeaXtuQ==
   dependencies:
     is-obj "^1.0.0"
-
-dotenv@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
-  integrity sha1-hk7xN5rO1Vzm+V3r7NzhefegzR0=
 
 double-ended-queue@^2.1.0-0:
   version "2.1.0-0"
@@ -8781,7 +8774,7 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
-json5@^2.1.0, json5@^2.1.1, json5@^2.1.2:
+json5@^2.1.0, json5@^2.1.2:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.0.tgz#2dfefe720c6ba525d9ebd909950f0515316c89a3"
   integrity sha512-f+8cldu7X/y7RAJurMEJmdoKXGB/X550w2Nr3tTbezL6RwEE/iMcm+tZnXeoZtKuOq6ft8+CqzEkrIgx1fPoQA==

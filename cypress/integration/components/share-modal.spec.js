@@ -1,7 +1,7 @@
 
 describe('a user wants to share the page with a shortened link', () => {
   before(() => {
-    cy.validateEnvVar('bitlyToken');
+    cy.validateEnvVar('NEXT_PUBLIC_BITLY_TOKEN');
   });
 
   it('the user gets the shortened link', () => {
@@ -25,7 +25,7 @@ describe('a user wants to share the page with a shortened link', () => {
       },
     ).as('getBitlyLink');
 
-    cy.visit('/dashboards/forests');
+    cy.visit(`${Cypress.config().baseUrl}/dashboards/forests`);
 
     cy.get('.page-header-content').find('button[data-cy="share-button"]').click();
 

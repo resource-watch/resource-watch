@@ -219,7 +219,7 @@ const AreaCard = (props) => {
           className="-transparent"
         />
         <Map
-          mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+          mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
           mapStyle={MAPSTYLES}
           viewport={DEFAULT_VIEWPORT}
           basemap="dark"

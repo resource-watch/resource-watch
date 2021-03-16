@@ -50,8 +50,8 @@ export const fetchUserAreas = (token, params = {}, _meta = false) => {
       'Upgrade-Insecure-Requests': 1,
     },
     params: {
-      application: process.env.APPLICATIONS,
-      env: process.env.API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
       ...params,
     },
     transformResponse: [].concat(
@@ -115,8 +115,8 @@ export const createArea = (name, geostore, token) => {
 
   const bodyObj = {
     name,
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
+    env: process.env.NEXT_PUBLIC_API_ENV,
     geostore,
   };
 
@@ -141,8 +141,8 @@ export const updateArea = (id, params, token) => {
   logger.info(`Update area ${id}`);
 
   return WRIAPI.patch(`/v2/area/${id}`, {
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
+    env: process.env.NEXT_PUBLIC_API_ENV,
     ...params,
   },
   {

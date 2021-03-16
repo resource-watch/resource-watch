@@ -6,7 +6,7 @@ export const STATE_DEFAULT = {
   partners: [],
   form: {
     // STEP 1
-    application: [process.env.APPLICATIONS],
+    application: [process.env.NEXT_PUBLIC_APPLICATIONS],
     dataset: null,
     source: '',
     sourceUrl: '',

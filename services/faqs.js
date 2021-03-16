@@ -17,8 +17,8 @@ export const fetchFaqs = (params = {}, headers = {}) => {
     '/v1/faq',
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         ...params,
         published: 'all',
       },
@@ -47,8 +47,8 @@ export const fetchFaq = (id, params = {}, headers = {}) => {
     `/v1/faq/${id}`,
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         ...params,
       },
       headers: { ...headers },

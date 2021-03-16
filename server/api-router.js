@@ -1,5 +1,4 @@
 const express = require('express');
-const config = require('config');
 const auth = require('./auth');
 
 const router = express.Router();
@@ -49,8 +48,8 @@ router.get('/auth/:service', (req, res) => {
   // save the current url for redirect if successful, set it to expire in 5 min
   res.cookie('authUrl', req.headers.referer, { maxAge: 3e5, httpOnly: true });
   return res.redirect(
-    `${config.get('wriApiUrl')}/auth/${service}?callbackUrl=${
-      process.env.CALLBACK_URL
+    `${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/${service}?callbackUrl=${
+      process.env.NEXT_PUBLIC_CALLBACK_URL
     }&applications=rw&token=true&origin=rw`,
   );
 });

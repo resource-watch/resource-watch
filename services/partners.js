@@ -16,8 +16,8 @@ export const fetchPartners = (params = {}, headers = {}) => {
   return WRIAPI.get('/v1/partner', {
     params: {
       ...params,
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
     },
     headers: { ...headers },
   })
@@ -49,8 +49,8 @@ export const fetchPartner = (id, params = {}, headers = {}) => {
       headers: { ...headers },
       params: {
         ...params,
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
       },
     },
   )
@@ -104,8 +104,8 @@ export const createPartner = (partner, token, params = {}, headers = {}) => {
     {
       params: {
         ...params,
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
       },
       headers: { ...headers, Authorization: token },
     })
@@ -132,7 +132,7 @@ export const deletePartner = (id, token, params = {}, headers = {}) => {
     {
       params: {
         ...params,
-        application: process.env.APPLICATIONS,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
       },
       headers: {
         ...headers,

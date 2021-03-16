@@ -57,7 +57,7 @@ class WidgetsShow extends PureComponent {
               {(subtab === 'metadata')
                 && (
                 <MetadataForm
-                  application={process.env.APPLICATIONS}
+                  application={process.env.NEXT_PUBLIC_APPLICATIONS}
                   authorization={token}
                   widget={id}
                   onSubmit={() => { Router.pushRoute('admin_data_detail', { tab: 'widgets', id, subtab: 'edit' }); }}

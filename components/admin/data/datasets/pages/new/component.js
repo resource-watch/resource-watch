@@ -16,7 +16,7 @@ class DatasetsNew extends PureComponent {
     return (
       <div className="c-datasets-new">
         <DatasetsForm
-          application={[process.env.APPLICATIONS]}
+          application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
           authorization={token}
           onSubmit={this.handleSubmit}
           basic={false}
