@@ -8,9 +8,11 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-Cypress.Commands.add("login", (callbackURL) => {
+Cypress.Commands.add("login", () => {
   // visiting a page is mandatory in order to initialize the store
   cy.visit('/sign-in');
+
+  cy.log('user logging...');
 
   cy.request({
     method: 'POST',
@@ -19,7 +21,7 @@ Cypress.Commands.add("login", (callbackURL) => {
   .then((response) => {
     if (response.status === 200) {
       cy.window().its('store').invoke('dispatch',{ type: 'user/setUser', payload: response.body });
-      if (callbackURL) cy.visit(callbackURL);
+      cy.log('user logged successfully');
     }
   });
 });

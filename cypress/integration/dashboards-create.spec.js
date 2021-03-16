@@ -45,7 +45,6 @@ describe('An authenticated user creates a new dashboard', () => {
       cy.get('form[data-cy="dashboard-form"]').submit();
 
       cy.wait('@createDashboard').then(({ response }) => {
-        console.log('response', response)
         expect(response.statusCode).to.eq(200);
         expect(response.body.data.attributes.name).to.eq(dashboard.name);
       });
