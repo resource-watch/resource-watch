@@ -28,7 +28,6 @@ WORKDIR /usr/src/app
 
 # Copy app folders
 COPY components ./components
-COPY config ./config
 COPY constants ./constants
 COPY css ./css
 COPY hooks ./hooks
@@ -56,6 +55,8 @@ COPY next-sitemap.js .
 COPY postcss.config.js .
 COPY routes.js .
 COPY jsconfig.json .
+COPY .env.test .
+COPY .env.production .
 
 RUN yarn install --frozen-lockfile --production=false
 

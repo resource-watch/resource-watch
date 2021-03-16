@@ -26,7 +26,10 @@ const apiRoutes = require('./api-router');
 const routes = require('../routes');
 
 const port = process.env.PORT || 3000;
-const prod = process.env.NODE_ENV === 'production';
+
+// We need next in prod mode for production and testing environments
+// Otherwise, in test, next will compile crap on the fly and timeout tests
+const prod = process.env.NODE_ENV !== 'development';
 
 // Next app creation
 const app = next({ dev: !prod });
