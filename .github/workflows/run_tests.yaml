@@ -38,7 +38,7 @@ jobs:
       NEXT_PUBLIC_BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
       NEXT_PUBLIC_GOOGLE_ANALYTICS: UA-12345678-9
       NEXT_PUBLIC_ADD_SEARCH_KEY: abcdef1234567890abcdef1234567890
-      NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER: fakeBingToken
+      NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER: fakeGoogleApiToken
       NEXT_PUBLIC_BING_MAPS_API_KEY: fakeBingToken
       NEXT_PUBLIC_RW_MAPBOX_API_TOKEN: fakeMapboxToken
       CC_TEST_REPORTER_ID: 1a3b4790c97b84d93856c16cd0ceac7070a43c7620444d9de945c75c2edfa676
@@ -59,7 +59,7 @@ jobs:
         run: yarn install
 
       - name: Build
-        run: yarn test:build
+        run: yarn build
 
 #      - name: Start server
 #        run: yarn start &

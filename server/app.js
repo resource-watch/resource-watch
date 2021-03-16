@@ -146,7 +146,7 @@ async function init() {
             reject(err);
           }
           console.info(
-            `> Ready on http://localhost:${port} [RW_ENV: ${process.env.RW_ENV || 'development'}] [NODE_ENV: ${process.env.NODE_ENV}]`,
+            `> Ready on http://localhost:${port} [RW_ENV: ${process.env.NEXT_PUBLIC_RW_ENV || 'development'}] [NODE_ENV: ${process.env.NODE_ENV}]`,
           );
           resolve({ httpListener });
         });
@@ -159,7 +159,7 @@ async function init() {
           reject(err);
         }
         console.info(
-          `> Ready on http://localhost:${port} [RW_ENV: ${process.env.RW_ENV || 'development'}] [NODE_ENV: ${process.env.NODE_ENV}]`,
+          `> Ready on http://localhost:${port} [RW_ENV: ${process.env.NEXT_PUBLIC_RW_ENV || 'development'}] [NODE_ENV: ${process.env.NODE_ENV}]`,
         );
         resolve({ httpListener });
       });
