@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.0.7] - X
 ### Added
+- 404 static page.
 - added tests to verify pages are loaded successfully in `get-involved`, `about`, `data` pages.
 - added new service and entrypoint to launch Docker.
 
@@ -29,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - fixed issue with Twitter card attributes in dashboards. [#177007206](https://www.pivotaltracker.com/story/show/177007206)
 
 ### Removed
+- duplicated meta charset tag and other meta tags in the document.
 - user token from tools endpoint.
 - `moveto` dependency.
 - `moment-range` dependency.
