@@ -13,33 +13,74 @@ Native execution requires the following:
 - [Nodejs v14](https://nodejs.org/en/) 
 - [yarn](https://yarnpkg.com/)
 - [RW API](https://api.resourcewatch.org/)
-- [Redis](https://redis.io/)
+- [Redis](https://redis.io/) (optional)
 
 There are included [Dockerfile](https://docs.docker.com/engine/reference/builder/) and [docker compose](https://docs.docker.com/compose/) configuration files that may make it easier to run the application locally.
 
 # Installation
-We strongly recommend to use [NVM](https://github.com/nvm-sh/nvm) to handle different Node versions.
+
+Be sure you are using the correct Nodejs version. We recommend using [NVM](https://github.com/nvm-sh/nvm) to handle different Node versions.
+
+Begin by installing the necessary nodejs dependencies, using `yarn`:
 
 ```bash
-nvm use # loads the Node version indicated in the .nvmrc file
-yarn # install all dependencies
+yarn
+```
+
+You also need to specify the necessary [environment variables](#environment-variables) - check the corresponding section for more details.
+
+To start the application in development mode, use the built-in development web server:
+
+```bash
 yarn dev # runs the development server
 ```
+
 The application will be served in [http://localhost:3000/](http://localhost:3000/) (if you didn't change the default port in the `.env` file).
 
 ## Production build
-If you need a production-ready build, run:
+
+Running the application in a production environment is a two-step process:
+- Preprocessing the existing code and generating pre-renders of each page
+- Launch a web server to serve said pages
+
+This can be achieved using the following commands:
+
 ```bash
 yarn build
+yarn start
 ```
-this will generate your build in `./next` folder ready to run.
 
-Happy coding!
+## Environment variables
 
-## Environmental variables
-Before running the project for first time, don't forget to update your [environmental variables](https://en.wikipedia.org/wiki/Environment_variable) to the `.env` file.
+Before running the project for first time, be it for development, testing or production, you need to specify the correct values for key [environment variables](https://en.wikipedia.org/wiki/Environment_variable) used by the project.
 
-There is a quick reference of the environmental variables of the project in the `.env.sample` file.
+Before deep-diving into the env var list, here are a few key concepts that you should keep in mind at all times when manipulating env vars:
+- Most of the env var logic is based on [Next.js env var logic](https://nextjs.org/docs/basic-features/environment-variables) which we strongly recommend you read.
+- Most of these values aim at configuring the behavior of the application itself, but they may also be used during testing to cross-check the logic (for example, NEXT_PUBLIC_WRI_API_URL is used in the tests to validate that the application makes the requests to the correct address).
+
+
+| Variable name |        Description |   Default value | Caveats   |
+| ------------- | ------------------ | --------------: | --------: |
+| NODE_ENV      | Describes the low level environment type in which the application is executing. Must be `development`, `test` or `production` |  | Using `development` will start the application in a mode that always builds pages on-the-fly, skipping any pre-compiled resources. These pages will always reflect your latest code changes, but may take more time to render. | 
+| TEST_ENV      | Used when running the application for testing purposes. Must be `FRONTEND` when doing frontend testing (with Cypress) or `BACKEND` (when testing the built-in API) |  |  | 
+| PORT          | HTTP port used when starting the built-in web server. | 3000 | In some parts of the application's CI/CD pipeline this value is expected to be 3000. | 
+| REDIS_URL     | URL of the Redis server used to store user sessions | | This variable is optional, and if omitted, user sessions will be stored in memory instead. It's highly recommended that you use a Redis server for session storage in production environments. |
+| SECRET        | Secret key used for signing and verifying the integrity of cookies.  | | If you change this key, all old signed cookies will become invalid! Make sure the secrets in this file are kept private |
+| RW_USERNAME + RW_PASSWORD | Username and password values for a basic auth access wall to the whole site. If missing, the auth wall is disabled | | This auth mechanism is meant for scenarios where you want to have the whole site available only to users with a shared username and password - a staging/demo environment, for example. It is NOT related to used-based functionality of the site (MyRW, for example). |
+| LOGGER_LEVEL | Logging level used with the [Pino](https://github.com/pinojs/pino) logging library. | info |  |
+| NEXT_PUBLIC_RW_ENV | Used to set some scripts/functionalities in the app (like Google Analytics, CrazyEgg, Hotjar, ...). Must be `development` or `production` |  |
+| NEXT_PUBLIC_CALLBACK_URL | Sets the callback URL triggered when a user attempts to log in. Also handles the cookies registration. |  |
+| NEXT_PUBLIC_APPLICATIONS | Sets the context of the data. You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#applications). |  |
+| NEXT_PUBLIC_API_ENV | Environment the resource belongs to in the WRI API.You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#environments). |  |
+| NEXT_PUBLIC_WRI_API_URL | URL of the WRI API |  | In most cases you'll want to use https://api.resourcewatch.org for this value. When testing, be sure to mock all your HTTP requests, and avoid relying on actual calls to external services (like this one). |
+| NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER | API Key used for google maps library |  |  |
+| NEXT_PUBLIC_GOOGLE_ANALYTICS | Google Analytics tracker ID |  |  |
+| NEXT_PUBLIC_ADD_SEARCH_KEY | Used to allow global search function in the site with [AddSearch](https://www.addsearch.com/) |  |  |
+| NEXT_PUBLIC_BLOG_API_URL | Used to fetch posts coming from the Resource Watch blog (Wordpress) |  | In most cases you'll want to use https://blog.resourcewatch.org/wp-json/wp/v2 for this value. When testing, be sure to mock all your HTTP requests, and avoid relying on actual calls to external services (like this one). |
+| NEXT_PUBLIC_BING_MAPS_API_KEY | API KEY used by Cesium. You can find more info in [its documentation](https://cesium.com/docs/cesiumjs-ref-doc/BingMapsApi.html#.defaultKey). |  |  |
+| NEXT_PUBLIC_RW_MAPBOX_API_TOKEN | Mapbox token used to render and handle Mapbox instances. You can find more info in the [Mapbox documentation](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/). |  |  |
+
+
 
 ## Troubleshooting 🤔
 You might run into some problems installing dependencies:
