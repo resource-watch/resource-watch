@@ -35,8 +35,8 @@ node {
 
     stage ('Run Tests') {
      sh('docker-compose -H :2375 -f docker-compose-test.yml build')
-     sh('docker-compose -H :2375 up --abort-on-container-exit --exit-code-from cypress cypress frontend-test-server')
-     sh('docker-compose -H :2375 up --abort-on-container-exit --exit-code-from backend-test backend-test')
+     sh('docker-compose -H :2375 -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from cypress cypress frontend-test-server')
+     sh('docker-compose -H :2375 -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from backend-test backend-test')
      sh('docker-compose -H :2375 -f docker-compose-test.yml stop')
     }
 
