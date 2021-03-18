@@ -21,7 +21,7 @@ There are included [Dockerfile](https://docs.docker.com/engine/reference/builder
 
 Be sure you are using the correct Nodejs version. We recommend using [NVM](https://github.com/nvm-sh/nvm) to handle different Node versions.
 
-Begin by installing the necessary nodejs dependencies, using `yarn`:
+Begin by installing the necessary nodejs packages, using `yarn`:
 
 ```bash
 yarn
