@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - renamed some internal folders called `pages` to `tabs` as they were giving some issues with the new Node version.
 
 ### Fixed
+- fixed authentication issue in static-pages endpoint. [RW-19](https://vizzuality.atlassian.net/browse/RW-19)
 - fixed issue where the "Powered By Resource Watch" logo in embeds didn't appear in external sites.
 - fixed issue with user areas overlapping with dataset detail view in Explore page.
 - fixed issue with Twitter card attributes in dashboards. [#177007206](https://www.pivotaltracker.com/story/show/177007206)
