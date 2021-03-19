@@ -35,7 +35,7 @@ To start the application in development mode, use the built-in development web s
 yarn dev # runs the development server
 ```
 
-The application will be served in [http://localhost:3000/](http://localhost:3000/) (if you didn't change the default port in the `.env` file).
+The application will be served in [http://localhost:3000/](http://localhost:3000/).
 
 ## Production build
 
@@ -52,7 +52,7 @@ yarn start
 
 ## Environment variables
 
-Before running the project for first time, be it for development, testing or production, you need to specify the correct values for key [environment variables](https://en.wikipedia.org/wiki/Environment_variable) used by the project.
+Before running the project for first time, be it for development, testing or production, you need to specify the correct values for key [environment variables](https://en.wikipedia.org/wiki/Environment_variable) (env vars) used by the project.
 
 Before deep-diving into the env var list, here are a few key concepts that you should keep in mind at all times when manipulating env vars:
 - Most of the env var logic is based on [Next.js env var logic](https://nextjs.org/docs/basic-features/environment-variables) which we strongly recommend you read.
@@ -80,7 +80,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_BING_MAPS_API_KEY | API KEY used by Cesium. You can find more info in [its documentation](https://cesium.com/docs/cesiumjs-ref-doc/BingMapsApi.html#.defaultKey). |  |  |
 | NEXT_PUBLIC_RW_MAPBOX_API_TOKEN | Mapbox token used to render and handle Mapbox instances. You can find more info in the [Mapbox documentation](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/). |  |  |
 
-
+If you want to customize these variables for your local environment, the recommended way is creating a `.env.local` file.
 
 ## Troubleshooting 🤔
 You might run into some problems installing dependencies:
