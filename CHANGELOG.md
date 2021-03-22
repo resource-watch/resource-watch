@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - renamed some internal folders called `pages` to `tabs` as they were giving some issues with the new Node version.
 
 ### Fixed
+- fixed a bug where map styles overlapped.
 - fixed wrong URL for related datasets card box.
 - fixed authentication issue in static-pages endpoint. [RW-19](https://vizzuality.atlassian.net/browse/RW-19)
 - fixed issue where the "Powered By Resource Watch" logo in embeds didn't appear in external sites.
@@ -32,6 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - fixed issue with Twitter card attributes in dashboards. [#177007206](https://www.pivotaltracker.com/story/show/177007206)
 
 ### Removed
+- styles optimization (`cssnano` and `optimize-css-assets-webpack-plugin` dependencies)
 - duplicated meta charset tag and other meta tags in the document.
 - user token from tools endpoint.
 - `moveto` dependency.
