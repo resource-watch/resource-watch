@@ -598,7 +598,7 @@ class Map extends React.Component {
   // RENDER
   render() {
     return (
-      <div className="c-map">
+      <div className="c-map-legacy">
         {this.state.loading && <Spinner isLoading />}
         <div ref={(node) => { this.mapNode = node; }} className="map-leaflet" />
       </div>
