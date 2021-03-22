@@ -1,9 +1,6 @@
 // const applicationConfig = require('config');
 const withSass = require('@zeit/next-sass');
 const withCSS = require('@zeit/next-css');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-// eslint-disable-next-line import/no-extraneous-dependencies
-const cssnano = require('cssnano');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
@@ -35,14 +32,6 @@ module.exports = withBundleAnalyzer(withCSS(withSass({
       net: 'empty',
       tls: 'empty',
     };
-
-    _config.plugins.push(
-      // optimizes any css file generated
-      new OptimizeCssAssetsPlugin({
-        cssProcessor: cssnano,
-        cssProcessorPluginOptions: { preset: ['default', { discardComments: { removeAll: true } }] },
-      }),
-    );
 
     return _config;
   },
