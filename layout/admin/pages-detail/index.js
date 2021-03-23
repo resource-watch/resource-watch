@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 
 // component
-import LayoutAdminStaticPagesDetail from './component';
+import LayoutAdminPagesDetail from './component';
 
 export default connect(
-  (state) => ({
-    user: state.user,
+  state => ({
+    query: state.routes.query,
+    user: state.user
   }),
-  null,
-)(LayoutAdminStaticPagesDetail);
+  null
+)(LayoutAdminPagesDetail);

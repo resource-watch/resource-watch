@@ -28,14 +28,11 @@ class PagesForm extends React.Component {
   });
 
   componentDidMount() {
-    const {
-      authorization,
-    } = this.props;
     const { id } = this.state;
     // Get the pages and fill the
     // state form with its params if the id exists
     if (id) {
-      fetchPage(id, authorization)
+      fetchPage(id)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),

@@ -302,33 +302,35 @@ class WidgetBlock extends PureComponent {
             }
 
             {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && isInitMap && (
-              <>
-                <Map
-                  mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
-                  mapStyle={MAPSTYLES}
-                  viewport={viewport}
-                  basemap={this.getMapBasemap(widget)}
-                  onViewportChange={this.handleViewport}
-                  labels={this.getMapLabel(widget)}
-                  scrollZoom={false}
-                  bounds={this.getMapBounds(widget)}
-                  onError={this.handleMapErrors}
-                >
-                  {(_map) => (
-                    <>
-                      <LayerManager
-                        map={_map}
-                        layers={filteredLayers}
-                      />
-                    </>
-                  )}
-                </Map>
-                <MapControls customClass="c-map-controls -embed">
-                  <ZoomControls
+              <Fragment>
+                <div className="c-map">
+                  <Map
+                    mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+                    mapStyle={MAPSTYLES}
                     viewport={viewport}
-                    onClick={this.handleZoom}
-                  />
-                </MapControls>
+                    basemap={this.getMapBasemap(widget)}
+                    onViewportChange={this.handleViewport}
+                    labels={this.getMapLabel(widget)}
+                    scrollZoom={false}
+                    bounds={this.getMapBounds(widget)}
+                    onError={this.handleMapErrors}
+                  >
+                    {_map => (
+                      <Fragment>
+                        <LayerManager
+                          map={_map}
+                          layers={filteredLayers}
+                        />
+                      </Fragment>
+                    )}
+                  </Map>
+                  <MapControls customClass="c-map-controls -embed">
+                    <ZoomControls
+                      viewport={viewport}
+                      onClick={this.handleZoom}
+                    />
+                  </MapControls>
+                </div>
 
                 <div className="c-legend-map -embed">
                   <Legend
