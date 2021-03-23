@@ -22,7 +22,7 @@ import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
-import NameTD from './td/name';
+import TitleTD from './td/name';
 import PublishedTD from './td/published';
 import RoleTD from './td/role';
 
@@ -119,7 +119,7 @@ class PagesTable extends PureComponent {
         {!this.props.error && (
           <CustomTable
             columns={[
-              { label: 'Name', value: 'title', td: NameTD },
+              { label: 'Name', value: 'title', td: TitleTD },
               { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Published', value: 'published', td: PublishedTD }
             ]}
