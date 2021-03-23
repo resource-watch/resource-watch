@@ -3,7 +3,7 @@ require('isomorphic-fetch');
 const passport = require('passport');
 const ControlTowerStrategy = require('passport-control-tower');
 const LocalStrategy = require('passport-local').Strategy;
-const MockStrategy = (process.env.NODE_ENV === 'TEST_FRONTEND' ? require('passport-mock-strategy') : null);
+const MockStrategy = ((process.env.NODE_ENV === 'test' && process.env.TEST_ENV === 'FRONTEND') ? require('passport-mock-strategy') : null);
 const queryString = require('query-string');
 const userPayload = require('../test/payload/user');
 // Passport session setup.
@@ -18,22 +18,22 @@ passport.deserializeUser((obj, done) => {
 
 module.exports = (() => {
   const strategy = new ControlTowerStrategy({
-    controlTowerUrl: process.env.WRI_API_URL,
-    callbackUrl: process.env.CALLBACK_URL,
-    applications: process.env.APPLICATIONS || 'rw',
+    controlTowerUrl: process.env.NEXT_PUBLIC_WRI_API_URL,
+    callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL,
+    applications: process.env.NEXT_PUBLIC_APPLICATIONS || 'rw',
   });
 
   const localStrategy = new LocalStrategy(
     { usernameField: 'email', passwordField: 'password', session: true },
     (email, password, done) => {
       const queryParams = queryString.stringify({
-        callbackUrl: process.env.CALLBACK_URL,
+        callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL,
         applications: 'rw',
         token: true,
         origin: 'rw',
       });
 
-      fetch(`${process.env.WRI_API_URL}/auth/login?${queryParams}`, {
+      fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/login?${queryParams}`, {
         method: 'POST',
         body: JSON.stringify({ email, password }),
         headers: { 'Content-Type': 'application/json' },
@@ -56,7 +56,7 @@ module.exports = (() => {
   passport.use(strategy);
   passport.use('local-signin', localStrategy);
 
-  if (process.env.NODE_ENV === 'TEST_FRONTEND') {
+  if (process.env.NODE_ENV === 'test' && process.env.TEST_ENV === 'FRONTEND') {
     passport.use('mock-signin', new MockStrategy({
       user: userPayload,
     }));
@@ -70,7 +70,7 @@ module.exports = (() => {
     authenticate: (authOptions) => passport.authenticate('control-tower', authOptions),
     login: (req, res) => strategy.login(req, res),
     // local sign-in
-    signin: (req, res, done) => passport.authenticate((process.env.NODE_ENV === 'TEST_FRONTEND' ? 'mock-signin' : 'local-signin'),
+    signin: (req, res, done) => passport.authenticate(((process.env.NODE_ENV === 'test' && process.env.TEST_ENV === 'FRONTEND') ? 'mock-signin' : 'local-signin'),
       (err, user) => {
         if (err && err.errors && err.errors[0] && err.errors[0]) {
           const {
@@ -113,7 +113,7 @@ module.exports = (() => {
       const { body } = req;
       const { userObj, token } = body;
 
-      fetch(`${process.env.WRI_API_URL}/auth/user/me`, {
+      fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/user/me`, {
         method: 'PATCH',
         body: JSON.stringify(userObj),
         headers: {

@@ -96,7 +96,7 @@ class DatasetsTable extends PureComponent {
       includes: 'widget,layer,metadata,user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...filters,
     }, { Authorization: token }, true)
       .then(({ datasets, meta }) => {

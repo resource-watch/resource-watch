@@ -8,14 +8,14 @@ export const getFieldUrl = ({
 
   switch (`${provider}-${type}`) {
     case 'cartodb-raster':
-      url = `${process.env.WRI_API_URL}/v1/query/${id}?sql=select (ST_METADATA(st_union(the_raster_webmercator))).* from ${tableName}`;
+      url = `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/query/${id}?sql=select (ST_METADATA(st_union(the_raster_webmercator))).* from ${tableName}`;
       break;
     case 'gee-raster': {
-      url = `${process.env.WRI_API_URL}/v1/query/${id}?sql=select ST_METADATA(rast) from "${tableName}"`;
+      url = `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/query/${id}?sql=select ST_METADATA(rast) from "${tableName}"`;
       break;
     }
     default:
-      url = `${process.env.WRI_API_URL}/v1/fields/${id}`;
+      url = `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/fields/${id}`;
   }
 
   return url;

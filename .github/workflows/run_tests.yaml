@@ -23,30 +23,28 @@ jobs:
         node: [ '14.15', '14', '15' ]
 
     env:
-      WRI_API_URL: https://staging-api.resourcewatch.org
-      PORT: 9000
-      RW_NODE_ENV: development
-      REDIS_URL: redis://localhost:6379
-      NODE_ENV: test
-      SECRET: keyboard cat
-      STATIC_SERVER_URL:
-      API_ENV: production,preproduction
-      CALLBACK_URL: http://localhost:9000/auth
-      APPLICATIONS: rw
-      BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
-      BASEMAP_TILE_URL: https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png
-      TRANSIFEX_LIVE_API: abcdef1234567890abcdef1234567890
-      GOOGLE_ANALYTICS: UA-12345678-9
-      PARDOT_NEWSLETTER_URL: https://go.pardot.com/l/123456/2020-02-02/3ab4cd
-      ADD_SEARCH_KEY: abcdef1234567890abcdef1234567890
-      RW_GOGGLE_API_TOKEN_SHORTENER: fakeBingToken
-      BING_MAPS_API_KEY: fakeBingToken
-      LOGGER_LEVEL: info
-      RW_MAPBOX_API_TOKEN: fakeMapboxToken
       CC_TEST_REPORTER_ID: 1a3b4790c97b84d93856c16cd0ceac7070a43c7620444d9de945c75c2edfa676
-      CYPRESS_BASE_URL: http://localhost:9000
+      CYPRESS_BASE_URL: http://localhost:3000
+      FAIL_FAST_ENABLED: false
+      LOGGER_LEVEL: info
+      NEXT_PUBLIC_ADD_SEARCH_KEY: abcdef1234567890abcdef1234567890
+      NEXT_PUBLIC_API_ENV: production
+      NEXT_PUBLIC_APPLICATIONS: rw
+      NEXT_PUBLIC_BING_MAPS_API_KEY: fakeBingToken
+      NEXT_PUBLIC_BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
+      NEXT_PUBLIC_CALLBACK_URL: http://localhost:3000/auth
+      NEXT_PUBLIC_CONTROL_TOWER_URL: https://api.resourcewatch.org
+      NEXT_PUBLIC_GOOGLE_ANALYTICS: UA-12345678-9
+      NEXT_PUBLIC_RW_ENV: test
+      NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER: fakeGoogleApiToken
+      NEXT_PUBLIC_RW_MAPBOX_API_TOKEN: fakeMapboxToken
+      NEXT_PUBLIC_WRI_API_URL: https://api.resourcewatch.org
+      NODE_ENV: test
       NODE_OPTIONS: "--max-old-space-size=8192"
-
+      PORT: 3000
+      REDIS_URL: redis://localhost:6379
+      SECRET: keyboard cat
+      TEST_ENV: FRONTEND
 
     steps:
       - name: Checkout code
@@ -60,8 +58,8 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-#      - name: Build
-#        run: yarn build
+      - name: Build
+        run: yarn build
 
 #      - name: Start server
 #        run: yarn start &

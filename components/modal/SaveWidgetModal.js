@@ -75,7 +75,7 @@ class SaveWidgetModal extends React.Component {
                 widgetdataset,
                 {
                   language: 'en',
-                  application: process.env.APPLICATIONS,
+                  application: process.env.NEXT_PUBLIC_APPLICATIONS,
                   info: { caption },
                 },
                 user.token,

@@ -399,7 +399,7 @@ const LayoutEmbedMap = (props) => {
 
             <div className={classnames('widget-content', { '-external': isExternal })}>
               <Map
-                mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+                mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
                 onClick={onClickLayer}
                 interactiveLayerIds={activeInteractiveLayers}
                 mapStyle={MAPSTYLES}

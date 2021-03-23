@@ -48,7 +48,7 @@ class DatasetsShow extends PureComponent {
               {(currentSubtab === 'edit')
                 && (
                 <DatasetsForm
-                  application={[process.env.APPLICATIONS]}
+                  application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}
                   basic={false}

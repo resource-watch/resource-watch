@@ -36,7 +36,7 @@ export const getLayer = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (pay
   dispatch(setLayersLoading({ id, value: true }));
   dispatch(setLayersError({ id, value: null }));
 
-  fetchLayer(layerId, { application: process.env.APPLICATIONS })
+  fetchLayer(layerId, { application: process.env.NEXT_PUBLIC_APPLICATIONS })
     .then((layer) => {
       dispatch(setLayersLoading({ id, value: false }));
       dispatch(setLayersError({ id, value: null }));
@@ -100,7 +100,7 @@ export const getWidget = createThunkAction('WIDGET_BLOCK_FETCH_DATA', (payload =
   const { id: widgetId, includes } = payload;
   fetchWidget(widgetId, {
     includes,
-    application: process.env.APPLICATIONS,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
   })
     .then((widget) => {
       const { widgetConfig } = widget;

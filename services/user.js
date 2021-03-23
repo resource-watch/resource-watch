@@ -25,7 +25,7 @@ export const loginUser = ({ email, password }) => {
 export const forgotPassword = ({ email }) => {
   logger.info('Forgot password');
   return controlTowerAPI
-    .post('auth/reset-password', { email }, { params: { origin: process.env.APPLICATIONS } })
+    .post('auth/reset-password', { email }, { params: { origin: process.env.NEXT_PUBLIC_APPLICATIONS } })
     .then((response) => response.data)
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -47,12 +47,12 @@ export const registerUser = ({ email, password, repeatPassword }) => {
   logger.info('Register user');
   return controlTowerAPI
     .post(
-      `auth/sign-up?origin=${process.env.APPLICATIONS}`,
+      `auth/sign-up?origin=${process.env.NEXT_PUBLIC_APPLICATIONS}`,
       {
         email,
         password,
         repeatPassword,
-        apps: [process.env.APPLICATIONS],
+        apps: [process.env.NEXT_PUBLIC_APPLICATIONS],
       },
     )
     .then((response) => response.data)
@@ -76,7 +76,7 @@ export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
   logger.info('Reset password');
   return controlTowerAPI
     .post(
-      `auth/reset-password/${tokenEmail}?origin=${process.env.APPLICATIONS}`,
+      `auth/reset-password/${tokenEmail}?origin=${process.env.NEXT_PUBLIC_APPLICATIONS}`,
       { password, repeatPassword },
     )
     .then((response) => response.data)
@@ -106,7 +106,7 @@ export const uploadPhoto = (file, user) => new Promise((resolve, reject) => {
       },
     };
 
-    return fetch(`${process.env.WRI_API_URL}/v1/profile`, {
+    return fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/profile`, {
       method: 'POST',
       body: JSON.stringify(bodyObj),
       headers: {

@@ -7,7 +7,7 @@ import { CESIUM_ROUTES, HOTJAR_ROUTES } from 'constants/app';
 
 class HeadApp extends PureComponent {
   getCrazyEgg() {
-    if (process.env.RW_NODE_ENV === 'production' && typeof window !== 'undefined') {
+    if (process.env.NEXT_PUBLIC_RW_ENV === 'production' && typeof window !== 'undefined') {
       return (
         <script
           type="text/javascript"
@@ -20,7 +20,7 @@ class HeadApp extends PureComponent {
   }
 
   getUserReport() {
-    if (process.env.RW_NODE_ENV === 'production' && typeof window !== 'undefined') {
+    if (process.env.NEXT_PUBLIC_RW_ENV === 'production' && typeof window !== 'undefined') {
       return (
         <script
           type="text/javascript"
@@ -28,7 +28,7 @@ class HeadApp extends PureComponent {
           dangerouslySetInnerHTML={{
             __html: `
               window._urq = window._urq || [];
-              _urq.push(['setGACode', '${process.env.GOOGLE_ANALYTICS}']);
+              _urq.push(['setGACode', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}']);
               _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
               (function() {
               var ur = document.createElement('script');
@@ -66,7 +66,7 @@ class HeadApp extends PureComponent {
 
   getHotJar() {
     const { routes: { pathname } } = this.props;
-    const isProduction = process.env.RW_NODE_ENV === 'production';
+    const isProduction = process.env.NEXT_PUBLIC_RW_ENV === 'production';
     const isBrowser = typeof window !== 'undefined';
     const isRouteIncluded = HOTJAR_ROUTES.filter((route) => pathname.startsWith(route)).length > 0;
 

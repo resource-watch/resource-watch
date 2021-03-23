@@ -139,7 +139,6 @@ class Step1 extends PureComponent {
                     name: 'photo',
                     label: 'Photo',
                     placeholder: 'Browse file',
-                    baseUrl: process.env.STATIC_SERVER_URL,
                     default: stateForm.photo,
                   }}
                 >
@@ -288,7 +287,7 @@ class Step1 extends PureComponent {
                 const formData = new FormData();
                 formData.append('image', file);
 
-                fetch(`${process.env.WRI_API_URL}/v1/temporary_content_image`, {
+                fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/temporary_content_image`, {
                   method: 'POST',
                   headers: { Authorization: user.token },
                   body: formData,

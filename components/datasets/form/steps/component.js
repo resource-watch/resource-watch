@@ -135,8 +135,8 @@ class Step1 extends PureComponent {
     onChange({
       applicationConfig: {
         ...applicationConfig,
-        [process.env.APPLICATIONS]: {
-          ...(applicationConfig && applicationConfig[process.env.APPLICATIONS]),
+        [process.env.NEXT_PUBLIC_APPLICATIONS]: {
+          ...(applicationConfig && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]),
           layerOrder: layers.map((_layer) => _layer.id),
         },
       },

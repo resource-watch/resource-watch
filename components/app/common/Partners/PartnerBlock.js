@@ -9,7 +9,7 @@ function PartnerBlock(props) {
     return null;
   }
 
-  const imgPath = partner.logo ? `${process.env.STATIC_SERVER_URL}${partner.logo.medium}` : '';
+  const imgPath = partner.logo ? `${partner.logo.medium}` : '';
 
   return (
     <article className="c-partners-block">

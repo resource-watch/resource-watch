@@ -15,8 +15,8 @@ export const fetchAllTags = (params = {}) => {
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         ...params,
       },
     })
@@ -39,8 +39,8 @@ export const fetchInferredTags = (params = {}) => {
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         ...params,
       },
     })
@@ -66,8 +66,8 @@ export const countDatasetView = (datasetId, token, params = {}) => {
     {
       headers: { Authorization: token },
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         ...params,
       },
     })
@@ -89,8 +89,8 @@ export const fetchMostViewedDatasets = (params = {}) => {
   return WRIAPI.get('/v1/graph/query/most-viewed',
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         ...params,
       },
       headers: { 'Upgrade-Insecure-Requests': 1 },
@@ -113,8 +113,8 @@ export const fetchMostFavoritedDatasets = (params = {}) => {
   return WRIAPI.get('/v1/graph/query/most-liked-datasets',
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         ...params,
       },
       headers: { 'Upgrade-Insecure-Requests': 1 },
@@ -141,8 +141,8 @@ export const fetchSimilarDatasets = (params = {}, withAncestors = true) => {
     `graph/query/${endpoint}`,
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         ...params,
       },
       headers: { 'Upgrade-Insecure-Requests': 1 },

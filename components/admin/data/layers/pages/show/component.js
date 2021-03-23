@@ -24,7 +24,7 @@ class LayersShow extends PureComponent {
           && (
           <LayersForm
             id={dataset}
-            application={[process.env.APPLICATIONS]}
+            application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
             authorization={token}
             onSubmit={this.handleSubmit}
           />

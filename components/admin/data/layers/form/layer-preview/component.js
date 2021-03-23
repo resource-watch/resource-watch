@@ -144,46 +144,44 @@ class LayerPreviewComponent extends PureComponent {
       <div className="c-field preview-container">
         <h5>Layer preview</h5>
         <div className="map-container">
-          <div className="c-map">
-            <Map
-              mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
-              onClick={this.onClickLayer}
-              mapStyle={MAPSTYLES}
-              basemap={BASEMAPS.dark.value}
-              labels={LABELS.light.value}
-              viewport={viewport}
-              onViewportChange={this.handleViewport}
-              scrollZoom={false}
-              boundaries
-            >
-              {(_map) => (
-                <>
-                  <LayerManager
-                    map={_map}
-                    layers={layers}
-                  />
+          <Map
+            mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
+            onClick={this.onClickLayer}
+            mapStyle={MAPSTYLES}
+            basemap={BASEMAPS.dark.value}
+            labels={LABELS.light.value}
+            viewport={viewport}
+            onViewportChange={this.handleViewport}
+            scrollZoom={false}
+            boundaries
+          >
+            {(_map) => (
+              <>
+                <LayerManager
+                  map={_map}
+                  layers={layers}
+                />
 
-                  {shouldRenderPopup
-                    && (
-                    <Popup
-                      {...interactionLatLng}
-                      closeButton
-                      closeOnClick={false}
-                      onClose={this.handleClosePopup}
-                      className="rw-popup-layer"
-                      maxWidth="250px"
-                    >
-                      <LayerPopup
-                        data={layerPopupData}
-                        latlng={layerPopupLatlng}
-                        onChangeInteractiveLayer={setLayerInteractionSelected}
-                      />
-                    </Popup>
-                    )}
-                </>
-              )}
-            </Map>
-          </div>
+                {shouldRenderPopup
+                  && (
+                  <Popup
+                    {...interactionLatLng}
+                    closeButton
+                    closeOnClick={false}
+                    onClose={this.handleClosePopup}
+                    className="rw-popup-layer"
+                    maxWidth="250px"
+                  >
+                    <LayerPopup
+                      data={layerPopupData}
+                      latlng={layerPopupLatlng}
+                      onChangeInteractiveLayer={setLayerInteractionSelected}
+                    />
+                  </Popup>
+                  )}
+              </>
+            )}
+          </Map>
 
           <MapControls>
             <ZoomControls

@@ -100,7 +100,7 @@ class WidgetsTable extends PureComponent {
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...dataset && { dataset },
       ...filters,
     }, { Authorization: token }, true)

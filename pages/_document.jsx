@@ -11,14 +11,14 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta charSet="utf-8" />
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta name="author" content="Vizzuality" />
           <link rel="icon" href="/favicon.ico" />
+          <link rel="preconnect" href="https://fonts.gstatic.com/" />
           <link
             rel="stylesheet"
             media="screen"
-            href="https://fonts.googleapis.com/css?family=Lato:400,300,700"
+            href="https://fonts.googleapis.com/css?family=Lato:300,400,700"
           />
           <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
 
@@ -61,7 +61,7 @@ export default class MyDocument extends Document {
           {/* Google API */}
           <script
             src={`https://maps.googleapis.com/maps/api/js?v=weekly&key=${
-              process.env.RW_GOGGLE_API_TOKEN_SHORTENER
+              process.env.NEXT_PUBLIC_RW_GOOGLE_API_TOKEN_SHORTENER
             }&libraries=places`}
           />
 

@@ -22,8 +22,8 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
       ...headers,
     },
     params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
     transformResponse: [].concat(
@@ -73,8 +73,8 @@ export const fetchWidget = (id, params = {}) => {
       'Upgrade-Insecure-Requests': 1,
     },
     params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
   })
@@ -165,8 +165,8 @@ export const createWidget = (widget, datasetId, token) => {
   logger.info('Create widget');
   return WRIAPI.post(`/v1/dataset/${datasetId}/widget`,
     {
-      application: process.env.APPLICATIONS.split(','),
-      env: process.env.API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS.split(','),
+      env: process.env.NEXT_PUBLIC_API_ENV,
       ...widget,
     },
     { headers: { Authorization: token } })
@@ -192,8 +192,8 @@ export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => 
     {
       headers: { Authorization: token },
       params: {
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
         ...params,
       },
     })
@@ -239,8 +239,8 @@ export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
   return WRIAPI.post(`/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
     {
       ...metadata,
-      application: process.env.APPLICATIONS,
-      env: process.env.API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
     },
     { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
