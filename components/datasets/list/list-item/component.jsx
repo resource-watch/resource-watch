@@ -64,7 +64,7 @@ const DatasetListItem = (props) => {
     return (
       <div className="list-item-chart">
         <Link
-          href={`explore/${dataset.slug}`}
+          href={`/data/explore/${dataset.slug}`}
           passHref
         >
           <ForwardLink>
@@ -102,7 +102,7 @@ const DatasetListItem = (props) => {
         maxDeviceWidth={breakpoints.medium}
         values={{ deviceWidth: responsive.fakeWidth }}
       >
-        <Link href={`explore/${dataset.slug}`}>
+        <Link href={`/data/explore/${dataset.slug}`}>
           {renderChart()}
         </Link>
       </MediaQuery>
@@ -114,7 +114,7 @@ const DatasetListItem = (props) => {
           <div className="title-container">
             <h4>
               <Link
-                href={`explore/${dataset.slug}`}
+                href={`/data/explore/${dataset.slug}`}
                 passHref
               >
                 <ForwardLink>

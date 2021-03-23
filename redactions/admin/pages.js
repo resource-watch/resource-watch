@@ -75,10 +75,15 @@ export default function (state = initialState, action) {
  * @param {string[]} applications Name of the applications to load the pages from
  */
 export function getPages() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const {
+      user: {
+        token,
+      },
+    } = getState();
     dispatch({ type: GET_PAGES_LOADING });
 
-    fetchPages()
+    fetchPages(token)
       .then((data) => {
         dispatch({ type: GET_PAGES_SUCCESS, payload: data });
       })
