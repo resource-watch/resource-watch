@@ -405,6 +405,8 @@ const ExploreMap = (props) => {
                 onClose={handleClosePopup}
                 className="rw-popup-layer"
                 maxWidth="250px"
+                captureScroll
+                capturePointerMove
               >
                 <LayerPopup
                   data={{
