@@ -1,6 +1,12 @@
-import 'isomorphic-fetch';
+import {
+  createAction,
+  createThunkAction,
+} from 'redux-tools';
 
-import { createAction, createThunkAction } from 'redux-tools';
+// services
+import {
+  fetchPage,
+} from 'services/pages';
 
 // Actions
 export const setStaticData = createAction('GET-INVOLVED-INDEX/setStaticData');
@@ -11,15 +17,14 @@ export const fetchStaticData = createThunkAction('GET-INVOLVED-INDEX/fetchStatic
   dispatch(setStaticDataLoading(true));
   dispatch(setStaticDataError(null));
 
-  return fetch(new Request(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/static_page/${payload}`))
-    .then((response) => {
-      if (response.ok) return response.json();
-      throw new Error(response.statusText);
-    })
-    .then(({ data }) => {
+  return fetchPage(payload)
+    .then((data) => {
       dispatch(setStaticDataLoading(false));
       dispatch(setStaticDataError(null));
-      dispatch(setStaticData({ name: payload, ...data.attributes }));
+      dispatch(setStaticData({
+        name: payload,
+        ...data,
+      }));
     })
     .catch((err) => {
       dispatch(setStaticDataLoading(false));

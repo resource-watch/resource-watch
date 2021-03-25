@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Actions

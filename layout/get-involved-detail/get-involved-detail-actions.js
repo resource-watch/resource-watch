@@ -1,8 +1,14 @@
-import 'isomorphic-fetch';
+import {
+  createAction,
+  createThunkAction,
+} from 'redux-tools';
 
-import { createAction, createThunkAction } from 'redux-tools';
+// services
+import {
+  fetchPage,
+} from 'services/pages';
 
-// The pages have chnged titles and lookup required to match to old slug
+// The pages have changed titles and lookup required to match to old slug
 const lookup = {
   'suggest-a-story': 'suggest-a-story',
   'contribute-data': 'contribute-data',
@@ -25,15 +31,14 @@ export const fetchStaticData = createThunkAction(
     dispatch(setStaticDataLoading(true));
     dispatch(setStaticDataError(null));
 
-    return fetch(new Request(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/static_page/${lookup[payload]}`))
-      .then((response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(({ data }) => {
+    return fetchPage(lookup[payload])
+      .then((data) => {
         dispatch(setStaticDataLoading(false));
         dispatch(setStaticDataError(null));
-        dispatch(setStaticData({ name: payload, ...data.attributes }));
+        dispatch(setStaticData({
+          name: payload,
+          ...data,
+        }));
       })
       .catch((err) => {
         dispatch(setStaticDataLoading(false));

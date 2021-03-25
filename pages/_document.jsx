@@ -64,10 +64,6 @@ export default class MyDocument extends Document {
               process.env.NEXT_PUBLIC_RW_GOOGLE_API_TOKEN_SHORTENER
             }&libraries=places`}
           />
-
-          {/* Polifyll */}
-          {/* TO-DO: remove once axios is completely implemented */}
-          <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
         </Head>
         <body>
           <Main />

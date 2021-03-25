@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import isEmpty from 'lodash/isEmpty';
 
 // Services

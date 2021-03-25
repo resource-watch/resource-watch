@@ -1,10 +1,9 @@
-require('isomorphic-fetch');
-
 const passport = require('passport');
 const ControlTowerStrategy = require('passport-control-tower');
 const LocalStrategy = require('passport-local').Strategy;
 const MockStrategy = ((process.env.NODE_ENV === 'test' && process.env.TEST_ENV === 'FRONTEND') ? require('passport-mock-strategy') : null);
 const queryString = require('query-string');
+const axios = require('axios');
 const userPayload = require('../test/payload/user');
 // Passport session setup.
 // To support persistent login sessions, Passport needs to be able to
@@ -33,14 +32,20 @@ module.exports = (() => {
         origin: 'rw',
       });
 
-      fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/login?${queryParams}`, {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-        headers: { 'Content-Type': 'application/json' },
-      })
+      axios.post(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/login`,
+        {
+          email,
+          password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          params: queryParams,
+        })
         .then((response) => {
-          if (response.ok) return response.json();
-          throw response;
+          if (response.status >= 400) throw new Error(response.statusText);
+          return response.data;
         })
         .then(
           ({ data }) => done(null, data),
@@ -97,11 +102,6 @@ module.exports = (() => {
             message: responseMessage,
           });
         }
-        // if (!user) {
-        //   return res
-        //     .status(401)
-        //     .json({ status: 'error', message: 'Invalid Login' });
-        // }
         return req.login(user, {}, (loginError) => {
           if (loginError) {
             return res.status(401).json({ status: 'error', message: loginError });
@@ -113,19 +113,21 @@ module.exports = (() => {
       const { body } = req;
       const { userObj, token } = body;
 
-      fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/user/me`, {
-        method: 'PATCH',
-        body: JSON.stringify(userObj),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
+      axios.patch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/user/me`,
+        {
+          ...userObj,
         },
-      })
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        })
         .then((response) => {
           if (response.status >= 400) throw new Error(response.statusText);
-          return response.json();
+          return response.data;
         })
-        .then((user) => req.login({ ...user, token }, {}, (err) => {
+        .then(({ data: user }) => req.login({ ...user, token }, {}, (err) => {
           if (err) return res.status(401).json({ status: 'error', message: err });
           return res.json({
             ...user,

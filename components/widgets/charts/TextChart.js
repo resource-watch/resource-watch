@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import 'isomorphic-fetch';
+import axios from 'axios';
 import { format } from 'd3-format';
 
 class TextChart extends React.Component {
@@ -35,10 +35,10 @@ class TextChart extends React.Component {
     this.props.toggleLoading(true);
     this.setState({ loading: true });
 
-    fetch(url)
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error(res.statusText);
+    axios.get(url)
+      .then((response) => {
+        if (response.status >= 400) throw Error(response.statusText);
+        return response.data;
       })
       .then((res) => {
         // RW's API uses res.data, Carto, res.rows

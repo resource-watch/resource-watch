@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import { fetchDashboards, deleteDashboard } from 'services/dashboard';
 
 // utils

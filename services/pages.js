@@ -50,13 +50,16 @@ export const fetchPage = (id, token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token,
+        ...token && { Authorization: token },
       },
       params: { ...params },
     },
   )
-    .then((response) => WRISerializer(response.data))
-    .catch(({ response }) => {
+    .then((response) => {
+      if (response.status >= 400) throw response;
+      return WRISerializer(response.data);
+    })
+    .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching page ${id}: ${status}: ${statusText}`);
       throw new Error(`Error fetching page ${id}: ${status}: ${statusText}`);
@@ -77,8 +80,8 @@ export const updatePage = (page, token) => {
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
-      logger.error(`Error updating page ${page.id}: ${status}: ${statusText}`);
-      throw new Error(`Error updating page ${page.id}: ${status}: ${statusText}`);
+      logger.error(`Error updating page ${page.id}: ${page.id}: ${status}: ${statusText}`);
+      throw new Error(`Error updating page ${page.id}: ${page.id}: ${status}: ${statusText}`);
     });
 };
 

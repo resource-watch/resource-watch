@@ -1,4 +1,4 @@
-import 'isomorphic-fetch';
+import axios from 'axios';
 
 const BASEMAP_QUERY = 'SELECT the_geom_webmercator FROM gadm28_countries';
 const BASEMAP_CARTOCSS = '#gadm28_countries { polygon-fill: #bbbbbb; polygon-opacity: 1; line-color: #FFFFFF; line-width: 0.5; line-opacity: 0.5; }';
@@ -15,10 +15,10 @@ export const getImageFromCarto = ({
   const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
   const url = `https://${account}.carto.com/api/v1/map${params}`;
 
-  return fetch(url)
+  return axios.get(url)
     .then((response) => {
-      if (response.status >= 400) throw new Error(response.json());
-      return response.json();
+      if (response.status >= 400) throw new Error(response.statusText);
+      return response.data;
     })
     .then((data) => {
       const { layergroupid } = data;
@@ -68,10 +68,10 @@ export const getBasemapImage = ({
   const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
   const url = `https://${account}.carto.com/api/v1/map${params}`;
 
-  return fetch(url)
+  return axios.get(url)
     .then((response) => {
-      if (response.status >= 400) throw new Error('Bad response from server');
-      return response.json();
+      if (response.status >= 400) throw new Error(response.statusText);
+      return response.data;
     })
     .then((data) => {
       const { layergroupid } = data;

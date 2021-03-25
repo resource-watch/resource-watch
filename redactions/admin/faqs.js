@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import { fetchFaqs, updateFaqOrder } from 'services/faqs';
 
 /**

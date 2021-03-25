@@ -1,7 +1,5 @@
-/* eslint import/no-unresolved: 0 */
-/* eslint import/extensions: 0 */
 /* eslint global-require: 0 */
-import 'isomorphic-fetch';
+import axios from 'axios';
 import isEmpty from 'lodash/isEmpty';
 
 if (typeof window !== 'undefined') {
@@ -340,11 +338,12 @@ export default class LayerManager {
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
-    fetch(`https://${layer.account}.carto.com/api/v1/map${params}`)
+    axios.get(`https://${layer.account}.carto.com/api/v1/map${params}`)
       .then((response) => {
-        this.errors = !response.ok;
+        if (response.status >= 400) this.errors = true;
+
         if (this.errors) this.rejectLayersLoading = true;
-        return response.json();
+        return response.data;
       })
       .then((data) => {
         if (verifyLayersOnly === true) {

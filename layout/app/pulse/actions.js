@@ -1,4 +1,4 @@
-import 'isomorphic-fetch';
+import axios from 'axios';
 import { createAction, createThunkAction } from 'redux-tools';
 
 // Utils
@@ -24,13 +24,14 @@ export const getLayers = createThunkAction('PULSE/getLayers', () => (dispatch) =
 
 export const getLayerPoints = createThunkAction('PULSE/getLayerPoints', (queryUrl) => (dispatch) => {
   dispatch(setLayerPointsLoading(true));
-  fetch(new Request(queryUrl))
+
+  axios.get(queryUrl)
     .then((response) => {
-      if (response.ok) return response.json();
-      throw new Error(response.statusText);
+      if (response.status >= 400) throw Error(response.statusText);
+      return response.data;
     })
-    .then((response) => {
-      dispatch(setLayerPoints(response.data));
+    .then((data) => {
+      dispatch(setLayerPoints(data));
     })
     .catch((err) => {
       // Fetch from server ko -> Dispatch error

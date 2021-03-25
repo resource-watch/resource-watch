@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - added new service and entrypoint to launch Docker.
 
 ### Changed
+- moved native fetches to axios.
 - `bitly@7.1.2`
 - run [name-default-component codemod](https://nextjs.org/docs/advanced-features/codemods#name-default-component).
 - `widget-editor@2.6.1`
@@ -35,6 +36,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - fixed issue with Twitter card attributes in dashboards. [#177007206](https://www.pivotaltracker.com/story/show/177007206)
 
 ### Removed
+- polyfill.
+- `whatwg-fetch` dependency.
+- `isomorphic-fetch` dependency.
 - styles optimization (`cssnano` and `optimize-css-assets-webpack-plugin` dependencies)
 - duplicated meta charset tag and other meta tags in the document.
 - user token from tools endpoint.

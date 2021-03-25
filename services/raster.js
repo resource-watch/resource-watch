@@ -1,4 +1,4 @@
-import 'isomorphic-fetch';
+import axios from 'axios';
 
 export default class RasterService {
   /**
@@ -25,13 +25,18 @@ export default class RasterService {
       query = `SELECT (st_metadata(st_union(the_raster_webmercator))).* from ${this.tableName}`;
     }
 
-    return fetch(
-      `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/query/${this.dataset}?sql=${query}`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } },
-    )
+    return axios.get(`${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/query/${this.dataset}`,
+      {
+        headers: {
+          'Upgrade-Insecure-Requests': 1,
+        },
+        params: {
+          sql: query,
+        },
+      })
       .then((response) => {
         if (!response.ok) throw new Error('Unable to fetch the band names');
-        return response.json();
+        return response.data();
       })
       .then(({ data }) => {
         if (this.provider === 'gee') {
@@ -70,13 +75,18 @@ export default class RasterService {
       }
 
       // We now fetch the actual data
-      return fetch(
-        `https://api.resourcewatch.org/v1/query/${this.dataset}?sql=${query}`,
-        { headers: { 'Upgrade-Insecure-Requests': 1 } },
-      )
+      return axios.get(`https://api.resourcewatch.org/v1/query/${this.dataset}`,
+        {
+          headers: {
+            'Upgrade-Insecure-Requests': 1,
+          },
+          params: {
+            sql: query,
+          },
+        })
         .then((res) => {
           if (!res.ok) reject();
-          return res.json();
+          return res.data;
         })
         .then((data) => {
           if (this.provider === 'gee') {

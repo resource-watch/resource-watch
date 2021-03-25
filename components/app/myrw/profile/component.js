@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import axios from 'axios';
 
 // components
 import Navigation from 'components/form/Navigation';
@@ -69,14 +70,18 @@ class Profile extends PureComponent {
           submitting: true,
         });
 
-        fetch('/update-user', {
-          method: 'POST',
-          body: JSON.stringify({ userObj, token }),
-          headers: { 'Content-Type': 'application/json' },
+        axios.post('/update-user', {
+          userObj,
+          token,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         })
-          .then((response) => response.json())
-          .then((updatedUser) => {
-            setUser(updatedUser);
+          .then((response) => response.data)
+          .then(({ data }) => {
+            setUser(data);
             toastr.success('Profile updated successfully.');
           })
           .catch(() => { toastr.error('Something went wrong', 'There was a problem updating your profile.'); })

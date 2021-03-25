@@ -1,4 +1,4 @@
-import 'isomorphic-fetch';
+import axios from 'axios';
 import { Router } from 'routes';
 import { createAction, createThunkAction } from 'redux-tools';
 import { logEvent } from 'utils/analytics';
@@ -21,19 +21,27 @@ export const fetchSearch = createThunkAction('SEARCH/fetchSearch', () => (dispat
     dispatch(setSearchError(null));
     logEvent('Search', 'Search', term);
 
-    return fetch(`https://api.addsearch.com/v1/search/${process.env.NEXT_PUBLIC_ADD_SEARCH_KEY}?term=${term}&page=${page}&limit=${limit}&fuzzy=true`)
+    return axios.get(`https://api.addsearch.com/v1/search/${process.env.NEXT_PUBLIC_ADD_SEARCH_KEY}`, {
+      params: {
+        term,
+        page,
+        limit,
+        fuzzy: true,
+      },
+    })
       .then((response) => {
         if (response.status >= 400) throw Error(response.statusText);
-        return response.json();
+        return response.data;
       })
       .then((data) => {
-        /* eslint-disable */
-        const { total_hits, hits } = data;
-        /* eslint-enable */
+        const {
+          total_hits: totalHits,
+          hits,
+        } = data;
 
         dispatch(setSearchLoading(false));
         dispatch(setSearchError(null));
-        dispatch(setSearchTotal(total_hits));
+        dispatch(setSearchTotal(totalHits));
         dispatch(setSearchList(hits));
       })
       .catch((err) => {

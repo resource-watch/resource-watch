@@ -1,4 +1,3 @@
-// import 'isomorphic-fetch';
 import find from 'lodash/find';
 
 /**
