@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
+import { Tooltip } from 'vizzuality-components';
+
+// services
+import { fetchCountryPowerExplorerConfig } from 'services/config';
 
 // Components
-import { Tooltip } from 'vizzuality-components';
-import { fetchCountryPowerExplorerConfig } from 'services/config';
 import CountrySelector from './country-selector';
 import CustomSection from './custom-section';
 import CountryIndicators from './country-indicators';
-
-// Services
 
 // Constants
 import { WORLD_COUNTRY, US_COUNTRY_VALUES } from './constants';
@@ -29,6 +33,25 @@ function EnergyCountryExplorer(props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [selectedCountryBbox, setSelectedCountryBbox] = useState(null);
   const [selectedCountryGeojson, setSelectedCountryGeojson] = useState(null);
+
+  const loadSelectedCountry = useCallback(() => {
+    if (selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
+      if (selectedCountry === 'USA') {
+        setSelectedCountryBbox(US_COUNTRY_VALUES.bbox);
+      } else {
+        axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
+          .then((data) => {
+            const atts = data.data.data.attributes;
+            setSelectedCountryBbox(atts.bbox);
+            setSelectedCountryGeojson(atts.geojson);
+          })
+          .catch((err) => toastr.error(`Error loading country: ${selectedCountry}`, err));
+      }
+    } else {
+      setSelectedCountryBbox(WORLD_COUNTRY.bbox);
+      setSelectedCountryGeojson(null);
+    }
+  }, [selectedCountry]);
 
   useEffect(() => {
     // Load config
@@ -57,30 +80,11 @@ function EnergyCountryExplorer(props) {
       .catch((err) => toastr.error('Error loading countries', err));
 
     loadSelectedCountry();
-  }, []);
+  }, [loadSelectedCountry]);
 
   useEffect(() => {
     loadSelectedCountry();
-  }, [selectedCountry]);
-
-  const loadSelectedCountry = () => {
-    if (selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
-      if (selectedCountry === 'USA') {
-        setSelectedCountryBbox(US_COUNTRY_VALUES.bbox);
-      } else {
-        axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
-          .then((data) => {
-            const atts = data.data.data.attributes;
-            setSelectedCountryBbox(atts.bbox);
-            setSelectedCountryGeojson(atts.geojson);
-          })
-          .catch((err) => toastr.error(`Error loading country: ${selectedCountry}`, err));
-      }
-    } else {
-      setSelectedCountryBbox(WORLD_COUNTRY.bbox);
-      setSelectedCountryGeojson(null);
-    }
-  };
+  }, [loadSelectedCountry]);
 
   const selectedCountryIsWorld = selectedCountry === WORLD_COUNTRY.value || !selectedCountry;
 

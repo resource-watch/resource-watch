@@ -106,7 +106,7 @@
                         "ea2db3a6-49c8-4d41-a2ab-758eb6fe4bc0",
                         "444138cd-8ef4-48b3-b197-73e324175ad0"
                     ]
-                }, 
+                },
                 {
                     "name": "Power demand",
                     "datasets": [
@@ -181,7 +181,7 @@
         },
         {
             "header": "Where can we expand wind and solar power?",
-            "description": "Compared to 2009, the global average costs of renewable have dropped by *[89% for solar, 70% for wind and 87% for battery storage by 2019](https://www.wri.org/publication/tracking-progress-2020-climate-turning-point)*, making it *[the cheapest power for 67% of the world](https://www.wri.org/blog/2020/05/setting-record-straight-about-renewable-energy)*. Use the maps to explore the potential of new wind and solar power generation.", 
+            "description": "Compared to 2009, the global average costs of renewable have dropped by *[89% for solar, 70% for wind and 87% for battery storage by 2019](https://www.wri.org/publication/tracking-progress-2020-climate-turning-point)*, making it *[the cheapest power for 67% of the world](https://www.wri.org/blog/2020/05/setting-record-straight-about-renewable-energy)*. Use the maps to explore the potential of new wind and solar power generation.",
             "widgets": [
               {
                 "id": "779301a3-4e61-4c21-bb87-a6ecc62933d1",
@@ -200,12 +200,20 @@
               {
                 "id": "91721bdc-31ab-43b1-a3cd-4881f80186d8",
                 "widgetsPerRow": 2
+              },
+              {
+                "id": "a20184ec-3d14-49ac-97c0-61acccd6ebd1",
+                "widgetsPerRow": 2
+              },
+              {
+                "id": "84c4abe2-3218-488a-8266-41dd7521a01a",
+                "widgetsPerRow": 2
               }
             ]
         },
         {
             "header": "How much does power contribute to climate change and what are countries doing about it?",
-            "description": "The power sector is the *[single largest greenhouse gas emitter globally](https://www.climatewatchdata.org/ghg-emissions?breakBy=sector&chartType=area&sectors=agriculture%2Cindustrial-processes%2Cland-use-change-and-forestry%2Cwaste%2Cbuilding%2Celectricity-heat%2Cfugitive-emissions%2Cmanufacturing-construction%2Cother-fuel-combustion%2Ctransportation)* , but the share in national emissions vary. See below how *[Climate Watch](https://www.climatewatchdata.org)* data on *[power sector emissions](https://www.climatewatchdata.org/ghg-emissions)* , proposed *[climate targets in their national cliamte committments (NDCs)](https://www.climatewatchdata.org/ndcs-content)* , and what *[models tell us about future pathways](https://www.climatewatchdata.org/pathways)*.", 
+            "description": "The power sector is the *[single largest greenhouse gas emitter globally](https://www.climatewatchdata.org/ghg-emissions?breakBy=sector&chartType=area&sectors=agriculture%2Cindustrial-processes%2Cland-use-change-and-forestry%2Cwaste%2Cbuilding%2Celectricity-heat%2Cfugitive-emissions%2Cmanufacturing-construction%2Cother-fuel-combustion%2Ctransportation)* , but the share in national emissions vary. See below how *[Climate Watch](https://www.climatewatchdata.org)* data on *[power sector emissions](https://www.climatewatchdata.org/ghg-emissions)* , proposed *[climate targets in their national cliamte committments (NDCs)](https://www.climatewatchdata.org/ndcs-content)* , and what *[models tell us about future pathways](https://www.climatewatchdata.org/pathways)*.",
             "widgets": [
               {
                 "id": "e3014344-ba33-409b-a2c2-055895a4f776",
