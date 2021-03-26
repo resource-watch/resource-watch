@@ -1,5 +1,8 @@
 describe('A visitor signs-up successfully', () => {
   before(() => {
+    cy.validateEnvVar('NEXT_PUBLIC_APPLICATIONS');
+    cy.validateEnvVar('NEXT_PUBLIC_CONTROL_TOWER_URL');
+
     cy.intercept({
       method: 'POST',
       pathname: '/auth/sign-up',
@@ -13,7 +16,11 @@ describe('A visitor signs-up successfully', () => {
     ).as('registerUser');
   });
 
-  it('the visitor fills up the form and register successfully', () => {
+  it('the visitor fills up the form and register successfully', function() {
+    if (Cypress.isBrowser('firefox')) {
+      cy.log('This test tries to access to an iframe. Firefox Same Origin Policy doesn\'t support this test. Skipping...');
+      this.skip();
+    }
     cy.visit('/sign-in');
 
     cy.get('button[data-cy="register-button"]').click();
