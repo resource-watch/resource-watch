@@ -43,17 +43,15 @@ export const forgotPassword = ({ email }) => {
  * @param {Object} options
  * @returns {Object}
  */
-export const registerUser = ({ email, password, repeatPassword }) => {
+export const registerUser = ({ email }) => {
   logger.info('Register user');
   return controlTowerAPI
     .post(
       `auth/sign-up?origin=${process.env.APPLICATIONS}`,
       {
         email,
-        password,
-        repeatPassword,
-        apps: [process.env.APPLICATIONS]
-      }
+        apps: [process.env.NEXT_PUBLIC_APPLICATIONS],
+      },
     )
     .then(response => response.data)
     .catch(({ response }) => {
