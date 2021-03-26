@@ -52,7 +52,12 @@ class LoginModal extends PureComponent {
                 'You will receive an email shortly. Please confirm your registration.');
             })
             .catch(() => { toastr.error('Something went wrong'); })
-            .then(() => { this.setState({ loading: false }); });
+            .then(() => {
+              this.setState({
+                loading: false,
+                register: false,
+              });
+            });
         });
       } else {
         // sign-in user
@@ -141,7 +146,9 @@ class LoginModal extends PureComponent {
                   {register && (
                     <div className="recaptcha-container">
                       <ReCAPTCHA
-                        sitekey="6LeBy3YUAAAAACLNnSGCnvok_tRDnQut-Mc7SBh8"
+                        // https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
+                        sitekey={process.env.NEXT_PUBLIC_RW_ENV === 'test'
+                          ? '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' : '6LeBy3YUAAAAACLNnSGCnvok_tRDnQut-Mc7SBh8'}
                         onChange={(value) => { this.setState({ captcha: value }); }}
                       />
                     </div>
@@ -159,6 +166,7 @@ class LoginModal extends PureComponent {
                       <li>
                         <button
                           type="button"
+                          data-cy="register-button"
                           className="c-button -tertirary"
                           onClick={() => { this.setState({ register: !register }); }}
                         >
