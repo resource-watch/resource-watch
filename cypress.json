@@ -4,5 +4,6 @@
     "**/*spec.{js,jsx}"
   ],
   "nodeVersion": "system",
-  "video": false
+  "video": false,
+  "chromeWebSecurity": false
 }
