@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import { Link } from 'routes';
@@ -25,7 +25,6 @@ class LoginModal extends PureComponent {
     this.state = {
       email: '',
       password: '',
-      repeatPassword: '',
       captcha: null,
       register: false,
       loading: false,
@@ -53,7 +52,12 @@ class LoginModal extends PureComponent {
                 'You will receive an email shortly. Please confirm your registration.');
             })
             .catch(() => { toastr.error('Something went wrong'); })
-            .then(() => { this.setState({ loading: false }); });
+            .then(() => {
+              this.setState({
+                loading: false,
+                register: false,
+              });
+            });
         });
       } else {
         // sign-in user
@@ -79,7 +83,6 @@ class LoginModal extends PureComponent {
     const {
       email,
       password,
-      repeatPassword,
       register,
       loading,
     } = this.state;
@@ -111,22 +114,24 @@ class LoginModal extends PureComponent {
                   >
                     {Input}
                   </Field>
-                  <Field
-                    ref={(c) => { if (c) FORM_ELEMENTS.elements.password = c; }}
-                    onChange={(value) => this.setState({ password: value })}
-                    className="-fluid"
-                    validations={['required']}
-                    properties={{
-                      name: 'password',
-                      label: 'Password',
-                      required: true,
-                      default: password,
-                      type: 'password',
-                      placeholder: '*********',
-                    }}
-                  >
-                    {Input}
-                  </Field>
+                  {!register && (
+                    <Field
+                      ref={(c) => { if (c) FORM_ELEMENTS.elements.password = c; }}
+                      onChange={(value) => this.setState({ password: value })}
+                      className="-fluid"
+                      validations={['required']}
+                      properties={{
+                        name: 'password',
+                        label: 'Password',
+                        required: true,
+                        default: password,
+                        type: 'password',
+                        placeholder: '*********',
+                      }}
+                    >
+                      {Input}
+                    </Field>
+                  )}
                   {!register && (
                     <Link href="/forgot-password">
                       <button
@@ -139,34 +144,14 @@ class LoginModal extends PureComponent {
                   )}
 
                   {register && (
-                    <>
-                      <Field
-                        ref={(c) => { if (c) FORM_ELEMENTS.elements.repeatPassword = c; }}
-                        onChange={(value) => { this.setState({ repeatPassword: value }); }}
-                        className="-fluid"
-                        validations={['required', {
-                          type: 'equal',
-                          data: password,
-                          condition: 'Passwords don\'t match',
-                        }]}
-                        properties={{
-                          name: 'repeat-password',
-                          label: 'Repeat Password',
-                          required: true,
-                          default: repeatPassword,
-                          type: 'password',
-                          placeholder: '*********',
-                        }}
-                      >
-                        {Input}
-                      </Field>
-                      <div className="recaptcha-container">
-                        <ReCAPTCHA
-                          sitekey="6LeBy3YUAAAAACLNnSGCnvok_tRDnQut-Mc7SBh8"
-                          onChange={(value) => { this.setState({ captcha: value }); }}
-                        />
-                      </div>
-                    </>
+                    <div className="recaptcha-container">
+                      <ReCAPTCHA
+                        // https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
+                        sitekey={process.env.NEXT_PUBLIC_RW_ENV === 'test'
+                          ? '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI' : '6LeBy3YUAAAAACLNnSGCnvok_tRDnQut-Mc7SBh8'}
+                        onChange={(value) => { this.setState({ captcha: value }); }}
+                      />
+                    </div>
                   )}
                   <div className="c-button-container form-buttons">
                     <ul>
@@ -181,6 +166,7 @@ class LoginModal extends PureComponent {
                       <li>
                         <button
                           type="button"
+                          data-cy="register-button"
                           className="c-button -tertirary"
                           onClick={() => { this.setState({ register: !register }); }}
                         >
