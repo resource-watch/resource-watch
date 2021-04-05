@@ -146,7 +146,7 @@
     "start": "cross-env node index.js",
     "analyze": "cross-env ANALYZE=true yarn build",
     "sitemap": "cross-env node next-sitemap.js",
-    "cypress": "cross-env cypress run",
+    "cypress": "cross-env cypress run --browser firefox --headless",
     "cy:open": "cross-env cypress open",
     "test:frontend": "NODE_ENV=test TEST_ENV=FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn start' 3000 'yarn cypress'",
     "test:backend:mock": "NODE_ENV=test TEST_ENV=FRONTEND SERVER_ONLY=true mocha --reporter spec --timeout 60000 --exit",

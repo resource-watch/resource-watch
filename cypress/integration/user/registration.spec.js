@@ -26,12 +26,14 @@ describe('A visitor signs-up successfully', () => {
     cy.get('button[data-cy="register-button"]').click();
     cy.get('input[name="email"]').type('lorem@test.com')
 
+    cy.wait(1000);
+
     const iframeDocument = cy.get('iframe').first()
       .its('0.contentDocument').should('exist')
 
     const iframeBody = iframeDocument
-    .its('body').should('not.be.undefined')
-    .then(cy.wrap)
+      .its('body').should('not.be.undefined')
+      .then(cy.wrap)
 
     iframeBody.find('span[role="checkbox"]').click();
 
