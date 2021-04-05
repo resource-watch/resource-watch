@@ -21,9 +21,11 @@ describe('An authenticated user creates a new dashboard', () => {
     cy.fixture('dashboards/post/input').then((dashboard) => {
       cy.log('Fills in dashboard form');
 
-      cy.get('form').find('input[id="input-name"]').type(dashboard.name);
-      cy.get('form').find('textarea[id="input-summary"]').type(dashboard.summary);
-      cy.get('form').find('textarea[id="input-description"]').type(dashboard.description);
+      const $form = cy.get('form[data-cy="dashboard-form"]');
+
+      $form.get('input[id="input-name"]').type(dashboard.name);
+      $form.get('textarea[id="input-summary"]').type(dashboard.summary);
+      $form.get('textarea[id="input-description"]').type(dashboard.description);
       cy.get('input[type="file"]').attachFile({
         filePath: `../fixtures/${dashboard.photo}`,
       });
