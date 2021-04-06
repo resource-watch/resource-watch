@@ -22,7 +22,7 @@ import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
-import TitleTD from './td/name';
+import NameTD from './td/name';
 import PublishedTD from './td/published';
 import RoleTD from './td/role';
 
@@ -124,7 +124,7 @@ class ToolsTable extends PureComponent {
         {!this.props.error && (
           <CustomTable
             columns={[
-              { label: 'Name', value: 'title', td: TitleTD },
+              { label: 'Name', value: 'title', td: NameTD },
               { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Published', value: 'published', td: PublishedTD },
             ]}
