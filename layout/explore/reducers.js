@@ -204,10 +204,10 @@ export default {
     // sorts layers if applies
     if (
       applicationConfig
-      && applicationConfig[process.env.APPLICATIONS]
-      && applicationConfig[process.env.APPLICATIONS].layerOrder
+      && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
+      && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
       && layers.length > 1) {
-      const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
+      const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
       _layers = sortLayers(_layers, layerOrder);
     }
 
@@ -289,10 +289,10 @@ export default {
         // sorts layers if applies
         if (
           applicationConfig
-          && applicationConfig[process.env.APPLICATIONS]
-          && applicationConfig[process.env.APPLICATIONS].layerOrder
+          && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
+          && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
           && layers.length > 1) {
-          const { layerOrder } = applicationConfig[process.env.APPLICATIONS];
+          const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
           _layers = sortLayers(_layers, layerOrder);
         }
 

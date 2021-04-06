@@ -22,7 +22,7 @@ import EditAction from './actions/EditAction';
 import DeleteAction from './actions/DeleteAction';
 
 // TDs
-import TitleTD from './td/name';
+import NameTD from './td/name';
 import PublishedTD from './td/published';
 import RoleTD from './td/role';
 
@@ -32,7 +32,7 @@ class PagesTable extends PureComponent {
     actions: {},
     // Store
     pages: [],
-    filteredPages: []
+    filteredPages: [],
   };
 
   static propTypes = {
@@ -45,7 +45,7 @@ class PagesTable extends PureComponent {
 
     // Actions
     getPages: PropTypes.func.isRequired,
-    setFilters: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired,
   };
 
   state = { pagination: INITIAL_PAGINATION }
@@ -66,8 +66,8 @@ class PagesTable extends PureComponent {
         ...pagination,
         size: nextPages.length,
         ...(pagesChanged && { page: 1 }),
-        pages: Math.ceil(nextPages.length / pagination.limit)
-      }
+        pages: Math.ceil(nextPages.length / pagination.limit),
+      },
     });
   }
 
@@ -89,8 +89,8 @@ class PagesTable extends PureComponent {
     this.setState({
       pagination: {
         ...pagination,
-        page
-      }
+        page,
+      },
     });
   }
 
@@ -103,7 +103,10 @@ class PagesTable extends PureComponent {
         <Spinner className="-light" isLoading={this.props.loading} />
 
         {this.props.error && (
-          <p>Error: {this.props.error}</p>
+          <p>
+            Error:
+            {this.props.error}
+          </p>
         )}
 
         <SearchInput
@@ -111,7 +114,7 @@ class PagesTable extends PureComponent {
           link={{
             label: 'New page',
             route: 'admin_pages_detail',
-            params: { tab: 'pages', id: 'new' }
+            params: { tab: 'pages', id: 'new' },
           }}
           onSearch={this.onSearch}
         />
@@ -119,20 +122,24 @@ class PagesTable extends PureComponent {
         {!this.props.error && (
           <CustomTable
             columns={[
-              { label: 'Name', value: 'title', td: TitleTD },
+              { label: 'Name', value: 'title', td: NameTD },
               { label: 'Role', value: 'role', td: RoleTD },
-              { label: 'Published', value: 'published', td: PublishedTD }
+              { label: 'Published', value: 'published', td: PublishedTD },
             ]}
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_pages_detail', params: { tab: 'pages', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_pages_detail', params: { tab: 'pages', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization } }
-              ]
+                {
+                  name: 'Edit', route: 'admin_pages_detail', params: { tab: 'pages', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
+                },
+                {
+                  name: 'Remove', route: 'admin_pages_detail', params: { tab: 'pages', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization },
+                },
+              ],
             }}
             sort={{
               field: 'title',
-              value: 1
+              value: 1,
             }}
             filters={false}
             data={filteredPages}
@@ -147,15 +154,15 @@ class PagesTable extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loading: state.pages.pages.loading,
   pages: state.pages.pages.list,
   filteredPages: getFilteredPages(state),
-  error: state.pages.pages.error
+  error: state.pages.pages.error,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   getPages: () => dispatch(getPages()),
-  setFilters: filters => dispatch(setFilters(filters))
+  setFilters: (filters) => dispatch(setFilters(filters)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PagesTable);

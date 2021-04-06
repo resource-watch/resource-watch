@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import { createAction, createThunkAction } from 'redux-tools';
 import { BitlyClient } from 'bitly';
 
@@ -8,7 +7,7 @@ export const setLoading = createAction('SET_SHARE_SHORT_LINKS_LOADING');
 export const setError = createAction('SET_SHARE_SHORT_LINKS_ERROR');
 export const resetShortLinks = createAction('RESET_SHARE_SHORT_LINKS');
 
-const BITLY = new BitlyClient(process.env.BITLY_TOKEN);
+const BITLY = new BitlyClient(process.env.NEXT_PUBLIC_BITLY_TOKEN);
 
 // Async actions
 export const fetchShortUrl = createThunkAction(
@@ -18,14 +17,14 @@ export const fetchShortUrl = createThunkAction(
     dispatch(setError(null));
 
     BITLY.shorten(payload.longUrl)
-      .then(({ url }) => {
+      .then(({ link }) => {
         dispatch(setLoading(false));
         dispatch(setError(null));
-        dispatch(setShortLinks({ link: url }));
+        dispatch(setShortLinks({ link }));
       })
       .catch((err) => {
         dispatch(setLoading(false));
         dispatch(setError(err));
       });
-  }
+  },
 );

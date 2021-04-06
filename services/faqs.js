@@ -14,25 +14,24 @@ import { logger } from 'utils/logs';
 export const fetchFaqs = (params = {}, headers = {}) => {
   logger.info('Fetch FAQs');
   return WRIAPI.get(
-    'faq',
+    '/v1/faq',
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         ...params,
-        published: 'all'
+        published: 'all',
       },
-      headers: { ...headers }
-    }
+      headers: { ...headers },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching faqs: ${status}: ${statusText}`);
       throw new Error(`Error fetching faqs: ${status}: ${statusText}`);
     });
 };
-
 
 /**
  * Get FAQ by its ID.
@@ -45,17 +44,17 @@ export const fetchFaqs = (params = {}, headers = {}) => {
 export const fetchFaq = (id, params = {}, headers = {}) => {
   logger.info(`Fetch FAQ - ${id}`);
   return WRIAPI.get(
-    `faq/${id}`,
+    `/v1/faq/${id}`,
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
-        ...params
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
       },
-      headers: { ...headers }
-    }
+      headers: { ...headers },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching faq ${id}: ${status}: ${statusText}`);
@@ -74,14 +73,14 @@ export const fetchFaq = (id, params = {}, headers = {}) => {
 export const deleteFaq = (id, token, params = {}, headers = {}) => {
   logger.info(`Delete FAQ ${id}`);
   return WRIAPI.delete(
-    `faq/${id}`,
+    `/v1/faq/${id}`,
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -103,17 +102,17 @@ export const deleteFaq = (id, token, params = {}, headers = {}) => {
 export const updateFaq = (id, faq, token, params = {}, headers = {}) => {
   logger.info(`Update FAQ ${id}`);
   return WRIAPI.patch(
-    `faq/${id}`,
+    `/v1/faq/${id}`,
     { ...faq },
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating faq ${id}: ${status}: ${statusText}`);
@@ -133,17 +132,17 @@ export const updateFaq = (id, faq, token, params = {}, headers = {}) => {
 export const createFaq = (faq, token, params = {}, headers = {}) => {
   logger.info('Create FAQ');
   return WRIAPI.post(
-    'faq',
+    '/v1/faq',
     { ...faq },
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating faq: ${status}: ${statusText}`);
@@ -163,17 +162,17 @@ export const createFaq = (faq, token, params = {}, headers = {}) => {
 export const updateFaqOrder = (order, token, params = {}, headers = {}) => {
   logger.info('Reorder FAQ');
   return WRIAPI.post(
-    'faq/reorder',
+    '/v1/faq/reorder',
     { ...order },
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating faq order: ${status}: ${statusText}`);

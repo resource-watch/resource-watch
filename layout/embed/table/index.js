@@ -4,6 +4,6 @@ import { connect } from 'react-redux';
 import LayoutEmbedTable from './component';
 
 export default connect(
-  state => ({ routes: state.routes }),
-  null
+  (state) => ({ routes: state.routes }),
+  null,
 )(LayoutEmbedTable);

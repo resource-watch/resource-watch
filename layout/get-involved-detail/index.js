@@ -8,13 +8,13 @@ import GetInvolvedDetailComponent from './get-involved-detail-component';
 
 // Mandatory
 export {
-  actions, reducers, initialState
+  actions, reducers, initialState,
 };
 
 export default connect(
-  state => ({
+  (state) => ({
     getInvolvedDetail: state.getInvolvedDetail,
-    routes: state.routes
+    routes: state.routes,
   }),
-  actions
+  actions,
 )(GetInvolvedDetailComponent);

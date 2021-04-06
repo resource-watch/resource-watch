@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-class PublishedTD extends PureComponent  {
+class PublishedTD extends PureComponent {
   static propTypes = { value: PropTypes.bool.isRequired }
 
   render() {

@@ -13,7 +13,7 @@ const EMPTY_DATASET = {
   label: '',
   value: '',
   subscriptions: [],
-  threshold: 1
+  threshold: 1,
 };
 
 class DatasetManager extends Component {
@@ -21,7 +21,7 @@ class DatasetManager extends Component {
     datasets: PropTypes.array.isRequired,
     activeArea: PropTypes.object,
     selectedDatasets: PropTypes.array.isRequired,
-    setUserSelection: PropTypes.func.isRequired
+    setUserSelection: PropTypes.func.isRequired,
   }
 
   static defaultProps = { activeArea: null }
@@ -45,11 +45,11 @@ class DatasetManager extends Component {
       const updatedSubscriptions = dataset.subscriptions;
       updatedSubscriptions[0] = {
         ...updatedSubscriptions[0],
-        selected: true
+        selected: true,
       };
       const updatedDataset = {
         ...dataset,
-        subscriptions: updatedSubscriptions
+        subscriptions: updatedSubscriptions,
       };
 
       selectedDatasets[index] = updatedDataset;
@@ -57,14 +57,14 @@ class DatasetManager extends Component {
       this.setState({ selectedDatasets: [...selectedDatasets] }, () => {
         setUserSelection({
           datasets: selectedDatasets
-            .filter(_dataset => _dataset.id !== null)
+            .filter((_dataset) => _dataset.id !== null),
         });
       });
     } else {
       this.setState({ selectedDatasets: [...selectedDatasets, ...[dataset]] }, () => {
         setUserSelection({
           datasets: selectedDatasets
-            .filter(_dataset => _dataset.id !== null)
+            .filter((_dataset) => _dataset.id !== null),
         });
       });
     }
@@ -77,7 +77,7 @@ class DatasetManager extends Component {
     this.setState({ selectedDatasets: [...selectedDatasets, ...[EMPTY_DATASET]] }, () => {
       setUserSelection({
         datasets: selectedDatasets
-          .filter(_dataset => _dataset.id !== null)
+          .filter((_dataset) => _dataset.id !== null),
       });
     });
   }
@@ -89,16 +89,16 @@ class DatasetManager extends Component {
     if (selectedDatasets[index]) {
       selectedDatasets[index] = {
         ...selectedDatasets[index],
-        subscriptions: selectedDatasets[index].subscriptions.map(_subscription => ({
+        subscriptions: selectedDatasets[index].subscriptions.map((_subscription) => ({
           ..._subscription,
-          ...{ selected: _subscription.value === value }
-        }))
+          ...{ selected: _subscription.value === value },
+        })),
       };
 
       this.setState({ selectedDatasets: [...selectedDatasets] }, () => {
         setUserSelection({
           datasets: selectedDatasets
-            .filter(_dataset => _dataset.id !== null)
+            .filter((_dataset) => _dataset.id !== null),
         });
       });
     }
@@ -111,13 +111,13 @@ class DatasetManager extends Component {
     if (selectedDatasets[index]) {
       selectedDatasets[index] = {
         ...selectedDatasets[index],
-        threshold: value
+        threshold: value,
       };
 
       this.setState({ selectedDatasets: [...selectedDatasets] }, () => {
         setUserSelection({
           datasets: selectedDatasets
-            .filter(_dataset => _dataset.id !== null)
+            .filter((_dataset) => _dataset.id !== null),
         });
       });
     }
@@ -148,7 +148,7 @@ class DatasetManager extends Component {
             <Field
               properties={{
                 name: index === 0 ? 'dataset' : null,
-                label: index === 0 ? 'Dataset' : null
+                label: index === 0 ? 'Dataset' : null,
               }}
             >
               <CustomSelect
@@ -156,7 +156,7 @@ class DatasetManager extends Component {
                 className={classnames({ '-disabled': activeArea !== null ? false : index === 0 && _selectedDataset.value })}
                 options={datasets}
                 clearable={false}
-                onValueChange={val => this.onAddDataset(val, index)}
+                onValueChange={(val) => this.onAddDataset(val, index)}
                 allowNonLeafSelection={false}
                 value={_selectedDataset && _selectedDataset.value}
               />
@@ -164,30 +164,30 @@ class DatasetManager extends Component {
             <Field
               properties={{
                 name: index === 0 ? 'type' : null,
-                label: index === 0 ? 'Type' : null
+                label: index === 0 ? 'Type' : null,
               }}
             >
               <CustomSelect
                 placeholder="Select a subscription type"
                 className={classnames({ '-disabled': !_selectedDataset.subscriptions.length })}
                 options={_selectedDataset.subscriptions}
-                onValueChange={val => this.onSetSubscription(val, index)}
+                onValueChange={(val) => this.onSetSubscription(val, index)}
                 allowNonLeafSelection={false}
                 clearable={false}
                 value={(_selectedDataset.subscriptions
-                  .find(_subscription => _subscription.selected) ||
-                  _selectedDataset.subscriptions[0] || {}).value}
+                  .find((_subscription) => _subscription.selected)
+                  || _selectedDataset.subscriptions[0] || {}).value}
               />
             </Field>
             <Field
               className="threshold-input"
-              onChange={val => this.onSetthreshold(val, index)}
+              onChange={(val) => this.onSetthreshold(val, index)}
               properties={{
                 name: 'threshold',
                 label: index === 0 ? 'Minimum' : null,
                 type: 'number',
                 default: _selectedDataset.threshold,
-                value: _selectedDataset.threshold
+                value: _selectedDataset.threshold,
               }}
             >
               {Input}
@@ -195,7 +195,7 @@ class DatasetManager extends Component {
             <Field
               properties={{
                 name: 'delete',
-                label: index === 0 ? ' ' : null
+                label: index === 0 ? ' ' : null,
               }}
             >
               <button
@@ -210,7 +210,7 @@ class DatasetManager extends Component {
         <div className="subscription-btn-container">
           <button
             className={classnames('c-btn -b -fullwidth',
-              { '-disabled': selectedDatasets.find(_selectedDataset => _selectedDataset.id === null) })}
+              { '-disabled': selectedDatasets.find((_selectedDataset) => _selectedDataset.id === null) })}
             onClick={this.onAddNewSubscription}
           >
             Add subscription

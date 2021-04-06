@@ -14,13 +14,13 @@ class ModalComponent extends PureComponent {
     header: PropTypes.node,
     // Func
     onAfterOpen: PropTypes.func,
-    onRequestClose: PropTypes.func.isRequired
+    onRequestClose: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     onAfterOpen: null,
     className: null,
-    header: null
+    header: null,
   };
 
   // eslint-disable-line react/prefer-stateless-function
@@ -30,7 +30,7 @@ class ModalComponent extends PureComponent {
       className,
       header,
       onAfterOpen,
-      onRequestClose
+      onRequestClose,
     } = this.props;
     const classNames = classnames({ [className]: !!className });
     return (
@@ -47,7 +47,7 @@ class ModalComponent extends PureComponent {
 
         <button
           className="modal-close"
-          onClick={e => e.stopPropagation() || onRequestClose()}
+          onClick={(e) => e.stopPropagation() || onRequestClose()}
         >
           <Icon name="icon-cross" className="-small" />
         </button>

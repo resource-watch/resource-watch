@@ -39,7 +39,7 @@ class LayoutApp extends Component {
     toggleModal: PropTypes.func.isRequired,
     setModalOptions: PropTypes.func.isRequired,
     updateIsLoading: PropTypes.func.isRequired,
-    explicitHostname: PropTypes.string
+    explicitHostname: PropTypes.string,
   };
 
   static defaultProps = {
@@ -48,7 +48,7 @@ class LayoutApp extends Component {
     className: null,
     pageHeader: false,
     thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
-    explicitHostname: null
+    explicitHostname: null,
   }
 
   state = { modalOpen: false }
@@ -89,12 +89,12 @@ class LayoutApp extends Component {
       children,
       toggleModal,
       setModalOptions,
-      explicitHostname
+      explicitHostname,
     } = this.props;
     const { modalOpen } = this.state;
     const componentClass = classnames(
       'l-page',
-      { [className]: !!className }
+      { [className]: !!className },
     );
 
     return (
@@ -111,14 +111,15 @@ class LayoutApp extends Component {
 
         <GDPRBanner />
 
-        {!browserSupported() &&
+        {!browserSupported()
+          && (
           <Modal
             open
             canClose={false}
           >
             <NoBrowserSupport />
           </Modal>
-        }
+          )}
 
         <Icons />
         <IconsRW />

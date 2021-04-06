@@ -5,9 +5,9 @@ import * as actions from 'layout/explore/actions';
 import ExploreDatasetsTagsComponent from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     ...state.explore.filters,
-    ...state.explore.tags
+    ...state.explore.tags,
   }),
-  actions
+  actions,
 )(ExploreDatasetsTagsComponent);

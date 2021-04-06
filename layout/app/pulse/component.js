@@ -38,7 +38,7 @@ class LayoutPulse extends PureComponent {
     super(props);
     this.state = {
       selectedMarker: null,
-      interactionConfig: null
+      interactionConfig: null,
     };
     this.layerGlobeManager = new LayerGlobeManager();
 
@@ -66,7 +66,7 @@ class LayoutPulse extends PureComponent {
   componentDidMount() {
     // Init Cesium var
     Cesium = window.Cesium; // eslint-disable-line prefer-destructuring
-    Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
+    Cesium.BingMapsApi.defaultKey = process.env.NEXT_PUBLIC_BING_MAPS_API_KEY;
 
     this.props.getLayers();
     document.addEventListener('click', this.handleMouseClick);
@@ -82,7 +82,7 @@ class LayoutPulse extends PureComponent {
         this.setState({ interactionConfig: nextLayerActive.interactionConfig });
 
         if (nextLayerActive.threedimensional) {
-          const url = nextLayerActive.layerConfig.pulseConfig.url;
+          const { url } = nextLayerActive.layerConfig.pulseConfig;
           this.props.getLayerPoints(url);
         } else {
           this.props.resetLayerPoints();
@@ -113,27 +113,30 @@ class LayoutPulse extends PureComponent {
   handleMouseHoldOverGlobe() {
     this.props.toggleTooltip(false);
   }
+
   handleMouseClick(event) {
     if (event.target.tagName !== 'CANVAS') {
       this.props.toggleTooltip(false);
     }
   }
+
   handleMouseDown() {
     this.props.toggleTooltip(false);
   }
+
   handleMarkerSelected(marker, event) {
-    const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
-      ({ key: elem.property, value: marker[elem.column], type: elem.type }));
+    const tooltipContentObj = this.state.interactionConfig.output.map((elem) => ({ key: elem.property, value: marker[elem.column], type: elem.type }));
 
     if (this.mounted) {
       this.props.toggleTooltip(true, {
         follow: false,
         children: GlobeTooltip,
         childrenProps: { value: tooltipContentObj },
-        position: { x: event.clientX, y: event.clientY }
+        position: { x: event.clientX, y: event.clientY },
       });
     }
   }
+
   handleEarthClicked(latLon, clientX, clientY) {
     const { layerMenuPulse } = this.props;
     const { interactionConfig } = this.state;
@@ -142,12 +145,13 @@ class LayoutPulse extends PureComponent {
     if (layerMenuPulse.layerActive && interactionConfig.pulseConfig) {
       const requestURL = substitution(
         interactionConfig.pulseConfig.url,
-        [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }]
+        [{ key: 'point', value: `[${latLon.longitude}, ${latLon.latitude}]` }],
       );
       this.setTooltipValue(requestURL, clientX, clientY);
       logEvent('Planet Pulse', 'Click a datapoint', `${latLon.latitude},${latLon.longitude}`);
     }
   }
+
   handleClickInEmptyRegion() {
     this.props.toggleTooltip(false);
   }
@@ -167,14 +171,13 @@ class LayoutPulse extends PureComponent {
         if (response.data.length > 0) {
           const obj = response.data[0];
 
-          const tooltipContentObj = this.state.interactionConfig.output.map(elem =>
-            ({ key: elem.property, value: obj[elem.column], type: elem.type }));
+          const tooltipContentObj = this.state.interactionConfig.output.map((elem) => ({ key: elem.property, value: obj[elem.column], type: elem.type }));
 
           this.props.toggleTooltip(true, {
             follow: false,
             children: GlobeTooltip,
             childrenProps: { value: tooltipContentObj },
-            position: { x: tooltipX, y: tooltipY }
+            position: { x: tooltipX, y: tooltipY },
           });
         }
       });
@@ -186,8 +189,8 @@ class LayoutPulse extends PureComponent {
     const { scene, camera } = viewer;
     const { globe } = scene;
     const { ellipsoid } = globe;
-    const threedimensional = layerMenuPulse.layerActive &&
-      layerMenuPulse.layerActive.threedimensional;
+    const threedimensional = layerMenuPulse.layerActive
+      && layerMenuPulse.layerActive.threedimensional;
     const mousePosition = new Cesium.Cartesian2(clickedPosition.x, clickedPosition.y);
 
     const cartesian = camera.pickEllipsoid(mousePosition, ellipsoid);
@@ -198,7 +201,7 @@ class LayoutPulse extends PureComponent {
       const latitudeString = Cesium.Math.toDegrees(cartographic.latitude).toFixed(2);
       this.handleEarthClicked(
         { longitude: longitudeString, latitude: latitudeString },
-        clickedPosition.x, clickedPosition.y + 75
+        clickedPosition.x, clickedPosition.y + 75,
       ); // TODO: 75 is the header height
     }
   }
@@ -220,7 +223,7 @@ class LayoutPulse extends PureComponent {
       layersGroup,
       layerMenuPulse,
       pulse,
-      globeCesium
+      globeCesium,
     } = this.props;
     const { layerActive } = layerMenuPulse;
     // const { layerPoints } = pulse;
@@ -241,9 +244,9 @@ class LayoutPulse extends PureComponent {
           <WelcomeModal />
           <Spinner
             isLoading={
-              pulse.loading ||
-              layerMenuPulse.loading ||
-              (pulse.layerPoints.length > 0 && !globeCesium.shapesCreated)
+              pulse.loading
+              || layerMenuPulse.loading
+              || (pulse.layerPoints.length > 0 && !globeCesium.shapesCreated)
             }
           />
           <GlobeCesium
@@ -273,15 +276,15 @@ LayoutPulse.propTypes = {
   getLayers: PropTypes.func.isRequired,
   getLayerPoints: PropTypes.func.isRequired,
   toggleTooltip: PropTypes.func.isRequired,
-  resetActiveLayer: PropTypes.func.isRequired
+  resetActiveLayer: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   layerMenuPulse: state.layerMenuPulse,
   pulse: state.pulse,
   layersGroup: getLayersGroupPulse(state),
   layerActive: getActiveLayersPulse(state),
-  globeCesium: state.globeCesium
+  globeCesium: state.globeCesium,
 });
 
 const mapDispatchToProps = {
@@ -289,7 +292,7 @@ const mapDispatchToProps = {
   toggleTooltip,
   getLayerPoints,
   resetActiveLayer,
-  resetLayerPoints
+  resetLayerPoints,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LayoutPulse);

@@ -11,7 +11,7 @@ class TemplateSelector extends PureComponent {
 
   onChangeTemplate = (template) => {
     const { onChange } = this.props;
-    const newTemplate = TEMPLATES.find(_template => _template.value === template);
+    const newTemplate = TEMPLATES.find((_template) => _template.value === template);
     onChange(newTemplate);
   }
 
@@ -28,7 +28,7 @@ class TemplateSelector extends PureComponent {
           </div>
           <div className="column small-12">
             <ul className="template-list">
-              {TEMPLATES.map(_template => (
+              {TEMPLATES.map((_template) => (
                 <li
                   key={_template.value}
                   className="template-list-item"
@@ -43,7 +43,7 @@ class TemplateSelector extends PureComponent {
             </ul>
           </div>
         </div>
-      </div >
+      </div>
     );
   }
 }

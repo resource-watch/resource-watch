@@ -6,21 +6,22 @@ const RESET_SOURCES = 'sources/RESET_SOURCES';
 // REDUCER
 const initialState = {
   sources: [],
-  tmpSources: []
+  tmpSources: [],
 };
 
-export default function (state = initialState, action) {
+export default function Sources(state = initialState, action) {
   switch (action.type) {
     case SET_SOURCES:
-      return Object.assign({}, state, { sources : action.payload });
+      return { ...state, sources: action.payload };
     case SET_TMP_SOURCES:
-      return Object.assign({}, state, { tmpSources : action.payload });
+      return { ...state, tmpSources: action.payload };
     case RESET_SOURCES: {
       const { sources, tmpSources } = initialState;
-      return Object.assign({}, state, {
+      return {
+        ...state,
         sources,
-        tmpSources
-      });
+        tmpSources,
+      };
     }
     default:
       return state;

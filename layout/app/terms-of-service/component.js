@@ -10,7 +10,7 @@ class LayoutTermsOfService extends PureComponent {
 
   render() {
     const { data } = this.props;
-    const styles = { ...(data && data.photo) && { backgroundImage: `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})` } };
+    const styles = { ...(data && data.photo) && { backgroundImage: `url(${data.photo.cover})` } };
 
     if (!data) return null;
 
@@ -38,7 +38,8 @@ class LayoutTermsOfService extends PureComponent {
             </div>
           </header>
           <div className="l-content-body">
-            {!!data.content &&
+            {!!data.content
+              && (
               <div className="l-container">
                 <article>
                   <div className="row align-center">
@@ -49,7 +50,8 @@ class LayoutTermsOfService extends PureComponent {
                     </div>
                   </div>
                 </article>
-              </div>}
+              </div>
+              )}
           </div>
         </section>
       </Layout>

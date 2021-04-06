@@ -36,7 +36,7 @@ class DashboardsTable extends PureComponent {
     dashboards: [],
     pagination: INITIAL_PAGINATION,
     filters: { name: null, 'user.role': 'ADMIN' },
-    loading: false
+    loading: false,
   };
 
   UNSAFE_componentWillMount() {
@@ -47,8 +47,8 @@ class DashboardsTable extends PureComponent {
     this.setState({
       filters: {
         ...this.state.filters,
-        'user.role': value.value
-      }
+        'user.role': value.value,
+      },
     },
     () => this.loadDashboards());
   }
@@ -66,9 +66,9 @@ class DashboardsTable extends PureComponent {
       loading: true,
       filters: {
         ...filters,
-        name: value
+        name: value,
       },
-      pagination: INITIAL_PAGINATION
+      pagination: INITIAL_PAGINATION,
     }, () => this.loadDashboards());
   }, 250)
 
@@ -78,8 +78,8 @@ class DashboardsTable extends PureComponent {
     this.setState({
       pagination: {
         ...pagination,
-        page
-      }
+        page,
+      },
     }, () => this.loadDashboards());
   }
 
@@ -95,33 +95,33 @@ class DashboardsTable extends PureComponent {
         ...filters,
         'page[number]': pagination.page,
         'page[size]': pagination.limit,
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
       },
       { Authorization: token },
-      true
+      true,
     )
       .then(({ dashboards, meta }) => {
         const {
           'total-pages': pages,
-          'total-items': size
+          'total-items': size,
         } = meta;
         const nextPagination = {
           ...pagination,
           size,
-          pages
+          pages,
         };
         this.setState({
           loading: false,
-          dashboards: dashboards.map(_dashboard => ({
+          dashboards: dashboards.map((_dashboard) => ({
             ..._dashboard,
             owner: _dashboard.user ? _dashboard.user.name || (_dashboard.user.email || '').split('@')[0] : '',
-            role: _dashboard.user ? _dashboard.user.role || '' : ''
+            role: _dashboard.user ? _dashboard.user.role || '' : '',
           })),
-          pagination: nextPagination
+          pagination: nextPagination,
         });
       })
-      .catch(error => toastr.error('There was an error loading the dashboards', error));
+      .catch((error) => toastr.error('There was an error loading the dashboards', error));
   }
 
   render() {
@@ -140,7 +140,7 @@ class DashboardsTable extends PureComponent {
           link={{
             label: 'New dashboard',
             route: 'admin_dashboards_detail',
-            params: { tab: 'dashboards', id: 'new' }
+            params: { tab: 'dashboards', id: 'new' },
           }}
           onSearch={this.onSearch}
         />
@@ -151,18 +151,22 @@ class DashboardsTable extends PureComponent {
             { label: 'Owner', value: 'owner', td: OwnerTD },
             { label: 'Role', value: 'role', td: RoleTD },
             { label: 'Preview', value: 'slug', td: PreviewTD },
-            { label: 'Published', value: 'published', td: PublishedTD }
+            { label: 'Published', value: 'published', td: PublishedTD },
           ]}
           actions={{
             show: true,
             list: [
-              { name: 'Edit', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-              { name: 'Remove', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
-            ]
+              {
+                name: 'Edit', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
+              },
+              {
+                name: 'Remove', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
+              },
+            ],
           }}
           sort={{
             field: 'name',
-            value: 1
+            value: 1,
           }}
           filters={false}
           data={dashboards}
@@ -175,6 +179,6 @@ class DashboardsTable extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = (state) => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DashboardsTable);

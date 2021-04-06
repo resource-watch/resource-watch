@@ -24,17 +24,17 @@ const DATASET_SUBTABS = [{
   label: 'Edit dataset',
   value: 'edit',
   route: 'myrw_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'edit' }
+  params: { tab: 'datasets', id: '{{id}}', subtab: 'edit' },
 }, {
   label: 'Metadata',
   value: 'metadata',
   route: 'myrw_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' }
+  params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' },
 }, {
   label: 'Widgets',
   value: 'widgets',
   route: 'myrw_detail',
-  params: { tab: 'datasets', id: '{{id}}', subtab: 'widgets' }
+  params: { tab: 'datasets', id: '{{id}}', subtab: 'widgets' },
 }];
 
 class DatasetsShow extends React.Component {
@@ -42,7 +42,7 @@ class DatasetsShow extends React.Component {
     id: PropTypes.string.isRequired,
     subtab: PropTypes.string,
     // Store
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   };
 
   static defaultProps = { subtab: 'edit' };
@@ -94,27 +94,30 @@ class DatasetsShow extends React.Component {
             </div>
 
             <div className="columns small-12 medium-9">
-              {subtab === 'edit' &&
+              {subtab === 'edit'
+                && (
                 <DatasetsForm
                   basic
-                  application={[process.env.APPLICATIONS]}
+                  application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}
                   onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets' })}
                 />
-              }
+                )}
 
               {subtab === 'metadata' && (
                 <DatasetMetadataForm
                   dataset={id}
                   onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets', id })}
-                />)}
+                />
+              )}
 
-              {subtab === 'widgets' && data.id &&
+              {subtab === 'widgets' && data.id
+                && (
                 <DatasetWidgets
                   dataset={data.id}
                 />
-              }
+                )}
             </div>
 
           </div>
@@ -124,6 +127,6 @@ class DatasetsShow extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = (state) => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DatasetsShow);

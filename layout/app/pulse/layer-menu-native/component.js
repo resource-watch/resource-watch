@@ -18,7 +18,7 @@ class LayerMenuNativeComponent extends PureComponent {
               triggerClick(null);
             } else {
               layers.forEach((g) => {
-                const index = g.layers.findIndex(layer => event.target.value === layer.label);
+                const index = g.layers.findIndex((layer) => event.target.value === layer.label);
                 if (index !== -1) {
                   triggerClick(g.layers[index]);
                 }
@@ -27,9 +27,9 @@ class LayerMenuNativeComponent extends PureComponent {
           }}
         >
           <option value={-1}>Select a layer</option>
-          {layers.map(group => (
+          {layers.map((group) => (
             <optgroup label={group.label} key={group.label}>
-              {group.layers.map(layer => (
+              {group.layers.map((layer) => (
                 <option
                   value={layer.label}
                   key={layer.label}
@@ -48,7 +48,7 @@ class LayerMenuNativeComponent extends PureComponent {
 
 LayerMenuNativeComponent.propTypes = {
   layers: PropTypes.array,
-  triggerClick: PropTypes.func
+  triggerClick: PropTypes.func,
 };
 
 export default LayerMenuNativeComponent;

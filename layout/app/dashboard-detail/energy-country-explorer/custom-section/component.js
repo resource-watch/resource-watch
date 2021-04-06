@@ -6,20 +6,24 @@ import classnames from 'classnames';
 
 // Components
 import DashboardWidgetCard from 'layout/app/dashboard-detail/dashboard-widget-card';
-import PowerGenerationMap from '../power-generation-map';
 
 // Services
 import { fetchWidget } from 'services/widget';
 
 // Constants
 import { WORLD_COUNTRY, US_COUNTRY_VALUES } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
+import PowerGenerationMap from '../power-generation-map';
 
 // Styles
 import './styles.scss';
 
 function CustomSection(props) {
-  const { section, bbox, country, geojson } = props;
-  const { widgets, header, description, map, groups, mapTitle, widgetsWorld } = section;
+  const {
+    section, bbox, country, geojson,
+  } = props;
+  const {
+    widgets, header, description, map, groups, mapTitle, widgetsWorld,
+  } = section;
   const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
   const widgetBlocks = countryIsWorld ? widgetsWorld : widgets;
   const [data, setData] = useState(null);
@@ -27,34 +31,32 @@ function CustomSection(props) {
 
   useEffect(() => {
     if (widgetBlocks) {
-      const promises = widgetBlocks.map(wB => fetchWidget(wB.id, { includes: 'metadata' }));
+      const promises = widgetBlocks.map((wB) => fetchWidget(wB.id, { includes: 'metadata' }));
       Promise.all(promises)
         .then((responses) => {
           if (!countryIsWorld) {
             const reducedResult = responses.reduce((acc, resp) => {
               if (resp.widgetConfig.type === 'embed') {
-                const url = resp.widgetConfig.url;
+                const { url } = resp.widgetConfig;
                 if (url.indexOf('map-swipe') >= 0) {
                   const newURL = `${url}&bbox=[${bbox}]`;
                   const newWidgetConfig = {
                     ...resp.widgetConfig,
-                    url: newURL
+                    url: newURL,
                   };
-                  return  ({
+                  return ({
                     ...acc,
                     [resp.id]: {
                       ...resp,
-                      widgetConfig: newWidgetConfig
-                    }
+                      widgetConfig: newWidgetConfig,
+                    },
                   });
-                } else {
-                  return ({ ...acc, [resp.id]: resp });
                 }
-              } else if (resp.widgetConfig.type === 'ranking') {
-
+                return ({ ...acc, [resp.id]: resp });
+              } if (resp.widgetConfig.type === 'ranking') {
                 // temporary implementation for ranking widgets
                 let countryName = country.label;
-                const key = resp.widgetConfig.sql_config[0].key_params[0].key;
+                const { key } = resp.widgetConfig.sql_config[0].key_params[0];
 
                 // --- This patch is necessary since this country name varies for some datasets ----
                 if (country.label === US_COUNTRY_VALUES.nameFoundInSource) {
@@ -63,64 +65,64 @@ function CustomSection(props) {
                 //-----------------------------------------------------------------------------------
 
                 const newURL = resp.widgetConfig.url.replace(new RegExp(
-                  '{{country}}', 'g'), `'${countryName}'`);
+                  '{{country}}', 'g',
+                ), `'${countryName}'`);
 
                 const newWidgetConfig = {
                   ...resp.widgetConfig,
-                  url: newURL
+                  url: newURL,
                 };
 
                 const newWidget = {
                   ...resp,
-                  widgetConfig: newWidgetConfig
-                }
+                  widgetConfig: newWidgetConfig,
+                };
 
                 return ({ ...acc, [resp.id]: newWidget });
+              }
+              const { paramsConfig } = resp.widgetConfig;
+              const visualizationType = paramsConfig && paramsConfig.visualizationType;
+              if (!visualizationType || visualizationType === 'chart') {
+                const { key } = resp.widgetConfig.sql_config[0].key_params[0];
+                const isISO = key === 'country_code';
+                const dataObj = resp.widgetConfig.data[0];
+                let countryName = country.label;
 
-              } else {
-                const paramsConfig = resp.widgetConfig.paramsConfig;
-                const visualizationType = paramsConfig && paramsConfig.visualizationType;
-                if (!visualizationType || visualizationType === 'chart') {
-                  const key = resp.widgetConfig.sql_config[0].key_params[0].key;
-                  const isISO = key === 'country_code';
-                  const dataObj = resp.widgetConfig.data[0];
-                  let countryName = country.label;
-
-                  // --- This patch is necessary since this country name varies for some datasets ----
-                  if (country.label === US_COUNTRY_VALUES.nameFoundInSource) {
-                    countryName = US_COUNTRY_VALUES.newNameForQueries;
-                  }
-                  //------------------------------------------------------------------------------------
-
-                  const newDataObj = {
-                    ...dataObj,
-                    url: dataObj.url.replace(new RegExp(
-                      '{{where}}', 'g'), `WHERE ${key} IN ('${isISO ? country.value : countryName}')`)
-                  };
-
-                  const newWidgetConfig = {
-                    ...resp.widgetConfig,
-                    data: [newDataObj, ...resp.widgetConfig.data.slice(1, dataObj.length)]
-                  };
-
-                  const newWidget = {
-                    ...resp,
-                    widgetConfig: newWidgetConfig
-                  }
-
-                  return ({ ...acc, [resp.id]: newWidget });
-                } else if (visualizationType === 'map') {
-                  // Replacing Bounding box with that from the selected country
-                  const newWidgetConfig = {
-                    ...resp.widgetConfig,
-                    bbox
-                  };
-                  const newWidget = {
-                    ...resp,
-                    widgetConfig: newWidgetConfig
-                  }
-                  return ({ ...acc, [resp.id]: newWidget });
+                // --- This patch is necessary since this country name varies for some datasets ----
+                if (country.label === US_COUNTRY_VALUES.nameFoundInSource) {
+                  countryName = US_COUNTRY_VALUES.newNameForQueries;
                 }
+                //------------------------------------------------------------------------------------
+
+                const newDataObj = {
+                  ...dataObj,
+                  url: dataObj.url.replace(new RegExp(
+                    '{{where}}', 'g',
+                  ), `WHERE ${key} IN ('${isISO ? country.value : countryName}')`),
+                };
+
+                const newWidgetConfig = {
+                  ...resp.widgetConfig,
+                  data: [newDataObj, ...resp.widgetConfig.data.slice(1, dataObj.length)],
+                };
+
+                const newWidget = {
+                  ...resp,
+                  widgetConfig: newWidgetConfig,
+                };
+
+                return ({ ...acc, [resp.id]: newWidget });
+              } if (visualizationType === 'map') {
+                // Replacing Bounding box with that from the selected country
+                const newWidgetConfig = {
+                  ...resp.widgetConfig,
+                  bbox,
+                };
+                const newWidget = {
+                  ...resp,
+                  widgetConfig: newWidgetConfig,
+                };
+                return ({ ...acc, [resp.id]: newWidget });
               }
             }, {});
 
@@ -146,29 +148,33 @@ function CustomSection(props) {
               <h2>{header}</h2>
               <ReactMarkdown linkTarget="_blank" source={description} />
             </div>
-            {(!map && !widgetsLoading) &&
+            {(!map && !widgetsLoading)
+              && (
               <div className="row widget-blocks">
-                {widgetBlocks && widgetBlocks.map(wB => {
+                {widgetBlocks && widgetBlocks.map((wB) => {
                   const widgetBlockClassName = classnames({
                     column: true,
                     'small-12': true,
                     'medium-6': wB.widgetsPerRow === 2,
-                    'large-4': wB.widgetsPerRow === 3
+                    'large-4': wB.widgetsPerRow === 3,
                   });
 
                   if (!data[wB.id]) return null;
-                  return (<div className={widgetBlockClassName}>
-                    <DashboardWidgetCard
-                      widget={data[wB.id]}
-                      loading={false}
-                      key={`dashboard-widget-card-${wB.id}`}
-                      explicitHeight={wB.explicitHeight}
-                    />
-                  </div>);
+                  return (
+                    <div className={widgetBlockClassName}>
+                      <DashboardWidgetCard
+                        widget={data[wB.id]}
+                        loading={false}
+                        key={`dashboard-widget-card-${wB.id}`}
+                        explicitHeight={wB.explicitHeight}
+                      />
+                    </div>
+                  );
                 })}
               </div>
-            }
-            {map &&
+              )}
+            {map
+              && (
               <PowerGenerationMap
                 id={countryIsWorld ? 'world' : country.value}
                 groups={groups}
@@ -176,7 +182,7 @@ function CustomSection(props) {
                 bbox={bbox}
                 geojson={geojson}
               />
-            }
+              )}
           </div>
         </div>
       </div>
@@ -193,7 +199,7 @@ CustomSection.propTypes = {
 
 CustomSection.defaultProps = {
   bbox: [],
-  geojson: null
+  geojson: null,
 };
 
 export default CustomSection;

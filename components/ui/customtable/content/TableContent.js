@@ -13,7 +13,7 @@ export default class TableContent extends React.Component {
     sort: PropTypes.object,
     manualPagination: PropTypes.bool,
     onRowDelete: PropTypes.func,
-    onToggleSelectedRow: PropTypes.func
+    onToggleSelectedRow: PropTypes.func,
   };
 
   static defaultProps = {
@@ -25,7 +25,7 @@ export default class TableContent extends React.Component {
     sort: {},
     manualPagination: false,
     onRowDelete: null,
-    onToggleSelectedRow: null
+    onToggleSelectedRow: null,
   };
 
   getPageBounds() {
@@ -33,13 +33,15 @@ export default class TableContent extends React.Component {
 
     return {
       bottom: page === 1 ? 0 : (page - 1) * limit,
-      top: page === 1 ? limit : (page * limit)
+      top: page === 1 ? limit : (page * limit),
     };
   }
 
   render() {
-    const { actions, columns, sort, rowSelection, manualPagination } = this.props;
-    const actionsShowed = actions.list.filter(ac => ac.show || ac.component);
+    const {
+      actions, columns, sort, rowSelection, manualPagination,
+    } = this.props;
+    const actionsShowed = actions.list.filter((ac) => ac.show || ac.component);
 
     let data = this.props.filteredData;
     if (!data.length) {
@@ -60,16 +62,16 @@ export default class TableContent extends React.Component {
         const rowAField = rowA[sort.field];
         const rowBField = rowB[sort.field];
 
-        const rowACondition = (rowAField !== null && typeof rowAField !== 'undefined' && rowAField.toString) ?
-          rowAField.toString().toLowerCase().trim() :
-          rowAField;
-        const rowBCondition = (rowBField !== null && typeof rowBField !== 'undefined' && rowBField.toString) ?
-          rowBField.toString().toLowerCase().trim() :
-          rowBField;
+        const rowACondition = (rowAField !== null && typeof rowAField !== 'undefined' && rowAField.toString)
+          ? rowAField.toString().toLowerCase().trim()
+          : rowAField;
+        const rowBCondition = (rowBField !== null && typeof rowBField !== 'undefined' && rowBField.toString)
+          ? rowBField.toString().toLowerCase().trim()
+          : rowBField;
 
-        return (rowACondition > rowBCondition) ?
-          sort.value :
-          sort.value * -1;
+        return (rowACondition > rowBCondition)
+          ? sort.value
+          : sort.value * -1;
       });
     }
 
@@ -91,13 +93,13 @@ export default class TableContent extends React.Component {
             >
               {columns.map((col, i) => {
                 const value = row[col.value];
-                const td = col.td ?
-                  <col.td {...col.tdProps} key={i} row={row} value={value} /> :
-                  <td key={i} className={col.className || ''}>{(value && value.toString) ? value.toString() : value}</td>;
+                const td = col.td
+                  ? <col.td {...col.tdProps} key={i} row={row} value={value} />
+                  : <td key={i} className={col.className || ''}>{(value && value.toString) ? value.toString() : value}</td>;
                 return td;
-              }
-              )}
-              {actions.show &&
+              })}
+              {actions.show
+                && (
                 <td className="individual-actions">
                   <ul>
                     {actionsShowed.map((ac, j) => {
@@ -121,11 +123,10 @@ export default class TableContent extends React.Component {
                           </a>
                         </li>
                       );
-                    })
-                    }
+                    })}
                   </ul>
                 </td>
-              }
+                )}
             </tr>
           );
         })}

@@ -12,16 +12,16 @@ import { logger } from 'utils/logs';
  */
 export const fetchSubscriptions = (token, params) => {
   logger.info('Fetch subscriptions');
-  return WRIAPI.get('subscriptions', {
+  return WRIAPI.get('/v1/subscriptions', {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
+      Authorization: token,
     },
     params: {
-      application: process.env.APPLICATIONS,
-      env: process.env.API_ENV,
-      ...params
-    }
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      ...params,
+    },
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -51,24 +51,24 @@ export const createSubscriptionToArea = ({
   datasetsQuery,
   user,
   language,
-  name = ''
+  name = '',
 }) => {
   logger.info(`Create subscription to area: ${areaId}`);
   const bodyObj = {
     name,
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
+    env: process.env.NEXT_PUBLIC_API_ENV,
     language: language || 'en',
     datasets,
     datasetsQuery,
     resource: {
       type: 'EMAIL',
-      content: user.email
+      content: user.email,
     },
-    params: { area: areaId }
+    params: { area: areaId },
   };
 
-  return WRIAPI.post('subscriptions',
+  return WRIAPI.post('/v1/subscriptions',
     bodyObj,
     { headers: { Authorization: user.token } })
     .catch(({ response }) => {
@@ -94,23 +94,23 @@ export const updateSubscriptionToArea = (
   datasetsQuery,
   user,
   language,
-  areaId
+  areaId,
 ) => {
   logger.info(`Update subscription: ${subscriptionId}`);
   const bodyObj = {
-    application: process.env.APPLICATIONS,
-    env: process.env.API_ENV,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
+    env: process.env.NEXT_PUBLIC_API_ENV,
     language: language || 'en',
     datasets,
     datasetsQuery,
     resource: {
       type: 'EMAIL',
-      content: user.email
+      content: user.email,
     },
-    params: { area: areaId }
+    params: { area: areaId },
   };
 
-  return WRIAPI.patch(`subscriptions/${subscriptionId}`,
+  return WRIAPI.patch(`/v1/subscriptions/${subscriptionId}`,
     bodyObj,
     { headers: { Authorization: user.token } })
     .catch(({ response }) => {
@@ -128,9 +128,9 @@ export const updateSubscriptionToArea = (
  */
 export const fetchSubscription = (subscriptionId, token) => {
   logger.info(`Fetch subscription: ${subscriptionId}`);
-  return WRIAPI.get(`subscriptions/${subscriptionId}?application=${process.env.APPLICATIONS}&env=${process.env.API_ENV}`,
+  return WRIAPI.get(`/v1/subscriptions/${subscriptionId}?application=${process.env.NEXT_PUBLIC_APPLICATIONS}&env=${process.env.NEXT_PUBLIC_API_ENV}`,
     { headers: { Authorization: token } })
-    .then(response => response.data)
+    .then((response) => response.data)
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching subscription ${subscriptionId}: ${status}: ${statusText}`);
@@ -147,7 +147,7 @@ export const fetchSubscription = (subscriptionId, token) => {
  */
 export const deleteSubscription = (subscriptionId, token) => {
   logger.info(`Delete subscription: ${subscriptionId}`);
-  return WRIAPI.delete(`subscriptions/${subscriptionId}`,
+  return WRIAPI.delete(`/v1/subscriptions/${subscriptionId}`,
     { headers: { Authorization: token } })
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -161,5 +161,5 @@ export default {
   createSubscriptionToArea,
   updateSubscriptionToArea,
   fetchSubscription,
-  deleteSubscription
+  deleteSubscription,
 };

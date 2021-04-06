@@ -12,17 +12,17 @@ import Navigation from 'components/form/Navigation';
 // Services
 import {
   fetchAllTags,
-  fetchInferredTags
+  fetchInferredTags,
 } from 'services/graph';
 import {
   fetchDatasetTags,
-  updateDatasetTags
+  updateDatasetTags,
 } from 'services/dataset';
 
 const graphOptions = {
   height: '100%',
   layout: { hierarchical: false },
-  edges: { color: '#000000' }
+  edges: { color: '#000000' },
 };
 
 class TagsForm extends React.Component {
@@ -38,7 +38,7 @@ class TagsForm extends React.Component {
     loadingDatasetTags: false,
     loadingAllTags: false,
     loadingInferredTags: false,
-    datasetHasTags: false
+    datasetHasTags: false,
   };
 
   /**
@@ -55,14 +55,14 @@ class TagsForm extends React.Component {
     this.setState({ loadingDatasetTags: true });
     fetchDatasetTags(this.props.dataset)
       .then((response) => {
-        const knowledgeGraphVoc = response.find(elem => elem.id === 'knowledge_graph');
+        const knowledgeGraphVoc = response.find((elem) => elem.id === 'knowledge_graph');
         const datasetTags = knowledgeGraphVoc ? knowledgeGraphVoc.tags
           : knowledgeGraphVoc;
         this.setState({
           selectedTags: datasetTags,
           savedTags: datasetTags,
           loadingDatasetTags: false,
-          datasetHasTags: datasetTags && datasetTags.length > 0
+          datasetHasTags: datasetTags && datasetTags.length > 0,
         }, () => this.loadInferredTags());
       })
       .catch((err) => {
@@ -75,16 +75,16 @@ class TagsForm extends React.Component {
   loadKnowledgeGraph() {
     // Topics selector
     fetch(new Request('/static/data/knowledgeGraph.json', { credentials: 'same-origin' }))
-      .then(response => response.json())
+      .then((response) => response.json())
       .then((data) => {
         this.knowledgeGraph = {
-          edges: data.edges.map(elem => ({
+          edges: data.edges.map((elem) => ({
             from: elem.source,
             to: elem.target,
             label: elem.relType,
-            font: { size: 8 }
+            font: { size: 8 },
           })),
-          nodes: data.nodes.map(elem => ({ id: elem.id, label: elem.label }))
+          nodes: data.nodes.map((elem) => ({ id: elem.id, label: elem.label })),
         };
       });
   }
@@ -94,11 +94,11 @@ class TagsForm extends React.Component {
     this.setState({
       graph: {
         edges: this.knowledgeGraph.edges
-          .filter(elem => inferredTags.find(tag => tag.id === elem.to)),
+          .filter((elem) => inferredTags.find((tag) => tag.id === elem.to)),
         nodes: this.knowledgeGraph.nodes
-          .filter(elem => inferredTags.find(tag => tag.id === elem.id))
-          .map(elem => ({ ...elem, color: selectedTags.find(tag => tag === elem.id) ? '#c32d7b' : '#F4F6F7' }))
-      }
+          .filter((elem) => inferredTags.find((tag) => tag.id === elem.id))
+          .map((elem) => ({ ...elem, color: selectedTags.find((tag) => tag === elem.id) ? '#c32d7b' : '#F4F6F7' })),
+      },
     });
   }
 
@@ -122,7 +122,7 @@ class TagsForm extends React.Component {
           this.setState({
             savedTags: response[0] ? response[0].tags : [],
             datasetHasTags: response[0] && response[0].tags.length > 0,
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -134,6 +134,7 @@ class TagsForm extends React.Component {
       toastr.success('Success', 'Tags updated successfully');
     }
   }
+
   handleTagsChange = (value) => {
     this.setState({ selectedTags: value },
       () => this.loadInferredTags());
@@ -150,7 +151,7 @@ class TagsForm extends React.Component {
       .then((response) => {
         this.setState({
           loadingAllTags: false,
-          tags: response.map(val => ({ label: val.label, value: val.id }))
+          tags: response.map((val) => ({ label: val.label, value: val.id })),
         });
       })
       .catch((err) => {
@@ -159,6 +160,7 @@ class TagsForm extends React.Component {
         console.error(err);
       });
   }
+
   loadInferredTags() {
     const { selectedTags } = this.state;
     this.setState({ loadingInferredTags: true });
@@ -167,7 +169,7 @@ class TagsForm extends React.Component {
         .then((inferredTags) => {
           this.setState({
             loadingInferredTags: false,
-            inferredTags
+            inferredTags,
           }, () => this.loadSubGraph());
         })
         .catch((err) => {
@@ -179,7 +181,7 @@ class TagsForm extends React.Component {
       this.setState({
         inferredTags: [],
         loadingInferredTags: false,
-        graph: null
+        graph: null,
       });
     }
   }
@@ -187,7 +189,7 @@ class TagsForm extends React.Component {
   render() {
     const {
       tags, selectedTags, inferredTags, graph, loadingDatasetTags,
-      loadingAllTags, loadingInferredTags
+      loadingAllTags, loadingInferredTags,
     } = this.state;
 
     return (
@@ -197,51 +199,52 @@ class TagsForm extends React.Component {
           isLoading={loadingAllTags || loadingDatasetTags}
         />
         <Field
-          onChange={value => this.handleTagsChange(value)}
+          onChange={(value) => this.handleTagsChange(value)}
           options={tags}
           properties={{
             name: 'tags',
             label: 'Tags',
             multi: true,
             value: selectedTags,
-            default: selectedTags
+            default: selectedTags,
           }}
         >
           {Select}
         </Field>
         <h5>Inferred tags:</h5>
         <div className="inferred-tags">
-          {inferredTags.map(tag =>
-            (
-              <div
-                className="tag"
-                key={tag.id}
-              >
-                {tag.label}
-              </div>
-            ))}
+          {inferredTags.map((tag) => (
+            <div
+              className="tag"
+              key={tag.id}
+            >
+              {tag.label}
+            </div>
+          ))}
         </div>
         <div className="graph-div">
           <Spinner
             className="-light -relative"
             isLoading={loadingInferredTags}
           />
-          {graph &&
+          {graph
+            && (
             <Graph
               graph={graph}
               options={graphOptions}
             />
-          }
+            )}
         </div>
 
-        {!this.state.loading &&
+        {!this.state.loading
+          && (
           <Navigation
             step={this.state.step}
             stepLength={this.state.stepLength}
             submitting={this.state.submitting}
             onStepChange={this.handleSubmit}
           />
-        }
+          )}
       </form>
     );
   }
@@ -249,7 +252,7 @@ class TagsForm extends React.Component {
 
 TagsForm.propTypes = {
   dataset: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
 };
 
 export default TagsForm;

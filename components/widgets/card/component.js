@@ -17,7 +17,7 @@ import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 import {
   isMapWidget,
   isEmbedWidget,
-  isTextualWidget
+  isTextualWidget,
 } from 'utils/widget';
 import { logEvent } from 'utils/analytics';
 
@@ -54,7 +54,7 @@ const WidgetCard = (props) => {
     showFavorite,
     thumbnail,
     onWidgetClick,
-    clickable
+    clickable,
   } = props;
 
   const [state, dispatch] = useReducer(REDUCER, INITIAL_STATE);
@@ -63,7 +63,7 @@ const WidgetCard = (props) => {
     mapLoading,
     layer,
     error,
-    tooltip
+    tooltip,
   } = state;
   const {
     isInACollection,
@@ -78,7 +78,7 @@ const WidgetCard = (props) => {
         deleteWidget(id, dataset, token)
           .then(() => { onWidgetRemove(); })
           .catch(({ message }) => toastr.error('Something went wrong deleting the widget', message));
-      }
+      },
     });
   };
 
@@ -93,15 +93,15 @@ const WidgetCard = (props) => {
       childrenProps: {
         links: {
           link: `${origin}/data/widget/${id}`,
-          embed: location && `${origin}/embed/${widgetType}/${id}`
+          embed: location && `${origin}/embed/${widgetType}/${id}`,
         },
         analytics: {
           facebook: () => logEvent('Share', `Share widget: ${id}`, 'Facebook'),
           twitter: () => logEvent('Share', `Share widget: ${id}`, 'Twitter'),
-          copy: type => logEvent('Share', `Share widget: ${id}`, `Copy ${type}`)
+          copy: (type) => logEvent('Share', `Share widget: ${id}`, `Copy ${type}`),
         },
-        toggleModal
-      }
+        toggleModal,
+      },
     };
 
     toggleModal(true);
@@ -114,7 +114,9 @@ const WidgetCard = (props) => {
     const isAdmin = role === 'ADMIN';
 
     if (isAdmin) {
-      Router.pushRoute('admin_data_detail', { tab: 'widgets', subtab: 'edit', id: widget.id, dataset: widget.dataset });
+      Router.pushRoute('admin_data_detail', {
+        tab: 'widgets', subtab: 'edit', id: widget.id, dataset: widget.dataset,
+      });
     } else if (isOwner) {
       Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
     } else {
@@ -138,7 +140,7 @@ const WidgetCard = (props) => {
 
     const link = document.createElement('a');
     link.setAttribute('download', '');
-    link.href = `${process.env.CONTROL_TOWER_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&waitFor=8000&url=${origin}/embed/${type}/${id}`;
+    link.href = `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&waitFor=8000&url=${origin}/embed/${type}/${id}`;
 
     // link.click() doesn't work on Firefox for some reasons
     // so we have to create an event manually
@@ -220,12 +222,12 @@ const WidgetCard = (props) => {
             className="-light"
           />
           <Map
-            mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+            mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
             interactiveLayerIds={[]}
             mapStyle={MAPSTYLES}
             bounds={{
               bbox,
-              options: {}
+              options: {},
             }}
             fitBoundsOptions={{ transitionDuration: 0 }}
             basemap={basemap}
@@ -247,7 +249,7 @@ const WidgetCard = (props) => {
               });
             }}
           >
-            {_map => (
+            {(_map) => (
               <LayerManager
                 map={_map}
                 layers={[layer]}
@@ -286,19 +288,19 @@ const WidgetCard = (props) => {
     }
   }, [widget]);
 
-  const widgetLinks = (widget.metadata && widget.metadata.length > 0 &&
-    widget.metadata[0].info &&
-    widget.metadata[0].info.widgetLinks) || [];
+  const widgetLinks = (widget.metadata && widget.metadata.length > 0
+    && widget.metadata[0].info
+    && widget.metadata[0].info.widgetLinks) || [];
   const isWidgetOwner = widget.userId === user.id;
 
   const starIconName = classnames({
     'icon-star-full': isInACollection,
-    'icon-star-empty': !isInACollection
+    'icon-star-empty': !isInACollection,
   });
 
   const mainClassname = classnames({
     'c-widget-card': true,
-    '-clickable': clickable
+    '-clickable': clickable,
   });
 
   return (
@@ -321,15 +323,16 @@ const WidgetCard = (props) => {
           <p>
             {truncate(widget.description, { length: limitChar, separator: ' ', omission: '...' })}
           </p>
-          {showFavorite &&
+          {showFavorite
+            && (
             <LoginRequired>
               <Tooltip
-                overlay={
+                overlay={(
                   <CollectionsPanel
                     resource={widget}
                     resourceType="widget"
                   />
-                }
+                )}
                 overlayClassName="c-rc-tooltip"
                 overlayStyle={{ color: '#fff' }}
                 placement="bottomLeft"
@@ -347,39 +350,40 @@ const WidgetCard = (props) => {
                 </button>
               </Tooltip>
             </LoginRequired>
-          }
+            )}
         </div>
 
-        {(showActions || showRemove || showEmbed) &&
+        {(showActions || showRemove || showEmbed)
+          && (
           <div className="actions">
             {showActions && (
 
-              <Tooltip
-                visible={tooltip}
-                overlayClassName="c-rc-tooltip -default -no-max-width"
-                placement="top"
-                destroyTooltipOnHide
-                overlay={
-                  <WidgetActionsTooltip
-                    toggleTooltip={() => { handleTooltipVisibility(false); }}
-                    onShareEmbed={handleEmbed}
-                    onGoToDataset={handleGoToDataset}
-                    onEditWidget={handleEditWidget}
-                    onDownloadPDF={handleDownloadPDF}
-                    onRemove={handleRemoveVisualization}
-                    widgetLinks={widgetLinks}
-                    isWidgetOwner={isWidgetOwner}
-                  />
-                }
-              >
+            <Tooltip
+              visible={tooltip}
+              overlayClassName="c-rc-tooltip -default -no-max-width"
+              placement="top"
+              destroyTooltipOnHide
+              overlay={(
+                <WidgetActionsTooltip
+                  toggleTooltip={() => { handleTooltipVisibility(false); }}
+                  onShareEmbed={handleEmbed}
+                  onGoToDataset={handleGoToDataset}
+                  onEditWidget={handleEditWidget}
+                  onDownloadPDF={handleDownloadPDF}
+                  onRemove={handleRemoveVisualization}
+                  widgetLinks={widgetLinks}
+                  isWidgetOwner={isWidgetOwner}
+                />
+                )}
+            >
 
-                <button
-                  className="c-button -secondary widget-actions"
-                  onClick={() => { handleTooltipVisibility(!tooltip); }}
-                >
-                  Options
-                </button>
-              </Tooltip>
+              <button
+                className="c-button -secondary widget-actions"
+                onClick={() => { handleTooltipVisibility(!tooltip); }}
+              >
+                Options
+              </button>
+            </Tooltip>
             )}
             <button
               type="button"
@@ -389,13 +393,14 @@ const WidgetCard = (props) => {
               Edit
             </button>
           </div>
-        }
+          )}
       </div>
     </div>
   );
 };
 
 WidgetCard.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   widget: PropTypes.object.isRequired,
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
@@ -405,11 +410,12 @@ WidgetCard.propTypes = {
   onWidgetRemove: PropTypes.func.isRequired,
   onWidgetClick: PropTypes.func,
   limitChar: PropTypes.number,
+  // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
   thumbnail: PropTypes.bool,
-  clickable: PropTypes.bool
+  clickable: PropTypes.bool,
 };
 
 WidgetCard.defaultProps = {
@@ -420,7 +426,7 @@ WidgetCard.defaultProps = {
   showEmbed: false,
   thumbnail: false,
   clickable: false,
-  onWidgetClick: null
+  onWidgetClick: null,
 };
 
 export default WidgetCard;

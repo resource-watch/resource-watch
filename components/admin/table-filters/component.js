@@ -14,7 +14,7 @@ import './styles.scss';
 class FiltersComponent extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    filtersChange: PropTypes.func.isRequired
+    filtersChange: PropTypes.func.isRequired,
   };
 
   static defaultProps = { className: null };
@@ -27,7 +27,7 @@ class FiltersComponent extends PureComponent {
     const { className } = this.props;
     const classNameValue = classnames({
       'c-filters': true,
-      [className]: !!className
+      [className]: !!className,
     });
     return (
       <div

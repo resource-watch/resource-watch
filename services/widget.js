@@ -14,7 +14,7 @@ import { logger } from 'utils/logs';
  */
 export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
   logger.info('fetches widgets');
-  return WRIAPI.get('widget', {
+  return WRIAPI.get('/v1/widget', {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
@@ -22,8 +22,8 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
       ...headers,
     },
     params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
     transformResponse: [].concat(
@@ -66,15 +66,15 @@ export const fetchWidget = (id, params = {}) => {
   if (!id) throw Error('The widget id is mandatory to perform this request (fetchWidget).');
   logger.info(`Fetch widget: ${id}`);
 
-  return WRIAPI.get(`widget/${id}`, {
+  return WRIAPI.get(`/v1/widget/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1,
     },
     params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
   })
@@ -110,7 +110,7 @@ export const fetchWidget = (id, params = {}) => {
 export const deleteWidget = (widgetId, datasetId, token) => {
   logger.info(`Delete widget: ${widgetId}`);
 
-  return WRIAPI.delete(`dataset/${datasetId}/widget/${widgetId}`, {
+  return WRIAPI.delete(`/v1/dataset/${datasetId}/widget/${widgetId}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token,
@@ -145,7 +145,7 @@ export const deleteWidget = (widgetId, datasetId, token) => {
  */
 export const updateWidget = (widget, token) => {
   logger.info(`Update widget: ${widget.id}`);
-  return WRIAPI.patch(`widget/${widget.id}`, widget, { headers: { Authorization: token } })
+  return WRIAPI.patch(`/v1/widget/${widget.id}`, widget, { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -163,10 +163,10 @@ export const updateWidget = (widget, token) => {
  */
 export const createWidget = (widget, datasetId, token) => {
   logger.info('Create widget');
-  return WRIAPI.post(`dataset/${datasetId}/widget`,
+  return WRIAPI.post(`/v1/dataset/${datasetId}/widget`,
     {
-      application: process.env.APPLICATIONS.split(','),
-      env: process.env.API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS.split(','),
+      env: process.env.NEXT_PUBLIC_API_ENV,
       ...widget,
     },
     { headers: { Authorization: token } })
@@ -188,12 +188,12 @@ export const createWidget = (widget, datasetId, token) => {
  */
 export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => {
   logger.info(`Update widget metadata: ${widgetId}`);
-  return WRIAPI.fetch(`dataset/${datasetId}/widget/${widgetId}/metadata`,
+  return WRIAPI.fetch(`/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
     {
       headers: { Authorization: token },
       params: {
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
         ...params,
       },
     })
@@ -215,7 +215,7 @@ export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => 
  */
 export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
   logger.info(`Update widget metadata: ${widgetId}`);
-  return WRIAPI.patch(`dataset/${datasetId}/widget/${widgetId}/metadata`,
+  return WRIAPI.patch(`/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
     metadata,
     { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
@@ -236,11 +236,11 @@ export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
  */
 export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
   logger.info(`Update widget metadata: ${widgetId}`);
-  return WRIAPI.post(`dataset/${datasetId}/widget/${widgetId}/metadata`,
+  return WRIAPI.post(`/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
     {
       ...metadata,
-      application: process.env.APPLICATIONS,
-      env: process.env.API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
     },
     { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))

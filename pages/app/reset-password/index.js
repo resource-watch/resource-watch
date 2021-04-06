@@ -10,6 +10,7 @@ class ResetPasswordPage extends PureComponent {
 
     return { tokenEmail };
   }
+
   render() {
     return (<ResetPassword {...this.props} />);
   }

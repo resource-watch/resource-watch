@@ -7,12 +7,12 @@ import initialState from './initial-state';
 
 import LayerPillComponent from './component';
 
-const mapStateToProps = state => ({ contextLayersPulse: state.contextLayersPulse });
+const mapStateToProps = (state) => ({ contextLayersPulse: state.contextLayersPulse });
 
 class LayerPillContainer extends Component {
   render() {
     return createElement(LayerPillComponent, {
-      ...this.props
+      ...this.props,
     });
   }
 }

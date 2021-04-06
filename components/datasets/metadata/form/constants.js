@@ -2,12 +2,12 @@ export const LANGUAGE_OPTIONS = [
   { label: 'English', value: 'en' },
   { label: 'Español', value: 'es' },
   { label: 'Français', value: 'fr' },
-  { label: 'Português', value: 'pt' }
+  { label: 'Português', value: 'pt' },
 ];
 
 export const RASTER_COLUMN_TYPES = [
   { label: 'Categorical', value: 'categorical' },
-  { label: 'Continuous', value: 'continuous' }
+  { label: 'Continuous', value: 'continuous' },
 ];
 
 export const STATE_DEFAULT = {
@@ -22,8 +22,8 @@ export const STATE_DEFAULT = {
     language: 'en',
     info: {},
     columns: {},
-    application: process.env.APPLICATIONS
-  }
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
+  },
 };
 
 export const FORM_ELEMENTS = {
@@ -37,12 +37,12 @@ export const FORM_ELEMENTS = {
   isValid() {
     const { elements } = this;
     const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
+      .map((k) => elements[k].isValid())
+      .filter((v) => v !== null)
+      .every((element) => element);
 
     return valid;
-  }
+  },
 };
 
 export const SOURCE_ELEMENTS = {
@@ -56,10 +56,10 @@ export const SOURCE_ELEMENTS = {
   isValid() {
     const { elements } = this;
     const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
+      .map((k) => elements[k].isValid())
+      .filter((v) => v !== null)
+      .every((element) => element);
 
     return valid;
-  }
+  },
 };

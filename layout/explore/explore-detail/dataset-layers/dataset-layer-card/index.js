@@ -10,7 +10,7 @@ import DatasetLayerCardComponent from './component';
 export default connect(
   (state, props) => ({
     layerGroup: getLayerGroup(state, props),
-    layerIsActive: getLayerIsActive(state, props)
+    layerIsActive: getLayerIsActive(state, props),
   }),
-  actions
+  actions,
 )(DatasetLayerCardComponent);

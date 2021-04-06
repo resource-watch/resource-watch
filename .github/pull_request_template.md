@@ -1,11 +1,11 @@
 ## Overview
-Please write a description. If the PR is hard to understand, provide a quick explanation of the code.
+_Please write a description. If the PR is hard to understand, provide a quick explanation of the code._
 
 ## Testing instructions
-Please explain how to test the PR: ID of a dataset, steps to reach the feature, etc.
+_Please explain how to test the PR: ID of a dataset, steps to reach the feature, etc._
 
-## Pivotal task
-Provide the link to the task(s), if any.
+## Jira task
+_Provide the link to the task(s), if any._
 
 ---
 

@@ -7,12 +7,12 @@ import ShareModalComponent from './share-modal-component';
 
 // Mandatory
 export {
-  actions, reducers, initialState
+  actions, reducers, initialState,
 };
 
 export default connect(
-  state => ({
-    ...state.shareModal
+  (state) => ({
+    ...state.shareModal,
   }),
-  actions
+  actions,
 )(ShareModalComponent);

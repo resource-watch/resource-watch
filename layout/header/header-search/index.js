@@ -8,5 +8,5 @@ import HeaderSearch from './component';
 
 export default connect(
   null,
-  { setSearchOpened }
+  { setSearchOpened },
 )(HeaderSearch);

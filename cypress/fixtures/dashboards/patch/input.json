@@ -1,0 +1,9 @@
+{
+  "name": "lorem test dashboard edit",
+  "summary": "lorem test dashboard summary edit",
+  "description": "lorem test dashboard description edit",
+  "photo": "cat-2.jpg",
+  "wysiwyg": {
+    "title": "lorem test dashboard title edit"
+  }
+}

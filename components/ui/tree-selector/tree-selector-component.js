@@ -10,20 +10,22 @@ class TreeSelector extends PureComponent {
     classNames: PropTypes.string,
     onChange: PropTypes.func,
     placeholderText: PropTypes.string,
-    showDropdown: PropTypes.bool
+    showDropdown: PropTypes.bool,
   };
 
   static defaultProps = {
     data: [],
     showDropdown: true,
-    onChange: () => { }
+    onChange: () => { },
   };
 
   render() {
-    const { showDropdown, placeholderText, data, onChange, classNames } = this.props;
+    const {
+      showDropdown, placeholderText, data, onChange, classNames,
+    } = this.props;
     const datasetFilterClass = classnames({
       'c-tree-selector': true,
-      classNames: !!classNames
+      classNames: !!classNames,
     });
 
     return (

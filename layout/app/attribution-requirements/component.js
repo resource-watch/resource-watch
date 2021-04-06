@@ -17,7 +17,7 @@ class LayoutAttributionRequirements extends PureComponent {
     if (!data) return null;
 
     if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})`;
+      styles.backgroundImage = `url(${data.photo.cover})`;
     }
 
     return (
@@ -44,7 +44,8 @@ class LayoutAttributionRequirements extends PureComponent {
             </div>
           </header>
           <div className="l-content-body">
-            {!!data.content &&
+            {!!data.content
+              && (
               <div className="l-container">
                 <article>
                   <div className="row align-center">
@@ -56,7 +57,7 @@ class LayoutAttributionRequirements extends PureComponent {
                   </div>
                 </article>
               </div>
-            }
+              )}
           </div>
         </section>
       </Layout>

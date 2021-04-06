@@ -1,22 +1,17 @@
 import axios from 'axios';
 
 export const WRIAPI = axios.create({
-  baseURL: process.env.WRI_API_URL,
-  headers: { 'Content-Type': 'application/json' },
-});
-
-export const WRIAPI_V2 = axios.create({
-  baseURL: process.env.WRI_API_URL_V2,
+  baseURL: process.env.NEXT_PUBLIC_WRI_API_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
 export const blogAPI = axios.create({
-  baseURL: process.env.BLOG_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_BLOG_API_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
 export const controlTowerAPI = axios.create({
-  baseURL: process.env.CONTROL_TOWER_URL,
+  baseURL: process.env.NEXT_PUBLIC_CONTROL_TOWER_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 

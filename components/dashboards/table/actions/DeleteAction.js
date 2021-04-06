@@ -12,7 +12,7 @@ class DeleteAction extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
     onRowDelete: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   handleOnClickDelete = (e) => {
@@ -23,7 +23,7 @@ class DeleteAction extends PureComponent {
 
     const {
       data: { name, id },
-      user: { token }
+      user: { token },
     } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${name}"`, {
@@ -36,7 +36,7 @@ class DeleteAction extends PureComponent {
           .catch((err) => {
             toastr.error('Error', `The dashboard "${id}" - "${name}" was not deleted. Try again. ${err}`);
           });
-      }
+      },
     });
   }
 
@@ -49,6 +49,6 @@ class DeleteAction extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = (state) => ({ user: state.user });
 
 export default connect(mapStateToProps, null)(DeleteAction);

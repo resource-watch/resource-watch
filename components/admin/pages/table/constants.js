@@ -8,7 +8,7 @@ export const INITIAL_PAGINATION = {
   // total of pages
   pages: null,
   // total of items to display
-  size: null
+  size: null,
 };
 
 export default { INITIAL_PAGINATION };

@@ -24,7 +24,7 @@ class AdminPartnersTable extends PureComponent {
     list: PropTypes.array.isRequired,
     error: PropTypes.any,
     getAllPartners: PropTypes.func.isRequired,
-    setFilters: PropTypes.func.isRequired
+    setFilters: PropTypes.func.isRequired,
   };
 
   static defaultProps = { error: null }
@@ -42,8 +42,8 @@ class AdminPartnersTable extends PureComponent {
         ...pagination,
         size: nextPartners.length,
         ...(partnersChanged && { page: 1 }),
-        pages: Math.ceil(nextPartners.length / pagination.limit)
-      }
+        pages: Math.ceil(nextPartners.length / pagination.limit),
+      },
     });
   }
 
@@ -65,8 +65,8 @@ class AdminPartnersTable extends PureComponent {
     this.setState({
       pagination: {
         ...pagination,
-        page
-      }
+        page,
+      },
     });
   }
 
@@ -81,7 +81,7 @@ class AdminPartnersTable extends PureComponent {
       list: partners,
       loading,
       error,
-      authorization
+      authorization,
     } = this.props;
     const { pagination } = this.state;
 
@@ -89,14 +89,19 @@ class AdminPartnersTable extends PureComponent {
       <div className="c-partners-table">
         <Spinner className="-light" isLoading={loading} />
 
-        {error && (<p>Error: {error}</p>)}
+        {error && (
+        <p>
+          Error:
+          {error}
+        </p>
+        )}
 
         <SearchInput
           input={{ placeholder: 'Search partner' }}
           link={{
             label: 'New partner',
             route: 'admin_partners_detail',
-            params: { tab: 'partners', id: 'new' }
+            params: { tab: 'partners', id: 'new' },
           }}
           onSearch={this.onSearch}
         />
@@ -108,18 +113,22 @@ class AdminPartnersTable extends PureComponent {
               { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Partner type', value: 'partner-type' },
               { label: 'Featured', value: 'featured', td: FeaturedTD },
-              { label: 'Published', value: 'published', td: PublishedTD }
+              { label: 'Published', value: 'published', td: PublishedTD },
             ]}
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_partners_detail', params: { tab: 'partners', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_partners_detail', params: { tab: 'partners', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization } }
-              ]
+                {
+                  name: 'Edit', route: 'admin_partners_detail', params: { tab: 'partners', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
+                },
+                {
+                  name: 'Remove', route: 'admin_partners_detail', params: { tab: 'partners', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization },
+                },
+              ],
             }}
             sort={{
               field: 'name',
-              value: 1
+              value: 1,
             }}
             filters={false}
             data={partners}

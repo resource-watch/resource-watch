@@ -12,7 +12,7 @@ class WidgetsShow extends PureComponent {
   static propTypes = {
     tabs: PropTypes.array.isRequired,
     query: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   handleSubmit = () => { window.scrollTo(0, 0); }
@@ -21,7 +21,7 @@ class WidgetsShow extends PureComponent {
     const {
       query: { id, subtab },
       tabs,
-      user: { token }
+      user: { token },
     } = this.props;
     const currentSubTab = subtab || 'edit';
 
@@ -45,20 +45,24 @@ class WidgetsShow extends PureComponent {
             </div>
 
             <div className="columns small-12 medium-9">
-              {(subtab === 'edit') &&
-              (<WidgetForm
+              {(subtab === 'edit')
+              && (
+              <WidgetForm
                 id={id}
                 authorization={token}
                 onSubmit={this.handleSubmit}
-              />)}
+              />
+              )}
 
-              {(subtab === 'metadata') &&
-                (<MetadataForm
-                  application={process.env.APPLICATIONS}
+              {(subtab === 'metadata')
+                && (
+                <MetadataForm
+                  application={process.env.NEXT_PUBLIC_APPLICATIONS}
                   authorization={token}
                   widget={id}
                   onSubmit={() => { Router.pushRoute('admin_data_detail', { tab: 'widgets', id, subtab: 'edit' }); }}
-                />)}
+                />
+                )}
             </div>
 
           </div>

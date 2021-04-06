@@ -14,29 +14,16 @@ import IconsRW from 'components/icons';
 import { Icons } from 'vizzuality-components';
 
 import Head from 'layout/head/admin';
-import Header from 'layout/header-admin';
+import Header from 'layout/header-admin/index';
 
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Search from 'layout/header/search';
 import GDPRBanner from 'components/ui/gdpr-banner';
+import HeaderMenu from '../../header/header-menu/component';
 
 class LayoutAdmin extends PureComponent {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    pageHeader: PropTypes.bool,
-    className: PropTypes.string,
-    modal: PropTypes.object.isRequired,
-    toggleModal: PropTypes.func.isRequired,
-    toggleTooltip: PropTypes.func.isRequired,
-    setModalOptions: PropTypes.func.isRequired,
-    updateIsLoading: PropTypes.func.isRequired,
-    setLocale: PropTypes.func.isRequired
-  };
-
   static defaultProps = { className: null };
 
   state = { modalOpen: false }
@@ -96,7 +83,7 @@ class LayoutAdmin extends PureComponent {
       modal,
       className,
       toggleModal,
-      setModalOptions
+      setModalOptions,
     } = this.props;
     const { modalOpen } = this.state;
     const componentClass = classnames('l-page', { [className]: !!className });
@@ -133,5 +120,19 @@ class LayoutAdmin extends PureComponent {
     );
   }
 }
+
+LayoutAdmin.propTypes = {
+  children: PropTypes.node.isRequired,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  pageHeader: PropTypes.bool,
+  className: PropTypes.string,
+  modal: PropTypes.object.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  toggleTooltip: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired,
+  updateIsLoading: PropTypes.func.isRequired,
+  setLocale: PropTypes.func.isRequired,
+};
 
 export default LayoutAdmin;

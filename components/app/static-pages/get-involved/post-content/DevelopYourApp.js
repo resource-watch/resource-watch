@@ -17,8 +17,8 @@ function DevelopYourApp() {
       link: {
         route: 'https://api.resourcewatch.org',
         label: 'Read the docs',
-        external: true
-      }
+        external: true,
+      },
     },
     {
       id: 'fork-code',
@@ -27,8 +27,8 @@ function DevelopYourApp() {
       link: {
         route: 'https://github.com/resource-watch/',
         label: 'Visit our Github',
-        external: true
-      }
+        external: true,
+      },
     },
     {
       id: 'submit-app',
@@ -37,9 +37,9 @@ function DevelopYourApp() {
       link: {
         route: 'https://docs.google.com/forms/d/e/1FAIpQLSfZ79GW0jF7BL_-mUjHOgXEUN3U2p95FgiOp-_ZaqqwTfI7Gg/viewform?usp=sf_link',
         label: 'Submit your app',
-        external: true
-      }
-    }
+        external: true,
+      },
+    },
   ];
 
   return (
@@ -47,7 +47,7 @@ function DevelopYourApp() {
       <aside className="l-postcontent">
         <div className="l-container">
           <div className="row">
-            {cards.map(card => (
+            {cards.map((card) => (
               <div key={card.id} className="column small-12 medium-6 large-4 c-card-column">
                 <CardApp
                   title={card.title}
@@ -57,7 +57,7 @@ function DevelopYourApp() {
                   buttonType="primary"
                 />
               </div>
-              ))}
+            ))}
           </div>
         </div>
       </aside>
@@ -67,7 +67,9 @@ function DevelopYourApp() {
             <div className="column small-12">
               <Banner className="-text-center" bgImage="/static/images/backgrounds/bg-partner-maryland.jpg">
                 <p className="-claim">
-                  Explore maps and apps curated <br />
+                  Explore maps and apps curated
+                  {' '}
+                  <br />
                   by the Resource Watch community.
                 </p>
                 <Link route="get_involved_detail" params={{ id: 'apps' }}>

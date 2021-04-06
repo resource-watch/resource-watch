@@ -13,13 +13,13 @@ export default class Modal extends React.Component {
     // ACTIONS
     toggleModal: PropTypes.func,
     setModalOptions: PropTypes.func,
-    canClose: PropTypes.bool
+    canClose: PropTypes.bool,
   };
 
   static defaultProps = {
     open: false,
     canClose: true,
-    options: {}
+    options: {},
   };
 
   componentDidMount() {
@@ -44,23 +44,26 @@ export default class Modal extends React.Component {
   }
 
   getContent() {
-    return this.props.options.children ?
-      <this.props.options.children {...this.props.options.childrenProps} /> : null;
+    return this.props.options.children
+      ? <this.props.options.children {...this.props.options.childrenProps} /> : null;
   }
 
   render() {
-    const { options, open, className, canClose } = this.props;
+    const {
+      options, open, className, canClose,
+    } = this.props;
     return (
       <section
         ref={(node) => { this.el = node; }}
         className={`c-modal ${open ? '' : '-hidden'} ${options.size || ''} ${className || ''}`}
       >
         <div className="modal-container">
-          {canClose &&
-            <button className="modal-close" onClick={e => e.stopPropagation() || this.props.toggleModal(false)}>
+          {canClose
+            && (
+            <button className="modal-close" onClick={(e) => e.stopPropagation() || this.props.toggleModal(false)}>
               <Icon name="icon-cross" className="-small" />
             </button>
-          }
+            )}
           <div className="modal-content">
             {this.props.children ? this.props.children : null}
             {this.props.loading ? <Spinner isLoading /> : this.getContent()}
@@ -68,7 +71,7 @@ export default class Modal extends React.Component {
         </div>
         <div
           className="modal-backdrop"
-          onClick={e => e.stopPropagation() || this.props.toggleModal(false)}
+          onClick={(e) => e.stopPropagation() || this.props.toggleModal(false)}
         />
       </section>
     );

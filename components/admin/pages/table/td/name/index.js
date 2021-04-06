@@ -1,3 +1,1 @@
-import NameTD from './component';
-
-export default NameTD;
+export { default } from './component';

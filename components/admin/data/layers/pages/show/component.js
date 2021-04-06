@@ -7,7 +7,7 @@ import LayersForm from 'components/admin/data/layers/form/LayersForm';
 class LayersShow extends PureComponent {
   static propTypes = {
     dataset: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   handleSubmit = () => { window.scrollTo(0, 0); }
@@ -15,19 +15,20 @@ class LayersShow extends PureComponent {
   render() {
     const {
       dataset,
-      user: { token }
+      user: { token },
     } = this.props;
 
     return (
       <div className="c-layers-show">
-        {token &&
+        {token
+          && (
           <LayersForm
             id={dataset}
-            application={[process.env.APPLICATIONS]}
+            application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
             authorization={token}
             onSubmit={this.handleSubmit}
           />
-        }
+          )}
       </div>
     );
   }

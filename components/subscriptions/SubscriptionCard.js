@@ -19,9 +19,9 @@ const MAP_CONFIG = {
   zoom: 3,
   latLng: {
     lat: 0,
-    lng: 0
+    lng: 0,
   },
-  zoomControl: false
+  zoomControl: false,
 };
 
 class SubscriptionCard extends React.Component {
@@ -29,7 +29,7 @@ class SubscriptionCard extends React.Component {
     loading: false,
     dataset: null,
     country: null,
-    type: this.props.subscription.datasetsQuery[0].type
+    type: this.props.subscription.datasetsQuery[0].type,
   };
 
   componentDidMount() {
@@ -56,8 +56,8 @@ class SubscriptionCard extends React.Component {
                 layerConfig: {
                   data: obj.geojson,
                   fitBounds: true,
-                  bounds: obj.bbox
-                }
+                  bounds: obj.bbox,
+                },
               };
 
               this.setState({
@@ -66,8 +66,8 @@ class SubscriptionCard extends React.Component {
                 layerGroups: [{
                   dataset,
                   visible: true,
-                  layers: [fakeLayer]
-                }]
+                  layers: [fakeLayer],
+                }],
               });
             });
         } else if (paramsObj.iso.country) {
@@ -81,9 +81,9 @@ class SubscriptionCard extends React.Component {
                   {
                     type: 'Feature',
                     properties: {},
-                    geometry: JSON.parse(country.geojson)
-                  }
-                ]
+                    geometry: JSON.parse(country.geojson),
+                  },
+                ],
               };
 
               const fakeLayer = {
@@ -93,8 +93,8 @@ class SubscriptionCard extends React.Component {
                 layerConfig: {
                   data: newGeoJson,
                   fitBounds: true,
-                  bounds: JSON.parse(country.bounds)
-                }
+                  bounds: JSON.parse(country.bounds),
+                },
               };
 
               this.setState({
@@ -103,13 +103,13 @@ class SubscriptionCard extends React.Component {
                 layerGroups: [{
                   dataset,
                   visible: true,
-                  layers: [fakeLayer]
-                }]
+                  layers: [fakeLayer],
+                }],
               });
             });
         }
       })
-      .catch(err => toastr.error('Error', err));
+      .catch((err) => toastr.error('Error', err));
   }
 
   handleDeleteSubscription = () => {
@@ -121,8 +121,8 @@ class SubscriptionCard extends React.Component {
           .then(() => {
             this.props.onSubscriptionRemoved();
           })
-          .catch(err => toastr.error('Error', err));
-      }
+          .catch((err) => toastr.error('Error', err));
+      },
     };
     toastr.confirm('Are you sure you want to delete the subscription?', toastrConfirmOptions);
   }
@@ -137,7 +137,7 @@ class SubscriptionCard extends React.Component {
       dataset,
       country,
       layerGroups,
-      type
+      type,
     } = this.state;
 
     const { subscription } = this.props;
@@ -174,7 +174,8 @@ class SubscriptionCard extends React.Component {
               </div>
             </div>
             <div className="actions-div">
-              {confirmed &&
+              {confirmed
+                && (
                 <a
                   tabIndex={-1}
                   role="button"
@@ -183,12 +184,13 @@ class SubscriptionCard extends React.Component {
                 >
                   Go to Dataset
                 </a>
-              }
-              {!confirmed &&
+                )}
+              {!confirmed
+                && (
                 <span className="pending-label">
                   Pending
                 </span>
-              }
+                )}
               <a
                 tabIndex={-1}
                 role="button"
@@ -209,7 +211,7 @@ SubscriptionCard.propTypes = {
   token: PropTypes.string.isRequired,
   subscription: PropTypes.object.isRequired,
   // Callbacks
-  onSubscriptionRemoved: PropTypes.func.isRequired
+  onSubscriptionRemoved: PropTypes.func.isRequired,
 };
 
 export default SubscriptionCard;

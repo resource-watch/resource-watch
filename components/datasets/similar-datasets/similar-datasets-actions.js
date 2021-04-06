@@ -17,15 +17,15 @@ export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilar
     {
       dataset: datasetIds.join(','),
       published: true,
-      limit: 6
-    }
+      limit: 6,
+    },
   )
     .then((data) => {
       if (data.length > 0) {
         fetchDatasets({
-          ids: data.map(d => d.dataset).join(','),
+          ids: data.map((d) => d.dataset).join(','),
           language: locale,
-          includes: 'widget,metadata,layer,vocabulary'
+          includes: 'widget,metadata,layer,vocabulary',
         })
           .then((similarDatasets) => {
             dispatch(setSimilarDatasetsLoading(false));

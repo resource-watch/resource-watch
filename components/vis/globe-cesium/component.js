@@ -46,7 +46,7 @@ class GlobeCesiumComponent extends PureComponent {
   componentDidMount() {
     // Init Cesium var
     Cesium = window.Cesium; // eslint-disable-line prefer-destructuring
-    Cesium.BingMapsApi.defaultKey = process.env.BING_MAPS_API_KEY;
+    Cesium.BingMapsApi.defaultKey = process.env.NEXT_PUBLIC_BING_MAPS_API_KEY;
 
     // Create viewer object
     this.viewer = new Cesium.Viewer('cesiumContainer', {
@@ -63,14 +63,14 @@ class GlobeCesiumComponent extends PureComponent {
       skyAtmosphere: false,
       selectionIndicator: false,
       infoBox: false,
-      ...this.props.viewerOptions
+      ...this.props.viewerOptions,
     });
 
     // Extend plugins
     this.viewer.extend(Cesium.viewerCesiumNavigationMixin, {
       enableCompass: false,
       enableDistanceLegend: false,
-      enableCompassOuterRing: false
+      enableCompassOuterRing: false,
     });
 
     // Set maximum/minimum zoom values
@@ -123,8 +123,7 @@ class GlobeCesiumComponent extends PureComponent {
       },
       lower(layer, index) {
         this.imageryLayers.lower(layer);
-        this.viewModel.upLayer =
-          this.viewModel.layers[Math.min(this.viewModel.layers.length - 1, index + 1)];
+        this.viewModel.upLayer = this.viewModel.layers[Math.min(this.viewModel.layers.length - 1, index + 1)];
         this.viewModel.downLayer = layer;
         this.updateLayers();
         window.setTimeout(() => {
@@ -137,7 +136,7 @@ class GlobeCesiumComponent extends PureComponent {
       },
       canLower(layerIndex) {
         return layerIndex >= 0 && layerIndex < this.imageryLayers.length - 1;
-      }
+      },
     };
 
     this.contextLayers = this.viewModel.contextLayers;
@@ -167,16 +166,16 @@ class GlobeCesiumComponent extends PureComponent {
     const newMainLayer = nextProps.layerActive && nextProps.layerActive.url;
 
     // ----- Updates in layers ----------
-    if (nextProps.basemap !== this.props.basemap ||
-      nextProps.activeContextLayers !== this.props.activeContextLayers ||
-      newMainLayer !== mainLayer ||
-      nextProps.labelsPulse !== this.props.labelsPulse) {
+    if (nextProps.basemap !== this.props.basemap
+      || nextProps.activeContextLayers !== this.props.activeContextLayers
+      || newMainLayer !== mainLayer
+      || nextProps.labelsPulse !== this.props.labelsPulse) {
       this.updateLayers(
         nextProps,
         nextProps.basemap !== this.props.basemap,
-        (nextProps.activeContextLayers !== this.props.activeContextLayers) ||
-        (newMainLayer !== mainLayer) ||
-        (nextProps.labelsPulse !== this.props.labelsPulse)
+        (nextProps.activeContextLayers !== this.props.activeContextLayers)
+        || (newMainLayer !== mainLayer)
+        || (nextProps.labelsPulse !== this.props.labelsPulse),
       );
     }
     // ----- Markers ---------
@@ -194,19 +193,19 @@ class GlobeCesiumComponent extends PureComponent {
     }
 
     // ---------- initialPosition ----------
-    if (this.props.globeCesium.initialPosition.latitude !==
-      nextProps.globeCesium.initialPosition.latitude ||
-      this.props.globeCesium.initialPosition.longitude !==
-      nextProps.globeCesium.initialPosition.longitude ||
-      this.props.globeCesium.initialPosition.height !==
-      nextProps.globeCesium.initialPosition.height) {
+    if (this.props.globeCesium.initialPosition.latitude
+      !== nextProps.globeCesium.initialPosition.latitude
+      || this.props.globeCesium.initialPosition.longitude
+      !== nextProps.globeCesium.initialPosition.longitude
+      || this.props.globeCesium.initialPosition.height
+      !== nextProps.globeCesium.initialPosition.height) {
       this.setPosition(nextProps.globeCesium.initialPosition, 0);
     }
 
     // ---------- position ---------------
-    if (this.props.globeCesium.position.latitude !== nextProps.globeCesium.position.latitude ||
-      this.props.globeCesium.position.longitude !== nextProps.globeCesium.position.longitude ||
-      this.props.globeCesium.position.height !== nextProps.globeCesium.position.height) {
+    if (this.props.globeCesium.position.latitude !== nextProps.globeCesium.position.latitude
+      || this.props.globeCesium.position.longitude !== nextProps.globeCesium.position.longitude
+      || this.props.globeCesium.position.height !== nextProps.globeCesium.position.height) {
       this.setPosition(nextProps.globeCesium.position, 1);
     }
   }
@@ -235,7 +234,7 @@ class GlobeCesiumComponent extends PureComponent {
     if (this.props.onMouseDown) {
       this.props.onMouseDown({
         clickedPosition: click.position,
-        viewer: this.viewer
+        viewer: this.viewer,
       });
     }
   }
@@ -247,7 +246,7 @@ class GlobeCesiumComponent extends PureComponent {
       this.props.onMouseMove({
         hoverPosition: mouse.startPosition,
         endPosition: mouse.endPosition,
-        viewer: this.viewer
+        viewer: this.viewer,
       });
     }
     const pickedFeature = this.viewer.scene.pick(mouse.endPosition);
@@ -274,8 +273,7 @@ class GlobeCesiumComponent extends PureComponent {
           return null;
         }
 
-        const tooltipContentObj = layerActive.interactionConfig.output.map(obj =>
-          ({ key: obj.property, value: elem[obj.column], type: obj.type }));
+        const tooltipContentObj = layerActive.interactionConfig.output.map((obj) => ({ key: obj.property, value: elem[obj.column], type: obj.type }));
         const description = tooltipContentObj.map((val) => {
           if (val.type === 'url') {
             return `<strong>${val.key}</strong>: <a href=${val.value} target="_blank">${val.value}</a>`;
@@ -365,7 +363,7 @@ class GlobeCesiumComponent extends PureComponent {
           topRadius,
           bottomRadius,
           color,
-          type: 'cylinder'
+          type: 'cylinder',
         };
       }));
     }
@@ -376,7 +374,7 @@ class GlobeCesiumComponent extends PureComponent {
     this.viewer.camera.flyTo({
       destination:
         Cesium.Cartesian3.fromDegrees(position.longitude, position.latitude, position.height),
-      duration
+      duration,
     });
   }
 
@@ -427,14 +425,14 @@ class GlobeCesiumComponent extends PureComponent {
   updateLayers(
     props,
     updateBasemap = true,
-    updateLayers = true
+    updateLayers = true,
   ) {
     const {
       basemap,
       activeContextLayers,
       contextLayersOnTop,
       layerActive,
-      labelsPulse
+      labelsPulse,
     } = props;
     const mainLayer = layerActive && layerActive.url;
 
@@ -442,16 +440,16 @@ class GlobeCesiumComponent extends PureComponent {
       this.removeBasemap();
       this.addBasemap(
         basemap.name,
-        new Cesium.UrlTemplateImageryProvider({ url: basemap.url }), 1, true
+        new Cesium.UrlTemplateImageryProvider({ url: basemap.url }), 1, true,
       );
     }
 
     if (!contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
       this.removeLabelsLayer();
-      activeContextLayers.forEach(l => this.addAdditionalLayerOption(
+      activeContextLayers.forEach((l) => this.addAdditionalLayerOption(
         l.id,
-        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
+        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true,
       ));
       if (labelsPulse.labelsLayerActive) {
         this.addAdditionalLayerOption('labelsLayer',
@@ -471,9 +469,9 @@ class GlobeCesiumComponent extends PureComponent {
     if (contextLayersOnTop && updateLayers) {
       this.removeContextLayers();
       this.removeLabelsLayer();
-      activeContextLayers.forEach(l => this.addAdditionalLayerOption(
+      activeContextLayers.forEach((l) => this.addAdditionalLayerOption(
         l.id,
-        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true
+        new Cesium.UrlTemplateImageryProvider({ url: l.url }), 1, true,
       ));
       if (labelsPulse.labelsLayerActive) {
         this.addAdditionalLayerOption('labelsLayer',
@@ -490,7 +488,7 @@ class GlobeCesiumComponent extends PureComponent {
   initGlobe() {
     this.addAdditionalLayerOption(
       'default',
-      new Cesium.UrlTemplateImageryProvider({ url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g' }), 1, true
+      new Cesium.UrlTemplateImageryProvider({ url: 'https://api.mapbox.com/styles/v1/wri/cjd56ttip0i1s2rnxv8py2km5/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1Ijoid3JpIiwiYSI6Ik9TY2w5RTQifQ.0HV7dQTjK40mk7GpNNA64g' }), 1, true,
     );
     if (this.props.onInit) {
       this.props.onInit(this.viewer);
@@ -508,7 +506,7 @@ class GlobeCesiumComponent extends PureComponent {
             name: shape.name,
             type: 'billboard',
             imageSelected: shape.imageSelected,
-            imageNotSelected: shape.imageNotSelected
+            imageNotSelected: shape.imageNotSelected,
           });
         } else if (shape.type === 'cylinder') {
           const position = Cesium.Cartesian3.fromDegrees(shape.lon, shape.lat, shape.height * 0.5);
@@ -521,11 +519,11 @@ class GlobeCesiumComponent extends PureComponent {
               outlineWidth: 4,
               material: shape.color,
               minimumPixelSize: 128,
-              maximumScale: 20000
+              maximumScale: 20000,
             },
             description: shape.description,
             name: shape.name,
-            type: 'cylinder'
+            type: 'cylinder',
           });
         }
       });
@@ -544,7 +542,6 @@ class GlobeCesiumComponent extends PureComponent {
     );
   }
 }
-
 
 GlobeCesiumComponent.propTypes = {
   basemap: PropTypes.object,
@@ -569,7 +566,7 @@ GlobeCesiumComponent.propTypes = {
   onMouseDown: PropTypes.func,
   onBillboardOut: PropTypes.func,
   onBillboardHover: PropTypes.func,
-  onInit: PropTypes.func
+  onInit: PropTypes.func,
 };
 
 export default connect(null, null)(GlobeCesiumComponent);

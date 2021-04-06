@@ -1,9 +1,11 @@
-import React, { Fragment, createRef, useRef, useState } from 'react';
+import React, {
+  Fragment, createRef, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import {
   Legend,
   LegendListItem,
-  LegendItemTypes
+  LegendItemTypes,
 } from 'vizzuality-components';
 
 // constants
@@ -22,7 +24,7 @@ const CompareMaps = (props) => {
     layers,
     bbox,
     mapOptions,
-    compareOptions
+    compareOptions,
   } = props;
   const swiperRef = createRef();
   const legendRef = useRef();
@@ -31,7 +33,7 @@ const CompareMaps = (props) => {
   const handleMapRefs = (_map) => {
     setMap({
       ...map,
-      ..._map
+      ..._map,
     });
   };
 
@@ -40,29 +42,30 @@ const CompareMaps = (props) => {
       <div className="compare-container">
         {/* left map */}
         <Map
-          mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+          mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
           interactiveLayerIds={[]}
           mapStyle={MAPSTYLES}
           className="-compare"
           basemap="dark"
           labels="light"
           boundaries
-          {...(bbox && { 
+          {...(bbox && {
             bounds: {
               bbox,
-              options: {}
-            }} 
+              options: {},
+            },
+          }
           )}
           onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
           {...mapOptions}
         >
-          {_map => (
-            <Fragment>
+          {(_map) => (
+            <>
               <LayerManager
                 map={_map}
                 layers={[layers[0]]}
               />
-            </Fragment>
+            </>
           )}
         </Map>
 
@@ -87,8 +90,8 @@ const CompareMaps = (props) => {
                 opacity: 1,
                 layers: [{
                   ...layers[0],
-                  active: true
-                }]
+                  active: true,
+                }],
               }}
             >
               <LegendItemTypes />
@@ -111,8 +114,8 @@ const CompareMaps = (props) => {
                 opacity: 1,
                 layers: [{
                   ...layers[1],
-                  active: true
-                }]
+                  active: true,
+                }],
               }}
             >
               <LegendItemTypes />
@@ -130,7 +133,7 @@ const CompareMaps = (props) => {
           <div className="compare-swiper" />
         </div>
         <Map
-          mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+          mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
           interactiveLayerIds={[]}
           mapStyle={MAPSTYLES}
           className="-compare"
@@ -140,13 +143,13 @@ const CompareMaps = (props) => {
           onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
           {...mapOptions}
         >
-          {_map => (
-            <Fragment>
+          {(_map) => (
+            <>
               <LayerManager
                 map={_map}
                 layers={[layers[1]]}
               />
-            </Fragment>
+            </>
           )}
         </Map>
       </div>
@@ -158,12 +161,13 @@ const CompareMaps = (props) => {
           swiper={swiperRef}
           options={{
             swiper: {
-              offset: legendRef.current ?
-                legendRef.current.getBoundingClientRect().height : 0
-              },
-              ...compareOptions
+              offset: legendRef.current
+                ? legendRef.current.getBoundingClientRect().height : 0,
+            },
+            ...compareOptions,
           }}
-        />)}
+        />
+      )}
     </div>
   );
 };
@@ -171,12 +175,12 @@ const CompareMaps = (props) => {
 CompareMaps.propTypes = {
   mapOptions: PropTypes.object,
   compareOptions: PropTypes.object,
-  layers: PropTypes.array.isRequired
+  layers: PropTypes.array.isRequired,
 };
 
 CompareMaps.defaultProps = {
   mapOptions: {},
-  compareOptions: {}
+  compareOptions: {},
 };
 
 export default CompareMaps;

@@ -22,7 +22,7 @@ class CatalogLayout extends PureComponent {
     loading: true,
     search: null,
     page: 1,
-    totalItems: 0
+    totalItems: 0,
   };
 
   UNSAFE_componentWillMount() {
@@ -45,22 +45,22 @@ class CatalogLayout extends PureComponent {
         'page[number]': page,
         status: 'saved',
         published: true,
-        application: process.env.APPLICATIONS,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
         language: 'en',
         includes: 'metadata',
         name: search,
-        env: process.env.API_ENV,
-        sort: 'name,description'
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        sort: 'name,description',
       },
       {},
-      true
+      true,
     )
       .then((result) => {
         const { datasets, meta } = result;
         this.setState({
           datasets,
           totalItems: meta['total-items'],
-          loading: false
+          loading: false,
         });
       })
       .catch((error) => {
@@ -72,7 +72,7 @@ class CatalogLayout extends PureComponent {
   handleSearch = debounce((value) => {
     this.setState({
       search: value,
-      page: 1
+      page: 1,
     });
     logEvent('Catalog page', 'search', value);
   }, 500);
@@ -82,7 +82,9 @@ class CatalogLayout extends PureComponent {
   };
 
   render() {
-    const { loading, datasets, page, totalItems } = this.state;
+    const {
+      loading, datasets, page, totalItems,
+    } = this.state;
 
     return (
       <Layout
@@ -127,7 +129,7 @@ class CatalogLayout extends PureComponent {
                   options={{
                     page,
                     limit: DATASETS_PER_PAGE,
-                    size: totalItems
+                    size: totalItems,
                   }}
                   onChange={this.handlePageChange}
                 />

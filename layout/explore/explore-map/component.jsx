@@ -370,7 +370,7 @@ const ExploreMap = (props) => {
         .some((l) => !!l) && <Spinner isLoading />}
 
       <Map
-        mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
+        mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
         {...!isDrawing && { onClick: onClickLayer }}
         interactiveLayerIds={activeInteractiveLayers}
         mapStyle={MAPSTYLES}
@@ -405,6 +405,8 @@ const ExploreMap = (props) => {
                 onClose={handleClosePopup}
                 className="rw-popup-layer"
                 maxWidth="250px"
+                captureScroll
+                capturePointerMove
               >
                 <LayerPopup
                   data={{

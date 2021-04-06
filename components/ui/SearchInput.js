@@ -12,7 +12,7 @@ import Icon from 'components/ui/icon';
 class SearchInput extends PureComponent {
   static defaultProps = {
     link: {},
-    onlyDesktop: false
+    onlyDesktop: false,
   }
 
   static propTypes = {
@@ -23,7 +23,7 @@ class SearchInput extends PureComponent {
     isHeader: PropTypes.bool,
     escapeText: PropTypes.bool,
     onSearch: PropTypes.func.isRequired,
-    onlyDesktop: PropTypes.bool
+    onlyDesktop: PropTypes.bool,
   };
 
   constructor(props) {
@@ -64,7 +64,6 @@ class SearchInput extends PureComponent {
     return null;
   }
 
-
   render() {
     const { value } = this.state;
     const { link, input, isHeader } = this.props;
@@ -77,7 +76,7 @@ class SearchInput extends PureComponent {
     const linkClassNames = classnames({
       '-desktopOnly': onlyDesktop,
       'c-button': true,
-      '-primary': true
+      '-primary': true,
     });
 
     return (
@@ -86,8 +85,8 @@ class SearchInput extends PureComponent {
           <div className="field-container">
             <input
               className={`-fluid ${inputClassNames}`}
-              ref={c => this.getInputRef(c)}
-              onKeyDown={c => this.onKeyDown(c)}
+              ref={(c) => this.getInputRef(c)}
+              onKeyDown={(c) => this.onKeyDown(c)}
               onChange={this.onSearch}
               placeholder={input.placeholder}
               value={value || ''}
@@ -97,11 +96,12 @@ class SearchInput extends PureComponent {
           </div>
         </div>
 
-        {link.route &&
+        {link.route
+          && (
           <Link route={link.route} params={link.params}>
             <a className={linkClassNames}>{link.label}</a>
           </Link>
-        }
+          )}
       </div>
     );
   }

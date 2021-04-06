@@ -15,7 +15,7 @@ import {
   updateWidget as updateWidgetService,
   createWidget as createWidgetService,
   createWidgetMetadata,
-  updateWidgetMetadata
+  updateWidgetMetadata,
 } from 'services/widget';
 import { fetchQuery } from 'services/query';
 
@@ -28,22 +28,23 @@ class WidgetForm extends PureComponent {
     id: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
-    dataset: PropTypes.string
+    dataset: PropTypes.string,
   };
 
   static defaultProps = {
     id: null,
-    dataset: null
+    dataset: null,
   };
 
-  state = Object.assign({}, STATE_DEFAULT, {
+  state = ({
+    ...STATE_DEFAULT,
     id: this.props.id,
     loading: !!this.props.id,
     form: {
       ...STATE_DEFAULT.form,
-      dataset: this.props.dataset
+      dataset: this.props.dataset,
     },
-    widgetMetadata: null
+    widgetMetadata: null,
   });
 
   UNSAFE_componentWillMount() {
@@ -53,12 +54,12 @@ class WidgetForm extends PureComponent {
     const promises = [
       // TO-DO: replace this for a dynamic search or lazy loading
       fetchDatasets({
-        application: [process.env.APPLICATIONS].join(','),
+        application: [process.env.NEXT_PUBLIC_APPLICATIONS].join(','),
         language: locale,
         'page[size]': 9999999,
         sort: 'name',
-        env: process.env.API_ENV
-      })
+        env: process.env.NEXT_PUBLIC_API_ENV,
+      }),
     ];
 
     // fetches the widget if exists
@@ -74,13 +75,13 @@ class WidgetForm extends PureComponent {
           form: id ? this.setFormFromParams(current) : this.state.form,
           loading: false,
           widgetMetadata: id ? current.metadata : null,
-          datasets: datasets.map(_dataset => ({
+          datasets: datasets.map((_dataset) => ({
             label: _dataset.name,
             value: _dataset.id,
             type: _dataset.type,
             tableName: _dataset.tableName,
-            slug: _dataset.slug
-          }))
+            slug: _dataset.slug,
+          })),
         });
       })
       .catch((err) => {
@@ -90,10 +91,11 @@ class WidgetForm extends PureComponent {
       });
   }
 
-
   onWidgetSave = (_widget) => {
     const { step, form, id } = this.state;
-    const { widgetConfig, name, description, metadata } = _widget;
+    const {
+      widgetConfig, name, description, metadata,
+    } = _widget;
     // Validate the form
     FORM_ELEMENTS.validate(step);
 
@@ -126,9 +128,10 @@ class WidgetForm extends PureComponent {
    * - onChange
    */
   onChange = (obj) => {
-    const form = Object.assign({}, this.state.form, obj);
+    const form = { ...this.state.form, ...obj };
     this.setState({ form });
   }
+
   onStepChange = (step) => {
     this.setState({ step });
   }
@@ -141,9 +144,9 @@ class WidgetForm extends PureComponent {
       switch (f) {
         default: {
           if (
-            typeof params[f] !== 'undefined' ||
-            params[f] !== null ||
-            (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)
+            typeof params[f] !== 'undefined'
+            || params[f] !== null
+            || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)
           ) {
             newForm[f] = params[f] || this.state.form[f];
           }
@@ -166,9 +169,9 @@ class WidgetForm extends PureComponent {
           dataset,
           {
             language: 'en',
-            info: { caption: metadata.caption }
+            info: { caption: metadata.caption },
           },
-          authorization
+          authorization,
         )
           .then(() => {
             toastr.success('Success', `The widget "${id}" - "${name}" has been created correctly`);
@@ -181,6 +184,7 @@ class WidgetForm extends PureComponent {
         toastr.error('There was an error', error);
       });
   }
+
   /**
    *
    * @param {Object} widget - widget object with possible changes (metadata changes not included)
@@ -202,10 +206,10 @@ class WidgetForm extends PureComponent {
               ...metadata[0] || {},
               info: {
                 ...metadata[0]?.info || {},
-                caption: updatedMetadata.caption
+                caption: updatedMetadata.caption,
               },
             },
-            authorization
+            authorization,
           )
             .then(() => {
               toastr.success('Success', `The widget "${id}" - "${name}" has been updated correctly`);
@@ -220,9 +224,9 @@ class WidgetForm extends PureComponent {
             {
               language: 'en',
               info: { caption: metadata.caption },
-              application: process.env.APPLICATIONS,
+              application: process.env.NEXT_PUBLIC_APPLICATIONS,
             },
-            authorization
+            authorization,
           )
             .then(() => {
               toastr.success('Success', `The widget "${id}" - "${name}" has been updated correctly`);
@@ -251,10 +255,10 @@ class WidgetForm extends PureComponent {
           .catch((err) => {
             toastr.error(
               'Error',
-              `The widget "${id}" - "${name}" was not deleted. Try again. ${err.message}`
+              `The widget "${id}" - "${name}" was not deleted. Try again. ${err.message}`,
             );
           });
-      }
+      },
     });
   }
 
@@ -264,7 +268,7 @@ class WidgetForm extends PureComponent {
       loading,
       id,
       form,
-      datasets
+      datasets,
     } = this.state;
     return (
       <form className="c-form c-widgets-form" noValidate>
@@ -274,7 +278,7 @@ class WidgetForm extends PureComponent {
             id={id}
             form={form}
             datasets={datasets}
-            onChange={value => this.onChange(value)}
+            onChange={(value) => this.onChange(value)}
             onSave={this.onWidgetSave}
           />
         )}

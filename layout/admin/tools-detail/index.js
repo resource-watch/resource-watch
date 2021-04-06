@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import LayoutAdminToolsDetail from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     query: state.routes.query,
-    user: state.user
+    user: state.user,
   }),
-  null
+  null,
 )(LayoutAdminToolsDetail);

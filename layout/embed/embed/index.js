@@ -7,16 +7,16 @@ import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
 import LayoutEmbedEmbed from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     widget: state.widget.data,
     loading: state.widget.loading,
     error: state.widget.error,
     favourited: state.widget.favourite.favourited,
-    user: state.user
+    user: state.user,
   }),
   {
     getWidget,
     checkIfFavorited,
-    setIfFavorited
-  }
+    setIfFavorited,
+  },
 )(LayoutEmbedEmbed);

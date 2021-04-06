@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "testFiles": [
+    "**/*spec.{js,jsx}"
+  ],
+  "nodeVersion": "system",
+  "video": false,
+  "chromeWebSecurity": false
+}

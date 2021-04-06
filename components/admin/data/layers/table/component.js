@@ -28,7 +28,7 @@ import { INITIAL_PAGINATION } from './constants';
 class LayersTable extends PureComponent {
   static propTypes = {
     dataset: PropTypes.string,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   static defaultProps = { dataset: null }
@@ -37,7 +37,7 @@ class LayersTable extends PureComponent {
     pagination: INITIAL_PAGINATION,
     loading: true,
     layers: [],
-    filters: { name: null, 'user.role': 'ADMIN' }
+    filters: { name: null, 'user.role': 'ADMIN' },
   }
 
   UNSAFE_componentWillMount() {
@@ -48,8 +48,8 @@ class LayersTable extends PureComponent {
     this.setState({
       filters: {
         ...this.state.filters,
-        'user.role': value.value
-      }
+        'user.role': value.value,
+      },
     },
     () => this.loadLayers());
   }
@@ -67,9 +67,9 @@ class LayersTable extends PureComponent {
       loading: true,
       filters: {
         ...filters,
-        name: value
+        name: value,
       },
-      pagination: INITIAL_PAGINATION
+      pagination: INITIAL_PAGINATION,
     }, () => this.loadLayers());
   }, 250)
 
@@ -80,8 +80,8 @@ class LayersTable extends PureComponent {
       loading: true,
       pagination: {
         ...pagination,
-        page: nextPage
-      }
+        page: nextPage,
+      },
     }, () => this.loadLayers());
   }
 
@@ -100,29 +100,29 @@ class LayersTable extends PureComponent {
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...(dataset && { dataset }),
-      ...filters
+      ...filters,
     }, { Authorization: token }, true)
       .then(({ layers, meta }) => {
         const {
           'total-pages': pages,
-          'total-items': size
+          'total-items': size,
         } = meta;
         const nextPagination = {
           ...pagination,
           size,
-          pages
+          pages,
         };
 
         this.setState({
           loading: false,
           pagination: nextPagination,
-          layers: layers.map(_layer => ({
+          layers: layers.map((_layer) => ({
             ..._layer,
             owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
-            role: _layer.user ? _layer.user.role || '' : ''
-          }))
+            role: _layer.user ? _layer.user.role || '' : '',
+          })),
         });
       })
       .catch(({ message }) => { this.setState({ error: message }); });
@@ -133,7 +133,7 @@ class LayersTable extends PureComponent {
       loading,
       pagination,
       layers,
-      error
+      error,
     } = this.state;
     const { dataset } = this.props;
 
@@ -145,7 +145,10 @@ class LayersTable extends PureComponent {
         />
 
         {error && (
-          <p>Error: {error}</p>
+          <p>
+            Error:
+            {error}
+          </p>
         )}
 
         <TableFilters
@@ -160,8 +163,8 @@ class LayersTable extends PureComponent {
             params: {
               tab: 'layers',
               id: 'new',
-              dataset
-            }
+              dataset,
+            },
           }}
           onSearch={this.onSearch}
         />
@@ -173,19 +176,31 @@ class LayersTable extends PureComponent {
               { label: 'Provider', value: 'provider' },
               { label: 'Owner', value: 'owner', td: OwnerTD },
               { label: 'Role', value: 'role', td: RoleTD },
-              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD }
+              { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
             ]}
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'edit', id: '{{id}}', dataset }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'remove', id: '{{id}}' }, component: DeleteAction },
-                { name: 'Go to dataset', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, component: GoToDatasetAction }
-              ]
+                {
+                  name: 'Edit',
+                  route: 'admin_data_detail',
+                  params: {
+                    tab: 'layers', subtab: 'edit', id: '{{id}}', dataset,
+                  },
+                  show: true,
+                  component: EditAction,
+                },
+                {
+                  name: 'Remove', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
+                },
+                {
+                  name: 'Go to dataset', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, component: GoToDatasetAction,
+                },
+              ],
             }}
             sort={{
               field: 'updatedAt',
-              value: -1
+              value: -1,
             }}
             filters={false}
             data={layers}

@@ -12,8 +12,8 @@ export default class LayerGlobeManager {
   addLayer(layer, opts = {}, awaitMode = false) {
     const method = {
       cartodb: this.addCartoLayer,
-      leaflet: this.addLeafletLayer,
-      gee: this.addGeeLayer
+      leaflet: LayerGlobeManager.addLeafletLayer,
+      gee: LayerGlobeManager.addGeeLayer,
     }[layer.provider];
 
     // Check for active request to prevent adding more than one layer at a time
@@ -37,34 +37,35 @@ export default class LayerGlobeManager {
     }
   }
 
-  addLeafletLayer(layerSpec, opts) {
+  static addLeafletLayer(layerSpec, opts) {
     opts.onLayerAddedSuccess({
       attributes: { ...layerSpec },
       url: layerSpec.layerConfig.url,
-      active: false
+      active: false,
     });
   }
 
-  addGeeLayer(layerSpec, opts) {
+  static addGeeLayer(layerSpec, opts) {
     opts.onLayerAddedSuccess({
       attributes: { ...layerSpec },
-      url: `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`,
-      active: false
+      url: `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/layer/${layerSpec.id}/tile/gee/{z}/{x}/{y}`,
+      active: false,
     });
   }
 
   async addCartoLayer(layerSpec, opts, awaitMode = false) {
-    const layer = Object.assign({}, layerSpec.layerConfig, {
+    const layer = {
+      ...layerSpec.layerConfig,
       id: layerSpec.id,
       order: layerSpec.order,
       opacity: layerSpec.opacity,
-      hidden: layerSpec.hidden
-    });
+      hidden: layerSpec.hidden,
+    };
 
     const layerTpl = {
       version: '1.3.0',
       stat_tag: 'API',
-      layers: layer.body.layers
+      layers: layer.body.layers,
     };
     const params = `?stat_tag=API&config=${encodeURIComponent(JSON.stringify(layerTpl))}`;
 
@@ -82,7 +83,7 @@ export default class LayerGlobeManager {
         opts.onLayerAddedSuccess({
           ...layerSpec,
           url: tileUrl,
-          active: false
+          active: false,
         });
       });
 

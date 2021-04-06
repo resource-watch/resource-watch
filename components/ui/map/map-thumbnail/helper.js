@@ -4,7 +4,7 @@ const BASEMAP_QUERY = 'SELECT the_geom_webmercator FROM gadm28_countries';
 const BASEMAP_CARTOCSS = '#gadm28_countries { polygon-fill: #bbbbbb; polygon-opacity: 1; line-color: #FFFFFF; line-width: 0.5; line-opacity: 0.5; }';
 
 export const getImageFromCarto = ({
-  width, height, zoom, lat, lng, layerConfig
+  width, height, zoom, lat, lng, layerConfig,
 }) => {
   if (!layerConfig) throw Error('layerConfig param is required');
   if (!layerConfig.body) throw Error('layerConfig does not have body param');
@@ -45,7 +45,7 @@ export const getImageFromMapService = ({ width, height, layerConfig }) => {
 };
 
 export const getBasemapImage = ({
-  width, height, zoom, lat, lng, format, layerSpec
+  width, height, zoom, lat, lng, format, layerSpec,
 }) => {
   const basemapSpec = {
     account: 'wri-01',
@@ -57,10 +57,10 @@ export const getBasemapImage = ({
         options: {
           sql: BASEMAP_QUERY,
           cartocss: BASEMAP_CARTOCSS,
-          cartocss_version: '2.3.0'
-        }
-      }]
-    }
+          cartocss_version: '2.3.0',
+        },
+      }],
+    },
   };
 
   const { body, account } = basemapSpec;
@@ -75,9 +75,9 @@ export const getBasemapImage = ({
     })
     .then((data) => {
       const { layergroupid } = data;
-      if (layerSpec.provider === 'gee' ||
-        layerSpec.provider === 'nexgddp' ||
-        layerSpec.provider === 'leaflet') {
+      if (layerSpec.provider === 'gee'
+        || layerSpec.provider === 'nexgddp'
+        || layerSpec.provider === 'leaflet') {
         return `https://${data.cdn_url.https}/${account}/api/v1/map/${layergroupid}/0/0/0.${format || 'png'}`;
       }
       return `https://${data.cdn_url.https}/${account}/api/v1/map/static/center/${layergroupid}/${zoom}/${lat}/${lng}/${width}/${height}.${format || 'png'}`;
@@ -90,7 +90,7 @@ export const getImageForGEE = ({ layerSpec }) => {
   if (!layerConfig) throw Error('layerConfig param is required');
   if (!layerConfig.body) throw Error('layerConfig does not have body param');
 
-  const tile = `${process.env.WRI_API_URL}/layer/${layerSpec.id}/tile/gee/0/0/0`;
+  const tile = `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/layer/${layerSpec.id}/tile/gee/0/0/0`;
 
   return tile;
 };
@@ -117,18 +117,18 @@ export const getImageForLeaflet = ({ layerSpec }) => {
 };
 
 export const getLayerImage = async ({
-  width, height, zoom, lat, lng, layerSpec
+  width, height, zoom, lat, lng, layerSpec,
 }) => {
   if (!layerSpec) throw Error('No layerSpec specified.');
 
-  const { id, layerConfig, provider } = layerSpec;
+  const { layerConfig, provider } = layerSpec;
   let result;
 
   switch (provider) {
     case 'carto':
       try {
         result = await getImageFromCarto({
-          width, height, zoom, lat, lng, layerConfig
+          width, height, zoom, lat, lng, layerConfig,
         });
       } catch (e) {
         result = null;
@@ -137,7 +137,7 @@ export const getLayerImage = async ({
     case 'cartodb':
       try {
         result = await getImageFromCarto({
-          width, height, zoom, lat, lng, layerConfig
+          width, height, zoom, lat, lng, layerConfig,
         });
       } catch (e) {
         result = null;

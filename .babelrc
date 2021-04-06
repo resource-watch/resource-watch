@@ -7,6 +7,7 @@
       "presets": ["next/babel"]
     },
     "test": {
+      "plugins": ["istanbul"],
       "presets": [
         [
           "next/babel",
@@ -19,26 +20,32 @@
       ]
     }
   },
+  "ignore": [
+    "cypress",
+    "test",
+    ".next",
+    "node_modules"
+  ],
   "plugins": [
-    [
-      "module-resolver",
-      {
-        "root": ["."],
-        "alias": {
-          "css": "./css",
-          "components": "./components",
-          "layout": "./layout",
-          "redactions": "./redactions",
-          "modules": "./modules",
-          "utils": "./utils",
-          "selectors": "./selectors",
-          "services": "./services",
-          "constants": "./constants",
-          "hooks": "./hooks"
-        },
-        "cwd": "babelrc"
-      }
-    ]
+    // [
+    //   "module-resolver",
+    //   {
+    //     "root": ["."],
+    //     "alias": {
+    //       "css": "./css",
+    //       "components": "./components",
+    //       "layout": "./layout",
+    //       "redactions": "./redactions",
+    //       "modules": "./modules",
+    //       "utils": "./utils",
+    //       "selectors": "./selectors",
+    //       "services": "./services",
+    //       "constants": "./constants",
+    //       "hooks": "./hooks"
+    //     },
+    //     "cwd": "babelrc"
+    //   }
+    // ]
   ],
   "presets": [
     "next/babel"

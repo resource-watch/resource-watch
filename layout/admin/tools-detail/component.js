@@ -19,7 +19,7 @@ import { fetchTool } from 'services/tools';
 class LayoutAdminToolsDetail extends PureComponent {
   static propTypes = {
     query: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   state = { data: null }
@@ -51,7 +51,7 @@ class LayoutAdminToolsDetail extends PureComponent {
   render() {
     const {
       query: { tab, id },
-      user: { token }
+      user: { token },
     } = this.props;
 
     return (
@@ -68,7 +68,7 @@ class LayoutAdminToolsDetail extends PureComponent {
                   <Breadcrumbs
                     items={[{ name: capitalizeFirstLetter(tab), route: 'admin_tools', params: { tab } }]}
                   />
-                  <Title className="-primary -huge page-header-title" >
+                  <Title className="-primary -huge page-header-title">
                     {this.getName()}
                   </Title>
                 </div>

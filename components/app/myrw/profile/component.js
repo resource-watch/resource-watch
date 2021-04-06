@@ -23,26 +23,25 @@ export const FORM_ELEMENTS = {
   isValid() {
     const { elements } = this;
     const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
+      .map((k) => elements[k].isValid())
+      .filter((v) => v !== null)
+      .every((element) => element);
 
     return valid;
-  }
+  },
 };
-
 
 class Profile extends PureComponent {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    setUser: PropTypes.func.isRequired
+    setUser: PropTypes.func.isRequired,
   }
 
   state = {
     user: this.props.user,
     step: 1,
     submitting: false,
-    loading: false
+    loading: false,
   }
 
   onSubmit = (event) => {
@@ -62,20 +61,20 @@ class Profile extends PureComponent {
         const { token, name, photo } = user;
         const userObj = {
           name,
-          photo: photo || ''
+          photo: photo || '',
         };
 
         this.setState({
           loading: true,
-          submitting: true
+          submitting: true,
         });
 
         fetch('/update-user', {
           method: 'POST',
           body: JSON.stringify({ userObj, token }),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type': 'application/json' },
         })
-          .then(response => response.json())
+          .then((response) => response.json())
           .then((updatedUser) => {
             setUser(updatedUser);
             toastr.success('Profile updated successfully.');
@@ -84,7 +83,7 @@ class Profile extends PureComponent {
           .then(() => {
             this.setState({
               loading: false,
-              submitting: false
+              submitting: false,
             });
           });
       } else {
@@ -100,7 +99,7 @@ class Profile extends PureComponent {
     const {
       name,
       email,
-      photo
+      photo,
     } = user;
 
     if (loading) {
@@ -125,28 +124,28 @@ class Profile extends PureComponent {
               <fieldset className="c-field-container">
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
-                  onChange={value => this.onChange({ name: value })}
+                  onChange={(value) => this.onChange({ name: value })}
                   validations={['required']}
                   properties={{
                     name: 'name',
                     label: 'Name',
                     type: 'text',
                     required: true,
-                    default: name
+                    default: name,
                   }}
                 >
                   {Input}
                 </Field>
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
-                  onChange={value => this.onChange({ email: value })}
+                  onChange={(value) => this.onChange({ email: value })}
                   properties={{
                     name: 'email',
                     label: 'Email',
                     type: 'email',
                     required: true,
                     default: email,
-                    disabled: true
+                    disabled: true,
                   }}
                 >
                   {Input}
@@ -160,13 +159,12 @@ class Profile extends PureComponent {
                         onChange={(value) => { this.onChange({ photo: value }); }}
                         className="-fluid"
                         mode="url"
-                        getUrlImage={file => uploadPhoto(file, user)}
+                        getUrlImage={(file) => uploadPhoto(file, user)}
                         properties={{
                           name: 'photo',
                           label: 'Photo',
                           placeholder: 'Browse file',
-                          baseUrl: process.env.STATIC_SERVER_URL,
-                          default: photo
+                          default: photo,
                         }}
                       >
                         {FileImage}

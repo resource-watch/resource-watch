@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import LayoutPartnerDetail from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     partner: state.partners.detail.data,
-    datasets: state.partners.datasetsByPartner.data
+    datasets: state.partners.datasetsByPartner.data,
   }),
-  null
+  null,
 )(LayoutPartnerDetail);

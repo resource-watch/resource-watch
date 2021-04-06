@@ -1,50 +1,69 @@
-FROM node:8.14.0-alpine
+FROM node:14.15-alpine
+LABEL maintainer="hello@vizzuality.com"
 
-ARG apiEnv=production
-ARG apiUrl=https://api.resourcewatch.org
-ARG wriApiUrl=https://api.resourcewatch.org/v1
-ARG callbackUrl=https://resourcewatch.org/auth
-ARG controlTowerUrl=https://production-api.globalforestwatch.org
-ARG RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
-ARG RW_MAPBOX_API_TOKEN=not_valid
-ARG RW_FEATURE_FLAG_AREAS_V2=
-ARG WRI_API_URL_V2=https://api.resourcewatch.org/v2
+ARG NEXT_PUBLIC_CALLBACK_URL=https://resourcewatch.org/auth
+ARG NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
+ARG NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=not_valid
+ARG NEXT_PUBLIC_WRI_API_URL=https://api.resourcewatch.org
 
+ENV NEXT_PUBLIC_ADD_SEARCH_KEY ea4c79622844ade140170b141c36f14f
+ENV NEXT_PUBLIC_API_ENV production
+ENV NEXT_PUBLIC_APPLICATIONS rw
+ENV NEXT_PUBLIC_BING_MAPS_API_KEY PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-y1QukRox537t604Je0pxhygfcraTQGVWr7Ko9LwPoS7-MHW0qY
+ENV NEXT_PUBLIC_BITLY_TOKEN e3076fc3bfeee976efb9966f49383e1a8fb71c5f
+ENV NEXT_PUBLIC_BLOG_API_URL https://blog.resourcewatch.org/wp-json/wp/v2
+ENV NEXT_PUBLIC_CALLBACK_URL $NEXT_PUBLIC_CALLBACK_URL
+ENV NEXT_PUBLIC_GOOGLE_ANALYTICS UA-67196006-1
 ENV NODE_ENV production
-ENV WRI_API_URL $wriApiUrl
-ENV CONTROL_TOWER_URL $controlTowerUrl
-ENV CALLBACK_URL $callbackUrl
-ENV STATIC_SERVER_URL=
-ENV APPLICATIONS rw
-ENV ADD_SEARCH_KEY ea4c79622844ade140170b141c36f14f
-ENV TRANSIFEX_LIVE_API fca0343bce994bf8ba3dcdeaab389136
-ENV BING_MAPS_API_KEY PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~AqTJgLkvvOdot-y1QukRox537t604Je0pxhygfcraTQGVWr7Ko9LwPoS7-MHW0qY
-ENV API_ENV $apiEnv
-ENV GOOGLE_ANALYTICS UA-67196006-1
-ENV BLOG_API_URL https://blog.resourcewatch.org/wp-json/wp/v2
-ENV RW_GOGGLE_API_TOKEN_SHORTENER $RW_GOGGLE_API_TOKEN_SHORTENER
-ENV BITLY_TOKEN e3076fc3bfeee976efb9966f49383e1a8fb71c5f
-ENV PARDOT_NEWSLETTER_URL https://go.pardot.com/l/120942/2018-01-25/3nzl13
-ENV RW_MAPBOX_API_TOKEN $RW_MAPBOX_API_TOKEN
-ENV WRI_API_URL_V2 $WRI_API_URL_V2
-ENV RW_FEATURE_FLAG_AREAS_V2 $RW_FEATURE_FLAG_AREAS_V2
+ENV NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER $NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER
+ENV NEXT_PUBLIC_RW_MAPBOX_API_TOKEN $NEXT_PUBLIC_RW_MAPBOX_API_TOKEN
+ENV NEXT_PUBLIC_WRI_API_URL $NEXT_PUBLIC_WRI_API_URL
 
 RUN apk update && apk add --no-cache \
     build-base gcc bash git \
     cairo-dev pango-dev jpeg-dev
 
-
 # Add app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json yarn.lock /usr/src/app/
-RUN yarn install --frozen-lockfile --no-cache --production
+# Copy app folders
+COPY components ./components
+COPY constants ./constants
+COPY css ./css
+COPY hooks ./hooks
+COPY layout ./layout
+COPY lib ./lib
+COPY modules ./modules
+COPY pages ./pages
+COPY public ./public
+COPY redactions ./redactions
+COPY selectors ./selectors
+COPY services ./services
+COPY server ./server
+COPY utils ./utils
+COPY test ./test
 
-# Bundle app source
-COPY . /usr/src/app
-RUN yarn run build
+# Copy single files
+COPY .babelrc .
+COPY .browserlistrc .
+COPY package.json .
+COPY yarn.lock .
+COPY api.md .
+COPY index.js .
+COPY next.config.js .
+COPY next-sitemap.js .
+COPY postcss.config.js .
+COPY routes.js .
+COPY jsconfig.json .
+COPY .env.test .
+COPY .env.production .
+
+RUN yarn install --frozen-lockfile --production=false
+
+RUN yarn build
+
+COPY entrypoint.sh .
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+ENTRYPOINT ["sh", "./entrypoint.sh"]

@@ -11,16 +11,16 @@ import { logger } from 'utils/logs';
  */
 export const fetchAllTags = (params = {}) => {
   logger.info('Fetch all tags');
-  return WRIAPI.get('graph/query/list-concepts',
+  return WRIAPI.get('/v1/graph/query/list-concepts',
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
-        ...params
-      }
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
+      },
     })
-    .then(response => response.data.data)
+    .then((response) => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching all tags: ${status}: ${statusText}`);
@@ -35,16 +35,16 @@ export const fetchAllTags = (params = {}) => {
  */
 export const fetchInferredTags = (params = {}) => {
   logger.info('Fetch inferred tags');
-  return WRIAPI.get('graph/query/concepts-inferred',
+  return WRIAPI.get('/v1/graph/query/concepts-inferred',
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
-        ...params
-      }
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
+      },
     })
-    .then(response => response.data.data)
+    .then((response) => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching inferred tags ${status}: ${statusText}`);
@@ -61,15 +61,15 @@ export const fetchInferredTags = (params = {}) => {
  */
 export const countDatasetView = (datasetId, token, params = {}) => {
   logger.info('Count dataset view');
-  return WRIAPI.post(`graph/dataset/${datasetId}/visited`,
+  return WRIAPI.post(`/v1/graph/dataset/${datasetId}/visited`,
     {},
     {
       headers: { Authorization: token },
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
-        ...params
-      }
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
+      },
     })
     .catch((response) => {
       const { status, statusText } = response;
@@ -86,16 +86,16 @@ export const countDatasetView = (datasetId, token, params = {}) => {
  */
 export const fetchMostViewedDatasets = (params = {}) => {
   logger.info('Fetch most viewed datasets');
-  return WRIAPI.get('graph/query/most-viewed',
+  return WRIAPI.get('/v1/graph/query/most-viewed',
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
-        ...params
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
       },
-      headers: { 'Upgrade-Insecure-Requests': 1 }
+      headers: { 'Upgrade-Insecure-Requests': 1 },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching most viewed datasets: ${status}: ${statusText}`);
@@ -110,16 +110,16 @@ export const fetchMostViewedDatasets = (params = {}) => {
  */
 export const fetchMostFavoritedDatasets = (params = {}) => {
   logger.info('Fetch most favorited datasets');
-  return WRIAPI.get('graph/query/most-liked-datasets',
+  return WRIAPI.get('/v1/graph/query/most-liked-datasets',
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
-        ...params
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
       },
-      headers: { 'Upgrade-Insecure-Requests': 1 }
+      headers: { 'Upgrade-Insecure-Requests': 1 },
     })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching most favorited datasets: ${status}: ${statusText}`);
@@ -141,14 +141,14 @@ export const fetchSimilarDatasets = (params = {}, withAncestors = true) => {
     `graph/query/${endpoint}`,
     {
       params: {
-        env: process.env.API_ENV,
-        application: process.env.APPLICATIONS,
-        ...params
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
       },
-      headers: { 'Upgrade-Insecure-Requests': 1 }
-    }
+      headers: { 'Upgrade-Insecure-Requests': 1 },
+    },
   )
-    .then(response => response.data.data)
+    .then((response) => response.data.data)
     .catch((response) => {
       const { status, statusText } = response;
       logger.error(`Error fetching similart datasets ${status}: ${statusText}`);
@@ -162,5 +162,5 @@ export default {
   fetchSimilarDatasets,
   countDatasetView,
   fetchInferredTags,
-  fetchAllTags
+  fetchAllTags,
 };

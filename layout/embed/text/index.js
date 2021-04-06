@@ -7,13 +7,13 @@ import { getWidget } from 'redactions/widget';
 import LayoutEmbedText from './component';
 
 export default connect(
-  state => ({
+  (state) => ({
     widget: state.widget.data,
     loading: state.widget.loading,
     bandDescription: state.widget.bandDescription,
     bandStats: state.widget.bandStats,
     webshot: state.common.webshot,
-    routes: state.routes
+    routes: state.routes,
   }),
-  { getWidget }
+  { getWidget },
 )(LayoutEmbedText);

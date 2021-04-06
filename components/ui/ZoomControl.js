@@ -11,13 +11,13 @@ class ZoomControl extends React.Component {
 
     // ACTIONS
     onZoomIn: PropTypes.func,
-    onZoomOut: PropTypes.func
+    onZoomOut: PropTypes.func,
   };
 
   static defaultProps = {
     // maxValue: 10,
     // minValue: 0,
-    value: 0
+    value: 0,
   };
 
   constructor(props) {
@@ -25,7 +25,7 @@ class ZoomControl extends React.Component {
 
     this.state = {
       value: props.value,
-      className: props.className
+      className: props.className,
     };
 
     // BINDINGS
@@ -59,7 +59,7 @@ class ZoomControl extends React.Component {
         <button onClick={(onZoomIn) ? this.triggerZoomIn : null}>
           <Icon className="-small" name="icon-plus" />
         </button>
-        <button onClick={(onZoomOut) ? this.triggerZoomOut : null} >
+        <button onClick={(onZoomOut) ? this.triggerZoomOut : null}>
           <Icon className="-small" name="icon-minus" />
         </button>
       </div>

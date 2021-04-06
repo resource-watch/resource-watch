@@ -29,7 +29,7 @@ class LayerMenuComponent extends PureComponent {
       contextLayersOnTop,
       label,
       rotatableGlobe,
-      initialPosition
+      initialPosition,
     } = layer;
     this.props.resetLayerPoints();
     this.props.toggleActiveLayer({
@@ -42,7 +42,7 @@ class LayerMenuComponent extends PureComponent {
       contextLayersOnTop,
       label,
       rotatableGlobe,
-      initialPosition
+      initialPosition,
     });
     logEvent('Planet Pulse', 'Choose layer to view', layer.label);
   }
@@ -57,7 +57,7 @@ class LayerMenuComponent extends PureComponent {
         </span>
         <LayerMenuDropdown
           layers={group.layers}
-          triggerClick={layer => this.handleLayerClick(layer)}
+          triggerClick={(layer) => this.handleLayerClick(layer)}
         />
       </li>
     );
@@ -74,7 +74,7 @@ class LayerMenuComponent extends PureComponent {
           >
             <LayerMenuNative
               layers={layersGroup[0].layers}
-              triggerClick={layer => this.handleLayerClick(layer)}
+              triggerClick={(layer) => this.handleLayerClick(layer)}
             />
           </MediaQuery>
           <MediaQuery
@@ -84,7 +84,7 @@ class LayerMenuComponent extends PureComponent {
             <div className="c-layer-menu">
               <div className="l-container">
                 <ul className="layer-menu-list">
-                  {layersGroup[0].layers.map(g => this.createItemGroup(g))}
+                  {layersGroup[0].layers.map((g) => this.createItemGroup(g))}
                 </ul>
               </div>
             </div>
@@ -96,14 +96,14 @@ class LayerMenuComponent extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({ layerActive: state.pulse.layerActive });
+const mapStateToProps = (state) => ({ layerActive: state.pulse.layerActive });
 
 LayerMenuComponent.propTypes = {
   layersGroup: PropTypes.array,
   layerActive: PropTypes.any,
   responsive: PropTypes.object,
   toggleActiveLayer: PropTypes.func.isRequired,
-  resetLayerPoints: PropTypes.func.isRequired
+  resetLayerPoints: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, null)(LayerMenuComponent);

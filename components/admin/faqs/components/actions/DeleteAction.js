@@ -31,7 +31,7 @@ class DeleteAction extends React.Component {
           .catch((err) => {
             toastr.error('Error', `The faq "${data.id}" - "${data.question}" was not deleted. Try again. ${err}`);
           });
-      }
+      },
     });
   }
 
@@ -47,7 +47,7 @@ class DeleteAction extends React.Component {
 DeleteAction.propTypes = {
   data: PropTypes.object,
   authorization: PropTypes.string,
-  onFaqDelete: PropTypes.func
+  onFaqDelete: PropTypes.func,
 };
 
 export default DeleteAction;

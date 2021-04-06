@@ -29,14 +29,14 @@ export const setFavouriteError = createAction('WIDGET_BLOCK_FAVOURITE_ERROR');
 export const getLayer = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (payload = {}) => (dispatch) => {
   const {
     id,
-    widget
+    widget,
   } = payload;
   const { widgetConfig: { layer_id: layerId } } = widget;
 
   dispatch(setLayersLoading({ id, value: true }));
   dispatch(setLayersError({ id, value: null }));
 
-  fetchLayer(layerId, { application: process.env.APPLICATIONS })
+  fetchLayer(layerId, { application: process.env.NEXT_PUBLIC_APPLICATIONS })
     .then((layer) => {
       dispatch(setLayersLoading({ id, value: false }));
       dispatch(setLayersError({ id, value: null }));
@@ -50,26 +50,26 @@ export const getLayer = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (pay
         ...layer.layerConfig.params_config && {
           params: {
             ...reduceParams(layer.layerConfig.params_config),
-            ...!!layer.layerConfig.body.url && { url: layer.layerConfig.body.url }
-          }
+            ...!!layer.layerConfig.body.url && { url: layer.layerConfig.body.url },
+          },
         },
-        ...layer.layerConfig.sql_config &&
-        { sqlParams: reduceSqlParams(layer.layerConfig.sql_config) },
+        ...layer.layerConfig.sql_config
+        && { sqlParams: reduceSqlParams(layer.layerConfig.sql_config) },
         ...layer.layerConfig.decode_config && {
           decodeParams: {
             ...reducedDecodeParams,
             ...(startDate && {
               startYear: moment(startDate).year(),
               startMonth: moment(startDate).month(),
-              startDay: moment(startDate).dayOfYear()
+              startDay: moment(startDate).dayOfYear(),
             }),
             ...(endDate && {
               endYear: moment(endDate).year(),
               endMonth: moment(endDate).month(),
-              endDay: moment(endDate).dayOfYear()
-            })
-          }
-        }
+              endDay: moment(endDate).dayOfYear(),
+            }),
+          },
+        },
       };
 
       dispatch(setLayers({
@@ -80,12 +80,10 @@ export const getLayer = createThunkAction('WIDGET_BLOCK_LAYERS_FETCH_DATA', (pay
           layers: [{
             active: true,
             id: layer.id,
-            ...parsedLayer
-          }]
-        }]
+            ...parsedLayer,
+          }],
+        }],
       }));
-
-
     })
     .catch((err) => {
       dispatch(setLayersLoading({ id, value: false }));
@@ -102,7 +100,7 @@ export const getWidget = createThunkAction('WIDGET_BLOCK_FETCH_DATA', (payload =
   const { id: widgetId, includes } = payload;
   fetchWidget(widgetId, {
     includes,
-    application: process.env.APPLICATIONS
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
   })
     .then((widget) => {
       const { widgetConfig } = widget;

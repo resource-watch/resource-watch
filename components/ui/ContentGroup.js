@@ -7,11 +7,11 @@ export default class ContentGroup extends React.Component {
     componentProps: PropTypes.object,
     content: PropTypes.array,
     onSubmit: PropTypes.func,
-    onAddComponent: PropTypes.func.isRequired
+    onAddComponent: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    content: []
+    content: [],
   };
 
   renderComponent(index, values = {}) {
@@ -39,9 +39,7 @@ export default class ContentGroup extends React.Component {
             </div>
           </div>
         </div>
-        {content.map((item, index) =>
-          this.renderComponent(index, item)
-        )}
+        {content.map((item, index) => this.renderComponent(index, item))}
       </div>
     );
   }

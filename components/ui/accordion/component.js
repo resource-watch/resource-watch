@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionItemHeading,
   AccordionItemButton,
-  AccordionItemPanel
+  AccordionItemPanel,
 } from 'react-accessible-accordion';
 
 // styles
@@ -17,7 +17,7 @@ import './styles.scss';
 class AccordionComponent extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
-    items: PropTypes.array.isRequired
+    items: PropTypes.array.isRequired,
   }
 
   static defaultProps = { className: null };
@@ -26,14 +26,14 @@ class AccordionComponent extends PureComponent {
     const { items, className, ...accordionProps } = this.props;
     const classNameValue = classnames({
       'c-accordion': true,
-      [className]: !!className
+      [className]: !!className,
     });
     return (
       <Accordion
         className={classNameValue}
         {...accordionProps}
       >
-        {items.map(item => (
+        {items.map((item) => (
           <div
             className="row align-center"
             key={item.id}
@@ -50,8 +50,8 @@ class AccordionComponent extends PureComponent {
                 </AccordionItemPanel>
               </AccordionItem>
             </div>
-          </div>)
-        )}
+          </div>
+        ))}
       </Accordion>
     );
   }

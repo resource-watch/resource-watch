@@ -8,32 +8,38 @@ class MapThumbnail extends React.Component {
     lat: PropTypes.number,
     lng: PropTypes.number,
     // https://resource-watch.github.io/doc-api/#layer
-    layerSpec: PropTypes.object.isRequired
+    layerSpec: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
     zoom: 1,
     lat: 20,
-    lng: -20
+    lng: -20,
   };
 
   state = {
     imageSrc: '',
-    basemapSrc: ''
+    basemapSrc: '',
   }
 
   async componentDidMount() {
     const { width, height } = this.getSize();
 
-    const { zoom, lat, lng, layerSpec } = this.props;
+    const {
+      zoom, lat, lng, layerSpec,
+    } = this.props;
 
-    const thumbnail = await getLayerImage({ width, height, zoom, lat, lng, layerSpec });
+    const thumbnail = await getLayerImage({
+      width, height, zoom, lat, lng, layerSpec,
+    });
 
-    const basemap = await getBasemapImage({ width, height, zoom, lat, lng, layerSpec });
+    const basemap = await getBasemapImage({
+      width, height, zoom, lat, lng, layerSpec,
+    });
 
     this.setStateAsync({
       imageSrc: thumbnail,
-      basemapSrc: basemap
+      basemapSrc: basemap,
     });
   }
 
@@ -43,12 +49,12 @@ class MapThumbnail extends React.Component {
     });
   }
 
-  getSize() {    
+  getSize() {
     return {
-      width: this.chart && this.chart.offsetWidth 
+      width: this.chart && this.chart.offsetWidth
         ? this.chart.offsetWidth : 100,
-      height: this.chart && this.chart.offsetHeight 
-        ? this.chart.offsetHeight : 100
+      height: this.chart && this.chart.offsetHeight
+        ? this.chart.offsetHeight : 100,
     };
   }
 
@@ -64,7 +70,7 @@ class MapThumbnail extends React.Component {
           height: '100%',
           ...bgImage && { backgroundImage: bgImage },
           backgroundPosition: 'center',
-          backgroundSize: 'cover'
+          backgroundSize: 'cover',
         }}
       />
     );

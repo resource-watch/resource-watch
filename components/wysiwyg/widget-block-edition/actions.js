@@ -30,5 +30,5 @@ export default {
   setPages,
   setPageSize,
   setTotal,
-  setSearch
+  setSearch,
 };

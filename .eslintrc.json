@@ -12,16 +12,38 @@
   },
   "extends": [
     "airbnb",
-    "airbnb/hooks"
+    "airbnb/hooks",
+    "plugin:cypress/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["test/**/*"],
+      "parser": "espree",
+      "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+      },
+      "plugins": [
+        "mocha"
+      ]
+    },
+    {
+      "files": [
+        "**/*.js",
+        "**/*.jsx"
+      ]
+    }
   ],
   "rules": {
     "import/no-unresolved": "off",
     "react/jsx-filename-extension": "warn",
     "react/jsx-props-no-spreading": "off",
     "react-hooks/exhaustive-deps": "warn",
-    "react-hooks/rules-of-hooks": "error"
+    "react-hooks/rules-of-hooks": "error",
+    "jsx-a11y/anchor-is-valid": "off",
+    "react/button-has-type": "off"
   },
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 7,
     "ecmaFeatures": {
@@ -30,12 +52,14 @@
     "sourceType": "module"
   },
   "plugins": [
-    "babel",
-    "react-hooks"
+    "@babel",
+    "react-hooks",
+    "cypress",
+    "mocha"
   ],
   "settings": {
     "import/resolver": {
-      "babel-module": {}
+      "node": {}
     }
   }
 }

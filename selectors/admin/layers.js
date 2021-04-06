@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-const layers = state => state.layers.layers.list;
-const filters = state => state.layers.layers.filters;
+const layers = (state) => state.layers.layers.list;
+const filters = (state) => state.layers.layers.filters;
 
 /**
  * Return the layers that comply with the filters
@@ -10,10 +10,10 @@ const filters = state => state.layers.layers.filters;
  */
 const getFilteredLayers = (layers, filters) => { // eslint-disable-line no-shadow
   if (!filters.length) {
-    return layers.map(layer => ({
+    return layers.map((layer) => ({
       ...layer,
       owner: layer.user && layer.user.email,
-      role: layer.user && layer.user.role
+      role: layer.user && layer.user.role,
     }));
   }
 
@@ -28,10 +28,10 @@ const getFilteredLayers = (layers, filters) => { // eslint-disable-line no-shado
 
       return layer[filter.key] === filter.value;
     });
-  }).map(layer => ({
+  }).map((layer) => ({
     ...layer,
     owner: layer.user && layer.user.email,
-    role: layer.user && layer.user.role
+    role: layer.user && layer.user.role,
   }));
 };
 

@@ -6,31 +6,30 @@ const SET_WEBSHOT = 'common/SET_WEBSHOT';
 const SET_IS_SERVER = 'common/SET_IS_SERVER';
 const SET_HOSTNAME = 'common/SET_HOSTNAME';
 
-
 const initialState = {
   locale: 'en',
   embed: false,
   webshot: false,
   isServer: true,
-  hostname: 'http://www.resourcewatch.org'
+  hostname: 'http://www.resourcewatch.org',
 };
 
 export default function commonReducer(state = initialState, action) {
   switch (action.type) {
     case SET_LOCALE:
-      return Object.assign({}, state, { locale: action.payload });
+      return { ...state, locale: action.payload };
 
     case SET_EMBED:
-      return Object.assign({}, state, { embed: action.payload });
+      return { ...state, embed: action.payload };
 
     case SET_WEBSHOT:
-      return Object.assign({}, state, { webshot: action.payload });
+      return { ...state, webshot: action.payload };
 
     case SET_IS_SERVER:
-      return Object.assign({}, state, { isServer: action.payload });
+      return { ...state, isServer: action.payload };
 
     case SET_HOSTNAME:
-      return Object.assign({}, state, { hostname: action.payload });
+      return { ...state, hostname: action.payload };
 
     default:
       return state;
@@ -56,7 +55,7 @@ export function redirectTo(url) {
 export function setLocale(locale) {
   return {
     type: SET_LOCALE,
-    payload: locale
+    payload: locale,
   };
 }
 
@@ -67,7 +66,7 @@ export function setLocale(locale) {
 export function setEmbed(embed) {
   return {
     type: SET_EMBED,
-    payload: embed
+    payload: embed,
   };
 }
 
@@ -78,7 +77,7 @@ export function setEmbed(embed) {
 export function setWebshotMode(webshot) {
   return {
     type: SET_WEBSHOT,
-    payload: webshot
+    payload: webshot,
   };
 }
 
@@ -89,7 +88,7 @@ export function setWebshotMode(webshot) {
 export function setIsServer(isServer) {
   return {
     type: SET_IS_SERVER,
-    payload: isServer
+    payload: isServer,
   };
 }
 
@@ -100,6 +99,6 @@ export function setIsServer(isServer) {
 export function setHostname(hostname) {
   return {
     type: SET_HOSTNAME,
-    payload: hostname
+    payload: hostname,
   };
 }

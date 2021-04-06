@@ -15,16 +15,15 @@ class HomePage extends PureComponent {
         latestPosts,
         spotlightPosts,
         latestPostsError,
-        spotlightPostsError
+        spotlightPostsError,
       },
-      dashboards: { featured }
+      dashboards: { featured },
     } = getState();
-
 
     // fetches posts from blog when there are no posts
     // to display or when an error happened previously
-    if ((!latestPosts.length && !spotlightPosts.length) ||
-      (latestPostsError || spotlightPostsError)) {
+    if ((!latestPosts.length && !spotlightPosts.length)
+      || (latestPostsError || spotlightPostsError)) {
       await dispatch(getLatestPosts());
       await dispatch(getSpotlightPosts());
     }

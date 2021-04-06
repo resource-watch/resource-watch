@@ -5,9 +5,9 @@ import * as actions from 'layout/explore/actions';
 import ExploreDatasetsModeComponent from './explore-datasets-mode-component';
 
 export default connect(
-  state => ({
+  (state) => ({
     // Store
-    ...state.explore.datasets
+    ...state.explore.datasets,
   }),
-  actions
+  actions,
 )(ExploreDatasetsModeComponent);

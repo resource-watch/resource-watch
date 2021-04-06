@@ -42,7 +42,9 @@ spec:
                 topologyKey: kubernetes.io/hostname
               weight: 100
       containers:
-        - env:
+        - args:
+            - start
+          env:
             - name: SECRET
               valueFrom:
                 secretKeyRef:
@@ -53,7 +55,7 @@ spec:
                 secretKeyRef:
                   key: REDIS_URI
                   name: dbsecrets
-            - name: RW_GOGGLE_API_TOKEN_SHORTENER
+            - name: NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER
               valueFrom:
                 secretKeyRef:
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
@@ -79,4 +81,3 @@ spec:
       schedulerName: default-scheduler
       securityContext: { }
       terminationGracePeriodSeconds: 30
-status: { }

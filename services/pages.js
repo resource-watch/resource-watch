@@ -13,21 +13,21 @@ import { logger } from 'utils/logs';
 export const fetchPages = (token, params = {}, headers = {}) => {
   logger.info('Fetch pages');
   return WRIAPI.get(
-    'static_page',
+    '/v1/static_page',
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
       params: {
         published: 'all',
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
-        ...params
-      }
-    }
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        ...params,
+      },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching pages: ${status}: ${statusText}`);
@@ -46,16 +46,16 @@ export const fetchPages = (token, params = {}, headers = {}) => {
 export const fetchPage = (id, token, params = {}, headers = {}) => {
   logger.info(`Fetch page ${id}`);
   return WRIAPI.get(
-    `static_page/${id}`,
+    `/v1/static_page/${id}`,
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error fetching page ${id}: ${status}: ${statusText}`);
@@ -71,10 +71,10 @@ export const fetchPage = (id, token, params = {}, headers = {}) => {
  */
 export const updatePage = (page, token) => {
   logger.info(`Update page ${page.id}`);
-  return WRIAPI.patch(`static_page/${page.id}`,
-    { data: { attributes: { ...page } } }
-    , { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+  return WRIAPI.patch(`/v1/static_page/${page.id}`,
+    { data: { attributes: { ...page } } },
+    { headers: { Authorization: token } })
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error updating page ${page.id}: ${status}: ${statusText}`);
@@ -90,16 +90,16 @@ export const updatePage = (page, token) => {
  */
 export const createPage = (page, token) => {
   logger.info('Create page');
-  return WRIAPI.post('static_page',
+  return WRIAPI.post('/v1/static_page',
     {
       data: {
-        application: process.env.APPLICATIONS,
-        env: process.env.API_ENV,
-        attributes: { ...page }
-      }
+        application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        attributes: { ...page },
+      },
     },
     { headers: { Authorization: token } })
-    .then(response => WRISerializer(response.data))
+    .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error creating page ${status}: ${statusText}`);
@@ -122,10 +122,10 @@ export const deletePage = (id, token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token
+        Authorization: token,
       },
-      params: { ...params }
-    }
+      params: { ...params },
+    },
   )
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -139,5 +139,5 @@ export default {
   fetchPage,
   createPage,
   updatePage,
-  deletePage
+  deletePage,
 };

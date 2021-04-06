@@ -16,7 +16,7 @@ import Spinner from 'components/ui/Spinner';
 // Services
 import {
   createWidget,
-  createWidgetMetadata
+  createWidgetMetadata,
 } from 'services/widget';
 
 const FORM_ELEMENTS = {
@@ -30,14 +30,13 @@ const FORM_ELEMENTS = {
   isValid() {
     const { elements } = this;
     const valid = Object.keys(elements)
-      .map(k => elements[k].isValid())
-      .filter(v => v !== null)
-      .every(element => element);
+      .map((k) => elements[k].isValid())
+      .filter((v) => v !== null)
+      .every((element) => element);
 
     return valid;
-  }
+  },
 };
-
 
 class SaveWidgetModal extends React.Component {
   state = {
@@ -47,7 +46,7 @@ class SaveWidgetModal extends React.Component {
     error: false,
     description: null, // Description of the widget,
     name: this.props.widgetEditor.title,
-    caption: this.props.widgetEditor.caption
+    caption: this.props.widgetEditor.caption,
   };
 
   onSubmit = async (event) => {
@@ -60,14 +59,12 @@ class SaveWidgetModal extends React.Component {
 
     getWidgetConfig()
       .then((widgetConfig) => {
-        const widgetObj = Object.assign(
-          {},
-          {
-            name,
-            description
-          },
-          { widgetConfig }
-        );
+        const widgetObj = {
+
+          name,
+          description,
+          widgetConfig,
+        };
 
         createWidget(widgetObj, dataset, user.token)
           .then((data) => {
@@ -78,10 +75,10 @@ class SaveWidgetModal extends React.Component {
                 widgetdataset,
                 {
                   language: 'en',
-                  application: process.env.APPLICATIONS,
-                  info: { caption }
+                  application: process.env.NEXT_PUBLIC_APPLICATIONS,
+                  info: { caption },
                 },
-                user.token
+                user.token,
               )
                 .then(() => {
                   this.setState({ saved: true, error: false });
@@ -94,7 +91,7 @@ class SaveWidgetModal extends React.Component {
             this.setState({
               saved: false,
               error: true,
-              errorMessage: err.message
+              errorMessage: err.message,
             });
             toastr.error('There was a problem saving the widget');
             console.err(err); // eslint-disable-line no-console
@@ -130,34 +127,34 @@ class SaveWidgetModal extends React.Component {
       loading,
       saved,
       error,
-      errorMessage
+      errorMessage,
     } = this.state;
     const { widgetEditor } = this.props;
 
     return (
       <div className="c-save-widget-modal">
-        {!saved &&
-        <h2>Save widget</h2>
-        }
-        {saved &&
-        <h2>Widget saved!</h2>
-        }
+        {!saved
+        && <h2>Save widget</h2>}
+        {saved
+        && <h2>Widget saved!</h2>}
         <Spinner
           isLoading={loading}
           className="-light -relative"
         />
-        {error &&
+        {error
+        && (
         <div className="error-container">
           <div>Error</div>
           {errorMessage}
         </div>
-        }
-        {!saved &&
+        )}
+        {!saved
+          && (
           <form className="form-container" onSubmit={this.onSubmit}>
             <fieldset className="c-field-container">
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-                onChange={name => this.setState({ name })}
+                onChange={(name) => this.setState({ name })}
                 validations={['required']}
                 properties={{
                   title: 'title',
@@ -165,33 +162,33 @@ class SaveWidgetModal extends React.Component {
                   type: 'text',
                   required: true,
                   default: widgetEditor.title,
-                  placeholder: 'Visualization title'
+                  placeholder: 'Visualization title',
                 }}
               >
                 {Input}
               </Field>
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.caption = c; }}
-                onChange={caption => this.setState({ caption })}
+                onChange={(caption) => this.setState({ caption })}
                 properties={{
                   title: 'caption',
                   label: 'Caption',
                   type: 'text',
                   default: widgetEditor.caption,
-                  placeholder: 'Visualization caption'
+                  placeholder: 'Visualization caption',
                 }}
               >
                 {Input}
               </Field>
               <Field
                 ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-                onChange={description => this.setState({ description })}
+                onChange={(description) => this.setState({ description })}
                 properties={{
                   title: 'description',
                   label: 'Description',
                   type: 'text',
                   rows: '4',
-                  placeholder: 'Visualization description'
+                  placeholder: 'Visualization description',
                 }}
               >
                 {TextArea}
@@ -202,7 +199,7 @@ class SaveWidgetModal extends React.Component {
                 properties={{
                   type: 'submit',
                   disabled: submitting,
-                  className: '-secondary'
+                  className: '-secondary',
                 }}
               >
                 Save
@@ -210,7 +207,7 @@ class SaveWidgetModal extends React.Component {
               <Button
                 properties={{
                   disabled: submitting,
-                  className: '-primary'
+                  className: '-primary',
                 }}
                 onClick={this.handleCancel}
               >
@@ -218,8 +215,9 @@ class SaveWidgetModal extends React.Component {
               </Button>
             </div>
           </form>
-        }
-        {saved &&
+          )}
+        {saved
+        && (
         <div>
           <div className="icon-container">
             <img alt="Widget saved" src="/static/images/components/modal/widget-saved.svg" />
@@ -239,7 +237,7 @@ class SaveWidgetModal extends React.Component {
             </Button>
           </div>
         </div>
-        }
+        )}
       </div>
     );
   }
@@ -251,12 +249,12 @@ SaveWidgetModal.propTypes = {
   // Store
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
-  onRequestClose: PropTypes.func.isRequired
+  onRequestClose: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.user,
-  widgetEditor: state.widgetEditor
+  widgetEditor: state.widgetEditor,
 });
 
 export default connect(mapStateToProps)(SaveWidgetModal);

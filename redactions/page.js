@@ -7,13 +7,13 @@ const SET_IS_LOADING = 'page/SET_IS_LOADING';
  * REDUCER
 */
 const initialState = {
-  isLoading: false
+  isLoading: false,
 };
 
-export default function (state = initialState, action) {
+export default function Page(state = initialState, action) {
   switch (action.type) {
     case SET_IS_LOADING: {
-      return Object.assign({}, state, { isLoading: action.payload });
+      return { ...state, isLoading: action.payload };
     }
     default:
       return state;
@@ -21,5 +21,5 @@ export default function (state = initialState, action) {
 }
 
 export function updateIsLoading(isLoading) {
-  return dispatch => dispatch({ type: SET_IS_LOADING, payload: isLoading });
+  return (dispatch) => dispatch({ type: SET_IS_LOADING, payload: isLoading });
 }

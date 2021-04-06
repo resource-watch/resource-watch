@@ -33,7 +33,7 @@ class MyRWWidgets extends PureComponent {
     handlePageChange: PropTypes.func.isRequired,
     handleWidgetRemoved: PropTypes.func.isRequired,
     handleRefresh: PropTypes.func.isRequired,
-    thumbnail: PropTypes.bool
+    thumbnail: PropTypes.bool,
   };
 
   static defaultProps = { thumbnail: false };
@@ -53,12 +53,14 @@ class MyRWWidgets extends PureComponent {
       handleSortChange,
       handleWidgetRemoved,
       handleRefresh,
-      thumbnail
+      thumbnail,
     } = this.props;
-    const { page, size, limit, pages } = pagination;
+    const {
+      page, size, limit, pages,
+    } = pagination;
     const sortIcon = classnames({
       'icon-arrow-up': sort === 'asc',
-      'icon-arrow-down': sort !== 'asc'
+      'icon-arrow-down': sort !== 'asc',
     });
 
     const gridIconClass = classnames({ '-active': display === 'grid' });
@@ -67,7 +69,7 @@ class MyRWWidgets extends PureComponent {
     const {
       list: _widgets,
       loading,
-      error
+      error,
     } = widgets;
 
     return (
@@ -94,13 +96,13 @@ class MyRWWidgets extends PureComponent {
                 <SearchInput
                   input={{
                     placeholder: 'Search visualization',
-                    value: search
+                    value: search,
                   }}
                   link={{
                     label: 'New visualization',
                     route: routes.detail,
                     onlyDesktop: true,
-                    params: { tab: 'widgets', id: 'new' }
+                    params: { tab: 'widgets', id: 'new' },
                   }}
                   onSearch={(value) => { handleSearch(value); }}
                 />
@@ -149,13 +151,14 @@ class MyRWWidgets extends PureComponent {
                           showActions
                           showRemove
                           thumbnail={thumbnail}
-                        />)}
+                        />
+                      )}
                       {(pages > 1) && (
                         <Paginator
                           options={{
                             size,
                             page,
-                            limit
+                            limit,
                           }}
                           onChange={(nextPage) => { handlePageChange(nextPage); }}
                         />

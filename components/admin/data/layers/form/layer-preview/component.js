@@ -7,7 +7,7 @@ import { Popup } from 'react-map-gl';
 import {
   Legend,
   LegendListItem,
-  LegendItemTypes
+  LegendItemTypes,
 } from 'vizzuality-components';
 
 // components
@@ -18,7 +18,9 @@ import ZoomControls from 'components/map/controls/zoom';
 import LayerPopup from 'components/map/popup';
 
 // constants
-import { MAPSTYLES, BASEMAPS, LABELS, DEFAULT_VIEWPORT } from 'components/map/constants';
+import {
+  MAPSTYLES, BASEMAPS, LABELS, DEFAULT_VIEWPORT,
+} from 'components/map/constants';
 
 class LayerPreviewComponent extends PureComponent {
   static propTypes = {
@@ -29,7 +31,7 @@ class LayerPreviewComponent extends PureComponent {
     setLayerInteraction: PropTypes.func.isRequired,
     setLayerInteractionLatLng: PropTypes.func.isRequired,
     setLayerInteractionSelected: PropTypes.func.isRequired,
-    generateLayerGroups: PropTypes.func.isRequired
+    generateLayerGroups: PropTypes.func.isRequired,
   };
 
   state = { viewport: DEFAULT_VIEWPORT };
@@ -50,7 +52,7 @@ class LayerPreviewComponent extends PureComponent {
     const {
       adminLayerPreview: { interaction },
       setLayerInteraction,
-      setLayerInteractionLatLng
+      setLayerInteractionLatLng,
     } = this.props;
 
     const interactions = this.getInteractions({ features, interaction });
@@ -71,13 +73,13 @@ class LayerPreviewComponent extends PureComponent {
     if (noDataAvailable) {
       return Object.keys(interaction).reduce((accumulator, currentValue) => ({
         ...accumulator,
-        [currentValue]: {}
+        [currentValue]: {},
       }), {});
     }
 
     return features.reduce((accumulator, currentValue) => ({
       ...accumulator,
-      [currentValue.layer.source]: { data: currentValue.properties }
+      [currentValue.layer.source]: { data: currentValue.properties },
     }), {});
   }
 
@@ -91,8 +93,8 @@ class LayerPreviewComponent extends PureComponent {
     this.setState({
       viewport: {
         ...currentViewport,
-        zoom
-      }
+        zoom,
+      },
     });
   }
 
@@ -110,7 +112,7 @@ class LayerPreviewComponent extends PureComponent {
     const {
       adminLayerPreview,
       layers,
-      setLayerInteractionSelected
+      setLayerInteractionSelected,
     } = this.props;
 
     const { viewport } = this.state;
@@ -119,7 +121,7 @@ class LayerPreviewComponent extends PureComponent {
       layerGroups,
       interaction,
       interactionLatLng,
-      interactionSelected
+      interactionSelected,
     } = adminLayerPreview;
 
     const shouldRenderPopup = !isEmpty(interactionLatLng) && layers.length;
@@ -130,57 +132,56 @@ class LayerPreviewComponent extends PureComponent {
       // ID of the layer will display data (defualts into the first layer)
       layersInteractionSelected: interactionSelected,
       // current active layers to get their layerConfig attributes
-      layers
+      layers,
     };
 
     const layerPopupLatlng = interactionLatLng && {
       lat: interactionLatLng.latitude,
-      lng: interactionLatLng.longitude
+      lng: interactionLatLng.longitude,
     };
 
     return (
       <div className="c-field preview-container">
         <h5>Layer preview</h5>
         <div className="map-container">
-          <div className="c-map">
-            <Map
-              mapboxApiAccessToken={process.env.RW_MAPBOX_API_TOKEN}
-              onClick={this.onClickLayer}
-              mapStyle={MAPSTYLES}
-              basemap={BASEMAPS.dark.value}
-              labels={LABELS.light.value}
-              viewport={viewport}
-              onViewportChange={this.handleViewport}
-              scrollZoom={false}
-              boundaries
-            >
-              {_map => (
-                <Fragment>
-                  <LayerManager
-                    map={_map}
-                    layers={layers}
-                  />
+          <Map
+            mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
+            onClick={this.onClickLayer}
+            mapStyle={MAPSTYLES}
+            basemap={BASEMAPS.dark.value}
+            labels={LABELS.light.value}
+            viewport={viewport}
+            onViewportChange={this.handleViewport}
+            scrollZoom={false}
+            boundaries
+          >
+            {(_map) => (
+              <>
+                <LayerManager
+                  map={_map}
+                  layers={layers}
+                />
 
-                  {shouldRenderPopup &&
-                    <Popup
-                      {...interactionLatLng}
-                      closeButton
-                      closeOnClick={false}
-                      onClose={this.handleClosePopup}
-                      className="rw-popup-layer"
-                      maxWidth="250px"
-                    >
-                      <LayerPopup
-                        data={layerPopupData}
-                        latlng={layerPopupLatlng}
-                        onChangeInteractiveLayer={setLayerInteractionSelected}
-                      />
-                    </Popup>
-                    }
-                </Fragment>
-              )}
-            </Map>
-          </div>
+                {shouldRenderPopup
+                  && (
+                  <Popup
+                    {...interactionLatLng}
+                    closeButton
+                    closeOnClick={false}
+                    onClose={this.handleClosePopup}
+                    className="rw-popup-layer"
+                    maxWidth="250px"
+                  >
+                    <LayerPopup
+                      data={layerPopupData}
+                      latlng={layerPopupLatlng}
+                      onChangeInteractiveLayer={setLayerInteractionSelected}
+                    />
+                  </Popup>
+                  )}
+              </>
+            )}
+          </Map>
 
           <MapControls>
             <ZoomControls

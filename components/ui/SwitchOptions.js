@@ -17,15 +17,13 @@ class SwitchOptions extends React.Component {
   */
   onChange(e) {
     // Send object
-    const selectedObj = this.props.options.find(option =>
-      option.value === e.currentTarget.dataset.value
-    );
+    const selectedObj = this.props.options.find((option) => option.value === e.currentTarget.dataset.value);
     this.props.onChange(selectedObj);
   }
 
   onToggle() {
     // Send object
-    const selectedObj = this.props.options.find(option => option.value !== this.props.selected);
+    const selectedObj = this.props.options.find((option) => option.value !== this.props.selected);
     this.props.onChange(selectedObj);
   }
 
@@ -65,7 +63,7 @@ class SwitchOptions extends React.Component {
 SwitchOptions.propTypes = {
   selected: PropTypes.string,
   options: PropTypes.array.isRequired, // It should be an array of 2 elements
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default SwitchOptions;

@@ -14,7 +14,7 @@ class WidgetsNew extends PureComponent {
         tab: 'widgets',
         subtab: 'edit',
         id: widget.id,
-        dataset: widget.dataset
+        dataset: widget.dataset,
       });
     } else {
       Router.pushRoute('admin_data', { tab: 'widgets' });

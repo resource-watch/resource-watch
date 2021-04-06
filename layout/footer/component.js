@@ -10,13 +10,13 @@ import Icon from 'components/ui/icon';
 class Footer extends PureComponent {
   static propTypes = {
     partners: PropTypes.array.isRequired,
-    menu: PropTypes.array.isRequired
+    menu: PropTypes.array.isRequired,
   };
 
   renderPartners() {
     const { partners } = this.props;
 
-    return partners.map(_partner => (
+    return partners.map((_partner) => (
       <div
         key={_partner.id}
         className="item"
@@ -28,7 +28,7 @@ class Footer extends PureComponent {
           <a>
             <img
               className="-img"
-              src={`${process.env.STATIC_SERVER_URL}${_partner.logo.thumb}`}
+              src={`${_partner.logo.thumb}`}
               alt={_partner.name}
             />
           </a>
@@ -65,7 +65,7 @@ class Footer extends PureComponent {
               <div className="column small-12">
                 <ul>
                   <li>
-                    <Link route="newsletter" >
+                    <Link route="newsletter">
                       <a className="c-button -primary join-us-button">
                         Subscribe to our newsletter
                       </a>
@@ -96,8 +96,8 @@ class Footer extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 <div className="c-partners-slider">
-                  {partners.length && typeof window !== 'undefined' ?
-                    <Carousel items={this.renderPartners()} /> : ''}
+                  {partners.length && typeof window !== 'undefined'
+                    ? <Carousel items={this.renderPartners()} /> : ''}
                 </div>
               </div>
             </div>

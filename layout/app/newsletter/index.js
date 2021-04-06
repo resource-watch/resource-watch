@@ -1,3 +1,1 @@
-import LayoutNewsletter from './component';
-
-export default LayoutNewsletter;
+export { default } from './component';

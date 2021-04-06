@@ -27,7 +27,7 @@ import { INITIAL_PAGINATION } from './constants';
 class WidgetsTable extends PureComponent {
   static propTypes = {
     dataset: PropTypes.string,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
   }
 
   static defaultProps = { dataset: null }
@@ -36,7 +36,7 @@ class WidgetsTable extends PureComponent {
     pagination: INITIAL_PAGINATION,
     loading: true,
     widgets: [],
-    filters: { name: null, 'user.role': 'ADMIN' }
+    filters: { name: null, 'user.role': 'ADMIN' },
   }
 
   componentDidMount() {
@@ -48,8 +48,8 @@ class WidgetsTable extends PureComponent {
     this.setState({
       filters: {
         name: filters.name,
-        'user.role': value.value
-      }
+        'user.role': value.value,
+      },
     },
     () => this.loadWidgets());
   }
@@ -67,9 +67,9 @@ class WidgetsTable extends PureComponent {
       loading: true,
       filters: {
         ...filters,
-        name: value
+        name: value,
       },
-      pagination: INITIAL_PAGINATION
+      pagination: INITIAL_PAGINATION,
     }, () => this.loadWidgets());
   }, 250)
 
@@ -80,8 +80,8 @@ class WidgetsTable extends PureComponent {
       loading: true,
       pagination: {
         ...pagination,
-        page: nextPage
-      }
+        page: nextPage,
+      },
     }, () => this.loadWidgets());
   }
 
@@ -100,29 +100,29 @@ class WidgetsTable extends PureComponent {
       includes: 'user',
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
-      application: process.env.APPLICATIONS,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...dataset && { dataset },
-      ...filters
+      ...filters,
     }, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
         const {
           'total-pages': pages,
-          'total-items': size
+          'total-items': size,
         } = meta;
         const nextPagination = {
           ...pagination,
           size,
-          pages
+          pages,
         };
 
         this.setState({
           loading: false,
           pagination: nextPagination,
-          widgets: widgets.map(_widget => ({
+          widgets: widgets.map((_widget) => ({
             ..._widget,
             owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
-            role: _widget.user ? _widget.user.role || '' : ''
-          }))
+            role: _widget.user ? _widget.user.role || '' : '',
+          })),
         });
       })
       .catch((error) => { this.setState({ error }); });
@@ -133,7 +133,7 @@ class WidgetsTable extends PureComponent {
       loading,
       pagination,
       widgets,
-      error
+      error,
     } = this.state;
     const { dataset } = this.props;
 
@@ -142,7 +142,10 @@ class WidgetsTable extends PureComponent {
         <Spinner className="-light" isLoading={loading} />
 
         {error && (
-          <p>Error: {error}</p>
+          <p>
+            Error:
+            {error}
+          </p>
         )}
 
         <TableFilters
@@ -157,8 +160,8 @@ class WidgetsTable extends PureComponent {
             params: {
               tab: 'widgets',
               id: 'new',
-              dataset
-            }
+              dataset,
+            },
           }}
           onSearch={this.onSearch}
         />
@@ -169,18 +172,28 @@ class WidgetsTable extends PureComponent {
               { label: 'Title', value: 'name', td: TitleTD },
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Owner', value: 'owner', td: OwnerTD },
-              { label: 'Role', value: 'role', td: RoleTD }
+              { label: 'Role', value: 'role', td: RoleTD },
             ]}
             actions={{
               show: true,
               list: [
-                { name: 'Edit', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'edit', id: '{{id}}', dataset }, show: true, component: EditAction },
-                { name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction }
-              ]
+                {
+                  name: 'Edit',
+                  route: 'admin_data_detail',
+                  params: {
+                    tab: 'widgets', subtab: 'edit', id: '{{id}}', dataset,
+                  },
+                  show: true,
+                  component: EditAction,
+                },
+                {
+                  name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
+                },
+              ],
             }}
             sort={{
               field: 'name',
-              value: 1
+              value: 1,
             }}
             filters={false}
             data={widgets}

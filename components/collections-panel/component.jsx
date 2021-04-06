@@ -81,8 +81,8 @@ const CollectionsPanel = ({
           await createCollection(token,
             {
               name: newCollectionName,
-              env: process.env.API_ENV,
-              application: process.env.APPLICATIONS,
+              env: process.env.NEXT_PUBLIC_API_ENV,
+              application: process.env.NEXT_PUBLIC_APPLICATIONS,
               resources: [],
             });
           refetchCollections();

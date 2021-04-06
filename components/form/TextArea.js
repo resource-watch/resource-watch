@@ -34,7 +34,7 @@ class TextArea extends FormElement {
 TextArea.propTypes = {
   properties: PropTypes.object.isRequired,
   validations: PropTypes.array,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default TextArea;

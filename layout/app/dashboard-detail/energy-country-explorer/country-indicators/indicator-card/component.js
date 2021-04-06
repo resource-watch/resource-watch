@@ -1,16 +1,16 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import d3 from 'd3';
+import { format } from 'd3-format';
 import { Tooltip } from 'vizzuality-components';
 
 // Components
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/icon';
+import { WORLD_COUNTRY, US_COUNTRY_VALUES } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
 import InfoTooltip from './info-tooltip';
 
 // Constants
-import { WORLD_COUNTRY, US_COUNTRY_VALUES } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
 
 // styles
 import './styles.scss';
@@ -21,7 +21,7 @@ function IndicatorCard(props) {
   const [queryResult, setQueryResult] = useState({
     value: null,
     ranking: null,
-    count: null
+    count: null,
   });
   const [loading, setLoading] = useState(true);
   const [countryIsWorld, setCountryIsWorld] = useState(false);
@@ -37,20 +37,20 @@ function IndicatorCard(props) {
       // -----------------------------------------------------------------------------
 
       setCountryIsWorld(_countryIsWorld);
-      const query = _countryIsWorld ? indicator.worldQuery :
-        indicator.query.replace(new RegExp(`{${indicator.param}}`, 'g'), `'${countryValue}'`);
+      const query = _countryIsWorld ? indicator.worldQuery
+        : indicator.query.replace(new RegExp(`{${indicator.param}}`, 'g'), `'${countryValue}'`);
 
       axios.get(query)
         .then((result) => {
-          const rows = result.data.rows;
+          const { rows } = result.data;
 
           if (rows && rows.length > 0) {
-            const resObj = rows[0];            
+            const resObj = rows[0];
             setQueryResult({
-              value: d3.format(indicator.format)(resObj.x).replace('G', 'B'),
+              value: format(indicator.format)(resObj.x).replace('G', 'B'),
               ranking: resObj.ranking,
               count: resObj.count,
-              year: resObj.year
+              year: resObj.year,
             });
           }
           setLoading(false);
@@ -61,12 +61,13 @@ function IndicatorCard(props) {
         });
     }
   }, [country.label, country.value, indicator]);
-  
+
   return (
     <div className="c-indicator-card">
       <Spinner isLoading={loading} className="-light -relative" />
-      {!loading &&
-        <Fragment>
+      {!loading
+        && (
+        <>
           <div className="indicator-name">
             {indicator.name}
           </div>
@@ -79,12 +80,12 @@ function IndicatorCard(props) {
             {(queryResult && queryResult.value) || '-'}
           </div>
           <Tooltip
-            overlay={
-              <InfoTooltip 
+            overlay={(
+              <InfoTooltip
                 datasetID={indicator.datasetID}
                 dataYear={queryResult && queryResult.year}
               />
-            }
+            )}
             overlayClassName="c-rc-tooltip -default -no-max-width"
             placement="top"
             trigger={['click']}
@@ -95,22 +96,20 @@ function IndicatorCard(props) {
               className="info-button"
               role="button"
               tabIndex={0}
-              // onClick={() => handleInfoButtonClicked(indicator.datasetID)}
-              // onKeyPress={() => handleInfoButtonClicked(indicator.datasetID)}
             >
               <Icon name="icon-info" />
             </div>
           </Tooltip>
 
-        </Fragment>
-      }
+        </>
+        )}
     </div>
   );
 }
 
 IndicatorCard.propTypes = {
   indicator: PropTypes.object.isRequired,
-  country: PropTypes.object.isRequired
+  country: PropTypes.object.isRequired,
 };
 
 export default IndicatorCard;

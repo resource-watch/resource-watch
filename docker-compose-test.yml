@@ -1,0 +1,53 @@
+version: "3"
+services:
+  backend-test:
+    build: .
+    command: test-backend
+    environment:
+      LOGGER_LEVEL: info
+      NODE_ENV: test
+      PORT: 3001
+      REDIS_URL: redis://redis:6379
+      SECRET: keyboard cat
+    restart: always
+    container_name: resource-watch-backend-test
+    depends_on:
+      - redis
+
+  frontend-test-server:
+    build: .
+    command: start
+    environment:
+      LOGGER_LEVEL: info
+      NODE_ENV: test
+      REDIS_URL: redis://redis:6379
+    expose:
+      - 3000
+    restart: always
+    container_name: resource-watch-frontend-server
+    depends_on:
+      - redis
+
+  cypress:
+    build:
+      dockerfile: Dockerfile.cypress
+      context: .
+    working_dir: /e2e
+    volumes:
+      - ./cypress:/e2e/cypress
+      - ./cypress.json:/e2e/cypress.json
+      - ./.nyc_output:/e2e/.nyc_output
+      - ./coverage:/e2e/coverage
+      - ./config:/e2e/config
+      - ./.env.test:/e2e/.env.test
+    environment:
+      NODE_ENV: test
+      CYPRESS_baseUrl: http://frontend-test-server:3000
+      WAIT_HOSTS: frontend-test-server:3000
+      WAIT_HOSTS_TIMEOUT: 120
+      WAIT_SLEEP_INTERVAL: 3
+    depends_on:
+      - frontend-test-server
+
+  redis:
+    image: redis

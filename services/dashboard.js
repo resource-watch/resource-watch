@@ -14,26 +14,27 @@ import { logger } from 'utils/logs';
  * @returns {Object[]} array of serialized dashboards.
  */
 export const fetchDashboards = (params = {
-  env: process.env.API_ENV,
-  application: process.env.APPLICATIONS
+  env: process.env.NEXT_PUBLIC_API_ENV,
+  application: process.env.NEXT_PUBLIC_APPLICATIONS,
 }, headers = {}, _meta = false) => {
   logger.info('Fetch dashboards');
-  return WRIAPI.get('dashboard', {
+  return WRIAPI.get('/v1/dashboard', {
     headers: {
       ...WRIAPI.defaults.headers,
       ...headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1
+      'Upgrade-Insecure-Requests': 1,
     },
-    params
+    params,
   }).then((response) => {
-    const { data } = response;
+    const { status, statusText, data } = response;
     const { meta } = data;
+    logger.debug(`Fetched dashboards: ${status} - ${statusText}: ${JSON.stringify(data)}`);
 
     if (_meta) {
       return {
         dashboards: WRISerializer(data),
-        meta
+        meta,
       };
     }
 
@@ -53,15 +54,15 @@ export const fetchDashboards = (params = {
  */
 export const fetchDashboard = (id, params = {}) => {
   logger.info(`Fetch dashboard ${id}`);
-  return WRIAPI.get(`dashboard/${id}`, {
+  return WRIAPI.get(`/v1/dashboard/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1,
     },
     params: {
-      env: process.env.API_ENV,
-      application: process.env.APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
   })
@@ -90,17 +91,17 @@ export const fetchDashboard = (id, params = {}) => {
  */
 export const createDashboard = (body, token) => {
   logger.info('Create dashboard');
-  return WRIAPI.post('dashboard', {
+  return WRIAPI.post('/v1/dashboard', {
     data: {
       attributes: { ...body },
-      application: [process.env.APPLICATIONS],
-      env: process.env.API_ENV
-    }
+      application: [process.env.NEXT_PUBLIC_APPLICATIONS],
+      env: process.env.NEXT_PUBLIC_API_ENV,
+    },
   }, {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -128,13 +129,13 @@ export const createDashboard = (body, token) => {
  */
 export const updateDashboard = (id, body, token) => {
   logger.info(`Updates dashboard ${id}`);
-  return WRIAPI.patch(`dashboard/${id}`,
+  return WRIAPI.patch(`/v1/dashboard/${id}`,
     { data: { attributes: { ...body } } },
     {
       headers: {
         ...WRIAPI.defaults.headers,
-        Authorization: token
-      }
+        Authorization: token,
+      },
     })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -161,11 +162,11 @@ export const updateDashboard = (id, body, token) => {
  */
 export const deleteDashboard = (id, token) => {
   logger.info(`Deletes dashboard ${id}`);
-  return WRIAPI.delete(`dashboard/${id}`, {
+  return WRIAPI.delete(`/v1/dashboard/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -184,10 +185,12 @@ export const deleteDashboard = (id, token) => {
  * @return {Object} resulting dashboard based on the dashboard provided.
  */
 export const cloneDashboard = (dashboard, user) => {
-  const { id, name, description, photo, summary } = dashboard;
+  const {
+    id, name, description, photo, summary,
+  } = dashboard;
   logger.info(`Clones dashboard from dashboard ${id}`);
   const { token, id: userId } = user;
-  const url = `dashboard/${id}/clone`;
+  const url = `/v1/dashboard/${id}/clone`;
   const params = {
     'user-id': userId,
     data: {
@@ -198,15 +201,15 @@ export const cloneDashboard = (dashboard, user) => {
         name,
         description,
         photo,
-        summary
-      }
-    }
+        summary,
+      },
+    },
   };
   return WRIAPI.post(url, params, {
     headers: {
       ...WRIAPI.defaults.headers,
-      Authorization: token
-    }
+      Authorization: token,
+    },
   })
     .then((response) => {
       const { data } = response;
@@ -225,5 +228,5 @@ export default {
   createDashboard,
   updateDashboard,
   deleteDashboard,
-  cloneDashboard
+  cloneDashboard,
 };

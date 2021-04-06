@@ -6,7 +6,7 @@ class TableFooter extends PureComponent {
   static propTypes = {
     pagination: PropTypes.object,
     showTotalPages: PropTypes.bool,
-    onChangePage: PropTypes.func.isRequired
+    onChangePage: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -14,16 +14,18 @@ class TableFooter extends PureComponent {
       enabled: true,
       pageSize: 20,
       page: 1,
-      total: null
+      total: null,
     },
-    showTotalPages: false
+    showTotalPages: false,
   };
 
   onChangePage(page) { this.props.onChangePage(page); }
 
   render() {
     const { pagination, showTotalPages } = this.props;
-    const { size, pages, page, enabled } = pagination;
+    const {
+      size, pages, page, enabled,
+    } = pagination;
 
     if (size > 0 && pages > 1) {
       return (
@@ -33,8 +35,16 @@ class TableFooter extends PureComponent {
             onChange={(pageValue) => { this.onChangePage(pageValue); }}
           />
 
-          {(enabled && showTotalPages) &&
-            (<div>Page <span>{page}</span> of <span>{pages}</span></div>)}
+          {(enabled && showTotalPages)
+            && (
+            <div>
+              Page
+              <span>{page}</span>
+              {' '}
+              of
+              <span>{pages}</span>
+            </div>
+            )}
 
         </div>
       );

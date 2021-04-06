@@ -28,11 +28,11 @@ class LayoutEmbedTable extends PureComponent {
 
   loadTableData(query) {
     fetch(query)
-      .then(response => response.json())
+      .then((response) => response.json())
       .then((response) => {
         this.setState({
           isLoading: false,
-          tableData: response.data
+          tableData: response.data,
         });
       })
       .catch(() => {})
@@ -42,7 +42,7 @@ class LayoutEmbedTable extends PureComponent {
   render() {
     const {
       isLoading,
-      tableData
+      tableData,
     } = this.state;
 
     const header = tableData && tableData.length > 0 && Object.keys(tableData[0]);
@@ -65,18 +65,18 @@ class LayoutEmbedTable extends PureComponent {
           <div className="visualization">
             <Spinner isLoading={isLoading} className="-light" />
             <div className="table-content c-table">
-              {tableData &&
+              {tableData
+                && (
                 <table>
                   <thead>
                     <tr>
-                      {header && header.map(val => (
+                      {header && header.map((val) => (
                         <th
                           key={`header_${val}`}
                         >
                           {val}
                         </th>
-                      ))
-                      }
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
@@ -90,17 +90,19 @@ class LayoutEmbedTable extends PureComponent {
                     ))}
                   </tbody>
                 </table>
-              }
+                )}
             </div>
           </div>
-          {isExternal &&
+          {isExternal
+            && (
             <img
               className="embed-logo"
               height={21}
               width={129}
               src="/static/images/logo-embed.png"
               alt="Resource Watch"
-            /> }
+            />
+            ) }
         </div>
       </LayoutEmbed>
     );

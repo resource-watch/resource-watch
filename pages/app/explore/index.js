@@ -14,7 +14,7 @@ class ExplorePage extends PureComponent {
   static propTypes = {
     explore: PropTypes.object.isRequired,
     resetExplore: PropTypes.func.isRequired,
-    setIsServer: PropTypes.func.isRequired
+    setIsServer: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -100,7 +100,7 @@ class ExplorePage extends PureComponent {
   }
 
   componentWillUnmount() {
-    if (process.env.RW_NODE_ENV === 'production') {
+    if (process.env.NEXT_PUBLIC_RW_ENV === 'production') {
       this.props.resetExplore();
     }
   }
@@ -138,14 +138,14 @@ class ExplorePage extends PureComponent {
       basemap,
       labels,
       ...!!boundaries && { boundaries },
-      ...!!layerGroups.length &&
-        {
-          layers: encodeURIComponent(JSON.stringify(layerGroups.map(lg => ({
+      ...!!layerGroups.length
+        && {
+          layers: encodeURIComponent(JSON.stringify(layerGroups.map((lg) => ({
             dataset: lg.dataset,
             opacity: lg.opacity || 1,
             visible: lg.visible,
-            layer: lg.layers.find(l => l.active === true).id
-          }))))
+            layer: lg.layers.find((l) => l.active === true).id,
+          })))),
         },
       aoi,
 
@@ -154,14 +154,14 @@ class ExplorePage extends PureComponent {
       sort: sort.selected,
       sortDirection: sort.direction,
       ...filters.search && { search: filters.search },
-      ...!!filters.selected.topics.length &&
-        { topics: encodeURIComponent(JSON.stringify(filters.selected.topics)) },
-      ...!!filters.selected.data_types.length &&
-        { data_types: encodeURIComponent(JSON.stringify(filters.selected.data_types)) },
-      ...!!filters.selected.frequencies.length &&
-        { frequencies: encodeURIComponent(JSON.stringify(filters.selected.frequencies)) },
-      ...!!filters.selected.time_periods.length &&
-        { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) },
+      ...!!filters.selected.topics.length
+        && { topics: encodeURIComponent(JSON.stringify(filters.selected.topics)) },
+      ...!!filters.selected.data_types.length
+        && { data_types: encodeURIComponent(JSON.stringify(filters.selected.data_types)) },
+      ...!!filters.selected.frequencies.length
+        && { frequencies: encodeURIComponent(JSON.stringify(filters.selected.frequencies)) },
+      ...!!filters.selected.time_periods.length
+        && { time_periods: encodeURIComponent(JSON.stringify(filters.selected.time_periods)) },
     };
 
     if (typeof window !== 'undefined') {
@@ -170,53 +170,57 @@ class ExplorePage extends PureComponent {
   }
 
   shouldUpdateUrl(prevProps) {
-    const { explore: { datasets, filters, sort, map } } = this.props;
+    const {
+      explore: {
+        datasets, filters, sort, map,
+      },
+    } = this.props;
 
     const {
       explore: {
         datasets: prevDatasets,
         filters: prevFilters,
         sort: prevSort,
-        map: prevMap
-      }
+        map: prevMap,
+      },
     } = prevProps;
 
-    const layers = encodeURIComponent(JSON.stringify(map.layerGroups.map(lg => ({
+    const layers = encodeURIComponent(JSON.stringify(map.layerGroups.map((lg) => ({
       dataset: lg.dataset,
       opacity: lg.opacity || 1,
       visible: lg.visible,
-      layer: lg.layers.find(l => l.active === true).id
+      layer: lg.layers.find((l) => l.active === true).id,
     }))));
 
-    const prevLayers = encodeURIComponent(JSON.stringify(prevMap.layerGroups.map(lg => ({
+    const prevLayers = encodeURIComponent(JSON.stringify(prevMap.layerGroups.map((lg) => ({
       dataset: lg.dataset,
       opacity: lg.opacity || 1,
       visible: lg.visible,
-      layer: lg.layers.find(l => l.active === true).id
+      layer: lg.layers.find((l) => l.active === true).id,
     }))));
 
     return (
       // Map
-      map.viewport.zoom !== prevMap.viewport.zoom ||
-      map.viewport.latitude !== prevMap.viewport.latitude ||
-      map.viewport.longitude !== prevMap.viewport.longitude ||
-      map.viewport.pitch !== prevMap.viewport.pitch ||
-      map.viewport.bearing !== prevMap.viewport.bearing ||
-      map.basemap !== prevMap.basemap ||
-      map.labels.id !== prevMap.labels.id ||
-      map.boundaries !== prevMap.boundaries ||
-      layers !== prevLayers ||
-      map.aoi !== prevMap.aoi ||
+      map.viewport.zoom !== prevMap.viewport.zoom
+      || map.viewport.latitude !== prevMap.viewport.latitude
+      || map.viewport.longitude !== prevMap.viewport.longitude
+      || map.viewport.pitch !== prevMap.viewport.pitch
+      || map.viewport.bearing !== prevMap.viewport.bearing
+      || map.basemap !== prevMap.basemap
+      || map.labels.id !== prevMap.labels.id
+      || map.boundaries !== prevMap.boundaries
+      || layers !== prevLayers
+      || map.aoi !== prevMap.aoi
       // Datasets
-      datasets.selected !== prevDatasets.selected ||
-      datasets.page !== prevDatasets.page ||
-      sort.selected !== prevSort.selected ||
-      sort.direction !== prevSort.direction ||
-      filters.search !== prevFilters.search ||
-      filters.selected.topics.length !== prevFilters.selected.topics.length ||
-      filters.selected.data_types.length !== prevFilters.selected.data_types.length ||
-      filters.selected.frequencies.length !== prevFilters.selected.frequencies.length ||
-      filters.selected.time_periods.length !== prevFilters.selected.time_periods.length
+      || datasets.selected !== prevDatasets.selected
+      || datasets.page !== prevDatasets.page
+      || sort.selected !== prevSort.selected
+      || sort.direction !== prevSort.direction
+      || filters.search !== prevFilters.search
+      || filters.selected.topics.length !== prevFilters.selected.topics.length
+      || filters.selected.data_types.length !== prevFilters.selected.data_types.length
+      || filters.selected.frequencies.length !== prevFilters.selected.frequencies.length
+      || filters.selected.time_periods.length !== prevFilters.selected.time_periods.length
     );
   }
 
@@ -226,9 +230,9 @@ class ExplorePage extends PureComponent {
 }
 
 export default connect(
-  state => ({ explore: state.explore }),
+  (state) => ({ explore: state.explore }),
   {
     ...actions,
-    setIsServer
-  }
+    setIsServer,
+  },
 )(ExplorePage);

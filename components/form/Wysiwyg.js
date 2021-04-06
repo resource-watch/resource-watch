@@ -10,7 +10,6 @@ if (typeof window !== 'undefined') {
   Editor = require('react-quill');
 }
 
-
 class Wysiwyg extends FormElement {
   static getValue(html) {
     return html;
@@ -27,7 +26,7 @@ class Wysiwyg extends FormElement {
       value: Wysiwyg.getValue(this.props.properties.default),
       valid: null,
       error: [],
-      isQuillRef: false
+      isQuillRef: false,
     };
   }
 
@@ -68,23 +67,25 @@ class Wysiwyg extends FormElement {
 
     return (
       <div className="c-wysiwyg">
-        {this.props.toolbar &&
+        {this.props.toolbar
+          && (
           <this.props.toolbar.component
             quill={this.quill}
           />
-        }
+          )}
 
-        {!!Editor &&
+        {!!Editor
+          && (
           <Editor
             ref={(c) => { this.reactQuillRef = c; }}
             theme="snow"
             value={value}
             onChange={this.triggerChange}
             modules={{
-              ...!!this.props.toolbar && { toolbar: this.props.toolbar.container }
+              ...!!this.props.toolbar && { toolbar: this.props.toolbar.container },
             }}
           />
-        }
+          )}
       </div>
     );
   }
@@ -92,7 +93,7 @@ class Wysiwyg extends FormElement {
 
 Wysiwyg.propTypes = {
   properties: PropTypes.object.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default Wysiwyg;

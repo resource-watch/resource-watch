@@ -32,7 +32,7 @@ class LayoutMyRWDetail extends PureComponent {
     query: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
     locale: PropTypes.string.isRequired,
-    alerts: PropTypes.object.isRequired
+    alerts: PropTypes.object.isRequired,
   }
 
   state = { data: null }
@@ -41,7 +41,7 @@ class LayoutMyRWDetail extends PureComponent {
     const {
       user,
       query: { id, tab },
-      locale
+      locale,
     } = this.props;
 
     if (id === 'new') return;
@@ -66,8 +66,8 @@ class LayoutMyRWDetail extends PureComponent {
 
       fetchArea(id,
         {
-          application: process.env.APPLICATIONS,
-          env: process.env.API_ENV
+          application: process.env.NEXT_PUBLIC_APPLICATIONS,
+          env: process.env.NEXT_PUBLIC_API_ENV,
         },
         { Authorization: user.token })
         .then((data) => { this.setState({ data }); })
@@ -101,15 +101,17 @@ class LayoutMyRWDetail extends PureComponent {
             <a>
               {getLabel(a.dataset)}
             </a>
-          </Link>{listSeperator(alert, k)}
-        </span>));
+          </Link>
+          {listSeperator(alert, k)}
+        </span>
+      ));
     }
     return '';
   }
 
   render() {
     const {
-      query: { tab, subtab, id }
+      query: { tab, subtab, id },
     } = this.props;
 
     return (
@@ -126,12 +128,16 @@ class LayoutMyRWDetail extends PureComponent {
                   <Breadcrumbs
                     items={[{ name: capitalizeFirstLetter(tab), route: 'myrw', params: { tab, subtab: MYRW_DETAIL_SUB_TABS[tab] } }]}
                   />
-                  <Title className="-primary -huge page-header-title" >
+                  <Title className="-primary -huge page-header-title">
                     {this.getName()}
                   </Title>
-                  {(subtab === 'alerts') &&
-                    (<div className="page-header-info">Alerts for {this.getAlerts()}</div>)
-                  }
+                  {(subtab === 'alerts')
+                    && (
+                    <div className="page-header-info">
+                      Alerts for
+                      {this.getAlerts()}
+                    </div>
+                    )}
                 </div>
               </div>
             </div>

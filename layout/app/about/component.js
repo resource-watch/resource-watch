@@ -21,7 +21,7 @@ class AboutPage extends PureComponent {
 
     const styles = {};
     if (data && data.photo) {
-      styles.backgroundImage = `url(${process.env.STATIC_SERVER_URL}${data.photo.cover})`;
+      styles.backgroundImage = `url(${data.photo.cover})`;
     }
 
     const userCards = [
@@ -58,9 +58,9 @@ class AboutPage extends PureComponent {
           route: '/about/howto',
           label: 'Learn more',
           className: '-primary',
-          external: false
-        }
-      }
+          external: false,
+        },
+      },
     ];
 
     const valuesCards = [
@@ -71,8 +71,8 @@ class AboutPage extends PureComponent {
         link: {
           label: 'Data policy',
           route: '/get-involved/data-policy',
-          className: '-primary'
-        }
+          className: '-primary',
+        },
       },
       {
         id: 'openness',
@@ -82,8 +82,8 @@ class AboutPage extends PureComponent {
           label: 'Visit our Github',
           route: 'https://github.com/resource-watch',
           className: '-primary',
-          external: true
-        }
+          external: true,
+        },
       },
       {
         id: 'community',
@@ -92,9 +92,9 @@ class AboutPage extends PureComponent {
         link: {
           label: 'Get involved',
           route: '/get-involved',
-          className: '-primary'
-        }
-      }
+          className: '-primary',
+        },
+      },
     ];
 
     return (
@@ -136,7 +136,7 @@ class AboutPage extends PureComponent {
               </div>
             </div>
             <div className="row">
-              {userCards.map(card => (
+              {userCards.map((card) => (
                 <div key={card.id} className="column small-12 medium-6 large-4 c-card-column">
                   <CardApp
                     title={card.title}
@@ -144,8 +144,9 @@ class AboutPage extends PureComponent {
                     description={card.description}
                     link={card.link}
                     buttonType="secondary"
-                      />
-                </div>))}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </article>
@@ -158,7 +159,7 @@ class AboutPage extends PureComponent {
               </div>
             </div>
             <div className="row align-center">
-              {valuesCards.map(card => (
+              {valuesCards.map((card) => (
                 <div key={card.id} className="column small-12 medium-6 large-4 c-card-column">
                   <CardApp
                     title={card.title}
@@ -166,8 +167,9 @@ class AboutPage extends PureComponent {
                     description={card.description}
                     link={{ ...card.link }}
                     buttonType="primary"
-                    />
-                </div>))}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </article>
@@ -199,7 +201,9 @@ class AboutPage extends PureComponent {
               <div className="column small-12">
                 <Banner className="-text-center" bgImage="/static/images/backgrounds/partners-02@2x.jpg">
                   <p className="-claim">
-                    Questions, comments, or feedback? <br />
+                    Questions, comments, or feedback?
+                    {' '}
+                    <br />
                     Help us strengthen Resource Watch.
                   </p>
                   <Link to="about_contact-us">

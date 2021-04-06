@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import Icon from 'components/ui/icon'
+import Icon from 'components/ui/icon';
 
 class Tag extends React.PureComponent {
   static propTypes = {
@@ -10,7 +10,7 @@ class Tag extends React.PureComponent {
     className: PropTypes.string,
     isRemovable: PropTypes.bool,
 
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
   }
 
   render() {
@@ -18,18 +18,19 @@ class Tag extends React.PureComponent {
     return (
       <button
         className={`c-tag ${classnames({
-          [className]: !!className
+          [className]: !!className,
         })}`}
         onClick={this.props.onClick}
       >
         <span>{name}</span>
 
-        {isRemovable &&
+        {isRemovable
+          && (
           <Icon
             name="icon-cross"
             className="-tiny"
           />
-        }
+          )}
       </button>
     );
   }

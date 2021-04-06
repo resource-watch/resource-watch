@@ -8,5 +8,5 @@ import LoginModal from './component';
 
 export default connect(
   null,
-  { setUser }
+  { setUser },
 )(LoginModal);

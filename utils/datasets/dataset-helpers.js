@@ -1,16 +1,16 @@
-const getKey = (obj, val) => Object.keys(obj).find(key => obj[key] === val);
+const getKey = (obj, val) => Object.keys(obj).find((key) => obj[key] === val);
 
 // Namespace for dataset types in WRI's API
 const TYPES = {
   tabular: 'tabular',
-  raster: 'raster'
+  raster: 'raster',
 };
 
 // Namespace for dataset connectors in WRI's API
 const CONNECTORS = {
   doc: 'document',
   rest: 'rest',
-  wms: 'wms'
+  wms: 'wms',
 };
 
 // Namespace for dataset providers in WRI's API
@@ -26,7 +26,7 @@ const PROVIDERS = {
   csv: 'csv',
   tsv: 'tsv',
   xml: 'xml',
-  json: 'json'
+  json: 'json',
 };
 
 const visTypes = {
@@ -34,7 +34,7 @@ const visTypes = {
   table: 'Table',
   map: 'Map',
   embed: 'Embed',
-  text: 'Text'
+  text: 'Text',
 };
 
 const DECISIONTREE = {
@@ -44,32 +44,34 @@ const DECISIONTREE = {
       gee: [visTypes.chart, visTypes.table, visTypes.map],
       featureService: [visTypes.chart, visTypes.table, visTypes.map],
       bigquery: [visTypes.chart, visTypes.table, visTypes.map],
-      nexgddp: [visTypes.chart, visTypes.table, visTypes.map]
+      nexgddp: [visTypes.chart, visTypes.table, visTypes.map],
     },
     doc: {
       csv: [visTypes.chart, visTypes.table, visTypes.map],
       tsv: [visTypes.chart, visTypes.table, visTypes.map],
       xml: [visTypes.chart, visTypes.table, visTypes.map],
-      json: [visTypes.chart, visTypes.table, visTypes.map]
-    }
+      json: [visTypes.chart, visTypes.table, visTypes.map],
+    },
   },
   raster: {
     rest: {
       carto: [visTypes.chart, visTypes.map],
       gee: [visTypes.chart, visTypes.map],
       imageService: [visTypes.chart, visTypes.map],
-      rasdaman: [visTypes.chart, visTypes.map]
+      rasdaman: [visTypes.chart, visTypes.map],
     },
     wms: {
-      wms: [visTypes.map]
-    }
-  }
+      wms: [visTypes.map],
+    },
+  },
 };
 
 export const getVisualisationTypes = (datasetData) => {
   if (!datasetData) throw Error('datasetData param is required.');
 
-  const { id, type, connectorType, provider, geoInfo } = datasetData;
+  const {
+    id, type, connectorType, provider, geoInfo,
+  } = datasetData;
   const datasetType = !type ? 'tabular' : getKey(TYPES, type); // null means 'tabular'
   const datasetConnector = getKey(CONNECTORS, connectorType);
   const datasetProvider = getKey(PROVIDERS, provider);
@@ -86,7 +88,7 @@ export const getVisualisationTypes = (datasetData) => {
 
   // Checking geoInfo: it will remove Map if geoInfo is false or WMS
   if (datasetProvider && datasetProvider !== 'wms' && !geoInfo) {
-    visualisationTypes = visualisationTypes.filter(el => el !== visTypes.map);
+    visualisationTypes = visualisationTypes.filter((el) => el !== visTypes.map);
   }
 
   return {
@@ -94,7 +96,7 @@ export const getVisualisationTypes = (datasetData) => {
     type: TYPES[datasetType],
     connectorType,
     provider,
-    visualisationTypes
+    visualisationTypes,
   };
 };
 

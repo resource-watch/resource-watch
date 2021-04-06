@@ -1,4 +1,3 @@
-
 import { PureComponent } from 'react';
 
 // utils
@@ -10,15 +9,15 @@ class Webshot extends PureComponent {
     const { query, res } = props;
     const { id } = query;
 
-    await WRIAPI.get(`/widget/${id}`, {
+    await WRIAPI.get(`/v1/widget/${id}`, {
       headers: { 'Upgrade-Insecure-Requests': 1 },
-      params: { application: process.env.APPLICATIONS },
+      params: { application: process.env.NEXT_PUBLIC_APPLICATIONS },
       transformResponse: [].concat(
         WRIAPI.defaults.transformResponse,
-        ({ data }) => data
-      )
+        ({ data }) => data,
+      ),
     })
-      .then(response => WRISerializer(response))
+      .then((response) => WRISerializer(response))
       .then((widget) => {
         const { widgetConfig } = widget;
         const { type } = widgetConfig;

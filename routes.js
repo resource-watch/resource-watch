@@ -38,8 +38,8 @@ routes.add('partner', '/about/partners/:id', 'app/partner-detail');
 routes.add('about_faqs', '/about/faqs', 'app/faqs');
 routes.add('about_contact-us', '/about/contact-us', 'app/contact-us');
 routes.add('about_howto', '/about/howto', 'app/how-to');
-routes.add('newsletter', '/about/newsletter', 'app/newsletter');
-routes.add('newsletter-thank-you', '/about/newsletter-thank-you', 'app/newsletter-thank-you');
+routes.add('newsletter', '/about/newsletter', 'about/newsletter');
+routes.add('newsletter-thank-you', '/about/newsletter-thank-you', 'about/newsletter-thank-you');
 
 // ----- DATA -----
 routes.add('explore', '/data/explore/:dataset?', 'app/explore');
@@ -68,7 +68,7 @@ routes.add('attribution-requirements', '/api-attribution-requirements', 'app/att
 routes.add('catalog', '/catalog', 'app/catalog');
 
 // ------- USER MANAGEMENT  -------------
-routes.add('sign-in', '/sign-in', 'app/sign-in');
+routes.add('sign-in', '/sign-in', 'sign-in');
 routes.add('forgot-password', '/forgot-password', 'app/forgot-password');
 routes.add('reset-password', '/reset-password/:tokenEmail?', 'app/reset-password');
 

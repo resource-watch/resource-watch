@@ -26,9 +26,8 @@ export default class RasterService {
     }
 
     return fetch(
-      `${process.env.WRI_API_URL}/query/${this.dataset}?sql=${query}`,
-      { headers: { 'Upgrade-Insecure-Requests': 1 } }
-
+      `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/query/${this.dataset}?sql=${query}`,
+      { headers: { 'Upgrade-Insecure-Requests': 1 } },
     )
       .then((response) => {
         if (!response.ok) throw new Error('Unable to fetch the band names');
@@ -36,8 +35,9 @@ export default class RasterService {
       })
       .then(({ data }) => {
         if (this.provider === 'gee') {
-          return data[0].bands.map(b => b.id);
-        } else if (this.provider === 'cartodb') {
+          return data[0].bands.map((b) => b.id);
+        }
+        if (this.provider === 'cartodb') {
           return Array.from({ length: data[0].numbands }, (_, i) => `${i + 1}`);
         }
 
@@ -72,8 +72,7 @@ export default class RasterService {
       // We now fetch the actual data
       return fetch(
         `https://api.resourcewatch.org/v1/query/${this.dataset}?sql=${query}`,
-        { headers: { 'Upgrade-Insecure-Requests': 1 } }
-
+        { headers: { 'Upgrade-Insecure-Requests': 1 } },
       )
         .then((res) => {
           if (!res.ok) reject();
@@ -83,6 +82,8 @@ export default class RasterService {
           if (this.provider === 'gee') {
             // We cache the data because the information of all the
             // bands comes at once
+
+            // eslint-disable-next-line prefer-destructuring
             this.geeBandStatInfo = data.data[0];
 
             resolve(this.geeBandStatInfo[bandName]);
@@ -112,13 +113,13 @@ export default class RasterService {
       x: {
         type: null,
         name: 'x',
-        alias: null
+        alias: null,
       },
       y: {
         type: null,
         name: 'y',
-        alias: null
-      }
+        alias: null,
+      },
     };
   }
 }

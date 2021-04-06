@@ -27,20 +27,21 @@ class LayoutEmbedWidget extends PureComponent {
   getModal() {
     const { widget, bandDescription, bandStats } = this.props;
     const widgetAtts = widget;
-    const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0 &&
-      widgetAtts.metadata[0].info &&
-      widgetAtts.metadata[0].info.widgetLinks) || [];
-    const noAdditionalInfo = !widget.description && !bandDescription &&
-      isEmpty(bandStats) && widgetLinks.length === 0;
+    const widgetLinks = (widgetAtts.metadata && widgetAtts.metadata.length > 0
+      && widgetAtts.metadata[0].info
+      && widgetAtts.metadata[0].info.widgetLinks) || [];
+    const noAdditionalInfo = !widget.description && !bandDescription
+      && isEmpty(bandStats) && widgetLinks.length === 0;
     return (
       <div className="widget-modal">
-        {noAdditionalInfo &&
-          <p>No additional information is available</p>}
-        {widgetLinks.length > 0 &&
+        {noAdditionalInfo
+          && <p>No additional information is available</p>}
+        {widgetLinks.length > 0
+          && (
           <div className="widget-links-container">
             <h4>Links</h4>
             <ul>
-              {widgetLinks.map(link => (
+              {widgetLinks.map((link) => (
                 <li>
                   <a
                     href={link.link}
@@ -53,7 +54,7 @@ class LayoutEmbedWidget extends PureComponent {
               ))}
             </ul>
           </div>
-        }
+          )}
         {widget.description && (
           <div>
             <h4>Description</h4>
@@ -75,7 +76,7 @@ class LayoutEmbedWidget extends PureComponent {
               <table>
                 <thead>
                   <tr>
-                    {Object.keys(bandStats).map(name => <th key={name}>{name}</th>)}
+                    {Object.keys(bandStats).map((name) => <th key={name}>{name}</th>)}
                   </tr>
                 </thead>
                 <tbody>
@@ -165,16 +166,18 @@ class LayoutEmbedWidget extends PureComponent {
         <div className="c-embed-widget">
           {!webshot && (
           <div className="widget-title">
-            {widgetLinks.length === 0 &&
+            {widgetLinks.length === 0
+              && (
               <a
                 href={`/data/explore/${widget.dataset}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <h4>{widget.name}</h4>
-              </a>}
-            {widgetLinks.length > 0 &&
-              <h4>{widget.name}</h4>}
+              </a>
+              )}
+            {widgetLinks.length > 0
+              && <h4>{widget.name}</h4>}
             <div className="buttons">
               <ul>
                 <li>
@@ -196,13 +199,13 @@ class LayoutEmbedWidget extends PureComponent {
                     <ShareModal
                       links={{
                         link: typeof window !== 'undefined' && `${window.location.origin}/embed/widget/${widget.id}`,
-                        embed: typeof window !== 'undefined' && `${window.location.origin}/embed/widget/${widget.id}`
+                        embed: typeof window !== 'undefined' && `${window.location.origin}/embed/widget/${widget.id}`,
                       }}
                       analytics={{
                         facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
                         twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
                         email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
-                        copy: type => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`)
+                        copy: (type) => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`),
                       }}
                     />
                   </Modal>
@@ -215,7 +218,7 @@ class LayoutEmbedWidget extends PureComponent {
                       <Icon name={`icon-${favouriteIcon}`} className="c-icon -small" />
                     </button>
                   </li>
-                  )}
+                )}
                 <li>
                   <button
                     aria-label={`${modalOpened ? 'Close' : 'Open'} information modal`}
@@ -229,7 +232,8 @@ class LayoutEmbedWidget extends PureComponent {
                 </li>
               </ul>
             </div>
-          </div>)}
+          </div>
+          )}
           <div className="widget-content">
             {typeof window !== 'undefined' && (
               <Renderer

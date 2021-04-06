@@ -16,28 +16,32 @@ class PagesForm extends React.Component {
   static propTypes = {
     authorization: PropTypes.string.isRequired,
     id: PropTypes.string,
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
   };
 
   static defaultProps = { id: null };
 
-  state = Object.assign({}, STATE_DEFAULT, {
+  state = ({
+    ...STATE_DEFAULT,
     id: this.props.id,
     loading: !!this.props.id,
-    form: STATE_DEFAULT.form
+    form: STATE_DEFAULT.form,
   });
 
   componentDidMount() {
+    const {
+      authorization,
+    } = this.props;
     const { id } = this.state;
     // Get the pages and fill the
     // state form with its params if the id exists
     if (id) {
-      fetchPage(id)
+      fetchPage(id, authorization)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
             // Stop the loading
-            loading: false
+            loading: false,
           });
         })
         .catch((err) => {
@@ -53,7 +57,9 @@ class PagesForm extends React.Component {
    * - onStepChange
   */
   onSubmit = (event) => {
-    const { step, submitting, id, stepLength, form } = this.state;
+    const {
+      step, submitting, id, stepLength, form,
+    } = this.state;
     const { authorization, onSubmit } = this.props;
     event.preventDefault();
 
@@ -104,7 +110,7 @@ class PagesForm extends React.Component {
   }
 
   onChange = (obj) => {
-    const form = Object.assign({}, this.state.form, obj);
+    const form = { ...this.state.form, ...obj };
     this.setState({ form });
   }
 
@@ -126,8 +132,8 @@ class PagesForm extends React.Component {
           break;
         }
         default: {
-          if ((typeof params[f] !== 'undefined' || params[f] !== null) ||
-            (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+          if ((typeof params[f] !== 'undefined' || params[f] !== null)
+            || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -142,22 +148,24 @@ class PagesForm extends React.Component {
       <form className="c-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={this.state.loading} className="-light" />
 
-        {(this.state.step === 1 && !this.state.loading) &&
+        {(this.state.step === 1 && !this.state.loading)
+          && (
           <Step1
-            onChange={value => this.onChange(value)}
+            onChange={(value) => this.onChange(value)}
             form={this.state.form}
             id={this.state.id}
           />
-        }
+          )}
 
-        {!this.state.loading &&
+        {!this.state.loading
+          && (
           <Navigation
             step={this.state.step}
             stepLength={this.state.stepLength}
             submitting={this.state.submitting}
             onStepChange={this.onStepChange}
           />
-        }
+          )}
       </form>
     );
   }

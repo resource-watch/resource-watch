@@ -4,6 +4,6 @@ import { connect } from 'react-redux';
 import LayoutHowTo from './component';
 
 export default connect(
-  state => ({ data: state.staticPages['how-to'] }),
-  null
+  (state) => ({ data: state.staticPages['how-to'] }),
+  null,
 )(LayoutHowTo);

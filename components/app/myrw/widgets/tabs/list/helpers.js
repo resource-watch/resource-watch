@@ -2,24 +2,24 @@ export const getQueryParams = (state = {}, props) => {
   const {
     sort,
     pagination,
-    search
+    search,
   } = state;
   const {
     user: { id },
-    subtab
+    subtab,
   } = props;
   const { page, limit } = pagination;
   const isCollection = !['my_widgets', 'favourites'].includes(subtab);
 
   return ({
-    application: process.env.APPLICATIONS,
+    application: process.env.NEXT_PUBLIC_APPLICATIONS,
     'page[size]': limit,
     'page[number]': page,
     sort: sort === 'asc' ? 'updatedAt' : '-updatedAt',
     ...search && search.length && { name: search },
     ...subtab === 'favourites' && { favourite: true },
     ...(subtab !== 'favourites' && !isCollection) && { userId: id },
-    ...isCollection && { collection: subtab }
+    ...isCollection && { collection: subtab },
   });
 };
 

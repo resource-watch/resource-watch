@@ -21,7 +21,7 @@ export const fetchSearch = createThunkAction('SEARCH/fetchSearch', () => (dispat
     dispatch(setSearchError(null));
     logEvent('Search', 'Search', term);
 
-    return fetch(`https://api.addsearch.com/v1/search/${process.env.ADD_SEARCH_KEY}?term=${term}&page=${page}&limit=${limit}&fuzzy=true`)
+    return fetch(`https://api.addsearch.com/v1/search/${process.env.NEXT_PUBLIC_ADD_SEARCH_KEY}?term=${term}&page=${page}&limit=${limit}&fuzzy=true`)
       .then((response) => {
         if (response.status >= 400) throw Error(response.statusText);
         return response.json();
@@ -47,10 +47,8 @@ export const fetchSearch = createThunkAction('SEARCH/fetchSearch', () => (dispat
   dispatch(setSearchSelected(null));
 });
 
+export const setSearchUrl = createThunkAction('SEARCH/setSearchUrl', () => (dispatch, getState) => {
+  const { search: { term, page } } = getState();
 
-export const setSearchUrl = createThunkAction('SEARCH/setSearchUrl', () =>
-  (dispatch, getState) => {
-    const { search: { term, page } } = getState();
-
-    Router.replaceRoute('search', { term, page });
-  });
+  Router.replaceRoute('search', { term, page });
+});

@@ -3,5 +3,5 @@ export default {
   loading: false,
   error: null,
   layerActive: null,
-  layerPoints: []
+  layerPoints: [],
 };
