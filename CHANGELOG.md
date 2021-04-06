@@ -34,6 +34,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - fixed issue with user areas overlapping with dataset detail view in Explore page.
 - fixed issue with Twitter card attributes in dashboards. [#177007206](https://www.pivotaltracker.com/story/show/177007206)
 
+### Removed
+- styles optimization (`cssnano` and `optimize-css-assets-webpack-plugin` dependencies)
+- duplicated meta charset tag and other meta tags in the document.
+- user token from tools endpoint.
+- `moveto` dependency.
+- `moment-range` dependency.
+- `three` dependency.
+- `json-loader` dependency.
+- `bcrypt` dependency.
+
 ## [2.20.5] - 2020-02-23
 ### Added
 - Coral and Air Quality topic links.[Contribution](https://github.com/resource-watch/resource-watch/commit/a83244ad31ae68369603592bc3f2c01ed3bab860)
