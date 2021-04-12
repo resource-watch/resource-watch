@@ -3,11 +3,11 @@ import { useQuery } from 'react-query';
 // services
 import { fetchDatasets } from 'services/dataset';
 
-const fetcher = (key, params) => fetchDatasets(params);
+// const fetcher = (key, params) => fetchDatasets(params);
 
-const useFetchDatasets = (params = {}, queryConfig = {}) => useQuery(
+export const useFetchDatasets = (params = {}, queryConfig = {}) => useQuery(
   ['fetch-datasets', params],
-  fetcher,
+  () => fetchDatasets(params),
   { ...queryConfig },
 );
 

@@ -32,7 +32,7 @@ const ExploreCollections = ({
     token,
     {},
     {
-      enabled: selectedCollection,
+      enabled: !!selectedCollection,
     },
   );
 

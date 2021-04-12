@@ -20,10 +20,20 @@
     margin-top: (14 * $space);
 
     > .menu-option {
+      position: relative;
       display: flex;
       align-items: center;
       height: 45px;
       cursor: pointer;
+
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 5px;
+      }
 
       svg {
         width: 25px;
@@ -31,26 +41,16 @@
         margin: 0 (4 * $space);
       }
 
+      .section-name,
       .collection-name {
         margin-left: (5 * $space);
       }
 
       &.-active {
-        position: relative;
         background-color: rgba($sea-blue, .05);
 
         &:before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 0;
-          height: 100%;
-          width: 5px;
           background: $sea-blue;
-        }
-
-        .collection-name {
-          margin-left: (4 * $space);
         }
       }
     }

@@ -38,7 +38,7 @@ const ExploreFavorites = ({
     includes: 'widget,metadata,layer,vocabulary',
   },
   {
-    enabled: datasetIds.length,
+    enabled: !!(datasetIds.length),
     initialData: [],
     initialStale: true,
     keepPreviousData: true,

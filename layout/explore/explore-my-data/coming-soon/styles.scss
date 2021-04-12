@@ -1,11 +1,7 @@
 @import 'css/settings';
 
-.c-explore-login {
-  display: flex;
-  flex-direction: column;
-  margin: 0 ($space * 4) 0 ($space * 3);
-
-  .card-login {
+.c-explore-my-data-coming-soon {
+  > .card-coming-soon {
     display: flex;
     flex-direction: column;
     align-items: center;

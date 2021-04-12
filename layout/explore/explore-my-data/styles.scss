@@ -1,0 +1,9 @@
+@import 'css/settings';
+
+.c-explore-my-data {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  margin: 0 ($space * 4) 0 ($space * 3);
+}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'routes';
 import { useRouter } from 'next/router';
@@ -24,7 +24,7 @@ const AreasIndex = ({
     size: 0,
   });
   const {
-    resolvedData: {
+    data: {
       areas: userAreas,
       meta,
     },
