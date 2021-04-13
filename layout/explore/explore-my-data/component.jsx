@@ -21,7 +21,7 @@ import MyDataComingSoon from './coming-soon';
 import './styles.scss';
 
 const VALID_DATASET_PROVIDERS = [
-  'carto',
+  'cartodb',
   'gee',
 ];
 
@@ -36,7 +36,7 @@ export default function ExploreMyData({
 
   const {
     data: datasets,
-    isFetchedAfterMount,
+    isFetching,
   } = useFetchDatasets({
     userId,
     application: process.env.NEXT_PUBLIC_APPLICATIONS,
@@ -58,15 +58,17 @@ export default function ExploreMyData({
 
   return (
     <div className="c-explore-my-data">
-      {!isFetchedAfterMount && <Spinner className="-light" isLoading />}
+      {(isFetching && userId) && <Spinner className="-light" isLoading />}
 
-      {(isFetchedAfterMount && !datasetsToDisplay.length > 0) && (<MyDataComingSoon />)}
-
-      {(isFetchedAfterMount && datasetsToDisplay.length > 0) && (
+      {(!isFetching && datasetsToDisplay.length > 0) && (
         <DatasetList
           list={datasetsToDisplay}
           actions={<ExploreDatasetsActions />}
         />
+      )}
+
+      {((!isFetching && !datasetsToDisplay.length) || !userId) && (
+        <MyDataComingSoon />
       )}
     </div>
   );

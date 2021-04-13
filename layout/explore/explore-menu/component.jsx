@@ -245,6 +245,7 @@ const ExploreMenu = ({
           })}
           role="button"
           tabIndex={0}
+          data-cy="my-data-tab"
           onKeyPress={() => {
             setSidebarSection(EXPLORE_SECTIONS.MY_DATA);
             logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.MY_DATA);
