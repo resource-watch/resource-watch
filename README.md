@@ -79,6 +79,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_BLOG_API_URL | Used to fetch posts coming from the Resource Watch blog (Wordpress) |  | In most cases you'll want to use https://blog.resourcewatch.org/wp-json/wp/v2 for this value. When testing, be sure to mock all your HTTP requests, and avoid relying on actual calls to external services (like this one). |
 | NEXT_PUBLIC_BING_MAPS_API_KEY | API KEY used by Cesium. You can find more info in [its documentation](https://cesium.com/docs/cesiumjs-ref-doc/BingMapsApi.html#.defaultKey). |  |  |
 | NEXT_PUBLIC_RW_MAPBOX_API_TOKEN | Mapbox token used to render and handle Mapbox instances. You can find more info in the [Mapbox documentation](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/). |  |  |
+| NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID | Measurement ID used by Google Analytics v4. You can find more info in [Google Analytics v4 documentation](https://support.google.com/analytics/answer/9744165?hl=en&utm_id=ad#cms). This variable doesn't replace `NEXT_PUBLIC_GOOGLE_ANALYTICS` environmental variable. | | |
 
 If you want to customize these variables for your local environment, the recommended way is creating a `.env.local` file.
 
