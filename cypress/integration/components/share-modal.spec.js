@@ -36,7 +36,7 @@ describe('a user wants to share the page with a shortened link', () => {
     });
   });
 
-  it('the user gets the standard link if bitly is down', () => {
+  it.skip('the user gets the standard link if bitly is down', () => {
     cy.intercept(
       {
         method: 'POST',
