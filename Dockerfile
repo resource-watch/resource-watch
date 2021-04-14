@@ -42,6 +42,7 @@ COPY services ./services
 COPY server ./server
 COPY utils ./utils
 COPY test ./test
+COPY scripts ./scripts
 
 # Copy single files
 COPY .babelrc .
