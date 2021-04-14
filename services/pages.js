@@ -11,13 +11,12 @@ import { logger } from 'utils/logs';
  * @param {Object} headers Request headers.
  */
 export const fetchPages = (token, params = {}, headers = {}) => {
-  logger.info('Fetch pages');
+  logger.info('fetches static pages');
   return WRIAPI.get(
     '/v1/static_page',
     {
       headers: {
         ...headers,
-        Authorization: token,
       },
       params: {
         published: 'all',
@@ -50,7 +49,6 @@ export const fetchPage = (id, token, params = {}, headers = {}) => {
     {
       headers: {
         ...headers,
-        Authorization: token,
       },
       params: { ...params },
     },
