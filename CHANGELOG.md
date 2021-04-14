@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `next@10.1.3`
 
 ### Fixed
+- `/static-page` endpoint. [RW-19](https://vizzuality.atlassian.net/browse/RW-19?focusedCommentId=10534)
 
 ### Removed
 
