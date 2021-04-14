@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import {
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
-import { toastr } from 'react-redux-toastr';
-import classnames from 'classnames';
-
-// Services
-import { fetchDatasets } from 'services/dataset';
 
 // Components
 import DatasetList from 'layout/explore/explore-datasets/list';
@@ -13,17 +10,15 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 
 // hooks
 import useFetchCollection from 'hooks/collection/fetch-collection';
+import useFetchDatasets from 'hooks/dataset/fetch-datasets';
 
 // Styles
 import './styles.scss';
 
 const ExploreCollections = ({
   token,
-  selectedDataset,
   selectedCollection,
 }) => {
-  const [datasets, setDatasets] = useState([]);
-  const [datasetsLoading, setDatasetsLoading] = useState(false);
   const {
     data: collection,
     isFetching: collectionIsFetching,
@@ -32,46 +27,40 @@ const ExploreCollections = ({
     token,
     {},
     {
-      enabled: !!selectedCollection,
+      enabled: !!(selectedCollection),
     },
   );
 
-  useEffect(() => {
-    if (!collection) return () => {};
-    const datasetIDs = collection.resources
+  const datasetIDs = useMemo(() => {
+    if (!collection) return [];
+    return collection.resources
       .filter(({ type }) => type === 'dataset')
       .map(({ id }) => id);
-
-    if (datasetIDs.length) {
-      setDatasetsLoading(true);
-      fetchDatasets({
-        ids: datasetIDs.join(','),
-        includes: 'widget,metadata,layer,vocabulary',
-      })
-        .then((data) => {
-          setDatasets(data);
-          setDatasetsLoading(false);
-        })
-        .catch((err) => {
-          toastr.error('Error loading collection datasets', err);
-          setDatasetsLoading(false);
-        });
-    } else {
-      setDatasets([]);
-    }
-    return () => {};
   }, [collection]);
 
+  const {
+    data: datasets,
+    isFetching: datasetsIsFetching,
+  } = useFetchDatasets(
+    {
+      ids: datasetIDs.join(','),
+      includes: 'widget,metadata,layer,vocabulary',
+    },
+    {
+      enabled: datasetIDs.length > 0,
+      initialData: [],
+      initialStale: true,
+    },
+  );
+
   return (
-    <div className={classnames({
-      'c-explore-collections': true,
-      '-hidden': selectedDataset,
-    })}
-    >
-      <Spinner
-        isLoading={(datasetsLoading || collectionIsFetching)}
-        className="-light -relative"
-      />
+    <div className="c-explore-collections">
+      {(datasetsIsFetching || collectionIsFetching) && (
+        <Spinner
+          isLoading
+          className="-light"
+        />
+      )}
       {datasets.length > 0 && (
         <DatasetList
           list={datasets}
@@ -82,13 +71,8 @@ const ExploreCollections = ({
   );
 };
 
-ExploreCollections.defaultProps = {
-  selectedDataset: null,
-};
-
 ExploreCollections.propTypes = {
   token: PropTypes.string.isRequired,
-  selectedDataset: PropTypes.string,
   selectedCollection: PropTypes.string.isRequired,
 };
 
