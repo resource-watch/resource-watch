@@ -9,7 +9,7 @@ import { logger } from 'utils/logs';
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-favorites|here}
  * @param {String} token User's token
  */
-export const fetchFavourites = (token) => {
+export const fetchFavorites = (token) => {
   logger.info('Fetch favorites');
   return WRIAPI.get('/v1/favourite',
     {

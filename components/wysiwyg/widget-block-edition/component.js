@@ -53,7 +53,7 @@ class WidgetBlockEdition extends PureComponent {
                     <Tabs
                       options={[
                         { label: 'My visualizations', value: 'my-widgets' },
-                        { label: 'My favourites', value: 'my-favourites' },
+                        { label: 'My favorites', value: 'my-favorites' },
                         { label: 'All visualizations', value: 'all-widgets' },
                       ]}
                       defaultSelected={tab}
