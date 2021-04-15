@@ -20,13 +20,13 @@ node {
     stage ('Build docker') {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_WRI_API_URL=https://staging-api.resourcewatch.org --build-arg NEXT_PUBLIC_CALLBACK_URL=https://staging.resourcewatch.org/auth --build-arg NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID=${env.GOOGLE_ANALYTICS_V4_ID} -t ${imageTag} .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_WRI_API_URL=https://staging-api.resourcewatch.org --build-arg NEXT_PUBLIC_CALLBACK_URL=https://staging.resourcewatch.org/auth --build-arg NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID=G-PTF4BE2G4G -t ${imageTag} .")
           break
         case "preproduction":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_CALLBACK_URL=https://preproduction.resourcewatch.org/auth --build-arg NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID=${env.GOOGLE_ANALYTICS_V4_ID} -t ${imageTag} .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_CALLBACK_URL=https://preproduction.resourcewatch.org/auth -t ${imageTag} .")
           break
         case "master":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID=${env.GOOGLE_ANALYTICS_V4_ID} -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
         default:
           sh("echo NOT DEPLOYED")
           currentBuild.result = 'SUCCESS'
