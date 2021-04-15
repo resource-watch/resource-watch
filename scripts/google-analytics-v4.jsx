@@ -2,6 +2,11 @@ import React from 'react';
 import Head from 'next/head';
 
 export default function GoogleAnalyticsV4Script() {
+  if (!process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID) {
+    console.warn('GOOGLE ANALYTICS V4: MEASUREMENT ID NOT DEFINED');
+    return null;
+  }
+
   return (
     <Head>
       {/* Global site tag (gtag.js) - Google Analytics */}

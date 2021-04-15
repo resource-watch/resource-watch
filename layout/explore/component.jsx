@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useMemo,
   useCallback,
@@ -6,13 +6,9 @@ import React, {
 import PropTypes from 'prop-types';
 import MediaQuery from 'react-responsive';
 
-// Components
+// components
 import Layout from 'layout/layout/layout-app';
-
-// Modal
 import Modal from 'components/modal/modal-component';
-
-// Explore components
 import ExploreSidebar from 'layout/explore/explore-sidebar';
 import ExploreMenu from 'layout/explore/explore-menu';
 import ExploreDatasets from 'layout/explore/explore-datasets';
@@ -26,6 +22,7 @@ import ExploreLogin from 'layout/explore/explore-login';
 import ExploreDiscover from 'layout/explore/explore-discover';
 import ExploreNearRealTime from 'layout/explore/explore-near-real-time';
 import ExploreFavorites from 'layout/explore/explore-favorites';
+import ExploreMyData from 'layout/explore/explore-my-data';
 
 // utils
 import { breakpoints } from 'utils/responsive';
@@ -90,6 +87,9 @@ function Explore(props) {
             )}
             {(section === EXPLORE_SECTIONS.AREAS_OF_INTEREST && userIsLoggedIn) && (
               <ExploreAreasOfInterest />
+            )}
+            {section === EXPLORE_SECTIONS.MY_DATA && (
+              <ExploreMyData />
             )}
           </div>
         </>

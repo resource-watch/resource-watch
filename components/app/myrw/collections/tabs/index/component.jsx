@@ -1,10 +1,10 @@
-import React, {
+import {
   useState,
   useCallback,
   useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
-import { useQueryCache } from 'react-query';
+import { useQueryClient } from 'react-query';
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -22,9 +22,9 @@ const CollectionsIndex = ({
     size: 0,
     pages: 0,
   });
-  const queryCache = useQueryCache();
+  const queryClient = useQueryClient();
   const {
-    resolvedData: {
+    data: {
       collections,
       meta,
     },
@@ -43,6 +43,7 @@ const CollectionsIndex = ({
         meta: {},
       },
       initialStale: true,
+      keepPreviousData: true,
     },
   );
 
@@ -54,12 +55,12 @@ const CollectionsIndex = ({
   }, [pagination]);
 
   const handleAfterDeleteCollection = useCallback(async () => {
-    await queryCache.invalidateQueries(['paginated-collections']);
+    await queryClient.invalidateQueries(['paginated-collections']);
     setPagination((prevPagination) => ({
       ...prevPagination,
       page: 1,
     }));
-  }, [queryCache]);
+  }, [queryClient]);
 
   useEffect(() => {
     setPagination((prevPagination) => ({

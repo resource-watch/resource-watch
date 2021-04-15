@@ -41,7 +41,20 @@
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
     "jsx-a11y/anchor-is-valid": "off",
-    "react/button-has-type": "off"
+    "react/button-has-type": "off",
+    // https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#eslint
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    // ---
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ]
   },
   "parser": "@babel/eslint-parser",
   "parserOptions": {

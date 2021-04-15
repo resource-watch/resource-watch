@@ -68,7 +68,7 @@ export default function HeadApp({
           {isHotjarRoute && <HotjarScript />}
         </>
       )}
-      {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID && (<GoogleAnalyticsV4Script />)}
+      <GoogleAnalyticsV4Script />
       {isCesiumRoute && (<CesiumScript />)}
     </>
   );
