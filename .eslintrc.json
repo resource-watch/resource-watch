@@ -41,7 +41,16 @@
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
     "jsx-a11y/anchor-is-valid": "off",
-    "react/button-has-type": "off"
+    "react/button-has-type": "off",
+    "no-console": [
+      "warn",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ]
   },
   "parser": "@babel/eslint-parser",
   "parserOptions": {
