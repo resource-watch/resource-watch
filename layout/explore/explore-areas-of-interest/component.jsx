@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useCallback,
   useMemo,
@@ -34,7 +34,7 @@ const ExploreAreasOfInterest = ({
     size: 0,
   });
   const {
-    resolvedData: {
+    data: {
       areas: userAreas,
       meta,
     },

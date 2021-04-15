@@ -1,16 +1,15 @@
-import React from 'react';
-
-// Components
+// components
+import CardPlaceholder from 'components/card-placeholder';
 import LoginRequired from 'components/ui/login-required';
 
-// Styles
+// styles
 import './styles.scss';
 
 const ExploreLogin = () => (
   <div className="c-explore-login">
-    <div className="card -empty" />
+    <CardPlaceholder />
     <LoginRequired redirect={false}>
-      <div className="card -login">
+      <div className="card-login">
         <h4>Log in or create a free account to access advanced features</h4>
         <p>
           Save your favorite data, create customized collections, and more.
@@ -23,8 +22,8 @@ const ExploreLogin = () => (
         </button>
       </div>
     </LoginRequired>
-    <div className="card -empty" />
-    <div className="card -empty" />
+    <CardPlaceholder />
+    <CardPlaceholder />
   </div>
 );
 export default ExploreLogin;

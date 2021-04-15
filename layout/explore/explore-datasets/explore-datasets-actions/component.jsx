@@ -38,7 +38,7 @@ const ExploreDatasetsActions = ({
   const {
     refetch,
   } = useFetchCollection(selectedCollection, user.token, {}, {
-    enabled: selectedCollection && user.token,
+    enabled: !!(selectedCollection && user.token),
   });
   const isActive = useMemo(
     () => !!layerGroups.find((l) => l.dataset === dataset.id),

@@ -39,7 +39,7 @@ function ExploreDetailVisualization(props) {
   const {
     data: area,
   } = useFetchArea(aoi, authorization, {}, {
-    enabled: aoi && authorization,
+    enabled: !!(aoi && authorization),
   });
 
   const onSaveWidget = (widget) => {

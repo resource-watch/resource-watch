@@ -1,7 +1,7 @@
 import App from 'next/app';
-import React from 'react';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import initStore from 'lib/store';
 
 // es6 shim for .finally() in promises
@@ -30,6 +30,8 @@ import {
 import 'css/index.scss';
 
 finallyShim.shim();
+
+const queryClient = new QueryClient();
 
 class RWApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
@@ -96,7 +98,9 @@ class RWApp extends App {
 
     return (
       <Provider store={store}>
-        <Component {...pageProps} />
+        <QueryClientProvider client={queryClient}>
+          <Component {...pageProps} />
+        </QueryClientProvider>
       </Provider>
     );
   }

@@ -1,4 +1,4 @@
-import React, {
+import {
   useCallback,
   useMemo,
 } from 'react';
@@ -57,7 +57,7 @@ const ExploreMenu = ({
     {
       initialData: [],
       initialStale: true,
-      enabled: token,
+      enabled: !!token,
     },
   );
 
@@ -241,6 +241,25 @@ const ExploreMenu = ({
         <div
           className={classnames({
             'menu-option': true,
+            '-active': section === EXPLORE_SECTIONS.MY_DATA,
+          })}
+          role="button"
+          tabIndex={0}
+          data-cy="my-data-tab"
+          onKeyPress={() => {
+            setSidebarSection(EXPLORE_SECTIONS.MY_DATA);
+            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.MY_DATA);
+          }}
+          onClick={() => {
+            setSidebarSection(EXPLORE_SECTIONS.MY_DATA);
+            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.MY_DATA);
+          }}
+        >
+          <span className="section-name">My Data</span>
+        </div>
+        <div
+          className={classnames({
+            'menu-option': true,
             '-active': section === EXPLORE_SECTIONS.FAVORITES,
           })}
           role="button"
@@ -254,7 +273,7 @@ const ExploreMenu = ({
             logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.FAVORITES);
           }}
         >
-          <span className="collection-name">Your favorites</span>
+          <span className="collection-name">My Favorites</span>
         </div>
         {userIsLoggedIn && collectionsWithDatasets.map((collection) => (
           <div

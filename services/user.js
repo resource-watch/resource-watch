@@ -1,6 +1,10 @@
 // utils
 import { logger } from 'utils/logs';
-import { localAPI, controlTowerAPI } from 'utils/axios';
+import {
+  localAPI,
+  controlTowerAPI,
+  WRIAPI,
+} from 'utils/axios';
 
 /**
  * Logs in a user based on the email + password combination
@@ -123,10 +127,15 @@ export const uploadPhoto = (file, user) => new Promise((resolve, reject) => {
   };
 });
 
-export default {
-  loginUser,
-  forgotPassword,
-  registerUser,
-  resetPassword,
-  uploadPhoto,
-};
+export const fetchUser = (userToken) => WRIAPI.get('/auth/user/me', {
+  headers: {
+    Authorization: userToken,
+  },
+})
+  .then(({ status, statusText, data }) => {
+    if (status >= 400) throw Error(statusText);
+    return data;
+  })
+  .catch(() => {
+    throw Error('unable to fetch user');
+  });

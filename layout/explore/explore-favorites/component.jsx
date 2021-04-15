@@ -1,13 +1,14 @@
-import React, {
+import {
   useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 
 // components
-import DatasetList from 'layout/explore/explore-datasets/list';
-import Spinner from 'components/ui/Spinner';
-import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 import Icon from 'components/ui/icon';
+import Spinner from 'components/ui/Spinner';
+import DatasetList from 'layout/explore/explore-datasets/list';
+import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
+import CardPlaceholder from 'components/card-placeholder';
 
 // hooks
 import useFetchUserFavorites from 'hooks/favorite/fetch-favorites';
@@ -38,7 +39,7 @@ const ExploreFavorites = ({
     includes: 'widget,metadata,layer,vocabulary',
   },
   {
-    enabled: datasetIds.length,
+    enabled: !!(datasetIds.length),
     initialData: [],
     initialStale: true,
     keepPreviousData: true,
@@ -58,7 +59,7 @@ const ExploreFavorites = ({
       />
       {(isFetchedAfterMount && !datasets.length) && (
         <div className="no-datasets">
-          <div className="empty-card" />
+          <CardPlaceholder />
           <div className="message">
             <h5>You currently have no favorite datasets</h5>
             <p>
@@ -72,8 +73,8 @@ const ExploreFavorites = ({
               on any dataset card.
             </p>
           </div>
-          <div className="empty-card" />
-          <div className="empty-card" />
+          <CardPlaceholder />
+          <CardPlaceholder />
         </div>
       )}
     </div>
