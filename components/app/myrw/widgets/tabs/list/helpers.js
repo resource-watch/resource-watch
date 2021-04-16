@@ -9,7 +9,7 @@ export const getQueryParams = (state = {}, props) => {
     subtab,
   } = props;
   const { page, limit } = pagination;
-  const isCollection = !['my_widgets', 'favourites'].includes(subtab);
+  const isCollection = !['my_widgets', 'favorites'].includes(subtab);
 
   return ({
     application: process.env.NEXT_PUBLIC_APPLICATIONS,
@@ -17,8 +17,8 @@ export const getQueryParams = (state = {}, props) => {
     'page[number]': page,
     sort: sort === 'asc' ? 'updatedAt' : '-updatedAt',
     ...search && search.length && { name: search },
-    ...subtab === 'favourites' && { favourite: true },
-    ...(subtab !== 'favourites' && !isCollection) && { userId: id },
+    ...subtab === 'favorites' && { favourite: true },
+    ...(subtab !== 'favorites' && !isCollection) && { userId: id },
     ...isCollection && { collection: subtab },
   });
 };

@@ -16,6 +16,8 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
+const isTestEnv = process.env.NODE_ENV === 'test' && process.env.TEST_ENV === 'FRONTEND';
+
 module.exports = (() => {
   const strategy = new ControlTowerStrategy({
     controlTowerUrl: process.env.NEXT_PUBLIC_WRI_API_URL,
@@ -56,7 +58,7 @@ module.exports = (() => {
   passport.use(strategy);
   passport.use('local-signin', localStrategy);
 
-  if (process.env.NODE_ENV === 'test' && process.env.TEST_ENV === 'FRONTEND') {
+  if (isTestEnv) {
     passport.use('mock-signin', new MockStrategy({
       user: userPayload,
     }));
@@ -70,7 +72,7 @@ module.exports = (() => {
     authenticate: (authOptions) => passport.authenticate('control-tower', authOptions),
     login: (req, res) => strategy.login(req, res),
     // local sign-in
-    signin: (req, res, done) => passport.authenticate(((process.env.NODE_ENV === 'test' && process.env.TEST_ENV === 'FRONTEND') ? 'mock-signin' : 'local-signin'),
+    signin: (req, res, done) => passport.authenticate((isTestEnv ? 'mock-signin' : 'local-signin'),
       (err, user) => {
         if (err && err.errors && err.errors[0] && err.errors[0]) {
           const {
@@ -113,25 +115,37 @@ module.exports = (() => {
       const { body } = req;
       const { userObj, token } = body;
 
-      fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/user/me`, {
-        method: 'PATCH',
-        body: JSON.stringify(userObj),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
-      })
-        .then((response) => {
-          if (response.status >= 400) throw new Error(response.statusText);
-          return response.json();
-        })
-        .then((user) => req.login({ ...user, token }, {}, (err) => {
+      if (isTestEnv) {
+        req.login({ ...userObj, token }, {}, (err) => {
           if (err) return res.status(401).json({ status: 'error', message: err });
+
           return res.json({
-            ...user,
+            ...userObj,
             token: userObj.token,
           });
-        }));
+        });
+      } else {
+        fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/user/me`, {
+          method: 'PATCH',
+          body: JSON.stringify(userObj),
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        })
+          .then((response) => {
+            if (response.status >= 400) throw new Error(response.statusText);
+            return response.json();
+          })
+          .then((user) => req.login({ ...user.data, token }, {}, (err) => {
+            if (err) return res.status(401).json({ status: 'error', message: err });
+
+            return res.json({
+              ...user.data,
+              token: userObj.token,
+            });
+          }));
+      }
     },
     mockSignIn: (req, res, done) => passport.authenticate('mock-signin',
       (err, user) => req.login(user, {}, (loginError) => {
