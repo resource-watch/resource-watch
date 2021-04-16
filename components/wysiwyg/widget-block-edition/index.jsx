@@ -39,7 +39,7 @@ const WidgetBlockEdition = (props) => {
     fetchWidgets(
       {
         ...(tab === 'my-widgets' && { userId: user.id }),
-        ...(tab === 'my-favourites' && { favourite: true }),
+        ...(tab === 'my-favorites' && { favourite: true }),
         ...(!!search && { name: search }),
         'page[number]': page,
       },

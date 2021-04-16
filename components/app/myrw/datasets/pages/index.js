@@ -16,10 +16,10 @@ const DATASET_SUBTABS = [{
   route: 'myrw',
   params: { tab: 'datasets', subtab: 'my_datasets' },
 }, {
-  label: 'Favourites',
+  label: 'Favorites',
   value: 'favourites',
   route: 'myrw',
-  params: { tab: 'datasets', subtab: 'favourites' },
+  params: { tab: 'datasets', subtab: 'favorites' },
 }];
 
 class DatasetIndex extends PureComponent {

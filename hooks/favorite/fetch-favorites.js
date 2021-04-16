@@ -1,11 +1,11 @@
 import { useQuery } from 'react-query';
 
 // services
-import { fetchFavourites } from 'services/favourites';
+import { fetchFavorites } from 'services/favourites';
 
 const useFetchUserFavorites = (token, queryConfig = {}) => useQuery(
   ['fetch-user-favorites', token],
-  () => fetchFavourites(token),
+  () => fetchFavorites(token),
   { ...queryConfig },
 );
 

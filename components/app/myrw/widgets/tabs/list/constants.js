@@ -6,10 +6,10 @@ export const WIDGET_LIST_SUBTABS = [
     params: { tab: 'widgets', subtab: 'my_widgets' },
   },
   {
-    label: 'Favourites',
+    label: 'Favorites',
     value: 'favourites',
     route: 'myrw',
-    params: { tab: 'widgets', subtab: 'favourites' },
+    params: { tab: 'widgets', subtab: 'favorites' },
   },
 ];
 
