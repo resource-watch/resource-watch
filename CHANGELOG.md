@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `next@10.1.3`
 
 ### Fixed
+- visual bug where the dataset navigation bar in the explore sidebar would remain after closing the sidebar. [RW-37](https://vizzuality.atlassian.net/browse/RW-37)
 - wrong deserialization of the user object when an user updated its profile. [RW-21](https://vizzuality.atlassian.net/browse/RW-21)
 - `/static-page` endpoint. [RW-19](https://vizzuality.atlassian.net/browse/RW-19?focusedCommentId=10534)
 
