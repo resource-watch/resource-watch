@@ -32,10 +32,14 @@ export default function MyDataComingSoon() {
     <div className="c-explore-my-data-coming-soon">
       <CardPlaceholder />
       <div className="card-coming-soon">
-        <h4>Coming soon</h4>
+        <h4>
+          Would you like to see your data on
+          <br />
+          Resource Watch?
+        </h4>
         <p>
-          We are working on a brand new feature for you to use your data in Resource Watch.
-          Let us know what would you like to see here.
+          We are exploring ways to let you bring your data to the platform.
+          Would you use this feature? Let us know.
         </p>
         <a
           // use the next format to populate the form via URL params: https://docs.google.com/forms/d/e/1FAIpQLScOVg5YvrAIMdVyFprYsMF4g__yAcnRXnOXCaXqXFmfN-vm_g/viewform?entry.XXXXX=test
@@ -43,7 +47,7 @@ export default function MyDataComingSoon() {
           onClick={trackLink}
           className="c-button -primary -compressed"
         >
-          Get in touch
+          I’m interested
         </a>
       </div>
       <CardPlaceholder />

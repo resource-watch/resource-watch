@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 500 static page.
 
 ### Changed
+- updated text of My Data's coming soon view.
 - consistent spelling of `favorite`. [RW-35](https://vizzuality.atlassian.net/browse/RW-35)
 - refactor: uses dynamic import for loading scripts without SSR.
 - `next@10.1.3`
