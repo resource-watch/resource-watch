@@ -33,7 +33,7 @@ export default function MyDataComingSoon() {
       <CardPlaceholder />
       <div className="card-coming-soon">
         <h4>
-          Would you like to see your data on
+          Would you like to see your data on&nbsp;
           <br />
           Resource Watch?
         </h4>
