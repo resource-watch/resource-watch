@@ -1,16 +1,14 @@
-import React, {
+import {
   useState,
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 
-// Components
+// components
 import Icon from 'components/ui/icon';
 import LoginRequired from 'components/ui/login-required';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
-
-// Tooltip
 import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
 import { getTooltipContainer } from 'utils/tooltip';
@@ -18,11 +16,15 @@ import { getTooltipContainer } from 'utils/tooltip';
 // utils
 import { logEvent } from 'utils/analytics';
 
-// Styles
+// styles
 import './styles.scss';
 
-function ExploreDetailHeaderComponent(props) {
-  const { dataset, setSelectedDataset, userIsLoggedIn } = props;
+export default function ExploreDetailHeader({
+  dataset,
+  setSelectedDataset,
+  userIsLoggedIn,
+  isSidebarOpen,
+}) {
   const [showShareModal, setShowShareModal] = useState(false);
   const handleToggleFavorite = useCallback((isFavorite, resource) => {
     const datasetName = resource?.metadata[0]?.info?.name;
@@ -47,7 +49,12 @@ function ExploreDetailHeaderComponent(props) {
       && dataset.metadata[0].info && dataset.metadata[0].info.name;
 
   return (
-    <div className="c-explore-detail-header">
+    <div
+      className="c-explore-detail-header"
+      style={{
+        ...!isSidebarOpen && { position: 'absolute' },
+      }}
+    >
       <button
         className="c-btn -primary -compressed -fs-tiny all-datasets-button"
         onClick={() => setSelectedDataset(null)}
@@ -123,11 +130,17 @@ function ExploreDetailHeaderComponent(props) {
   );
 }
 
-ExploreDetailHeaderComponent.propTypes = {
-  dataset: PropTypes.object.isRequired,
+ExploreDetailHeader.propTypes = {
+  dataset: PropTypes.shape({
+    metadata: PropTypes.arrayOf(
+      PropTypes.shape({
+        info: PropTypes.shape({
+          name: PropTypes.string,
+        }),
+      }),
+    ),
+  }).isRequired,
   userIsLoggedIn: PropTypes.bool.isRequired,
-  // Store
+  isSidebarOpen: PropTypes.bool.isRequired,
   setSelectedDataset: PropTypes.func.isRequired,
 };
-
-export default ExploreDetailHeaderComponent;
