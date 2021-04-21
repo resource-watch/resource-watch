@@ -64,7 +64,7 @@ describe('Explore – My Data fake door - logged user', () => {
 
       cy.get('#sidebar-content-container').find('.card-coming-soon').then(($comingSoon) => {
         expect($comingSoon).to.have.length(1);
-        expect($comingSoon.find('h4')).to.have.text('Would you like to see your data on Resource Watch?');
+        expect($comingSoon.find('p')).to.have.text('We are exploring ways to let you bring your data to the platform. Would you use this feature? Let us know.');
       });
     });
   });
