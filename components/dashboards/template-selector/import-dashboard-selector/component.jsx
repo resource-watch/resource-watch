@@ -77,7 +77,6 @@ export default function ImportDashboardSelector({
                 className="header-dropdown-list-item"
                 key={_dashboard.id}
               >
-                {/* <span onClick={() => onCloneDashboard(_dashboard)}>{_dashboard.name}</span> */}
                 <button
                   type="button"
                   className="c-button -clean -fs-medium"

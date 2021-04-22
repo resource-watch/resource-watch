@@ -20,7 +20,7 @@ export const EXPLORE_CARDS = [
     buttons: [
       {
         text: 'Explore data',
-        path: 'explore',
+        path: '/data/explore',
         className: '-primary',
       },
     ],

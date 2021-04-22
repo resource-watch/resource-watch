@@ -1,3 +1,1 @@
-import ExploreCards from './component';
-
-export default ExploreCards;
+export { default } from './component';
