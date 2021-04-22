@@ -14,12 +14,25 @@ export const useFeaturedDashboards = (
   };
 
   return useQuery(
-    ['fetch-featured-dashboards', params],
+    ['featured-dashboards', params],
     () => fetchDashboards(params),
     { ...queryConfig },
   );
 };
 
-export default {
-  useFeaturedDashboards,
+export const useHighlightedDashboards = (
+  _params,
+  queryConfig = {},
+) => {
+  const params = {
+    published: 'true',
+    'is-highlighted': true,
+    ..._params,
+  };
+
+  return useQuery(
+    ['highlighted-dashboards', params],
+    () => fetchDashboards(params),
+    { ...queryConfig },
+  );
 };

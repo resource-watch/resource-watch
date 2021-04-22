@@ -30,28 +30,6 @@ export const getFeaturedDashboards = createThunkAction('DASHBOARDS__GET-FEATURED
       });
   });
 
-export const getHighlightedDashboards = createThunkAction('DASHBOARDS__GET-HIGHLIGHTED-DASHBOARDS',
-  () => (dispatch) => {
-    const params = {
-      published: 'true',
-      'is-highlighted': true,
-      includes: 'user',
-    };
-
-    dispatch(setLoading({ key: 'highlighted', value: true }));
-    dispatch(setError({ key: 'highlighted', value: null }));
-
-    return fetchDashboards(params)
-      .then((dashboards) => {
-        dispatch(setDashboards({ key: 'highlighted', value: dashboards }));
-        dispatch(setLoading({ key: 'highlighted', value: false }));
-      })
-      .catch((err) => {
-        dispatch(setError({ key: 'highlighted', value: err.message }));
-        dispatch(setLoading({ key: 'highlighted', value: false }));
-      });
-  });
-
 export const getPublishedDashboards = createThunkAction('DASHBOARDS__GET-PUBLISHED-DASHBOARDS',
   () => (dispatch) => {
     const params = {
