@@ -21,6 +21,7 @@ import {
 export default function FooterLinks() {
   const {
     data: featuredDashboards,
+    isError,
   } = useFeaturedDashboards({}, {
     select: (_dashboards) => _dashboards.map(({ name, slug }) => ({
       label: name,
@@ -28,15 +29,16 @@ export default function FooterLinks() {
     })),
     placeholderData: [],
     refetchOnWindowFocus: false,
+    retry: false,
   });
 
   const footerMenu = useMemo(() => FOOTER_LINKS
     .map((i) => {
-      const children = i.id === 'dashboards'
+      const children = (i.id === 'dashboards' && !isError)
         ? featuredDashboards : i.children || [];
       return [...[i], ...children];
     }),
-  [featuredDashboards]);
+  [featuredDashboards, isError]);
 
   const getMenuItems = useCallback(() => footerMenu
     .map((subMenu) => (

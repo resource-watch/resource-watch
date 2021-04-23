@@ -8,7 +8,7 @@ export const useFeaturedDashboards = (
   queryConfig = {},
 ) => {
   const params = {
-    published: 'true',
+    published: true,
     'is-featured': true,
     ..._params,
   };
