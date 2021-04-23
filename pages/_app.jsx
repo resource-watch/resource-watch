@@ -13,16 +13,7 @@ import {
   setUser,
 } from 'redactions/user';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { getPublishedPartners } from 'modules/partners/actions';
 import { setHostname } from 'redactions/common';
-
-// utils
-import { containsString } from 'utils/string';
-
-// constants
-import {
-  FULLSCREEN_PAGES,
-} from 'constants/app';
 
 // global styles
 import 'css/index.scss';
@@ -49,15 +40,7 @@ class RWApp extends App {
 
     // sets user data coming from a request (server) or the store (client)
     const { user } = isServer ? req : store.getState();
-    const {
-      partners: { published: { list: publishedPartners } },
-    } = store.getState();
     if (user) store.dispatch(setUser(user));
-
-    // fetches partners for footer
-    if (!containsString(pathname, FULLSCREEN_PAGES) && !publishedPartners.length) {
-      await store.dispatch(getPublishedPartners());
-    }
 
     // mobile detection
     if (isServer) {
