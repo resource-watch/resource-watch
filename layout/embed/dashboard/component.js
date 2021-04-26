@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -78,7 +78,7 @@ class LayoutEmbedDashboard extends PureComponent {
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <DashboardDetail />
+                <DashboardDetail dashboard={dashboard} />
               </div>
             </div>
           </div>

@@ -29,61 +29,61 @@ routes.add('myrw', '/myrw/:tab?/:subtab?', 'myrw');
 routes.add('myrw_detail', '/myrw-detail/:tab?/:id?/:subtab?', 'myrw/detail');
 
 // ========================= APP ROUTES =====================
-routes.add('home', '/', 'app/home');
+routes.add('home', '/', '/'); // OK
 
 // ---- ABOUT ----
-routes.add('about', '/about', 'app/about');
-routes.add('about_partners', '/about/partners', 'app/partners');
-routes.add('partner', '/about/partners/:id', 'app/partner-detail');
-routes.add('about_faqs', '/about/faqs', 'app/faqs');
-routes.add('about_contact-us', '/about/contact-us', 'app/contact-us');
-routes.add('about_howto', '/about/howto', 'app/how-to');
-routes.add('newsletter', '/about/newsletter', 'about/newsletter');
-routes.add('newsletter-thank-you', '/about/newsletter-thank-you', 'about/newsletter-thank-you');
+routes.add('about', '/about', '/about'); // OK
+routes.add('about_partners', '/about/partners', 'about/partners'); // OK
+routes.add('partner', '/about/partners/:id', 'app/partner-detail'); // OK
+routes.add('about_faqs', '/about/faqs', 'about/faqs'); // OK
+routes.add('about_contact-us', '/about/contact-us', 'about/contact-us'); // OK
+routes.add('about_howto', '/about/howto', 'about/howto'); // OK
+routes.add('newsletter', '/about/newsletter', 'about/newsletter'); // OK
+routes.add('newsletter-thank-you', '/about/newsletter-thank-you', 'about/newsletter-thank-you'); // OK
 
 // ----- DATA -----
-routes.add('explore', '/data/explore/:dataset?', 'app/explore');
-routes.add('explore_embed', '/embed/data/explore/:dataset?', 'app/explore/embed');
-routes.add('pulse', '/data/pulse', 'app/pulse');
+routes.add('explore', '/data/explore/:dataset?', '/data/explore'); // OK
+routes.add('explore_embed', '/embed/data/explore/:dataset?', '/embed/data/explore'); // OK
+routes.add('pulse', '/data/pulse', '/data/pulse'); // OK
 
 // ----- DASHBOARDS -----
-routes.add('dashboards', '/dashboards', 'app/dashboards');
-routes.add('dashboards_detail', '/dashboards/:slug', 'app/dashboards-detail');
+routes.add('dashboards', '/dashboards', 'app/dashboards'); // OK
+routes.add('dashboards_detail', '/dashboards/:slug', 'app/dashboards-detail'); // OK
 
-routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail');
+routes.add('widget_detail', '/data/widget/:id', 'app/widget-detail'); // OK
 
 // SEARCH
-routes.add('search', '/search', 'app/search');
+routes.add('search', '/search', '/search'); // OK
 
 // ----- GET INVOLVED -----
-routes.add('get_involved', '/get-involved', 'app/get-involved');
-routes.add('get_involved_detail', '/get-involved/:id', 'app/get-involved-detail');
+routes.add('get_involved', '/get-involved', '/get-involved'); // OK
+routes.add('get_involved_detail', '/get-involved/:id', 'app/get-involved-detail'); // OK
 
 // ------ TERMS && POLICY -------------
-routes.add('terms-of-service', '/terms-of-service', 'app/terms-of-service');
-routes.add('privacy-policy', '/privacy-policy', 'app/policy');
-routes.add('attribution-requirements', '/api-attribution-requirements', 'app/attribution-requirements');
+routes.add('terms-of-service', '/terms-of-service', '/terms-of-service'); // OK
+routes.add('privacy-policy', '/privacy-policy', '/privacy-policy'); // OK
+routes.add('attribution-requirements', '/api-attribution-requirements', '/attribution-requirements'); // OK
 
 // ------- CATALOG -------------
-routes.add('catalog', '/catalog', 'app/catalog');
+routes.add('catalog', '/catalog', '/catalog'); // OK
 
 // ------- USER MANAGEMENT  -------------
-routes.add('sign-in', '/sign-in', 'sign-in');
-routes.add('forgot-password', '/forgot-password', 'app/forgot-password');
-routes.add('reset-password', '/reset-password/:tokenEmail?', 'app/reset-password');
+routes.add('sign-in', '/sign-in', 'sign-in'); // OK
+routes.add('forgot-password', '/forgot-password', 'forgot-password'); // OK
+routes.add('reset-password', '/reset-password/:tokenEmail?', 'app/reset-password'); // OK
 
 // ------ EMBED -------------
-routes.add('embed_widget', '/embed/widget/:id', 'app/embed/widget');
+routes.add('embed_widget', '/embed/widget/:id', 'app/embed/widget'); // OK
 routes.add('embed_text', '/embed/text/:id', 'app/embed/text');
-routes.add('embed_map', '/embed/map/:id', 'app/embed/map');
-routes.add('embed_map_swipe', '/embed/map-swipe', 'app/embed/map-swipe');
-routes.add('embed_embed', '/embed/embed/:id', 'app/embed/embed');
-routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/dataset');
-routes.add('embed_table', '/embed/table/:id', 'app/embed/table');
-routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/similar-datasets');
-routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/dashboard');
+routes.add('embed_map', '/embed/map/:id', 'app/embed/map'); // OK
+routes.add('embed_map_swipe', '/embed/map-swipe', 'app/embed/map-swipe'); // OK
+routes.add('embed_embed', '/embed/embed/:id', 'app/embed/embed'); // OK
+routes.add('embed_dataset', '/embed/dataset/:id', 'app/embed/dataset'); // OK
+routes.add('embed_table', '/embed/table/:id', 'app/embed/table'); // OK
+routes.add('embed_similar_datasets', '/embed/similar_datasets/:id', 'app/embed/similar-datasets'); // OK
+routes.add('embed_dashboard', '/embed/dashboard/:slug', 'app/embed/dashboard'); // OK
 
 // ------- WEBSHOT  -------------
-routes.add('webshot', '/webshot/:id', 'app/webshot');
+routes.add('webshot', '/webshot/:id', '/webshot'); // OK
 
 module.exports = routes;

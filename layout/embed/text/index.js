@@ -1,8 +1,5 @@
 import { connect } from 'react-redux';
 
-// actions
-import { getWidget } from 'redactions/widget';
-
 // component
 import LayoutEmbedText from './component';
 
@@ -13,7 +10,6 @@ export default connect(
     bandDescription: state.widget.bandDescription,
     bandStats: state.widget.bandStats,
     webshot: state.common.webshot,
-    routes: state.routes,
   }),
-  { getWidget },
+  null,
 )(LayoutEmbedText);
