@@ -21,7 +21,7 @@ export default function HeaderDashboards() {
   } = useFeaturedDashboards({}, {
     select: (_dashboards) => _dashboards.map(({ name, slug }) => ({
       label: name,
-      href: `/dashboard/${slug}`,
+      href: `/dashboards/${slug}`,
     })),
     placeholderData: [],
     refetchOnWindowFocus: false,
