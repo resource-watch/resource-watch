@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -14,19 +14,6 @@ class LayoutEmbedEmbed extends PureComponent {
     super(props);
 
     this.state = { modalOpened: false };
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount() {
-    const {
-      url,
-      user,
-      getWidget,
-      checkIfFavorited,
-    } = this.props;
-
-    getWidget(url.query.id);
-    if (user.id) checkIfFavorited(url.query.id);
   }
 
   getModal() {
@@ -207,8 +194,6 @@ LayoutEmbedEmbed.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.string,
   }).isRequired,
-  getWidget: PropTypes.func.isRequired,
-  checkIfFavorited: PropTypes.func.isRequired,
   setIfFavorited: PropTypes.func.isRequired,
 };
 
