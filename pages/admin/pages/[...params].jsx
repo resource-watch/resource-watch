@@ -1,5 +1,3 @@
-import React from 'react';
-
 // components
 import LayoutAdminPagesDetail from 'layout/admin/pages-detail';
 

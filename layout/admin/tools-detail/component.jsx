@@ -1,24 +1,25 @@
-import React, {
-  useCallback,
+import {
+  useMemo,
 } from 'react';
-import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 
 // components
 import Layout from 'layout/layout/layout-admin';
-import PagesNew from 'components/admin/pages/pages/new';
-import PagesShow from 'components/admin/pages/pages/show';
+import ToolsNew from 'components/admin/tools/pages/new';
+import ToolsShow from 'components/admin/tools/pages/show';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 
 // hooks
-import useFetchStaticPage from 'hooks/static-pages/fetch-static-page';
-
+import {
+  useFetchTool,
+} from 'hooks/tools';
 // utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
-export default function LayoutAdminStaticPagesDetail({
+export default function LayoutAdminToolsDetail({
   user,
 }) {
   const {
@@ -27,38 +28,30 @@ export default function LayoutAdminStaticPagesDetail({
     },
   } = useRouter();
 
-  const {
-    token,
-  } = user;
-
   const tab = params?.[0] || null;
   const id = params?.[1] || null;
 
-  // TO-DO: move this logic to level page (getServerSideProps)
-  // once getInitialProps of _app is removed.
   const {
-    data,
-  } = useFetchStaticPage(
+    data: tool,
+  } = useFetchTool(
     id,
-    token,
+    user.token,
+    {},
     {
-      initialData: {},
-      initialStale: true,
-      refetchOnWindowFocus: false,
-      enabled: !!(id !== 'new'),
+      enabled: !!(id && id !== 'new'),
     },
   );
 
-  const getName = useCallback(() => {
+  const name = useMemo(() => {
     if (id === 'new') return `New ${singular(tab)}`;
-
-    return data?.title || '-';
-  }, [tab, id, data]);
+    return tool?.title || '-';
+  }, [tool, id, tab]);
 
   return (
     <Layout
-      title={getName()}
-      description={`${data?.summary || 'Loading...'}`}
+      title={name}
+      // TO-DO: fill description
+      description="Tools detail..."
     >
       <div className="c-page-header -admin">
         <div className="l-container -admin">
@@ -66,10 +59,10 @@ export default function LayoutAdminStaticPagesDetail({
             <div className="column small-12">
               <div className="page-header-content">
                 <Breadcrumbs
-                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_pages', params: { tab } }]}
+                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_tools', params: { tab } }]}
                 />
                 <Title className="-primary -huge page-header-title">
-                  {getName()}
+                  {name}
                 </Title>
               </div>
             </div>
@@ -80,8 +73,8 @@ export default function LayoutAdminStaticPagesDetail({
         <div className="l-container -admin">
           <div className="row">
             <div className="column small-12">
-              {id === 'new' && <PagesNew />}
-              {id !== 'new' && (<PagesShow />)}
+              {(user.token && id) && (id === 'new') && (<ToolsNew />)}
+              {(user.token && id) && (id !== 'new') && (<ToolsShow />)}
             </div>
           </div>
         </div>
@@ -90,7 +83,7 @@ export default function LayoutAdminStaticPagesDetail({
   );
 }
 
-LayoutAdminStaticPagesDetail.propTypes = {
+LayoutAdminToolsDetail.propTypes = {
   user: PropTypes.shape({
     token: PropTypes.string.isRequired,
   }).isRequired,

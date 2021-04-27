@@ -1,5 +1,5 @@
-import React, {
-  useCallback,
+import {
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
@@ -7,18 +7,20 @@ import { singular } from 'pluralize';
 
 // components
 import Layout from 'layout/layout/layout-admin';
-import PagesNew from 'components/admin/pages/pages/new';
-import PagesShow from 'components/admin/pages/pages/show';
+import PartnersNew from 'components/admin/partners/pages/new';
+import PartnersShow from 'components/admin/partners/pages/show';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 
 // hooks
-import useFetchStaticPage from 'hooks/static-pages/fetch-static-page';
+import {
+  useFetchPartner,
+} from 'hooks/partners';
 
 // utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
-export default function LayoutAdminStaticPagesDetail({
+export default function LayoutAdminPartnersDetail({
   user,
 }) {
   const {
@@ -27,38 +29,25 @@ export default function LayoutAdminStaticPagesDetail({
     },
   } = useRouter();
 
-  const {
-    token,
-  } = user;
-
   const tab = params?.[0] || null;
   const id = params?.[1] || null;
 
-  // TO-DO: move this logic to level page (getServerSideProps)
-  // once getInitialProps of _app is removed.
   const {
-    data,
-  } = useFetchStaticPage(
-    id,
-    token,
-    {
-      initialData: {},
-      initialStale: true,
-      refetchOnWindowFocus: false,
-      enabled: !!(id !== 'new'),
-    },
-  );
+    data: partner,
+  } = useFetchPartner(id, {
+    enabled: !!(id && id !== 'new'),
+  });
 
-  const getName = useCallback(() => {
+  const name = useMemo(() => {
     if (id === 'new') return `New ${singular(tab)}`;
-
-    return data?.title || '-';
-  }, [tab, id, data]);
+    return partner?.name || '-';
+  }, [partner, id, tab]);
 
   return (
     <Layout
-      title={getName()}
-      description={`${data?.summary || 'Loading...'}`}
+      title={name}
+      // TO-DO: fill description
+      description="Partners detail..."
     >
       <div className="c-page-header -admin">
         <div className="l-container -admin">
@@ -66,10 +55,10 @@ export default function LayoutAdminStaticPagesDetail({
             <div className="column small-12">
               <div className="page-header-content">
                 <Breadcrumbs
-                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_pages', params: { tab } }]}
+                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_partners', params: { tab } }]}
                 />
                 <Title className="-primary -huge page-header-title">
-                  {getName()}
+                  {name}
                 </Title>
               </div>
             </div>
@@ -80,8 +69,8 @@ export default function LayoutAdminStaticPagesDetail({
         <div className="l-container -admin">
           <div className="row">
             <div className="column small-12">
-              {id === 'new' && <PagesNew />}
-              {id !== 'new' && (<PagesShow />)}
+              {(user.token && id) && (id === 'new') && (<PartnersNew />)}
+              {(user.token && id) && (id !== 'new') && (<PartnersShow />)}
             </div>
           </div>
         </div>
@@ -90,7 +79,7 @@ export default function LayoutAdminStaticPagesDetail({
   );
 }
 
-LayoutAdminStaticPagesDetail.propTypes = {
+LayoutAdminPartnersDetail.propTypes = {
   user: PropTypes.shape({
     token: PropTypes.string.isRequired,
   }).isRequired,
