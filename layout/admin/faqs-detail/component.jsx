@@ -1,24 +1,20 @@
-import React, {
-  useCallback,
+import {
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-import { singular } from 'pluralize';
 
 // components
 import Layout from 'layout/layout/layout-admin';
-import PagesNew from 'components/admin/pages/pages/new';
-import PagesShow from 'components/admin/pages/pages/show';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
-
-// hooks
-import useFetchStaticPage from 'hooks/static-pages/fetch-static-page';
+import FaqsNew from 'components/admin/faqs/pages/new';
+import FaqsShow from 'components/admin/faqs/pages/show';
 
 // utils
 import { capitalizeFirstLetter } from 'utils/utils';
 
-export default function LayoutAdminStaticPagesDetail({
+export default function LayoutAdminFaqsDetail({
   user,
 }) {
   const {
@@ -27,38 +23,22 @@ export default function LayoutAdminStaticPagesDetail({
     },
   } = useRouter();
 
-  const {
-    token,
-  } = user;
-
   const tab = params?.[0] || null;
   const id = params?.[1] || null;
+  const subtab = params?.[2] || null;
 
-  // TO-DO: move this logic to level page (getServerSideProps)
-  // once getInitialProps of _app is removed.
-  const {
-    data,
-  } = useFetchStaticPage(
-    id,
-    token,
-    {
-      initialData: {},
-      initialStale: true,
-      refetchOnWindowFocus: false,
-      enabled: !!(id !== 'new'),
-    },
-  );
+  const name = useMemo(() => {
+    if (id === 'new') return 'New FAQ';
+    if (subtab === 'edit') return 'Edit FAQ';
 
-  const getName = useCallback(() => {
-    if (id === 'new') return `New ${singular(tab)}`;
-
-    return data?.title || '-';
-  }, [tab, id, data]);
+    return '-';
+  }, [id, subtab]);
 
   return (
     <Layout
-      title={getName()}
-      description={`${data?.summary || 'Loading...'}`}
+      title={name}
+      // TO-DO: fill description
+      description="Faqs detail..."
     >
       <div className="c-page-header -admin">
         <div className="l-container -admin">
@@ -66,10 +46,10 @@ export default function LayoutAdminStaticPagesDetail({
             <div className="column small-12">
               <div className="page-header-content">
                 <Breadcrumbs
-                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_pages', params: { tab } }]}
+                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_faqs', params: { tab } }]}
                 />
                 <Title className="-primary -huge page-header-title">
-                  {getName()}
+                  {name}
                 </Title>
               </div>
             </div>
@@ -80,8 +60,8 @@ export default function LayoutAdminStaticPagesDetail({
         <div className="l-container -admin">
           <div className="row">
             <div className="column small-12">
-              {id === 'new' && <PagesNew />}
-              {id !== 'new' && (<PagesShow />)}
+              {user.token && id && id === 'new' && (<FaqsNew />)}
+              {user.token && id && id !== 'new' && (<FaqsShow />)}
             </div>
           </div>
         </div>
@@ -90,7 +70,7 @@ export default function LayoutAdminStaticPagesDetail({
   );
 }
 
-LayoutAdminStaticPagesDetail.propTypes = {
+LayoutAdminFaqsDetail.propTypes = {
   user: PropTypes.shape({
     token: PropTypes.string.isRequired,
   }).isRequired,

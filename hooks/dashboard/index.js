@@ -1,7 +1,20 @@
 import { useQuery } from 'react-query';
 
 // service
-import { fetchDashboards } from 'services/dashboard';
+import {
+  fetchDashboard,
+  fetchDashboards,
+} from 'services/dashboard';
+
+export const useFetchDashboard = (
+  id,
+  params = {},
+  queryConfig = {},
+) => useQuery(
+  ['fetch-dashboard', id, params],
+  () => fetchDashboard(id, params),
+  { ...queryConfig },
+);
 
 export const useFeaturedDashboards = (
   _params,

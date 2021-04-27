@@ -2,8 +2,19 @@ import { useQuery } from 'react-query';
 
 // service
 import {
+  fetchPartner,
   fetchPartners,
 } from 'services/partners';
+
+export const useFetchPartner = (
+  id,
+  params = {},
+  queryConfig = {},
+) => useQuery(
+  ['fetch-partner', id, params],
+  () => fetchPartner(id, params),
+  { ...queryConfig },
+);
 
 export const usePublishedPartners = (
   _params,
@@ -19,8 +30,4 @@ export const usePublishedPartners = (
     () => fetchPartners(params),
     { ...queryConfig },
   );
-};
-
-export default {
-  usePublishedPartners,
 };
