@@ -4,25 +4,25 @@ const nextRoutes = require('next-routes');
 const routes = nextRoutes();
 
 // ========================= ADMIN ROUTES =====================
-routes.add('admin_home', '/admin', 'admin/data');
+routes.add('admin_home', '/admin', 'admin/data'); // OK
 // admin - data
-routes.add('admin_data', '/admin/data/:tab?', 'admin/data');
-routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/data-detail');
+routes.add('admin_data', '/admin/data/:tab?', 'admin/data'); // OK
+routes.add('admin_data_detail', '/admin/data/:tab/:id/:subtab?', 'admin/data-detail'); // OK
 // admin - dashboards
-routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/dashboards');
-routes.add('admin_dashboards_detail', '/admin/dashboards/:tab/:id/:subtab?', 'admin/dashboards-detail');
+routes.add('admin_dashboards', '/admin/dashboards/:tab?', 'admin/dashboards'); // OK
+routes.add('admin_dashboards_detail', '/admin/dashboards/:tab/:id/:subtab?', 'admin/dashboards-detail'); // OK
 // admin - partners
-routes.add('admin_partners', '/admin/partners/:tab?', 'admin/partners');
-routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/partners-detail');
+routes.add('admin_partners', '/admin/partners/:tab?', 'admin/partners'); // OK
+routes.add('admin_partners_detail', '/admin/partners/:tab/:id/:subtab?', 'admin/partners-detail');// OK
 // admin - pages
-routes.add('admin_pages', '/admin/pages/:tab?', 'admin/pages');
-routes.add('admin_pages_detail', '/admin/pages/:tab/:id/:subtab?', 'admin/pages-detail');
+routes.add('admin_pages', '/admin/pages/:tab?', 'admin/pages'); // OK
+routes.add('admin_pages_detail', '/admin/pages/:tab/:id/:subtab?', 'admin/pages-detail'); // OK
 // admin - tools
-routes.add('admin_tools', '/admin/tools/:tab?', 'admin/tools');
-routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/tools-detail');
+routes.add('admin_tools', '/admin/tools/:tab?', 'admin/tools'); // OK
+routes.add('admin_tools_detail', '/admin/tools/:tab/:id/:subtab?', 'admin/tools-detail'); // OK
 // admin - faqs
-routes.add('admin_faqs', '/admin/faqs/:tab?', 'admin/faqs');
-routes.add('admin_faqs_detail', '/admin/faqs/:tab/:id/:subtab?', 'admin/faqs-detail');
+routes.add('admin_faqs', '/admin/faqs/:tab?', 'admin/faqs'); // OK
+routes.add('admin_faqs_detail', '/admin/faqs/:tab/:id/:subtab?', 'admin/faqs-detail'); // OK
 
 // ========================= MY-RW ROUTES =====================
 routes.add('myrw', '/myrw/:tab?/:subtab?', 'myrw');
@@ -74,7 +74,7 @@ routes.add('reset-password', '/reset-password/:tokenEmail?', 'app/reset-password
 
 // ------ EMBED -------------
 routes.add('embed_widget', '/embed/widget/:id', 'app/embed/widget'); // OK
-routes.add('embed_text', '/embed/text/:id', 'app/embed/text');
+routes.add('embed_text', '/embed/text/:id', 'app/embed/text'); // OK
 routes.add('embed_map', '/embed/map/:id', 'app/embed/map'); // OK
 routes.add('embed_map_swipe', '/embed/map-swipe', 'app/embed/map-swipe'); // OK
 routes.add('embed_embed', '/embed/embed/:id', 'app/embed/embed'); // OK
