@@ -1,4 +1,7 @@
-import React, { PureComponent } from 'react';
+import {
+  useState,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import Tether from 'react-tether';
 import { toastr } from 'react-redux-toastr';
@@ -6,25 +9,17 @@ import { toastr } from 'react-redux-toastr';
 // services
 import { cloneDashboard } from 'services/dashboard';
 
-class ImportSelector extends PureComponent {
-  static propTypes = {
-    user: PropTypes.object.isRequired,
-    dashboards: PropTypes.array.isRequired,
-    getFeaturedDashboards: PropTypes.func.isRequired,
-  };
+// hooks
+import {
+  useFeaturedDashboards,
+} from 'hooks/dashboard';
 
-  state = { isOpen: false }
+export default function ImportDashboardSelector({
+  user,
+}) {
+  const [isOpen, setOpen] = useState(false);
 
-  componentDidMount() {
-    const { dashboards } = this.props;
-    if (!dashboards.length) {
-      this.props.getFeaturedDashboards();
-    }
-  }
-
-  onCloneDashboard = (dashboardValue) => {
-    const { user } = this.props;
-
+  const onCloneDashboard = useCallback((dashboardValue) => {
     toastr.confirm('Are you sure you want to clone this dashboard?', {
       onOk: () => {
         cloneDashboard(dashboardValue, user, 'dashboards')
@@ -38,56 +33,66 @@ class ImportSelector extends PureComponent {
           });
       },
     });
-  }
+  }, [user]);
 
-  render() {
-    const { dashboards } = this.props;
-    const { isOpen } = this.state;
+  const {
+    data: featuredDashboards,
+  } = useFeaturedDashboards({}, {
+    placeholderData: [],
+    refetchOnWindowFocus: false,
+  });
 
-    return (
-      <Tether
-        attachment="top center"
-        constraints={[{
-          to: 'window',
-        }]}
-        classes={{
-          element: 'c-header-dropdown',
-        }}
-        renderTarget={(ref) => (
-          <li
+  return (
+    <Tether
+      attachment="top center"
+      constraints={[{
+        to: 'window',
+      }]}
+      classes={{
+        element: 'c-header-dropdown',
+      }}
+      renderTarget={(ref) => (
+        <li
+          ref={ref}
+          className="template-list-item"
+          onMouseEnter={() => setOpen(true)}
+          onMouseLeave={() => setOpen(false)}
+        >
+          <h4 className="template-name">Clone a dashboard page</h4>
+          <span className="template-description">Clone a dashboard page into a new dashboard</span>
+        </li>
+      )}
+      renderElement={(ref) => {
+        if (!isOpen || !featuredDashboards.length) return null;
+
+        return (
+          <ul
             ref={ref}
-            className="template-list-item"
-            onMouseEnter={() => this.setState({ isOpen: true })}
-            onMouseLeave={() => this.setState({ isOpen: false })}
+            className="header-dropdown-list"
+            onMouseEnter={() => setOpen(true)}
+            onMouseLeave={() => setOpen(false)}
           >
-            <h4 className="template-name">Clone a dashboard page</h4>
-            <span className="template-description">Clone a dashboard page into a new dashboard</span>
-          </li>
-        )}
-        renderElement={(ref) => {
-          if (!isOpen) return null;
-
-          return (
-            <ul
-              ref={ref}
-              className="header-dropdown-list"
-              onMouseEnter={() => this.setState({ isOpen: true })}
-              onMouseLeave={() => this.setState({ isOpen: false })}
-            >
-              {dashboards.map((_dashboard) => (
-                <li
-                  className="header-dropdown-list-item"
-                  key={_dashboard.id}
+            {featuredDashboards.map((_dashboard) => (
+              <li
+                className="header-dropdown-list-item"
+                key={_dashboard.id}
+              >
+                <button
+                  type="button"
+                  className="c-button -clean -fs-medium"
+                  onClick={() => onCloneDashboard(_dashboard)}
                 >
-                  <span onClick={() => this.onCloneDashboard(_dashboard)}>{_dashboard.name}</span>
-                </li>
-              ))}
-            </ul>
-          );
-        }}
-      />
-    );
-  }
+                  {_dashboard.name}
+                </button>
+              </li>
+            ))}
+          </ul>
+        );
+      }}
+    />
+  );
 }
 
-export default ImportSelector;
+ImportDashboardSelector.propTypes = {
+  user: PropTypes.shape({}).isRequired,
+};

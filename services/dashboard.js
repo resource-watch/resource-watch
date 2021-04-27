@@ -26,6 +26,8 @@ export const fetchDashboards = (params = {
       'Upgrade-Insecure-Requests': 1,
     },
     params,
+    // resolves only if the status code is less than 300
+    validateStatus: (status) => status < 300,
   }).then((response) => {
     const { status, statusText, data } = response;
     const { meta } = data;
@@ -41,8 +43,8 @@ export const fetchDashboards = (params = {
     return WRISerializer(data);
   })
     .catch(({ response }) => {
-      const { status, statusText } = response;
-      logger.error(`Error fetching dashboards: ${status}: ${statusText}`);
+      const { status, data } = response;
+      throw new Error(`Error fetching dashboards: ${data?.errors[0]?.detail || 'Error not defined'} – ${status}`);
     });
 };
 

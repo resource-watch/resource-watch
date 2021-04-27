@@ -144,7 +144,7 @@ const mapStateToProps = (state) => ({
   loading: state.adminDashboards.dashboards.loading,
   dashboards: getAllFilteredDashboards(state),
   error: state.adminDashboards.dashboards.error,
-  filters: state.clientDashboards.filters,
+  filters: state.adminDashboards.dashboards.filters,
 });
 
 const mapDispatchToProps = {

@@ -1,18 +1,31 @@
-import React, {
+import {
   useState,
 } from 'react';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
 import { useDebouncedCallback } from 'use-debounce';
 import Tether from 'react-tether';
 
-const HeaderDashboards = ({
-  dashboards,
-}) => {
+// hooks
+import {
+  useFeaturedDashboards,
+} from 'hooks/dashboard';
+
+export default function HeaderDashboards() {
   const [isVisible, setVisibility] = useState(false);
   const [toggleDropdown] = useDebouncedCallback((_isVisible) => {
     setVisibility(_isVisible);
   }, 50);
+
+  const {
+    data: featuredDashboards,
+  } = useFeaturedDashboards({}, {
+    select: (_dashboards) => _dashboards.map(({ name, slug }) => ({
+      label: name,
+      href: `/dashboards/${slug}`,
+    })),
+    placeholderData: [],
+    refetchOnWindowFocus: false,
+  });
 
   return (
     <Tether
@@ -33,7 +46,7 @@ const HeaderDashboards = ({
         </Link>
       )}
       renderElement={(ref) => {
-        if (!isVisible) return null;
+        if (!isVisible || !featuredDashboards.length) return null;
 
         return (
           <ul
@@ -42,13 +55,13 @@ const HeaderDashboards = ({
             onMouseEnter={() => toggleDropdown(true)}
             onMouseLeave={() => toggleDropdown(false)}
           >
-            {dashboards.map((c) => (
+            {featuredDashboards.map(({ label, href }) => (
               <li
                 className="header-dropdown-list-item"
-                key={c.label}
+                key={label}
               >
-                <Link href={c.href}>
-                  <a>{c.label}</a>
+                <Link href={href}>
+                  <a>{label}</a>
                 </Link>
               </li>
             ))}
@@ -57,15 +70,4 @@ const HeaderDashboards = ({
       }}
     />
   );
-};
-
-HeaderDashboards.propTypes = {
-  dashboards: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      href: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
-};
-
-export default HeaderDashboards;
+}

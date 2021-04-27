@@ -13,18 +13,7 @@ import {
   setUser,
 } from 'redactions/user';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { getFeaturedDashboards } from 'modules/dashboards/actions';
-import { getPublishedPartners } from 'modules/partners/actions';
 import { setHostname } from 'redactions/common';
-
-// utils
-import { containsString } from 'utils/string';
-
-// constants
-import {
-  PAGES_WITHOUT_DASHBOARDS,
-  FULLSCREEN_PAGES,
-} from 'constants/app';
 
 // global styles
 import 'css/index.scss';
@@ -51,21 +40,7 @@ class RWApp extends App {
 
     // sets user data coming from a request (server) or the store (client)
     const { user } = isServer ? req : store.getState();
-    const {
-      dashboards: { featured: { list: featuredDashboards } },
-      partners: { published: { list: publishedPartners } },
-    } = store.getState();
     if (user) store.dispatch(setUser(user));
-
-    // fetches published featured dashboards
-    // to populate dashboards menu in the app header and footer
-    if (!containsString(pathname, PAGES_WITHOUT_DASHBOARDS) && !featuredDashboards.length) {
-      await store.dispatch(getFeaturedDashboards());
-    }
-    // fetches partners for footer
-    if (!containsString(pathname, FULLSCREEN_PAGES) && !publishedPartners.length) {
-      await store.dispatch(getPublishedPartners());
-    }
 
     // mobile detection
     if (isServer) {
