@@ -60,8 +60,6 @@ const mapStateToProps = (state) => ({
   orderDirection: state.datasets.datasets.orderDirection,
   pagination: state.datasets.datasets.pagination,
   pathname: state.routes.pathname,
-  tab: state.routes.query.tab,
-  subtab: state.routes.query.subtab,
   user: state.user,
   locale: state.common.locale,
 });

@@ -159,12 +159,12 @@ class LayersTable extends PureComponent {
           input={{ placeholder: 'Search layer' }}
           link={{
             label: 'New layer',
-            route: 'admin_data_detail',
-            params: {
-              tab: 'layers',
-              id: 'new',
-              dataset,
-            },
+            route: '/admin/data/layers/new',
+            // params: {
+            //   tab: 'layers',
+            //   id: 'new',
+            //   dataset,
+            // },
           }}
           onSearch={this.onSearch}
         />

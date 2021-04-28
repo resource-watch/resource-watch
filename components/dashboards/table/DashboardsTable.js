@@ -139,7 +139,7 @@ class DashboardsTable extends PureComponent {
           input={{ placeholder: 'Search dashboard' }}
           link={{
             label: 'New dashboard',
-            route: 'admin_dashboards_detail',
+            route: '/admin/dashboards/dashboards/new',
             params: { tab: 'dashboards', id: 'new' },
           }}
           onSearch={this.onSearch}
