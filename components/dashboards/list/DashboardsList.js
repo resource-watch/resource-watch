@@ -102,8 +102,8 @@ class DashboardsList extends React.Component {
           input={{ placeholder: 'Search dashboard' }}
           link={{
             label: 'New dashboard',
-            route: routes.detail,
-            params: { tab: 'dashboards', id: 'new' },
+            route: '/myrw-detail/dashboards/new',
+            // params: { tab: 'dashboards', id: 'new' },
           }}
           onSearch={this.onSearch}
         />

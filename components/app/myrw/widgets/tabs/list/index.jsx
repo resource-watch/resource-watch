@@ -1,5 +1,10 @@
-import React, { useReducer, useEffect } from 'react';
+import {
+  useReducer,
+  useEffect,
+} from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { useRouter } from 'next/router';
 import { toastr } from 'react-redux-toastr';
 import debounce from 'lodash/debounce';
 
@@ -26,14 +31,19 @@ import { getQueryParams } from './helpers';
 const WidgetListTabContainer = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
+    user: { token },
+  } = props;
+  const {
     search,
     sort,
     pagination: { page },
   } = state;
   const {
-    subtab,
-    user: { token },
-  } = props;
+    query: {
+      params,
+    },
+  } = useRouter();
+  const subtab = params?.[1] || null;
 
   const getWidgets = () => {
     const queryParams = getQueryParams(state, props);
@@ -104,10 +114,15 @@ const WidgetListTabContainer = (props) => {
   );
 };
 
+WidgetListTabContainer.propTypes = {
+  user: PropTypes.shape({
+    token: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 export default connect(
   (state) => ({
     user: state.user,
-    subtab: state.routes.query.subtab,
   }),
   null,
 )(WidgetListTabContainer);

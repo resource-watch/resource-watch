@@ -113,8 +113,8 @@ class PagesTable extends PureComponent {
           input={{ placeholder: 'Search page' }}
           link={{
             label: 'New page',
-            route: 'admin_pages_detail',
-            params: { tab: 'pages', id: 'new' },
+            route: '/admin/pages/pages/new',
+            // params: { tab: 'pages', id: 'new' },
           }}
           onSearch={this.onSearch}
         />

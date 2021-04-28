@@ -19,6 +19,7 @@ class MyRWDatasets extends PureComponent {
     filters: PropTypes.array,
     pagination: PropTypes.object,
     routes: PropTypes.object,
+    tab: PropTypes.string,
     subtab: PropTypes.string,
     setOrderDirection: PropTypes.func,
     setFilters: PropTypes.func,
@@ -51,6 +52,7 @@ class MyRWDatasets extends PureComponent {
   render() {
     const {
       orderDirection, routes, pagination, filters,
+      tab, subtab,
     } = this.props;
     const { page, total, limit } = pagination;
     const nameSearchValue = (filters.find((filter) => filter.key === 'name') || {}).value || '';
@@ -69,8 +71,8 @@ class MyRWDatasets extends PureComponent {
           }}
           link={{
             label: 'New dataset',
-            route: routes.detail,
-            params: { tab: 'datasets', id: 'new' },
+            route: '/myrw-detail/datasets/new',
+            // params: { tab: 'datasets', id: 'new' },
           }}
           onSearch={this.handleSearch}
         />
@@ -89,9 +91,11 @@ class MyRWDatasets extends PureComponent {
             </div>
             <DatasetsList
               routes={{
-                index: 'myrw',
-                detail: 'myrw_detail',
+                index: '/myrw',
+                detail: '/myrw-detail',
               }}
+              tab={tab}
+              subtab={subtab}
             />
             {!!total && total >= 2 && (
             <Paginator

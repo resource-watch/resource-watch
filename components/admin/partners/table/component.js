@@ -100,8 +100,8 @@ class AdminPartnersTable extends PureComponent {
           input={{ placeholder: 'Search partner' }}
           link={{
             label: 'New partner',
-            route: 'admin_partners_detail',
-            params: { tab: 'partners', id: 'new' },
+            route: '/admin/partners/partners/new',
+            // params: { tab: 'partners', id: 'new' },
           }}
           onSearch={this.onSearch}
         />

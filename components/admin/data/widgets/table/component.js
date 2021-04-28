@@ -156,12 +156,12 @@ class WidgetsTable extends PureComponent {
           input={{ placeholder: 'Search widget' }}
           link={{
             label: 'New widget',
-            route: 'admin_data_detail',
-            params: {
-              tab: 'widgets',
-              id: 'new',
-              dataset,
-            },
+            route: '/admin/data/widgets/new',
+            // params: {
+            //   tab: 'widgets',
+            //   id: 'new',
+            //   dataset,
+            // },
           }}
           onSearch={this.onSearch}
         />
