@@ -13,12 +13,12 @@ import MyRWDatasetsMy from 'components/app/myrw/datasets/pages/my-rw-datasets';
 const DATASET_SUBTABS = [{
   label: 'My datasets',
   value: 'my_datasets',
-  route: 'myrw',
+  route: '/myrw/datasets/my_datasets',
   params: { tab: 'datasets', subtab: 'my_datasets' },
 }, {
   label: 'Favorites',
   value: 'favourites',
-  route: 'myrw',
+  route: '/myrw/datasets/favorites',
   params: { tab: 'datasets', subtab: 'favorites' },
 }];
 
@@ -65,7 +65,6 @@ class DatasetIndex extends PureComponent {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  subtab: state.routes.query.subtab,
 });
 
 export default connect(mapStateToProps, null)(DatasetIndex);

@@ -145,8 +145,8 @@ class DatasetsTable extends PureComponent {
           input={{ placeholder: 'Search dataset' }}
           link={{
             label: 'New dataset',
-            route: 'admin_data_detail',
-            params: { tab: 'datasets', id: 'new' },
+            route: '/admin/data/datasets/new',
+            // params: { tab: 'datasets', id: 'new' },
           }}
           onSearch={this.onSearch}
         />

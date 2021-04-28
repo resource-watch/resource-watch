@@ -115,8 +115,8 @@ class ToolsTable extends PureComponent {
           input={{ placeholder: 'Search tool' }}
           link={{
             label: 'New tool',
-            route: 'admin_tools_detail',
-            params: { tab: 'tools', id: 'new' },
+            route: '/admin/tools/tools/new',
+            // params: { tab: 'tools', id: 'new' },
           }}
           onSearch={this.onSearch}
         />

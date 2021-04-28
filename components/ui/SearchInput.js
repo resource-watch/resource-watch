@@ -2,9 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import escapeRegExp from 'lodash/escapeRegExp';
 import classnames from 'classnames';
-
-// Next
-import { Link } from 'routes';
+import Link from 'next/link';
 
 // Components
 import Icon from 'components/ui/icon';
@@ -98,7 +96,7 @@ class SearchInput extends PureComponent {
 
         {link.route
           && (
-          <Link route={link.route} params={link.params}>
+          <Link href={link.route}>
             <a className={linkClassNames}>{link.label}</a>
           </Link>
           )}

@@ -1,4 +1,4 @@
-import React, {
+import {
   useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -22,9 +22,11 @@ const CollectionListAside = ({
 }) => {
   const {
     query: {
-      tab,
+      params,
     },
   } = useRouter();
+  const tab = params?.[0] || null;
+
   const {
     data: collections,
   } = useFetchCollections(
@@ -47,7 +49,8 @@ const CollectionListAside = ({
       id,
       label: name,
       value: id,
-      route: 'myrw',
+      route: `/myrw/${tab}/${id}`,
+      // route: 'myrw',
       params: {
         tab,
         subtab: id,
