@@ -7,6 +7,7 @@ const LayoutAdminDataDetailContainer = (props) => {
   const {
     query: {
       params,
+      dataset,
     },
   } = useRouter();
 
@@ -17,6 +18,7 @@ const LayoutAdminDataDetailContainer = (props) => {
         tab: params?.[0],
         id: params?.[1],
         subtab: params?.[2],
+        dataset,
       }}
     />
   );

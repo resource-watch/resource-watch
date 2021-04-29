@@ -119,10 +119,10 @@ class AdminPartnersTable extends PureComponent {
               show: true,
               list: [
                 {
-                  name: 'Edit', route: 'admin_partners_detail', params: { tab: 'partners', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
+                  name: 'Edit', params: { tab: 'partners', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
                 },
                 {
-                  name: 'Remove', route: 'admin_partners_detail', params: { tab: 'partners', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization },
+                  name: 'Remove', params: { tab: 'partners', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization },
                 },
               ],
             }}

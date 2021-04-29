@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Link } from 'routes';
+import Link from 'next/link';
 import { StickyContainer, Sticky } from 'react-sticky';
 
 // components
@@ -102,7 +102,6 @@ class MyRWWidgets extends PureComponent {
                     label: 'New visualization',
                     route: '/myrw-detail/widgets/new',
                     onlyDesktop: true,
-                    // params: { tab: 'widgets', id: 'new' },
                   }}
                   onSearch={(value) => { handleSearch(value); }}
                 />
@@ -186,7 +185,7 @@ class MyRWWidgets extends PureComponent {
                   </div>
                 </div>
                 <div className="c-button-container -j-center c-field-buttons">
-                  <Link route="explore">
+                  <Link href="/data/explore">
                     <a className="c-button -secondary">
                       Explore Datasets
                     </a>

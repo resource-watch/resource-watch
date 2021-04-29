@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import { Link } from 'routes';
+import Link from 'next/link';
 import classnames from 'classnames';
 
 // Responsive
@@ -117,14 +117,14 @@ function ExploreDatasetsComponent(props) {
         <div className="related-dashboards">
           <div className="header">
             <h4>Related dashboards</h4>
-            <Link to="dashboards">
+            <Link href="/dashboards">
               <a className="header-button">
                 SEE ALL
               </a>
             </Link>
           </div>
           {relatedDashboards.map((dashboard) => (
-            <Link to="dashboards_detail" params={{ slug: dashboard.slug }}>
+            <Link href={`/dashboards/${dashboard.slug}`}>
               <div
                 className="dashboard-button"
                 style={{

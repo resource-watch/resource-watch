@@ -179,7 +179,6 @@ class WidgetsTable extends PureComponent {
               list: [
                 {
                   name: 'Edit',
-                  route: 'admin_data_detail',
                   params: {
                     tab: 'widgets', subtab: 'edit', id: '{{id}}', dataset,
                   },
@@ -187,7 +186,7 @@ class WidgetsTable extends PureComponent {
                   component: EditAction,
                 },
                 {
-                  name: 'Remove', route: 'admin_data_detail', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
+                  name: 'Remove', params: { tab: 'widgets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
                 },
               ],
             }}

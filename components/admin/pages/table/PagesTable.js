@@ -130,10 +130,10 @@ class PagesTable extends PureComponent {
               show: true,
               list: [
                 {
-                  name: 'Edit', route: 'admin_pages_detail', params: { tab: 'pages', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
+                  name: 'Edit', params: { tab: 'pages', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
                 },
                 {
-                  name: 'Remove', route: 'admin_pages_detail', params: { tab: 'pages', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization },
+                  name: 'Remove', params: { tab: 'pages', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization },
                 },
               ],
             }}

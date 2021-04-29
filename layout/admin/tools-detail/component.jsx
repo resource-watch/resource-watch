@@ -59,7 +59,7 @@ export default function LayoutAdminToolsDetail({
             <div className="column small-12">
               <div className="page-header-content">
                 <Breadcrumbs
-                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_tools', params: { tab } }]}
+                  items={[{ name: capitalizeFirstLetter(tab), route: '/admin/tools' }]}
                 />
                 <Title className="-primary -huge page-header-title">
                   {name}

@@ -41,8 +41,8 @@ GetInvolvedDetailPage.getInitialProps = async ({ store, query }) => {
   await dispatch(actions.fetchStaticData(id));
 
   const breadcrumbsItems = source === 'home'
-    ? [{ name: 'Home', href: '/' }]
-    : [{ name: 'Get involved', href: '/get-involved' }];
+    ? [{ name: 'Home', route: '/' }]
+    : [{ name: 'Get involved', route: '/get-involved' }];
 
   return { breadCrumb: breadcrumbsItems };
 };

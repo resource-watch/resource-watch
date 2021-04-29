@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 
 // Utils
 import { substitution } from 'utils/utils';
-
-// Next components
-import { Link } from 'routes';
 
 class EditAction extends React.Component {
   getParsedParams() {
@@ -17,11 +15,14 @@ class EditAction extends React.Component {
   render() {
     const { action } = this.props;
 
+    const {
+      tab,
+      subtab,
+      id,
+    } = this.getParsedParams(action.params);
+
     return (
-      <Link
-        route={action.route}
-        params={this.getParsedParams(action.params)}
-      >
+      <Link href={`/admin/tools/${tab}/${id}/${subtab}`}>
         <a className="c-btn">Edit</a>
       </Link>
     );
