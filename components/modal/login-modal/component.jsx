@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { Link } from 'routes';
+import Link from 'next/link';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 // components
@@ -134,12 +134,9 @@ class LoginModal extends PureComponent {
                   )}
                   {!register && (
                     <Link href="/forgot-password">
-                      <button
-                        type="button"
-                        className="c-btn -clean forgot-password-link"
-                      >
+                      <a className="c-btn -clean forgot-password-link">
                         Have you forgotten your password?
-                      </button>
+                      </a>
                     </Link>
                   )}
 

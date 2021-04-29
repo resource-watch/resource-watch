@@ -16,10 +16,6 @@ import DashboardsListCard from 'components/dashboards/list/DashboardsListCard';
 
 class DashboardsList extends React.Component {
   static defaultProps = {
-    routes: {
-      index: '',
-      detail: '',
-    },
     getDashboardsFilters: {},
     // Store
     loading: false,
@@ -27,7 +23,6 @@ class DashboardsList extends React.Component {
   };
 
   static propTypes = {
-    routes: PropTypes.object,
     getDashboardsFilters: PropTypes.object,
 
     // Store
@@ -88,7 +83,7 @@ class DashboardsList extends React.Component {
   }
 
   render() {
-    const { dashboards, routes, filters } = this.props;
+    const { dashboards, filters } = this.props;
     const { loading } = this.state;
 
     return (
@@ -116,7 +111,6 @@ class DashboardsList extends React.Component {
             >
               <DashboardsListCard
                 dashboard={dashboard}
-                routes={routes}
                 onDelete={this.onDelete}
               />
             </div>

@@ -55,7 +55,7 @@ export default function AdminDashboardsDetailPage() {
             <div className="column small-12">
               <div className="page-header-content">
                 <Breadcrumbs
-                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_dashboards', params: { tab } }]}
+                  items={[{ name: capitalizeFirstLetter(tab), route: '/admin/dashboards' }]}
                 />
                 <Title className="-primary -huge page-header-title">
                   {name}

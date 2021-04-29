@@ -1,6 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 const LayerCardItem = ({
   layer, onDragStart, onDragEnd, onDragOver, index,
@@ -18,15 +17,7 @@ const LayerCardItem = ({
       onDragOver={() => onDragOver(index)}
     >
       <div className="card-name">
-        <Link
-          route="admin_data_detail"
-          params={{
-            tab: 'layers',
-            subtab: 'edit',
-            id,
-            dataset,
-          }}
-        >
+        <Link href={`/admin/data/layers/${id}/edit?dataset=${dataset}`}>
           <a>{name}</a>
         </Link>
         {!published && (<span className="unpublished">&nbsp;(Unpublished)</span>)}

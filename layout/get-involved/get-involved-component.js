@@ -2,10 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import Link from 'next/link';
 import renderHTML from 'react-render-html';
 
 // Components
-import { Link } from 'routes';
 import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import CardStatic from 'components/app/common/CardStatic';
@@ -45,7 +45,7 @@ class GetInvolvedComponent extends React.PureComponent {
           </div>
           <div className="buttons -align-left">
             {c.buttons.map((b) => (
-              <Link key={b.route + b.params.id} route={b.route} params={b.params}>
+              <Link href={b.route}>
                 <a className={`c-button ${b.className}`}>{b.text}</a>
               </Link>
             ))}
@@ -99,7 +99,7 @@ class GetInvolvedComponent extends React.PureComponent {
                     <h2>
                       Save visualizations, subscribe to alerts and enjoy the full experience
                     </h2>
-                    <Link to="sign-in">
+                    <Link href="/sign-in">
                       <a className="c-button -alt -primary">
                         Sign up
                       </a>
@@ -126,7 +126,7 @@ class GetInvolvedComponent extends React.PureComponent {
                     <br />
                     Help us improve Resource Watch.
                   </p>
-                  <Link to="about_contact-us">
+                  <Link href="/about/contact-us">
                     <a className="c-button -alt -primary">Contact us</a>
                   </Link>
                 </Banner>

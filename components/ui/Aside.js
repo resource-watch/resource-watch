@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-// Next components
-// import { Link } from 'routes';
 import Link from 'next/link';
 
 // Components

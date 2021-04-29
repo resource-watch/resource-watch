@@ -50,7 +50,6 @@ const CollectionListAside = ({
       label: name,
       value: id,
       route: `/myrw/${tab}/${id}`,
-      // route: 'myrw',
       params: {
         tab,
         subtab: id,

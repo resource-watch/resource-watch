@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 import renderHTML from 'react-render-html';
 
 // components
@@ -186,7 +186,7 @@ class AboutPage extends PureComponent {
                   Resource Watch would not be possible without the generous contributions of our partners.
                 </p>
                 <div className="-text-center">
-                  <Link to="about_partners">
+                  <Link href="/about/partners">
                     <a className="c-button -primary">Partners</a>
                   </Link>
                 </div>
@@ -206,7 +206,7 @@ class AboutPage extends PureComponent {
                     <br />
                     Help us strengthen Resource Watch.
                   </p>
-                  <Link to="about_contact-us">
+                  <Link href="/about/contact-us">
                     <a className="c-button -alt -primary">Contact us</a>
                   </Link>
                 </Banner>

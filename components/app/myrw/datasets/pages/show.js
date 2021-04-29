@@ -23,17 +23,17 @@ import DatasetWidgets from 'components/app/myrw/datasets/DatasetWidgets';
 const DATASET_SUBTABS = [{
   label: 'Edit dataset',
   value: 'edit',
-  route: 'myrw_detail',
+  route: '/myrw-detail/datasets/{{id}}/edit',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'edit' },
 }, {
   label: 'Metadata',
   value: 'metadata',
-  route: 'myrw_detail',
+  route: '/myrw-detail/datasets/{{id}}/metadata',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' },
 }, {
   label: 'Widgets',
   value: 'widgets',
-  route: 'myrw_detail',
+  route: '/myrw-detail/datasets/{{id}}/widgets',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'widgets' },
 }];
 

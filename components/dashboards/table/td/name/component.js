@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 class NameTD extends PureComponent {
   static propTypes = {
@@ -14,7 +14,7 @@ class NameTD extends PureComponent {
 
     return (
       <td key={index} className="main">
-        <Link route="admin_dashboards_detail" params={{ tab: 'dashboards', id: row.id }}>
+        <Link href={`/admin/dashboards/dashboards/${row.id}`}>
           <a>{value}</a>
         </Link>
       </td>

@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-// Redux
-import { Link, Router } from 'routes';
+import Link from 'next/link';
+import { Router } from 'routes';
 
 // Responsive
 import MediaQuery from 'react-responsive';
@@ -73,7 +72,7 @@ class DatasetListItem extends React.Component {
 
     return (
       <div className={classNameValue}>
-        <Link route="explore" params={{ dataset: dataset.slug }}>
+        <Link href={`/data/explore/${dataset.slug}`}>
           <a>
             <PlaceholderChart />
           </a>
@@ -133,10 +132,7 @@ class DatasetListItem extends React.Component {
           maxDeviceWidth={breakpoints.medium}
           values={{ deviceWidth: responsive.fakeWidth }}
         >
-          <Link
-            route="explore"
-            params={{ dataset: this.props.dataset.slug }}
-          >
+          <Link href={`/data/explore/${dataset.slug}`}>
             {this.renderChart()}
           </Link>
         </MediaQuery>
@@ -160,10 +156,7 @@ class DatasetListItem extends React.Component {
           {/* Title */}
           <div className="title-actions">
             <h4>
-              <Link
-                route="explore"
-                params={{ dataset: this.props.dataset.slug }}
-              >
+              <Link href={`/data/explore/${dataset.slug}`}>
                 <a>
                   {(metadata && metadata.info && metadata.info.name) || dataset.name}
                 </a>
