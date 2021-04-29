@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-
-import { Link, Router } from 'routes';
+import Link from 'next/link';
+import { Router } from 'routes';
 
 // Utils
 import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
@@ -218,10 +218,7 @@ class LayerCardComponent extends PureComponent {
           <div className="card-buttons">
             {datasetId
               && (
-              <Link
-                route="explore"
-                params={{ dataset: datasetId }}
-              >
+              <Link href={`/data/explore/${datasetId}`}>
                 <a className="c-button -tertiary link_button">Details</a>
               </Link>
               )}

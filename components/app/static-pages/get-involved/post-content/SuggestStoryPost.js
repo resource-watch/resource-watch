@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 // Components
 import Banner from 'components/app/common/Banner';
@@ -47,7 +46,7 @@ function SuggestStoryPost() {
                   <br />
                   Help us improve Resource Watch.
                 </p>
-                <Link to="about_contact-us">
+                <Link href="/about/contact-us">
                   <a className="c-button -alt -primary">Contact us</a>
                 </Link>
               </Banner>

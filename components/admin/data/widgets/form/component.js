@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import { Router } from 'routes';
@@ -17,7 +17,6 @@ import {
   createWidgetMetadata,
   updateWidgetMetadata,
 } from 'services/widget';
-import { fetchQuery } from 'services/query';
 
 // constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';

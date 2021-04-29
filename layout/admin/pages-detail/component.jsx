@@ -66,7 +66,7 @@ export default function LayoutAdminStaticPagesDetail({
             <div className="column small-12">
               <div className="page-header-content">
                 <Breadcrumbs
-                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_pages', params: { tab } }]}
+                  items={[{ name: capitalizeFirstLetter(tab), route: '/admin/pages' }]}
                 />
                 <Title className="-primary -huge page-header-title">
                   {getName()}

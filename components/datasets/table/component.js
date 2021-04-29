@@ -153,7 +153,7 @@ class DatasetsTable extends PureComponent {
         <CustomTable
           columns={[
             {
-              label: 'Name', value: 'name', td: NameTD, tdProps: { route: 'admin_data_detail' },
+              label: 'Name', value: 'name', td: NameTD,
             },
             { label: 'Code', value: 'code', td: CodeTD },
             { label: 'Status', value: 'status', td: StatusTD },
@@ -171,10 +171,10 @@ class DatasetsTable extends PureComponent {
             show: true,
             list: [
               {
-                name: 'Edit', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction, componentProps: { route: 'admin_data_detail' },
+                name: 'Edit', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
               },
               {
-                name: 'Remove', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
+                name: 'Remove', params: { tab: 'datasets', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
               },
             ],
           }}

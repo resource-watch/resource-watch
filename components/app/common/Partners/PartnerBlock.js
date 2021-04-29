@@ -1,6 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 function PartnerBlock(props) {
   const partner = props.item;
@@ -14,19 +13,13 @@ function PartnerBlock(props) {
   return (
     <article className="c-partners-block">
       <div className="logo-container">
-        <Link
-          route="partner"
-          params={{ id: partner.slug }}
-        >
+        <Link href={`/about/partners/${partner.slug}`}>
           <img src={imgPath} className="logo" title={partner.name} alt={partner.name} />
         </Link>
       </div>
       <p>{partner.summary}</p>
       <div className="buttons -align-center">
-        <Link
-          route="partner"
-          params={{ id: partner.slug }}
-        >
+        <Link href={`/about/partners/${partner.slug}`}>
           <a className="c-btn -secondary">Read more</a>
         </Link>
       </div>

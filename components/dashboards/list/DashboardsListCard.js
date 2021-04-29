@@ -1,19 +1,15 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 // Components
 import Title from 'components/ui/Title';
 
-function DashboardsListCard({ dashboard = {}, routes = { index: '', detail: '' }, onDelete = null }) {
+function DashboardsListCard({ dashboard = {}, onDelete = null }) {
   return (
     <div className="c-card">
       <div className="card-container">
         <header className="card-header">
-          <Link
-            route={routes.detail}
-            params={{ tab: 'dashboards', id: dashboard.id }}
-          >
+          <Link href={`/myrw-detail/dashboards/${dashboard.id}`}>
             <a>
               <Title className="-default">
                 {dashboard.name}
@@ -24,13 +20,14 @@ function DashboardsListCard({ dashboard = {}, routes = { index: '', detail: '' }
 
         <div className="card-content">
           <div className="card-actions">
-            <a
-              className="c-button -tertiary -compressed"
-              target="_blank"
-              href={`/dashboards/${dashboard.slug}`}
-            >
-              Preview
-            </a>
+            <Link href={`/dashboards/${dashboard.id}`}>
+              <a
+                className="c-button -tertiary -compressed"
+                target="_blank"
+              >
+                Preview
+              </a>
+            </Link>
 
             <button
               className="c-button -tertiary -compressed"
@@ -47,7 +44,6 @@ function DashboardsListCard({ dashboard = {}, routes = { index: '', detail: '' }
 
 DashboardsListCard.propTypes = {
   dashboard: PropTypes.object,
-  routes: PropTypes.object,
   onDelete: PropTypes.func,
 };
 

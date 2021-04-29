@@ -41,7 +41,7 @@ export default function LayoutNewsletter() {
             <div className="column small-12">
               <div className="page-header-content">
                 <Breadcrumbs
-                  items={[{ name: 'About', route: 'about' }]}
+                  items={[{ name: 'About', route: '/about' }]}
                 />
                 <h1>Newsletter</h1>
               </div>

@@ -39,31 +39,3 @@ ToolsShow.propTypes = {
     token: PropTypes.string.isRequired,
   }).isRequired,
 };
-
-// class ToolsShow extends PureComponent {
-//   static propTypes = {
-//     id: PropTypes.string.isRequired,
-//     user: PropTypes.object.isRequired,
-//   }
-
-//   handleSubmit = () => Router.pushRoute('admin_tools', { tab: 'tools' });
-
-//   render() {
-//     const {
-//       id,
-//       user: { token },
-//     } = this.props;
-
-//     return (
-//       <div className="c-tools-show">
-//         <ToolsForm
-//           id={id}
-//           authorization={token}
-//           onSubmit={this.handleSubmit}
-//         />
-//       </div>
-//     );
-//   }
-// }
-
-// export default ToolsShow;

@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { Link } from 'routes';
+import { PureComponent } from 'react';
+import Link from 'next/link';
 
 // components
 import CardApp from 'components/app/common/CardApp';
@@ -70,7 +70,7 @@ class JoinCommunity extends PureComponent {
                     {' '}
                     world together.
                   </p>
-                  <Link to="about_partners">
+                  <Link href="/about/partners">
                     <a className="c-btn -primary -alt">Partners</a>
                   </Link>
                 </Banner>

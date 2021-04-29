@@ -39,7 +39,6 @@ class AdminWidgetForm extends Component {
     const {
       id,
       user,
-      query,
       datasets,
       onChange,
       onSave,
@@ -63,8 +62,8 @@ class AdminWidgetForm extends Component {
             properties={{
               name: 'dataset',
               label: 'Dataset',
-              default: query.dataset,
-              value: form.dataset || query.dataset,
+              default: form.dataset,
+              value: form.dataset,
               disabled: !!id,
               required: true,
               instanceId: 'selectDataset',

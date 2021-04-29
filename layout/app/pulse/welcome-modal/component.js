@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'routes';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Modal from 'components/modal/modal-component';
 import Checkbox from 'components/form/Checkbox';
 
@@ -37,7 +37,7 @@ const WelcomeModal = () => {
           </p>
           <p>
             See these and more near real-time data on&nbsp;
-            <Link route="explore">
+            <Link href="/data/explore">
               <a>Explore</a>
             </Link>
           </p>

@@ -1,11 +1,10 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 class NameTD extends PureComponent {
   static propTypes = {
     row: PropTypes.object.isRequired,
-    route: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   }
 
@@ -13,18 +12,11 @@ class NameTD extends PureComponent {
     const {
       row: { id },
       value,
-      route,
     } = this.props;
 
     return (
       <td className="main">
-        <Link
-          route={route}
-          params={{
-            tab: 'datasets',
-            id,
-          }}
-        >
+        <Link href={`/admin/data/datasets/${id}`}>
           <a>{value}</a>
         </Link>
       </td>

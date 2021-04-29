@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
+import Link from 'next/link';
 
 // components
 import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import ContactUsForm from 'components/app/common/ContactUs/ContactUsForm';
-import { Link } from 'routes';
 
 class LayoutContactUs extends PureComponent {
   render() {
@@ -23,7 +23,7 @@ class LayoutContactUs extends PureComponent {
               <div className="column small-12">
                 <div className="page-header-content">
                   <Breadcrumbs
-                    items={[{ name: 'About', route: 'about' }]}
+                    items={[{ name: 'About', route: '/about' }]}
                   />
                   <h1>Contact us</h1>
                 </div>
@@ -51,9 +51,11 @@ class LayoutContactUs extends PureComponent {
                 <h2>Media inquiries</h2>
                 <p>
                   Please contact Corey Filiault at
+                  {' '}
                   <a href="mailto://corey.filiault@wri.org">corey.filiault@wri.org</a>
                   {' '}
                   or Lauren Zelin at
+                  {' '}
                   <a href="mailto://lzelin@wri.org">lzelin@wri.org</a>
                   {' '}
                   for media inquiries.
@@ -77,7 +79,7 @@ class LayoutContactUs extends PureComponent {
                     {' '}
                     world together.
                   </p>
-                  <Link to="about_partners">
+                  <Link href="/about/partners">
                     <a className="c-btn -primary">Partners</a>
                   </Link>
                 </Banner>

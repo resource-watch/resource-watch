@@ -1,11 +1,8 @@
-import React from 'react';
+import Link from 'next/link';
 
-// Components
+// components
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
-
-// Next components
-import { Link } from 'routes';
 
 function ContributeData() {
   const cards = [
@@ -78,7 +75,7 @@ function ContributeData() {
               <p>
                 Before submitting a dataset, please make sure to browse our catalog and review our
                 {' '}
-                <Link route="get_involved_detail" params={{ id: 'data-policy' }}>
+                <Link href="/get-involved/data-policy">
                   <a>data policy</a>
                 </Link>
                 {' '}
@@ -118,7 +115,7 @@ function ContributeData() {
                   <br />
                   on the Planet
                 </p>
-                <Link to="pulse">
+                <Link href="/data/pulse">
                   <a className="c-button -alt -primary">Launch Planet Pulse</a>
                 </Link>
               </Banner>

@@ -1,15 +1,18 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
+
+// components
 import Icon from 'components/ui/icon';
 
-function Breadcrumbs({ items = [] }) {
+export default function Breadcrumbs({
+  items,
+}) {
   return (
     <ul className="c-breadcrumbs">
       {items.map((item) => (
         <li key={item.name} className="item">
           {item.route ? (
-            <Link route={item.route} params={item.params}>
+            <Link href={item.route}>
               <a>
                 {items.length === 1 && (
                   <Icon className="c-icon -smaller" name="icon-arrow-left-2" />
@@ -29,6 +32,16 @@ function Breadcrumbs({ items = [] }) {
   );
 }
 
-Breadcrumbs.propTypes = { items: PropTypes.array };
+Breadcrumbs.defaultProps = {
+  items: [],
+};
 
-export default Breadcrumbs;
+Breadcrumbs.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      route: PropTypes.string,
+      href: PropTypes.string,
+    }),
+  ),
+};

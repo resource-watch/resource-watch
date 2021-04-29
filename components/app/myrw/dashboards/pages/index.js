@@ -14,10 +14,6 @@ function DashboardsIndex(props) {
     <div className="c-dashboards-index">
       <DashboardsList
         getDashboardsFilters={{ 'filter[user]': user.id }}
-        routes={{
-          index: 'myrw',
-          detail: 'myrw_detail',
-        }}
       />
     </div>
   );
