@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 import { toastr } from 'react-redux-toastr';
 
 // Redux
@@ -48,7 +48,10 @@ class DatasetWidgets extends React.Component {
   }
 
   handleWidgetClick = (w) => {
-    Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: w.id });
+    const {
+      router,
+    } = this.props;
+    router.push(`/myrw-detail/widgets/${w.id}/edit`);
   }
 
   handleWidgetRemoved = () => {
@@ -68,7 +71,10 @@ class DatasetWidgets extends React.Component {
       mode,
       orderDirection,
     } = this.state;
-    const { dataset } = this.props;
+    const {
+      dataset,
+      router,
+    } = this.props;
 
     return (
       <div className="c-dataset-widgets">
@@ -78,7 +84,7 @@ class DatasetWidgets extends React.Component {
               <div className="left-container">
                 <button
                   className="c-btn -a"
-                  onClick={() => Router.pushRoute('myrw_detail', { tab: 'widgets', id: 'new', datasetId: dataset })}
+                  onClick={() => router.push(`/myrw-detail/widgets/new?datasetId=${dataset}`)}
                 >
                   New widget
                 </button>
@@ -147,10 +153,12 @@ class DatasetWidgets extends React.Component {
 
 DatasetWidgets.propTypes = {
   dataset: PropTypes.string.isRequired,
-  // Store
   user: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({ user: state.user });
 
-export default connect(mapStateToProps, null)(DatasetWidgets);
+export default connect(mapStateToProps, null)(withRouter(DatasetWidgets));
