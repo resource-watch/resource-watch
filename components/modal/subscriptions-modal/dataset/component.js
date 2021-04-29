@@ -1,7 +1,7 @@
-import React, { PureComponent, Fragment } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 import { toastr } from 'react-redux-toastr';
 
 // components
@@ -27,6 +27,9 @@ class DatasetSubscriptionsModal extends PureComponent {
     createSubscriptionToArea: PropTypes.func.isRequired,
     createSubscriptionOnNewArea: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = { activeArea: null }
@@ -38,18 +41,17 @@ class DatasetSubscriptionsModal extends PureComponent {
       activeDataset,
       onRequestClose,
       setUserSelection,
+      router,
     } = this.props;
+    const {
+      selectedType,
+      selectedThreshold,
+    } = this.state;
 
     if (area.value === 'upload_area') {
       onRequestClose();
 
-      Router.pushRoute('myrw_detail', {
-        tab: 'areas',
-        id: 'new',
-        subscriptionDataset: activeDataset.id,
-        subscriptionType: this.state.selectedType,
-        subscriptionThreshold: this.state.selectedThreshold,
-      });
+      router.push(`/myrw-detail/areas/new?subscriptionDataset=${activeDataset.id}&subscriptionType=${selectedType}&subscriptionThreshold=${selectedThreshold}`);
     } else {
       setUserSelection({ area });
     }
@@ -113,9 +115,13 @@ class DatasetSubscriptionsModal extends PureComponent {
   }
 
   handleGoToMySubscriptions = () => {
-    this.props.onRequestClose();
+    const {
+      onRequestClose,
+      router,
+    } = this.props;
 
-    Router.pushRoute('myrw', { tab: 'areas' });
+    onRequestClose();
+    router.push('/myrw/areas');
   }
 
   handleState = (bool) => { this.setState({ showSubscribePreview: bool }); }
@@ -243,4 +249,4 @@ class DatasetSubscriptionsModal extends PureComponent {
   }
 }
 
-export default DatasetSubscriptionsModal;
+export default withRouter(DatasetSubscriptionsModal);

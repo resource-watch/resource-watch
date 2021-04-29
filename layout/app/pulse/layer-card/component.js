@@ -2,7 +2,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Link from 'next/link';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // Utils
 import { LAYERS_PLANET_PULSE } from 'utils/layers/pulse_layers';
@@ -68,7 +68,12 @@ class LayerCardComponent extends PureComponent {
 
   render() {
     const { showSubscribeToDatasetModal, showInfoModal, showContextLayersInfoModal } = this.state;
-    const { layerMenuPulse, layerCardPulse, activeContextLayers } = this.props;
+    const {
+      layerMenuPulse,
+      layerCardPulse,
+      activeContextLayers,
+      router,
+    } = this.props;
     const { layerActive, layerPoints } = layerMenuPulse;
     const { dataset, widget } = layerCardPulse;
     const subscribable = dataset && dataset.subscribable
@@ -199,8 +204,12 @@ class LayerCardComponent extends PureComponent {
               <div
                 key={widget.id}
                 className="widget-card"
-                onClick={() => Router.pushRoute('explore', { dataset: widget.dataset })}
-                onKeyDown={() => Router.pushRoute('explore', { dataset: widget.dataset })}
+                onClick={() => {
+                  router.push(`/data/explore/${widget.dataset}`);
+                }}
+                onKeyDown={() => {
+                  router.push(`/data/explore/${widget.dataset}`);
+                }}
                 role="button"
                 tabIndex={-1}
               >
@@ -259,6 +268,9 @@ LayerCardComponent.propTypes = {
   loadWidgetData: PropTypes.func.isRequired,
   setWidget: PropTypes.func.isRequired,
   togglePosition: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default LayerCardComponent;
+export default withRouter(LayerCardComponent);

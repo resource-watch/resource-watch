@@ -1,14 +1,25 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // components
 import ToolsForm from 'components/admin/tools/form/ToolsForm';
 
 class ToolsNew extends PureComponent {
-  static propTypes = { user: PropTypes.object.isRequired }
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  }
 
-  handleSubmit = () => Router.pushRoute('admin_tools', { tab: 'tools' })
+  handleSubmit = () => {
+    const {
+      router,
+    } = this.props;
+
+    router.push('/admin/tools');
+  }
 
   render() {
     const { user: { token } } = this.props;
@@ -24,4 +35,4 @@ class ToolsNew extends PureComponent {
   }
 }
 
-export default ToolsNew;
+export default withRouter(ToolsNew);

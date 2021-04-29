@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // actions
 import { setIsServer } from 'redactions/common';
@@ -15,6 +15,9 @@ class ExplorePage extends PureComponent {
     explore: PropTypes.object.isRequired,
     resetExplore: PropTypes.func.isRequired,
     setIsServer: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   componentDidMount() {
@@ -121,6 +124,7 @@ class ExplorePage extends PureComponent {
         },
         sidebar: { anchor, section, selectedCollection },
       },
+      router,
     } = this.props;
 
     const query = {
@@ -165,7 +169,15 @@ class ExplorePage extends PureComponent {
     };
 
     if (typeof window !== 'undefined') {
-      Router.replaceRoute('explore', query, { shallow: true });
+      router.replace(
+        {
+          pathname: 'explore',
+          query,
+        },
+        {
+          shallow: true,
+        },
+      );
     }
   }
 
@@ -235,4 +247,4 @@ export default connect(
     ...actions,
     setIsServer,
   },
-)(ExplorePage);
+)(withRouter(ExplorePage));

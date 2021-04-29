@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // components
 import Navigation from 'components/form/Navigation';
@@ -23,6 +23,9 @@ class DashboardsForm extends PureComponent {
     id: PropTypes.string,
     basic: PropTypes.bool,
     onSubmit: PropTypes.func,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -118,11 +121,15 @@ class DashboardsForm extends PureComponent {
   onStepChange = (step) => { this.setState({ step }); }
 
   onCancel = () => {
-    const { basic } = this.props;
+    const {
+      basic,
+      router,
+    } = this.props;
+
     if (basic) {
-      Router.pushRoute('myrw', { tab: 'dashboards' });
+      router.push('/myrw/dashboards');
     } else {
-      Router.pushRoute('admin_dashboards');
+      router.push('/admin/dashboards');
     }
   }
 
@@ -199,4 +206,4 @@ class DashboardsForm extends PureComponent {
   }
 }
 
-export default DashboardsForm;
+export default withRouter(DashboardsForm);

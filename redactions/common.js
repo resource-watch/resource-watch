@@ -1,5 +1,3 @@
-import { Router } from 'routes';
-
 const SET_LOCALE = 'common/SET_LOCALE';
 const SET_EMBED = 'common/SET_EMBED';
 const SET_WEBSHOT = 'common/SET_WEBSHOT';
@@ -39,12 +37,6 @@ export default function commonReducer(state = initialState, action) {
 /**
  * ACTIONS
  */
-
-export function redirectTo(url) {
-  return (dispatch) => {
-    dispatch(Router.pushRoute(url));
-  };
-}
 
 /**
  * Set the locale of the app (used by the API)

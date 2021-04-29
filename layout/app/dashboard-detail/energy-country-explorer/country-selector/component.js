@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import { Router } from 'routes';
+import { useRouter } from 'next/router';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -19,6 +19,7 @@ function CountrySelector(props) {
     onCountrySelected,
     selectedCountry,
   } = props;
+  const router = useRouter();
   const [filteredCountries, setFilteredCountries] = useState(countries);
   const inputRef = useRef(null);
   const onSearchChange = debounce((search) => {
@@ -56,14 +57,8 @@ function CountrySelector(props) {
           }}
           onChange={(value) => {
             onCountrySelected(value);
-            Router.pushRoute(
-              'dashboards_detail',
-              {
-                country: value,
-                tab: 'country',
-                slug: 'energy',
-              },
-            );
+
+            router.push(`/dashboards/energy?country=${value}&tab=country`);
           }}
         />
       </div>

@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import { withRouter } from 'next/router';
 
 // components
 import Title from 'components/ui/Title';
@@ -22,15 +23,36 @@ class SearchResults extends PureComponent {
     }).isRequired,
     headerSearch: PropTypes.bool,
     setSearchPage: PropTypes.func.isRequired,
-    setSearchUrl: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = { headerSearch: false }
 
   onChangePage = (page) => {
-    const { setSearchPage, setSearchUrl } = this.props;
+    const {
+      setSearchPage,
+      search: {
+        term,
+      },
+      router,
+    } = this.props;
+
     setSearchPage(page);
-    setSearchUrl();
+    router.replace(
+      {
+        pathname: 'search',
+        query: {
+          term,
+          page,
+        },
+      },
+      `/search?term=${term}&page=${page}`,
+      {
+        shallow: true,
+      },
+    );
   }
 
   render() {
@@ -90,4 +112,4 @@ class SearchResults extends PureComponent {
   }
 }
 
-export default SearchResults;
+export default withRouter(SearchResults);
