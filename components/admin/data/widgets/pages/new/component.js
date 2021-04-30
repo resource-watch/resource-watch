@@ -1,23 +1,27 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // components
 import WidgetForm from 'components/admin/data/widgets/form';
 
 class WidgetsNew extends PureComponent {
-  static propTypes = { user: PropTypes.object.isRequired }
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  }
 
   handleSubmit = (widget) => {
+    const {
+      router,
+    } = this.props;
+
     if (widget) {
-      Router.pushRoute('admin_data_detail', {
-        tab: 'widgets',
-        subtab: 'edit',
-        id: widget.id,
-        dataset: widget.dataset,
-      });
+      router.push(`/admin/data/widgets/${widget.id}/edit?dataset=${widget.dataset}`);
     } else {
-      Router.pushRoute('admin_data', { tab: 'widgets' });
+      router.push('/admin/data/widgets');
     }
   }
 
@@ -35,4 +39,4 @@ class WidgetsNew extends PureComponent {
   }
 }
 
-export default WidgetsNew;
+export default withRouter(WidgetsNew);

@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // components
 import AdminWidgetForm from 'components/admin/data/widgets/form/steps';
@@ -28,6 +28,9 @@ class WidgetForm extends PureComponent {
     onSubmit: PropTypes.func.isRequired,
     locale: PropTypes.string.isRequired,
     dataset: PropTypes.string,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -242,14 +245,17 @@ class WidgetForm extends PureComponent {
 
   handleDelete = () => {
     const { form: { name, dataset, id } } = this.state;
-    const { authorization } = this.props;
+    const {
+      authorization,
+      router,
+    } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete the widget: "${name}"`, {
       onOk: () => {
         deleteWidget(id, dataset, authorization)
           .then(() => {
             toastr.success('Success', `The widget "${id}" - "${name}" has been removed correctly`);
-            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'widgets', id: dataset });
+            router.push(`/admin/data/datasets/${dataset}/widgets`);
           })
           .catch((err) => {
             toastr.error(
@@ -286,4 +292,4 @@ class WidgetForm extends PureComponent {
   }
 }
 
-export default WidgetForm;
+export default withRouter(WidgetForm);

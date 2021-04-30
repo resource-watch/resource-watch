@@ -1,12 +1,12 @@
-import React from 'react';
-import { Router } from 'routes';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 
 // Components
 import DatasetsForm from 'components/datasets/form/DatasetsForm';
 
 function DatasetsNew(props) {
   const { user } = props;
+  const router = useRouter();
 
   return (
     <div className="c-datasets-new">
@@ -14,7 +14,7 @@ function DatasetsNew(props) {
         basic
         application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
         authorization={user.token}
-        onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets', subtab: 'my_datasets' })}
+        onSubmit={() => router.push('/myrw/datasets/my_datasets')}
       />
     </div>
   );

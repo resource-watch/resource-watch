@@ -1,14 +1,24 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // components
 import FaqsForm from 'components/admin/faqs/form/FaqsForm';
 
 class FaqsNew extends PureComponent {
-  static propTypes = { user: PropTypes.object.isRequired }
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  }
 
-  handleSubmit = () => Router.pushRoute('admin_faqs', { tab: 'faqs' })
+  handleSubmit = () => {
+    const {
+      router,
+    } = this.props;
+    router.push('/admin/faqs');
+  }
 
   render() {
     const { user: { token } } = this.props;
@@ -24,4 +34,4 @@ class FaqsNew extends PureComponent {
   }
 }
 
-export default FaqsNew;
+export default withRouter(FaqsNew);

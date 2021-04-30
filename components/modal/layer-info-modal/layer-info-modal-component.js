@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
 
 import { fetchDataset } from 'services/dataset';
@@ -8,6 +8,7 @@ import { fetchDataset } from 'services/dataset';
 function LayerInfoModal(props) {
   const { layer } = props;
   const [slug, setSlug] = useState(' ');
+  const router = useRouter();
 
   useEffect(() => {
     fetchDataset(layer.dataset)
@@ -27,7 +28,8 @@ function LayerInfoModal(props) {
           <button
             className="c-btn -primary"
             onClick={() => {
-              Router.pushRoute('explore', { dataset: slug });
+              router.push(`/data/explore/${slug}`);
+
               if (props.onRequestClose) {
                 props.onRequestClose();
               }

@@ -1,7 +1,7 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { Router } from 'routes';
+import { useRouter } from 'next/router';
 
 // Services
 import { fetchDataset } from 'services/dataset';
@@ -18,6 +18,7 @@ function InfoTooltip(props) {
     loading: true,
     value: null,
   });
+  const router = useRouter();
 
   const metadataObj = dataset.value && dataset.value.metadata[0];
   const datasetName = metadataObj && metadataObj.info.name;
@@ -49,7 +50,9 @@ function InfoTooltip(props) {
                   <div className="actions">
                     <button
                       className="c-button -primary -compressed -fs-tiny"
-                      onClick={() => Router.pushRoute('explore', { dataset: datasetID })}
+                      onClick={() => {
+                        router.push(`/data/explore/${datasetID}`);
+                      }}
                     >
                       More info
                     </button>

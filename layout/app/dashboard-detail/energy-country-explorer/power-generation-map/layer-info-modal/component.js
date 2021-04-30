@@ -1,12 +1,12 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { useRouter } from 'next/router';
 
 // styles
 import './styles.scss';
 
 function LayerInfoModal(props) {
   const { layer } = props;
+  const router = useRouter();
 
   return (
     <div className="c-layer-info-modal">
@@ -18,10 +18,7 @@ function LayerInfoModal(props) {
         <button
           className="c-button -primary"
           onClick={() => {
-            Router.pushRoute('explore', {
-              dataset: layer.dataset,
-              layer: layer.id,
-            });
+            router.push(`/data/explore/${layer.dataset}`);
           }}
         >
           More info

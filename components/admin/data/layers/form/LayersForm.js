@@ -1,7 +1,6 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
-
+import { withRouter } from 'next/router';
 // Redux
 import { connect } from 'react-redux';
 
@@ -38,6 +37,9 @@ class LayersForm extends PureComponent {
     adminLayerPreview: PropTypes.object.isRequired,
     newState: PropTypes.bool.isRequired,
     setLayerInteractionError: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -187,14 +189,17 @@ class LayersForm extends PureComponent {
 
   onDelete = () => {
     const { form: { name }, id, dataset } = this.state;
-    const { authorization } = this.props;
+    const {
+      authorization,
+      router,
+    } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete the layer: "${name}"`, {
       onOk: () => {
         deleteLayer(id, dataset, authorization)
           .then(() => {
             toastr.success('Success', `The layer "${id}" - "${name}" has been removed correctly`);
-            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'layers', id: dataset });
+            router.push(`/admin/data/datasets/${id}/layer`);
           })
           .catch((err) => {
             toastr.error(
@@ -324,4 +329,4 @@ const mapDispatchToProps = { setLayerInteractionError };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LayersForm);
+)(withRouter(LayersForm));
