@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-// Redux
-import { Link, Router } from 'routes';
+import Link from 'next/link';
+import { withRouter } from 'next/router';
 
 // Responsive
 import MediaQuery from 'react-responsive';
@@ -33,6 +32,9 @@ class DatasetListItem extends React.Component {
     toggleMapLayerGroup: PropTypes.func.isRequired,
     resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
     setMapLayerGroupActive: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -73,7 +75,7 @@ class DatasetListItem extends React.Component {
 
     return (
       <div className={classNameValue}>
-        <Link route="explore" params={{ dataset: dataset.slug }}>
+        <Link href={`/data/explore/${dataset.slug}`}>
           <a>
             <PlaceholderChart />
           </a>
@@ -89,9 +91,10 @@ class DatasetListItem extends React.Component {
       resetMapLayerGroupsInteraction,
       setMapLayerGroupActive,
       layer,
+      router,
     } = this.props;
 
-    Router.pushRoute('explore', { dataset: dataset.slug });
+    router.push(`/data/explore/${dataset.slug}`,);
 
     // Add default layer to the map only if not active already
     if (!this.props.active && layer) {
@@ -133,10 +136,7 @@ class DatasetListItem extends React.Component {
           maxDeviceWidth={breakpoints.medium}
           values={{ deviceWidth: responsive.fakeWidth }}
         >
-          <Link
-            route="explore"
-            params={{ dataset: this.props.dataset.slug }}
-          >
+          <Link href={`/data/explore/${dataset.slug}`}>
             {this.renderChart()}
           </Link>
         </MediaQuery>
@@ -160,10 +160,7 @@ class DatasetListItem extends React.Component {
           {/* Title */}
           <div className="title-actions">
             <h4>
-              <Link
-                route="explore"
-                params={{ dataset: this.props.dataset.slug }}
-              >
+              <Link href={`/data/explore/${dataset.slug}`}>
                 <a>
                   {(metadata && metadata.info && metadata.info.name) || dataset.name}
                 </a>
@@ -181,4 +178,4 @@ class DatasetListItem extends React.Component {
   }
 }
 
-export default DatasetListItem;
+export default withRouter(DatasetListItem);

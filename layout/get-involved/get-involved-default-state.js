@@ -14,8 +14,8 @@ export default {
       buttons: [
         {
           text: 'Join the community',
-          route: 'get_involved_detail',
-          params: { id: 'join-the-community' },
+          route: '/get-involved/join-the-community',
+          // params: { id: 'join-the-community' },
           className: '-primary -alt',
         },
       ],
@@ -30,8 +30,8 @@ export default {
       buttons: [
         {
           text: 'Contribute data',
-          route: 'get_involved_detail',
-          params: { id: 'contribute-data' },
+          route: '/get-involved/contribute-data',
+          // params: { id: 'contribute-data' },
           className: '-primary -alt',
         },
       ],
@@ -46,8 +46,8 @@ export default {
       buttons: [
         {
           text: 'Suggest a story',
-          route: 'get_involved_detail',
-          params: { id: 'suggest-a-story' },
+          route: '/get-involved/suggest-a-story',
+          // params: { id: 'suggest-a-story' },
           className: '-primary -alt',
         },
       ],
@@ -62,14 +62,14 @@ export default {
       buttons: [
         {
           text: 'Develop your app',
-          route: 'get_involved_detail',
-          params: { id: 'develop-your-app' },
+          route: '/get-involved/develop-your-app',
+          // params: { id: 'develop-your-app' },
           className: '-primary -alt',
         },
         {
           text: 'App gallery',
-          route: 'get_involved_detail',
-          params: { id: 'apps' },
+          route: '/get-involved/apps',
+          // params: { id: 'apps' },
           className: '-secondary -alt',
         },
       ],

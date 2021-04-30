@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 // actions
-import { getWidget, checkIfFavorited, setIfFavorited } from 'redactions/widget';
+import { setIfFavorited } from 'redactions/widget';
 
 // component
 import LayoutEmbedEmbed from './component';
@@ -15,8 +15,6 @@ export default connect(
     user: state.user,
   }),
   {
-    getWidget,
-    checkIfFavorited,
     setIfFavorited,
   },
 )(LayoutEmbedEmbed);

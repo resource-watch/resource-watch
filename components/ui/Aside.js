@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-// Next components
-import { Link } from 'routes';
+import Link from 'next/link';
 
 // Components
 import Icon from 'components/ui/icon';
@@ -33,7 +31,11 @@ class Aside extends PureComponent {
 
               return (
                 <li key={s.value}>
-                  <Link route={s.route} params={s.params}>
+                  <Link
+                    href={s.route}
+                    // route={s.route}
+                    // params={s.params}
+                  >
                     <a className={activeClass}>
                       {active && <Icon className="c-icon -tiny" name="icon-arrow-right-2" />}
                       {s.label}

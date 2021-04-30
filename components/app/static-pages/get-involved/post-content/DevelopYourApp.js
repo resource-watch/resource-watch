@@ -1,11 +1,10 @@
-import React from 'react';
-import { Link } from 'routes';
+import Link from 'next/link';
 
-// Components
+// components
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
 
-// Utils
+// utils
 import { logEvent } from 'utils/analytics';
 
 function DevelopYourApp() {
@@ -72,7 +71,7 @@ function DevelopYourApp() {
                   <br />
                   by the Resource Watch community.
                 </p>
-                <Link route="get_involved_detail" params={{ id: 'apps' }}>
+                <Link href="/get-involved/apps">
                   <a
                     role="button"
                     onKeyPress={() => logEvent('App Gallery link clicked', 'Develop your app')}

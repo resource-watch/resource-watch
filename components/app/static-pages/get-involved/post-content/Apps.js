@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 
-import { Link } from 'routes';
 import { connect } from 'react-redux';
 import { getTools, setFilters } from 'redactions/admin/tools';
 
@@ -25,6 +25,7 @@ class Apps extends React.Component {
     this.props.setFilters([]);
     this.props.getTools();
   }
+
 
   render() {
     return (
@@ -60,7 +61,7 @@ class Apps extends React.Component {
                     <br />
                     on the Planet
                   </p>
-                  <Link to="pulse">
+                  <Link href="/data/pulse">
                     <a className="c-button -alt -primary">Launch Planet Pulse</a>
                   </Link>
                 </Banner>

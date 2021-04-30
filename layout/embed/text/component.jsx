@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -14,16 +14,6 @@ class LayoutEmbedText extends PureComponent {
     super(props);
 
     this.state = { isLoading: props.loading };
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillMount() {
-    const {
-      getWidget,
-      routes: { query: { id } },
-    } = this.props;
-
-    getWidget(id);
   }
 
   handleToggleLoading = (isLoading) => {
@@ -95,12 +85,6 @@ LayoutEmbedText.propTypes = {
     widgetConfig: PropTypes.shape({}),
   }).isRequired,
   loading: PropTypes.bool.isRequired,
-  routes: PropTypes.shape({
-    query: PropTypes.shape({
-      id: PropTypes.string,
-    }),
-  }).isRequired,
-  getWidget: PropTypes.func.isRequired,
 };
 
 export default LayoutEmbedText;

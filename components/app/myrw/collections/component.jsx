@@ -1,17 +1,13 @@
-import React from 'react';
-import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 
 // Components
 import CollectionsIndex from './tabs/index';
 import CollectionsNew from './tabs/new';
 import CollectionsEdit from './tabs/edit';
 
-const CollectionsTab = () => {
-  const {
-    query: {
-      id,
-    },
-  } = useRouter();
+export default function CollectionsTab({
+  id,
+}) {
   return (
     <>
       {!id && (
@@ -27,6 +23,12 @@ const CollectionsTab = () => {
       )}
     </>
   );
+}
+
+CollectionsTab.defaultProps = {
+  id: null,
 };
 
-export default CollectionsTab;
+CollectionsTab.propTypes = {
+  id: PropTypes.string,
+};

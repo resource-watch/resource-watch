@@ -14,7 +14,6 @@ export {
 export default connect(
   (state) => ({
     getInvolvedDetail: state.getInvolvedDetail,
-    routes: state.routes,
   }),
   actions,
 )(GetInvolvedDetailComponent);

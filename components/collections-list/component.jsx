@@ -42,11 +42,11 @@ const CollectionsList = ({
         }}
         link={{
           label: 'New Collection',
-          route: 'myrw_detail',
-          params: {
-            tab: 'collections',
-            id: 'new',
-          },
+          route: '/myrw-detail/collections/new',
+          // params: {
+          //   tab: 'collections',
+          //   id: 'new',
+          // },
         }}
         onSearch={handleSearch}
       />

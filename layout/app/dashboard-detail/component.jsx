@@ -151,7 +151,7 @@ const LayoutDashboardDetail = ({
                 <Breadcrumbs items={[
                   {
                     name: 'Dashboards',
-                    href: '/dashboards',
+                    route: '/dashboards',
                   },
                 ]}
                 />

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
-
+import Link from 'next/link';
 import { connect } from 'react-redux';
 
 // Selectors
@@ -65,18 +64,17 @@ class AreasAlerts extends React.Component {
         <p>
           Please note that this information is subject to the
           {' '}
-          <Link route="terms-of-service">
+          <Link href="/terms-of-service">
             <a>Resource Watch Terms of Service</a>
           </Link>
           .
           You can unsubscribe or manage your subscriptions at
-          <Link route="myrw" params={{ tab: 'areas' }}>
+          <Link href="myrw/areas">
             <a> My Resource Watch</a>
           </Link>
           {' '}
           [my resource watch aoi page].
         </p>
-
       </div>
     );
   }

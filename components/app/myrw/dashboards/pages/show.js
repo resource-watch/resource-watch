@@ -1,6 +1,5 @@
-import React from 'react';
-import { Router } from 'routes';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 
 // Redux
 import { connect } from 'react-redux';
@@ -10,6 +9,7 @@ import DashboardsForm from 'components/dashboards/form/DashboardsForm';
 
 function DashboardsShow(props) {
   const { id, user } = props;
+  const router = useRouter();
 
   return (
     <div className="c-dashboards-show">
@@ -17,7 +17,7 @@ function DashboardsShow(props) {
         id={id}
         basic
         user={user}
-        onSubmit={() => Router.pushRoute('myrw', { tab: 'dashboards' })}
+        onSubmit={() => { router.push('/myrw/dashboards'); }}
         mode="edit"
       />
     </div>

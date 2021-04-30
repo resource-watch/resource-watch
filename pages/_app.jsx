@@ -7,8 +7,6 @@ import initStore from 'lib/store';
 // es6 shim for .finally() in promises
 import finallyShim from 'promise.prototype.finally';
 
-// actions
-import { setRouter } from 'redactions/routes';
 import {
   setUser,
 } from 'redactions/user';
@@ -23,16 +21,12 @@ finallyShim.shim();
 const queryClient = new QueryClient();
 
 class RWApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
-    const { asPath } = router;
+  static async getInitialProps({ Component, ctx }) {
     const {
-      req, store, query, isServer,
+      req,
+      store,
+      isServer,
     } = ctx;
-    const pathname = req ? asPath : ctx.asPath;
-
-    // sets app routes
-    const url = { asPath, pathname, query };
-    store.dispatch(setRouter(url));
 
     // sets hostname
     const hostname = isServer ? req.headers.host : window.origin;
@@ -54,7 +48,9 @@ class RWApp extends App {
 
     return {
       pageProps: {
-        ...pageProps, user, isServer, url,
+        ...pageProps,
+        user,
+        isServer,
       },
     };
   }

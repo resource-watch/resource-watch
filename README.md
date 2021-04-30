@@ -113,18 +113,7 @@ Resource Watch application is split into the next main folders:
 - public
 
 ### **./pages**
-Pages are the first component to be loaded according _Next_ specification. They contain the layout to be loaded. They are also in charge of fetching data for that specific page.
-
-Pages are split into 3 main folders:
-- _app_: contains most of the pages of the site not linked to MyRW or the administration.
-- _myrw_ contains pages related with MyRW (My Resource Watch) user page.
-- _admin_: contains pages related with RW data administration.
-
-_Please take this into account where a page should be placed based on these criteria._
-
-Every time you add a new page, you will need to tell _Next_ when it should load it. This can be done in the `./routes.js` file.
-
-Apart from the custom pages, there are 3 unique pages defined by _Next_ will see below:
+Apart from the custom pages, there are several pages defined by _Next_ will see below:
 
 #### _app
 The page of pages. All ready will inherit from this one, so keep in mind this. Resource Watch's pages are connect to redux thanks to this file. It also sets some states and fetches used in the whole app. You can find more info [here](https://github.com/zeit/next.js#custom-app).
@@ -197,15 +186,7 @@ Contains functions that make thing easier and are used across the app. Like `con
 Folder to serve static files. It's accessible everywhere.
 
 # Routing
-_Next_ provides an easy way to manage our app's routes via [next-routes](https://github.com/fridays/next-routes). All app routes are served in `./routes`. A quick look at it:
-
-``` javascript
-routes.add('home', '/', 'app/home');
-routes.add('splash', '/splash', 'app/splash');
-routes.add('splash_detail', '/splash/:id', 'app/splash-detail');
-```
-
-The first value of the method represents the unique name of the route, the second is the route itself, while the third parameter represents the path to the page that should be rendered (starting from the **_./pages_** folder). Take into account, in some cases, and with some parameter combination, the order of route declaration matters.
+Resource Watch uses [NextJS Dynamic Routes](https://nextjs.org/docs/routing/dynamic-routes).
 
 # App State Management 🌅
 
@@ -223,7 +204,6 @@ import PagesShow from './component';
 export default connect(
   state => ({
     user: state.user,
-    id: state.routes.query.id
   }),
   null
 )(PagesShow);

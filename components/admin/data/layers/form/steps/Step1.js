@@ -29,7 +29,6 @@ class Step1 extends PureComponent {
     onChange: PropTypes.func.isRequired,
     onChangeDataset: PropTypes.func.isRequired,
     verifyLayerConfig: PropTypes.func.isRequired,
-    query: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -60,7 +59,6 @@ class Step1 extends PureComponent {
       user,
       layerPreview,
       verifyLayerConfig,
-      query,
       form,
       id,
     } = this.props;
@@ -79,8 +77,8 @@ class Step1 extends PureComponent {
               label: 'Dataset',
               type: 'text',
               required: true,
-              default: form.dataset || query.dataset,
-              value: form.dataset || query.dataset,
+              default: form.dataset,
+              value: form.dataset,
             }}
           >
             {Select}
@@ -253,7 +251,6 @@ class Step1 extends PureComponent {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  query: state.routes.query,
 });
 
 export default connect(mapStateToProps, null)(Step1);

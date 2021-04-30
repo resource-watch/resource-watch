@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // components
 import Banner from 'components/app/common/Banner';
@@ -11,6 +11,9 @@ class LayoutPartnerDetail extends PureComponent {
   static propTypes = {
     partner: PropTypes.object,
     datasets: PropTypes.array,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -19,7 +22,11 @@ class LayoutPartnerDetail extends PureComponent {
   };
 
   handleTagSelected(tag) {
-    Router.pushRoute('explore', { topics: `["${tag.id}"]` });
+    const {
+      router,
+    } = this.props;
+
+    router.push('/data/explore', { topics: `["${tag.id}"]` });
   }
 
   render() {
@@ -144,4 +151,4 @@ class LayoutPartnerDetail extends PureComponent {
   }
 }
 
-export default LayoutPartnerDetail;
+export default withRouter(LayoutPartnerDetail);

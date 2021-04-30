@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 import { StickyContainer, Sticky } from 'react-sticky';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
@@ -23,17 +23,17 @@ import DatasetWidgets from 'components/app/myrw/datasets/DatasetWidgets';
 const DATASET_SUBTABS = [{
   label: 'Edit dataset',
   value: 'edit',
-  route: 'myrw_detail',
+  route: '/myrw-detail/datasets/{{id}}/edit',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'edit' },
 }, {
   label: 'Metadata',
   value: 'metadata',
-  route: 'myrw_detail',
+  route: '/myrw-detail/datasets/{{id}}/metadata',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'metadata' },
 }, {
   label: 'Widgets',
   value: 'widgets',
-  route: 'myrw_detail',
+  route: '/myrw-detail/datasets/{{id}}/widgets',
   params: { tab: 'datasets', id: '{{id}}', subtab: 'widgets' },
 }];
 
@@ -43,6 +43,9 @@ class DatasetsShow extends React.Component {
     subtab: PropTypes.string,
     // Store
     user: PropTypes.object.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = { subtab: 'edit' };
@@ -71,7 +74,12 @@ class DatasetsShow extends React.Component {
   }
 
   render() {
-    const { id, user, subtab } = this.props;
+    const {
+      id,
+      user,
+      subtab,
+      router,
+    } = this.props;
     const { data } = this.state;
 
     return (
@@ -101,14 +109,14 @@ class DatasetsShow extends React.Component {
                   application={[process.env.NEXT_PUBLIC_APPLICATIONS]}
                   authorization={user.token}
                   dataset={id}
-                  onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets' })}
+                  onSubmit={() => { router.push('/myrw/datasets'); }}
                 />
                 )}
 
               {subtab === 'metadata' && (
                 <DatasetMetadataForm
                   dataset={id}
-                  onSubmit={() => Router.pushRoute('myrw', { tab: 'datasets', id })}
+                  onSubmit={() => { router.push(`/myrw/datasets/${id}`); }}
                 />
               )}
 
@@ -129,4 +137,4 @@ class DatasetsShow extends React.Component {
 
 const mapStateToProps = (state) => ({ user: state.user });
 
-export default connect(mapStateToProps, null)(DatasetsShow);
+export default connect(mapStateToProps, null)(withRouter(DatasetsShow));

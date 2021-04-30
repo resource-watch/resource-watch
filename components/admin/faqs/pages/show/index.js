@@ -6,6 +6,5 @@ import FaqsShow from './component';
 export default connect(
   (state) => ({
     user: state.user,
-    id: state.routes.query.id,
   }),
 )(FaqsShow);
