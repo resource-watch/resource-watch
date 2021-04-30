@@ -113,16 +113,7 @@ Resource Watch application is split into the next main folders:
 - public
 
 ### **./pages**
-Pages are the first component to be loaded according _Next_ specification. They contain the layout to be loaded. They are also in charge of fetching data for that specific page.
-
-Pages are split into 3 main folders:
-- _app_: contains most of the pages of the site not linked to MyRW or the administration.
-- _myrw_ contains pages related with MyRW (My Resource Watch) user page.
-- _admin_: contains pages related with RW data administration.
-
-_Please take this into account where a page should be placed based on these criteria._
-
-Apart from the custom pages, there are 3 unique pages defined by _Next_ will see below:
+Apart from the custom pages, there are several pages defined by _Next_ will see below:
 
 #### _app
 The page of pages. All ready will inherit from this one, so keep in mind this. Resource Watch's pages are connect to redux thanks to this file. It also sets some states and fetches used in the whole app. You can find more info [here](https://github.com/zeit/next.js#custom-app).
