@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Changed
+- relocates pages according to Next's dynamic routes. [RW-52](https://vizzuality.atlassian.net/browse/RW-52)
+- replaces `next-routes` links and router with `next/link` and `next/router` packages. [RW-54](https://vizzuality.atlassian.net/browse/RW-54)
 
 
 ### Fixed
@@ -17,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Removed
+- removed `routes` global state. [RW-53](https://vizzuality.atlassian.net/browse/RW-53)
 
 
 ## [3.1.0] - 2020-04-26
