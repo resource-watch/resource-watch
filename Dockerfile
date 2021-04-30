@@ -54,7 +54,6 @@ COPY index.js .
 COPY next.config.js .
 COPY next-sitemap.js .
 COPY postcss.config.js .
-COPY routes.js .
 COPY jsconfig.json .
 COPY .env.test .
 COPY .env.production .

@@ -7,10 +7,12 @@ import LayersForm from 'components/admin/data/layers/form/LayersForm';
 
 class LayersNew extends PureComponent {
   static propTypes = {
-    dataset: PropTypes.string,
     user: PropTypes.object.isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
+      query: PropTypes.shape({
+        dataset: PropTypes.string,
+      }),
     }).isRequired,
   }
 
@@ -31,7 +33,11 @@ class LayersNew extends PureComponent {
   render() {
     const {
       user: { token },
-      dataset,
+      router: {
+        query: {
+          dataset,
+        },
+      },
     } = this.props;
 
     return (

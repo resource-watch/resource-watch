@@ -35,10 +35,14 @@ class LayersForm extends PureComponent {
     onSubmit: PropTypes.func,
     interactions: PropTypes.object.isRequired,
     adminLayerPreview: PropTypes.object.isRequired,
-    newState: PropTypes.bool.isRequired,
     setLayerInteractionError: PropTypes.func.isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
+      query: PropTypes.shape({
+        params: PropTypes.shape({
+          id: PropTypes.string,
+        }),
+      }),
     }).isRequired,
   }
 
@@ -281,7 +285,15 @@ class LayersForm extends PureComponent {
     const {
       form, id, datasets, loading, step, stepLength, submitting,
     } = this.state;
-    const { newState } = this.props;
+    const {
+      router: {
+        query: {
+          params,
+        },
+      },
+    } = this.props;
+
+    const isNew = params?.[1] === 'new';
 
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
@@ -308,7 +320,7 @@ class LayersForm extends PureComponent {
             stepLength={stepLength}
             submitting={submitting}
             onStepChange={this.onStepChange}
-            showDelete={!newState}
+            showDelete={!isNew}
             onDelete={this.onDelete}
           />
           )}
@@ -321,7 +333,6 @@ const mapStateToProps = (state) => ({
   locale: state.common.locale,
   interactions: state.interactions,
   adminLayerPreview: state.adminLayerPreview,
-  newState: state.routes.query.id === 'new',
 });
 
 const mapDispatchToProps = { setLayerInteractionError };

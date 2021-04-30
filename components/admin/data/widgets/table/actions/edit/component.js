@@ -25,10 +25,11 @@ class EditAction extends PureComponent {
       tab,
       subtab,
       id,
+      dataset,
     } = this.getParsedParams();
 
     return (
-      <Link href={`/admin/data/${tab}/${id}/${subtab}`}>
+      <Link href={`/admin/data/${tab}/${id}/${subtab}?dataset=${dataset}`}>
         <a className="c-btn">Edit</a>
       </Link>
     );

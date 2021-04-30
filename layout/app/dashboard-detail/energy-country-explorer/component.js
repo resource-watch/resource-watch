@@ -1,4 +1,4 @@
-import React, {
+import {
   useEffect,
   useState,
   useCallback,
@@ -8,6 +8,7 @@ import { toastr } from 'react-redux-toastr';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { Tooltip } from 'vizzuality-components';
+import { withRouter } from 'next/router';
 
 // services
 import { fetchCountryPowerExplorerConfig } from 'services/config';
@@ -24,7 +25,13 @@ import { WORLD_COUNTRY, US_COUNTRY_VALUES } from './constants';
 import './styles.scss';
 
 function EnergyCountryExplorer(props) {
-  const { selectedCountry } = props;
+  const {
+    router: {
+      query: {
+        country: selectedCountry,
+      },
+    },
+  } = props;
   const [countries, setCountries] = useState({
     loading: true,
     list: [],
@@ -179,8 +186,12 @@ function EnergyCountryExplorer(props) {
   );
 }
 
-EnergyCountryExplorer.propTypes = { selectedCountry: PropTypes.string };
+EnergyCountryExplorer.propTypes = {
+  router: PropTypes.shape({
+    query: PropTypes.shape({
+      country: PropTypes.string,
+    }),
+  }).isRequired,
+};
 
-EnergyCountryExplorer.defaultProps = { selectedCountry: null };
-
-export default EnergyCountryExplorer;
+export default withRouter(EnergyCountryExplorer);
