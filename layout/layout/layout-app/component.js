@@ -25,6 +25,12 @@ import Search from 'layout/header/search';
 import NoBrowserSupport from 'components/app/common/Browser';
 import GDPRBanner from 'components/ui/gdpr-banner';
 
+// utils
+import { containsString } from 'utils/string';
+
+// constants
+import { FULLSCREEN_PAGES } from 'constants/app';
+
 class LayoutApp extends Component {
   constructor(props) {
     super(props);
@@ -70,17 +76,21 @@ class LayoutApp extends Component {
       modal,
       className,
       thumbnail,
-      isFullScreen,
       children,
       toggleModal,
       setModalOptions,
       explicitHostname,
+      router: {
+        pathname,
+      },
     } = this.props;
     const { modalOpen } = this.state;
     const componentClass = classnames(
       'l-page',
       { [className]: !!className },
     );
+
+    const isFullScreen = containsString(pathname, FULLSCREEN_PAGES);
 
     return (
       <div
@@ -159,7 +169,7 @@ LayoutApp.propTypes = {
   modal: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   thumbnail: PropTypes.string,
-  isFullScreen: PropTypes.bool.isRequired,
+  // isFullScreen: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
   updateIsLoading: PropTypes.func.isRequired,
@@ -168,6 +178,7 @@ LayoutApp.propTypes = {
     events: PropTypes.shape({
       on: PropTypes.func.isRequired,
     }),
+    pathname: PropTypes.string.isRequired,
   }).isRequired,
 };
 

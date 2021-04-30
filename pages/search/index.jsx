@@ -16,11 +16,16 @@ class SearchPage extends PureComponent {
     fetchSearch: PropTypes.func.isRequired,
   };
 
-  static async getInitialProps({ store }) {
-    const { dispatch, getState } = store;
-    const { routes: { query: { term, page } } } = getState();
+  static async getInitialProps({ store, query }) {
+    const {
+      dispatch,
+    } = store;
+    const {
+      term,
+      page,
+    } = query;
 
-    if (page) dispatch(actions.setSearchPage(page));
+    if (page) dispatch(actions.setSearchPage(+page));
 
     if (term) {
       dispatch(actions.setSearchTerm(term));

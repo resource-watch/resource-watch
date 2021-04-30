@@ -5,7 +5,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 module.exports = withBundleAnalyzer(withCSS(withSass({
-  // useFileSystemPublicRoutes: false,
   poweredByHeader: false,
 
   // exportPathMap: async (defaultPathMap) => ({

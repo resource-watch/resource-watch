@@ -1,6 +1,7 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'next/router';
 
 // actions
 import {
@@ -21,6 +22,9 @@ class DatasetListContainer extends PureComponent {
     setPaginationPage: PropTypes.func.isRequired,
     setPaginationTotal: PropTypes.func.isRequired,
     resetDatasets: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      asPath: PropTypes.string.isRequired,
+    }).isRequired,
   }
 
   UNSAFE_componentWillMount() {
@@ -29,10 +33,15 @@ class DatasetListContainer extends PureComponent {
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const {
-      pathname, subtab, orderDirection, pagination,
+      subtab,
+      orderDirection,
+      pagination,
+      router: {
+        asPath,
+      },
     } = this.props;
     const { page } = pagination;
-    const isMyRW = pathname.startsWith('/myrw');
+    const isMyRW = asPath.startsWith('/myrw');
     const tabChanged = subtab !== nextProps.subtab;
     const paginationPageChanged = page !== nextProps.pagination.page;
     const orderDirectionChanged = orderDirection !== nextProps.orderDirection;
@@ -59,7 +68,6 @@ const mapStateToProps = (state) => ({
   loading: state.datasets.datasets.loading,
   orderDirection: state.datasets.datasets.orderDirection,
   pagination: state.datasets.datasets.pagination,
-  pathname: state.routes.pathname,
   user: state.user,
   locale: state.common.locale,
 });
@@ -71,4 +79,4 @@ const mapDispatchToProps = {
   resetDatasets,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DatasetListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DatasetListContainer));
