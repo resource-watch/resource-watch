@@ -24,9 +24,8 @@ class ExplorePage extends PureComponent {
     this.props.setIsServer(false);
   }
 
-  static async getInitialProps({ store }) {
-    const { dispatch, getState } = store;
-    const { routes: { query } } = getState();
+  static async getInitialProps({ store, query }) {
+    const { dispatch } = store;
     const {
       page,
       search,
@@ -174,6 +173,7 @@ class ExplorePage extends PureComponent {
           pathname: 'explore',
           query,
         },
+        {},
         {
           shallow: true,
         },

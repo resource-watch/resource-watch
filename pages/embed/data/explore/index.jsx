@@ -53,7 +53,6 @@ class EmbedExplorePage extends PureComponent {
 export default connect(
   (state) => ({
     explore: state.explore,
-    routes: state.routes,
   }),
   actions,
 )(EmbedExplorePage);

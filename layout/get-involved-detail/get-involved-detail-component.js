@@ -1,5 +1,6 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'next/router';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -13,9 +14,13 @@ import AppsPostContent from 'components/app/static-pages/get-involved/post-conte
 
 class GetInvolvedDetail extends PureComponent {
   static propTypes = {
-    routes: PropTypes.object.isRequired,
     breadCrumb: PropTypes.array.isRequired,
     getInvolvedDetail: PropTypes.object.isRequired,
+    router: PropTypes.shape({
+      query: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }),
   };
 
   getPostContent(id, props = {}) {
@@ -37,7 +42,11 @@ class GetInvolvedDetail extends PureComponent {
     const {
       getInvolvedDetail: { staticData: data },
       breadCrumb,
-      routes: { query: { id } },
+      router: {
+        query: {
+          id,
+        },
+      },
     } = this.props;
 
     if (!data) return null;
@@ -93,4 +102,4 @@ class GetInvolvedDetail extends PureComponent {
   }
 }
 
-export default GetInvolvedDetail;
+export default withRouter(GetInvolvedDetail);
