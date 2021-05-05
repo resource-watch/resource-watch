@@ -20,6 +20,8 @@ class Map extends PureComponent {
     /** Custom CSS class for styling */
     className: PropTypes.string,
 
+    style: PropTypes.shape({}),
+
     /** An object that defines the viewport
      * @see https://uber.github.io/react-map-gl/#/Documentation/api-reference/interactive-map?section=initialization
     */
@@ -79,6 +81,7 @@ class Map extends PureComponent {
   static defaultProps = {
     children: null,
     className: null,
+    style: {},
     viewport: DEFAULT_VIEWPORT,
     bounds: {},
     labels: null,
@@ -338,6 +341,7 @@ class Map extends PureComponent {
   render() {
     const {
       className,
+      style,
       children,
       getCursor,
       dragPan,
@@ -359,6 +363,7 @@ class Map extends PureComponent {
           'c-map': true,
           [className]: !!className,
         })}
+        style={style}
       >
         <ReactMapGL
           ref={this.map}
