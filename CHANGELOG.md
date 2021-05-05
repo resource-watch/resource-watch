@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- explore – my data: Pardot form. [RW-39](https://vizzuality.atlassian.net/browse/RW-39)
 - Ocean Watch configuration file.
 - Ocean Watch: Isolated mini Explore component. [OW-77](https://vizzuality.atlassian.net/browse/OW-77)
 - logic to render mini Explore component through WYSIWYG editor.

@@ -19,5 +19,17 @@
     > button {
       width: 100px;
     }
+
+    > .my-data-form {
+      width: 100%;
+
+      > .c-field {
+        margin: 0;
+      }
+
+      > button[type=submit] {
+        margin: $space * 4 0 0;
+      }
+    }
   }
 }
