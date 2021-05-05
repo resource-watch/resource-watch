@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
@@ -317,6 +317,9 @@ class WidgetBlock extends PureComponent {
                   scrollZoom={false}
                   bounds={this.getMapBounds(widget)}
                   onError={this.handleMapErrors}
+                  style={{
+                    height: 'auto',
+                  }}
                 >
                   {(_map) => (
                     <>

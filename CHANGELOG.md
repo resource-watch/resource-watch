@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- fixes height and padding styles of map widgets. [RW-44](https://vizzuality.atlassian.net/browse/RW-44)
 
 
 ### Removed
