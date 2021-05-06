@@ -51,6 +51,7 @@ function DashboardWidgetCard(props) {
   const { caption } = metadataInfo;
   const widgetIsEmbed = widgetConfig && widgetConfig.type === 'embed';
   const widgetIsRanking = widgetConfig && widgetConfig.type === 'ranking';
+  const widgetIsMap = widgetConfig && widgetConfig.type === 'map';
   const widgetEmbedUrl = widgetIsEmbed && widgetConfig.url;
   const starIconName = classnames({
     'icon-star-full': isInACollection,
@@ -64,6 +65,7 @@ function DashboardWidgetCard(props) {
   const classNameValue = classnames({
     'c-dashboard-widget-card': true,
     '-embed-widget': widgetIsEmbed,
+    '-map': widgetIsMap,
   });
 
   const classNameWidgetContainer = classnames({
