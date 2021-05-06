@@ -169,14 +169,13 @@ class Step1 extends React.Component {
                 onChange={(value) => {
                   this.props.onChange({ 'white-logo': value });
                 }}
-                validations={['required']}
                 className="-fluid"
                 properties={{
                   name: 'white-logo',
                   label: 'White logo',
                   placeholder: 'Browse file',
                   default: this.state.form['white-logo'],
-                  required: true,
+                  required: false,
                 }}
               >
                 {FileImage}
@@ -189,14 +188,13 @@ class Step1 extends React.Component {
                 onChange={(value) => {
                   this.props.onChange({ cover: value });
                 }}
-                validations={['required']}
                 className="-fluid"
                 properties={{
                   name: 'cover',
                   label: 'Cover',
                   placeholder: 'Browse file',
                   default: this.state.form.cover,
-                  required: true,
+                  required: false,
                 }}
               >
                 {FileImage}
@@ -209,14 +207,13 @@ class Step1 extends React.Component {
                 onChange={(value) => {
                   this.props.onChange({ icon: value });
                 }}
-                validations={['required']}
                 className="-fluid"
                 properties={{
                   name: 'icon',
                   label: 'Icon',
                   placeholder: 'Browse file',
                   default: this.state.form.icon,
-                  required: true,
+                  required: false,
                 }}
               >
                 {FileImage}

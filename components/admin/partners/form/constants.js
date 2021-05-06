@@ -55,4 +55,16 @@ export const PARTNER_TYPES = [{
 }, {
   label: 'Anchor Funder',
   value: 'anchor_funder',
-}];
+}, {
+  label: 'Ocean Watch – Collaborating Partner',
+  value: 'ow_collaborating-partner',
+},
+{
+  label: 'Ocean Watch – Data Provider',
+  value: 'ow_data-provider',
+},
+{
+  label: 'Ocean Watch – Funder',
+  value: 'ow_funder',
+},
+];
