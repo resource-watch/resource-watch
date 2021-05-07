@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 
 // components
-import Layout from 'layout/layout/layout-app';
+import LayoutOceanWatch from 'layout/layout/ocean-watch';
 
 export default function OceanWatchCountryProfilePage() {
   const {
@@ -10,12 +10,12 @@ export default function OceanWatchCountryProfilePage() {
     },
   } = useRouter();
   return (
-    <Layout
+    <LayoutOceanWatch
       title="Ocean Watch"
       description="Ocean Watch description" // todo: replace description
     >
       {`Country ${iso}`}
-    </Layout>
+    </LayoutOceanWatch>
   );
 }
 
