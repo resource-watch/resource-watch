@@ -34,9 +34,11 @@ export default function LayoutAdminPartnersDetail({
 
   const {
     data: partner,
-  } = useFetchPartner(id, {
-    enabled: !!(id && id !== 'new'),
-  });
+  } = useFetchPartner(id,
+    {},
+    {
+      enabled: !!(id && id !== 'new'),
+    });
 
   const name = useMemo(() => {
     if (id === 'new') return `New ${singular(tab)}`;
