@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch: initial routes. [OW-54](https://vizzuality.atlassian.net/browse/OW-54)
 - Ocean Watch: adds new type of partners. [OW-56](https://vizzuality.atlassian.net/browse/OW-56)
 
 
