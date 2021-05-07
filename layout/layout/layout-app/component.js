@@ -169,7 +169,6 @@ LayoutApp.propTypes = {
   modal: PropTypes.shape({}).isRequired,
   user: PropTypes.shape({}).isRequired,
   thumbnail: PropTypes.string,
-  // isFullScreen: PropTypes.bool.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
   updateIsLoading: PropTypes.func.isRequired,

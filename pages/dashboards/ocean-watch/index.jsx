@@ -1,14 +1,21 @@
 // components
-import Layout from 'layout/layout/layout-app';
+import LayoutOceanWatch from 'layout/layout/ocean-watch';
 
 export default function OceanWatchIntroPage() {
   return (
-    <Layout
-      title="Ocean Watch"
+    <LayoutOceanWatch
+      title="Ocean Watch – Introduction"
       description="Ocean Watch description" // todo: replace description
+      isExtendedHero
     >
-      Introduction
-    </Layout>
+      <div className="l-container">
+        <div className="row">
+          <div className="column small-12">
+            Introduction
+          </div>
+        </div>
+      </div>
+    </LayoutOceanWatch>
   );
 }
 
