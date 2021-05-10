@@ -1,14 +1,14 @@
 // components
-import Layout from 'layout/layout/layout-app';
+import LayoutOceanWatch from 'layout/layout/ocean-watch';
 
 export default function OceanWatchPartnersPage() {
   return (
-    <Layout
-      title="Ocean Watch"
+    <LayoutOceanWatch
+      title="Ocean Watch – Partners"
       description="Ocean Watch description" // todo: replace description
     >
       Partners
-    </Layout>
+    </LayoutOceanWatch>
   );
 }
 
