@@ -2439,19 +2439,19 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@widget-editor/core@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/core/-/core-2.6.1.tgz#a0333b6afc1cedcb61329b816906dfd0301f9816"
-  integrity sha512-uR9ayFDlZopCZBoGSjia/IPUqsn9nvPXcXtVXYRb3P47GNcffqNcSL3h319KVi4UZsqlRTgTUX0D7A+LRkFglA==
+"@widget-editor/core@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@widget-editor/core/-/core-2.6.2.tgz#6245874729fe16ab4de3770fcb5a13fecbc8c003"
+  integrity sha512-DInkcnGjO2LcQee/SpAdYMKctoBlu0v32uqvNrI4gUt7Qh339cnAlMPliMA1a5sEI0UE+z0Vwf/J79T2ULA6BQ==
   dependencies:
-    "@widget-editor/types" "^2.6.1"
+    "@widget-editor/types" "^2.6.2"
 
-"@widget-editor/map@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/map/-/map-2.6.1.tgz#f6c5f9ea09e35cd8c813bc9ae4da4185f8900470"
-  integrity sha512-e519oWXJLdvnAoX5OmMhIoLY7G2E9fxwk1YTLGWnCv8Bb8vvxjn91DrR7lNZyLn5n/MdRW+v8AoDFnfEuh5BGg==
+"@widget-editor/map@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@widget-editor/map/-/map-2.6.2.tgz#fa26c94ab7378be723f71949ebe1711eb8b21f34"
+  integrity sha512-36NoHQjUwOVq2M8NS3Cv1GVLx2TzFlq3QcHsHPUs971lDQ/ARgYTltcMB/9JEzDtF9KrnSx5+87AluRSU6Fzgg==
   dependencies:
-    axios "^0.18.0"
+    axios ">=0.21.1"
     chroma-js "^2.1.0"
     deck.gl "^7.1.10"
     layer-manager "^2.0.9"
@@ -2459,16 +2459,16 @@
     prop-types "15.7.2"
     viewport-mercator-project "^6.1.1"
 
-"@widget-editor/renderer@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/renderer/-/renderer-2.6.1.tgz#a9cfcea72342332382e57ef634b5045f70096f88"
-  integrity sha512-S5Cdw04IBx0Y/bB5pYLR0HJ4HqOP2Vq3oEsqByolZasuOd8wOLBkm7kIKlNpOBHmNcFERc4fImNisObXHTPXtg==
+"@widget-editor/renderer@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@widget-editor/renderer/-/renderer-2.6.2.tgz#2c020f45f1e8c967fd03d946340702e9f86904e5"
+  integrity sha512-fsn51wGA+NbwYWXtlcgCQGrQuw+eEay6O6NngmEZgqm5mBwpWMEwf88xB4DjIwXIYlAD1iHgYSYnBcZ4aTTeWg==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@widget-editor/core" "^2.6.1"
-    "@widget-editor/map" "^2.6.1"
-    "@widget-editor/shared" "^2.6.1"
-    "@widget-editor/types" "^2.6.1"
+    "@widget-editor/core" "^2.6.2"
+    "@widget-editor/map" "^2.6.2"
+    "@widget-editor/shared" "^2.6.2"
+    "@widget-editor/types" "^2.6.2"
     babel-plugin-styled-components "^1.10.6"
     lodash "^4.17.15"
     prop-types "15.7.2"
@@ -2476,20 +2476,20 @@
     vega "^5.9.0"
     vega-tooltip "0.8.0"
 
-"@widget-editor/rw-adapter@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/rw-adapter/-/rw-adapter-2.6.1.tgz#f41481a5720d6757f8d483103c4d83284873c202"
-  integrity sha512-jJTxp7ZF2iQuKjhAGU+QR4u7EkQ24n37HKpCS66pkc41QtAm8axnmilxGgyXl7MHUyOFUHlNg9QWS73BRIDUYQ==
+"@widget-editor/rw-adapter@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@widget-editor/rw-adapter/-/rw-adapter-2.6.2.tgz#62c71748db220e1465ace7f44b3b3ae511b257d6"
+  integrity sha512-HcWVPe7K6JJXTNcnopp/0zj6H9TGXqlwsVCfbhPSqnHpo3mYlFZIvZ7VQOPnqvRx8YT0c4/jQg68Vzc0CdKF1Q==
   dependencies:
-    "@widget-editor/core" "^2.6.1"
-    "@widget-editor/types" "^2.6.1"
-    axios "^0.19.2"
+    "@widget-editor/core" "^2.6.2"
+    "@widget-editor/types" "^2.6.2"
+    axios ">=0.21.1"
     lodash "^4.17.15"
 
-"@widget-editor/shared@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/shared/-/shared-2.6.1.tgz#040a27a43562561728afff04aea34e9f34f14e02"
-  integrity sha512-He7NKMSA+b/quTlBjsKqokymXZcRe/06qO0iALy9YgmK33CNhSh/YK5RRffejw5KCSgAH8r9e59AotGqVl/hZQ==
+"@widget-editor/shared@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@widget-editor/shared/-/shared-2.6.2.tgz#cd310c3999001b15b89a1b63cc3d5e8af0a5be98"
+  integrity sha512-MtGh4FTjN7/gV2YD90bHA2lq9tW6SyxJZSYhJYAFDcAO/LxNmxA9/TfwJE/TrU88MPwcEKnBjrLnTBGJMd0Zcg==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
     babel-plugin-styled-components "^1.10.6"
@@ -2506,21 +2506,21 @@
     vega-tooltip "0.8.0"
     vizzuality-redux-tools "^4.1.1"
 
-"@widget-editor/types@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/types/-/types-2.6.1.tgz#f0fa8c86686da947dbd73b52a7f0fa7099759895"
-  integrity sha512-/hgzrUCcIfrKJsHVd/otGyHK8ebn1lv5jVVh/lT1WqpputabBgJSbAh1WPlqGkbM+eMwrmR8xrpWX3tB2XnliA==
+"@widget-editor/types@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@widget-editor/types/-/types-2.6.2.tgz#6095d4dff1313ff2c614a4ecad71709147376efd"
+  integrity sha512-DubSZqCTvqIgk2as9HJFCdGhSJFowdVOnlkNS5laqEMO7v2xSSHRc5He5jXqkvDkqm6HsPwYlJ/Xw9I2q9Etng==
 
-"@widget-editor/widget-editor@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@widget-editor/widget-editor/-/widget-editor-2.6.1.tgz#05d32ee0ccc96a915ac5de569b77ed61f95531f8"
-  integrity sha512-DaZpFxzKJV8HVN6UX5+c1r7w+UtZaIPMRfAnjtgCQM3DPuLXuskf5wDyaZsmAOQHgDiLE81Z+wiKILEKooHO/Q==
+"@widget-editor/widget-editor@^2.6.2":
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@widget-editor/widget-editor/-/widget-editor-2.6.2.tgz#678f3179dcd8e39b60deced4f2dae85fc92cb238"
+  integrity sha512-XeCNZYrzFb8gnA9Pzxl1BP8tUdZJOOlweWy3Grxo0PATdrNMk5Ri2wSZ1mJnfhkSlEN2VQs7x1cttWgqhlSfLw==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.8.3"
-    "@widget-editor/core" "^2.6.1"
-    "@widget-editor/renderer" "^2.6.1"
-    "@widget-editor/shared" "^2.6.1"
-    "@widget-editor/types" "^2.6.1"
+    "@widget-editor/core" "^2.6.2"
+    "@widget-editor/renderer" "^2.6.2"
+    "@widget-editor/shared" "^2.6.2"
+    "@widget-editor/types" "^2.6.2"
     babel-plugin-styled-components "^1.10.6"
     lodash "^4.17.15"
     prismjs "^1.20.0"
@@ -3174,6 +3174,13 @@ axe-core@^3.5.4:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-3.5.5.tgz#84315073b53fa3c0c51676c588d59da09a192227"
   integrity sha512-5P0QZ6J5xGikH780pghEdbEKijCTrruK9KxtPZCFWUpef0f6GipO+xEZ5GKCb020mmqgbiNO6TcA55CriL784Q==
 
+axios@>=0.21.1, axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+  dependencies:
+    follow-redirects "^1.10.0"
+
 axios@^0.18.0:
   version "0.18.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.1.tgz#ff3f0de2e7b5d180e757ad98000f1081b87bcea3"
@@ -3182,19 +3189,12 @@ axios@^0.18.0:
     follow-redirects "1.5.10"
     is-buffer "^2.0.2"
 
-axios@^0.19.0, axios@^0.19.2:
+axios@^0.19.0:
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
   integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
   dependencies:
     follow-redirects "1.5.10"
-
-axios@^0.21.1:
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
-  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
-  dependencies:
-    follow-redirects "^1.10.0"
 
 axobject-query@^2.1.2:
   version "2.2.0"
