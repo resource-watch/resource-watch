@@ -37,7 +37,7 @@
     "jsonapi-serializer": "3.5.3",
     "layer-manager": "^2.0.9",
     "leaflet-utfgrid": "^0.3.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "lodash.isnumber": "^3.0.3",
     "luma.gl": "^7.1.1",
     "mapbox-gl-compare": "^0.2.1",
