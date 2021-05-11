@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- fixes search place in Explore map. [RW-58](https://vizzuality.atlassian.net/browse/RW-58)
 - fixes height and padding styles of map widgets. [RW-44](https://vizzuality.atlassian.net/browse/RW-44)
 
 

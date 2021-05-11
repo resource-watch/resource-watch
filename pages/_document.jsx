@@ -1,4 +1,3 @@
-import React from 'react';
 import Document, {
   Html,
   Main,
@@ -61,7 +60,7 @@ export default class MyDocument extends Document {
           {/* Google API */}
           <script
             src={`https://maps.googleapis.com/maps/api/js?v=weekly&key=${
-              process.env.NEXT_PUBLIC_RW_GOOGLE_API_TOKEN_SHORTENER
+              process.env.NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER
             }&libraries=places`}
           />
 
