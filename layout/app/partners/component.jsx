@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 // components
 import Layout from 'layout/layout/layout-app';
-import PartnerBlock from 'components/app/common/Partners/PartnerBlock';
+import PartnerBlock from 'components/partner-block';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
@@ -18,6 +18,12 @@ const EXCLUSIVE_PARTNERS = [
   'anchor_funder',
 ];
 
+const OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES = [
+  'ow_collaborating-partner',
+  'ow_data-provider',
+  'ow_funder',
+];
+
 export default function LayoutPartners() {
   const {
     data: partners,
@@ -26,7 +32,7 @@ export default function LayoutPartners() {
       founders: _partners.filter((_partner) => _partner['partner-type'] === 'founding_partners'),
       funders: _partners.filter((_partner) => _partner['partner-type'] === 'funders'),
       anchorFunders: _partners.filter((_partner) => _partner['partner-type'] === 'anchor_funder'),
-      others: _partners.filter((_partner) => !EXCLUSIVE_PARTNERS.includes(_partner['partner-type'])),
+      others: _partners.filter((_partner) => !EXCLUSIVE_PARTNERS.includes(_partner['partner-type']) && !OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES.includes(_partner['partner-type'])),
     }),
     placeholderData: {
       founders: [],
