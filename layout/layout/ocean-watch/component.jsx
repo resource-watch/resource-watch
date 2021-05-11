@@ -117,12 +117,4 @@ LayoutOceanWatch.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   isExtendedHero: PropTypes.bool,
-  modal: PropTypes.shape({}).isRequired,
-  user: PropTypes.shape({}).isRequired,
-  router: PropTypes.shape({
-    events: PropTypes.shape({
-      on: PropTypes.func.isRequired,
-    }),
-    pathname: PropTypes.string.isRequired,
-  }).isRequired,
 };
