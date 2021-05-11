@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Changed
+- optional Redis client locally.
 - widget-editor@2.6.2
 - relocates pages according to Next's dynamic routes. [RW-52](https://vizzuality.atlassian.net/browse/RW-52)
 - replaces `next-routes` links and router with `next/link` and `next/router` packages. [RW-54](https://vizzuality.atlassian.net/browse/RW-54)
