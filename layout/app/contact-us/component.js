@@ -50,13 +50,9 @@ class LayoutContactUs extends PureComponent {
               <div className="column small-12 medium-8">
                 <h2>Media inquiries</h2>
                 <p>
-                  Please contact Corey Filiault at
+                  Please contact Sergio Baldit at
                   {' '}
-                  <a href="mailto://corey.filiault@wri.org">corey.filiault@wri.org</a>
-                  {' '}
-                  or Lauren Zelin at
-                  {' '}
-                  <a href="mailto://lzelin@wri.org">lzelin@wri.org</a>
+                  <a href="mailto:sergio.baldit@wri.org">sergio.baldit@wri.org</a>
                   {' '}
                   for media inquiries.
                 </p>
