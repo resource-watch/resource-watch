@@ -39,16 +39,15 @@
     width: 100%;
     margin: 0 0 (2 * $space);
 
-    input {
-      height: 30px;
+    > .field-container {
+      > input {
+        height: 30px;
+      }
     }
   }
 
   .c-radio-box {
-    padding: ($space * 3) 0;
     margin: 0;
-    overflow-y: auto;
-    max-height: 180px;
 
     .c-radio {
       label {
