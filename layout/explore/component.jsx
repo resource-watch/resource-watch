@@ -42,7 +42,6 @@ function Explore(props) {
       map: { drawer: { isDrawing } },
     },
     userIsLoggedIn,
-    hostname,
     stopDrawing,
   } = props;
   const [mobileWarningOpened, setMobileWarningOpened] = useState(true);
@@ -116,7 +115,6 @@ function Explore(props) {
     <Layout
       title={titleSt}
       description={descriptionSt}
-      {...(selected && dataset && { explicitHostname: `${hostname}/${dataset.slug}` })}
       className="-fullscreen"
     >
       <div className="c-page-explore">
@@ -197,9 +195,7 @@ Explore.propTypes = {
     }).isRequired,
   }).isRequired,
   userIsLoggedIn: PropTypes.bool.isRequired,
-  hostname: PropTypes.string.isRequired,
   stopDrawing: PropTypes.func.isRequired,
-  setIsDrawing: PropTypes.func.isRequired,
 };
 
 export default Explore;

@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Removed
+- removes `hostname` and its action from global state.
 - removed `routes` global state. [RW-53](https://vizzuality.atlassian.net/browse/RW-53)
 
 

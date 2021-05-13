@@ -11,7 +11,6 @@ import {
   setUser,
 } from 'redactions/user';
 import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { setHostname } from 'redactions/common';
 
 // global styles
 import 'css/index.scss';
@@ -27,10 +26,6 @@ class RWApp extends App {
       store,
       isServer,
     } = ctx;
-
-    // sets hostname
-    const hostname = isServer ? req.headers.host : window.origin;
-    store.dispatch(setHostname(hostname));
 
     // sets user data coming from a request (server) or the store (client)
     const { user } = isServer ? req : store.getState();

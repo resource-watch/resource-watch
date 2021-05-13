@@ -79,7 +79,6 @@ class LayoutApp extends Component {
       children,
       toggleModal,
       setModalOptions,
-      explicitHostname,
       router: {
         pathname,
       },
@@ -100,7 +99,6 @@ class LayoutApp extends Component {
         <HeadApp
           title={title}
           description={description}
-          explicitHostname={explicitHostname}
           {...thumbnail && { thumbnail }}
         />
 
@@ -157,7 +155,6 @@ LayoutApp.defaultProps = {
   className: null,
   pageHeader: false,
   thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
-  explicitHostname: null,
 };
 
 LayoutApp.propTypes = {
@@ -172,7 +169,6 @@ LayoutApp.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
   updateIsLoading: PropTypes.func.isRequired,
-  explicitHostname: PropTypes.string,
   router: PropTypes.shape({
     events: PropTypes.shape({
       on: PropTypes.func.isRequired,
