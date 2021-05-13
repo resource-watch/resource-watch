@@ -58,36 +58,42 @@ export default function OceanWatchHero({
           <div className="column small-12">
             <div
               style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'baseline',
+                padding: '30px 0 0',
               }}
             >
-              <Breadcrumbs items={[
-                {
-                  name: 'Dashboards',
-                  route: '/dashboards',
-                },
-              ]}
-              />
-              <button
-                type="button"
-                className="c-btn -tertiary -alt -clean"
-                onClick={() => setShareVisibility(true)}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'baseline',
+                }}
               >
-                <Icon
-                  name="icon-share"
-                  className="-small"
+                <Breadcrumbs items={[
+                  {
+                    name: 'Dashboards',
+                    route: '/dashboards',
+                  },
+                ]}
                 />
-                <span>Share</span>
-              </button>
+                <button
+                  type="button"
+                  className="c-btn -tertiary -alt -clean"
+                  onClick={() => setShareVisibility(true)}
+                >
+                  <Icon
+                    name="icon-share"
+                    className="-small"
+                  />
+                  <span>Share</span>
+                </button>
+              </div>
+              <h1 className="page-header-title">Ocean Watch</h1>
+              <Tabs
+                options={OCEAN_WATCH_TABS}
+                defaultSelected={pathname}
+                selected={pathname}
+              />
             </div>
-            <h1 className="page-header-title">Ocean Watch</h1>
-            <Tabs
-              options={OCEAN_WATCH_TABS}
-              defaultSelected={pathname}
-              selected={pathname}
-            />
           </div>
         </div>
       </div>
