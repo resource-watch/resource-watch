@@ -9,11 +9,21 @@ export default function OceanWatchIntroPage() {
       isExtendedHero
     >
       <div className="l-container">
-        <div className="row">
-          <div className="column small-12">
-            Introduction
+        <section className="l-section -small">
+          <div className="row">
+            <div className="column small-12 medium-8">
+              <p style={{
+                color: '#fff',
+              }}
+              >
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Ratione obcaecati facilis consequuntur sapiente consectetur
+                ea voluptates ipsa veniam necessitatibus dolores quasi ad maxime,
+                cum totam ex ut illo eius voluptatibus!
+              </p>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </LayoutOceanWatch>
   );

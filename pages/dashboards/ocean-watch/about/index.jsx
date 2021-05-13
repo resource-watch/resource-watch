@@ -7,7 +7,26 @@ export default function OceanWatchAboutPage() {
       title="Ocean Watch – About"
       description="Ocean Watch description" // todo: replace description
     >
-      About
+      <section className="l-section -secondary -medium">
+        <div className="l-container">
+          <div className="row">
+            <div className="column small-12 medium-8">
+              {/* //todo: update title and description */}
+              <h2>
+                Ocean Watch provides trusted and
+                <br />
+                timely data for a healthy ocean
+              </h2>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Itaque doloribus corrupti nemo distinctio? Sunt sapiente
+                voluptate tempore temporibus delectus, blanditiis,
+                illum consequatur nihil consectetur quo ratione ea expedita, eum reprehenderit.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </LayoutOceanWatch>
   );
 }
