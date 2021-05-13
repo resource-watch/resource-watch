@@ -15,7 +15,6 @@ export default connect(
     responsive: state.responsive,
     explore: state.explore,
     userIsLoggedIn: !!state.user.id,
-    hostname: state.common.hostname,
   }),
   actions,
 )(LayoutExplore);
