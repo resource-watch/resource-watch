@@ -15,6 +15,14 @@ import {
 } from 'hooks/partners';
 import useCountryList from 'hooks/country/country-list';
 
+const PARTNERS_PAGE_DESCRIPTION = `
+We couldn’t do this on our own.
+The World Resources Institute's Ocean Watch is a product that
+brings together a range of timely and reliable data,
+and partners from the public, private and non-governmental
+organisations o support the integrated management of our ocean.
+`;
+
 export default function OceanWatchPartnersPage() {
   const router = useRouter();
   const {
@@ -75,23 +83,17 @@ export default function OceanWatchPartnersPage() {
   return (
     <LayoutOceanWatch
       title="Ocean Watch – Partners"
-      description="Ocean Watch description" // todo: replace description
+      description={PARTNERS_PAGE_DESCRIPTION}
     >
       <section className="l-section -secondary -medium">
         <div className="l-container">
           <div className="row">
             <div className="column small-12 medium-8">
-              {/* //todo: update title and description */}
               <h2>
-                We have a massive opportunity
-                <br />
-                to build a sustainable society
+                Managing an integrated ocean requires collaboration
               </h2>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Itaque doloribus corrupti nemo distinctio? Sunt sapiente
-                voluptate tempore temporibus delectus, blanditiis,
-                illum consequatur nihil consectetur quo ratione ea expedita, eum reprehenderit.
+                {PARTNERS_PAGE_DESCRIPTION}
               </p>
             </div>
           </div>
