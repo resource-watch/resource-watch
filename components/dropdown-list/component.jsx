@@ -51,14 +51,25 @@ export default function DropdownList({
       </Field>
       {filteredItems.length > 0 && (
         <div className="list-container">
-          <RadioGroup
-            options={filteredItems}
-            name={name}
-            properties={{
-              ...(defaultItem && { default: defaultItem }),
+          <div style={{
+            overflowY: 'auto',
+            maxHeight: 180,
+          }}
+          >
+            <div style={{
+              padding: '15px 0',
             }}
-            onChange={onSelect}
-          />
+            >
+              <RadioGroup
+                options={filteredItems}
+                name={name}
+                properties={{
+                  ...(defaultItem && { default: defaultItem }),
+                }}
+                onChange={onSelect}
+              />
+            </div>
+          </div>
         </div>
       )}
       {!filteredItems.length && (
