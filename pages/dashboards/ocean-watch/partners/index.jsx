@@ -77,7 +77,7 @@ export default function OceanWatchPartnersPage() {
       title="Ocean Watch – Partners"
       description="Ocean Watch description" // todo: replace description
     >
-      <section className="l-section -secondary">
+      <section className="l-section -secondary -medium">
         <div className="l-container">
           <div className="row">
             <div className="column small-12 medium-8">

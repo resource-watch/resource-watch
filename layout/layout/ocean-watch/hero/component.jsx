@@ -30,7 +30,7 @@ const OCEAN_WATCH_TABS = [
     params: {},
   },
   {
-    label: 'About',
+    label: 'About Ocean Watch',
     value: '/dashboards/ocean-watch/about',
     route: '/dashboards/ocean-watch/about',
     params: {},
