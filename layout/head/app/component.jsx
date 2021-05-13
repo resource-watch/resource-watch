@@ -1,4 +1,4 @@
-import React, {
+import {
   useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -21,8 +21,6 @@ const CesiumScript = dynamic(() => import('../../../scripts/cesium'));
 export default function HeadApp({
   title,
   description,
-  hostname,
-  explicitHostname,
   thumbnail,
 }) {
   const {
@@ -33,13 +31,14 @@ export default function HeadApp({
     .filter((route) => asPath.startsWith(route)).length > 0,
   [asPath]);
   const isCesiumRoute = useMemo(() => CESIUM_ROUTES.includes(asPath), [asPath]);
+  const url = (typeof window !== 'undefined') ? `${window.location.origin}${window.location.pathname}` : '';
 
   return (
     <>
       <HeadNext>
         <title>{title ? `${title} | Resource Watch` : 'Resource Watch'}</title>
 
-        <meta property="og:url" content={explicitHostname || hostname} />
+        <meta property="og:url" content={url} />
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -78,13 +77,10 @@ HeadApp.defaultProps = {
   title: null,
   description: null,
   thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
-  explicitHostname: null,
 };
 
 HeadApp.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   thumbnail: PropTypes.string,
-  hostname: PropTypes.string.isRequired,
-  explicitHostname: PropTypes.string,
 };
