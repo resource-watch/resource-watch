@@ -2,7 +2,10 @@ import App from 'next/app';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { QueryClient, QueryClientProvider } from 'react-query';
+
+// lib
 import initStore from 'lib/store';
+import MediaContextProvider from 'lib/media';
 
 // es6 shim for .finally() in promises
 import finallyShim from 'promise.prototype.finally';
@@ -10,7 +13,6 @@ import finallyShim from 'promise.prototype.finally';
 import {
   setUser,
 } from 'redactions/user';
-import { setMobileDetect, mobileParser } from 'react-responsive-redux';
 
 // global styles
 import 'css/index.scss';
@@ -30,12 +32,6 @@ class RWApp extends App {
     // sets user data coming from a request (server) or the store (client)
     const { user } = isServer ? req : store.getState();
     if (user) store.dispatch(setUser(user));
-
-    // mobile detection
-    if (isServer) {
-      const mobileDetect = mobileParser(req);
-      store.dispatch(setMobileDetect(mobileDetect));
-    }
 
     const pageProps = Component.getInitialProps
       ? await Component.getInitialProps(ctx)
@@ -65,7 +61,9 @@ class RWApp extends App {
     return (
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <MediaContextProvider>
+            <Component {...pageProps} />
+          </MediaContextProvider>
         </QueryClientProvider>
       </Provider>
     );

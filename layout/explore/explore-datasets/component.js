@@ -4,19 +4,13 @@ import debounce from 'lodash/debounce';
 import Link from 'next/link';
 import classnames from 'classnames';
 
-// Responsive
-import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
-
-// Utils
+// utils
 import { logEvent } from 'utils/analytics';
 
-// Components
+// components
 import Paginator from 'components/ui/Paginator';
 import Icon from 'components/ui/icon';
 import { TOPICS } from 'layout/explore/explore-topics/constants';
-
-// Explore components
 import ExploreDatasetsSort from 'layout/explore/explore-datasets-header/explore-datasets-sort';
 import DatasetList from './list';
 import ExploreDatasetsActions from './explore-datasets-actions';
@@ -34,7 +28,6 @@ function ExploreDatasetsComponent(props) {
       page,
       loading,
     },
-    responsive,
     selectedTags,
     search,
   } = props;
@@ -165,12 +158,7 @@ function ExploreDatasetsComponent(props) {
         numberOfPlaceholders={20}
         list={list}
         actions={(
-          <MediaQuery
-            minDeviceWidth={breakpoints.medium}
-            values={{ deviceWidth: responsive.fakeWidth }}
-          >
-            <ExploreDatasetsActions />
-          </MediaQuery>
+          <ExploreDatasetsActions />
         )}
       />
 
@@ -208,7 +196,6 @@ ExploreDatasetsComponent.propTypes = {
   total: PropTypes.number,
   limit: PropTypes.number,
   options: PropTypes.object,
-  responsive: PropTypes.object,
   selectedTags: PropTypes.array.isRequired,
   search: PropTypes.string.isRequired,
 

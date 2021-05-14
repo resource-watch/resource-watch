@@ -11,7 +11,6 @@ export { actions, reducers, initialState };
 export default connect(
   (state) => ({
     user: state.user,
-    responsive: state.responsive,
   }),
   actions,
 )(DatasetListItemComponent);

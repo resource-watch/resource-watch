@@ -9,8 +9,8 @@ import {
 
 import MapMenuComponent from './component';
 
-export default connect((state) => (
-  { responsive: state.responsive }),
+export default connect(() => ({}
+),
 {
   toggleMapLayerGroup,
   setMapLayerGroupActive,
