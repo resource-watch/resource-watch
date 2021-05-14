@@ -1,15 +1,16 @@
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Link from 'next/link';
-import MediaQuery from 'react-responsive';
 
 // components
 import HeaderMenu from 'layout/header/header-menu';
 import HeaderMenuMobile from 'layout/header/header-menu-mobile';
 import Icon from 'components/ui/icon';
 
-// utils
-import { breakpoints } from 'utils/responsive';
+// lib
+import {
+  Media,
+} from 'lib/media';
 
 // styles
 import './styles.scss';
@@ -18,15 +19,10 @@ export default function Header({
   className,
   header,
   pageHeader,
-  responsive,
 }) {
   const {
     admin,
   } = header;
-  const {
-    fakeWidth,
-  } = responsive;
-  const { medium } = breakpoints;
   const headerClass = classnames(
     'l-header',
     {
@@ -53,22 +49,12 @@ export default function Header({
                   </a>
                 </Link>
               </div>
-
-              {/* Mobile header */}
-              <MediaQuery
-                maxDeviceWidth={medium - 1}
-                values={{ deviceWidth: fakeWidth }}
-              >
+              <Media at="sm">
                 <HeaderMenuMobile />
-              </MediaQuery>
-
-              {/* Desktop header */}
-              <MediaQuery
-                minDeviceWidth={medium}
-                values={{ deviceWidth: fakeWidth }}
-              >
+              </Media>
+              <Media greaterThanOrEqual="md">
                 <HeaderMenu />
-              </MediaQuery>
+              </Media>
             </div>
           </div>
         </div>
@@ -86,9 +72,6 @@ Header.propTypes = {
   className: PropTypes.string,
   header: PropTypes.shape({
     admin: PropTypes.bool,
-  }).isRequired,
-  responsive: PropTypes.shape({
-    fakeWidth: PropTypes.number,
   }).isRequired,
   pageHeader: PropTypes.bool,
 };

@@ -5,6 +5,11 @@ import Document, {
   Head,
 } from 'next/document';
 
+// lib
+import {
+  mediaStyles,
+} from 'lib/media';
+
 export default class MyDocument extends Document {
   render() {
     return (
@@ -67,6 +72,11 @@ export default class MyDocument extends Document {
           {/* Polifyll */}
           {/* TO-DO: remove once axios is completely implemented */}
           <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
+          <style
+            type="text/css"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: mediaStyles }}
+          />
         </Head>
         <body>
           <Main />

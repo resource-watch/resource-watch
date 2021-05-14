@@ -2,11 +2,9 @@ import {
   useCallback,
   useState,
 } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import MediaQuery from 'react-responsive';
 import YouTube from 'react-youtube';
 
 // components
@@ -22,8 +20,12 @@ import {
 } from 'hooks/dashboard';
 
 // utils
-import { breakpoints } from 'utils/responsive';
 import { browserSupported } from 'utils/browser';
+
+// lib
+import {
+  Media,
+} from 'lib/media';
 
 // constants
 import {
@@ -34,11 +36,8 @@ import {
 // styles
 import './styles.scss';
 
-export default function LayoutHome({
-  responsive,
-}) {
+export default function LayoutHome() {
   const router = useRouter();
-  const { fakeWidth } = responsive;
   const [isVideoReady, setVideoReady] = useState(false);
 
   const onSelectDashboard = useCallback(({ slug }) => {
@@ -79,9 +78,8 @@ export default function LayoutHome({
       className="l-home"
     >
       <div className="video-intro">
-        <MediaQuery
-          minDeviceWidth={breakpoints.medium}
-          values={{ deviceWidth: fakeWidth }}
+        <Media
+          greaterThanOrEqual="md"
         >
           <div className={videoForegroundClass}>
             {browserSupported() && (
@@ -92,7 +90,7 @@ export default function LayoutHome({
               />
             )}
           </div>
-        </MediaQuery>
+        </Media>
         <div className="video-text">
           <div>
             <h1>Monitoring the Planet&rsquo;s Pulse</h1>
@@ -228,9 +226,3 @@ export default function LayoutHome({
     </Layout>
   );
 }
-
-LayoutHome.propTypes = {
-  responsive: PropTypes.shape({
-    fakeWidth: PropTypes.number.isRequired,
-  }).isRequired,
-};

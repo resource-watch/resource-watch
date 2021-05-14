@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
-// Responsive
-import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
-
-// Services
-import { fetchDatasets } from 'services/dataset';
-
-// Components
+// components
 import DatasetList from 'layout/explore/explore-datasets/list';
 import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 
-// Styles
+// services
+import { fetchDatasets } from 'services/dataset';
+
+// styles
 import './styles.scss';
 
 function MapMenu(props) {
   const {
     groups,
-    responsive,
     toggleMapLayerGroup,
     setMapLayerGroupActive,
     resetMapLayerGroupsInteraction,
@@ -74,13 +72,8 @@ function MapMenu(props) {
               numberOfPlaceholders={2}
               list={datasetsArray}
               actions={(
-                <MediaQuery
-                  minDeviceWidth={breakpoints.medium}
-                  values={{ deviceWidth: responsive.fakeWidth }}
-                >
-                  <ExploreDatasetsActions />
-                </MediaQuery>
-                      )}
+                <ExploreDatasetsActions />
+              )}
             />
           </div>
         );
@@ -91,7 +84,6 @@ function MapMenu(props) {
 
 MapMenu.propTypes = {
   groups: PropTypes.array.isRequired,
-  responsive: PropTypes.object.isRequired,
 };
 
 export default MapMenu;
