@@ -13,11 +13,11 @@ class LoginRequired extends PureComponent {
   }
 
   promptLogin = (e) => {
-    const { clickCallback } = this.props;
+    // const { clickCallback } = this.props;
     e.stopPropagation();
     e.preventDefault();
     this.setState({ isOpen: true });
-    if (clickCallback) clickCallback();
+    // if (clickCallback) clickCallback();
   }
 
   closePrompt = () => { this.setState({ isOpen: false }); }
