@@ -20,7 +20,7 @@ We couldn’t do this on our own.
 The World Resources Institute's Ocean Watch is a product that
 brings together a range of timely and reliable data,
 and partners from the public, private and non-governmental
-organisations o support the integrated management of our ocean.
+organisations to support the integrated management of our ocean.
 `;
 
 export default function OceanWatchPartnersPage() {
