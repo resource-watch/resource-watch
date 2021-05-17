@@ -1,0 +1,21 @@
+@import 'css/settings';
+
+.c-dataset-card-list {
+  position: relative;
+
+  .dataset-card-list-item-container {
+    &:not(:first-child) {
+      margin: ($space * 2) 0 0 0;
+    }
+  }
+  .column {
+    padding: 0px;
+    margin-top: 2 * $space;
+
+    .dataset-placeholder {
+      min-width: 100%;
+      min-height: 130px;
+      background-color: $porcelain;
+    }
+  }
+}
