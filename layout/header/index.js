@@ -12,7 +12,6 @@ export default connect(
   (state) => ({
     header: state.header,
     user: state.user,
-    responsive: state.responsive,
   }),
   actions,
 )(Header);

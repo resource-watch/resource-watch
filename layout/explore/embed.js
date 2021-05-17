@@ -10,6 +10,6 @@ import ExploreEmbedComponent from './explore-embed-component';
 export { actions, reducers, initialState };
 
 export default connect(
-  (state) => ({ responsive: state.responsive }),
+  () => ({}),
   actions,
 )(ExploreEmbedComponent);

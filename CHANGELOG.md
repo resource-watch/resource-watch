@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- `@artsy/fresnel` package to handle responsive.
 - Ocean Watch: partners page. [OW-23](https://vizzuality.atlassian.net/browse/OW-23)
 - Ocean Watch: basic dashboard structure. [OW-26](https://vizzuality.atlassian.net/browse/OW-26)
 - Ocean Watch: initial routes. [OW-54](https://vizzuality.atlassian.net/browse/OW-54)
@@ -27,8 +28,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Removed
+- removes `react-responsive` and `react-responsive-redux`.
 - removes `hostname` and its action from global state.
-- removed `routes` global state. [RW-53](https://vizzuality.atlassian.net/browse/RW-53)
+- removes `routes` global state. [RW-53](https://vizzuality.atlassian.net/browse/RW-53)
 
 
 ## [3.1.0] - 2020-04-26

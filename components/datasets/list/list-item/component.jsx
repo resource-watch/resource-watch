@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Link from 'next/link';
 import { Tooltip } from 'vizzuality-components';
-import MediaQuery from 'react-responsive';
 
 // components
 import Icon from 'components/ui/icon';
@@ -20,9 +19,13 @@ import ForwardLink from 'components/forward-link';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 
 // utils
-import { breakpoints } from 'utils/responsive';
 import { getTooltipContainer } from 'utils/tooltip';
 import { getDateConsideringTimeZone } from 'utils/utils';
+
+// lib
+import {
+  Media,
+} from 'lib/media';
 
 const DatasetListItem = (props) => {
   const {
@@ -34,7 +37,6 @@ const DatasetListItem = (props) => {
     actions,
     tags,
     metadata,
-    responsive,
   } = props;
   const {
     isInACollection,
@@ -90,22 +92,20 @@ const DatasetListItem = (props) => {
   return (
     <div className={`c-dataset-list-item -${mode}`}>
       {/* CHART */}
-      <MediaQuery
-        minDeviceWidth={breakpoints.medium}
-        values={{ deviceWidth: responsive.fakeWidth }}
+      <Media
+        greaterThanOrEqual="md"
       >
         {renderChart()}
-      </MediaQuery>
+      </Media>
 
       {/* CHART MOBILE */}
-      <MediaQuery
-        maxDeviceWidth={breakpoints.medium}
-        values={{ deviceWidth: responsive.fakeWidth }}
+      <Media
+        at="sm"
       >
         <Link href={`/data/explore/${dataset.slug}`}>
           {renderChart()}
         </Link>
-      </MediaQuery>
+      </Media>
 
       {/* INFO */}
       <div className="info">
@@ -224,9 +224,6 @@ DatasetListItem.propTypes = {
   }).isRequired,
   tags: PropTypes.node,
   actions: PropTypes.node,
-  responsive: PropTypes.shape({
-    fakeWidth: PropTypes.number.isRequired,
-  }).isRequired,
 };
 
 export default DatasetListItem;

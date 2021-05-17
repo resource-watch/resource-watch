@@ -1,11 +1,12 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// Responsive
-import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
+// lib
+import {
+  Media,
+} from 'lib/media';
 
-// Components
+// components
 import ExploreDatasetsSort from './explore-datasets-sort';
 import ExploreDatasetsMode from './explore-datasets-mode';
 
@@ -14,7 +15,6 @@ class ExploreDatasetsHeaderComponent extends PureComponent {
     page: PropTypes.number.isRequired,
     limit: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
-    responsive: PropTypes.object.isRequired,
   }
 
   getTotalDatasets = () => {
@@ -35,8 +35,6 @@ class ExploreDatasetsHeaderComponent extends PureComponent {
   }
 
   render() {
-    const { responsive } = this.props;
-
     return (
       <div className="c-explore-datasets-header">
         <div className="total">
@@ -48,13 +46,11 @@ class ExploreDatasetsHeaderComponent extends PureComponent {
         <div className="actions">
           <ExploreDatasetsSort />
 
-          {/* Desktop map */}
-          <MediaQuery
-            minDeviceWidth={breakpoints.medium}
-            values={{ deviceWidth: responsive.fakeWidth }}
+          <Media
+            greaterThanOrEqual="md"
           >
             <ExploreDatasetsMode />
-          </MediaQuery>
+          </Media>
         </div>
       </div>
     );
