@@ -61,15 +61,19 @@ class DatasetListItem extends React.Component {
 
     if (widget && !isWidgetMap && !isEmbedWidget) {
       return (
-        <div className={classNameValue}>
-          <WidgetChart widget={widget} thumbnail />
-        </div>
+        <Link href={`/data/explore/${dataset.slug}`}>
+          <div className={classNameValue}>
+            <WidgetChart widget={widget} thumbnail />
+          </div>
+        </Link>
       );
     } if (layer || isWidgetMap) {
       return (
-        <div className={classNameValue}>
-          <LayerChart layer={layer} />
-        </div>
+        <Link href={`/data/explore/${dataset.slug}`}>
+          <div className={classNameValue}>
+            <LayerChart layer={layer} />
+          </div>
+        </Link>
       );
     }
 
@@ -94,7 +98,7 @@ class DatasetListItem extends React.Component {
       router,
     } = this.props;
 
-    router.push(`/data/explore/${dataset.slug}`,);
+    router.push(`/data/explore/${dataset.slug}`);
 
     // Add default layer to the map only if not active already
     if (!this.props.active && layer) {
@@ -116,13 +120,7 @@ class DatasetListItem extends React.Component {
     });
 
     return (
-      <div
-        className={classNameValue}
-        role="button"
-        tabIndex={0}
-        onClick={this.handleClick}
-        onKeyPress={this.handleClick}
-      >
+      <div className={classNameValue}>
         <Media
           greaterThanOrEqual="md"
         >
