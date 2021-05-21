@@ -32,12 +32,14 @@ describe('Explore – My Data fake door - logged user', () => {
     }).as('getMe');
 
     cy.login();
+
+    cy.visit({
+      method: 'GET',
+      url: '/data/explore',
+    });
   });
 
   it ('a logged user with invalid datasets sees the Coming Soon view when clicks on \'My Data\' tab', function() {
-    // todo: remove skip when fixed
-    this.skip();
-
     cy.intercept({
       method: 'GET',
       pathname: '/v1/dataset',
@@ -54,21 +56,22 @@ describe('Explore – My Data fake door - logged user', () => {
     },
     ).as('getUserDatasets');
 
-  cy.visit({
-    method: 'GET',
-    url: '/data/explore',
-  });
+    // cy.visit({
+    //   method: 'GET',
+    //   url: '/data/explore',
+    // });
 
-  cy.get('div[data-cy=\'my-data-tab\']').then(($myDataTab) => {
-    $myDataTab.trigger('click');
+    cy.get('div[data-cy=\'my-data-tab\']').then(($myDataTab) => {
+      expect($myDataTab).to.have.length(1);
+      $myDataTab.trigger('click');
 
-    cy.wait('@getUserDatasets');
+      cy.wait('@getUserDatasets');
 
-    cy.get('#sidebar-content-container').find('.card-coming-soon').then(($comingSoon) => {
-      expect($comingSoon.find('p')).to.have.text('We are exploring ways to let you bring your data to the platform. Would you use this feature? Let us know.');
+      cy.get('#sidebar-content-container').find('.card-coming-soon').then(($comingSoon) => {
+        expect($comingSoon.find('p')).to.have.text('We are exploring ways to let you bring your data to the platform. Would you use this feature? Let us know.');
+      });
     });
   });
-});
 
   it ('a logged user with valid datasets sees its list of datasets when clicks on \'My Data\' tab', () => {
     cy.intercept({
@@ -87,13 +90,13 @@ describe('Explore – My Data fake door - logged user', () => {
     },
     ).as('getUserDatasets');
 
-    cy.visit({
-      method: 'GET',
-      url: '/data/explore',
-    });
+    // cy.visit({
+    //   method: 'GET',
+    //   url: '/data/explore',
+    // });
 
     cy.get('div[data-cy=\'my-data-tab\']').then(($myDataTab) => {
-      // expect($myDataTab).to.have.length(1);
+      expect($myDataTab).to.have.length(1);
       $myDataTab.trigger('click');
 
       cy.wait('@getUserDatasets');
