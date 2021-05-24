@@ -15,7 +15,7 @@ export default function DatasetsSidebar({
           title,
           datasets,
         } = group;
-        const datasetCounter = `${datasets.length} dataset${(datasets.length > 1) && 's'}`;
+        const datasetCounter = `${datasets.length} dataset${(datasets.length > 1) ? 's' : ''}`;
 
         return (
           <div
