@@ -13,6 +13,8 @@ import { withRouter } from 'next/router';
 // services
 import { fetchCountryPowerExplorerConfig } from 'services/config';
 
+import CountryEnergyExplorerConfig from 'public/static/data/CountryEnergyExplorer.json';
+
 // Components
 import CountrySelector from './country-selector';
 import CustomSection from './custom-section';
@@ -39,7 +41,7 @@ function EnergyCountryExplorer(props) {
   const [config, setConfig] = useState(null);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [selectedCountryBbox, setSelectedCountryBbox] = useState(null);
-  const [selectedCountryGeojson, setSelectedCountryGeojson] = useState(null);
+  const [selectedGeostore, setSelectedGeostore] = useState(null);
 
   const loadSelectedCountry = useCallback(() => {
     if (selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
@@ -48,26 +50,36 @@ function EnergyCountryExplorer(props) {
       } else {
         axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
           .then((data) => {
-            const atts = data.data.data.attributes;
-            setSelectedCountryBbox(atts.bbox);
-            setSelectedCountryGeojson(atts.geojson);
+            const {
+              id,
+              attributes: {
+                bbox,
+              },
+            } = data.data.data;
+            setSelectedCountryBbox(bbox);
+            setSelectedGeostore(id);
           })
           .catch((err) => toastr.error(`Error loading country: ${selectedCountry}`, err));
       }
     } else {
       setSelectedCountryBbox(WORLD_COUNTRY.bbox);
-      setSelectedCountryGeojson(null);
+      setSelectedGeostore(null);
     }
   }, [selectedCountry]);
 
   useEffect(() => {
-    // Load config
-    fetchCountryPowerExplorerConfig()
-      .then((data) => setConfig(data))
-      .catch((err) => {
-        toastr.error('Error loading configuration file');
-        console.error(err);
-      });
+    // loads the configuration from Github in production
+    if (process.env.NODE_ENV === 'production') {
+      fetchCountryPowerExplorerConfig()
+        .then((data) => setConfig(data))
+        .catch((err) => {
+          toastr.error('Error loading configuration file');
+          console.error(err);
+        });
+    } else {
+      // in development, it loads the local file
+      setConfig(CountryEnergyExplorerConfig);
+    }
 
     // Load countries
     axios.get('https://api.resourcewatch.org/v1/query/a86d906d-9862-4783-9e30-cdb68cd808b8', {
@@ -160,7 +172,7 @@ function EnergyCountryExplorer(props) {
                   <CustomSection
                     section={section}
                     bbox={selectedCountryBbox}
-                    geojson={selectedCountryGeojson}
+                    geostore={selectedGeostore}
                     country={selectedCountryObj}
                     key={`section-${section.header}`}
                   />
