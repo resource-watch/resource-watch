@@ -15,13 +15,13 @@ const MINI_EXPLORE_CONFIG = {
       title: 'Power Infrastructure',
       // datasets that form the group
       datasets: [
-        '92cb0e3c-369e-4c66-908c-5723f608e35b',
+        'a86d906d-9862-4783-9e30-cdb68cd808b8',
         'b75d8398-34f2-447d-832d-ea570451995a',
         '4919be3a-c543-4964-a224-83ef801370de',
       ],
       // default datasets to display when Mini Explore is initialized
       default: [
-        '92cb0e3c-369e-4c66-908c-5723f608e35b',
+        'a86d906d-9862-4783-9e30-cdb68cd808b8',
       ],
     },
     {
@@ -31,7 +31,7 @@ const MINI_EXPLORE_CONFIG = {
         'c5a62289-bdc8-4821-83f0-6f05e3d36bdc',
       ],
       default: [
-        '484f10d3-a30b-4466-8052-c48d47cfb4a1',
+        // '484f10d3-a30b-4466-8052-c48d47cfb4a1',
       ],
     },
   ],

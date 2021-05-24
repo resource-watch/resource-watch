@@ -88,15 +88,15 @@
             ]
         },
         {
-            "groups": [
+            "datasetGroups": [
                 {
-                    "name": "Power Infrastructure",
+                    "title": "Power Infrastructure",
                     "datasets": [
                         "a86d906d-9862-4783-9e30-cdb68cd808b8"
                     ]
                 },
                 {
-                    "name": "Natural hazards",
+                    "title": "Natural hazards",
                     "datasets": [
                         "b3ebc10d-9de8-4ee6-870d-1d049e8e2a99",
                         "c56ee507-9a3b-41d3-90ac-1406bee32c32",
@@ -105,10 +105,13 @@
                         "f2016c79-82f7-466e-b4db-2c734dd5706d",
                         "ea2db3a6-49c8-4d41-a2ab-758eb6fe4bc0",
                         "444138cd-8ef4-48b3-b197-73e324175ad0"
+                    ],
+                    "default": [
+                      "1d7085f7-11c7-4eaf-a29a-5a4de57d010e"
                     ]
                 },
                 {
-                    "name": "Power demand",
+                    "title": "Power demand",
                     "datasets": [
                         "dbca28fe-d6bf-464f-9f86-fc8b1d81e381",
                         "65c0e15b-dad0-4681-934e-91c0a378d2fb",
@@ -118,8 +121,8 @@
             ],
             "header": "How can power be affected by natural hazards?",
             "description": "Societies rely on the critical electricity infrastructure, which is susceptible to natural hazards including floods, fires, earthquakes, and many others. To better understand those hazards and managed vulnerabilities you can overlay power supply and demand data with natural hazards below.",
-            "mapTitle": "Power sector assets and natural hazards that might impact them",
-            "map": true
+            "title": "Power sector assets and natural hazards that might impact them",
+            "visualizationType": "mini-explore"
         },
         {
             "header": "Power generation and consumption",
