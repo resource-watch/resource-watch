@@ -46,7 +46,7 @@ export default function DatasetsSidebarContainer({
   const {
     data: datasets,
   } = useFetchDatasets({
-    includes: 'metadata, layer, widget',
+    includes: 'layer,metadata',
     ids: datasetIDs.join(','),
     'page[size]': 50,
   }, {
