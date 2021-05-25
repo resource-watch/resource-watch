@@ -17,7 +17,7 @@ const DashboardsDetailPage = ({
 );
 
 // getInitialProps is used to improve SEO of these pages.
-// TO-DO: replace with getStaticProps eventually
+// todo: replace with getStaticProps eventually
 DashboardsDetailPage.getInitialProps = async (ctx) => {
   const {
     query: {
