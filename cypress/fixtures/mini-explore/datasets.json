@@ -1,0 +1,3236 @@
+{
+  "data": [
+    {
+      "id": "484f10d3-a30b-4466-8052-c48d47cfb4a1",
+      "type": "dataset",
+      "attributes": {
+        "name": "dis.016.rw1 Active Fault Lines",
+        "slug": "dis016rw1-Active-Fault-Lines_1",
+        "type": "tabular",
+        "subtitle": null,
+        "application": [
+          "rw"
+        ],
+        "dataPath": null,
+        "attributesPath": null,
+        "connectorType": "rest",
+        "provider": "cartodb",
+        "userId": "603d3f79eb4ac9001a18ca77",
+        "connectorUrl": "https://wri-rw.carto.com/tables/dis_016_rw1_active_fault_lines_edit/public",
+        "sources": [],
+        "tableName": "dis_016_rw1_active_fault_lines_edit",
+        "status": "saved",
+        "published": true,
+        "overwrite": false,
+        "subscribable": {},
+        "mainDateField": null,
+        "env": "production",
+        "applicationConfig": {
+          "rw": {
+            "layerOrder": [
+              "47a1b1d7-e5ad-4b79-9f52-bc9435c6ca06"
+            ]
+          }
+        },
+        "geoInfo": true,
+        "protected": false,
+        "legend": {
+          "date": [],
+          "region": [],
+          "country": [],
+          "nested": [],
+          "integer": [],
+          "short": [],
+          "byte": [],
+          "double": [],
+          "float": [],
+          "half_float": [],
+          "scaled_float": [],
+          "boolean": [],
+          "binary": [],
+          "text": [],
+          "keyword": []
+        },
+        "clonedHost": {},
+        "errorMessage": "",
+        "taskId": null,
+        "createdAt": "2021-04-08T14:59:59.486Z",
+        "updatedAt": "2021-04-08T17:30:06.264Z",
+        "dataLastUpdated": null,
+        "metadata": [
+          {
+            "id": "606f1a7a3cc064001b367591",
+            "type": "metadata",
+            "attributes": {
+              "dataset": "484f10d3-a30b-4466-8052-c48d47cfb4a1",
+              "application": "rw",
+              "resource": {
+                "id": "484f10d3-a30b-4466-8052-c48d47cfb4a1",
+                "type": "dataset"
+              },
+              "language": "en",
+              "name": "Active Fault Lines",
+              "description": "### Overview  \n  \nThis dataset showcases active fault traces of seismogenic concern, or areas that are capable of producing earthquakes, as of 2019. The dataset includes fault lines and a small number of relevant attributes, such as fault geometry, kinematics, and slip rates, that are useful for seismic hazard modeling and other tectonic applications.    \n  \n### Methodology  \n  \nThe Global Earthquake Model (GEM) Foundation synthesizes data from a set of regional and global fault datasets. Most of the datasets are collected from external sources and built into a compilation with a Python script. One can contribute to the addition and modification of the public and open GEM Global Active Faults Database through its [GitHub](https://github.com/GEMScienceTools/gem-global-active-faults/blob/2019.0/contributing.md). For the full documentation, please click on the “Learn more” button.  \n  \n### Additional Information  \n  \nResource Watch shows only a subset of the dataset. For access to the full dataset and additional information, click on the “Learn more” button.  \n  \n### Disclaimer  \n  \nExcerpts of this description page were taken from the source metadata.",
+              "source": "GEM",
+              "info": {
+                "rwId": "dis.016",
+                "data_type": "Vector",
+                "name": "Active Fault Lines",
+                "sources": [
+                  {
+                    "source-name": "Global Earthquake Model (GEM) Hazard Team ",
+                    "id": 0,
+                    "source-description": ""
+                  }
+                ],
+                "technical_title": "Global Earthquake Model Global Active Fault",
+                "functions": "Global active fault lines in 2019",
+                "cautions": "- The dataset currently covers most of the deforming continental regions on Earth with the exceptions of the Malay Archipelago, Madagascar, Canada, and a few other regions. These are to be added progressively.",
+                "citation": "Styron, Richard. 2019. \"GEMScienceTools/gem-global-active-faults: First release of 2019 (Version 2019.0)\". Zenodo. http://doi.org/10.5281/zenodo.3376300. Accessed through Resource Watch, (date). [www.resourcewatch.org](https://www.resourcewatch.org).",
+                "license": "Creative Commons Attribution Share Alike 4.0 International\n",
+                "license_link": "https://github.com/GEMScienceTools/gem-global-active-faults/blob/2019.0/LICENSE.txt",
+                "geographic_coverage": "Global",
+                "spatial_resolution": null,
+                "date_of_content": "2019",
+                "frequency_of_updates": "Unknown",
+                "learn_more_link": "https://github.com/GEMScienceTools/gem-global-active-faults/tree/2019.0",
+                "data_download_link": "https://wri-public-data.s3.amazonaws.com/resourcewatch/dis_016_rw1_active_fault_lines.zip",
+                "data_download_original_link": "https://zenodo.org/record/3376300"
+              },
+              "columns": {
+                "fz_name": {
+                  "alias": "Fault Line Name "
+                },
+                "slip_type": {
+                  "alias": "Kinematic type"
+                },
+                "name": {
+                  "alias": "Name"
+                },
+                "fs_name": {
+                  "alias": "Fault Zone Name"
+                }
+              },
+              "createdAt": "2021-04-08T15:00:10.122Z",
+              "updatedAt": "2021-05-25T13:47:03.247Z",
+              "status": "published"
+            }
+          }
+        ],
+        "layer": [
+          {
+            "id": "a68605eb-0088-447b-aa5e-e1a470159b86",
+            "type": "layer",
+            "attributes": {
+              "name": "Active Fault Lines",
+              "slug": "Active-Fault-Lines_1",
+              "dataset": "484f10d3-a30b-4466-8052-c48d47cfb4a1",
+              "description": "Global active fault lines in 2019",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "cartodb",
+              "type": "layer",
+              "userId": "603d3f79eb4ac9001a18ca77",
+              "default": true,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "body": {
+                  "layers": [
+                    {
+                      "options": {
+                        "cartocss_version": "2.3.0",
+                        "cartocss": "#dis_016_rw1_active_fault_lines_edit {line-color: #3076ae; line-width: 1.5; line-opacity: 1;line-comp-op: screen;}",
+                        "sql": "SELECT * FROM dis_016_rw1_active_fault_lines_edit"
+                      },
+                      "type": "mapnik"
+                    }
+                  ],
+                  "minzoom": 3,
+                  "maxzoom": 18,
+                  "vectorLayers": [
+                    {
+                      "paint": {
+                        "line-color": " #3076ae",
+                        "line-width": 1.5,
+                        "line-opacity": 1
+                      },
+                      "source-layer": "layer0",
+                      "type": "line",
+                      "filter": [
+                        "all"
+                      ]
+                    }
+                  ]
+                },
+                "account": "wri-rw",
+                "layerType": "vector"
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#3076ae",
+                    "name": "Active fault lines",
+                    "id": 0
+                  }
+                ],
+                "type": "basic"
+              },
+              "interactionConfig": {
+                "output": [
+                  {
+                    "column": "name",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Name",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "fs_name",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Fault Zone Name",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "slip_type",
+                    "format": null,
+                    "prefix": "",
+                    "property": " Kinematic type",
+                    "suffix": "",
+                    "type": "string"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2021-04-08T15:00:01.572Z",
+              "updatedAt": "2021-04-08T17:15:05.609Z"
+            }
+          }
+        ],
+        "widgetRelevantProps": [
+          "slip_type",
+          "name",
+          "fs_name"
+        ],
+        "layerRelevantProps": []
+      }
+    },
+    {
+      "id": "4919be3a-c543-4964-a224-83ef801370de",
+      "type": "dataset",
+      "attributes": {
+        "name": "dis.006 ReliefWeb Disaster Events in the News",
+        "slug": "dis006-ReliefWeb-Disasaters",
+        "type": "tabular",
+        "subtitle": "",
+        "application": [
+          "rw"
+        ],
+        "dataPath": "",
+        "attributesPath": null,
+        "connectorType": "rest",
+        "provider": "cartodb",
+        "userId": "5ba001878e311b7e3718740f",
+        "connectorUrl": "https://rw-nrt.carto.com/tables/dis_006_reliefweb_disasters/public",
+        "sources": [],
+        "tableName": "dis_006_reliefweb_disasters",
+        "status": "saved",
+        "published": true,
+        "overwrite": false,
+        "subscribable": {},
+        "mainDateField": "",
+        "env": "production",
+        "applicationConfig": {
+          "rw": {
+            "highlighted": "true"
+          }
+        },
+        "geoInfo": true,
+        "protected": false,
+        "legend": {
+          "date": [],
+          "region": [],
+          "country": [],
+          "nested": [],
+          "integer": [],
+          "short": [],
+          "byte": [],
+          "double": [],
+          "float": [],
+          "half_float": [],
+          "scaled_float": [],
+          "boolean": [],
+          "binary": [],
+          "text": [],
+          "keyword": []
+        },
+        "clonedHost": {},
+        "errorMessage": "",
+        "taskId": null,
+        "createdAt": "2019-07-09T08:50:59.108Z",
+        "updatedAt": "2021-05-25T08:50:23.203Z",
+        "dataLastUpdated": "2021-05-25T08:50:22.727Z",
+        "metadata": [
+          {
+            "id": "5d2352b182e9bb001514a9d4",
+            "type": "metadata",
+            "attributes": {
+              "dataset": "4919be3a-c543-4964-a224-83ef801370de",
+              "application": "rw",
+              "resource": {
+                "id": "4919be3a-c543-4964-a224-83ef801370de",
+                "type": "dataset"
+              },
+              "language": "en",
+              "name": "Current Disaster Events",
+              "description": "### Overview  \n  \nThis dataset shows countries experiencing disaster events that are actively being monitored by ReliefWeb. These disaster events include floods, droughts, severe local storms, tropical cyclones, storm surges, tsunamis, earthquakes, wildfires, cold waves, heat waves, volcanic activity, landslides, mudslides, snow avalanches, epidemics, insect infestations, and technological disasters.\n  \n  \n\nReliefWeb is the leading humanitarian information source on global crises and disasters. ReliefWeb continuously collects the latest information on ongoing crises and monitors for emerging situations. By providing reliable and timely information, they enable humanitarian workers to make informed decisions and plan effective responses.\n  \n  \n### Methodology  \n  \nReliefWeb's editorial team monitors and collects information from more than 4,000 key sources, including humanitarian agencies at the international and local levels, governments, think tanks and research institutions, and the media. From this information, ReliefWeb editors identify and select the content that is most relevant to global humanitarian workers. For the full documentation, please click on the “Learn more” button.  \n  \n### Additional Information  \n  \nResource Watch shows only a subset of the dataset. For access to the full dataset and additional information, click on the “Learn more” button.  \n  \n### Visualizing the Data  \n  \nOur team reformatted this dataset before displaying it on Resource Watch. See the documentation on how Resource Watch processed the data on [Github](https://github.com/resource-watch/nrt-scripts/tree/master/dis_006_reliefweb_disasters). Coordinates provided in the source data were used to map this data for display on Resource Watch.   \n  \n### Disclaimer  \n  \nExcerpts of this description page were taken from the source metadata.",
+              "source": "ReliefWeb",
+              "info": {
+                "rwId": "dis.006.nrt",
+                "data_type": "Tabular",
+                "name": "Current Disaster Events",
+                "sources": [
+                  {
+                    "source-name": "ReliefWeb",
+                    "id": 0,
+                    "source-description": ""
+                  }
+                ],
+                "technical_title": "ReliefWeb Disasters",
+                "functions": "Current and ongoing global disaster events\r",
+                "cautions": "Because ReliefWeb editors select the content that is most relevant to global humanitarian workers, not all current disasters may be reported in this dataset.\r\n  \n  \n\r\nEach point is located in the center of a particular country to show that the country is currently experiencing at least one disaster event. The location of this point does not indicate the actual location of the disaster.\r",
+                "citation": "OCHA/ReliefWeb. n.d. “Disasters.” Retrieved from https://reliefweb.int/. Accessed through Resource Watch, (date). [www.resourcewatch.org](https://www.resourcewatch.org).",
+                "license": "Restrictions apply",
+                "license_link": "https://reliefweb.int/terms-conditions",
+                "geographic_coverage": "Global",
+                "spatial_resolution": "National",
+                "date_of_content": "Present",
+                "frequency_of_updates": "Daily",
+                "learn_more_link": "https://reliefweb.int/disasters",
+                "data_download_link": null,
+                "data_download_original_link": "https://reliefweb.int/help/api"
+              },
+              "columns": {
+                "event_id": {
+                  "alias": "Event ID"
+                },
+                "event_name": {
+                  "alias": "Event Name"
+                },
+                "description": {
+                  "alias": "Description"
+                },
+                "status": {
+                  "alias": "Status"
+                },
+                "date": {
+                  "alias": "Date"
+                },
+                "primary_country": {
+                  "alias": ""
+                },
+                "country_iso3": {
+                  "alias": "Country ISO Code"
+                },
+                "current": {
+                  "alias": "Current",
+                  "description": "Status of event: True or False"
+                },
+                "url": {
+                  "alias": "Link"
+                },
+                "lon": {
+                  "alias": "Longitude"
+                },
+                "lat": {
+                  "alias": "Latitude"
+                },
+                "event_types": {
+                  "alias": "Event Types"
+                },
+                "country_name": {
+                  "alias": "Country"
+                }
+              },
+              "createdAt": "2019-07-08T14:26:57.092Z",
+              "updatedAt": "2021-05-25T13:46:47.974Z",
+              "status": "published"
+            }
+          }
+        ],
+        "layer": [
+          {
+            "id": "00e688a8-086e-4206-9ea7-b47afca6913c",
+            "type": "layer",
+            "attributes": {
+              "name": "Countries Experiencing Disaster Events",
+              "slug": "Disaster-Events-in-the-News-Points",
+              "dataset": "4919be3a-c543-4964-a224-83ef801370de",
+              "description": "Countries experiencing ongoing disasters that are actively being monitored by ReliefWeb. Each point is located in the center of a particular country and does not indicate where in that country the disaster occurred. The types of disasters being monitored include floods, droughts, severe local storms, tropical cyclones, storm surges, tsunamis, earthquakes, wildfires, cold waves, heat waves, volcanic activity, landslides, mudslides, snow avalanches, epidemics, insect infestations, and technological disasters.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "cartodb",
+              "type": "layer",
+              "userId": "5ba001878e311b7e3718740f",
+              "default": true,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "account": "rw-nrt",
+                "body": {
+                  "maxzoom": 18,
+                  "minzoom": 0,
+                  "layers": [
+                    {
+                      "type": "mapnik",
+                      "options": {
+                        "sql": "SELECT * FROM dis_006_reliefweb_disasters_interaction",
+                        "cartocss": "#dis_006_reliefweb_disasters_interaction  {::halo { marker-width: 20; marker-fill-opacity: 0.2;marker-fill:#FFF; marker-line-color: #FFF; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; } marker-fill-opacity: 1; marker-line-width: 0.3 ; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; marker-fill:#42f4f1; marker-line-color: #42f4f1; marker-width: 8;}",
+                        "cartocss_version": "2.3.0"
+                      }
+                    }
+                  ],
+                  "vectorLayers": [
+                    {
+                      "paint": {
+                        "circle-color": "#42f4f1",
+                        "circle-stroke-width": [
+                          "interpolate",
+                          [
+                            "linear"
+                          ],
+                          [
+                            "zoom"
+                          ],
+                          0,
+                          2,
+                          3,
+                          6,
+                          12,
+                          15
+                        ],
+                        "circle-stroke-color": "#fff",
+                        "circle-opacity": 0.9,
+                        "circle-stroke-opacity": 0.3,
+                        "circle-radius": [
+                          "interpolate",
+                          [
+                            "linear"
+                          ],
+                          [
+                            "zoom"
+                          ],
+                          0,
+                          3,
+                          3,
+                          10,
+                          12,
+                          30
+                        ]
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all"
+                      ]
+                    }
+                  ]
+                },
+                "layerType": "vector"
+              },
+              "legendConfig": {
+                "type": "basic",
+                "items": [
+                  {
+                    "name": "Country with Current Disaster",
+                    "color": "#42f4f1",
+                    "id": 0
+                  }
+                ]
+              },
+              "interactionConfig": {
+                "output": [
+                  {
+                    "column": "country_name",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Country",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "interaction",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Current Events (link to description)",
+                    "suffix": ""
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2019-11-12T19:59:28.596Z",
+              "updatedAt": "2020-05-17T22:17:29.089Z"
+            }
+          }
+        ],
+        "widgetRelevantProps": [
+          "event_id",
+          "event_name",
+          "description",
+          "status",
+          "date",
+          "country_name",
+          "country_iso3",
+          "current",
+          "event_types",
+          "url",
+          "lon",
+          "lat"
+        ],
+        "layerRelevantProps": []
+      }
+    },
+    {
+      "id": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+      "type": "dataset",
+      "attributes": {
+        "name": "Global Power Plant Database",
+        "slug": "Powerwatch",
+        "type": "tabular",
+        "subtitle": "Global open database of power plants, created by Google/WRI/Global Energy Observatory/KTH University/University of Groningen",
+        "application": [
+          "rw"
+        ],
+        "dataPath": "",
+        "attributesPath": null,
+        "connectorType": "rest",
+        "provider": "cartodb",
+        "userId": "5980838ae24e6a1dae3dd446",
+        "connectorUrl": "https://wri-rw.carto.com/tables/powerwatch_data_20180102/public",
+        "sources": [],
+        "tableName": "powerwatch_data_20180102",
+        "status": "saved",
+        "published": true,
+        "overwrite": false,
+        "subscribable": {},
+        "mainDateField": null,
+        "env": "production",
+        "geoInfo": true,
+        "protected": false,
+        "legend": {
+          "date": [],
+          "region": [],
+          "country": [],
+          "nested": [],
+          "integer": [],
+          "short": [],
+          "byte": [],
+          "double": [],
+          "float": [],
+          "half_float": [],
+          "scaled_float": [],
+          "boolean": [],
+          "binary": [],
+          "text": [],
+          "keyword": []
+        },
+        "clonedHost": {},
+        "errorMessage": "",
+        "taskId": null,
+        "createdAt": "2019-06-13T21:08:22.971Z",
+        "updatedAt": "2019-06-13T21:08:22.971Z",
+        "dataLastUpdated": null,
+        "metadata": [
+          {
+            "id": "5a983cafe4adac001243c2bc",
+            "type": "metadata",
+            "attributes": {
+              "dataset": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+              "application": "rw",
+              "resource": {
+                "id": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+                "type": "dataset"
+              },
+              "language": "en",
+              "name": "Global Power Plant Database",
+              "description": "### Overview  \n  \nThe Global Power Plant Database is a comprehensive, open source database of power plants around the world. It centralizes power plant data to make it easier to navigate, compare, and draw insights for one’s own analysis. The database covers approximately 30,000 power plants from 164 countries and includes thermal plants (e.g., coal, gas, oil, nuclear, biomass, waste, geothermal) and renewables (e.g., hydro, wind, solar). Each power plant is geolocated, and entries contain information on plant capacity, generation, ownership, and fuel type. The database will be continuously updated as data becomes available.   \n  \n### Methodology  \n  \nThe Global Power Plant Database leverages existing data sources and methodologies to build a comprehensive and open-access power sector database. The database was built entirely from open sources, which are publicly available on the internet, including data from national government agencies, reports from companies that build power plants or provide their components, data from public utilities, and information from multinational organizations. Currently the Global Power Plant Database uses more than 600 sources to create the database.  \n  \n### Additional Information  \n  \nResource Watch shows only a subset of the dataset. For access to the full dataset and additional information, click on the “Learn more” button.  \n  \n### Visualizing the Data  \n  \nOur team reformatted this dataset before displaying it on Resource Watch. Coordinates provided in the source data were used to map this data for display on Resource Watch.   \n  \n### Disclaimer  \n  \nExcerpts of this description page were taken from the source metadata.",
+              "source": "Global Energy Observatory/Google/KTH Royal Institute of Technology in Stockholm/Enipedia/World Resources Institute",
+              "info": {
+                "rwId": "ene.013",
+                "data_type": "Vector",
+                "name": "Global Power Plant Database",
+                "sources": [
+                  {
+                    "source-name": "Global Energy Observatory",
+                    "id": 0,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "Google",
+                    "id": 1,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "KTH Royal Institute of Technology in Stockholm",
+                    "id": 2,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "Enipedia",
+                    "id": 3,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "World Resources Institute",
+                    "id": 4,
+                    "source-description": ""
+                  }
+                ],
+                "technical_title": "Global Power Plant Database v1.2.0",
+                "functions": "A comprehensive, global, open source database of power plants",
+                "cautions": "The \"Primary Fuel\" is the fuel that has been identified to provide the largest portion of generated electricity for the plant or has been identified as the primary fuel by the data source.\r\nFor power plants that have data in multiple \"Other Fuel\" fields, the ordering of the fuels should not be taken to indicate any priority or preference of the fuel for operating the power plant or generating units.\r\nThough the \"Other Fuel\" columns in the database are numbered sequentially from 1, the ordering is insignificant.  \n  \nGeneration is provided at the year scale for the years 2013-2017. The generation values may correspond to a calendar year or a fiscal or regulatory year; no distinction is provided in the database.",
+                "citation": "Global Energy Observatory, Google, KTH Royal Institute of Technology in Stockholm, Enipedia, World Resources Institute. 2019. Global Power Plant Database v1.2.0. Published on Resource Watch (http://resourcewatch.org/) and Google Earth Engine (https://earthengine.google.com/). Accessed through Resource Watch, (date). [www.resourcewatch.org](https://www.resourcewatch.org).",
+                "license": "Creative Commons Attribution 4.0 International",
+                "license_link": "https://creativecommons.org/licenses/by/4.0/",
+                "geographic_coverage": "Global",
+                "spatial_resolution": null,
+                "date_of_content": "circa 1892-2019",
+                "frequency_of_updates": "Quarterly",
+                "learn_more_link": "http://www.wri.org/publication/global-power-plant-database",
+                "data_download_link": null,
+                "data_download_original_link": "http://datasets.wri.org/dataset/globalpowerplantdatabase"
+              },
+              "columns": {
+                "name": {
+                  "alias": "Power Plant ",
+                  "description": ""
+                },
+                "owner": {
+                  "alias": "Primary Owner",
+                  "description": "Primary, or reported, owner of the power plant"
+                },
+                "source": {
+                  "alias": "Data Source",
+                  "description": "Main source of data"
+                },
+                "url": {
+                  "alias": "URL Link"
+                },
+                "latitude": {
+                  "alias": "Latitude"
+                },
+                "longitude": {
+                  "alias": "Longitude"
+                },
+                "fuel1": {
+                  "alias": "Fuel 1",
+                  "description": "Fuel used in the power plant"
+                },
+                "fuel2": {
+                  "alias": "Fuel 2",
+                  "description": "Fuel used in the power plant"
+                },
+                "estimated_generation_gwh": {
+                  "alias": "Estimated Generation (GWh)",
+                  "description": "Estimated electricity generation for 2015 in gigawatt-hours"
+                },
+                "country": {
+                  "alias": "ISO Code",
+                  "description": ""
+                },
+                "commissioning_year": {
+                  "alias": "Commissioning Year",
+                  "description": "Year when the power plant began operations."
+                },
+                "capacity_mw": {
+                  "alias": "Capacity (MW)",
+                  "description": "Installed electrical capacity of the power plant in megawatts"
+                },
+                "generation_gwh_2016": {
+                  "alias": "2016 Reported Generation (GWh)",
+                  "description": "2016 reported electricity generation in gigawatt-hours"
+                },
+                "generation_gwh_2015": {
+                  "alias": "2015 Reported Generation (GWh)",
+                  "description": "2015 reported electricity generation in gigawatt-hours"
+                },
+                "country_long": {
+                  "description": "",
+                  "alias": "Country"
+                },
+                "generation_gwh_2013": {
+                  "alias": "2013 Reported Generation (GWh)",
+                  "description": "2013 reported electricity generation in gigawatt-hours"
+                },
+                "generation_gwh_2014": {
+                  "alias": "2014 Reported Generation (GWh)",
+                  "description": "2014 reported electricity generation in gigawatt-hours"
+                },
+                "fuel3": {
+                  "alias": "Fuel 3",
+                  "description": "Fuel used in the power plant"
+                },
+                "fuel4": {
+                  "alias": "Fuel 4",
+                  "description": "Fuel used in the power plant"
+                },
+                "geolocation_source": {
+                  "alias": "Geolocation data source"
+                },
+                "year_of_capacity_data": {
+                  "alias": "Year of capacity reported"
+                },
+                "gppd_idnr": {
+                  "alias": "Unique ID",
+                  "description": "A unique identifier assigned to this power plant"
+                },
+                "primary_fuel": {
+                  "alias": "Fuel",
+                  "description": "Primary fuel used in generation of electricity"
+                },
+                "generation_gwh_2017": {
+                  "alias": "2017 Reported Generation (GWh)",
+                  "description": "2017 reported electricity generation in gigawatt-hours"
+                }
+              },
+              "createdAt": "2018-03-01T17:47:27.729Z",
+              "updatedAt": "2021-05-25T13:47:30.976Z",
+              "status": "published"
+            }
+          }
+        ],
+        "layer": [
+          {
+            "id": "f0bb4a22-ac63-4cd0-8bea-1ced880add03",
+            "type": "layer",
+            "attributes": {
+              "name": "Coal Power Plants by Capacity (MW)",
+              "slug": "Coal-Power-Plants-by-Capacity-MW",
+              "dataset": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+              "description": "Global coal power plants by capacity in megawatts.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "cartodb",
+              "type": "layer",
+              "userId": "58f63c81bd32c60206ed6b12",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "account": "wri-rw",
+                "body": {
+                  "layers": [
+                    {
+                      "options": {
+                        "cartocss": "#powerwatch_data_20180102 { ::halo { marker-width: 20; marker-fill: #f0f0f0; marker-fill-opacity: 1; marker-line-color: #ffc100; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; opacity: 0.3;} marker-fill:#000000; marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0; marker-fill-opacity: 1.0; marker-width: 4.0+8.0*[capacity_mw]/740.0; [capacity_mw>740]{marker-width:16}}",
+                        "cartocss_version": "2.3.0",
+                        "sql": "SELECT * FROM powerwatch_data_20180102 WHERE primary_fuel='Coal' ORDER BY capacity_mw ASC"
+                      },
+                      "type": "mapnik"
+                    }
+                  ],
+                  "maxzoom": 18,
+                  "minzoom": 3,
+                  "vectorLayers": [
+                    {
+                      "filter": [
+                        "<",
+                        "capacity_mw",
+                        760
+                      ],
+                      "paint": {
+                        "circle-color": " #000000",
+                        "circle-opacity": 1,
+                        "circle-radius": [
+                          "+",
+                          4,
+                          [
+                            "*",
+                            [
+                              "get",
+                              "capacity_mw"
+                            ],
+                            0.0105
+                          ]
+                        ],
+                        "circle-stroke-color": " #f0f0f0",
+                        "circle-stroke-opacity": 0.1,
+                        "circle-stroke-width": {
+                          "base": 4,
+                          "stops": [
+                            [
+                              12,
+                              4
+                            ],
+                            [
+                              22,
+                              540
+                            ]
+                          ]
+                        }
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle"
+                    },
+                    {
+                      "filter": [
+                        ">=",
+                        "capacity_mw",
+                        760
+                      ],
+                      "paint": {
+                        "circle-color": " #000000",
+                        "circle-opacity": 1,
+                        "circle-radius": 12,
+                        "circle-stroke-color": " #f0f0f0",
+                        "circle-stroke-opacity": 0.1,
+                        "circle-stroke-width": {
+                          "base": 4,
+                          "stops": [
+                            [
+                              12,
+                              4
+                            ],
+                            [
+                              22,
+                              540
+                            ]
+                          ]
+                        }
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle"
+                    }
+                  ]
+                },
+                "layerType": "vector"
+              },
+              "legendConfig": {
+                "type": "basic",
+                "items": [
+                  {
+                    "name": "Capacity (1MW-740MW)",
+                    "color": "#000000",
+                    "id": 0
+                  }
+                ]
+              },
+              "interactionConfig": {
+                "output": [
+                  {
+                    "column": "country",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Country",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "name",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Name",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "owner",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Owner",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "capacity_mw",
+                    "format": "0,0",
+                    "prefix": "",
+                    "property": "Capacity",
+                    "suffix": " MW",
+                    "type": "number"
+                  },
+                  {
+                    "column": "estimated_generation_gwh",
+                    "format": "0,0.0[0]",
+                    "prefix": "",
+                    "property": "Estimated generation (GWh)",
+                    "suffix": " GWh",
+                    "type": "number"
+                  },
+                  {
+                    "column": "generation_gwh_2017",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Reported Generation (2017)",
+                    "suffix": " GWh",
+                    "type": "number"
+                  },
+                  {
+                    "column": "source",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Data Source",
+                    "suffix": "",
+                    "type": "string"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2019-09-24T21:00:47.454Z",
+              "updatedAt": "2020-04-15T12:00:56.973Z"
+            }
+          },
+          {
+            "id": "e7ff7ca9-27f3-440b-9633-a5fd477f3283",
+            "type": "layer",
+            "attributes": {
+              "name": "Wind Power Plants by Capacity (MW)",
+              "slug": "Wind-Power-Plants-by-Capacity-MW",
+              "dataset": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+              "description": "Global wind power plants by capacity in megawatts.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "cartodb",
+              "type": "layer",
+              "userId": "5981e73b0c069f3c93dc5e2a",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "account": "wri-rw",
+                "body": {
+                  "layers": [
+                    {
+                      "options": {
+                        "cartocss": "#powerwatch_data_20180102 { ::halo { marker-width: 20; marker-fill: #ff7400; marker-fill-opacity: 1; marker-line-color: #ffc100; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; opacity: 0.3;} marker-fill:#ff7400; marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0; marker-fill-opacity: 1.0; marker-width: 4.0+8.0*[capacity_mw]/740.0; [capacity_mw>740]{marker-width:16}}",
+                        "cartocss_version": "2.3.0",
+                        "sql": "SELECT * FROM powerwatch_data_20180102 WHERE primary_fuel='Wind' ORDER BY capacity_mw ASC"
+                      },
+                      "type": "mapnik"
+                    }
+                  ],
+                  "maxzoom": 18,
+                  "minzoom": 3,
+                  "vectorLayers": [
+                    {
+                      "filter": [
+                        "<",
+                        "capacity_mw",
+                        760
+                      ],
+                      "paint": {
+                        "circle-color": " #ff7400",
+                        "circle-opacity": 1,
+                        "circle-stroke-color": " #ffc100",
+                        "circle-stroke-opacity": 0.11,
+                        "circle-stroke-width": 2,
+                        "circle-radius": [
+                          "+",
+                          4,
+                          [
+                            "*",
+                            [
+                              "get",
+                              "capacity_mw"
+                            ],
+                            0.010526315789473684
+                          ]
+                        ]
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle"
+                    },
+                    {
+                      "filter": [
+                        ">=",
+                        "capacity_mw",
+                        760
+                      ],
+                      "paint": {
+                        "circle-color": " #ff7400",
+                        "circle-opacity": 1,
+                        "circle-stroke-color": " #ffc100",
+                        "circle-stroke-opacity": 0.1,
+                        "circle-stroke-width": 2,
+                        "circle-radius": 12
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle"
+                    }
+                  ]
+                },
+                "layerType": "vector"
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#ff7400",
+                    "name": "Capacity (1MW-740MW)",
+                    "id": 0
+                  }
+                ],
+                "type": "basic"
+              },
+              "interactionConfig": {
+                "output": [
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Country",
+                    "prefix": "",
+                    "format": null,
+                    "column": "country_long"
+                  },
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Name",
+                    "prefix": "",
+                    "format": null,
+                    "column": "name"
+                  },
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Owner",
+                    "prefix": "",
+                    "format": null,
+                    "column": "owner"
+                  },
+                  {
+                    "type": "number",
+                    "suffix": " MW",
+                    "property": "Capacity",
+                    "prefix": "",
+                    "format": null,
+                    "column": "capacity_mw"
+                  },
+                  {
+                    "type": "number",
+                    "suffix": " GWh",
+                    "property": "Estimated Generation",
+                    "prefix": "",
+                    "format": "0,0",
+                    "column": "estimated_generation_gwh"
+                  },
+                  {
+                    "column": "generation_gwh_2017",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Reported Generation (2017)",
+                    "suffix": " GWh",
+                    "type": "number"
+                  },
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Data Source",
+                    "prefix": "",
+                    "format": null,
+                    "column": "source"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2019-09-24T21:00:46.017Z",
+              "updatedAt": "2020-04-15T11:40:24.168Z"
+            }
+          },
+          {
+            "id": "2a694289-fec9-4bfe-a6d2-56c3864ec349",
+            "type": "layer",
+            "attributes": {
+              "name": "Power Plants by Capacity (MW) and Fuel Type",
+              "slug": "Capacity-MW",
+              "dataset": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+              "description": "Global power plants by capacity in megawatts and fuel type. Includes coal, oil, gas, hydro, nuclear, solar, waste, wind, geothermal, and biomass.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "cartodb",
+              "type": "layer",
+              "userId": "5980838ae24e6a1dae3dd446",
+              "default": true,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "body": {
+                  "layers": [
+                    {
+                      "options": {
+                        "cartocss_version": "2.3.0",
+                        "cartocss": "#powerwatch_data_20180102 { marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0;}[capacity_mw <= 1500] {marker-fill-opacity: 0.6;}[capacity_mw > 1500] {marker-fill-opacity: 0.8;} [capacity_mw > 1500]{marker-width: 12.0+8.0*[capacity_mw]/22500.0;} [capacity_mw <= 1500]{marker-width: 4.0+8.0*[capacity_mw]/1500.0;} [primary_fuel='Coal']{marker-fill:#000000;}[primary_fuel='Oil']{marker-fill:#B15928;}[primary_fuel='Gas']{marker-fill:#BC80BD;}[primary_fuel='Hydro']{marker-fill:#1F78B4;}[primary_fuel='Nuclear']{marker-fill:#E31A1C;}[primary_fuel='Solar']{marker-fill:#FF7F00;}[primary_fuel='Waste']{marker-fill:#6A3D9A;}[primary_fuel='Wind']{marker-fill:#5CA2D1;}[primary_fuel='Geothermal']{marker-fill:#FDBF6F;}[primary_fuel='Biomass']{marker-fill:#229A00;}[primary_fuel='Others']{marker-fill:#B2DF8A;} [capacity_mw>=9000]{marker-width:10;}",
+                        "sql": "SELECT * FROM powerwatch_data_20180102"
+                      },
+                      "type": "mapnik"
+                    }
+                  ],
+                  "maxzoom": 18,
+                  "vectorLayers": [
+                    {
+                      "paint": {
+                        "circle-color": [
+                          "match",
+                          [
+                            "get",
+                            "primary_fuel"
+                          ],
+                          "Coal",
+                          "#000",
+                          "Oil",
+                          "#B15928",
+                          "Gas",
+                          "#BC80BD",
+                          "Hydro",
+                          "#1F78B4",
+                          "Nuclear",
+                          "#E31A1C",
+                          "Solar",
+                          "#FF7F00",
+                          "Waste",
+                          "#6A3D9A",
+                          "Wind",
+                          "#5CA2D1",
+                          "Geothermal",
+                          "#FDBF6F",
+                          "Biomass",
+                          "#229A00",
+                          "Others",
+                          "#B2DF8A",
+                          "#B2DF8A"
+                        ],
+                        "circle-stroke-width": 0.2,
+                        "circle-stroke-color": "#FFF",
+                        "circle-opacity": 0.9,
+                        "circle-stroke-opacity": 0.5,
+                        "circle-radius": [
+                          "interpolate",
+                          [
+                            "linear"
+                          ],
+                          [
+                            "zoom"
+                          ],
+                          0,
+                          [
+                            "+",
+                            0.1,
+                            [
+                              "/",
+                              [
+                                "sqrt",
+                                [
+                                  "/",
+                                  [
+                                    "get",
+                                    "capacity_mw"
+                                  ],
+                                  [
+                                    "pi"
+                                  ]
+                                ]
+                              ],
+                              20
+                            ]
+                          ],
+                          12,
+                          [
+                            "+",
+                            4,
+                            [
+                              "/",
+                              [
+                                "sqrt",
+                                [
+                                  "/",
+                                  [
+                                    "get",
+                                    "capacity_mw"
+                                  ],
+                                  [
+                                    "pi"
+                                  ]
+                                ]
+                              ],
+                              3
+                            ]
+                          ]
+                        ]
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "layout": {
+                        "circle-sort-key": [
+                          "get",
+                          "capacity_mw"
+                        ]
+                      },
+                      "filter": [
+                        "all"
+                      ]
+                    }
+                  ]
+                },
+                "account": "wri-rw",
+                "layerType": "vector"
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#000000",
+                    "name": "Coal",
+                    "id": 0
+                  },
+                  {
+                    "color": "#B15928",
+                    "name": "Oil",
+                    "id": 1
+                  },
+                  {
+                    "color": "#BC80BD",
+                    "name": "Gas",
+                    "id": 2
+                  },
+                  {
+                    "color": "#1F78B4",
+                    "name": "Hydro",
+                    "id": 3
+                  },
+                  {
+                    "color": "#E31A1C",
+                    "name": "Nuclear",
+                    "id": 4
+                  },
+                  {
+                    "color": "#FF7F00",
+                    "name": "Solar",
+                    "id": 5
+                  },
+                  {
+                    "color": "#6A3D9A",
+                    "name": "Waste",
+                    "id": 6
+                  },
+                  {
+                    "color": "#5CA2D1",
+                    "name": "Wind",
+                    "id": 7
+                  },
+                  {
+                    "color": "#FDBF6F",
+                    "name": "Geothermal",
+                    "id": 8
+                  },
+                  {
+                    "color": "#229A00",
+                    "name": "Biomass",
+                    "id": 9
+                  },
+                  {
+                    "color": "#B2DF8A",
+                    "name": "Others",
+                    "id": 10
+                  }
+                ],
+                "type": "basic"
+              },
+              "interactionConfig": {
+                "output": [
+                  {
+                    "column": "country_long",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Country",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "name",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Name",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "primary_fuel",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Fuel Type",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "owner",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Owner",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "capacity_mw",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Capacity",
+                    "suffix": " MW",
+                    "type": "number"
+                  },
+                  {
+                    "column": "generation_gwh_2017",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Reported Generation (2017)",
+                    "suffix": " GWh",
+                    "type": "number"
+                  },
+                  {
+                    "column": "estimated_generation_gwh",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Estimated Generation",
+                    "suffix": " GWh",
+                    "type": "number"
+                  },
+                  {
+                    "column": "source",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Data Source",
+                    "suffix": "",
+                    "type": "string"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2019-09-24T21:00:44.622Z",
+              "updatedAt": "2020-05-15T19:52:07.928Z"
+            }
+          },
+          {
+            "id": "5868a183-0f99-4c6d-93d1-8ddb7b4f2784",
+            "type": "layer",
+            "attributes": {
+              "name": "Power Plants by Capacity (MW)",
+              "slug": "Capacity-MW_1",
+              "dataset": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+              "description": "Global power plants by capacity in megawatts.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "cartodb",
+              "type": "layer",
+              "userId": "5980838ae24e6a1dae3dd446",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "account": "wri-rw",
+                "body": {
+                  "maxzoom": 18,
+                  "layers": [
+                    {
+                      "type": "mapnik",
+                      "options": {
+                        "sql": "SELECT * FROM powerwatch_data_20180102 ORDER BY capacity_mw ASC",
+                        "cartocss": "#powerwatch_data_20180102 {marker-fill:#0099CC; marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0;} [capacity_mw <= 1500] {marker-fill-opacity: 0.6;}[capacity_mw > 1500] {marker-fill-opacity: 0.8;} [capacity_mw > 1500]{marker-width: 12.0+8.0*[capacity_mw]/22500.0;} [capacity_mw <= 1500]{marker-width: 4.0+8.0*[capacity_mw]/1500.0;}",
+                        "cartocss_version": "2.3.0"
+                      }
+                    }
+                  ],
+                  "vectorLayers": [
+                    {
+                      "paint": {
+                        "circle-color": "#0099CC",
+                        "circle-stroke-width": 0.1,
+                        "circle-stroke-color": "#FFF",
+                        "circle-opacity": 0.4,
+                        "circle-stroke-opacity": 0.5,
+                        "circle-radius": [
+                          "interpolate",
+                          [
+                            "linear"
+                          ],
+                          [
+                            "zoom"
+                          ],
+                          0,
+                          [
+                            "+",
+                            0.1,
+                            [
+                              "/",
+                              [
+                                "/",
+                                [
+                                  "sqrt",
+                                  [
+                                    "*",
+                                    [
+                                      "get",
+                                      "capacity_mw"
+                                    ],
+                                    [
+                                      "pi"
+                                    ]
+                                  ]
+                                ],
+                                [
+                                  "pi"
+                                ]
+                              ],
+                              20
+                            ]
+                          ],
+                          12,
+                          [
+                            "+",
+                            4,
+                            [
+                              "/",
+                              [
+                                "/",
+                                [
+                                  "sqrt",
+                                  [
+                                    "*",
+                                    [
+                                      "get",
+                                      "capacity_mw"
+                                    ],
+                                    [
+                                      "pi"
+                                    ]
+                                  ]
+                                ],
+                                [
+                                  "pi"
+                                ]
+                              ],
+                              3
+                            ]
+                          ]
+                        ]
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all"
+                      ]
+                    }
+                  ]
+                },
+                "layerType": "vector"
+              },
+              "legendConfig": {
+                "type": "basic",
+                "items": [
+                  {
+                    "name": "Capacity (1MW-22,500MW)",
+                    "color": "#0099CC",
+                    "id": 0
+                  }
+                ]
+              },
+              "interactionConfig": {
+                "output": [
+                  {
+                    "column": "country_long",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Country",
+                    "suffix": ""
+                  },
+                  {
+                    "column": "name",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Name",
+                    "suffix": ""
+                  },
+                  {
+                    "column": "primary_fuel",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Fuel Type",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "owner",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Owner",
+                    "suffix": ""
+                  },
+                  {
+                    "column": "capacity_mw",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Capacity",
+                    "suffix": " MW"
+                  },
+                  {
+                    "column": "estimated_generation_gwh",
+                    "format": "0,0",
+                    "prefix": "",
+                    "property": "Estimated Generation",
+                    "suffix": " GWh"
+                  },
+                  {
+                    "column": "generation_gwh_2017",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Reported Generation (2017)",
+                    "suffix": " GWh",
+                    "type": "number"
+                  },
+                  {
+                    "column": "source",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Data Source",
+                    "suffix": ""
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2019-09-24T21:00:45.530Z",
+              "updatedAt": "2020-05-15T19:56:07.193Z"
+            }
+          },
+          {
+            "id": "155968b5-7c59-4065-9e3a-0a81d52d50de",
+            "type": "layer",
+            "attributes": {
+              "name": "Power Plants by Fuel Type",
+              "slug": "Fuel-Type",
+              "dataset": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+              "description": "Global power plants by fuel type. Includes coal, oil, gas, hydro, nuclear, solar, waste, wind, geothermal, and biomass.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "cartodb",
+              "type": "layer",
+              "userId": "5980838ae24e6a1dae3dd446",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "account": "wri-rw",
+                "body": {
+                  "maxzoom": 18,
+                  "minzoom": 3,
+                  "layers": [
+                    {
+                      "type": "mapnik",
+                      "options": {
+                        "sql": "SELECT * FROM powerwatch_data_20180102",
+                        "cartocss": "#powerwatch_data_20180102 {marker-fill-opacity:1; marker-width:3; marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0;[zoom > 2] {marker-width: 3;} [zoom > 3] {marker-width: 4;}[zoom > 5] {marker-width: 7;} [zoom > 7] {marker-width: 12;} [zoom > 9] {marker-width: 15;}} [primary_fuel='Coal']{marker-fill:#000000;}[primary_fuel='Oil']{marker-fill:#B15928;}[primary_fuel='Gas']{marker-fill:#BC80BD;}[primary_fuel='Hydro']{marker-fill:#1F78B4;}[primary_fuel='Nuclear']{marker-fill:#E31A1C;}[primary_fuel='Solar']{marker-fill:#FF7F00;}[primary_fuel='Waste']{marker-fill:#6A3D9A;}[primary_fuel='Wind']{marker-fill:#5CA2D1;}[primary_fuel='Geothermal']{marker-fill:#FDBF6F;}[primary_fuel='Biomass']{marker-fill:#229A00;}[primary_fuel='Others']{marker-fill:#B2DF8A;}",
+                        "cartocss_version": "2.3.0"
+                      }
+                    }
+                  ],
+                  "vectorLayers": [
+                    {
+                      "paint": {
+                        "circle-opacity": 1,
+                        "circle-radius": 3,
+                        "circle-stroke-width": 0.3,
+                        "circle-stroke-color": "#FFF",
+                        "circle-stroke-opacity": 0
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          ">",
+                          "zoom ",
+                          2
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-radius": 4
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          ">",
+                          "zoom ",
+                          3
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-radius": 7
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          ">",
+                          "zoom ",
+                          5
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-radius": 12
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          ">",
+                          "zoom ",
+                          7
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-radius": 15
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          ">",
+                          "zoom ",
+                          9
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#000000"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Coal"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#B15928"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Oil"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#BC80BD"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Gas"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#1F78B4"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Hydro"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#E31A1C"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Nuclear"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#FF7F00"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Solar"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#6A3D9A"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Waste"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#5CA2D1"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Wind"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#FDBF6F"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Geothermal"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#229A00"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Biomass"
+                        ]
+                      ]
+                    },
+                    {
+                      "paint": {
+                        "circle-color": "#B2DF8A"
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          "primary_fuel",
+                          "Others"
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                "layerType": "vector"
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#000000",
+                    "name": "Coal",
+                    "id": 0
+                  },
+                  {
+                    "color": "#B15928",
+                    "name": "Oil",
+                    "id": 1
+                  },
+                  {
+                    "color": "#BC80BD",
+                    "name": "Gas",
+                    "id": 2
+                  },
+                  {
+                    "color": "#1F78B4",
+                    "name": "Hydro",
+                    "id": 3
+                  },
+                  {
+                    "color": "#E31A1C",
+                    "name": "Nuclear",
+                    "id": 4
+                  },
+                  {
+                    "color": "#FF7F00",
+                    "name": "Solar",
+                    "id": 5
+                  },
+                  {
+                    "color": "#6A3D9A",
+                    "name": "Waste",
+                    "id": 6
+                  },
+                  {
+                    "color": "#5CA2D1",
+                    "name": "Wind",
+                    "id": 7
+                  },
+                  {
+                    "color": "#FDBF6F",
+                    "name": "Geothermal",
+                    "id": 8
+                  },
+                  {
+                    "color": "#229A00",
+                    "name": "Biomass",
+                    "id": 9
+                  },
+                  {
+                    "color": "#B2DF8A",
+                    "name": "Others",
+                    "id": 10
+                  }
+                ],
+                "type": "basic"
+              },
+              "interactionConfig": {
+                "output": [
+                  {
+                    "column": "country_long",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Country",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "name",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Name",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "owner",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Owner",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "primary_fuel",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Fuel Type",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "capacity_mw",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Capacity",
+                    "suffix": " MW",
+                    "type": "number"
+                  },
+                  {
+                    "column": "estimated_generation_gwh",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Estimated generation",
+                    "suffix": " GWh",
+                    "type": "number"
+                  },
+                  {
+                    "column": "generation_gwh_2017",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Reported Generation (2017)",
+                    "suffix": " GWh",
+                    "type": "number"
+                  },
+                  {
+                    "column": "source",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Data Source",
+                    "suffix": "",
+                    "type": "string"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2019-09-24T21:00:45.071Z",
+              "updatedAt": "2020-04-15T07:40:40.193Z"
+            }
+          },
+          {
+            "id": "a772d7cb-4d53-477a-a951-bf93d640ce6c",
+            "type": "layer",
+            "attributes": {
+              "name": "Hydro Power Plants by Capacity (MW)",
+              "slug": "Hydro-Power-Plants-by-Capacity",
+              "dataset": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+              "description": "Global hydroelectric power plants by capacity in megawatts.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "cartodb",
+              "type": "layer",
+              "userId": "5b4fa642e995f09ac0e4a829",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "body": {
+                  "layers": [
+                    {
+                      "options": {
+                        "cartocss_version": "2.3.0",
+                        "cartocss": "#powerwatch_data_20180102 { marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0;}[capacity_mw <= 1500] {marker-fill-opacity: 0.6;}[capacity_mw > 1500] {marker-fill-opacity: 0.8;} [capacity_mw > 1500]{marker-width: 12.0+8.0*[capacity_mw]/22500.0;} [capacity_mw <= 1500]{marker-width: 4.0+8.0*[capacity_mw]/1500.0;} [primary_fuel='Hydro']{marker-fill:#1F78B4;}",
+                        "sql": "SELECT * FROM powerwatch_data_20180102 WHERE primary_fuel='Hydro' ORDER BY capacity_mw ASC"
+                      },
+                      "type": "mapnik"
+                    }
+                  ],
+                  "maxzoom": 18,
+                  "vectorLayers": [
+                    {
+                      "paint": {
+                        "circle-color": "#1f78b4",
+                        "circle-stroke-width": 0.2,
+                        "circle-stroke-color": "#FFF",
+                        "circle-opacity": 0.9,
+                        "circle-stroke-opacity": 0.7,
+                        "circle-radius": [
+                          "interpolate",
+                          [
+                            "linear"
+                          ],
+                          [
+                            "zoom"
+                          ],
+                          0,
+                          [
+                            "+",
+                            0.1,
+                            [
+                              "/",
+                              [
+                                "/",
+                                [
+                                  "sqrt",
+                                  [
+                                    "*",
+                                    [
+                                      "get",
+                                      "capacity_mw"
+                                    ],
+                                    [
+                                      "pi"
+                                    ]
+                                  ]
+                                ],
+                                [
+                                  "pi"
+                                ]
+                              ],
+                              20
+                            ]
+                          ],
+                          12,
+                          [
+                            "+",
+                            4,
+                            [
+                              "/",
+                              [
+                                "/",
+                                [
+                                  "sqrt",
+                                  [
+                                    "*",
+                                    [
+                                      "get",
+                                      "capacity_mw"
+                                    ],
+                                    [
+                                      "pi"
+                                    ]
+                                  ]
+                                ],
+                                [
+                                  "pi"
+                                ]
+                              ],
+                              3
+                            ]
+                          ]
+                        ]
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          [
+                            "get",
+                            "primary_fuel"
+                          ],
+                          "Hydro"
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                "account": "wri-rw",
+                "layerType": "vector"
+              },
+              "legendConfig": {
+                "type": "basic",
+                "items": [
+                  {
+                    "name": "Capacity (1MW-22.5GW)",
+                    "color": "#1F78B4",
+                    "id": 0
+                  }
+                ]
+              },
+              "interactionConfig": {
+                "output": [
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Country",
+                    "prefix": "",
+                    "format": null,
+                    "column": "country_long"
+                  },
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Name",
+                    "prefix": "",
+                    "format": null,
+                    "column": "name"
+                  },
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Owner",
+                    "prefix": "",
+                    "format": null,
+                    "column": "owner"
+                  },
+                  {
+                    "type": "number",
+                    "suffix": " MW",
+                    "property": "Capacity",
+                    "prefix": "",
+                    "format": null,
+                    "column": "capacity_mw"
+                  },
+                  {
+                    "type": "number",
+                    "suffix": " GWh",
+                    "property": "Estimated Generation",
+                    "prefix": "",
+                    "format": null,
+                    "column": "estimated_generation_gwh"
+                  },
+                  {
+                    "column": "generation_gwh_2017",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Reported Generation (2017)",
+                    "suffix": " GWh",
+                    "type": "number"
+                  },
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Data Source",
+                    "prefix": "",
+                    "format": null,
+                    "column": "source"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2019-09-24T21:00:47.000Z",
+              "updatedAt": "2020-05-15T20:00:21.961Z"
+            }
+          },
+          {
+            "id": "d0a1ae43-6a14-443b-86d6-d01dfac842fa",
+            "type": "layer",
+            "attributes": {
+              "name": "Solar Power Plants by Capacity (MW)",
+              "slug": "Solar-Power-Plants-by-Capacity-MW",
+              "dataset": "a86d906d-9862-4783-9e30-cdb68cd808b8",
+              "description": "Global solar power plants by capacity in megawatts.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "cartodb",
+              "type": "layer",
+              "userId": "5b4fa642e995f09ac0e4a829",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "account": "wri-rw",
+                "body": {
+                  "maxzoom": 18,
+                  "layers": [
+                    {
+                      "type": "mapnik",
+                      "options": {
+                        "sql": "SELECT * FROM powerwatch_data_20180102 WHERE primary_fuel='Solar' ORDER BY capacity_mw ASC",
+                        "cartocss": "#powerwatch_data_20180102 { marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0;}[capacity_mw <= 1500] {marker-fill-opacity: 0.6;}[capacity_mw > 1500] {marker-fill-opacity: 0.8;} [capacity_mw > 1500]{marker-width: 12.0+8.0*[capacity_mw]/22500.0;} [capacity_mw <= 1500]{marker-width: 4.0+8.0*[capacity_mw]/1500.0;} [primary_fuel='Solar']{marker-fill:#FF7F00;} [capacity_mw>=9000]{marker-width:10;}",
+                        "cartocss_version": "2.3.0"
+                      }
+                    }
+                  ],
+                  "vectorLayers": [
+                    {
+                      "paint": {
+                        "circle-color": "#FF7F00",
+                        "circle-stroke-width": 0.2,
+                        "circle-stroke-color": "#FFF",
+                        "circle-opacity": 0.8,
+                        "circle-stroke-opacity": 0.7,
+                        "circle-radius": [
+                          "interpolate",
+                          [
+                            "linear"
+                          ],
+                          [
+                            "zoom"
+                          ],
+                          0,
+                          [
+                            "+",
+                            0.1,
+                            [
+                              "/",
+                              [
+                                "/",
+                                [
+                                  "sqrt",
+                                  [
+                                    "*",
+                                    [
+                                      "get",
+                                      "capacity_mw"
+                                    ],
+                                    [
+                                      "pi"
+                                    ]
+                                  ]
+                                ],
+                                [
+                                  "pi"
+                                ]
+                              ],
+                              20
+                            ]
+                          ],
+                          12,
+                          [
+                            "+",
+                            4,
+                            [
+                              "/",
+                              [
+                                "/",
+                                [
+                                  "sqrt",
+                                  [
+                                    "*",
+                                    [
+                                      "get",
+                                      "capacity_mw"
+                                    ],
+                                    [
+                                      "pi"
+                                    ]
+                                  ]
+                                ],
+                                [
+                                  "pi"
+                                ]
+                              ],
+                              3
+                            ]
+                          ]
+                        ]
+                      },
+                      "source-layer": "layer0",
+                      "type": "circle",
+                      "filter": [
+                        "all",
+                        [
+                          "==",
+                          [
+                            "get",
+                            "primary_fuel"
+                          ],
+                          "Solar"
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                "layerType": "vector"
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#FF7F00",
+                    "name": "Capacity (1MW-650MW)",
+                    "id": 0
+                  }
+                ],
+                "type": "basic"
+              },
+              "interactionConfig": {
+                "output": [
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Country",
+                    "prefix": "",
+                    "format": null,
+                    "column": "country_long"
+                  },
+                  {
+                    "type": "string",
+                    "suffix": "",
+                    "property": "Name",
+                    "prefix": "",
+                    "format": null,
+                    "column": "name"
+                  },
+                  {
+                    "column": "owner",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Owner",
+                    "suffix": "",
+                    "type": "string"
+                  },
+                  {
+                    "column": "capacity_mw",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Capacity",
+                    "suffix": "MW",
+                    "type": "number"
+                  },
+                  {
+                    "column": "generation_gwh_2016",
+                    "format": null,
+                    "prefix": "",
+                    "property": "2016 Reported Generation",
+                    "suffix": "GWh",
+                    "type": "number"
+                  },
+                  {
+                    "column": "estimated_generation_gwh",
+                    "format": "0,0",
+                    "prefix": "",
+                    "property": "Estimated Generation",
+                    "suffix": "GWh",
+                    "type": "number"
+                  },
+                  {
+                    "column": "source",
+                    "format": null,
+                    "prefix": "",
+                    "property": "Data Source",
+                    "suffix": "",
+                    "type": "string"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2019-09-24T20:40:22.801Z",
+              "updatedAt": "2020-05-15T19:57:49.140Z"
+            }
+          }
+        ],
+        "widgetRelevantProps": [
+          "country",
+          "country_long",
+          "primary_fuel",
+          "gppd_idnr",
+          "name",
+          "capacity_mw",
+          "commissioning_year",
+          "generation_gwh_2013",
+          "generation_gwh_2014",
+          "generation_gwh_2015",
+          "generation_gwh_2016",
+          "generation_gwh_2017",
+          "estimated_generation_gwh"
+        ],
+        "layerRelevantProps": [
+          "cartodb_id",
+          "the_geom",
+          "the_geom_webmercator",
+          "country",
+          "country_long",
+          "name",
+          "gppd_idnr",
+          "capacity_mw",
+          "latitude",
+          "longitude",
+          "commissioning_year",
+          "source",
+          "url",
+          "geolocation_source",
+          "year_of_capacity_data",
+          "generation_gwh_2013",
+          "owner",
+          "generation_gwh_2014",
+          "generation_gwh_2015",
+          "generation_gwh_2016",
+          "estimated_generation_gwh",
+          "primary_fuel",
+          "other_fuel1",
+          "other_fuel2",
+          "other_fuel3",
+          "generation_gwh_2017",
+          "wepp_id"
+        ]
+      }
+    },
+    {
+      "id": "b75d8398-34f2-447d-832d-ea570451995a",
+      "type": "dataset",
+      "attributes": {
+        "name": "cit.035a.nrt Air Quality - Satellite Measurements - TROPOMI (NO₂)",
+        "slug": "Air-Quality-Measurements-TROPOMI-NO",
+        "type": "raster",
+        "subtitle": "",
+        "application": [
+          "rw"
+        ],
+        "dataPath": "",
+        "attributesPath": null,
+        "connectorType": "rest",
+        "provider": "gee",
+        "userId": "5ba001878e311b7e3718740f",
+        "connectorUrl": "",
+        "sources": [],
+        "tableName": "projects/resource-watch-gee/cit_035_tropomi_atmospheric_chemistry_model_30day_avg/NO2",
+        "status": "saved",
+        "published": true,
+        "overwrite": false,
+        "subscribable": {},
+        "mainDateField": "",
+        "env": "production",
+        "applicationConfig": {
+          "rw": {
+            "highlighted": "true"
+          }
+        },
+        "geoInfo": true,
+        "protected": false,
+        "legend": {
+          "date": [],
+          "region": [],
+          "country": [],
+          "nested": [],
+          "integer": [],
+          "short": [],
+          "byte": [],
+          "double": [],
+          "float": [],
+          "half_float": [],
+          "scaled_float": [],
+          "boolean": [],
+          "binary": [],
+          "text": [],
+          "keyword": []
+        },
+        "clonedHost": {},
+        "errorMessage": "",
+        "taskId": null,
+        "createdAt": "2019-06-28T23:38:15.781Z",
+        "updatedAt": "2021-05-24T23:21:16.406Z",
+        "dataLastUpdated": "2021-05-15T00:00:00.000Z",
+        "metadata": [
+          {
+            "id": "5c2cd3bee73bd80012fa76c5",
+            "type": "metadata",
+            "attributes": {
+              "dataset": "b75d8398-34f2-447d-832d-ea570451995a",
+              "application": "rw",
+              "resource": {
+                "id": "b75d8398-34f2-447d-832d-ea570451995a",
+                "type": "dataset"
+              },
+              "language": "en",
+              "name": "Air Quality: Nitrogen Dioxide (NO₂) Satellite Measurements",
+              "description": "### Overview  \n  \nThe Air Quality: NO₂ Satellite Measurements dataset provides global monthly averages of nitrogen dioxide (NO₂) density in the troposphere. Each value shown in the dataset represents the density of NO₂ between Earth’s surface and the top of the troposphere. The NO₂ density is reported with units of moles of NO₂ per square meter of air (mol/m²).\n\n  \n  \nNitrogen dioxide (NO₂) is one of the most common compounds in the nitrogen oxides (NOx) group. Other nitrogen oxides include nitric acid (HNO₃) and nitric oxide (NO). NO₂ is used as the indicator for the larger group of nitrogen oxides, meaning if NO₂ is present it is likely other nitrogen oxides are as well. NO₂ is primarily created by the burning of fuel, which can be from cars, trucks and buses, power plants, and off-road equipment. Breathing air with a high concentration of NO₂ can irritate airways in the human respiratory system. Acute exposures can aggravate respiratory diseases, particularly asthma, leading to respiratory symptoms, like coughing, wheezing or difficulty breathing. Longer chronic exposures to elevated concentrations of NO₂ may contribute to the development of asthma and potentially increase susceptibility to respiratory infections. People with asthma, as well as children and the elderly are generally at greater risk for the health effects of NO₂.\n\n  \n  \nThe dataset is made up of data collected from the Sentinel-5 Precursor (S5p) mission, a low Earth orbit polar satellite system. The S5p mission is part of the Global Monitoring of the Environment and Security (GMES/COPERNICUS) space component program headed by the European Commission (EC) in partnership with the European Space Agency (ESA). Its goal is to  provide information and services on air quality, climate, and the ozone layer. The S5p mission includes the TROPOspheric Monitoring Instrument (TROPOMI), which takes daily global observations of key atmospheric components, such as NO₂, at a 5.5 x 3.5 kilometer (km) resolution.\n\n  \n  \nResource Watch also shows TROPOMI data for [carbon monoxide (CO)](https://resourcewatch.org/data/explore/Air-Quality-Measurements-TROPOMI-CO), [ozone (O₃)](https://resourcewatch.org/data/explore/Air-Quality-Measurements-TROPOMI-O), and [absorbing aerosol index (AAI)](https://resourcewatch.org/data/explore/Air-Quality-Measurements-TROPOMI-AER-AI). \n  \n  \n### Methodology  \n  \nThe TROPOMI NO₂ dataset was created with data collected by the S5P satellite mission. The data was retrieved and analyzed using a 3 step process. \r\n\r\n  \n  \n1. Total NO₂ slant column density was determined from radiance and irradiance spectra measured by TROPOMI. It was analyzed using a Differential Optical Absorption Spectroscopy (DOAS) method. NO₂ slant column density is the amount of NO₂ found along an average path taken by photons traveling from the sun to the satellite sensor.\r\n\r\n  \n  \n2. Slant column density data was then separated into stratospheric and tropospheric categories based on information coming from the satellite’s data assimilation system. Stratospheric data was then removed from the dataset.\r\n\r\n  \n  \n3. Tropospheric slant column density was converted into tropospheric vertical column density and the average NO₂ density for the entire vertical column was calculated. This was determined by applying an appropriate air mass factor (AMF) and actual, daily information on the vertical distribution of NO₂ calculated by the TM5-MP global chemistry transport model. The altitude-dependent AMF used depended on the satellite geometry, terrain height, cloud fraction and height, and surface albedo.\r\n\r\n  \n  \nThe dataset shown on Resource Watch was mapped by the Google Earth Engine team using the [harpconvert] (https://cdn.rawgit.com/stcorp/harp/master/doc/html/harpconvert.html) tool. For more information on this conversion please see the Google Earth Engine documentation. The offline version of this data is displayed on Resource Watch, which is more complete than its near real-time counterpart, but is released on a greater delay due to the additional processing time needed. For the full documentation, please see the [source methodology](https://sentinel.esa.int/web/sentinel/technical-guides/sentinel-5p/products-algorithms) associated with the “Nitrogen Dioxide (NO₂) Total Column”.\r  \n  \n### Additional Information  \n  \nResource Watch also shows TROPOMI data for [carbon monoxide (CO)](https://resourcewatch.org/data/explore/Air-Quality-Measurements-TROPOMI-CO), [ozone (O₃)](https://resourcewatch.org/data/explore/Air-Quality-Measurements-TROPOMI-O), and [absorbing aerosol index (AAI)] (https://resourcewatch.org/data/explore/Air-Quality-Measurements-TROPOMI-AER-AI).\n  \n  \nResource Watch shows only a subset of the dataset. Additional data for formaldehyde (CH₂O), sulphur dioxide (SO₂), methane (CH₄) and clouds are available from the data provider. Both a near real-time and an offline version of each of these compounds are available. Please see the [Google Earth Engine data catalog](https://developers.google.com/earth-engine/datasets/tags/tropomi) to access this data. For access to the full dataset and additional information, click on the “Learn more” button.\n  \n  \n### Visualizing the Data  \n  \nOur team reformatted this dataset before displaying it on Resource Watch. See the documentation on how Resource Watch processed the data on [Github](https://github.com/resource-watch/nrt-scripts/tree/master/cit_035_tropomi_atmospheric_chemistry_model).  \n  \n### Disclaimer  \n  \nExcerpts of this description page were taken from the source metadata.",
+              "source": "TROPOMI/ESA/KNMI/DLR/SRON/BIRA-IASB/STFC/MPIC/S[&]T/Uni-Bremen",
+              "info": {
+                "rwId": "cit.035a.nrt",
+                "data_type": "Raster",
+                "name": "Air Quality: Nitrogen Dioxide (NO₂) Satellite Measurements",
+                "sources": [
+                  {
+                    "source-name": "Tropospheric Monitoring Instrument (TROPOMI)",
+                    "id": 0,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "European Space Agency (ESA)",
+                    "id": 1,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "Royal Netherlands Meteorological Institute (KNMI)",
+                    "id": 2,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "German Aerospace Center (DLR)",
+                    "id": 3,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "Netherlands Institute for Space Research (SRON)",
+                    "id": 4,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "Belgian Institute for Space Aeronomy (BIRA-IASB)",
+                    "id": 5,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "Science and Technology Facilities Council (STFC)",
+                    "id": 6,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "Max Planck Institute for Chemistry (MPIC)",
+                    "id": 7,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "Science [&] Technology Corporation (S[&]T)",
+                    "id": 8,
+                    "source-description": ""
+                  },
+                  {
+                    "source-name": "University of Bremen (Uni-Bremen)",
+                    "id": 9,
+                    "source-description": ""
+                  }
+                ],
+                "technical_title": "Sentinel 5 Precursor Tropospheric Monitoring Instrument (S5P/TROPOMI) Offline (OFFL) Level 3 (L3) Nitrogen Dioxide (NO₂)",
+                "functions": "Average monthly density of nitrogen dioxide (NO₂) in the troposphere",
+                "cautions": "- The current surface albedo climatology used has a spatial resolution of 0.5° x 0.5° (approximately 55 x 55 km), which is coarse compared to the much higher spatial resolution used by S5p TROPOMI of 3.5 x 5.5 km. As a consequence, the albedo grid affects the NO₂ column products quality, especially in coastal areas.\n\n  \n  \n- In general, TROPOMI underestimates the tropospheric NO₂ densities at polluted sites. The median negative biases of the daily comparisons are generally less than 50% (the product requirement for tropospheric NO₂), but can be quite variable depending on station and NO₂ level. \n\n  \n  \n- Good coherence is found between TROPOMI and Multi Axis Differential Absorption Spectroscopy (MAX-DOAS) NO₂ datasets with a correlation coefficient of 0.84.\n  \n  \n- For more information on the data quality, please see the [product readme file](https://sentinel.esa.int/documents/247904/3541451/Sentinel-5P-Nitrogen-Dioxide-Level-2-Product-Readme-File).\n",
+                "citation": "European Space Agency. 2018. ESA Sentinel-5P TROPOMI L3 products. Accessed through Resource Watch, (date). [www.resourcewatch.org](https://www.resourcewatch.org).",
+                "license": "Attribution required",
+                "license_link": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice",
+                "geographic_coverage": "Global",
+                "spatial_resolution": "3.5 x 5.5 km",
+                "date_of_content": "2018-present",
+                "frequency_of_updates": "Daily",
+                "learn_more_link": "https://sentinel.esa.int/web/sentinel/missions/sentinel-5p",
+                "data_download_link": null,
+                "data_download_original_link": "https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S5P_OFFL_L3_NO2"
+              },
+              "createdAt": "2019-01-02T15:07:42.595Z",
+              "updatedAt": "2021-05-25T13:43:15.871Z",
+              "status": "published"
+            }
+          }
+        ],
+        "layer": [
+          {
+            "id": "61989f1f-65af-40e7-bf45-49b27eb2b9da",
+            "type": "layer",
+            "attributes": {
+              "name": "April 15, 2021 - May 15, 2021 Average Tropospheric Nitrogen Dioxide (NO₂) (mol/m², millionths)",
+              "slug": "Troposheric-NO-molm-millionths-latest-30-days_1",
+              "dataset": "b75d8398-34f2-447d-832d-ea570451995a",
+              "description": "Density of nitrogen dioxide (NO₂) in the troposphere, expressed in terms of millionths of a mole of NO₂ per square meter of air (mol/m², millionths). This data layer contains modified Copernicus Sentinel data, in which all data from the most recent 30-day period has been averaged.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "gee",
+              "type": "layer",
+              "userId": "5ba001878e311b7e3718740f",
+              "default": true,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "body": {
+                  "sldValue": "<RasterSymbolizer>     <ColorMap type=\"ramp\" extended=\"false\" > '<ColorMapEntry color=\"#000003\" quantity=\"-1\"/>'+'<ColorMapEntry color=\"#000003\" quantity=\"0.000005\"/>' + '<ColorMapEntry color=\"#550F6D\" quantity=\"0.00001\"/>' + '<ColorMapEntry color=\"#BA3655\" quantity=\"0.00003\"/>' +  '<ColorMapEntry color=\"#F98C09\" quantity=\"0.0001\"/>' + '<ColorMapEntry color=\"#FCFEA4\" quantity=\"0.0003\"/> </ColorMap>   </RasterSymbolizer>",
+                  "styleType": "sld"
+                },
+                "assetId": "projects/resource-watch-gee/cit_035_tropomi_atmospheric_chemistry_model_30day_avg/NO2/cit_035_tropomi_atmospheric_chemistry_model_30day_avg_NO2_2021-05-15",
+                "isImageCollection": false,
+                "type": "gee"
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#000003",
+                    "name": "≤5",
+                    "id": 0
+                  },
+                  {
+                    "color": "#550F6D",
+                    "name": "10",
+                    "id": 1
+                  },
+                  {
+                    "color": "#BA3655",
+                    "name": "30",
+                    "id": 2
+                  },
+                  {
+                    "color": "#F98C09",
+                    "name": "100",
+                    "id": 3
+                  },
+                  {
+                    "color": "#FCFEA4",
+                    "name": "≥300",
+                    "id": 4
+                  }
+                ],
+                "type": "gradient"
+              },
+              "interactionConfig": {
+                "type": "intersection",
+                "config": {
+                  "url": "https://api.resourcewatch.org/v1/query/b75d8398-34f2-447d-832d-ea570451995a?sql=select last(tropospheric_NO2_column_number_density) as x from 'projects/resource-watch-gee/cit_035_tropomi_atmospheric_chemistry_model_30day_avg/NO2/cit_035_tropomi_atmospheric_chemistry_model_30day_avg_NO2_2021-05-15' where system:time_start >= 1533448800000 and ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[{{lng}},{{lat}}]}'),4326),the_geom)"
+                },
+                "pulseConfig": {
+                  "url": "https://api.resourcewatch.org/v1/query/b75d8398-34f2-447d-832d-ea570451995a?sql=select last(tropospheric_NO2_column_number_density) as x from 'projects/resource-watch-gee/cit_035_tropomi_atmospheric_chemistry_model_30day_avg/NO2/cit_035_tropomi_atmospheric_chemistry_model_30day_avg_NO2_2021-05-15' where system:time_start >= 1533448800000 and ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":{{point}}}'),4326),the_geom)"
+                },
+                "output": [
+                  {
+                    "column": "x",
+                    "property": "NO₂ Density",
+                    "type": "number",
+                    "format": "0.0000000",
+                    "prefix": " ",
+                    "suffix": " mol/m²"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2020-03-05T20:42:47.218Z",
+              "updatedAt": "2021-05-24T23:20:16.204Z"
+            }
+          }
+        ],
+        "widgetRelevantProps": [],
+        "layerRelevantProps": []
+      }
+    },
+    {
+      "id": "c5a62289-bdc8-4821-83f0-6f05e3d36bdc",
+      "type": "dataset",
+      "attributes": {
+        "name": "foo.054.rw1 Soil Carbon Stocks",
+        "slug": "foo054rw1-Soil-Carbon-Stocks",
+        "type": "raster",
+        "subtitle": null,
+        "application": [
+          "rw"
+        ],
+        "dataPath": null,
+        "attributesPath": null,
+        "connectorType": "rest",
+        "provider": "gee",
+        "userId": "603d3f79eb4ac9001a18ca77",
+        "connectorUrl": "",
+        "sources": [],
+        "tableName": "projects/soilgrids-isric/soc_mean",
+        "status": "saved",
+        "published": true,
+        "overwrite": false,
+        "subscribable": {},
+        "mainDateField": null,
+        "env": "production",
+        "applicationConfig": {
+          "rw": {
+            "highlighted": false,
+            "layerOrder": [
+              "6ffa31eb-fb4f-4d47-b504-c270f441cc8f",
+              "f9d40149-2f5e-46a2-81de-bcb679575e4b",
+              "a9ea99da-cce0-407d-b59b-9b9a93e361c4",
+              "10401024-76a8-43de-8857-e2fc1785d913",
+              "9414e1b4-77a6-4cf9-8db8-0a636ef38d00",
+              "ea0c4848-74bd-4f9f-b0b4-c553ba7c6c62"
+            ]
+          }
+        },
+        "geoInfo": true,
+        "protected": false,
+        "legend": {
+          "date": [],
+          "region": [],
+          "country": [],
+          "nested": [],
+          "integer": [],
+          "short": [],
+          "byte": [],
+          "double": [],
+          "float": [],
+          "half_float": [],
+          "scaled_float": [],
+          "boolean": [],
+          "binary": [],
+          "text": [],
+          "keyword": []
+        },
+        "clonedHost": {},
+        "errorMessage": "",
+        "taskId": null,
+        "createdAt": "2021-04-08T18:29:32.726Z",
+        "updatedAt": "2021-05-04T16:54:21.310Z",
+        "dataLastUpdated": null,
+        "metadata": [
+          {
+            "id": "606f4b964b2c24001a569789",
+            "type": "metadata",
+            "attributes": {
+              "dataset": "c5a62289-bdc8-4821-83f0-6f05e3d36bdc",
+              "application": "rw",
+              "resource": {
+                "id": "c5a62289-bdc8-4821-83f0-6f05e3d36bdc",
+                "type": "dataset"
+              },
+              "language": "en",
+              "name": "Soil Carbon Stocks",
+              "description": "The International Soil Reference and Information Centre - World Soil Information (ISRIC-WIS) uses machine learning techniques to develop global maps of soil properties at various soil depths, as well as characterizing bedrock depth. Soil organic carbon stocks are reported in decigrams per kilogram for six standard depth intervals: depths of 0-5 cm, 5-15 cm, 15-30 cm, 30-60 cm, 60-100 cm, and 100-200 cm. Soil organic carbon stocks are important because they are correlated with the productive capacity of land to generate food and other plant life. Soil property estimates are generated using machine learning techniques that combine soil samples, expert opinion, and remote-sensing data. It takes as inputs soil observations from about 240,000 locations worldwide and over 400 global environmental covariates describing vegetation, terrain morphology, climate, geology and hydrology. The quantification of spatial uncertainty for this dataset showed metrics in line with previous studies at global, continental, or large region scale. The qualitative evaluation showed that coarse scale patterns are well reproduced.",
+              "source": "ISRIC – World Soil Information",
+              "info": {
+                "rwId": "foo.054",
+                "data_type": "Raster",
+                "name": "Soil Carbon Stocks",
+                "sources": [
+                  {
+                    "source-name": "ISRIC – World Soil Information",
+                    "id": 0,
+                    "source-description": ""
+                  }
+                ],
+                "technical_title": "SoilGrids250m 2.0 - Soil organic carbon stock",
+                "functions": "High-resolution maps of soil carbon stocks, which contribute to the productivity of agriculture",
+                "cautions": "- Not all land areas are uniformly represented in 240,000 samples used to train the sample data and therefore some areas and soil types will be better modeled than others.\n  \n  \n- The spatial uncertainty at global scale highlighted the need for more soil observations, especially in high latitude regions.",
+                "citation": "de Sousa, L. M., Poggio, L., Batjes, N. H., Heuvelink, G. B. M., Kempen, B., Riberio, E., and Rossiter, D. (in review, 2020) \"SoilGrids 2.0: producing quality-assessed soil information for the globe\", SOIL Discuss. [preprint], https://doi.org/10.5194/soil-2020-65. Accessed through Resource Watch, (date). [www.resourcewatch.org](https://www.resourcewatch.org).",
+                "license": "Creative Commons Attribution 4.0 International",
+                "license_link": "https://www.isric.org/explore/soilgrids",
+                "geographic_coverage": "Global",
+                "spatial_resolution": "250 m",
+                "date_of_content": "1905-2016",
+                "frequency_of_updates": null,
+                "learn_more_link": "http://isric.org/explore/soilgrids",
+                "data_download_link": null,
+                "data_download_original_link": "https://files.isric.org/soilgrids/latest/data/soc/"
+              },
+              "createdAt": "2021-04-08T18:29:42.201Z",
+              "updatedAt": "2021-05-25T13:48:47.890Z",
+              "status": "published"
+            }
+          }
+        ],
+        "layer": [
+          {
+            "id": "6ffa31eb-fb4f-4d47-b504-c270f441cc8f",
+            "type": "layer",
+            "attributes": {
+              "name": "Soil Organic Carbon Stocks from 0-5 cm of Soil Depth (dg/kg)",
+              "slug": "Soil-Organic-Carbon-Stocks-from-0-5-cm-of-Soil-Depth-tonnesha",
+              "dataset": "c5a62289-bdc8-4821-83f0-6f05e3d36bdc",
+              "description": "High-resolution map of soil carbon stocks, which contribute to the productivity of agriculture. Carbon stocks from the top 0-5 cm of soil are shown in decigrams per kilogram (dg/kg) for 1905-2016.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "gee",
+              "type": "layer",
+              "userId": "603d3f79eb4ac9001a18ca77",
+              "default": true,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "type": "gee",
+                "isImageCollection": false,
+                "assetId": "projects/soilgrids-isric/soc_mean",
+                "body": {
+                  "styleType": "sld",
+                  "sldValue": "<RasterSymbolizer><ChannelSelection>   <GrayChannel>   <SourceChannelName>soc_0-5cm_mean</SourceChannelName>        </GrayChannel>        </ChannelSelection> <ColorMap type=\"ramp\" extended=\"false\" ><ColorMapEntry color=\"#f6e8c3\" quantity=\"50\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#dfc27d\" quantity=\"100\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#bf812d\" quantity=\"200\" label=\"\" /><ColorMapEntry color=\"#8c510a\" quantity=\"500\" label=\"\" /><ColorMapEntry color=\"#543005\" quantity=\"4000\" label=\"\" /></ColorMap></RasterSymbolizer>"
+                }
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#f6e8c3",
+                    "name": "≤50",
+                    "id": 0
+                  },
+                  {
+                    "color": "#dfc27d",
+                    "name": "100",
+                    "id": 1
+                  },
+                  {
+                    "color": "#bf812d",
+                    "name": "200",
+                    "id": 2
+                  },
+                  {
+                    "color": "#8c510a",
+                    "name": "500",
+                    "id": 3
+                  },
+                  {
+                    "color": "#543005",
+                    "name": "≥4000",
+                    "id": 4
+                  }
+                ],
+                "type": "gradient"
+              },
+              "interactionConfig": {
+                "type": "intersection",
+                "config": {
+                  "url": "https://api.resourcewatch.org/v1/query/c5a62289-bdc8-4821-83f0-6f05e3d36bdc?sql=select st_summarystats(rast, 'soc_0-5cm_mean', false) as x from 'projects/soilgrids-isric/soc_mean' where ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[{{lng}},{{lat}}]}'),4326),the_geom)"
+                },
+                "output": [
+                  {
+                    "column": "x.soc_0-5cm_mean.mean",
+                    "property": "Carbon Stock",
+                    "type": "number",
+                    "format": "0",
+                    "prefix": " ",
+                    "suffix": " dg/kg"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2021-04-08T18:29:34.436Z",
+              "updatedAt": "2021-04-11T01:59:20.402Z"
+            }
+          },
+          {
+            "id": "f9d40149-2f5e-46a2-81de-bcb679575e4b",
+            "type": "layer",
+            "attributes": {
+              "name": "Soil Organic Carbon Stocks from 5-15 cm of Soil Depth (dg/kg)",
+              "slug": "Soil-Organic-Carbon-Stocks-from-5-15-cm-of-Soil-Depth-dgkg",
+              "dataset": "c5a62289-bdc8-4821-83f0-6f05e3d36bdc",
+              "description": "High-resolution map of soil carbon stocks, which contribute to the productivity of agriculture. Carbon stocks from the top 5-15 cm of soil are shown in decigrams per kilogram (dg/kg) for 1905-2016.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "gee",
+              "type": "layer",
+              "userId": "603d3f79eb4ac9001a18ca77",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "type": "gee",
+                "isImageCollection": false,
+                "assetId": "projects/soilgrids-isric/soc_mean",
+                "body": {
+                  "styleType": "sld",
+                  "sldValue": "<RasterSymbolizer><ChannelSelection>   <GrayChannel>   <SourceChannelName>soc_5-15cm_mean</SourceChannelName>        </GrayChannel>        </ChannelSelection> <ColorMap type=\"ramp\" extended=\"false\" ><ColorMapEntry color=\"#f6e8c3\" quantity=\"50\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#dfc27d\" quantity=\"100\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#bf812d\" quantity=\"200\" label=\"\" /><ColorMapEntry color=\"#8c510a\" quantity=\"500\" label=\"\" /><ColorMapEntry color=\"#543005\" quantity=\"4000\" label=\"\" /></ColorMap></RasterSymbolizer>"
+                }
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#f6e8c3",
+                    "name": "≤50",
+                    "id": 0
+                  },
+                  {
+                    "color": "#dfc27d",
+                    "name": "100",
+                    "id": 1
+                  },
+                  {
+                    "color": "#bf812d",
+                    "name": "200",
+                    "id": 2
+                  },
+                  {
+                    "color": "#8c510a",
+                    "name": "500",
+                    "id": 3
+                  },
+                  {
+                    "color": "#543005",
+                    "name": "≥4000",
+                    "id": 4
+                  }
+                ],
+                "type": "gradient"
+              },
+              "interactionConfig": {
+                "type": "intersection",
+                "config": {
+                  "url": "https://api.resourcewatch.org/v1/query/c5a62289-bdc8-4821-83f0-6f05e3d36bdc?sql=select st_summarystats(rast, 'soc_5-15cm_mean', false) as x from 'projects/soilgrids-isric/soc_mean' where ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[{{lng}},{{lat}}]}'),4326),the_geom)"
+                },
+                "output": [
+                  {
+                    "column": "x.soc_5-15cm_mean.mean",
+                    "property": "Carbon Stock",
+                    "type": "number",
+                    "format": "0",
+                    "prefix": " ",
+                    "suffix": " dg/kg"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2021-04-10T19:21:36.361Z",
+              "updatedAt": "2021-04-11T02:00:20.982Z"
+            }
+          },
+          {
+            "id": "10401024-76a8-43de-8857-e2fc1785d913",
+            "type": "layer",
+            "attributes": {
+              "name": "Soil Organic Carbon Stocks from 30-60 cm of Soil Depth (dg/kg)",
+              "slug": "Soil-Organic-Carbon-Stocks-from-30-60-cm-of-Soil-Depth-dgkg",
+              "dataset": "c5a62289-bdc8-4821-83f0-6f05e3d36bdc",
+              "description": "High-resolution map of soil carbon stocks, which contribute to the productivity of agriculture. Carbon stocks from the top 30-60 cm of soil are shown in decigrams per kilogram (dg/kg) for 1905-2016.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "gee",
+              "type": "layer",
+              "userId": "603d3f79eb4ac9001a18ca77",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "type": "gee",
+                "isImageCollection": false,
+                "assetId": "projects/soilgrids-isric/soc_mean",
+                "body": {
+                  "styleType": "sld",
+                  "sldValue": "<RasterSymbolizer><ChannelSelection>   <GrayChannel>   <SourceChannelName>soc_30-60cm_mean</SourceChannelName>        </GrayChannel>        </ChannelSelection> <ColorMap type=\"ramp\" extended=\"false\" ><ColorMapEntry color=\"#f6e8c3\" quantity=\"50\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#dfc27d\" quantity=\"100\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#bf812d\" quantity=\"200\" label=\"\" /><ColorMapEntry color=\"#8c510a\" quantity=\"500\" label=\"\" /><ColorMapEntry color=\"#543005\" quantity=\"4000\" label=\"\" /></ColorMap></RasterSymbolizer>"
+                }
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#f6e8c3",
+                    "name": "≤50",
+                    "id": 0
+                  },
+                  {
+                    "color": "#dfc27d",
+                    "name": "100",
+                    "id": 1
+                  },
+                  {
+                    "color": "#bf812d",
+                    "name": "200",
+                    "id": 2
+                  },
+                  {
+                    "color": "#8c510a",
+                    "name": "500",
+                    "id": 3
+                  },
+                  {
+                    "color": "#543005",
+                    "name": "≥4000",
+                    "id": 4
+                  }
+                ],
+                "type": "gradient"
+              },
+              "interactionConfig": {
+                "type": "intersection",
+                "config": {
+                  "url": "https://api.resourcewatch.org/v1/query/c5a62289-bdc8-4821-83f0-6f05e3d36bdc?sql=select st_summarystats(rast, 'soc_30-60cm_mean', false) as x from 'projects/soilgrids-isric/soc_mean' where ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[{{lng}},{{lat}}]}'),4326),the_geom)"
+                },
+                "output": [
+                  {
+                    "column": "x.soc_30-60cm_mean.mean",
+                    "property": "Carbon Stock",
+                    "type": "number",
+                    "format": "0",
+                    "prefix": " ",
+                    "suffix": " dg/kg"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2021-04-10T19:23:41.619Z",
+              "updatedAt": "2021-04-11T02:02:21.814Z"
+            }
+          },
+          {
+            "id": "a9ea99da-cce0-407d-b59b-9b9a93e361c4",
+            "type": "layer",
+            "attributes": {
+              "name": "Soil Organic Carbon Stocks from 15-30 cm of Soil Depth (dg/kg)",
+              "slug": "Soil-Organic-Carbon-Stocks-from-15-30-cm-of-Soil-Depth-dgkg",
+              "dataset": "c5a62289-bdc8-4821-83f0-6f05e3d36bdc",
+              "description": "High-resolution map of soil carbon stocks, which contribute to the productivity of agriculture. Carbon stocks from the top 15-30 cm of soil are shown in decigrams per kilogram (dg/kg) for 1905-2016.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "gee",
+              "type": "layer",
+              "userId": "603d3f79eb4ac9001a18ca77",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "type": "gee",
+                "isImageCollection": false,
+                "assetId": "projects/soilgrids-isric/soc_mean",
+                "body": {
+                  "styleType": "sld",
+                  "sldValue": "<RasterSymbolizer><ChannelSelection>   <GrayChannel>   <SourceChannelName>soc_15-30cm_mean</SourceChannelName>        </GrayChannel>        </ChannelSelection> <ColorMap type=\"ramp\" extended=\"false\" ><ColorMapEntry color=\"#f6e8c3\" quantity=\"50\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#dfc27d\" quantity=\"100\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#bf812d\" quantity=\"200\" label=\"\" /><ColorMapEntry color=\"#8c510a\" quantity=\"500\" label=\"\" /><ColorMapEntry color=\"#543005\" quantity=\"4000\" label=\"\" /></ColorMap></RasterSymbolizer>"
+                }
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#f6e8c3",
+                    "name": "≤50",
+                    "id": 0
+                  },
+                  {
+                    "color": "#dfc27d",
+                    "name": "100",
+                    "id": 1
+                  },
+                  {
+                    "color": "#bf812d",
+                    "name": "200",
+                    "id": 2
+                  },
+                  {
+                    "color": "#8c510a",
+                    "name": "500",
+                    "id": 3
+                  },
+                  {
+                    "color": "#543005",
+                    "name": "≥4000",
+                    "id": 4
+                  }
+                ],
+                "type": "gradient"
+              },
+              "interactionConfig": {
+                "type": "intersection",
+                "config": {
+                  "url": "https://api.resourcewatch.org/v1/query/c5a62289-bdc8-4821-83f0-6f05e3d36bdc?sql=select st_summarystats(rast, 'soc_15-30cm_mean', false) as x from 'projects/soilgrids-isric/soc_mean' where ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[{{lng}},{{lat}}]}'),4326),the_geom)"
+                },
+                "output": [
+                  {
+                    "column": "x.soc_15-30cm_mean.mean",
+                    "property": "Carbon Stock",
+                    "type": "number",
+                    "format": "0",
+                    "prefix": " ",
+                    "suffix": " dg/kg"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2021-04-10T19:22:38.855Z",
+              "updatedAt": "2021-04-11T02:01:21.324Z"
+            }
+          },
+          {
+            "id": "9414e1b4-77a6-4cf9-8db8-0a636ef38d00",
+            "type": "layer",
+            "attributes": {
+              "name": "Soil Organic Carbon Stocks from 60-100 cm of Soil Depth (dg/kg)",
+              "slug": "Soil-Organic-Carbon-Stocks-from-60-100-cm-of-Soil-Depth-dgkg",
+              "dataset": "c5a62289-bdc8-4821-83f0-6f05e3d36bdc",
+              "description": "High-resolution map of soil carbon stocks, which contribute to the productivity of agriculture. Carbon stocks from the top 60-100 cm of soil are shown in decigrams per kilogram (dg/kg) for 1905-2016.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "gee",
+              "type": "layer",
+              "userId": "603d3f79eb4ac9001a18ca77",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "type": "gee",
+                "isImageCollection": false,
+                "assetId": "projects/soilgrids-isric/soc_mean",
+                "body": {
+                  "styleType": "sld",
+                  "sldValue": "<RasterSymbolizer><ChannelSelection>   <GrayChannel>   <SourceChannelName>soc_60-100cm_mean</SourceChannelName>        </GrayChannel>        </ChannelSelection> <ColorMap type=\"ramp\" extended=\"false\" ><ColorMapEntry color=\"#f6e8c3\" quantity=\"50\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#dfc27d\" quantity=\"100\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#bf812d\" quantity=\"200\" label=\"\" /><ColorMapEntry color=\"#8c510a\" quantity=\"500\" label=\"\" /><ColorMapEntry color=\"#543005\" quantity=\"4000\" label=\"\" /></ColorMap></RasterSymbolizer>"
+                }
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#f6e8c3",
+                    "name": "≤50",
+                    "id": 0
+                  },
+                  {
+                    "color": "#dfc27d",
+                    "name": "100",
+                    "id": 1
+                  },
+                  {
+                    "color": "#bf812d",
+                    "name": "200",
+                    "id": 2
+                  },
+                  {
+                    "color": "#8c510a",
+                    "name": "500",
+                    "id": 3
+                  },
+                  {
+                    "color": "#543005",
+                    "name": "≥4000",
+                    "id": 4
+                  }
+                ],
+                "type": "gradient"
+              },
+              "interactionConfig": {
+                "type": "intersection",
+                "config": {
+                  "url": "https://api.resourcewatch.org/v1/query/c5a62289-bdc8-4821-83f0-6f05e3d36bdc?sql=select st_summarystats(rast, 'soc_60-100cm_mean', false) as x from 'projects/soilgrids-isric/soc_mean' where ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[{{lng}},{{lat}}]}'),4326),the_geom)"
+                },
+                "output": [
+                  {
+                    "column": "x.soc_60-100cm_mean.mean",
+                    "property": "Carbon Stock",
+                    "type": "number",
+                    "format": "0",
+                    "prefix": " ",
+                    "suffix": " dg/kg"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2021-04-10T19:24:44.510Z",
+              "updatedAt": "2021-04-11T02:03:22.553Z"
+            }
+          },
+          {
+            "id": "ea0c4848-74bd-4f9f-b0b4-c553ba7c6c62",
+            "type": "layer",
+            "attributes": {
+              "name": "Soil Organic Carbon Stocks from 100-200 cm of Soil Depth (dg/kg)",
+              "slug": "Soil-Organic-Carbon-Stocks-from-100-200-cm-of-Soil-Depth-dgkg",
+              "dataset": "c5a62289-bdc8-4821-83f0-6f05e3d36bdc",
+              "description": "High-resolution map of soil carbon stocks, which contribute to the productivity of agriculture. Carbon stocks from the top 100-200 cm of soil are shown in decigrams per kilogram (dg/kg) for 1905-2016.",
+              "application": [
+                "rw"
+              ],
+              "iso": [],
+              "provider": "gee",
+              "type": "layer",
+              "userId": "603d3f79eb4ac9001a18ca77",
+              "default": false,
+              "protected": false,
+              "published": true,
+              "env": "production",
+              "layerConfig": {
+                "type": "gee",
+                "isImageCollection": false,
+                "assetId": "projects/soilgrids-isric/soc_mean",
+                "body": {
+                  "styleType": "sld",
+                  "sldValue": "<RasterSymbolizer><ChannelSelection>   <GrayChannel>   <SourceChannelName>soc_100-200cm_mean</SourceChannelName>        </GrayChannel>        </ChannelSelection> <ColorMap type=\"ramp\" extended=\"false\" ><ColorMapEntry color=\"#f6e8c3\" quantity=\"50\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#dfc27d\" quantity=\"100\" label=\"\" opacity=\"1\" /><ColorMapEntry color=\"#bf812d\" quantity=\"200\" label=\"\" /><ColorMapEntry color=\"#8c510a\" quantity=\"500\" label=\"\" /><ColorMapEntry color=\"#543005\" quantity=\"4000\" label=\"\" /></ColorMap></RasterSymbolizer>"
+                }
+              },
+              "legendConfig": {
+                "items": [
+                  {
+                    "color": "#f6e8c3",
+                    "name": "≤50",
+                    "id": 0
+                  },
+                  {
+                    "color": "#dfc27d",
+                    "name": "100",
+                    "id": 1
+                  },
+                  {
+                    "color": "#bf812d",
+                    "name": "200",
+                    "id": 2
+                  },
+                  {
+                    "color": "#8c510a",
+                    "name": "500",
+                    "id": 3
+                  },
+                  {
+                    "color": "#543005",
+                    "name": "≥4000",
+                    "id": 4
+                  }
+                ],
+                "type": "gradient"
+              },
+              "interactionConfig": {
+                "type": "intersection",
+                "config": {
+                  "url": "https://api.resourcewatch.org/v1/query/c5a62289-bdc8-4821-83f0-6f05e3d36bdc?sql=select st_summarystats(rast, 'soc_100-200cm_mean', false) as x from 'projects/soilgrids-isric/soc_mean' where ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[{{lng}},{{lat}}]}'),4326),the_geom)"
+                },
+                "output": [
+                  {
+                    "column": "x.soc_100-200cm_mean.mean",
+                    "property": "Carbon Stock",
+                    "type": "number",
+                    "format": "0",
+                    "prefix": " ",
+                    "suffix": " dg/kg"
+                  }
+                ]
+              },
+              "applicationConfig": {},
+              "staticImageConfig": {},
+              "createdAt": "2021-04-10T19:25:47.611Z",
+              "updatedAt": "2021-05-10T21:14:51.089Z"
+            }
+          }
+        ],
+        "widgetRelevantProps": [],
+        "layerRelevantProps": []
+      }
+    }
+  ],
+  "links": {
+    "self": "http://api.resourcewatch.org/v1/dataset?env=production&application=rw&includes=layer%2Cmetadata&page[number]=1&page[size]=50",
+    "first": "http://api.resourcewatch.org/v1/dataset?env=production&application=rw&includes=layer%2Cmetadata&page[number]=1&page[size]=50",
+    "last": "http://api.resourcewatch.org/v1/dataset?env=production&application=rw&includes=layer%2Cmetadata&page[number]=1&page[size]=50",
+    "prev": "http://api.resourcewatch.org/v1/dataset?env=production&application=rw&includes=layer%2Cmetadata&page[number]=1&page[size]=50",
+    "next": "http://api.resourcewatch.org/v1/dataset?env=production&application=rw&includes=layer%2Cmetadata&page[number]=1&page[size]=50"
+  },
+  "meta": {
+    "total-pages": 1,
+    "total-items": 5,
+    "size": 50
+  }
+}

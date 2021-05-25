@@ -149,6 +149,7 @@
     "cypress": "cross-env cypress run --browser firefox --headless",
     "cy:open": "cross-env cypress open",
     "test:frontend": "NODE_ENV=test TEST_ENV=FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn start' 3000 'yarn cypress'",
+    "test:frontend-ui": "NODE_ENV=test TEST_ENV=FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn start' 3000 'yarn cy:open'",
     "test:backend:mock": "NODE_ENV=test TEST_ENV=FRONTEND SERVER_ONLY=true mocha --reporter spec --timeout 60000 --exit",
     "test:backend": "NODE_ENV=test TEST_ENV=BACKEND SERVER_ONLY=true mocha --reporter spec --timeout 60000 --exit",
     "test": "npm run test:frontend && npm run test:backend",
