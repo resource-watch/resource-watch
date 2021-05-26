@@ -1,7 +1,7 @@
 {
     "headerText": "Energy services are central to most aspects of life. The power sector country profiles provide a country-level view of the power sector, which represents a subset of the energy sector that is focused on electricity generation.",
     "countrySelector": {
-      "mainText": "The power sector represents about 20% of final energy consumption and *[42% of energy greenhouse gas emissions](https://www.climatewatchdata.org/ghg-emissions?breakBy=sector&chartType=percentage&sectors=building%2Celectricity-heat%2Cfugitive-emissions%2Cmanufacturing-construction%2Cother-fuel-combustion%2Ctransportation)*. Power enables electricity access, but also causes climate change, air pollution, increases water use and faces risks to natural hazards. See a global overview below or select a country to explore  national power sectors."
+      "mainText": "Globally, the power sector represents about 20% of final energy consumption and *[42% of energy greenhouse gas emissions](https://www.climatewatchdata.org/ghg-emissions?breakBy=sector&chartType=percentage&sectors=building%2Celectricity-heat%2Cfugitive-emissions%2Cmanufacturing-construction%2Cother-fuel-combustion%2Ctransportation)*. Power enables electricity access, but also causes climate change, air pollution, increases water use and faces risks to natural hazards. See a global overview below or select a country to explore  national power sectors."
     },
     "countryIndicators": [
       {
@@ -65,7 +65,7 @@
     "sections": [
         {
             "header": "What is the relationship of the power and energy sector?",
-            "description": "The power sector is a small share of the energy sector (which  includes direct fossil fuel use by transport, industry and building). Most climate scenarios show that achieve the goals of the *[Paris Agreement](https://www.wri.org/climate/expert-perspective/paris-agreement-strategy-longer-term)* will require to *[optimize, electrify and decarbonize](https://www.wri.org/blog/2020/01/6-lessons-energy-decarbonization-countries-leading-way)* the energy sector. This means reducing total energy use through improved efficiency, shift energy demand from direct fossil fuel burining to electricity and ensure this electricity is zero carbon. The charts below show if efficiency is improving and if the energy sector is electrifying.",
+            "description": "The power sector is a small share of the energy sector (which  includes direct fossil fuel use by transport, industry and building). Most climate scenarios show that achieving the goals of the *[Paris Agreement](https://www.wri.org/climate/expert-perspective/paris-agreement-strategy-longer-term)* will require to *[optimize, electrify and decarbonize](https://www.wri.org/blog/2020/01/6-lessons-energy-decarbonization-countries-leading-way)* the energy sector. This means reducing total energy use through improved efficiency, shift energy demand from direct fossil fuel burining to electricity and ensure this electricity is zero carbon. The charts below show if efficiency is improving and if the energy sector is electrifying.",
             "widgets": [
               {
                 "id": "de318066-eaad-4f4f-a9ed-75c30b50e1aa",
@@ -112,7 +112,10 @@
                     "datasets": [
                         "dbca28fe-d6bf-464f-9f86-fc8b1d81e381",
                         "65c0e15b-dad0-4681-934e-91c0a378d2fb",
-                        "b6ceb159-efd8-42de-9c6a-d658801d8922"
+                        "b6ceb159-efd8-42de-9c6a-d658801d8922",
+                        "7fb1ebf5-398b-46ec-a915-32cee68b16e7",
+                        "c2142922-84d9-4564-8216-a4867b9e48c5",
+                        "0ce24533-7877-4926-b962-a6c726332d82"
                      ]
                 }
             ],
@@ -147,7 +150,7 @@
         },
         {
             "header": "Who is lacking access to electricity?",
-            "description": "Clean and convenient modern electricity is still out of reach for many, but the energy transition also provides many opportunities for action. The charts below how many people lack acess to electricity, and what potential there is for investment in new renewable power generation.",
+            "description": "Clean and convenient modern electricity is still out of reach for many, but the energy transition also provides many opportunities for action. The charts below how many people lack acess to electricity, and what potential there is for investment in new renewable power generation. Check out the *[Energy Access Explorer](https://www.energyaccessexplorer.org/)* to investigate energy access around the world and identify high priority areas where access to energy should be expanded.",
             "widgets": [
               {
                 "id": "8d0a16d7-b609-4ab9-9b46-0a9c8e296508",
