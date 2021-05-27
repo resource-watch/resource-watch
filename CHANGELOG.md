@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch configuration file.
+- Ocean Watch: Isolated mini Explore component. [OW-77](https://vizzuality.atlassian.net/browse/OW-77)
+- logic to render mini Explore component through WYSIWYG editor.
 - `@artsy/fresnel` package to handle responsive.
 - Ocean Watch: partners page. [OW-23](https://vizzuality.atlassian.net/browse/OW-23)
 - Ocean Watch: basic dashboard structure. [OW-26](https://vizzuality.atlassian.net/browse/OW-26)
