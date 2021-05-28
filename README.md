@@ -68,7 +68,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | SECRET        | Secret key used for signing and verifying the integrity of cookies.  | | If you change this key, all old signed cookies will become invalid! Make sure the secrets in this file are kept private |
 | RW_USERNAME + RW_PASSWORD | Username and password values for a basic auth access wall to the whole site. If missing, the auth wall is disabled | | This auth mechanism is meant for scenarios where you want to have the whole site available only to users with a shared username and password - a staging/demo environment, for example. It is NOT related to used-based functionality of the site (MyRW, for example). |
 | LOGGER_LEVEL | Logging level used with the [Pino](https://github.com/pinojs/pino) logging library. | info |  |
-| NEXT_PUBLIC_RW_ENV | Used to set some scripts/functionalities in the app (like Google Analytics, CrazyEgg, Hotjar, ...). Must be `development` or `production` |  |
+| NEXT_PUBLIC_RW_ENV | Used to set some scripts/functionalities in the app (like Google Analytics, CrazyEgg, Hotjar, ...). Must be `development`,`production` or `test` |  |
 | NEXT_PUBLIC_CALLBACK_URL | Sets the callback URL triggered when a user attempts to log in. Also handles the cookies registration. |  |
 | NEXT_PUBLIC_APPLICATIONS | Sets the context of the data. You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#applications). |  |
 | NEXT_PUBLIC_API_ENV | Environment the resource belongs to in the WRI API.You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#environments). |  |
@@ -263,6 +263,80 @@ As mentioned in the [Frontend testing section](#frontend-testing), some frontend
 Every change in the app must be documented in the `./CHANGELOG.md` file according to [keep a changelog](https://keepachangelog.com/en/1.0.0/) specs.
 
 At code level, comments must follow [JSDocs](https://jsdoc.app) specs.
+
+# Ocean Watch 🌊
+Ocean Watch dashboard is handled by a file located in `public/static/data/ocean-watch.json`. This file contains the configuration of the dashboard as follows:
+
+``` javascript
+// grid values: `50%`, `100%`
+{
+  // data displayed on https://staging.resourcewatch.org/
+  "staging": {
+    "content": [
+		// every array represents a block of content
+		[
+			{
+				"grid": "100%",
+				// represents a pink title in the dashboard
+				"title": "Ecosystems and Pressures"
+			},
+			{
+				"grid": "50%",
+				// represents a a block of text in the dashboard
+				"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis, sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
+			},
+			{
+				"grid": "50%",
+				"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis, sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
+			}
+      	],
+		[
+			{
+				"grid": "100%",
+				"visualizationType": "mini-explore",
+				"config": {
+					// title of the Mini Explore. Mandatory.
+					"title": "Lorem ipsum",
+					// geostore of the area to display (if any). Optional: remove or set to `null` if no needed.
+					"areaOfInterest": "972c24e1da2c2baacc7572ee9501abdc",
+					// datasets split into different groups. Mandatory.
+					"datasetGroups": [
+						{
+							// title of the group. Mandatory.
+							"title": "Power Infrastructure",
+							// datasets that form the group. Mandatory.
+							"datasets": [
+								"a86d906d-9862-4783-9e30-cdb68cd808b8",
+								"b75d8398-34f2-447d-832d-ea570451995a",
+								"4919be3a-c543-4964-a224-83ef801370de"
+							],
+							// default datasets to display when Mini Explore is initialized. Optional: leave as empty array (`[]`) if no needed.
+							"default": [
+								"a86d906d-9862-4783-9e30-cdb68cd808b8"
+							]
+						},
+						{
+							"title": "Natural hazards",
+							"datasets": [
+								"484f10d3-a30b-4466-8052-c48d47cfb4a1",
+								"c5a62289-bdc8-4821-83f0-6f05e3d36bdc"
+							],
+							"default": [
+								"484f10d3-a30b-4466-8052-c48d47cfb4a1"
+							]
+						}
+					]
+				}
+			}
+		]
+    ]
+  },
+  // data displayed on https://preproduction.resourcewatch.org/, https://resourcewatch.org/
+  "production": {
+    "content": []
+  },
+}
+```
 
 # Contributing 🎁
 If you have any amazing idea for the project, please [tell us](https://github.com/resource-watch/resource-watch/issues) before develop it.

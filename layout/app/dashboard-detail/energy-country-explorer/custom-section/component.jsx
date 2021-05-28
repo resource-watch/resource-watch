@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+  useMemo,
+} from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import ReactMarkdown from 'react-markdown';
@@ -12,22 +16,27 @@ import { fetchWidget } from 'services/widget';
 
 // Constants
 import { WORLD_COUNTRY, US_COUNTRY_VALUES } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
-import PowerGenerationMap from '../power-generation-map';
+import MiniExplore from 'components/mini-explore';
 
 // Styles
 import './styles.scss';
 
 function CustomSection(props) {
   const {
-    section, bbox, country, geojson,
+    section, bbox, country, geostore,
   } = props;
   const {
-    widgets, header, description, map, groups, mapTitle, widgetsWorld,
+    widgets,
+    header,
+    description,
+    visualizationType,
+    widgetsWorld,
   } = section;
   const countryIsWorld = !country || (country && country.value === WORLD_COUNTRY.value);
   const widgetBlocks = countryIsWorld ? widgetsWorld : widgets;
   const [data, setData] = useState(null);
   const [widgetsLoading, setWidgetsLoading] = useState(true);
+  const isMiniExplore = visualizationType === 'mini-explore';
 
   useEffect(() => {
     if (widgetBlocks) {
@@ -56,13 +65,11 @@ function CustomSection(props) {
               } if (resp.widgetConfig.type === 'ranking') {
                 // temporary implementation for ranking widgets
                 let countryName = country.label;
-                const { key } = resp.widgetConfig.sql_config[0].key_params[0];
 
                 // --- This patch is necessary since this country name varies for some datasets ----
                 if (country.label === US_COUNTRY_VALUES.nameFoundInSource) {
                   countryName = US_COUNTRY_VALUES.newNameForQueries;
                 }
-                //-----------------------------------------------------------------------------------
 
                 const newURL = resp.widgetConfig.url.replace(new RegExp(
                   '{{country}}', 'g',
@@ -81,8 +88,8 @@ function CustomSection(props) {
                 return ({ ...acc, [resp.id]: newWidget });
               }
               const { paramsConfig } = resp.widgetConfig;
-              const visualizationType = paramsConfig && paramsConfig.visualizationType;
-              if (!visualizationType || visualizationType === 'chart') {
+              const visualizationTypeWidget = paramsConfig && paramsConfig.visualizationType;
+              if (!visualizationTypeWidget || visualizationTypeWidget === 'chart') {
                 const { key } = resp.widgetConfig.sql_config[0].key_params[0];
                 const isISO = key === 'country_code';
                 const dataObj = resp.widgetConfig.data[0];
@@ -92,7 +99,6 @@ function CustomSection(props) {
                 if (country.label === US_COUNTRY_VALUES.nameFoundInSource) {
                   countryName = US_COUNTRY_VALUES.newNameForQueries;
                 }
-                //------------------------------------------------------------------------------------
 
                 const newDataObj = {
                   ...dataObj,
@@ -112,7 +118,7 @@ function CustomSection(props) {
                 };
 
                 return ({ ...acc, [resp.id]: newWidget });
-              } if (visualizationType === 'map') {
+              } if (visualizationTypeWidget === 'map') {
                 // Replacing Bounding box with that from the selected country
                 const newWidgetConfig = {
                   ...resp.widgetConfig,
@@ -124,6 +130,8 @@ function CustomSection(props) {
                 };
                 return ({ ...acc, [resp.id]: newWidget });
               }
+
+              return ({ ...acc });
             }, {});
 
             setData(reducedResult);
@@ -139,6 +147,12 @@ function CustomSection(props) {
     }
   }, [country, bbox, countryIsWorld, widgetBlocks]);
 
+  const miniExploreConfig = useMemo(() => ({
+    title: section.title,
+    areaOfInterest: geostore,
+    datasetGroups: section.datasetGroups,
+  }), [section, geostore]);
+
   return (
     <div className="c-custom-section l-section">
       <div className="l-container">
@@ -148,7 +162,7 @@ function CustomSection(props) {
               <h2>{header}</h2>
               <ReactMarkdown linkTarget="_blank" source={description} />
             </div>
-            {(!map && !widgetsLoading)
+            {(!isMiniExplore && !widgetsLoading)
               && (
               <div className="row widget-blocks">
                 {widgetBlocks && widgetBlocks.map((wB) => {
@@ -173,33 +187,46 @@ function CustomSection(props) {
                 })}
               </div>
               )}
-            {map
-              && (
-              <PowerGenerationMap
-                id={countryIsWorld ? 'world' : country.value}
-                groups={groups}
-                mapTitle={mapTitle}
-                bbox={bbox}
-                geojson={geojson}
+            {isMiniExplore && (
+              <MiniExplore
+                config={miniExploreConfig}
               />
-              )}
+            )}
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-CustomSection.propTypes = {
-  section: PropTypes.object.isRequired,
-  country: PropTypes.object.isRequired,
-  bbox: PropTypes.array,
-  geojson: PropTypes.shape({}),
-};
-
 CustomSection.defaultProps = {
   bbox: [],
-  geojson: null,
+  geostore: null,
+};
+
+CustomSection.propTypes = {
+  section: PropTypes.shape({
+    header: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    visualizationType: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    datasetGroups: PropTypes.arrayOf(
+      PropTypes.shape({}),
+    ),
+    widgets: PropTypes.arrayOf(
+      PropTypes.shape({}),
+    ),
+    widgetsWorld: PropTypes.arrayOf(
+      PropTypes.shape({}),
+    ),
+  }).isRequired,
+  country: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  }).isRequired,
+  bbox: PropTypes.arrayOf(
+    PropTypes.number,
+  ),
+  geostore: PropTypes.string,
 };
 
 export default CustomSection;

@@ -1,0 +1,70 @@
+@import 'css/settings';
+
+.c-mini-explore {
+  width: 100%;
+  border: 1px solid rgba($black ,.1);
+  border-radius: 4px;
+
+  > header {
+    padding: $space * 3;
+
+    > h4 {
+      margin: 0;
+    }
+    border-bottom: 1px solid rgba($black ,.1);
+    box-shadow: 0 1px 2px 0 rgba($black, .09);
+  }
+
+  > .main-container {
+    overflow: auto;
+    display: flex;
+    width: 100%;
+    min-height: 700px;
+    max-height: 700px;
+
+    // datasets-sidebar
+    > .datasets-sidebar {
+      max-width: 350px;
+      min-width: 320px;
+
+      overflow-y: auto;
+      padding: ($space * 3);
+      box-shadow: 0 1px 3px 0 rgba($black, .15), 0 7px 15px 0 rgba($black, .15);
+
+      .dataset-group {
+        display: flex;
+        flex-direction: column;
+
+        &:not(:first-child) {
+          margin: ($space * 4) 0 0;
+        }
+
+        .group-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 0 0 ($space *2);
+
+          h4 {
+            margin: 0;
+          }
+
+          .number-of-datasets {
+            font-size: $font-size-tiny;
+            text-transform: uppercase;
+          }
+        }
+
+        .c-explore-dataset-list {
+          margin: 0 ($space * 2);
+        }
+      }
+    }
+    .map-container {
+      position: relative;
+      width: 100%;
+      min-height: 100%;
+      margin: 0 0 0($space * 3);
+    }
+  }
+}
