@@ -14,13 +14,14 @@
     }
 
     .indicator-name {
-        height: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        color: $dove-grey;
-        font-size: $font-size-extra-small;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 50%;
+      padding: ($space * 3);
+      font-size: $font-size-extra-small;
+      color: $dove-grey;
     }
 
     .info-button {
