@@ -267,7 +267,7 @@ At code level, comments must follow [JSDocs](https://jsdoc.app) specs.
 # Ocean Watch 🌊
 Ocean Watch dashboard is handled by a file located in `public/static/data/ocean-watch.json`. This file contains the configuration of the dashboard as follows:
 
-``` json
+``` javascript
 // grid values: `50%`, `100%`
 {
   // data displayed on https://staging.resourcewatch.org/
