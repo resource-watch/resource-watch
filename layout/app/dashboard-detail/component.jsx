@@ -59,11 +59,6 @@ const LayoutDashboardDetail = ({
   const headerText = (isEnergyDashboard && tab === 'country')
     ? headerDescription : summary;
 
-  // Temporary logic to show the country explorer only in preproduction and localhost
-  const hostname = typeof window !== 'undefined' && window.location.hostname;
-  const showCountryExplorer = hostname
-    && (hostname.startsWith('preproduction') || hostname.startsWith('localhost'));
-
   const handleTagSelected = useCallback((tag, labels = ['TOPIC']) => {
     const tagSt = `["${tag.id}"]`;
     let treeSt = 'topics';
@@ -98,7 +93,10 @@ const LayoutDashboardDetail = ({
       }
     };
 
-    if (isEnergyDashboard && tab === 'country') loadCountryPowerExplorerConfig();
+    if (process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD
+      && isEnergyDashboard
+      && tab === 'country'
+    ) loadCountryPowerExplorerConfig();
   }, [isEnergyDashboard, tab]);
 
   const datasets = useMemo(() => {
@@ -196,7 +194,7 @@ const LayoutDashboardDetail = ({
                     </li>
                   </ul>
                 </div>
-                {(isEnergyDashboard && showCountryExplorer) && (
+                {(isEnergyDashboard && process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD) && (
                   <Tabs
                     options={ENERGY_TABS}
                     defaultSelected={currentTab}
@@ -209,25 +207,25 @@ const LayoutDashboardDetail = ({
         </div>
       </header>
 
-      {(isEnergyDashboard && tab === 'country') && (<EnergyCountryExplorer />)}
-
-      {((!isEnergyDashboard || (isEnergyDashboard && tab !== 'country'))) && (
-        <div className="l-section">
-          <div className="l-container">
-            <div className="row">
-              {description && (
+      {(
+        isEnergyDashboard && tab === 'country' && process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD)
+        ? (<EnergyCountryExplorer />)
+        : (
+          <div className="l-section">
+            <div className="l-container">
+              <div className="row">
+                {description && (
+                  <div className="column small-12">
+                    <ReactMarkdown linkTarget="_blank" source={description} />
+                  </div>
+                )}
                 <div className="column small-12">
-                  <ReactMarkdown linkTarget="_blank" source={description} />
+                  <DashboardDetail dashboard={dashboard} />
                 </div>
-              )}
-              <div className="column small-12">
-                <DashboardDetail dashboard={dashboard} />
               </div>
             </div>
           </div>
-        </div>
-      )}
-
+        )}
       {(datasets.length > 0) && (
         <div className="l-section">
           <div className="l-container">
