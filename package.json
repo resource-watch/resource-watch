@@ -98,7 +98,7 @@
     "react-upload-file": "2.0.0-beta.6",
     "react-youtube": "7.5.0",
     "redis": "3.1.1",
-    "redux": "3.7.2",
+    "redux": "^4.1.0",
     "redux-thunk": "2.1.0",
     "redux-tools": "git+https://github.com/Vizzuality/redux-tools.git#v3.3.1",
     "reselect": "3.0.1",
