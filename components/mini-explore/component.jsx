@@ -24,6 +24,7 @@ export default function MiniExplore({
     title,
     datasetGroups,
     areaOfInterest,
+    forcedBbox,
   },
 }) {
   const [mapState, dispatch] = useReducer(miniExploreReducer, miniExploreState);
@@ -50,6 +51,7 @@ export default function MiniExplore({
           mapState={mapState}
           datasetGroups={datasetGroups}
           areaOfInterest={areaOfInterest}
+          forcedBbox={forcedBbox}
         />
       </div>
     </div>
@@ -67,5 +69,8 @@ MiniExplore.propTypes = {
       }),
     ).isRequired,
     areaOfInterest: PropTypes.string,
+    forcedBbox: PropTypes.arrayOf(
+      PropTypes.number,
+    ),
   }).isRequired,
 };
