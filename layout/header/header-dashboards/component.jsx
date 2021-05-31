@@ -19,7 +19,8 @@ export default function HeaderDashboards() {
   const {
     data: featuredDashboards,
   } = useFeaturedDashboards({}, {
-    select: (_dashboards) => _dashboards.map(({ name, slug }) => ({
+    select: (_dashboards) => _dashboards.map(({ id, name, slug }) => ({
+      id,
       label: name,
       href: `/dashboards/${slug}`,
     })),
@@ -55,10 +56,10 @@ export default function HeaderDashboards() {
             onMouseEnter={() => toggleDropdown(true)}
             onMouseLeave={() => toggleDropdown(false)}
           >
-            {featuredDashboards.map(({ label, href }) => (
+            {featuredDashboards.map(({ id, label, href }) => (
               <li
                 className="header-dropdown-list-item"
-                key={label}
+                key={id}
               >
                 <Link href={href}>
                   <a>{label}</a>

@@ -23,7 +23,8 @@ export default function FooterLinks() {
     data: featuredDashboards,
     isError,
   } = useFeaturedDashboards({}, {
-    select: (_dashboards) => _dashboards.map(({ name, slug }) => ({
+    select: (_dashboards) => _dashboards.map(({ id, name, slug }) => ({
+      id,
       label: name,
       href: `/dashboards/${slug}`,
     })),
@@ -82,7 +83,7 @@ export default function FooterLinks() {
 
             return (
               <li
-                key={item.label}
+                key={item.id || item.label}
                 className={classnames('item', {
                   title: index === 0,
                 })}
