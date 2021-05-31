@@ -192,25 +192,10 @@ Resource Watch uses [NextJS Dynamic Routes](https://nextjs.org/docs/routing/dyna
 
 # App State Management 🌅
 
-Resource Watch uses [**Redux**](http://redux.js.org/) along to [**next-redux-wrapper**](https://github.com/kirill-konshin/next-redux-wrapper) to manage the app state. With `next` 7.0 is not necessary anymore to wrap every page to access to the store. Wrapping `_app` is enough, rest of pages will access to the store like the rest of your components.
+Resource Watch uses [**Redux**](http://redux.js.org/) along to [**next-redux-wrapper**](https://github.com/kirill-konshin/next-redux-wrapper) to manage the global application state. With `next` 7.0 is not necessary anymore to wrap every page to access to the store. Wrapping `_app` is enough, rest of pages will access to the store like the rest of your components.
 
 
-Connection to the store must be isolated from the component itself (separating presentation from logic).
-
-``` javascript
-import { connect } from 'react-redux';
-
-// component
-import PagesShow from './component';
-
-export default connect(
-  state => ({
-    user: state.user,
-  }),
-  null
-)(PagesShow);
-```
-The example above shows an `index.js` separating the logic from the component layout.
+To interact with React components, Resource Watch uses [**react-redux**](https://react-redux.js.org/). While the existing `connect` API is still around, it is recommended to move to [hooks](https://react-redux.js.org/api/hooks).
 
 # Authentication 🚫
 Authentication is based on the [RW API user management API](https://resource-watch.github.io/doc-api/index-rw.html#user-management).
