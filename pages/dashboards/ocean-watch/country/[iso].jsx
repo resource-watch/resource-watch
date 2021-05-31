@@ -18,7 +18,7 @@ const fetchConfigFile = () => {
   // in development, we work with the local file
   if (process.env.NODE_ENV === 'development') return Promise.resolve(OceanWatchConfigFile[isStagingAPI ? 'staging' : 'production']);
 
-  return axios.fetch('https://raw.githubusercontent.com/resource-watch/resource-watch/develop/public/static/data/ocean-watch.json')
+  return axios.get('https://raw.githubusercontent.com/resource-watch/resource-watch/develop/public/static/data/ocean-watch.json')
     .then(({ data }) => data[isStagingAPI ? 'staging' : 'production']);
 };
 
