@@ -1,26 +1,34 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // components
 import DashboardsForm from 'components/dashboards/form/DashboardsForm';
 
 class DashboardsNew extends PureComponent {
-  static propTypes = { user: PropTypes.object.isRequired };
+  static propTypes = {
+    user: PropTypes.object.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  };
 
   render() {
-    const { user } = this.props;
+    const {
+      user,
+      router,
+    } = this.props;
 
     return (
       <div className="c-dashboards-new">
         <DashboardsForm
           basic
           user={user}
-          onSubmit={() => Router.pushRoute('myrw', { tab: 'dashboards' })}
+          onSubmit={() => router.push('/myrw/dashboards')}
         />
       </div>
     );
   }
 }
 
-export default DashboardsNew;
+export default withRouter(DashboardsNew);

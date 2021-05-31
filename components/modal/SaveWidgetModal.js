@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 import { toastr } from 'react-redux-toastr';
 
 // Redux
@@ -117,8 +117,13 @@ class SaveWidgetModal extends React.Component {
    * "Check my widgets" button
    */
   handleGoToMyRW = () => {
-    this.props.onRequestClose(false);
-    Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+    const {
+      onRequestClose,
+      router,
+    } = this.props;
+
+    onRequestClose(false);
+    router.push('/myrw/widgets/my_widgets');
   }
 
   render() {
@@ -250,6 +255,9 @@ SaveWidgetModal.propTypes = {
   user: PropTypes.object.isRequired,
   widgetEditor: PropTypes.object.isRequired,
   onRequestClose: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -257,4 +265,4 @@ const mapStateToProps = (state) => ({
   widgetEditor: state.widgetEditor,
 });
 
-export default connect(mapStateToProps)(SaveWidgetModal);
+export default connect(mapStateToProps)(withRouter(SaveWidgetModal));

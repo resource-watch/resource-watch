@@ -2,18 +2,17 @@ import App from 'next/app';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { QueryClient, QueryClientProvider } from 'react-query';
+
+// lib
 import initStore from 'lib/store';
+import MediaContextProvider from 'lib/media';
 
 // es6 shim for .finally() in promises
 import finallyShim from 'promise.prototype.finally';
 
-// actions
-import { setRouter } from 'redactions/routes';
 import {
   setUser,
 } from 'redactions/user';
-import { setMobileDetect, mobileParser } from 'react-responsive-redux';
-import { setHostname } from 'redactions/common';
 
 // global styles
 import 'css/index.scss';
@@ -23,30 +22,16 @@ finallyShim.shim();
 const queryClient = new QueryClient();
 
 class RWApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
-    const { asPath } = router;
+  static async getInitialProps({ Component, ctx }) {
     const {
-      req, store, query, isServer,
+      req,
+      store,
+      isServer,
     } = ctx;
-    const pathname = req ? asPath : ctx.asPath;
-
-    // sets app routes
-    const url = { asPath, pathname, query };
-    store.dispatch(setRouter(url));
-
-    // sets hostname
-    const hostname = isServer ? req.headers.host : window.origin;
-    store.dispatch(setHostname(hostname));
 
     // sets user data coming from a request (server) or the store (client)
     const { user } = isServer ? req : store.getState();
     if (user) store.dispatch(setUser(user));
-
-    // mobile detection
-    if (isServer) {
-      const mobileDetect = mobileParser(req);
-      store.dispatch(setMobileDetect(mobileDetect));
-    }
 
     const pageProps = Component.getInitialProps
       ? await Component.getInitialProps(ctx)
@@ -54,7 +39,9 @@ class RWApp extends App {
 
     return {
       pageProps: {
-        ...pageProps, user, isServer, url,
+        ...pageProps,
+        user,
+        isServer,
       },
     };
   }
@@ -74,7 +61,9 @@ class RWApp extends App {
     return (
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <MediaContextProvider>
+            <Component {...pageProps} />
+          </MediaContextProvider>
         </QueryClientProvider>
       </Provider>
     );

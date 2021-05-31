@@ -1,19 +1,18 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-
-// Utils
-import { logEvent } from 'utils/analytics';
-
-// Redux
 import { connect } from 'react-redux';
 
-// Responsive
-import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
-
-// Components
+// components
 import LayerMenuDropdown from 'layout/app/pulse/layer-menu-dropdown';
 import LayerMenuNative from 'layout/app/pulse/layer-menu-native';
+
+// utils
+import { logEvent } from 'utils/analytics';
+
+// lib
+import {
+  Media,
+} from 'lib/media';
 
 // styles
 import './styles.scss';
@@ -64,22 +63,20 @@ class LayerMenuComponent extends PureComponent {
   }
 
   render() {
-    const { layersGroup, responsive } = this.props;
+    const { layersGroup } = this.props;
     if (layersGroup.length > 0) {
       return (
-        <div>
-          <MediaQuery
-            maxWidth={breakpoints.medium}
-            values={{ deviceWidth: responsive.fakeWidth }}
+        <>
+          <Media
+            at="sm"
           >
             <LayerMenuNative
               layers={layersGroup[0].layers}
               triggerClick={(layer) => this.handleLayerClick(layer)}
             />
-          </MediaQuery>
-          <MediaQuery
-            minWidth={breakpoints.medium + 1}
-            values={{ deviceWidth: responsive.fakeWidth }}
+          </Media>
+          <Media
+            greaterThanOrEqual="md"
           >
             <div className="c-layer-menu">
               <div className="l-container">
@@ -88,8 +85,8 @@ class LayerMenuComponent extends PureComponent {
                 </ul>
               </div>
             </div>
-          </MediaQuery>
-        </div>
+          </Media>
+        </>
       );
     }
     return null;
@@ -101,7 +98,6 @@ const mapStateToProps = (state) => ({ layerActive: state.pulse.layerActive });
 LayerMenuComponent.propTypes = {
   layersGroup: PropTypes.array,
   layerActive: PropTypes.any,
-  responsive: PropTypes.object,
   toggleActiveLayer: PropTypes.func.isRequired,
   resetLayerPoints: PropTypes.func.isRequired,
 };

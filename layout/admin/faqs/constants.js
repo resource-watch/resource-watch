@@ -1,7 +1,7 @@
 export const FAQS_TABS = [{
   label: 'FAQs',
   value: 'faqs',
-  route: 'admin_faqs',
+  route: '/admin/faqs',
   params: { tab: 'faqs' },
 }];
 

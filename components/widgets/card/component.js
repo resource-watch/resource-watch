@@ -1,6 +1,6 @@
-import React, { useReducer, useEffect } from 'react';
+import { useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { useRouter } from 'next/router';
 import truncate from 'lodash/truncate';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
@@ -57,6 +57,7 @@ const WidgetCard = (props) => {
     clickable,
   } = props;
 
+  const router = useRouter();
   const [state, dispatch] = useReducer(REDUCER, INITIAL_STATE);
   const {
     loading,
@@ -114,20 +115,18 @@ const WidgetCard = (props) => {
     const isAdmin = role === 'ADMIN';
 
     if (isAdmin) {
-      Router.pushRoute('admin_data_detail', {
-        tab: 'widgets', subtab: 'edit', id: widget.id, dataset: widget.dataset,
-      });
+      router.push(`/admin/data/widgets/${widget.id}/edit?dataset=${widget.dataset}`);
     } else if (isOwner) {
-      Router.pushRoute('myrw_detail', { tab: 'widgets', subtab: 'edit', id: widget.id });
+      router.push(`/myrw-detail/widgets/${widget.id}/edit`);
     } else {
-      Router.pushRoute('myrw_detail', { tab: 'widget_detail', id: widget.id });
+      router.push(`/data/widget/${widget.id}`);
     }
   };
 
   const handleGoToDataset = () => {
     const { dataset } = widget;
 
-    Router.pushRoute('explore', { dataset });
+    router.push(`/data/explore/${dataset}`);
   };
 
   const handleDownloadPDF = () => {

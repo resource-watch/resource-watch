@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 class CardStatic extends React.Component {
   static propTypes = {
@@ -12,6 +12,9 @@ class CardStatic extends React.Component {
     clickable: PropTypes.bool.isRequired,
     route: PropTypes.string,
     anchor: PropTypes.bool,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = { children: '' };
@@ -25,9 +28,14 @@ class CardStatic extends React.Component {
   }
 
   handleClick(event) {
-    const { clickable, route, anchor } = this.props;
+    const {
+      clickable,
+      route,
+      anchor,
+      router,
+    } = this.props;
     if (!anchor && clickable && event.target.tagName !== 'A') {
-      Router.pushRoute(route);
+      router.push(route);
     }
 
     if (anchor && clickable && event.target.tagName !== 'A') {
@@ -61,4 +69,4 @@ class CardStatic extends React.Component {
   }
 }
 
-export default CardStatic;
+export default withRouter(CardStatic);

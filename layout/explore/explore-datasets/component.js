@@ -1,22 +1,16 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import { Link } from 'routes';
+import Link from 'next/link';
 import classnames from 'classnames';
 
-// Responsive
-import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
-
-// Utils
+// utils
 import { logEvent } from 'utils/analytics';
 
-// Components
+// components
 import Paginator from 'components/ui/Paginator';
 import Icon from 'components/ui/icon';
 import { TOPICS } from 'layout/explore/explore-topics/constants';
-
-// Explore components
 import ExploreDatasetsSort from 'layout/explore/explore-datasets-header/explore-datasets-sort';
 import DatasetList from './list';
 import ExploreDatasetsActions from './explore-datasets-actions';
@@ -34,7 +28,6 @@ function ExploreDatasetsComponent(props) {
       page,
       loading,
     },
-    responsive,
     selectedTags,
     search,
   } = props;
@@ -117,14 +110,14 @@ function ExploreDatasetsComponent(props) {
         <div className="related-dashboards">
           <div className="header">
             <h4>Related dashboards</h4>
-            <Link to="dashboards">
+            <Link href="/dashboards">
               <a className="header-button">
                 SEE ALL
               </a>
             </Link>
           </div>
           {relatedDashboards.map((dashboard) => (
-            <Link to="dashboards_detail" params={{ slug: dashboard.slug }}>
+            <Link href={`/dashboards/${dashboard.slug}`}>
               <div
                 className="dashboard-button"
                 style={{
@@ -165,12 +158,7 @@ function ExploreDatasetsComponent(props) {
         numberOfPlaceholders={20}
         list={list}
         actions={(
-          <MediaQuery
-            minDeviceWidth={breakpoints.medium}
-            values={{ deviceWidth: responsive.fakeWidth }}
-          >
-            <ExploreDatasetsActions />
-          </MediaQuery>
+          <ExploreDatasetsActions />
         )}
       />
 
@@ -208,7 +196,6 @@ ExploreDatasetsComponent.propTypes = {
   total: PropTypes.number,
   limit: PropTypes.number,
   options: PropTypes.object,
-  responsive: PropTypes.object,
   selectedTags: PropTypes.array.isRequired,
   search: PropTypes.string.isRequired,
 

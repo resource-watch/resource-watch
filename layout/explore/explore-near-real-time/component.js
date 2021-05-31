@@ -1,12 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-// Responsive
-import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
-
-// Explore components
+// components
 import DatasetList from 'layout/explore/explore-datasets/list';
 import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 
@@ -18,7 +13,6 @@ function ExploreNearRealTimeComponent(props) {
     datasets: {
       today, week, month, loading,
     },
-    responsive,
     selectedDataset,
   } = props;
 
@@ -40,12 +34,7 @@ function ExploreNearRealTimeComponent(props) {
           numberOfPlaceholders={4}
           list={today}
           actions={(
-            <MediaQuery
-              minDeviceWidth={breakpoints.medium}
-              values={{ deviceWidth: responsive.fakeWidth }}
-            >
-              <ExploreDatasetsActions />
-            </MediaQuery>
+            <ExploreDatasetsActions />
           )}
         />
       </div>
@@ -61,12 +50,7 @@ function ExploreNearRealTimeComponent(props) {
           numberOfPlaceholders={4}
           list={week}
           actions={(
-            <MediaQuery
-              minDeviceWidth={breakpoints.medium}
-              values={{ deviceWidth: responsive.fakeWidth }}
-            >
-              <ExploreDatasetsActions />
-            </MediaQuery>
+            <ExploreDatasetsActions />
           )}
         />
       </div>
@@ -82,12 +66,7 @@ function ExploreNearRealTimeComponent(props) {
           numberOfPlaceholders={4}
           list={month}
           actions={(
-            <MediaQuery
-              minDeviceWidth={breakpoints.medium}
-              values={{ deviceWidth: responsive.fakeWidth }}
-            >
-              <ExploreDatasetsActions />
-            </MediaQuery>
+            <ExploreDatasetsActions />
           )}
         />
       </div>
@@ -97,7 +76,6 @@ function ExploreNearRealTimeComponent(props) {
 
 ExploreNearRealTimeComponent.propTypes = {
   datasets: PropTypes.array.isRequired,
-  responsive: PropTypes.object.isRequired,
   selectedDataset: PropTypes.string.isRequired,
 };
 

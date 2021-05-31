@@ -1,9 +1,8 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import { format } from 'd3-format';
-import Renderer from '@widget-editor/renderer';
-
+import dynamic from 'next/dynamic';
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
 import Icon from 'components/ui/icon';
@@ -13,6 +12,8 @@ import ShareModal from 'components/modal/share-modal';
 // utils
 import { logEvent } from 'utils/analytics';
 import { isLoadedExternally } from 'utils/embed';
+
+const Renderer = dynamic(() => import('@widget-editor/renderer'), { ssr: false });
 
 class LayoutEmbedWidget extends PureComponent {
   constructor(props) {

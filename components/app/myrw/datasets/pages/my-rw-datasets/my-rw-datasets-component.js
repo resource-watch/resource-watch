@@ -1,8 +1,7 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 
 // utils
 import debounce from 'lodash/debounce';
@@ -19,14 +18,16 @@ class MyRWDatasets extends PureComponent {
     filters: PropTypes.array,
     pagination: PropTypes.object,
     routes: PropTypes.object,
+    tab: PropTypes.string,
     subtab: PropTypes.string,
     setOrderDirection: PropTypes.func,
     setFilters: PropTypes.func,
     setPaginationPage: PropTypes.func,
     getDatasetsByTab: PropTypes.func,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   }
-
-  handleNewDataset = () => Router.pushRoute('myrw_detail', { tab: 'datasets', id: 'new' });
 
   handleSearch = debounce((value) => {
     if (!value.length) {
@@ -39,6 +40,14 @@ class MyRWDatasets extends PureComponent {
     this.props.setPaginationPage(1);
   }, 300)
 
+  handleNewDataset = () => {
+    const {
+      router,
+    } = this.props;
+
+    router.push('/myrw-detail/datasets/new');
+  };
+
   handleOrderChange = () => {
     const { setOrderDirection } = this.props;
     const orderDirection = this.props.orderDirection === 'asc' ? 'desc' : 'asc';
@@ -50,7 +59,8 @@ class MyRWDatasets extends PureComponent {
 
   render() {
     const {
-      orderDirection, routes, pagination, filters,
+      orderDirection, pagination, filters,
+      tab, subtab,
     } = this.props;
     const { page, total, limit } = pagination;
     const nameSearchValue = (filters.find((filter) => filter.key === 'name') || {}).value || '';
@@ -69,8 +79,8 @@ class MyRWDatasets extends PureComponent {
           }}
           link={{
             label: 'New dataset',
-            route: routes.detail,
-            params: { tab: 'datasets', id: 'new' },
+            route: '/myrw-detail/datasets/new',
+            // params: { tab: 'datasets', id: 'new' },
           }}
           onSearch={this.handleSearch}
         />
@@ -89,9 +99,11 @@ class MyRWDatasets extends PureComponent {
             </div>
             <DatasetsList
               routes={{
-                index: 'myrw',
-                detail: 'myrw_detail',
+                index: '/myrw',
+                detail: '/myrw-detail',
               }}
+              tab={tab}
+              subtab={subtab}
             />
             {!!total && total >= 2 && (
             <Paginator
@@ -110,4 +122,4 @@ class MyRWDatasets extends PureComponent {
   }
 }
 
-export default MyRWDatasets;
+export default withRouter(MyRWDatasets);

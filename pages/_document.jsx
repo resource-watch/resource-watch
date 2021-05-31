@@ -1,10 +1,14 @@
-import React from 'react';
 import Document, {
   Html,
   Main,
   NextScript,
   Head,
 } from 'next/document';
+
+// lib
+import {
+  mediaStyles,
+} from 'lib/media';
 
 export default class MyDocument extends Document {
   render() {
@@ -61,13 +65,18 @@ export default class MyDocument extends Document {
           {/* Google API */}
           <script
             src={`https://maps.googleapis.com/maps/api/js?v=weekly&key=${
-              process.env.NEXT_PUBLIC_RW_GOOGLE_API_TOKEN_SHORTENER
+              process.env.NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER
             }&libraries=places`}
           />
 
           {/* Polifyll */}
           {/* TO-DO: remove once axios is completely implemented */}
           <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
+          <style
+            type="text/css"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: mediaStyles }}
+          />
         </Head>
         <body>
           <Main />

@@ -47,6 +47,22 @@
       padding: ($header-main-height + $header-secondary-height) 0 0;
     }
 
+    &.-transparent {
+      background-image: none;
+      background: transparent;
+    }
+
+    &.-ocean-watch {
+      background-image: $header-bg-image,
+      linear-gradient(
+        137.52deg,
+        $dark-pink 0%,
+        #0F4573 100%
+      );
+      background-size: auto;
+      background-position: center;
+    }
+
     &.-admin {
       background-color: #A5177E;
       background-image: $header-bg-image,

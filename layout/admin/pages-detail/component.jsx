@@ -23,13 +23,16 @@ export default function LayoutAdminStaticPagesDetail({
 }) {
   const {
     query: {
-      id,
-      tab,
+      params,
     },
   } = useRouter();
+
   const {
     token,
   } = user;
+
+  const tab = params?.[0] || null;
+  const id = params?.[1] || null;
 
   // TO-DO: move this logic to level page (getServerSideProps)
   // once getInitialProps of _app is removed.
@@ -42,7 +45,7 @@ export default function LayoutAdminStaticPagesDetail({
       initialData: {},
       initialStale: true,
       refetchOnWindowFocus: false,
-      enabled: id !== 'new',
+      enabled: !!(id !== 'new'),
     },
   );
 
@@ -63,7 +66,7 @@ export default function LayoutAdminStaticPagesDetail({
             <div className="column small-12">
               <div className="page-header-content">
                 <Breadcrumbs
-                  items={[{ name: capitalizeFirstLetter(tab), route: 'admin_pages', params: { tab } }]}
+                  items={[{ name: capitalizeFirstLetter(tab), route: '/admin/pages' }]}
                 />
                 <Title className="-primary -huge page-header-title">
                   {getName()}

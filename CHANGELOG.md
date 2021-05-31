@@ -7,16 +7,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch configuration file.
+- Ocean Watch: Isolated mini Explore component. [OW-77](https://vizzuality.atlassian.net/browse/OW-77)
+- logic to render mini Explore component through WYSIWYG editor.
+- `@artsy/fresnel` package to handle responsive.
+- Ocean Watch: partners page. [OW-23](https://vizzuality.atlassian.net/browse/OW-23)
+- Ocean Watch: basic dashboard structure. [OW-26](https://vizzuality.atlassian.net/browse/OW-26)
+- Ocean Watch: initial routes. [OW-54](https://vizzuality.atlassian.net/browse/OW-54)
+- Ocean Watch: adds new type of partners. [OW-56](https://vizzuality.atlassian.net/browse/OW-56)
 
 
 ### Changed
+- `react@4.1.0`
+- `react-redux@7.2.4`
+- Ocean Watch: updated texts from Partners page. [OW-24](https://vizzuality.atlassian.net/browse/OW-24)
+- optional Redis client locally.
+- widget-editor@2.6.2
+- relocates pages according to Next's dynamic routes. [RW-52](https://vizzuality.atlassian.net/browse/RW-52)
+- replaces `next-routes` links and router with `next/link` and `next/router` packages. [RW-54](https://vizzuality.atlassian.net/browse/RW-54)
 
 
 ### Fixed
+- warning with dashboard links.
+- fixes search place in Explore map. [RW-58](https://vizzuality.atlassian.net/browse/RW-58)
 - fixes height and padding styles of map widgets. [RW-44](https://vizzuality.atlassian.net/browse/RW-44)
 
 
 ### Removed
+- removes `react-responsive` and `react-responsive-redux`.
+- removes `hostname` and its action from global state.
+- removes `routes` global state. [RW-53](https://vizzuality.atlassian.net/browse/RW-53)
 
 
 ## [3.1.0] - 2020-04-26

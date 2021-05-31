@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Progress from 'react-progress-2';
 import classnames from 'classnames';
+import { withRouter } from 'next/router';
 
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
@@ -11,7 +12,6 @@ import { browserSupported } from 'utils/browser';
 import { Icons } from 'vizzuality-components';
 
 // Components
-import { Router } from 'routes';
 import HeadApp from 'layout/head/app';
 import Header from 'layout/header';
 import Footer from 'layout/footer';
@@ -25,43 +25,34 @@ import Search from 'layout/header/search';
 import NoBrowserSupport from 'components/app/common/Browser';
 import GDPRBanner from 'components/ui/gdpr-banner';
 
-class LayoutApp extends Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    pageHeader: PropTypes.bool,
-    className: PropTypes.string,
-    modal: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    thumbnail: PropTypes.string,
-    isFullScreen: PropTypes.bool.isRequired,
-    toggleModal: PropTypes.func.isRequired,
-    setModalOptions: PropTypes.func.isRequired,
-    updateIsLoading: PropTypes.func.isRequired,
-    explicitHostname: PropTypes.string,
-  };
+// utils
+import { containsString } from 'utils/string';
 
-  static defaultProps = {
-    title: null,
-    description: null,
-    className: null,
-    pageHeader: false,
-    thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
-    explicitHostname: null,
+// constants
+import { FULLSCREEN_PAGES } from 'constants/app';
+
+class LayoutApp extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { modalOpen: false };
   }
 
-  state = { modalOpen: false }
-
   componentDidMount() {
-    Router.onRouteChangeStart = () => {
-      this.props.updateIsLoading(true);
+    const {
+      router,
+      updateIsLoading,
+    } = this.props;
+
+    router.events.on('routeChangeStart', () => {
+      updateIsLoading(true);
       if (Progress && Progress.Component.instance) Progress.show();
-    };
-    Router.onRouteChangeComplete = () => {
-      this.props.updateIsLoading(false);
+    });
+
+    router.events.on('routeChangeComplete', () => {
+      updateIsLoading(false);
       if (Progress && Progress.Component.instance) Progress.hideAll();
-    };
+    });
 
     // Google Analytics
     if (!window.GA_INITIALIZED) {
@@ -85,17 +76,20 @@ class LayoutApp extends Component {
       modal,
       className,
       thumbnail,
-      isFullScreen,
       children,
       toggleModal,
       setModalOptions,
-      explicitHostname,
+      router: {
+        pathname,
+      },
     } = this.props;
     const { modalOpen } = this.state;
     const componentClass = classnames(
       'l-page',
       { [className]: !!className },
     );
+
+    const isFullScreen = containsString(pathname, FULLSCREEN_PAGES);
 
     return (
       <div
@@ -105,7 +99,6 @@ class LayoutApp extends Component {
         <HeadApp
           title={title}
           description={description}
-          explicitHostname={explicitHostname}
           {...thumbnail && { thumbnail }}
         />
 
@@ -156,4 +149,32 @@ class LayoutApp extends Component {
   }
 }
 
-export default LayoutApp;
+LayoutApp.defaultProps = {
+  title: null,
+  description: null,
+  className: null,
+  pageHeader: false,
+  thumbnail: 'https://resourcewatch.org/static/images/social-big.jpg',
+};
+
+LayoutApp.propTypes = {
+  children: PropTypes.node.isRequired,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  pageHeader: PropTypes.bool,
+  className: PropTypes.string,
+  modal: PropTypes.shape({}).isRequired,
+  user: PropTypes.shape({}).isRequired,
+  thumbnail: PropTypes.string,
+  toggleModal: PropTypes.func.isRequired,
+  setModalOptions: PropTypes.func.isRequired,
+  updateIsLoading: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    events: PropTypes.shape({
+      on: PropTypes.func.isRequired,
+    }),
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
+export default withRouter(LayoutApp);

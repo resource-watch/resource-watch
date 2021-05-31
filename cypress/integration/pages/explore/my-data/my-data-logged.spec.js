@@ -32,29 +32,34 @@ describe('Explore – My Data fake door - logged user', () => {
     }).as('getMe');
 
     cy.login();
-  });
-
-  it ('a logged user with invalid datasets sees the Coming Soon view when clicks on \'My Data\' tab', () => {
-      cy.intercept({
-        method: 'GET',
-        pathname: '/v1/dataset',
-        url: Cypress.env('NEXT_PUBLIC_WRI_API_URL'),
-        query: {
-          userId: '19b21b288214b50001de7f63',
-          application: Cypress.env('NEXT_PUBLIC_APPLICATIONS'),
-          env: Cypress.env('NEXT_PUBLIC_API_ENV'),
-          includes: 'layer,metadata'
-        }
-      },
-      {
-        data: invalidDatasets,
-      },
-      ).as('getUserDatasets');
 
     cy.visit({
       method: 'GET',
       url: '/data/explore',
     });
+  });
+
+  it ('a logged user with invalid datasets sees the Coming Soon view when clicks on \'My Data\' tab', function() {
+    cy.intercept({
+      method: 'GET',
+      pathname: '/v1/dataset',
+      url: Cypress.env('NEXT_PUBLIC_WRI_API_URL'),
+      query: {
+        userId: '19b21b288214b50001de7f63',
+        application: Cypress.env('NEXT_PUBLIC_APPLICATIONS'),
+        env: Cypress.env('NEXT_PUBLIC_API_ENV'),
+        includes: 'layer,metadata'
+      }
+    },
+    {
+      data: invalidDatasets,
+    },
+    ).as('getUserDatasets');
+
+    // cy.visit({
+    //   method: 'GET',
+    //   url: '/data/explore',
+    // });
 
     cy.get('div[data-cy=\'my-data-tab\']').then(($myDataTab) => {
       expect($myDataTab).to.have.length(1);
@@ -63,7 +68,6 @@ describe('Explore – My Data fake door - logged user', () => {
       cy.wait('@getUserDatasets');
 
       cy.get('#sidebar-content-container').find('.card-coming-soon').then(($comingSoon) => {
-        expect($comingSoon).to.have.length(1);
         expect($comingSoon.find('p')).to.have.text('We are exploring ways to let you bring your data to the platform. Would you use this feature? Let us know.');
       });
     });
@@ -86,10 +90,10 @@ describe('Explore – My Data fake door - logged user', () => {
     },
     ).as('getUserDatasets');
 
-    cy.visit({
-      method: 'GET',
-      url: '/data/explore',
-    });
+    // cy.visit({
+    //   method: 'GET',
+    //   url: '/data/explore',
+    // });
 
     cy.get('div[data-cy=\'my-data-tab\']').then(($myDataTab) => {
       expect($myDataTab).to.have.length(1);
@@ -98,7 +102,6 @@ describe('Explore – My Data fake door - logged user', () => {
       cy.wait('@getUserDatasets');
 
       cy.get('.c-explore-dataset-list').then(($datasetList) => {
-        expect($datasetList).to.have.length(1);
         expect($datasetList.find('.c-explore-dataset-list-item')).to.have.length(2);
       });
     });

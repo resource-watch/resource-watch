@@ -1,7 +1,7 @@
 {
     "headerText": "Energy services are central to most aspects of life. The power sector country profiles provide a country-level view of the power sector, which represents a subset of the energy sector that is focused on electricity generation.",
     "countrySelector": {
-      "mainText": "The power sector represents about 20% of final energy consumption and *[42% of energy greenhouse gas emissions](https://www.climatewatchdata.org/ghg-emissions?breakBy=sector&chartType=percentage&sectors=building%2Celectricity-heat%2Cfugitive-emissions%2Cmanufacturing-construction%2Cother-fuel-combustion%2Ctransportation)*. Power enables electricity access, but also causes climate change, air pollution, increases water use and faces risks to natural hazards. See a global overview below or select a country to explore  national power sectors."
+      "mainText": "Globally, the power sector represents about 20% of final energy consumption and *[42% of energy greenhouse gas emissions](https://www.climatewatchdata.org/ghg-emissions?breakBy=sector&chartType=percentage&sectors=building%2Celectricity-heat%2Cfugitive-emissions%2Cmanufacturing-construction%2Cother-fuel-combustion%2Ctransportation)*. Power enables electricity access, but also causes climate change, air pollution, increases water use and faces risks to natural hazards. See a global overview below or select a country to explore  national power sectors."
     },
     "countryIndicators": [
       {
@@ -34,19 +34,19 @@
       },
       {
         "datasetID": "c29aee50-a46f-4c10-a8b1-152e4821be81",
-        "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2017 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), {ISO} as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = {ISO}",
+        "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), {ISO} as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = {ISO}",
         "param": "ISO",
         "name": "Population with access to electricity",
         "world": true,
         "country": true,
         "format": ".0%",
-        "worldQuery": "https://wri-rw.carto.com/api/v2/sql?q=SELECT 0.8885 as x, 'percentage' as unit, 2017 as year FROM ene_012_electricity_access_edit LIMIT 1"
+        "worldQuery": "https://wri-rw.carto.com/api/v2/sql?q=SELECT 0.8885 as x, 'percentage' as unit, 2018 as year FROM ene_012_electricity_access_edit LIMIT 1"
       },
       {
         "datasetID": "eef10736-8d8b-4ac9-a715-ef0653a83196",
         "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY electricity_consumption_billionkwh DESC) AS ranking, country as country_name, electricity_consumption_billionkwh as x, 'kWh, billions' as unit, year FROM ene_034_electricity_consumption_edit WHERE year = 2016 AND year IS NOT NULL AND electricity_consumption_billionkwh IS NOT NULL ORDER BY electricity_consumption_billionkwh DESC), v as (SELECT count(distinct(country)), {COUNTRY} as country_name FROM ene_034_electricity_consumption_edit) SELECT * FROM r INNER JOIN v ON r.country_name = v.country_name WHERE r.country_name = {COUNTRY}",
         "param": "COUNTRY",
-        "name": "Total electricity consumption (billion kWh)",
+        "name": "Total electricity consumption per capita (billion kWh/person)",
         "world": true,
         "country": true,
         "format": ".3s",
@@ -65,7 +65,7 @@
     "sections": [
         {
             "header": "What is the relationship of the power and energy sector?",
-            "description": "The power sector is a small share of the energy sector (which  includes direct fossil fuel use by transport, industry and building). Most climate scenarios show that achieve the goals of the *[Paris Agreement](https://www.wri.org/climate/expert-perspective/paris-agreement-strategy-longer-term)* will require to *[optimize, electrify and decarbonize](https://www.wri.org/blog/2020/01/6-lessons-energy-decarbonization-countries-leading-way)* the energy sector. This means reducing total energy use through improved efficiency, shift energy demand from direct fossil fuel burining to electricity and ensure this electricity is zero carbon. The charts below show if efficiency is improving and if the energy sector is electrifying.",
+            "description": "The power sector is a small share of the energy sector (which  includes direct fossil fuel use by transport, industry and building). Most climate scenarios show that achieving the goals of the *[Paris Agreement](https://www.wri.org/climate/expert-perspective/paris-agreement-strategy-longer-term)* will require to *[optimize, electrify and decarbonize](https://www.wri.org/blog/2020/01/6-lessons-energy-decarbonization-countries-leading-way)* the energy sector. This means reducing total energy use through improved efficiency, shift energy demand from direct fossil fuel burining to electricity and ensure this electricity is zero carbon. The charts below show if efficiency is improving and if the energy sector is electrifying.",
             "widgets": [
               {
                 "id": "de318066-eaad-4f4f-a9ed-75c30b50e1aa",
@@ -88,15 +88,15 @@
             ]
         },
         {
-            "groups": [
+            "datasetGroups": [
                 {
-                    "name": "Power Infrastructure",
+                    "title": "Power Infrastructure",
                     "datasets": [
                         "a86d906d-9862-4783-9e30-cdb68cd808b8"
                     ]
                 },
                 {
-                    "name": "Natural hazards",
+                    "title": "Natural hazards",
                     "datasets": [
                         "b3ebc10d-9de8-4ee6-870d-1d049e8e2a99",
                         "c56ee507-9a3b-41d3-90ac-1406bee32c32",
@@ -105,21 +105,27 @@
                         "f2016c79-82f7-466e-b4db-2c734dd5706d",
                         "ea2db3a6-49c8-4d41-a2ab-758eb6fe4bc0",
                         "444138cd-8ef4-48b3-b197-73e324175ad0"
+                    ],
+                    "default": [
+                      "1d7085f7-11c7-4eaf-a29a-5a4de57d010e"
                     ]
                 },
                 {
-                    "name": "Power demand",
+                    "title": "Power demand",
                     "datasets": [
-                        "dbca28fe-d6bf-464f-9f86-fc8b1d81e381",
-                        "65c0e15b-dad0-4681-934e-91c0a378d2fb",
-                        "b6ceb159-efd8-42de-9c6a-d658801d8922"
-                     ]
+                      "dbca28fe-d6bf-464f-9f86-fc8b1d81e381",
+                      "65c0e15b-dad0-4681-934e-91c0a378d2fb",
+                      "b6ceb159-efd8-42de-9c6a-d658801d8922",
+                      "7fb1ebf5-398b-46ec-a915-32cee68b16e7",
+                      "c2142922-84d9-4564-8216-a4867b9e48c5",
+                      "0ce24533-7877-4926-b962-a6c726332d82"
+                    ]
                 }
             ],
             "header": "How can power be affected by natural hazards?",
             "description": "Societies rely on the critical electricity infrastructure, which is susceptible to natural hazards including floods, fires, earthquakes, and many others. To better understand those hazards and managed vulnerabilities you can overlay power supply and demand data with natural hazards below.",
-            "mapTitle": "Power sector assets and natural hazards that might impact them",
-            "map": true
+            "title": "Power sector assets and natural hazards that might impact them",
+            "visualizationType": "mini-explore"
         },
         {
             "header": "Power generation and consumption",
@@ -147,7 +153,7 @@
         },
         {
             "header": "Who is lacking access to electricity?",
-            "description": "Clean and convenient modern electricity is still out of reach for many, but the energy transition also provides many opportunities for action. The charts below how many people lack acess to electricity, and what potential there is for investment in new renewable power generation.",
+            "description": "Clean and convenient modern electricity is still out of reach for many, but the energy transition also provides many opportunities for action. The charts below how many people lack access to electricity, and what potential there is for investment in new renewable power generation. Check out the *[Energy Access Explorer](https://www.energyaccessexplorer.org/)* to investigate energy access around the world and identify high priority areas where access to energy should be expanded.",
             "widgets": [
               {
                 "id": "8d0a16d7-b609-4ab9-9b46-0a9c8e296508",

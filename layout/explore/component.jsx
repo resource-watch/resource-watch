@@ -4,7 +4,6 @@ import {
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
-import MediaQuery from 'react-responsive';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -24,8 +23,10 @@ import ExploreNearRealTime from 'layout/explore/explore-near-real-time';
 import ExploreFavorites from 'layout/explore/explore-favorites';
 import ExploreMyData from 'layout/explore/explore-my-data';
 
-// utils
-import { breakpoints } from 'utils/responsive';
+// lib
+import {
+  Media,
+} from 'lib/media';
 
 // constants
 import {
@@ -35,14 +36,12 @@ import {
 
 function Explore(props) {
   const {
-    responsive,
     explore: {
       datasets: { selected },
       sidebar: { section, subsection },
       map: { drawer: { isDrawing } },
     },
     userIsLoggedIn,
-    hostname,
     stopDrawing,
   } = props;
   const [mobileWarningOpened, setMobileWarningOpened] = useState(true);
@@ -116,13 +115,12 @@ function Explore(props) {
     <Layout
       title={titleSt}
       description={descriptionSt}
-      {...(selected && dataset && { explicitHostname: `${hostname}/${dataset.slug}` })}
       className="-fullscreen"
     >
       <div className="c-page-explore">
-        <MediaQuery
-          minWidth={breakpoints.medium}
-          values={{ deviceWidth: responsive.fakeWidth }}
+        <Media
+          greaterThanOrEqual="md"
+          className="_flex"
         >
           <>
             {/*
@@ -147,41 +145,34 @@ function Explore(props) {
             )}
             <ExploreMap />
           </>
-        </MediaQuery>
-        <MediaQuery
-          maxWidth={breakpoints.medium}
-          values={{ deviceWidth: responsive.fakeWidth }}
+        </Media>
+        <Media
+          at="sm"
+          className="_flex"
         >
-          {getSidebarLayout()}
-        </MediaQuery>
-
-        {/* Mobile warning */}
-        <MediaQuery
-          maxDeviceWidth={breakpoints.medium}
-          values={{ deviceWidth: responsive.fakeWidth }}
-        >
-          <Modal
-            isOpen={mobileWarningOpened}
-            onRequestClose={() => setMobileWarningOpened(false)}
-          >
-            <div>
-              <p>
-                The mobile version of Explore has limited functionality,
-                please check the desktop version to have access to the
-                full list of features available.
-              </p>
-            </div>
-          </Modal>
-        </MediaQuery>
+          <>
+            {getSidebarLayout()}
+            {/* Mobile warning */}
+            <Modal
+              isOpen={mobileWarningOpened}
+              onRequestClose={() => setMobileWarningOpened(false)}
+            >
+              <div>
+                <p>
+                  The mobile version of Explore has limited functionality,
+                  please check the desktop version to have access to the
+                  full list of features available.
+                </p>
+              </div>
+            </Modal>
+          </>
+        </Media>
       </div>
     </Layout>
   );
 }
 
 Explore.propTypes = {
-  responsive: PropTypes.shape({
-    fakeWidth: PropTypes.number.isRequired,
-  }).isRequired,
   explore: PropTypes.shape({
     datasets: PropTypes.shape({
       selected: PropTypes.string,
@@ -197,9 +188,7 @@ Explore.propTypes = {
     }).isRequired,
   }).isRequired,
   userIsLoggedIn: PropTypes.bool.isRequired,
-  hostname: PropTypes.string.isRequired,
   stopDrawing: PropTypes.func.isRequired,
-  setIsDrawing: PropTypes.func.isRequired,
 };
 
 export default Explore;

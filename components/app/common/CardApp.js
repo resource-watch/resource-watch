@@ -1,6 +1,6 @@
-import React from 'react';
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import Link from 'next/link';
 
 // Components
 import Title from 'components/ui/Title';
@@ -44,11 +44,24 @@ function CardApp({
         </div>
 
         <div className="card-footer">
-          {!!link
-            && (
+          {!!link && !link.external && (
+            <Link href={link.route}>
+              <a
+                className={`c-button ${buttonClasses} -fullwidth`}
+                onClick={() => {
+                  if (logEvent) {
+                    logEvent('Related app Go to site clicked', title);
+                  }
+                }}
+              >
+                {link.label}
+              </a>
+            </Link>
+          )}
+          {!!link && link.external && (
             <a
               href={link.route}
-              target={(!!link.external && '_blank') || '_self'}
+              target="_blank"
               className={`c-button ${buttonClasses} -fullwidth`}
               onClick={() => {
                 if (logEvent) {
@@ -58,7 +71,7 @@ function CardApp({
             >
               {link.label}
             </a>
-            )}
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 // Drag and drop
@@ -21,7 +20,6 @@ const FaqsList = (props) => {
               subtab: 'edit',
               tab: 'faqs',
             },
-            route: 'admin_faqs_detail',
           },
           removeAction: {
             name: 'Remove',
@@ -30,7 +28,6 @@ const FaqsList = (props) => {
               subtab: 'remove',
               tab: 'faqs',
             },
-            route: 'admin_faqs_detail',
           },
           data: {
             id: faq.id,

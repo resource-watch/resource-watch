@@ -1,0 +1,13 @@
+@import 'css/settings';
+
+.c-error-fallback {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid rgba($black, .1);
+  border-radius: 4px;
+  text-align: center;
+
+  > button {
+    margin: 20px 0 0;
+  }
+}

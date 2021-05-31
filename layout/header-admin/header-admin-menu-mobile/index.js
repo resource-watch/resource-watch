@@ -9,7 +9,6 @@ import AdminHeaderMenuMobile from './component';
 export default connect(
   (state) => ({
     header: state.headerAdmin,
-    routes: state.routes,
   }),
   { setMobileOpened },
 )(AdminHeaderMenuMobile);

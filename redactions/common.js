@@ -1,17 +1,13 @@
-import { Router } from 'routes';
-
 const SET_LOCALE = 'common/SET_LOCALE';
 const SET_EMBED = 'common/SET_EMBED';
 const SET_WEBSHOT = 'common/SET_WEBSHOT';
 const SET_IS_SERVER = 'common/SET_IS_SERVER';
-const SET_HOSTNAME = 'common/SET_HOSTNAME';
 
 const initialState = {
   locale: 'en',
   embed: false,
   webshot: false,
   isServer: true,
-  hostname: 'http://www.resourcewatch.org',
 };
 
 export default function commonReducer(state = initialState, action) {
@@ -28,9 +24,6 @@ export default function commonReducer(state = initialState, action) {
     case SET_IS_SERVER:
       return { ...state, isServer: action.payload };
 
-    case SET_HOSTNAME:
-      return { ...state, hostname: action.payload };
-
     default:
       return state;
   }
@@ -39,12 +32,6 @@ export default function commonReducer(state = initialState, action) {
 /**
  * ACTIONS
  */
-
-export function redirectTo(url) {
-  return (dispatch) => {
-    dispatch(Router.pushRoute(url));
-  };
-}
 
 /**
  * Set the locale of the app (used by the API)
@@ -89,16 +76,5 @@ export function setIsServer(isServer) {
   return {
     type: SET_IS_SERVER,
     payload: isServer,
-  };
-}
-
-/**
- * Set hostname
- * @param {string} hostname
- */
-export function setHostname(hostname) {
-  return {
-    type: SET_HOSTNAME,
-    payload: hostname,
   };
 }

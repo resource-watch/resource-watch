@@ -1,5 +1,4 @@
 import 'isomorphic-fetch';
-import { Router } from 'routes';
 import { createAction, createThunkAction } from 'redux-tools';
 import { logEvent } from 'utils/analytics';
 
@@ -45,10 +44,4 @@ export const fetchSearch = createThunkAction('SEARCH/fetchSearch', () => (dispat
   dispatch(setSearchTotal(0));
   dispatch(setSearchList([]));
   dispatch(setSearchSelected(null));
-});
-
-export const setSearchUrl = createThunkAction('SEARCH/setSearchUrl', () => (dispatch, getState) => {
-  const { search: { term, page } } = getState();
-
-  Router.replaceRoute('search', { term, page });
 });

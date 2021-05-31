@@ -1,32 +1,43 @@
-import React, { PureComponent } from 'react';
-import { Router } from 'routes';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'next/router';
 
 // components
 import LayersForm from 'components/admin/data/layers/form/LayersForm';
 
 class LayersNew extends PureComponent {
   static propTypes = {
-    dataset: PropTypes.string,
     user: PropTypes.object.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+      query: PropTypes.shape({
+        dataset: PropTypes.string,
+      }),
+    }).isRequired,
   }
 
   static defaultProps = { dataset: null }
 
   handleSubmit = (layerID, datasetID) => {
+    const {
+      router,
+    } = this.props;
+
     if (layerID && datasetID) {
-      Router.pushRoute('admin_data_detail', {
-        tab: 'layers', id: layerID, subtab: 'edit', dataset: datasetID,
-      });
+      router.push(`/admin/data/layers/${layerID}/edit?dataset=${datasetID}`);
     } else {
-      Router.pushRoute('admin_data', { tab: 'layers' });
+      router.push('/admin/data/layers');
     }
   }
 
   render() {
     const {
       user: { token },
-      dataset,
+      router: {
+        query: {
+          dataset,
+        },
+      },
     } = this.props;
 
     return (
@@ -42,4 +53,4 @@ class LayersNew extends PureComponent {
   }
 }
 
-export default LayersNew;
+export default withRouter(LayersNew);

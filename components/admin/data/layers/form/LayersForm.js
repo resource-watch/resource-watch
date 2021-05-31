@@ -1,7 +1,6 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
-
+import { withRouter } from 'next/router';
 // Redux
 import { connect } from 'react-redux';
 
@@ -36,8 +35,15 @@ class LayersForm extends PureComponent {
     onSubmit: PropTypes.func,
     interactions: PropTypes.object.isRequired,
     adminLayerPreview: PropTypes.object.isRequired,
-    newState: PropTypes.bool.isRequired,
     setLayerInteractionError: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+      query: PropTypes.shape({
+        params: PropTypes.shape({
+          id: PropTypes.string,
+        }),
+      }),
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -187,14 +193,17 @@ class LayersForm extends PureComponent {
 
   onDelete = () => {
     const { form: { name }, id, dataset } = this.state;
-    const { authorization } = this.props;
+    const {
+      authorization,
+      router,
+    } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete the layer: "${name}"`, {
       onOk: () => {
         deleteLayer(id, dataset, authorization)
           .then(() => {
             toastr.success('Success', `The layer "${id}" - "${name}" has been removed correctly`);
-            Router.pushRoute('admin_data_detail', { tab: 'datasets', subtab: 'layers', id: dataset });
+            router.push(`/admin/data/datasets/${id}/layer`);
           })
           .catch((err) => {
             toastr.error(
@@ -276,7 +285,15 @@ class LayersForm extends PureComponent {
     const {
       form, id, datasets, loading, step, stepLength, submitting,
     } = this.state;
-    const { newState } = this.props;
+    const {
+      router: {
+        query: {
+          params,
+        },
+      },
+    } = this.props;
+
+    const isNew = params?.[1] === 'new';
 
     return (
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
@@ -303,7 +320,7 @@ class LayersForm extends PureComponent {
             stepLength={stepLength}
             submitting={submitting}
             onStepChange={this.onStepChange}
-            showDelete={!newState}
+            showDelete={!isNew}
             onDelete={this.onDelete}
           />
           )}
@@ -316,7 +333,6 @@ const mapStateToProps = (state) => ({
   locale: state.common.locale,
   interactions: state.interactions,
   adminLayerPreview: state.adminLayerPreview,
-  newState: state.routes.query.id === 'new',
 });
 
 const mapDispatchToProps = { setLayerInteractionError };
@@ -324,4 +340,4 @@ const mapDispatchToProps = { setLayerInteractionError };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(LayersForm);
+)(withRouter(LayersForm));
