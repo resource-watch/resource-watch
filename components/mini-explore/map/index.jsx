@@ -75,6 +75,7 @@ export default function MiniExploreMapContainer({
   },
   datasetGroups,
   areaOfInterest,
+  forcedBbox,
   dispatch,
 }) {
   const [layerModal, setLayerModal] = useState(null);
@@ -269,21 +270,32 @@ export default function MiniExploreMapContainer({
   );
 
   useEffect(() => {
-    if (!geostore) return false;
+    if (!geostore && !forcedBbox) return false;
 
-    const {
-      bbox,
-    } = geostore;
+    if (geostore && !forcedBbox) {
+      const {
+        bbox,
+      } = geostore;
 
-    dispatch(setBounds({
-      bbox,
-      options: {
-        padding: 50,
-      },
-    }));
+      dispatch(setBounds({
+        bbox,
+        options: {
+          padding: 50,
+        },
+      }));
+    }
+
+    if (forcedBbox) {
+      dispatch(setBounds({
+        bbox: forcedBbox,
+        options: {
+          padding: 50,
+        },
+      }));
+    }
 
     return true;
-  }, [geostore, dispatch]);
+  }, [geostore, dispatch, forcedBbox]);
 
   const activeLayers = useMemo(() => {
     let aoiLayer = null;
@@ -382,6 +394,7 @@ export default function MiniExploreMapContainer({
 
 MiniExploreMapContainer.defaultProps = {
   areaOfInterest: null,
+  forcedBbox: null,
 };
 
 MiniExploreMapContainer.propTypes = {
@@ -411,4 +424,7 @@ MiniExploreMapContainer.propTypes = {
     PropTypes.shape({}).isRequired,
   ).isRequired,
   areaOfInterest: PropTypes.string,
+  forcedBbox: PropTypes.arrayOf(
+    PropTypes.number,
+  ),
 };

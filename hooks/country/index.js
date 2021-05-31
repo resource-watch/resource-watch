@@ -2,17 +2,17 @@ import { useQuery } from 'react-query';
 
 // services
 import {
-  fetchGeostore,
+  fetchCountryV2,
 } from 'services/geostore';
 
-export const useGeostore = (
+export const useCountryV2 = (
   id,
   params = {},
   queryConfig = {},
 ) => useQuery(
-  ['geostore', id, params],
-  () => fetchGeostore(id, params),
+  ['geostore-country-v2', id, params],
+  () => fetchCountryV2(id, params),
   { ...queryConfig },
 );
 
-export default useGeostore;
+export default useCountryV2;
