@@ -1,7 +1,6 @@
 import {
   useEffect,
   useState,
-  useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
@@ -9,6 +8,11 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { Tooltip } from 'vizzuality-components';
 import { withRouter } from 'next/router';
+
+// hooks
+import {
+  useCountryV2,
+} from 'hooks/country';
 
 // services
 import { fetchCountryPowerExplorerConfig } from 'services/config';
@@ -43,29 +47,33 @@ function EnergyCountryExplorer(props) {
   const [selectedCountryBbox, setSelectedCountryBbox] = useState(null);
   const [selectedGeostore, setSelectedGeostore] = useState(null);
 
-  const loadSelectedCountry = useCallback(() => {
-    if (selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
-      if (selectedCountry === 'USA') {
-        setSelectedCountryBbox(US_COUNTRY_VALUES.bbox);
-      } else {
-        axios.get(`https://api.resourcewatch.org/v2/geostore/admin/${selectedCountry}`)
-          .then((data) => {
-            const {
-              id,
-              attributes: {
-                bbox,
-              },
-            } = data.data.data;
-            setSelectedCountryBbox(bbox);
-            setSelectedGeostore(id);
-          })
-          .catch((err) => toastr.error(`Error loading country: ${selectedCountry}`, err));
-      }
+  const {
+    data: geostore,
+  } = useCountryV2(
+    selectedCountry,
+    {},
+    {
+      enabled: !!selectedCountry && ![WORLD_COUNTRY.value].includes(selectedCountry),
+      refetchOnWindowFocus: false,
+    },
+  );
+
+  useEffect(() => {
+    if (geostore && selectedCountry && selectedCountry !== WORLD_COUNTRY.value) {
+      const {
+        id,
+        bbox,
+      } = geostore;
+      // USA uses a different bbox rather the one provided by the API
+      setSelectedCountryBbox(selectedCountry === 'USA' ? US_COUNTRY_VALUES.bbox : bbox);
+      setSelectedGeostore(id);
     } else {
       setSelectedCountryBbox(WORLD_COUNTRY.bbox);
       setSelectedGeostore(null);
     }
-  }, [selectedCountry]);
+
+    return () => {};
+  }, [geostore, selectedCountry]);
 
   useEffect(() => {
     // loads the configuration from Github in production
@@ -97,13 +105,7 @@ function EnergyCountryExplorer(props) {
         });
       })
       .catch((err) => toastr.error('Error loading countries', err));
-
-    loadSelectedCountry();
-  }, [loadSelectedCountry]);
-
-  useEffect(() => {
-    loadSelectedCountry();
-  }, [loadSelectedCountry]);
+  }, []);
 
   const selectedCountryIsWorld = selectedCountry === WORLD_COUNTRY.value || !selectedCountry;
 
@@ -168,15 +170,15 @@ function EnergyCountryExplorer(props) {
 
       {/* ------- CUSTOM SECTIONS ---------- */}
       {showCustomSections
-                && config.sections.map((section) => (
-                  <CustomSection
-                    section={section}
-                    bbox={selectedCountryBbox}
-                    geostore={selectedGeostore}
-                    country={selectedCountryObj}
-                    key={`section-${section.header}`}
-                  />
-                ))}
+        && config.sections.map((section) => (
+          <CustomSection
+            section={section}
+            bbox={selectedCountryBbox}
+            geostore={selectedGeostore}
+            country={selectedCountryObj}
+            key={`section-${section.header}`}
+          />
+        ))}
       {/* ------- NDCs ---------- */}
       {!selectedCountryIsWorld
         && (

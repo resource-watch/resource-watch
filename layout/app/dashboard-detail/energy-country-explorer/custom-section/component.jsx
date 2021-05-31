@@ -149,9 +149,10 @@ function CustomSection(props) {
 
   const miniExploreConfig = useMemo(() => ({
     title: section.title,
-    areaOfInterest: geostore,
+    ...geostore && { areaOfInterest: geostore },
+    ...['USA', 'World'].includes(country.value) && { forcedBbox: bbox },
     datasetGroups: section.datasetGroups,
-  }), [section, geostore]);
+  }), [section, geostore, country, bbox]);
 
   return (
     <div className="c-custom-section l-section">
