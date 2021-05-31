@@ -1,6 +1,52 @@
 {
   "staging": {
     "content": [
+      [
+        {
+          "grid": "100%",
+          "title": "Ecosystems and Pressures"
+        },
+        {
+          "grid": "50%",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis, sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
+        },
+        {
+          "grid": "50%",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis, sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "visualizationType": "mini-explore",
+          "config": {
+            "title": "Lorem ipsum",
+            "areaOfInterest": "972c24e1da2c2baacc7572ee9501abdc",
+            "datasetGroups": [
+              {
+                "title": "Power Infrastructure",
+                "datasets": [
+                  "815eaa09-d626-495e-91e2-523cb07de475",
+                  "c53a195f-d5f0-4acc-b1be-b773420a6606"
+                ],
+                "default": [
+                  "c53a195f-d5f0-4acc-b1be-b773420a6606"
+                ]
+              },
+              {
+                "title": "Natural hazards",
+                "datasets": [
+                  "11278cb6-b298-49a1-bf71-f1e269f40758",
+                  "a7067e9f-fe40-4338-85da-13a6071c76fe"
+                ],
+                "default": [
+                  "11278cb6-b298-49a1-bf71-f1e269f40758"
+                ]
+              }
+            ]
+          }
+        }
+      ]
     ]
   },
   "production": {
