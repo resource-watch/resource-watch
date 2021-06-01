@@ -1,0 +1,141 @@
+@import 'css/settings';
+@import 'css/mixins';
+
+.c-visualization-indicator {
+  position: relative;
+  padding: ($space * 3);
+  margin: ($space * 6) 0 0 0;
+  // height: 530px;
+  border-radius: 4px;
+
+  >.sections-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+
+    > .btn-section {
+      position: relative;
+      padding: 0 $space ($space * 2);
+      font-size: $font-size-medium;
+      cursor: pointer;
+
+      &:after {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        transform: translate(0, 3px);
+        background: transparent;
+      }
+
+      &:not(:first-child) {
+        margin: 0 0 0 ($space * 10);
+      }
+
+      &.-active  {
+        &:after {
+          background: $charcoal-grey;
+        }
+      }
+    }
+  }
+
+  > .visualization-indicator-container {
+    position: relative;
+    display: flex;
+    height: 475px;
+    border-radius: 4px;
+    background-color: $white;
+    box-shadow: 0 1px 2px 0 rgba($black, .09);
+
+    > .main-widget-container {
+      position: relative;
+      width: 65%;
+      padding: ($space * 2);
+      height: 100%;
+
+      .error-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .widget-header {
+        padding: ($space * 3)
+      }
+
+      .widget-container {
+        position: relative;
+        display: flex;
+        padding: 10%;
+        height: 100%;
+      }
+
+      .widget-info-container {
+        padding: ($space * 3);
+      }
+    }
+
+    > .secondary-widget-container {
+      position: relative;
+      width: 35%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: ($space * 2) ($space * 10);
+      border-left: 2px solid $color-12;
+
+      > .data {
+        font-size: $font-size-h1;
+        font-weight: $font-weight-light;
+        color: $sea-blue;
+
+        > .unit {
+          color: inherit;
+          font-size: $font-size-h2;
+        }
+      }
+    }
+  }
+
+  &.-primary {
+    background-color: $sea-blue;
+    >.sections-container {
+      > .btn-section {
+        color: $white;
+
+        &.-active  {
+          &:after {
+            background: $white;
+          }
+        }
+      }
+    }
+  }
+
+  &.-secondary {
+    background-color: $color-12;
+
+    >.sections-container {
+      > .btn-section {
+        color: $charcoal-grey;
+
+        &.-active  {
+          &:after {
+            background: $charcoal-grey;
+          }
+        }
+      }
+    }
+  }
+
+  .error {
+    text-align: center;
+  }
+}

@@ -1,0 +1,37 @@
+@import 'css/settings';
+
+.c-widget-header {
+  padding: ($space * 3);
+
+  > .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > .title-container {
+      max-width: 85%;
+
+      > * {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    ul > li {
+      display: inline-block;
+
+      &:not(:first-child) {
+        margin: 0 0 0 $space;
+      }
+    }
+
+    .button-list {
+      button {
+        > svg {
+          fill: $charcoal-grey;
+        }
+      }
+    }
+  }
+}

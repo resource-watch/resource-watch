@@ -3,10 +3,13 @@ import {
   useQuery,
 } from 'react-query';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
 import MiniExplore from 'components/mini-explore';
+import CardIndicatorSet from 'components/card-indicator-set';
+import CardIndicator from 'components/card-indicator-set/card-indicator';
 
 // data
 import OceanWatchConfigFile from 'public/static/data/ocean-watch';
@@ -44,15 +47,20 @@ export default function OceanWatchCountryProfilePage() {
     >
       <div className="l-container">
         {oceanWatchConfig.content.map((rowContent) => (
-          <section className="l-section -small">
+          <section
+            key={uuidv4()}
+            className="l-section -small"
+          >
             <div className="cw-wysiwyg-list-item -isReadOnly">
               <div className="row">
                 {rowContent.map((blockContent) => (
-                  <div className={classnames({
-                    column: true,
-                    'small-12': blockContent.grid === '100%',
-                    'medium-6': blockContent.grid === '50%',
-                  })}
+                  <div
+                    key={uuidv4()}
+                    className={classnames({
+                      column: true,
+                      'small-12': blockContent.grid === '100%',
+                      'medium-6': blockContent.grid === '50%',
+                    })}
                   >
                     {blockContent.title && (
                       <h2>
@@ -68,6 +76,21 @@ export default function OceanWatchCountryProfilePage() {
                       <MiniExplore
                         config={blockContent.config}
                       />
+                    )}
+                    {blockContent.visualizationType === 'indicators-set' && (
+                      <CardIndicatorSet
+                        config={blockContent.config}
+                      >
+                        {(blockContent?.config?.indicators || []).map(({ id, title, icon }) => (
+                          <CardIndicator
+                            key={id}
+                            id={id}
+                            title={title}
+                            icon={icon}
+                            theme={blockContent?.config?.theme}
+                          />
+                        ))}
+                      </CardIndicatorSet>
                     )}
                   </div>
                 ))}
