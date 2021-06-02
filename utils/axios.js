@@ -10,11 +10,6 @@ export const blogAPI = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
-export const controlTowerAPI = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_CONTROL_TOWER_URL,
-  headers: { 'Content-Type': 'application/json' },
-});
-
 export const localAPI = axios.create({
   baseURL: '/',
   headers: { 'Content-Type': 'application/json' },
