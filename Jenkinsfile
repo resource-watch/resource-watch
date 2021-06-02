@@ -26,7 +26,7 @@ node {
           sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_CALLBACK_URL=https://preproduction.resourcewatch.org/auth --build-arg NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD=true --build-arg NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH=true -t ${imageTag} .")
           break
         case "master":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD=true -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
         default:
           sh("echo NOT DEPLOYED")
           currentBuild.result = 'SUCCESS'
