@@ -2,7 +2,6 @@
 import { logger } from 'utils/logs';
 import {
   localAPI,
-  controlTowerAPI,
   WRIAPI,
 } from 'utils/axios';
 
@@ -28,7 +27,7 @@ export const loginUser = ({ email, password }) => {
  */
 export const forgotPassword = ({ email }) => {
   logger.info('Forgot password');
-  return controlTowerAPI
+  return WRIAPI
     .post('auth/reset-password', { email }, { params: { origin: process.env.NEXT_PUBLIC_APPLICATIONS } })
     .then((response) => response.data)
     .catch(({ response }) => {
@@ -49,7 +48,7 @@ export const forgotPassword = ({ email }) => {
  */
 export const registerUser = ({ email }) => {
   logger.info('Register user');
-  return controlTowerAPI
+  return WRIAPI
     .post(
       `auth/sign-up?origin=${process.env.NEXT_PUBLIC_APPLICATIONS}`,
       {
@@ -76,7 +75,7 @@ export const registerUser = ({ email }) => {
  */
 export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
   logger.info('Reset password');
-  return controlTowerAPI
+  return WRIAPI
     .post(
       `auth/reset-password/${tokenEmail}?origin=${process.env.NEXT_PUBLIC_APPLICATIONS}`,
       { password, repeatPassword },
