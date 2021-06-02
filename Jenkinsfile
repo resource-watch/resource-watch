@@ -17,6 +17,13 @@ node {
 
   try {
 
+    stage ('Run Tests') {
+     sh('docker-compose -H :2375 -f docker-compose-test.yml build')
+     sh('docker-compose -H :2375 -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from cypress cypress frontend-test-server')
+     sh('docker-compose -H :2375 -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from backend-test backend-test')
+     sh('docker-compose -H :2375 -f docker-compose-test.yml down -v')
+    }
+
     stage ('Build docker') {
       switch ("${env.BRANCH_NAME}") {
         case "develop":
@@ -31,13 +38,6 @@ node {
           sh("echo NOT DEPLOYED")
           currentBuild.result = 'SUCCESS'
       }
-    }
-
-    stage ('Run Tests') {
-     sh('docker-compose -H :2375 -f docker-compose-test.yml build')
-     sh('docker-compose -H :2375 -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from cypress cypress frontend-test-server')
-     sh('docker-compose -H :2375 -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from backend-test backend-test')
-     sh('docker-compose -H :2375 -f docker-compose-test.yml down -v')
     }
 
     stage('Push Docker') {
