@@ -93,6 +93,9 @@
                     "title": "Power Infrastructure",
                     "datasets": [
                         "a86d906d-9862-4783-9e30-cdb68cd808b8"
+                    ],
+                    "default": [
+                      "a86d906d-9862-4783-9e30-cdb68cd808b8"
                     ]
                 },
                 {
@@ -105,9 +108,6 @@
                         "f2016c79-82f7-466e-b4db-2c734dd5706d",
                         "ea2db3a6-49c8-4d41-a2ab-758eb6fe4bc0",
                         "444138cd-8ef4-48b3-b197-73e324175ad0"
-                    ],
-                    "default": [
-                      "1d7085f7-11c7-4eaf-a29a-5a4de57d010e"
                     ]
                 },
                 {
