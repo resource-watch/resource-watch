@@ -5,7 +5,7 @@ import MyDataComingSoon from './component';
 
 export default connect(
   (state) => ({
-    userToken: state.user.token,
+    userEmail: state.user?.email,
   }),
   null,
 )(MyDataComingSoon);
