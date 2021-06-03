@@ -5,6 +5,7 @@ describe('Explore – My Data fake door - logged user', () => {
   beforeEach(() => {
     cy.validateEnvVar('NEXT_PUBLIC_WRI_API_URL');
     cy.validateEnvVar('NEXT_PUBLIC_APPLICATIONS');
+    cy.validateEnvVar('NEXT_PUBLIC_FEATURE_FLAG_DISABLE_MY_DATA');
 
     cy.intercept({
       method: 'GET',
@@ -40,6 +41,10 @@ describe('Explore – My Data fake door - logged user', () => {
   });
 
   it ('a logged user with invalid datasets sees the Coming Soon view when clicks on \'My Data\' tab', function() {
+    if (Cypress.env('NEXT_PUBLIC_FEATURE_FLAG_DISABLE_MY_DATA') === 'true') {
+      this.skip();
+    }
+
     cy.intercept({
       method: 'GET',
       pathname: '/v1/dataset',
@@ -56,11 +61,6 @@ describe('Explore – My Data fake door - logged user', () => {
     },
     ).as('getUserDatasets');
 
-    // cy.visit({
-    //   method: 'GET',
-    //   url: '/data/explore',
-    // });
-
     cy.get('div[data-cy=\'my-data-tab\']').then(($myDataTab) => {
       expect($myDataTab).to.have.length(1);
       $myDataTab.trigger('click');
@@ -73,7 +73,11 @@ describe('Explore – My Data fake door - logged user', () => {
     });
   });
 
-  it ('a logged user with valid datasets sees its list of datasets when clicks on \'My Data\' tab', () => {
+  it ('a logged user with valid datasets sees its list of datasets when clicks on \'My Data\' tab', function() {
+    if (Cypress.env('NEXT_PUBLIC_FEATURE_FLAG_DISABLE_MY_DATA') === 'true') {
+      this.skip();
+    }
+
     cy.intercept({
       method: 'GET',
       pathname: '/v1/dataset',
@@ -89,11 +93,6 @@ describe('Explore – My Data fake door - logged user', () => {
       data: validDatasets,
     },
     ).as('getUserDatasets');
-
-    // cy.visit({
-    //   method: 'GET',
-    //   url: '/data/explore',
-    // });
 
     cy.get('div[data-cy=\'my-data-tab\']').then(($myDataTab) => {
       expect($myDataTab).to.have.length(1);
