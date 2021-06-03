@@ -6,7 +6,9 @@ export const EXPLORE_SECTIONS = {
   AREAS_OF_INTEREST: 'Areas of Interest',
   COLLECTIONS: 'Collections',
   FAVORITES: 'Favorites',
-  MY_DATA: 'My Data',
+  ...!process.env.NEXT_PUBLIC_FEATURE_FLAG_MY_DATA && {
+    MY_DATA: 'My Data',
+  },
 };
 
 export const EXPLORE_SUBSECTIONS = {
