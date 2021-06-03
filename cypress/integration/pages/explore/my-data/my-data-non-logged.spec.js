@@ -1,5 +1,13 @@
 describe('Explore – My Data fake door – Non logged user', () => {
-  it ('a non logged user sees the Coming Soon view when clicks on \'My Data\' tab', () => {
+  beforeEach(() => {
+    cy.validateEnvVar('NEXT_PUBLIC_FEATURE_FLAG_DISABLE_MY_DATA');
+  });
+
+  it ('a non logged user sees the Coming Soon view when clicks on \'My Data\' tab', function() {
+    if (Cypress.env('NEXT_PUBLIC_FEATURE_FLAG_DISABLE_MY_DATA') === 'true') {
+      this.skip();
+    }
+
     cy.visit({
       method: 'GET',
       url: '/data/explore',
