@@ -139,7 +139,7 @@ class DashboardsTable extends PureComponent {
           input={{ placeholder: 'Search dashboard' }}
           link={{
             label: 'New dashboard',
-            route: 'admin_dashboards_detail',
+            route: '/admin/dashboards/dashboards/new',
             params: { tab: 'dashboards', id: 'new' },
           }}
           onSearch={this.onSearch}
@@ -157,10 +157,10 @@ class DashboardsTable extends PureComponent {
             show: true,
             list: [
               {
-                name: 'Edit', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
+                name: 'Edit', params: { tab: 'dashboards', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
               },
               {
-                name: 'Remove', route: 'admin_dashboards_detail', params: { tab: 'dashboards', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
+                name: 'Remove', params: { tab: 'dashboards', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
               },
             ],
           }}

@@ -14,7 +14,7 @@ const useBelongsToCollection = (resourceId, token) => {
   } = useFetchUserFavorites(
     [token],
     {
-      enabled: token,
+      enabled: !!token,
       refetchOnWindowFocus: false,
       initialData: [],
       initialStale: true,
@@ -28,7 +28,7 @@ const useBelongsToCollection = (resourceId, token) => {
     token,
     {},
     {
-      enabled: token,
+      enabled: !!token,
       refetchOnWindowFocus: false,
       initialData: [],
       initialStale: true,

@@ -115,8 +115,8 @@ class ToolsTable extends PureComponent {
           input={{ placeholder: 'Search tool' }}
           link={{
             label: 'New tool',
-            route: 'admin_tools_detail',
-            params: { tab: 'tools', id: 'new' },
+            route: '/admin/tools/tools/new',
+            // params: { tab: 'tools', id: 'new' },
           }}
           onSearch={this.onSearch}
         />
@@ -132,10 +132,10 @@ class ToolsTable extends PureComponent {
               show: true,
               list: [
                 {
-                  name: 'Edit', route: 'admin_tools_detail', params: { tab: 'tools', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
+                  name: 'Edit', route: '/admin/tools/tools/{{id}}/edit', params: { tab: 'tools', subtab: 'edit', id: '{{id}}' }, show: true, component: EditAction,
                 },
                 {
-                  name: 'Remove', route: 'admin_tools_detail', params: { tab: 'tools', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization },
+                  name: 'Remove', route: '/admin/tools/tools/{{id}}', params: { tab: 'tools', subtab: 'remove', id: '{{id}}' }, component: DeleteAction, componentProps: { authorization: this.props.authorization },
                 },
               ],
             }}

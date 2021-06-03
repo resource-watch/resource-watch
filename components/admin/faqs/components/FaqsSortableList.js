@@ -102,8 +102,8 @@ class FaqsSortableList extends PureComponent {
           }}
           link={{
             label: 'New faq',
-            route: 'admin_faqs_detail',
-            params: { tab: 'faqs', id: 'new' },
+            route: '/admin/faqs/faqs/new',
+            // params: { tab: 'faqs', id: 'new' },
           }}
           onSearch={this.onSearch}
         />

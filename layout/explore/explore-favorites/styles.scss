@@ -4,15 +4,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 130px;
+  height: 100%;
   margin: 0 (4 * $space) (2 * $space) (3 * $space);
-
-  .empty-card {
-    height: 130px;
-    background-color: $sea-blue;
-    opacity: 0.05;
-    margin: (2 * $space) 0;
-  }
 
   .message {
     text-align: center;

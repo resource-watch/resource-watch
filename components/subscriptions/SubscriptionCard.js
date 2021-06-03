@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 import { toastr } from 'react-redux-toastr';
 
 // Components
@@ -128,7 +128,12 @@ class SubscriptionCard extends React.Component {
   }
 
   handleGoToDataset = () => {
-    Router.pushRoute('explore', { dataset: this.props.subscription.datasets[0] });
+    const {
+      router,
+      subscription,
+    } = this.props;
+
+    router.push(`/data/explore/${subscription.datasets[0]}`);
   }
 
   render() {
@@ -212,6 +217,9 @@ SubscriptionCard.propTypes = {
   subscription: PropTypes.object.isRequired,
   // Callbacks
   onSubscriptionRemoved: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default SubscriptionCard;
+export default withRouter(SubscriptionCard);

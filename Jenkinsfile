@@ -17,27 +17,27 @@ node {
 
   try {
 
-    stage ('Build docker') {
-      switch ("${env.BRANCH_NAME}") {
-        case "develop":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_WRI_API_URL=https://staging-api.resourcewatch.org --build-arg NEXT_PUBLIC_CALLBACK_URL=https://staging.resourcewatch.org/auth -t ${imageTag} .")
-          break
-        case "preproduction":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_CALLBACK_URL=https://preproduction.resourcewatch.org/auth -t ${imageTag} .")
-          break
-        case "master":
-          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
-        default:
-          sh("echo NOT DEPLOYED")
-          currentBuild.result = 'SUCCESS'
-      }
-    }
-
     stage ('Run Tests') {
      sh('docker-compose -H :2375 -f docker-compose-test.yml build')
      sh('docker-compose -H :2375 -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from cypress cypress frontend-test-server')
      sh('docker-compose -H :2375 -f docker-compose-test.yml up --abort-on-container-exit --exit-code-from backend-test backend-test')
      sh('docker-compose -H :2375 -f docker-compose-test.yml down -v')
+    }
+
+    stage ('Build docker') {
+      switch ("${env.BRANCH_NAME}") {
+        case "develop":
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_WRI_API_URL=https://staging-api.resourcewatch.org --build-arg NEXT_PUBLIC_CALLBACK_URL=https://staging.resourcewatch.org/auth --build-arg NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID=G-PTF4BE2G4G --build-arg NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH=true -t ${imageTag} .")
+          break
+        case "preproduction":
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_CALLBACK_URL=https://preproduction.resourcewatch.org/auth --build-arg NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD=true --build-arg NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH=true -t ${imageTag} .")
+          break
+        case "master":
+          sh("docker -H :2375 build --build-arg secretKey=${secretKey} --build-arg NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=${env.RW_GOGGLE_API_TOKEN_SHORTENER} --build-arg NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=${env.RW_MAPBOX_API_TOKEN} --build-arg NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD=true --build-arg NEXT_PUBLIC_FEATURE_FLAG_DISABLE_MY_DATA=true -t ${imageTag} -t ${dockerUsername}/${appName}:latest .")
+        default:
+          sh("echo NOT DEPLOYED")
+          currentBuild.result = 'SUCCESS'
+      }
     }
 
     stage('Push Docker') {

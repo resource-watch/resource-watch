@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import { fetchDataset } from 'services/dataset';
 import RasterService from 'services/raster';
 import { fetchLayer } from 'services/layer';
-import { deleteFavourite, createFavourite, fetchFavourites } from 'services/favourites';
+import { deleteFavourite, createFavourite, fetchFavorites } from 'services/favourites';
 import { fetchWidget } from 'services/widget';
 
 /**
@@ -274,7 +274,7 @@ export function checkIfFavorited(widgetId) {
     if (!user.id) {
       dispatch({ type: GET_WIDGET_FAVORITE, payload: { id: null, favourited: false } });
     } else {
-      fetchFavourites(user.token)
+      fetchFavorites(user.token)
         .then((res) => {
           const favourite = res.find && res.find((elem) => elem.attributes.resourceId === widgetId);
 

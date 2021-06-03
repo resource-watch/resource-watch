@@ -1,13 +1,8 @@
 @import 'css/settings';
 
 .c-explore-collections {
-    margin: 0px 4 * $space 2 * $space 3 * $space;
-
-    &.-hidden {
-        display: none;
-    }
-
-    .c-spinner {
-        top: 300px;
-    }
+  position: relative;
+  height: 100%;
+  margin: 0 4 * $space 2 * $space 3 * $space;
 }
+

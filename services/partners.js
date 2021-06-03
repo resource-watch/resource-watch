@@ -20,16 +20,17 @@ export const fetchPartners = (params = {}, headers = {}) => {
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
     },
     headers: { ...headers },
+    // resolves only if the status code is less than 300
+    validateStatus: (status) => status < 300,
   })
     .then((response) => {
       const { status, statusText, data } = response;
       logger.debug(`Fetched partners: ${status} - ${statusText}: ${JSON.stringify(data)}`);
       return WRISerializer(data);
     })
-    .catch((response) => {
-      const { status, statusText } = response;
-      logger.error(`Error fetching partners: ${status}: ${statusText}`);
-      throw new Error(`Error fetching partners: ${status}: ${statusText}`);
+    .catch(({ response }) => {
+      const { status, data } = response;
+      throw new Error(`Error fetching partners: ${data?.errors[0]?.detail || 'Error not defined'} – ${status}`);
     });
 };
 

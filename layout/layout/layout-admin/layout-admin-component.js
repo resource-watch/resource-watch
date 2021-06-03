@@ -1,13 +1,13 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { withRouter } from 'next/router';
 import Progress from 'react-progress-2';
 
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
 
 // Components
-import { Router } from 'routes';
 import IconsRW from 'components/icons';
 
 // vizzuality-components
@@ -21,7 +21,6 @@ import Modal from 'components/ui/Modal';
 import Toastr from 'react-redux-toastr';
 import Search from 'layout/header/search';
 import GDPRBanner from 'components/ui/gdpr-banner';
-import HeaderMenu from '../../header/header-menu/component';
 
 class LayoutAdmin extends PureComponent {
   static defaultProps = { className: null };
@@ -42,24 +41,20 @@ class LayoutAdmin extends PureComponent {
   }
 
   componentDidMount() {
-    Router.onRouteChangeStart = () => {
-      if (Progress && Progress.Component.instance) Progress.show();
-      this.props.toggleTooltip(false);
-      this.props.updateIsLoading(true);
-    };
-    Router.onRouteChangeComplete = () => {
-      this.props.updateIsLoading(false);
-      if (Progress && Progress.Component.instance) Progress.hideAll();
-    };
+    const {
+      router,
+      updateIsLoading,
+    } = this.props;
 
-    if (window.Transifex) {
-      window.Transifex.live.onReady(() => {
-        window.Transifex.live.onTranslatePage((locale) => {
-          this.props.setLocale(locale);
-          window.location.reload();
-        });
-      });
-    }
+    router.events.on('routeChangeStart', () => {
+      updateIsLoading(true);
+      if (Progress && Progress.Component.instance) Progress.show();
+    });
+
+    router.events.on('routeChangeComplete', () => {
+      updateIsLoading(false);
+      if (Progress && Progress.Component.instance) Progress.hideAll();
+    });
 
     // Google Analytics
     if (!window.GA_INITIALIZED) {
@@ -133,6 +128,11 @@ LayoutAdmin.propTypes = {
   setModalOptions: PropTypes.func.isRequired,
   updateIsLoading: PropTypes.func.isRequired,
   setLocale: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    events: PropTypes.shape({
+      on: PropTypes.func.isRequired,
+    }),
+  }).isRequired,
 };
 
-export default LayoutAdmin;
+export default withRouter(LayoutAdmin);

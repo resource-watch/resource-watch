@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 // components
@@ -24,7 +24,7 @@ const AreasIndex = ({
     size: 0,
   });
   const {
-    resolvedData: {
+    data: {
       areas: userAreas,
       meta,
     },
@@ -73,12 +73,9 @@ const AreasIndex = ({
           <ul>
             <li>
               <Link href="/myrw-detail/areas/new">
-                <button
-                  type="button"
-                  className="c-button -secondary"
-                >
+                <a className="c-button -secondary">
                   New area
-                </button>
+                </a>
               </Link>
             </li>
           </ul>

@@ -29,11 +29,12 @@ class ToolsForm extends React.Component {
   });
 
   componentDidMount() {
+    const { authorization } = this.props;
     const { id } = this.state;
     // Get the tools and fill the
     // state form with its params if the id exists
     if (id) {
-      fetchTool(id)
+      fetchTool(id, authorization)
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),

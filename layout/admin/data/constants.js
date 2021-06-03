@@ -2,26 +2,26 @@ export const DATA_TABS = [
   {
     label: 'Datasets',
     value: 'datasets',
-    route: 'admin_data',
-    params: { tab: 'datasets' },
+    route: '/admin/data/datasets',
+    params: {},
   },
   {
     label: 'Widgets',
     value: 'widgets',
-    route: 'admin_data',
-    params: { tab: 'widgets' },
+    route: '/admin/data/widgets',
+    params: {},
   },
   {
     label: 'Layers',
     value: 'layers',
-    route: 'admin_data',
-    params: { tab: 'layers' },
+    route: '/admin/data/layers',
+    params: {},
   },
   {
     label: 'Explore',
     value: 'explore',
-    route: 'admin_data',
-    params: { tab: 'explore' },
+    route: '/admin/data/explore',
+    params: {},
   },
 ];
 

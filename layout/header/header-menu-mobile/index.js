@@ -10,7 +10,6 @@ export default connect(
   (state) => ({
     header: state.header,
     user: state.user,
-    routes: state.routes,
   }),
   { setMobileOpened },
 )(HeaderMenuMobile);

@@ -1,7 +1,7 @@
 describe('A visitor signs-up successfully', () => {
   before(() => {
     cy.validateEnvVar('NEXT_PUBLIC_APPLICATIONS');
-    cy.validateEnvVar('NEXT_PUBLIC_CONTROL_TOWER_URL');
+    cy.validateEnvVar('NEXT_PUBLIC_WRI_API_URL');
 
     cy.intercept({
       method: 'POST',
@@ -9,7 +9,7 @@ describe('A visitor signs-up successfully', () => {
       query: {
         origin: Cypress.env('NEXT_PUBLIC_APPLICATIONS'),
       },
-      url: Cypress.env('NEXT_PUBLIC_CONTROL_TOWER_URL')
+      url: Cypress.env('NEXT_PUBLIC_WRI_API_URL')
     },
     {
       "data": { "id": "6058c355b4966c00bb7ddf1d", "email": "lorem@test.com", "name": "Lorem Test", "createdAt": "2021-03-26T11:19:49.000Z", "role": "USER", "extraUserData": { "apps": [] } } }

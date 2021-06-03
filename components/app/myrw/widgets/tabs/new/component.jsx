@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 import WidgetEditor from '@widget-editor/widget-editor';
 
 // components
@@ -43,7 +43,10 @@ class MyRWWidgetNewTab extends React.Component {
 
   onSaveWidget = (data) => {
     const { datasets, selectedDataset } = this.state;
-    const { user } = this.props;
+    const {
+      user,
+      router,
+    } = this.props;
     // The widget creation endpoint expects the application property to be
     // of array type
 
@@ -74,7 +77,7 @@ class MyRWWidgetNewTab extends React.Component {
           user.token,
         )
           .then(() => {
-            Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+            router.push('/myrw/widgets/my_widgets');
             toastr.success('Success', 'Widget created successfully!');
           });
       }).catch((err) => {
@@ -199,6 +202,9 @@ MyRWWidgetNewTab.propTypes = {
     token: PropTypes.string.isRequired,
   }).isRequired,
   RWAdapter: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-export default MyRWWidgetNewTab;
+export default withRouter(MyRWWidgetNewTab);

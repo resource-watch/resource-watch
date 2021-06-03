@@ -10,7 +10,6 @@ export default connect(
   (state) => ({
     modal: state.modal,
     user: state.user,
-    routes: state.routes,
   }),
   {
     toggleModal,

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 class NameTD extends PureComponent {
   static propTypes = {
@@ -16,15 +16,7 @@ class NameTD extends PureComponent {
 
     return (
       <td className="main">
-        <Link
-          route="admin_data_detail"
-          params={{
-            tab: 'layers',
-            subtab: 'edit',
-            id,
-            dataset,
-          }}
-        >
+        <Link href={`/admin/data/layers/${id}/edit?dataset=${dataset}`}>
           <a>{value}</a>
         </Link>
       </td>

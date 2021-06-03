@@ -68,7 +68,6 @@ ExploreNearRealTimeContainer.defaultProps = { datasetID: null };
 
 export default connect(
   (state) => ({
-    responsive: state.responsive,
     selectedDataset: state.explore.datasets.selected,
   }),
   actions,

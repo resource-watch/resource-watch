@@ -1,4 +1,4 @@
-import React, {
+import {
   useCallback,
   useMemo,
 } from 'react';
@@ -23,22 +23,23 @@ import { logEvent } from 'utils/analytics';
 
 import './styles.scss';
 
-const ExploreDatasetsActions = ({
-  dataset,
-  layer,
-  user,
-  selectedCollection,
-  layerGroups,
-  toggleMapLayerGroup,
-  resetMapLayerGroupsInteraction,
-}) => {
+const ExploreDatasetsActions = (props) => {
+  const {
+    dataset,
+    layer,
+    user,
+    selectedCollection,
+    layerGroups,
+    toggleMapLayerGroup,
+    resetMapLayerGroupsInteraction,
+  } = props;
   const {
     isInACollection,
   } = useBelongsToCollection(dataset.id, user.token);
   const {
     refetch,
   } = useFetchCollection(selectedCollection, user.token, {}, {
-    enabled: selectedCollection && user.token,
+    enabled: !!(selectedCollection && user.token),
   });
   const isActive = useMemo(
     () => !!layerGroups.find((l) => l.dataset === dataset.id),
@@ -172,7 +173,6 @@ ExploreDatasetsActions.propTypes = {
   ).isRequired,
   toggleMapLayerGroup: PropTypes.func.isRequired,
   resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
-
   user: PropTypes.shape({
     token: PropTypes.string,
   }).isRequired,

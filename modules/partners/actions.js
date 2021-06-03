@@ -15,24 +15,6 @@ export const setLoading = createAction('PARTNERS/SET-LOADING');
 export const setError = createAction('PARTNERS/SET-ERROR');
 export const setFilters = createAction('PARTNERS/SET-FILTERS');
 
-export const getPublishedPartners = createThunkAction('PARTNERS/GET-PUBLISHED-PARTNERS',
-  () => (dispatch) => {
-    const queryParams = { published: true };
-
-    dispatch(setLoading({ key: 'published', value: true }));
-    dispatch(setError({ key: 'published', value: null }));
-
-    return fetchPartners(queryParams)
-      .then((partners) => {
-        dispatch(setPartners({ key: 'published', value: partners }));
-        dispatch(setLoading({ key: 'published', value: false }));
-      })
-      .catch((err) => {
-        dispatch(setError({ key: 'published', value: err.message }));
-        dispatch(setLoading({ key: 'published', value: false }));
-      });
-  });
-
 export const getAllPartners = createThunkAction('PARTNERS/GET-ALL-PARTNERS',
   () => (dispatch) => {
     dispatch(setLoading({ key: 'all', value: true }));
@@ -86,7 +68,6 @@ export const getDatasetsByPartner = createThunkAction('PARTNERS/GET-PARTNER',
 
 export default {
   setFilters,
-  getPublishedPartners,
   getAllPartners,
   getPartner,
   getDatasetsByPartner,

@@ -16,10 +16,6 @@ import DashboardsListCard from 'components/dashboards/list/DashboardsListCard';
 
 class DashboardsList extends React.Component {
   static defaultProps = {
-    routes: {
-      index: '',
-      detail: '',
-    },
     getDashboardsFilters: {},
     // Store
     loading: false,
@@ -27,7 +23,6 @@ class DashboardsList extends React.Component {
   };
 
   static propTypes = {
-    routes: PropTypes.object,
     getDashboardsFilters: PropTypes.object,
 
     // Store
@@ -88,7 +83,7 @@ class DashboardsList extends React.Component {
   }
 
   render() {
-    const { dashboards, routes, filters } = this.props;
+    const { dashboards, filters } = this.props;
     const { loading } = this.state;
 
     return (
@@ -102,8 +97,8 @@ class DashboardsList extends React.Component {
           input={{ placeholder: 'Search dashboard' }}
           link={{
             label: 'New dashboard',
-            route: routes.detail,
-            params: { tab: 'dashboards', id: 'new' },
+            route: '/myrw-detail/dashboards/new',
+            // params: { tab: 'dashboards', id: 'new' },
           }}
           onSearch={this.onSearch}
         />
@@ -116,7 +111,6 @@ class DashboardsList extends React.Component {
             >
               <DashboardsListCard
                 dashboard={dashboard}
-                routes={routes}
                 onDelete={this.onDelete}
               />
             </div>
@@ -144,7 +138,7 @@ const mapStateToProps = (state) => ({
   loading: state.adminDashboards.dashboards.loading,
   dashboards: getAllFilteredDashboards(state),
   error: state.adminDashboards.dashboards.error,
-  filters: state.clientDashboards.filters,
+  filters: state.adminDashboards.dashboards.filters,
 });
 
 const mapDispatchToProps = {

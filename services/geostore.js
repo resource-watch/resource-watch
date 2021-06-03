@@ -92,3 +92,14 @@ export const fetchCountry = (iso) => {
       throw new Error(`Error fetching country ${iso}: ${status}: ${statusText}`);
     });
 };
+
+/**
+ * Fetch countries
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/reference.html#get-geostore-by-country-code|here}
+ * @returns {Object[]}
+ */
+export const fetchCountryV2 = (iso) => {
+  logger.info(`Fetch country ${iso} v2`);
+  return WRIAPI.get(`/v2/geostore/admin/${iso}`)
+    .then(({ data }) => WRISerializer(data));
+};

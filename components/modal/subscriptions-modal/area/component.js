@@ -1,7 +1,7 @@
-import React, { PureComponent, Fragment } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { Router } from 'routes';
+import { withRouter } from 'next/router';
 import { toastr } from 'react-redux-toastr';
 
 // components
@@ -23,6 +23,9 @@ class AreaSubscriptionsModal extends PureComponent {
     resetModal: PropTypes.func.isRequired,
     createSubscriptionToArea: PropTypes.func.isRequired,
     updateSubscription: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = { activeArea: null }
@@ -65,8 +68,13 @@ class AreaSubscriptionsModal extends PureComponent {
   }
 
   handleGoToMySubscriptions = () => {
-    this.props.onRequestClose();
-    Router.pushRoute('myrw', { tab: 'areas' });
+    const {
+      onRequestClose,
+      router,
+    } = this.props;
+
+    onRequestClose();
+    router.push('/myrw/areas');
   }
 
   handleState = (bool) => { this.setState({ showSubscribePreview: bool }); }
@@ -183,4 +191,4 @@ class AreaSubscriptionsModal extends PureComponent {
   }
 }
 
-export default AreaSubscriptionsModal;
+export default withRouter(AreaSubscriptionsModal);

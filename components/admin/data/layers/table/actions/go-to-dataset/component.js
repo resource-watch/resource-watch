@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 // utils
 import { substitution } from 'utils/utils';
@@ -23,12 +23,15 @@ class EditAction extends PureComponent {
   }
 
   render() {
-    const { action: { route } } = this.props;
+    const {
+      tab,
+      subtab,
+      id,
+    } = this.getParsedParams();
 
     return (
       <Link
-        route={route}
-        params={this.getParsedParams()}
+        href={`/admin/data/${tab}/${id}/${subtab}`}
       >
         <a className="c-btn">Go to dataset</a>
       </Link>

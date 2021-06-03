@@ -1,6 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 // styles
 import './styles.scss';
@@ -14,7 +13,7 @@ const GDPRBanner = ({ handleGDPR }) => (
           continuing to browse this site, you consent to the use of cookies and similar
           technologies. Please visit our
           {' '}
-          <Link route="privacy-policy">
+          <Link href="/privacy-policy">
             <a
               target="_blank"
               rel="noopener noreferrer"

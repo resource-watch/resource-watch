@@ -203,8 +203,8 @@ export const getDatasetsByTab = createThunkAction(
 
         break;
 
-      // when the user asks for its favourites datasets...
-      case 'favourites':
+      // when the user asks for its favorites datasets...
+      case 'favorites':
         options = {
           ...options,
           filters: {

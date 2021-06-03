@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'next/router';
 import debounce from 'lodash/debounce';
 
 // components
@@ -10,6 +11,7 @@ class SearchBar extends PureComponent {
   static propTypes = {
     search: PropTypes.shape({
       term: PropTypes.string,
+      page: PropTypes.number,
       selected: PropTypes.number,
       list: PropTypes.array,
     }).isRequired,
@@ -18,10 +20,12 @@ class SearchBar extends PureComponent {
     selected: PropTypes.object,
     setSearchPage: PropTypes.func.isRequired,
     setSearchTerm: PropTypes.func.isRequired,
-    setSearchUrl: PropTypes.func.isRequired,
     fetchSearch: PropTypes.func.isRequired,
     setSearchOpened: PropTypes.func.isRequired,
     setSearchSelected: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      replace: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
@@ -49,14 +53,29 @@ class SearchBar extends PureComponent {
       isHeader,
       setSearchPage,
       setSearchTerm,
-      setSearchUrl,
       fetchSearch,
+      router,
+      search: {
+        page,
+      }
     } = this.props;
 
     if (!isHeader) {
       setSearchPage(1);
       setSearchTerm(term);
-      setSearchUrl();
+      router.replace(
+        {
+          pathname: 'search',
+          query: {
+            term,
+            page,
+          },
+        },
+        `/search?term=${term}&page=${page}`,
+        {
+          shallow: true,
+        },
+      );
     } else {
       setSearchTerm(term);
       fetchSearch();
@@ -151,4 +170,4 @@ class SearchBar extends PureComponent {
   }
 }
 
-export default SearchBar;
+export default withRouter(SearchBar);

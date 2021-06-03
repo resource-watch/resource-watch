@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 // Services
 import { deleteDataset } from 'services/dataset';
@@ -70,7 +70,7 @@ class DatasetsList extends PureComponent {
         )}
 
         <div className="c-button-container -j-center c-field-buttons">
-          <Link route="explore">
+          <Link href="/data/explore">
             <a className="c-button -secondary">Explore Datasets</a>
           </Link>
         </div>

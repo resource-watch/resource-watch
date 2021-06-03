@@ -2,14 +2,14 @@ export const WIDGET_LIST_SUBTABS = [
   {
     label: 'My visualizations',
     value: 'my_wigets',
-    route: 'myrw',
+    route: '/myrw/widgets/my_widgets',
     params: { tab: 'widgets', subtab: 'my_widgets' },
   },
   {
-    label: 'Favourites',
+    label: 'Favorites',
     value: 'favourites',
-    route: 'myrw',
-    params: { tab: 'widgets', subtab: 'favourites' },
+    route: '/myrw/widgets/favorites',
+    params: { tab: 'widgets', subtab: 'favorites' },
   },
 ];
 

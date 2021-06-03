@@ -10,7 +10,7 @@ const useIsFavorite = (id, token) => {
   } = useFetchUserFavorites(
     [token],
     {
-      enabled: token,
+      enabled: !!token,
       refetchOnWindowFocus: false,
       initialData: [],
       initialStale: true,

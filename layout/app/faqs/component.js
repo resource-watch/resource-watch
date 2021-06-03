@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import Link from 'next/link';
 import sortBy from 'lodash/sortBy';
-import { Link } from 'routes';
 
 // actions
 import { getFaqs } from 'redactions/admin/faqs';
@@ -41,7 +41,7 @@ class LayoutFaqs extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  <Breadcrumbs items={[{ name: 'About', route: 'about' }]} />
+                  <Breadcrumbs items={[{ name: 'About', route: '/about' }]} />
                   <h1>FAQs</h1>
                 </div>
               </div>
@@ -73,7 +73,7 @@ class LayoutFaqs extends PureComponent {
                     <br />
                     Help us improve Resource Watch.
                   </p>
-                  <Link to="about_contact-us">
+                  <Link href="/about/contact-us">
                     <a className="c-button -alt -primary">Contact us</a>
                   </Link>
                 </Banner>

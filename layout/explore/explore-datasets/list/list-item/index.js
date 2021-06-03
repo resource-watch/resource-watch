@@ -18,7 +18,6 @@ export { actions, reducers, initialState };
 export default connect(
   (state, props) => ({
     user: state.user,
-    responsive: state.responsive,
     active: isActive(state, props),
   }),
   {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRouter } from 'next/router';
 
 // components
@@ -7,13 +6,13 @@ import AreasNew from './tabs/new';
 import AreasAlerts from './tabs/alerts';
 
 const AreasTabs = () => {
-  const router = useRouter();
   const {
     query: {
-      id,
-      subtab,
+      params,
     },
-  } = router;
+  } = useRouter();
+  const id = params?.[1] || null;
+  const subtab = params?.[2] || null;
 
   return (
     <>

@@ -1,4 +1,3 @@
-// const applicationConfig = require('config');
 const withSass = require('@zeit/next-sass');
 const withCSS = require('@zeit/next-css');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -6,21 +5,20 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 module.exports = withBundleAnalyzer(withCSS(withSass({
-  useFileSystemPublicRoutes: false,
   poweredByHeader: false,
 
-  exportPathMap: async (defaultPathMap) => ({
-    ...defaultPathMap,
-    '/': { page: '/home' },
-    '/about/contact-us': { page: '/contact-us' },
-    '/about/faqs': { page: '/faqs' },
-    '/about/howto': { page: 'how-to' },
-    '/about/partners': { page: '/partners' },
-    '/privacy-policy': { page: '/policy' },
-    '/api-attribution-requirements': { page: 'attribution-requirements' },
-    '/data/explore': { page: '/explore' },
-    '/data/pulse': { page: '/pulse' },
-  }),
+  // exportPathMap: async (defaultPathMap) => ({
+  //   ...defaultPathMap,
+  //   '/': { page: '/home' },
+  //   '/about/contact-us': { page: '/contact-us' },
+  //   '/about/faqs': { page: '/faqs' },
+  //   '/about/howto': { page: 'how-to' },
+  //   '/about/partners': { page: '/partners' },
+  //   '/privacy-policy': { page: '/policy' },
+  //   '/api-attribution-requirements': { page: 'attribution-requirements' },
+  //   '/data/explore': { page: '/explore' },
+  //   '/data/pulse': { page: '/pulse' },
+  // }),
 
   webpack: (config) => {
     // eslint-disable-next-line no-underscore-dangle

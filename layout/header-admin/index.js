@@ -12,7 +12,6 @@ export default connect(
   (state) => ({
     pageHeader: true,
     header: state.headerAdmin,
-    responsive: state.responsive,
   }),
   actions,
 )(AdminHeader);

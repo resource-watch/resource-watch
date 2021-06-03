@@ -36,7 +36,7 @@ describe('a user wants to share the page with a shortened link', () => {
     });
   });
 
-  it('the user gets the standard link if bitly is down', () => {
+  it.skip('the user gets the standard link if bitly is down', () => {
     cy.intercept(
       {
         method: 'POST',
@@ -51,7 +51,7 @@ describe('a user wants to share the page with a shortened link', () => {
 
     cy.get('.page-header-content').find('button[data-cy="share-button"]').click();
 
-    cy.wait(500);
+    cy.wait('@getBitlyLink');
 
     cy.get('.c-share-modal').find('#share-link').then(($btn) => {
       expect($btn.val()).to.eq(`${Cypress.config().baseUrl}/dashboards/forests`);

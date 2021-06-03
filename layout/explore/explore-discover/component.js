@@ -1,37 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import classnames from 'classnames';
 
-// Constants
-import { EXPLORE_SECTIONS } from 'layout/explore/constants';
-import { TOPICS } from 'layout/explore/explore-topics/constants';
-
-// Services
-import { fetchExploreConfig } from 'services/config';
-import { fetchDatasets } from 'services/dataset';
-
-// Components
+// components
 import TopicsList from 'layout/explore/explore-topics/list';
-
-// Responsive
-import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
-
-// Explore components
 import DatasetList from 'layout/explore/explore-datasets/list';
 import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 
-// Utils
+
+// services
+import { fetchExploreConfig } from 'services/config';
+import { fetchDatasets } from 'services/dataset';
+
+// utils
 import { logEvent } from 'utils/analytics';
 
-// Styles
+// constants
+import { EXPLORE_SECTIONS } from 'layout/explore/constants';
+import { TOPICS } from 'layout/explore/explore-topics/constants';
+
+// styles
 import './styles.scss';
 
 function ExploreDiscover(props) {
   const {
     setSidebarSection,
-    responsive,
     selectedDataset,
     setSortSelected,
     setSortIsUserSelected,
@@ -112,12 +109,7 @@ function ExploreDiscover(props) {
           numberOfPlaceholders={4}
           list={highlightedDatasets.list}
           actions={(
-            <MediaQuery
-              minDeviceWidth={breakpoints.medium}
-              values={{ deviceWidth: responsive.fakeWidth }}
-            >
-              <ExploreDatasetsActions />
-            </MediaQuery>
+            <ExploreDatasetsActions />
           )}
         />
       </div>
@@ -185,12 +177,7 @@ function ExploreDiscover(props) {
           numberOfPlaceholders={4}
           list={recentlyAddedDatasets.list}
           actions={(
-            <MediaQuery
-              minDeviceWidth={breakpoints.medium}
-              values={{ deviceWidth: responsive.fakeWidth }}
-            >
-              <ExploreDatasetsActions />
-            </MediaQuery>
+            <ExploreDatasetsActions />
           )}
         />
       </div>
@@ -218,12 +205,7 @@ function ExploreDiscover(props) {
           numberOfPlaceholders={4}
           list={recentUpdatedDatasets.list}
           actions={(
-            <MediaQuery
-              minDeviceWidth={breakpoints.medium}
-              values={{ deviceWidth: responsive.fakeWidth }}
-            >
-              <ExploreDatasetsActions />
-            </MediaQuery>
+            <ExploreDatasetsActions />
           )}
         />
       </div>
@@ -244,7 +226,6 @@ ExploreDiscover.propTypes = {
   setFiltersSelected: PropTypes.func.isRequired,
   setSortSelected: PropTypes.func.isRequired,
   setSortIsUserSelected: PropTypes.func.isRequired,
-  responsive: PropTypes.shape({}).isRequired,
   selectedDataset: PropTypes.string,
 };
 

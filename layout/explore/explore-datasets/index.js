@@ -13,7 +13,6 @@ export default connect(
     datasets: state.explore.datasets,
     list: getUpdatedDatasets(state),
     ...state.explore.filters,
-    responsive: state.responsive,
     selectedTags: getSelectedTagsWithData(state),
     loading: state.explore.datasets.loading,
   }),

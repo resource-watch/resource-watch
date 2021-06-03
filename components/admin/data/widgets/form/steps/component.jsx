@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import WidgetEditor from '@widget-editor/widget-editor';
 
@@ -30,7 +30,7 @@ class AdminWidgetForm extends Component {
     this.setState({
       form: {
         ...nextProps.form,
-        dataset: nextProps.form.dataset || nextProps.query.dataset,
+        dataset: nextProps.form.dataset,
       },
     });
   }
@@ -39,7 +39,6 @@ class AdminWidgetForm extends Component {
     const {
       id,
       user,
-      query,
       datasets,
       onChange,
       onSave,
@@ -63,8 +62,8 @@ class AdminWidgetForm extends Component {
             properties={{
               name: 'dataset',
               label: 'Dataset',
-              default: query.dataset,
-              value: form.dataset || query.dataset,
+              default: form.dataset,
+              value: form.dataset,
               disabled: !!id,
               required: true,
               instanceId: 'selectDataset',
@@ -200,9 +199,6 @@ AdminWidgetForm.propTypes = {
   datasets: PropTypes.arrayOf(
     PropTypes.shape({}),
   ),
-  query: PropTypes.shape({
-    dataset: PropTypes.string,
-  }).isRequired,
   onChange: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   RWAdapter: PropTypes.func.isRequired,

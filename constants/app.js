@@ -16,11 +16,6 @@ export const FULLSCREEN_PAGES = [
   '/sign-in',
 ];
 
-export const PAGES_WITHOUT_DASHBOARDS = [
-  '/admin',
-  '/embed',
-];
-
 export const CESIUM_ROUTES = [
   '/data/pulse',
 ];

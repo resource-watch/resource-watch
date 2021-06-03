@@ -23,7 +23,6 @@ const { parse } = require('url');
 const path = require('path');
 const auth = require('./auth');
 const apiRoutes = require('./api-router');
-const routes = require('../routes');
 
 const port = process.env.PORT || 3000;
 
@@ -33,11 +32,7 @@ const prod = process.env.NODE_ENV !== 'development';
 
 // Next app creation
 const app = next({ dev: !prod });
-const handle = routes.getRequestHandler(app, ({
-  req, res, route, query,
-}) => {
-  app.render(req, res, route.page, query);
-});
+const handle = app.getRequestHandler();
 
 // Express app creation
 const server = express();
@@ -84,7 +79,7 @@ const sessionOptions = {
   saveUninitialized: true,
 };
 
-if (prod) {
+if (prod && process.env.REDIS_URL) {
   const redisClient = redis.createClient(process.env.REDIS_URL);
   sessionOptions.store = new RedisStore({
     client: redisClient,
@@ -142,7 +137,7 @@ async function init() {
         server.get('/myrw*?', isAuthenticated, handleUrl);
         server.get('/admin*?', isAuthenticated, isAdmin, handleUrl);
 
-        server.use(handle);
+        server.all('*', (req, res) => handle(req, res));
 
         const httpListener = server.listen(port, (err) => {
           if (err) {

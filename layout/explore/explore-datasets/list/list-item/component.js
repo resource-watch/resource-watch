@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import Link from 'next/link';
+import { withRouter } from 'next/router';
 
-// Redux
-import { Link, Router } from 'routes';
-
-// Responsive
-import MediaQuery from 'react-responsive';
-import { breakpoints } from 'utils/responsive';
-
-// Thumbnails charts
+// components
 import WidgetChart from 'components/charts/widget-chart';
 import LayerChart from 'components/charts/layer-chart';
 import PlaceholderChart from 'components/charts/placeholder-chart';
 
 // Utils
 import { getDateConsideringTimeZone } from 'utils/utils';
+
+// lib
+import {
+  Media,
+} from 'lib/media';
 
 import './styles.scss';
 
@@ -27,12 +27,14 @@ class DatasetListItem extends React.Component {
     layer: PropTypes.object,
     metadata: PropTypes.object.isRequired,
     actions: PropTypes.node.isRequired,
-    responsive: PropTypes.object.isRequired,
     active: PropTypes.bool.isRequired,
     expandedChart: PropTypes.bool,
     toggleMapLayerGroup: PropTypes.func.isRequired,
     resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
     setMapLayerGroupActive: PropTypes.func.isRequired,
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -59,21 +61,25 @@ class DatasetListItem extends React.Component {
 
     if (widget && !isWidgetMap && !isEmbedWidget) {
       return (
-        <div className={classNameValue}>
-          <WidgetChart widget={widget} thumbnail />
-        </div>
+        <Link href={`/data/explore/${dataset.slug}`}>
+          <div className={classNameValue}>
+            <WidgetChart widget={widget} thumbnail />
+          </div>
+        </Link>
       );
     } if (layer || isWidgetMap) {
       return (
-        <div className={classNameValue}>
-          <LayerChart layer={layer} />
-        </div>
+        <Link href={`/data/explore/${dataset.slug}`}>
+          <div className={classNameValue}>
+            <LayerChart layer={layer} />
+          </div>
+        </Link>
       );
     }
 
     return (
       <div className={classNameValue}>
-        <Link route="explore" params={{ dataset: dataset.slug }}>
+        <Link href={`/data/explore/${dataset.slug}`}>
           <a>
             <PlaceholderChart />
           </a>
@@ -89,9 +95,10 @@ class DatasetListItem extends React.Component {
       resetMapLayerGroupsInteraction,
       setMapLayerGroupActive,
       layer,
+      router,
     } = this.props;
 
-    Router.pushRoute('explore', { dataset: dataset.slug });
+    router.push(`/data/explore/${dataset.slug}`);
 
     // Add default layer to the map only if not active already
     if (!this.props.active && layer) {
@@ -103,7 +110,7 @@ class DatasetListItem extends React.Component {
 
   render() {
     const {
-      dataset, metadata, actions, responsive, active,
+      dataset, metadata, actions, active,
     } = this.props;
 
     const dateLastUpdated = getDateConsideringTimeZone(dataset.dataLastUpdated, true);
@@ -113,33 +120,20 @@ class DatasetListItem extends React.Component {
     });
 
     return (
-      <div
-        className={classNameValue}
-        role="button"
-        tabIndex={0}
-        onClick={this.handleClick}
-        onKeyPress={this.handleClick}
-      >
-        {/* CHART */}
-        <MediaQuery
-          minDeviceWidth={breakpoints.medium}
-          values={{ deviceWidth: responsive.fakeWidth }}
+      <div className={classNameValue}>
+        <Media
+          greaterThanOrEqual="md"
         >
           {this.renderChart()}
-        </MediaQuery>
+        </Media>
 
-        {/* CHART MOBILE */}
-        <MediaQuery
-          maxDeviceWidth={breakpoints.medium}
-          values={{ deviceWidth: responsive.fakeWidth }}
+        <Media
+          at="sm"
         >
-          <Link
-            route="explore"
-            params={{ dataset: this.props.dataset.slug }}
-          >
+          <Link href={`/data/explore/${dataset.slug}`}>
             {this.renderChart()}
           </Link>
-        </MediaQuery>
+        </Media>
 
         {/* INFO */}
         <div className="info">
@@ -160,20 +154,22 @@ class DatasetListItem extends React.Component {
           {/* Title */}
           <div className="title-actions">
             <h4>
-              <Link
-                route="explore"
-                params={{ dataset: this.props.dataset.slug }}
-              >
+              <Link href={`/data/explore/${dataset.slug}`}>
                 <a>
                   {(metadata && metadata.info && metadata.info.name) || dataset.name}
                 </a>
               </Link>
             </h4>
-            {!!actions
-              && React.cloneElement(
-                actions,
-                { ...this.props },
-              )}
+            {actions && (
+              <Media
+                greaterThanOrEqual="md"
+              >
+                {React.cloneElement(
+                  actions,
+                  ({ ...this.props }),
+                )}
+              </Media>
+            )}
           </div>
         </div>
       </div>
@@ -181,4 +177,4 @@ class DatasetListItem extends React.Component {
   }
 }
 
-export default DatasetListItem;
+export default withRouter(DatasetListItem);

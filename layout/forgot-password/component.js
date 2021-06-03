@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import { toastr } from 'react-redux-toastr';
-import { Link } from 'routes';
+import Link from 'next/link';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -77,7 +77,7 @@ class ForgotPassword extends PureComponent {
                             </button>
                           </li>
                           <li>
-                            <Link route="sign-in">
+                            <Link href="/sign-in">
                               <a className="c-button -tertirary">Sign in</a>
                             </Link>
                           </li>

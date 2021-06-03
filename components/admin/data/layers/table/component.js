@@ -159,12 +159,7 @@ class LayersTable extends PureComponent {
           input={{ placeholder: 'Search layer' }}
           link={{
             label: 'New layer',
-            route: 'admin_data_detail',
-            params: {
-              tab: 'layers',
-              id: 'new',
-              dataset,
-            },
+            route: `/admin/data/layers/new?dataset=${dataset}`,
           }}
           onSearch={this.onSearch}
         />
@@ -183,7 +178,7 @@ class LayersTable extends PureComponent {
               list: [
                 {
                   name: 'Edit',
-                  route: 'admin_data_detail',
+                  route: '/admin/data/layers/{{id}}/edit',
                   params: {
                     tab: 'layers', subtab: 'edit', id: '{{id}}', dataset,
                   },
@@ -191,10 +186,10 @@ class LayersTable extends PureComponent {
                   component: EditAction,
                 },
                 {
-                  name: 'Remove', route: 'admin_data_detail', params: { tab: 'layers', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
+                  name: 'Remove', route: '/admin/data/layers/{{id}}/remove', params: { tab: 'layers', subtab: 'remove', id: '{{id}}' }, component: DeleteAction,
                 },
                 {
-                  name: 'Go to dataset', route: 'admin_data_detail', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, component: GoToDatasetAction,
+                  name: 'Go to dataset', route: '/admin/data/:tab/:id/:subtab', params: { tab: 'datasets', subtab: 'edit', id: '{{id}}' }, component: GoToDatasetAction,
                 },
               ],
             }}

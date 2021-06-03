@@ -1,13 +1,11 @@
-import { usePaginatedQuery } from 'react-query';
+import { useQuery } from 'react-query';
 
 // services
 import { fetchAllCollections } from 'services/collections';
 
-const fetcher = (key, token, params) => fetchAllCollections(token, params, true);
-
-const usePaginatedCollections = (token, params, queryConfig = {}) => usePaginatedQuery(
+const usePaginatedCollections = (token, params, queryConfig = {}) => useQuery(
   ['paginated-collections', token, params],
-  fetcher,
+  () => fetchAllCollections(token, params, true),
   { ...queryConfig },
 );
 

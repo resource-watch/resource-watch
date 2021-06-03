@@ -1,6 +1,6 @@
 export const FAVOURITES_COLLECTION = {
   id: 0,
-  name: 'Favourites',
+  name: 'Favorites',
   resources: [],
 };
 

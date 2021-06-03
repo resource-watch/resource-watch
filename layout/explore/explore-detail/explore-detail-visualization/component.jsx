@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
-import { Router } from 'routes';
+import { useRouter } from 'next/router';
 import WidgetEditor from '@widget-editor/widget-editor';
 
 // components
@@ -34,12 +34,13 @@ function ExploreDetailVisualization(props) {
     authorization,
     RWAdapter,
   } = props;
+  const router = useRouter();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const {
     data: area,
   } = useFetchArea(aoi, authorization, {}, {
-    enabled: aoi && authorization,
+    enabled: !!(aoi && authorization),
   });
 
   const onSaveWidget = (widget) => {
@@ -77,7 +78,7 @@ function ExploreDetailVisualization(props) {
             authorization,
           )
             .then(() => {
-              Router.pushRoute('myrw', { tab: 'widgets', subtab: 'my_widgets' });
+              router.push('/myrw/widgets/my_widgets');
               toastr.success('Success', 'Widget created successfully!');
             });
         }).catch((err) => {

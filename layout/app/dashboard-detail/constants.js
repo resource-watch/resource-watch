@@ -2,13 +2,17 @@ export const ENERGY_TABS = [
   {
     label: 'Energy Overview',
     value: 'global',
-    route: 'dashboards_detail',
-    params: { tab: 'global', slug: 'energy' },
+    route: '/dashboards/energy?tab=global',
+    params: {},
   },
   {
     label: 'Power Sector Profiles',
     value: 'country',
-    route: 'dashboards_detail',
-    params: { tab: 'country', slug: 'energy' },
+    route: '/dashboards/energy?tab=country',
+    params: {},
   },
 ];
+
+export default {
+  ENERGY_TABS,
+};

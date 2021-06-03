@@ -1,6 +1,9 @@
 // utils
 import { logger } from 'utils/logs';
-import { localAPI, controlTowerAPI } from 'utils/axios';
+import {
+  localAPI,
+  WRIAPI,
+} from 'utils/axios';
 
 /**
  * Logs in a user based on the email + password combination
@@ -24,7 +27,7 @@ export const loginUser = ({ email, password }) => {
  */
 export const forgotPassword = ({ email }) => {
   logger.info('Forgot password');
-  return controlTowerAPI
+  return WRIAPI
     .post('auth/reset-password', { email }, { params: { origin: process.env.NEXT_PUBLIC_APPLICATIONS } })
     .then((response) => response.data)
     .catch(({ response }) => {
@@ -45,7 +48,7 @@ export const forgotPassword = ({ email }) => {
  */
 export const registerUser = ({ email }) => {
   logger.info('Register user');
-  return controlTowerAPI
+  return WRIAPI
     .post(
       `auth/sign-up?origin=${process.env.NEXT_PUBLIC_APPLICATIONS}`,
       {
@@ -72,7 +75,7 @@ export const registerUser = ({ email }) => {
  */
 export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
   logger.info('Reset password');
-  return controlTowerAPI
+  return WRIAPI
     .post(
       `auth/reset-password/${tokenEmail}?origin=${process.env.NEXT_PUBLIC_APPLICATIONS}`,
       { password, repeatPassword },
@@ -123,10 +126,15 @@ export const uploadPhoto = (file, user) => new Promise((resolve, reject) => {
   };
 });
 
-export default {
-  loginUser,
-  forgotPassword,
-  registerUser,
-  resetPassword,
-  uploadPhoto,
-};
+export const fetchUser = (userToken) => WRIAPI.get('/auth/user/me', {
+  headers: {
+    Authorization: userToken,
+  },
+})
+  .then(({ status, statusText, data }) => {
+    if (status >= 400) throw Error(statusText);
+    return data;
+  })
+  .catch(() => {
+    throw Error('unable to fetch user');
+  });

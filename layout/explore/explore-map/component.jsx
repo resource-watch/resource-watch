@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
@@ -50,6 +50,8 @@ import {
   MAPSTYLES,
   USER_AREA_LAYER_TEMPLATES,
 } from 'components/map/constants';
+
+// constants
 import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
 
 // styles

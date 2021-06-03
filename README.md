@@ -68,7 +68,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | SECRET        | Secret key used for signing and verifying the integrity of cookies.  | | If you change this key, all old signed cookies will become invalid! Make sure the secrets in this file are kept private |
 | RW_USERNAME + RW_PASSWORD | Username and password values for a basic auth access wall to the whole site. If missing, the auth wall is disabled | | This auth mechanism is meant for scenarios where you want to have the whole site available only to users with a shared username and password - a staging/demo environment, for example. It is NOT related to used-based functionality of the site (MyRW, for example). |
 | LOGGER_LEVEL | Logging level used with the [Pino](https://github.com/pinojs/pino) logging library. | info |  |
-| NEXT_PUBLIC_RW_ENV | Used to set some scripts/functionalities in the app (like Google Analytics, CrazyEgg, Hotjar, ...). Must be `development` or `production` |  |
+| NEXT_PUBLIC_RW_ENV | Used to set some scripts/functionalities in the app (like Google Analytics, CrazyEgg, Hotjar, ...). Must be `development`,`production` or `test` |  |
 | NEXT_PUBLIC_CALLBACK_URL | Sets the callback URL triggered when a user attempts to log in. Also handles the cookies registration. |  |
 | NEXT_PUBLIC_APPLICATIONS | Sets the context of the data. You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#applications). |  |
 | NEXT_PUBLIC_API_ENV | Environment the resource belongs to in the WRI API.You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#environments). |  |
@@ -79,6 +79,10 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_BLOG_API_URL | Used to fetch posts coming from the Resource Watch blog (Wordpress) |  | In most cases you'll want to use https://blog.resourcewatch.org/wp-json/wp/v2 for this value. When testing, be sure to mock all your HTTP requests, and avoid relying on actual calls to external services (like this one). |
 | NEXT_PUBLIC_BING_MAPS_API_KEY | API KEY used by Cesium. You can find more info in [its documentation](https://cesium.com/docs/cesiumjs-ref-doc/BingMapsApi.html#.defaultKey). |  |  |
 | NEXT_PUBLIC_RW_MAPBOX_API_TOKEN | Mapbox token used to render and handle Mapbox instances. You can find more info in the [Mapbox documentation](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/). |  |  |
+| NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID | Measurement ID used by Google Analytics v4. You can find more info in [Google Analytics v4 documentation](https://support.google.com/analytics/answer/9744165?hl=en&utm_id=ad#cms). This variable doesn't replace `NEXT_PUBLIC_GOOGLE_ANALYTICS` environmental variable. | | |
+| NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH | Feature flag to enable Ocean Watch pages | `undefined`| By default, these pages will not appear so make sure you initialize the environmental variable if you are going to work on them. Set to `true` to enable it. |
+| NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD | Feature flag to enable GEDC dashboard | `undefined`| By default, this dashboard will not appear so make sure you initialize the environmental variable if you are going to work on it. Set to `true` to enable it. |
+| NEXT_PUBLIC_FEATURE_FLAG_DISABLE_MY_DATA | Feature flag to disable Explore – My Data section | `undefined` | By default, this section will appear so make sure the value is `true` in case of hide it. |
 
 If you want to customize these variables for your local environment, the recommended way is creating a `.env.local` file.
 
@@ -112,18 +116,7 @@ Resource Watch application is split into the next main folders:
 - public
 
 ### **./pages**
-Pages are the first component to be loaded according _Next_ specification. They contain the layout to be loaded. They are also in charge of fetching data for that specific page.
-
-Pages are split into 3 main folders:
-- _app_: contains most of the pages of the site not linked to MyRW or the administration.
-- _myrw_ contains pages related with MyRW (My Resource Watch) user page.
-- _admin_: contains pages related with RW data administration.
-
-_Please take this into account where a page should be placed based on these criteria._
-
-Every time you add a new page, you will need to tell _Next_ when it should load it. This can be done in the `./routes.js` file.
-
-Apart from the custom pages, there are 3 unique pages defined by _Next_ will see below:
+Apart from the custom pages, there are several pages defined by _Next_ will see below:
 
 #### _app
 The page of pages. All ready will inherit from this one, so keep in mind this. Resource Watch's pages are connect to redux thanks to this file. It also sets some states and fetches used in the whole app. You can find more info [here](https://github.com/zeit/next.js#custom-app).
@@ -196,38 +189,14 @@ Contains functions that make thing easier and are used across the app. Like `con
 Folder to serve static files. It's accessible everywhere.
 
 # Routing
-_Next_ provides an easy way to manage our app's routes via [next-routes](https://github.com/fridays/next-routes). All app routes are served in `./routes`. A quick look at it:
-
-``` javascript
-routes.add('home', '/', 'app/home');
-routes.add('splash', '/splash', 'app/splash');
-routes.add('splash_detail', '/splash/:id', 'app/splash-detail');
-```
-
-The first value of the method represents the unique name of the route, the second is the route itself, while the third parameter represents the path to the page that should be rendered (starting from the **_./pages_** folder). Take into account, in some cases, and with some parameter combination, the order of route declaration matters.
+Resource Watch uses [NextJS Dynamic Routes](https://nextjs.org/docs/routing/dynamic-routes).
 
 # App State Management 🌅
 
-Resource Watch uses [**Redux**](http://redux.js.org/) along to [**next-redux-wrapper**](https://github.com/kirill-konshin/next-redux-wrapper) to manage the app state. With `next` 7.0 is not necessary anymore to wrap every page to access to the store. Wrapping `_app` is enough, rest of pages will access to the store like the rest of your components.
+Resource Watch uses [**Redux**](http://redux.js.org/) along to [**next-redux-wrapper**](https://github.com/kirill-konshin/next-redux-wrapper) to manage the global application state. With `next` 7.0 is not necessary anymore to wrap every page to access to the store. Wrapping `_app` is enough, rest of pages will access to the store like the rest of your components.
 
 
-Connection to the store must be isolated from the component itself (separating presentation from logic).
-
-``` javascript
-import { connect } from 'react-redux';
-
-// component
-import PagesShow from './component';
-
-export default connect(
-  state => ({
-    user: state.user,
-    id: state.routes.query.id
-  }),
-  null
-)(PagesShow);
-```
-The example above shows an `index.js` separating the logic from the component layout.
+To interact with React components, Resource Watch uses [**react-redux**](https://react-redux.js.org/). While the existing `connect` API is still around, it is recommended to move to [hooks](https://react-redux.js.org/api/hooks).
 
 # Authentication 🚫
 Authentication is based on the [RW API user management API](https://resource-watch.github.io/doc-api/index-rw.html#user-management).
@@ -281,6 +250,80 @@ As mentioned in the [Frontend testing section](#frontend-testing), some frontend
 Every change in the app must be documented in the `./CHANGELOG.md` file according to [keep a changelog](https://keepachangelog.com/en/1.0.0/) specs.
 
 At code level, comments must follow [JSDocs](https://jsdoc.app) specs.
+
+# Ocean Watch 🌊
+Ocean Watch dashboard is handled by a file located in `public/static/data/ocean-watch.json`. This file contains the configuration of the dashboard as follows:
+
+``` javascript
+// grid values: `50%`, `100%`
+{
+  // data displayed on https://staging.resourcewatch.org/
+  "staging": {
+    "content": [
+		// every array represents a block of content
+		[
+			{
+				"grid": "100%",
+				// represents a pink title in the dashboard
+				"title": "Ecosystems and Pressures"
+			},
+			{
+				"grid": "50%",
+				// represents a a block of text in the dashboard
+				"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis, sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
+			},
+			{
+				"grid": "50%",
+				"text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis, sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
+			}
+      	],
+		[
+			{
+				"grid": "100%",
+				"visualizationType": "mini-explore",
+				"config": {
+					// title of the Mini Explore. Mandatory.
+					"title": "Lorem ipsum",
+					// geostore of the area to display (if any). Optional: remove or set to `null` if no needed.
+					"areaOfInterest": "972c24e1da2c2baacc7572ee9501abdc",
+					// datasets split into different groups. Mandatory.
+					"datasetGroups": [
+						{
+							// title of the group. Mandatory.
+							"title": "Power Infrastructure",
+							// datasets that form the group. Mandatory.
+							"datasets": [
+								"a86d906d-9862-4783-9e30-cdb68cd808b8",
+								"b75d8398-34f2-447d-832d-ea570451995a",
+								"4919be3a-c543-4964-a224-83ef801370de"
+							],
+							// default datasets to display when Mini Explore is initialized. Optional: leave as empty array (`[]`) if no needed.
+							"default": [
+								"a86d906d-9862-4783-9e30-cdb68cd808b8"
+							]
+						},
+						{
+							"title": "Natural hazards",
+							"datasets": [
+								"484f10d3-a30b-4466-8052-c48d47cfb4a1",
+								"c5a62289-bdc8-4821-83f0-6f05e3d36bdc"
+							],
+							"default": [
+								"484f10d3-a30b-4466-8052-c48d47cfb4a1"
+							]
+						}
+					]
+				}
+			}
+		]
+    ]
+  },
+  // data displayed on https://preproduction.resourcewatch.org/, https://resourcewatch.org/
+  "production": {
+    "content": []
+  },
+}
+```
 
 # Contributing 🎁
 If you have any amazing idea for the project, please [tell us](https://github.com/resource-watch/resource-watch/issues) before develop it.
