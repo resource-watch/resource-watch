@@ -15,7 +15,6 @@
   transition: all $animation-time-2 $ease-in-out-sine;
 
   &:hover {
-
     &:not(.-active) {
       box-shadow: 0 0 0 1px rgba($black, .05), 0 20px 30px rgba($black, .2);
       transform: translateY(-4px);
@@ -35,17 +34,21 @@
   }
 
   &.-primary {
+    > .card-title {
+      color: $white;
+    }
+
     &.-active {
-      background-color: $sea-blue;
+      background-color: $white;
 
       > .card-title {
-        color: $white;
+        color: $charcoal-grey;
       }
     }
   }
 
   &.-secondary {
-    background-color: transparent;
+    background-color: $white;
 
     &.-active {
       background-color: $sea-blue;

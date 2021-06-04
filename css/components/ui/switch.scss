@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $switch-width: 20px;
 $switch-height: 12px;
 $switch-margin: 1px;
@@ -40,7 +42,7 @@ $switch-margin: 1px;
     // Switch position
     &.-active > span {
       background-color: $color-primary;
-      transform: translate(($switch-width / 2) - 2px,0);
+      transform: translate((math.div($switch-width, 2)) - 2px, 0);
     }
   }
 }

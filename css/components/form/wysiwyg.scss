@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .cw-wysiwyg {
   width: 100%;
 
@@ -34,7 +36,7 @@
         overflow-y: visible;
 
         h1 {
-          font-size: $font-size-h2 / 2;
+          font-size: math.div($font-size-h2, 2);
           color: $color-primary;
           font-weight: $font-weight-light;
           font-family: $body-font-family;
@@ -46,7 +48,7 @@
         }
 
         h2 {
-          font-size: $font-size-h3 / 2;
+          font-size: math.div($font-size-h3, 2);
           color: $color-primary;
           font-weight: $font-weight-light;
           font-family: $body-font-family;

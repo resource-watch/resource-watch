@@ -38,13 +38,14 @@ export default function CardIndicator({
 CardIndicator.defaultProps = {
   isSelected: false,
   onClickCard: null,
+  theme: 'primary',
 };
 
 CardIndicator.propTypes = {
   id: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  theme: PropTypes.oneOf(['primary', 'secondary']).isRequired,
+  theme: PropTypes.oneOf(['primary', 'secondary']),
   isSelected: PropTypes.bool,
   onClickCard: PropTypes.func,
 };

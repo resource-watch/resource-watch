@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import {
   useQuery,
 } from 'react-query';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,6 +27,11 @@ const fetchConfigFile = () => {
 };
 
 export default function OceanWatchCountryProfilePage() {
+  const {
+    query: {
+      iso,
+    },
+  } = useRouter();
   const {
     data: oceanWatchConfig,
   } = useQuery(
@@ -80,6 +86,10 @@ export default function OceanWatchCountryProfilePage() {
                     {blockContent.visualizationType === 'indicators-set' && (
                       <CardIndicatorSet
                         config={blockContent.config}
+                        params={{
+                          iso,
+                        }}
+                        theme={blockContent?.config?.theme}
                       >
                         {(blockContent?.config?.indicators || []).map(({ id, title, icon }) => (
                           <CardIndicator
