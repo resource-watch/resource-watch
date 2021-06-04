@@ -87,8 +87,7 @@ function Explore(props) {
             {(section === EXPLORE_SECTIONS.AREAS_OF_INTEREST && userIsLoggedIn) && (
               <ExploreAreasOfInterest />
             )}
-            {(section === EXPLORE_SECTIONS.MY_DATA
-              && !process.env.NEXT_PUBLIC_FEATURE_FLAG_DISABLE_MY_DATA) && (
+            {section === EXPLORE_SECTIONS.MY_DATA && (
               <ExploreMyData />
             )}
           </div>
