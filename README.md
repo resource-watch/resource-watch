@@ -82,7 +82,6 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID | Measurement ID used by Google Analytics v4. You can find more info in [Google Analytics v4 documentation](https://support.google.com/analytics/answer/9744165?hl=en&utm_id=ad#cms). This variable doesn't replace `NEXT_PUBLIC_GOOGLE_ANALYTICS` environmental variable. | | |
 | NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH | Feature flag to enable Ocean Watch pages | `undefined`| By default, these pages will not appear so make sure you initialize the environmental variable if you are going to work on them. Set to `true` to enable it. |
 | NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD | Feature flag to enable GEDC dashboard | `undefined`| By default, this dashboard will not appear so make sure you initialize the environmental variable if you are going to work on it. Set to `true` to enable it. |
-| NEXT_PUBLIC_FEATURE_FLAG_DISABLE_MY_DATA | Feature flag to disable Explore – My Data section | `undefined` | By default, this section will appear so make sure the value is `true` in case of hide it. |
 
 If you want to customize these variables for your local environment, the recommended way is creating a `.env.local` file.
 
