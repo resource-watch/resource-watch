@@ -1,0 +1,58 @@
+@import 'css/settings';
+
+.c-indicator-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 160px;
+  width: 160px;
+  padding: ($space * 2);
+  border: 1px solid rgba($white, .3);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px 0 rgba($black, .09);
+  cursor: pointer;
+  transition: all $animation-time-2 $ease-in-out-sine;
+
+  &:hover {
+
+    &:not(.-active) {
+      box-shadow: 0 0 0 1px rgba($black, .05), 0 20px 30px rgba($black, .2);
+      transform: translateY(-4px);
+    }
+  }
+
+  > svg {
+    width: 50px;
+    height: 50px;
+    fill: $blue-turquoise;
+  }
+
+  > .card-title {
+    display: inline-block;
+    font-size: $font-size-medium;
+    font-weight: 500;
+  }
+
+  &.-primary {
+    &.-active {
+      background-color: $sea-blue;
+
+      > .card-title {
+        color: $white;
+      }
+    }
+  }
+
+  &.-secondary {
+    background-color: transparent;
+
+    &.-active {
+      background-color: $sea-blue;
+
+      > .card-title {
+        color: $white;
+      }
+    }
+  }
+}

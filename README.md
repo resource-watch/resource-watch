@@ -262,6 +262,139 @@ Ocean Watch dashboard is handled by a file located in `public/static/data/ocean-
 		// every array represents a block of content
 		[
 			{
+			"grid": "100%",
+			"visualizationType": "indicators-set",
+			"config": {
+				// visual theme to display. Possible value: `primary` / `secondary`
+				"theme": "secondary",
+				// list of indicators
+				"indicators": [
+				{
+					"id": "marine-protected-areas",
+					// name of the indicator
+					"title": "Marine Protected Areas",
+					// icon displayed
+					"icon": "marine",
+					// list of widgets to display under the indicator. The first widget is located at left side, second one at right.
+					"widgets": [
+					{
+						"id": "b9192492-20f3-4725-8e90-8795f2176329"
+					},
+					{
+						// query to obtain data to display
+						"query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+						// optional text to display
+						"text": "Some highlight text about why this matters",
+						// format to apply to the result of the query
+						"format": ".2f"
+					}
+					],
+					// enable to set this indicator as the first one highlighted when the page loads
+					"default": true
+				},
+				{
+					"id": "oceans-climate",
+					"title": "Oceans and Climate",
+					"icon": "climate",
+					"widgets": [
+					{
+						"id": "b9192492-20f3-4725-8e90-8795f2176329"
+					},
+					{
+						"query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+						"text": "Some highlight text about why this matters",
+						"format": ".2f"
+					}
+					]
+				},
+				{
+					"id": "blue-economy",
+					"title": "The Blue Economy",
+					"icon": "economy",
+					// sections 
+					"sections": [
+					{
+						// title of the section
+						"title": "section 1",
+						// widgets to display in the section. It works like widgets under an indicator.
+						"widgets": [
+						{
+							"id": "b9192492-20f3-4725-8e90-8795f2176329"
+						},
+						{
+							"query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+							"text": "Some highlight text about why this matters",
+							"format": ".2f"
+						}
+						],
+						"default": true
+					},
+					{
+						"title": "section 2",
+						"widgets": [
+						{
+							"id": "b9192492-20f3-4725-8e90-8795f2176329"
+						},
+						{
+							"query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+							"text": "Some highlight text about why this matters",
+							"format": ".2f"
+						}
+						]
+					}
+					]
+				},
+				{
+					"id": "land-sea-interface",
+					"title": "The Land/Sea Interface",
+					"icon": "land-sea",
+					"widgets": [
+					{
+						"id": "b9192492-20f3-4725-8e90-8795f2176329"
+					},
+					{
+						"query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+						"text": "Some highlight text about why this matters",
+						"format": ".2f"
+					}
+					]
+				},
+				{
+					"id": "ocean-dependence",
+					"title": "Ocean Dependence",
+					"icon": "dependence",
+					"widgets": [
+					{
+						"id": "b9192492-20f3-4725-8e90-8795f2176329"
+					},
+					{
+						"query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+						"text": "Some highlight text about why this matters",
+						"format": ".2f"
+					}
+					]
+				},
+				{
+					"id": "biodiversity",
+					"title": "Biodiversity",
+					"icon": "biodiversity",
+					"widgets": [
+					{
+						"id": "b9192492-20f3-4725-8e90-8795f2176329"
+					},
+					{
+						"query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+						"text": "Some highlight text about why this matters",
+						"format": ".2f"
+					}
+					]
+				}
+				]
+			}
+			}
+		],
+		[
+			{
 				"grid": "100%",
 				// represents a pink title in the dashboard
 				"title": "Ecosystems and Pressures"

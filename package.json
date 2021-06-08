@@ -104,6 +104,7 @@
     "reselect": "3.0.1",
     "serve-static": "^1.13.2",
     "use-debounce": "^2.1.0",
+    "uuid": "^8.3.2",
     "vega-lib": "^4.4.0",
     "vizzuality-components": "^3.0.3",
     "whatwg-fetch": "2.0.2",

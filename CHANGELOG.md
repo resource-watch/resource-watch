@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch: indicators set. [OW-74](https://vizzuality.atlassian.net/browse/OW-74)
 - explore – my data: Pardot form. [RW-39](https://vizzuality.atlassian.net/browse/RW-39)
 - Ocean Watch configuration file.
 - Ocean Watch: Isolated mini Explore component. [OW-77](https://vizzuality.atlassian.net/browse/OW-77)
@@ -19,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Changed
-- `react@4.1.0`
+- `redux@4.1.0`
 - `react-redux@7.2.4`
 - Ocean Watch: updated texts from Partners page. [OW-24](https://vizzuality.atlassian.net/browse/OW-24)
 - optional Redis client locally.
