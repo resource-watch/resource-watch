@@ -16,8 +16,9 @@ import './styles.scss';
 export default function CardIndicatorSet({
   config: {
     indicators,
-    theme,
   },
+  params,
+  theme,
   children,
 }) {
   const defaultIndicator = useMemo(
@@ -65,6 +66,7 @@ export default function CardIndicatorSet({
         <IndicatorVisualization
           indicator={currentIndicator}
           theme={theme}
+          params={params}
         />
       )}
     </div>
@@ -72,9 +74,8 @@ export default function CardIndicatorSet({
 }
 
 CardIndicatorSet.defaultProps = {
-  config: {
-    theme: 'primary',
-  },
+  theme: 'primary',
+  params: null,
 };
 
 CardIndicatorSet.propTypes = {
@@ -86,12 +87,13 @@ CardIndicatorSet.propTypes = {
         icon: PropTypes.string.isRequired,
       }),
     ).isRequired,
-    theme: PropTypes.oneOf(['primary', 'secondary']),
-  }),
+  }).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.arrayOf(
       PropTypes.element,
     ),
   ]).isRequired,
+  theme: PropTypes.oneOf(['primary', 'secondary']),
+  params: PropTypes.shape({}),
 };

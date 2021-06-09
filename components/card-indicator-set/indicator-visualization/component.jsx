@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import {
   useSelector,
 } from 'react-redux';
-import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import classnames from 'classnames';
 // import { format } from 'd3-format';
@@ -39,13 +38,9 @@ export default function IndicatorVisualization({
     widgets: _widgets,
     sections,
   },
+  params,
   theme,
 }) {
-  const {
-    query: {
-      iso,
-    },
-  } = useRouter();
   const RWAdapter = useSelector((state) => getRWAdapter(state));
   const [isInfoVisible, setInfoVisibility] = useState(false);
   const serializedSections = useMemo(
@@ -115,9 +110,9 @@ export default function IndicatorVisualization({
   }, [serializedSections]);
 
   const replacedQuery = useMemo(() => {
-    if (!widgetQuery) return null;
-    return replace(widgetQuery, { iso });
-  }, [widgetQuery, iso]);
+    if (!widgetQuery || !params) return null;
+    return replace(widgetQuery, params);
+  }, [widgetQuery, params]);
 
   const {
     data: secondaryWidget,
@@ -152,7 +147,7 @@ export default function IndicatorVisualization({
 
   return (
     <div className={`c-visualization-indicator -${theme}`}>
-      {((sections || []).length > 0) && (
+      {(serializedSections.length > 0) && (
         <div className="sections-container">
           {serializedSections.map(({ id, title }) => (
             <button
@@ -309,6 +304,7 @@ export default function IndicatorVisualization({
 
 IndicatorVisualization.defaultProps = {
   theme: 'primary',
+  params: null,
 };
 
 IndicatorVisualization.propTypes = {
@@ -332,4 +328,5 @@ IndicatorVisualization.propTypes = {
     ),
   }).isRequired,
   theme: PropTypes.oneOf(['primary', 'secondary']),
+  params: PropTypes.shape({}),
 };

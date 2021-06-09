@@ -1,0 +1,12 @@
+@import 'css/settings';
+
+.c-datasets-actions {
+  display: flex;
+  justify-content: space-between;
+
+  > * {
+    &:not(:first-child) {
+      margin: 0 0 0 $space;
+    }
+  }
+}

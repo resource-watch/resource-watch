@@ -16,6 +16,9 @@ import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 // utils
 import { logEvent } from 'utils/analytics';
 
+// styles
+import './styles.scss';
+
 const MiniExploreDatasetsActions = (props) => {
   const {
     dataset,
@@ -70,7 +73,7 @@ const MiniExploreDatasetsActions = (props) => {
   }, [handleAddMap, dataset, layer]);
 
   return (
-    <div className="c-explore-datasets-actions">
+    <div className="c-datasets-actions">
       <button
         className={classnames({
           'c-button': true,

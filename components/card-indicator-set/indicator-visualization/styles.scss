@@ -5,7 +5,6 @@
   position: relative;
   padding: ($space * 3);
   margin: ($space * 6) 0 0 0;
-  // height: 530px;
   border-radius: 4px;
 
   >.sections-container {
@@ -105,22 +104,8 @@
   }
 
   &.-primary {
-    background-color: $sea-blue;
-    >.sections-container {
-      > .btn-section {
-        color: $white;
-
-        &.-active  {
-          &:after {
-            background: $white;
-          }
-        }
-      }
-    }
-  }
-
-  &.-secondary {
     background-color: $color-12;
+
 
     >.sections-container {
       > .btn-section {
@@ -129,6 +114,22 @@
         &.-active  {
           &:after {
             background: $charcoal-grey;
+          }
+        }
+      }
+    }
+  }
+
+  &.-secondary {
+    background-color: $sea-blue;
+
+    >.sections-container {
+      > .btn-section {
+        color: $white;
+
+        &.-active  {
+          &:after {
+            background: $white;
           }
         }
       }

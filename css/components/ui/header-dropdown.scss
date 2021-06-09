@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .c-header-dropdown {
   position: fixed;
   background-color: $color-white;
@@ -26,7 +28,7 @@
 
     .header-dropdown-list-item {
       white-space: nowrap;
-      margin: $margin-size-extra-small / 2 0;
+      margin: math.div($margin-size-extra-small, 2) 0;
       cursor: pointer;
 
       &:first-child {

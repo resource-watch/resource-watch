@@ -14,17 +14,17 @@
 
     &.-primary {
       &:after {
-        @include arrow(24px, 2px, $sea-blue, up);
+        @include arrow(24px, 2px, $color-12, up);
         transform: rotate(45deg) translate(-50%, 0);
-        background-color: $sea-blue;
+        background-color: $color-12;
       }
     }
 
     &.-secondary {
       &:after {
-        @include arrow(24px, 2px, $color-12, up);
+        @include arrow(24px, 2px, $sea-blue, up);
         transform: rotate(45deg) translate(-50%, 0);
-        background-color: $color-12;;
+        background-color: $sea-blue;;
       }
     }
   }

@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Storybook.
 - Ocean Watch: indicators set. [OW-74](https://vizzuality.atlassian.net/browse/OW-74)
 - explore – my data: Pardot form. [RW-39](https://vizzuality.atlassian.net/browse/RW-39)
 - Ocean Watch configuration file.

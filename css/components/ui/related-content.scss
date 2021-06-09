@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Related content
 .c-related-content {
   > ul {
@@ -18,7 +20,7 @@
         text-decoration: none;
         color: $color-text-1;
         fill: $color-text-1;
-        padding: $space-1 / 2 6px;
+        padding: math.div($space-1, 2) 6px;
         border-radius: 4px;
         font-size: $font-size-default;
         cursor: pointer;
