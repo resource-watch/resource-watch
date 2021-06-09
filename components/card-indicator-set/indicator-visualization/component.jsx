@@ -110,7 +110,7 @@ export default function IndicatorVisualization({
   }, [serializedSections]);
 
   const replacedQuery = useMemo(() => {
-    if (!widgetQuery || !params) return null;
+    if (!widgetQuery) return null;
     return replace(widgetQuery, params);
   }, [widgetQuery, params]);
 
@@ -304,7 +304,7 @@ export default function IndicatorVisualization({
 
 IndicatorVisualization.defaultProps = {
   theme: 'primary',
-  params: null,
+  params: {},
 };
 
 IndicatorVisualization.propTypes = {

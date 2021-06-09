@@ -1,3 +1,6 @@
+import {
+  useMemo,
+} from 'react';
 import classnames from 'classnames';
 import {
   useQuery,
@@ -36,11 +39,42 @@ export default function OceanWatchCountryProfilePage() {
     },
   );
 
+  const indicatorSetConfiguration = useMemo(() => oceanWatchConfig['country-profile']
+    .find((rowContent) => !!rowContent.find((blockContent) => blockContent.visualizationType === 'indicators-set'))?.[0], [oceanWatchConfig]);
+
   return (
     <LayoutOceanWatch
       title="Ocean Watch"
       description="Ocean Watch description" // todo: replace description
     >
+      <section className="l-section -small  -secondary">
+        <div className="l-container">
+          <div className="row">
+            <div className="column small-12">
+              {indicatorSetConfiguration && (
+                <CardIndicatorSet
+                  config={indicatorSetConfiguration.config}
+                  params={{
+                    iso,
+                  }}
+                  theme={indicatorSetConfiguration?.config?.theme}
+                >
+                  {(indicatorSetConfiguration?.config?.indicators || [])
+                    .map(({ id, title, icon }) => (
+                      <CardIndicator
+                        key={id}
+                        id={id}
+                        title={title}
+                        icon={icon}
+                        theme={indicatorSetConfiguration?.config?.theme}
+                      />
+                    ))}
+                </CardIndicatorSet>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
       <div className="l-container">
         {oceanWatchConfig['country-profile'].map((rowContent) => (
           <section
@@ -72,25 +106,6 @@ export default function OceanWatchCountryProfilePage() {
                       <MiniExplore
                         config={blockContent.config}
                       />
-                    )}
-                    {blockContent.visualizationType === 'indicators-set' && (
-                      <CardIndicatorSet
-                        config={blockContent.config}
-                        params={{
-                          iso,
-                        }}
-                        theme={blockContent?.config?.theme}
-                      >
-                        {(blockContent?.config?.indicators || []).map(({ id, title, icon }) => (
-                          <CardIndicator
-                            key={id}
-                            id={id}
-                            title={title}
-                            icon={icon}
-                            theme={blockContent?.config?.theme}
-                          />
-                        ))}
-                      </CardIndicatorSet>
                     )}
                   </div>
                 ))}

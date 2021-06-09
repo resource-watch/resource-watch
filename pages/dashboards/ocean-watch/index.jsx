@@ -1,34 +1,7 @@
-import classnames from 'classnames';
-import {
-  useQuery,
-} from 'react-query';
-import { v4 as uuidv4 } from 'uuid';
-
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
-import CardIndicatorSet from 'components/card-indicator-set';
-import CardIndicator from 'components/card-indicator-set/card-indicator';
-
-// services
-import { fetchConfigFile } from 'services/ocean-watch';
 
 export default function OceanWatchIntroPage() {
-  // todo: move this fetching to getStaticProps function when getInitialProps is gone
-  const {
-    data: oceanWatchConfig,
-  } = useQuery(
-    ['ocean-watch-config-file'],
-    () => fetchConfigFile(),
-    {
-      refetchOnWindowFocus: false,
-      placeholderData: {
-        intro: [],
-        'country-profile': [],
-      },
-      initialStale: true,
-    },
-  );
-
   return (
     <LayoutOceanWatch
       title="Ocean Watch – Introduction"
@@ -51,43 +24,6 @@ export default function OceanWatchIntroPage() {
             </div>
           </div>
         </section>
-        {oceanWatchConfig.intro.map((rowContent) => (
-          <section
-            key={uuidv4()}
-            className="l-section -small"
-          >
-            <div className="cw-wysiwyg-list-item -isReadOnly">
-              <div className="row">
-                {rowContent.map((blockContent) => (
-                  <div
-                    key={uuidv4()}
-                    className={classnames({
-                      column: true,
-                      'small-12': blockContent.grid === '100%',
-                      'medium-6': blockContent.grid === '50%',
-                    })}
-                  >
-                    {blockContent.visualizationType === 'indicators-set' && (
-                      <CardIndicatorSet
-                        config={blockContent.config}
-                      >
-                        {(blockContent?.config?.indicators || []).map(({ id, title, icon }) => (
-                          <CardIndicator
-                            key={id}
-                            id={id}
-                            title={title}
-                            icon={icon}
-                            theme={blockContent?.config?.theme}
-                          />
-                        ))}
-                      </CardIndicatorSet>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        ))}
       </div>
     </LayoutOceanWatch>
   );

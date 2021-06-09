@@ -39,7 +39,7 @@ export default class Tabs extends React.Component {
         <div className="row l-row">
           {options.map((option) => {
             const btnClasses = classnames({
-              '-active': option.value === selected,
+              '-active': option.value.includes(selected),
               '-desktopOnly': option.desktopOnly,
             });
 
