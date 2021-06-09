@@ -3,7 +3,6 @@ import {
   useQuery,
 } from 'react-query';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 // components
@@ -12,21 +11,11 @@ import MiniExplore from 'components/mini-explore';
 import CardIndicatorSet from 'components/card-indicator-set';
 import CardIndicator from 'components/card-indicator-set/card-indicator';
 
-// data
-import OceanWatchConfigFile from 'public/static/data/ocean-watch';
-
-const fetchConfigFile = () => {
-  // As of date, we have 2 different databases for data,
-  // so ids need to be different depending on the environment deployed.
-  const isStagingAPI = process.env.NEXT_PUBLIC_WRI_API_URL.includes('staging-api.resourcewatch.org');
-  // in development, we work with the local file
-  if (process.env.NODE_ENV === 'development') return Promise.resolve(OceanWatchConfigFile[isStagingAPI ? 'staging' : 'production']);
-
-  return axios.get('https://raw.githubusercontent.com/resource-watch/resource-watch/develop/public/static/data/ocean-watch.json')
-    .then(({ data }) => data[isStagingAPI ? 'staging' : 'production']);
-};
+// services
+import { fetchConfigFile } from 'services/ocean-watch';
 
 export default function OceanWatchCountryProfilePage() {
+  // todo: move this fetching to getStaticProps function when getInitialProps is gone
   const {
     query: {
       iso,
@@ -40,7 +29,8 @@ export default function OceanWatchCountryProfilePage() {
     {
       refetchOnWindowFocus: false,
       placeholderData: {
-        content: [],
+        intro: [],
+        'country-profile': [],
       },
       initialStale: true,
     },
@@ -52,7 +42,7 @@ export default function OceanWatchCountryProfilePage() {
       description="Ocean Watch description" // todo: replace description
     >
       <div className="l-container">
-        {oceanWatchConfig.content.map((rowContent) => (
+        {oceanWatchConfig['country-profile'].map((rowContent) => (
           <section
             key={uuidv4()}
             className="l-section -small"
