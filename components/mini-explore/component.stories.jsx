@@ -8,7 +8,7 @@ export default {
   argTypes: {},
 };
 
-const Template = ({ args }) => (
+const Template = (args) => (
   <MiniExplore {...args} />
 );
 
