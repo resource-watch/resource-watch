@@ -169,7 +169,8 @@
     "cover:report": "nyc report --reporter=lcov --reporter=text",
     "cover": "npm run cover:frontend && npm run cover:backend && npm run cover:report",
     "build-storybook": "build-storybook",
-    "storybook:dev": "start-storybook -p 6006 -s ./public"
+    "storybook:dev": "start-storybook -p 6006 -s ./public",
+    "storybook:build": "build-storybook -s ./public"
   },
   "engines": {
     "node": ">=14.15"
