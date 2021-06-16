@@ -42,7 +42,6 @@ const CompareMaps = (props) => {
       <div className="compare-container">
         {/* left map */}
         <Map
-          mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
           interactiveLayerIds={[]}
           mapStyle={MAPSTYLES}
           className="-compare"
@@ -133,7 +132,6 @@ const CompareMaps = (props) => {
           <div className="compare-swiper" />
         </div>
         <Map
-          mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
           interactiveLayerIds={[]}
           mapStyle={MAPSTYLES}
           className="-compare"

@@ -308,7 +308,6 @@ class WidgetBlock extends PureComponent {
             {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && isInitMap && (
               <>
                 <Map
-                  mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
                   mapStyle={MAPSTYLES}
                   viewport={viewport}
                   basemap={this.getMapBasemap(widget)}

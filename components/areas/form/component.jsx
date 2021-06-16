@@ -207,7 +207,6 @@ const AreasForm = ({
                 />
               )}
               <Map
-                mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
                 mapStyle={MAPSTYLES}
                 viewport={mapState.viewport}
                 basemap="dark"
