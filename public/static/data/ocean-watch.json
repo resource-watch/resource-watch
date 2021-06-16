@@ -248,6 +248,60 @@
       [
         {
           "grid": "100%",
+          "title": "Catchment Areas and Land Cover"
+        },
+        {
+          "grid": "50%",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi."
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "widget": "fd6f666b-da36-497f-946d-1af871aa1535",
+          "type": "chart"
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "widget": "5363504d-d1d4-4df3-801c-cf0436d0a97d",
+          "type": "chart"
+        },
+        {
+          "grid": "50%",
+          "widget": "91b78911-6098-4e1c-ad50-c67d812f02b0",
+          "type": "chart"
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi."
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "widget": "fd6f666b-da36-497f-946d-1af871aa1535",
+          "type": "chart"
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "widget": "b9192492-20f3-4725-8e90-8795f2176329",
+          "type": "chart"
+        },
+        {
+          "grid": "50%",
+          "widget": "fd6f666b-da36-497f-946d-1af871aa1535",
+          "type": "chart"
+        }
+      ],
+      [
+        {
+          "grid": "100%",
           "title": "Ecosystems and Pressures"
         },
         {
@@ -537,6 +591,60 @@
               }
             ]
           }
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "title": "Catchment Areas and Land Cover"
+        },
+        {
+          "grid": "50%",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi."
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "widget": "060efa56-95a1-4223-997d-b58188156268",
+          "type": "map"
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "widget": "cd0a50e0-c58e-418b-9604-5a452d07b308",
+          "type": "chart"
+        },
+        {
+          "grid": "50%",
+          "widget": "cd0a50e0-c58e-418b-9604-5a452d07b308",
+          "type": "chart"
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi."
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "widget": "060efa56-95a1-4223-997d-b58188156268",
+          "type": "map"
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "widget": "cd0a50e0-c58e-418b-9604-5a452d07b308",
+          "type": "chart"
+        },
+        {
+          "grid": "50%",
+          "widget": "cd0a50e0-c58e-418b-9604-5a452d07b308",
+          "type": "chart"
         }
       ],
       [

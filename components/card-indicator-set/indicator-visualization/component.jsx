@@ -5,6 +5,7 @@ import {
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
 import {
   useSelector,
 } from 'react-redux';
@@ -19,11 +20,13 @@ import axios from 'axios';
 import Spinner from 'components/ui/Spinner';
 import Title from 'components/ui/Title';
 import WidgetHeader from 'components/widgets/header';
+import WidgetInfo from 'components/widgets/info';
 
 // hooks
 import {
   useFetchWidget,
 } from 'hooks/widget';
+import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 
 // constants
 import {
@@ -32,6 +35,8 @@ import {
 
 // styles
 import './styles.scss';
+
+const WidgetShareModal = dynamic(() => import('../../widgets/share-modal'), { ssr: false });
 
 export default function IndicatorVisualization({
   indicator: {
@@ -42,7 +47,11 @@ export default function IndicatorVisualization({
   theme,
 }) {
   const RWAdapter = useSelector((state) => getRWAdapter(state));
+  const userToken = useSelector((state) => state.user?.token);
+
   const [isInfoVisible, setInfoVisibility] = useState(false);
+  const [isShareVisible, setShareWidgetVisibility] = useState(false);
+
   const serializedSections = useMemo(
     () => (sections || []).map((section, index) => ({
       ...section,
@@ -105,6 +114,18 @@ export default function IndicatorVisualization({
     },
   );
 
+  const {
+    isInACollection,
+  } = useBelongsToCollection(mainWidget?.id, userToken);
+
+  const handleShareToggle = useCallback(() => {
+    setShareWidgetVisibility(mainWidget);
+  }, [mainWidget]);
+
+  const handleCloseShare = useCallback(() => {
+    setShareWidgetVisibility(null);
+  }, []);
+
   const handleSection = useCallback((_id) => {
     setSection(serializedSections.find(({ id }) => _id === id));
   }, [serializedSections]);
@@ -134,11 +155,6 @@ export default function IndicatorVisualization({
     () => {
       setInfoVisibility(!isInfoVisible);
     }, [isInfoVisible],
-  );
-
-  const widgetLinks = useMemo(
-    () => mainWidget?.metadata?.[0]?.info?.widgetLinks || [],
-    [mainWidget],
   );
 
   useEffect(() => {
@@ -196,46 +212,17 @@ export default function IndicatorVisualization({
                   widget={mainWidget}
                   onToggleInfo={handleToggleInfo}
                   isInfoVisible={isInfoVisible}
+                  isInACollection={isInACollection}
+                  onToggleShare={handleShareToggle}
                 />
-              )}
-              {isInfoVisible && (
-                <div className="widget-info-container">
-                  <div className="widget-modal">
-                    {!mainWidget?.description
-                      && <p>No additional information is available</p>}
-
-                    {mainWidget?.description && (
-                      <>
-                        <h4>Description</h4>
-                        <p>{mainWidget.description}</p>
-                      </>
-                    )}
-
-                    {(widgetLinks.length > 0) && (
-                      <div className="widget-links-container">
-                        <h4>Links</h4>
-                        <ul>
-                          {widgetLinks.map(({ link, name }) => (
-                            <li key={link}>
-                              <a
-                                href={link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {name}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </div>
               )}
               <div
                 className="widget-container"
                 style={{
-                  ...isInfoVisible && { visibility: 'hidden' },
+                  ...isInfoVisible && {
+                    padding: 0,
+                    height: 'calc(100% - 70px)',
+                  },
                 }}
               >
                 {mainWidget?.widgetConfig && (
@@ -243,6 +230,9 @@ export default function IndicatorVisualization({
                     adapter={RWAdapter}
                     widgetConfig={mainWidget.widgetConfig}
                   />
+                )}
+                {(isInfoVisible && mainWidget) && (
+                  <WidgetInfo widget={mainWidget} />
                 )}
               </div>
             </>
@@ -298,6 +288,13 @@ export default function IndicatorVisualization({
           )}
         </div>
       </div>
+      {(!!isShareVisible) && (
+        <WidgetShareModal
+          isVisible
+          widget={isShareVisible}
+          onClose={handleCloseShare}
+        />
+      )}
     </div>
   );
 }
