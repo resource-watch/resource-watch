@@ -221,6 +221,9 @@ export default function MapTypeWidget({
               scrollZoom={false}
               bounds={bounds}
               boundaries={boundaries}
+              fitBoundsOptions={{
+                duration: 0,
+              }}
               onError={() => {
                 handleError(new Error('map couldn\'t load'));
               }}
