@@ -1,9 +1,9 @@
-import { connect } from 'react-redux';
+// hoc
+import {
+  withUser,
+} from 'hoc/auth';
 
 // component
 import LayersTable from './component';
 
-export default connect(
-  (state) => ({ user: state.user }),
-  null,
-)(LayersTable);
+export default withUser(LayersTable);

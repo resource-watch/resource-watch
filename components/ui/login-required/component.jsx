@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -23,10 +23,10 @@ class LoginRequired extends PureComponent {
   closePrompt = () => { this.setState({ isOpen: false }); }
 
   render() {
-    const { user, children, redirect } = this.props;
+    const { token, children, redirect } = this.props;
     const { isOpen } = this.state;
 
-    return user.token ? children : (
+    return token ? children : (
       <>
         <div
           className="c-login-required"
@@ -48,13 +48,12 @@ class LoginRequired extends PureComponent {
 LoginRequired.defaultProps = {
   clickCallback: null,
   redirect: true,
+  token: null,
 };
 
 LoginRequired.propTypes = {
   children: PropTypes.shape({}).isRequired,
-  user: PropTypes.shape({
-    token: PropTypes.string,
-  }).isRequired,
+  token: PropTypes.string,
   redirect: PropTypes.bool,
   clickCallback: PropTypes.func,
 };

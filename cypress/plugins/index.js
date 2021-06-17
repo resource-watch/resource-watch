@@ -21,6 +21,7 @@ module.exports = (on, config) => {
     'NEXT_PUBLIC_APPLICATIONS': process.env.NEXT_PUBLIC_APPLICATIONS,
     'NEXT_PUBLIC_RW_ENV': process.env.NEXT_PUBLIC_RW_ENV,
     'NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH': process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH,
+    'NEXTAUTH_URL': process.env.NEXTAUTH_URL,
   };
 
   Object.keys(envDictionary).map((envKey) => {

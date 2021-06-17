@@ -2,10 +2,6 @@ describe('An authenticated user creates a new dashboard', () => {
   beforeEach(() => {
     cy.validateEnvVar('NEXT_PUBLIC_WRI_API_URL');
 
-    cy.login();
-  });
-
-  it ('a user creates a new dashboard from scratch', () => {
     cy.fixture('dashboards/post/output').then((dashboardPayload) => {
       cy.intercept({
           method: 'POST',
@@ -16,6 +12,10 @@ describe('An authenticated user creates a new dashboard', () => {
       ).as('createDashboard');
     });
 
+    cy.login();
+  });
+
+  it ('a user creates a new dashboard from scratch', () => {
     cy.visit('/myrw-detail/dashboards/new');
 
     cy.fixture('dashboards/post/input').then((dashboard) => {

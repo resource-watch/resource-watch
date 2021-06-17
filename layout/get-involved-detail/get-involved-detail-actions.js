@@ -1,8 +1,7 @@
-import 'isomorphic-fetch';
+import { createAction } from '@reduxjs/toolkit';
+import { createThunkAction } from 'redux-tools';
 
-import { createAction, createThunkAction } from 'redux-tools';
-
-// The pages have chnged titles and lookup required to match to old slug
+// The pages have changed titles and lookup required to match to old slug
 const lookup = {
   'suggest-a-story': 'suggest-a-story',
   'contribute-data': 'contribute-data',

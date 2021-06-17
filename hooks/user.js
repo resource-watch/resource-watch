@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { useSession } from 'next-auth/client';
 
 // services
 import {
@@ -6,20 +7,29 @@ import {
 } from 'services/user';
 
 const useFetchUser = (userToken, queryConfig) => useQuery(
-  ['fetch-user', userToken],
+  'me',
   () => fetchUser(userToken),
   { ...queryConfig },
 );
 
-export const useMe = (userToken, queryConfig = {}) => useFetchUser(
-  [userToken],
-  {
-    enabled: !!userToken,
-    refetchOnWindowFocus: false,
-    initialData: {},
-    initialStale: true,
-    ...queryConfig,
-  },
-);
+export const useMe = (queryConfig = {}) => {
+  const [session] = useSession();
 
-export default useMe;
+  return useFetchUser(
+    [`Bearer ${session?.accessToken}`],
+    {
+      enabled: !!(session?.accessToken),
+      refetchOnWindowFocus: false,
+      initialData: null,
+      select: (user) => user && ({
+        ...user,
+        token: `Bearer ${session?.accessToken}`,
+      }),
+      ...queryConfig,
+    },
+  );
+};
+
+export default {
+  useMe,
+};

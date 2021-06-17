@@ -1,4 +1,5 @@
-import { createAction, createThunkAction } from 'redux-tools';
+import { createAction } from '@reduxjs/toolkit';
+import { createThunkAction } from 'redux-tools';
 
 // services
 import {
@@ -10,7 +11,7 @@ import { fetchDatasets } from 'services/dataset';
 // actions
 export const setPartners = createAction('PARTNERS/SET-PARTNERS');
 export const setPartner = createAction('PARTNERS/SET-PARTNER');
-export const setDatasets = createAction('PARTNERS/SET-DATASETS-BY-PARTNET');
+export const setDatasets = createAction('PARTNERS/SET-DATASETS-BY-PARTNER');
 export const setLoading = createAction('PARTNERS/SET-LOADING');
 export const setError = createAction('PARTNERS/SET-ERROR');
 export const setFilters = createAction('PARTNERS/SET-FILTERS');

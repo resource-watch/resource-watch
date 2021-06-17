@@ -1,6 +1,5 @@
-import 'isomorphic-fetch';
-
-import { createAction, createThunkAction } from 'redux-tools';
+import { createAction } from '@reduxjs/toolkit';
+import { createThunkAction } from 'redux-tools';
 
 // Actions
 export const setStaticData = createAction('GET-INVOLVED-INDEX/setStaticData');

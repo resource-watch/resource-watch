@@ -19,6 +19,11 @@ import DashboardsTab from 'components/app/myrw/dashboards/DashboardsTab';
 import CollectionsTab from 'components/app/myrw/collections';
 import Title from 'components/ui/Title';
 
+// hooks
+import {
+  useMe,
+} from 'hooks/user';
+
 // services
 import { fetchDashboard } from 'services/dashboard';
 import { fetchDataset } from 'services/dataset';
@@ -33,7 +38,6 @@ import { getLabel } from 'utils/datasets/dataset-helpers';
 import { MYRW_DETAIL_SUB_TABS } from './constants';
 
 export default function LayoutMyRWDetail({
-  user,
   locale,
   alerts,
 }) {
@@ -42,6 +46,9 @@ export default function LayoutMyRWDetail({
       params,
     },
   } = useRouter();
+  const {
+    data: user,
+  } = useMe();
   const [data, setData] = useState(null);
 
   const tab = params?.[0] || null;
@@ -74,7 +81,7 @@ export default function LayoutMyRWDetail({
           application: process.env.NEXT_PUBLIC_APPLICATIONS,
           env: process.env.NEXT_PUBLIC_API_ENV,
         },
-        { Authorization: user.token })
+        { Authorization: user?.token })
         .then((_data) => { setData(_data); })
         .catch((err) => { toastr.error('Error', err); });
     }
@@ -158,9 +165,6 @@ export default function LayoutMyRWDetail({
 }
 
 LayoutMyRWDetail.propTypes = {
-  user: PropTypes.shape({
-    token: PropTypes.string.isRequired,
-  }).isRequired,
   locale: PropTypes.string.isRequired,
   alerts: PropTypes.shape({}).isRequired,
 };
