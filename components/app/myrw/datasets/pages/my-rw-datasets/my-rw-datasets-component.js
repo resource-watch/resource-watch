@@ -13,31 +13,21 @@ import Paginator from 'components/ui/Paginator';
 import DatasetsList from './dataset-list';
 
 class MyRWDatasets extends PureComponent {
-  static propTypes = {
-    orderDirection: PropTypes.oneOf(['asc', 'desc']),
-    filters: PropTypes.array,
-    pagination: PropTypes.object,
-    routes: PropTypes.object,
-    tab: PropTypes.string,
-    subtab: PropTypes.string,
-    setOrderDirection: PropTypes.func,
-    setFilters: PropTypes.func,
-    setPaginationPage: PropTypes.func,
-    getDatasetsByTab: PropTypes.func,
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-  }
-
   handleSearch = debounce((value) => {
+    const {
+      subtab,
+      setFilters,
+      getDatasetsByTab,
+      setPaginationPage,
+    } = this.props;
     if (!value.length) {
-      this.props.setFilters([]);
+      setFilters([]);
     } else {
-      this.props.setFilters([{ key: 'name', value }]);
+      setFilters([{ key: 'name', value }]);
     }
 
-    this.props.getDatasetsByTab(this.props.subtab);
-    this.props.setPaginationPage(1);
+    getDatasetsByTab(subtab);
+    setPaginationPage(1);
   }, 300)
 
   handleNewDataset = () => {
@@ -121,5 +111,22 @@ class MyRWDatasets extends PureComponent {
     );
   }
 }
+
+MyRWDatasets.propTypes = {
+  orderDirection: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  filters: PropTypes.arrayOf(
+    PropTypes.shape({}),
+  ).isRequired,
+  pagination: PropTypes.shape({}).isRequired,
+  tab: PropTypes.string.isRequired,
+  subtab: PropTypes.string.isRequired,
+  setOrderDirection: PropTypes.func.isRequired,
+  setFilters: PropTypes.func.isRequired,
+  setPaginationPage: PropTypes.func.isRequired,
+  getDatasetsByTab: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default withRouter(MyRWDatasets);

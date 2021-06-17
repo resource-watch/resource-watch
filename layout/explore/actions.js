@@ -1,5 +1,6 @@
+import { createAction } from '@reduxjs/toolkit';
+import { createThunkAction } from 'redux-tools';
 import sortBy from 'lodash/sortBy';
-import { createAction, createThunkAction } from 'redux-tools';
 
 // Services
 import { fetchDatasets as fetchDatasetsService } from 'services/dataset';

@@ -25,13 +25,6 @@ import DeleteAction from './actions/delete';
 import { INITIAL_PAGINATION } from './constants';
 
 class WidgetsTable extends PureComponent {
-  static propTypes = {
-    dataset: PropTypes.string,
-    user: PropTypes.object.isRequired,
-  }
-
-  static defaultProps = { dataset: null }
-
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
@@ -91,7 +84,7 @@ class WidgetsTable extends PureComponent {
   }
 
   loadWidgets = () => {
-    const { dataset, user: { token } } = this.props;
+    const { dataset, token } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
@@ -103,7 +96,7 @@ class WidgetsTable extends PureComponent {
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...dataset && { dataset },
       ...filters,
-    }, { Authorization: token }, true)
+    }, { Authorization: `Bearer ${token}` }, true)
       .then(({ widgets, meta }) => {
         const {
           'total-pages': pages,
@@ -200,5 +193,14 @@ class WidgetsTable extends PureComponent {
     );
   }
 }
+
+WidgetsTable.defaultProps = {
+  dataset: null,
+};
+
+WidgetsTable.propTypes = {
+  token: PropTypes.string.isRequired,
+  dataset: PropTypes.string,
+};
 
 export default WidgetsTable;

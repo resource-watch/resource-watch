@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import {
   useQueries,
 } from 'react-query';
-import {
-  useSelector,
-} from 'react-redux';
 import groupBy from 'lodash/groupBy';
 import {
   ErrorBoundary,
@@ -24,6 +21,9 @@ import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 import {
   useGeostore,
 } from 'hooks/geostore';
+import {
+  useMe,
+} from 'hooks/user';
 
 // constants
 import {
@@ -51,10 +51,12 @@ export default function MapTypeWidgetContainer({
   areaOfInterest,
   onToggleShare,
 }) {
-  const userToken = useSelector((state) => state.user?.token);
+  const {
+    data: user,
+  } = useMe();
   const {
     isInACollection,
-  } = useBelongsToCollection(widgetId, userToken);
+  } = useBelongsToCollection(widgetId, user?.token);
 
   const {
     data: widget,

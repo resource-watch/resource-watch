@@ -1,7 +1,9 @@
 FROM node:14.15-alpine
 LABEL maintainer="hello@vizzuality.com"
 
+# remove this env var when we are sure it is no needed anymore
 ARG NEXT_PUBLIC_CALLBACK_URL=https://resourcewatch.org/auth
+ARG NEXTAUTH_URL=https://resourcewatch.org/
 ARG NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 ARG NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=not_valid
 ARG NEXT_PUBLIC_WRI_API_URL=https://api.resourcewatch.org
@@ -15,6 +17,7 @@ ENV NEXT_PUBLIC_BING_MAPS_API_KEY PPB0chXATYqlJ5t8oMPp~8SV9SIe2D0Ntc5sW3HExZA~Aq
 ENV NEXT_PUBLIC_BITLY_TOKEN e3076fc3bfeee976efb9966f49383e1a8fb71c5f
 ENV NEXT_PUBLIC_BLOG_API_URL https://blog.resourcewatch.org/wp-json/wp/v2
 ENV NEXT_PUBLIC_CALLBACK_URL $NEXT_PUBLIC_CALLBACK_URL
+ENV NEXTAUTH_URL $NEXTAUTH_URL
 ENV NEXT_PUBLIC_GOOGLE_ANALYTICS UA-67196006-1
 ENV NODE_ENV production
 ENV NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER $NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER
@@ -35,6 +38,7 @@ COPY components ./components
 COPY constants ./constants
 COPY css ./css
 COPY hooks ./hooks
+COPY hoc ./hoc
 COPY layout ./layout
 COPY lib ./lib
 COPY modules ./modules

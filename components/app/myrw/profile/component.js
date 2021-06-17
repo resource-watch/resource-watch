@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
@@ -11,6 +11,9 @@ import FileImage from 'components/form/FileImage';
 
 // services
 import { uploadPhoto } from 'services/user';
+import {
+  updateUser,
+} from 'services/auth';
 
 export const FORM_ELEMENTS = {
   elements: {},
@@ -30,13 +33,7 @@ export const FORM_ELEMENTS = {
     return valid;
   },
 };
-
 class Profile extends PureComponent {
-  static propTypes = {
-    user: PropTypes.object.isRequired,
-    setUser: PropTypes.func.isRequired,
-  }
-
   state = {
     user: this.props.user,
     step: 1,
@@ -51,12 +48,15 @@ class Profile extends PureComponent {
     FORM_ELEMENTS.validate(this.state.step);
 
     // Set a timeout due to the setState function of react
-    setTimeout(() => {
+    setTimeout(async () => {
       // Validate all the inputs on the current step
       const valid = FORM_ELEMENTS.isValid(this.state.step);
 
       if (valid) {
-        const { setUser } = this.props;
+        const {
+          setUser,
+          queryClient,
+        } = this.props;
         const { user } = this.state;
         const { token, name, photo } = user;
         const userObj = {
@@ -69,23 +69,19 @@ class Profile extends PureComponent {
           submitting: true,
         });
 
-        fetch('/update-user', {
-          method: 'POST',
-          body: JSON.stringify({ userObj, token }),
-          headers: { 'Content-Type': 'application/json' },
-        })
-          .then((response) => response.json())
-          .then((updatedUser) => {
-            setUser(updatedUser);
-            toastr.success('Profile updated successfully.');
-          })
-          .catch(() => { toastr.error('Something went wrong', 'There was a problem updating your profile.'); })
-          .then(() => {
-            this.setState({
-              loading: false,
-              submitting: false,
-            });
-          });
+        try {
+          const updatedUser = await updateUser(userObj, token);
+          setUser(updatedUser);
+          queryClient.invalidateQueries('me');
+          toastr.success('Profile updated successfully.');
+        } catch (e) {
+          toastr.error('Something went wrong', 'There was a problem updating your profile.');
+        }
+
+        this.setState({
+          loading: false,
+          submitting: false,
+        });
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
@@ -188,5 +184,13 @@ class Profile extends PureComponent {
     );
   }
 }
+
+Profile.propTypes = {
+  user: PropTypes.shape({}).isRequired,
+  setUser: PropTypes.func.isRequired,
+  queryClient: PropTypes.shape({
+    invalidateQueries: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Profile;
