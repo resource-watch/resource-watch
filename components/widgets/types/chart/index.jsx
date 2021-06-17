@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import {
-  useSelector,
-} from 'react-redux';
 
 // hooks
 import { useFetchWidget } from 'hooks/widget';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
+import {
+  useMe,
+} from 'hooks/user';
 
 // utils
 import {
@@ -26,10 +26,12 @@ export default function ChartContainer({
   areaOfInterest,
   onToggleShare,
 }) {
-  const userToken = useSelector((state) => state.user?.token);
+  const {
+    data: user,
+  } = useMe();
   const {
     isInACollection,
-  } = useBelongsToCollection(widgetId, userToken);
+  } = useBelongsToCollection(widgetId, user?.token);
 
   const {
     data: widget,

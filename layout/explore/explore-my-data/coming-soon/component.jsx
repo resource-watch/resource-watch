@@ -2,12 +2,16 @@ import {
   useState,
   useCallback,
 } from 'react';
-import PropTypes from 'prop-types';
 
 // components
 import CardPlaceholder from 'components/card-placeholder';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
+
+// hooks
+import {
+  useMe,
+} from 'hooks/user';
 
 // utils
 import { logEvent } from 'utils/analytics';
@@ -15,11 +19,12 @@ import { logEvent } from 'utils/analytics';
 // styles
 import './styles.scss';
 
-export default function MyDataComingSoon({
-  userEmail,
-}) {
+export default function MyDataComingSoon() {
+  const {
+    data: user,
+  } = useMe();
   const [form, setForm] = useState({
-    email: userEmail || '',
+    email: user?.email || '',
   });
 
   const onSubmit = useCallback(async () => {
@@ -64,7 +69,7 @@ export default function MyDataComingSoon({
               type: 'email',
               default: form.email,
               placeholder: 'Your email address',
-              disabled: !!userEmail,
+              disabled: !!user?.email,
               required: true,
             }}
           >
@@ -96,11 +101,3 @@ export default function MyDataComingSoon({
     </div>
   );
 }
-
-MyDataComingSoon.defaultProps = {
-  userEmail: null,
-};
-
-MyDataComingSoon.propTypes = {
-  userEmail: PropTypes.string,
-};

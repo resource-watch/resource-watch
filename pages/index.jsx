@@ -1,6 +1,9 @@
 // actions
 import { getLatestPosts, getSpotlightPosts } from 'modules/blog/actions';
 
+// lib
+import wrapper from 'lib/store';
+
 // components
 import LayoutHome from 'layout/app/home';
 
@@ -8,7 +11,7 @@ export default function HomePage() {
   return (<LayoutHome />);
 }
 
-HomePage.getInitialProps = async ({ store }) => {
+HomePage.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
   const { getState, dispatch } = store;
   const {
     blog: {
@@ -28,4 +31,4 @@ HomePage.getInitialProps = async ({ store }) => {
   }
 
   return {};
-};
+});

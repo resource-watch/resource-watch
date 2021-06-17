@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 
@@ -6,24 +6,16 @@ import { toastr } from 'react-redux-toastr';
 import { deleteLayer } from 'services/layer';
 
 class DeleteAction extends PureComponent {
-  static propTypes = {
-    data: PropTypes.object,
-    user: PropTypes.object.isRequired,
-    onRowDelete: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = { data: {} }
-
   handleOnClickDelete = () => {
     const {
       data: { id, name, dataset },
-      user: { token },
+      token,
       onRowDelete,
     } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete: "${name}"`, {
       onOk: () => {
-        deleteLayer(id, dataset, token)
+        deleteLayer(id, dataset, `Bearer ${token}`)
           .then(() => {
             onRowDelete(id);
             toastr.success('Success', `The layer "${id}" - "${name}" has been removed correctly`);
@@ -50,5 +42,19 @@ class DeleteAction extends PureComponent {
     );
   }
 }
+
+DeleteAction.defaultProps = {
+  data: {},
+};
+
+DeleteAction.propTypes = {
+  token: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    dataset: PropTypes.string,
+  }),
+  onRowDelete: PropTypes.func.isRequired,
+};
 
 export default DeleteAction;

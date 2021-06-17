@@ -1,3 +1,8 @@
+import { createReducer } from '@reduxjs/toolkit';
+import {
+  HYDRATE,
+} from 'next-redux-wrapper';
+
 // utils
 import { logEvent } from 'utils/analytics';
 import { sortLayers } from 'utils/layers';
@@ -5,450 +10,535 @@ import { sortLayers } from 'utils/layers';
 import * as actions from './actions';
 import initialState from './initial-state';
 
-export default {
-  // EXPLORE
-  [actions.resetExplore]: () => initialState,
-  //
-  // DATASET
-  //
-  [actions.setDatasets]: (state, action) => {
-    const datasets = { ...state.datasets, list: action.payload };
-    return { ...state, datasets };
-  },
-  [actions.setDatasetsLoading]: (state, action) => {
-    const datasets = { ...state.datasets, loading: action.payload };
-    return { ...state, datasets };
-  },
-  [actions.setDatasetsError]: (state, action) => {
-    const datasets = { ...state.datasets, error: action.payload };
-    return { ...state, datasets };
-  },
-  [actions.setDatasetsPage]: (state, action) => {
-    const datasets = { ...state.datasets, page: action.payload };
-    return { ...state, datasets };
-  },
-  [actions.setDatasetsTotal]: (state, action) => {
-    const datasets = { ...state.datasets, total: action.payload };
-    return { ...state, datasets };
-  },
-  [actions.setDatasetsLimit]: (state, action) => {
-    const datasets = { ...state.datasets, limit: action.payload };
-    return { ...state, datasets };
-  },
-  [actions.setDatasetsMode]: (state, action) => {
-    const datasets = { ...state.datasets, mode: action.payload };
-    logEvent('Explore Menu', 'Change dataset view', action.payload);
-    return { ...state, datasets };
-  },
-  [actions.setSelectedDataset]: (state, action) => {
-    const datasets = { ...state.datasets, selected: action.payload };
-    return { ...state, datasets };
-  },
-  //
-  // FILTERS
-  //
-  [actions.setFiltersOpen]: (state, action) => {
-    const filters = { ...state.filters, open: action.payload };
-    return { ...state, filters };
-  },
-  [actions.setFiltersTab]: (state, action) => {
-    const filters = { ...state.filters, tab: action.payload };
-    return { ...state, filters };
-  },
-  [actions.setFiltersSearch]: (state, action) => {
-    const filters = { ...state.filters, search: action.payload };
-    return { ...state, filters };
-  },
-  [actions.setFiltersTags]: (state, action) => {
-    const filters = { ...state.filters, tags: action.payload };
-    return { ...state, filters };
-  },
-  [actions.setFiltersSelected]: (state, action) => {
-    const { key, list } = action.payload;
-    const selected = { ...state.filters.selected, [key]: list };
-    const filters = { ...state.filters, selected };
-    return { ...state, filters };
-  },
-  [actions.toggleFiltersSelected]: (state, action) => {
-    const { tab, tag } = action.payload;
-    const arr = [...state.filters.selected[tab]];
-
-    if (!arr.includes(tag.id)) {
-      arr.push(tag.id);
-    } else {
-      const index = arr.findIndex((s) => s === tag.id);
-      arr.splice(index, 1);
-    }
-
-    const selected = { ...state.filters.selected, [tab]: arr };
-    const filters = { ...state.filters, selected };
-    return { ...state, filters };
-  },
-
-  [actions.resetFiltersSelected]: (state) => {
-    const filters = {
-      ...state.filters,
-      search: initialState.filters.search,
-      selected: initialState.filters.selected,
-    };
-    return { ...state, filters };
-  },
-
-  // SORT
-  [actions.setSortSelected]: (state, action) => {
-    const sort = { ...state.sort, selected: action.payload };
-    return { ...state, sort };
-  },
-  [actions.setSortIsUserSelected]: (state) => {
-    const sort = {
-      ...state.sort,
-      isSetFromDefaultState: false,
-    };
-    return { ...state, sort };
-  },
-  [actions.setSortDirection]: (state, action) => {
-    const sort = { ...state.sort, direction: action.payload };
-    return { ...state, sort };
-  },
-  [actions.resetFiltersSort]: (state) => {
-    const sort = {
-      ...state.sort,
-      selected: initialState.sort.selected,
-      direction: initialState.sort.direction,
-    };
-    return { ...state, sort };
-  },
-  //
-  // MAP
-  //
-  [actions.setViewport]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      viewport: {
-        ...state.map.viewport,
-        ...payload,
+export default createReducer(initialState, (builder) => {
+  builder
+    .addCase(HYDRATE, (state, { payload }) => ({ ...payload.explore }))
+    // explore
+    .addCase(actions.resetExplore, () => initialState)
+    // datasets
+    .addCase(actions.setDatasets, (state, { payload }) => ({
+      ...state,
+      datasets: {
+        ...state.datasets,
+        list: payload,
       },
-    },
-  }),
-  [actions.setBasemap]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      basemap: payload,
-    },
-  }),
-  [actions.setLabels]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      labels: payload,
-    },
-  }),
-  [actions.setBoundaries]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      boundaries: payload,
-    },
-  }),
-  [actions.setBounds]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      bounds: payload,
-    },
-  }),
-  [actions.setIsDrawing]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      drawer: {
-        ...state.map.drawer,
-        isDrawing: payload,
+    }))
+    .addCase(actions.setDatasetsLoading, (state, { payload }) => ({
+      ...state,
+      datasets: {
+        ...state.datasets,
+        loading: payload,
       },
-    },
-  }),
-  [actions.setDataDrawing]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      drawer: {
-        ...state.map.drawer,
-        data: payload,
+    }))
+    .addCase(actions.setDatasetsError, (state, { payload }) => ({
+      ...state,
+      datasets: {
+        ...state.datasets,
+        error: payload,
       },
-    },
-  }),
-  [actions.stopDrawing]: (state) => ({
-    ...state,
-    map: {
-      ...state.map,
-      drawer: initialState.map.drawer,
-    },
-  }),
-  [actions.setAreaOfInterest]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      aoi: payload,
-    },
-  }),
-  [actions.setPreviewAoi]: (state, { payload }) => ({
-    ...state,
-    map: {
-      ...state.map,
-      previewAoi: payload,
-    },
-  }),
-  // LAYERS
-  [actions.toggleMapLayerGroup]: (state, action) => {
-    const layerGroups = [...state.map.layerGroups];
-    const { dataset, toggle } = action.payload;
-    const { applicationConfig, layer: layers } = dataset;
+    }))
+    .addCase(actions.setDatasetsPage, (state, { payload }) => ({
+      ...state,
+      datasets: {
+        ...state.datasets,
+        page: payload,
+      },
+    }))
+    .addCase(actions.setDatasetsTotal, (state, { payload }) => ({
+      ...state,
+      datasets: {
+        ...state.datasets,
+        total: payload,
+      },
+    }))
+    .addCase(actions.setDatasetsLimit, (state, { payload }) => ({
+      ...state,
+      datasets: {
+        ...state.datasets,
+        limit: payload,
+      },
+    }))
+    .addCase(actions.setDatasetsMode, (state, { payload }) => {
+      logEvent('Explore Menu', 'Change dataset view', payload);
 
-    let _layers = layers;
-
-    // sorts layers if applies
-    if (
-      applicationConfig
-      && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
-      && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
-      && layers.length > 1) {
-      const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
-      _layers = sortLayers(_layers, layerOrder);
-    }
-
-    if (toggle) {
-      layerGroups.unshift({
-        dataset: dataset.id,
-        visibility: true,
-        layers: _layers.map((l) => ({ ...l, active: l.default })),
+      return ({
+        ...state,
+        datasets: {
+          ...state.datasets,
+          mode: payload,
+        },
       });
-      if (layerGroups[0].layers.length) {
-        logEvent('Explore Map', 'Add layer',
-          `${layerGroups[0].layers[0].name} [${layerGroups[0].layers[0].id}]`);
+    })
+    .addCase(actions.setSelectedDataset, (state, { payload }) => ({
+      ...state,
+      datasets: {
+        ...state.datasets,
+        selected: payload,
+      },
+    }))
+    // filters
+    .addCase(actions.setFiltersOpen, (state, { payload }) => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        open: payload,
+      },
+    }))
+    .addCase(actions.setFiltersTab, (state, { payload }) => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        tab: payload,
+      },
+    }))
+    .addCase(actions.setFiltersSearch, (state, { payload }) => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        search: payload,
+      },
+    }))
+    .addCase(actions.setFiltersTags, (state, { payload }) => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        tags: payload,
+      },
+    }))
+    .addCase(actions.setFiltersSelected, (state, { payload }) => {
+      const { key, list } = payload;
+      const selected = { ...state.filters.selected, [key]: list };
+      const filters = { ...state.filters, selected };
+
+      return ({
+        ...state,
+        filters,
+      });
+    })
+    .addCase(actions.toggleFiltersSelected, (state, { payload }) => {
+      const { tab, tag } = payload;
+      const arr = [...state.filters.selected[tab]];
+
+      if (!arr.includes(tag.id)) {
+        arr.push(tag.id);
+      } else {
+        const index = arr.findIndex((s) => s === tag.id);
+        arr.splice(index, 1);
       }
-    } else {
-      const index = layerGroups.findIndex((l) => l.dataset === dataset.id);
-      layerGroups.splice(index, 1);
-    }
 
-    // Return map
-    const map = { ...state.map, layerGroups };
-    return { ...state, map };
-  },
-  [actions.setMapLayerGroupVisibility]: (state, action) => {
-    const { dataset, visibility } = action.payload;
-    const layerGroups = state.map.layerGroups.map((lg) => {
-      if (lg.dataset !== dataset.id) return lg;
-      const layers = lg.layers.map((l) => ({ ...l, visibility }));
-      return { ...lg, layers, visibility };
-    });
+      const selected = { ...state.filters.selected, [tab]: arr };
+      const filters = { ...state.filters, selected };
+      return ({
+        ...state,
+        filters,
+      });
+    })
+    .addCase(actions.resetFiltersSelected, (state) => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        search: initialState.filters.search,
+        selected: initialState.filters.selected,
+      },
+    }))
+    // sort
+    .addCase(actions.setSortSelected, (state, { payload }) => ({
+      ...state,
+      sort: {
+        ...state.sort,
+        selected: payload,
+      },
+    }))
+    .addCase(actions.setSortIsUserSelected, (state) => ({
+      ...state,
+      sort: {
+        ...state.sort,
+        isSetFromDefaultState: false,
+      },
+    }))
+    .addCase(actions.setSortDirection, (state, { payload }) => ({
+      ...state,
+      sort: {
+        ...state.sort,
+        direction: payload,
+      },
+    }))
+    .addCase(actions.resetFiltersSort, (state) => ({
+      ...state,
+      sort: {
+        ...state.sort,
+        selected: initialState.sort.selected,
+        direction: initialState.sort.direction,
+      },
+    }))
+    // map
+    .addCase(actions.setViewport, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        viewport: {
+          ...state.map.viewport,
+          ...payload,
+        },
+      },
+    }))
+    .addCase(actions.setBasemap, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        basemap: payload,
+      },
+    }))
+    .addCase(actions.setLabels, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        labels: payload,
+      },
+    }))
+    .addCase(actions.setBoundaries, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        boundaries: payload,
+      },
+    }))
+    .addCase(actions.setBounds, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        bounds: payload,
+      },
+    }))
+    .addCase(actions.setIsDrawing, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        drawer: {
+          ...state.map.drawer,
+          isDrawing: payload,
+        },
+      },
+    }))
+    .addCase(actions.setDataDrawing, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        drawer: {
+          ...state.map.drawer,
+          data: payload,
+        },
+      },
+    }))
+    .addCase(actions.stopDrawing, (state) => ({
+      ...state,
+      map: {
+        ...state.map,
+        drawer: initialState.map.drawer,
+      },
+    }))
+    .addCase(actions.setAreaOfInterest, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        aoi: payload,
+      },
+    }))
+    // layers
+    .addCase(actions.toggleMapLayerGroup, (state, { payload }) => {
+      const layerGroups = [...state.map.layerGroups];
+      const { dataset, toggle } = payload;
+      const { applicationConfig, layer: layers } = dataset;
 
-    const map = { ...state.map, layerGroups };
-    return { ...state, map };
-  },
-  [actions.setMapLayerGroupOpacity]: (state, action) => {
-    const { dataset, opacity } = action.payload;
-    const layerGroups = state.map.layerGroups.map((lg) => {
-      if (lg.dataset !== dataset.id) return lg;
-      const layers = lg.layers.map((l) => ({ ...l, opacity }));
-      return { ...lg, layers, opacity };
-    });
+      let datasetLayers = layers;
 
-    const map = { ...state.map, layerGroups };
-    return { ...state, map };
-  },
-  [actions.setMapLayerGroupActive]: (state, action) => {
-    const { dataset, active } = action.payload;
-    const layerGroups = state.map.layerGroups.map((lg) => {
-      if (lg.dataset !== dataset.id) return lg;
+      // sorts layers if applies
+      if (
+        applicationConfig
+        && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
+        && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
+        && layers.length > 1) {
+        const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
+        datasetLayers = sortLayers(datasetLayers, layerOrder);
+      }
 
-      const layers = lg.layers.map((l) => ({ ...l, active: l.id === active }));
-
-      return { ...lg, layers };
-    });
-
-    const map = { ...state.map, layerGroups };
-    return { ...state, map };
-  },
-  [actions.setMapLayerGroupsOrder]: (state, action) => {
-    const { datasetIds } = action.payload;
-    const layerGroups = [...state.map.layerGroups];
-
-    // Sort by new order
-    layerGroups.sort((a, b) => (datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1));
-
-    const map = { ...state.map, layerGroups };
-    return { ...state, map };
-  },
-
-  [actions.setMapLayerGroups]: (state, action) => {
-    const { datasets, params } = action.payload;
-
-    const layerGroups = datasets
-      .map((_dataset) => {
-        const { id, layer: layers, applicationConfig } = _dataset;
-        const dParams = params.find((p) => p.dataset === id);
-        // gets only pusblished layers
-        let _layers = layers.filter((_layer) => _layer.published);
-
-        // sorts layers if applies
-        if (
-          applicationConfig
-          && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
-          && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
-          && layers.length > 1) {
-          const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
-          _layers = sortLayers(_layers, layerOrder);
+      if (toggle) {
+        layerGroups.unshift({
+          dataset: dataset.id,
+          visibility: true,
+          layers: datasetLayers.map((l) => ({ ...l, active: l.default })),
+        });
+        if (layerGroups[0].layers.length) {
+          logEvent('Explore Map', 'Add layer',
+            `${layerGroups[0].layers[0].name} [${layerGroups[0].layers[0].id}]`);
         }
+      } else {
+        const index = layerGroups.findIndex((l) => l.dataset === dataset.id);
+        layerGroups.splice(index, 1);
+      }
 
-        return {
-          dataset: id,
-          opacity: dParams.opacity,
-          visibility: dParams.visibility,
-          layers: _layers.map((_layer) => ({
-            ..._layer,
-            active: dParams.layer === _layer.id,
+      // Return map
+      const map = { ...state.map, layerGroups };
+      return ({
+        ...state,
+        map,
+      });
+    })
+    .addCase(actions.setMapLayerGroupVisibility, (state, { payload }) => {
+      const { dataset, visibility } = payload;
+      const layerGroups = state.map.layerGroups.map((lg) => {
+        if (lg.dataset !== dataset.id) return lg;
+        const layers = lg.layers.map((l) => ({ ...l, visibility }));
+        return { ...lg, layers, visibility };
+      });
+
+      const map = { ...state.map, layerGroups };
+      return ({
+        ...state,
+        map,
+      });
+    })
+    .addCase(actions.setMapLayerGroupOpacity, (state, { payload }) => {
+      const { dataset, opacity } = payload;
+      const layerGroups = state.map.layerGroups.map((lg) => {
+        if (lg.dataset !== dataset.id) return lg;
+        const layers = lg.layers.map((l) => ({ ...l, opacity }));
+        return { ...lg, layers, opacity };
+      });
+
+      const map = { ...state.map, layerGroups };
+      return ({
+        ...state,
+        map,
+      });
+    })
+    .addCase(actions.setMapLayerGroupActive, (state, { payload }) => {
+      const { dataset, active } = payload;
+      const layerGroups = state.map.layerGroups.map((lg) => {
+        if (lg.dataset !== dataset.id) return lg;
+
+        const layers = lg.layers.map((l) => ({ ...l, active: l.id === active }));
+
+        return { ...lg, layers };
+      });
+
+      const map = { ...state.map, layerGroups };
+      return ({
+        ...state,
+        map,
+      });
+    })
+    .addCase(actions.setMapLayerGroupsOrder, (state, { payload }) => {
+      const { datasetIds } = payload;
+      const layerGroups = [...state.map.layerGroups];
+
+      // Sort by new order
+      layerGroups.sort((a, b) => (
+        datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1));
+
+      const map = { ...state.map, layerGroups };
+      return ({
+        ...state,
+        map,
+      });
+    })
+    .addCase(actions.setMapLayerGroups, (state, { payload }) => {
+      const { datasets, params } = payload;
+
+      const layerGroups = datasets
+        .map((_dataset) => {
+          const { id, layer: layers, applicationConfig } = _dataset;
+          const dParams = params.find((p) => p.dataset === id);
+          // gets only published layers
+          let publishedLayers = layers.filter((_layer) => _layer.published);
+
+          // sorts layers if applies
+          if (
+            applicationConfig
+            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
+            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
+            && layers.length > 1) {
+            const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
+            publishedLayers = sortLayers(publishedLayers, layerOrder);
+          }
+
+          return {
+            dataset: id,
             opacity: dParams.opacity,
             visibility: dParams.visibility,
-          })),
-        };
-      })
-      .sort((a, b) => {
-        const aIndex = params.findIndex((p) => p.dataset === a.dataset);
-        const bIndex = params.findIndex((p) => p.dataset === b.dataset);
+            layers: publishedLayers.map((_layer) => ({
+              ..._layer,
+              active: dParams.layer === _layer.id,
+              opacity: dParams.opacity,
+              visibility: dParams.visibility,
+            })),
+          };
+        })
+        .sort((a, b) => {
+          const aIndex = params.findIndex((p) => p.dataset === a.dataset);
+          const bIndex = params.findIndex((p) => p.dataset === b.dataset);
 
-        return (aIndex > bIndex ? 1 : -1);
+          return (aIndex > bIndex ? 1 : -1);
+        });
+      const map = { ...state.map, layerGroups };
+
+      return ({
+        ...state,
+        map,
       });
-    const map = { ...state.map, layerGroups };
-    return { ...state, map };
-  },
-
-  // INTERACTION
-  [actions.setMapLayerGroupsInteraction]: (state, action) => {
-    const layerGroupsInteraction = {
-      ...state.map.layerGroupsInteraction,
-      ...action.payload,
-    };
-
-    const map = { ...state.map, layerGroupsInteraction };
-    return { ...state, map };
-  },
-  [actions.setMapLayerGroupsInteractionSelected]: (state, action) => {
-    const map = { ...state.map, layerGroupsInteractionSelected: action.payload };
-    return { ...state, map };
-  },
-  [actions.setMapLayerGroupsInteractionLatLng]: (state, action) => {
-    const map = { ...state.map, layerGroupsInteractionLatLng: action.payload };
-    return { ...state, map };
-  },
-  [actions.resetMapLayerGroupsInteraction]: (state) => {
-    const map = {
-      ...state.map,
-      layerGroupsInteraction: {},
-      layerGroupsInteractionLatLng: null,
-      layerGroupsInteractionSelected: null,
-    };
-    return { ...state, map };
-  },
-  //
-  // PARAMETRIZATION
-  //
-  [actions.setMapLayerParametrization]: (state, { payload }) => {
-    const { id, nextConfig } = payload;
-    const { map } = state;
-    const { parametrization } = map;
-
-    parametrization[id] = {
-      ...parametrization[id],
-      ...nextConfig,
-    };
-
-    return {
+    })
+    // interaction
+    .addCase(actions.setMapLayerGroupsInteraction, (state, { payload }) => ({
       ...state,
       map: {
         ...state.map,
-        parametrization: { ...parametrization },
+        layerGroupsInteraction: {
+          ...state.map.layerGroupsInteraction,
+          ...payload,
+        },
       },
-    };
-  },
-
-  [actions.removeLayerParametrization]: (state, { payload }) => {
-    const { map } = state;
-    const { parametrization } = map;
-
-    delete parametrization[payload];
-
-    return {
+    }))
+    .addCase(actions.setMapLayerGroupsInteractionSelected, (state, { payload }) => ({
       ...state,
       map: {
         ...state.map,
-        parametrization: { ...parametrization },
+        layerGroupsInteractionSelected: payload,
       },
-    };
-  },
-  [actions.resetLayerParametrization]: (state) => ({
-    ...state,
-    map: {
-      ...state.map,
-      parametrization: { ...initialState.map.parametrization },
-    },
-  }),
-  //
-  // SIDEBAR
-  //
-  [actions.setSidebarOpen]: (state, action) => {
-    const sidebar = { ...state.sidebar, open: action.payload };
-    return { ...state, sidebar };
-  },
-  [actions.setSidebarAnchor]: (state, action) => {
-    const sidebar = { ...state.sidebar, anchor: action.payload };
-    return { ...state, sidebar };
-  },
-  [actions.setSidebarSection]: (state, action) => {
-    const sidebar = { ...state.sidebar, section: action.payload };
-    return { ...state, sidebar };
-  },
-  [actions.setSidebarSelectedCollection]: (state, action) => {
-    const sidebar = { ...state.sidebar, selectedCollection: action.payload };
-    return { ...state, sidebar };
-  },
-  [actions.setSidebarSubsection]: (state, { payload }) => ({
-    ...state,
-    sidebar: {
-      ...state.sidebar,
-      subsection: payload,
-    },
-  }),
-  [actions.clearSidebarSubsection]: (state) => ({
-    ...state,
-    sidebar: {
-      ...state.sidebar,
-      subsection: initialState.sidebar.subsection,
-    },
-  }),
-  //
-  // TAGS
-  //
-  [actions.setTagsTooltip]: (state, { payload }) => {
-    const tags = { ...state.tags, tooltip: payload };
-    return { ...state, tags };
-  },
-  [actions.setTags]: (state, { payload }) => {
-    const tags = { ...state.tags, list: payload };
-    return { ...state, tags };
-  },
-  [actions.setTagsLoading]: (state, { payload }) => {
-    const tags = { ...state.tags, loading: payload };
-    return { ...state, tags };
-  },
-  [actions.setTagsError]: (state, { payload }) => {
-    const tags = { ...state.tags, error: payload };
-    return { ...state, tags };
-  },
-  [actions.resetTags]: (state) => {
-    const { tags } = initialState;
-    return { ...state, tags };
-  },
-};
+    }))
+    .addCase(actions.setMapLayerGroupsInteractionLatLng, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        layerGroupsInteractionLatLng: payload,
+      },
+    }))
+    .addCase(actions.resetMapLayerGroupsInteraction, (state) => ({
+      ...state,
+      map: {
+        ...state.map,
+        layerGroupsInteraction: {},
+        layerGroupsInteractionLatLng: null,
+        layerGroupsInteractionSelected: null,
+      },
+    }))
+    // parametrization
+    .addCase(actions.setMapLayerParametrization, (state, { payload }) => {
+      const { id, nextConfig } = payload;
+      const { map } = state;
+      const { parametrization } = map;
+
+      parametrization[id] = {
+        ...parametrization[id],
+        ...nextConfig,
+      };
+
+      return ({
+        ...state,
+        map: {
+          ...state.map,
+          parametrization: { ...parametrization },
+        },
+      });
+    })
+    .addCase(actions.removeLayerParametrization, (state, { payload }) => {
+      const { map } = state;
+      const { parametrization } = map;
+
+      delete parametrization[payload];
+
+      return ({
+        ...state,
+        map: {
+          ...state.map,
+          parametrization: { ...parametrization },
+        },
+      });
+    })
+    .addCase(actions.resetLayerParametrization, (state) => ({
+      ...state,
+      map: {
+        ...state.map,
+        parametrization: {
+          ...initialState.map.parametrization,
+        },
+      },
+    }))
+    // sidebar
+    .addCase(actions.setSidebarOpen, (state, { payload }) => ({
+      ...state,
+      sidebar: {
+        ...state.sidebar,
+        open: payload,
+      },
+    }))
+    .addCase(actions.setSidebarAnchor, (state, { payload }) => ({
+      ...state,
+      sidebar: {
+        ...state.sidebar,
+        anchor: payload,
+      },
+    }))
+    .addCase(actions.setSidebarSection, (state, { payload }) => ({
+      ...state,
+      sidebar: {
+        ...state.sidebar,
+        section: payload,
+      },
+    }))
+    .addCase(actions.setSidebarSelectedCollection, (state, { payload }) => ({
+      ...state,
+      sidebar: {
+        ...state.sidebar,
+        selectedCollection: payload,
+      },
+    }))
+    .addCase(actions.setSidebarSubsection, (state, { payload }) => ({
+      ...state,
+      sidebar: {
+        ...state.sidebar,
+        subsection: payload,
+      },
+    }))
+    .addCase(actions.clearSidebarSubsection, (state) => ({
+      ...state,
+      sidebar: {
+        ...state.sidebar,
+        subsection: initialState.sidebar.subsection,
+      },
+    }))
+    // tags
+    .addCase(actions.setTagsTooltip, (state, { payload }) => ({
+      ...state,
+      tags: {
+        ...state.tags,
+        tooltip: payload,
+      },
+    }))
+    .addCase(actions.setTags, (state, { payload }) => ({
+      ...state,
+      tags: {
+        ...state.tags,
+        list: payload,
+      },
+    }))
+    .addCase(actions.setTagsLoading, (state, { payload }) => ({
+      ...state,
+      tags: {
+        ...state.tags,
+        loading: payload,
+      },
+    }))
+    .addCase(actions.setTagsError, (state, { payload }) => ({
+      ...state,
+      tags: {
+        ...state.tags,
+        error: payload,
+      },
+    }))
+    .addCase(actions.resetTags, (state) => ({
+      ...state,
+      tags: {
+        ...initialState.tags,
+      },
+    }));
+});

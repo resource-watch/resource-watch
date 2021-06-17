@@ -27,6 +27,7 @@ jobs:
       CYPRESS_BASE_URL: http://localhost:3000
       FAIL_FAST_ENABLED: false
       LOGGER_LEVEL: info
+      NEXTAUTH_URL: http://localhost:3000
       NEXT_PUBLIC_ADD_SEARCH_KEY: abcdef1234567890abcdef1234567890
       NEXT_PUBLIC_API_ENV: production
       NEXT_PUBLIC_APPLICATIONS: rw

@@ -10,6 +10,11 @@ import DashboardsTab from 'components/admin/dashboards/DashboardsTab';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 import Title from 'components/ui/Title';
 
+// hoc
+import {
+  withAdminRole,
+} from 'hoc/auth';
+
 // hooks
 import {
   useFetchDashboard,
@@ -77,3 +82,5 @@ export default function AdminDashboardsDetailPage() {
     </Layout>
   );
 }
+
+export const getServerSideProps = withAdminRole();

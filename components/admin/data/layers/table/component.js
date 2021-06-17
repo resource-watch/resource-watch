@@ -26,13 +26,6 @@ import GoToDatasetAction from './actions/go-to-dataset';
 import { INITIAL_PAGINATION } from './constants';
 
 class LayersTable extends PureComponent {
-  static propTypes = {
-    dataset: PropTypes.string,
-    user: PropTypes.object.isRequired,
-  }
-
-  static defaultProps = { dataset: null }
-
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
@@ -91,7 +84,7 @@ class LayersTable extends PureComponent {
   }
 
   loadLayers = () => {
-    const { dataset, user: { token } } = this.props;
+    const { dataset, token } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
@@ -103,7 +96,7 @@ class LayersTable extends PureComponent {
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...(dataset && { dataset }),
       ...filters,
-    }, { Authorization: token }, true)
+    }, { Authorization: `Bearer ${token}` }, true)
       .then(({ layers, meta }) => {
         const {
           'total-pages': pages,
@@ -208,5 +201,14 @@ class LayersTable extends PureComponent {
     );
   }
 }
+
+LayersTable.defaultProps = {
+  dataset: null,
+};
+
+LayersTable.propTypes = {
+  dataset: PropTypes.string,
+  token: PropTypes.string.isRequired,
+};
 
 export default LayersTable;
