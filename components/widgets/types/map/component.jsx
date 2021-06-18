@@ -3,6 +3,7 @@ import {
   useReducer,
   useMemo,
   useCallback,
+  useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -50,6 +51,7 @@ import {
 const mapWidgetReducer = mapWidgetSlice.reducer;
 
 const {
+  setMapLayerGroups,
   setMapLayerGroupVisibility,
   setMapLayerGroupActive,
   setMapLayerGroupsOrder,
@@ -159,6 +161,10 @@ export default function MapTypeWidget({
   const boundaries = useMemo(() => !!widget?.widgetConfig?.basemapLayers?.boundaries, [widget]);
 
   const caption = widget?.metadata?.[0]?.info?.caption;
+
+  useEffect(() => {
+    dispatch(setMapLayerGroups(layerGroups));
+  }, [layerGroups]);
 
   const layers = useMemo(
     () => {

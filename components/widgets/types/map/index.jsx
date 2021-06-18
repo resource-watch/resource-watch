@@ -87,8 +87,8 @@ export default function MapTypeWidgetContainer({
   );
 
   const layerIds = useMemo(() => {
-    if (widget?.widgetConfig?.layers) return widget.widgetConfig.layers;
-    if (widget?.widgetConfig?.layer_id) return [widget?.widgetConfig?.layer_id];
+    if (widget?.widgetConfig?.paramsConfig?.layers) return widget.widgetConfig.paramsConfig.layers;
+    if (widget?.widgetConfig?.paramsConfig?.layer) return [widget.widgetConfig.paramsConfig.layer];
     return [];
   }, [widget]);
 

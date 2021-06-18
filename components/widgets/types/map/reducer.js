@@ -12,6 +12,10 @@ export const mapWidgetInitialState = {
 export const mapWidgetSlice = createSlice({
   name: 'map-widget',
   reducers: {
+    setMapLayerGroups: (state, { payload }) => ({
+      ...state,
+      layerGroups: payload,
+    }),
     setMapLayerGroupVisibility: (state, { payload }) => {
       const {
         dataset,
