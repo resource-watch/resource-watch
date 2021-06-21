@@ -1,9 +1,12 @@
-import React, {
+import {
   useState,
   useReducer,
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
+import {
+  useQueryClient,
+} from 'react-query';
 import { toastr } from 'react-redux-toastr';
 
 // components
@@ -43,6 +46,7 @@ const CollectionsPanel = ({
   onToggleFavorite,
   onToggleCollection,
 }) => {
+  const queryClient = useQueryClient();
   const [newCollectionState, setNewCollectionState] = useState({
     name: '',
   });
@@ -129,7 +133,6 @@ const CollectionsPanel = ({
         dispatch({ type: addToLoadingQueue, payload: collection.id });
         await addResourceToCollection(token, collection.id, resourcePayload);
         dispatch({ type: removeToLoadingQueue, payload: collection.id });
-        refetchCollections();
       } catch (e) {
         // do something
       }
@@ -138,14 +141,15 @@ const CollectionsPanel = ({
         dispatch({ type: addToLoadingQueue, payload: collection.id });
         await removeResourceFromCollection(token, collection.id, resourcePayload);
         dispatch({ type: removeToLoadingQueue, payload: collection.id });
-        refetchCollections();
       } catch (e) {
         // do something
       }
     }
 
+    queryClient.invalidateQueries('fetch-collections');
+
     if (onToggleCollection) onToggleCollection(isAdded, resource);
-  }, [token, resource, resourceType, refetchCollections, onToggleCollection]);
+  }, [token, resource, resourceType, onToggleCollection, queryClient]);
 
   const handleKeyPress = useCallback((evt) => {
     if (evt.key !== 'Enter') return false;

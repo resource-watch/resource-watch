@@ -1,3 +1,4 @@
+@use "sass:math";
 @import 'css/settings';
 
 .c-sorting-layer-manager {
@@ -36,13 +37,13 @@
           }
 
           &:after {
-            margin: 0 0 0 $space / 2;
+            margin: 0 0 0 math.div($space, 2);
           }
 
           &:not(:first-child) {
             &:before,
             &:after {
-              margin-top: $space / 2;
+              margin-top: math.div($space, 2);
             }
           }
         }

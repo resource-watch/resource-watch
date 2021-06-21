@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import isEmpty from 'lodash/isEmpty';
@@ -15,6 +15,7 @@ import TemplateSelector from 'components/dashboards/template-selector';
 import Wysiwyg from 'components/form/VizzWysiwyg';
 import WidgetBlock from 'components/wysiwyg/widget-block';
 import WidgetBlockEdition from 'components/wysiwyg/widget-block-edition';
+import MiniExploreBlock from 'components/wysiwyg/mini-explore';
 
 // constants
 import { FORM_ELEMENTS } from 'components/dashboards/form/constants';
@@ -280,6 +281,9 @@ class Step1 extends PureComponent {
                   icon: 'icon-widget',
                   label: 'Visualization',
                   renderer: 'modal',
+                },
+                'mini-explore': {
+                  Component: MiniExploreBlock,
                 },
               },
               onUploadImage: (files) => new Promise((resolve, reject) => {

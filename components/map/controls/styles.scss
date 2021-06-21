@@ -1,3 +1,4 @@
+@use "sass:math";
 @import 'css/settings';
 
 .c-map-controls {
@@ -31,7 +32,7 @@
     padding: 0;
 
     &:not(:first-child) {
-      margin: $space-1 / 2 0 0 0;
+      margin: math.div($space-1, 2) 0 0 0;
     }
   }
 }

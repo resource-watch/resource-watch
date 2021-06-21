@@ -96,7 +96,6 @@ export default function MiniExploreMap({
       }}
     >
       <Map
-        mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
         interactiveLayerIds={activeInteractiveLayers}
         onClick={onClickLayer}
         mapStyle={MAPSTYLES}

@@ -95,7 +95,6 @@ export const miniExploreSlice = createSlice({
             visibility: true,
             layers: publishedLayers.map((_layer) => ({
               ..._layer,
-              // displays first layer of the dataset by default. We might need to change this.
               active: _layer.default,
               opacity: 1,
             })),
