@@ -367,15 +367,15 @@ class Map extends PureComponent {
       >
         <ReactMapGL
           ref={this.map}
-
+          mapboxApiAccessToken={
+            process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN || process.env.STORYBOOK_RW_MAPBOX_API_TOKEN
+          }
           // CUSTOM PROPS FROM REACT MAPBOX API
           {...mapboxProps}
-
           // VIEWPORT
           {...viewport}
           width="100%"
           height="100%"
-
           // INTERACTIVE
           dragPan={!flying && dragPan}
           dragRotate={!flying && dragRotate}

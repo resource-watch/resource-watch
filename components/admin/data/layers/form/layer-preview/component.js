@@ -145,7 +145,6 @@ class LayerPreviewComponent extends PureComponent {
         <h5>Layer preview</h5>
         <div className="map-container">
           <Map
-            mapboxApiAccessToken={process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN}
             onClick={this.onClickLayer}
             mapStyle={MAPSTYLES}
             basemap={BASEMAPS.dark.value}
