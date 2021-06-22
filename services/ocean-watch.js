@@ -14,6 +14,25 @@ export const fetchConfigFile = () => {
     .then(({ data }) => data[isStagingAPI ? 'staging' : 'production']);
 };
 
-export default {
-  fetchConfigFile,
+export const fetchOceanWatchAreas = () => {
+  // As of date, we have 2 different databases for data,
+  // so ids need to be different depending on the environment deployed.
+  const isStagingAPI = process.env.NEXT_PUBLIC_WRI_API_URL.includes('staging-api.resourcewatch.org');
+
+  const geostoreEnvironment = isStagingAPI ? 'geostore_staging' : 'geostore_prod';
+
+  return axios.get('https://wri-rw.carto.com:443/api/v2/sql', {
+    params: {
+      q: `select name_0 as name, gid_0 as iso, ${geostoreEnvironment} as geostore from "wri-rw".gadm36_0 where ${geostoreEnvironment} is not NULL`,
+    },
+  })
+    .then(({ data }) => data.rows.map(({
+      iso,
+      name,
+      geostore,
+    }) => ({
+      iso,
+      name,
+      geostore,
+    })));
 };
