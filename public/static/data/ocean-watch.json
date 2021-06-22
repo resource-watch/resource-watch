@@ -319,7 +319,6 @@
           "visualizationType": "mini-explore",
           "config": {
             "title": "Lorem ipsum",
-            "areaOfInterest": "972c24e1da2c2baacc7572ee9501abdc",
             "datasetGroups": [
               {
                 "title": "Power Infrastructure",

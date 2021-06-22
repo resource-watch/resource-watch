@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch: loads available countries and their geometries. [OW-49](https://vizzuality.atlassian.net/browse/OW-83)
 - Ocean Watch: indicators set in introduction page. [OW-49](https://vizzuality.atlassian.net/browse/OW-49)
 - Storybook.
 - Ocean Watch: indicators set in country profiles pages. [OW-74](https://vizzuality.atlassian.net/browse/OW-74)

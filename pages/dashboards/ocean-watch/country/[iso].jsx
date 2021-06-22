@@ -13,6 +13,8 @@ import {
   useSelector,
 } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import Select from 'react-select';
+import sortBy from 'lodash/sortBy';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
@@ -23,7 +25,10 @@ import MapWidget from 'components/widgets/types/map';
 import ChartWidget from 'components/widgets/types/chart';
 
 // services
-import { fetchConfigFile } from 'services/ocean-watch';
+import {
+  fetchConfigFile,
+  fetchOceanWatchAreas,
+} from 'services/ocean-watch';
 
 // utils
 import {
@@ -33,14 +38,18 @@ import {
 const WidgetShareModal = dynamic(() => import('../../../../components/widgets/share-modal'), { ssr: false });
 
 export default function OceanWatchCountryProfilePage() {
-  const [widgetToShare, setWidgetToShare] = useState(null);
-  const RWAdapter = useSelector((state) => getRWAdapter(state));
+  const router = useRouter();
   // todo: move this fetching to getStaticProps function when getInitialProps is gone
   const {
     query: {
       iso,
     },
-  } = useRouter();
+  } = router;
+  const [widgetToShare, setWidgetToShare] = useState(null);
+  const RWAdapter = useSelector((state) => getRWAdapter(state));
+  // todo: enable when getInitialProps is gone and hydration is implemented
+  // const areas = queryClient.getQueryData('ocean-watch-areas');
+
   const {
     data: oceanWatchConfig,
   } = useQuery(
@@ -55,6 +64,31 @@ export default function OceanWatchCountryProfilePage() {
       initialStale: true,
     },
   );
+
+  const {
+    data: areas,
+  } = useQuery(
+    ['ocean-watch-areas'],
+    () => fetchOceanWatchAreas(),
+    {
+      refetchOnWindowFocus: false,
+      placeholderData: [],
+      initialStale: true,
+    },
+  );
+
+  const handleAreaChange = useCallback(({ value }) => {
+    router.push({
+      pathname: '/dashboards/ocean-watch/country/[iso]',
+      query: {
+        iso: value,
+      },
+    },
+    {},
+    {
+      shallow: true,
+    });
+  }, [router]);
 
   const handleShareWidget = useCallback((_widget) => {
     setWidgetToShare(_widget);
@@ -80,6 +114,21 @@ export default function OceanWatchCountryProfilePage() {
   const indicatorSetConfiguration = useMemo(() => serializedConfiguration
     .find((rowContent) => !!rowContent.find((blockContent) => blockContent.visualizationType === 'indicators-set'))?.[0], [serializedConfiguration]);
 
+  const area = useMemo(() => areas.find(({ iso: areaId }) => iso === areaId), [areas, iso]);
+
+  const areaOptions = useMemo(() => sortBy(areas.map(({
+    name: label,
+    iso: value,
+  }) => ({
+    label,
+    value,
+  })), ['label']), [areas]);
+
+  const defaultAreaOption = useMemo(
+    () => areaOptions.find(({ value }) => iso === value),
+    [areaOptions, iso],
+  );
+
   return (
     <LayoutOceanWatch
       title="Ocean Watch"
@@ -87,6 +136,22 @@ export default function OceanWatchCountryProfilePage() {
     >
       <section className="l-section -small  -secondary">
         <div className="l-container">
+          <div className="row">
+            <div className="column small-12">
+              <div style={{
+                paddingBottom: 30,
+              }}
+              >
+                <Select
+                  options={areaOptions}
+                  className="-fluid"
+                  onChange={handleAreaChange}
+                  value={defaultAreaOption}
+                  clearable={false}
+                />
+              </div>
+            </div>
+          </div>
           <div className="row">
             <div className="column small-12">
               {indicatorSetConfiguration && (
@@ -142,14 +207,16 @@ export default function OceanWatchCountryProfilePage() {
                     )}
                     {blockContent.visualizationType === 'mini-explore' && (
                       <MiniExplore
-                        config={blockContent.config}
+                        config={{
+                          ...blockContent.config,
+                          ...area?.geostore && { areaOfInterest: area.geostore },
+                        }}
                       />
                     )}
                     {(blockContent.widget && blockContent.type === 'map') && (
                       <MapWidget
                         widgetId={blockContent.widget}
-                        // todo: replace with geostore
-                        areaOfInterest="972c24e1da2c2baacc7572ee9501abdc"
+                        {...area?.geostore && { areaOfInterest: area.geostore }}
                         onToggleShare={handleShareWidget}
                       />
                     )}
@@ -179,6 +246,9 @@ export default function OceanWatchCountryProfilePage() {
 }
 
 export async function getStaticProps() {
+  // const {
+  //   iso,
+  // } = params;
   // feature flag to avoid display any Ocean Watch development in other environments
   if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true') {
     return {
@@ -187,18 +257,21 @@ export async function getStaticProps() {
   }
 
   return {
-    props: ({}),
+    props: ({
+      // todo: enable when getInitialProps is gone
+      // iso,
+      // todo: enable when getInitialProps is gone and hydration is implemented
+      // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+    }),
   };
 }
 
 export async function getStaticPaths() {
-  // todo: replace fetching list
-  const countryList = [
-    'ESP',
-    'BRA',
-  ];
+  // todo: enable when getInitialProps is gone and hydration is implemented
+  // await queryClient.prefetchQuery('ocean-watch-areas', fetchOceanWatchAreas);
+  const areas = await fetchOceanWatchAreas();
 
-  const paths = countryList.map((iso) => ({
+  const paths = areas.map(({ iso }) => ({
     params: {
       iso,
     },
