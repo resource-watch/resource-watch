@@ -1,7 +1,42 @@
+import {
+  useCallback,
+} from 'react';
+import { useRouter } from 'next/router';
+import sortBy from 'lodash/sortBy';
+import Select from 'react-select';
+
+// hooks
+import {
+  useOceanWatchProfiles,
+} from 'hooks/ocean-watch';
+
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
 
 export default function OceanWatchCountryProfiles() {
+  const router = useRouter();
+
+  const {
+    data: areas,
+  } = useOceanWatchProfiles({
+    select: (_areas) => sortBy(_areas.map(({
+      name: label,
+      iso: value,
+    }) => ({
+      label,
+      value,
+    })), ['label']),
+  });
+
+  const handleAreaChange = useCallback(({ value }) => {
+    router.push({
+      pathname: '/dashboards/ocean-watch/country/[iso]',
+      query: {
+        iso: value,
+      },
+    });
+  }, [router]);
+
   return (
     <LayoutOceanWatch
       title="Ocean Watch – Country Profiles Index"
@@ -21,6 +56,21 @@ export default function OceanWatchCountryProfiles() {
                 voluptate tempore temporibus delectus, blanditiis,
                 illum consequatur nihil consectetur quo ratione ea expedita, eum reprehenderit.
               </p>
+            </div>
+          </div>
+          <div className="row">
+            <div className="column small-12">
+              <div style={{
+                paddingTop: 30,
+              }}
+              >
+                <Select
+                  options={areas}
+                  className="-fluid"
+                  onChange={handleAreaChange}
+                  clearable={false}
+                />
+              </div>
             </div>
           </div>
         </div>
