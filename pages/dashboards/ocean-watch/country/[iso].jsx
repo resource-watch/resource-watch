@@ -24,6 +24,11 @@ import CardIndicator from 'components/card-indicator-set/card-indicator';
 import MapWidget from 'components/widgets/types/map';
 import ChartWidget from 'components/widgets/types/chart';
 
+// hooks
+import {
+  useOceanWatchProfiles,
+} from 'hooks/ocean-watch';
+
 // services
 import {
   fetchConfigFile,
@@ -67,15 +72,15 @@ export default function OceanWatchCountryProfilePage() {
 
   const {
     data: areas,
-  } = useQuery(
-    ['ocean-watch-areas'],
-    () => fetchOceanWatchAreas(),
-    {
-      refetchOnWindowFocus: false,
-      placeholderData: [],
-      initialStale: true,
-    },
-  );
+  } = useOceanWatchProfiles({
+    select: (_areas) => sortBy(_areas.map(({
+      name: label,
+      iso: value,
+    }) => ({
+      label,
+      value,
+    })), ['label']),
+  });
 
   const handleAreaChange = useCallback(({ value }) => {
     router.push({
@@ -116,17 +121,9 @@ export default function OceanWatchCountryProfilePage() {
 
   const area = useMemo(() => areas.find(({ iso: areaId }) => iso === areaId), [areas, iso]);
 
-  const areaOptions = useMemo(() => sortBy(areas.map(({
-    name: label,
-    iso: value,
-  }) => ({
-    label,
-    value,
-  })), ['label']), [areas]);
-
   const defaultAreaOption = useMemo(
-    () => areaOptions.find(({ value }) => iso === value),
-    [areaOptions, iso],
+    () => areas.find(({ value }) => iso === value),
+    [areas, iso],
   );
 
   return (
@@ -143,7 +140,7 @@ export default function OceanWatchCountryProfilePage() {
               }}
               >
                 <Select
-                  options={areaOptions}
+                  options={areas}
                   className="-fluid"
                   onChange={handleAreaChange}
                   value={defaultAreaOption}
