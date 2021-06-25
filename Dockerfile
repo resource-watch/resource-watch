@@ -62,7 +62,16 @@ COPY jsconfig.json .
 COPY .env.test .
 COPY .env.production .
 
-RUN yarn install --frozen-lockfile --production=false
+# Install Node dependencies up one level. This prevents the container from relying
+# on local files during development; Node will walk upward from the project root
+# if it doesn't find a node_modules folder there.
+# See https://www.docker.com/blog/keep-nodejs-rockin-in-docker/ for more details.
+WORKDIR /usr/src/
+COPY package.json .
+COPY yarn.lock .
+RUN yarn install --frozen-lockfile --production=false && rm package.json yarn.lock
+WORKDIR /usr/src/app
+ENV PATH /usr/src/node_modules/.bin:$PATH
 
 RUN yarn build
 
