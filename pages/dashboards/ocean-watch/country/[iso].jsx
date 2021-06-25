@@ -72,15 +72,7 @@ export default function OceanWatchCountryProfilePage() {
 
   const {
     data: areas,
-  } = useOceanWatchProfiles({
-    select: (_areas) => sortBy(_areas.map(({
-      name: label,
-      iso: value,
-    }) => ({
-      label,
-      value,
-    })), ['label']),
-  });
+  } = useOceanWatchProfiles();
 
   const handleAreaChange = useCallback(({ value }) => {
     router.push({
@@ -121,9 +113,17 @@ export default function OceanWatchCountryProfilePage() {
 
   const area = useMemo(() => areas.find(({ iso: areaId }) => iso === areaId), [areas, iso]);
 
+  const areaOptions = useMemo(() => sortBy(areas.map(({
+    name: label,
+    iso: value,
+  }) => ({
+    label,
+    value,
+  })), ['label']), [areas]);
+
   const defaultAreaOption = useMemo(
-    () => areas.find(({ value }) => iso === value),
-    [areas, iso],
+    () => areaOptions.find(({ value }) => iso === value),
+    [areaOptions, iso],
   );
 
   return (
@@ -140,7 +140,7 @@ export default function OceanWatchCountryProfilePage() {
               }}
               >
                 <Select
-                  options={areas}
+                  options={areaOptions}
                   className="-fluid"
                   onChange={handleAreaChange}
                   value={defaultAreaOption}
