@@ -35,11 +35,7 @@ import ChartWidget from 'components/widgets/types/chart';
 
 // hooks
 import {
-<<<<<<< HEAD
   useOceanWatchAreas,
-=======
-  useOceanWatchProfiles,
->>>>>>> 85864aa7 (ocean watch: adds country selector to countries page)
 } from 'hooks/ocean-watch';
 
 // services
@@ -133,8 +129,8 @@ export default function OceanWatchCountryProfilePage({
   })), [areas]);
 
   const defaultAreaOption = useMemo(
-    () => areas.find(({ value }) => iso === value),
-    [areas, iso],
+    () => areaOptions.find(({ value }) => iso === value),
+    [areaOptions, iso],
   );
 
   return (
