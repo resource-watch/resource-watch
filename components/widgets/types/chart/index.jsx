@@ -7,12 +7,23 @@ import {
 import { useFetchWidget } from 'hooks/widget';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 
+// utils
+import {
+  isStagingAPI,
+} from 'utils/api';
+import {
+  getParametrizedWidget,
+} from 'utils/widget';
+
 // components
 import Chart from './component';
+
+const isStaging = isStagingAPI();
 
 export default function ChartContainer({
   widgetId,
   adapter,
+  areaOfInterest,
   onToggleShare,
 }) {
   const userToken = useSelector((state) => state.user?.token);
@@ -33,6 +44,10 @@ export default function ChartContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
+      select: (_widget) => getParametrizedWidget(_widget, {
+        ...areaOfInterest && { geostore_id: areaOfInterest },
+        geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+      }),
     },
   );
 
@@ -48,8 +63,13 @@ export default function ChartContainer({
   );
 }
 
+ChartContainer.defaultProps = {
+  areaOfInterest: null,
+};
+
 ChartContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  areaOfInterest: PropTypes.string,
   adapter: PropTypes.func.isRequired,
   onToggleShare: PropTypes.func.isRequired,
 };
