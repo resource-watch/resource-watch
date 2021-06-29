@@ -4118,6 +4118,14 @@
   resolved "https://registry.yarnpkg.com/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
 
+"@vizzuality/layer-manager-utils@^1.0.0-alpha.3":
+  version "1.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/@vizzuality/layer-manager-utils/-/layer-manager-utils-1.0.0-alpha.3.tgz#85c315465b95ef829dc1035f56ae80fb7cbe549d"
+  integrity sha512-WqxDQ/SsNh56HrQ1gi7mej+xbkvWq+ZrMK6A3PuZL7Ydg6AxINGTYNYmO3XinuSZ1B88dq9XDwnLVse0BPdtSQ==
+  dependencies:
+    axios "^0.21.1"
+    cancelable-promise "^3.2.3"
+
 "@vizzuality/wysiwyg@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@vizzuality/wysiwyg/-/wysiwyg-3.1.0.tgz#f50f74617523938ebd643fc4113ab6d265c6aec0"
@@ -6091,6 +6099,11 @@ camelize@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/camelize/-/camelize-1.0.0.tgz#164a5483e630fa4321e5af07020e531831b2609b"
   integrity sha1-FkpUg+Yw+kMh5a8HAg5TGDGyYJs=
+
+cancelable-promise@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/cancelable-promise/-/cancelable-promise-3.2.3.tgz#7bc579c003fa05147d942ca9f6c4e39217d832e4"
+  integrity sha512-P0yW/pq7ZEx4znOnDd4PqA5l+I/INpo32BE4Rg3QQxVBhKk7g9hAbmJt7oYbffo1q8j+1QfSZHGmjHMqj8RoJw==
 
 caniuse-lite@^1.0.30001006, caniuse-lite@^1.0.30001181:
   version "1.0.30001183"

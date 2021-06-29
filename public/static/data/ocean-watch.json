@@ -265,12 +265,12 @@
       [
         {
           "grid": "50%",
-          "widget": "5363504d-d1d4-4df3-801c-cf0436d0a97d",
+          "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
           "type": "chart"
         },
         {
           "grid": "50%",
-          "widget": "91b78911-6098-4e1c-ad50-c67d812f02b0",
+          "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
           "type": "chart"
         }
       ],
@@ -283,7 +283,7 @@
       [
         {
           "grid": "100%",
-          "widget": "913ab9b7-5e5c-4830-a4c8-5e3b2d45db77",
+          "widget": "ac8fb011-b003-466e-ab5e-1ccd417bbc1d",
           "type": "map"
         }
       ],
