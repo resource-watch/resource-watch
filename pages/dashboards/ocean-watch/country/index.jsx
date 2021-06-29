@@ -65,6 +65,7 @@ export default function OceanWatchCountryProfiles() {
               }}
               >
                 <Select
+                  instanceId="area-selector"
                   options={areas}
                   className="-fluid"
                   onChange={handleAreaChange}

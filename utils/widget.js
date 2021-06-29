@@ -1,3 +1,7 @@
+import {
+  replace,
+} from '@vizzuality/layer-manager-utils';
+
 export const isMapWidget = (widgetConfig = {}) => 'type' in widgetConfig && widgetConfig.type === 'map';
 
 // Some widgets have not been created with the widget editor
@@ -36,3 +40,18 @@ export const hasValidConfiguration = (widget = {}) => {
 
   return true;
 };
+
+export const getParametrizedWidget = (widget = {}, params = {}) => ({
+  ...widget,
+  widgetConfig: {
+    ...widget?.widgetConfig || {},
+    data: (widget?.widgetConfig?.data || []).map((_data) => {
+      if (!_data?.url) return _data;
+
+      return ({
+        ..._data,
+        url: replace(_data.url, params),
+      });
+    }),
+  },
+});
