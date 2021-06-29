@@ -140,6 +140,7 @@ export default function OceanWatchCountryProfilePage() {
               }}
               >
                 <Select
+                  instanceId="area-selector"
                   options={areaOptions}
                   className="-fluid"
                   onChange={handleAreaChange}
@@ -221,6 +222,7 @@ export default function OceanWatchCountryProfilePage() {
                       <ChartWidget
                         adapter={RWAdapter}
                         widgetId={blockContent.widget}
+                        {...area?.geostore && { areaOfInterest: area.geostore }}
                         onToggleShare={handleShareWidget}
                       />
                     )}
