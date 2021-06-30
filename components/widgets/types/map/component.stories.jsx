@@ -382,12 +382,24 @@ WithMultipleLayers.args = {
         '00e688a8-086e-4206-9ea7-b47afca6913c',
         '7890b4f2-502a-408b-8614-3f00e0b53ec2',
       ],
+      layerParams: {
+        // layer ID
+        '2a694289-fec9-4bfe-a6d2-56c3864ec349': {
+          opacity: 0.5,
+        },
+        '155968b5-7c59-4065-9e3a-0a81d52d50de': {
+          opacity: 0.25,
+        },
+        // optional opacity to for the area of interest
+        aoi: {
+          opacity: 0.75,
+        },
+      },
     },
   },
   layerGroups: [
     {
       id: 'a86d906d-9862-4783-9e30-cdb68cd808b8',
-      opacity: 1,
       visibility: true,
       layers: [
         {
@@ -405,7 +417,7 @@ WithMultipleLayers.args = {
           userId: '5980838ae24e6a1dae3dd446',
           default: true,
           active: true,
-          opacity: 1,
+          opacity: 0.5,
           protected: false,
           published: true,
           env: 'production',
@@ -678,7 +690,7 @@ WithMultipleLayers.args = {
           userId: '5980838ae24e6a1dae3dd446',
           default: false,
           active: false,
-          opacity: 1,
+          opacity: 0.25,
           protected: false,
           published: true,
           env: 'production',
@@ -1083,7 +1095,6 @@ WithMultipleLayers.args = {
     },
     {
       id: 'fe9b286f-4b28-409a-85f5-2e81b2bd5056',
-      opacity: 1,
       visibility: true,
       layers: [
         {
@@ -1262,7 +1273,6 @@ WithMultipleLayers.args = {
     },
     {
       id: '4919be3a-c543-4964-a224-83ef801370de',
-      opacity: 1,
       visibility: true,
       layers: [
         {
