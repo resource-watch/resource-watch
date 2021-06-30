@@ -106,6 +106,8 @@ export default function MapTypeWidgetContainer({
   [layerStates]);
 
   const aoiLayer = useMemo(() => {
+    const { layerParams } = widget?.widgetConfig || {};
+
     if (!geostore) return null;
 
     const {
@@ -122,29 +124,29 @@ export default function MapTypeWidgetContainer({
         },
         USER_AREA_LAYER_TEMPLATES.explore,
       ),
-      opacity: 1,
+      opacity: layerParams?.aoi?.opacity || 1,
       visibility: true,
       isAreaOfInterest: true,
       bbox,
     });
   },
-  [geostore]);
+  [geostore, widget]);
 
   const layerGroups = useMemo(() => {
     const layersByDataset = groupBy(layers, 'dataset');
+    const { layerParams } = widget?.widgetConfig || {};
 
     return Object.keys(layersByDataset).map((datasetKey) => ({
       id: datasetKey,
-      opacity: 1,
       visibility: true,
       layers: layersByDataset[datasetKey]
         .map((_layer) => ({
           ..._layer,
           active: _layer.default,
-          opacity: 1,
+          opacity: layerParams?.[_layer.id]?.opacity || 1,
         })),
     }));
-  }, [layers]);
+  }, [layers, widget]);
 
   const isError = useMemo(
     () => (isErrorWidget || isErrorGeostore),
