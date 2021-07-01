@@ -17,4 +17,7 @@ export const sortLayers = (_layers = [], _layerOrder = []) => {
   return [...sortedLayers, ...restLayers];
 };
 
-export default { sortLayers };
+export const getTilerUrl = (layer) => {
+  if (!layer) throw new Error('layer required to generate tiler URL');
+  return `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
+};
