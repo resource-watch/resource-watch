@@ -34,6 +34,9 @@ import {
 import {
   getUserAreaLayer,
 } from 'components/map/utils';
+import {
+  getTilerUrl,
+} from 'utils/layers';
 
 // components
 import ErrorFallback from 'components/error-fallback';
@@ -144,6 +147,15 @@ export default function MapTypeWidgetContainer({
           ..._layer,
           active: _layer.default,
           opacity: layerParams?.[_layer.id]?.opacity || 1,
+          ..._layer.layerConfig.type === 'gee' && {
+            layerConfig: {
+              ..._layer.layerConfig,
+              body: {
+                ..._layer.layerConfig.body,
+                url: getTilerUrl(_layer),
+              },
+            },
+          },
         })),
     }));
   }, [layers, widget]);
