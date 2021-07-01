@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useCallback,
   useEffect,
@@ -15,7 +15,6 @@ import {
   LegendItemTypes,
 } from 'vizzuality-components';
 import Link from 'next/link';
-import { CancelToken } from 'axios';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
@@ -233,8 +232,6 @@ const LayoutEmbedMap = (props) => {
   }, [bounds]);
 
   useEffect(() => {
-    const cancelToken = CancelToken.source();
-
     const fetchAreaOfInterest = async () => {
       try {
         const {
@@ -243,7 +240,6 @@ const LayoutEmbedMap = (props) => {
           userId: areaUserId,
         } = await fetchArea(aoi, {}, {
           Authorization: user.token,
-          cancelToken: cancelToken.token,
         });
 
         if (!isPublicArea
@@ -253,7 +249,7 @@ const LayoutEmbedMap = (props) => {
         const {
           geojson,
           bbox,
-        } = await fetchGeostore(geostoreId, { cancelToken: cancelToken.token });
+        } = await fetchGeostore(geostoreId);
 
         const aoiLayer = getUserAreaLayer(
           {
@@ -286,8 +282,6 @@ const LayoutEmbedMap = (props) => {
     if (aoi) {
       fetchAreaOfInterest();
     }
-
-    return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
   }, [aoi, user]);
 
   const {
