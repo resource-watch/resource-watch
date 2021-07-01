@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useEffect,
   useCallback,
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
 import { Tooltip } from 'vizzuality-components';
-import axios, { CancelToken } from 'axios';
+import axios from 'axios';
 
 // services
 import { fetchGeostore } from 'services/geostore';
@@ -170,9 +170,7 @@ const AreaCard = (props) => {
   }, [handleEditSubscription, refetch]);
 
   useEffect(() => {
-    const cancelToken = CancelToken.source();
-
-    fetchGeostore(geostoreId, { cancelToken: cancelToken.token })
+    fetchGeostore(geostoreId)
       .then((_geostore = {}) => {
         const { bbox, geojson } = _geostore;
 
@@ -189,8 +187,6 @@ const AreaCard = (props) => {
           toastr.error(`Something went wrong loading your area "${name}"`);
         }
       });
-
-    return () => { cancelToken.cancel('Fetching geostore: operation canceled by the user.'); };
   }, [area, geostoreId, name]);
 
   useEffect(() => {
