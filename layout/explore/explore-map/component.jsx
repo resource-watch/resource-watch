@@ -6,7 +6,6 @@ import debounce from 'lodash/debounce';
 import isEmpty from 'lodash/isEmpty';
 import { useDebouncedCallback } from 'use-debounce';
 import { Popup } from 'react-map-gl';
-import { CancelToken } from 'axios';
 import {
   Legend,
   LegendListItem,
@@ -294,8 +293,6 @@ const ExploreMap = (props) => {
   }, [activeLayers, aoi]);
 
   useEffect(() => {
-    const cancelToken = CancelToken.source();
-
     const fetchAreaOfInterest = async () => {
       try {
         const {
@@ -304,7 +301,6 @@ const ExploreMap = (props) => {
           userId: areaUserId,
         } = await fetchArea(aoi, {}, {
           Authorization: token,
-          cancelToken: cancelToken.token,
         });
 
         if (!isPublicArea
@@ -315,7 +311,7 @@ const ExploreMap = (props) => {
           id,
           geojson,
           bbox,
-        } = await fetchGeostore(geostoreId, { cancelToken: cancelToken.token });
+        } = await fetchGeostore(geostoreId);
 
         const aoiLayer = getUserAreaLayer(
           {
@@ -349,8 +345,6 @@ const ExploreMap = (props) => {
         ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
       ]);
     }
-
-    return () => { cancelToken.cancel('Fetching area of interest: operation canceled by the user.'); };
   }, [aoi, token, userId, setBounds]);
 
   return (

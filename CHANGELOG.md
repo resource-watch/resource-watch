@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- data explore: areas of interest not loading.[RW-67](https://vizzuality.atlassian.net/browse/RW-67)
 - mini-explore: USA and World boundaries.
 - warning with dashboard links.
 - fixes search place in Explore map. [RW-58](https://vizzuality.atlassian.net/browse/RW-58)
@@ -42,6 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Removed
+- Axios' cancelToken.
 - removes `react-responsive` and `react-responsive-redux`.
 - removes `hostname` and its action from global state.
 - removes `routes` global state. [RW-53](https://vizzuality.atlassian.net/browse/RW-53)
