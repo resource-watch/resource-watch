@@ -259,19 +259,23 @@
         {
           "grid": "100%",
           "widget": "ac8fb011-b003-466e-ab5e-1ccd417bbc1d",
-          "type": "map"
+          "type": "map",
+          "comment": "Sediment Pressure Map"
+
         }
       ],
       [
         {
           "grid": "50%",
           "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
-          "type": "chart"
+          "type": "chart",
+          "comment": "Sediment Pressure Chart 1"
         },
         {
           "grid": "50%",
           "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
-          "type": "chart"
+          "type": "chart",
+          "comment": "Sediment Pressure Chart 2 (placeholder)"
         }
       ],
       [
@@ -283,20 +287,24 @@
       [
         {
           "grid": "100%",
-          "widget": "ac8fb011-b003-466e-ab5e-1ccd417bbc1d",
-          "type": "map"
+          "widget": "5a1322ef-8982-4398-aac8-9e53a8dea581",
+          "type": "map",
+          "comment": "Water Quality Pressure Map"
+
         }
       ],
       [
         {
           "grid": "50%",
-          "widget": "b9192492-20f3-4725-8e90-8795f2176329",
-          "type": "chart"
+          "widget": "d7828256-5a99-4033-9583-fe35d36a41fd",
+          "type": "chart",
+          "comment":"Water Quality Pressure Chart 1"
         },
         {
           "grid": "50%",
-          "widget": "fd6f666b-da36-497f-946d-1af871aa1535",
-          "type": "chart"
+          "widget": "f3ab5375-b278-4ad2-8311-a8652d34e222",
+          "type": "chart",
+          "comment":"Water Quality Pressure Chart 2"
         }
       ],
       [
@@ -606,19 +614,23 @@
         {
           "grid": "100%",
           "widget": "060efa56-95a1-4223-997d-b58188156268",
-          "type": "map"
+          "type": "map",
+          "comment": "Sediment Pressure Map (placeholder)"
+
         }
       ],
       [
         {
           "grid": "50%",
-          "widget": "cd0a50e0-c58e-418b-9604-5a452d07b308",
-          "type": "chart"
+          "widget": "bd2e07f0-f62a-42df-83e6-65a3ebcdbc29",
+          "type": "chart",
+          "comment": "Sediment Pressure Chart 1"
         },
         {
           "grid": "50%",
-          "widget": "cd0a50e0-c58e-418b-9604-5a452d07b308",
-          "type": "chart"
+          "widget": "bd2e07f0-f62a-42df-83e6-65a3ebcdbc29",
+          "type": "chart",
+          "comment": "Sediment Pressure Chart 2 (placeholder)"
         }
       ],
       [
@@ -631,19 +643,23 @@
         {
           "grid": "100%",
           "widget": "060efa56-95a1-4223-997d-b58188156268",
-          "type": "map"
+          "type": "map",
+          "comment": "Water Quality Pressure Map (placeholder)"
+
         }
       ],
       [
         {
           "grid": "50%",
-          "widget": "cd0a50e0-c58e-418b-9604-5a452d07b308",
-          "type": "chart"
+          "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
+          "type": "chart",
+          "comment":"Water Quality Pressure Chart 1"
         },
         {
           "grid": "50%",
-          "widget": "cd0a50e0-c58e-418b-9604-5a452d07b308",
-          "type": "chart"
+          "widget": "b8e454be-9a0f-4a8f-8e92-3d7b0fd6423f",
+          "type": "chart",
+          "comment":"Water Quality Pressure Chart 2"
         }
       ],
       [
