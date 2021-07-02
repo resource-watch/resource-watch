@@ -1,4 +1,6 @@
-import 'isomorphic-fetch';
+import {
+  HYDRATE,
+} from 'next-redux-wrapper';
 import isEmpty from 'lodash/isEmpty';
 
 // Services
@@ -47,6 +49,12 @@ const initialState = {
  */
 export default function Widget(state = initialState, action) {
   switch (action.type) {
+    case HYDRATE: {
+      return ({
+        ...state,
+        ...action.payload.widget,
+      });
+    }
     case SET_WIDGET_LOADING: {
       const widget = {
         loading: true,

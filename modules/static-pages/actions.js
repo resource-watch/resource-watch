@@ -1,5 +1,5 @@
-import { createAction, createThunkAction } from 'redux-tools';
-
+import { createThunkAction } from 'redux-tools';
+import { createAction } from '@reduxjs/toolkit';
 // service
 import { fetchPage } from 'services/pages';
 

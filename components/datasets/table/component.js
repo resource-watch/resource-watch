@@ -87,7 +87,7 @@ class DatasetsTable extends PureComponent {
   }
 
   loadDatasets = () => {
-    const { user: { token } } = this.props;
+    const { user } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
@@ -98,7 +98,7 @@ class DatasetsTable extends PureComponent {
       'page[size]': pagination.limit,
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...filters,
-    }, { Authorization: token }, true)
+    }, { Authorization: user?.token }, true)
       .then(({ datasets, meta }) => {
         const {
           'total-pages': pages,

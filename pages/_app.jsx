@@ -1,18 +1,25 @@
 import App from 'next/app';
-import { Provider } from 'react-redux';
-import withRedux from 'next-redux-wrapper';
+import {
+  Provider as AuthenticationProvider,
+  getSession,
+} from 'next-auth/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 // lib
-import initStore from 'lib/store';
+import wrapper from 'lib/store';
 import MediaContextProvider from 'lib/media';
+
+// services
+import {
+  fetchUser,
+} from 'services/user';
+import { setUser } from 'redactions/user';
 
 // es6 shim for .finally() in promises
 import finallyShim from 'promise.prototype.finally';
 
-import {
-  setUser,
-} from 'redactions/user';
+// tests
+import authPayload from '../cypress/fixtures/auth.json';
 
 // global styles
 import 'css/index.scss';
@@ -22,29 +29,38 @@ finallyShim.shim();
 const queryClient = new QueryClient();
 
 class RWApp extends App {
-  static async getInitialProps({ Component, ctx }) {
+  static getInitialProps = wrapper.getInitialAppProps((store) => async ({ Component, ctx }) => {
     const {
-      req,
-      store,
       isServer,
     } = ctx;
 
-    // sets user data coming from a request (server) or the store (client)
-    const { user } = isServer ? req : store.getState();
-    if (user) store.dispatch(setUser(user));
+    // provisional way to keep user data in store while authentication is migrated to next-auth
+    // todo: remove eventually when components stop consuming the user data from store
+    // todo: and remove getInitialProps
+    const session = await getSession(ctx);
+    const {
+      user,
+    } = store.getState();
 
-    const pageProps = Component.getInitialProps
-      ? await Component.getInitialProps(ctx)
-      : {};
+    if (session && !user?.id) {
+      const userData = process.env.TEST_ENV === 'FRONTEND'
+        ? authPayload : await fetchUser(`Bearer ${session.accessToken}`);
+
+      store.dispatch(setUser({
+        ...userData,
+        token: `Bearer ${session.accessToken}`,
+      }));
+    }
 
     return {
       pageProps: {
-        ...pageProps,
-        user,
+        ...(Component.getInitialProps
+          ? await Component.getInitialProps({ ...ctx, store }) : {}),
         isServer,
       },
+      store,
     };
-  }
+  });
 
   render() {
     const {
@@ -59,15 +75,21 @@ class RWApp extends App {
     }
 
     return (
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <MediaContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <MediaContextProvider>
+          <AuthenticationProvider
+            session={pageProps.session}
+            options={{
+              clientMaxAge: 5 * 60, // Re-fetch session if cache is older than 60 seconds
+              keepAlive: 10 * 60, // Send keepAlive message every 10 minutes
+            }}
+          >
             <Component {...pageProps} />
-          </MediaContextProvider>
-        </QueryClientProvider>
-      </Provider>
+          </AuthenticationProvider>
+        </MediaContextProvider>
+      </QueryClientProvider>
     );
   }
 }
 
-export default withRedux(initStore)(RWApp);
+export default wrapper.withRedux(RWApp);
