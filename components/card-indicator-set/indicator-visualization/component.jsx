@@ -6,9 +6,6 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
-import {
-  useSelector,
-} from 'react-redux';
 import { useQuery } from 'react-query';
 import classnames from 'classnames';
 // import { format } from 'd3-format';
@@ -26,12 +23,6 @@ import WidgetInfo from 'components/widgets/info';
 import {
   useFetchWidget,
 } from 'hooks/widget';
-import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
-
-// constants
-import {
-  getRWAdapter,
-} from 'utils/widget-editor';
 
 // styles
 import './styles.scss';
@@ -45,10 +36,9 @@ export default function IndicatorVisualization({
   },
   params,
   theme,
+  isInACollection,
+  RWAdapter,
 }) {
-  const RWAdapter = useSelector((state) => getRWAdapter(state));
-  const userToken = useSelector((state) => state.user?.token);
-
   const [isInfoVisible, setInfoVisibility] = useState(false);
   const [isShareVisible, setShareWidgetVisibility] = useState(false);
 
@@ -113,10 +103,6 @@ export default function IndicatorVisualization({
       placeholderData: {},
     },
   );
-
-  const {
-    isInACollection,
-  } = useBelongsToCollection(mainWidget?.id, userToken);
 
   const handleShareToggle = useCallback(() => {
     setShareWidgetVisibility(mainWidget);
@@ -302,6 +288,7 @@ export default function IndicatorVisualization({
 IndicatorVisualization.defaultProps = {
   theme: 'primary',
   params: {},
+  isInACollection: false,
 };
 
 IndicatorVisualization.propTypes = {
@@ -326,4 +313,6 @@ IndicatorVisualization.propTypes = {
   }).isRequired,
   theme: PropTypes.oneOf(['primary', 'secondary']),
   params: PropTypes.shape({}),
+  isInACollection: PropTypes.bool,
+  RWAdapter: PropTypes.func.isRequired,
 };
