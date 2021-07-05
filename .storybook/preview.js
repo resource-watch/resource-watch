@@ -1,11 +1,9 @@
-import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import {
   Icons as VizzIcons,
 } from 'vizzuality-components';
 import Icons from 'components/icons';
 
-import initStore from 'lib/store';
 import MediaContextProvider from 'lib/media';
 
 // global styles
@@ -22,22 +20,17 @@ export const parameters = {
 }
 
 const queryClient = new QueryClient();
-const store = initStore();
 
 export const decorators = [
-  (Story) => {
-    return (
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <MediaContextProvider>
-            <>
-              <VizzIcons />
-              <Icons />
-              {Story()}
-            </>
-          </MediaContextProvider>
-        </QueryClientProvider>
-      </Provider>
-    );
-  },
+  (Story) => (
+    <QueryClientProvider client={queryClient}>
+      <MediaContextProvider>
+        <>
+          <VizzIcons />
+          <Icons />
+          {Story()}
+        </>
+      </MediaContextProvider>
+    </QueryClientProvider>
+  ),
 ];
