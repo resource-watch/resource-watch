@@ -139,7 +139,7 @@ export default function MapTypeWidgetContainer({
 
   const layerGroups = useMemo(() => {
     const layersByDataset = groupBy(layers, 'dataset');
-    const { layerParams } = widget?.widgetConfig || {};
+    const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
 
     return Object.keys(layersByDataset).map((datasetKey) => ({
       id: datasetKey,
