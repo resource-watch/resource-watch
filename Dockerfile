@@ -3,7 +3,7 @@ LABEL maintainer="hello@vizzuality.com"
 
 # remove this env var when we are sure it is no needed anymore
 ARG NEXT_PUBLIC_CALLBACK_URL=https://resourcewatch.org/auth
-ARG NEXTAUTH_URL=https://resourcewatch.org/
+ARG NEXTAUTH_URL=https://staging.resourcewatch.org/
 ARG NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 ARG NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=not_valid
 ARG NEXT_PUBLIC_WRI_API_URL=https://api.resourcewatch.org
