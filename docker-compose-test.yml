@@ -21,6 +21,7 @@ services:
       LOGGER_LEVEL: info
       NODE_ENV: test
       REDIS_URL: redis://redis:6379
+      NEXTAUTH_URL: http://frontend-test-server:3000
     expose:
       - 3000
     restart: always
