@@ -244,12 +244,21 @@ export default function OceanWatchCountryProfilePage() {
   );
 }
 
-export async function getStaticProps() {
-  // const {
-  //   iso,
-  // } = params;
+export async function getServerSideProps({
+  query,
+}) {
+  const {
+    iso,
+  } = query;
+
+  // todo: enable when getInitialProps is gone and hydration is implemented
+  // await queryClient.prefetchQuery('ocean-watch-areas', fetchOceanWatchAreas);
+  const areas = await fetchOceanWatchAreas();
+  const areaFound = areas.find((area) => iso === area.iso);
+
   // feature flag to avoid display any Ocean Watch development in other environments
-  if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true') {
+  // if an area is not found, redirect to Not Found page
+  if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true' || !areaFound) {
     return {
       notFound: true,
     };
@@ -262,22 +271,5 @@ export async function getStaticProps() {
       // todo: enable when getInitialProps is gone and hydration is implemented
       // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     }),
-  };
-}
-
-export async function getStaticPaths() {
-  // todo: enable when getInitialProps is gone and hydration is implemented
-  // await queryClient.prefetchQuery('ocean-watch-areas', fetchOceanWatchAreas);
-  const areas = await fetchOceanWatchAreas();
-
-  const paths = areas.map(({ iso }) => ({
-    params: {
-      iso,
-    },
-  }));
-
-  return {
-    paths,
-    fallback: false,
   };
 }
