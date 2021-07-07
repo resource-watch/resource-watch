@@ -38,7 +38,7 @@ const router = express.Router();
 //   res.cookie('authUrl', req.headers.referer, { maxAge: 3e5, httpOnly: true });
 //   return res.redirect(
 //     `${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/${service}?callbackUrl=${
-//       process.env.NEXT_PUBLIC_CALLBACK_URL
+//       process.env.NEXT_PUBLIC_AUTH_CALLBACK
 //     }&applications=rw&token=true&origin=rw`,
 //   );
 // });
