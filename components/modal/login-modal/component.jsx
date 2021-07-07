@@ -186,9 +186,7 @@ class LoginModal extends PureComponent {
                 <ul className="social-btn-list">
                   <li className="social-btn-item">
                     <a
-                      // eslint-disable-next-line max-len
-                      // todo: when ready in API, change production-api.globalforestwatch.org to point to process.env.NEXT_PUBLIC_WRI_API_URL
-                      href={`https://production-api.globalforestwatch.org/auth/google?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}/auth-callback&token=true&applications=rw`}
+                      href={`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/google?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}&token=true&applications=rw`}
                       className="c-button -google -fullwidth"
                     >
                       Google
@@ -196,9 +194,7 @@ class LoginModal extends PureComponent {
                   </li>
                   <li className="social-btn-item">
                     <a
-                      // eslint-disable-next-line max-len
-                      // todo: when ready in API, change production-api.globalforestwatch.org to point to process.env.NEXT_PUBLIC_WRI_API_URL
-                      href={`https://production-api.globalforestwatch.org/auth/facebook?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}/auth-callback&token=true&applications=rw`}
+                      href={`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/facebook?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}&token=true&applications=rw`}
                       className="c-button -facebook -fullwidth"
                     >
                       facebook
@@ -206,9 +202,7 @@ class LoginModal extends PureComponent {
                   </li>
                   <li className="social-btn-item">
                     <a
-                      // eslint-disable-next-line max-len
-                      // todo: when ready in API, change production-api.globalforestwatch.org to point to process.env.NEXT_PUBLIC_WRI_API_URL
-                      href={`https://production-api.globalforestwatch.org/auth/twitter?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}/auth-callback&token=true&applications=rw`}
+                      href={`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/twitter?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}&token=true&applications=rw`}
                       className="c-button -twitter -fullwidth"
                     >
                       Twitter
