@@ -188,7 +188,7 @@ class LoginModal extends PureComponent {
                     <a
                       // eslint-disable-next-line max-len
                       // todo: when ready in API, change production-api.globalforestwatch.org to point to process.env.NEXT_PUBLIC_WRI_API_URL
-                      href={`https://production-api.globalforestwatch.org/auth/google?callbackUrl=${process.env.NEXTAUTH_URL}/auth-callback&token=true&applications=rw`}
+                      href={`https://production-api.globalforestwatch.org/auth/google?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}/auth-callback&token=true&applications=rw`}
                       className="c-button -google -fullwidth"
                     >
                       Google
@@ -198,7 +198,7 @@ class LoginModal extends PureComponent {
                     <a
                       // eslint-disable-next-line max-len
                       // todo: when ready in API, change production-api.globalforestwatch.org to point to process.env.NEXT_PUBLIC_WRI_API_URL
-                      href={`https://production-api.globalforestwatch.org/auth/facebook?callbackUrl=${process.env.NEXTAUTH_URL}/auth-callback&token=true&applications=rw`}
+                      href={`https://production-api.globalforestwatch.org/auth/facebook?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}/auth-callback&token=true&applications=rw`}
                       className="c-button -facebook -fullwidth"
                     >
                       facebook
@@ -208,7 +208,7 @@ class LoginModal extends PureComponent {
                     <a
                       // eslint-disable-next-line max-len
                       // todo: when ready in API, change production-api.globalforestwatch.org to point to process.env.NEXT_PUBLIC_WRI_API_URL
-                      href={`https://production-api.globalforestwatch.org/auth/twitter?callbackUrl=${process.env.NEXTAUTH_URL}/auth-callback&token=true&applications=rw`}
+                      href={`https://production-api.globalforestwatch.org/auth/twitter?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}/auth-callback&token=true&applications=rw`}
                       className="c-button -twitter -fullwidth"
                     >
                       Twitter
