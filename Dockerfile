@@ -1,7 +1,7 @@
 FROM node:14.15-alpine
 LABEL maintainer="hello@vizzuality.com"
 
-ARG NEXT_PUBLIC_AUTH_CALLBACK=https://resourcewatch.org
+ARG NEXT_PUBLIC_AUTH_CALLBACK=https://resourcewatch.org/auth-callback
 ARG NEXTAUTH_URL=https://resourcewatch.org
 ARG NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 ARG NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=not_valid

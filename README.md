@@ -69,7 +69,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | RW_USERNAME + RW_PASSWORD | Username and password values for a basic auth access wall to the whole site. If missing, the auth wall is disabled | | This auth mechanism is meant for scenarios where you want to have the whole site available only to users with a shared username and password - a staging/demo environment, for example. It is NOT related to used-based functionality of the site (MyRW, for example). |
 | LOGGER_LEVEL | Logging level used with the [Pino](https://github.com/pinojs/pino) logging library. | info |  |
 | NEXT_PUBLIC_RW_ENV | Used to set some scripts/functionalities in the app (like Google Analytics, CrazyEgg, Hotjar, ...). Must be `development`,`production` or `test` |  |
-| NEXT_PUBLIC_AUTH_CALLBACK | Sets the callback URL triggered when a user attempts to log in with third party services. | `http://localhost:$PORT` |
+| NEXT_PUBLIC_AUTH_CALLBACK | Sets the callback URL triggered when a user attempts to log in with third party services. | `http://localhost:$PORT/auth-callback` |
 | NEXT_PUBLIC_APPLICATIONS | Sets the context of the data. You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#applications). |  |
 | NEXT_PUBLIC_API_ENV | Environment the resource belongs to in the WRI API.You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#environments). |  |
 | NEXT_PUBLIC_WRI_API_URL | URL of the WRI API |  | In most cases you'll want to use https://api.resourcewatch.org for this value. When testing, be sure to mock all your HTTP requests, and avoid relying on actual calls to external services (like this one). |
