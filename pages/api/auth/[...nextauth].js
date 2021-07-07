@@ -43,8 +43,10 @@ const options = {
       id: 'third-party',
       name: 'third-party',
       async authorize(credentials) {
+        console.log('CREDENTIALS', credentials);
         const { token } = credentials;
         const user = await fetchUser(`Bearer ${token}`);
+        console.log('USER', user);
         return ({
           ...user,
           token,
@@ -64,6 +66,7 @@ const options = {
     async session(session, token) {
       const newSession = session;
       newSession.accessToken = token.accessToken;
+      console.log('SESSION CALLBACK', newSession);
       return newSession;
     },
     async redirect(callbackUrl) {

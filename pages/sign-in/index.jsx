@@ -17,6 +17,8 @@ export async function getServerSideProps(context) {
     },
   } = context;
 
+  console.log('SESSION', session);
+
   // if the user has session, it will be redirected
   if (session) {
     return {
