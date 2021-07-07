@@ -89,7 +89,6 @@ server.use(bodyParser.json());
 server.use(session(sessionOptions));
 server.use(serveStatic(path.join(__dirname, 'public')));
 
-
 // Initializing next app before express server
 async function init() {
   return new Promise((resolve, reject) => {
