@@ -29,7 +29,7 @@ describe('POST /local-sign-in', () => {
         { email: 'john@doe.com', password: '123456' },
       )
       .query({
-        applications: 'rw', callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL, origin: 'rw', token: 'true',
+        applications: 'rw', callbackUrl: process.env.NEXT_PUBLIC_AUTH_CALLBACK, origin: 'rw', token: 'true',
       })
       .reply(200, { data: userPayload });
 
@@ -46,7 +46,7 @@ describe('POST /local-sign-in', () => {
       .post('/auth/login', { email: 'john@doe.com', password: '123456' })
       .query({
         applications: 'rw',
-        callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL,
+        callbackUrl: process.env.NEXT_PUBLIC_AUTH_CALLBACK,
         origin: 'rw',
         token: 'true',
       })
@@ -68,7 +68,7 @@ describe('POST /local-sign-in', () => {
     nock(process.env.NEXT_PUBLIC_WRI_API_URL)
       .post('/auth/login', { email: 'john@doe.com', password: '123456' })
       .query({
-        applications: 'rw', callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL, origin: 'rw', token: 'true',
+        applications: 'rw', callbackUrl: process.env.NEXT_PUBLIC_AUTH_CALLBACK, origin: 'rw', token: 'true',
       })
       .reply(500, {
         errors: [{
