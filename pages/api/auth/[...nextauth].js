@@ -8,6 +8,9 @@ import {
   fetchUser,
 } from 'services/user';
 
+// utils
+import { logger } from 'utils/logs';
+
 // tests
 import authPayload from '../../../cypress/fixtures/auth.json';
 
@@ -43,10 +46,10 @@ const options = {
       id: 'third-party',
       name: 'third-party',
       async authorize(credentials) {
-        console.log('CREDENTIALS', credentials);
+        logger.info('CREDENTIALS', credentials);
         const { token } = credentials;
         const user = await fetchUser(`Bearer ${token}`);
-        console.log('USER', user);
+        logger.info('USER', user);
         return ({
           ...user,
           token,
@@ -66,7 +69,7 @@ const options = {
     async session(session, token) {
       const newSession = session;
       newSession.accessToken = token.accessToken;
-      console.log('SESSION CALLBACK', newSession);
+      logger.info(newSession, 'SESSION CALLBACK');
       return newSession;
     },
     async redirect(callbackUrl) {
@@ -82,6 +85,20 @@ const options = {
     async signOut(session) {
       // After sign-out expire token in the API
       if (session) await signOut(session.accessToken);
+    },
+  },
+
+  debug: true,
+
+  logger: {
+    error(code, ...message) {
+      logger.error(code, message);
+    },
+    warn(code, ...message) {
+      logger.warn(code, message);
+    },
+    debug(code, ...message) {
+      logger.debug(code, message);
     },
   },
 };

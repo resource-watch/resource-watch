@@ -18,6 +18,9 @@ import { setUser } from 'redactions/user';
 // es6 shim for .finally() in promises
 import finallyShim from 'promise.prototype.finally';
 
+// utils
+import { logger } from 'utils/logs';
+
 // tests
 import authPayload from '../cypress/fixtures/auth.json';
 
@@ -41,6 +44,8 @@ class RWApp extends App {
     const {
       user,
     } = store.getState();
+
+    logger.info(session, 'SESSION');
 
     if (session && !user?.id) {
       const userData = process.env.TEST_ENV === 'FRONTEND'
