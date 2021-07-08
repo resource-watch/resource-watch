@@ -1,3 +1,7 @@
+import {
+  replace,
+} from '@vizzuality/layer-manager-utils';
+
 // sorts layers based on an array of layer ids
 export const sortLayers = (_layers = [], _layerOrder = []) => {
   if (!_layers.length || !_layerOrder.length) return _layers;
@@ -21,3 +25,27 @@ export const getTilerUrl = (layer) => {
   if (!layer) throw new Error('layer required to generate tiler URL');
   return `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
 };
+
+export const getParametrizedMapWidget = (widget = {}, params = {}) => ({
+  ...widget,
+  widgetConfig: {
+    ...widget?.widgetConfig || {},
+    paramsConfig: {
+      ...widget?.widgetConfig?.paramsConfig || {},
+      // parametrize mask layer. Probably this schema will change with the layer manager to V4
+      mask: {
+        ...widget?.widgetConfig?.paramsConfig?.mask || {},
+        body: {
+          ...widget?.widgetConfig?.paramsConfig?.mask.body || {},
+          layers: (widget?.widgetConfig?.paramsConfig?.mask.body.layers || []).map((_layer) => ({
+            ..._layer,
+            options: {
+              ..._layer.options || {},
+              sql: replace(_layer.options.sql, params),
+            },
+          })),
+        },
+      },
+    },
+  },
+});

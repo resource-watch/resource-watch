@@ -62,6 +62,7 @@ export default function MapTypeWidget({
   widget,
   layerGroups,
   aoiLayer,
+  maskLayer,
   isFetching,
   isError,
   isInACollection,
@@ -174,11 +175,14 @@ export default function MapTypeWidget({
 
       return [
         ...(aoiLayer !== null) ? [aoiLayer] : [],
+        ...(maskLayer !== null) ? [maskLayer] : [],
         ...activeLayers,
       ];
     },
-    [mapWidgetState, aoiLayer],
+    [mapWidgetState, aoiLayer, maskLayer],
   );
+
+  console.log('layers', layers);
 
   return (
     <div
@@ -302,6 +306,7 @@ export default function MapTypeWidget({
 MapTypeWidget.defaultProps = {
   layerGroups: [],
   aoiLayer: null,
+  maskLayer: null,
   isFetching: false,
   isError: false,
   isInACollection: false,
@@ -333,6 +338,7 @@ MapTypeWidget.propTypes = {
       PropTypes.number,
     ),
   }),
+  maskLayer: PropTypes.shape({}),
   isFetching: PropTypes.bool,
   isError: PropTypes.bool,
   isInACollection: PropTypes.bool,

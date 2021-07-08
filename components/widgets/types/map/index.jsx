@@ -36,6 +36,7 @@ import {
 } from 'components/map/utils';
 import {
   getTilerUrl,
+  getParametrizedMapWidget,
 } from 'utils/layers';
 
 // components
@@ -51,6 +52,7 @@ const CustomErrorFallback = ((_props) => (
 
 export default function MapTypeWidgetContainer({
   widgetId,
+  widgetParams,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -75,6 +77,7 @@ export default function MapTypeWidgetContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
+      select: (_widget) => getParametrizedMapWidget(_widget, widgetParams),
     },
   );
 
@@ -108,7 +111,7 @@ export default function MapTypeWidgetContainer({
   const layers = useMemo(() => layerStates
     .filter(({ data }) => !!data)
     .map(({ data }) => data),
-  [layerStates]);
+    [layerStates]);
 
   const aoiLayer = useMemo(() => {
     const { layerParams } = widget?.widgetConfig || {};
@@ -135,7 +138,92 @@ export default function MapTypeWidgetContainer({
       bbox,
     });
   },
-  [geostore, widget]);
+    [geostore, widget]);
+
+  const maskLayer = useMemo(() => {
+    const { mask } = widget?.widgetConfig?.paramsConfig || {};
+    const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
+
+    if (!mask) return null;
+
+    // console.log('mask', mask)
+    // return ({
+    //   account: 'wri-rw',
+    //   body: {
+    //     layers: [
+    //       {
+    //         type: 'mapnik',
+    //         options: {
+    //           sql: "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where geostore_staging = '804b97bc661ae04c2b899d71ecaeb858' )) as intersect FROM wri-rw.wat_068_rw0_watersheds_edit WHERE level = 3",
+    //         },
+    //       },
+    //     ],
+    //     vectorLayers: [
+    //       {
+    //         paint: {
+    //           'fill-color': '#000',
+    //           'fill-opacity': 0,
+    //         },
+    //         'source-layer': 'layer0',
+    //         type: 'fill',
+    //       },
+    //       {
+    //         paint: {
+    //           'line-color': '#0079B0',
+    //           'line-opacity': 1,
+    //           'line-width': 1,
+    //         },
+    //         'source-layer': 'layer0',
+    //         type: 'line',
+    //       },
+    //     ],
+    //     layerType: 'vector',
+    //   },
+    // });
+
+    return ({
+      id: 'mask',
+      provider: 'cartodb',
+      layerConfig: {
+        parse: false,
+        account: 'wri-rw',
+        body: {
+          layers: [
+            {
+              type: 'mapnik',
+              options: {
+                sql: `with table1 as (SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where geostore_staging = '08071a69b43cd5cc16dc2c6aedda966e' )) as intersect FROM wat_068_rw0_watersheds_edit WHERE level = 3)
+                select * from table1 where table1.intersect is true`,
+              },
+            },
+          ],
+          vectorLayers: [
+            {
+              paint: {
+                'fill-color': '#000',
+                'fill-opacity': 0,
+              },
+              'source-layer': 'layer0',
+              type: 'fill',
+            },
+            {
+              paint: {
+                'line-color': '#f00',
+                'line-opacity': 1,
+                'line-width': 1,
+              },
+              'source-layer': 'layer0',
+              type: 'line',
+            },
+          ],
+          layerType: 'vector',
+        },
+      },
+      opacity: layerParams?.mask?.opacity || 1,
+      visibility: true,
+      isMask: true,
+    });
+  }, [widget]);
 
   const layerGroups = useMemo(() => {
     const layersByDataset = groupBy(layers, 'dataset');
@@ -178,6 +266,7 @@ export default function MapTypeWidgetContainer({
       <MapTypeWidget
         layerGroups={layerGroups}
         aoiLayer={aoiLayer}
+        maskLayer={maskLayer}
         widget={widget}
         isFetching={isFetching}
         isError={isError}
@@ -190,10 +279,12 @@ export default function MapTypeWidgetContainer({
 
 MapTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
+  widgetParams: null,
 };
 
 MapTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  widgetParams: PropTypes.shape({}),
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };
