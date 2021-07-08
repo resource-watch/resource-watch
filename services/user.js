@@ -28,7 +28,7 @@ export const loginUser = ({ email, password }) => {
 export const forgotPassword = ({ email }) => {
   logger.info('Forgot password');
   return WRIAPI
-    .post('auth/reset-password', { email }, { params: { origin: process.env.NEXT_PUBLIC_APPLICATIONS } })
+    .post('auth/reset-password', { email })
     .then((response) => response.data)
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -49,13 +49,11 @@ export const forgotPassword = ({ email }) => {
 export const registerUser = ({ email }) => {
   logger.info('Register user');
   return WRIAPI
-    .post(
-      `auth/sign-up?origin=${process.env.NEXT_PUBLIC_APPLICATIONS}`,
+    .post('auth/sign-up',
       {
         email,
         apps: [process.env.NEXT_PUBLIC_APPLICATIONS],
-      },
-    )
+      })
     .then((response) => response.data)
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -76,10 +74,11 @@ export const registerUser = ({ email }) => {
 export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
   logger.info('Reset password');
   return WRIAPI
-    .post(
-      `auth/reset-password/${tokenEmail}?origin=${process.env.NEXT_PUBLIC_APPLICATIONS}`,
-      { password, repeatPassword },
-    )
+    .post(`auth/reset-password/${tokenEmail}`,
+      {
+        password,
+        repeatPassword,
+      })
     .then((response) => response.data)
     .catch(({ response }) => {
       const { status, statusText } = response;

@@ -1,14 +1,10 @@
 describe('A visitor signs-up successfully', () => {
   before(() => {
-    cy.validateEnvVar('NEXT_PUBLIC_APPLICATIONS');
     cy.validateEnvVar('NEXT_PUBLIC_WRI_API_URL');
 
     cy.intercept({
       method: 'POST',
       pathname: '/auth/sign-up',
-      query: {
-        origin: Cypress.env('NEXT_PUBLIC_APPLICATIONS'),
-      },
       url: Cypress.env('NEXT_PUBLIC_WRI_API_URL')
     },
     {
