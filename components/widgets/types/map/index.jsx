@@ -35,6 +35,7 @@ import {
 } from 'components/map/utils';
 import {
   getLayerGroups,
+  getParametrizedMapWidget,
 } from 'utils/layers';
 
 // components
@@ -50,6 +51,7 @@ const CustomErrorFallback = ((_props) => (
 
 export default function MapTypeWidgetContainer({
   widgetId,
+  widgetParams,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -74,6 +76,7 @@ export default function MapTypeWidgetContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
+      select: (_widget) => getParametrizedMapWidget(_widget, widgetParams),
     },
   );
 
@@ -136,6 +139,25 @@ export default function MapTypeWidgetContainer({
   },
   [geostore, widget]);
 
+  const maskLayer = useMemo(() => {
+    const { mask } = widget?.widgetConfig?.paramsConfig || {};
+    const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
+
+    if (!mask) return null;
+
+    return {
+      id: 'mask',
+      provider: 'cartodb',
+      layerConfig: {
+        parse: false,
+        ...mask,
+      },
+      opacity: layerParams?.mask?.opacity || 1,
+      visibility: true,
+      isMask: true,
+    };
+  }, [widget]);
+
   const layerGroups = useMemo(() => {
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
 
@@ -158,6 +180,7 @@ export default function MapTypeWidgetContainer({
       <MapTypeWidget
         layerGroups={layerGroups}
         aoiLayer={aoiLayer}
+        maskLayer={maskLayer}
         widget={widget}
         isFetching={isFetching}
         isError={isError}
@@ -170,10 +193,12 @@ export default function MapTypeWidgetContainer({
 
 MapTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
+  widgetParams: null,
 };
 
 MapTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  widgetParams: PropTypes.shape({}),
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };

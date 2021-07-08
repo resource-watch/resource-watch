@@ -36,6 +36,7 @@ import {
 } from 'components/map/utils';
 import {
   getLayerGroups,
+  getParametrizedMapWidget,
 } from 'utils/layers';
 
 // components
@@ -51,6 +52,7 @@ const CustomErrorFallback = ((_props) => (
 
 export default function SwipeTypeWidgetContainer({
   widgetId,
+  widgetParams,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -75,6 +77,7 @@ export default function SwipeTypeWidgetContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
+      select: (_widget) => getParametrizedMapWidget(_widget, widgetParams),
     },
   );
 
@@ -143,6 +146,25 @@ export default function SwipeTypeWidgetContainer({
   },
   [geostore, widget]);
 
+  const maskLayer = useMemo(() => {
+    const { mask } = widget?.widgetConfig?.paramsConfig || {};
+    const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
+
+    if (!mask) return null;
+
+    return {
+      id: 'mask',
+      provider: 'cartodb',
+      layerConfig: {
+        parse: false,
+        ...mask,
+      },
+      opacity: layerParams?.mask?.opacity || 1,
+      visibility: true,
+      isMask: true,
+    };
+  }, [widget]);
+
   const layerGroupsBySide = useMemo(() => {
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
 
@@ -185,6 +207,7 @@ export default function SwipeTypeWidgetContainer({
       <SwipeTypeWidget
         layerGroupsBySide={layerGroupsBySide}
         aoiLayer={aoiLayer}
+        maskLayer={maskLayer}
         bounds={bounds}
         widget={widget}
         isFetching={isFetching}
@@ -198,10 +221,12 @@ export default function SwipeTypeWidgetContainer({
 
 SwipeTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
+  widgetParams: null,
 };
 
 SwipeTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  widgetParams: PropTypes.shape({}),
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };

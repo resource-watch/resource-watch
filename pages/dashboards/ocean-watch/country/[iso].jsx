@@ -38,6 +38,11 @@ import {
 import {
   getRWAdapter,
 } from 'utils/widget-editor';
+import {
+  isStagingAPI,
+} from 'utils/api';
+
+const isStaging = isStagingAPI();
 
 const WidgetShareModal = dynamic(() => import('../../../../components/widgets/share-modal'), { ssr: false });
 
@@ -208,6 +213,10 @@ export default function OceanWatchCountryProfilePage() {
                     {(blockContent.widget && blockContent.type === 'map') && (
                       <MapWidget
                         widgetId={blockContent.widget}
+                        widgetParams={{
+                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                          ...area?.geostore && { geostore_id: area.geostore },
+                        }}
                         {...area?.geostore && { areaOfInterest: area.geostore }}
                         onToggleShare={handleShareWidget}
                       />
@@ -215,6 +224,10 @@ export default function OceanWatchCountryProfilePage() {
                     {(blockContent.widget && blockContent.type === 'map-swipe') && (
                       <SwipeMapWidget
                         widgetId={blockContent.widget}
+                        widgetParams={{
+                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                          ...area?.geostore && { geostore_id: area.geostore },
+                        }}
                         {...area?.geostore && { areaOfInterest: area.geostore }}
                         onToggleShare={handleShareWidget}
                       />
