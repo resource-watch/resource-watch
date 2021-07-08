@@ -9,6 +9,8 @@ import { getAllPartners } from 'modules/partners/actions';
 
 // hoc
 import {
+  withRedux,
+  withUserServerSide,
   withAdminRole,
 } from 'hoc/auth';
 
@@ -27,7 +29,7 @@ AdminPartnersPage.propTypes = {
   getAllPartners: PropTypes.func.isRequired,
 };
 
-export const getServerSideProps = withAdminRole();
+export const getServerSideProps = withRedux(withUserServerSide(withAdminRole()));
 
 export default connect(
   null,

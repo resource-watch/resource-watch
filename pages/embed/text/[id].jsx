@@ -2,6 +2,12 @@
 import { setEmbed, setWebshotMode } from 'redactions/common';
 import { getWidget } from 'redactions/widget';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
+
 // components
 import LayoutEmbedText from 'layout/embed/text';
 
@@ -9,7 +15,7 @@ export default function EmbedTextPage(props) {
   return (<LayoutEmbedText {...props} />);
 }
 
-EmbedTextPage.getInitialProps = async ({ store, query }) => {
+export const getServerSideProps = withRedux(withUserServerSide(async ({ store, query }) => {
   const {
     dispatch,
   } = store;
@@ -24,6 +30,8 @@ EmbedTextPage.getInitialProps = async ({ store, query }) => {
   const widget = await dispatch(getWidget(id));
 
   return ({
-    widget,
+    props: ({
+      widget,
+    }),
   });
-};
+}));

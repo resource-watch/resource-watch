@@ -1,5 +1,5 @@
-import 'isomorphic-fetch';
-import { createAction, createThunkAction } from 'redux-tools';
+import { createAction } from '@reduxjs/toolkit';
+import { createThunkAction } from 'redux-tools';
 import { logEvent } from 'utils/analytics';
 
 // SEARCH
