@@ -1,5 +1,7 @@
 // hoc
 import {
+  withRedux,
+  withUserServerSide,
   withAdminRole,
 } from 'hoc/auth';
 
@@ -10,4 +12,4 @@ export default function AdminPage() {
   return (<LayoutAdminData />);
 }
 
-export const getServerSideProps = withAdminRole();
+export const getServerSideProps = withRedux(withUserServerSide(withAdminRole()));

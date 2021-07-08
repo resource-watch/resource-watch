@@ -1,8 +1,11 @@
 // actions
 import { getLatestPosts, getSpotlightPosts } from 'modules/blog/actions';
 
-// lib
-import wrapper from 'lib/store';
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
 
 // components
 import LayoutHome from 'layout/app/home';
@@ -11,7 +14,7 @@ export default function HomePage() {
   return (<LayoutHome />);
 }
 
-HomePage.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
+export const getServerSideProps = withRedux(withUserServerSide(async ({ store }) => {
   const { getState, dispatch } = store;
   const {
     blog: {
@@ -30,5 +33,7 @@ HomePage.getInitialProps = wrapper.getInitialPageProps((store) => async () => {
     await dispatch(getSpotlightPosts());
   }
 
-  return {};
-});
+  return ({
+    props: ({}),
+  });
+}));

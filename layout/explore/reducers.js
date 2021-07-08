@@ -365,12 +365,12 @@ export default createReducer(initialState, (builder) => {
           return {
             dataset: id,
             opacity: dParams.opacity,
-            visibility: dParams.visibility,
+            visibility: dParams?.visibility || true,
             layers: publishedLayers.map((_layer) => ({
               ..._layer,
               active: dParams.layer === _layer.id,
               opacity: dParams.opacity,
-              visibility: dParams.visibility,
+              visibility: dParams?.visibility || true,
             })),
           };
         })

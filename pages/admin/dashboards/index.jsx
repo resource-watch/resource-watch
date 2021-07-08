@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 
 // hoc
 import {
+  withRedux,
+  withUserServerSide,
   withAdminRole,
 } from 'hoc/auth';
 
@@ -72,4 +74,4 @@ AdminDashboardsPage.propTypes = {
   user: PropTypes.shape({}).isRequired,
 };
 
-export const getServerSideProps = withAdminRole();
+export const getServerSideProps = withRedux(withUserServerSide(withAdminRole()));

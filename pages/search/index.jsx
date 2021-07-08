@@ -2,6 +2,12 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
+
 // actions
 import * as actions from 'layout/search/search-actions';
 
@@ -15,25 +21,6 @@ class SearchPage extends PureComponent {
     setSearchTerm: PropTypes.func.isRequired,
     fetchSearch: PropTypes.func.isRequired,
   };
-
-  static async getInitialProps({ store, query }) {
-    const {
-      dispatch,
-    } = store;
-    const {
-      term,
-      page,
-    } = query;
-
-    if (page) dispatch(actions.setSearchPage(+page));
-
-    if (term) {
-      dispatch(actions.setSearchTerm(term));
-      await dispatch(actions.fetchSearch());
-    }
-
-    return {};
-  }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { term: newTerm, page: newPage } = nextProps;
@@ -58,6 +45,27 @@ class SearchPage extends PureComponent {
     return (<Search />);
   }
 }
+
+export const getServerSideProps = withRedux(withUserServerSide(async ({ store, query }) => {
+  const {
+    dispatch,
+  } = store;
+  const {
+    term,
+    page,
+  } = query;
+
+  if (page) dispatch(actions.setSearchPage(+page));
+
+  if (term) {
+    dispatch(actions.setSearchTerm(term));
+    await dispatch(actions.fetchSearch());
+  }
+
+  return ({
+    props: ({}),
+  });
+}));
 
 export default connect(
   (state) => ({ ...state.search }),

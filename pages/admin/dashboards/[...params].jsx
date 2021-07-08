@@ -12,6 +12,8 @@ import Title from 'components/ui/Title';
 
 // hoc
 import {
+  withRedux,
+  withUserServerSide,
   withAdminRole,
 } from 'hoc/auth';
 
@@ -83,4 +85,4 @@ export default function AdminDashboardsDetailPage() {
   );
 }
 
-export const getServerSideProps = withAdminRole();
+export const getServerSideProps = withRedux(withUserServerSide(withAdminRole()));
