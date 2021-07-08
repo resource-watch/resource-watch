@@ -33,11 +33,14 @@ import MapWidget from 'components/widgets/types/map';
 import SwipeMapWidget from 'components/widgets/types/map-swipe';
 import ChartWidget from 'components/widgets/types/chart';
 
+<<<<<<< HEAD
 // hooks
 import {
   useOceanWatchAreas,
 } from 'hooks/ocean-watch';
 
+=======
+>>>>>>> 18f609c4 (removes getInitialProps from application)
 // services
 import {
   fetchConfigFile,
@@ -61,8 +64,34 @@ export default function OceanWatchCountryProfilePage({
 }) {
   const router = useRouter();
   const queryClient = useQueryClient();
+<<<<<<< HEAD
   const [widgetToShare, setWidgetToShare] = useState(null);
   const RWAdapter = useSelector((state) => getRWAdapter(state));
+=======
+  const {
+    query: {
+      iso,
+    },
+  } = router;
+  const [widgetToShare, setWidgetToShare] = useState(null);
+  const RWAdapter = useSelector((state) => getRWAdapter(state));
+  const areas = queryClient.getQueryData('ocean-watch-areas');
+
+  const {
+    data: oceanWatchConfig,
+  } = useQuery(
+    ['ocean-watch-config-file'],
+    () => fetchConfigFile(),
+    {
+      refetchOnWindowFocus: false,
+      placeholderData: {
+        intro: [],
+        'country-profile': [],
+      },
+      initialStale: true,
+    },
+  );
+>>>>>>> 18f609c4 (removes getInitialProps from application)
 
   const handleAreaChange = useCallback(({ value }) => {
     router.push({
