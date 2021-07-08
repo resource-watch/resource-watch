@@ -111,7 +111,7 @@ export default function MapTypeWidgetContainer({
   const layers = useMemo(() => layerStates
     .filter(({ data }) => !!data)
     .map(({ data }) => data),
-    [layerStates]);
+  [layerStates]);
 
   const aoiLayer = useMemo(() => {
     const { layerParams } = widget?.widgetConfig || {};
@@ -138,7 +138,7 @@ export default function MapTypeWidgetContainer({
       bbox,
     });
   },
-    [geostore, widget]);
+  [geostore, widget]);
 
   const maskLayer = useMemo(() => {
     const { mask } = widget?.widgetConfig?.paramsConfig || {};
