@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Removed
+- `origin` query param from `/auth` endpoints.[RW-71](https://vizzuality.atlassian.net/browse/RW-71)
 - Axios' cancelToken.
 - removes `react-responsive` and `react-responsive-redux`.
 - removes `hostname` and its action from global state.
