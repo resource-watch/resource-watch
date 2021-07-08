@@ -3,6 +3,9 @@ import {
   useSession,
 } from 'next-auth/client';
 
+import { QueryClient } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
+
 // hooks
 import {
   useMe,
@@ -12,6 +15,14 @@ import {
 import {
   fetchUser,
 } from 'services/user';
+
+// lib
+import wrapper from 'lib/store';
+
+// actions
+import { setUser } from 'redactions/user';
+
+const queryClient = new QueryClient();
 
 export function withAuthentication(getServerSidePropsFunc) {
   return async (context) => {
@@ -27,12 +38,16 @@ export function withAuthentication(getServerSidePropsFunc) {
       };
     }
 
+    // prefetch user data
+    await queryClient.prefetchQuery('me', () => fetchUser(`Bearer ${session.accessToken}`));
+
     if (getServerSidePropsFunc) {
       const SSPF = await getServerSidePropsFunc(context, session);
 
       return {
         props: {
           session,
+          dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
           ...SSPF.props,
         },
       };
@@ -41,6 +56,7 @@ export function withAuthentication(getServerSidePropsFunc) {
     return {
       props: {
         session,
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       },
     };
   };
@@ -67,7 +83,7 @@ export function withAdminRole(getServerSidePropsFunc) {
       if (role !== 'ADMIN') {
         return {
           redirect: {
-            destination: resolvedUrl !== '/admin' ? resolvedUrl : '/myrw',
+            destination: !resolvedUrl.includes('/admin') ? resolvedUrl : '/myrw',
             permanent: false,
           },
         };
@@ -93,6 +109,84 @@ export function withAdminRole(getServerSidePropsFunc) {
   };
 }
 
+// hoc to attach the store to any getServerSideProps function.
+// todo: this function should disappear when components stop fetching user data via store
+export const withRedux = (getServerSidePropsFunc) => wrapper.getServerSideProps(
+  (store) => async (context) => {
+    if (getServerSidePropsFunc) {
+      const SSPF = await getServerSidePropsFunc({ ...context, store });
+
+      return ({
+        ...SSPF,
+      });
+    }
+
+    return ({
+      props: ({}),
+    });
+  },
+);
+
+// hoc to attach to user data to store as soon as possible.
+// todo: this function should disappear when components stop fetching user data via store
+export function withUserServerSide(getServerSidePropsFunc) {
+  return async (contextWithStore) => {
+    const session = await getSession(contextWithStore);
+
+    if (!session) {
+      if (getServerSidePropsFunc) {
+        const SSPF = await getServerSidePropsFunc(contextWithStore);
+
+        return ({
+          ...SSPF,
+        });
+      }
+    }
+
+    const user = await fetchUser(`Bearer ${session.accessToken}`);
+
+    if (contextWithStore.store) {
+      contextWithStore.store.dispatch(setUser({
+        ...user,
+        token: session.accessToken,
+      }));
+    }
+
+    if (getServerSidePropsFunc) {
+      const SSPF = await getServerSidePropsFunc(contextWithStore, contextWithStore.store);
+
+      const {
+        props: SSPFProps,
+        ...SSPFRest
+      } = SSPF;
+
+      return {
+        props: {
+          ...SSPFProps,
+          session,
+          user: {
+            ...user,
+            token: session.accessToken,
+          },
+          dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+        },
+        ...SSPFRest,
+      };
+    }
+
+    return {
+      props: {
+        user: {
+          ...user,
+          token: session.accessToken,
+        },
+        dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      },
+    };
+  };
+}
+
+// todo: this function should disappear when components stop fetching user data via store
 export const withUser = (Component) => (props) => {
   const {
     data: user,
@@ -119,5 +213,3 @@ export const withUser = (Component) => (props) => {
     'You can `useSession` directly in your component.',
   ].join('\n'));
 };
-
-export default withAuthentication;

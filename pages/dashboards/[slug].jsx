@@ -1,5 +1,11 @@
 import PropTypes from 'prop-types';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
+
 // components
 import LayoutDashboardDetail from 'layout/app/dashboard-detail';
 
@@ -8,31 +14,29 @@ import {
   fetchDashboard,
 } from 'services/dashboard';
 
-const DashboardsDetailPage = ({
+export default function DashboardsDetailPage({
   dashboard,
-}) => (
-  <LayoutDashboardDetail
-    dashboard={dashboard}
-  />
-);
+}) {
+  return (
+    <LayoutDashboardDetail
+      dashboard={dashboard}
+    />
+  );
+}
 
-// getInitialProps is used to improve SEO of these pages.
-// todo: replace with getStaticProps eventually
-DashboardsDetailPage.getInitialProps = async (ctx) => {
+export const getServerSideProps = withRedux(withUserServerSide(async ({ query }) => {
   const {
-    query: {
-      slug,
-    },
-  } = ctx;
+    slug,
+  } = query;
   const dashboard = await fetchDashboard(slug);
 
   return ({
-    dashboard,
+    props: ({
+      dashboard,
+    }),
   });
-};
+}));
 
 DashboardsDetailPage.propTypes = {
   dashboard: PropTypes.shape({}).isRequired,
 };
-
-export default DashboardsDetailPage;
