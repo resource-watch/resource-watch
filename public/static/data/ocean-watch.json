@@ -137,9 +137,8 @@
         {
           "grid": "100%",
           "widget": "ac8fb011-b003-466e-ab5e-1ccd417bbc1d",
-          "type": "map",
+          "type": "map-swipe",
           "comment": "Sediment Pressure Map"
-
         }
       ],
       [

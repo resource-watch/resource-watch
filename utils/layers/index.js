@@ -1,3 +1,6 @@
+import {
+  replace,
+} from '@vizzuality/layer-manager-utils';
 import groupBy from 'lodash/groupBy';
 
 // sorts layers based on an array of layer ids
@@ -47,3 +50,26 @@ export const getLayerGroups = (layers = [], layerParams = {}) => {
       })),
   }));
 };
+export const getParametrizedMapWidget = (widget = {}, params = {}) => ({
+  ...widget,
+  widgetConfig: {
+    ...widget?.widgetConfig || {},
+    paramsConfig: {
+      ...widget?.widgetConfig?.paramsConfig || {},
+      // parametrize mask layer. Probably this schema will change with the layer manager to V4
+      mask: {
+        ...widget?.widgetConfig?.paramsConfig?.mask || {},
+        body: {
+          ...widget?.widgetConfig?.paramsConfig?.mask.body || {},
+          layers: (widget?.widgetConfig?.paramsConfig?.mask.body.layers || []).map((_layer) => ({
+            ..._layer,
+            options: {
+              ..._layer.options || {},
+              sql: replace(_layer.options.sql, params),
+            },
+          })),
+        },
+      },
+    },
+  },
+});
