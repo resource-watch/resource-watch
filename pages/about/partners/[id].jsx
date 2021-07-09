@@ -1,6 +1,12 @@
 // actions
 import { getPartner, getDatasetsByPartner } from 'modules/partners/actions';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
+
 // components
 import LayoutPartnerDetail from 'layout/app/partner-detail';
 
@@ -10,8 +16,7 @@ import { PARTNERS_CONNECTIONS } from 'constants/partners';
 export default function PartnerDetailPage() {
   return (<LayoutPartnerDetail />);
 }
-
-PartnerDetailPage.getInitialProps = async ({ store, query }) => {
+export const getServerSideProps = withRedux(withUserServerSide(async ({ query, store }) => {
   const { id } = query;
   await store.dispatch(getPartner(id));
 
@@ -19,5 +24,7 @@ PartnerDetailPage.getInitialProps = async ({ store, query }) => {
     await store.dispatch(getDatasetsByPartner(PARTNERS_CONNECTIONS[id]));
   }
 
-  return ({});
-};
+  return ({
+    props: ({}),
+  });
+}));

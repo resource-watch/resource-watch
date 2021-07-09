@@ -2,6 +2,12 @@
 import { getWidget, checkIfFavorited } from 'redactions/widget';
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
+
 // components
 import LayoutEmbedWidget from 'layout/embed/widget';
 
@@ -9,7 +15,7 @@ export default function EmbedWidgetPage(props) {
   return (<LayoutEmbedWidget {...props} />);
 }
 
-EmbedWidgetPage.getInitialProps = async ({ store, query }) => {
+export const getServerSideProps = withRedux(withUserServerSide(async ({ store, query }) => {
   const { dispatch, getState } = store;
   const {
     user,
@@ -28,5 +34,7 @@ EmbedWidgetPage.getInitialProps = async ({ store, query }) => {
     if (user && user.id) dispatch(checkIfFavorited(id));
   }
 
-  return ({});
-};
+  return ({
+    props: ({}),
+  });
+}));

@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import * as actions from 'layout/get-involved-detail/get-involved-detail-actions';
 import { getLatestPosts, getSpotlightPosts } from 'modules/blog/actions';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
+
 // components
 import GetInvolvedDetail from 'layout/get-involved-detail';
 
@@ -13,7 +19,7 @@ export default function GetInvolvedDetailPage({
   return <GetInvolvedDetail breadCrumb={breadCrumb} />;
 }
 
-GetInvolvedDetailPage.getInitialProps = async ({ store, query }) => {
+export const getServerSideProps = withRedux(withUserServerSide(async ({ store, query }) => {
   const { dispatch, getState } = store;
   const {
     blog: {
@@ -44,9 +50,12 @@ GetInvolvedDetailPage.getInitialProps = async ({ store, query }) => {
     ? [{ name: 'Home', route: '/' }]
     : [{ name: 'Get involved', route: '/get-involved' }];
 
-  return { breadCrumb: breadcrumbsItems };
-};
-
+  return ({
+    props: ({
+      breadCrumb: breadcrumbsItems,
+    }),
+  });
+}));
 GetInvolvedDetailPage.propTypes = {
   breadCrumb: PropTypes.arrayOf(
     PropTypes.shape({

@@ -5,6 +5,12 @@ import {
   checkIfFavorited,
 } from 'redactions/widget';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
+
 // components
 import LayoutEmbedEmbed from 'layout/embed/embed';
 
@@ -12,9 +18,8 @@ export default function EmbedEmbedPage(props) {
   return (<LayoutEmbedEmbed {...props} />);
 }
 
-EmbedEmbedPage.getInitialProps = async ({
+export const getServerSideProps = withRedux(withUserServerSide(async ({
   store,
-  isServer,
   req,
   query,
 }) => {
@@ -27,7 +32,6 @@ EmbedEmbedPage.getInitialProps = async ({
     id,
     webshot,
   } = query;
-  const referer = isServer ? req.headers.referer : window.location.href;
 
   dispatch(setEmbed(true));
   if (webshot) dispatch(setWebshotMode(true));
@@ -36,6 +40,8 @@ EmbedEmbedPage.getInitialProps = async ({
   if (user.id) dispatch(checkIfFavorited(id));
 
   return ({
-    referer,
+    props: ({
+      referer: req.headers.referer,
+    }),
   });
-};
+}));
