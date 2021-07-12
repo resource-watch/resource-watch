@@ -36,6 +36,7 @@ import {
 } from 'components/map/utils';
 import {
   getTilerUrl,
+  getParametrizedMapWidget,
 } from 'utils/layers';
 
 // components
@@ -51,6 +52,7 @@ const CustomErrorFallback = ((_props) => (
 
 export default function MapTypeWidgetContainer({
   widgetId,
+  widgetParams,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -75,6 +77,7 @@ export default function MapTypeWidgetContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
+      select: (_widget) => getParametrizedMapWidget(_widget, widgetParams),
     },
   );
 
@@ -137,6 +140,40 @@ export default function MapTypeWidgetContainer({
   },
   [geostore, widget]);
 
+  const maskLayer = useMemo(() => {
+    const { mask } = widget?.widgetConfig?.paramsConfig || {};
+    const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
+
+    if (!mask) return null;
+
+    console.log('mask', mask);
+
+    // todo: remove parametrization when it is no needed anymore
+    return getParametrizedMapWidget({
+      id: 'mask',
+      provider: 'cartodb',
+      layerConfig: {
+        parse: false,
+        account: 'wri-rw',
+        ...mask,
+        // todo: remove 'body' key when SQL is fixed
+        body: {
+          layers: [
+            {
+              type: 'mapnik',
+              options: {
+                sql: 'SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = \'{{geostore_id}}\' )) as intersect FROM wat_068_rw0_watersheds_edit WHERE level = 3',
+              },
+            },
+          ],
+        },
+      },
+      opacity: layerParams?.mask?.opacity || 1,
+      visibility: true,
+      isMask: true,
+    }, widgetParams);
+  }, [widget, widgetParams]);
+
   const layerGroups = useMemo(() => {
     const layersByDataset = groupBy(layers, 'dataset');
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
@@ -178,6 +215,7 @@ export default function MapTypeWidgetContainer({
       <MapTypeWidget
         layerGroups={layerGroups}
         aoiLayer={aoiLayer}
+        maskLayer={maskLayer}
         widget={widget}
         isFetching={isFetching}
         isError={isError}
@@ -190,10 +228,12 @@ export default function MapTypeWidgetContainer({
 
 MapTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
+  widgetParams: null,
 };
 
 MapTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  widgetParams: PropTypes.shape({}),
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };
