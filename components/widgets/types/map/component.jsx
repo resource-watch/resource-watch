@@ -201,6 +201,7 @@ export default function MapTypeWidget({
       <div
         className="widget-container"
         style={{
+          minHeight: 400,
           ...!isInfoWidgetVisible && { border: 0 },
         }}
       >

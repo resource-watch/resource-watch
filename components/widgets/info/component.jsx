@@ -16,7 +16,7 @@ export default function WidgetInfo({
       <div className="widget-info-row">
         {!widget?.description && (
           <p>
-            No additional information is available
+            No additional information is available.
           </p>
         )}
 
