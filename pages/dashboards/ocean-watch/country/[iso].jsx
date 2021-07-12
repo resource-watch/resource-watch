@@ -302,6 +302,13 @@ export default function OceanWatchCountryProfilePage({
                         onToggleShare={handleShareWidget}
                       />
                     )}
+                    {(blockContent.widget && blockContent.type === 'map-swipe') && (
+                      <SwipeMapWidget
+                        widgetId={blockContent.widget}
+                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                        onToggleShare={handleShareWidget}
+                      />
+                    )}
                     {(blockContent.widget && blockContent.type === 'chart') && (
                       <ChartWidget
                         adapter={RWAdapter}
