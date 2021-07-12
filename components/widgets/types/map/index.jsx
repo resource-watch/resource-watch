@@ -146,84 +146,33 @@ export default function MapTypeWidgetContainer({
 
     if (!mask) return null;
 
-    // console.log('mask', mask)
-    // return ({
-    //   account: 'wri-rw',
-    //   body: {
-    //     layers: [
-    //       {
-    //         type: 'mapnik',
-    //         options: {
-    //           sql: "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where geostore_staging = '804b97bc661ae04c2b899d71ecaeb858' )) as intersect FROM wri-rw.wat_068_rw0_watersheds_edit WHERE level = 3",
-    //         },
-    //       },
-    //     ],
-    //     vectorLayers: [
-    //       {
-    //         paint: {
-    //           'fill-color': '#000',
-    //           'fill-opacity': 0,
-    //         },
-    //         'source-layer': 'layer0',
-    //         type: 'fill',
-    //       },
-    //       {
-    //         paint: {
-    //           'line-color': '#0079B0',
-    //           'line-opacity': 1,
-    //           'line-width': 1,
-    //         },
-    //         'source-layer': 'layer0',
-    //         type: 'line',
-    //       },
-    //     ],
-    //     layerType: 'vector',
-    //   },
-    // });
+    console.log('mask', mask);
 
-    return ({
+    // todo: remove parametrization when it is no needed anymore
+    return getParametrizedMapWidget({
       id: 'mask',
       provider: 'cartodb',
       layerConfig: {
         parse: false,
         account: 'wri-rw',
+        ...mask,
+        // todo: remove 'body' key when SQL is fixed
         body: {
           layers: [
             {
               type: 'mapnik',
               options: {
-                sql: `with table1 as (SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where geostore_staging = '08071a69b43cd5cc16dc2c6aedda966e' )) as intersect FROM wat_068_rw0_watersheds_edit WHERE level = 3)
-                select * from table1 where table1.intersect is true`,
+                sql: 'SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = \'{{geostore_id}}\' )) as intersect FROM wat_068_rw0_watersheds_edit WHERE level = 3',
               },
             },
           ],
-          vectorLayers: [
-            {
-              paint: {
-                'fill-color': '#000',
-                'fill-opacity': 0,
-              },
-              'source-layer': 'layer0',
-              type: 'fill',
-            },
-            {
-              paint: {
-                'line-color': '#f00',
-                'line-opacity': 1,
-                'line-width': 1,
-              },
-              'source-layer': 'layer0',
-              type: 'line',
-            },
-          ],
-          layerType: 'vector',
         },
       },
       opacity: layerParams?.mask?.opacity || 1,
       visibility: true,
       isMask: true,
-    });
-  }, [widget]);
+    }, widgetParams);
+  }, [widget, widgetParams]);
 
   const layerGroups = useMemo(() => {
     const layersByDataset = groupBy(layers, 'dataset');
