@@ -1,9 +1,9 @@
-import { connect } from 'react-redux';
+// hoc
+import {
+  withUser,
+} from 'hoc/auth';
 
 // component
 import WidgetsTable from './component';
 
-export default connect(
-  (state) => ({ user: state.user }),
-  null,
-)(WidgetsTable);
+export default withUser(WidgetsTable);

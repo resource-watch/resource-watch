@@ -21,7 +21,7 @@ WidgetDetailPage.propTypes = {
   }).isRequired,
 };
 
-WidgetDetailPage.getInitialProps = async ({ query }) => {
+export const getServerSideProps = async ({ query }) => {
   const {
     id,
   } = query;
@@ -29,6 +29,8 @@ WidgetDetailPage.getInitialProps = async ({ query }) => {
   const widget = await fetchWidget(id);
 
   return ({
-    widget,
+    props: ({
+      widget,
+    }),
   });
 };

@@ -1,38 +1,36 @@
-import React, {
+import {
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { toastr } from 'react-redux-toastr';
 import Tether from 'react-tether';
 import { useDebouncedCallback } from 'use-debounce';
+import { signOut } from 'next-auth/client';
+
+// hooks
+import {
+  useMe,
+} from 'hooks/user';
 
 // components
 import Icon from 'components/ui/icon';
 
-const AdminHeaderUser = ({
-  user,
-}) => {
+const AdminHeaderUser = () => {
+  const {
+    data: user,
+  } = useMe();
   const [isVisible, setVisibility] = useState(false);
 
   const logout = (e) => {
     if (e) e.preventDefault();
-
-    // TO-DO: move this to an action
-    fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/logout`, { credentials: 'include' })
-      .then(() => {
-        window.location.href = `/logout?callbackUrl=${window.location.href}`;
-      })
-      .catch((err) => {
-        toastr.error('Error', err);
-      });
+    signOut();
   };
 
   const [toggleDropdown] = useDebouncedCallback((_isVisible) => {
     setVisibility(_isVisible);
   }, 50);
 
-  if (user.token) {
+  if (user) {
     const photo = (user.photo) ? `url(${user.photo})` : 'none';
 
     return (
@@ -91,7 +89,7 @@ const AdminHeaderUser = ({
     );
   }
 
-  if (!user.token) {
+  if (user) {
     return (
       <Tether
         attachment="top center"

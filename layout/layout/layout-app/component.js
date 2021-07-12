@@ -164,7 +164,6 @@ LayoutApp.propTypes = {
   pageHeader: PropTypes.bool,
   className: PropTypes.string,
   modal: PropTypes.shape({}).isRequired,
-  user: PropTypes.shape({}).isRequired,
   thumbnail: PropTypes.string,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,

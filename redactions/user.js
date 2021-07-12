@@ -1,6 +1,9 @@
 import { toastr } from 'react-redux-toastr';
 import { createAction, createThunkAction } from 'redux-tools';
 import axios from 'axios';
+import {
+  HYDRATE,
+} from 'next-redux-wrapper';
 
 // Utils
 import { mergeSubscriptions, setGeoLayer, setCountryLayer } from 'utils/user/areas';
@@ -41,6 +44,12 @@ const initialState = {
 
 export default function User(state = initialState, action) {
   switch (action.type) {
+    case HYDRATE: {
+      return ({
+        ...state,
+        ...action.payload.user,
+      });
+    }
     case SET_USER: {
       return { ...state, ...action.payload };
     }

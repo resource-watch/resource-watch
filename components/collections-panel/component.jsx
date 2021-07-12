@@ -8,11 +8,13 @@ import {
   useQueryClient,
 } from 'react-query';
 import { toastr } from 'react-redux-toastr';
-
 // components
 import CollectionPanelItem from 'components/collections-panel/collections-panel-item/component';
 
 // hooks
+import {
+  useMe,
+} from 'hooks/user';
 import useFetchCollections from 'hooks/collection/fetch-collections';
 import useIsFavorite from 'hooks/favorite/is-favorite';
 
@@ -38,7 +40,6 @@ import {
 import reducer from './reducer';
 
 const CollectionsPanel = ({
-  token,
   resource,
   resourceType,
   onKeyPress,
@@ -47,6 +48,9 @@ const CollectionsPanel = ({
   onToggleCollection,
 }) => {
   const queryClient = useQueryClient();
+  const {
+    data: user,
+  } = useMe();
   const [newCollectionState, setNewCollectionState] = useState({
     name: '',
   });
@@ -56,7 +60,7 @@ const CollectionsPanel = ({
     isSuccess: isCollectionsSuccess,
     refetch: refetchCollections,
   } = useFetchCollections(
-    token,
+    user?.token,
     {
       sort: 'name',
     },
@@ -71,7 +75,7 @@ const CollectionsPanel = ({
     isFetching: isFavoriteFetching,
     isSuccess: isFavoriteSuccess,
     refetch: refetchFavorites,
-  } = useIsFavorite(resource.id, token);
+  } = useIsFavorite(resource.id, user?.token);
   const isSuccess = (isCollectionsSuccess || isFavoriteSuccess);
 
   const onAddCollection = useCallback(async () => {
@@ -82,7 +86,7 @@ const CollectionsPanel = ({
         toastr.error('Duplicated Favourites list', 'You cannot duplicate this list.');
       } else {
         try {
-          await createCollection(token,
+          await createCollection(user?.token,
             {
               name: newCollectionName,
               env: process.env.NEXT_PUBLIC_API_ENV,
@@ -97,19 +101,19 @@ const CollectionsPanel = ({
     } else {
       toastr.error('Please enter a collection name');
     }
-  }, [token, newCollectionState, refetchCollections]);
+  }, [user, newCollectionState, refetchCollections]);
 
   const handleToggleFavorite = useCallback(async () => {
     if (isFavorite) {
       try {
-        await deleteFavourite(token, favorite.id);
+        await deleteFavourite(user?.token, favorite.id);
         await refetchFavorites();
       } catch (e) {
         // do something
       }
     } else {
       try {
-        await createFavourite(token, ({
+        await createFavourite(user?.token, ({
           resourceId: resource.id,
           resourceType,
         }));
@@ -120,7 +124,7 @@ const CollectionsPanel = ({
     }
 
     if (onToggleFavorite) onToggleFavorite(!isFavorite, resource);
-  }, [token, resource, resourceType, isFavorite, refetchFavorites, favorite, onToggleFavorite]);
+  }, [user, resource, resourceType, isFavorite, refetchFavorites, favorite, onToggleFavorite]);
 
   const handleToggleCollection = useCallback(async (isAdded, collection) => {
     const resourcePayload = {
@@ -131,7 +135,7 @@ const CollectionsPanel = ({
     if (isAdded) {
       try {
         dispatch({ type: addToLoadingQueue, payload: collection.id });
-        await addResourceToCollection(token, collection.id, resourcePayload);
+        await addResourceToCollection(user?.token, collection.id, resourcePayload);
         dispatch({ type: removeToLoadingQueue, payload: collection.id });
       } catch (e) {
         // do something
@@ -139,7 +143,7 @@ const CollectionsPanel = ({
     } else {
       try {
         dispatch({ type: addToLoadingQueue, payload: collection.id });
-        await removeResourceFromCollection(token, collection.id, resourcePayload);
+        await removeResourceFromCollection(user?.token, collection.id, resourcePayload);
         dispatch({ type: removeToLoadingQueue, payload: collection.id });
       } catch (e) {
         // do something
@@ -149,7 +153,7 @@ const CollectionsPanel = ({
     queryClient.invalidateQueries('fetch-collections');
 
     if (onToggleCollection) onToggleCollection(isAdded, resource);
-  }, [token, resource, resourceType, onToggleCollection, queryClient]);
+  }, [user, resource, resourceType, onToggleCollection, queryClient]);
 
   const handleKeyPress = useCallback((evt) => {
     if (evt.key !== 'Enter') return false;
@@ -248,7 +252,6 @@ CollectionsPanel.propTypes = {
   onKeyPress: PropTypes.func,
   onToggleFavorite: PropTypes.func,
   onToggleCollection: PropTypes.func,
-  token: PropTypes.string.isRequired,
 };
 
 export default CollectionsPanel;

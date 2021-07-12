@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import sortBy from 'lodash/sortBy';
 
-// actions
-import { getFaqs } from 'redactions/admin/faqs';
-
 // components
 import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
@@ -14,15 +11,6 @@ import Accordion from 'components/ui/accordion';
 
 class LayoutFaqs extends PureComponent {
   static propTypes = { faqs: PropTypes.array.isRequired };
-
-  static async getInitialProps({ store }) {
-    const { getState, dispatch } = store;
-    const { faqs: { list } } = getState();
-
-    if (!list.length) await dispatch(getFaqs());
-
-    return {};
-  }
 
   render() {
     const { faqs } = this.props;

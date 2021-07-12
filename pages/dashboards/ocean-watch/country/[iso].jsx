@@ -6,7 +6,10 @@ import {
 import classnames from 'classnames';
 import {
   useQuery,
+  QueryClient,
+  useQueryClient,
 } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import {
@@ -22,12 +25,8 @@ import MiniExplore from 'components/mini-explore';
 import CardIndicatorSet from 'components/card-indicator-set';
 import CardIndicator from 'components/card-indicator-set/card-indicator';
 import MapWidget from 'components/widgets/types/map';
+import SwipeMapWidget from 'components/widgets/types/map-swipe';
 import ChartWidget from 'components/widgets/types/chart';
-
-// hooks
-import {
-  useOceanWatchProfiles,
-} from 'hooks/ocean-watch';
 
 // services
 import {
@@ -44,7 +43,7 @@ const WidgetShareModal = dynamic(() => import('../../../../components/widgets/sh
 
 export default function OceanWatchCountryProfilePage() {
   const router = useRouter();
-  // todo: move this fetching to getStaticProps function when getInitialProps is gone
+  const queryClient = useQueryClient();
   const {
     query: {
       iso,
@@ -52,8 +51,7 @@ export default function OceanWatchCountryProfilePage() {
   } = router;
   const [widgetToShare, setWidgetToShare] = useState(null);
   const RWAdapter = useSelector((state) => getRWAdapter(state));
-  // todo: enable when getInitialProps is gone and hydration is implemented
-  // const areas = queryClient.getQueryData('ocean-watch-areas');
+  const areas = queryClient.getQueryData('ocean-watch-areas');
 
   const {
     data: oceanWatchConfig,
@@ -69,10 +67,6 @@ export default function OceanWatchCountryProfilePage() {
       initialStale: true,
     },
   );
-
-  const {
-    data: areas,
-  } = useOceanWatchProfiles();
 
   const handleAreaChange = useCallback(({ value }) => {
     router.push({
@@ -218,6 +212,13 @@ export default function OceanWatchCountryProfilePage() {
                         onToggleShare={handleShareWidget}
                       />
                     )}
+                    {(blockContent.widget && blockContent.type === 'map-swipe') && (
+                      <SwipeMapWidget
+                        widgetId={blockContent.widget}
+                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                        onToggleShare={handleShareWidget}
+                      />
+                    )}
                     {(blockContent.widget && blockContent.type === 'chart') && (
                       <ChartWidget
                         adapter={RWAdapter}
@@ -244,40 +245,30 @@ export default function OceanWatchCountryProfilePage() {
   );
 }
 
-export async function getStaticProps() {
-  // const {
-  //   iso,
-  // } = params;
+export async function getServerSideProps({
+  query,
+}) {
+  const {
+    iso,
+  } = query;
+  const queryClient = new QueryClient();
+
+  // prefetch areas
+  await queryClient.prefetchQuery('ocean-watch-areas', fetchOceanWatchAreas);
+  const areas = queryClient.getQueryData('ocean-watch-areas');
+  const areaFound = areas.find((area) => iso === area.iso);
+
   // feature flag to avoid display any Ocean Watch development in other environments
-  if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true') {
-    return {
+  // if an area is not found, redirect to Not Found page
+  if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true' || !areaFound) {
+    return ({
       notFound: true,
-    };
+    });
   }
 
   return {
     props: ({
-      // todo: enable when getInitialProps is gone
-      // iso,
-      // todo: enable when getInitialProps is gone and hydration is implemented
-      // dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     }),
-  };
-}
-
-export async function getStaticPaths() {
-  // todo: enable when getInitialProps is gone and hydration is implemented
-  // await queryClient.prefetchQuery('ocean-watch-areas', fetchOceanWatchAreas);
-  const areas = await fetchOceanWatchAreas();
-
-  const paths = areas.map(({ iso }) => ({
-    params: {
-      iso,
-    },
-  }));
-
-  return {
-    paths,
-    fallback: false,
   };
 }

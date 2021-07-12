@@ -9,7 +9,6 @@ import LayoutAdminComponent from './layout-admin-component';
 export default connect(
   (state) => ({
     modal: state.modal,
-    user: state.user,
   }),
   {
     toggleModal,

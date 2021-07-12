@@ -6,10 +6,6 @@ import {
   useQueries,
 } from 'react-query';
 import {
-  useSelector,
-} from 'react-redux';
-import groupBy from 'lodash/groupBy';
-import {
   ErrorBoundary,
 } from 'react-error-boundary';
 
@@ -24,6 +20,9 @@ import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 import {
   useGeostore,
 } from 'hooks/geostore';
+import {
+  useMe,
+} from 'hooks/user';
 
 // constants
 import {
@@ -35,7 +34,7 @@ import {
   getUserAreaLayer,
 } from 'components/map/utils';
 import {
-  getTilerUrl,
+  getLayerGroups,
 } from 'utils/layers';
 
 // components
@@ -54,10 +53,12 @@ export default function MapTypeWidgetContainer({
   areaOfInterest,
   onToggleShare,
 }) {
-  const userToken = useSelector((state) => state.user?.token);
+  const {
+    data: user,
+  } = useMe();
   const {
     isInACollection,
-  } = useBelongsToCollection(widgetId, userToken);
+  } = useBelongsToCollection(widgetId, user?.token);
 
   const {
     data: widget,
@@ -136,28 +137,9 @@ export default function MapTypeWidgetContainer({
   [geostore, widget]);
 
   const layerGroups = useMemo(() => {
-    const layersByDataset = groupBy(layers, 'dataset');
-    const { layerParams } = widget?.widgetConfig || {};
+    const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
 
-    return Object.keys(layersByDataset).map((datasetKey) => ({
-      id: datasetKey,
-      visibility: true,
-      layers: layersByDataset[datasetKey]
-        .map((_layer) => ({
-          ..._layer,
-          active: _layer.default,
-          opacity: layerParams?.[_layer.id]?.opacity || 1,
-          ..._layer.layerConfig.type === 'gee' && {
-            layerConfig: {
-              ..._layer.layerConfig,
-              body: {
-                ..._layer.layerConfig.body,
-                url: getTilerUrl(_layer),
-              },
-            },
-          },
-        })),
-    }));
+    return getLayerGroups(layers, layerParams);
   }, [layers, widget]);
 
   const isError = useMemo(

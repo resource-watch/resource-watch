@@ -1,6 +1,13 @@
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+  withAdminRole,
+} from 'hoc/auth';
+
 // Components
 import Layout from 'layout/layout/layout-admin';
 import Tabs from 'components/ui/Tabs';
@@ -66,3 +73,5 @@ export default function AdminDashboardsPage({
 AdminDashboardsPage.propTypes = {
   user: PropTypes.shape({}).isRequired,
 };
+
+export const getServerSideProps = withRedux(withUserServerSide(withAdminRole()));

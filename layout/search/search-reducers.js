@@ -1,16 +1,42 @@
+import { createReducer } from '@reduxjs/toolkit';
+import {
+  HYDRATE,
+} from 'next-redux-wrapper';
+
+import initialState from './search-default-state';
+
+// actions
 import * as actions from './search-actions';
 
-export default {
-  [actions.setSearchSelected]: (state, action) => ({ ...state, selected: action.payload }),
-  [actions.setSearchList]: (state, action) => ({ ...state, list: action.payload }),
-
-  [actions.setSearchTerm]: (state, action) => ({ ...state, term: action.payload }),
-
-  [actions.setSearchPage]: (state, action) => ({ ...state, page: action.payload }),
-
-  [actions.setSearchTotal]: (state, action) => ({ ...state, total: action.payload }),
-
-  [actions.setSearchLoading]: (state, action) => ({ ...state, loading: action.payload }),
-
-  [actions.setSearchError]: (state, action) => ({ ...state, error: action.payload }),
-};
+export default createReducer(initialState, (builder) => {
+  builder
+    .addCase(HYDRATE, (state, { payload }) => ({ ...payload.search }))
+    .addCase(actions.setSearchSelected, (state, { payload }) => ({
+      ...state,
+      staticData: payload,
+    }))
+    .addCase(actions.setSearchList, (state, { payload }) => ({
+      ...state,
+      list: payload,
+    }))
+    .addCase(actions.setSearchTerm, (state, { payload }) => ({
+      ...state,
+      term: payload,
+    }))
+    .addCase(actions.setSearchPage, (state, { payload }) => ({
+      ...state,
+      page: payload,
+    }))
+    .addCase(actions.setSearchTotal, (state, { payload }) => ({
+      ...state,
+      total: payload,
+    }))
+    .addCase(actions.setSearchLoading, (state, { payload }) => ({
+      ...state,
+      loading: payload,
+    }))
+    .addCase(actions.setSearchError, (state, { payload }) => ({
+      ...state,
+      error: payload,
+    }));
+});

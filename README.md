@@ -69,7 +69,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | RW_USERNAME + RW_PASSWORD | Username and password values for a basic auth access wall to the whole site. If missing, the auth wall is disabled | | This auth mechanism is meant for scenarios where you want to have the whole site available only to users with a shared username and password - a staging/demo environment, for example. It is NOT related to used-based functionality of the site (MyRW, for example). |
 | LOGGER_LEVEL | Logging level used with the [Pino](https://github.com/pinojs/pino) logging library. | info |  |
 | NEXT_PUBLIC_RW_ENV | Used to set some scripts/functionalities in the app (like Google Analytics, CrazyEgg, Hotjar, ...). Must be `development`,`production` or `test` |  |
-| NEXT_PUBLIC_CALLBACK_URL | Sets the callback URL triggered when a user attempts to log in. Also handles the cookies registration. |  |
+| NEXT_PUBLIC_AUTH_CALLBACK | Sets the callback URL triggered when a user attempts to log in with third party services. | `http://localhost:$PORT/auth-callback` |
 | NEXT_PUBLIC_APPLICATIONS | Sets the context of the data. You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#applications). |  |
 | NEXT_PUBLIC_API_ENV | Environment the resource belongs to in the WRI API.You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#environments). |  |
 | NEXT_PUBLIC_WRI_API_URL | URL of the WRI API |  | In most cases you'll want to use https://api.resourcewatch.org for this value. When testing, be sure to mock all your HTTP requests, and avoid relying on actual calls to external services (like this one). |
@@ -82,6 +82,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID | Measurement ID used by Google Analytics v4. You can find more info in [Google Analytics v4 documentation](https://support.google.com/analytics/answer/9744165?hl=en&utm_id=ad#cms). This variable doesn't replace `NEXT_PUBLIC_GOOGLE_ANALYTICS` environmental variable. | | |
 | NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH | Feature flag to enable Ocean Watch pages | `undefined`| By default, these pages will not appear so make sure you initialize the environmental variable if you are going to work on them. Set to `true` to enable it. |
 | NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD | Feature flag to enable GEDC dashboard | `undefined`| By default, this dashboard will not appear so make sure you initialize the environmental variable if you are going to work on it. Set to `true` to enable it. |
+| NEXTAUTH_URL | Canonical URL of the site used by [NextAuth](https://next-auth.js.org/) to handle authentication and sessions. | `http://localhost:$PORT` | |
 
 If you want to customize these variables for your local environment, the recommended way is creating a `.env.local` file.
 
@@ -206,7 +207,7 @@ Resource Watch uses [**Redux**](http://redux.js.org/) along to [**next-redux-wra
 To interact with React components, Resource Watch uses [**react-redux**](https://react-redux.js.org/). While the existing `connect` API is still around, it is recommended to move to [hooks](https://react-redux.js.org/api/hooks).
 
 # Authentication 🚫
-Authentication is based on the [RW API user management API](https://resource-watch.github.io/doc-api/index-rw.html#user-management).
+Authentication is based on the [RW API user management](https://resource-watch.github.io/doc-api/index-rw.html#user-management) and handled by [NextAuth](https://next-auth.js.org/) framework.
 
 # Optimization 🔎
 ## Bundle Analyzer
