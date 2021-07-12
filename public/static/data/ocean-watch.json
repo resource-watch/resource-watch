@@ -166,7 +166,7 @@
         {
           "grid": "100%",
           "widget": "5a1322ef-8982-4398-aac8-9e53a8dea581",
-          "type": "map",
+          "type": "map-swipe",
           "comment": "Water Quality Pressure Map"
 
         }
