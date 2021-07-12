@@ -25,6 +25,7 @@ import MiniExplore from 'components/mini-explore';
 import CardIndicatorSet from 'components/card-indicator-set';
 import CardIndicator from 'components/card-indicator-set/card-indicator';
 import MapWidget from 'components/widgets/types/map';
+import SwipeMapWidget from 'components/widgets/types/map-swipe';
 import ChartWidget from 'components/widgets/types/chart';
 
 // services
@@ -206,6 +207,13 @@ export default function OceanWatchCountryProfilePage() {
                     )}
                     {(blockContent.widget && blockContent.type === 'map') && (
                       <MapWidget
+                        widgetId={blockContent.widget}
+                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                        onToggleShare={handleShareWidget}
+                      />
+                    )}
+                    {(blockContent.widget && blockContent.type === 'map-swipe') && (
+                      <SwipeMapWidget
                         widgetId={blockContent.widget}
                         {...area?.geostore && { areaOfInterest: area.geostore }}
                         onToggleShare={handleShareWidget}

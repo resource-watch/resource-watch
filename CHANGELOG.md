@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch: map swipe widget with support for multiple layers. [OW-87](https://vizzuality.atlassian.net/browse/OW-87)
 - Ocean Watch: custom opacity per layer in map-type widgets. [OW-86](https://vizzuality.atlassian.net/browse/OW-86)
 - Ocean Watch: widget parametrization.
 - Ocean Watch: loads available countries and their geometries. [OW-49](https://vizzuality.atlassian.net/browse/OW-83)

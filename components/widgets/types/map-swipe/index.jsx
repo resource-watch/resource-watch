@@ -32,6 +32,7 @@ import {
 // utils
 import {
   getUserAreaLayer,
+  parseBbox,
 } from 'components/map/utils';
 import {
   getLayerGroups,
@@ -39,7 +40,7 @@ import {
 
 // components
 import ErrorFallback from 'components/error-fallback';
-import MapTypeWidget from './component';
+import SwipeTypeWidget from './component';
 
 const CustomErrorFallback = ((_props) => (
   <ErrorFallback
@@ -48,7 +49,7 @@ const CustomErrorFallback = ((_props) => (
   />
 ));
 
-export default function MapTypeWidgetContainer({
+export default function SwipeTypeWidgetContainer({
   widgetId,
   areaOfInterest,
   onToggleShare,
@@ -90,24 +91,30 @@ export default function MapTypeWidgetContainer({
     },
   );
 
-  const layerIds = useMemo(() => {
-    if (widget?.widgetConfig?.paramsConfig?.layers) return widget.widgetConfig.paramsConfig.layers;
-    if (widget?.widgetConfig?.paramsConfig?.layer) return [widget.widgetConfig.paramsConfig.layer];
-    return [];
-  }, [widget]);
-
-  const layerStates = useQueries(
-    layerIds.map((layerId) => ({
+  const leftLayerStates = useQueries(
+    (widget?.widgetConfig?.paramsConfig?.layersLeft || []).map((layerId) => ({
       queryKey: ['fetch-layer', layerId],
       queryFn: () => fetchLayer(layerId),
       placeholderData: null,
     })),
   );
 
-  const layers = useMemo(() => layerStates
-    .filter(({ data }) => !!data)
-    .map(({ data }) => data),
-  [layerStates]);
+  const rightLayerStates = useQueries(
+    (widget?.widgetConfig?.paramsConfig?.layersRight || []).map((layerId) => ({
+      queryKey: ['fetch-layer', layerId],
+      queryFn: () => fetchLayer(layerId),
+      placeholderData: null,
+    })),
+  );
+
+  const layers = useMemo(() => ({
+    left: leftLayerStates
+      .filter(({ data }) => !!data)
+      .map(({ data }) => data),
+    right: rightLayerStates
+      .filter(({ data }) => !!data)
+      .map(({ data }) => data),
+  }), [leftLayerStates, rightLayerStates]);
 
   const aoiLayer = useMemo(() => {
     const { layerParams } = widget?.widgetConfig || {};
@@ -136,11 +143,31 @@ export default function MapTypeWidgetContainer({
   },
   [geostore, widget]);
 
-  const layerGroups = useMemo(() => {
+  const layerGroupsBySide = useMemo(() => {
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
 
-    return getLayerGroups(layers, layerParams);
+    return ({
+      left: getLayerGroups(layers.left, layerParams),
+      right: getLayerGroups(layers.right, layerParams),
+    });
   }, [layers, widget]);
+
+  const bounds = useMemo(() => {
+    if (aoiLayer?.bbox) {
+      return ({
+        bbox: aoiLayer.bbox,
+        options: {
+          padding: 50,
+        },
+      });
+    }
+
+    if (!widget?.widgetConfig?.bbox) return ({});
+
+    return ({
+      bbox: parseBbox(widget.widgetConfig.bbox),
+    });
+  }, [aoiLayer, widget]);
 
   const isError = useMemo(
     () => (isErrorWidget || isErrorGeostore),
@@ -155,9 +182,10 @@ export default function MapTypeWidgetContainer({
         refetchGeostore();
       }}
     >
-      <MapTypeWidget
-        layerGroups={layerGroups}
+      <SwipeTypeWidget
+        layerGroupsBySide={layerGroupsBySide}
         aoiLayer={aoiLayer}
+        bounds={bounds}
         widget={widget}
         isFetching={isFetching}
         isError={isError}
@@ -168,11 +196,11 @@ export default function MapTypeWidgetContainer({
   );
 }
 
-MapTypeWidgetContainer.defaultProps = {
+SwipeTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
 };
 
-MapTypeWidgetContainer.propTypes = {
+SwipeTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
