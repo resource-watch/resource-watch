@@ -32,7 +32,6 @@ import {
   getAoiLayer,
   getMaskLayer,
   getLayerGroups,
-  getParametrizedMapWidget,
 } from 'utils/layers';
 
 // components
@@ -77,7 +76,6 @@ export default function MapTypeWidgetContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
-      select: (_widget) => getParametrizedMapWidget(_widget, widgetParams),
     },
   );
 
