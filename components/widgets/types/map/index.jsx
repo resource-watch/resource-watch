@@ -24,18 +24,11 @@ import {
   useMe,
 } from 'hooks/user';
 
-// constants
-import {
-  USER_AREA_LAYER_TEMPLATES,
-} from 'components/map/constants';
-
 // utils
 import {
-  getUserAreaLayer,
-} from 'components/map/utils';
-import {
+  getAoiLayer,
+  getMaskLayer,
   getLayerGroups,
-  getParametrizedMapWidget,
 } from 'utils/layers';
 
 // components
@@ -51,7 +44,7 @@ const CustomErrorFallback = ((_props) => (
 
 export default function MapTypeWidgetContainer({
   widgetId,
-  widgetParams,
+  params,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -76,7 +69,6 @@ export default function MapTypeWidgetContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
-      select: (_widget) => getParametrizedMapWidget(_widget, widgetParams),
     },
   );
 
@@ -104,6 +96,10 @@ export default function MapTypeWidgetContainer({
       queryKey: ['fetch-layer', layerId],
       queryFn: () => fetchLayer(layerId),
       placeholderData: null,
+      select: (_layer) => ({
+        ..._layer,
+        params,
+      }),
     })),
   );
 
@@ -112,55 +108,12 @@ export default function MapTypeWidgetContainer({
     .map(({ data }) => data),
   [layerStates]);
 
-  const aoiLayer = useMemo(() => {
-    const { layerParams } = widget?.widgetConfig || {};
+  const aoiLayer = useMemo(() => getAoiLayer(widget, geostore), [geostore, widget]);
 
-    if (!geostore) return null;
-
-    const {
-      id,
-      geojson,
-      bbox,
-    } = geostore;
-
-    return ({
-      ...getUserAreaLayer(
-        {
-          id,
-          geojson,
-        },
-        USER_AREA_LAYER_TEMPLATES.explore,
-      ),
-      opacity: layerParams?.aoi?.opacity || 1,
-      visibility: true,
-      isAreaOfInterest: true,
-      bbox,
-    });
-  },
-  [geostore, widget]);
-
-  const maskLayer = useMemo(() => {
-    const { mask } = widget?.widgetConfig?.paramsConfig || {};
-    const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
-
-    if (!mask) return null;
-
-    return {
-      id: 'mask',
-      provider: 'cartodb',
-      layerConfig: {
-        parse: false,
-        ...mask,
-      },
-      opacity: layerParams?.mask?.opacity || 1,
-      visibility: true,
-      isMask: true,
-    };
-  }, [widget]);
+  const maskLayer = useMemo(() => getMaskLayer(widget, params), [widget, params]);
 
   const layerGroups = useMemo(() => {
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
-
     return getLayerGroups(layers, layerParams);
   }, [layers, widget]);
 
@@ -193,12 +146,12 @@ export default function MapTypeWidgetContainer({
 
 MapTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
-  widgetParams: null,
+  params: null,
 };
 
 MapTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
-  widgetParams: PropTypes.shape({}),
+  params: PropTypes.shape({}),
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };
