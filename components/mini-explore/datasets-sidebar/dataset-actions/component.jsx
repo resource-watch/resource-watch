@@ -139,10 +139,15 @@ const MiniExploreDatasetsActions = (props) => {
   );
 };
 
+MiniExploreDatasetsActions.defaultProps = {
+  dataset: {},
+  layer: {},
+};
+
 MiniExploreDatasetsActions.propTypes = {
   dataset: PropTypes.shape({
-    active: PropTypes.bool.isRequired,
-    id: PropTypes.string.isRequired,
+    active: PropTypes.bool,
+    id: PropTypes.string,
     metadata: PropTypes.arrayOf(
       PropTypes.shape({
         info: PropTypes.shape({
@@ -150,8 +155,8 @@ MiniExploreDatasetsActions.propTypes = {
         }),
       }),
     ),
-  }).isRequired,
-  layer: PropTypes.shape({}).isRequired,
+  }),
+  layer: PropTypes.shape({}),
   handleAddMap: PropTypes.func.isRequired,
 };
 
