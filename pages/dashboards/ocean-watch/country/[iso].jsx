@@ -213,7 +213,7 @@ export default function OceanWatchCountryProfilePage() {
                     {(blockContent.widget && blockContent.type === 'map') && (
                       <MapWidget
                         widgetId={blockContent.widget}
-                        widgetParams={{
+                        params={{
                           geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
                           ...area?.geostore && { geostore_id: area.geostore },
                         }}
@@ -224,7 +224,7 @@ export default function OceanWatchCountryProfilePage() {
                     {(blockContent.widget && blockContent.type === 'map-swipe') && (
                       <SwipeMapWidget
                         widgetId={blockContent.widget}
-                        widgetParams={{
+                        params={{
                           geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
                           ...area?.geostore && { geostore_id: area.geostore },
                         }}

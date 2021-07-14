@@ -1,7 +1,15 @@
-import {
-  replace,
-} from '@vizzuality/layer-manager-utils';
 import groupBy from 'lodash/groupBy';
+import { v4 as uuidv4 } from 'uuid';
+
+// utils
+import {
+  getUserAreaLayer,
+} from 'components/map/utils';
+
+// constants
+import {
+  USER_AREA_LAYER_TEMPLATES,
+} from 'components/map/constants';
 
 // sorts layers based on an array of layer ids
 export const sortLayers = (_layers = [], _layerOrder = []) => {
@@ -50,26 +58,50 @@ export const getLayerGroups = (layers = [], layerParams = {}) => {
       })),
   }));
 };
-export const getParametrizedMapWidget = (widget = {}, params = {}) => ({
-  ...widget,
-  widgetConfig: {
-    ...widget?.widgetConfig || {},
-    paramsConfig: {
-      ...widget?.widgetConfig?.paramsConfig || {},
-      // parametrize mask layer. Probably this schema will change with the layer manager to V4
-      mask: {
-        ...widget?.widgetConfig?.paramsConfig?.mask || {},
-        body: {
-          ...widget?.widgetConfig?.paramsConfig?.mask.body || {},
-          layers: (widget?.widgetConfig?.paramsConfig?.mask.body.layers || []).map((_layer) => ({
-            ..._layer,
-            options: {
-              ..._layer.options || {},
-              sql: replace(_layer.options.sql, params),
-            },
-          })),
-        },
+
+export const getAoiLayer = (widget = {}, geostore) => {
+  if (!geostore) return null;
+
+  const {
+    layerParams,
+  } = widget?.widgetConfig || {};
+
+  const {
+    id,
+    geojson,
+    bbox,
+  } = geostore;
+
+  return ({
+    ...getUserAreaLayer(
+      {
+        id,
+        geojson,
       },
+      USER_AREA_LAYER_TEMPLATES.explore,
+    ),
+    opacity: layerParams?.aoi?.opacity || 1,
+    visibility: true,
+    isAreaOfInterest: true,
+    bbox,
+  });
+};
+
+export const getMaskLayer = (widget = {}, params = {}) => {
+  const {
+    mask,
+    layerParams,
+  } = widget?.widgetConfig?.paramsConfig || {};
+
+  if (!mask) return null;
+
+  return ({
+    id: mask?.id || `${uuidv4()}-mask`,
+    provider: 'cartodb',
+    layerConfig: {
+      ...mask,
     },
-  },
-});
+    params,
+    opacity: layerParams?.mask?.opacity || 1,
+  });
+};
