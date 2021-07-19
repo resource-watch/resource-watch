@@ -24,16 +24,10 @@ import {
   useMe,
 } from 'hooks/user';
 
-// constants
-import {
-  USER_AREA_LAYER_TEMPLATES,
-} from 'components/map/constants';
-
 // utils
 import {
-  getUserAreaLayer,
-} from 'components/map/utils';
-import {
+  getAoiLayer,
+  getMaskLayer,
   getLayerGroups,
 } from 'utils/layers';
 
@@ -50,6 +44,7 @@ const CustomErrorFallback = ((_props) => (
 
 export default function MapTypeWidgetContainer({
   widgetId,
+  params,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -101,6 +96,10 @@ export default function MapTypeWidgetContainer({
       queryKey: ['fetch-layer', layerId],
       queryFn: () => fetchLayer(layerId),
       placeholderData: null,
+      select: (_layer) => ({
+        ..._layer,
+        params,
+      }),
     })),
   );
 
@@ -109,36 +108,12 @@ export default function MapTypeWidgetContainer({
     .map(({ data }) => data),
   [layerStates]);
 
-  const aoiLayer = useMemo(() => {
-    const { layerParams } = widget?.widgetConfig || {};
+  const aoiLayer = useMemo(() => getAoiLayer(widget, geostore), [geostore, widget]);
 
-    if (!geostore) return null;
-
-    const {
-      id,
-      geojson,
-      bbox,
-    } = geostore;
-
-    return ({
-      ...getUserAreaLayer(
-        {
-          id,
-          geojson,
-        },
-        USER_AREA_LAYER_TEMPLATES.explore,
-      ),
-      opacity: layerParams?.aoi?.opacity || 1,
-      visibility: true,
-      isAreaOfInterest: true,
-      bbox,
-    });
-  },
-  [geostore, widget]);
+  const maskLayer = useMemo(() => getMaskLayer(widget, params), [widget, params]);
 
   const layerGroups = useMemo(() => {
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
-
     return getLayerGroups(layers, layerParams);
   }, [layers, widget]);
 
@@ -158,6 +133,7 @@ export default function MapTypeWidgetContainer({
       <MapTypeWidget
         layerGroups={layerGroups}
         aoiLayer={aoiLayer}
+        maskLayer={maskLayer}
         widget={widget}
         isFetching={isFetching}
         isError={isError}
@@ -170,10 +146,12 @@ export default function MapTypeWidgetContainer({
 
 MapTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
+  params: null,
 };
 
 MapTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  params: PropTypes.shape({}),
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };

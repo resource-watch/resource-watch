@@ -30,6 +30,7 @@ import WidgetInfo from '../../info';
 export default function SwipeTypeWidget({
   layerGroupsBySide,
   aoiLayer,
+  maskLayer,
   bounds,
   widget,
   isInACollection,
@@ -75,17 +76,19 @@ export default function SwipeTypeWidget({
   const layersBySide = useMemo(() => ({
     left: [
       ...(aoiLayer !== null) ? [aoiLayer] : [],
+      ...(maskLayer !== null) ? [maskLayer] : [],
       ...layerGroupsBySide.left.map(
         (_layerGroup) => (_layerGroup.layers || []).find((_layer) => _layer.active),
       ),
     ],
     right: [
       ...(aoiLayer !== null) ? [aoiLayer] : [],
+      ...(maskLayer !== null) ? [maskLayer] : [],
       ...layerGroupsBySide.right.map(
         (_layerGroup) => (_layerGroup.layers || []).find((_layer) => _layer.active),
       ),
     ],
-  }), [layerGroupsBySide, aoiLayer]);
+  }), [layerGroupsBySide, aoiLayer, maskLayer]);
 
   const caption = widget?.metadata?.[0]?.info?.caption;
 
@@ -270,6 +273,7 @@ export default function SwipeTypeWidget({
 
 SwipeTypeWidget.defaultProps = {
   aoiLayer: null,
+  maskLayer: null,
   bounds: {},
 };
 
@@ -279,6 +283,7 @@ SwipeTypeWidget.propTypes = {
     right: PropTypes.arrayOf(PropTypes.shape({})),
   }).isRequired,
   aoiLayer: PropTypes.shape({}),
+  maskLayer: PropTypes.shape({}),
   widget: PropTypes.shape({
     widgetConfig: PropTypes.shape({
       basemapLayers: PropTypes.shape({

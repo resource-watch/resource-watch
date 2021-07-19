@@ -24,17 +24,13 @@ import {
   useMe,
 } from 'hooks/user';
 
-// constants
-import {
-  USER_AREA_LAYER_TEMPLATES,
-} from 'components/map/constants';
-
 // utils
 import {
-  getUserAreaLayer,
   parseBbox,
 } from 'components/map/utils';
 import {
+  getAoiLayer,
+  getMaskLayer,
   getLayerGroups,
 } from 'utils/layers';
 
@@ -51,6 +47,7 @@ const CustomErrorFallback = ((_props) => (
 
 export default function SwipeTypeWidgetContainer({
   widgetId,
+  params,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -96,6 +93,10 @@ export default function SwipeTypeWidgetContainer({
       queryKey: ['fetch-layer', layerId],
       queryFn: () => fetchLayer(layerId),
       placeholderData: null,
+      select: (_layer) => ({
+        ..._layer,
+        params,
+      }),
     })),
   );
 
@@ -104,6 +105,10 @@ export default function SwipeTypeWidgetContainer({
       queryKey: ['fetch-layer', layerId],
       queryFn: () => fetchLayer(layerId),
       placeholderData: null,
+      select: (_layer) => ({
+        ..._layer,
+        params,
+      }),
     })),
   );
 
@@ -116,32 +121,9 @@ export default function SwipeTypeWidgetContainer({
       .map(({ data }) => data),
   }), [leftLayerStates, rightLayerStates]);
 
-  const aoiLayer = useMemo(() => {
-    const { layerParams } = widget?.widgetConfig || {};
+  const aoiLayer = useMemo(() => getAoiLayer(widget, geostore), [geostore, widget]);
 
-    if (!geostore) return null;
-
-    const {
-      id,
-      geojson,
-      bbox,
-    } = geostore;
-
-    return ({
-      ...getUserAreaLayer(
-        {
-          id,
-          geojson,
-        },
-        USER_AREA_LAYER_TEMPLATES.explore,
-      ),
-      opacity: layerParams?.aoi?.opacity || 1,
-      visibility: true,
-      isAreaOfInterest: true,
-      bbox,
-    });
-  },
-  [geostore, widget]);
+  const maskLayer = useMemo(() => getMaskLayer(widget, params), [widget, params]);
 
   const layerGroupsBySide = useMemo(() => {
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
@@ -185,6 +167,7 @@ export default function SwipeTypeWidgetContainer({
       <SwipeTypeWidget
         layerGroupsBySide={layerGroupsBySide}
         aoiLayer={aoiLayer}
+        maskLayer={maskLayer}
         bounds={bounds}
         widget={widget}
         isFetching={isFetching}
@@ -198,10 +181,12 @@ export default function SwipeTypeWidgetContainer({
 
 SwipeTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
+  params: null,
 };
 
 SwipeTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  params: PropTypes.shape({}),
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };
