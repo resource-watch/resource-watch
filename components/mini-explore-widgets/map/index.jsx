@@ -76,6 +76,7 @@ export default function MiniExploreMapContainer({
 }) {
   const [mapState, dispatch] = useReducer(miniExploreReducer, initialState);
   const [layerModal, setLayerModal] = useState(null);
+  const [minZoom, setMinZoom] = useState(null);
 
   const {
     viewport,
@@ -238,6 +239,14 @@ export default function MiniExploreMapContainer({
     setLayerModal(layer);
   }, []);
 
+  const handleFitBoundsChange = useCallback((_viewport) => {
+    const {
+      zoom,
+    } = _viewport;
+
+    setMinZoom(zoom);
+  }, []);
+
   useEffect(() => {
     const promises = layerIds.map((_layerId) => fetchLayer(_layerId));
     Promise.all(promises).then((layers) => {
@@ -290,6 +299,7 @@ export default function MiniExploreMapContainer({
         {
           id,
           geojson,
+          minZoom,
         },
         USER_AREA_LAYER_TEMPLATES.explore,
       );
@@ -313,7 +323,7 @@ export default function MiniExploreMapContainer({
       ...activeLayerGroups,
     ];
   },
-  [layerGroups, geostore]);
+  [layerGroups, geostore, minZoom]);
 
   const activeInteractiveLayers = useMemo(() => flatten(
     compact(activeLayers.map((_activeLayer) => {
@@ -369,6 +379,7 @@ export default function MiniExploreMapContainer({
       onChangeLayer={onChangeLayer}
       onChangeVisibility={onChangeVisibility}
       onChangeOpacity={onChangeOpacity}
+      handleFitBoundsChange={handleFitBoundsChange}
     />
   );
 }

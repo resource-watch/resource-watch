@@ -71,6 +71,7 @@ export default function MiniExploreMap({
   onRemoveLayer,
   onChangeLayerDate,
   onChangeLayerTimeLine,
+  handleFitBoundsChange,
 }) {
   const {
     pitch,
@@ -107,6 +108,7 @@ export default function MiniExploreMap({
         getCursor={handleMapCursor}
         className={mapClass}
         onViewportChange={handleViewport}
+        onFitBoundsChange={handleFitBoundsChange}
       >
         {(_map) => (
           <>
@@ -257,6 +259,7 @@ MiniExploreMap.propTypes = {
   ).isRequired,
   handleMapCursor: PropTypes.func.isRequired,
   handleViewport: PropTypes.func.isRequired,
+  handleFitBoundsChange: PropTypes.func.isRequired,
   handleClosePopup: PropTypes.func.isRequired,
   onChangeInteractiveLayer: PropTypes.func.isRequired,
   handleZoom: PropTypes.func.isRequired,
