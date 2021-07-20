@@ -79,6 +79,7 @@ export default function MiniExploreMapContainer({
   dispatch,
 }) {
   const [layerModal, setLayerModal] = useState(null);
+  const [minZoom, setMinZoom] = useState(null);
   const [onChangeOpacity] = useDebouncedCallback((l, opacity) => {
     dispatch(setMapLayerGroupOpacity({ dataset: { id: l.dataset }, opacity }));
   }, 250);
@@ -228,6 +229,14 @@ export default function MiniExploreMapContainer({
     setLayerModal(layer);
   }, []);
 
+  const handleFitBoundsChange = useCallback((_viewport) => {
+    const {
+      zoom,
+    } = _viewport;
+
+    setMinZoom(zoom);
+  }, []);
+
   // returns an array of dataset IDs through the different dataset groups
   const datasetIds = useMemo(() => flattenDeep(
     datasetGroups.map(({ datasets: _datasets }) => _datasets),
@@ -309,6 +318,7 @@ export default function MiniExploreMapContainer({
         {
           id,
           geojson,
+          minZoom,
         },
         USER_AREA_LAYER_TEMPLATES.explore,
       );
@@ -332,7 +342,7 @@ export default function MiniExploreMapContainer({
       ...activeLayerGroups,
     ];
   },
-  [layerGroups, geostore]);
+  [layerGroups, geostore, minZoom]);
 
   const activeInteractiveLayers = useMemo(() => flatten(
     compact(activeLayers.map((_activeLayer) => {
@@ -378,6 +388,7 @@ export default function MiniExploreMapContainer({
       handleBoundaries={handleBoundaries}
       handleClosePopup={handleClosePopup}
       handleViewport={handleViewport}
+      handleFitBoundsChange={handleFitBoundsChange}
       onChangeInteractiveLayer={onChangeInteractiveLayer}
       onClickLayer={onClickLayer}
       onChangeLayerTimeLine={onChangeLayerTimeLine}

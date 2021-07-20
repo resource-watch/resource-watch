@@ -1,3 +1,5 @@
+import isNumber from 'lodash/isNumber';
+
 export const MAPSTYLES = 'mapbox://styles/resourcewatch/cjzmw480d00z41cp2x81gm90h';
 
 export const BASEMAPS = {
@@ -69,7 +71,7 @@ export const DEFAULT_VIEWPORT = {
 };
 
 export const USER_AREA_LAYER_TEMPLATES = {
-  explore: ({ id, geojson }) => ({
+  explore: ({ id, geojson, minZoom }) => ({
     id,
     provider: 'geojson',
     layerConfig: {
@@ -83,7 +85,16 @@ export const USER_AREA_LAYER_TEMPLATES = {
             source: id,
             paint: {
               'line-color': 'hsl(40, 95%, 58%)',
-              'line-width': 2,
+              ...!minZoom && {
+                'line-width': 2,
+              },
+              ...isNumber(minZoom) && {
+                'line-width': [
+                  'interpolate', ['linear'], ['zoom'],
+                  minZoom, 2,
+                  (minZoom + 2), 0,
+                ],
+              },
               'line-offset': -2,
             },
           },
@@ -91,7 +102,18 @@ export const USER_AREA_LAYER_TEMPLATES = {
             id: `${id}-line`,
             type: 'line',
             source: id,
-            paint: {},
+            paint: {
+              ...!minZoom && {
+                'line-width': 2,
+              },
+              ...isNumber(minZoom) && {
+                'line-width': [
+                  'interpolate', ['linear'], ['zoom'],
+                  minZoom, 2,
+                  (minZoom + 2), 0,
+                ],
+              },
+            },
           },
         ],
       },

@@ -1,5 +1,7 @@
 import {
   useMemo,
+  useCallback,
+  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -48,6 +50,7 @@ export default function MapTypeWidgetContainer({
   areaOfInterest,
   onToggleShare,
 }) {
+  const [minZoom, setMinZoom] = useState(null);
   const {
     data: user,
   } = useMe();
@@ -108,7 +111,17 @@ export default function MapTypeWidgetContainer({
     .map(({ data }) => data),
   [layerStates]);
 
-  const aoiLayer = useMemo(() => getAoiLayer(widget, geostore), [geostore, widget]);
+  const onFitBoundsChange = useCallback((viewport) => {
+    const {
+      zoom,
+    } = viewport;
+
+    setMinZoom(zoom);
+  }, []);
+
+  const aoiLayer = useMemo(
+    () => getAoiLayer(widget, geostore, { minZoom }), [geostore, widget, minZoom],
+  );
 
   const maskLayer = useMemo(() => getMaskLayer(widget, params), [widget, params]);
 
@@ -132,6 +145,14 @@ export default function MapTypeWidgetContainer({
     >
       <MapTypeWidget
         layerGroups={layerGroups}
+        {...geostore?.bbox && {
+          mapBounds: {
+            bbox: geostore.bbox,
+            options: {
+              padding: 50,
+            },
+          },
+        }}
         aoiLayer={aoiLayer}
         maskLayer={maskLayer}
         widget={widget}
@@ -139,6 +160,7 @@ export default function MapTypeWidgetContainer({
         isError={isError}
         isInACollection={isInACollection}
         onToggleShare={onToggleShare}
+        onFitBoundsChange={onFitBoundsChange}
       />
     </ErrorBoundary>
   );

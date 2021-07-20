@@ -59,12 +59,16 @@ export const getLayerGroups = (layers = [], layerParams = {}) => {
   }));
 };
 
-export const getAoiLayer = (widget = {}, geostore) => {
+export const getAoiLayer = (widget = {}, geostore, options = {}) => {
   if (!geostore) return null;
 
   const {
     layerParams,
   } = widget?.widgetConfig || {};
+
+  const {
+    minZoom,
+  } = options;
 
   const {
     id,
@@ -77,6 +81,7 @@ export const getAoiLayer = (widget = {}, geostore) => {
       {
         id,
         geojson,
+        minZoom,
       },
       USER_AREA_LAYER_TEMPLATES.explore,
     ),
