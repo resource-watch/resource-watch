@@ -12,7 +12,7 @@ import {
 import { logEvent } from 'utils/analytics';
 import { sortLayers } from 'utils/layers';
 
-export const miniExploreState = {
+export const initialState = {
   viewport: {
     zoom: 3,
     latitude: 0,
@@ -36,8 +36,8 @@ export const miniExploreState = {
   parametrization: {},
 };
 
-export const miniExploreSlice = createSlice({
-  name: 'mini-explore',
+export const mapSlice = createSlice({
+  name: 'mini-explore-widgets',
   reducers: {
     // map management
     setViewport: (state, { payload }) => ({
@@ -68,44 +68,10 @@ export const miniExploreSlice = createSlice({
       aoi: payload,
     }),
     // layer management
-    setMapLayerGroups: (state, { payload }) => {
-      const {
-        datasets,
-      } = payload;
-
-      const layerGroups = datasets
-        .map((_dataset) => {
-          const { id, layer: _layers, applicationConfig } = _dataset;
-          // gets only published layers
-          let publishedLayers = _layers.filter((_layer) => _layer.published);
-
-          // sorts layers if applies
-          if (
-            applicationConfig
-            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
-            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
-            && publishedLayers.length > 1) {
-            const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
-            publishedLayers = sortLayers(publishedLayers, layerOrder);
-          }
-
-          return {
-            id,
-            opacity: 1,
-            visibility: true,
-            layers: publishedLayers.map((_layer) => ({
-              ..._layer,
-              active: _layer.default,
-              opacity: 1,
-            })),
-          };
-        });
-
-      return ({
-        ...state,
-        layerGroups,
-      });
-    },
+    setMapLayerGroups: (state, { payload }) => ({
+      ...state,
+      layerGroups: payload,
+    }),
     toggleMapLayerGroup: (state, { payload }) => {
       const layerGroups = [...state.layerGroups];
       const {
@@ -252,7 +218,7 @@ export const miniExploreSlice = createSlice({
     resetLayerParametrization: (state) => ({
       ...state,
       parametrization: {
-        ...miniExploreState.parametrization,
+        ...initialState.parametrization,
       },
     }),
     // layer interaction management
@@ -273,12 +239,12 @@ export const miniExploreSlice = createSlice({
     }),
     resetMapLayerGroupsInteraction: (state) => ({
       ...state,
-      layerGroupsInteraction: miniExploreState.layerGroupsInteraction,
-      layerGroupsInteractionLatLng: miniExploreState.layerGroupsInteractionLatLng,
-      layerGroupsInteractionSelected: miniExploreState.layerGroupsInteractionSelected,
+      layerGroupsInteraction: initialState.layerGroupsInteraction,
+      layerGroupsInteractionLatLng: initialState.layerGroupsInteractionLatLng,
+      layerGroupsInteractionSelected: initialState.layerGroupsInteractionSelected,
     }),
   },
-  initialState: miniExploreState,
+  initialState,
 });
 
-export default miniExploreSlice;
+export default mapSlice;

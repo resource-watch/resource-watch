@@ -251,13 +251,12 @@ export default function SwipeTypeWidget({
               )}
             </div>
             {(isInfoWidgetVisible && widget && !isFetching) && (
-              <div
+              <WidgetInfo
+                widget={widget}
                 style={{
                   padding: 15,
                 }}
-              >
-                <WidgetInfo widget={widget} />
-              </div>
+              />
             )}
             {caption && (
               <div className="widget-caption-container">
