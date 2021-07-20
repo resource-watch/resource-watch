@@ -175,7 +175,7 @@ export default function MiniExploreMap({
           {layerGroups.map((lg, i) => (
             <LegendListItem
               index={i}
-              key={lg.dataset}
+              key={lg.id}
               layerGroup={lg}
               toolbar={(
                 <LegendItemToolbar />
