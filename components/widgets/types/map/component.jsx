@@ -284,13 +284,12 @@ export default function MapTypeWidget({
           </div>
         )}
         {(isInfoWidgetVisible && widget && !isFetching) && (
-          <div
+          <WidgetInfo
+            widget={widget}
             style={{
               padding: 15,
             }}
-          >
-            <WidgetInfo widget={widget} />
-          </div>
+          />
         )}
       </div>
       {caption && (
