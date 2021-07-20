@@ -1,5 +1,7 @@
 import {
   useMemo,
+  useState,
+  useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -51,12 +53,21 @@ export default function SwipeTypeWidgetContainer({
   areaOfInterest,
   onToggleShare,
 }) {
+  const [minZoom, setMinZoom] = useState(null);
   const {
     data: user,
   } = useMe();
   const {
     isInACollection,
   } = useBelongsToCollection(widgetId, user?.token);
+
+  const onFitBoundsChange = useCallback((viewport) => {
+    const {
+      zoom,
+    } = viewport;
+
+    setMinZoom(zoom);
+  }, []);
 
   const {
     data: widget,
@@ -121,7 +132,10 @@ export default function SwipeTypeWidgetContainer({
       .map(({ data }) => data),
   }), [leftLayerStates, rightLayerStates]);
 
-  const aoiLayer = useMemo(() => getAoiLayer(widget, geostore), [geostore, widget]);
+  const aoiLayer = useMemo(
+    () => getAoiLayer(widget, geostore, { minZoom }),
+    [geostore, widget, minZoom],
+  );
 
   const maskLayer = useMemo(() => getMaskLayer(widget, params), [widget, params]);
 
@@ -135,9 +149,9 @@ export default function SwipeTypeWidgetContainer({
   }, [layers, widget]);
 
   const bounds = useMemo(() => {
-    if (aoiLayer?.bbox) {
+    if (geostore?.bbox) {
       return ({
-        bbox: aoiLayer.bbox,
+        bbox: geostore.bbox,
         options: {
           padding: 50,
         },
@@ -149,7 +163,7 @@ export default function SwipeTypeWidgetContainer({
     return ({
       bbox: parseBbox(widget.widgetConfig.bbox),
     });
-  }, [aoiLayer, widget]);
+  }, [geostore, widget]);
 
   const isError = useMemo(
     () => (isErrorWidget || isErrorGeostore),
@@ -174,6 +188,7 @@ export default function SwipeTypeWidgetContainer({
         isError={isError}
         isInACollection={isInACollection}
         onToggleShare={onToggleShare}
+        onFitBoundsChange={onFitBoundsChange}
       />
     </ErrorBoundary>
   );

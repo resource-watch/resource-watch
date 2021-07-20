@@ -37,6 +37,7 @@ export default function SwipeTypeWidget({
   isFetching,
   isError,
   onToggleShare,
+  onFitBoundsChange,
 }) {
   const [map, setMap] = useState({
     left: null,
@@ -60,6 +61,10 @@ export default function SwipeTypeWidget({
       ..._map,
     });
   }, [map]);
+
+  const handleFitBoundsChange = useCallback((_viewport) => {
+    onFitBoundsChange(_viewport);
+  }, [onFitBoundsChange]);
 
   const basemap = useMemo(() => {
     const basemapKey = widget.widgetConfig?.basemapLayers?.basemap || 'dark';
@@ -142,6 +147,7 @@ export default function SwipeTypeWidget({
                   labels={labels}
                   boundaries
                   bounds={bounds}
+                  onFitBoundsChange={handleFitBoundsChange}
                   onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
                   fitBoundsOptions={{
                     transitionDuration: 0,
@@ -306,4 +312,5 @@ SwipeTypeWidget.propTypes = {
     options: PropTypes.shape({}),
   }),
   onToggleShare: PropTypes.func.isRequired,
+  onFitBoundsChange: PropTypes.func.isRequired,
 };
