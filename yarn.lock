@@ -11356,10 +11356,17 @@ language-tags@^1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
+<<<<<<< HEAD
 layer-manager@2.0.12:
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-2.0.12.tgz#6722363e77fda7264a966eb2932bef135712ffc9"
   integrity sha512-/aqFMVPFF/YGy7JA4/nRkniXMVQNmDSbfhhWq0dHoHY+kdMnheuj96rht/wPFlFnN06+6XoNMJ/vedODMVVTMA==
+=======
+layer-manager@2.0.11:
+  version "2.0.11"
+  resolved "https://registry.yarnpkg.com/layer-manager/-/layer-manager-2.0.11.tgz#4055437fc4826506fa909c3f7658d9894bb861cf"
+  integrity sha512-bFzqD9bWQW7y/6QUlW5hbpgTg34/lF96d3Mra1dCfl8Of31T4Ehmz6HU3swwmmeRkmhgZTqE5wvZIfgyHroFPg==
+>>>>>>> 7ec22d6f (show/hide area of interest based on dynamic zoom level)
   dependencies:
     axios "^0.19.0"
     lodash "^4.17.15"
