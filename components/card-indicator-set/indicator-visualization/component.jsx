@@ -194,13 +194,19 @@ export default function IndicatorVisualization({
           {(!isFetchingMainWidget && !isErrorMainWidget) && (
             <>
               {mainWidget && (
-                <WidgetHeader
-                  widget={mainWidget}
-                  onToggleInfo={handleToggleInfo}
-                  isInfoVisible={isInfoVisible}
-                  isInACollection={isInACollection}
-                  onToggleShare={handleShareToggle}
-                />
+                <div
+                  style={{
+                    padding: 15,
+                  }}
+                >
+                  <WidgetHeader
+                    widget={mainWidget}
+                    onToggleInfo={handleToggleInfo}
+                    isInfoVisible={isInfoVisible}
+                    isInACollection={isInACollection}
+                    onToggleShare={handleShareToggle}
+                  />
+                </div>
               )}
               <div
                 className="widget-container"
@@ -218,7 +224,12 @@ export default function IndicatorVisualization({
                   />
                 )}
                 {(isInfoVisible && mainWidget) && (
-                  <WidgetInfo widget={mainWidget} />
+                  <WidgetInfo
+                    widget={mainWidget}
+                    style={{
+                      padding: 15,
+                    }}
+                  />
                 )}
               </div>
             </>

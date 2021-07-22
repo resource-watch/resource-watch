@@ -8,11 +8,15 @@ import './styles.scss';
 
 export default function WidgetInfo({
   widget,
+  style,
 }) {
   const widgetLinks = useMemo(() => widget?.metadata?.[0]?.info?.widgetLinks || [], [widget]);
 
   return (
-    <div className="c-widget-info">
+    <div
+      className="c-widget-info"
+      style={style}
+    >
       <div className="widget-info-row">
         {!widget?.description && (
           <p>
@@ -56,6 +60,10 @@ export default function WidgetInfo({
   );
 }
 
+WidgetInfo.defaultProps = {
+  style: {},
+};
+
 WidgetInfo.propTypes = {
   widget: PropTypes.shape({
     description: PropTypes.string,
@@ -72,4 +80,5 @@ WidgetInfo.propTypes = {
       }),
     ),
   }).isRequired,
+  style: PropTypes.shape({}),
 };

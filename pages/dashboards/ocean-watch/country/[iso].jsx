@@ -22,6 +22,7 @@ import sortBy from 'lodash/sortBy';
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
 import MiniExplore from 'components/mini-explore';
+import MiniExploreWidgets from 'components/mini-explore-widgets';
 import CardIndicatorSet from 'components/card-indicator-set';
 import CardIndicator from 'components/card-indicator-set/card-indicator';
 import MapWidget from 'components/widgets/types/map';
@@ -207,6 +208,19 @@ export default function OceanWatchCountryProfilePage() {
                         config={{
                           ...blockContent.config,
                           ...area?.geostore && { areaOfInterest: area.geostore },
+                        }}
+                      />
+                    )}
+                    {blockContent.visualizationType === 'mini-explore-widgets' && (
+                      <MiniExploreWidgets
+                        adapter={RWAdapter}
+                        config={{
+                          ...blockContent.config,
+                          ...area?.geostore && { areaOfInterest: area.geostore },
+                        }}
+                        widgetParams={{
+                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                          ...area?.geostore && { geostore_id: area.geostore },
                         }}
                       />
                     )}

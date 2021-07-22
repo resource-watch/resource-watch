@@ -62,7 +62,12 @@ export default function ChartType({
           />
         )}
         {(isInfoWidgetVisible && widget && !isFetching) && (
-          <WidgetInfo widget={widget} />
+          <WidgetInfo
+            widget={widget}
+            style={{
+              padding: 15,
+            }}
+          />
         )}
       </div>
       {caption && (
