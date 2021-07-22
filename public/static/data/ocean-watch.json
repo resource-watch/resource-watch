@@ -144,8 +144,8 @@
       [
         {
           "grid": "50%",
-          "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
-          "type": "chart",
+          "widget": "d810c6b6-522f-493c-8966-fa983f8bf170",
+          "type": "map",
           "comment": "Sediment Pressure Chart 1"
         },
         {
@@ -167,7 +167,6 @@
           "widget": "5a1322ef-8982-4398-aac8-9e53a8dea581",
           "type": "map-swipe",
           "comment": "Water Quality Pressure Map"
-
         }
       ],
       [
@@ -182,6 +181,42 @@
           "widget": "f3ab5375-b278-4ad2-8311-a8652d34e222",
           "type": "chart",
           "comment":"Water Quality Pressure Chart 2"
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "title": "River Water Quality"
+        },
+        {
+          "grid": "50%",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis, sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "widget": "5a1322ef-8982-4398-aac8-9e53a8dea581",
+          "type": "map-swipe",
+          "comment": "Placeholder for River Water Quality swipe map"
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "visualizationType": "mini-explore-widgets",
+          "config": {
+            "title": "Water Quality Pressure",
+            "layers": [
+              "a0cf3282-976c-455c-9352-3cc559dc76c0",
+              "3fd96b3d-bf65-4f9f-ae06-990333dfe669",
+              "9ca00829-4a27-480d-a0c3-fd2fbed9075a"
+            ],
+            "widgets": [
+              "d7828256-5a99-4033-9583-fe35d36a41fd",
+              "f3ab5375-b278-4ad2-8311-a8652d34e222"
+            ]
+          }
         }
       ],
       [
