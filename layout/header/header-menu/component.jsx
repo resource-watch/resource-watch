@@ -40,7 +40,7 @@ const HeaderMenu = () => {
 
           const activeClassName = classnames({ '-active': item.pages && item.pages.includes(pathname) });
           let DropdownMenu;
-          if (item.id !== 'blog') {
+          if (item.id !== 'blog' && item.id !== 'azavea-test') {
             DropdownMenu = dynamic(() => header[item.id]);
           }
 

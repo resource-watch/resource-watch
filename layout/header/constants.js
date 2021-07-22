@@ -102,6 +102,14 @@ export const APP_HEADER_ITEMS = [
     ],
   },
   {
+    id: 'azavea-test',
+    label: 'Azavea Test',
+    href: '/azavea-test',
+    pages: [
+      '/azavea-test',
+    ],
+  },
+  {
     id: 'search',
     label: 'Search',
   },
