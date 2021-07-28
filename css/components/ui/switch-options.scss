@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $switch-width: 28px;
 
 .c-switch-options {
@@ -30,15 +32,15 @@ $switch-width: 28px;
 
   .switch-element {
     width: $switch-width;
-    height: $switch-width/2;
+    height: math.div($switch-width, 2);
     border-radius: 20px;
     background: $color-dark-grey;
 
     span {
       display: block;
       position: absolute;
-      width: $switch-width/2 - 4px;
-      height: $switch-width/2 - 4px;
+      width: math.div($switch-width, 2) - 4px;
+      height: math.div($switch-width, 2) - 4px;
       background: $color-primary;
       border-radius: 50%;
       margin: 2px;
@@ -47,6 +49,6 @@ $switch-width: 28px;
 
     // Switch position
     &.-left > span { transform: translate(0,0); }
-    &.-right > span { transform: translate($switch-width/2,0); }
+    &.-right > span { transform: translate(math.div($switch-width, 2),0); }
   }
 }

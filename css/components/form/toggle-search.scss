@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .toggle-search {
 
   .c-field-search {
@@ -8,7 +10,7 @@
 
   input {
     display: inline-block;
-    padding: $margin-size-extra-small/2 $margin-size-extra-small;
+    padding: math.div($margin-size-extra-small, 2) $margin-size-extra-small;
     padding-right: 25px;
     margin: 0;
     width: 95px;
