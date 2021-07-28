@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .c-widget-tooltip-list {
   margin: 0 -$margin-size-extra-small;
 
@@ -15,7 +17,7 @@
     list-style: none;
 
     > li {
-      padding: $margin-size-extra-small/2 $margin-size-extra-small;
+      padding: math.div($margin-size-extra-small, 2) $margin-size-extra-small;
       cursor: pointer;
 
       &:hover {

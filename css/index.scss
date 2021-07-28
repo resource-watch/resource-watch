@@ -2,17 +2,17 @@
 // Project settings (it doesn't include Grid system)
 @import "settings";
 
-@import "../node_modules/normalize.css/normalize";
+@import "~normalize.css/normalize";
 
 // Libraries
-@import '../node_modules/react-progress-2/main';
-@import '../node_modules/react-redux-toastr/src/styles/index';
-@import '../node_modules/react-input-range/src/scss/index.scss';
-@import '../node_modules/vizzuality-components/dist/bundle';
+@import '~react-progress-2/main';
+@import '~react-redux-toastr/lib/css/react-redux-toastr.min';
+@import '~react-input-range/lib/css/index';
+@import '~vizzuality-components/dist/bundle';
 
 
 // Editor
-@import '../node_modules/react-quill/dist/quill.snow';
+@import '~react-quill/dist/quill.snow';
 
 
 // Common files
@@ -118,7 +118,7 @@
 @import './components/map/map-side-by-side-range';
 
 // Form
-@import '../node_modules/@vizzuality/wysiwyg/build/rw';
+@import '~@vizzuality/wysiwyg/build/rw';
 @import "./components/form/form";
 @import "./components/form/field";
 @import "./components/form/field-container";
@@ -244,7 +244,7 @@
 
 // Foundation:
 // We are using this library only for grid system
-@import '../node_modules/foundation-sites/scss/foundation';
+@import '~foundation-sites/scss/foundation';
 @include foundation-flex-classes;
 @include foundation-flex-grid;
 @include foundation-responsive-embed;
