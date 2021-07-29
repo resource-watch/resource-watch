@@ -174,13 +174,13 @@
           "grid": "50%",
           "widget": "d7828256-5a99-4033-9583-fe35d36a41fd",
           "type": "chart",
-          "comment":"Water Quality Pressure Chart 1"
+          "comment": "Water Quality Pressure Chart 1"
         },
         {
           "grid": "50%",
           "widget": "f3ab5375-b278-4ad2-8311-a8652d34e222",
           "type": "chart",
-          "comment":"Water Quality Pressure Chart 2"
+          "comment": "Water Quality Pressure Chart 2"
         }
       ],
       [
@@ -208,34 +208,64 @@
           "config": {
             "title": "Water Quality Pressure",
             "mask": {
-              "account": "wri-rw", 
-              "body": {
-                "layers": [{
-                  "type": "mapnik", 
-                  "options": {
-                    "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect FROM wat_068_rw0_watersheds_edit WHERE level = 3"
-                    }}], 
-                    "vectorLayers": [
-                      {
-                      "filter": ["in", "intersect", false], 
+              "provider": "cartodb",
+              "layerConfig": {
+                "account": "wri-rw",
+                "body": {
+                  "layers": [
+                    {
+                      "type": "mapnik",
+                      "options": {
+                        "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect FROM wat_068_rw0_watersheds_edit WHERE level = 3"
+                      }
+                    }
+                  ],
+                  "vectorLayers": [
+                    {
+                      "filter": [
+                        "in",
+                        "intersect",
+                        false
+                      ],
                       "paint": {
-                        "fill-color": "#616161", 
-                        "fill-opacity": 1, 
-                        "fill-outline-color": "#616161"}, 
-                        "source-layer": "layer0", 
-                        "type": "fill"}, 
-                      {
-                        "filter": ["in", "intersect", true], 
-                        "paint": {"line-color": "#ffa500", 
-                          "line-width": 1.5}, 
-                          "source-layer": "layer0", 
-                          "type": "line"}, 
-                      {"filter": ["in", "intersect", true], 
-                        "paint": {"line-color": "#616161", 
-                          "line-width": 0.7}, 
-                          "source-layer": "layer0", 
-                          "type": "line"}], 
-                          "layerType": "vector"}},
+                        "fill-color": "#616161",
+                        "fill-opacity": 1,
+                        "fill-outline-color": "#616161"
+                      },
+                      "source-layer": "layer0",
+                      "type": "fill"
+                    },
+                    {
+                      "filter": [
+                        "in",
+                        "intersect",
+                        true
+                      ],
+                      "paint": {
+                        "line-color": "#ffa500",
+                        "line-width": 1.5
+                      },
+                      "source-layer": "layer0",
+                      "type": "line"
+                    },
+                    {
+                      "filter": [
+                        "in",
+                        "intersect",
+                        true
+                      ],
+                      "paint": {
+                        "line-color": "#616161",
+                        "line-width": 0.7
+                      },
+                      "source-layer": "layer0",
+                      "type": "line"
+                    }
+                  ],
+                  "layerType": "vector"
+                }
+              }
+            },
             "layers": [
               "abefb374-3355-4110-9c03-c7031f0b61b4",
               "f065c648-7579-4034-9d6f-dd1fcbd1b550",
@@ -435,7 +465,6 @@
           "widget": "060efa56-95a1-4223-997d-b58188156268",
           "type": "map",
           "comment": "Sediment Pressure Map (placeholder)"
-
         }
       ],
       [
@@ -464,7 +493,6 @@
           "widget": "060efa56-95a1-4223-997d-b58188156268",
           "type": "map",
           "comment": "Water Quality Pressure Map (placeholder)"
-
         }
       ],
       [
@@ -472,13 +500,13 @@
           "grid": "50%",
           "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
           "type": "chart",
-          "comment":"Water Quality Pressure Chart 1"
+          "comment": "Water Quality Pressure Chart 1"
         },
         {
           "grid": "50%",
           "widget": "b8e454be-9a0f-4a8f-8e92-3d7b0fd6423f",
           "type": "chart",
-          "comment":"Water Quality Pressure Chart 2"
+          "comment": "Water Quality Pressure Chart 2"
         }
       ],
       [
