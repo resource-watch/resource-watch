@@ -74,6 +74,7 @@ const mapKey = uuidv4();
 
 export default function MiniExploreMapContainer({
   layerIds,
+  mask,
   areaOfInterest,
   params,
 }) {
@@ -292,6 +293,8 @@ export default function MiniExploreMapContainer({
 
   const activeLayers = useMemo(() => {
     let aoiLayer = null;
+    let maskLayer = null;
+
     if (geostore) {
       const {
         id,
@@ -315,6 +318,14 @@ export default function MiniExploreMapContainer({
       };
     }
 
+    if (mask) {
+      maskLayer = {
+        id: uuidv4(),
+        ...mask,
+        params,
+      };
+    }
+
     const activeLayerGroups = layerGroups.filter(
       (lg) => lg.layers.length > 0,
     ).map((lg) => ({
@@ -323,10 +334,11 @@ export default function MiniExploreMapContainer({
 
     return [
       ...(aoiLayer !== null) ? [aoiLayer] : [],
+      ...(maskLayer !== null) ? [maskLayer] : [],
       ...activeLayerGroups,
     ];
   },
-  [layerGroups, geostore, minZoom]);
+  [layerGroups, geostore, mask, params, minZoom]);
 
   const activeInteractiveLayers = useMemo(() => flatten(
     compact(activeLayers.map((_activeLayer) => {
@@ -393,6 +405,7 @@ export default function MiniExploreMapContainer({
 
 MiniExploreMapContainer.defaultProps = {
   areaOfInterest: null,
+  mask: null,
   params: {},
 };
 
@@ -401,5 +414,6 @@ MiniExploreMapContainer.propTypes = {
     PropTypes.string.isRequired,
   ).isRequired,
   areaOfInterest: PropTypes.string,
+  mask: PropTypes.shape({}),
   params: PropTypes.shape({}),
 };
