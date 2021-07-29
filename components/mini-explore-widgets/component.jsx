@@ -17,6 +17,7 @@ export default function MiniExploreWidgets({
   config: {
     title,
     layers,
+    mask,
     widgets,
     areaOfInterest,
   },
@@ -33,6 +34,7 @@ export default function MiniExploreWidgets({
       <div className="main-container">
         <MiniExploreMap
           layerIds={layers}
+          mask={mask}
           areaOfInterest={areaOfInterest}
           params={{
             geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
@@ -60,6 +62,7 @@ MiniExploreWidgets.propTypes = {
     layers: PropTypes.arrayOf(
       PropTypes.string.isRequired,
     ).isRequired,
+    mask: PropTypes.shape({}),
     widgets: PropTypes.arrayOf(
       PropTypes.string.isRequired,
     ).isRequired,
