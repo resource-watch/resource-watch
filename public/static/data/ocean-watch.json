@@ -196,9 +196,9 @@
       [
         {
           "grid": "100%",
-          "widget": "5a1322ef-8982-4398-aac8-9e53a8dea581",
+          "widget": "ab52220e-768f-4d02-93d3-feca04ff9381",
           "type": "map-swipe",
-          "comment": "Placeholder for River Water Quality swipe map"
+          "comment": "River Water Quality - Sediment Pressure swipe map"
         }
       ],
       [
@@ -208,9 +208,9 @@
           "config": {
             "title": "Water Quality Pressure",
             "layers": [
-              "a0cf3282-976c-455c-9352-3cc559dc76c0",
-              "3fd96b3d-bf65-4f9f-ae06-990333dfe669",
-              "9ca00829-4a27-480d-a0c3-fd2fbed9075a"
+              "0f27b5ee-21e0-48d4-81ba-f8d33d773514",
+              "abefb374-3355-4110-9c03-c7031f0b61b4",
+              "f065c648-7579-4034-9d6f-dd1fcbd1b550"
             ],
             "widgets": [
               "d7828256-5a99-4033-9583-fe35d36a41fd",
