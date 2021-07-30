@@ -1,6 +1,7 @@
 import AppLayout from 'layout/layout/layout-app';
 
 import PropTypes from 'prop-types';
+import AzaveaSampleViz from 'components/azavea/sampleViz';
 
 // Most other Layouts in this project seem to be thin wrappers for wiring up props (e.g. for
 // authentication info), and the actual JSX is inside a separate component.  Currently this Layout
@@ -27,6 +28,8 @@ export default function AzaveaTestLayout({ children }) {
         </div>
       </header>
       <section className="l-section -secondary">
+        {/* <iframe src="https://resourcewatch.org/embed/widget/81bd8d06-07f3-4a6f-8a4f-ba680850947d" width="100%" height="500px" frameBorder="0" /> */}
+        <AzaveaSampleViz />
         <p>
           This is a test page. It was created using a single Page, a single Layout, and no other
           components.
