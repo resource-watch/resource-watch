@@ -4,6 +4,7 @@ import {
   useReducer,
   useEffect,
   useMemo,
+  useRef,
 } from 'react';
 import PropTypes from 'prop-types';
 import compact from 'lodash/compact';
@@ -62,8 +63,6 @@ const {
   setMapLayerParametrization,
   removeLayerParametrization,
   setMapLayerGroupsOrder,
-  setMapLayerGroupsInteractionLatLng,
-  setMapLayerGroupsInteraction,
   setMapLayerGroupsInteractionSelected,
   resetMapLayerGroupsInteraction,
 } = mapSlice.actions;
@@ -71,16 +70,20 @@ const {
 const miniExploreReducer = mapSlice.reducer;
 
 const mapKey = uuidv4();
+const maskLayerId = uuidv4();
+let hoverState = null;
 
 export default function MiniExploreMapContainer({
   layerIds,
   mask,
   areaOfInterest,
+  onClickLayer,
   params,
 }) {
   const [mapState, dispatch] = useReducer(miniExploreReducer, initialState);
   const [layerModal, setLayerModal] = useState(null);
   const [minZoom, setMinZoom] = useState(null);
+  const mapRef = useRef(null);
 
   const {
     viewport,
@@ -163,33 +166,6 @@ export default function MiniExploreMapContainer({
       `${l.name} [${l.id}]`);
   }, [dispatch]);
 
-  const onClickLayer = useCallback(({ features, lngLat }) => {
-    let interactions = {};
-
-    // if the user clicks on a zone where there is no data in any current layer
-    // we will reset the current interaction of those layers to display "no data available" message
-    if (!features.length) {
-      interactions = Object.keys(layerGroupsInteraction).reduce((accumulator, currentValue) => ({
-        ...accumulator,
-        [currentValue]: {},
-      }), {});
-    } else {
-      interactions = features.reduce((accumulator, currentValue) => ({
-        ...accumulator,
-        [currentValue.layer.source]: { data: currentValue.properties },
-      }), {});
-    }
-
-    dispatch(setMapLayerGroupsInteractionLatLng({
-      longitude: lngLat[0],
-      latitude: lngLat[1],
-    }));
-
-    dispatch(setMapLayerGroupsInteraction(interactions));
-
-    return true;
-  }, [layerGroupsInteraction, dispatch]);
-
   const onChangeInteractiveLayer = useCallback((selected) => {
     dispatch(setMapLayerGroupsInteractionSelected(selected));
   }, [dispatch]);
@@ -250,6 +226,43 @@ export default function MiniExploreMapContainer({
 
     setMinZoom(zoom);
   }, []);
+
+  const [handleHover] = useDebouncedCallback((evt) => {
+    if (hoverState) {
+      mapRef.current.setFeatureState(
+        hoverState,
+        {
+          hover: false,
+        },
+      );
+    }
+
+    if (evt.features.length > 0) {
+      const {
+        source,
+        sourceLayer,
+        properties,
+      } = evt.features[0];
+
+      if (!properties.cartodb_id) return false;
+
+      hoverState = {
+        source,
+        sourceLayer,
+        id: properties.cartodb_id,
+      };
+
+      if (properties.cartodb_id) {
+        mapRef.current.setFeatureState(
+          hoverState,
+          {
+            hover: true,
+          },
+        );
+      }
+    }
+    return true;
+  }, 0);
 
   useEffect(() => {
     const promises = layerIds.map((_layerId) => fetchLayer(_layerId));
@@ -320,7 +333,7 @@ export default function MiniExploreMapContainer({
 
     if (mask) {
       maskLayer = {
-        id: uuidv4(),
+        id: maskLayerId,
         ...mask,
         params,
       };
@@ -342,8 +355,8 @@ export default function MiniExploreMapContainer({
 
   const activeInteractiveLayers = useMemo(() => flatten(
     compact(activeLayers.map((_activeLayer) => {
-      const { id, layerConfig, interactionConfig } = _activeLayer;
-      if (isEmpty(layerConfig) || isEmpty(interactionConfig)) return null;
+      const { id, layerConfig } = _activeLayer;
+      if (isEmpty(layerConfig)) return null;
 
       const { body = {} } = layerConfig;
       const { vectorLayers } = body;
@@ -361,6 +374,10 @@ export default function MiniExploreMapContainer({
       return null;
     })),
   ), [activeLayers]);
+
+  const handleClickLayer = useCallback((stuff) => {
+    if (onClickLayer) onClickLayer(stuff, mapRef.current);
+  }, [mapRef, onClickLayer]);
 
   return (
     <MiniExploreMap
@@ -389,7 +406,7 @@ export default function MiniExploreMapContainer({
       handleClosePopup={handleClosePopup}
       handleViewport={handleViewport}
       onChangeInteractiveLayer={onChangeInteractiveLayer}
-      onClickLayer={onClickLayer}
+      onClickLayer={handleClickLayer}
       onChangeLayerTimeLine={onChangeLayerTimeLine}
       onChangeLayerDate={onChangeLayerDate}
       onChangeInfo={onChangeInfo}
@@ -399,6 +416,8 @@ export default function MiniExploreMapContainer({
       onChangeVisibility={onChangeVisibility}
       onChangeOpacity={onChangeOpacity}
       handleFitBoundsChange={handleFitBoundsChange}
+      onHover={handleHover}
+      onLoad={({ map }) => { mapRef.current = map; }}
     />
   );
 }
@@ -416,4 +435,5 @@ MiniExploreMapContainer.propTypes = {
   areaOfInterest: PropTypes.string,
   mask: PropTypes.shape({}),
   params: PropTypes.shape({}),
+  onClickLayer: PropTypes.func.isRequired,
 };

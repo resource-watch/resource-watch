@@ -8,12 +8,32 @@ export default function WidgetSidebarContainer({
   params,
   adapter,
 }) {
+  if (params.geostore_id) {
+    return (
+      <WidgetSidebar
+        adapter={adapter}
+        widgetIds={widgetIds}
+        params={params}
+      />
+    );
+  }
+
   return (
-    <WidgetSidebar
-      adapter={adapter}
-      widgetIds={widgetIds}
-      params={params}
-    />
+    <div className="widgets-sidebar">
+      <h3
+        style={{
+          fontSize: 21,
+          fontWeight: 'bold',
+        }}
+      >
+        Select an area first
+      </h3>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis minima ut repellat,
+        illo consequatur hic quod esse aspernatur ipsam necessitatibus asperiores eveniet, sit,
+        ipsa alias maiores facilis libero.
+      </p>
+    </div>
   );
 }
 
@@ -25,6 +45,8 @@ WidgetSidebarContainer.propTypes = {
   widgetIds: PropTypes.arrayOf(
     PropTypes.string.isRequired,
   ).isRequired,
-  params: PropTypes.shape({}),
+  params: PropTypes.shape({
+    geostore_id: PropTypes.string,
+  }),
   adapter: PropTypes.func.isRequired,
 };
