@@ -323,6 +323,53 @@
             ]
           }
         }
+      ],
+      [
+        {
+          "grid": "100%",
+          "title": "Value of goods and services"
+        },
+        {
+          "grid": "50%",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi."
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "widget": "2a1db525-7352-4c88-a17e-5705e8860888",
+          "type": "map",
+          "comment": "Tourism"
+        },
+        {
+          "grid": "50%",
+          "widget": "d6331a40-57cd-40cf-9953-c966b6cb0e30",
+          "type": "map",
+          "comment": "Shoreline prot"
+        }
+
+      ],
+      [
+        {
+          "grid": "50%",
+          "widget": "b191aed0-1f56-4273-b5f2-dd264f951f3d",
+          "type": "map",
+          "comment": "Fisheries (mang)"
+        },
+        {
+          "grid": "50%",
+          "widget": "0d216610-b4d2-4c4e-a5d2-14f83112a2ee",
+          "type": "chart",
+          "comment": "Fisheries (coral)"
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "widget": "2a054b7b-c42e-43d9-b6ad-f31fc67a82d4",
+          "type": "map",
+          "comment": "Blue carbon"
+        }
       ]
     ]
   },
