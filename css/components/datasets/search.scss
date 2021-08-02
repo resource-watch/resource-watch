@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .c-dataset-search {
   position: relative;
 
@@ -9,10 +11,8 @@
       height: 45px;
       box-shadow: none;
       outline: none;
-      font-size: $font-size-medium;
-      padding: $margin-size-extra-small/2 40px;
+      padding: math.div($margin-size-extra-small, 2) 40px;
       margin: 0;
-      width: 100%;
 
       font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
       font-size: $font-size-normal;
