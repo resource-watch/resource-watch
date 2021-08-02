@@ -663,6 +663,7 @@
             "title": "Water Quality Pressure",
             "mask": {
               "provider": "cartodb",
+              "promoteId": "cartodb_id",
               "layerConfig": {
                 "account": "wri-rw",
                 "body": {
@@ -670,7 +671,7 @@
                     {
                       "type": "mapnik",
                       "options": {
-                        "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect FROM wat_068_rw0_watersheds_edit WHERE level = 3"
+                        "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 3"
                       }
                     }
                   ],
@@ -697,7 +698,28 @@
                       ],
                       "paint": {
                         "fill-color": "#FAB72E",
-                        "fill-opacity": ["case",["boolean", ["feature-state", "hover"], false],0.5,0],
+                        "fill-opacity": [
+                          "case",
+                          [
+                            "boolean",
+                            [
+                              "feature-state",
+                              "active"
+                            ],
+                            false
+                          ],
+                          0.75,
+                          [
+                            "boolean",
+                            [
+                              "feature-state",
+                              "hover"
+                            ],
+                            false
+                          ],
+                          0.5,
+                          0
+                        ],
                         "fill-outline-color": "#FAB72E"
                       },
                       "source-layer": "layer0",
