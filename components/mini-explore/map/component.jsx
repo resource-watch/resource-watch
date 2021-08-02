@@ -72,6 +72,8 @@ export default function MiniExploreMap({
   onChangeLayerDate,
   onChangeLayerTimeLine,
   handleFitBoundsChange,
+  onLoad,
+  onHover,
 }) {
   const {
     pitch,
@@ -109,6 +111,9 @@ export default function MiniExploreMap({
         className={mapClass}
         onViewportChange={handleViewport}
         onFitBoundsChange={handleFitBoundsChange}
+        fitBoundsOptions={{ transitionDuration: 0 }}
+        {...onHover && { onHover }}
+        {...onLoad && { onLoad }}
       >
         {(_map) => (
           <>
@@ -229,6 +234,8 @@ MiniExploreMap.defaultProps = {
   layerModal: null,
   layerGroupsInteractionLatLng: null,
   layerGroupsInteractionSelected: null,
+  onLoad: null,
+  onHover: null,
 };
 
 MiniExploreMap.propTypes = {
@@ -276,4 +283,6 @@ MiniExploreMap.propTypes = {
   onRemoveLayer: PropTypes.func.isRequired,
   onChangeLayerDate: PropTypes.func.isRequired,
   onChangeLayerTimeLine: PropTypes.func.isRequired,
+  onLoad: PropTypes.func,
+  onHover: PropTypes.func,
 };

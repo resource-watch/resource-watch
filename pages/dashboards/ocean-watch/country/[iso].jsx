@@ -222,10 +222,6 @@ export default function OceanWatchCountryProfilePage({
                           ...blockContent.config,
                           ...area?.geostore && { areaOfInterest: area.geostore },
                         }}
-                        widgetParams={{
-                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-                          ...area?.geostore && { geostore_id: area.geostore },
-                        }}
                       />
                     )}
                     {(blockContent.widget && blockContent.type === 'map') && (
