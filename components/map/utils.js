@@ -5,8 +5,9 @@ import {
 export const getUserAreaLayer = ({
   id = 'user-area',
   geojson,
+  minZoom,
 },
-template = USER_AREA_LAYER_TEMPLATES['area-card']) => template({ id, geojson });
+template = USER_AREA_LAYER_TEMPLATES['area-card']) => template({ id, geojson, minZoom });
 
 // use it to parse a bbox coming from widget-editor
 // and want to render in a Mapbox map

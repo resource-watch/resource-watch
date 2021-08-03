@@ -38,7 +38,7 @@
     "fuse.js": "^3.2.1",
     "isomorphic-fetch": "2.2.1",
     "jsonapi-serializer": "3.5.3",
-    "layer-manager": "^2.0.9",
+    "layer-manager": "2.0.11",
     "leaflet-utfgrid": "^0.3.0",
     "lodash": "^4.17.21",
     "lodash.isnumber": "^3.0.3",
