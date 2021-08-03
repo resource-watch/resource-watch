@@ -272,8 +272,6 @@
               "0f27b5ee-21e0-48d4-81ba-f8d33d773514"
             ],
             "widgets": [
-              "2915592c-fe0a-4f03-82fd-c0cb767e5e50",
-              "2915592c-fe0a-4f03-82fd-c0cb767e5e50",
               "2915592c-fe0a-4f03-82fd-c0cb767e5e50"
             ]
           }
@@ -359,7 +357,7 @@
         {
           "grid": "50%",
           "widget": "0d216610-b4d2-4c4e-a5d2-14f83112a2ee",
-          "type": "chart",
+          "type": "map",
           "comment": "Fisheries (coral)"
         }
       ],
