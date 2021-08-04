@@ -66,7 +66,9 @@ export default function MapTypeWidget({
   isFetching,
   isError,
   isInACollection,
+  mapBounds,
   onToggleShare,
+  onFitBoundsChange,
 }) {
   const handleError = useErrorHandler(isError ? new Error('something went wrong') : null);
   const [mapWidgetState, dispatch] = useReducer(mapWidgetReducer, ({
@@ -79,6 +81,10 @@ export default function MapTypeWidget({
   const [handleViewport] = useDebouncedCallback((_viewport) => {
     setViewport(_viewport);
   }, 250);
+
+  const handleFitBoundsChange = useCallback((_viewport) => {
+    onFitBoundsChange(_viewport);
+  }, [onFitBoundsChange]);
 
   const handleZoom = useCallback((zoom) => {
     setViewport(((prevViewport) => ({
@@ -143,21 +149,14 @@ export default function MapTypeWidget({
   }, [widget]);
 
   const bounds = useMemo(() => {
-    if (aoiLayer?.bbox) {
-      return ({
-        bbox: aoiLayer.bbox,
-        options: {
-          padding: 50,
-        },
-      });
-    }
+    if (mapBounds) return mapBounds;
 
     if (!widget?.widgetConfig?.bbox) return ({});
 
     return ({
       bbox: parseBbox(widget.widgetConfig.bbox),
     });
-  }, [aoiLayer, widget]);
+  }, [widget, mapBounds]);
 
   const boundaries = useMemo(() => !!widget?.widgetConfig?.basemapLayers?.boundaries, [widget]);
 
@@ -226,6 +225,7 @@ export default function MapTypeWidget({
               viewport={viewport}
               basemap={basemap}
               onViewportChange={handleViewport}
+              onFitBoundsChange={handleFitBoundsChange}
               labels={labels}
               scrollZoom={false}
               bounds={bounds}
@@ -304,6 +304,7 @@ export default function MapTypeWidget({
 MapTypeWidget.defaultProps = {
   layerGroups: [],
   aoiLayer: null,
+  mapBounds: null,
   maskLayer: null,
   isFetching: false,
   isError: false,
@@ -336,9 +337,11 @@ MapTypeWidget.propTypes = {
       PropTypes.number,
     ),
   }),
+  mapBounds: PropTypes.shape({}),
   maskLayer: PropTypes.shape({}),
   isFetching: PropTypes.bool,
   isError: PropTypes.bool,
   isInACollection: PropTypes.bool,
   onToggleShare: PropTypes.func.isRequired,
+  onFitBoundsChange: PropTypes.func.isRequired,
 };

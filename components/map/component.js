@@ -74,6 +74,9 @@ class Map extends PureComponent {
     /** A function that exposes the viewport */
     onViewportChange: PropTypes.func,
 
+    /** A function that exposes the viewport when the map fits bounds */
+    onFitBoundsChange: PropTypes.func,
+
     /** A function that exposes the viewport */
     getCursor: PropTypes.func,
   }
@@ -95,6 +98,7 @@ class Map extends PureComponent {
     fitBoundsOptions: { transitionDuration: 1500 },
 
     onViewportChange: () => {},
+    onFitBoundsChange: () => {},
     onLoad: () => {},
     onError: null,
     getCursor: ({ isHovering, isDragging }) => {
@@ -162,7 +166,7 @@ class Map extends PureComponent {
     }
 
     onLoad({
-      map: this.map.current.getMap(),
+      map: this.map.current?.getMap(),
       mapContainer: this.mapContainer.current,
     });
   }
@@ -298,6 +302,7 @@ class Map extends PureComponent {
     const {
       bounds,
       onViewportChange,
+      onFitBoundsChange,
       fitBoundsOptions,
       onError,
     } = this.props;
@@ -328,6 +333,8 @@ class Map extends PureComponent {
         flying: true,
         viewport: newViewport,
       });
+
+      onFitBoundsChange(newViewport);
       onViewportChange(newViewport);
     } catch (e) {
       if (onError) onError('There was an error fitting bounds. Please, check your bbox values.');
@@ -384,7 +391,6 @@ class Map extends PureComponent {
           touchRotate={!flying && touchRotate}
           doubleClickZoom={!flying && doubleClickZoom}
           getCursor={getCursor}
-
           // DEFAULT FUC IMPLEMENTATIONS
           onViewportChange={this.onViewportChange}
           onResize={this.onResize}
