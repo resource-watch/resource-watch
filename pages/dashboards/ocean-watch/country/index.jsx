@@ -7,7 +7,7 @@ import Select from 'react-select';
 
 // hooks
 import {
-  useOceanWatchProfiles,
+  useOceanWatchAreas,
 } from 'hooks/ocean-watch';
 
 // components
@@ -18,7 +18,7 @@ export default function OceanWatchCountryProfiles() {
 
   const {
     data: areas,
-  } = useOceanWatchProfiles({
+  } = useOceanWatchAreas({
     select: (_areas) => sortBy(_areas.map(({
       name: label,
       iso: value,

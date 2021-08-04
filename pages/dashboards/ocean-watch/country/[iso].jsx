@@ -3,6 +3,7 @@ import {
   useMemo,
   useCallback,
 } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import {
   useQuery,
@@ -29,6 +30,11 @@ import MapWidget from 'components/widgets/types/map';
 import SwipeMapWidget from 'components/widgets/types/map-swipe';
 import ChartWidget from 'components/widgets/types/chart';
 
+// hooks
+import {
+  useOceanWatchAreas,
+} from 'hooks/ocean-watch';
+
 // services
 import {
   fetchConfigFile,
@@ -47,17 +53,36 @@ const isStaging = isStagingAPI();
 
 const WidgetShareModal = dynamic(() => import('../../../../components/widgets/share-modal'), { ssr: false });
 
-export default function OceanWatchCountryProfilePage() {
+export default function OceanWatchCountryProfilePage({
+  iso,
+}) {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const {
-    query: {
-      iso,
-    },
-  } = router;
   const [widgetToShare, setWidgetToShare] = useState(null);
   const RWAdapter = useSelector((state) => getRWAdapter(state));
-  const areas = queryClient.getQueryData('ocean-watch-areas');
+
+  const handleAreaChange = useCallback(({ value }) => {
+    router.push({
+      pathname: '/dashboards/ocean-watch/country/[iso]',
+      query: {
+        iso: value,
+      },
+    });
+  }, [router]);
+
+  const handleShareWidget = useCallback((_widget) => {
+    setWidgetToShare(_widget);
+  }, []);
+
+  const handleCloseShareWidget = useCallback(() => {
+    setWidgetToShare(null);
+  }, []);
+
+  const {
+    data: areas,
+  } = useOceanWatchAreas({
+    placeholderData: queryClient.getQueryData('ocean-watch-areas') || [],
+  });
 
   const {
     data: oceanWatchConfig,
@@ -73,27 +98,6 @@ export default function OceanWatchCountryProfilePage() {
       initialStale: true,
     },
   );
-
-  const handleAreaChange = useCallback(({ value }) => {
-    router.push({
-      pathname: '/dashboards/ocean-watch/country/[iso]',
-      query: {
-        iso: value,
-      },
-    },
-    {},
-    {
-      shallow: true,
-    });
-  }, [router]);
-
-  const handleShareWidget = useCallback((_widget) => {
-    setWidgetToShare(_widget);
-  }, []);
-
-  const handleCloseShareWidget = useCallback(() => {
-    setWidgetToShare(null);
-  }, []);
 
   const serializedConfiguration = useMemo(() => (oceanWatchConfig['country-profile'])
     .map((rowContent) => {
@@ -205,6 +209,7 @@ export default function OceanWatchCountryProfilePage() {
                     )}
                     {blockContent.visualizationType === 'mini-explore' && (
                       <MiniExplore
+                        key={iso}
                         config={{
                           ...blockContent.config,
                           ...area?.geostore && { areaOfInterest: area.geostore },
@@ -213,6 +218,7 @@ export default function OceanWatchCountryProfilePage() {
                     )}
                     {blockContent.visualizationType === 'mini-explore-widgets' && (
                       <MiniExploreWidgets
+                        key={iso}
                         adapter={RWAdapter}
                         config={{
                           ...blockContent.config,
@@ -272,22 +278,20 @@ export default function OceanWatchCountryProfilePage() {
   );
 }
 
-export async function getServerSideProps({
-  query,
+OceanWatchCountryProfilePage.propTypes = {
+  iso: PropTypes.string.isRequired,
+};
+
+export async function getStaticProps({
+  params,
 }) {
   const {
     iso,
-  } = query;
+  } = params;
   const queryClient = new QueryClient();
 
-  // prefetch areas
-  await queryClient.prefetchQuery('ocean-watch-areas', fetchOceanWatchAreas);
-  const areas = queryClient.getQueryData('ocean-watch-areas');
-  const areaFound = areas.find((area) => iso === area.iso);
-
   // feature flag to avoid display any Ocean Watch development in other environments
-  // if an area is not found, redirect to Not Found page
-  if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true' || !areaFound) {
+  if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true') {
     return ({
       notFound: true,
     });
@@ -295,7 +299,26 @@ export async function getServerSideProps({
 
   return {
     props: ({
+      iso,
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
     }),
+    revalidate: 300,
+  };
+}
+
+export async function getStaticPaths() {
+  const queryClient = new QueryClient();
+
+  // prefetch areas
+  await queryClient.prefetchQuery('ocean-watch-areas', fetchOceanWatchAreas);
+  const areas = queryClient.getQueryData('ocean-watch-areas');
+
+  return {
+    paths: areas.map(({ iso }) => ({
+      params: {
+        iso,
+      },
+    })),
+    fallback: false,
   };
 }
