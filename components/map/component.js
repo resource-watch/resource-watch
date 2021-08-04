@@ -166,7 +166,7 @@ class Map extends PureComponent {
     }
 
     onLoad({
-      map: this.map.current.getMap(),
+      map: this.map.current?.getMap(),
       mapContainer: this.mapContainer.current,
     });
   }
