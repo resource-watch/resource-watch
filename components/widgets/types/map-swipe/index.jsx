@@ -10,6 +10,7 @@ import {
 import {
   ErrorBoundary,
 } from 'react-error-boundary';
+import { v4 as uuidv4 } from 'uuid';
 
 // services
 import {
@@ -179,6 +180,10 @@ export default function SwipeTypeWidgetContainer({
       }}
     >
       <SwipeTypeWidget
+        // forces to render the component again and paint updated styles in the map.
+        // This might be fixed in recent versions of Layer Manager.
+        // todo: try to remove the key when the layer manager version is updated.
+        key={minZoom || uuidv4()}
         layerGroupsBySide={layerGroupsBySide}
         aoiLayer={aoiLayer}
         maskLayer={maskLayer}
