@@ -209,7 +209,6 @@ export default function OceanWatchCountryProfilePage({
                     )}
                     {blockContent.visualizationType === 'mini-explore' && (
                       <MiniExplore
-                        key={iso}
                         config={{
                           ...blockContent.config,
                           ...area?.geostore && { areaOfInterest: area.geostore },
@@ -218,7 +217,6 @@ export default function OceanWatchCountryProfilePage({
                     )}
                     {blockContent.visualizationType === 'mini-explore-widgets' && (
                       <MiniExploreWidgets
-                        key={iso}
                         adapter={RWAdapter}
                         config={{
                           ...blockContent.config,

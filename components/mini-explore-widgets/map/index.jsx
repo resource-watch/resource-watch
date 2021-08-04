@@ -10,6 +10,7 @@ import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import { useDebouncedCallback } from 'use-debounce';
+import { v4 as uuidv4 } from 'uuid';
 
 // hooks
 import {
@@ -68,6 +69,8 @@ const {
 } = mapSlice.actions;
 
 const miniExploreReducer = mapSlice.reducer;
+
+const mapKey = uuidv4();
 
 export default function MiniExploreMapContainer({
   layerIds,
@@ -349,6 +352,10 @@ export default function MiniExploreMapContainer({
 
   return (
     <MiniExploreMap
+      // forces to render the component again and paint updated styles in the map.
+      // This might be fixed in recent versions of Layer Manager.
+      // todo: try to remove the key when the layer manager version is updated.
+      key={minZoom || mapKey}
       viewport={viewport}
       bounds={bounds}
       basemapId={basemapId}
