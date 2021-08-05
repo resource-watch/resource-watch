@@ -13,7 +13,8 @@
     "@next/bundle-analyzer": "^10.0.7",
     "@next/env": "10.0.8",
     "@reduxjs/toolkit": "^1.5.1",
-    "@vizzuality/wysiwyg": "^3.1.0",
+    "@vizzuality/layer-manager-utils": "^1.0.0-alpha.3",
+    "@vizzuality/wysiwyg": "^3.1.1",
     "@widget-editor/renderer": "^2.6.2",
     "@widget-editor/rw-adapter": "^2.6.2",
     "@widget-editor/widget-editor": "^2.6.2",
@@ -174,11 +175,6 @@
   },
   "engines": {
     "node": ">=14.15"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,jsx}": [

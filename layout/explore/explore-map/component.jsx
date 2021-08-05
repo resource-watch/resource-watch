@@ -96,6 +96,7 @@ const ExploreMap = (props) => {
     setLabels,
     setDataDrawing,
     aoi,
+    previewAoi,
   } = props;
   const [mapState, setMapState] = useState({
     layer: null,
@@ -337,15 +338,42 @@ const ExploreMap = (props) => {
       }
     };
 
-    if (aoi) {
-      fetchAreaOfInterest();
-    } else {
+    const fetchPreviewAoI = async () => {
+      const {
+        id,
+        geojson,
+        bbox,
+      } = await fetchGeostore(previewAoi);
+      const aoiLayer = getUserAreaLayer(
+        {
+          id,
+          geojson,
+        },
+        USER_AREA_LAYER_TEMPLATES.explore,
+      );
+
+      setDisplayedLayers((prevLayers) => [
+        aoiLayer,
+        ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
+      ]);
+
+      setBounds({
+        bbox,
+        options: {
+          padding: 50,
+        },
+      });
+    };
+
+    if (aoi) fetchAreaOfInterest();
+    else if (previewAoi) fetchPreviewAoI();
+    else {
       // if the user removes the AoI, filter it to avoid display it in the map
       setDisplayedLayers((prevLayers) => [
         ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
       ]);
     }
-  }, [aoi, token, userId, setBounds]);
+  }, [aoi, token, userId, setBounds, previewAoi]);
 
   return (
     <div className="l-explore-map -relative">
@@ -517,6 +545,7 @@ ExploreMap.defaultProps = {
   layerGroupsInteractionLatLng: null,
   exploreBehavior: true,
   aoi: null,
+  previewAoi: null,
   onLayerInfoButtonClick: null,
 };
 
@@ -574,6 +603,7 @@ ExploreMap.propTypes = {
   exploreBehavior: PropTypes.bool,
   onLayerInfoButtonClick: PropTypes.func,
   aoi: PropTypes.string,
+  previewAoi: PropTypes.string,
   drawer: PropTypes.shape({
     isDrawing: PropTypes.bool.isRequired,
   }).isRequired,
