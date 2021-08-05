@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useCallback,
   useEffect,
@@ -36,6 +36,7 @@ const ExploreAreaForm = ({
   setIsDrawing,
   stopDrawing,
   onSubmit,
+  onFileAccepted,
   onCancel,
 }) => {
   const {
@@ -110,10 +111,17 @@ const ExploreAreaForm = ({
         ...form,
         geostore,
       });
+
+      if (onFileAccepted) {
+        onFileAccepted({
+          ...form,
+          geostore,
+        });
+      }
     } catch (e) {
       toastr.error('There was an error processing the file', e.message);
     }
-  }, [form]);
+  }, [form, onFileAccepted]);
 
   const { name } = form;
 
@@ -278,6 +286,7 @@ const ExploreAreaForm = ({
 
 ExploreAreaForm.defaultProps = {
   area: null,
+  onFileAccepted: null,
 };
 
 ExploreAreaForm.propTypes = {
@@ -292,6 +301,7 @@ ExploreAreaForm.propTypes = {
   setIsDrawing: PropTypes.func.isRequired,
   stopDrawing: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onFileAccepted: PropTypes.func,
   onCancel: PropTypes.func.isRequired,
 };
 

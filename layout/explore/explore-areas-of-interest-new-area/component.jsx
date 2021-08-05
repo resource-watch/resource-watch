@@ -1,4 +1,4 @@
-import React, {
+import {
   useCallback,
   useEffect,
   useState,
@@ -23,6 +23,8 @@ const ExploreAreasOfInterestNewArea = ({
   drawer,
   clearSidebarSubsection,
   stopDrawing,
+  setPreviewAoi,
+  setAreaOfInterest,
 }) => {
   const [isFetching, setFetching] = useState(false);
   const handleGoBack = useCallback(() => { clearSidebarSubsection(); }, [clearSidebarSubsection]);
@@ -38,20 +40,35 @@ const ExploreAreasOfInterestNewArea = ({
         await createArea(name, geostoreId, token);
         stopDrawing();
       } else {
-        await createArea(name, geostore, token);
+        const {
+          id: areaId,
+        } = await createArea(name, geostore, token);
+
+        setPreviewAoi(null);
+        setAreaOfInterest(areaId);
       }
-      clearSidebarSubsection();
+
       setFetching(false);
+      clearSidebarSubsection();
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e.message);
       toastr.error('There was an error creating the area');
       setFetching(false);
     }
-  }, [token, drawer, stopDrawing, clearSidebarSubsection]);
+  }, [token, drawer, stopDrawing, clearSidebarSubsection, setPreviewAoi, setAreaOfInterest]);
+
+  const handleFileAccepted = useCallback(({
+    geostore,
+  }) => {
+    setAreaOfInterest(null);
+    setPreviewAoi(geostore);
+  }, [setAreaOfInterest, setPreviewAoi]);
+
   const handleCancelForm = useCallback(() => {
+    setPreviewAoi(null);
     clearSidebarSubsection();
-  }, [clearSidebarSubsection]);
+  }, [clearSidebarSubsection, setPreviewAoi]);
 
   useEffect(() => () => {
     if (drawer.isDrawing) stopDrawing();
@@ -82,6 +99,7 @@ const ExploreAreasOfInterestNewArea = ({
           <h2>New Area</h2>
           <ExploreAreaForm
             onSubmit={handleSubmitForm}
+            onFileAccepted={handleFileAccepted}
             onCancel={handleCancelForm}
           />
         </>
@@ -98,6 +116,8 @@ ExploreAreasOfInterestNewArea.propTypes = {
   }).isRequired,
   clearSidebarSubsection: PropTypes.func.isRequired,
   stopDrawing: PropTypes.func.isRequired,
+  setPreviewAoi: PropTypes.func.isRequired,
+  setAreaOfInterest: PropTypes.func.isRequired,
 };
 
 export default ExploreAreasOfInterestNewArea;

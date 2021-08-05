@@ -5,6 +5,8 @@ import {
   clearSidebarSubsection,
   setSidebarSubsection,
   stopDrawing,
+  setPreviewAoi,
+  setAreaOfInterest,
 } from 'layout/explore/actions';
 
 // component
@@ -19,5 +21,7 @@ export default connect(
     clearSidebarSubsection,
     setSidebarSubsection,
     stopDrawing,
+    setPreviewAoi,
+    setAreaOfInterest,
   },
 )(ExploreAreasOfInterestNewArea);
