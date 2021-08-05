@@ -7,7 +7,7 @@ import {
   fetchOceanWatchAreas,
 } from 'services/ocean-watch';
 
-export const useOceanWatchProfiles = (queryConfig = {}) => useQuery(
+export const useOceanWatchAreas = (queryConfig = {}) => useQuery(
   ['ocean-watch-areas'],
   () => fetchOceanWatchAreas(),
   {
@@ -19,5 +19,5 @@ export const useOceanWatchProfiles = (queryConfig = {}) => useQuery(
 );
 
 export default {
-  useOceanWatchProfiles,
+  useOceanWatchAreas,
 };

@@ -1,4 +1,6 @@
-import React, { useCallback } from 'react';
+import {
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import { toastr } from 'react-redux-toastr';
@@ -50,7 +52,11 @@ const AreasNew = ({ token }) => {
     }
   }, [token, handleRedirect]);
 
-  return (<AreasForm onSubmit={handleSubmit} />);
+  return (
+    <AreasForm
+      onSubmit={handleSubmit}
+    />
+  );
 };
 
 AreasNew.propTypes = {

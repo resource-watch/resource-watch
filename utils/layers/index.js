@@ -1,4 +1,7 @@
-import groupBy from 'lodash/groupBy';
+import {
+  isNumber,
+  groupBy,
+} from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
 // utils
@@ -45,7 +48,7 @@ export const getLayerGroups = (layers = [], layerParams = {}) => {
       .map((_layer) => ({
         ..._layer,
         active: _layer.default,
-        opacity: layerParams?.[_layer.id]?.opacity || 1,
+        opacity: isNumber(layerParams?.[_layer.id]?.opacity) ? layerParams[_layer.id].opacity : 1,
         ..._layer?.layerConfig?.type === 'gee' && {
           layerConfig: {
             ..._layer.layerConfig,
@@ -59,12 +62,16 @@ export const getLayerGroups = (layers = [], layerParams = {}) => {
   }));
 };
 
-export const getAoiLayer = (widget = {}, geostore) => {
+export const getAoiLayer = (widget = {}, geostore, options = {}) => {
   if (!geostore) return null;
 
   const {
     layerParams,
   } = widget?.widgetConfig || {};
+
+  const {
+    minZoom,
+  } = options;
 
   const {
     id,
@@ -77,6 +84,7 @@ export const getAoiLayer = (widget = {}, geostore) => {
       {
         id,
         geojson,
+        minZoom,
       },
       USER_AREA_LAYER_TEMPLATES.explore,
     ),

@@ -10,6 +10,7 @@ import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import { useDebouncedCallback } from 'use-debounce';
+import { v4 as uuidv4 } from 'uuid';
 
 // hooks
 import {
@@ -69,6 +70,8 @@ const {
 
 const miniExploreReducer = mapSlice.reducer;
 
+const mapKey = uuidv4();
+
 export default function MiniExploreMapContainer({
   layerIds,
   areaOfInterest,
@@ -76,6 +79,7 @@ export default function MiniExploreMapContainer({
 }) {
   const [mapState, dispatch] = useReducer(miniExploreReducer, initialState);
   const [layerModal, setLayerModal] = useState(null);
+  const [minZoom, setMinZoom] = useState(null);
 
   const {
     viewport,
@@ -238,6 +242,14 @@ export default function MiniExploreMapContainer({
     setLayerModal(layer);
   }, []);
 
+  const handleFitBoundsChange = useCallback((_viewport) => {
+    const {
+      zoom,
+    } = _viewport;
+
+    setMinZoom(zoom);
+  }, []);
+
   useEffect(() => {
     const promises = layerIds.map((_layerId) => fetchLayer(_layerId));
     Promise.all(promises).then((layers) => {
@@ -290,6 +302,7 @@ export default function MiniExploreMapContainer({
         {
           id,
           geojson,
+          minZoom,
         },
         USER_AREA_LAYER_TEMPLATES.explore,
       );
@@ -313,7 +326,7 @@ export default function MiniExploreMapContainer({
       ...activeLayerGroups,
     ];
   },
-  [layerGroups, geostore]);
+  [layerGroups, geostore, minZoom]);
 
   const activeInteractiveLayers = useMemo(() => flatten(
     compact(activeLayers.map((_activeLayer) => {
@@ -339,6 +352,10 @@ export default function MiniExploreMapContainer({
 
   return (
     <MiniExploreMap
+      // forces to render the component again and paint updated styles in the map.
+      // This might be fixed in recent versions of Layer Manager.
+      // todo: try to remove the key when the layer manager version is updated.
+      key={minZoom || mapKey}
       viewport={viewport}
       bounds={bounds}
       basemapId={basemapId}
@@ -369,6 +386,7 @@ export default function MiniExploreMapContainer({
       onChangeLayer={onChangeLayer}
       onChangeVisibility={onChangeVisibility}
       onChangeOpacity={onChangeOpacity}
+      handleFitBoundsChange={handleFitBoundsChange}
     />
   );
 }

@@ -1,5 +1,7 @@
 import {
   useMemo,
+  useCallback,
+  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -8,6 +10,7 @@ import {
 import {
   ErrorBoundary,
 } from 'react-error-boundary';
+import { v4 as uuidv4 } from 'uuid';
 
 // services
 import {
@@ -48,6 +51,7 @@ export default function MapTypeWidgetContainer({
   areaOfInterest,
   onToggleShare,
 }) {
+  const [minZoom, setMinZoom] = useState(null);
   const {
     data: user,
   } = useMe();
@@ -108,7 +112,17 @@ export default function MapTypeWidgetContainer({
     .map(({ data }) => data),
   [layerStates]);
 
-  const aoiLayer = useMemo(() => getAoiLayer(widget, geostore), [geostore, widget]);
+  const onFitBoundsChange = useCallback((viewport) => {
+    const {
+      zoom,
+    } = viewport;
+
+    setMinZoom(zoom);
+  }, []);
+
+  const aoiLayer = useMemo(
+    () => getAoiLayer(widget, geostore, { minZoom }), [geostore, widget, minZoom],
+  );
 
   const maskLayer = useMemo(() => getMaskLayer(widget, params), [widget, params]);
 
@@ -131,7 +145,19 @@ export default function MapTypeWidgetContainer({
       }}
     >
       <MapTypeWidget
+        // forces to render the component again and paint updated styles in the map.
+        // This might be fixed in recent versions of Layer Manager.
+        // todo: try to remove the key when the layer manager version is updated.
+        key={minZoom || uuidv4()}
         layerGroups={layerGroups}
+        {...geostore?.bbox && {
+          mapBounds: {
+            bbox: geostore.bbox,
+            options: {
+              padding: 50,
+            },
+          },
+        }}
         aoiLayer={aoiLayer}
         maskLayer={maskLayer}
         widget={widget}
@@ -139,6 +165,7 @@ export default function MapTypeWidgetContainer({
         isError={isError}
         isInACollection={isInACollection}
         onToggleShare={onToggleShare}
+        onFitBoundsChange={onFitBoundsChange}
       />
     </ErrorBoundary>
   );

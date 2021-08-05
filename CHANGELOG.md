@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Area of Interest preview when user uploads a file. [RW-68](https://vizzuality.atlassian.net/browse/RW-68)
 - Ocean Watch: River Water Quality section. [OW-68](https://vizzuality.atlassian.net/browse/OW-68)
+- show/hide area of interest by zoom level. [OW-90](https://vizzuality.atlassian.net/browse/OW-90)
 - Ocean Watch: mask layer. [OW-99](https://vizzuality.atlassian.net/browse/OW-99)
 - Ocean Watch: map swipe widget with support for multiple layers. [OW-87](https://vizzuality.atlassian.net/browse/OW-87)
 - Ocean Watch: custom opacity per layer in map-type widgets. [OW-86](https://vizzuality.atlassian.net/browse/OW-86)
@@ -38,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- opacity 0 couldn't be applied to layer. [OW-94](https://vizzuality.atlassian.net/browse/OW-94)
 - data explore: areas of interest not loading.[RW-67](https://vizzuality.atlassian.net/browse/RW-67)
 - mini-explore: USA and World boundaries.
 - warning with dashboard links.
