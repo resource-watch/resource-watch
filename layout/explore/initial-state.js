@@ -79,7 +79,10 @@ export default {
       isDrawing: false,
       data: null,
     },
+    // contains an area ID to display in the map
     aoi: null,
+    // contains a geostore id to preview in the map
+    previewAoi: null,
     // contains params to be modified in the layerSpec of every layer
     // 'layer-id': {
     //  'key-to-modify: {

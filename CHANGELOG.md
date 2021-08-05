@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Area of Interest preview when user uploads a file. [RW-68](https://vizzuality.atlassian.net/browse/RW-68)
 - Ocean Watch: River Water Quality section. [OW-68](https://vizzuality.atlassian.net/browse/OW-68)
 - show/hide area of interest by zoom level. [OW-90](https://vizzuality.atlassian.net/browse/OW-90)
 - Ocean Watch: mask layer. [OW-99](https://vizzuality.atlassian.net/browse/OW-99)

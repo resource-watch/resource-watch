@@ -244,6 +244,13 @@ export default createReducer(initialState, (builder) => {
         aoi: payload,
       },
     }))
+    .addCase(actions.setPreviewAoi, (state, { payload }) => ({
+      ...state,
+      map: {
+        ...state.map,
+        previewAoi: payload,
+      },
+    }))
     // layers
     .addCase(actions.toggleMapLayerGroup, (state, { payload }) => {
       const layerGroups = [...state.map.layerGroups];
