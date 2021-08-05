@@ -4322,10 +4322,10 @@
     axios "^0.21.1"
     cancelable-promise "^3.2.3"
 
-"@vizzuality/wysiwyg@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@vizzuality/wysiwyg/-/wysiwyg-3.1.0.tgz#f50f74617523938ebd643fc4113ab6d265c6aec0"
-  integrity sha512-5dDB2YmS2TlOdTJ6H2sjuJ9vriKowH2fugOooOAD9WZt5LauL2JPd7y3e+pnY7atIiiiPCSXvbQP0L3nSzvdsA==
+"@vizzuality/wysiwyg@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@vizzuality/wysiwyg/-/wysiwyg-3.1.1.tgz#3d129031de8a298e964185e7bece574fc36f7b58"
+  integrity sha512-SwghhbesgAn00/4MSB/QzZKZa8jY6p4G+iNwim6N2vRM4PC1cRmBd0/OccH+CkHhi9twxWquo1GB2Sv3zAKU2w==
   dependencies:
     classnames "2.2.5"
     foundation-sites "^6.6.3"
