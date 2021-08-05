@@ -85,6 +85,7 @@ export const setAreaOfInterest = createAction('EXPLORE-MAP__SET_AREA_OF_INTEREST
 export const setIsDrawing = createAction('EXPLORE-MAP__DRAWER__SET-IS-DRAWING');
 export const setDataDrawing = createAction('EXPLORE-MAP__DRAWER__SET-DATA');
 export const stopDrawing = createAction('EXPLORE-MAP__DRAWER__STOP-DRAWING');
+export const setPreviewAoi = createAction('EXPLORE-MAP__PREVIEW__SET_AOI');
 
 // LAYERS
 export const toggleMapLayerGroup = createAction('EXPLORE/toggleMapLayerGroup');
