@@ -696,6 +696,20 @@
                         true
                       ],
                       "paint": {
+                        "fill-color": "#FAB72E",
+                        "fill-opacity": ["case",["boolean", ["feature-state", "hover"], false],1,0.5],
+                        "fill-outline-color": "#FAB72E"
+                      },
+                      "source-layer": "layer0",
+                      "type": "fill"
+                    },
+                    {
+                      "filter": [
+                        "in",
+                        "intersect",
+                        true
+                      ],
+                      "paint": {
                         "line-color": "#ffa500",
                         "line-width": 1.5
                       },
