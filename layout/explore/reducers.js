@@ -193,6 +193,13 @@ export default {
       aoi: payload,
     },
   }),
+  [actions.setPreviewAoi]: (state, { payload }) => ({
+    ...state,
+    map: {
+      ...state.map,
+      previewAoi: payload,
+    },
+  }),
   // LAYERS
   [actions.toggleMapLayerGroup]: (state, action) => {
     const layerGroups = [...state.map.layerGroups];
