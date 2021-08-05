@@ -40,6 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- WYSIWYG: removes mini-explore button from toolbar. [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
 - opacity 0 couldn't be applied to layer. [OW-94](https://vizzuality.atlassian.net/browse/OW-94)
 - data explore: areas of interest not loading.[RW-67](https://vizzuality.atlassian.net/browse/RW-67)
 - mini-explore: USA and World boundaries.
