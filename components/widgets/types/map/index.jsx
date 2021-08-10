@@ -100,10 +100,10 @@ export default function MapTypeWidgetContainer({
       queryKey: ['fetch-layer', layerId],
       queryFn: () => fetchLayer(layerId),
       placeholderData: null,
-      select: (_layer) => ({
+      select: (_layer) => (_layer ? ({
         ..._layer,
         params,
-      }),
+      }) : null),
     })),
   );
 
