@@ -175,7 +175,7 @@ export default function MapTypeWidget({
       return [
         ...(aoiLayer !== null) ? [aoiLayer] : [],
         ...(maskLayer !== null) ? [maskLayer] : [],
-        ...activeLayers,
+        ...activeLayers.filter(Boolean),
       ];
     },
     [mapWidgetState, aoiLayer, maskLayer],

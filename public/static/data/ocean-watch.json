@@ -174,13 +174,13 @@
           "grid": "50%",
           "widget": "d7828256-5a99-4033-9583-fe35d36a41fd",
           "type": "chart",
-          "comment":"Water Quality Pressure Chart 1"
+          "comment": "Water Quality Pressure Chart 1"
         },
         {
           "grid": "50%",
           "widget": "f3ab5375-b278-4ad2-8311-a8652d34e222",
           "type": "chart",
-          "comment":"Water Quality Pressure Chart 2"
+          "comment": "Water Quality Pressure Chart 2"
         }
       ],
       [
@@ -196,9 +196,9 @@
       [
         {
           "grid": "100%",
-          "widget": "5a1322ef-8982-4398-aac8-9e53a8dea581",
+          "widget": "ab52220e-768f-4d02-93d3-feca04ff9381",
           "type": "map-swipe",
-          "comment": "Placeholder for River Water Quality swipe map"
+          "comment": "River Water Quality - Sediment Pressure swipe map"
         }
       ],
       [
@@ -207,14 +207,108 @@
           "visualizationType": "mini-explore-widgets",
           "config": {
             "title": "Water Quality Pressure",
+            "mask": {
+              "provider": "cartodb",
+              "promoteId": "cartodb_id",
+              "layerConfig": {
+                "account": "wri-rw",
+                "body": {
+                  "layers": [
+                    {
+                      "type": "mapnik",
+                      "options": {
+                        "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 3"
+                      }
+                    }
+                  ],
+                  "vectorLayers": [
+                    {
+                      "filter": [
+                        "in",
+                        "intersect",
+                        false
+                      ],
+                      "paint": {
+                        "fill-color": "#616161",
+                        "fill-opacity": 1,
+                        "fill-outline-color": "#616161"
+                      },
+                      "source-layer": "layer0",
+                      "type": "fill"
+                    },
+                    {
+                      "filter": [
+                        "in",
+                        "intersect",
+                        true
+                      ],
+                      "paint": {
+                        "fill-color": "#FAB72E",
+                        "fill-opacity": [
+                          "case",
+                          [
+                            "boolean",
+                            [
+                              "feature-state",
+                              "active"
+                            ],
+                            false
+                          ],
+                          0.75,
+                          [
+                            "boolean",
+                            [
+                              "feature-state",
+                              "hover"
+                            ],
+                            false
+                          ],
+                          0.5,
+                          0
+                        ],
+                        "fill-outline-color": "#FAB72E"
+                      },
+                      "source-layer": "layer0",
+                      "type": "fill"
+                    },
+                    {
+                      "filter": [
+                        "in",
+                        "intersect",
+                        true
+                      ],
+                      "paint": {
+                        "line-color": "#ffa500",
+                        "line-width": 1.5
+                      },
+                      "source-layer": "layer0",
+                      "type": "line"
+                    },
+                    {
+                      "filter": [
+                        "in",
+                        "intersect",
+                        true
+                      ],
+                      "paint": {
+                        "line-color": "#616161",
+                        "line-width": 0.7
+                      },
+                      "source-layer": "layer0",
+                      "type": "line"
+                    }
+                  ],
+                  "layerType": "vector"
+                }
+              }
+            },
             "layers": [
-              "a0cf3282-976c-455c-9352-3cc559dc76c0",
-              "3fd96b3d-bf65-4f9f-ae06-990333dfe669",
-              "9ca00829-4a27-480d-a0c3-fd2fbed9075a"
+              "abefb374-3355-4110-9c03-c7031f0b61b4",
+              "f065c648-7579-4034-9d6f-dd1fcbd1b550",
+              "0f27b5ee-21e0-48d4-81ba-f8d33d773514"
             ],
             "widgets": [
-              "d7828256-5a99-4033-9583-fe35d36a41fd",
-              "f3ab5375-b278-4ad2-8311-a8652d34e222"
+              "2915592c-fe0a-4f03-82fd-c0cb767e5e50"
             ]
           }
         }
@@ -262,6 +356,52 @@
               }
             ]
           }
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "title": "Value of goods and services"
+        },
+        {
+          "grid": "50%",
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi."
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "widget": "2a1db525-7352-4c88-a17e-5705e8860888",
+          "type": "map",
+          "comment": "Tourism"
+        },
+        {
+          "grid": "50%",
+          "widget": "d6331a40-57cd-40cf-9953-c966b6cb0e30",
+          "type": "map",
+          "comment": "Shoreline prot"
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "widget": "b191aed0-1f56-4273-b5f2-dd264f951f3d",
+          "type": "map",
+          "comment": "Fisheries (mang)"
+        },
+        {
+          "grid": "50%",
+          "widget": "0d216610-b4d2-4c4e-a5d2-14f83112a2ee",
+          "type": "map",
+          "comment": "Fisheries (coral)"
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "widget": "2a054b7b-c42e-43d9-b6ad-f31fc67a82d4",
+          "type": "map",
+          "comment": "Blue carbon"
         }
       ]
     ]
@@ -406,7 +546,6 @@
           "widget": "060efa56-95a1-4223-997d-b58188156268",
           "type": "map",
           "comment": "Sediment Pressure Map (placeholder)"
-
         }
       ],
       [
@@ -435,7 +574,6 @@
           "widget": "060efa56-95a1-4223-997d-b58188156268",
           "type": "map",
           "comment": "Water Quality Pressure Map (placeholder)"
-
         }
       ],
       [
@@ -443,13 +581,13 @@
           "grid": "50%",
           "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
           "type": "chart",
-          "comment":"Water Quality Pressure Chart 1"
+          "comment": "Water Quality Pressure Chart 1"
         },
         {
           "grid": "50%",
           "widget": "b8e454be-9a0f-4a8f-8e92-3d7b0fd6423f",
           "type": "chart",
-          "comment":"Water Quality Pressure Chart 2"
+          "comment": "Water Quality Pressure Chart 2"
         }
       ],
       [
@@ -459,7 +597,7 @@
         },
         {
           "grid": "50%",
-          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis, sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
+          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis', sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
         },
         {
           "grid": "50%",
