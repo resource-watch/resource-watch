@@ -136,7 +136,7 @@
       [
         {
           "grid": "100%",
-          "widget": "ac8fb011-b003-466e-ab5e-1ccd417bbc1d",
+          "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
           "type": "map-swipe",
           "comment": "Sediment Pressure Map"
         }
@@ -144,7 +144,7 @@
       [
         {
           "grid": "50%",
-          "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
+          "widget": "d8cc22aa-dd18-4d3a-a09a-983513625212",
           "type": "map",
           "comment": "Sediment Pressure Chart 1"
         },
@@ -196,9 +196,23 @@
       [
         {
           "grid": "100%",
-          "widget": "ab52220e-768f-4d02-93d3-feca04ff9381",
-          "type": "map-swipe",
-          "comment": "River Water Quality - Sediment Pressure swipe map"
+          "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
+          "type": "map",
+          "comment": "River Water Quality - Sediment Pressure map"
+        }
+      ],
+      [
+        {
+          "grid": "50%",
+          "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
+          "type": "map",
+          "comment": "River Water Quality - Sediment Pressure Chart 1 (Placeholder)"
+        },
+        {
+          "grid": "50%",
+          "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
+          "type": "map",
+          "comment": "River Water Quality - Sediment Pressure Chart 2"
         }
       ],
       [
@@ -385,7 +399,7 @@
       [
         {
           "grid": "50%",
-          "widget": "b191aed0-1f56-4273-b5f2-dd264f951f3d",
+          "widget": "c9f3e3c4-f7a6-4f98-8430-4ba8448f08c1",
           "type": "map",
           "comment": "Fisheries (mang)"
         },
