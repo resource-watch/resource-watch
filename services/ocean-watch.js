@@ -28,7 +28,7 @@ export const fetchOceanWatchAreas = () => {
 
   return axios.get('https://wri-rw.carto.com:443/api/v2/sql', {
     params: {
-      q: `select name_0 as name, gid_0 as iso, ${geostoreEnvironment} as geostore from "wri-rw".gadm36_0 where ${geostoreEnvironment} is not NULL and coastal is true`,
+      q: `select name_0 as name, gid_0 as iso, ${geostoreEnvironment} as geostore from "wri-rw".gadm36_0 where ${geostoreEnvironment} is not NULL and coastal is true order by name asc`,
     },
   })
     .then(({ data }) => data.rows.map(({

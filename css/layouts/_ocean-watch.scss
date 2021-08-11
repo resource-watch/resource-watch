@@ -2,10 +2,11 @@
 
 .l-ocean-watch {
   @extend .l-page;
+  overflow: initial;
 
   .hero-extended-background {
-    background-image: url('/static/images/components/layout/header-bg-texture.png'), linear-gradient(137.52deg, $dark-pink 0%, #0F4573 100%);
+    background-image: url('/static/images/components/layout/header-bg-texture.png'), linear-gradient(137.52deg, $dark-pink 0%, #0F4573 15%);
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: 50% 0;
   }
 }
