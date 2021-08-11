@@ -1,6 +1,40 @@
 {
   "staging": {
-    "intro": [],
+    "intro": {
+      "indicators": [
+        {
+          "id": "land-sea-interface",
+          "title": "The Land/Sea Interface",
+          "icon": "land-sea"
+        },
+        {
+          "id": "oceans-climate",
+          "title": "Oceans and Climate",
+          "icon": "climate"
+        },
+        {
+          "id": "biodiversity",
+          "title": "Biodiversity",
+          "icon": "biodiversity"
+        },
+        {
+          "id": "marine-protected-areas",
+          "title": "Marine Protected Areas",
+          "icon": "marine"
+        },
+        {
+          "id": "ocean-dependence",
+          "title": "Ocean Dependence",
+          "icon": "dependence"
+        },
+        {
+          "id": "blue-economy",
+          "title": "The Blue Economy",
+          "icon": "economy"
+        }
+      ],
+      "steps": []
+    },
     "country-profile": [
       [
         {
@@ -307,7 +341,10 @@
                       "paint": {
                         "line-color": "#000000",
                         "line-width": 2,
-                        "line-dasharray":[2,3]
+                        "line-dasharray": [
+                          2,
+                          3
+                        ]
                       },
                       "source-layer": "layer0",
                       "type": "line"
@@ -355,7 +392,6 @@
                   "ee4dca11-caae-4c39-9915-501872aab4bd",
                   "08c0e063-46d2-46ee-91e0-f2545b463cd8",
                   "1af33b02-9fc2-47ab-9eae-583b77a1f4fa"
-
                 ],
                 "default": [
                   "ee4dca11-caae-4c39-9915-501872aab4bd"
@@ -371,7 +407,6 @@
                   "32e75e26-e6dd-4bf4-8176-ab9c88394083",
                   "af2847ee-ca87-43b4-a359-c42d9e70cf84",
                   "82877dfb-d71f-40ae-be0c-5bc8dd0cf030"
-
                 ],
                 "default": [
                   "ad21463c-b220-4201-8af0-455ecb3794f2"
@@ -396,7 +431,6 @@
                 "title": "Productivity",
                 "datasets": [
                   "11b096b0-60d3-46f6-a78f-f51af4808a38"
-
                 ],
                 "default": [
                   "11b096b0-60d3-46f6-a78f-f51af4808a38"
