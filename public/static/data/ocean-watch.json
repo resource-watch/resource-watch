@@ -292,8 +292,8 @@
                         true
                       ],
                       "paint": {
-                        "line-color": "#ffa500",
-                        "line-width": 1.5
+                        "line-color": "#FAB72E",
+                        "line-width": 2
                       },
                       "source-layer": "layer0",
                       "type": "line"
@@ -305,8 +305,9 @@
                         true
                       ],
                       "paint": {
-                        "line-color": "#616161",
-                        "line-width": 0.7
+                        "line-color": "#000000",
+                        "line-width": 2,
+                        "line-dasharray":[2,3]
                       },
                       "source-layer": "layer0",
                       "type": "line"
@@ -349,23 +350,88 @@
             "title": "Lorem ipsum",
             "datasetGroups": [
               {
-                "title": "Power Infrastructure",
+                "title": "Ecosystems",
                 "datasets": [
-                  "815eaa09-d626-495e-91e2-523cb07de475",
-                  "c53a195f-d5f0-4acc-b1be-b773420a6606"
+                  "67b7b13f-f068-45c1-8f45-5c4147a38e69",
+                  "f5f4e6a5-fe6c-4686-b5db-05b8bede4120",
+                  "87bb08d7-fbc8-4c7c-b07d-2290eb1430e7"
+
                 ],
                 "default": [
-                  "c53a195f-d5f0-4acc-b1be-b773420a6606"
+                  "f5f4e6a5-fe6c-4686-b5db-05b8bede4120"
                 ]
               },
               {
-                "title": "Natural hazards",
+                "title": "Climate pressures",
                 "datasets": [
-                  "11278cb6-b298-49a1-bf71-f1e269f40758",
-                  "a7067e9f-fe40-4338-85da-13a6071c76fe"
+                  "30a36965-24f1-4642-ba9f-4851ca72c353",
+                  "3b665126-4f7d-4fe7-9bd3-921a7f2eb663",
+                  "e859042d-6986-4646-ac42-dd9752604680",
+                  "5234d061-2f73-4c25-b75f-f853341379f1",
+                  "c54096b2-d1af-4d88-b061-f49b15bcf9ff",
+                  "e57bb5d1-307d-4bc1-a5f8-b828bfa90240",
+                  "2d5b79ae-32f7-4bef-ad38-ae9dcc6188db",
+                  "7eb5eaa3-c23c-4474-a5bd-c0ba63210e74",
+                  "b63fade8-5c64-46a4-a40f-fa8f72e935cb",
+                  "fb40902f-a45b-47ce-8c0b-854655e06a02",
+                  "ad42d30f-5abe-4061-826a-a6631379e006",
+                  "fd6630c8-444a-4d11-80f6-7979badc6e79",
+                  "a336800d-2854-43f8-b762-20d84e335fc7",
+                  "a3a68186-9806-427b-bbec-60a079c087b5",
+                  "c445de90-1b08-480a-9d3a-2bae840f275c",
+                  "58906e1a-29cc-4c0a-ab20-0c2ac23cd409",
+                  "39154ad6-dffc-4cc2-a999-ecf648739375",
+                  "9dd6769f-971c-488e-b72d-f4f1f5e29206"
                 ],
                 "default": [
-                  "11278cb6-b298-49a1-bf71-f1e269f40758"
+                  "30a36965-24f1-4642-ba9f-4851ca72c353"
+                ]
+              },
+              {
+                "title": "Land-sea pressures",
+                "datasets": [
+                  "986d576a-3db6-4c9e-9ca0-4bc7eb05611a",
+                  "5dd5c141-f2fb-4abe-8d94-797ad8a71a58",
+                  "315abfe0-fb2f-43bb-87ca-40dd1fc7fcf4",
+                  "f37d8246-ddb6-4dbb-a9db-715fa889a88b",
+                  "6ab77e36-df9d-4047-8641-ca49922522b5",
+                  "6a7c59b9-2e79-42f4-9caf-6b1bf068ae09",
+                  "70b7071b-2c3a-425e-9ba2-51cab97fc681",
+                  "5ad82c6b-b5a4-47c5-8417-e768eff56790",
+                  "863d3b63-71bf-40e5-8b72-0c07920f1d85",
+                  "aad167db-3474-42a0-84f4-5ea109b84502",
+                  "f065c648-7579-4034-9d6f-dd1fcbd1b550"
+                ],
+                "default": [
+                  "5dd5c141-f2fb-4abe-8d94-797ad8a71a58"
+                ]
+              },
+              {
+                "title": "Productivity",
+                "datasets": [
+                  "f029ed41-9d5d-4c35-be7e-ed4017491969"
+                  
+                ],
+                "default": [
+                  "f029ed41-9d5d-4c35-be7e-ed4017491969"
+                ]
+              },
+              {
+                "title": "Infrastructure and maritime",
+                "datasets": [
+                  "1f731f24-283d-4d1e-b1ae-a16c99af7d37"
+                ],
+                "default": [
+                  "1f731f24-283d-4d1e-b1ae-a16c99af7d37"
+                ]
+              },
+              {
+                "title": "Response",
+                "datasets": [
+                  "133a634d-61a9-4a4d-948b-4c081c1853d5"
+                ],
+                "default": [
+                  "133a634d-61a9-4a4d-948b-4c081c1853d5"
                 ]
               }
             ]
