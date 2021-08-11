@@ -732,8 +732,8 @@
                         true
                       ],
                       "paint": {
-                        "line-color": "#ffa500",
-                        "line-width": 1.5
+                        "line-color": "#FAB72E",
+                        "line-width": 2
                       },
                       "source-layer": "layer0",
                       "type": "line"
@@ -745,8 +745,9 @@
                         true
                       ],
                       "paint": {
-                        "line-color": "#616161",
-                        "line-width": 0.7
+                        "line-color": "#000000",
+                        "line-width": 2,
+                        "line-dasharray":[2,3]
                       },
                       "source-layer": "layer0",
                       "type": "line"
