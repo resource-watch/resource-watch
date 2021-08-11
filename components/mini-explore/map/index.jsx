@@ -255,6 +255,7 @@ export default function MiniExploreMapContainer({
   } = useFetchDatasets({
     includes: 'layer',
     ids: datasetIds.join(','),
+    'page[size]': 30,
   }, {
     enabled: !!(datasetIds.length),
     refetchOnWindowFocus: false,
