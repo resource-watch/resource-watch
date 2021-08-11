@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 
 // components
+import CardPlaceholder from 'components/card-placeholder';
 import WidgetSidebar from './component';
 
 export default function WidgetSidebarContainer({
@@ -20,19 +21,29 @@ export default function WidgetSidebarContainer({
 
   return (
     <div className="widgets-sidebar">
-      <h3
+      <CardPlaceholder />
+      <div
         style={{
-          fontSize: 21,
-          fontWeight: 'bold',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: 25,
+          textAlign: 'center',
         }}
       >
-        Select an area first
-      </h3>
-      <p>
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis minima ut repellat,
-        illo consequatur hic quod esse aspernatur ipsam necessitatibus asperiores eveniet, sit,
-        ipsa alias maiores facilis libero.
-      </p>
+        <h4
+          style={{
+            fontWeight: 'bold',
+          }}
+        >
+          Start by selecting an area
+        </h4>
+        <p>
+          Get to know the details for the different zones selecting an area on the map
+        </p>
+      </div>
+      <CardPlaceholder />
+      <CardPlaceholder />
     </div>
   );
 }
