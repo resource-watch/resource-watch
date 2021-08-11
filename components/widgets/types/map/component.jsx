@@ -35,6 +35,7 @@ import {
 
 // components
 import Spinner from 'components/ui/Spinner';
+import InView from 'components/in-view';
 import Map from 'components/map';
 import LayerManager from 'components/map/layer-manager';
 import MapControls from 'components/map/controls';
@@ -75,7 +76,10 @@ export default function MapTypeWidget({
     ...mapWidgetInitialState,
     layerGroups,
   }));
-  const [viewport, setViewport] = useState(DEFAULT_VIEWPORT);
+  const [viewport, setViewport] = useState({
+    ...DEFAULT_VIEWPORT,
+    height: 400,
+  });
   const [isInfoWidgetVisible, setInfoWidgetVisibility] = useState(false);
 
   const [handleViewport] = useDebouncedCallback((_viewport) => {
@@ -213,76 +217,87 @@ export default function MapTypeWidget({
           />
         )}
 
-        {(!isFetching && !isError) && (
-          <div style={{
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-          }}
-          >
-            <Map
-              mapStyle={MAPSTYLES}
-              viewport={viewport}
-              basemap={basemap}
-              onViewportChange={handleViewport}
-              onFitBoundsChange={handleFitBoundsChange}
-              labels={labels}
-              scrollZoom={false}
-              bounds={bounds}
-              boundaries={boundaries}
-              fitBoundsOptions={{
-                transitionDuration: 0,
-              }}
-              onError={() => {
-                handleError(new Error('map couldn\'t load'));
+        <InView
+          triggerOnce
+          threshold={0.25}
+        >
+          {({ ref, inView }) => (
+            <div
+              ref={ref}
+              style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
               }}
             >
-              {(_map) => (
-                <LayerManager
-                  map={_map}
-                  layers={layers}
-                />
-              )}
-            </Map>
-            <MapControls customClass="c-map-controls -embed">
-              <ZoomControls
-                viewport={viewport}
-                onClick={handleZoom}
-              />
-            </MapControls>
+              {(!isFetching && !isError) && inView && (
+                <>
+                  <Map
+                    mapStyle={MAPSTYLES}
+                    viewport={viewport}
+                    basemap={basemap}
+                    onViewportChange={handleViewport}
+                    onFitBoundsChange={handleFitBoundsChange}
+                    labels={labels}
+                    scrollZoom={false}
+                    bounds={bounds}
+                    boundaries={boundaries}
+                    fitBoundsOptions={{
+                      transitionDuration: 0,
+                    }}
+                    onError={() => {
+                      handleError(new Error('map couldn\'t load'));
+                    }}
+                  >
+                    {(_map) => (
+                      <LayerManager
+                        map={_map}
+                        layers={layers}
+                      />
+                    )}
+                  </Map>
+                  <MapControls customClass="c-map-controls -embed">
+                    <ZoomControls
+                      viewport={viewport}
+                      onClick={handleZoom}
+                    />
+                  </MapControls>
 
-            {(layers.length > 0) && (
-              <div className="c-legend-map -embed">
-                <Legend
-                  maxHeight={140}
-                  onChangeOrder={onChangeOrder}
-                >
-                  {mapWidgetState.layerGroups.map((lg, i) => (
-                    <LegendListItem
-                      index={i}
-                      key={lg.id}
-                      layerGroup={lg}
-                      {...layerGroups.length > 1 && {
-                        toolbar: (
-                          <LegendItemToolbar>
-                            <LegendItemButtonLayers />
-                            <LegendItemButtonOpacity />
-                            <LegendItemButtonVisibility />
-                          </LegendItemToolbar>
-                        ),
-                      }}
-                      onChangeOpacity={onChangeOpacity}
-                      onChangeVisibility={onChangeVisibility}
-                      onChangeLayer={onChangeLayer}
-                    >
-                      <LegendItemTypes />
-                    </LegendListItem>
-                  ))}
-                </Legend>
-              </div>
-            )}
-          </div>
-        )}
+                  {(layers.length > 0) && (
+                    <div className="c-legend-map -embed">
+                      <Legend
+                        maxHeight={140}
+                        onChangeOrder={onChangeOrder}
+                      >
+                        {mapWidgetState.layerGroups.map((lg, i) => (
+                          <LegendListItem
+                            index={i}
+                            key={lg.id}
+                            layerGroup={lg}
+                            {...layerGroups.length > 1 && {
+                              toolbar: (
+                                <LegendItemToolbar>
+                                  <LegendItemButtonLayers />
+                                  <LegendItemButtonOpacity />
+                                  <LegendItemButtonVisibility />
+                                </LegendItemToolbar>
+                              ),
+                            }}
+                            onChangeOpacity={onChangeOpacity}
+                            onChangeVisibility={onChangeVisibility}
+                            onChangeLayer={onChangeLayer}
+                          >
+                            <LegendItemTypes />
+                          </LegendListItem>
+                        ))}
+                      </Legend>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          )}
+        </InView>
         {(isInfoWidgetVisible && widget && !isFetching) && (
           <WidgetInfo
             widget={widget}
