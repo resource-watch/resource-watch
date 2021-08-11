@@ -83,7 +83,6 @@ export default function DatasetsSidebarContainer({
   return (
     <DatasetsSidebar
       datasetGroups={data}
-      // dispatch={dispatch}
       handleAddMap={handleAddMap}
     />
   );
