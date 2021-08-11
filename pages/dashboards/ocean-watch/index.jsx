@@ -228,6 +228,22 @@ export default function OceanWatchIntroPage() {
           </div>
         </div>
       </div>
+      <div style={{
+        // background: '#0F4573',
+        background: 'linear-gradient(transparent, #0F4573)',
+      }}
+      >
+        <OceanWatchStoryTelling
+          indicators={oceanWatchConfig.intro.indicators}
+        />
+      </div>
+      <div className="l-container">
+        <div className="row">
+          <div className="column small-12">
+            <MapSelection />
+          </div>
+        </div>
+      </div>
     </LayoutOceanWatch>
   );
 }

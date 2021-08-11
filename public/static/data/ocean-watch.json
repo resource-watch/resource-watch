@@ -747,7 +747,10 @@
                       "paint": {
                         "line-color": "#000000",
                         "line-width": 2,
-                        "line-dasharray":[2,3]
+                        "line-dasharray": [
+                          2,
+                          3
+                        ]
                       },
                       "source-layer": "layer0",
                       "type": "line"

@@ -85,6 +85,10 @@ export default function OceanWatchCountryProfilePage({
     data: areas,
   } = useOceanWatchAreas({
     placeholderData: queryClient.getQueryData('ocean-watch-areas') || [],
+    select: (_areas) => _areas.map(({ name, iso: _iso }) => ({
+      label: name,
+      value: _iso,
+    })),
   });
 
   const {
@@ -129,8 +133,8 @@ export default function OceanWatchCountryProfilePage({
   })), [areas]);
 
   const defaultAreaOption = useMemo(
-    () => areaOptions.find(({ value }) => iso === value),
-    [areaOptions, iso],
+    () => areas.find(({ value }) => iso === value),
+    [areas, iso],
   );
 
   return (
@@ -150,7 +154,7 @@ export default function OceanWatchCountryProfilePage({
               >
                 <Select
                   instanceId="area-selector"
-                  options={areaOptions}
+                  options={areas}
                   className="-fluid"
                   onChange={handleAreaChange}
                   value={defaultAreaOption}
