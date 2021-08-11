@@ -21,6 +21,7 @@ import {
 
 // components
 import Spinner from 'components/ui/Spinner';
+import InView from 'components/in-view';
 import Map from 'components/map';
 import LayerManager from 'components/map/layer-manager';
 import MapboxCompare from 'components/map/plugins/compare/mapbox-compare';
@@ -129,147 +130,159 @@ export default function SwipeTypeWidget({
           />
         )}
 
-        {!isFetching && !isError && (
-          <>
+        <InView
+          triggerOnce
+          threshold={0.25}
+        >
+          {({ ref, inView }) => (
             <div
               className="c-map-comparison"
+              ref={ref}
               style={{
                 height: '100%',
               }}
             >
               <div className="compare-container">
-                {/* left map */}
-                <Map
-                  interactiveLayerIds={[]}
-                  mapStyle={MAPSTYLES}
-                  className="-compare"
-                  basemap={basemap}
-                  labels={labels}
-                  boundaries
-                  bounds={bounds}
-                  onFitBoundsChange={handleFitBoundsChange}
-                  onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
-                  fitBoundsOptions={{
-                    transitionDuration: 0,
-                  }}
-                >
-                  {(_map) => (
-                    <LayerManager
-                      map={_map}
-                      layers={layersBySide.left}
-                    />
-                  )}
-                </Map>
-
-                {(layersBySide.left.length > 0) && (
-                  <div
-                    className="c-legend-map"
-                    style={{
-                      left: 16,
-                    }}
-                  >
-                    <Legend
-                      maxHeight={140}
-                      sortable={false}
-                      expanded={false}
+                {(!isFetching && !isError) && inView && (
+                  <>
+                    {/* left map */}
+                    <Map
+                      interactiveLayerIds={[]}
+                      mapStyle={MAPSTYLES}
+                      className="-compare"
+                      basemap={basemap}
+                      labels={labels}
+                      boundaries
+                      bounds={bounds}
+                      onFitBoundsChange={handleFitBoundsChange}
+                      onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
+                      fitBoundsOptions={{
+                        transitionDuration: 0,
+                      }}
                     >
-                      {layerGroupsBySide.left.map((lg, i) => (
-                        <LegendListItem
-                          index={i}
-                          key={lg.id}
-                          layerGroup={lg}
+                      {(_map) => (
+                        <LayerManager
+                          map={_map}
+                          layers={layersBySide.left}
+                        />
+                      )}
+                    </Map>
+
+                    {(layersBySide.left.length > 0) && (
+                      <div
+                        className="c-legend-map"
+                        style={{
+                          left: 16,
+                        }}
+                      >
+                        <Legend
+                          maxHeight={140}
+                          sortable={false}
+                          expanded={false}
                         >
-                          <LegendItemTypes />
-                        </LegendListItem>
-                      ))}
-                    </Legend>
-                  </div>
+                          {layerGroupsBySide.left.map((lg, i) => (
+                            <LegendListItem
+                              index={i}
+                              key={lg.id}
+                              layerGroup={lg}
+                            >
+                              <LegendItemTypes />
+                            </LegendListItem>
+                          ))}
+                        </Legend>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
               <div className="compare-container">
-                {/* right map */}
-                {/* swiper */}
-                <div
-                  ref={swiperRef}
-                  className="swiper-container mapboxgl-compare"
-                >
-                  <div className="compare-swiper" />
-                </div>
-                <Map
-                  interactiveLayerIds={[]}
-                  mapStyle={MAPSTYLES}
-                  className="-compare"
-                  basemap={basemap}
-                  labels={labels}
-                  boundaries
-                  bounds={bounds}
-                  onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
-                  fitBoundsOptions={{
-                    transitionDuration: 0,
-                  }}
-                >
-                  {(_map) => (
-                    <LayerManager
-                      map={_map}
-                      layers={layersBySide.right}
-                    />
-                  )}
-                </Map>
-
-                {(layersBySide.right.length > 0) && (
-                  <div
-                    className="c-legend-map"
-                    style={{
-                      right: 16,
-                    }}
-                  >
-                    <Legend
-                      maxHeight={140}
-                      sortable={false}
-                      expanded={false}
+                {(!isFetching && !isError) && inView && (
+                  <>
+                    {/* right map */}
+                    {/* swiper */}
+                    <div
+                      ref={swiperRef}
+                      className="swiper-container mapboxgl-compare"
                     >
-                      {layerGroupsBySide.right.map((lg, i) => (
-                        <LegendListItem
-                          index={i}
-                          key={lg.id}
-                          layerGroup={lg}
+                      <div className="compare-swiper" />
+                    </div>
+                    <Map
+                      interactiveLayerIds={[]}
+                      mapStyle={MAPSTYLES}
+                      className="-compare"
+                      basemap={basemap}
+                      labels={labels}
+                      boundaries
+                      bounds={bounds}
+                      onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
+                      fitBoundsOptions={{
+                        transitionDuration: 0,
+                      }}
+                    >
+                      {(_map) => (
+                        <LayerManager
+                          map={_map}
+                          layers={layersBySide.right}
+                        />
+                      )}
+                    </Map>
+
+                    {(layersBySide.right.length > 0) && (
+                      <div
+                        className="c-legend-map"
+                        style={{
+                          right: 16,
+                        }}
+                      >
+                        <Legend
+                          maxHeight={140}
+                          sortable={false}
+                          expanded={false}
                         >
-                          <LegendItemTypes />
-                        </LegendListItem>
-                      ))}
-                    </Legend>
-                  </div>
+                          {layerGroupsBySide.right.map((lg, i) => (
+                            <LegendListItem
+                              index={i}
+                              key={lg.id}
+                              layerGroup={lg}
+                            >
+                              <LegendItemTypes />
+                            </LegendListItem>
+                          ))}
+                        </Legend>
+                      </div>
+                    )}
+                  </>
+                )}
+                {(map.left && map.right) && (
+                  <MapboxCompare
+                    leftRef={map.left}
+                    rightRef={map.right}
+                    swiper={swiperRef}
+                    options={{
+                      swiper: {
+                        offset: legendRef.current
+                          ? legendRef.current.getBoundingClientRect().height : 0,
+                      },
+                    }}
+                  />
                 )}
               </div>
-
-              {(map.left && map.right) && (
-                <MapboxCompare
-                  leftRef={map.left}
-                  rightRef={map.right}
-                  swiper={swiperRef}
-                  options={{
-                    swiper: {
-                      offset: legendRef.current
-                        ? legendRef.current.getBoundingClientRect().height : 0,
-                    },
-                  }}
-                />
-              )}
             </div>
-            {(isInfoWidgetVisible && widget && !isFetching) && (
-              <WidgetInfo
-                widget={widget}
-                style={{
-                  padding: 15,
-                }}
-              />
-            )}
-            {caption && (
-              <div className="widget-caption-container">
-                {caption}
-              </div>
-            )}
-          </>
+          )}
+        </InView>
+
+        {(isInfoWidgetVisible && widget && !isFetching) && (
+          <WidgetInfo
+            widget={widget}
+            style={{
+              padding: 15,
+            }}
+          />
+        )}
+        {caption && (
+          <div className="widget-caption-container">
+            {caption}
+          </div>
         )}
       </div>
     </div>

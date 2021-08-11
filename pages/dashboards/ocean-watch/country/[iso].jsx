@@ -22,6 +22,7 @@ import sortBy from 'lodash/sortBy';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
+import InView from 'components/in-view';
 import MiniExplore from 'components/mini-explore';
 import MiniExploreWidgets from 'components/mini-explore-widgets';
 import CardIndicatorSet from 'components/card-indicator-set';
@@ -207,23 +208,41 @@ export default function OceanWatchCountryProfilePage({
                         {blockContent.text}
                       </p>
                     )}
-                    {blockContent.visualizationType === 'mini-explore' && (
-                      <MiniExplore
-                        config={{
-                          ...blockContent.config,
-                          ...area?.geostore && { areaOfInterest: area.geostore },
-                        }}
-                      />
-                    )}
-                    {blockContent.visualizationType === 'mini-explore-widgets' && (
-                      <MiniExploreWidgets
-                        adapter={RWAdapter}
-                        config={{
-                          ...blockContent.config,
-                          ...area?.geostore && { areaOfInterest: area.geostore },
-                        }}
-                      />
-                    )}
+                    <InView
+                      triggerOnce
+                      threshold={0.25}
+                    >
+                      {({ ref, inView }) => (
+                        <div ref={ref}>
+                          {blockContent.visualizationType === 'mini-explore' && inView && (
+                            <MiniExplore
+                              config={{
+                                ...blockContent.config,
+                                ...area?.geostore && { areaOfInterest: area.geostore },
+                              }}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </InView>
+                    <InView
+                      triggerOnce
+                      threshold={0.25}
+                    >
+                      {({ ref, inView }) => (
+                        <div ref={ref}>
+                          {blockContent.visualizationType === 'mini-explore-widgets' && inView && (
+                            <MiniExploreWidgets
+                              adapter={RWAdapter}
+                              config={{
+                                ...blockContent.config,
+                                ...area?.geostore && { areaOfInterest: area.geostore },
+                              }}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </InView>
                     {(blockContent.widget && blockContent.type === 'map') && (
                       <MapWidget
                         widgetId={blockContent.widget}
