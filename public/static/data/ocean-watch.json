@@ -203,16 +203,10 @@
       ],
       [
         {
-          "grid": "50%",
+          "grid": "100%",
           "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
           "type": "map",
-          "comment": "River Water Quality - Sediment Pressure Chart 1 (Placeholder)"
-        },
-        {
-          "grid": "50%",
-          "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
-          "type": "map",
-          "comment": "River Water Quality - Sediment Pressure Chart 2"
+          "comment": "River Water Quality - Sediment Pressure Chart"
         }
       ],
       [
