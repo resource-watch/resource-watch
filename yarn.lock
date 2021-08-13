@@ -14988,6 +14988,11 @@ react-render-html@0.6.0:
     parse5 "^3.0.2"
     react-attr-converter "^0.3.1"
 
+react-scrollama@^2.2.16:
+  version "2.2.16"
+  resolved "https://registry.yarnpkg.com/react-scrollama/-/react-scrollama-2.2.16.tgz#21e0c0ce9c7fc57ccac07e119819bf2f641b1233"
+  integrity sha512-rkd05GPuzqFPypRyxI5wUnNilzqybDTODGCoY7UKQ7sl4mpjzREeQ6BT2Hvq4r4DSQPB7aix8r4ibWaZAXVG4g==
+
 react-select@1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-1.2.1.tgz#a2fe58a569eb14dcaa6543816260b97e538120d1"

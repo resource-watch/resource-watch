@@ -89,6 +89,7 @@
     "react-redux": "^7.2.4",
     "react-redux-toastr": "7.2.3",
     "react-render-html": "0.6.0",
+    "react-scrollama": "^2.2.16",
     "react-select": "1.2.1",
     "react-sortable-hoc": "^0.6.8",
     "react-sticky": "6.0.2",
