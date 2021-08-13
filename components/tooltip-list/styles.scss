@@ -1,0 +1,57 @@
+@import 'css/settings';
+
+.c-tooltip-list {
+  > .search-container {
+    z-index: 2;
+    position: sticky;
+    top: 0;
+    background: $white;
+  }
+
+  > .list-container {
+    position: relative;
+    min-height: 50px;
+
+    &:before,
+    &:after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      pointer-events: none;
+    }
+
+    &:before {
+      top: 0;
+      background: linear-gradient(180deg, $white, transparent);
+    }
+
+    &:after {
+      bottom: 0;
+      background: linear-gradient(180deg, transparent, $white);
+    }
+
+    > .list {
+      max-height: 250px;
+      overflow: auto;
+      padding: ($space * 3) 0;
+
+      > .list-item {
+        margin: $space 0;
+
+        > button {
+          font-size: $font-size-medium;
+          color: $dove-grey;
+          text-align: left;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
