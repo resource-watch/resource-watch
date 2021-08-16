@@ -18,10 +18,10 @@ import {
 } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import Select from 'react-select';
-import sortBy from 'lodash/sortBy';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
+import InView from 'components/in-view';
 import MiniExplore from 'components/mini-explore';
 import MiniExploreWidgets from 'components/mini-explore-widgets';
 import CardIndicatorSet from 'components/card-indicator-set';
@@ -117,13 +117,13 @@ export default function OceanWatchCountryProfilePage({
 
   const area = useMemo(() => areas.find(({ iso: areaId }) => iso === areaId), [areas, iso]);
 
-  const areaOptions = useMemo(() => sortBy(areas.map(({
+  const areaOptions = useMemo(() => areas.map(({
     name: label,
     iso: value,
   }) => ({
     label,
     value,
-  })), ['label']), [areas]);
+  })), [areas]);
 
   const defaultAreaOption = useMemo(
     () => areaOptions.find(({ value }) => iso === value),
@@ -207,27 +207,41 @@ export default function OceanWatchCountryProfilePage({
                         {blockContent.text}
                       </p>
                     )}
-                    {blockContent.visualizationType === 'mini-explore' && (
-                      <MiniExplore
-                        config={{
-                          ...blockContent.config,
-                          ...area?.geostore && { areaOfInterest: area.geostore },
-                        }}
-                      />
-                    )}
-                    {blockContent.visualizationType === 'mini-explore-widgets' && (
-                      <MiniExploreWidgets
-                        adapter={RWAdapter}
-                        config={{
-                          ...blockContent.config,
-                          ...area?.geostore && { areaOfInterest: area.geostore },
-                        }}
-                        widgetParams={{
-                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-                          ...area?.geostore && { geostore_id: area.geostore },
-                        }}
-                      />
-                    )}
+                    <InView
+                      triggerOnce
+                      threshold={0.25}
+                    >
+                      {({ ref, inView }) => (
+                        <div ref={ref}>
+                          {blockContent.visualizationType === 'mini-explore' && inView && (
+                            <MiniExplore
+                              config={{
+                                ...blockContent.config,
+                                ...area?.geostore && { areaOfInterest: area.geostore },
+                              }}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </InView>
+                    <InView
+                      triggerOnce
+                      threshold={0.25}
+                    >
+                      {({ ref, inView }) => (
+                        <div ref={ref}>
+                          {blockContent.visualizationType === 'mini-explore-widgets' && inView && (
+                            <MiniExploreWidgets
+                              adapter={RWAdapter}
+                              config={{
+                                ...blockContent.config,
+                                ...area?.geostore && { areaOfInterest: area.geostore },
+                              }}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </InView>
                     {(blockContent.widget && blockContent.type === 'map') && (
                       <MapWidget
                         widgetId={blockContent.widget}

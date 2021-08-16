@@ -23,9 +23,7 @@ function Banner({
       style={styles}
     >
       {viel && <div className="c-viel" />}
-      <div className="l-container">
-        {children}
-      </div>
+      {children}
     </section>
   );
 }

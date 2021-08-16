@@ -1,3 +1,7 @@
+import {
+  useReducer,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -8,21 +12,72 @@ import {
 import WidgetSidebar from './widget-sidebar';
 import MiniExploreMap from './map';
 
+// reducers
+import {
+  miniExploreWidgetState,
+  miniExploreWidgetSlice,
+} from './reducer';
+
 // styles
 import './styles.scss';
 
+const miniExploreWidgetReducer = miniExploreWidgetSlice.reducer;
+const {
+  setGeostore,
+} = miniExploreWidgetSlice.actions;
 const isStaging = isStagingAPI();
-
+let clickState = null;
 export default function MiniExploreWidgets({
   config: {
     title,
     layers,
+    mask,
     widgets,
     areaOfInterest,
   },
   adapter,
-  widgetParams,
 }) {
+  const [state, dispatch] = useReducer(miniExploreWidgetReducer, miniExploreWidgetState);
+
+  const onClickLayer = useCallback(({ features }, map) => {
+    if (clickState) {
+      map.setFeatureState(
+        clickState,
+        {
+          active: false,
+        },
+      );
+    }
+
+    if (!features.length) return false;
+
+    const dataFeature = features.find(({ id }) => Boolean(id));
+
+    if (!dataFeature) return false;
+    const {
+      source,
+      sourceLayer,
+      properties,
+    } = dataFeature;
+
+    const geostore = properties[`${isStaging ? 'geostore_staging' : 'geostore_prod'}`];
+
+    clickState = {
+      source,
+      sourceLayer,
+      id: properties.cartodb_id,
+    };
+
+    map.setFeatureState(
+      clickState,
+      {
+        active: true,
+      },
+    );
+
+    return dispatch(setGeostore(geostore));
+  }, []);
+
   return (
     <div className="c-mini-explore-widgets">
       <header>
@@ -33,7 +88,9 @@ export default function MiniExploreWidgets({
       <div className="main-container">
         <MiniExploreMap
           layerIds={layers}
+          mask={mask}
           areaOfInterest={areaOfInterest}
+          onClickLayer={onClickLayer}
           params={{
             geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
             ...areaOfInterest && { geostore_id: areaOfInterest },
@@ -42,17 +99,15 @@ export default function MiniExploreWidgets({
         <WidgetSidebar
           adapter={adapter}
           widgetIds={widgets}
-          params={widgetParams}
-          areaOfInterest={areaOfInterest}
+          params={{
+            geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+            ...state.geostore && { geostore_id: state.geostore },
+          }}
         />
       </div>
     </div>
   );
 }
-
-MiniExploreWidgets.defaultProps = {
-  widgetParams: {},
-};
 
 MiniExploreWidgets.propTypes = {
   config: PropTypes.shape({
@@ -60,11 +115,11 @@ MiniExploreWidgets.propTypes = {
     layers: PropTypes.arrayOf(
       PropTypes.string.isRequired,
     ).isRequired,
+    mask: PropTypes.shape({}),
     widgets: PropTypes.arrayOf(
       PropTypes.string.isRequired,
     ).isRequired,
     areaOfInterest: PropTypes.string,
   }).isRequired,
-  widgetParams: PropTypes.shape({}),
   adapter: PropTypes.func.isRequired,
 };

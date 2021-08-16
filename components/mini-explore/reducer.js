@@ -91,6 +91,7 @@ export const miniExploreSlice = createSlice({
 
           return {
             id,
+            dataset: id,
             opacity: 1,
             visibility: true,
             layers: publishedLayers.map((_layer) => ({

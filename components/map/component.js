@@ -37,7 +37,7 @@ class Map extends PureComponent {
     fitBoundsOptions: PropTypes.object,
 
     /** A string that defines the basemap to display */
-    basemap: PropTypes.string.isRequired,
+    basemap: PropTypes.string,
 
     /** A string that defines the type of label to display */
     labels: PropTypes.string,
@@ -86,6 +86,7 @@ class Map extends PureComponent {
     className: null,
     style: {},
     viewport: DEFAULT_VIEWPORT,
+    basemap: null,
     bounds: {},
     labels: null,
     boundaries: false,

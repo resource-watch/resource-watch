@@ -37,7 +37,12 @@ export const getTilerUrl = (layer) => {
   if (!layer) throw new Error('layer required to generate tiler URL');
   return `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
 };
-
+/**
+ *
+ * @param {Object[]} layers - array of layers to group by dataset
+ * @param {Object} layerParams - additional layer params to modify the layer specification
+ * @returns {Object[]} array of layers grouped by dataset
+ */
 export const getLayerGroups = (layers = [], layerParams = {}) => {
   const layersByDataset = groupBy(layers, 'dataset');
 
@@ -47,7 +52,7 @@ export const getLayerGroups = (layers = [], layerParams = {}) => {
     layers: layersByDataset[datasetKey]
       .map((_layer) => ({
         ..._layer,
-        active: _layer.default,
+        active: layerParams?.[_layer.id]?.default || Boolean(_layer.default),
         opacity: isNumber(layerParams?.[_layer.id]?.opacity) ? layerParams[_layer.id].opacity : 1,
         ..._layer?.layerConfig?.type === 'gee' && {
           layerConfig: {
