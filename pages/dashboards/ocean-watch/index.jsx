@@ -272,7 +272,7 @@ export default function OceanWatchIntroPage() {
                   </p>
                   <a
                     className="c-button -alt -primary"
-                    href="https://resourcewatch.org/dashboards/466"
+                    href="https://resourcewatch.org/dashboards/coral-reefs"
                   >
                     Coral Reefs
                   </a>
