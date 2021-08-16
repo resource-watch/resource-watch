@@ -34,8 +34,7 @@
         },
         {
           "id": "FAO-harvest",
-          "title": "FAO Hidden Harvests SSF 2020 Report",
-          "icon": "economy"
+          "title": "FAO Hidden Harvests SSF 2020 Report"
         }
       ],
       "steps": []
@@ -492,7 +491,7 @@
               {
                 "id": "FAO-harvest",
                 "title": "FAO Hidden Harvests SSF 2020 Report",
-                "icon": "l",
+                "icon": "",
                 "widgets": [
                   {
                     "id": "b9192492-20f3-4725-8e90-8795f2176329"
@@ -538,7 +537,7 @@
               {
                 "id": "FAO-fleet",
                 "title": "FAO yearbook: fisheries fleet and employment",
-                "icon": "marine",
+                "icon": "",
                 "widgets": [
                   {
                     "id": "b9192492-20f3-4725-8e90-8795f2176329"
@@ -553,7 +552,7 @@
               {
                 "id": "FAO-export-import",
                 "title": "FAO yearbook: net exporting and importing countries",
-                "icon": "dependence",
+                "icon": "",
                 "widgets": [
                   {
                     "id": "ce53ec32-1dcf-408a-b1cc-a5fb072323eb"
