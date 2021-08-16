@@ -34,8 +34,7 @@
         },
         {
           "id": "FAO-harvest",
-          "title": "FAO Hidden Harvests SSF 2020 Report",
-          "icon": "economy"
+          "title": "FAO Hidden Harvests SSF 2020 Report"
         }
       ],
       "steps": [
