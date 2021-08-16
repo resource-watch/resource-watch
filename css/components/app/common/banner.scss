@@ -7,8 +7,9 @@ $banner-padding-size: 70px;
   flex-direction: column;
   padding-top: $banner-padding-size;
   padding-bottom: $banner-padding-size;
+  border-radius: 4px;
   color: $alt-font-color;
- 
+
   &.-use-background {
     background-size: cover;
     background-image: url('/static/images/backgrounds/image_header.jpg');
