@@ -225,11 +225,7 @@ export default function MapSelection() {
   });
 
   return (
-    <div
-      style={{
-        padding: '25px 0',
-      }}
-    >
+    <>
       <div
         style={{
           display: 'flex',
@@ -378,6 +374,6 @@ export default function MapSelection() {
           onClick={handleZoom}
         />
       </div>
-    </div>
+    </>
   );
 }
