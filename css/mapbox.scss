@@ -34,6 +34,8 @@
 }
 
 .rw-ow-popup-layer {
+  pointer-events: none;
+
   .mapboxgl-popup-content {
     background: transparent;
     min-height: auto;

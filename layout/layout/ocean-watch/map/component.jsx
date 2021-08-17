@@ -113,7 +113,7 @@ let hoverState = null;
 export default function MapSelection() {
   const [viewport, setViewport] = useState({
     ...DEFAULT_VIEWPORT,
-    zoom: 1,
+    zoom: 0,
   });
   const [buttonListVisibility, setVisibility] = useState(false);
   const [tooltip, setTooltip] = useState({});
@@ -280,7 +280,7 @@ export default function MapSelection() {
             width: '100%',
             height: '100%',
             zIndex: 2,
-            boxShadow: 'inset 0 -25px 50px 105px #0f4573',
+            boxShadow: 'inset 0 0 150px 55px #0f4573',
             pointerEvents: 'none',
           }}
           />
@@ -291,6 +291,7 @@ export default function MapSelection() {
             fitBoundsOptions={{ transitionDuration: 0 }}
             touchZoom={false}
             dragRotate={false}
+            scrollZoom={false}
             onClick={handleClickCountry}
             mapOptions={{
               renderWorldCopies: false,
@@ -332,47 +333,50 @@ export default function MapSelection() {
         </div>
         <div
           style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            display: 'flex',
-            justifyContent: 'center',
-            width: '100%',
-            pointerEvents: 'none',
-            zIndex: 3,
+            margin: '0 0 0 10px',
           }}
         >
-          <Tooltip
-            overlay={(
-              <TooltipList
-                list={areas}
-                onClickItem={handleCountryList}
-                placeholder="Type a country..."
-              />
-            )}
-            overlayClassName="c-rc-tooltip -default"
-            placement="top"
-            trigger="click"
-            visible={buttonListVisibility}
-            onVisibleChange={handleVisibility}
-            destroyTooltipOnHide
-          >
-            <button
-              type="button"
-              className="c-btn -secondary -alt"
-              style={{
-                pointerEvents: 'all',
-              }}
-              onClick={() => { setVisibility(true); }}
-            >
-              Select a country
-            </button>
-          </Tooltip>
+          <ZoomControls
+            viewport={viewport}
+            onClick={handleZoom}
+          />
         </div>
-        <ZoomControls
-          viewport={viewport}
-          onClick={handleZoom}
-        />
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          margin: '25px 0 0',
+          zIndex: 3,
+        }}
+      >
+        <Tooltip
+          overlay={(
+            <TooltipList
+              list={areas}
+              onClickItem={handleCountryList}
+              placeholder="Type a country..."
+            />
+          )}
+          overlayClassName="c-rc-tooltip -default"
+          placement="top"
+          trigger="click"
+          visible={buttonListVisibility}
+          onVisibleChange={handleVisibility}
+          destroyTooltipOnHide
+        >
+          <button
+            type="button"
+            className="c-btn -secondary -alt"
+            style={{
+              pointerEvents: 'all',
+            }}
+            onClick={() => { setVisibility(true); }}
+          >
+            Select a country
+          </button>
+        </Tooltip>
       </div>
     </>
   );
