@@ -228,155 +228,158 @@ export default function OceanWatchIntroPage() {
           </div>
         </div>
       </div>
+
       <div style={{
-        // background: '#0F4573',
-        background: 'linear-gradient(transparent, #0F4573)',
+        background: '#0F4573',
+        margin: '-85px 0 0',
       }}
       >
-        <OceanWatchStoryTelling
-          indicators={oceanWatchConfig.intro.indicators}
-        />
-      </div>
-      <div className="l-container">
-        <div className="row">
-          <div className="column small-12">
-            <div
-              style={{
-                padding: '25px 0 175px',
-              }}
-            >
-              <MapSelection />
+        <div className="l-container">
+          <div className="row">
+            <div className="column small-12">
+              <OceanWatchStoryTelling
+                indicators={oceanWatchConfig.intro.indicators}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="l-container">
+          <div className="row">
+            <div className="column small-12">
+              <div
+                style={{
+                  padding: '25px 0 175px',
+                }}
+              >
+                <MapSelection />
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <div
         style={{
-          background: '#fff',
+          transform: 'translate(0, calc(-265px / 2))',
         }}
       >
-        <div
-          style={{
-            transform: 'translate(0, calc(-265px / 2))',
-          }}
-        >
-          <div className="l-container">
-            <div className="row">
-              <div className="column small-12">
-                <Banner
-                  useDim
-                  className="-text-center"
-                  bgImage="/static/images/pages/app/banner-coral.jpg"
+        <div className="l-container">
+          <div className="row">
+            <div className="column small-12">
+              <Banner
+                useDim
+                className="-text-center"
+                bgImage="/static/images/pages/app/banner-coral.jpg"
+              >
+                <p className="-claim">
+                  Check the Coral Reefs dashboard
+                </p>
+                <a
+                  className="c-button -alt -primary"
+                  href="https://resourcewatch.org/dashboards/coral-reefs"
                 >
-                  <p className="-claim">
-                    Check the Coral Reefs dashboard
-                  </p>
-                  <a
-                    className="c-button -alt -primary"
-                    href="https://resourcewatch.org/dashboards/coral-reefs"
-                  >
-                    Coral Reefs
-                  </a>
-                </Banner>
-              </div>
-              <div
-                className="column small-6"
-                style={{
-                  margin: '20px 0 0',
+                  Coral Reefs
+                </a>
+              </Banner>
+            </div>
+            <div
+              className="column small-6"
+              style={{
+                margin: '20px 0 0',
+              }}
+            >
+              <Banner
+                bgImage="/static/images/homepage/home-data-bg1.png"
+                styles={{
+                  padding: 40,
                 }}
               >
-                <Banner
-                  bgImage="/static/images/homepage/home-data-bg1.png"
-                  styles={{
-                    padding: 40,
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
                   }}
                 >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                    }}
-                  >
-                    <div>
-                      <p className="-claim">
-                        Did you miss something?
-                      </p>
-                      <p>
-                        Know of a data set that you&apos;d like to see on Resource Watch or have
-                        a specific area of interest you&apos;d like us to cover?
-                      </p>
-                    </div>
-                    <Link href="/get-involved/contribute-data">
-                      <a className="c-button -alt -primary">
-                        Request data
-                      </a>
-                    </Link>
+                  <div>
+                    <p className="-claim">
+                      Did you miss something?
+                    </p>
+                    <p>
+                      Know of a data set that you&apos;d like to see on Resource Watch or have
+                      a specific area of interest you&apos;d like us to cover?
+                    </p>
                   </div>
-                </Banner>
-              </div>
-              <div
-                className="column small-6"
-                style={{
-                  margin: '20px 0 0',
-                }}
-              >
-                <Banner
-                  bgImage="/static/images/backgrounds/jellyfish.jpg"
-                  styles={{
-                    padding: 40,
-                    height: '100%',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                      height: '100%',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <div>
-                      <p className="-claim">
-                        Suggest a story
-                      </p>
-                      <p>
-                        Have you uncovered an interesting connection in the data
-                        we should tell a story about?
-                      </p>
-                    </div>
-                    <Link href="/get-involved/suggest-a-story">
-                      <a className="c-button -alt -primary">
-                        Suggest a story
-                      </a>
-                    </Link>
-                  </div>
-                </Banner>
-              </div>
-              <div
-                className="column small-12"
-                style={{
-                  margin: '20px 0 0',
-                }}
-              >
-                <Banner
-                  useDim
-                  className="-text-center"
-                  bgImage="/static/images/pages/app/banner-ocean-watch.jpg"
-                >
-                  <p className="-claim">
-                    Check out the Ocean Watch data
-                    <br />
-                    on the Explore page
-                  </p>
-                  <Link href="/data/explore?section=All data&topics=[&quot;ocean&quot;]">
+                  <Link href="/get-involved/contribute-data">
                     <a className="c-button -alt -primary">
-                      Go to explore
+                      Request data
                     </a>
                   </Link>
-                </Banner>
-              </div>
+                </div>
+              </Banner>
+            </div>
+            <div
+              className="column small-6"
+              style={{
+                margin: '20px 0 0',
+              }}
+            >
+              <Banner
+                bgImage="/static/images/backgrounds/jellyfish.jpg"
+                styles={{
+                  padding: 40,
+                  height: '100%',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    height: '100%',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div>
+                    <p className="-claim">
+                      Suggest a story
+                    </p>
+                    <p>
+                      Have you uncovered an interesting connection in the data
+                      we should tell a story about?
+                    </p>
+                  </div>
+                  <Link href="/get-involved/suggest-a-story">
+                    <a className="c-button -alt -primary">
+                      Suggest a story
+                    </a>
+                  </Link>
+                </div>
+              </Banner>
+            </div>
+            <div
+              className="column small-12"
+              style={{
+                margin: '20px 0 0',
+              }}
+            >
+              <Banner
+                useDim
+                className="-text-center"
+                bgImage="/static/images/pages/app/banner-ocean-watch.jpg"
+              >
+                <p className="-claim">
+                  Check out the Ocean Watch data
+                  <br />
+                  on the Explore page
+                </p>
+                <Link href="/data/explore?section=All data&topics=[&quot;ocean&quot;]">
+                  <a className="c-button -alt -primary">
+                    Go to explore
+                  </a>
+                </Link>
+              </Banner>
             </div>
           </div>
         </div>
