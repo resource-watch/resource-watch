@@ -3,6 +3,8 @@ import CardIndicator from 'components/card-indicator-set/card-indicator';
 
 export default function IndicatorsNavigation({
   indicators,
+  selectedIndicator,
+  onClickIndicator,
 }) {
   return (
     <div
@@ -18,7 +20,8 @@ export default function IndicatorsNavigation({
             id={id}
             title={title}
             icon={icon}
-            // theme={indicatorSetConfiguration?.config?.theme}
+            isSelected={id === selectedIndicator}
+            onClickCard={onClickIndicator}
           />
         ))}
     </div>

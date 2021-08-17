@@ -21,6 +21,8 @@ import Select from 'react-select';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
+import Header from 'layout/header';
+import OceanWatchHero from 'layout/layout/ocean-watch/hero';
 import InView from 'components/in-view';
 import MiniExplore from 'components/mini-explore';
 import MiniExploreWidgets from 'components/mini-explore-widgets';
@@ -135,6 +137,8 @@ export default function OceanWatchCountryProfilePage({
       title="Ocean Watch"
       description="Ocean Watch description" // todo: replace description
     >
+      <Header className="-transparent" />
+      <OceanWatchHero className="-ocean-watch" />
       <section className="l-section -small  -secondary">
         <div className="l-container">
           <div className="row">
