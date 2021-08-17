@@ -90,6 +90,7 @@ export default function OceanWatchIntroPage() {
             <div className="row">
               <div className="column small-12">
                 <Banner
+                  useDim
                   className="-text-center"
                   bgImage="/static/images/pages/app/banner-coral.jpg"
                 >
@@ -186,6 +187,7 @@ export default function OceanWatchIntroPage() {
                 }}
               >
                 <Banner
+                  useDim
                   className="-text-center"
                   bgImage="/static/images/pages/app/banner-ocean-watch.jpg"
                 >
