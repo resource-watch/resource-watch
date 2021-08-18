@@ -8,7 +8,7 @@ import AzaveaSampleViz from 'components/azavea/sampleViz';
 // doesn't rely on any external information, so there are no props to wire up, and our style tends
 // to keep wiring and the actual component together in the same file anyway, so I've leaned toward
 // Azavea style rather than project style in this case.
-export default function AzaveaTestLayout({ children }) {
+export default function AzaveaTestLayout() {
   return (
     <AppLayout
       title="Test Page"
@@ -28,19 +28,16 @@ export default function AzaveaTestLayout({ children }) {
         </div>
       </header>
       <section className="l-section -secondary">
-        {/* <iframe src="https://resourcewatch.org/embed/widget/81bd8d06-07f3-4a6f-8a4f-ba680850947d" width="100%" height="500px" frameBorder="0" /> */}
-        <AzaveaSampleViz />
         <p>
           This is a test page. It was created using a single Page, a single Layout, and no other
           components.
         </p>
         <p>If there is other content nested inside this layout, it will show up here:</p>
-        {children}
+        <div className="c-widget-block">
+          <AzaveaSampleViz />
+        </div>
         <p>And this will show up after any child content.</p>
       </section>
     </AppLayout>
   );
 }
-
-// There are linting rules that enforce the presence of this.
-AzaveaTestLayout.propTypes = { children: PropTypes.node.isRequired };
