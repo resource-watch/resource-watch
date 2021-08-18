@@ -113,7 +113,7 @@ export default function OceanWatchCountryProfilePage({
     }), [oceanWatchConfig]);
 
   const indicatorSetConfiguration = useMemo(() => serializedConfiguration
-    .find((rowContent) => !!rowContent.find((blockContent) => blockContent.visualizationType === 'indicators-set'))?.[0], [serializedConfiguration]);
+    .find((rowContent) => !!rowContent.find((blockContent) => blockContent.visualizationType === 'main-indicators-set'))?.[0], [serializedConfiguration]);
 
   const area = useMemo(() => areas.find(({ iso: areaId }) => iso === areaId), [areas, iso]);
 
@@ -272,6 +272,35 @@ export default function OceanWatchCountryProfilePage({
                         onToggleShare={handleShareWidget}
                       />
                     )}
+                    <InView
+                      triggerOnce
+                      threshold={0.25}
+                    >
+                      {({ ref, inView }) => (
+                        <div ref={ref}>
+                          {blockContent.visualizationType === 'indicators-set' && inView && (
+                            <CardIndicatorSet
+                              config={blockContent.config}
+                              params={{
+                                iso,
+                              }}
+                              theme={blockContent?.config?.theme}
+                            >
+                              {(blockContent?.config?.indicators || [])
+                                .map(({ id, title, icon }) => (
+                                  <CardIndicator
+                                    key={id}
+                                    id={id}
+                                    title={title}
+                                    icon={icon}
+                                    theme={blockContent?.config?.theme}
+                                  />
+                                ))}
+                            </CardIndicatorSet>
+                          )}
+                        </div>
+                      )}
+                    </InView>
                   </div>
                 ))}
               </div>
