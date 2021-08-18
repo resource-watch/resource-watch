@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useQuery } from 'react-query';
 import classnames from 'classnames';
-// import { format } from 'd3-format';
+import { format } from 'd3-format';
 import Renderer from '@widget-editor/renderer';
 import { replace } from 'layer-manager';
 import axios from 'axios';
@@ -262,15 +262,11 @@ export default function IndicatorVisualization({
           {(!isFetchingSecondaryWidget && secondaryWidget) && (
             <>
               <span className="data">
-                {/* todo: uncomment when data is ready */}
-                {/* {widgets[1].format
-                  ? format(widgets[1].format)(secondaryWidget.x) : secondaryWidget.x} */}
-                86.7
+                {widgets[1].format
+                  ? format(widgets[1].format)(secondaryWidget.x) : secondaryWidget.x}
                 {secondaryWidget.unit && (
                   <span className="unit">
-                    %
-                    {/* todo: uncomment when data is ready */}
-                    {/* {secondaryWidget.unit} */}
+                    {secondaryWidget.unit}
                   </span>
                 )}
               </span>
