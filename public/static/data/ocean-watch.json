@@ -31,10 +31,6 @@
           "id": "blue-economy",
           "title": "The Blue Economy",
           "icon": "economy"
-        },
-        {
-          "id": "FAO-harvest",
-          "title": "FAO Hidden Harvests SSF 2020 Report"
         }
       ],
       "steps": [
