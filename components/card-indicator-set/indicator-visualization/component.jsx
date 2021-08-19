@@ -264,15 +264,9 @@ export default function IndicatorVisualization({
               <span className="data">
                 {widgets[1].format
                   ? format(widgets[1].format)(secondaryWidget.x) : secondaryWidget.x}
-<<<<<<< HEAD
                 {widgets[1].unit && (
                   <span className="unit">
                     {widgets[1].unit}
-=======
-                {secondaryWidget.unit && (
-                  <span className="unit">
-                    {secondaryWidget.unit}
->>>>>>> 149f4dc56 (renders indicator-set)
                   </span>
                 )}
               </span>
