@@ -28,6 +28,7 @@ import MiniExplore from 'components/mini-explore';
 import MiniExploreWidgets from 'components/mini-explore-widgets';
 import CardIndicatorSet from 'components/card-indicator-set';
 import CardIndicator from 'components/card-indicator-set/card-indicator';
+import NumericCardIndicator from 'components/card-indicator-set/numeric-card-indicator';
 import MapWidget from 'components/widgets/types/map';
 import SwipeMapWidget from 'components/widgets/types/map-swipe';
 import ChartWidget from 'components/widgets/types/chart';
@@ -169,7 +170,11 @@ export default function OceanWatchCountryProfilePage({
                   theme={indicatorSetConfiguration?.config?.theme}
                 >
                   {(indicatorSetConfiguration?.config?.indicators || [])
-                    .map(({ id, title, icon }) => (
+                    .map(({
+                      id,
+                      title,
+                      icon,
+                    }) => (
                       <CardIndicator
                         key={id}
                         id={id}
@@ -291,13 +296,30 @@ export default function OceanWatchCountryProfilePage({
                               theme={blockContent?.config?.theme}
                             >
                               {(blockContent?.config?.indicators || [])
-                                .map(({ id, title, icon }) => (
-                                  <CardIndicator
+                                .map(({
+                                  id,
+                                  title,
+                                  description,
+                                  query,
+                                  format,
+                                  unit,
+                                }) => (
+                                  <NumericCardIndicator
                                     key={id}
                                     id={id}
+                                    data={{
+                                      id,
+                                      title,
+                                      query,
+                                      description,
+                                      format,
+                                      unit,
+                                    }}
                                     title={title}
-                                    icon={icon}
-                                    theme={blockContent?.config?.theme}
+                                    theme={indicatorSetConfiguration?.config?.theme}
+                                    params={{
+                                      iso,
+                                    }}
                                   />
                                 ))}
                             </CardIndicatorSet>
