@@ -73,7 +73,7 @@ CardIndicatorSet.propTypes = {
   indicator: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    icon: PropTypes.string.isRequired,
+    icon: PropTypes.string,
   }).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.element,
