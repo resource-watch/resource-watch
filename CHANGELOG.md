@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- dim effect to banners.
 - Ocean Watch introduction: call to action suggest a story [OW-39](https://vizzuality.atlassian.net/browse/OW-39)
 - Ocean Watch introduction: call to action data contribution/request [OW-36](https://vizzuality.atlassian.net/browse/OW-36)
 - Ocean Watch introduction: Call to action to go to general explore page  [OW-28](https://vizzuality.atlassian.net/browse/OW-28)

@@ -21,6 +21,8 @@ import Select from 'react-select';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
+import Header from 'layout/header';
+import OceanWatchHero from 'layout/layout/ocean-watch/hero';
 import InView from 'components/in-view';
 import MiniExplore from 'components/mini-explore';
 import MiniExploreWidgets from 'components/mini-explore-widgets';
@@ -113,7 +115,7 @@ export default function OceanWatchCountryProfilePage({
     }), [oceanWatchConfig]);
 
   const indicatorSetConfiguration = useMemo(() => serializedConfiguration
-    .find((rowContent) => !!rowContent.find((blockContent) => blockContent.visualizationType === 'indicators-set'))?.[0], [serializedConfiguration]);
+    .find((rowContent) => !!rowContent.find((blockContent) => blockContent.visualizationType === 'main-indicators-set'))?.[0], [serializedConfiguration]);
 
   const area = useMemo(() => areas.find(({ iso: areaId }) => iso === areaId), [areas, iso]);
 
@@ -135,6 +137,8 @@ export default function OceanWatchCountryProfilePage({
       title="Ocean Watch"
       description="Ocean Watch description" // todo: replace description
     >
+      <Header className="-transparent" />
+      <OceanWatchHero className="-ocean-watch" />
       <section className="l-section -small  -secondary">
         <div className="l-container">
           <div className="row">
@@ -272,6 +276,35 @@ export default function OceanWatchCountryProfilePage({
                         onToggleShare={handleShareWidget}
                       />
                     )}
+                    <InView
+                      triggerOnce
+                      threshold={0.25}
+                    >
+                      {({ ref, inView }) => (
+                        <div ref={ref}>
+                          {blockContent.visualizationType === 'indicators-set' && inView && (
+                            <CardIndicatorSet
+                              config={blockContent.config}
+                              params={{
+                                iso,
+                              }}
+                              theme={blockContent?.config?.theme}
+                            >
+                              {(blockContent?.config?.indicators || [])
+                                .map(({ id, title, icon }) => (
+                                  <CardIndicator
+                                    key={id}
+                                    id={id}
+                                    title={title}
+                                    icon={icon}
+                                    theme={blockContent?.config?.theme}
+                                  />
+                                ))}
+                            </CardIndicatorSet>
+                          )}
+                        </div>
+                      )}
+                    </InView>
                   </div>
                 ))}
               </div>

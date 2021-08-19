@@ -7,6 +7,11 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer(withCSS(withSass({
   poweredByHeader: false,
 
+  // Webpack 5 is enabled by default
+  // You can still use webpack 4 while upgrading to the latest version of Next.js
+  // by adding the "webpack5: false" flag
+  webpack5: false,
+
   async redirects() {
     return [
       {
