@@ -264,9 +264,9 @@ export default function IndicatorVisualization({
               <span className="data">
                 {widgets[1].format
                   ? format(widgets[1].format)(secondaryWidget.x) : secondaryWidget.x}
-                {secondaryWidget.unit && (
+                {widgets[1].unit && (
                   <span className="unit">
-                    {secondaryWidget.unit}
+                    {widgets[1].unit}
                   </span>
                 )}
               </span>
@@ -315,6 +315,7 @@ IndicatorVisualization.propTypes = {
         query: PropTypes.string,
         text: PropTypes.string,
         format: PropTypes.string,
+        unit: PropTypes.string,
       }).isRequired,
     ),
   }).isRequired,
