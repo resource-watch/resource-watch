@@ -14,11 +14,9 @@ import IndicatorsNavigation from './indicators-navigation/component';
 import StoryStep from './story-step/component';
 import StepBackground from './background';
 
-// constants
-import STORY_TELLING_STEPS from './constants';
-
 export default function OceanWatchStoryTelling({
   indicators,
+  steps,
 }) {
   const [tooltipVisibility, setTooltipVisibility] = useState({});
   const [selectedIndicator, setSelectedIndicator] = useState(null);
@@ -97,7 +95,7 @@ export default function OceanWatchStoryTelling({
             height: '100%',
           }}
         >
-          {STORY_TELLING_STEPS.filter(
+          {steps.filter(
             ({ isPlaceholder }) => isPlaceholder,
           ).map((step) => (
             <>
@@ -174,7 +172,7 @@ export default function OceanWatchStoryTelling({
       <Scrollama
         onStepEnter={onStepEnter}
       >
-        {STORY_TELLING_STEPS.map((step) => (
+        {steps.map((step) => (
           <Step
             key={step.id}
             data={step}
@@ -196,5 +194,8 @@ OceanWatchStoryTelling.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
     }),
+  ).isRequired,
+  steps: PropTypes.arrayOf(
+    PropTypes.shape({}),
   ).isRequired,
 };
