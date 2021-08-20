@@ -87,6 +87,7 @@ export default function OceanWatchIntroPage() {
             <div className="column small-12">
               <OceanWatchStoryTelling
                 indicators={oceanWatchConfig.intro.indicators}
+                steps={oceanWatchConfig.intro.steps}
               />
             </div>
           </div>
