@@ -41,8 +41,8 @@ function checkBasicAuth(credentials) {
   return function authMiddleware(req, res, nextAction) {
     if (
       !/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])
-      // unblocks requests from the internal API
-      && !req.url.startsWith('/api')
+      // skips requests from internal next-auth API. These are needed to verify user session.
+      && !req.url.startsWith('/api/auth')
     ) {
       const user = basicAuth(req);
       let authorized = false;
