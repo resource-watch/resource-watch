@@ -70,6 +70,13 @@ spec:
                 secretKeyRef:
                   key: RW_PREPROD_AUTH_PASSWORD
                   name: appsecrets
+            - name: NEXTAUTH_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: RW_JWT_SECRET
+                  name: appsecrets
+            - name: NEXTAUTH_URL
+              value: https://preproduction.resourcewatch.org
           image: gfwdockerhub/resource-watch
           imagePullPolicy: Always
           name: resource-watch-preproduction
