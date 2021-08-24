@@ -20,7 +20,6 @@ export const useMe = (queryConfig = {}) => {
     {
       enabled: !!(session?.accessToken),
       refetchOnWindowFocus: false,
-      initialData: null,
       select: (user) => user && ({
         ...user,
         token: `Bearer ${session?.accessToken}`,
