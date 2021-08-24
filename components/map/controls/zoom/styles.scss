@@ -40,4 +40,22 @@
       cursor: default;
     }
   }
+
+  &.-ocean-watch {
+    border-radius: 3px;
+    background: #0F4573;
+
+    > .zoom-control--btn {
+      background-color: rgba($blue-turquoise, .4);
+      box-shadow: 0 1px 1px 0 rgba(#0F4573, 1);
+
+      > svg {
+        fill: $white;
+      }
+
+      &:last-child {
+        border-top-color: #0F4573;
+      }
+    }
+  }
 }
