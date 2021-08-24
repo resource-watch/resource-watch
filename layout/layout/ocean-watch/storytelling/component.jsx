@@ -1,6 +1,5 @@
 import {
   useCallback,
-  useEffect,
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -14,14 +13,12 @@ import IndicatorsNavigation from './indicators-navigation/component';
 import StoryStep from './story-step/component';
 import StepBackground from './background';
 
-// constants
-import STORY_TELLING_STEPS from './constants';
-
 export default function OceanWatchStoryTelling({
   indicators,
+  steps,
 }) {
   const [tooltipVisibility, setTooltipVisibility] = useState({});
-  const [selectedIndicator, setSelectedIndicator] = useState(null);
+  const [selectedIndicator, setSelectedIndicator] = useState('opening');
 
   const onStepEnter = ({ data }) => {
     setSelectedIndicator(data.indicator);
@@ -45,12 +42,6 @@ export default function OceanWatchStoryTelling({
       [id]: !tooltipVisibility[id],
     });
   }, [tooltipVisibility]);
-
-  useEffect(() => {
-    if (!indicators.length) return false;
-
-    return setSelectedIndicator(indicators[0].id);
-  }, [indicators]);
 
   return (
     <>
@@ -97,7 +88,7 @@ export default function OceanWatchStoryTelling({
             height: '100%',
           }}
         >
-          {STORY_TELLING_STEPS.filter(
+          {steps.filter(
             ({ isPlaceholder }) => isPlaceholder,
           ).map((step) => (
             <>
@@ -148,8 +139,8 @@ export default function OceanWatchStoryTelling({
                     )}
                     overlayClassName="c-rc-tooltip"
                     placement="top"
-                    trigger="click"
-                    visible={tooltipVisibility[`${step.indicator}-${index}`] || false}
+                    trigger="hover"
+                    // visible={tooltipVisibility[`${step.indicator}-${index}`] || false}
                     overlayStyle={{
                       position: 'fixed',
                     }}
@@ -174,7 +165,7 @@ export default function OceanWatchStoryTelling({
       <Scrollama
         onStepEnter={onStepEnter}
       >
-        {STORY_TELLING_STEPS.map((step) => (
+        {steps.map((step) => (
           <Step
             key={step.id}
             data={step}
@@ -196,5 +187,8 @@ OceanWatchStoryTelling.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
     }),
+  ).isRequired,
+  steps: PropTypes.arrayOf(
+    PropTypes.shape({}),
   ).isRequired,
 };
