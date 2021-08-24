@@ -1,6 +1,5 @@
 import {
   useCallback,
-  useEffect,
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
@@ -19,7 +18,7 @@ export default function OceanWatchStoryTelling({
   steps,
 }) {
   const [tooltipVisibility, setTooltipVisibility] = useState({});
-  const [selectedIndicator, setSelectedIndicator] = useState(null);
+  const [selectedIndicator, setSelectedIndicator] = useState('opening');
 
   const onStepEnter = ({ data }) => {
     setSelectedIndicator(data.indicator);
@@ -43,12 +42,6 @@ export default function OceanWatchStoryTelling({
       [id]: !tooltipVisibility[id],
     });
   }, [tooltipVisibility]);
-
-  useEffect(() => {
-    if (!indicators.length) return false;
-
-    return setSelectedIndicator(indicators[0].id);
-  }, [indicators]);
 
   return (
     <>
@@ -146,8 +139,8 @@ export default function OceanWatchStoryTelling({
                     )}
                     overlayClassName="c-rc-tooltip"
                     placement="top"
-                    trigger="click"
-                    visible={tooltipVisibility[`${step.indicator}-${index}`] || false}
+                    trigger="hover"
+                    // visible={tooltipVisibility[`${step.indicator}-${index}`] || false}
                     overlayStyle={{
                       position: 'fixed',
                     }}

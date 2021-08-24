@@ -35,11 +35,26 @@
       ],
       "steps": [
         {
+          "id": "opening",
+          "indicator": "opening",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg",
+            "alt": "Opening"
+          },
+          "info": [
+            {
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+              "position": [60, 40]
+            }
+          ]
+        },
+        {
           "id": "land-sea-interface-1",
           "indicator": "land-sea-interface",
           "isPlaceholder": true,
           "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg",
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-2.jpg",
             "alt": "land sea interface"
           },
           "info": [
@@ -59,7 +74,10 @@
         },
         {
           "id": "land-sea-interface-2",
-          "indicator": "land-sea-interface"
+          "indicator": "land-sea-interface",
+          "data": {
+            "title": "The Land-Sea Interface"
+          }
         },
         {
           "id": "oceans-climate-1",
@@ -82,7 +100,10 @@
         },
         {
           "id": "oceans-climate-2",
-          "indicator": "oceans-climate"
+          "indicator": "oceans-climate",
+          "data": {
+            "title": "Ocean and Climate Change"
+          }
         },
         {
           "id": "biodiversity-1",
@@ -101,7 +122,10 @@
         },
         {
           "id": "biodiversity-2",
-          "indicator": "biodiversity"
+          "indicator": "biodiversity",
+          "data": {
+            "title": "Biodiversity"
+          }
         },
         {
           "id": "marine-protected-areas-1",
@@ -120,7 +144,10 @@
         },
         {
           "id": "marine-protected-areas-2",
-          "indicator": "marine-protected-areas"
+          "indicator": "marine-protected-areas",
+          "data": {
+            "title": "Marine Protected Areas"
+          }
         },
         {
           "id": "ocean-dependence-1",
@@ -147,7 +174,10 @@
         },
         {
           "id": "ocean-dependence-2",
-          "indicator": "ocean-dependence"
+          "indicator": "ocean-dependence",
+          "data": {
+            "title": "Ocean Dependence"
+          }
         },
         {
           "id": "blue-economy-1",
@@ -160,21 +190,24 @@
           "info": [
             {
               "content": "A sustainably managed fishery can feed the world, sustainable ocean management provides the means to support millions of  coastal communities",
-              "position": [53, 28]
+              "position": [28, 55]
             },
             {
               "content": "Tourism is an ever growing industry, often acting as a significant source of wealth for developing nations. Sustainable marine tourism provides essential jobs for a variety of communities and a means to engage with one of the worlds most important ecosystems",
-              "position": [50, 0]
+              "position": [70, 50]
             },
             {
               "content": "Ocean sources of renewable energy are projected to increase x fold over the next ten years. The ocean is a solution to unsustainable energy generation",
-              "position": [50, 25]
+              "position": [70, 70]
             }
           ]
         },
         {
           "id": "blue-economy-2",
-          "indicator": "blue-economy"
+          "indicator": "blue-economy",
+          "data": {
+            "title": "Blue Economy"
+          }
         }
       ]
     },
