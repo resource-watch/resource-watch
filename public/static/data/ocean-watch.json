@@ -82,7 +82,6 @@
         {
           "id": "land-sea-interface-3",
           "indicator": "land-sea-interface",
-
           "content": {
             "widget": [
               {
@@ -97,6 +96,28 @@
               }
             ]
           }
+        },
+        {
+          "id": "land-sea-interface-4",
+          "indicator": "land-sea-interface",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-2.jpg"
+          },
+          "info": [
+            {
+              "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
+              "position": [53, 28]
+            },
+            {
+              "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
+              "position": [50, 50]
+            },
+            {
+              "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
+              "position": [50, 25]
+            }
+          ]
         },
         {
           "id": "oceans-climate-1",
