@@ -10,6 +10,7 @@ import { Tooltip } from 'vizzuality-components';
 
 // components
 import Map from 'components/map';
+import MapControls from 'components/map/controls';
 import ZoomControls from 'components/map/controls/zoom';
 import LayerManager from 'components/map/layer-manager';
 import TooltipList from 'components/tooltip-list';
@@ -109,6 +110,14 @@ const layers = [
 ];
 
 let hoverState = null;
+
+const gradientStyles = {
+  position: 'absolute',
+  width: '100%',
+  height: 75,
+  zIndex: 2,
+  pointerEvents: 'none',
+};
 
 export default function MapSelection() {
   const [viewport, setViewport] = useState({
@@ -263,7 +272,6 @@ export default function MapSelection() {
           alignItems: 'center',
           position: 'relative',
           height: 475,
-          margin: '25px 0 0',
         }}
       >
         <div
@@ -274,14 +282,36 @@ export default function MapSelection() {
           }}
         >
           <div style={{
-            position: 'absolute',
+            ...gradientStyles,
             top: 0,
             left: 0,
-            width: '100%',
+            background: 'linear-gradient(to bottom, #0F4573 33%, transparent 100%)',
+          }}
+          />
+          <div style={{
+            ...gradientStyles,
+            top: 0,
+            bottom: 0,
             height: '100%',
-            zIndex: 2,
-            boxShadow: 'inset 0 0 150px 55px #0f4573',
-            pointerEvents: 'none',
+            width: 75,
+            background: 'linear-gradient(to right, #0F4573 33%, transparent 100%)',
+          }}
+          />
+          <div style={{
+            ...gradientStyles,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            height: '100%',
+            width: 75,
+            background: 'linear-gradient(to left, #0F4573 33%, transparent 100%)',
+          }}
+          />
+          <div style={{
+            ...gradientStyles,
+            bottom: 0,
+            left: 0,
+            background: 'linear-gradient(to top, #0F4573 33%, transparent 100%)',
           }}
           />
           <Map
@@ -314,8 +344,6 @@ export default function MapSelection() {
                     longitude={tooltip.lngLat[0]}
                     closeButton={false}
                     className="rw-ow-popup-layer"
-                    captureScroll
-                    capturePointerMove
                   >
                     <span
                       style={{
@@ -327,56 +355,61 @@ export default function MapSelection() {
                     </span>
                   </Popup>
                 )}
+
+                <MapControls
+                  style={{
+                    top: '50%',
+                    right: 60,
+                    transform: 'translate(0, -50%)',
+                  }}
+                >
+                  <ZoomControls
+                    className="-ocean-watch"
+                    viewport={viewport}
+                    onClick={handleZoom}
+                  />
+                </MapControls>
               </>
             )}
           </Map>
-        </div>
-        <div
-          style={{
-            margin: '0 0 0 10px',
-          }}
-        >
-          <ZoomControls
-            viewport={viewport}
-            onClick={handleZoom}
-          />
-        </div>
-      </div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-          margin: '25px 0 0',
-          zIndex: 3,
-        }}
-      >
-        <Tooltip
-          overlay={(
-            <TooltipList
-              list={areas}
-              onClickItem={handleCountryList}
-              placeholder="Type a country..."
-            />
-          )}
-          overlayClassName="c-rc-tooltip -default"
-          placement="top"
-          trigger="click"
-          visible={buttonListVisibility}
-          onVisibleChange={handleVisibility}
-          destroyTooltipOnHide
-        >
-          <button
-            type="button"
-            className="c-btn -secondary -alt"
+          <div
             style={{
-              pointerEvents: 'all',
+              position: 'absolute',
+              bottom: 0,
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
+              zIndex: 3,
             }}
-            onClick={() => { setVisibility(true); }}
           >
-            Select a country
-          </button>
-        </Tooltip>
+            <Tooltip
+              overlay={(
+                <TooltipList
+                  list={areas}
+                  onClickItem={handleCountryList}
+                  placeholder="Type a country..."
+                />
+              )}
+              overlayClassName="c-rc-tooltip -default"
+              placement="top"
+              trigger="click"
+              visible={buttonListVisibility}
+              onVisibleChange={handleVisibility}
+              destroyTooltipOnHide
+            >
+              <button
+                type="button"
+                className="c-btn -secondary -alt"
+                style={{
+                  pointerEvents: 'all',
+                }}
+                onClick={() => { setVisibility(true); }}
+              >
+                Select a country
+              </button>
+            </Tooltip>
+          </div>
+        </div>
       </div>
     </>
   );
