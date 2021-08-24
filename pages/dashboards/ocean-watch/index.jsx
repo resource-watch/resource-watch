@@ -82,16 +82,10 @@ export default function OceanWatchIntroPage() {
         margin: '-85px 0 0',
       }}
       >
-        <div className="l-container">
-          <div className="row">
-            <div className="column small-12">
-              <OceanWatchStoryTelling
-                indicators={oceanWatchConfig.intro.indicators}
-                steps={oceanWatchConfig.intro.steps}
-              />
-            </div>
-          </div>
-        </div>
+        <OceanWatchStoryTelling
+          indicators={oceanWatchConfig.intro.indicators}
+          steps={oceanWatchConfig.intro.steps}
+        />
 
         <div className="l-container">
           <div className="row">
