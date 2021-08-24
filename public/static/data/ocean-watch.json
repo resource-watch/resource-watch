@@ -39,8 +39,7 @@
           "indicator": "opening",
           "isPlaceholder": true,
           "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg",
-            "alt": "Opening"
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg"
           },
           "info": [
             {
@@ -52,40 +51,99 @@
         {
           "id": "land-sea-interface-1",
           "indicator": "land-sea-interface",
+          "content": {
+            "title": "The Land-Sea Interface",
+            "subtitle": "Addressing threats to the ocean often begin on land.",
+            "intro": "The land and the ocean are strongly connected by a series of human and natural processes, fueling ocean life cycles. Human activities on land have introduced higher levels of sediment and toxic chemicals into the ocean, threatening the health of the coast, ocean resources and billions of people."
+          }
+        },
+        {
+          "id": "land-sea-interface-2",
+          "indicator": "land-sea-interface",
           "isPlaceholder": true,
           "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-2.jpg",
-            "alt": "land sea interface"
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-2.jpg"
           },
           "info": [
             {
-              "content": "Deforestation makes soils vulnerable to erosion and increases transport of sediments into rivers",
+              "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
               "position": [53, 28]
             },
             {
-              "content": "Fertilizers from agriculture and waste from livestock and urban populations may end up in rivers if not properly managed",
+              "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
               "position": [50, 50]
             },
             {
-              "content": "Sediments can decrease sunlight reaching the sea-floor; fertilizers and waste favour the formation of toxic algal blooms, and result in the loss of marine biodiversity",
+              "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
               "position": [50, 25]
             }
           ]
         },
         {
-          "id": "land-sea-interface-2",
+          "id": "land-sea-interface-3",
           "indicator": "land-sea-interface",
-          "data": {
-            "title": "The Land-Sea Interface"
+          "content": {
+            "widget": [
+              {
+                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                "format": ".2f",
+                "unit": "%"
+              },
+              {
+                "id": "b9192492-20f3-4725-8e90-8795f2176329",
+                "type": "chart"
+              }
+            ]
           }
+        },
+        {
+          "id": "land-sea-interface-4",
+          "indicator": "land-sea-interface",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-2.jpg"
+          },
+          "info": [
+            {
+              "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
+              "position": [53, 28]
+            },
+            {
+              "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
+              "position": [50, 50]
+            },
+            {
+              "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
+              "position": [50, 25]
+            }
+          ]
         },
         {
           "id": "oceans-climate-1",
           "indicator": "oceans-climate",
+          "content": {
+            "title": "Ocean and Climate Change",
+            "subtitle": "The ocean is central to regulating the global climate.",
+            "widget": [
+              {
+                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
+                "value": 9.5,
+                "unit": "%"
+              },
+              {
+                "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
+                "type": "map"
+              }
+            ]
+          }
+        },
+        {
+          "id": "oceans-climate-2",
+          "indicator": "oceans-climate",
           "isPlaceholder": true,
           "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-3.jpg",
-            "alt": "oceans climate"
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-3.jpg"
           },
           "info": [
             {
@@ -99,63 +157,84 @@
           ]
         },
         {
-          "id": "oceans-climate-2",
-          "indicator": "oceans-climate",
-          "data": {
-            "title": "Ocean and Climate Change"
-          }
-        },
-        {
           "id": "biodiversity-1",
           "indicator": "biodiversity",
-          "isPlaceholder": true,
-          "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-4.jpg",
-            "alt": "biodiversity"
-          },
-          "info": [
-            {
-              "content": "Oceans host rich biodiversity in its many habitats that support a wide variety of industries and people around the world",
-              "position": [53, 28]
-            }
-          ]
+          "content": {
+            "title": "Biodiversity",
+            "subtitle": "Biodiversity — the variety and variability of life on Earth — is the natural capital people depend on for survival.",
+            "widget": [
+              {
+                "id": "b9192492-20f3-4725-8e90-8795f2176329",
+                "type": "chart"
+              },
+              {
+                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
+                "value": 9.5,
+                "unit": "%"
+              }
+            ]
+          }
         },
         {
           "id": "biodiversity-2",
           "indicator": "biodiversity",
-          "data": {
-            "title": "Biodiversity"
-          }
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-4.jpg"
+          },
+          "info": [
+            {
+              "content": "Ocean acidification is caused by rising CO2 levels in the atmosphere. Many critical ocean habitats and life forms begin to dissolve when the water is too acidic. [subscript the 2 in CO2]",
+              "position": [53, 28]
+            },
+            {
+              "content": "Oxygen is a key requirement for ocean life. Climate change is warming the ocean and driving deoxygenation by limiting its ability to hold and circulate oxygen into the deep ocean.",
+              "position": [25, 50]
+            }
+          ]
         },
         {
           "id": "marine-protected-areas-1",
           "indicator": "marine-protected-areas",
+          "content": {
+            "title": "Marine Protected Areas",
+            "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity.",
+            "widget": [
+              {
+                "id":  "879ecb9e-5594-40ea-9458-2295b70017da",
+                "type": "map-swipe"
+              }
+            ]
+          }
+        },
+        {
+          "id": "marine-protected-areas-2",
+          "indicator": "marine-protected-areas",
           "isPlaceholder": true,
           "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-5.jpg",
-            "alt": "marine-protected-areas"
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-5.jpg"
           },
           "info": [
             {
-              "content": "Protected areas are essential tools to ensure the sustainable production of marine ecosystems and the prosperity f those that rely upon them. Only x% of the ocean is currently fully protected",
+              "content": "MPAs that are fully protected can safeguard biodiversity, mitigate climate change and boost the productivity of fisheries in the surrounding areas.",
               "position": [53, 28]
             }
           ]
         },
         {
-          "id": "marine-protected-areas-2",
-          "indicator": "marine-protected-areas",
-          "data": {
-            "title": "Marine Protected Areas"
+          "id": "ocean-dependence-1",
+          "indicator": "ocean-dependence",
+          "content": {
+            "title": "Ocean Dependence",
+            "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food."
           }
         },
         {
-          "id": "ocean-dependence-1",
+          "id": "ocean-dependence-2",
           "indicator": "ocean-dependence",
           "isPlaceholder": true,
           "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-5.jpg",
-            "alt": "ocean-dependence"
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-5.jpg"
           },
           "info": [
             {
@@ -173,19 +252,51 @@
           ]
         },
         {
-          "id": "ocean-dependence-2",
-          "indicator": "ocean-dependence",
-          "data": {
-            "title": "Ocean Dependence"
+          "id": "blue-economy-1",
+          "indicator": "blue-economy",
+          "content": {
+            "title": "Blue Economy",
+            "subtitle": "The ocean is an engine of livelihoods, transport, commerce and energy production.",
+            "sectionPosition": "right",
+            "sections": [
+              {
+                "title": "section 1",
+                "widget": [
+                  {
+                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "format": ".2f",
+                    "unit": "%"
+                  },
+                  {
+                    "id": "b9192492-20f3-4725-8e90-8795f2176329",
+                    "type": "chart"
+                  }
+                ]
+              },
+              {
+                "title": "section 2",
+                "widget": [
+                  {
+                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "unit": "ha"
+                  },
+                  {
+                    "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
+                    "type": "map"
+                  }
+                ]
+              }
+            ]
           }
         },
         {
-          "id": "blue-economy-1",
+          "id": "blue-economy-2",
           "indicator": "blue-economy",
           "isPlaceholder": true,
           "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-6.jpg",
-            "alt": "blue-economy"
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-6.jpg"
           },
           "info": [
             {
@@ -201,13 +312,6 @@
               "position": [70, 70]
             }
           ]
-        },
-        {
-          "id": "blue-economy-2",
-          "indicator": "blue-economy",
-          "data": {
-            "title": "Blue Economy"
-          }
         }
       ]
     },

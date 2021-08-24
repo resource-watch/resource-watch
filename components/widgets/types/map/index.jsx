@@ -38,6 +38,8 @@ import {
 import ErrorFallback from 'components/error-fallback';
 import MapTypeWidget from './component';
 
+const mapKey = uuidv4();
+
 const CustomErrorFallback = ((_props) => (
   <ErrorFallback
     {..._props}
@@ -48,6 +50,7 @@ const CustomErrorFallback = ((_props) => (
 export default function MapTypeWidgetContainer({
   widgetId,
   params,
+  style,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -141,14 +144,14 @@ export default function MapTypeWidgetContainer({
       FallbackComponent={CustomErrorFallback}
       onReset={() => {
         refetchWidget();
-        refetchGeostore();
+        if (areaOfInterest) refetchGeostore();
       }}
     >
       <MapTypeWidget
         // forces to render the component again and paint updated styles in the map.
         // This might be fixed in recent versions of Layer Manager.
         // todo: try to remove the key when the layer manager version is updated.
-        key={minZoom || uuidv4()}
+        key={minZoom || mapKey}
         layerGroups={layerGroups}
         {...geostore?.bbox && {
           mapBounds: {
@@ -161,6 +164,7 @@ export default function MapTypeWidgetContainer({
         aoiLayer={aoiLayer}
         maskLayer={maskLayer}
         widget={widget}
+        style={style}
         isFetching={isFetching}
         isError={isError}
         isInACollection={isInACollection}
@@ -173,12 +177,14 @@ export default function MapTypeWidgetContainer({
 
 MapTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
-  params: null,
+  params: {},
+  style: {},
 };
 
 MapTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
   params: PropTypes.shape({}),
+  style: PropTypes.shape({}),
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };

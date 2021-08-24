@@ -14,6 +14,7 @@ import WidgetInfo from '../../info';
 export default function ChartType({
   widget,
   adapter,
+  style,
   isFetching,
   isError,
   isInACollection,
@@ -32,7 +33,10 @@ export default function ChartType({
   const caption = widget?.metadata?.[0]?.info?.caption;
 
   return (
-    <div className="c-widget">
+    <div
+      className="c-widget"
+      style={style}
+    >
       {!isFetching && !isError && (
         <div className="widget-header-container">
           <WidgetHeader
@@ -93,6 +97,7 @@ ChartType.defaultProps = {
   isFetching: false,
   isError: false,
   isInACollection: false,
+  style: {},
 };
 
 ChartType.propTypes = {
@@ -107,6 +112,7 @@ ChartType.propTypes = {
     ),
   }).isRequired,
   adapter: PropTypes.func.isRequired,
+  style: PropTypes.shape({}),
   isFetching: PropTypes.bool,
   isError: PropTypes.bool,
   isInACollection: PropTypes.bool,

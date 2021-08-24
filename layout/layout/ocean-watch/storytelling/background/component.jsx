@@ -5,15 +5,15 @@ import './styles.scss';
 
 export default function StepBackground({
   src,
-  alt,
   style,
 }) {
   return (
-    <img
+    <div
       className="c-storytelling-background"
-      src={src}
-      alt={alt}
-      style={style}
+      style={{
+        backgroundImage: `url(${src})`,
+        ...style,
+      }}
     />
   );
 }
@@ -25,5 +25,4 @@ StepBackground.defaultProps = {
 StepBackground.propTypes = {
   style: PropTypes.shape({}),
   src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
 };

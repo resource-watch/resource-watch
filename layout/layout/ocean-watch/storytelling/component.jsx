@@ -1,6 +1,7 @@
 import {
   useCallback,
   useState,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import { Scrollama, Step } from 'react-scrollama';
@@ -10,7 +11,7 @@ import { Tooltip } from 'vizzuality-components';
 // components
 import Icon from 'components/ui/icon';
 import IndicatorsNavigation from './indicators-navigation/component';
-import StoryStep from './story-step/component';
+import StoryStep from './story-step';
 import StepBackground from './background';
 
 export default function OceanWatchStoryTelling({
@@ -43,23 +44,26 @@ export default function OceanWatchStoryTelling({
     });
   }, [tooltipVisibility]);
 
+  const placeholderSteps = useMemo(() => steps.filter(
+    ({ isPlaceholder }) => isPlaceholder,
+  ), [steps]);
+
   return (
-    <>
-      <div className="l-container">
-        <div className="row">
-          <div className="column small-12">
-            <h3
-              style={{
-                fontSize: 42,
-                fontWeight: '300',
-                color: '#fff',
-              }}
-            >
-              Select a topic to explore its data
-            </h3>
-          </div>
+    <div className="l-container">
+      <div className="row">
+        <div className="column small-12">
+          <h3
+            style={{
+              fontSize: 42,
+              fontWeight: '300',
+              color: '#fff',
+            }}
+          >
+            Select a topic to explore its data
+          </h3>
         </div>
       </div>
+
       <div
         style={{
           position: 'sticky',
@@ -69,97 +73,103 @@ export default function OceanWatchStoryTelling({
           flexDirection: 'column',
         }}
       >
-        <nav style={{
-          position: 'relative',
-          padding: '25px 0',
-          background: '#0F4573',
-        }}
-        >
-          <IndicatorsNavigation
-            indicators={indicators}
-            selectedIndicator={selectedIndicator}
-            onClickIndicator={handleClickIndicator}
-          />
-        </nav>
-        <div
-          style={{
+        <div className="column small-12">
+          <nav style={{
             position: 'relative',
-            width: '100%',
-            height: '100%',
+            padding: '25px 0',
+            background: '#0F4573',
+            zIndex: 2,
           }}
-        >
-          {steps.filter(
-            ({ isPlaceholder }) => isPlaceholder,
-          ).map((step) => (
-            <>
-              <StepBackground
-                key={step.background.src}
-                src={step.background.src}
-                alt={step.background.alt}
-                style={{
-                  opacity: selectedIndicator === step.indicator ? 1 : 0,
-                }}
-              />
-              {(step.info || []).map(({
-                content,
-                position,
-              }, index) => (
-                <div
-                  className={classnames('info-point absolute opacity-0', {
-                    'opacity-100': selectedIndicator === step.indicator,
-                  })}
+          >
+            <IndicatorsNavigation
+              indicators={indicators}
+              selectedIndicator={selectedIndicator}
+              onClickIndicator={handleClickIndicator}
+            />
+          </nav>
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              // 210px: height of the navigation bar
+              height: 'calc(100% - 210px)',
+            }}
+          >
+            {placeholderSteps.map((step, index) => (
+              <div>
+                <StepBackground
+                  key={step.id}
+                  src={step.background.src}
                   style={{
-                    position: 'absolute',
-                    left: `${position[0]}%`,
-                    top: `${position[1]}%`,
-                    pointerEvents: 'none',
-                    opacity: 0,
-                    ...selectedIndicator === step.indicator && {
-                      opacity: 1,
-                      pointerEvents: 'all',
-                      zIndex: 1,
-                    },
+                    opacity: selectedIndicator === step.indicator ? 1 : 0,
                   }}
-                >
-                  <Tooltip
-                    overlay={(
-                      <div
-                        style={{
-                          maxWidth: 350,
-                          padding: 15,
-                          borderRadius: 4,
-                          fontSize: 16,
-                          color: '#0f4573',
-                          background: '#fff',
-                          boxShadow: '0 1px 2px 0 rgba(0,0,0, .09)',
-                        }}
-                      >
-                        {content}
-                      </div>
-                    )}
-                    overlayClassName="c-rc-tooltip"
-                    placement="top"
-                    trigger="hover"
-                    // visible={tooltipVisibility[`${step.indicator}-${index}`] || false}
-                    overlayStyle={{
-                      position: 'fixed',
+                />
+                {(step.info || []).map(({
+                  content,
+                  position,
+                }) => (
+                  <div
+                    className={classnames('info-point absolute opacity-0', {
+                      'opacity-100': selectedIndicator === step.indicator,
+                    })}
+                    style={{
+                      position: 'absolute',
+                      left: `${position[0]}%`,
+                      top: `${position[1]}%`,
+                      pointerEvents: 'none',
+                      opacity: 0,
+                      ...selectedIndicator === step.indicator && {
+                        opacity: 1,
+                        pointerEvents: 'all',
+                        zIndex: 1,
+                      },
                     }}
                   >
-                    <button
-                      type="button"
-                      className="cursor-pointer"
-                      onClick={() => { handleClickTooltip(`${step.indicator}-${index}`); }}
-                      style={{
-                        cursor: 'pointer',
+                    <Tooltip
+                      overlay={(
+                        <div
+                          style={{
+                            maxWidth: 350,
+                            padding: 15,
+                            borderRadius: 4,
+                            fontSize: 16,
+                            color: '#0f4573',
+                            background: '#fff',
+                            boxShadow: '0 1px 2px 0 rgba(0,0,0, .09)',
+                          }}
+                        >
+                          {content}
+                        </div>
+                    )}
+                      overlayClassName="c-rc-tooltip"
+                      placement="top"
+                      trigger="hover"
+                      overlayStyle={{
+                        position: 'fixed',
                       }}
                     >
-                      <Icon name="icon-info" style={{ fill: '#fff' }} />
-                    </button>
-                  </Tooltip>
-                </div>
-              ))}
-            </>
-          ))}
+                      <button
+                        type="button"
+                        className="cursor-pointer"
+                        onClick={() => { handleClickTooltip(`${step.indicator}-${index}`); }}
+                        style={{
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <Icon
+                          name="icon-info-2"
+                          style={{
+                            width: 35,
+                            height: 35,
+                          }}
+                        />
+                      </button>
+                    </Tooltip>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <Scrollama
@@ -172,13 +182,14 @@ export default function OceanWatchStoryTelling({
           >
             <div>
               <StoryStep
+                key={step.id}
                 data={step}
               />
             </div>
           </Step>
         ))}
       </Scrollama>
-    </>
+    </div>
   );
 }
 
