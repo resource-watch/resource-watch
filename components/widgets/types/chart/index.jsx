@@ -25,6 +25,7 @@ export default function ChartContainer({
   adapter,
   areaOfInterest,
   onToggleShare,
+  style,
 }) {
   const {
     data: user,
@@ -57,6 +58,7 @@ export default function ChartContainer({
     <Chart
       widget={widget}
       adapter={adapter}
+      style={style}
       isFetching={isFetching}
       isError={isError}
       isInACollection={isInACollection}
@@ -67,11 +69,13 @@ export default function ChartContainer({
 
 ChartContainer.defaultProps = {
   areaOfInterest: null,
+  style: {},
 };
 
 ChartContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
   areaOfInterest: PropTypes.string,
+  style: PropTypes.shape({}),
   adapter: PropTypes.func.isRequired,
   onToggleShare: PropTypes.func.isRequired,
 };

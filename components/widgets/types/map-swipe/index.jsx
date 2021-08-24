@@ -41,6 +41,8 @@ import {
 import ErrorFallback from 'components/error-fallback';
 import SwipeTypeWidget from './component';
 
+const mapKey = uuidv4();
+
 const CustomErrorFallback = ((_props) => (
   <ErrorFallback
     {..._props}
@@ -51,6 +53,7 @@ const CustomErrorFallback = ((_props) => (
 export default function SwipeTypeWidgetContainer({
   widgetId,
   params,
+  style,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -183,12 +186,13 @@ export default function SwipeTypeWidgetContainer({
         // forces to render the component again and paint updated styles in the map.
         // This might be fixed in recent versions of Layer Manager.
         // todo: try to remove the key when the layer manager version is updated.
-        key={minZoom || uuidv4()}
+        key={minZoom || mapKey}
         layerGroupsBySide={layerGroupsBySide}
         aoiLayer={aoiLayer}
         maskLayer={maskLayer}
         bounds={bounds}
         widget={widget}
+        style={style}
         isFetching={isFetching}
         isError={isError}
         isInACollection={isInACollection}
@@ -201,12 +205,14 @@ export default function SwipeTypeWidgetContainer({
 
 SwipeTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
-  params: null,
+  params: {},
+  style: {},
 };
 
 SwipeTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
   params: PropTypes.shape({}),
+  style: PropTypes.shape({}),
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };
