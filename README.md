@@ -96,7 +96,7 @@ If the installation fails at the point where it installs `canvas`, you may want 
 
 # Installation (Docker) 🐳
 
-Note that if you would like to develop using both Docker and native execution, you should follow the native [installation](#installation) instructions first. If you use Docker first and subsequently want to use native execution, you may need to delete or `chown` the `node_modules` folder in order for local installation to succeed.
+Note that if you would like to develop using both Docker and native execution, you should follow the native [installation](#installation) instructions first. If you use Docker first and subsequently want to use native execution, you may need to delete or `chown` the `node_modules` folder in order for local installation to succeed. Docker should otherwise largely ignore the contents of the `node_modules` folder, but if you delete it while the container is running, you may need to stop and restart the container.
 
 Assuming you have Docker already installed, the following steps should result in the application running locally on port 3000:
 
