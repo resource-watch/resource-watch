@@ -39,7 +39,7 @@
       [
         {
           "grid": "100%",
-          "visualizationType": "indicators-set",
+          "visualizationType": "main-indicators-set",
           "config": {
             "theme": "secondary",
             "indicators": [
@@ -110,7 +110,7 @@
                 "icon": "dependence",
                 "widgets": [
                   {
-                    "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                    "id": "ce53ec32-1dcf-408a-b1cc-a5fb072323eb"
                   },
                   {
                     "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
@@ -125,7 +125,7 @@
                 "icon": "economy",
                 "sections": [
                   {
-                    "title": "section 1",
+                    "title": "Maritime Transport: Shipping",
                     "widgets": [
                       {
                         "id": "b9192492-20f3-4725-8e90-8795f2176329"
@@ -139,7 +139,20 @@
                     "default": true
                   },
                   {
-                    "title": "section 2",
+                    "title": "Minerals and Energy",
+                    "widgets": [
+                      {
+                        "id": "41440ff1-2bc5-40aa-9bae-1fd64b9c55ca"
+                      },
+                      {
+                        "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, 'percentage' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
+                        "text": "Some highlight text about why this matters",
+                        "format": ".2f"
+                      }
+                    ]
+                  },
+                  {
+                    "title": "Fishing",
                     "widgets": [
                       {
                         "id": "b9192492-20f3-4725-8e90-8795f2176329"
@@ -354,7 +367,9 @@
               "0f27b5ee-21e0-48d4-81ba-f8d33d773514"
             ],
             "widgets": [
-              "2915592c-fe0a-4f03-82fd-c0cb767e5e50"
+              "0e2697cc-48ce-4bbe-b5ad-8b4ca45b0c09",
+              "0acb11a0-a41c-4855-ba2b-7cdc9e01380a",
+              "298147df-6a7d-4ca7-b1c3-ddfb248491ac"
             ]
           }
         }
@@ -460,6 +475,108 @@
         {
           "grid": "50%",
           "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi."
+        }
+      ],
+      [
+        {
+          "grid": "100%",
+          "visualizationType": "indicators-set",
+          "config": {
+            "theme": "secondary",
+            "indicators": [
+              {
+                "id": "FAO-harvest",
+                "title": "FAO Hidden Harvests SSF 2020 Report",
+                "icon": "",
+                "widgets": [
+                  {
+                    "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                  },
+                  {
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, '%25' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "text": "Some highlight text about why this matters",
+                    "format": ".2f"
+                  }
+                ],
+                "default": true
+              },
+              {
+                "id": "FAO-fish-protein",
+                "title": "FAO yearbook: Fish contribution to protein supply",
+                "icon": "",
+                "widgets": [
+                  {
+                    "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                  },
+                  {
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, '%25' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
+                    "text": "Some highlight text about why this matters",
+                    "format": ".2f"
+                  }
+                ]
+              },
+              {
+                "id": "FAO-capture",
+                "title": "FAO yearbook: capture production by country",
+                "icon": "",
+                "widgets": [
+                  {
+                    "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                  },
+                  {
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, '%25' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "text": "Some highlight text about why this matters",
+                    "format": ".2f"
+                  }
+                ]
+              },
+              {
+                "id": "FAO-fleet",
+                "title": "FAO yearbook: fisheries fleet and employment",
+                "icon": "",
+                "widgets": [
+                  {
+                    "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                  },
+                  {
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, '%25' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "text": "Some highlight text about why this matters",
+                    "format": ".2f"
+                  }
+                ]
+              },
+              {
+                "id": "FAO-export-import",
+                "title": "FAO yearbook: net exporting and importing countries",
+                "icon": "",
+                "widgets": [
+                  {
+                    "id": "ce53ec32-1dcf-408a-b1cc-a5fb072323eb"
+                  },
+                  {
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, '%25' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "text": "Some highlight text about why this matters",
+                    "format": ".2f"
+                  }
+                ]
+              },
+              {
+                "id": "OECD-FAO-agricultural_outlook",
+                "title": "OECD/FAO Agricultural Outlook 2020-2029",
+                "icon": "",
+                "widgets": [
+                  {
+                    "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                  },
+                  {
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, '%25' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
+                    "text": "Some highlight text about why this matters",
+                    "format": ".2f"
+                  }
+                ]
+              }
+            ]
+          }
         }
       ],
       [
