@@ -67,11 +67,11 @@
           "info": [
             {
               "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
-              "position": [53, 28]
+              "position": [25, 28]
             },
             {
               "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
-              "position": [50, 50]
+              "position": [50, 60]
             },
             {
               "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
@@ -96,28 +96,6 @@
               }
             ]
           }
-        },
-        {
-          "id": "land-sea-interface-4",
-          "indicator": "land-sea-interface",
-          "isPlaceholder": true,
-          "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-2.jpg"
-          },
-          "info": [
-            {
-              "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
-              "position": [53, 28]
-            },
-            {
-              "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
-              "position": [50, 50]
-            },
-            {
-              "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
-              "position": [50, 25]
-            }
-          ]
         },
         {
           "id": "oceans-climate-1",
@@ -148,11 +126,11 @@
           "info": [
             {
               "content": "Atmospheric carbon dioxide (CO2) is in balance with CO2 dissolved into the ocean. Increasing dissolved CO2 results in ocean acidification and habitat loss",
-              "position": [50, 50]
+              "position": [55, 60]
             },
             {
               "content": "Rising atmospheric and ocean temperatures put global coastal and island populations at risk of flooding from sea-level rise, and the ocean at risk of oxygen loss",
-              "position": [75, 5]
+              "position": [75, 55]
             }
           ]
         },
@@ -185,11 +163,7 @@
           "info": [
             {
               "content": "Ocean acidification is caused by rising CO2 levels in the atmosphere. Many critical ocean habitats and life forms begin to dissolve when the water is too acidic. [subscript the 2 in CO2]",
-              "position": [53, 28]
-            },
-            {
-              "content": "Oxygen is a key requirement for ocean life. Climate change is warming the ocean and driving deoxygenation by limiting its ability to hold and circulate oxygen into the deep ocean.",
-              "position": [25, 50]
+              "position": [65, 65]
             }
           ]
         },
@@ -217,7 +191,7 @@
           "info": [
             {
               "content": "MPAs that are fully protected can safeguard biodiversity, mitigate climate change and boost the productivity of fisheries in the surrounding areas.",
-              "position": [53, 28]
+              "position": [60, 55]
             }
           ]
         },
@@ -239,15 +213,15 @@
           "info": [
             {
               "content": "The ocean is a source of protein for x million people, supporting complete diets and access to food",
-              "position": [53, 28]
+              "position": [25, 55]
             },
             {
               "content": "Coastal ecosystems protect the coastline from  high waves during storms",
-              "position": [50, 0]
+              "position": [50, 50]
             },
             {
               "content": "From fishing through to pharmaceuticals, the ocean provides a source of income that in many cases cannot be replaced",
-              "position": [50, 25]
+              "position": [75, 55]
             }
           ]
         },
@@ -301,7 +275,7 @@
           "info": [
             {
               "content": "A sustainably managed fishery can feed the world, sustainable ocean management provides the means to support millions of  coastal communities",
-              "position": [28, 55]
+              "position": [25, 55]
             },
             {
               "content": "Tourism is an ever growing industry, often acting as a significant source of wealth for developing nations. Sustainable marine tourism provides essential jobs for a variety of communities and a means to engage with one of the worlds most important ecosystems",
