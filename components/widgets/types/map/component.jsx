@@ -64,6 +64,7 @@ export default function MapTypeWidget({
   layerGroups,
   aoiLayer,
   maskLayer,
+  style,
   isFetching,
   isError,
   isInACollection,
@@ -190,6 +191,7 @@ export default function MapTypeWidget({
       className="c-widget"
       style={{
         height: '100%',
+        ...style,
       }}
     >
       {!isFetching && !isError && (
@@ -245,8 +247,8 @@ export default function MapTypeWidget({
                     fitBoundsOptions={{
                       transitionDuration: 0,
                     }}
-                    onError={() => {
-                      handleError(new Error('map couldn\'t load'));
+                    onError={(errorMessage) => {
+                      handleError(new Error(errorMessage));
                     }}
                   >
                     {(_map) => (
@@ -321,6 +323,7 @@ MapTypeWidget.defaultProps = {
   aoiLayer: null,
   mapBounds: null,
   maskLayer: null,
+  style: {},
   isFetching: false,
   isError: false,
   isInACollection: false,
@@ -354,6 +357,7 @@ MapTypeWidget.propTypes = {
   }),
   mapBounds: PropTypes.shape({}),
   maskLayer: PropTypes.shape({}),
+  style: PropTypes.shape({}),
   isFetching: PropTypes.bool,
   isError: PropTypes.bool,
   isInACollection: PropTypes.bool,
