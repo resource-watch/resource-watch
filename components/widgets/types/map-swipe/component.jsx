@@ -34,6 +34,7 @@ export default function SwipeTypeWidget({
   maskLayer,
   bounds,
   widget,
+  style,
   isInACollection,
   isFetching,
   isError,
@@ -103,6 +104,7 @@ export default function SwipeTypeWidget({
       className="c-widget"
       style={{
         height: '100%',
+        ...style,
       }}
     >
       {!isFetching && !isError && (
@@ -293,6 +295,7 @@ SwipeTypeWidget.defaultProps = {
   aoiLayer: null,
   maskLayer: null,
   bounds: {},
+  style: {},
 };
 
 SwipeTypeWidget.propTypes = {
@@ -317,6 +320,7 @@ SwipeTypeWidget.propTypes = {
       }),
     ),
   }).isRequired,
+  style: PropTypes.shape({}),
   isInACollection: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,

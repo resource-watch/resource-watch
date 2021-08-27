@@ -83,6 +83,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH | Feature flag to enable Ocean Watch pages | `undefined`| By default, these pages will not appear so make sure you initialize the environmental variable if you are going to work on them. Set to `true` to enable it. |
 | NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD | Feature flag to enable GEDC dashboard | `undefined`| By default, this dashboard will not appear so make sure you initialize the environmental variable if you are going to work on it. Set to `true` to enable it. |
 | NEXTAUTH_URL | Canonical URL of the site used by [NextAuth](https://next-auth.js.org/) to handle authentication and sessions. | `http://localhost:$PORT` | |
+| NEXTAUTH_JWT_SECRET | A secret to use when signing JWT tokens | | |
 
 If you want to customize these variables for your local environment, the recommended way is creating a `.env.local` file.
 

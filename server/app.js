@@ -39,7 +39,11 @@ server.disable('x-powered-by');
 
 function checkBasicAuth(credentials) {
   return function authMiddleware(req, res, nextAction) {
-    if (!/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])) {
+    if (
+      !/(AddSearchBot)|(HeadlessChrome)/.test(req.headers['user-agent'])
+      // skips requests from internal next-auth API. These are needed to verify user session.
+      && !req.url.startsWith('/api/auth/')
+    ) {
       const user = basicAuth(req);
       let authorized = false;
       if (user && (user.name === credentials.name && user.pass === credentials.pass)) {

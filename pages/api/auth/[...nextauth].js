@@ -24,6 +24,7 @@ const options = {
   session: {
     jwt: true,
     maxAge: MAX_AGE,
+    secret: process.env.NEXTAUTH_JWT_SECRET,
   },
   providers: [
     Providers.Credentials({
@@ -82,9 +83,15 @@ const options = {
   },
 
   events: {
+    async signIn(message) {
+      logger.info(`Sign in successful: ${message}`);
+    },
     async signOut(session) {
       // After sign-out expire token in the API
       if (session) await signOut(session.accessToken);
+    },
+    async error(message) {
+      logger.error(`Error logging in: ${message}`);
     },
   },
 
