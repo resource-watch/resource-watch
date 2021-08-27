@@ -50,16 +50,6 @@ spec:
                 secretKeyRef:
                   key: RW_SECRET
                   name: appsecrets
-            - name: RW_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  key: RW_STAGING_AUTH_USER
-                  name: appsecrets
-            - name: RW_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: RW_STAGING_AUTH_PASSWORD
-                  name: appsecrets
             - name: REDIS_URL
               valueFrom:
                 secretKeyRef:
@@ -69,6 +59,16 @@ spec:
               valueFrom:
                 secretKeyRef:
                   key: RW_GOGGLE_API_TOKEN_SHORTENER
+                  name: appsecrets
+            - name: RW_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: RW_STAGING_AUTH_USER
+                  name: appsecrets
+            - name: RW_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: RW_STAGING_AUTH_PASSWORD
                   name: appsecrets
             - name: NEXTAUTH_JWT_SECRET
               valueFrom:
