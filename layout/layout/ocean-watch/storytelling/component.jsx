@@ -20,8 +20,13 @@ export default function OceanWatchStoryTelling({
 }) {
   const [tooltipVisibility, setTooltipVisibility] = useState({});
   const [selectedIndicator, setSelectedIndicator] = useState('opening');
+  const [showSkip, setShowSkip] = useState(true);
 
-  const onStepEnter = ({ data }) => {
+  const onStepEnter = ({ data, direction }) => {
+    // hides button at the end of the last step
+    if (data.id === steps[steps.length - 1].id && direction === 'down') setShowSkip(false);
+    if (direction === 'up') setShowSkip(true);
+
     setSelectedIndicator(data.indicator);
     setTooltipVisibility({});
   };
@@ -37,6 +42,20 @@ export default function OceanWatchStoryTelling({
       });
     }
   };
+
+  const handleSkip = useCallback(() => {
+    const element = document.getElementById('countries-selection');
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      });
+
+      setShowSkip(false);
+    }
+  }, []);
 
   const handleClickTooltip = useCallback((id) => {
     setTooltipVisibility({
@@ -189,6 +208,34 @@ export default function OceanWatchStoryTelling({
           </Step>
         ))}
       </Scrollama>
+      <div
+        style={{
+          zIndex: 3,
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          width: '100%',
+          padding: '15px 0',
+          pointerEvents: 'none',
+          transition: 'transform .16s cubic-bezier(0.645, 0.045, 0.355, 1.000)',
+          ...!showSkip && {
+            transform: 'translate(0, 100%)',
+          },
+        }}
+      >
+        <button
+          type="button"
+          onClick={handleSkip}
+          className="c-button -primary -alt"
+          style={{
+            pointerEvents: 'all',
+          }}
+        >
+          Skip to countries
+        </button>
+      </div>
     </div>
   );
 }
@@ -200,6 +247,8 @@ OceanWatchStoryTelling.propTypes = {
     }),
   ).isRequired,
   steps: PropTypes.arrayOf(
-    PropTypes.shape({}),
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }),
   ).isRequired,
 };
