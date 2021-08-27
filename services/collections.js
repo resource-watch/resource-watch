@@ -99,12 +99,17 @@ export const fetchCollection = (
  */
 export const createCollection = (token, data = {}) => {
   logger.info('Create collection');
-  return WRIAPI.post('v1/collection', data, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token,
+  return WRIAPI.post('v1/collection',
+    {
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      ...data,
     },
-  })
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -127,7 +132,10 @@ export const createCollection = (token, data = {}) => {
  */
 export const deleteCollection = (token, collectionId) => {
   logger.info(`Delete collection ${collectionId}`);
-  return WRIAPI.delete(`/v1/collection/${collectionId}`, { headers: { Authorization: token } })
+  return WRIAPI.delete(`/v1/collection/${collectionId}`, {
+    headers: { Authorization: token },
+    data: { env: process.env.NEXT_PUBLIC_API_ENV },
+  })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -145,12 +153,17 @@ export const deleteCollection = (token, collectionId) => {
  */
 export const updateCollection = (token, collectionId, data) => {
   logger.info(`Update collection ${collectionId}`);
-  return WRIAPI.patch(`/v1/collection/${collectionId}`, data, {
-    headers: {
-      'content-type': 'application/json',
-      Authorization: token,
+  return WRIAPI.patch(`/v1/collection/${collectionId}`,
+    {
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      ...data,
     },
-  })
+    {
+      headers: {
+        'content-type': 'application/json',
+        Authorization: token,
+      },
+    })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -200,7 +213,11 @@ export const addResourceToCollection = (token, collectionId, resource = {}) => {
 export const removeResourceFromCollection = (token, collectionId, resource = {}) => {
   logger.info(`Remove resource from collection ${collectionId}`);
   const { type, id } = resource;
-  return WRIAPI.delete(`/v1/collection/${collectionId}/resource/${type}/${id}`, { headers: { Authorization: token } })
+  return WRIAPI.delete(`/v1/collection/${collectionId}/resource/${type}/${id}`,
+    {
+      headers: { Authorization: token },
+      data: { env: process.env.NEXT_PUBLIC_API_ENV },
+    })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
