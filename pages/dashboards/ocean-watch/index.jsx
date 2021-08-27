@@ -91,6 +91,7 @@ export default function OceanWatchIntroPage() {
           <div className="row">
             <div className="column small-12">
               <div
+                id="countries-selection"
                 style={{
                   padding: '25px 0 175px',
                 }}

@@ -243,6 +243,7 @@ export default function StoryStep({ data }) {
                 <div
                   style={{
                     margin: '25px 0 0',
+                    width: '100%',
                   }}
                 >
                   <div className="row">
