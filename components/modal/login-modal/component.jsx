@@ -2,6 +2,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import Link from 'next/link';
+import { signIn } from 'next-auth/client';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 // components
@@ -10,7 +11,7 @@ import Input from 'components/form/Input';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import { loginUser, registerUser } from 'services/user';
+import { registerUser } from 'services/user';
 
 // constants
 import { FORM_ELEMENTS } from './constants';
@@ -35,14 +36,16 @@ class LoginModal extends PureComponent {
     if (e) e.preventDefault();
     FORM_ELEMENTS.validate();
     const isValid = FORM_ELEMENTS.isValid();
-    const { setUser, redirect } = this.props;
+    const {
+      callbackUrl,
+    } = this.props;
     const { register, captcha, ...userSettings } = this.state;
 
     if (captcha === null && register) toastr.error('Please fill the captcha');
 
     if (!isValid || (captcha === null && register)) return;
 
-    setTimeout(() => {
+    setTimeout(async () => {
       // register user
       if (register) {
         this.setState({ loading: true }, () => {
@@ -60,21 +63,24 @@ class LoginModal extends PureComponent {
             });
         });
       } else {
-        // sign-in user
-        loginUser(userSettings)
-          .then((data) => {
-            setUser(data);
-            if (redirect) window.location.href = '/myrw';
-          })
-          .catch((err) => {
-            const { status, statusText } = err.response;
+        try {
+          const {
+            email,
+            password,
+          } = userSettings;
 
-            const message = status === 401
-              ? 'Your email and password combination is incorrect.'
-              : `${status}:${statusText}`;
-
-            toastr.error(message);
+          await signIn('email-password', {
+            email,
+            password,
+            ...callbackUrl && { callbackUrl },
           });
+        } catch (err) {
+          const message = err.message === '401'
+            ? 'Your email and password combination is incorrect.'
+            : 'Something went wrong';
+
+          toastr.error(message);
+        }
       }
     }, 0);
   }
@@ -127,6 +133,7 @@ class LoginModal extends PureComponent {
                         default: password,
                         type: 'password',
                         placeholder: '*********',
+                        autoComplete: 'current-password',
                       }}
                     >
                       {Input}
@@ -179,7 +186,7 @@ class LoginModal extends PureComponent {
                 <ul className="social-btn-list">
                   <li className="social-btn-item">
                     <a
-                      href="/auth/google"
+                      href={`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/google?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}&token=true&applications=rw`}
                       className="c-button -google -fullwidth"
                     >
                       Google
@@ -187,7 +194,7 @@ class LoginModal extends PureComponent {
                   </li>
                   <li className="social-btn-item">
                     <a
-                      href="/auth/facebook"
+                      href={`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/facebook?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}&token=true&applications=rw`}
                       className="c-button -facebook -fullwidth"
                     >
                       facebook
@@ -195,7 +202,7 @@ class LoginModal extends PureComponent {
                   </li>
                   <li className="social-btn-item">
                     <a
-                      href="/auth/twitter"
+                      href={`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/twitter?callbackUrl=${process.env.NEXT_PUBLIC_AUTH_CALLBACK}&token=true&applications=rw`}
                       className="c-button -twitter -fullwidth"
                     >
                       Twitter
@@ -212,12 +219,11 @@ class LoginModal extends PureComponent {
 }
 
 LoginModal.defaultProps = {
-  redirect: true,
+  callbackUrl: null,
 };
 
 LoginModal.propTypes = {
-  redirect: PropTypes.bool,
-  setUser: PropTypes.func.isRequired,
+  callbackUrl: PropTypes.string,
 };
 
 export default LoginModal;

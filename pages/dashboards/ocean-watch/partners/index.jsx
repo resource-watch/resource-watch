@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
+import Header from 'layout/header';
+import OceanWatchHero from 'layout/layout/ocean-watch/hero';
 import PartnerBlock from 'components/partner-block';
 import BannerCountries from 'components/banners/countries';
 
@@ -32,16 +34,12 @@ export default function OceanWatchPartnersPage() {
       funders,
     },
   } = usePublishedPartners({}, {
-    select: (_partners) => ({
+    select: (_partners) => console.log('_partners', _partners) || ({
       collaboratingPartners: _partners.filter((_partner) => _partner['partner-type'] === 'ow_collaborating-partner'),
       dataProviders: _partners.filter((_partner) => _partner['partner-type'] === 'ow_data-provider'),
       funders: _partners.filter((_partner) => _partner['partner-type'] === 'ow_funder'),
     }),
-    placeholderData: {
-      collaboratingPartners: [],
-      dataProviders: [],
-      funders: [],
-    },
+    placeholderData: [],
     refetchOnWindowFocus: false,
   });
   // todo: replace with Ocean Watch countries when available
@@ -85,6 +83,8 @@ export default function OceanWatchPartnersPage() {
       title="Ocean Watch – Partners"
       description={PARTNERS_PAGE_DESCRIPTION}
     >
+      <Header className="-transparent" />
+      <OceanWatchHero className="-ocean-watch" />
       <section className="l-section -secondary -medium">
         <div className="l-container">
           <div className="row">

@@ -1,23 +1,26 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
-// Redux
-import { connect } from 'react-redux';
+// hooks
+import {
+  useMe,
+} from 'hooks/user';
 
-// Components
+// components
 import DatasetsIndex from 'components/app/myrw/datasets/pages/index';
 import DatasetsNew from 'components/app/myrw/datasets/pages/new';
 import DatasetsShow from 'components/app/myrw/datasets/pages/show';
 
 function DatasetsTab(props) {
   const {
-    tab, subtab, id, user,
+    tab, subtab, id,
   } = props;
-
+  const {
+    data: user,
+  } = useMe();
 
   return (
     <div className="c-datasets-tab">
-      {!id && user.token
+      {!id && user?.token
         && <DatasetsIndex tab={tab} subtab={subtab} id={id} user={user} />}
 
       {id && id === 'new' && user.token
@@ -29,15 +32,16 @@ function DatasetsTab(props) {
   );
 }
 
+DatasetsTab.defaultProps = {
+  id: null,
+  tab: null,
+  subtab: null,
+};
+
 DatasetsTab.propTypes = {
-  user: PropTypes.object,
   tab: PropTypes.string,
   id: PropTypes.string,
   subtab: PropTypes.string,
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
-
-export default connect(mapStateToProps, null)(DatasetsTab);
+export default DatasetsTab;

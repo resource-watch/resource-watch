@@ -3,9 +3,11 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   background-color: $color-white;
 
   > .widget-header-container {
+    padding: ($space * 3);
     border: 1px solid rgba($color-black, .1);
     border-bottom: 0;
     border-top-left-radius: 4px;

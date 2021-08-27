@@ -94,7 +94,7 @@ class GetInvolvedComponent extends React.PureComponent {
                   <Banner
                     className="-text-center  c-card-long"
                     bgImage="/static/images/backgrounds/computer.jpg"
-                    overlay
+                    useDim
                   >
                     <h2>
                       Save visualizations, subscribe to alerts and enjoy the full experience

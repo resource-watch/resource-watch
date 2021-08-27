@@ -90,6 +90,7 @@ export const miniExploreSlice = createSlice({
           }
 
           return {
+            id,
             dataset: id,
             opacity: 1,
             visibility: true,
@@ -155,7 +156,7 @@ export const miniExploreSlice = createSlice({
         visibility,
       } = payload;
       const layerGroups = state.layerGroups.map((lg) => {
-        if (lg.dataset !== dataset.id) return lg;
+        if (lg.id !== dataset.id) return lg;
         const updatedLayers = lg.layers.map((l) => ({ ...l, visibility }));
         return ({
           ...lg,
@@ -172,7 +173,7 @@ export const miniExploreSlice = createSlice({
     setMapLayerGroupOpacity: (state, { payload }) => {
       const { dataset, opacity } = payload;
       const layerGroups = state.layerGroups.map((lg) => {
-        if (lg.dataset !== dataset.id) return lg;
+        if (lg.id !== dataset.id) return lg;
         const layers = lg.layers.map((l) => ({ ...l, opacity }));
         return ({
           ...lg,
@@ -189,7 +190,7 @@ export const miniExploreSlice = createSlice({
     setMapLayerGroupActive: (state, { payload }) => {
       const { dataset, active } = payload;
       const layerGroups = state.layerGroups.map((lg) => {
-        if (lg.dataset !== dataset.id) return lg;
+        if (lg.id !== dataset.id) return lg;
 
         return ({
           ...lg,

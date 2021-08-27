@@ -4,6 +4,13 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+  withAuthentication,
+} from 'hoc/auth';
+
 // actions
 import { getUserAreas } from 'redactions/user';
 
@@ -21,6 +28,8 @@ const MyRWDetailPage = ({
 MyRWDetailPage.propTypes = {
   getUserAreas: PropTypes.func.isRequired,
 };
+
+export const getServerSideProps = withRedux(withUserServerSide(withAuthentication()));
 
 export default connect(
   null,

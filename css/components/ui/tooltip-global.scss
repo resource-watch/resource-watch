@@ -1,3 +1,5 @@
+@use "sass:math";
+
 $tooltip-arrow-size: 10px;
 .c-tooltip-global {
   position: fixed;
@@ -23,6 +25,6 @@ $tooltip-arrow-size: 10px;
     height: $tooltip-arrow-size;
     border-right: 1px solid $border-color-2;
     border-bottom: 1px solid $border-color-2;
-    transform: translate(-50%, $tooltip-arrow-size/2) rotate(45deg);
+    transform: translate(-50%, math.div($tooltip-arrow-size, 2)) rotate(45deg);
   }
 }

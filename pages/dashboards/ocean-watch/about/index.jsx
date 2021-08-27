@@ -1,5 +1,7 @@
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
+import Header from 'layout/header';
+import OceanWatchHero from 'layout/layout/ocean-watch/hero';
 
 export default function OceanWatchAboutPage() {
   return (
@@ -7,6 +9,8 @@ export default function OceanWatchAboutPage() {
       title="Ocean Watch – About"
       description="Ocean Watch description" // todo: replace description
     >
+      <Header className="-transparent" />
+      <OceanWatchHero className="-ocean-watch" />
       <section className="l-section -secondary -medium">
         <div className="l-container">
           <div className="row">

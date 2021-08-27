@@ -6,12 +6,9 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
-import {
-  useSelector,
-} from 'react-redux';
 import { useQuery } from 'react-query';
 import classnames from 'classnames';
-// import { format } from 'd3-format';
+import { format } from 'd3-format';
 import Renderer from '@widget-editor/renderer';
 import { replace } from 'layer-manager';
 import axios from 'axios';
@@ -26,12 +23,6 @@ import WidgetInfo from 'components/widgets/info';
 import {
   useFetchWidget,
 } from 'hooks/widget';
-import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
-
-// constants
-import {
-  getRWAdapter,
-} from 'utils/widget-editor';
 
 // styles
 import './styles.scss';
@@ -45,10 +36,9 @@ export default function IndicatorVisualization({
   },
   params,
   theme,
+  isInACollection,
+  RWAdapter,
 }) {
-  const RWAdapter = useSelector((state) => getRWAdapter(state));
-  const userToken = useSelector((state) => state.user?.token);
-
   const [isInfoVisible, setInfoVisibility] = useState(false);
   const [isShareVisible, setShareWidgetVisibility] = useState(false);
 
@@ -113,10 +103,6 @@ export default function IndicatorVisualization({
       placeholderData: {},
     },
   );
-
-  const {
-    isInACollection,
-  } = useBelongsToCollection(mainWidget?.id, userToken);
 
   const handleShareToggle = useCallback(() => {
     setShareWidgetVisibility(mainWidget);
@@ -208,13 +194,19 @@ export default function IndicatorVisualization({
           {(!isFetchingMainWidget && !isErrorMainWidget) && (
             <>
               {mainWidget && (
-                <WidgetHeader
-                  widget={mainWidget}
-                  onToggleInfo={handleToggleInfo}
-                  isInfoVisible={isInfoVisible}
-                  isInACollection={isInACollection}
-                  onToggleShare={handleShareToggle}
-                />
+                <div
+                  style={{
+                    padding: 15,
+                  }}
+                >
+                  <WidgetHeader
+                    widget={mainWidget}
+                    onToggleInfo={handleToggleInfo}
+                    isInfoVisible={isInfoVisible}
+                    isInACollection={isInACollection}
+                    onToggleShare={handleShareToggle}
+                  />
+                </div>
               )}
               <div
                 className="widget-container"
@@ -232,7 +224,12 @@ export default function IndicatorVisualization({
                   />
                 )}
                 {(isInfoVisible && mainWidget) && (
-                  <WidgetInfo widget={mainWidget} />
+                  <WidgetInfo
+                    widget={mainWidget}
+                    style={{
+                      padding: 15,
+                    }}
+                  />
                 )}
               </div>
             </>
@@ -265,15 +262,11 @@ export default function IndicatorVisualization({
           {(!isFetchingSecondaryWidget && secondaryWidget) && (
             <>
               <span className="data">
-                {/* todo: uncomment when data is ready */}
-                {/* {widgets[1].format
-                  ? format(widgets[1].format)(secondaryWidget.x) : secondaryWidget.x} */}
-                86.7
-                {secondaryWidget.unit && (
+                {widgets[1].format
+                  ? format(widgets[1].format)(secondaryWidget.x) : secondaryWidget.x}
+                {widgets[1].unit && (
                   <span className="unit">
-                    %
-                    {/* todo: uncomment when data is ready */}
-                    {/* {secondaryWidget.unit} */}
+                    {widgets[1].unit}
                   </span>
                 )}
               </span>
@@ -302,6 +295,7 @@ export default function IndicatorVisualization({
 IndicatorVisualization.defaultProps = {
   theme: 'primary',
   params: {},
+  isInACollection: false,
 };
 
 IndicatorVisualization.propTypes = {
@@ -321,9 +315,12 @@ IndicatorVisualization.propTypes = {
         query: PropTypes.string,
         text: PropTypes.string,
         format: PropTypes.string,
+        unit: PropTypes.string,
       }).isRequired,
     ),
   }).isRequired,
   theme: PropTypes.oneOf(['primary', 'secondary']),
   params: PropTypes.shape({}),
+  isInACollection: PropTypes.bool,
+  RWAdapter: PropTypes.func.isRequired,
 };

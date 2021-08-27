@@ -55,7 +55,7 @@
       position: relative;
       width: 65%;
       padding: ($space * 2);
-      height: 100%;
+      height: calc(100% - 30px);
       overflow: hidden;
 
       .error-container {
@@ -73,8 +73,7 @@
         position: relative;
         display: flex;
         height: 100%;
-        padding: 5% 10%;
-        // overflow: auto;
+        padding: 0 10%;
       }
 
       .widget-info-container {

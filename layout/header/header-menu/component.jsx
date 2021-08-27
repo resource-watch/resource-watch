@@ -1,12 +1,15 @@
-import React, {
+import {
   createElement,
 } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import {
+  useSession,
+} from 'next-auth/client';
 
+// components
 import { APP_HEADER_ITEMS } from 'layout/header/constants';
 
 const header = {
@@ -20,22 +23,17 @@ const header = {
   user: import('../header-user'),
 };
 
-const HeaderMenu = ({
-  user,
-}) => {
+const HeaderMenu = () => {
   const {
     pathname,
   } = useRouter();
-
-  const {
-    token,
-  } = user;
+  const [session] = useSession();
 
   return (
     <nav className="header-menu">
       <ul>
         {APP_HEADER_ITEMS.map((item) => {
-          const isUserLogged = !!token;
+          const isUserLogged = !!session?.accessToken;
 
           // if user is defined but it is not equal to the current token
           if (typeof item.user !== 'undefined' && item.user !== isUserLogged) return null;
@@ -71,12 +69,6 @@ const HeaderMenu = ({
       </ul>
     </nav>
   );
-};
-
-HeaderMenu.propTypes = {
-  user: PropTypes.shape({
-    token: PropTypes.string,
-  }).isRequired,
 };
 
 export default HeaderMenu;

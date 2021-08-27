@@ -21,7 +21,7 @@ const isTestEnv = process.env.NODE_ENV === 'test' && process.env.TEST_ENV === 'F
 module.exports = (() => {
   const strategy = new ControlTowerStrategy({
     controlTowerUrl: process.env.NEXT_PUBLIC_WRI_API_URL,
-    callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL,
+    callbackUrl: process.env.NEXT_PUBLIC_AUTH_CALLBACK,
     applications: process.env.NEXT_PUBLIC_APPLICATIONS || 'rw',
   });
 
@@ -29,7 +29,7 @@ module.exports = (() => {
     { usernameField: 'email', passwordField: 'password', session: true },
     (email, password, done) => {
       const queryParams = queryString.stringify({
-        callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL,
+        callbackUrl: process.env.NEXT_PUBLIC_AUTH_CALLBACK,
         applications: 'rw',
         token: true,
         origin: 'rw',

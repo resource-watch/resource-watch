@@ -1,16 +1,5 @@
-
-describe('', () => {
+describe('Sign In', () => {
   beforeEach(() => {
-    cy.fixture('auth').then((authPayload) => {
-      cy.intercept(
-        {
-          method: 'POST',
-          url: '/local-sign-in',
-        },
-        authPayload,
-      ).as('getAuthPayload');
-    });
-
     cy.visit('/sign-in');
   });
 
@@ -44,12 +33,10 @@ describe('', () => {
     cy.get('form').find('input[name="password"]').type('password1234');
     cy.get('form').find('button[type="submit"]').click();
 
-    cy.wait('@getAuthPayload').then(({ request, response }) => {
-      expect(request.body.email).to.eq('john@doe.com');
-      expect(request.body.password).to.eq('password1234');
+    cy.url().should('include', '/myrw/widgets/my_widgets')
 
-      expect(response.body.email).to.eq('john@doe.com');
-      expect(response.body.name).to.eq('John Doe');
-    });
+    // verifies user session is established
+    cy.getCookie('next-auth.session-token').should('not.to.be.null');
+    cy.getCookie('next-auth.csrf-token').should('not.to.be.null');
   });
 })

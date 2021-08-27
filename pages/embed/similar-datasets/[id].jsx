@@ -1,6 +1,12 @@
 // actions
 import { setEmbed, setWebshotMode } from 'redactions/common';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
+
 // components
 import LayoutEmbedSimilarDatasets from 'layout/embed/similar-datasets';
 
@@ -8,7 +14,7 @@ export default function EmbedSimilarDatasetsPage(props) {
   return (<LayoutEmbedSimilarDatasets {...props} />);
 }
 
-EmbedSimilarDatasetsPage.getInitialProps = ({ store, query }) => {
+export const getServerSideProps = withRedux(withUserServerSide(async ({ store, query }) => {
   const { dispatch } = store;
   const {
     id,
@@ -19,6 +25,8 @@ EmbedSimilarDatasetsPage.getInitialProps = ({ store, query }) => {
   if (webshot) dispatch(setWebshotMode(true));
 
   return ({
-    id: [id],
+    props: ({
+      id: [id],
+    }),
   });
-};
+}));

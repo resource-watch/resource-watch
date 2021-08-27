@@ -19,7 +19,7 @@ export default function CardIndicator({
     <button
       type="button"
       className={classnames({
-        'c-indicator-card': true,
+        'c-indicator-card-set': true,
         [`-${theme}`]: !!theme,
         '-active': isSelected,
       })}

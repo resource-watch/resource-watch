@@ -1,5 +1,5 @@
-import { createAction, createThunkAction } from 'redux-tools';
-
+import { createThunkAction } from 'redux-tools';
+import { createAction } from '@reduxjs/toolkit';
 // service
 import { fetchPage } from 'services/pages';
 
@@ -17,7 +17,6 @@ export const getStaticPage = createThunkAction('STATIC-PAGES__GET-STATIC-PAGE',
     } = getState();
     dispatch(setLoading({ key: page, value: true }));
     dispatch(setError(true));
-
     return fetchPage(page, token)
       .then((contentPage) => {
         dispatch(setContentPage({ key: page, value: contentPage }));

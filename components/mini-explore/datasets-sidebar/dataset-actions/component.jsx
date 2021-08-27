@@ -12,6 +12,9 @@ import CollectionsPanel from 'components/collections-panel';
 
 // hooks
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
+import {
+  useMe,
+} from 'hooks/user';
 
 // utils
 import { logEvent } from 'utils/analytics';
@@ -23,13 +26,15 @@ const MiniExploreDatasetsActions = (props) => {
   const {
     dataset,
     layer,
-    userToken,
     handleAddMap,
   } = props;
   const {
+    data: user,
+  } = useMe();
+  const {
     isInACollection,
     refetch,
-  } = useBelongsToCollection(dataset.id, userToken);
+  } = useBelongsToCollection(dataset.id, user?.token);
 
   const handleToggleFavorite = useCallback((isFavorite, resource) => {
     const datasetName = resource?.metadata[0]?.info?.name;
@@ -53,7 +58,7 @@ const MiniExploreDatasetsActions = (props) => {
     refetch();
   }, [refetch]);
 
-  const userIsLoggedIn = userToken;
+  const userIsLoggedIn = user?.token;
   const datasetName = dataset?.metadata[0]?.info?.name;
 
   const starIconName = classnames({
@@ -135,13 +140,14 @@ const MiniExploreDatasetsActions = (props) => {
 };
 
 MiniExploreDatasetsActions.defaultProps = {
-  userToken: null,
+  dataset: {},
+  layer: {},
 };
 
 MiniExploreDatasetsActions.propTypes = {
   dataset: PropTypes.shape({
-    active: PropTypes.bool.isRequired,
-    id: PropTypes.string.isRequired,
+    active: PropTypes.bool,
+    id: PropTypes.string,
     metadata: PropTypes.arrayOf(
       PropTypes.shape({
         info: PropTypes.shape({
@@ -149,9 +155,8 @@ MiniExploreDatasetsActions.propTypes = {
         }),
       }),
     ),
-  }).isRequired,
-  layer: PropTypes.shape({}).isRequired,
-  userToken: PropTypes.string,
+  }),
+  layer: PropTypes.shape({}),
   handleAddMap: PropTypes.func.isRequired,
 };
 
