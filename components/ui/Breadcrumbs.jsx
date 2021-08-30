@@ -1,14 +1,16 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
+import classnames from 'classnames';
 
 // components
 import Icon from 'components/ui/icon';
 
 export default function Breadcrumbs({
   items,
+  className,
 }) {
   return (
-    <ul className="c-breadcrumbs">
+    <ul className={classnames('c-breadcrumbs', { [className]: !!className })}>
       {items.map((item) => (
         <li key={item.name} className="item">
           {item.route ? (
@@ -34,6 +36,7 @@ export default function Breadcrumbs({
 
 Breadcrumbs.defaultProps = {
   items: [],
+  className: null,
 };
 
 Breadcrumbs.propTypes = {
@@ -44,4 +47,5 @@ Breadcrumbs.propTypes = {
       href: PropTypes.string,
     }),
   ),
+  className: PropTypes.string,
 };

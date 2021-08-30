@@ -1,0 +1,6 @@
+.c-stack {
+  display: flex;
+  & > *:not(:first-child) {
+    margin-inline: 20px 0;
+  }
+}

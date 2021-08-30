@@ -160,6 +160,10 @@ input, button, select, textarea {
   text-align: center;
 }
 
+.-body-font-color {
+  color: $body-font-color;
+}
+
 .-dragger {
   cursor: move;
 }

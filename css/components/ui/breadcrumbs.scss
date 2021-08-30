@@ -35,4 +35,11 @@
       }
     }
   }
+
+  &.-dark {
+    .item a {
+      color: inherit;
+      fill: inherit;
+    }
+  }
 }
