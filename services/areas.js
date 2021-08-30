@@ -99,7 +99,6 @@ export const deleteArea = (areaId, token) => {
 
   return WRIAPI.delete(`/v2/area/${areaId}`, {
     headers: { Authorization: token },
-    data: { env: process.env.NEXT_PUBLIC_API_ENV },
   })
     .catch(({ response }) => {
       const { status, statusText } = response;

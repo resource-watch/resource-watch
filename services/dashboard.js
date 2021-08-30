@@ -13,10 +13,7 @@ import { logger } from 'utils/logs';
  * @param {Object} headers Request headers to API.
  * @returns {Object[]} array of serialized dashboards.
  */
-export const fetchDashboards = (params = {
-  env: process.env.NEXT_PUBLIC_API_ENV,
-  application: process.env.NEXT_PUBLIC_APPLICATIONS,
-}, headers = {}, _meta = false) => {
+export const fetchDashboards = (params = {}, headers = {}, _meta = false) => {
   logger.info('Fetch dashboards');
   return WRIAPI.get('/v1/dashboard', {
     headers: {
@@ -25,7 +22,11 @@ export const fetchDashboards = (params = {
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1,
     },
-    params,
+    params: {
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      ...params,
+    },
     // resolves only if the status code is less than 300
     validateStatus: (status) => status < 300,
   }).then((response) => {
@@ -205,6 +206,7 @@ export const cloneDashboard = (dashboard, user) => {
         photo,
         summary,
       },
+      env: process.env.NEXT_PUBLIC_API_ENV,
     },
   };
   return WRIAPI.post(url, params, {

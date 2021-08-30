@@ -139,7 +139,10 @@ export const createFaq = (faq, token, params = {}, headers = {}) => {
         ...headers,
         Authorization: token,
       },
-      params: { ...params },
+      params: {
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        ...params,
+      },
     },
   )
     .then((response) => WRISerializer(response.data))
