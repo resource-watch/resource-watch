@@ -15,7 +15,7 @@ Native execution requires the following:
 - [RW API](https://api.resourcewatch.org/)
 - [Redis](https://redis.io/) (optional)
 
-There are included [Dockerfile](https://docs.docker.com/engine/reference/builder/) and [docker compose](https://docs.docker.com/compose/) configuration files that may make it easier to run the application locally.
+There are included [Dockerfile](https://docs.docker.com/engine/reference/builder/) and [docker compose](https://docs.docker.com/compose/) configuration files that may make it easier to run the application locally. See the [Docker installation instructions](#installation-docker-) for further details.
 
 # Installation
 
@@ -95,7 +95,15 @@ If the installation fails at the point where it installs `canvas`, you may want 
 
 
 # Installation (Docker) 🐳
-[TO-DO]
+
+Note that if you would like to develop using both Docker and native execution, you should follow the native [installation](#installation) instructions first. If you use Docker first and subsequently want to use native execution, you may need to delete or `chown` the `node_modules` folder in order for local installation to succeed. Docker should otherwise largely ignore the contents of the `node_modules` folder, but if you delete it while the container is running, you may need to stop and restart the container.
+
+Assuming you have Docker already installed, the following steps should result in the application running locally on port 3000:
+
+1. Copy the appropriate `.env` file: `cp .env.development .env`
+2. Build the container: `docker-compose -f docker-compose-develop.yml build`
+3. Launch the application: `docker-compose -f docker-compose-develop.yml up`
+
 
 # Architecture 📂
 The application is built on top of [**Next.js**](https://github.com/zeit/next.js/) - _a framework for server-rendered React apps_. _Next_ provides a zero-setup [webpack](https://webpack.js.org/) build ready to develop along a [express](https://expressjs.com/) server to run the application and [SASS](https://sass-lang.com/) styles compilation.
