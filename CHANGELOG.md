@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean watch introduction: texts. [OW-109](https://vizzuality.atlassian.net/browse/OW-109)
 - Ocean watch country page: call to action suggest a story [OW-41](https://vizzuality.atlassian.net/browse/OW-41)
 - Ocean watch country page: call to action data contribution/request [OW-38](https://vizzuality.atlassian.net/browse/OW-38)
 - Ocean watch country page: call to action to go to general explore page [OW-32](https://vizzuality.atlassian.net/browse/OW-32)
