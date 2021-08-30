@@ -109,7 +109,7 @@ NumericCardIndicator.propTypes = {
       PropTypes.string,
       PropTypes.number,
     ]),
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
     unit: PropTypes.string,
     format: PropTypes.string,
   }).isRequired,
