@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch country page introduction: increases size of the country selector. [OW-108](https://vizzuality.atlassian.net/browse/OW-108)
+- Ocean Watch country page introduction: map image. [OW-107](https://vizzuality.atlassian.net/browse/OW-107)
 - Ocean Watch country page: texts. [OW-110](https://vizzuality.atlassian.net/browse/OW-110)
 - Ocean watch introduction: texts. [OW-109](https://vizzuality.atlassian.net/browse/OW-109)
 - Ocean watch country page: call to action suggest a story [OW-41](https://vizzuality.atlassian.net/browse/OW-41)
