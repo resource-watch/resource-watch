@@ -25,6 +25,7 @@ $banner-padding-size: 70px;
       left: 0;
       width: 100%;
       height: 100%;
+      border-radius: 4px;
       background-color: rgba($black, .54);
     }
   }
@@ -38,7 +39,7 @@ $banner-padding-size: 70px;
   }
 
   p {
-    margin-bottom: $margin-size-small;
+    margin-bottom: ($space * 3);
   }
 
   &.-left { align-items: flex-start; }
