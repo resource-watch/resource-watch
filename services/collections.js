@@ -134,7 +134,6 @@ export const deleteCollection = (token, collectionId) => {
   logger.info(`Delete collection ${collectionId}`);
   return WRIAPI.delete(`/v1/collection/${collectionId}`, {
     headers: { Authorization: token },
-    data: { env: process.env.NEXT_PUBLIC_API_ENV },
   })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
@@ -216,7 +215,6 @@ export const removeResourceFromCollection = (token, collectionId, resource = {})
   return WRIAPI.delete(`/v1/collection/${collectionId}/resource/${type}/${id}`,
     {
       headers: { Authorization: token },
-      data: { env: process.env.NEXT_PUBLIC_API_ENV },
     })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
