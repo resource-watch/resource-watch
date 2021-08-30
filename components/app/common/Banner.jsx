@@ -24,13 +24,15 @@ export default function Banner({
         },
       }}
     >
-      <div
-        style={{
-          ...useDim && { zIndex: 2 },
-        }}
-      >
-        {children}
-      </div>
+      {useDim ? (
+        <div
+          style={{
+            zIndex: 2,
+          }}
+        >
+          {children}
+        </div>
+      ) : children}
     </section>
   );
 }

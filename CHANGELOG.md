@@ -7,11 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean watch country page: call to action suggest a story [OW-41](https://vizzuality.atlassian.net/browse/OW-41)
+- Ocean watch country page: call to action data contribution/request [OW-38](https://vizzuality.atlassian.net/browse/OW-38)
+- Ocean watch country page: call to action to go to general explore page [OW-32](https://vizzuality.atlassian.net/browse/OW-32)
 - Ocean Watch storytelling: add skip to countries button. [OW-105](https://vizzuality.atlassian.net/browse/OW-105)
 - dim effect to banners.
 - Ocean Watch introduction: call to action suggest a story [OW-39](https://vizzuality.atlassian.net/browse/OW-39)
 - Ocean Watch introduction: call to action data contribution/request [OW-36](https://vizzuality.atlassian.net/browse/OW-36)
-- Ocean Watch introduction: Call to action to go to general explore page  [OW-28](https://vizzuality.atlassian.net/browse/OW-28)
+- Ocean Watch introduction: call to action to go to general explore page  [OW-28](https://vizzuality.atlassian.net/browse/OW-28)
 - Ocean Watch introduction: call to action to go to coral reefs dashboard [OW-30](https://vizzuality.atlassian.net/browse/OW-30)
 - Area of Interest preview when user uploads a file. [RW-68](https://vizzuality.atlassian.net/browse/RW-68)
 - Ocean Watch: River Water Quality section. [OW-68](https://vizzuality.atlassian.net/browse/OW-68)
