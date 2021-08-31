@@ -114,6 +114,7 @@ class AdminPartnersTable extends PureComponent {
               { label: 'Partner type', value: 'partner-type' },
               { label: 'Featured', value: 'featured', td: FeaturedTD },
               { label: 'Published', value: 'published', td: PublishedTD },
+              { label: 'Environment', value: 'env' },
             ]}
             actions={{
               show: true,
