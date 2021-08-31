@@ -49,7 +49,7 @@ export default function OceanWatchCountryProfiles() {
     >
       <Header className="-transparent" />
       <OceanWatchHero className="-ocean-watch" />
-      <section className="l-section -secondary -medium">
+      <section className="l-section -secondary -small">
         <div className="l-container">
           <div className="row">
             <div className="column small-12">

@@ -153,10 +153,11 @@ export default function OceanWatchCountryProfilePage({
                 <Select
                   instanceId="area-selector"
                   options={areaOptions}
-                  className="-fluid"
+                  className="-large"
                   onChange={handleAreaChange}
-                  value={defaultAreaOption}
                   clearable={false}
+                  value={defaultAreaOption}
+                  placeholder="Select a country"
                 />
               </div>
             </div>
