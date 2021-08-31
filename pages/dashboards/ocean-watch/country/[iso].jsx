@@ -19,6 +19,11 @@ import {
 } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import Select from 'react-select';
+import Sticky from 'react-stickynode';
+import {
+  Link as ScrollLink,
+} from 'react-scroll';
+import flattenDeep from 'lodash/flattenDeep';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
@@ -117,8 +122,24 @@ export default function OceanWatchCountryProfilePage({
       ]);
     }), [oceanWatchConfig]);
 
-  const indicatorSetConfiguration = useMemo(() => serializedConfiguration
-    .find((rowContent) => !!rowContent.find((blockContent) => blockContent.visualizationType === 'main-indicators-set'))?.[0], [serializedConfiguration]);
+  const indicatorSetConfiguration = useMemo(() => {
+    const configuration = serializedConfiguration
+      .find((rowContent) => !!rowContent.find((blockContent) => blockContent.content?.[0]?.[0]?.visualizationType === 'main-indicators-set'))?.[0];
+
+    if (configuration) {
+      const {
+        content,
+        ...restConfiguration
+      } = configuration;
+
+      return ({
+        ...restConfiguration,
+        ...content && flattenDeep(content)?.[0],
+      });
+    }
+
+    return null;
+  }, [serializedConfiguration]);
 
   const area = useMemo(() => areas.find(({ iso: areaId }) => iso === areaId), [areas, iso]);
 
@@ -135,6 +156,16 @@ export default function OceanWatchCountryProfilePage({
     [areaOptions, iso],
   );
 
+  const dashboardTabs = useMemo(() => flattenDeep(oceanWatchConfig['country-profile'] || [])
+    .filter(({ anchor }) => Boolean(anchor))
+    .map(({
+      title: label,
+      anchor: value,
+    }) => ({
+      label,
+      value,
+    })), [oceanWatchConfig]);
+
   return (
     <LayoutOceanWatch
       title="Ocean Watch"
@@ -142,8 +173,16 @@ export default function OceanWatchCountryProfilePage({
     >
       <Header className="-transparent" />
       <OceanWatchHero className="-ocean-watch" />
-      <section className="l-section -small  -secondary">
-        <div className="l-container">
+      <section
+        className="l-section -small -secondary"
+        style={{
+          paddingBottom: 0,
+        }}
+      >
+        <div
+          className="l-container"
+          id="country-global-indicators"
+        >
           <div className="row">
             <div className="column small-12">
               <div style={{
@@ -170,9 +209,9 @@ export default function OceanWatchCountryProfilePage({
                   params={{
                     iso,
                   }}
-                  theme={indicatorSetConfiguration?.config?.theme}
+                  theme={indicatorSetConfiguration.config?.theme}
                 >
-                  {(indicatorSetConfiguration?.config?.indicators || [])
+                  {(indicatorSetConfiguration.config?.indicators || [])
                     .map(({
                       id,
                       title,
@@ -183,7 +222,7 @@ export default function OceanWatchCountryProfilePage({
                         id={id}
                         title={title}
                         icon={icon}
-                        theme={indicatorSetConfiguration?.config?.theme}
+                        theme={indicatorSetConfiguration.config?.theme}
                       />
                     ))}
                 </CardIndicatorSet>
@@ -191,152 +230,212 @@ export default function OceanWatchCountryProfilePage({
             </div>
           </div>
         </div>
+        <Sticky
+          bottomBoundary="#dashboard-content"
+          innerZ={10}
+        >
+          <div
+            style={{
+              width: '100%',
+              backgroundColor: '#f4f6f7',
+            }}
+          >
+            <div className="l-container">
+              <div className="row">
+                <div className="column small-12">
+                  <ul className="dashboard-anchors-list">
+                    {dashboardTabs.map(({ label, value }) => (
+                      <li className="dashboard-anchors-list-item">
+                        <ScrollLink
+                          activeClass="-active"
+                          to={value}
+                          spy
+                          smooth
+                          offset={-25}
+                          isDynamic
+                        >
+                          {label}
+                        </ScrollLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Sticky>
       </section>
       <div className="l-container">
-        {serializedConfiguration.map((rowContent) => (
-          <section
-            key={rowContent[0]?.rowId}
-            className="l-section -small"
-          >
-            <div className="cw-wysiwyg-list-item -isReadOnly">
-              <div className="row">
-                {rowContent.map((blockContent) => (
+        <div id="dashboard-content">
+          {serializedConfiguration.map((rowContent) => (
+            <div
+              key={rowContent[0]?.rowId}
+              {...rowContent[0]?.anchor && { id: rowContent[0].anchor }}
+            >
+              {(rowContent[0]?.content || []).map((blockContent) => {
+                if (blockContent?.[0].visualizationType === 'main-indicators-set') return null;
+
+                return (
                   <div
-                    key={blockContent.id}
-                    className={classnames({
-                      column: true,
-                      'small-12': blockContent.grid === '100%',
-                      'medium-6': blockContent.grid === '50%',
-                    })}
+                    className="l-section -small"
+                    style={{
+                      height: '100%',
+                    }}
                   >
-                    {blockContent.title && (
-                      <h2>
-                        {blockContent.title}
-                      </h2>
-                    )}
-                    {blockContent.text && (
-                      <p>
-                        {blockContent.text}
-                      </p>
-                    )}
-                    <InView
-                      triggerOnce
-                      threshold={0.25}
-                    >
-                      {({ ref, inView }) => (
-                        <div ref={ref}>
-                          {blockContent.visualizationType === 'mini-explore' && inView && (
-                            <MiniExplore
-                              config={{
-                                ...blockContent.config,
-                                ...area?.geostore && { areaOfInterest: area.geostore },
-                              }}
-                            />
-                          )}
-                        </div>
-                      )}
-                    </InView>
-                    <InView
-                      triggerOnce
-                      threshold={0.25}
-                    >
-                      {({ ref, inView }) => (
-                        <div ref={ref}>
-                          {blockContent.visualizationType === 'mini-explore-widgets' && inView && (
-                            <MiniExploreWidgets
-                              adapter={RWAdapter}
-                              config={{
-                                ...blockContent.config,
-                                ...area?.geostore && { areaOfInterest: area.geostore },
-                              }}
-                            />
-                          )}
-                        </div>
-                      )}
-                    </InView>
-                    {(blockContent.widget && blockContent.type === 'map') && (
-                      <MapWidget
-                        widgetId={blockContent.widget}
-                        params={{
-                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-                          ...area?.geostore && { geostore_id: area.geostore },
-                        }}
-                        {...area?.geostore && { areaOfInterest: area.geostore }}
-                        onToggleShare={handleShareWidget}
-                      />
-                    )}
-                    {(blockContent.widget && blockContent.type === 'map-swipe') && (
-                      <SwipeMapWidget
-                        widgetId={blockContent.widget}
-                        params={{
-                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-                          ...area?.geostore && { geostore_id: area.geostore },
-                        }}
-                        {...area?.geostore && { areaOfInterest: area.geostore }}
-                        onToggleShare={handleShareWidget}
-                      />
-                    )}
-                    {(blockContent.widget && blockContent.type === 'chart') && (
-                      <ChartWidget
-                        adapter={RWAdapter}
-                        widgetId={blockContent.widget}
-                        {...area?.geostore && { areaOfInterest: area.geostore }}
-                        onToggleShare={handleShareWidget}
-                      />
-                    )}
-                    <InView
-                      triggerOnce
-                      threshold={0.25}
-                    >
-                      {({ ref, inView }) => (
-                        <div ref={ref}>
-                          {blockContent.visualizationType === 'indicators-set' && inView && (
-                            <CardIndicatorSet
-                              config={blockContent.config}
-                              params={{
-                                iso,
-                              }}
-                              theme={blockContent?.config?.theme}
+                    <div className="row">
+                      {blockContent.map((blockElement) => (
+                        <div
+                          key={blockContent.id}
+                          className={classnames({
+                            column: true,
+                            'small-12': blockElement.grid === '100%',
+                            'medium-6': blockElement.grid === '50%',
+                          })}
+                        >
+                          <div
+                            style={{
+                              height: '100%',
+                            }}
+                          >
+                            {blockElement.title && (
+                            <h2>
+                              {blockElement.title}
+                            </h2>
+                            )}
+                            {blockElement.text && (
+                            <p>
+                              {blockElement.text}
+                            </p>
+                            )}
+                            {blockElement.visualizationType === 'mini-explore' && (
+                            <InView
+                              triggerOnce
+                              threshold={0.25}
                             >
-                              {(blockContent?.config?.indicators || [])
-                                .map(({
-                                  id,
-                                  title,
-                                  description,
-                                  query,
-                                  format,
-                                  unit,
-                                }) => (
-                                  <NumericCardIndicator
-                                    key={id}
-                                    id={id}
-                                    data={{
-                                      id,
-                                      title,
-                                      query,
-                                      description,
-                                      format,
-                                      unit,
+                              {({ ref, inView }) => (
+                                <div ref={ref}>
+                                  {inView && (
+                                  <MiniExplore
+                                    config={{
+                                      ...blockElement.config,
+                                      ...area?.geostore && { areaOfInterest: area.geostore },
                                     }}
-                                    title={title}
-                                    theme={indicatorSetConfiguration?.config?.theme}
+                                  />
+                                  )}
+                                </div>
+                              )}
+                            </InView>
+                            )}
+                            {blockElement.visualizationType === 'mini-explore-widgets' && (
+                            <InView
+                              triggerOnce
+                              threshold={0.25}
+                            >
+                              {({ ref, inView }) => (
+                                <div ref={ref}>
+                                  {inView && (
+                                  <MiniExploreWidgets
+                                    adapter={RWAdapter}
+                                    config={{
+                                      ...blockElement.config,
+                                      ...area?.geostore && { areaOfInterest: area.geostore },
+                                    }}
+                                  />
+                                  )}
+                                </div>
+                              )}
+                            </InView>
+                            )}
+                            {(blockElement.widget && blockElement.type === 'map') && (
+                            <MapWidget
+                              widgetId={blockElement.widget}
+                              params={{
+                                geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                ...area?.geostore && { geostore_id: area.geostore },
+                              }}
+                              {...area?.geostore && { areaOfInterest: area.geostore }}
+                              onToggleShare={handleShareWidget}
+                            />
+                            )}
+                            {(blockElement.widget && blockElement.type === 'map-swipe') && (
+                            <SwipeMapWidget
+                              widgetId={blockElement.widget}
+                              params={{
+                                geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                ...area?.geostore && { geostore_id: area.geostore },
+                              }}
+                              {...area?.geostore && { areaOfInterest: area.geostore }}
+                              onToggleShare={handleShareWidget}
+                            />
+                            )}
+                            {(blockElement.widget && blockElement.type === 'chart') && (
+                            <ChartWidget
+                              adapter={RWAdapter}
+                              widgetId={blockElement.widget}
+                              {...area?.geostore && { areaOfInterest: area.geostore }}
+                              onToggleShare={handleShareWidget}
+                            />
+                            )}
+                            {blockElement.visualizationType === 'indicators-set' && (
+                            <InView
+                              triggerOnce
+                              threshold={0.25}
+                            >
+                              {({ ref, inView }) => (
+                                <div ref={ref}>
+                                  {inView && (
+                                  <CardIndicatorSet
+                                    config={blockElement.config}
                                     params={{
                                       iso,
                                     }}
-                                  />
-                                ))}
-                            </CardIndicatorSet>
-                          )}
+                                    theme={blockElement?.config?.theme}
+                                  >
+                                    {(blockElement?.config?.indicators || [])
+                                      .map(({
+                                        id,
+                                        title,
+                                        description,
+                                        query,
+                                        format,
+                                        unit,
+                                      }) => (
+                                        <NumericCardIndicator
+                                          key={id}
+                                          id={id}
+                                          data={{
+                                            id,
+                                            title,
+                                            query,
+                                            description,
+                                            format,
+                                            unit,
+                                          }}
+                                          title={title}
+                                          theme={indicatorSetConfiguration?.config?.theme}
+                                          params={{
+                                            iso,
+                                          }}
+                                        />
+                                      ))}
+                                  </CardIndicatorSet>
+                                  )}
+                                </div>
+                              )}
+                            </InView>
+                            )}
+
+                          </div>
                         </div>
-                      )}
-                    </InView>
+                      ))}
+                    </div>
                   </div>
-                ))}
-              </div>
+                );
+              })}
             </div>
-          </section>
-        ))}
-        <div className="l-section">
+          ))}
+        </div>
+        <section className="l-section">
           <div className="row">
             <div className="column small-12">
               <Banner
@@ -454,7 +553,7 @@ export default function OceanWatchCountryProfilePage({
               </Banner>
             </div>
           </div>
-        </div>
+        </section>
       </div>
       {(!!widgetToShare) && (
         <WidgetShareModal
