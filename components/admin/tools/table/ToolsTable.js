@@ -127,6 +127,7 @@ class ToolsTable extends PureComponent {
               { label: 'Name', value: 'title', td: TitleTD },
               { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Published', value: 'published', td: PublishedTD },
+              { label: 'Environment', value: 'env' },
             ]}
             actions={{
               show: true,
