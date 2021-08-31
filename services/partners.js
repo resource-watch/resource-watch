@@ -15,9 +15,9 @@ export const fetchPartners = (params = {}, headers = {}) => {
   logger.info('Fetch partners');
   return WRIAPI.get('/v1/partner', {
     params: {
-      ...params,
       env: process.env.NEXT_PUBLIC_API_ENV,
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      ...params,
     },
     headers: { ...headers },
     // resolves only if the status code is less than 300
@@ -49,9 +49,9 @@ export const fetchPartner = (id, params = {}, headers = {}) => {
     {
       headers: { ...headers },
       params: {
-        ...params,
         env: process.env.NEXT_PUBLIC_API_ENV,
         application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
       },
     },
   )
@@ -104,9 +104,9 @@ export const createPartner = (partner, token, params = {}, headers = {}) => {
     { ...partner },
     {
       params: {
-        ...params,
         env: process.env.NEXT_PUBLIC_API_ENV,
         application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
       },
       headers: { ...headers, Authorization: token },
     })
@@ -132,8 +132,8 @@ export const deletePartner = (id, token, params = {}, headers = {}) => {
     `/v1/partner/${id}`,
     {
       params: {
-        ...params,
         application: process.env.NEXT_PUBLIC_APPLICATIONS,
+        ...params,
       },
       headers: {
         ...headers,
