@@ -161,6 +161,7 @@ class WidgetsTable extends PureComponent {
               { label: 'Published', value: 'published', td: PublishedTD },
               { label: 'Owner', value: 'owner', td: OwnerTD },
               { label: 'Role', value: 'role', td: RoleTD },
+              { label: 'Environment', value: 'env' },
             ]}
             actions={{
               show: true,
