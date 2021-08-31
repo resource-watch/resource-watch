@@ -27,7 +27,7 @@ import DeleteAction from './actions/delete';
 import { INITIAL_PAGINATION } from './constants';
 
 class DatasetsTable extends PureComponent {
-  static propTypes = { user: PropTypes.object.isRequired }
+  static propTypes = { user: PropTypes.object.isRequired };
 
   state = {
     pagination: INITIAL_PAGINATION,
@@ -162,6 +162,7 @@ class DatasetsTable extends PureComponent {
             { label: 'Owner', value: 'owner', td: OwnerTD },
             { label: 'Role', value: 'role', td: RoleTD },
             { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
+            { label: 'Environment', value: 'env' },
             { label: 'Applications', value: 'application', td: ApplicationsTD },
             {
               label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: '/admin/data' },
