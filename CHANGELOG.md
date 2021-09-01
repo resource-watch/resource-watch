@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch country page: collapsible mini-explore. [OW-102](https://vizzuality.atlassian.net/browse/OW-102)
 - Ocean Watch country page: anchors. [OW-20](https://vizzuality.atlassian.net/browse/OW-20)
 - Ocean Watch country page introduction: increases size of the country selector. [OW-108](https://vizzuality.atlassian.net/browse/OW-108)
 - Ocean Watch country page introduction: map image. [OW-107](https://vizzuality.atlassian.net/browse/OW-107)
