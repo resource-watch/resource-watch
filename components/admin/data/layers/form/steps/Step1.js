@@ -106,14 +106,18 @@ class Step1 extends PureComponent {
             ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
             hint={'Choose "preproduction" to see this dataset only as admin, "production" option will show it in the public site.'}
             className="-fluid"
-            options={[{ label: 'Pre-production', value: 'preproduction' }, { label: 'Production', value: 'production' }]}
+            options={[
+              { label: 'Staging', value: 'staging' },
+              { label: 'Preproduction', value: 'preproduction' },
+              { label: 'Production', value: 'production' },
+            ]}
             onChange={(value) => this.props.onChange({ env: value })}
             properties={{
               name: 'env',
               label: 'Environment',
               placeholder: 'Choose an environment...',
               noResultsText: 'Please, choose an environment for this layer',
-              default: 'preproduction',
+              default: process.env.NEXT_PUBLIC_API_ENV,
               value: this.props.form.env,
             }}
           >
