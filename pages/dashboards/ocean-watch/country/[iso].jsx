@@ -179,10 +179,7 @@ export default function OceanWatchCountryProfilePage({
           paddingBottom: 0,
         }}
       >
-        <div
-          className="l-container"
-          id="country-global-indicators"
-        >
+        <div className="l-container">
           <div className="row">
             <div className="column small-12">
               <div style={{
@@ -233,6 +230,7 @@ export default function OceanWatchCountryProfilePage({
         <Sticky
           bottomBoundary="#dashboard-content"
           innerZ={10}
+          className="sticky-dashboard-content-bar"
         >
           <div
             style={{
