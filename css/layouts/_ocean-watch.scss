@@ -10,6 +10,10 @@
     background-position: 50% 0;
   }
 
+  .sticky-dashboard-content-bar {
+    margin: ($space * 4) 0 0;
+  }
+
   .dashboard-anchors-list {
     display: flex;
     justify-content: space-around;
