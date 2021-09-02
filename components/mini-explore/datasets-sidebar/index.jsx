@@ -49,6 +49,7 @@ export default function DatasetsSidebarContainer({
     includes: 'layer,metadata',
     ids: datasetIDs.join(','),
     'page[size]': 50,
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   }, {
     enabled: !!datasetIDs.length,
     placeholderData: [],

@@ -37,6 +37,7 @@ const ExploreFavorites = ({
   } = useFetchDatasets({
     ids: datasetIds.join(','),
     includes: 'widget,metadata,layer,vocabulary',
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   },
   {
     enabled: !!(datasetIds.length),

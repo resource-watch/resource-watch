@@ -256,6 +256,7 @@ export default function MiniExploreMapContainer({
     includes: 'layer',
     ids: datasetIds.join(','),
     'page[size]': 30,
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   }, {
     enabled: !!(datasetIds.length),
     refetchOnWindowFocus: false,
