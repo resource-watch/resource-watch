@@ -45,6 +45,7 @@ const ExploreCollections = ({
     {
       ids: datasetIDs.join(','),
       includes: 'widget,metadata,layer,vocabulary',
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
     },
     {
       enabled: datasetIDs.length > 0,
