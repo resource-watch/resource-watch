@@ -10,6 +10,7 @@ import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
+import Select from 'components/form/SelectInput';
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -117,6 +118,28 @@ class Step1 extends React.Component {
               </div>
             </div>
           </div>
+
+          {/* ENVIRONMENT */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
+            className="-fluid"
+            options={[
+              { label: 'Staging', value: 'staging' },
+              { label: 'Preproduction', value: 'preproduction' },
+              { label: 'Production', value: 'production' },
+            ]}
+            onChange={(value) => this.props.onChange({ env: value })}
+            properties={{
+              name: 'env',
+              label: 'Environment',
+              placeholder: 'Choose an environment...',
+              noResultsText: 'Please, choose an environment for this tool',
+              default: process.env.NEXT_PUBLIC_API_ENV,
+              value: this.props.form.env,
+            }}
+          >
+            {Select}
+          </Field>
 
           {/* PUBLISHED */}
           <Field
