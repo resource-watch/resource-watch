@@ -65,7 +65,7 @@ export default function OceanWatchIntroPage({
                 >
                   The ocean and humanity are connected.
                   To ensure the health and economic vitality of ocean ecosystems,
-                  ocean management needs an upgrade,
+                  ocean management needs an upgrade.
                   Ocean Watch provides the data and information policymakers
                   need to make better-informed decisions about sustainable ocean management.
                 </p>
