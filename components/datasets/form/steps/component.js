@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import compact from 'lodash/compact';
+import cx from 'classnames';
 
 // Constants
 import {
@@ -33,11 +34,13 @@ class Step1 extends PureComponent {
     onChange: PropTypes.func.isRequired,
     sortedLayers: PropTypes.array,
     user: PropTypes.object.isRequired,
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
     dataDataset: null,
     sortedLayers: [],
+    disabled: false,
   };
 
   state = {
@@ -157,7 +160,7 @@ class Step1 extends PureComponent {
 
   render() {
     const {
-      user, columns, loadingColumns, basic, sortedLayers, authorization,
+      user, columns, loadingColumns, basic, sortedLayers, authorization, disabled,
     } = this.props;
     const { dataset, subscribableSelected } = this.state;
     const { provider, columnFields, application } = this.state.form;
@@ -180,7 +183,7 @@ class Step1 extends PureComponent {
     const columnFieldsOptions = (columnFields || []).map((f) => ({ label: f, value: f }));
 
     return (
-      <div>
+      <div className={cx({ '-disabled': disabled })}>
         <fieldset className="c-field-container">
           {user.role === 'ADMIN' && !basic && (
             <Field
