@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import Graph from 'react-graph-vis';
+import cx from 'classnames';
 
 // Components
 import Spinner from 'components/ui/Spinner';
@@ -191,9 +192,16 @@ class TagsForm extends React.Component {
       tags, selectedTags, inferredTags, graph, loadingDatasetTags,
       loadingAllTags, loadingInferredTags,
     } = this.state;
+    const { dataset } = this.props;
+    const disabled = !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
 
     return (
-      <form className="c-tags-form" onSubmit={this.handleSubmit}>
+      <form className={cx({
+        'c-tags-form': true,
+        '-disabled': disabled,
+      })}
+        onSubmit={this.handleSubmit}
+      >
         <Spinner
           className="-light"
           isLoading={loadingAllTags || loadingDatasetTags}
@@ -229,21 +237,21 @@ class TagsForm extends React.Component {
           />
           {graph
             && (
-            <Graph
-              graph={graph}
-              options={graphOptions}
-            />
+              <Graph
+                graph={graph}
+                options={graphOptions}
+              />
             )}
         </div>
 
         {!this.state.loading
           && (
-          <Navigation
-            step={this.state.step}
-            stepLength={this.state.stepLength}
-            submitting={this.state.submitting}
-            onStepChange={this.handleSubmit}
-          />
+            <Navigation
+              step={this.state.step}
+              stepLength={this.state.stepLength}
+              submitting={this.state.submitting}
+              onStepChange={this.handleSubmit}
+            />
           )}
       </form>
     );
