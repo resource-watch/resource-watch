@@ -91,7 +91,7 @@
                 "unit": "%"
               },
               {
-                "id": "",
+                "id": "b9192492-20f3-4725-8e90-8795f2176329",
                 "type": "chart"
               }
             ]
@@ -110,7 +110,7 @@
                 "unit": "%"
               },
               {
-                "id": "",
+                "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
                 "type": "map"
               }
             ]
@@ -142,7 +142,7 @@
             "subtitle": "Biodiversity — the variety and variability of life on Earth — is the natural capital people depend on for survival.",
             "widget": [
               {
-                "id": "",
+                "id": "b9192492-20f3-4725-8e90-8795f2176329",
                 "type": "chart"
               },
               {
@@ -175,7 +175,7 @@
             "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity.",
             "widget": [
               {
-                "id":  "",
+                "id":  "879ecb9e-5594-40ea-9458-2295b70017da",
                 "type": "map-swipe"
               }
             ]
@@ -243,7 +243,7 @@
                     "unit": "%"
                   },
                   {
-                    "id": "",
+                    "id": "b9192492-20f3-4725-8e90-8795f2176329",
                     "type": "chart"
                   }
                 ]
