@@ -18,6 +18,7 @@ import StepBackground from './background';
 export default function OceanWatchStoryTelling({
   indicators,
   steps,
+  geostore,
 }) {
   const [tooltipVisibility, setTooltipVisibility] = useState({});
   const [selectedIndicator, setSelectedIndicator] = useState('opening');
@@ -229,6 +230,7 @@ export default function OceanWatchStoryTelling({
               <StoryStep
                 key={step.id}
                 data={step}
+                geostore={geostore}
               />
             </div>
           </Step>
@@ -279,6 +281,7 @@ export default function OceanWatchStoryTelling({
 
 OceanWatchStoryTelling.defaultProps = {
   steps: [],
+  geostore: null,
 };
 
 OceanWatchStoryTelling.propTypes = {
@@ -292,4 +295,5 @@ OceanWatchStoryTelling.propTypes = {
       id: PropTypes.string.isRequired,
     }),
   ),
+  geostore: PropTypes.string,
 };

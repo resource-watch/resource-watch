@@ -26,16 +26,23 @@ import {
   getRWAdapter,
 } from 'utils/widget-editor';
 
+import {
+  isStagingAPI,
+} from 'utils/api';
+
 // styles
 import './styles.scss';
 
 const WidgetShareModal = dynamic(() => import('../../../../../components/widgets/share-modal'), { ssr: false });
+
+const isStaging = isStagingAPI();
 
 function renderWidget({
   id: widgetId,
   type: widgetType,
   adapter,
   handleShareWidget,
+  params,
 }) {
   return (
     <>
@@ -44,6 +51,7 @@ function renderWidget({
           adapter={adapter}
           widgetId={widgetId}
           onToggleShare={handleShareWidget}
+          params={params}
           style={{
             height: 450,
             borderRadius: 4,
@@ -55,6 +63,7 @@ function renderWidget({
         <MapWidget
           widgetId={widgetId}
           onToggleShare={handleShareWidget}
+          params={params}
           style={{
             height: 450,
             borderRadius: 4,
@@ -66,6 +75,7 @@ function renderWidget({
         <SwipeMapWidget
           widgetId={widgetId}
           onToggleShare={handleShareWidget}
+          params={params}
           style={{
             borderRadius: 4,
           }}
@@ -75,7 +85,10 @@ function renderWidget({
   );
 }
 
-export default function StoryStep({ data }) {
+export default function StoryStep({
+  data,
+  geostore,
+}) {
   const {
     content,
   } = data;
@@ -148,6 +161,11 @@ export default function StoryStep({ data }) {
       },
     },
   );
+
+  const widgetParams = useMemo(() => ({
+    geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+    ...geostore && { geostore_id: geostore },
+  }), [geostore]);
 
   return (
     <>
@@ -232,6 +250,7 @@ export default function StoryStep({ data }) {
                           type: _widgetBlock.type,
                           adapter: RWAdapter,
                           handleShareWidget,
+                          params: widgetParams,
                         })}
                       </div>
                     </div>
@@ -307,6 +326,7 @@ export default function StoryStep({ data }) {
                               type: widgetSection.type,
                               adapter: RWAdapter,
                               handleShareWidget,
+                              params: widgetParams,
                             })}
                           </>
                         )}
@@ -393,6 +413,10 @@ export default function StoryStep({ data }) {
   );
 }
 
+StoryStep.defaultProps = {
+  geostore: null,
+};
+
 StoryStep.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -413,4 +437,5 @@ StoryStep.propTypes = {
       ),
     }),
   }).isRequired,
+  geostore: PropTypes.string,
 };
