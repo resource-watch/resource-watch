@@ -39,7 +39,7 @@
           "indicator": "opening",
           "isPlaceholder": true,
           "background": {
-            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg"
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg-1"
           },
           "info": [
             {
@@ -101,7 +101,7 @@
           "id": "oceans-climate-1",
           "indicator": "oceans-climate",
           "content": {
-            "title": "Ocean and Climate Change",
+            "title": "Ocean and Climate Change 22",
             "subtitle": "The ocean is central to regulating the global climate.",
             "widget": [
               {
