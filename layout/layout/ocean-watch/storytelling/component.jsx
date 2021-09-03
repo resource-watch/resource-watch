@@ -2,6 +2,7 @@ import {
   useCallback,
   useState,
   useMemo,
+  useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 import { Scrollama, Step } from 'react-scrollama';
@@ -17,12 +18,15 @@ import StepBackground from './background';
 export default function OceanWatchStoryTelling({
   indicators,
   steps,
+  geostore,
 }) {
   const [tooltipVisibility, setTooltipVisibility] = useState({});
   const [selectedIndicator, setSelectedIndicator] = useState('opening');
   const [showSkip, setShowSkip] = useState(true);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const onStepEnter = ({ data, direction }) => {
+    setShowBackToTop(true);
     // hides button at the end of the last step
     if (data.id === steps[steps.length - 1].id && direction === 'down') setShowSkip(false);
     if (direction === 'up') setShowSkip(true);
@@ -57,6 +61,15 @@ export default function OceanWatchStoryTelling({
     }
   }, []);
 
+  const handleBackToTop = useCallback(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'auto',
+    });
+
+    setShowBackToTop(false);
+  }, []);
+
   const handleClickTooltip = useCallback((id) => {
     setTooltipVisibility({
       [id]: !tooltipVisibility[id],
@@ -66,6 +79,20 @@ export default function OceanWatchStoryTelling({
   const placeholderSteps = useMemo(() => steps.filter(
     ({ isPlaceholder }) => isPlaceholder,
   ), [steps]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      window.requestAnimationFrame(() => {
+        if (!window.scrollY) setShowBackToTop(false);
+      });
+    };
+
+    document.addEventListener('scroll', onScroll);
+
+    return () => {
+      document.removeEventListener('scroll', onScroll);
+    };
+  }, []);
 
   return (
     <div className="l-container">
@@ -203,42 +230,59 @@ export default function OceanWatchStoryTelling({
               <StoryStep
                 key={step.id}
                 data={step}
+                geostore={geostore}
               />
             </div>
           </Step>
         ))}
       </Scrollama>
       <div
+        className="storytelling-floating-bar"
         style={{
-          zIndex: 3,
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          width: '100%',
-          padding: '15px 0',
-          pointerEvents: 'none',
-          transition: 'transform .16s cubic-bezier(0.645, 0.045, 0.355, 1.000)',
           ...!showSkip && {
             transform: 'translate(0, 100%)',
           },
         }}
       >
-        <button
-          type="button"
-          onClick={handleSkip}
-          className="c-button -primary -alt"
-          style={{
-            pointerEvents: 'all',
-          }}
+        <div
+          className="bg-buttons"
         >
-          Skip to countries
-        </button>
+          <button
+            type="button"
+            onClick={handleBackToTop}
+            className="c-button -secondary -alt"
+            style={{
+              position: 'absolute',
+              left: 0,
+              transform: 'translate(-50%, 0)',
+              pointerEvents: 'all',
+              transition: 'opacity 0.24s cubic-bezier(0.445, 0.05, 0.55, 0.95)',
+              opacity: showBackToTop ? 1 : 0,
+            }}
+          >
+            Back to top
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSkip}
+            className="c-button -primary -alt"
+            style={{
+              pointerEvents: 'all',
+            }}
+          >
+            Skip to countries
+          </button>
+        </div>
       </div>
     </div>
   );
 }
+
+OceanWatchStoryTelling.defaultProps = {
+  steps: [],
+  geostore: null,
+};
 
 OceanWatchStoryTelling.propTypes = {
   indicators: PropTypes.arrayOf(
@@ -250,5 +294,6 @@ OceanWatchStoryTelling.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
     }),
-  ).isRequired,
+  ),
+  geostore: PropTypes.string,
 };

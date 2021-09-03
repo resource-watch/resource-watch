@@ -72,6 +72,7 @@ export default function DatasetsSidebarContainer({
 
       return datasetGroups
         .map((group) => ({
+          id: group.title,
           title: group.title,
           datasets: datasets.length ? group.datasets
             .map((datasetId) => datasetsMap.get(datasetId)) : [],

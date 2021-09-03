@@ -1,4 +1,5 @@
 import {
+  useState,
   useCallback,
 } from 'react';
 import { useRouter } from 'next/router';
@@ -17,6 +18,7 @@ import OceanWatchHero from 'layout/layout/ocean-watch/hero';
 
 export default function OceanWatchCountryProfiles() {
   const router = useRouter();
+  const [countryValue, setCountryValue] = useState();
 
   const {
     data: areas,
@@ -31,6 +33,7 @@ export default function OceanWatchCountryProfiles() {
   });
 
   const handleAreaChange = useCallback(({ value }) => {
+    setCountryValue(value);
     router.push({
       pathname: '/dashboards/ocean-watch/country/[iso]',
       query: {
@@ -46,35 +49,46 @@ export default function OceanWatchCountryProfiles() {
     >
       <Header className="-transparent" />
       <OceanWatchHero className="-ocean-watch" />
-      <section className="l-section -secondary -medium">
+      <section className="l-section -secondary -small">
         <div className="l-container">
           <div className="row">
-            <div className="column small-12 medium-8">
-              {/* //todo: update title and description */}
-              <h2>
-                Ocean Watch Country Profiles
-              </h2>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Itaque doloribus corrupti nemo distinctio? Sunt sapiente
-                voluptate tempore temporibus delectus, blanditiis,
-                illum consequatur nihil consectetur quo ratione ea expedita, eum reprehenderit.
-              </p>
-            </div>
-          </div>
-          <div className="row">
             <div className="column small-12">
-              <div style={{
-                paddingTop: 30,
-              }}
+              <Select
+                instanceId="area-selector"
+                options={areas}
+                className="-large"
+                onChange={handleAreaChange}
+                clearable={false}
+                value={countryValue}
+                placeholder="Select a country"
+              />
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  minHeight: 550,
+                  width: '100%',
+                  margin: '25px 0 0',
+                  background: 'url(/static/images/ocean-watch/placeholder-map.png)',
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                }}
               >
-                <Select
-                  instanceId="area-selector"
-                  options={areas}
-                  className="-fluid"
-                  onChange={handleAreaChange}
-                  clearable={false}
-                />
+                <h3
+                  style={{
+                    color: '#393f44',
+                    fontSize: 26,
+                    fontWeight: 300,
+                    textAlign: 'center',
+                  }}
+                >
+                  Examine in-depth the curated data for the
+                  {' '}
+                  <br />
+                  country profiles.
+                  Start by selecting a country.
+                </h3>
               </div>
             </div>
           </div>

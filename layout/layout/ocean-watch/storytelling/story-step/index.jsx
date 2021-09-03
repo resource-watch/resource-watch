@@ -13,6 +13,7 @@ import StoryStep from './component';
 
 export default function StoryStepContainer({
   data,
+  geostore,
 }) {
   const query = useMemo(() => {
     if (data.isPlaceholder || !data.content.widget || !data.content.widget.length) return null;
@@ -56,9 +57,14 @@ export default function StoryStepContainer({
   return (
     <StoryStep
       data={query ? queryData : data}
+      geostore={geostore}
     />
   );
 }
+
+StoryStepContainer.defaultProps = {
+  geostore: null,
+};
 
 StoryStepContainer.propTypes = {
   data: PropTypes.shape({
@@ -69,4 +75,5 @@ StoryStepContainer.propTypes = {
       ),
     }),
   }).isRequired,
+  geostore: PropTypes.string,
 };

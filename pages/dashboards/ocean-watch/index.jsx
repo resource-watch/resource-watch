@@ -1,8 +1,11 @@
+import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import {
   useQuery,
+  QueryClient,
 } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
@@ -14,11 +17,14 @@ import Banner from 'components/app/common/Banner';
 // services
 import {
   fetchConfigFile,
+  fetchOceanWatchAreas,
 } from 'services/ocean-watch';
 
 const OceanWatchStoryTelling = dynamic(() => import('../../../layout/layout/ocean-watch/storytelling'), { ssr: false });
 
-export default function OceanWatchIntroPage() {
+export default function OceanWatchIntroPage({
+  geostore,
+}) {
   const {
     data: oceanWatchConfig,
   } = useQuery(
@@ -57,10 +63,11 @@ export default function OceanWatchIntroPage() {
                   color: '#fff',
                 }}
                 >
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Ratione obcaecati facilis consequuntur sapiente consectetur
-                  ea voluptates ipsa veniam necessitatibus dolores quasi ad maxime,
-                  cum totam ex ut illo eius voluptatibus!
+                  The ocean and humanity are connected.
+                  To ensure the health and economic vitality of ocean ecosystems,
+                  ocean management needs an upgrade,
+                  Ocean Watch provides the data and information policymakers
+                  need to make better-informed decisions about sustainable ocean management.
                 </p>
               </div>
             </div>
@@ -85,6 +92,7 @@ export default function OceanWatchIntroPage() {
         <OceanWatchStoryTelling
           indicators={oceanWatchConfig.intro.indicators}
           steps={oceanWatchConfig.intro.steps}
+          geostore={geostore}
         />
 
         <div className="l-container">
@@ -232,7 +240,7 @@ export default function OceanWatchIntroPage() {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // feature flag to avoid display any Ocean Watch development in other environments
   if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true') {
     return {
@@ -240,7 +248,25 @@ export async function getStaticProps() {
     };
   }
 
+  const queryClient = new QueryClient();
+
+  // prefetch areas
+  await queryClient.prefetchQuery('ocean-watch-areas', fetchOceanWatchAreas);
+  // this page always uses a worldwide geostore
+  const { geostore } = queryClient.getQueryData('ocean-watch-areas').find(({ iso }) => iso === 'GLB') || {};
+
   return {
-    props: {},
+    props: ({
+      dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
+      geostore,
+    }),
   };
 }
+
+OceanWatchIntroPage.defaultProps = {
+  geostore: null,
+};
+
+OceanWatchIntroPage.propTypes = {
+  geostore: PropTypes.string,
+};
