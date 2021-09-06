@@ -12,16 +12,14 @@ import {
 } from 'hooks/partners';
 
 // constants
+import {
+  OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES,
+} from 'constants/ocean-watch';
+
 const EXCLUSIVE_PARTNERS = [
   'founding_partners',
   'funders',
   'anchor_funder',
-];
-
-const OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES = [
-  'ow_collaborating-partner',
-  'ow_data-provider',
-  'ow_funder',
 ];
 
 export default function LayoutPartners() {
