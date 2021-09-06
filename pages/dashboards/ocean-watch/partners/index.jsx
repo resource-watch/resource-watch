@@ -34,7 +34,7 @@ export default function OceanWatchPartnersPage() {
       funders,
     },
   } = usePublishedPartners({}, {
-    select: (_partners) => console.log('_partners', _partners) || ({
+    select: (_partners) => ({
       collaboratingPartners: _partners.filter((_partner) => _partner['partner-type'] === 'ow_collaborating-partner'),
       dataProviders: _partners.filter((_partner) => _partner['partner-type'] === 'ow_data-provider'),
       funders: _partners.filter((_partner) => _partner['partner-type'] === 'ow_funder'),

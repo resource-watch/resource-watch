@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 
 // components
@@ -5,7 +6,9 @@ import Icon from 'components/ui/icon';
 import FooterLinks from './footer-links';
 import PartnersCarousel from './partners-carousel';
 
-export default function Footer() {
+export default function Footer({
+  isOceanWatch,
+}) {
   return (
     <footer className="l-footer">
       <div className="footer-main">
@@ -68,7 +71,9 @@ export default function Footer() {
           <div className="row">
             <div className="column small-12">
               <div className="c-partners-slider">
-                <PartnersCarousel />
+                <PartnersCarousel
+                  isOceanWatch={isOceanWatch}
+                />
               </div>
             </div>
           </div>
@@ -105,3 +110,11 @@ export default function Footer() {
     </footer>
   );
 }
+
+Footer.defaultProps = {
+  isOceanWatch: false,
+};
+
+Footer.propTypes = {
+  isOceanWatch: PropTypes.bool,
+};
