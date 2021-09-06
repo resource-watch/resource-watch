@@ -4,17 +4,17 @@
       "indicators": [
         {
           "id": "land-sea-interface",
-          "title": "The Land/Sea Interface",
+          "title": "Land-Based Pollution",
           "icon": "land-sea"
         },
         {
           "id": "oceans-climate",
-          "title": "Oceans and Climate",
+          "title": "Ocean and Climate Change",
           "icon": "climate"
         },
         {
           "id": "biodiversity",
-          "title": "Biodiversity",
+          "title": "Ocean Biodiversity",
           "icon": "biodiversity"
         },
         {
@@ -29,7 +29,7 @@
         },
         {
           "id": "blue-economy",
-          "title": "The Blue Economy",
+          "title": "Blue Economy",
           "icon": "economy"
         }
       ],
@@ -52,7 +52,7 @@
           "id": "land-sea-interface-1",
           "indicator": "land-sea-interface",
           "content": {
-            "title": "The Land-Sea Interface",
+            "title": "Land-Based Pollution",
             "subtitle": "Addressing threats to the ocean often begin on land.",
             "intro": "The land and the ocean are strongly connected by a series of human and natural processes, fueling ocean life cycles. Human activities on land have introduced higher levels of sediment and toxic chemicals into the ocean, threatening the health of the coast, ocean resources and billions of people."
           }
@@ -67,7 +67,7 @@
           "info": [
             {
               "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
-              "position": [25, 28]
+              "position": [35, 45]
             },
             {
               "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
@@ -75,7 +75,7 @@
             },
             {
               "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
-              "position": [50, 25]
+              "position": [50, 30]
             }
           ]
         },
@@ -102,10 +102,10 @@
           "indicator": "oceans-climate",
           "content": {
             "title": "Ocean and Climate Change",
-            "subtitle": "The ocean is central to regulating the global climate.",
+            "subtitle": "The ocean is central to regulating the global climate",
             "widget": [
               {
-                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
+                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication",
                 "value": 9.5,
                 "unit": "%"
               },
@@ -125,11 +125,11 @@
           },
           "info": [
             {
-              "content": "Atmospheric carbon dioxide (CO2) is in balance with CO2 dissolved into the ocean. Increasing dissolved CO2 results in ocean acidification and habitat loss",
+              "content": "Ocean acidification is caused by rising CO2 levels in the atmosphere. Many critical ocean habitats and life forms begin to dissolve when the water is too acidic",
               "position": [55, 60]
             },
             {
-              "content": "Rising atmospheric and ocean temperatures put global coastal and island populations at risk of flooding from sea-level rise, and the ocean at risk of oxygen loss",
+              "content": "Oxygen is a key requirement for ocean life. Climate change is warming the ocean and driving deoxygenation by limiting its ability to hold and circulate oxygen into the deep ocean",
               "position": [75, 55]
             }
           ]
@@ -138,7 +138,7 @@
           "id": "biodiversity-1",
           "indicator": "biodiversity",
           "content": {
-            "title": "Biodiversity",
+            "title": "Ocean Biodiversity",
             "subtitle": "Biodiversity — the variety and variability of life on Earth — is the natural capital people depend on for survival.",
             "widget": [
               {
@@ -162,7 +162,7 @@
           },
           "info": [
             {
-              "content": "Ocean acidification is caused by rising CO2 levels in the atmosphere. Many critical ocean habitats and life forms begin to dissolve when the water is too acidic. [subscript the 2 in CO2]",
+              "content": "In the ocean, biodiversity underpins marine ecosystem functioning, which provides valuable services for people, including food, protection from storm surges and rising sea levels, and carbon sequestration",
               "position": [65, 65]
             }
           ]
@@ -172,7 +172,7 @@
           "indicator": "marine-protected-areas",
           "content": {
             "title": "Marine Protected Areas",
-            "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity.",
+            "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity",
             "widget": [
               {
                 "id":  "879ecb9e-5594-40ea-9458-2295b70017da",
@@ -190,7 +190,7 @@
           },
           "info": [
             {
-              "content": "MPAs that are fully protected can safeguard biodiversity, mitigate climate change and boost the productivity of fisheries in the surrounding areas.",
+              "content": "MPAs that are fully protected can safeguard biodiversity, mitigate climate change and boost the productivity of fisheries in the surrounding areas",
               "position": [60, 55]
             }
           ]
@@ -212,16 +212,12 @@
           },
           "info": [
             {
-              "content": "The ocean is a source of protein for x million people, supporting complete diets and access to food",
+              "content": "The ocean provides humans oxygen, deep cultural traditions, food and micronutrients. Human survival is intrinsically linked and dependent on this critical natural resource",
               "position": [25, 55]
             },
             {
-              "content": "Coastal ecosystems protect the coastline from  high waves during storms",
+              "content": "Three billion people depend on resources from marine and coastal ecosystems as a source of protein and key nutrients. When ocean environments are put under stress, it puts coastal communities at risk of food insecurity",
               "position": [50, 50]
-            },
-            {
-              "content": "From fishing through to pharmaceuticals, the ocean provides a source of income that in many cases cannot be replaced",
-              "position": [75, 55]
             }
           ]
         },
@@ -230,7 +226,7 @@
           "indicator": "blue-economy",
           "content": {
             "title": "Blue Economy",
-            "subtitle": "The ocean is an engine of livelihoods, transport, commerce and energy production.",
+            "subtitle": "The ocean is an engine of livelihoods, transport, commerce and energy production",
             "sectionPosition": "right",
             "sections": [
               {
@@ -274,15 +270,15 @@
           },
           "info": [
             {
-              "content": "A sustainably managed fishery can feed the world, sustainable ocean management provides the means to support millions of  coastal communities",
+              "content": "The ocean is the source of millions of jobs in fishing, tourism, transportation, shipping and energy — and many more people are indirectly connected to the ocean economy",
               "position": [25, 55]
             },
             {
-              "content": "Tourism is an ever growing industry, often acting as a significant source of wealth for developing nations. Sustainable marine tourism provides essential jobs for a variety of communities and a means to engage with one of the worlds most important ecosystems",
+              "content": "The ocean could provide a virtually limitless supply of clean, renewable energy- Creating jobs and spurring economic growth",
               "position": [70, 50]
             },
             {
-              "content": "Ocean sources of renewable energy are projected to increase x fold over the next ten years. The ocean is a solution to unsustainable energy generation",
+              "content": "As the world looks to recover from the coronavirus pandemic and the economic fallout, the ocean can bring economic relief and economic prosperity",
               "position": [70, 70]
             }
           ]
@@ -478,7 +474,7 @@
             [
               {
                 "grid": "50%",
-                "text": "Lorem"
+                "text": "Rivers, streams and groundwater contaminated with unwanted nutrients, pesticides and persistent organic pollutants can flow into coastal zones, introducing toxins that drive habitat degradation."
               }
             ],
             [
@@ -518,7 +514,7 @@
               },
               {
                 "grid": "50%",
-                "text": "Soil erosion from degraded and converted land near rivers and streams can flow into the ocean, creating clouds of sediment that limit ocean photosynthesis."
+                "text": "When soil erosion from deforested and degraded land enters rivers and streams, it can flow into the ocean and create clouds of sediment which limit ocean photosynthesis."
               }
             ],
             [
@@ -670,7 +666,7 @@
               },
               {
                 "grid": "50%",
-                "text": "Explore and combine maps to understand the relationships between ecosystems. Overlay the maps to view where ecosystem pressures and uses overlap and discover management priorities."
+                "text": "The ocean's ecosystems are deeply interconnected. Overlay the maps to discover management priorities and to better understand where ecosystem pressures and uses overlap."
               }
             ],
             [
@@ -767,7 +763,7 @@
               },
               {
                 "grid": "50%",
-                "text": "The ocean and coast are valuable sources of food and employment for millions of people. Their wellbeing is dependent on the health of the ocean."
+                "text": "Millions of people and their livelihoods depend on the ocean and its coasts for valuable sources of food and employment"
               }
             ],
             [
