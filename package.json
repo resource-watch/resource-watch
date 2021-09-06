@@ -176,6 +176,11 @@
   "engines": {
     "node": ">=14.15"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --fix",

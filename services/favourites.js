@@ -15,7 +15,6 @@ export const fetchFavorites = (token) => {
     {
       headers: {
         Authorization: token,
-        'Upgrade-Insecure-Requests': 1,
       },
       params: {
         application: process.env.NEXT_PUBLIC_APPLICATIONS,
