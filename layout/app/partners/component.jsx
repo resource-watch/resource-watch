@@ -32,12 +32,7 @@ export default function LayoutPartners() {
       anchorFunders: _partners.filter((_partner) => _partner['partner-type'] === 'anchor_funder'),
       others: _partners.filter((_partner) => !EXCLUSIVE_PARTNERS.includes(_partner['partner-type']) && !OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES.includes(_partner['partner-type'])),
     }),
-    placeholderData: {
-      founders: [],
-      funders: [],
-      anchorFunders: [],
-      others: [],
-    },
+    placeholderData: [],
     refetchOnWindowFocus: false,
   });
 
