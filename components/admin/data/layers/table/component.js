@@ -165,6 +165,7 @@ class LayersTable extends PureComponent {
               { label: 'Owner', value: 'owner', td: OwnerTD },
               { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
+              { label: 'Environment', value: 'env' },
             ]}
             actions={{
               show: true,

@@ -306,7 +306,7 @@
                       "icon": "land-sea",
                       "widgets": [
                         {
-                          "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                          "id": ""
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
@@ -323,7 +323,7 @@
                       "icon": "climate",
                       "widgets": [
                         {
-                          "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                          "id": ""
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
@@ -339,7 +339,7 @@
                       "icon": "biodiversity",
                       "widgets": [
                         {
-                          "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                          "id": ""
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
@@ -355,7 +355,7 @@
                       "icon": "marine",
                       "widgets": [
                         {
-                          "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                          "id": "d60e88a9-32cf-4b20-b516-4a1805b50331"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
@@ -390,7 +390,7 @@
                           "title": "Maritime Transport: Shipping",
                           "widgets": [
                             {
-                              "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                              "id": ""
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
@@ -419,7 +419,7 @@
                           "title": "Fishing",
                           "widgets": [
                             {
-                              "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                              "id": ""
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'GBR' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'GBR'",
@@ -778,18 +778,18 @@
                   "theme": "secondary",
                   "indicators": [
                     {
-                      "id": "FAO-harvest",
-                      "title": "FAO Hidden Harvests SSF 2020 Report",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+                      "id": "FAO-fish-food-supply",
+                      "title": "FAO yearbook: Fish contribution to food supply by Kcal by country",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
                       "format": ".2f",
                       "unit": "%",
                       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                       "widgets": [
                         {
-                          "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                          "id": "750ba500-9ffe-428b-b125-99013f102a5b"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
                           "text": "Some highlight text about why this matters",
                           "format": ".2f",
                           "unit": "%"
@@ -798,14 +798,14 @@
                       "default": true
                     },
                     {
-                      "id": "FAO-fish-protein",
-                      "title": "FAO yearbook: Fish contribution to protein supply",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+                      "id": "FAO-aquaculture",
+                      "title": "FAO yearbook: aquaculture and capture production by country",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
                       "format": ".2f",
                       "unit": "%",
                       "widgets": [
                         {
-                          "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                          "id": "c8001d38-b474-4db8-a9d0-2306dd72892e"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
@@ -816,17 +816,17 @@
                       ]
                     },
                     {
-                      "id": "FAO-capture",
-                      "title": "FAO yearbook: capture production by country",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+                      "id": "ILO-employment",
+                      "title": "ILO Labor Force Statistics: Employment in fisheries sector as a proportion of employment in the natural sectors by country",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
                       "format": ".2f",
                       "unit": "%",
                       "widgets": [
                         {
-                          "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                          "id": "977c81d1-bebf-432d-8848-cbbbdad747cb"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
                           "text": "Some highlight text about why this matters",
                           "format": ".2f",
                           "unit": "%"
@@ -834,35 +834,17 @@
                       ]
                     },
                     {
-                      "id": "FAO-fleet",
-                      "title": "FAO yearbook: fisheries fleet and employment",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                      "format": ".2f",
-                      "unit": "%",
-                      "widgets": [
-                        {
-                          "id": "b9192492-20f3-4725-8e90-8795f2176329"
-                        },
-                        {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                          "text": "Some highlight text about why this matters",
-                          "format": ".2f",
-                          "unit": "%"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "FAO-export-import",
+                      "id": "FAO-import-export",
                       "title": "FAO yearbook: net exporting and importing countries",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
                       "format": ".2f",
                       "unit": "%",
                       "widgets": [
                         {
-                          "id": "ce53ec32-1dcf-408a-b1cc-a5fb072323eb"
+                          "id": "1546fa48-6966-486c-9ca2-775b95702e55"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
                           "text": "Some highlight text about why this matters",
                           "format": ".2f",
                           "unit": "%"
@@ -872,12 +854,30 @@
                     {
                       "id": "OECD-FAO-agricultural_outlook",
                       "title": "OECD/FAO Agricultural Outlook 2020-2029",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
                       "format": ".2f",
                       "unit": "%",
                       "widgets": [
                         {
-                          "id": "b9192492-20f3-4725-8e90-8795f2176329"
+                          "id": "3966fed9-ef22-4c2b-b082-839de71f7eb4"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "fisheries-subsidies",
+                      "title": "Fisheries subsidies (2009-19)",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                      "format": ".2f",
+                      "unit": "%",
+                      "widgets": [
+                        {
+                          "id": "eedaa69b-7d14-4541-9a0c-1033bcddd072"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
@@ -933,234 +933,934 @@
     ]
   },
   "production": {
-    "intro": [],
+    "intro": {
+      "indicators": [
+        {
+          "id": "land-sea-interface",
+          "title": "The Land/Sea Interface",
+          "icon": "land-sea"
+        },
+        {
+          "id": "oceans-climate",
+          "title": "Oceans and Climate",
+          "icon": "climate"
+        },
+        {
+          "id": "biodiversity",
+          "title": "Biodiversity",
+          "icon": "biodiversity"
+        },
+        {
+          "id": "marine-protected-areas",
+          "title": "Marine Protected Areas",
+          "icon": "marine"
+        },
+        {
+          "id": "ocean-dependence",
+          "title": "Ocean Dependence",
+          "icon": "dependence"
+        },
+        {
+          "id": "blue-economy",
+          "title": "The Blue Economy",
+          "icon": "economy"
+        }
+      ],
+      "steps": [
+        {
+          "id": "opening",
+          "indicator": "opening",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg"
+          },
+          "info": [
+            {
+              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+              "position": [60, 40]
+            }
+          ]
+        },
+        {
+          "id": "land-sea-interface-1",
+          "indicator": "land-sea-interface",
+          "content": {
+            "title": "The Land-Sea Interface",
+            "subtitle": "Addressing threats to the ocean often begin on land.",
+            "intro": "The land and the ocean are strongly connected by a series of human and natural processes, fueling ocean life cycles. Human activities on land have introduced higher levels of sediment and toxic chemicals into the ocean, threatening the health of the coast, ocean resources and billions of people."
+          }
+        },
+        {
+          "id": "land-sea-interface-2",
+          "indicator": "land-sea-interface",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-2.jpg"
+          },
+          "info": [
+            {
+              "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
+              "position": [25, 28]
+            },
+            {
+              "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
+              "position": [50, 60]
+            },
+            {
+              "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
+              "position": [50, 25]
+            }
+          ]
+        },
+        {
+          "id": "land-sea-interface-3",
+          "indicator": "land-sea-interface",
+          "content": {
+            "widget": [
+              {
+                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                "format": ".2f",
+                "unit": "%"
+              },
+              {
+                "id": "",
+                "type": "chart"
+              }
+            ]
+          }
+        },
+        {
+          "id": "oceans-climate-1",
+          "indicator": "oceans-climate",
+          "content": {
+            "title": "Ocean and Climate Change",
+            "subtitle": "The ocean is central to regulating the global climate.",
+            "widget": [
+              {
+                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
+                "value": 9.5,
+                "unit": "%"
+              },
+              {
+                "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
+                "type": "map"
+              }
+            ]
+          }
+        },
+        {
+          "id": "oceans-climate-2",
+          "indicator": "oceans-climate",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-3.jpg"
+          },
+          "info": [
+            {
+              "content": "Atmospheric carbon dioxide (CO2) is in balance with CO2 dissolved into the ocean. Increasing dissolved CO2 results in ocean acidification and habitat loss",
+              "position": [55, 60]
+            },
+            {
+              "content": "Rising atmospheric and ocean temperatures put global coastal and island populations at risk of flooding from sea-level rise, and the ocean at risk of oxygen loss",
+              "position": [75, 55]
+            }
+          ]
+        },
+        {
+          "id": "biodiversity-1",
+          "indicator": "biodiversity",
+          "content": {
+            "title": "Biodiversity",
+            "subtitle": "Biodiversity — the variety and variability of life on Earth — is the natural capital people depend on for survival.",
+            "widget": [
+              {
+                "id": "",
+                "type": "chart"
+              },
+              {
+                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
+                "value": 9.5,
+                "unit": "%"
+              }
+            ]
+          }
+        },
+        {
+          "id": "biodiversity-2",
+          "indicator": "biodiversity",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-4.jpg"
+          },
+          "info": [
+            {
+              "content": "Ocean acidification is caused by rising CO2 levels in the atmosphere. Many critical ocean habitats and life forms begin to dissolve when the water is too acidic. [subscript the 2 in CO2]",
+              "position": [65, 65]
+            }
+          ]
+        },
+        {
+          "id": "marine-protected-areas-1",
+          "indicator": "marine-protected-areas",
+          "content": {
+            "title": "Marine Protected Areas",
+            "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity.",
+            "widget": [
+              {
+                "id":  "879ecb9e-5594-40ea-9458-2295b70017da",
+                "type": "map-swipe"
+              }
+            ]
+          }
+        },
+        {
+          "id": "marine-protected-areas-2",
+          "indicator": "marine-protected-areas",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-5.jpg"
+          },
+          "info": [
+            {
+              "content": "MPAs that are fully protected can safeguard biodiversity, mitigate climate change and boost the productivity of fisheries in the surrounding areas.",
+              "position": [60, 55]
+            }
+          ]
+        },
+        {
+          "id": "ocean-dependence-1",
+          "indicator": "ocean-dependence",
+          "content": {
+            "title": "Ocean Dependence",
+            "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food."
+          }
+        },
+        {
+          "id": "ocean-dependence-2",
+          "indicator": "ocean-dependence",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-5.jpg"
+          },
+          "info": [
+            {
+              "content": "The ocean is a source of protein for x million people, supporting complete diets and access to food",
+              "position": [25, 55]
+            },
+            {
+              "content": "Coastal ecosystems protect the coastline from  high waves during storms",
+              "position": [50, 50]
+            },
+            {
+              "content": "From fishing through to pharmaceuticals, the ocean provides a source of income that in many cases cannot be replaced",
+              "position": [75, 55]
+            }
+          ]
+        },
+        {
+          "id": "blue-economy-1",
+          "indicator": "blue-economy",
+          "content": {
+            "title": "Blue Economy",
+            "subtitle": "The ocean is an engine of livelihoods, transport, commerce and energy production.",
+            "sectionPosition": "right",
+            "sections": [
+              {
+                "title": "section 1",
+                "widget": [
+                  {
+                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "format": ".2f",
+                    "unit": "%"
+                  },
+                  {
+                    "id": "",
+                    "type": "chart"
+                  }
+                ]
+              },
+              {
+                "title": "section 2",
+                "widget": [
+                  {
+                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "unit": "ha"
+                  },
+                  {
+                    "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
+                    "type": "map"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "blue-economy-2",
+          "indicator": "blue-economy",
+          "isPlaceholder": true,
+          "background": {
+            "src": "/static/images/ocean-watch/storytelling/RW-OW3D-6.jpg"
+          },
+          "info": [
+            {
+              "content": "A sustainably managed fishery can feed the world, sustainable ocean management provides the means to support millions of  coastal communities",
+              "position": [25, 55]
+            },
+            {
+              "content": "Tourism is an ever growing industry, often acting as a significant source of wealth for developing nations. Sustainable marine tourism provides essential jobs for a variety of communities and a means to engage with one of the worlds most important ecosystems",
+              "position": [70, 50]
+            },
+            {
+              "content": "Ocean sources of renewable energy are projected to increase x fold over the next ten years. The ocean is a solution to unsustainable energy generation",
+              "position": [70, 70]
+            }
+          ]
+        }
+      ]
+    },
     "country-profile": [
       [
         {
-          "grid": "100%",
-          "visualizationType": "indicators-set",
-          "config": {
-            "theme": "secondary",
-            "indicators": [
+          "content": [
+            [
               {
-                "id": "land-sea-interface",
-                "title": "The Land/Sea Interface",
-                "icon": "land-sea",
-                "widgets": [
-                  {
-                    "id": "5eec6ec5-51e5-4d39-af23-9d1cda64dc3a"
-                  },
-                  {
-                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                    "text": "Some highlight text about why this matters",
-                    "format": ".2f"
-                  }
-                ],
-                "default": true
-              },
-              {
-                "id": "oceans-climate",
-                "title": "Oceans and Climate",
-                "icon": "climate",
-                "widgets": [
-                  {
-                    "id": "c8c4a6cc-6ac8-43a0-b988-f26301314a55"
-                  },
-                  {
-                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                    "text": "Some highlight text about why this matters",
-                    "format": ".2f"
-                  }
-                ]
-              },
-              {
-                "id": "biodiversity",
-                "title": "Biodiversity",
-                "icon": "biodiversity",
-                "widgets": [
-                  {
-                    "id": "f5a86ecb-e5d9-470e-ba57-33b3d0912881"
-                  },
-                  {
-                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                    "text": "Some highlight text about why this matters",
-                    "format": ".2f"
-                  }
-                ]
-              },
-              {
-                "id": "marine-protected-areas",
-                "title": "Marine Protected Areas",
-                "icon": "marine",
-                "widgets": [
-                  {
-                    "id": "50c3fb9c-cef3-4533-8ae7-9ad122bb7963"
-                  },
-                  {
-                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                    "text": "Some highlight text about why this matters",
-                    "format": ".2f"
-                  }
-                ]
-              },
-              {
-                "id": "ocean-dependence",
-                "title": "Ocean Dependence",
-                "icon": "dependence",
-                "widgets": [
-                  {
-                    "id": "4e4501f3-3380-488c-8eca-8a9d99c90a70"
-                  },
-                  {
-                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                    "text": "Some highlight text about why this matters",
-                    "format": ".2f"
-                  }
-                ]
-              },
-              {
-                "id": "blue-economy",
-                "title": "The Blue Economy",
-                "icon": "economy",
-                "sections": [
-                  {
-                    "title": "section 1",
-                    "widgets": [
-                      {
-                        "id": "fe388698-4a58-4c43-b2b1-4d169334b2e4"
-                      },
-                      {
-                        "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                        "text": "Some highlight text about why this matters",
-                        "format": ".2f"
-                      }
-                    ],
-                    "default": true
-                  },
-                  {
-                    "title": "section 2",
-                    "widgets": [
-                      {
-                        "id": "41223a30-f4e8-4749-9b44-034443646da4"
-                      },
-                      {
-                        "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                        "text": "Some highlight text about why this matters",
-                        "format": ".2f"
-                      }
-                    ]
-                  }
-                ]
+                "grid": "100%",
+                "visualizationType": "main-indicators-set",
+                "config": {
+                  "theme": "secondary",
+                  "indicators": [
+                    {
+                      "id": "land-sea-interface",
+                      "title": "The Land/Sea Interface",
+                      "icon": "land-sea",
+                      "widgets": [
+                        {
+                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ],
+                      "default": true
+                    },
+                    {
+                      "id": "oceans-climate",
+                      "title": "Oceans and Climate",
+                      "icon": "climate",
+                      "widgets": [
+                        {
+                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "biodiversity",
+                      "title": "Biodiversity",
+                      "icon": "biodiversity",
+                      "widgets": [
+                        {
+                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "marine-protected-areas",
+                      "title": "Marine Protected Areas",
+                      "icon": "marine",
+                      "widgets": [
+                        {
+                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "ocean-dependence",
+                      "title": "Ocean Dependence",
+                      "icon": "dependence",
+                      "widgets": [
+                        {
+                          "id": "4a54273c-0529-4da1-a935-f3de4738ca3e"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "blue-economy",
+                      "title": "The Blue Economy",
+                      "icon": "economy",
+                      "sections": [
+                        {
+                          "title": "Maritime Transport: Shipping",
+                          "widgets": [
+                            {
+                              "id": ""
+                            },
+                            {
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
+                              "text": "Some highlight text about why this matters",
+                              "format": ".2f",
+                              "unit": "%"
+                            }
+                          ],
+                          "default": true
+                        },
+                        {
+                          "title": "Minerals and Energy",
+                          "widgets": [
+                            {
+                              "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5"
+                            },
+                            {
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
+                              "text": "Some highlight text about why this matters",
+                              "format": ".2f",
+                              "unit": "%"
+                            }
+                          ]
+                        },
+                        {
+                          "title": "Fishing",
+                          "widgets": [
+                            {
+                              "id": ""
+                            },
+                            {
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'GBR' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'GBR'",
+                              "text": "Some highlight text about why this matters",
+                              "format": ".2f",
+                              "unit": "%"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
               }
             ]
-          }
+          ]
         }
       ],
       [
         {
-          "grid": "100%",
-          "title": "Catchment Areas and Land Cover"
-        },
-        {
-          "grid": "50%",
-          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi."
-        }
-      ],
-      [
-        {
-          "grid": "100%",
-          "widget": "060efa56-95a1-4223-997d-b58188156268",
-          "type": "map",
-          "comment": "Sediment Pressure Map (placeholder)"
-        }
-      ],
-      [
-        {
-          "grid": "50%",
-          "widget": "bd2e07f0-f62a-42df-83e6-65a3ebcdbc29",
-          "type": "chart",
-          "comment": "Sediment Pressure Chart 1"
-        },
-        {
-          "grid": "50%",
-          "widget": "bd2e07f0-f62a-42df-83e6-65a3ebcdbc29",
-          "type": "chart",
-          "comment": "Sediment Pressure Chart 2 (placeholder)"
-        }
-      ],
-      [
-        {
-          "grid": "50%",
-          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi."
-        }
-      ],
-      [
-        {
-          "grid": "100%",
-          "widget": "060efa56-95a1-4223-997d-b58188156268",
-          "type": "map",
-          "comment": "Water Quality Pressure Map (placeholder)"
-        }
-      ],
-      [
-        {
-          "grid": "50%",
-          "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
-          "type": "chart",
-          "comment": "Water Quality Pressure Chart 1"
-        },
-        {
-          "grid": "50%",
-          "widget": "b8e454be-9a0f-4a8f-8e92-3d7b0fd6423f",
-          "type": "chart",
-          "comment": "Water Quality Pressure Chart 2"
-        }
-      ],
-      [
-        {
-          "grid": "100%",
-          "title": "Ecosystems and Pressures"
-        },
-        {
-          "grid": "50%",
-          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis', sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
-        },
-        {
-          "grid": "50%",
-          "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus maximus iaculis Integer fermentum justo vitae efficitur aliquam. Nulla varius, tellus ac pharetra elementum, purus orci cursus justo, blandit tempus justo eros ultricies nisi.In semper, nulla non semper venenatis, sem lorem condimentum ligula, ac dapibus enim ex vitae massa."
-        }
-      ],
-      [
-        {
-          "grid": "100%",
-          "visualizationType": "mini-explore",
-          "config": {
-            "title": "Lorem ipsum",
-            "areaOfInterest": "972c24e1da2c2baacc7572ee9501abdc",
-            "datasetGroups": [
+          "title": "Catchment Areas and Land Cover",
+          "anchor": "catchment-areas-and-land-cover",
+          "content": [
+            [
               {
-                "title": "Power Infrastructure",
-                "datasets": [
-                  "a86d906d-9862-4783-9e30-cdb68cd808b8",
-                  "b75d8398-34f2-447d-832d-ea570451995a",
-                  "4919be3a-c543-4964-a224-83ef801370de"
-                ],
-                "default": [
-                  "a86d906d-9862-4783-9e30-cdb68cd808b8"
-                ]
+                "grid": "100%",
+                "title": "Catchment Areas and Land Cover"
               },
               {
-                "title": "Natural hazards",
-                "datasets": [
-                  "484f10d3-a30b-4466-8052-c48d47cfb4a1",
-                  "c5a62289-bdc8-4821-83f0-6f05e3d36bdc"
-                ],
-                "default": [
-                  "484f10d3-a30b-4466-8052-c48d47cfb4a1"
-                ]
+                "grid": "50%",
+                "text": "Forests, grasslands and natural land covers hold soil in place with their roots. Soil erosion occurs when roots are removed by ecosystem degradation and deforestation."
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "2d80df96-f93e-4a1b-95fc-4f1241139c0e",
+                "type": "map-swipe",
+                "comment": "Sediment Pressure Map"
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "widget": "72874f62-9b18-4f1f-b14a-97554978fab7",
+                "type": "map",
+                "comment": "Sediment Pressure Chart 1"
+              },
+              {
+                "grid": "50%",
+                "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
+                "type": "chart",
+                "comment": "Sediment Pressure Chart 2 (placeholder)"
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "text": "Lorem"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "",
+                "type": "map-swipe",
+                "comment": "Water Quality Pressure Map"
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "widget": "d7828256-5a99-4033-9583-fe35d36a41fd",
+                "type": "chart",
+                "comment": "Water Quality Pressure Chart 1"
+              },
+              {
+                "grid": "50%",
+                "widget": "f3ab5375-b278-4ad2-8311-a8652d34e222",
+                "type": "chart",
+                "comment": "Water Quality Pressure Chart 2"
               }
             ]
-          }
+          ]
+        }
+      ],
+      [
+        {
+          "title": "River Water Quality",
+          "anchor": "river-water-quality",
+          "content": [
+            [
+              {
+                "grid": "100%",
+                "title": "River Water Quality"
+              },
+              {
+                "grid": "50%",
+                "text": "Soil erosion from degraded and converted land near rivers and streams can flow into the ocean, creating clouds of sediment that limit ocean photosynthesis."
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "",
+                "type": "map",
+                "comment": "River Water Quality - Sediment Pressure map"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "dc1135ea-3539-432a-acd5-d5ac0e6d127d",
+                "type": "map",
+                "comment": "River Water Quality - Sediment Pressure Chart"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "visualizationType": "mini-explore-widgets",
+                "config": {
+                  "title": "Water Quality Pressure",
+                  "mask": {
+                    "provider": "cartodb",
+                    "promoteId": "cartodb_id",
+                    "layerConfig": {
+                      "account": "wri-rw",
+                      "body": {
+                        "layers": [
+                          {
+                            "type": "mapnik",
+                            "options": {
+                              "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 3"
+                            }
+                          }
+                        ],
+                        "vectorLayers": [
+                          {
+                            "filter": [
+                              "in",
+                              "intersect",
+                              false
+                            ],
+                            "paint": {
+                              "fill-color": "#616161",
+                              "fill-opacity": 1,
+                              "fill-outline-color": "#616161"
+                            },
+                            "source-layer": "layer0",
+                            "type": "fill"
+                          },
+                          {
+                            "filter": [
+                              "in",
+                              "intersect",
+                              true
+                            ],
+                            "paint": {
+                              "fill-color": "#FAB72E",
+                              "fill-opacity": [
+                                "case",
+                                [
+                                  "boolean",
+                                  [
+                                    "feature-state",
+                                    "active"
+                                  ],
+                                  false
+                                ],
+                                0.75,
+                                [
+                                  "boolean",
+                                  [
+                                    "feature-state",
+                                    "hover"
+                                  ],
+                                  false
+                                ],
+                                0.5,
+                                0
+                              ],
+                              "fill-outline-color": "#FAB72E"
+                            },
+                            "source-layer": "layer0",
+                            "type": "fill"
+                          },
+                          {
+                            "filter": [
+                              "in",
+                              "intersect",
+                              true
+                            ],
+                            "paint": {
+                              "line-color": "#FAB72E",
+                              "line-width": 2
+                            },
+                            "source-layer": "layer0",
+                            "type": "line"
+                          },
+                          {
+                            "filter": [
+                              "in",
+                              "intersect",
+                              true
+                            ],
+                            "paint": {
+                              "line-color": "#000000",
+                              "line-width": 2,
+                              "line-dasharray": [
+                                2,
+                                3
+                              ]
+                            },
+                            "source-layer": "layer0",
+                            "type": "line"
+                          }
+                        ],
+                        "layerType": "vector"
+                      }
+                    }
+                  },
+                  "layers": [
+                    "2c5ca21a-c646-4b8c-b329-909d66ec5615",
+                    "9f857b1c-fb79-47ec-82b2-3d4788176cbf",
+                    "8339b4a5-b99f-4d64-8737-30f79325e106"
+                  ],
+                  "widgets": [
+                    "3f531725-9d1f-436f-85f8-b1494b0262c1",
+                    "80b7addc-f6ea-4d38-808c-359e49a8b84e",
+                    "d0b57543-e771-41e1-a9b6-a9487d5c3d5b"
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ],
+      [
+        {
+          "title": "Ecosystems and Pressures",
+          "anchor": "ecosystems-and-pressures",
+          "content": [
+            [
+              {
+                "grid": "100%",
+                "title": "Ecosystems and Pressures"
+              },
+              {
+                "grid": "50%",
+                "text": "Explore and combine maps to understand the relationships between ecosystems. Overlay the maps to view where ecosystem pressures and uses overlap and discover management priorities."
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "visualizationType": "mini-explore",
+                "config": {
+                  "title": "Lorem ipsum",
+                  "datasetGroups": [
+                    {
+                      "title": "Ecosystems",
+                      "datasets": [
+                        "f31dece0-9256-428a-84de-3a59f5c06bb7",
+                        "7ab1ab3b-2d13-4572-bc00-545044219a8e",
+                        "6a22c67d-9e3c-4f8c-94d2-d90fe886b476"
+                      ],
+                      "default": [
+                        "f31dece0-9256-428a-84de-3a59f5c06bb7"
+                      ]
+                    },
+                    {
+                      "title": "Climate pressures",
+                      "datasets": [
+                        "24ffab8a-588d-4fb8-92de-8bc54abf7da6",
+                        "d64ec5d7-d186-41fa-b5b7-d1f246ff6d77",
+                        "7c06a7a2-4c47-4ecb-a2a5-1c76eaf2db65",
+                        "574f0b71-8363-4e3a-978f-2b1ce58c1c33",
+                        "6ac302e7-36c3-4f36-9a89-3be244ef9057",
+                        "7dfd5f25-a789-415a-bb7c-d84ffec4c7eb",
+                        "9748a184-cf87-4363-bf81-2bf3030e2e53"
+                      ],
+                      "default": [
+                        "24ffab8a-588d-4fb8-92de-8bc54abf7da6"
+                      ]
+                    },
+                    {
+                      "title": "Land-sea pressures",
+                      "datasets": [
+                        "6ad0f556-20fd-4ddf-a5cc-bf93c003a463",
+                        "d6e42176-90c4-429d-8cae-7619c545a458",
+                        "6b523d76-ca2d-4059-b0a6-d90a6b8ba5a6",
+                        "13f4e065-b579-41f0-938d-b97c9dd54ce2",
+                        "92327c78-a473-402b-8edf-409869823216",
+                        "f1aa9ec7-c3b6-441c-b395-96fc796b7612",
+                        "877cdf39-5536-409c-bcba-2220e1b72796"
+                      ],
+                      "default": [
+                        "6ad0f556-20fd-4ddf-a5cc-bf93c003a463"
+                      ]
+                    },
+                    {
+                      "title": "Productivity",
+                      "datasets": [
+                        "d4e91298-b994-4e2c-947c-4f6486a66f30"
+                      ],
+                      "default": [
+                        "d4e91298-b994-4e2c-947c-4f6486a66f30"
+                      ]
+                    },
+                    {
+                      "title": "Infrastructure and maritime",
+                      "datasets": [
+                        "28d1f505-571c-4a52-8215-48ea02aa4928"
+                      ],
+                      "default": [
+                        "28d1f505-571c-4a52-8215-48ea02aa4928"
+                      ]
+                    },
+                    {
+                      "title": "Response",
+                      "datasets": [
+                        "2442891a-157a-40e6-9092-ee596e6d30ba"
+                      ],
+                      "default": [
+                        "2442891a-157a-40e6-9092-ee596e6d30ba"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          ]
+        }
+      ],
+      [
+        {
+          "title": "Value of goods and services",
+          "anchor": "value-of-goods-and-services",
+          "content": [
+            [
+              {
+                "grid": "100%",
+                "title": "Value of goods and services"
+              },
+              {
+                "grid": "50%",
+                "text": "The ocean and coast are valuable sources of food and employment for millions of people. Their wellbeing is dependent on the health of the ocean."
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "visualizationType": "indicators-set",
+                "config": {
+                  "theme": "secondary",
+                  "indicators": [
+                    {
+                      "id": "FAO-fish-food-supply",
+                      "title": "FAO yearbook: Fish contribution to food supply by Kcal by country",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                      "format": ".2f",
+                      "unit": "%",
+                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                      "widgets": [
+                        {
+                          "id": "731293a0-b92f-4804-b59c-69a1d794ad73"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ],
+                      "default": true
+                    },
+                    {
+                      "id": "FAO-aquaculture",
+                      "title": "FAO yearbook: aquaculture and capture production by country",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                      "format": ".2f",
+                      "unit": "%",
+                      "widgets": [
+                        {
+                          "id": "bf6604e1-9f6b-4988-ace0-80db05248a9a"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "ILO-employment",
+                      "title": "ILO Labor Force Statistics: Employment in fisheries sector as a proportion of employment in the natural sectors by country",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                      "format": ".2f",
+                      "unit": "%",
+                      "widgets": [
+                        {
+                          "id": "49e474c1-014b-476c-b832-8c9a556ad6e3"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "FAO-import-export",
+                      "title": "FAO yearbook: net exporting and importing countries",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                      "format": ".2f",
+                      "unit": "%",
+                      "widgets": [
+                        {
+                          "id": "a9c33b55-494c-4984-8bfd-0f5b008dcf24"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "OECD-FAO-agricultural_outlook",
+                      "title": "OECD/FAO Agricultural Outlook 2020-2029",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                      "format": ".2f",
+                      "unit": "%",
+                      "widgets": [
+                        {
+                          "id": "4e8f077f-bed7-44f7-8d52-d793b485f301"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "fisheries-subsidies",
+                      "title": "Fisheries subsidies (2009-19)",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                      "format": ".2f",
+                      "unit": "%",
+                      "widgets": [
+                        {
+                          "id": "2cb5af4f-2bfc-49f3-9f99-ac415e98c7db"
+                        },
+                        {
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
+                          "text": "Some highlight text about why this matters",
+                          "format": ".2f",
+                          "unit": "%"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "widget": "5557080d-b9cb-4da6-b4bc-ca15cb55a919",
+                "type": "map",
+                "comment": "Tourism"
+              },
+              {
+                "grid": "50%",
+                "widget": "",
+                "type": "map",
+                "comment": "Shoreline prot"
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "widget": "",
+                "type": "map",
+                "comment": "Fisheries (mang)"
+              },
+              {
+                "grid": "50%",
+                "widget": "",
+                "type": "map",
+                "comment": "Fisheries (coral)"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "",
+                "type": "map",
+                "comment": "Blue carbon"
+              }
+            ]
+          ]
         }
       ]
     ]

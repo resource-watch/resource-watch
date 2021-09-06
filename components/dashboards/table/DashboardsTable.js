@@ -152,6 +152,7 @@ class DashboardsTable extends PureComponent {
             { label: 'Role', value: 'role', td: RoleTD },
             { label: 'Preview', value: 'slug', td: PreviewTD },
             { label: 'Published', value: 'published', td: PublishedTD },
+            { label: 'Environment', value: 'env' },
           ]}
           actions={{
             show: true,
