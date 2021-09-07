@@ -157,7 +157,14 @@ export default function LayoutEmbedWidget({
 
   useEffect(() => {
     // see https://resource-watch.github.io/doc-api/reference.html#webshot
-    window.WEBSHOT_READY = true;
+    // it waits until 2 seconds to notify is ready to screenshot
+    const timerId = window.setTimeout(() => {
+      window.WEBSHOT_READY = true;
+    }, 2000);
+
+    return () => {
+      window.clearTimeout(timerId);
+    };
   }, []);
 
   const favouriteIcon = useMemo(() => (isFavorite ? 'star-full' : 'star-empty'), [isFavorite]);
