@@ -302,7 +302,7 @@
                       "icon": "land-sea",
                       "widgets": [
                         {
-                          "id": ""
+                          "id": "84e718ab-a1f4-49f3-8ae4-d89316a766c7"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
@@ -386,7 +386,7 @@
                           "title": "Maritime Transport: Shipping",
                           "widgets": [
                             {
-                              "id": ""
+                              "id": "e5f16f56-691e-417e-bfdd-a4ededdd0b9d"
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
@@ -680,6 +680,7 @@
                       "title": "Ecosystems",
                       "datasets": [
                         "ee4dca11-caae-4c39-9915-501872aab4bd",
+                        "807e9ffe-e096-4024-b498-3e97721d444e",
                         "08c0e063-46d2-46ee-91e0-f2545b463cd8",
                         "1af33b02-9fc2-47ab-9eae-583b77a1f4fa"
                       ],
@@ -1379,7 +1380,7 @@
                       "icon": "land-sea",
                       "widgets": [
                         {
-                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                          "id": "34611389-153b-4f24-a687-418e073dd6e0"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
@@ -1428,7 +1429,7 @@
                       "icon": "marine",
                       "widgets": [
                         {
-                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                          "id": "92e5286e-b40a-4a6f-a3e5-84ac9b49d459"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
@@ -1463,7 +1464,7 @@
                           "title": "Maritime Transport: Shipping",
                           "widgets": [
                             {
-                              "id": ""
+                              "id": "830f2880-527c-4272-8aaf-8ff8d87a83a8"
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
