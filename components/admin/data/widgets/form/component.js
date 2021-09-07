@@ -60,7 +60,7 @@ class WidgetForm extends PureComponent {
         language: locale,
         'page[size]': 9999999,
         sort: 'name',
-        env: process.env.NEXT_PUBLIC_API_ENV,
+        env: process.env.NEXT_PUBLIC_ENVS_SHOW,
       }),
     ];
 

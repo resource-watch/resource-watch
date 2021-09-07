@@ -177,9 +177,15 @@ class Step1 extends PureComponent {
           {!basic
           && (
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
+              ref={(c) => {
+                if (c) FORM_ELEMENTS.elements.env = c;
+              }}
               className="-fluid"
-              options={[{ label: 'Production', value: 'production' }, { label: 'Preproduction', value: 'preproduction' }, { label: 'Staging', value: 'staging' }]}
+              options={[
+                { label: 'Staging', value: 'staging' },
+                { label: 'Preproduction', value: 'preproduction' },
+                { label: 'Production', value: 'production' },
+              ]}
               onChange={(value) => onChange({ env: value })}
               properties={{
                 name: 'env',
