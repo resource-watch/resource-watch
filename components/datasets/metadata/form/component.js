@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { toastr } from 'react-redux-toastr';
 
 // Service
@@ -44,11 +45,17 @@ class DatasetMetadataForm extends PureComponent {
     if (dataset) {
       fetchDataset(dataset, { includes: 'metadata' })
         .then((result) => {
-          const { metadata, type, provider } = result;
+          const {
+            metadata,
+            type,
+            provider,
+            env,
+          } = result;
           this.setState({
             form: metadata && metadata.length ? this.setFormFromParams(metadata[0]) : form,
             metadata,
             type: type || 'tabular',
+            env,
             // Stop the loading
             loading: false,
           });
@@ -184,9 +191,17 @@ class DatasetMetadataForm extends PureComponent {
       stepLength,
       submitting,
       step,
+      env,
     } = this.state;
+    const disabled = !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(env);
+
     return (
-      <div className="c-metadata-form">
+      <div
+        className={cx({
+          'c-metadata-form': true,
+          '-disabled': disabled,
+        })}
+      >
         <form
           className="c-form"
           onSubmit={this.onSubmit}

@@ -160,7 +160,7 @@ class Step1 extends PureComponent {
 
   render() {
     const {
-      user, columns, loadingColumns, basic, sortedLayers, authorization, disabled,
+      user, columns, loadingColumns, basic, sortedLayers, authorization, disabled, onChange,
     } = this.props;
     const { dataset, subscribableSelected } = this.state;
     const { provider, columnFields, application } = this.state.form;
@@ -190,16 +190,13 @@ class Step1 extends PureComponent {
               ref={(c) => {
                 if (c) FORM_ELEMENTS.elements.env = c;
               }}
-              hint={
-                'Choose "preproduction" to see this dataset it only as admin, "production" option will show it in public site.'
-              }
               className="-fluid"
               options={[
                 { label: 'Staging', value: 'staging' },
                 { label: 'Preproduction', value: 'preproduction' },
                 { label: 'Production', value: 'production' },
               ]}
-              onChange={(value) => this.props.onChange({ env: value })}
+              onChange={(value) => onChange({ env: value })}
               properties={{
                 name: 'env',
                 label: 'Environment',
