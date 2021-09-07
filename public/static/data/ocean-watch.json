@@ -447,6 +447,14 @@
               {
                 "grid": "50%",
                 "text": "Forests, grasslands and natural land covers hold soil in place with their roots. Soil erosion occurs when roots are removed by ecosystem degradation and deforestation."
+              },
+              {
+                "grid": "50%",
+                "text": "Modified text for half-width item."
+              },
+              {
+                "grid": "100%",
+                "text": "Modified text for full width item. Text needs to be long enough to incur multiple line breaks. Will the line break, and if it does, will that occur at the full width of the column, or two-thirds of the way across like in dashboards? Very suspenseful."
               }
             ],
             [
@@ -504,33 +512,23 @@
       ],
       [
         {
-          "title": "River Water Quality",
+          "title": "River Water Quality Modified Section Header",
           "anchor": "river-water-quality",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "River Water Quality"
+                "title": "River Water Quality Modified Text Heading"
               },
               {
                 "grid": "50%",
                 "text": "When soil erosion from deforested and degraded land enters rivers and streams, it can flow into the ocean and create clouds of sediment which limit ocean photosynthesis."
-              }
-            ],
-            [
+              },
               {
-                "grid": "100%",
-                "widget": "c5237807-c4f4-4ec1-8d6a-3b5931679eba",
+                "grid": "50%",
+                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
                 "type": "map",
-                "comment": "River Water Quality - Sediment Pressure map"
-              }
-            ],
-            [
-              {
-                "grid": "100%",
-                "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
-                "type": "map",
-                "comment": "River Water Quality - Sediment Pressure Chart"
+                "comment": "Sediment Pressure map duplicate, half-size"
               }
             ],
             [
@@ -649,6 +647,36 @@
                     "298147df-6a7d-4ca7-b1c3-ddfb248491ac"
                   ]
                 }
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
+                "type": "map",
+                "comment": "River Water Quality - Sediment Pressure map"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
+                "type": "map",
+                "comment": "River Water Quality - Sediment Pressure Chart"
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
+                "type": "map",
+                "comment": "Duplicate Sediment Pressure map for testing"
+              },
+              {
+                "grid": "50%",
+                "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
+                "type": "map",
+                "comment": "Duplicate Sediment Pressure Chart for testing"
               }
             ]
           ]
