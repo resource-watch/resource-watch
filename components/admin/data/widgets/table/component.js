@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import cx from 'classnames';
 
 // services
 import { fetchWidgets } from 'services/widget';
+import { fetchDataset } from 'services/dataset';
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -28,12 +30,14 @@ class WidgetsTable extends PureComponent {
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
+    dataset: null,
     widgets: [],
     filters: { name: null, 'user.role': 'ADMIN' },
   }
 
   componentDidMount() {
     this.loadWidgets();
+    this.loadDataset();
   }
 
   onFiltersChange = (value) => {
@@ -44,7 +48,7 @@ class WidgetsTable extends PureComponent {
         'user.role': value.value,
       },
     },
-    () => this.loadWidgets());
+      () => this.loadWidgets());
   }
 
   /**
@@ -64,7 +68,16 @@ class WidgetsTable extends PureComponent {
       },
       pagination: INITIAL_PAGINATION,
     }, () => this.loadWidgets());
-  }, 250)
+  }, 250);
+
+  loadDataset = () => {
+    const { dataset } = this.props;
+    fetchDataset(dataset)
+      .then((d) => {
+        this.setState({ dataset: d });
+      })
+      .catch((error) => { this.setState({ error }); });
+  }
 
   onChangePage = (nextPage) => {
     const { pagination } = this.state;
@@ -127,9 +140,13 @@ class WidgetsTable extends PureComponent {
       pagination,
       widgets,
       error,
+      dataset,
     } = this.state;
-    const { dataset } = this.props;
+    const { dataset: datasetID } = this.props;
 
+    const disabled = !dataset || !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
+
+    console.log('dataset', dataset, 'disabled', disabled, process.env.NEXT_PUBLIC_ENVS_EDIT);
     return (
       <div className="c-widgets-table">
         <Spinner className="-light" isLoading={loading} />
@@ -149,9 +166,10 @@ class WidgetsTable extends PureComponent {
           input={{ placeholder: 'Search widget' }}
           link={{
             label: 'New widget',
-            route: `/admin/data/widgets/new?dataset=${dataset}`,
+            route: `/admin/data/widgets/new?dataset=${datasetID}`,
           }}
           onSearch={this.onSearch}
+          disableButton={disabled}
         />
 
         {!error && (
@@ -169,7 +187,7 @@ class WidgetsTable extends PureComponent {
                 {
                   name: 'Edit',
                   params: {
-                    tab: 'widgets', subtab: 'edit', id: '{{id}}', dataset,
+                    tab: 'widgets', subtab: 'edit', id: '{{id}}', datasetID,
                   },
                   show: true,
                   component: EditAction,
