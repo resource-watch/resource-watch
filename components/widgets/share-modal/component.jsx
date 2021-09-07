@@ -29,6 +29,7 @@ export default function WidgetShareModal({
   isVisible,
   onClose,
   widget,
+  webshotParams,
 }) {
   const {
     data: user,
@@ -37,8 +38,14 @@ export default function WidgetShareModal({
 
   const handleWidgetWebshot = useCallback(async () => {
     try {
+      const {
+        type,
+      } = widget?.widgetConfig;
       setWebshotLoading(true);
-      const { widgetThumbnail } = await takeWidgetWebshot(widget.id, user?.token);
+      const { widgetThumbnail } = await takeWidgetWebshot(widget.id, user?.token, {
+        type,
+        ...webshotParams,
+      });
 
       if (widgetThumbnail) {
         saveAs(widgetThumbnail, `${widget.slug}-${dateFnsFormat(Date.now(), 'yyyy-MM-dd\'T\'HH:mm:ss')}.png`);
@@ -48,7 +55,7 @@ export default function WidgetShareModal({
       logger.error(`widget webshot: ${e.message}`);
       setWebshotLoading(false);
     }
-  }, [widget, user]);
+  }, [widget, user, webshotParams]);
 
   return (
     <Modal
@@ -107,6 +114,7 @@ export default function WidgetShareModal({
 
 WidgetShareModal.defaultProps = {
   isVisible: false,
+  webshotParams: {},
 };
 
 WidgetShareModal.propTypes = {
@@ -119,5 +127,6 @@ WidgetShareModal.propTypes = {
       type: PropTypes.string,
     }),
   }).isRequired,
+  webshotParams: PropTypes.shape({}),
   onClose: PropTypes.func.isRequired,
 };

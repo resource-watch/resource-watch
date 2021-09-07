@@ -51,6 +51,8 @@ export default function MapTypeWidgetContainer({
   widgetId,
   params,
   style,
+  isEmbed,
+  isWebshot,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -165,6 +167,8 @@ export default function MapTypeWidgetContainer({
         maskLayer={maskLayer}
         widget={widget}
         style={style}
+        isEmbed={isEmbed}
+        isWebshot={isWebshot}
         isFetching={isFetching}
         isError={isError}
         isInACollection={isInACollection}
@@ -179,12 +183,16 @@ MapTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
   params: {},
   style: {},
+  isEmbed: false,
+  isWebshot: false,
 };
 
 MapTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
   params: PropTypes.shape({}),
   style: PropTypes.shape({}),
+  isEmbed: PropTypes.bool,
+  isWebshot: PropTypes.bool,
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };

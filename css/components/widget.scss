@@ -35,4 +35,14 @@
     font-size: $font-size-small;
     font-style: italic;
   }
+
+  &.-is-embed {
+    > .widget-container {
+      max-height: none;
+      border: 0;
+      border-top: 1px solid rgba($color-black, .1);
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
 }
