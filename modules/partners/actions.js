@@ -21,7 +21,7 @@ export const getAllPartners = createThunkAction('PARTNERS/GET-ALL-PARTNERS',
     dispatch(setLoading({ key: 'all', value: true }));
     dispatch(setError({ key: 'all', value: null }));
 
-    return fetchPartners()
+    return fetchPartners({ env: process.env.NEXT_PUBLIC_ENVS_SHOW })
       .then((partners) => {
         dispatch(setPartners({ key: 'all', value: partners }));
         dispatch(setLoading({ key: 'all', value: false }));
