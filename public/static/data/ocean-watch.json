@@ -480,7 +480,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "5a1322ef-8982-4398-aac8-9e53a8dea581",
+                "widget": "6428a24f-661e-4095-ac12-600c01b88952",
                 "type": "map-swipe",
                 "comment": "Water Quality Pressure Map"
               }
@@ -520,7 +520,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
+                "widget": "c5237807-c4f4-4ec1-8d6a-3b5931679eba",
                 "type": "map",
                 "comment": "River Water Quality - Sediment Pressure map"
               }
@@ -904,13 +904,13 @@
             [
               {
                 "grid": "50%",
-                "widget": "c9f3e3c4-f7a6-4f98-8430-4ba8448f08c1",
+                "widget": "fddf8913-a4e6-44ca-87c5-2c4e138d3f06",
                 "type": "map",
                 "comment": "Fisheries (mang)"
               },
               {
                 "grid": "50%",
-                "widget": "0d216610-b4d2-4c4e-a5d2-14f83112a2ee",
+                "widget": "c506e664-b226-476a-9326-85c62ac19412",
                 "type": "map",
                 "comment": "Fisheries (coral)"
               }
@@ -1399,7 +1399,7 @@
               },
               {
                 "grid": "50%",
-                "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
+                "widget": "bd2e07f0-f62a-42df-83e6-65a3ebcdbc29",
                 "type": "chart",
                 "comment": "Sediment Pressure Chart 2 (placeholder)"
               }
@@ -1413,7 +1413,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "",
+                "widget": "a4f58ef9-f982-4b28-b1c5-6c2013fe0546",
                 "type": "map-swipe",
                 "comment": "Water Quality Pressure Map"
               }
@@ -1421,13 +1421,13 @@
             [
               {
                 "grid": "50%",
-                "widget": "d7828256-5a99-4033-9583-fe35d36a41fd",
+                "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
                 "type": "chart",
                 "comment": "Water Quality Pressure Chart 1"
               },
               {
                 "grid": "50%",
-                "widget": "f3ab5375-b278-4ad2-8311-a8652d34e222",
+                "widget": "b8e454be-9a0f-4a8f-8e92-3d7b0fd6423f",
                 "type": "chart",
                 "comment": "Water Quality Pressure Chart 2"
               }
@@ -1453,7 +1453,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "",
+                "widget": "dbd066c0-a1c0-4e0c-9eec-9294b96b49ef",
                 "type": "map",
                 "comment": "River Water Quality - Sediment Pressure map"
               }
@@ -1573,7 +1573,7 @@
                   },
                   "layers": [
                     "2c5ca21a-c646-4b8c-b329-909d66ec5615",
-                    "9f857b1c-fb79-47ec-82b2-3d4788176cbf",
+                    "0c595ffa-90e1-4460-a02a-d0f9eca50894",
                     "8339b4a5-b99f-4d64-8737-30f79325e106"
                   ],
                   "widgets": [
@@ -1613,6 +1613,7 @@
                       "title": "Ecosystems",
                       "datasets": [
                         "f31dece0-9256-428a-84de-3a59f5c06bb7",
+                        "1d23838e-40da-4cf3-b61c-56258d3a5c56",
                         "7ab1ab3b-2d13-4572-bc00-545044219a8e",
                         "6a22c67d-9e3c-4f8c-94d2-d90fe886b476"
                       ],
@@ -1829,7 +1830,7 @@
               },
               {
                 "grid": "50%",
-                "widget": "",
+                "widget": "c15e3029-db42-4b55-982b-038b18686622",
                 "type": "map",
                 "comment": "Shoreline prot"
               }
@@ -1837,13 +1838,13 @@
             [
               {
                 "grid": "50%",
-                "widget": "",
+                "widget": "83d41130-909a-44a8-8a15-b17ece5fb924",
                 "type": "map",
                 "comment": "Fisheries (mang)"
               },
               {
                 "grid": "50%",
-                "widget": "",
+                "widget": "11121aac-8f74-41c5-ad75-e0cc7f9c7b1d",
                 "type": "map",
                 "comment": "Fisheries (coral)"
               }
@@ -1851,7 +1852,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "",
+                "widget": "0c61b0ea-d984-4f76-8bb7-606e90c21f11",
                 "type": "map",
                 "comment": "Blue carbon"
               }
