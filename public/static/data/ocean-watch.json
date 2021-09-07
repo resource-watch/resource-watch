@@ -437,6 +437,30 @@
             [
               {
                 "grid": "100%",
+                "widget": "d7828256-5a99-4033-9583-fe35d36a41fd",
+                "type": "chart",
+                "comment": "Renamed Water Quality Pressure Chart 1 Full-Size"
+              },
+              {
+                "grid": "100%",
+                "text": "Test text. Words words words, more words and words. Want to trigger a line break so will continue typing for a little while longer, but nothing fancy like special characters or line breaks."
+              },
+              {
+                "grid": "50%",
+                "widget": "34dd8dd0-48c2-4729-8b01-981416d121e9",
+                "type": "chart",
+                "comment": "Test Chart 1: Population Exposed to Unhealthy Levels of PM2.5 (%)"
+              },
+              {
+                "grid": "50%",
+                "widget": "50c3fb9c-cef3-4533-8ae7-9ad122bb7963",
+                "type": "chart",
+                "comment": "Test Chart 2: Top 10 Protected Areas by Size"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
                 "title": "Catchment Areas and Land Cover"
               },
               {
