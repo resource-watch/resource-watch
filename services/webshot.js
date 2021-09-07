@@ -15,10 +15,11 @@ export const takeWidgetWebshot = (widgetId, token, params = {}) => {
   logger.info(`Taking webshot to widget ${widgetId}...`);
 
   return WRIAPI
-    .post(`webshot/widget/${widgetId}/thumbnail`, params, {
+    .post(`webshot/widget/${widgetId}/thumbnail`, {}, {
       headers: {
         Authorization: token,
       },
+      params,
     })
     .then(({ data }) => data.data)
     .catch(({ response }) => {

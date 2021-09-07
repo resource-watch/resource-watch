@@ -345,15 +345,31 @@ export default function OceanWatchCountryProfilePage({
                             </InView>
                             )}
                             {(blockElement.widget && blockElement.type === 'map') && (
-                            <MapWidget
-                              widgetId={blockElement.widget}
-                              params={{
-                                geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-                                ...area?.geostore && { geostore_id: area.geostore },
-                              }}
-                              {...area?.geostore && { areaOfInterest: area.geostore }}
-                              onToggleShare={handleShareWidget}
-                            />
+                              <InView
+                                triggerOnce
+                                threshold={0.25}
+                              >
+                                {({ ref, inView }) => (
+                                  <div
+                                    ref={ref}
+                                    style={{
+                                      height: '100%',
+                                    }}
+                                  >
+                                    {inView && (
+                                      <MapWidget
+                                        widgetId={blockElement.widget}
+                                        params={{
+                                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                          ...area?.geostore && { geostore_id: area.geostore },
+                                        }}
+                                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                                        onToggleShare={handleShareWidget}
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             )}
                             {(blockElement.widget && blockElement.type === 'map-swipe') && (
                             <SwipeMapWidget
@@ -366,13 +382,30 @@ export default function OceanWatchCountryProfilePage({
                               onToggleShare={handleShareWidget}
                             />
                             )}
+
                             {(blockElement.widget && blockElement.type === 'chart') && (
-                            <ChartWidget
-                              adapter={RWAdapter}
-                              widgetId={blockElement.widget}
-                              {...area?.geostore && { areaOfInterest: area.geostore }}
-                              onToggleShare={handleShareWidget}
-                            />
+                              <InView
+                                triggerOnce
+                                threshold={0.25}
+                              >
+                                {({ ref, inView }) => (
+                                  <div
+                                    ref={ref}
+                                    style={{
+                                      height: '100%',
+                                    }}
+                                  >
+                                    {inView && (
+                                      <ChartWidget
+                                        adapter={RWAdapter}
+                                        widgetId={blockElement.widget}
+                                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                                        onToggleShare={handleShareWidget}
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             )}
                             {blockElement.visualizationType === 'indicators-set' && (
                             <InView
@@ -558,6 +591,9 @@ export default function OceanWatchCountryProfilePage({
           isVisible
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
+          webshotParams={{
+            ...area?.geostore && { aoi: area.geostore },
+          }}
         />
       )}
     </LayoutOceanWatch>

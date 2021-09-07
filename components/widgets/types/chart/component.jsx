@@ -3,10 +3,10 @@ import {
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Renderer from '@widget-editor/renderer';
 
 // components
-import InView from 'components/in-view';
 import Spinner from 'components/ui/Spinner';
 import WidgetHeader from '../../header';
 import WidgetInfo from '../../info';
@@ -15,6 +15,8 @@ export default function ChartType({
   widget,
   adapter,
   style,
+  isEmbed,
+  isWebshot,
   isFetching,
   isError,
   isInACollection,
@@ -34,10 +36,10 @@ export default function ChartType({
 
   return (
     <div
-      className="c-widget"
+      className={classnames('c-widget', { '-is-embed': isEmbed })}
       style={style}
     >
-      {!isFetching && !isError && (
+      {(!isFetching && !isError && !isWebshot) && (
         <div className="widget-header-container">
           <WidgetHeader
             widget={widget}
@@ -49,41 +51,33 @@ export default function ChartType({
         </div>
       )}
 
-      <InView
-        triggerOnce
-        threshold={0.25}
+      <div
+        className="widget-container"
+        style={{
+          padding: 15,
+        }}
       >
-        {({ ref, inView }) => (
-          <div
-            className="widget-container"
-            ref={ref}
-            style={{
-              padding: 15,
-            }}
-          >
-            {isFetching && (
-              <Spinner
-                isLoading
-                className="-transparent"
-              />
-            )}
-            {!isFetching && !isError && inView && (
-              <Renderer
-                adapter={adapter}
-                widgetConfig={widget.widgetConfig}
-              />
-            )}
-            {(isInfoWidgetVisible && widget && !isFetching) && (
-              <WidgetInfo
-                widget={widget}
-                style={{
-                  padding: 15,
-                }}
-              />
-            )}
-          </div>
+        {isFetching && (
+        <Spinner
+          isLoading
+          className="-transparent"
+        />
         )}
-      </InView>
+        {!isFetching && !isError && (
+        <Renderer
+          adapter={adapter}
+          widgetConfig={widget.widgetConfig}
+        />
+        )}
+        {(isInfoWidgetVisible && widget && !isFetching) && (
+        <WidgetInfo
+          widget={widget}
+          style={{
+            padding: 15,
+          }}
+        />
+        )}
+      </div>
       {caption && (
         <div className="widget-caption-container">
           {caption}
@@ -98,6 +92,8 @@ ChartType.defaultProps = {
   isError: false,
   isInACollection: false,
   style: {},
+  isEmbed: false,
+  isWebshot: false,
 };
 
 ChartType.propTypes = {
@@ -113,6 +109,8 @@ ChartType.propTypes = {
   }).isRequired,
   adapter: PropTypes.func.isRequired,
   style: PropTypes.shape({}),
+  isEmbed: PropTypes.bool,
+  isWebshot: PropTypes.bool,
   isFetching: PropTypes.bool,
   isError: PropTypes.bool,
   isInACollection: PropTypes.bool,
