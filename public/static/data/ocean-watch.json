@@ -473,6 +473,30 @@
             ],
             [
               {
+                "grid": "100%",
+                "widget": "d8cc22aa-dd18-4d3a-a09a-983513625212",
+                "type": "map",
+                "comment": "Sediment Pressure Chart 1 Full-Size"
+              },
+              {
+                "grid": "100%",
+                "text": "Test text element intended to take up one full \"row\"."
+              }
+              {
+                "grid": "50%",
+                "widget": "682b7153-c6f8-483d-b803-41ce942f6493",
+                "type": "map",
+                "comment": "Test map 1: Active Fires (MODIS)"
+              },
+              {
+                "grid": "50%",
+                "widget": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
+                "type": "map",
+                "comment": "Test map 2: Major Ports"
+              }
+            ],
+            [
+              {
                 "grid": "50%",
                 "text": "Rivers, streams and groundwater contaminated with unwanted nutrients, pesticides and persistent organic pollutants can flow into coastal zones, introducing toxins that drive habitat degradation."
               }
