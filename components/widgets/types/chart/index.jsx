@@ -26,6 +26,8 @@ export default function ChartContainer({
   areaOfInterest,
   onToggleShare,
   style,
+  isEmbed,
+  isWebshot,
 }) {
   const {
     data: user,
@@ -59,6 +61,8 @@ export default function ChartContainer({
       widget={widget}
       adapter={adapter}
       style={style}
+      isEmbed={isEmbed}
+      isWebshot={isWebshot}
       isFetching={isFetching}
       isError={isError}
       isInACollection={isInACollection}
@@ -70,12 +74,16 @@ export default function ChartContainer({
 ChartContainer.defaultProps = {
   areaOfInterest: null,
   style: {},
+  isEmbed: false,
+  isWebshot: false,
 };
 
 ChartContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
   areaOfInterest: PropTypes.string,
   style: PropTypes.shape({}),
+  isEmbed: PropTypes.bool,
+  isWebshot: PropTypes.bool,
   adapter: PropTypes.func.isRequired,
   onToggleShare: PropTypes.func.isRequired,
 };
