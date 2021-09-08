@@ -100,6 +100,9 @@ class ToolsTable extends PureComponent {
     const { filteredTools } = this.props;
     const { pagination } = this.state;
 
+    const toolsWithDisabledField = filteredTools
+      .map((t) => ({ ...t, disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(t.env) }));
+
     return (
       <div className="c-tools-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -145,7 +148,7 @@ class ToolsTable extends PureComponent {
               value: 1,
             }}
             filters={false}
-            data={filteredTools}
+            data={toolsWithDisabledField}
             manualPagination
             onChangePage={this.onChangePage}
             onRowDelete={() => this.props.getTools()}
@@ -164,7 +167,7 @@ const mapStateToProps = (state) => ({
   error: state.tools.error,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getTools: () => dispatch(getTools()),
+  getTools: (params) => dispatch(getTools(params)),
   setFilters: (filters) => dispatch(setFilters(filters)),
 });
 

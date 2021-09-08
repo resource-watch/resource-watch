@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { Serializer } from 'jsonapi-serializer';
 import { toastr } from 'react-redux-toastr';
 
@@ -115,7 +116,7 @@ class PartnersForm extends React.Component {
 
         default: {
           if ((typeof params[f] !== 'undefined' || params[f] !== null)
-              || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+            || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -159,27 +160,36 @@ class PartnersForm extends React.Component {
   }
 
   render() {
+    const { form } = this.state;
     return (
-      <form className="c-form" onSubmit={this.onSubmit} noValidate>
+      <form
+
+        className={cx({
+          'c-form': true,
+          '-disabled': !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(form.env),
+        })}
+        onSubmit={this.onSubmit}
+        noValidate
+      >
         <Spinner isLoading={this.state.loading} className="-light" />
 
         {(this.state.step === 1 && !this.state.loading)
           && (
-          <Step1
-            onChange={(value) => this.onChange(value)}
-            form={this.state.form}
-            id={this.state.id}
-          />
+            <Step1
+              onChange={(value) => this.onChange(value)}
+              form={this.state.form}
+              id={this.state.id}
+            />
           )}
 
         {!this.state.loading
           && (
-          <Navigation
-            step={this.state.step}
-            stepLength={this.state.stepLength}
-            submitting={this.state.submitting}
-            onStepChange={this.onStepChange}
-          />
+            <Navigation
+              step={this.state.step}
+              stepLength={this.state.stepLength}
+              submitting={this.state.submitting}
+              onStepChange={this.onStepChange}
+            />
           )}
       </form>
     );
