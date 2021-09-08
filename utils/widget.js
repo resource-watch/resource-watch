@@ -50,7 +50,7 @@ export const getParametrizedWidget = (widget = {}, params = {}) => ({
 
       return ({
         ..._data,
-        url: replace(_data.url, params),
+        url: window.encodeURI(replace(_data.url, params)),
       });
     }),
   },
