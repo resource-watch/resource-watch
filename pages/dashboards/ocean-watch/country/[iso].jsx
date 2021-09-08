@@ -204,7 +204,7 @@ export default function OceanWatchCountryProfilePage({
                 <CardIndicatorSet
                   config={indicatorSetConfiguration.config}
                   params={{
-                    ...area?.geostore && { areaOfInterest: area.geostore },
+                    ...area?.geostore && { geostore_id: area.geostore },
                     geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
                   }}
                   theme={indicatorSetConfiguration.config?.theme}
