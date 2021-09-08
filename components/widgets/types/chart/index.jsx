@@ -9,21 +9,16 @@ import {
 
 // utils
 import {
-  isStagingAPI,
-} from 'utils/api';
-import {
   getParametrizedWidget,
 } from 'utils/widget';
 
 // components
 import Chart from './component';
 
-const isStaging = isStagingAPI();
-
 export default function ChartContainer({
   widgetId,
   adapter,
-  areaOfInterest,
+  params,
   onToggleShare,
   style,
   isEmbed,
@@ -49,10 +44,7 @@ export default function ChartContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
-      select: (_widget) => getParametrizedWidget(_widget, {
-        ...areaOfInterest && { geostore_id: areaOfInterest },
-        geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-      }),
+      select: (_widget) => getParametrizedWidget(_widget, params),
     },
   );
 
@@ -72,7 +64,7 @@ export default function ChartContainer({
 }
 
 ChartContainer.defaultProps = {
-  areaOfInterest: null,
+  params: {},
   style: {},
   isEmbed: false,
   isWebshot: false,
@@ -80,7 +72,7 @@ ChartContainer.defaultProps = {
 
 ChartContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
-  areaOfInterest: PropTypes.string,
+  params: PropTypes.shape({}),
   style: PropTypes.shape({}),
   isEmbed: PropTypes.bool,
   isWebshot: PropTypes.bool,
