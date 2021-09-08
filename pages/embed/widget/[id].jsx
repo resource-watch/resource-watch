@@ -1,11 +1,3 @@
-// actions
-import { getWidget } from 'redactions/widget';
-
-// hoc
-import {
-  withRedux,
-} from 'hoc/auth';
-
 // components
 import LayoutEmbedWidget from 'layout/embed/widget';
 
@@ -13,18 +5,33 @@ export default function EmbedWidgetPage(props) {
   return (<LayoutEmbedWidget {...props} />);
 }
 
-export const getServerSideProps = withRedux(async ({ store, query }) => {
-  const { dispatch } = store;
+export const getServerSideProps = async ({ query }) => {
   const {
-    id,
+    id: widgetId,
     webshot,
+    type,
+    ...restQueryParams
   } = query;
 
-  await dispatch(getWidget(id, { includes: ['metadata'].join(',') }));
+  const queryParams = new URLSearchParams(restQueryParams);
+
+  // the webshot endpoint in the WRI API works with this page to render different
+  // types of widgets so we redirect from here, according to the widget type to
+  // render the widget and take the snapshot
+  if (type === 'map') {
+    return {
+      redirect: {
+        destination: `/embed/map/${widgetId}${queryParams ? `?${queryParams.toString()}` : ''}`,
+        permanent: false,
+      },
+    };
+  }
 
   return ({
     props: ({
-      webshot: Boolean(webshot),
+      isWebshot: Boolean(webshot),
+      widgetId,
+      params: restQueryParams,
     }),
   });
-});
+};

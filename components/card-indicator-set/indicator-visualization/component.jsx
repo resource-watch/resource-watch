@@ -24,6 +24,11 @@ import {
   useFetchWidget,
 } from 'hooks/widget';
 
+// utils
+import {
+  getParametrizedWidget,
+} from 'utils/widget';
+
 // styles
 import './styles.scss';
 
@@ -101,6 +106,7 @@ export default function IndicatorVisualization({
       enabled: !!(mainWidgetAvailable),
       refetchOnWindowFocus: false,
       placeholderData: {},
+      select: (_widget) => getParametrizedWidget(_widget, params),
     },
   );
 
@@ -286,6 +292,7 @@ export default function IndicatorVisualization({
           isVisible
           widget={isShareVisible}
           onClose={handleCloseShare}
+          params={params}
         />
       )}
     </div>

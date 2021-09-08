@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
 
 // actions
-import { setIsServer } from 'redactions/common';
+import { setIsServer as setServerAction } from 'redactions/common';
 import * as actions from 'layout/explore/actions';
 
 // hoc
@@ -17,17 +17,12 @@ import {
 import Explore from 'layout/explore';
 
 class ExplorePage extends PureComponent {
-  static propTypes = {
-    explore: PropTypes.object.isRequired,
-    resetExplore: PropTypes.func.isRequired,
-    setIsServer: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      replace: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
   componentDidMount() {
-    this.props.setIsServer(false);
+    const {
+      setIsServer,
+    } = this.props;
+
+    setIsServer(false);
   }
 
   componentDidUpdate(prevProps) {
@@ -107,7 +102,7 @@ class ExplorePage extends PureComponent {
     if (typeof window !== 'undefined') {
       router.replace(
         {
-          pathname: 'explore',
+          pathname: '/data/explore/[[...dataset]]',
           query,
         },
         {},
@@ -248,10 +243,55 @@ export const getServerSideProps = withRedux(withUserServerSide(async ({ store, q
   });
 }));
 
+ExplorePage.propTypes = {
+  explore: PropTypes.shape({
+    datasets: PropTypes.arrayOf(PropTypes.shape({})),
+    filters: PropTypes.shape({
+      search: PropTypes.string,
+      selected: PropTypes.shape({
+        topics: PropTypes.arrayOf(PropTypes.shape({})),
+        data_types: PropTypes.arrayOf(PropTypes.shape({})),
+        frequencies: PropTypes.arrayOf(PropTypes.shape({})),
+        time_periods: PropTypes.arrayOf(PropTypes.shape({})),
+      }),
+    }),
+    map: PropTypes.shape({
+      viewport: PropTypes.shape({
+        zoom: PropTypes.number,
+        latitude: PropTypes.number,
+        longitude: PropTypes.number,
+        pitch: PropTypes.number,
+        bearing: PropTypes.number,
+      }),
+      basemap: PropTypes.string,
+      labels: PropTypes.string,
+      boundaries: PropTypes.bool,
+      layerGroups: PropTypes.arrayOf(
+        PropTypes.shape({}),
+      ),
+      aoi: PropTypes.string,
+    }),
+    sidebar: PropTypes.shape({
+      section: PropTypes.string,
+      anchor: PropTypes.string,
+      selectedCollection: PropTypes.string,
+    }),
+    sort: PropTypes.shape({
+      selected: PropTypes.string,
+      direction: PropTypes.string,
+    }),
+  }).isRequired,
+  resetExplore: PropTypes.func.isRequired,
+  setIsServer: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    replace: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
 export default connect(
   (state) => ({ explore: state.explore }),
   {
     ...actions,
-    setIsServer,
+    setIsServer: setServerAction,
   },
 )(withRouter(ExplorePage));

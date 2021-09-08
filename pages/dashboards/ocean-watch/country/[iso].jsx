@@ -204,7 +204,8 @@ export default function OceanWatchCountryProfilePage({
                 <CardIndicatorSet
                   config={indicatorSetConfiguration.config}
                   params={{
-                    iso,
+                    ...area?.geostore && { areaOfInterest: area.geostore },
+                    geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
                   }}
                   theme={indicatorSetConfiguration.config?.theme}
                 >
@@ -338,6 +339,10 @@ export default function OceanWatchCountryProfilePage({
                                       ...blockElement.config,
                                       ...area?.geostore && { areaOfInterest: area.geostore },
                                     }}
+                                    params={{
+                                      geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                      ...area?.geostore && { geostore_id: area.geostore },
+                                    }}
                                   />
                                   )}
                                 </div>
@@ -345,34 +350,70 @@ export default function OceanWatchCountryProfilePage({
                             </InView>
                             )}
                             {(blockElement.widget && blockElement.type === 'map') && (
-                            <MapWidget
-                              widgetId={blockElement.widget}
-                              params={{
-                                geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-                                ...area?.geostore && { geostore_id: area.geostore },
-                              }}
-                              {...area?.geostore && { areaOfInterest: area.geostore }}
-                              onToggleShare={handleShareWidget}
-                            />
+                              <InView
+                                triggerOnce
+                                threshold={0.25}
+                              >
+                                {({ ref, inView }) => (
+                                  <div
+                                    ref={ref}
+                                    style={{
+                                      height: '100%',
+                                    }}
+                                  >
+                                    {inView && (
+                                      <MapWidget
+                                        widgetId={blockElement.widget}
+                                        params={{
+                                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                          ...area?.geostore && { geostore_id: area.geostore },
+                                        }}
+                                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                                        onToggleShare={handleShareWidget}
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             )}
                             {(blockElement.widget && blockElement.type === 'map-swipe') && (
-                            <SwipeMapWidget
-                              widgetId={blockElement.widget}
-                              params={{
-                                geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-                                ...area?.geostore && { geostore_id: area.geostore },
-                              }}
-                              {...area?.geostore && { areaOfInterest: area.geostore }}
-                              onToggleShare={handleShareWidget}
-                            />
+                              <SwipeMapWidget
+                                widgetId={blockElement.widget}
+                                params={{
+                                  geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                  ...area?.geostore && { geostore_id: area.geostore },
+                                }}
+                                {...area?.geostore && { areaOfInterest: area.geostore }}
+                                onToggleShare={handleShareWidget}
+                              />
                             )}
+
                             {(blockElement.widget && blockElement.type === 'chart') && (
-                            <ChartWidget
-                              adapter={RWAdapter}
-                              widgetId={blockElement.widget}
-                              {...area?.geostore && { areaOfInterest: area.geostore }}
-                              onToggleShare={handleShareWidget}
-                            />
+                              <InView
+                                triggerOnce
+                                threshold={0.25}
+                              >
+                                {({ ref, inView }) => (
+                                  <div
+                                    ref={ref}
+                                    style={{
+                                      height: '100%',
+                                    }}
+                                  >
+                                    {inView && (
+                                      <ChartWidget
+                                        adapter={RWAdapter}
+                                        widgetId={blockElement.widget}
+                                        params={{
+                                          ...area?.geostore && { geostore_id: area.geostore },
+                                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                        }}
+                                        onToggleShare={handleShareWidget}
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             )}
                             {blockElement.visualizationType === 'indicators-set' && (
                             <InView
@@ -385,7 +426,8 @@ export default function OceanWatchCountryProfilePage({
                                   <CardIndicatorSet
                                     config={blockElement.config}
                                     params={{
-                                      iso,
+                                      geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                      ...area?.geostore && { geostore_id: area.geostore },
                                     }}
                                     theme={blockElement?.config?.theme}
                                   >
@@ -558,6 +600,13 @@ export default function OceanWatchCountryProfilePage({
           isVisible
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
+          params={{
+            geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+            ...area?.geostore && {
+              geostore_id: area.geostore,
+              aoi: area.geostore,
+            },
+          }}
         />
       )}
     </LayoutOceanWatch>

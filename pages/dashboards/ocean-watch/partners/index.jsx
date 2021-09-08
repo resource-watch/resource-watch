@@ -3,6 +3,9 @@ import {
   useCallback,
 } from 'react';
 import { useRouter } from 'next/router';
+import {
+  useQueryClient,
+} from 'react-query';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
@@ -15,7 +18,9 @@ import BannerCountries from 'components/banners/countries';
 import {
   usePublishedPartners,
 } from 'hooks/partners';
-import useCountryList from 'hooks/country/country-list';
+import {
+  useOceanWatchAreas,
+} from 'hooks/ocean-watch';
 
 const PARTNERS_PAGE_DESCRIPTION = `
 We couldn’t do this on our own.
@@ -27,6 +32,7 @@ organisations to support the integrated management of our ocean.
 
 export default function OceanWatchPartnersPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const {
     data: {
       collaboratingPartners,
@@ -42,13 +48,14 @@ export default function OceanWatchPartnersPage() {
     placeholderData: [],
     refetchOnWindowFocus: false,
   });
-  // todo: replace with Ocean Watch countries when available
+
   const {
     data: countries,
-  } = useCountryList({
-    select: (_countries) => _countries.map(({ name, geostoreId }) => ({
+  } = useOceanWatchAreas({
+    placeholderData: queryClient.getQueryData('ocean-watch-areas') || [],
+    select: (_countries) => _countries.map(({ name, iso }) => ({
       label: name,
-      value: geostoreId,
+      value: iso,
     })),
     refetchOnWindowFocus: false,
   });
