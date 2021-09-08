@@ -339,6 +339,10 @@ export default function OceanWatchCountryProfilePage({
                                       ...blockElement.config,
                                       ...area?.geostore && { areaOfInterest: area.geostore },
                                     }}
+                                    params={{
+                                      geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                      ...area?.geostore && { geostore_id: area.geostore },
+                                    }}
                                   />
                                   )}
                                 </div>
@@ -422,7 +426,6 @@ export default function OceanWatchCountryProfilePage({
                                   <CardIndicatorSet
                                     config={blockElement.config}
                                     params={{
-                                      // iso,
                                       geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
                                       ...area?.geostore && { geostore_id: area.geostore },
                                     }}
@@ -597,8 +600,12 @@ export default function OceanWatchCountryProfilePage({
           isVisible
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
-          webshotParams={{
-            ...area?.geostore && { aoi: area.geostore },
+          params={{
+            geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+            ...area?.geostore && {
+              geostore_id: area.geostore,
+              aoi: area.geostore,
+            },
           }}
         />
       )}

@@ -292,6 +292,7 @@ export default function IndicatorVisualization({
           isVisible
           widget={isShareVisible}
           onClose={handleCloseShare}
+          params={params}
         />
       )}
     </div>

@@ -27,6 +27,7 @@ const isExternal = isLoadedExternally();
 export default function LayoutEmbedWidget({
   widgetId,
   widget,
+  params,
   isWebshot,
 }) {
   const [widgetToShare, setWidgetToShare] = useState(null);
@@ -62,6 +63,7 @@ export default function LayoutEmbedWidget({
         <ChartWidget
           adapter={RWAdapter}
           widgetId={widgetId}
+          params={params}
           onToggleShare={handleShareWidget}
           isEmbed
           {...isWebshot && { isWebshot: true }}
@@ -86,10 +88,12 @@ export default function LayoutEmbedWidget({
 
 LayoutEmbedWidget.defaultProps = {
   isWebshot: false,
+  params: {},
 };
 
 LayoutEmbedWidget.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  params: PropTypes.shape({}),
   widget: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

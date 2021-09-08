@@ -35,6 +35,7 @@ export default function MiniExploreWidgets({
     widgets,
     areaOfInterest,
   },
+  params,
   adapter,
 }) {
   const [state, dispatch] = useReducer(miniExploreWidgetReducer, miniExploreWidgetState);
@@ -91,16 +92,13 @@ export default function MiniExploreWidgets({
           mask={mask}
           areaOfInterest={areaOfInterest}
           onClickLayer={onClickLayer}
-          params={{
-            geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-            ...areaOfInterest && { geostore_id: areaOfInterest },
-          }}
+          params={params}
         />
         <WidgetSidebar
           adapter={adapter}
           widgetIds={widgets}
           params={{
-            geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+            ...params,
             ...state.geostore && { geostore_id: state.geostore },
           }}
         />
@@ -108,6 +106,10 @@ export default function MiniExploreWidgets({
     </div>
   );
 }
+
+MiniExploreWidgets.defaultProps = {
+  params: {},
+};
 
 MiniExploreWidgets.propTypes = {
   config: PropTypes.shape({
@@ -121,5 +123,6 @@ MiniExploreWidgets.propTypes = {
     ).isRequired,
     areaOfInterest: PropTypes.string,
   }).isRequired,
+  params: PropTypes.shape({}),
   adapter: PropTypes.func.isRequired,
 };

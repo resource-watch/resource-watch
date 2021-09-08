@@ -72,7 +72,7 @@ export default function LayoutEmbedMap({
           isVisible
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
-          webshotParams={{
+          params={{
             ...aoi && { aoi },
           }}
         />

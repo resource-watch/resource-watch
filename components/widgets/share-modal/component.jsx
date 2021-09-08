@@ -1,5 +1,7 @@
 import {
-  useCallback, useState,
+  useCallback,
+  useState,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -22,6 +24,7 @@ import {
 } from 'services/webshot';
 
 // utils
+import { getLinksByWidgetType } from 'utils/embed';
 import { logEvent } from 'utils/analytics';
 import { logger } from 'utils/logs';
 
@@ -29,7 +32,7 @@ export default function WidgetShareModal({
   isVisible,
   onClose,
   widget,
-  webshotParams,
+  params,
 }) {
   const {
     data: user,
@@ -44,7 +47,7 @@ export default function WidgetShareModal({
       setWebshotLoading(true);
       const { widgetThumbnail } = await takeWidgetWebshot(widget.id, user?.token, {
         type,
-        ...webshotParams,
+        ...params,
       });
 
       if (widgetThumbnail) {
@@ -55,7 +58,11 @@ export default function WidgetShareModal({
       logger.error(`widget webshot: ${e.message}`);
       setWebshotLoading(false);
     }
-  }, [widget, user, webshotParams]);
+  }, [widget, user, params]);
+
+  const shareLinks = useMemo(
+    () => getLinksByWidgetType(widget, params), [widget, params],
+  );
 
   return (
     <Modal
@@ -64,10 +71,7 @@ export default function WidgetShareModal({
       onRequestClose={onClose}
     >
       <ShareModal
-        links={{
-          link: `${window.location.origin}/embed/${(widget?.widgetConfig?.type || 'widget')}/${widget.id}`,
-          embed: `${window.location.origin}/embed/${(widget?.widgetConfig?.type || 'widget')}/${widget.id}`,
-        }}
+        links={shareLinks}
         analytics={{
           facebook: () => logEvent('Share (embed)', `Share widget: ${widget?.name}`, 'Facebook'),
           twitter: () => logEvent('Share (embed)', `Share widget: ${widget?.name}`, 'Twitter'),
@@ -114,7 +118,7 @@ export default function WidgetShareModal({
 
 WidgetShareModal.defaultProps = {
   isVisible: false,
-  webshotParams: {},
+  params: {},
 };
 
 WidgetShareModal.propTypes = {
@@ -127,6 +131,6 @@ WidgetShareModal.propTypes = {
       type: PropTypes.string,
     }),
   }).isRequired,
-  webshotParams: PropTypes.shape({}),
+  params: PropTypes.shape({}),
   onClose: PropTypes.func.isRequired,
 };
