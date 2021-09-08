@@ -84,8 +84,8 @@ class AdminPartnersTable extends PureComponent {
       authorization,
     } = this.props;
     const { pagination } = this.state;
-    const partnersWithDisabledField = partners.map((p) =>
-      ({ ...p, disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(p.env) }));
+    const partnersWithDisabledField = partners
+      .map((p) => ({ ...p, disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(p.env) }));
 
     return (
       <div className="c-partners-table">
