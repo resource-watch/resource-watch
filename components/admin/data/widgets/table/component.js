@@ -146,7 +146,6 @@ class WidgetsTable extends PureComponent {
 
     const disabled = !dataset || !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
 
-    console.log('dataset', dataset, 'disabled', disabled, process.env.NEXT_PUBLIC_ENVS_EDIT);
     return (
       <div className="c-widgets-table">
         <Spinner className="-light" isLoading={loading} />
