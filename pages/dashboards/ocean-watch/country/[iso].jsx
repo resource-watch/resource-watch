@@ -204,7 +204,8 @@ export default function OceanWatchCountryProfilePage({
                 <CardIndicatorSet
                   config={indicatorSetConfiguration.config}
                   params={{
-                    iso,
+                    ...area?.geostore && { areaOfInterest: area.geostore },
+                    geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
                   }}
                   theme={indicatorSetConfiguration.config?.theme}
                 >
@@ -372,15 +373,15 @@ export default function OceanWatchCountryProfilePage({
                               </InView>
                             )}
                             {(blockElement.widget && blockElement.type === 'map-swipe') && (
-                            <SwipeMapWidget
-                              widgetId={blockElement.widget}
-                              params={{
-                                geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-                                ...area?.geostore && { geostore_id: area.geostore },
-                              }}
-                              {...area?.geostore && { areaOfInterest: area.geostore }}
-                              onToggleShare={handleShareWidget}
-                            />
+                              <SwipeMapWidget
+                                widgetId={blockElement.widget}
+                                params={{
+                                  geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                  ...area?.geostore && { geostore_id: area.geostore },
+                                }}
+                                {...area?.geostore && { areaOfInterest: area.geostore }}
+                                onToggleShare={handleShareWidget}
+                              />
                             )}
 
                             {(blockElement.widget && blockElement.type === 'chart') && (
@@ -399,7 +400,10 @@ export default function OceanWatchCountryProfilePage({
                                       <ChartWidget
                                         adapter={RWAdapter}
                                         widgetId={blockElement.widget}
-                                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                                        params={{
+                                          ...area?.geostore && { geostore_id: area.geostore },
+                                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                        }}
                                         onToggleShare={handleShareWidget}
                                       />
                                     )}
@@ -418,7 +422,9 @@ export default function OceanWatchCountryProfilePage({
                                   <CardIndicatorSet
                                     config={blockElement.config}
                                     params={{
-                                      iso,
+                                      // iso,
+                                      geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                      ...area?.geostore && { geostore_id: area.geostore },
                                     }}
                                     theme={blockElement?.config?.theme}
                                   >
