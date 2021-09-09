@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import WidgetEditor from '@widget-editor/widget-editor';
+import cx from 'classnames';
 
 // Constants
 import { FORM_ELEMENTS } from 'components/admin/data/widgets/form/constants';
@@ -50,7 +51,12 @@ class AdminWidgetForm extends Component {
     FORM_ELEMENTS.elements = {};
 
     return (
-      <fieldset className="c-field-container">
+      <fieldset
+        className={cx({
+          'c-field-container': true,
+          '-disabled': !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(form.env),
+        })}
+      >
         <fieldset className="c-field-container">
           {/* DATASET */}
           <Field
