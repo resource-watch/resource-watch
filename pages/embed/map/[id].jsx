@@ -9,6 +9,7 @@ const EmbedMapPage = () => {
       id,
       webshot,
       aoi,
+      ...restQueryParams
     },
   } = useRouter();
 
@@ -17,6 +18,7 @@ const EmbedMapPage = () => {
       widgetId={id}
       {...webshot && { isWebshot: true }}
       {...aoi && { aoi }}
+      params={restQueryParams}
     />
   );
 };
