@@ -10,7 +10,11 @@ export default function Webshot() {
 export const getServerSideProps = async ({ query }) => {
   const {
     id,
+    type: widgetType,
+    ...restQueryParams
   } = query;
+
+  const queryParams = new URLSearchParams(restQueryParams);
 
   const widget = await fetchWidget(id, {
     application: process.env.NEXT_PUBLIC_APPLICATIONS,
@@ -20,7 +24,7 @@ export const getServerSideProps = async ({ query }) => {
   return ({
     props: ({}),
     redirect: {
-      destination: `/embed/${type || 'widget'}/${id}?webshot=true`,
+      destination: `/embed/${type || 'widget'}/${id}${queryParams ? `?webshot=true&${queryParams.toString()}` : '?webshot=true'}`,
       permanent: true,
     },
   });

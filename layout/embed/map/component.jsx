@@ -22,6 +22,7 @@ export default function LayoutEmbedMap({
   widget,
   widgetId,
   aoi,
+  params,
   isWebshot,
 }) {
   const [widgetToShare, setWidgetToShare] = useState(null);
@@ -61,6 +62,7 @@ export default function LayoutEmbedMap({
           onToggleShare={handleShareWidget}
           {...aoi && { areaOfInterest: aoi }}
           {...isWebshot && { isWebshot: true }}
+          params={params}
         />
 
         {((isExternal && !isWebshot)) && (
@@ -74,6 +76,7 @@ export default function LayoutEmbedMap({
           onClose={handleCloseShareWidget}
           params={{
             ...aoi && { aoi },
+            ...params,
           }}
         />
       )}
@@ -84,6 +87,7 @@ export default function LayoutEmbedMap({
 LayoutEmbedMap.defaultProps = {
   aoi: null,
   isWebshot: false,
+  params: {},
 };
 
 LayoutEmbedMap.propTypes = {
@@ -94,5 +98,6 @@ LayoutEmbedMap.propTypes = {
   }).isRequired,
   widgetId: PropTypes.string.isRequired,
   aoi: PropTypes.string,
+  params: PropTypes.shape({}),
   isWebshot: PropTypes.bool,
 };
