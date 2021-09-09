@@ -36,8 +36,11 @@ class WidgetsTable extends PureComponent {
   }
 
   componentDidMount() {
+    const { dataset } = this.props;
     this.loadWidgets();
-    this.loadDataset();
+    if (dataset) {
+      this.loadDataset();
+    }
   }
 
   onFiltersChange = (value) => {
@@ -48,7 +51,7 @@ class WidgetsTable extends PureComponent {
         'user.role': value.value,
       },
     },
-      () => this.loadWidgets());
+    () => this.loadWidgets());
   }
 
   /**
@@ -107,6 +110,7 @@ class WidgetsTable extends PureComponent {
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
       ...dataset && { dataset },
       ...filters,
     }, { Authorization: `Bearer ${token}` }, true)
@@ -128,6 +132,7 @@ class WidgetsTable extends PureComponent {
             ..._widget,
             owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
             role: _widget.user ? _widget.user.role || '' : '',
+            disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(_widget.env),
           })),
         });
       })
