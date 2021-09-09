@@ -769,20 +769,8 @@
                 "grid": "100%",
                 "visualizationType": "mini-explore",
                 "config": {
-                  "title": "Lorem ipsum",
+                  "title": "Mini-Explore Test Title",
                   "datasetGroups": [
-                    {
-                      "title": "Ecosystems",
-                      "datasets": [
-                        "ee4dca11-caae-4c39-9915-501872aab4bd",
-                        "807e9ffe-e096-4024-b498-3e97721d444e",
-                        "08c0e063-46d2-46ee-91e0-f2545b463cd8",
-                        "1af33b02-9fc2-47ab-9eae-583b77a1f4fa"
-                      ],
-                      "default": [
-                        "ee4dca11-caae-4c39-9915-501872aab4bd"
-                      ]
-                    },
                     {
                       "title": "Climate pressures",
                       "datasets": [
@@ -799,7 +787,18 @@
                       ]
                     },
                     {
-                      "title": "Land-sea pressures",
+                      "title": "Ecosystems",
+                      "datasets": [
+                        "ee4dca11-caae-4c39-9915-501872aab4bd",
+                        "08c0e063-46d2-46ee-91e0-f2545b463cd8",
+                        "1af33b02-9fc2-47ab-9eae-583b77a1f4fa"
+                      ],
+                      "default": [
+                        "ee4dca11-caae-4c39-9915-501872aab4bd"
+                      ]
+                    },
+                    {
+                      "title": "Land-sea pressures modified title",
                       "datasets": [
                         "53382f9b-208e-43b1-ac1d-bf311791b49c",
                         "a9e80e3a-8ff4-4763-8c65-c2c43922965f",
@@ -832,12 +831,18 @@
                       ]
                     },
                     {
-                      "title": "Response",
+                      "title": "Test group",
                       "datasets": [
-                        "f4a205bb-cbe4-414c-beb5-e8c3212c9028"
+                        "f4a205bb-cbe4-414c-beb5-e8c3212c9028",
+                        "f8724e98-23ad-4767-9a64-15558173f25f",
+                        "2f1f0b3e-e059-47e2-9640-70e07602b65a",
+                        "ad21463c-b220-4201-8af0-455ecb3794f2",
+                        "0681518c-e75b-4567-8f67-9bb944d5a287"
                       ],
                       "default": [
-                        "f4a205bb-cbe4-414c-beb5-e8c3212c9028"
+                        "f4a205bb-cbe4-414c-beb5-e8c3212c9028",
+                        "ad21463c-b220-4201-8af0-455ecb3794f2",
+                        "0681518c-e75b-4567-8f67-9bb944d5a287"
                       ]
                     }
                   ]
