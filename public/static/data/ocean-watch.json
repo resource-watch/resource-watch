@@ -1267,7 +1267,7 @@
                 "unit": "%"
               },
               {
-                "id": "",
+                "id": "34611389-153b-4f24-a687-418e073dd6e0",
                 "type": "chart"
               }
             ]
@@ -1286,7 +1286,7 @@
                 "unit": "%"
               },
               {
-                "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
+                "id": "",
                 "type": "map"
               }
             ]
@@ -1318,7 +1318,7 @@
             "subtitle": "Biodiversity — the variety and variability of life on Earth — is the natural capital people depend on for survival.",
             "widget": [
               {
-                "id": "",
+                "id": "9c1482d4-b196-49c5-a558-f25467f6ae50",
                 "type": "chart"
               },
               {
@@ -1351,8 +1351,8 @@
             "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity.",
             "widget": [
               {
-                "id":  "879ecb9e-5594-40ea-9458-2295b70017da",
-                "type": "map-swipe"
+                "id":  "92e5286e-b40a-4a6f-a3e5-84ac9b49d459",
+                "type": "chart"
               }
             ]
           }
@@ -1376,7 +1376,13 @@
           "indicator": "ocean-dependence",
           "content": {
             "title": "Ocean Dependence",
-            "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food."
+            "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food.",
+            "widget": [
+              {
+                "id":  "4a54273c-0529-4da1-a935-f3de4738ca3e",
+                "type": "chart"
+              }
+            ]
           }
         },
         {
@@ -1410,7 +1416,7 @@
             "sectionPosition": "right",
             "sections": [
               {
-                "title": "section 1",
+                "title": "Marine Transport: Shipping",
                 "widget": [
                   {
                     "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
@@ -1419,13 +1425,13 @@
                     "unit": "%"
                   },
                   {
-                    "id": "",
+                    "id": "830f2880-527c-4272-8aaf-8ff8d87a83a8",
                     "type": "chart"
                   }
                 ]
               },
               {
-                "title": "section 2",
+                "title": "Minerals and Energy",
                 "widget": [
                   {
                     "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
@@ -1433,8 +1439,22 @@
                     "unit": "ha"
                   },
                   {
-                    "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
-                    "type": "map"
+                    "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
+                    "type": "chart"
+                  }
+                ]
+              },
+              {
+                "title": "Fishing",
+                "widget": [
+                  {
+                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "unit": "tons"
+                  },
+                  {
+                    "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
+                    "type": "chart"
                   }
                 ]
               }
@@ -1515,7 +1535,7 @@
                       "icon": "biodiversity",
                       "widgets": [
                         {
-                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                          "id": "9c1482d4-b196-49c5-a558-f25467f6ae50"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
@@ -1890,6 +1910,7 @@
                         "d6e42176-90c4-429d-8cae-7619c545a458",
                         "6b523d76-ca2d-4059-b0a6-d90a6b8ba5a6",
                         "13f4e065-b579-41f0-938d-b97c9dd54ce2",
+                        "c2142922-84d9-4564-8216-a4867b9e48c5",
                         "92327c78-a473-402b-8edf-409869823216",
                         "f1aa9ec7-c3b6-441c-b395-96fc796b7612",
                         "877cdf39-5536-409c-bcba-2220e1b72796"
@@ -1901,7 +1922,9 @@
                     {
                       "title": "Productivity",
                       "datasets": [
-                        "d4e91298-b994-4e2c-947c-4f6486a66f30"
+                        "d4e91298-b994-4e2c-947c-4f6486a66f30",
+                        "11f16cb9-def0-4bd5-a60e-50c542b837e3",
+                        "6ccfb266-20cd-4838-82b0-5309987a62f0"
                       ],
                       "default": [
                         "d4e91298-b994-4e2c-947c-4f6486a66f30"
