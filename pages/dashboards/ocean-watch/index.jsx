@@ -195,18 +195,20 @@ export default function OceanWatchIntroPage({
                 >
                   <div>
                     <p className="-claim">
-                      Suggest a story
+                      What&apos;s Your Ocean Watch Story?
                     </p>
                     <p>
-                      Have you uncovered an interesting connection in the data
-                      we should tell a story about?
+                      How have you used Ocean Watch data to drive impact?
                     </p>
                   </div>
-                  <Link href="/get-involved/suggest-a-story">
-                    <a className="c-button -alt -primary">
-                      Suggest a story
-                    </a>
-                  </Link>
+                  <a
+                    className="c-button -alt -primary"
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSc0KvLPwuCyMwXMQ3sO9gerN_HFECBHHBVnzq2uyROP-cbAOg/viewform"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Tell Your Story
+                  </a>
                 </div>
               </Banner>
             </div>

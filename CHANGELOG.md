@@ -48,6 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Changed
+- Ocean Watch: changed texts and links of "Suggest a Story" banner. [OW-129](https://vizzuality.atlassian.net/browse/OW-129)
 - Ocean Watch storytelling: increases map zoom one level. [OW-113](https://vizzuality.atlassian.net/browse/OW-113)
 - `redux@4.1.0`
 - `react-redux@7.2.4`
