@@ -41,12 +41,7 @@
           "background": {
             "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg"
           },
-          "info": [
-            {
-              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-              "position": [60, 40]
-            }
-          ]
+          "info": []
         },
         {
           "id": "land-sea-interface-1",
@@ -1143,12 +1138,7 @@
           "background": {
             "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg"
           },
-          "info": [
-            {
-              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-              "position": [60, 40]
-            }
-          ]
+          "info": []
         },
         {
           "id": "land-sea-interface-1",
