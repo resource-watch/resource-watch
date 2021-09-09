@@ -455,13 +455,17 @@
                 "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
                 "type": "map-swipe",
                 "comment": "Sediment Pressure Map"
-              },
+              }
+            ],
+            [
               {
                 "grid": "100%",
                 "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
                 "type": "map-swipe",
                 "comment": "Sediment Pressure Map Full-Size"
               }
+            ],
+            [
               {
                 "grid": "50%",
                 "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
