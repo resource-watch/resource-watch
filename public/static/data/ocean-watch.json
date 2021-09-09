@@ -445,11 +445,15 @@
                 "widget": "d7828256-5a99-4033-9583-fe35d36a41fd",
                 "type": "chart",
                 "comment": "Renamed Water Quality Pressure Chart 1 Full-Size"
-              },
+              }
+            ],
+            [
               {
                 "grid": "100%",
                 "text": "Test text. Words words words, more words and words. Want to trigger a line break so will continue typing for a little while longer, but nothing fancy like special characters or line breaks."
-              },
+              }
+            ],
+            [
               {
                 "grid": "50%",
                 "widget": "34dd8dd0-48c2-4729-8b01-981416d121e9",
