@@ -70,13 +70,13 @@ export default function SwipeTypeWidget({
   }, [onFitBoundsChange]);
 
   const basemap = useMemo(() => {
-    const basemapKey = widget.widgetConfig?.basemapLayers?.basemap || 'dark';
+    const basemapKey = widget?.widgetConfig?.basemapLayers?.basemap || 'dark';
 
     return BASEMAPS[basemapKey].value;
   }, [widget]);
 
   const labels = useMemo(() => {
-    const label = widget.widgetConfig?.basemapLayers?.labels || 'light';
+    const label = widget?.widgetConfig?.basemapLayers?.labels || 'light';
 
     return LABELS[label].value;
   }, [widget]);
