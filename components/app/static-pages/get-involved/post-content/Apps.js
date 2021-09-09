@@ -23,7 +23,7 @@ class Apps extends React.Component {
 
   componentDidMount() {
     this.props.setFilters([]);
-    this.props.getTools();
+    this.props.getTools({ env: process.env.NEXT_PUBLIC_ENVS_SHOW });
   }
 
 
