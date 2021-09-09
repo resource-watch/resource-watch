@@ -25,11 +25,13 @@ const RelatedContentContainer = (props) => {
         dataset: datasetID,
         published: true,
         limit: 3,
+        env: process.env.NEXT_PUBLIC_ENVS_SHOW,
       }).then((data) => {
         if (data.length > 0) {
           fetchDatasets({
             ids: data.map((d) => d.dataset).join(','),
             includes: 'widget,metadata,layer,vocabulary',
+            env: process.env.NEXT_PUBLIC_ENVS_SHOW,
           })
             .then((similarDatasets) => {
               setDatasets({
