@@ -41,12 +41,7 @@
           "background": {
             "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg"
           },
-          "info": [
-            {
-              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-              "position": [60, 40]
-            }
-          ]
+          "info": []
         },
         {
           "id": "land-sea-interface-1",
@@ -447,6 +442,14 @@
               {
                 "grid": "50%",
                 "text": "Forests, grasslands and natural land covers hold soil in place with their roots. Soil erosion occurs when roots are removed by ecosystem degradation and deforestation."
+              },
+              {
+                "grid": "50%",
+                "text": "Modified text for half-width item."
+              },
+              {
+                "grid": "100%",
+                "text": "Modified text for full width item. Text needs to be long enough to incur multiple line breaks. Will the line break, and if it does, will that occur at the full width of the column, or two-thirds of the way across like in dashboards? Very suspenseful."
               }
             ],
             [
@@ -455,6 +458,22 @@
                 "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
                 "type": "map-swipe",
                 "comment": "Sediment Pressure Map"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
+                "type": "map-swipe",
+                "comment": "Sediment Pressure Map Full-Size"
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
+                "type": "map-swipe",
+                "comment": "Sediment Pressure Map Half-Size"
               }
             ],
             [
@@ -469,6 +488,34 @@
                 "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
                 "type": "chart",
                 "comment": "Sediment Pressure Chart 2 (placeholder)"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "d8cc22aa-dd18-4d3a-a09a-983513625212",
+                "type": "map",
+                "comment": "Sediment Pressure Chart 1 Full-Size"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "text": "Test text element intended to take up one full \"row\"."
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "widget": "682b7153-c6f8-483d-b803-41ce942f6493",
+                "type": "map",
+                "comment": "Test map 1: Active Fires (MODIS)"
+              },
+              {
+                "grid": "50%",
+                "widget": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
+                "type": "map",
+                "comment": "Test map 2: Major Ports"
               }
             ],
             [
@@ -504,33 +551,23 @@
       ],
       [
         {
-          "title": "River Water Quality",
+          "title": "River Water Quality Modified Section Header",
           "anchor": "river-water-quality",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "River Water Quality"
+                "title": "River Water Quality Modified Text Heading"
               },
               {
                 "grid": "50%",
                 "text": "When soil erosion from deforested and degraded land enters rivers and streams, it can flow into the ocean and create clouds of sediment which limit ocean photosynthesis."
-              }
-            ],
-            [
+              },
               {
-                "grid": "100%",
-                "widget": "c5237807-c4f4-4ec1-8d6a-3b5931679eba",
+                "grid": "50%",
+                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
                 "type": "map",
-                "comment": "River Water Quality - Sediment Pressure map"
-              }
-            ],
-            [
-              {
-                "grid": "100%",
-                "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
-                "type": "map",
-                "comment": "River Water Quality - Sediment Pressure Chart"
+                "comment": "Sediment Pressure map duplicate, half-size"
               }
             ],
             [
@@ -649,6 +686,36 @@
                     "298147df-6a7d-4ca7-b1c3-ddfb248491ac"
                   ]
                 }
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
+                "type": "map",
+                "comment": "River Water Quality - Sediment Pressure map"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
+                "type": "map",
+                "comment": "River Water Quality - Sediment Pressure Chart"
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
+                "type": "map",
+                "comment": "Duplicate Sediment Pressure map for testing"
+              },
+              {
+                "grid": "50%",
+                "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
+                "type": "map",
+                "comment": "Duplicate Sediment Pressure Chart for testing"
               }
             ]
           ]
@@ -904,6 +971,12 @@
             ],
             [
               {
+                "grid": "100%",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
+              }
+            ],
+            [
+              {
                 "grid": "50%",
                 "widget": "fddf8913-a4e6-44ca-87c5-2c4e138d3f06",
                 "type": "map",
@@ -914,6 +987,12 @@
                 "widget": "c506e664-b226-476a-9326-85c62ac19412",
                 "type": "map",
                 "comment": "Fisheries (coral)"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
               }
             ],
             [
@@ -971,12 +1050,7 @@
           "background": {
             "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg"
           },
-          "info": [
-            {
-              "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-              "position": [60, 40]
-            }
-          ]
+          "info": []
         },
         {
           "id": "land-sea-interface-1",
@@ -1838,6 +1912,12 @@
             ],
             [
               {
+                "grid": "100%",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
+              }
+            ],
+            [
+              {
                 "grid": "50%",
                 "widget": "83d41130-909a-44a8-8a15-b17ece5fb924",
                 "type": "map",
@@ -1848,6 +1928,12 @@
                 "widget": "11121aac-8f74-41c5-ad75-e0cc7f9c7b1d",
                 "type": "map",
                 "comment": "Fisheries (coral)"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
               }
             ],
             [

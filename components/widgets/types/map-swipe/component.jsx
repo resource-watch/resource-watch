@@ -11,6 +11,7 @@ import {
   LegendListItem,
   LegendItemTypes,
 } from 'vizzuality-components';
+import compact from 'lodash/compact';
 
 // constants
 import {
@@ -69,13 +70,13 @@ export default function SwipeTypeWidget({
   }, [onFitBoundsChange]);
 
   const basemap = useMemo(() => {
-    const basemapKey = widget.widgetConfig?.basemapLayers?.basemap || 'dark';
+    const basemapKey = widget?.widgetConfig?.basemapLayers?.basemap || 'dark';
 
     return BASEMAPS[basemapKey].value;
   }, [widget]);
 
   const labels = useMemo(() => {
-    const label = widget.widgetConfig?.basemapLayers?.labels || 'light';
+    const label = widget?.widgetConfig?.basemapLayers?.labels || 'light';
 
     return LABELS[label].value;
   }, [widget]);
@@ -84,16 +85,16 @@ export default function SwipeTypeWidget({
     left: [
       ...(aoiLayer !== null) ? [aoiLayer] : [],
       ...(maskLayer !== null) ? [maskLayer] : [],
-      ...layerGroupsBySide.left.map(
+      ...compact(layerGroupsBySide.left.map(
         (_layerGroup) => (_layerGroup.layers || []).find((_layer) => _layer.active),
-      ),
+      )),
     ],
     right: [
       ...(aoiLayer !== null) ? [aoiLayer] : [],
       ...(maskLayer !== null) ? [maskLayer] : [],
-      ...layerGroupsBySide.right.map(
+      ...compact(layerGroupsBySide.right.map(
         (_layerGroup) => (_layerGroup.layers || []).find((_layer) => _layer.active),
-      ),
+      )),
     ],
   }), [layerGroupsBySide, aoiLayer, maskLayer]);
 

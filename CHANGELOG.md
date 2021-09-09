@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean watch country page: text blocks. [OW-123](https://vizzuality.atlassian.net/browse/OW-123)
 - Ocean Watch storytelling: worldwide geostore.
 - Ocean Watch storytelling: added "back to top" button. [OW-106](https://vizzuality.atlassian.net/browse/OW-106)
 - Ocean Watch country page: collapsible mini-explore. [OW-102](https://vizzuality.atlassian.net/browse/OW-102)
@@ -47,6 +48,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Changed
+- Ocean Watch: changed texts and links of "Suggest a Story" banner. [OW-129](https://vizzuality.atlassian.net/browse/OW-129)
+- Ocean Watch storytelling: increases map zoom one level. [OW-113](https://vizzuality.atlassian.net/browse/OW-113)
 - `redux@4.1.0`
 - `react-redux@7.2.4`
 - Ocean Watch: updated texts from Partners page. [OW-24](https://vizzuality.atlassian.net/browse/OW-24)

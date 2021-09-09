@@ -122,7 +122,7 @@ const gradientStyles = {
 export default function MapSelection() {
   const [viewport, setViewport] = useState({
     ...DEFAULT_VIEWPORT,
-    zoom: 0,
+    zoom: 1,
   });
   const [buttonListVisibility, setVisibility] = useState(false);
   const [tooltip, setTooltip] = useState({});
