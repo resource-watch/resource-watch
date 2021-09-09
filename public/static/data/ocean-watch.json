@@ -481,7 +481,7 @@
               {
                 "grid": "100%",
                 "text": "Test text element intended to take up one full \"row\"."
-              }
+              },
               {
                 "grid": "50%",
                 "widget": "682b7153-c6f8-483d-b803-41ce942f6493",
