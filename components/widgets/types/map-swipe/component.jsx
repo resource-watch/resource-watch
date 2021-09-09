@@ -11,6 +11,7 @@ import {
   LegendListItem,
   LegendItemTypes,
 } from 'vizzuality-components';
+import compact from 'lodash/compact';
 
 // constants
 import {
@@ -84,16 +85,16 @@ export default function SwipeTypeWidget({
     left: [
       ...(aoiLayer !== null) ? [aoiLayer] : [],
       ...(maskLayer !== null) ? [maskLayer] : [],
-      ...layerGroupsBySide.left.map(
+      ...compact(layerGroupsBySide.left.map(
         (_layerGroup) => (_layerGroup.layers || []).find((_layer) => _layer.active),
-      ),
+      )),
     ],
     right: [
       ...(aoiLayer !== null) ? [aoiLayer] : [],
       ...(maskLayer !== null) ? [maskLayer] : [],
-      ...layerGroupsBySide.right.map(
+      ...compact(layerGroupsBySide.right.map(
         (_layerGroup) => (_layerGroup.layers || []).find((_layer) => _layer.active),
-      ),
+      )),
     ],
   }), [layerGroupsBySide, aoiLayer, maskLayer]);
 
