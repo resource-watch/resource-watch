@@ -4,10 +4,6 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  isStagingAPI,
-} from 'utils/api';
-
 // components
 import WidgetSidebar from './widget-sidebar';
 import MiniExploreMap from './map';
@@ -25,7 +21,6 @@ const miniExploreWidgetReducer = miniExploreWidgetSlice.reducer;
 const {
   setGeostore,
 } = miniExploreWidgetSlice.actions;
-const isStaging = isStagingAPI();
 let clickState = null;
 export default function MiniExploreWidgets({
   config: {
@@ -61,8 +56,6 @@ export default function MiniExploreWidgets({
       properties,
     } = dataFeature;
 
-    const geostore = properties[`${isStaging ? 'geostore_staging' : 'geostore_prod'}`];
-
     clickState = {
       source,
       sourceLayer,
@@ -76,7 +69,7 @@ export default function MiniExploreWidgets({
       },
     );
 
-    return dispatch(setGeostore(geostore));
+    return dispatch(setGeostore(properties.geostore_prod));
   }, []);
 
   return (

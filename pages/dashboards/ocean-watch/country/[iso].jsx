@@ -55,11 +55,6 @@ import {
 import {
   getRWAdapter,
 } from 'utils/widget-editor';
-import {
-  isStagingAPI,
-} from 'utils/api';
-
-const isStaging = isStagingAPI();
 
 const WidgetShareModal = dynamic(() => import('../../../../components/widgets/share-modal'), { ssr: false });
 
@@ -205,7 +200,7 @@ export default function OceanWatchCountryProfilePage({
                   config={indicatorSetConfiguration.config}
                   params={{
                     ...area?.geostore && { geostore_id: area.geostore },
-                    geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                    geostore_env: 'geostore_prod',
                   }}
                   theme={indicatorSetConfiguration.config?.theme}
                 >
@@ -340,7 +335,7 @@ export default function OceanWatchCountryProfilePage({
                                       ...area?.geostore && { areaOfInterest: area.geostore },
                                     }}
                                     params={{
-                                      geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                      geostore_env: 'geostore_prod',
                                       ...area?.geostore && { geostore_id: area.geostore },
                                     }}
                                   />
@@ -365,7 +360,7 @@ export default function OceanWatchCountryProfilePage({
                                       <MapWidget
                                         widgetId={blockElement.widget}
                                         params={{
-                                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                          geostore_env: 'geostore_prod',
                                           ...area?.geostore && { geostore_id: area.geostore },
                                         }}
                                         {...area?.geostore && { areaOfInterest: area.geostore }}
@@ -380,7 +375,7 @@ export default function OceanWatchCountryProfilePage({
                               <SwipeMapWidget
                                 widgetId={blockElement.widget}
                                 params={{
-                                  geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                  geostore_env: 'geostore_prod',
                                   ...area?.geostore && { geostore_id: area.geostore },
                                 }}
                                 {...area?.geostore && { areaOfInterest: area.geostore }}
@@ -406,7 +401,7 @@ export default function OceanWatchCountryProfilePage({
                                         widgetId={blockElement.widget}
                                         params={{
                                           ...area?.geostore && { geostore_id: area.geostore },
-                                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                          geostore_env: 'geostore_prod',
                                         }}
                                         onToggleShare={handleShareWidget}
                                       />
@@ -426,7 +421,7 @@ export default function OceanWatchCountryProfilePage({
                                   <CardIndicatorSet
                                     config={blockElement.config}
                                     params={{
-                                      geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                      geostore_env: 'geostore_prod',
                                       ...area?.geostore && { geostore_id: area.geostore },
                                     }}
                                     theme={blockElement?.config?.theme}
@@ -603,7 +598,7 @@ export default function OceanWatchCountryProfilePage({
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
           params={{
-            geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+            geostore_env: 'geostore_prod',
             ...area?.geostore && {
               geostore_id: area.geostore,
               aoi: area.geostore,
