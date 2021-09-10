@@ -49,6 +49,7 @@ function renderWidget({
           style={{
             height: 450,
             borderRadius: 4,
+            color: '#393f44',
           }}
         />
       )}
