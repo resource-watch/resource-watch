@@ -990,6 +990,12 @@
             ],
             [
               {
+                "grid": "100%",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
+              }
+            ],
+            [
+              {
                 "grid": "50%",
                 "widget": "2a1db525-7352-4c88-a17e-5705e8860888",
                 "type": "map",
@@ -1950,6 +1956,12 @@
                     }
                   ]
                 }
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
               }
             ],
             [
