@@ -37,8 +37,11 @@ class LayersTable extends PureComponent {
   }
 
   UNSAFE_componentWillMount() {
+    const { dataset } = this.props;
     this.loadLayers();
-    this.loadDataset();
+    if (dataset) {
+      this.loadDataset();
+    }
   }
 
   onFiltersChange = (value) => {
@@ -109,6 +112,7 @@ class LayersTable extends PureComponent {
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...(dataset && { dataset }),
       ...filters,
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
     }, { Authorization: `Bearer ${token}` }, true)
       .then(({ layers, meta }) => {
         const {
