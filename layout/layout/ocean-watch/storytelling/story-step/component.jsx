@@ -26,16 +26,10 @@ import {
   getRWAdapter,
 } from 'utils/widget-editor';
 
-import {
-  isStagingAPI,
-} from 'utils/api';
-
 // styles
 import './styles.scss';
 
 const WidgetShareModal = dynamic(() => import('../../../../../components/widgets/share-modal'), { ssr: false });
-
-const isStaging = isStagingAPI();
 
 function renderWidget({
   id: widgetId,
@@ -163,7 +157,7 @@ export default function StoryStep({
   );
 
   const widgetParams = useMemo(() => ({
-    geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+    geostore_env: 'geostore_prod',
     ...geostore && { geostore_id: geostore },
   }), [geostore]);
 
