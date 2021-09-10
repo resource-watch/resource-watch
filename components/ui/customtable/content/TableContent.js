@@ -98,7 +98,7 @@ export default class TableContent extends React.Component {
                   : <td key={i} className={col.className || ''}>{(value && value.toString) ? value.toString() : value}</td>;
                 return td;
               })}
-              {actions.show
+              {actions.show && !row.disabled
                 && (
                 <td className="individual-actions">
                   <ul>

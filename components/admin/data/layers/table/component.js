@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import cx from 'classnames';
 
 // services
 import { fetchLayers } from 'services/layer';
+import { fetchDataset } from 'services/dataset';
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -29,12 +31,14 @@ class LayersTable extends PureComponent {
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
+    dataset: null,
     layers: [],
     filters: { name: null, 'user.role': 'ADMIN' },
   }
 
   UNSAFE_componentWillMount() {
     this.loadLayers();
+    this.loadDataset();
   }
 
   onFiltersChange = (value) => {
@@ -64,7 +68,16 @@ class LayersTable extends PureComponent {
       },
       pagination: INITIAL_PAGINATION,
     }, () => this.loadLayers());
-  }, 250)
+  }, 250);
+
+  loadDataset = () => {
+    const { dataset } = this.props;
+    fetchDataset(dataset)
+      .then((d) => {
+        this.setState({ dataset: d });
+      })
+      .catch((error) => { this.setState({ error }); });
+  };
 
   onChangePage = (nextPage) => {
     const { pagination } = this.state;
@@ -127,8 +140,11 @@ class LayersTable extends PureComponent {
       pagination,
       layers,
       error,
+      dataset,
     } = this.state;
-    const { dataset } = this.props;
+    const { dataset: datasetID } = this.props;
+
+    const disabled = !dataset || !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
 
     return (
       <div className="c-layer-table">
@@ -152,9 +168,10 @@ class LayersTable extends PureComponent {
           input={{ placeholder: 'Search layer' }}
           link={{
             label: 'New layer',
-            route: `/admin/data/layers/new?dataset=${dataset}`,
+            route: `/admin/data/layers/new?dataset=${datasetID}`,
           }}
           onSearch={this.onSearch}
+          disableButton={disabled}
         />
 
         {!error && (
@@ -174,7 +191,7 @@ class LayersTable extends PureComponent {
                   name: 'Edit',
                   route: '/admin/data/layers/{{id}}/edit',
                   params: {
-                    tab: 'layers', subtab: 'edit', id: '{{id}}', dataset,
+                    tab: 'layers', subtab: 'edit', id: '{{id}}', datasetID,
                   },
                   show: true,
                   component: EditAction,

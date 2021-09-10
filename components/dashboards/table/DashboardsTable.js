@@ -96,7 +96,7 @@ class DashboardsTable extends PureComponent {
         'page[number]': pagination.page,
         'page[size]': pagination.limit,
         application: process.env.NEXT_PUBLIC_APPLICATIONS,
-        env: process.env.NEXT_PUBLIC_API_ENV,
+        env: process.env.NEXT_PUBLIC_ENVS_SHOW,
       },
       { Authorization: token },
       true,
@@ -117,6 +117,7 @@ class DashboardsTable extends PureComponent {
             ..._dashboard,
             owner: _dashboard.user ? _dashboard.user.name || (_dashboard.user.email || '').split('@')[0] : '',
             role: _dashboard.user ? _dashboard.user.role || '' : '',
+            disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(_dashboard.env),
           })),
           pagination: nextPagination,
         });

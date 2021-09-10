@@ -84,6 +84,8 @@ class AdminPartnersTable extends PureComponent {
       authorization,
     } = this.props;
     const { pagination } = this.state;
+    const partnersWithDisabledField = partners
+      .map((p) => ({ ...p, disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(p.env) }));
 
     return (
       <div className="c-partners-table">
@@ -132,7 +134,7 @@ class AdminPartnersTable extends PureComponent {
               value: 1,
             }}
             filters={false}
-            data={partners}
+            data={partnersWithDisabledField}
             manualPagination
             onChangePage={this.onChangePage}
             onRowDelete={this.onRowDelete}

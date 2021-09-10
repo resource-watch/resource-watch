@@ -75,11 +75,11 @@ export default function Tools(state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the tools from
  */
-export function getTools() {
+export function getTools(params = {}) {
   return (dispatch) => {
     dispatch({ type: GET_TOOLS_LOADING });
 
-    fetchTools()
+    fetchTools(params)
       .then((data) => {
         dispatch({ type: GET_TOOLS_SUCCESS, payload: data });
       })

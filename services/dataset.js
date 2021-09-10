@@ -16,7 +16,7 @@ import { logger } from 'utils/logs';
  * be included in the response or not.
  */
 export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
-  logger.info('Fetch datasets');
+  logger.info('Fetch datasets', params);
   const newParams = {
     env: process.env.NEXT_PUBLIC_API_ENV,
     application: process.env.NEXT_PUBLIC_APPLICATIONS,

@@ -55,7 +55,7 @@ export default function LayoutHome() {
 
   const {
     data: featuredDashboards,
-  } = useFeaturedDashboards({}, {
+  } = useFeaturedDashboards({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
     select: (_dashboards) => _dashboards.map(({
       name,
       slug,

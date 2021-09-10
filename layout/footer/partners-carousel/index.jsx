@@ -19,7 +19,7 @@ export default function PartnersCarouselContainer({
 }) {
   const {
     data: partners,
-  } = usePublishedPartners({}, {
+  } = usePublishedPartners({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
     select: (_partners) => {
       let partnersList = [];
 

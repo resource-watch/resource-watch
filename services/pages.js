@@ -10,7 +10,7 @@ import { logger } from 'utils/logs';
  * @param {Object} params Request paremeters.
  * @param {Object} headers Request headers.
  */
-export const fetchPages = (token, params = {}, headers = {}) => {
+export const fetchPages = (params = {}, headers = {}) => {
   logger.info('fetches static pages');
   return WRIAPI.get(
     '/v1/static_page',
