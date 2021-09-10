@@ -192,17 +192,15 @@ class Step1 extends PureComponent {
               }
               className="-fluid"
               options={[
-                { label: 'Pre-production', value: 'preproduction' },
+                { label: 'Staging', value: 'staging' },
+                { label: 'Preproduction', value: 'preproduction' },
                 { label: 'Production', value: 'production' },
               ]}
               onChange={(value) => this.props.onChange({ env: value })}
               properties={{
                 name: 'env',
                 label: 'Environment',
-                placeholder: 'Type the columns...',
-                noResultsText: 'Please, type the name of the columns and press enter',
-                promptTextCreator: (label) => `The name of the column is "${label}"`,
-                default: 'preproduction',
+                default: process.env.NEXT_PUBLIC_API_ENV,
                 value: this.props.form.env,
               }}
             >
