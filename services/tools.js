@@ -19,7 +19,6 @@ export const fetchTools = (params = {}, headers = {}) => {
         ...headers,
       },
       params: {
-        published: 'all',
         application: process.env.NEXT_PUBLIC_APPLICATIONS,
         env: process.env.NEXT_PUBLIC_API_ENV,
         ...params,
