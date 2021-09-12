@@ -166,7 +166,7 @@ class PartnersForm extends React.Component {
 
         className={cx({
           'c-form': true,
-          '-disabled': !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(form.env),
+          '-disabled': form.env && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(form.env),
         })}
         onSubmit={this.onSubmit}
         noValidate
