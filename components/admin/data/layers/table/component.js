@@ -149,7 +149,7 @@ class LayersTable extends PureComponent {
     } = this.state;
     const { dataset: datasetID } = this.props;
 
-    const disabled = !dataset || !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
+    const disableNewButton = dataset && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
 
     return (
       <div className="c-layer-table">
@@ -176,7 +176,7 @@ class LayersTable extends PureComponent {
             route: `/admin/data/layers/new?dataset=${datasetID}`,
           }}
           onSearch={this.onSearch}
-          disableButton={disabled}
+          disableButton={disableNewButton}
         />
 
         {!error && (
