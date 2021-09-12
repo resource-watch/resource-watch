@@ -80,7 +80,7 @@ export function getPartners() {
   return (dispatch) => {
     dispatch({ type: GET_PARTNERS_LOADING });
 
-    return fetchPartners({ published: 'all' })
+    return fetchPartners()
       .then((data) => {
         dispatch({ type: GET_PARTNERS_SUCCESS, payload: data });
       })
