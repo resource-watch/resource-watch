@@ -97,7 +97,7 @@ class ToolsTable extends PureComponent {
   }
 
   render() {
-    const { filteredTools, tools } = this.props;
+    const { filteredTools } = this.props;
     const { pagination } = this.state;
 
     const toolsWithDisabledField = filteredTools
