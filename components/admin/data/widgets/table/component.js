@@ -149,7 +149,7 @@ class WidgetsTable extends PureComponent {
     } = this.state;
     const { dataset: datasetID } = this.props;
 
-    const disabled = !dataset || !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
+    const disableNewButton = dataset && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
 
     return (
       <div className="c-widgets-table">
@@ -173,7 +173,7 @@ class WidgetsTable extends PureComponent {
             route: `/admin/data/widgets/new?dataset=${datasetID}`,
           }}
           onSearch={this.onSearch}
-          disableButton={disabled}
+          disableButton={disableNewButton}
         />
 
         {!error && (

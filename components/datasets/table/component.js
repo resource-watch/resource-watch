@@ -118,6 +118,7 @@ class DatasetsTable extends PureComponent {
             ..._dataset,
             owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
             role: _dataset.user ? _dataset.user.role : '',
+            disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(_dataset.env),
           })),
         });
       })
