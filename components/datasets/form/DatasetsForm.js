@@ -250,7 +250,7 @@ class DatasetsForm extends PureComponent {
       dataDataset,
     } = this.state;
     const { dataset, basic, authorization } = this.props;
-    const disabled = !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
+    const disabled = dataset && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
 
     return (
       <form className="c-form c-datasets-form" onSubmit={this.onSubmit} noValidate>
