@@ -4,6 +4,12 @@ import {
 
 export const isMapWidget = (widgetConfig = {}) => 'type' in widgetConfig && widgetConfig.type === 'map';
 
+export const isMapSwipeWidget = (widgetConfig = {}) => (
+  isMapWidget(widgetConfig)
+  && 'layersLeft' in (widgetConfig.paramsConfig || {})
+  && 'layersRight' in (widgetConfig.paramsConfig || {})
+);
+
 // Some widgets have not been created with the widget editor
 // so the paramsConfig attribute doesn't exist
 export const isEmbedWidget = (widgetConfig = {}) => !!(widgetConfig
@@ -55,3 +61,19 @@ export const getParametrizedWidget = (widget = {}, params = {}) => ({
     }),
   },
 });
+
+export const getWidgetType = (widget) => {
+  if (!widget) throw new Error('getWidgetType: widget not found');
+
+  const {
+    widgetConfig,
+  } = widget;
+
+  if (isMapSwipeWidget(widgetConfig)) return 'map-swipe';
+
+  if (isMapWidget(widgetConfig)) return 'map';
+
+  if (isEmbedWidget(widgetConfig)) return 'embed';
+
+  return 'widget';
+};

@@ -1,7 +1,18 @@
+import {
+  getWidgetType,
+} from 'utils/widget';
+
 // these list are used to populate the query params of the embed URLS according to the widget type
 const ALLOWED_QUERY_PARAMS_MAP_WIDGETS = [
   'aoi',
   'type',
+];
+
+const ALLOWED_QUERY_PARAMS_MAPS_SWIPE_WIDGETS = [
+  'aoi',
+  'type',
+  'geostore_env',
+  'geostore_id',
 ];
 
 const ALLOWED_QUERY_PARAMS_CHART_WIDGETS = [
@@ -18,15 +29,17 @@ export const isLoadedExternally = () => {
 export const getLinksByWidgetType = (widget = {}, params = {}) => {
   const {
     id,
-    widgetConfig,
   } = widget;
-  const {
-    type,
-  } = widgetConfig || {};
+
+  const widgetType = getWidgetType(widget);
 
   let queryParamsFilter = ALLOWED_QUERY_PARAMS_CHART_WIDGETS;
 
-  if (type === 'map') queryParamsFilter = ALLOWED_QUERY_PARAMS_MAP_WIDGETS;
+  if (widgetType === 'map-swipe') {
+    queryParamsFilter = ALLOWED_QUERY_PARAMS_MAPS_SWIPE_WIDGETS;
+  }
+
+  if (widgetType === 'map') queryParamsFilter = ALLOWED_QUERY_PARAMS_MAP_WIDGETS;
 
   const validParams = Object.keys(params)
     .filter((paramKey) => queryParamsFilter.includes(paramKey))
@@ -38,7 +51,7 @@ export const getLinksByWidgetType = (widget = {}, params = {}) => {
   const queryParams = new URLSearchParams(validParams);
 
   return ({
-    link: `${window.location.origin}/embed/${(type || 'widget')}/${id}${queryParams.toString().length ? `?${queryParams.toString()}` : ''}`,
-    embed: `${window.location.origin}/embed/${(type || 'widget')}/${id}${queryParams.toString().length ? `?${queryParams.toString()}` : ''}`,
+    link: `${window.location.origin}/embed/${widgetType}/${id}${queryParams.toString().length ? `?${queryParams.toString()}` : ''}`,
+    embed: `${window.location.origin}/embed/${widgetType}/${id}${queryParams.toString().length ? `?${queryParams.toString()}` : ''}`,
   });
 };
