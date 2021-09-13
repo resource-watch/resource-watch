@@ -19,7 +19,7 @@ import './styles.scss';
 
 const miniExploreWidgetReducer = miniExploreWidgetSlice.reducer;
 const {
-  setGeostore,
+  setGeostoreBasin,
 } = miniExploreWidgetSlice.actions;
 let clickState = null;
 export default function MiniExploreWidgets({
@@ -69,7 +69,7 @@ export default function MiniExploreWidgets({
       },
     );
 
-    return dispatch(setGeostore(properties.geostore_prod));
+    return dispatch(setGeostoreBasin(properties.geostore_prod));
   }, []);
 
   return (
@@ -92,7 +92,7 @@ export default function MiniExploreWidgets({
           widgetIds={widgets}
           params={{
             ...params,
-            ...state.geostore && { geostore_id: state.geostore },
+            geostore_id: state.geostoreBasin,
           }}
         />
       </div>
