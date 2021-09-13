@@ -71,9 +71,9 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_RW_ENV | Used to set some scripts/functionalities in the app (like Google Analytics, CrazyEgg, Hotjar, ...). Must be `development`,`production` or `test` |  |
 | NEXT_PUBLIC_AUTH_CALLBACK | Sets the callback URL triggered when a user attempts to log in with third party services. | `http://localhost:$PORT/auth-callback` |
 | NEXT_PUBLIC_APPLICATIONS | Sets the context of the data. You can find more info about it in the [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#applications). |  |
-| NEXT_PUBLIC_API_ENV | Sets the environment of the application and the environment used to create/modify resources. It can be `development`,`preproduction` or `production`. For more info about environments see [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#environments). | `production` |
-| NEXT_PUBLIC_ENVS_SHOW | Sets the environment of the data brought by the WRI API. Multiple values are allowed. | `staging,preproduction,production` |
-| NEXT_PUBLIC_ENVS_EDIT | Sets the environment of the data allowed to modify in the application. Multiple values are allowed. | `staging,preproduction,production` |
+| NEXT_PUBLIC_API_ENV | Sets the environment of the application and the default environment used to create/modify resources. It can be `staging`,`preproduction` or `production`. For more info about environments see [WRI API documentation](https://resource-watch.github.io/doc-api/concepts.html#environments). | `production` |
+| NEXT_PUBLIC_ENVS_SHOW | Sets the environment value(s) used when fetching data from the WRI API. Multiple values are allowed. | `staging,preproduction,production` |
+| NEXT_PUBLIC_ENVS_EDIT | Sets the environment value(s) that data should have in order to be modifiable in the application. Multiple values are allowed. | `staging,preproduction,production` |
 | NEXT_PUBLIC_WRI_API_URL | URL of the WRI API |  | In most cases you'll want to use https://api.resourcewatch.org for this value. When testing, be sure to mock all your HTTP requests, and avoid relying on actual calls to external services (like this one). |
 | NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER | API Key used for google maps library |  |  |
 | NEXT_PUBLIC_GOOGLE_ANALYTICS | Google Analytics tracker ID |  |  |
@@ -210,18 +210,18 @@ Resource Watch uses [**Redux**](http://redux.js.org/) along to [**next-redux-wra
 To interact with React components, Resource Watch uses [**react-redux**](https://react-redux.js.org/). While the existing `connect` API is still around, it is recommended to move to [hooks](https://react-redux.js.org/api/hooks).
 
 # Data environments
-Resource Watch handles data based on the environment the application and [data environments](https://resource-watch.github.io/doc-api/concepts.html#environments) provided by WRI API. As of date, there are three application environments: 
-- `staging`: environment to test new features. Staging allows the user to see _all_ data but it only allows to modify data whose `env` attribute is set to `staging`. Any other data will be visible but the user will not be able to interact with it. Any resource created in staging will be set with `staging` environment by default unless it is promoted to other data environments.
-- `preproduction`: environment to preview production data. Preproduction allows the user to see _all_ data and interact with it. Any resource created in preproduction will be set with `preproduction` environment by default unless it is promoted/demoted to other data environments.
-- `production`: production site, visible to the general public. Environment where production data lives. It has the same features as preproduction in terms of handling data with the only difference the data created here will be set to `production` by default.
+Resource Watch handles data based on the application environment and the [data environments](https://resource-watch.github.io/doc-api/concepts.html#environments) provided by WRI API. As of date, there are three application environments: 
+- `staging`: environment to test new features. Staging allows the user to see _all_ data but it only allows to modify data whose `env` attribute is set to `staging`. Data with env values `staging` or `production` will be visible but users will not be able to modify those objects that have a `env: production` value. Any resource created in staging will be set with `staging` environment by default unless it is promoted to other data environments.
+- `preproduction`: environment to preview production data. Preproduction allows the user to see `env: preproduction` and `env: production` data but only data with `env: preproduction` can be modified. Any resource created in preproduction will be set to `env: preproduction` by default unless it is promoted/demoted to other data environments.
+- `production`: production site, visible to the general public. Only data with `env: production` will be shown and modifiable here. Also, data created here will be set to `env: production` by default.
 
-Any environment can promote/demote data with some limitations, e.g. an user can create a resource in the staging site and promote its environment to production. After this, the user will not be able to modify that resource in the staging site as it is off limits: any modification will have to be done in upper environments such preproduction or production where the user can handle any data environment.
+Any environment can promote/demote data with some limitations, e.g. an user can create a resource in the `staging` site and promote its environment to production. After this, the user will not be able to modify that resource in the staging site as it is off limits: any modification will have to be done in upper environments such as `preproduction` or `production`.
 
 | Application environment  |   What data I can see |   What data I can modify | Data env by default for new resources   |
 | ----------------------- | ------------------ | --------------: | --------: |
-| [staging](https://staging.resourcewatch.org/) | `staging,preproduction,production` | `staging` | `staging` |
-| [preproduction](https://preproduction.resourcewatch.org/) | `staging,preproduction,production` | `staging,preproduction,production` | `preproduction` |
-| [production](https://resourcewatch.org/) | `staging,preproduction,production` | `staging,preproduction,production` | `production` |
+| [staging](https://staging.resourcewatch.org/) | `staging,production` | `staging` | `staging` |
+| [preproduction](https://preproduction.resourcewatch.org/) | `preproduction,production` | `preproduction` | `preproduction` |
+| [production](https://resourcewatch.org/) | `production` | `production` | `production` |
 
 The application uses three environmental variables to handle these operations: `NEXT_PUBLIC_API_ENV`, `NEXT_PUBLIC_ENVS_SHOW` and `NEXT_PUBLIC_ENVS_EDIT`. For more information about them refer to [_Environment variables_](https://github.com/resource-watch/resource-watch#environment-variables) section.
 
