@@ -1535,7 +1535,7 @@
                   "indicators": [
                     {
                       "id": "land-sea-interface",
-                      "title": "The Land/Sea Interface",
+                      "title": "Land-Based Pollution",
                       "icon": "land-sea",
                       "widgets": [
                         {
@@ -1552,7 +1552,7 @@
                     },
                     {
                       "id": "oceans-climate",
-                      "title": "Oceans and Climate",
+                      "title": "Ocean and Climate Change",
                       "icon": "climate",
                       "widgets": [
                         {
@@ -1568,7 +1568,7 @@
                     },
                     {
                       "id": "biodiversity",
-                      "title": "Biodiversity",
+                      "title": "Ocean Biodiversity",
                       "icon": "biodiversity",
                       "widgets": [
                         {
@@ -1600,7 +1600,7 @@
                     },
                     {
                       "id": "ocean-dependence",
-                      "title": "Ocean Dependence",
+                      "title": "Dependence on the Ocean",
                       "icon": "dependence",
                       "widgets": [
                         {
@@ -1616,7 +1616,7 @@
                     },
                     {
                       "id": "blue-economy",
-                      "title": "The Blue Economy",
+                      "title": "Blue Economy",
                       "icon": "economy",
                       "sections": [
                         {
@@ -1711,7 +1711,7 @@
             [
               {
                 "grid": "50%",
-                "text": "Lorem"
+                "text": "Poor wastewater management and the overuse of fertilizers and pesticides can introduce harmful pollutants into ocean ecosystems."
               }
             ],
             [
@@ -1751,7 +1751,7 @@
               },
               {
                 "grid": "50%",
-                "text": "Soil erosion from degraded and converted land near rivers and streams can flow into the ocean, creating clouds of sediment that limit ocean photosynthesis."
+                "text": "When soil erosion from deforested and degraded land enters rivers and streams, it can flow into the ocean and create clouds of sediment that limit ocean photosynthesis."
               }
             ],
             [
@@ -1903,7 +1903,7 @@
               },
               {
                 "grid": "50%",
-                "text": "Explore and combine maps to understand the relationships between ecosystems. Overlay the maps to view where ecosystem pressures and uses overlap and discover management priorities."
+                "text": "The ocean's ecosystems are deeply interconnected. Overlay the maps to discover management priorities and to better understand where ecosystem pressures and uses overlap."
               }
             ],
             [
@@ -2004,7 +2004,7 @@
               },
               {
                 "grid": "50%",
-                "text": "The ocean and coast are valuable sources of food and employment for millions of people. Their wellbeing is dependent on the health of the ocean."
+                "text": "Millions of people and their livelihoods depend on the ocean and its coasts for valuable sources of food and employment."
               }
             ],
             [
@@ -2131,7 +2131,7 @@
             [
               {
                 "grid": "100%",
-                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
+                "text": "Coral reefs protect the shoreline from tropical storms and are a foundation for tourism, in turn providing coastal and inland communities with food and economic security."
               }
             ],
             [
@@ -2151,7 +2151,7 @@
             [
               {
                 "grid": "100%",
-                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
+                "text": "Coral reefs and mangroves are essential aspects of strong food security in many countries. Both ecosystems support healthy fisheries by providing a habitat and nursery for juvenile fish."
               }
             ],
             [
@@ -2171,7 +2171,7 @@
             [
               {
                 "grid": "100%",
-                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
+                "text": "Mangroves are five times more effective than land forests at storing carbon. These carbon storage powerhouses are crucial to climate adaptation and mitigation, but poor management and further mangrove degradation could release thousands of years worth of stored carbon dioxide."
               }
             ],
             [
