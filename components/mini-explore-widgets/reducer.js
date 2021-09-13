@@ -3,15 +3,15 @@ import {
 } from '@reduxjs/toolkit';
 
 export const miniExploreWidgetState = {
-  geostore: null,
+  geostoreBasin: null,
 };
 
 export const miniExploreWidgetSlice = createSlice({
   name: 'mini-explore-widget',
   reducers: {
-    setGeostore: (state, { payload }) => ({
+    setGeostoreBasin: (state, { payload }) => ({
       ...state,
-      geostore: payload,
+      geostoreBasin: payload,
     }),
   },
   initialState: miniExploreWidgetState,
