@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch: custom anchor titles. [OW-146](https://vizzuality.atlassian.net/browse/OW-146)
 - embeds: map-swipe widgets. [OW-121](https://vizzuality.atlassian.net/browse/OW-121)
 - Ocean watch country page: text blocks. [OW-123](https://vizzuality.atlassian.net/browse/OW-123)
 - Ocean Watch storytelling: worldwide geostore.

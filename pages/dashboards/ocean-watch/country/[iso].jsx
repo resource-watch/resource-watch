@@ -154,7 +154,7 @@ export default function OceanWatchCountryProfilePage({
   const dashboardTabs = useMemo(() => flattenDeep(oceanWatchConfig['country-profile'] || [])
     .filter(({ anchor }) => Boolean(anchor))
     .map(({
-      title: label,
+      anchorTitle: label,
       anchor: value,
     }) => ({
       label,
@@ -475,7 +475,6 @@ export default function OceanWatchCountryProfilePage({
                               )}
                             </InView>
                             )}
-
                           </div>
                         </div>
                       ))}
