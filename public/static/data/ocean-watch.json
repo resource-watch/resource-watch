@@ -157,6 +157,10 @@
           },
           "info": [
             {
+              "content": "Lorem ipsum",
+              "position": [50, 50]
+            },
+            {
               "content": "In the ocean, biodiversity underpins marine ecosystem functioning, which provides valuable services for people, including food, protection from storm surges and rising sea levels, and carbon sequestration",
               "position": [65, 65]
             }
@@ -1140,7 +1144,7 @@
             },
             {
               "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
-              "position": [50, 25
+              "position": [50, 25]
             }
           ]
         },
@@ -1227,6 +1231,10 @@
           },
           "info": [
             {
+              "content": "Lorem ipsum",
+              "position": [50, 50]
+            },
+            {
               "content": "In the ocean, biodiversity underpins marine ecosystem functioning, which provides valuable services for people, including food, protection from storm surges and rising sea levels, and carbon sequestration",
               "position": [65, 65]
             }
@@ -1289,7 +1297,7 @@
             {
               "content": "Three billion people depend on resources from marine and coastal ecosystems as a source of protein and key nutrients. When ocean environments are put under stress, it puts coastal communities at risk of food insecurity",
               "position": [50, 50]
-            },
+            }
           ]
         },
         {
