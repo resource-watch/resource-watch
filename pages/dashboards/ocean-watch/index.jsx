@@ -84,10 +84,12 @@ export default function OceanWatchIntroPage({
         />
       </div>
 
-      <div style={{
-        background: '#0F4573',
-        margin: '-85px 0 0',
-      }}
+      <div
+        style={{
+          background: '#0F4573',
+          margin: '-85px 0 0',
+        }}
+        id="intro-content"
       >
         <OceanWatchStoryTelling
           indicators={oceanWatchConfig.intro.indicators}
