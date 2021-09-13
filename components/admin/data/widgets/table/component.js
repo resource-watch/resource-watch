@@ -12,6 +12,7 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 import TableFilters from 'components/admin/table-filters';
+import { USER_TYPES } from 'components/admin/table-filters/constants';
 
 // TDs
 import TitleTD from './td/title';
@@ -48,7 +49,8 @@ class WidgetsTable extends PureComponent {
     this.setState({
       filters: {
         name: filters.name,
-        'user.role': value.value,
+        ...(value.value === USER_TYPES.ADMIN && { 'user.role': value.value }),
+        ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
     () => this.loadWidgets());

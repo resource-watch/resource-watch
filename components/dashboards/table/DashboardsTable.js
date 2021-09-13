@@ -14,6 +14,7 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 import TableFilters from 'components/admin/table-filters';
+import { USER_TYPES } from 'components/admin/table-filters/constants';
 
 // constants
 import { INITIAL_PAGINATION } from './constants';
@@ -44,10 +45,12 @@ class DashboardsTable extends PureComponent {
   }
 
   onFiltersChange = (value) => {
+    const { filters } = this.state;
     this.setState({
       filters: {
-        ...this.state.filters,
-        'user.role': value.value,
+        ...filters,
+        ...(value.value === USER_TYPES.ADMIN && { 'user.role': value.value }),
+        ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
     () => this.loadDashboards());

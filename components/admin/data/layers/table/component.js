@@ -26,6 +26,7 @@ import GoToDatasetAction from './actions/go-to-dataset';
 
 // constants
 import { INITIAL_PAGINATION } from './constants';
+import { USER_TYPES } from 'components/admin/table-filters/constants';
 
 class LayersTable extends PureComponent {
   state = {
@@ -45,10 +46,12 @@ class LayersTable extends PureComponent {
   }
 
   onFiltersChange = (value) => {
+    const { filters } = this.state;
     this.setState({
       filters: {
-        ...this.state.filters,
-        'user.role': value.value,
+        ...filters,
+        ...(value.value === USER_TYPES.ADMIN && { 'user.role': value.value }),
+        ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
     () => this.loadLayers());
