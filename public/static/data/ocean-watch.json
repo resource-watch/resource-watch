@@ -801,6 +801,7 @@
                   "datasetGroups": [
                     {
                       "title": "Ecosystems",
+                      "slug": "ecosystems",
                       "datasets": [
                         "f31dece0-9256-428a-84de-3a59f5c06bb7",
                         "1d23838e-40da-4cf3-b61c-56258d3a5c56",
@@ -813,6 +814,7 @@
                     },
                     {
                       "title": "Climate pressures",
+                      "slug": "climate-pressures",
                       "datasets": [
                         "24ffab8a-588d-4fb8-92de-8bc54abf7da6",
                         "d64ec5d7-d186-41fa-b5b7-d1f246ff6d77",
@@ -828,6 +830,7 @@
                     },
                     {
                       "title": "Land-sea pressures",
+                      "slug": "land-sea-pressures",
                       "datasets": [
                         "6ad0f556-20fd-4ddf-a5cc-bf93c003a463",
                         "d6e42176-90c4-429d-8cae-7619c545a458",
@@ -844,6 +847,7 @@
                     },
                     {
                       "title": "Productivity",
+                      "slug": "productivity",
                       "datasets": [
                         "d4e91298-b994-4e2c-947c-4f6486a66f30",
                         "11f16cb9-def0-4bd5-a60e-50c542b837e3",
@@ -855,6 +859,7 @@
                     },
                     {
                       "title": "Infrastructure and maritime",
+                      "slug": "infrastructure-and-maritime",
                       "datasets": [
                         "28d1f505-571c-4a52-8215-48ea02aa4928"
                       ],
@@ -864,6 +869,7 @@
                     },
                     {
                       "title": "Response",
+                      "slug": "response",
                       "datasets": [
                         "2442891a-157a-40e6-9092-ee596e6d30ba"
                       ],
@@ -1122,7 +1128,7 @@
           "indicator": "land-sea-interface",
           "content": {
             "title": "Land-Based Pollution",
-            "subtitle": "Addressing threats to the ocean often begin on land",
+            "subtitle": "Addressing threats to the ocean often begin on land 22",
             "intro": "The land and the ocean are strongly connected by a series of human and natural processes, fueling ocean life cycles. Human activities on land have introduced higher levels of sediment and toxic chemicals into the ocean, threatening the health of the coast, ocean resources and billions of people"
           }
         },
@@ -1771,6 +1777,7 @@
                   "datasetGroups": [
                     {
                       "title": "Ecosystems",
+                      "slug": "ecosystems",
                       "datasets": [
                         "f31dece0-9256-428a-84de-3a59f5c06bb7",
                         "1d23838e-40da-4cf3-b61c-56258d3a5c56",
@@ -1783,6 +1790,7 @@
                     },
                     {
                       "title": "Climate pressures",
+                      "slug": "climate-pressures",
                       "datasets": [
                         "24ffab8a-588d-4fb8-92de-8bc54abf7da6",
                         "d64ec5d7-d186-41fa-b5b7-d1f246ff6d77",
@@ -1798,6 +1806,7 @@
                     },
                     {
                       "title": "Land-sea pressures",
+                      "slug": "land-sea-pressures",
                       "datasets": [
                         "6ad0f556-20fd-4ddf-a5cc-bf93c003a463",
                         "d6e42176-90c4-429d-8cae-7619c545a458",
@@ -1814,6 +1823,7 @@
                     },
                     {
                       "title": "Productivity",
+                      "slug": "productivity",
                       "datasets": [
                         "d4e91298-b994-4e2c-947c-4f6486a66f30",
                         "11f16cb9-def0-4bd5-a60e-50c542b837e3",
@@ -1825,6 +1835,7 @@
                     },
                     {
                       "title": "Infrastructure and maritime",
+                      "slug": "infrastructure-and-maritime",
                       "datasets": [
                         "28d1f505-571c-4a52-8215-48ea02aa4928"
                       ],
@@ -1834,6 +1845,7 @@
                     },
                     {
                       "title": "Response",
+                      "slug": "response",
                       "datasets": [
                         "2442891a-157a-40e6-9092-ee596e6d30ba"
                       ],
