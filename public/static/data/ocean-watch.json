@@ -459,8 +459,9 @@
       ],
       [
         {
-          "title": "Catchment Areas and Land Cover",
-          "anchor": "catchment-areas-and-land-cover",
+          "title": "How is land based pollution generated?",
+          "anchor": "how-is-land-based-pollution-generated",
+          "anchorTitle": "Land-Based Pollution",
           "content": [
             [
               {
@@ -493,7 +494,7 @@
             [
               {
                 "grid": "100%",
-                "title": "Catchment Areas and Land Cover"
+                "title": "How is land based pollution generated?"
               },
               {
                 "grid": "50%",
@@ -607,8 +608,9 @@
       ],
       [
         {
-          "title": "River Water Quality Modified Section Header",
-          "anchor": "river-water-quality",
+          "title": "How do pollutants travel to the ocean?",
+          "anchor": "how-do-pollutants-travel-to-the-ocean",
+          "anchorTitle": "Movement of Ocean Pollutants",
           "content": [
             [
               {
@@ -779,13 +781,14 @@
       ],
       [
         {
-          "title": "Ecosystems and Pressures",
-          "anchor": "ecosystems-and-pressures",
+          "title": "How does pollution damage coastal ecosystems?",
+          "anchor": "how-does-pollution-damage-coastal-ecosystems",
+          "anchorTitle": "Effects of Coastal Pollution",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Ecosystems and Pressures"
+                "title": "How does pollution damage coastal ecosystems?"
               },
               {
                 "grid": "50%",
@@ -886,13 +889,14 @@
       ],
       [
         {
-          "title": "Value of goods and services",
-          "anchor": "value-of-goods-and-services",
+          "title": "Why is the ocean so valuable?",
+          "anchor": "why-is-the-ocean-so-valuable",
+          "anchorTitle": "Value of Coastal Ecosystems",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Value of goods and services"
+                "title": "Why is the ocean so valuable?"
               },
               {
                 "grid": "50%",
@@ -1535,13 +1539,14 @@
       ],
       [
         {
-          "title": "Catchment Areas and Land Cover",
-          "anchor": "catchment-areas-and-land-cover",
+          "title": "How is land based pollution generated?",
+          "anchor": "how-is-land-based-pollution-generated",
+          "anchorTitle": "Land-Based Pollution",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Catchment Areas and Land Cover"
+                "title": "How is land based pollution generated?"
               },
               {
                 "grid": "50%",
@@ -1603,13 +1608,14 @@
       ],
       [
         {
-          "title": "River Water Quality",
-          "anchor": "river-water-quality",
+          "title": "How do pollutants travel to the ocean?",
+          "anchor": "how-do-pollutants-travel-to-the-ocean",
+          "anchorTitle": "Movement of Ocean Pollutants",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "River Water Quality"
+                "title": "How do pollutants travel to the ocean?"
               },
               {
                 "grid": "50%",
@@ -1755,13 +1761,14 @@
       ],
       [
         {
-          "title": "Ecosystems and Pressures",
-          "anchor": "ecosystems-and-pressures",
+          "title": "How does pollution damage coastal ecosystems?",
+          "anchor": "how-does-pollution-damage-coastal-ecosystems",
+          "anchorTitle": "Effects of Coastal Pollution",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Ecosystems and Pressures"
+                "title": "How does pollution damage coastal ecosystems?"
               },
               {
                 "grid": "50%",
@@ -1862,13 +1869,14 @@
       ],
       [
         {
-          "title": "Value of goods and services",
-          "anchor": "value-of-goods-and-services",
+          "title": "Why is the ocean so valuable?",
+          "anchor": "why-is-the-ocean-so-valuable",
+          "anchorTitle": "Value of Coastal Ecosystems",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Value of goods and services"
+                "title": "Why is the ocean so valuable?"
               },
               {
                 "grid": "50%",
