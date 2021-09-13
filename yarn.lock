@@ -14936,10 +14936,10 @@ react-progress-2@4.4.1:
   resolved "https://registry.yarnpkg.com/react-progress-2/-/react-progress-2-4.4.1.tgz#468f701b7a18c9030f3db594271c0093aaa7a986"
   integrity sha1-Ro9wG3oYyQMPPbWUJxwAk6qnqYY=
 
-react-query@^3.13.6:
-  version "3.19.2"
-  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.19.2.tgz#8ab70c9328835604d05919e3878fcce555603c0e"
-  integrity sha512-YYQ+jZ4DaabnDWEbKCIvkouLWif2iPFgBIeKLPkUmhXM4cz+Kscb5Q7mz+U57Ip17tarhFiNwX86gWXM69ouQQ==
+react-query@^3.23.2:
+  version "3.23.2"
+  resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.23.2.tgz#1f95a5af7d0797370bbeb916d54fbb516bf9f1c5"
+  integrity sha512-RFnJh1ZKj4DImWR8SijHnUunYk9WC7aoHuSqxdg7kV9IBq4IIUVbFwix5sYFk0CfUZTh2F4m2KZMlguweLzj+w==
   dependencies:
     "@babel/runtime" "^7.5.5"
     broadcast-channel "^3.4.1"
