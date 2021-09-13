@@ -372,15 +372,31 @@ export default function OceanWatchCountryProfilePage({
                               </InView>
                             )}
                             {(blockElement.widget && blockElement.type === 'map-swipe') && (
-                              <SwipeMapWidget
-                                widgetId={blockElement.widget}
-                                params={{
-                                  geostore_env: 'geostore_prod',
-                                  ...area?.geostore && { geostore_id: area.geostore },
-                                }}
-                                {...area?.geostore && { areaOfInterest: area.geostore }}
-                                onToggleShare={handleShareWidget}
-                              />
+                              <InView
+                                triggerOnce
+                                threshold={0.25}
+                              >
+                                {({ ref, inView }) => (
+                                  <div
+                                    ref={ref}
+                                    style={{
+                                      height: '100%',
+                                    }}
+                                  >
+                                    {inView && (
+                                      <SwipeMapWidget
+                                        widgetId={blockElement.widget}
+                                        params={{
+                                          geostore_env: 'geostore_prod',
+                                          ...area?.geostore && { geostore_id: area.geostore },
+                                        }}
+                                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                                        onToggleShare={handleShareWidget}
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             )}
 
                             {(blockElement.widget && blockElement.type === 'chart') && (

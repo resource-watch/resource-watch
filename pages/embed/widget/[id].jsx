@@ -18,10 +18,10 @@ export const getServerSideProps = async ({ query }) => {
   // the webshot endpoint in the WRI API works with this page to render different
   // types of widgets so we redirect from here, according to the widget type to
   // render the widget and take the snapshot
-  if (type === 'map') {
+  if (['map', 'map-swipe'].includes(type)) {
     return {
       redirect: {
-        destination: `/embed/map/${widgetId}${queryParams ? `?${queryParams.toString()}` : ''}`,
+        destination: `/embed/${type}/${widgetId}${queryParams ? `?${queryParams.toString()}` : ''}`,
         permanent: false,
       },
     };
