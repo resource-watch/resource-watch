@@ -105,8 +105,8 @@
                 "unit": "%"
               },
               {
-                "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
-                "type": "map"
+                "id": "432ba622-36b9-4178-8a91-6a59446e7347",
+                "type": "chart"
               }
             ]
           }
@@ -342,7 +342,7 @@
                       "icon": "climate",
                       "widgets": [
                         {
-                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                          "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
@@ -1189,8 +1189,8 @@
                 "unit": "%"
               },
               {
-                "id": "",
-                "type": "map"
+                "id": "432ba622-36b9-4178-8a91-6a59446e7347",
+                "type": "chart"
               }
             ]
           }
@@ -1422,7 +1422,7 @@
                       "icon": "climate",
                       "widgets": [
                         {
-                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                          "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
