@@ -155,7 +155,7 @@ class MetadataForm extends React.Component {
       <div
         className={cx({
           'c-widget-metadata-form': true,
-          '-disabled': !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(env),
+          '-disabled': process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === env) < 0,
         })}
       >
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
