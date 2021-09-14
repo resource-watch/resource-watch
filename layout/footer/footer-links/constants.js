@@ -62,7 +62,7 @@ export const FOOTER_LINKS = [
       },
       {
         label: 'Attribution requirements',
-        href: '/api-attribution-requirements',
+        href: '/attribution-requirements',
       },
     ],
   },
