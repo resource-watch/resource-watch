@@ -29,6 +29,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
 import Header from 'layout/header';
 import OceanWatchHero from 'layout/layout/ocean-watch/hero';
+import OceanWatchPartners from 'layout/layout/ocean-watch/partners';
 import InView from 'components/in-view';
 import MiniExplore from 'components/mini-explore';
 import MiniExploreWidgets from 'components/mini-explore-widgets';
@@ -485,7 +486,7 @@ export default function OceanWatchCountryProfilePage({
             </div>
           ))}
         </div>
-        <section className="l-section">
+        <section className="l-section -medium">
           <div className="row">
             <div className="column small-12">
               <Banner
@@ -603,6 +604,15 @@ export default function OceanWatchCountryProfilePage({
                   </a>
                 </Link>
               </Banner>
+            </div>
+          </div>
+        </section>
+        <section className="l-section -medium">
+          <div className="l-container">
+            <div className="row">
+              <div className="column small-12">
+                <OceanWatchPartners />
+              </div>
             </div>
           </div>
         </section>
