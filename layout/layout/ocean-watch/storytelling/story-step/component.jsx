@@ -10,6 +10,9 @@ import {
   useSelector,
 } from 'react-redux';
 import { format } from 'd3-format';
+import {
+  replace,
+} from '@vizzuality/layer-manager-utils';
 
 // hooks
 import {
@@ -83,6 +86,7 @@ function renderWidget({
 export default function StoryStep({
   data,
   geostore,
+  params,
 }) {
   const {
     content,
@@ -125,10 +129,10 @@ export default function StoryStep({
     if (currentSection === null) return null;
     const hasQuery = currentSection.widget.find(({ query }) => query);
 
-    if (hasQuery) return hasQuery.query;
+    if (hasQuery) return replace(hasQuery.query, params);
 
     return null;
-  }, [currentSection]);
+  }, [currentSection, params]);
 
   const widgetSection = useMemo(() => {
     if (currentSection === null) return null;
@@ -146,13 +150,14 @@ export default function StoryStep({
     querySection,
     {},
     {
+      enabled: Boolean(querySection),
       placeholderData: null,
       select: (_data) => {
         const {
           format: valueFormat,
         } = currentSection.widget.find(({ format: _format }) => _format) || {};
 
-        return valueFormat ? format(valueFormat)(_data?.rows?.[0]?.x) : _data?.rows?.[0]?.x;
+        return valueFormat ? format(valueFormat)(_data?.rows?.[0]?.value) : _data?.rows?.[0]?.value;
       },
     },
   );
@@ -410,6 +415,7 @@ export default function StoryStep({
 
 StoryStep.defaultProps = {
   geostore: null,
+  params: {},
 };
 
 StoryStep.propTypes = {
@@ -432,5 +438,6 @@ StoryStep.propTypes = {
       ),
     }),
   }).isRequired,
+  params: PropTypes.shape({}),
   geostore: PropTypes.string,
 };
