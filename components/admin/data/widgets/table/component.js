@@ -53,7 +53,7 @@ class WidgetsTable extends PureComponent {
         ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
-    () => this.loadWidgets());
+      () => this.loadWidgets());
   }
 
   /**
@@ -134,7 +134,7 @@ class WidgetsTable extends PureComponent {
             ..._widget,
             owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
             role: _widget.user ? _widget.user.role || '' : '',
-            disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(_widget.env),
+            disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === _widget.env) < 0,
           })),
         });
       })

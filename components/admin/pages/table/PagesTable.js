@@ -99,7 +99,9 @@ class PagesTable extends PureComponent {
     const { pagination } = this.state;
 
     const pagesWithDisabled = filteredPages.map((p) => (
-      { ...p, disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(p.env) }));
+      {
+        ...p, disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === p.env) < 0,
+      }));
 
     return (
       <div className="c-pages-table">
