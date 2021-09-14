@@ -22,14 +22,17 @@ export default function OceanWatchStoryTelling({
 }) {
   const [tooltipVisibility, setTooltipVisibility] = useState({});
   const [selectedIndicator, setSelectedIndicator] = useState('opening');
-  const [showSkip, setShowSkip] = useState(true);
+  const [showSkip, setShowSkip] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   const onStepEnter = ({ data, direction }) => {
     setShowBackToTop(true);
+    // displays button at the beginning of the first step
+    if (direction === 'down' && data.id === 'opening') setShowSkip(true);
     // hides button at the end of the last step
     if (data.id === steps[steps.length - 1].id && direction === 'down') setShowSkip(false);
     if (direction === 'up') setShowSkip(true);
+    if (direction === 'up' && data.id === 'opening') setShowSkip(false);
 
     setSelectedIndicator(data.indicator);
     setTooltipVisibility({});
@@ -68,6 +71,7 @@ export default function OceanWatchStoryTelling({
     });
 
     setShowBackToTop(false);
+    setShowSkip(false);
   }, []);
 
   const handleClickTooltip = useCallback((id) => {
@@ -83,7 +87,8 @@ export default function OceanWatchStoryTelling({
   useEffect(() => {
     const onScroll = () => {
       window.requestAnimationFrame(() => {
-        if (!window.scrollY) setShowBackToTop(false);
+        const floatingBarLimit = document.getElementById('intro-content').getBoundingClientRect().height - document.getElementById('countries-selection').getBoundingClientRect().height;
+        if (window.scrollY > floatingBarLimit) setShowSkip(false);
       });
     };
 
@@ -240,7 +245,7 @@ export default function OceanWatchStoryTelling({
         className="storytelling-floating-bar"
         style={{
           ...!showSkip && {
-            transform: 'translate(0, 100%)',
+            transform: 'translate(0, 120%)',
           },
         }}
       >

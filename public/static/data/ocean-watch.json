@@ -62,7 +62,7 @@
           "info": [
             {
               "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
-              "position": [35, 45]
+              "position": [25, 28]
             },
             {
               "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
@@ -70,7 +70,7 @@
             },
             {
               "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
-              "position": [50, 30]
+              "position": [50, 25]
             }
           ]
         },
@@ -86,7 +86,7 @@
                 "unit": "%"
               },
               {
-                "id": "b9192492-20f3-4725-8e90-8795f2176329",
+                "id": "34611389-153b-4f24-a687-418e073dd6e0",
                 "type": "chart"
               }
             ]
@@ -105,8 +105,8 @@
                 "unit": "%"
               },
               {
-                "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
-                "type": "map"
+                "id": "432ba622-36b9-4178-8a91-6a59446e7347",
+                "type": "chart"
               }
             ]
           }
@@ -137,7 +137,7 @@
             "subtitle": "Biodiversity — the variety and variability of life on Earth — is the natural capital people depend on for survival.",
             "widget": [
               {
-                "id": "b9192492-20f3-4725-8e90-8795f2176329",
+                "id": "9c1482d4-b196-49c5-a558-f25467f6ae50",
                 "type": "chart"
               },
               {
@@ -157,6 +157,10 @@
           },
           "info": [
             {
+              "content": "Lorem ipsum",
+              "position": [50, 50]
+            },
+            {
               "content": "In the ocean, biodiversity underpins marine ecosystem functioning, which provides valuable services for people, including food, protection from storm surges and rising sea levels, and carbon sequestration",
               "position": [65, 65]
             }
@@ -170,8 +174,8 @@
             "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity",
             "widget": [
               {
-                "id":  "879ecb9e-5594-40ea-9458-2295b70017da",
-                "type": "map-swipe"
+                "id":  "92e5286e-b40a-4a6f-a3e5-84ac9b49d459",
+                "type": "chart"
               }
             ]
           }
@@ -195,7 +199,13 @@
           "indicator": "ocean-dependence",
           "content": {
             "title": "Ocean Dependence",
-            "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food."
+            "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food.",
+            "widget": [
+              {
+                "id":  "4a54273c-0529-4da1-a935-f3de4738ca3e",
+                "type": "chart"
+              }
+            ]
           }
         },
         {
@@ -207,12 +217,16 @@
           },
           "info": [
             {
-              "content": "The ocean provides humans oxygen, deep cultural traditions, food and micronutrients. Human survival is intrinsically linked and dependent on this critical natural resource",
+              "content": "The ocean is a source of protein for x million people, supporting complete diets and access to food",
               "position": [25, 55]
             },
             {
-              "content": "Three billion people depend on resources from marine and coastal ecosystems as a source of protein and key nutrients. When ocean environments are put under stress, it puts coastal communities at risk of food insecurity",
+              "content": "Coastal ecosystems protect the coastline from  high waves during storms",
               "position": [50, 50]
+            },
+            {
+              "content": "From fishing through to pharmaceuticals, the ocean provides a source of income that in many cases cannot be replaced",
+              "position": [75, 55]
             }
           ]
         },
@@ -221,11 +235,11 @@
           "indicator": "blue-economy",
           "content": {
             "title": "Blue Economy",
-            "subtitle": "The ocean is an engine of livelihoods, transport, commerce and energy production",
+            "subtitle": "The ocean is an engine of livelihoods, transport, commerce and energy production.",
             "sectionPosition": "right",
             "sections": [
               {
-                "title": "section 1",
+                "title": "Marine Transport: Shipping",
                 "widget": [
                   {
                     "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
@@ -234,13 +248,13 @@
                     "unit": "%"
                   },
                   {
-                    "id": "b9192492-20f3-4725-8e90-8795f2176329",
+                    "id": "830f2880-527c-4272-8aaf-8ff8d87a83a8",
                     "type": "chart"
                   }
                 ]
               },
               {
-                "title": "section 2",
+                "title": "Minerals and Energy",
                 "widget": [
                   {
                     "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
@@ -248,8 +262,22 @@
                     "unit": "ha"
                   },
                   {
-                    "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
-                    "type": "map"
+                    "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
+                    "type": "chart"
+                  }
+                ]
+              },
+              {
+                "title": "Fishing",
+                "widget": [
+                  {
+                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "unit": "tons"
+                  },
+                  {
+                    "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
+                    "type": "chart"
                   }
                 ]
               }
@@ -265,15 +293,15 @@
           },
           "info": [
             {
-              "content": "The ocean is the source of millions of jobs in fishing, tourism, transportation, shipping and energy — and many more people are indirectly connected to the ocean economy",
+              "content": "A sustainably managed fishery can feed the world, sustainable ocean management provides the means to support millions of  coastal communities",
               "position": [25, 55]
             },
             {
-              "content": "The ocean could provide a virtually limitless supply of clean, renewable energy- Creating jobs and spurring economic growth",
+              "content": "Tourism is an ever growing industry, often acting as a significant source of wealth for developing nations. Sustainable marine tourism provides essential jobs for a variety of communities and a means to engage with one of the worlds most important ecosystems",
               "position": [70, 50]
             },
             {
-              "content": "As the world looks to recover from the coronavirus pandemic and the economic fallout, the ocean can bring economic relief and economic prosperity",
+              "content": "Ocean sources of renewable energy are projected to increase x fold over the next ten years. The ocean is a solution to unsustainable energy generation",
               "position": [70, 70]
             }
           ]
@@ -297,7 +325,7 @@
                       "icon": "land-sea",
                       "widgets": [
                         {
-                          "id": "84e718ab-a1f4-49f3-8ae4-d89316a766c7"
+                          "id": "34611389-153b-4f24-a687-418e073dd6e0"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
@@ -314,7 +342,7 @@
                       "icon": "climate",
                       "widgets": [
                         {
-                          "id": ""
+                          "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
@@ -330,7 +358,7 @@
                       "icon": "biodiversity",
                       "widgets": [
                         {
-                          "id": ""
+                          "id": "9c1482d4-b196-49c5-a558-f25467f6ae50"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
@@ -346,7 +374,7 @@
                       "icon": "marine",
                       "widgets": [
                         {
-                          "id": "d60e88a9-32cf-4b20-b516-4a1805b50331"
+                          "id": "92e5286e-b40a-4a6f-a3e5-84ac9b49d459"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
@@ -362,7 +390,7 @@
                       "icon": "dependence",
                       "widgets": [
                         {
-                          "id": "ce53ec32-1dcf-408a-b1cc-a5fb072323eb"
+                          "id": "4a54273c-0529-4da1-a935-f3de4738ca3e"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
@@ -381,7 +409,7 @@
                           "title": "Maritime Transport: Shipping",
                           "widgets": [
                             {
-                              "id": "e5f16f56-691e-417e-bfdd-a4ededdd0b9d"
+                              "id": "830f2880-527c-4272-8aaf-8ff8d87a83a8"
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
@@ -396,7 +424,7 @@
                           "title": "Minerals and Energy",
                           "widgets": [
                             {
-                              "id": "41440ff1-2bc5-40aa-9bae-1fd64b9c55ca"
+                              "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5"
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
@@ -431,13 +459,42 @@
       ],
       [
         {
-          "title": "Catchment Areas and Land Cover",
-          "anchor": "catchment-areas-and-land-cover",
+          "title": "How is land based pollution generated?",
+          "anchor": "how-is-land-based-pollution-generated",
+          "anchorTitle": "Land-Based Pollution",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Catchment Areas and Land Cover"
+                "widget": "bd2e07f0-f62a-42df-83e6-65a3ebcdbc29",
+                "type": "chart",
+                "comment": "Renamed Water Quality Pressure Chart 1 Full-Size"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "text": "Test text. Words words words, more words and words. Want to trigger a line break so will continue typing for a little while longer, but nothing fancy like special characters or line breaks."
+              }
+            ],
+            [
+              {
+                "grid": "50%",
+                "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
+                "type": "chart",
+                "comment": "Test Chart 1: Population Exposed to Unhealthy Levels of PM2.5 (%)"
+              },
+              {
+                "grid": "50%",
+                "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
+                "type": "chart",
+                "comment": "Test Chart 2: Top 10 Protected Areas by Size"
+              }
+            ],
+            [
+              {
+                "grid": "100%",
+                "title": "How is land based pollution generated?"
               },
               {
                 "grid": "50%",
@@ -455,7 +512,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
+                "widget": "2d80df96-f93e-4a1b-95fc-4f1241139c0e",
                 "type": "map-swipe",
                 "comment": "Sediment Pressure Map"
               }
@@ -463,7 +520,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
+                "widget": "a4f58ef9-f982-4b28-b1c5-6c2013fe0546",
                 "type": "map-swipe",
                 "comment": "Sediment Pressure Map Full-Size"
               }
@@ -471,7 +528,7 @@
             [
               {
                 "grid": "50%",
-                "widget": "879ecb9e-5594-40ea-9458-2295b70017da",
+                "widget": "a4f58ef9-f982-4b28-b1c5-6c2013fe0546",
                 "type": "map-swipe",
                 "comment": "Sediment Pressure Map Half-Size"
               }
@@ -479,13 +536,13 @@
             [
               {
                 "grid": "50%",
-                "widget": "d8cc22aa-dd18-4d3a-a09a-983513625212",
+                "widget": "72874f62-9b18-4f1f-b14a-97554978fab7",
                 "type": "map",
                 "comment": "Sediment Pressure Chart 1"
               },
               {
                 "grid": "50%",
-                "widget": "ee131e0e-71da-421c-bbac-ea398f4030cf",
+                "widget": "bd2e07f0-f62a-42df-83e6-65a3ebcdbc29",
                 "type": "chart",
                 "comment": "Sediment Pressure Chart 2 (placeholder)"
               }
@@ -493,7 +550,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "d8cc22aa-dd18-4d3a-a09a-983513625212",
+                "widget": "72874f62-9b18-4f1f-b14a-97554978fab7",
                 "type": "map",
                 "comment": "Sediment Pressure Chart 1 Full-Size"
               }
@@ -507,13 +564,13 @@
             [
               {
                 "grid": "50%",
-                "widget": "682b7153-c6f8-483d-b803-41ce942f6493",
+                "widget": "72874f62-9b18-4f1f-b14a-97554978fab7",
                 "type": "map",
                 "comment": "Test map 1: Active Fires (MODIS)"
               },
               {
                 "grid": "50%",
-                "widget": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
+                "widget": "dbd066c0-a1c0-4e0c-9eec-9294b96b49ef",
                 "type": "map",
                 "comment": "Test map 2: Major Ports"
               }
@@ -527,7 +584,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "6428a24f-661e-4095-ac12-600c01b88952",
+                "widget": "a4f58ef9-f982-4b28-b1c5-6c2013fe0546",
                 "type": "map-swipe",
                 "comment": "Water Quality Pressure Map"
               }
@@ -535,13 +592,13 @@
             [
               {
                 "grid": "50%",
-                "widget": "d7828256-5a99-4033-9583-fe35d36a41fd",
+                "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
                 "type": "chart",
                 "comment": "Water Quality Pressure Chart 1"
               },
               {
                 "grid": "50%",
-                "widget": "f3ab5375-b278-4ad2-8311-a8652d34e222",
+                "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
                 "type": "chart",
                 "comment": "Water Quality Pressure Chart 2"
               }
@@ -551,8 +608,9 @@
       ],
       [
         {
-          "title": "River Water Quality Modified Section Header",
-          "anchor": "river-water-quality",
+          "title": "How do pollutants travel to the ocean?",
+          "anchor": "how-do-pollutants-travel-to-the-ocean",
+          "anchorTitle": "Movement of Ocean Pollutants",
           "content": [
             [
               {
@@ -565,7 +623,7 @@
               },
               {
                 "grid": "50%",
-                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
+                "widget": "dbd066c0-a1c0-4e0c-9eec-9294b96b49ef",
                 "type": "map",
                 "comment": "Sediment Pressure map duplicate, half-size"
               }
@@ -676,14 +734,14 @@
                     }
                   },
                   "layers": [
-                    "abefb374-3355-4110-9c03-c7031f0b61b4",
-                    "f065c648-7579-4034-9d6f-dd1fcbd1b550",
-                    "0f27b5ee-21e0-48d4-81ba-f8d33d773514"
+                    "2c5ca21a-c646-4b8c-b329-909d66ec5615",
+                    "0c595ffa-90e1-4460-a02a-d0f9eca50894",
+                    "8339b4a5-b99f-4d64-8737-30f79325e106"
                   ],
                   "widgets": [
-                    "0e2697cc-48ce-4bbe-b5ad-8b4ca45b0c09",
-                    "0acb11a0-a41c-4855-ba2b-7cdc9e01380a",
-                    "298147df-6a7d-4ca7-b1c3-ddfb248491ac"
+                    "3f531725-9d1f-436f-85f8-b1494b0262c1",
+                    "80b7addc-f6ea-4d38-808c-359e49a8b84e",
+                    "d0b57543-e771-41e1-a9b6-a9487d5c3d5b"
                   ]
                 }
               }
@@ -691,7 +749,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
+                "widget": "72874f62-9b18-4f1f-b14a-97554978fab7",
                 "type": "map",
                 "comment": "River Water Quality - Sediment Pressure map"
               }
@@ -699,7 +757,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
+                "widget": "72874f62-9b18-4f1f-b14a-97554978fab7",
                 "type": "map",
                 "comment": "River Water Quality - Sediment Pressure Chart"
               }
@@ -707,13 +765,13 @@
             [
               {
                 "grid": "50%",
-                "widget": "b3875b7c-629a-4bbe-811d-929f35ef10af",
+                "widget": "72874f62-9b18-4f1f-b14a-97554978fab7",
                 "type": "map",
                 "comment": "Duplicate Sediment Pressure map for testing"
               },
               {
                 "grid": "50%",
-                "widget": "9fb0ebbf-2629-4a4f-a5f0-3ee78fbf8cd7",
+                "widget": "72874f62-9b18-4f1f-b14a-97554978fab7",
                 "type": "map",
                 "comment": "Duplicate Sediment Pressure Chart for testing"
               }
@@ -723,13 +781,14 @@
       ],
       [
         {
-          "title": "Ecosystems and Pressures",
-          "anchor": "ecosystems-and-pressures",
+          "title": "How does pollution damage coastal ecosystems?",
+          "anchor": "how-does-pollution-damage-coastal-ecosystems",
+          "anchorTitle": "Effects of Coastal Pollution",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Ecosystems and Pressures"
+                "title": "How does pollution damage coastal ecosystems?"
               },
               {
                 "grid": "50%",
@@ -741,75 +800,84 @@
                 "grid": "100%",
                 "visualizationType": "mini-explore",
                 "config": {
-                  "title": "Lorem ipsum",
+                  "title": "Mini-Explore Test Title",
                   "datasetGroups": [
                     {
                       "title": "Ecosystems",
+                      "slug": "ecosystems",
                       "datasets": [
-                        "ee4dca11-caae-4c39-9915-501872aab4bd",
-                        "807e9ffe-e096-4024-b498-3e97721d444e",
-                        "08c0e063-46d2-46ee-91e0-f2545b463cd8",
-                        "1af33b02-9fc2-47ab-9eae-583b77a1f4fa"
+                        "f31dece0-9256-428a-84de-3a59f5c06bb7",
+                        "1d23838e-40da-4cf3-b61c-56258d3a5c56",
+                        "7ab1ab3b-2d13-4572-bc00-545044219a8e",
+                        "6a22c67d-9e3c-4f8c-94d2-d90fe886b476"
                       ],
                       "default": [
-                        "ee4dca11-caae-4c39-9915-501872aab4bd"
+                        "f31dece0-9256-428a-84de-3a59f5c06bb7"
                       ]
                     },
                     {
                       "title": "Climate pressures",
+                      "slug": "climate-pressures",
                       "datasets": [
-                        "ad21463c-b220-4201-8af0-455ecb3794f2",
-                        "bcfd8bb6-e771-4ac8-9af2-7dc0a0452b58",
-                        "e935f438-b508-40af-b13c-e3b7f6d8651c",
-                        "59125da0-8629-4d98-aa0a-8e62011e1d1e",
-                        "32e75e26-e6dd-4bf4-8176-ab9c88394083",
-                        "af2847ee-ca87-43b4-a359-c42d9e70cf84",
-                        "82877dfb-d71f-40ae-be0c-5bc8dd0cf030"
+                        "24ffab8a-588d-4fb8-92de-8bc54abf7da6",
+                        "d64ec5d7-d186-41fa-b5b7-d1f246ff6d77",
+                        "7c06a7a2-4c47-4ecb-a2a5-1c76eaf2db65",
+                        "574f0b71-8363-4e3a-978f-2b1ce58c1c33",
+                        "6ac302e7-36c3-4f36-9a89-3be244ef9057",
+                        "7dfd5f25-a789-415a-bb7c-d84ffec4c7eb",
+                        "9748a184-cf87-4363-bf81-2bf3030e2e53"
                       ],
                       "default": [
-                        "ad21463c-b220-4201-8af0-455ecb3794f2"
+                        "24ffab8a-588d-4fb8-92de-8bc54abf7da6"
                       ]
                     },
                     {
                       "title": "Land-sea pressures",
+                      "slug": "land-sea-pressures",
                       "datasets": [
-                        "53382f9b-208e-43b1-ac1d-bf311791b49c",
-                        "a9e80e3a-8ff4-4763-8c65-c2c43922965f",
-                        "49919582-6c64-4360-a273-803594f286be",
-                        "e16d6b2d-7084-4891-878c-ae47fc49da52",
-                        "2f1f0b3e-e059-47e2-9640-70e07602b65a",
-                        "0681518c-e75b-4567-8f67-9bb944d5a287",
-                        "2963711e-7a81-481a-b5a5-ca84fb79deb5"
+                        "6ad0f556-20fd-4ddf-a5cc-bf93c003a463",
+                        "d6e42176-90c4-429d-8cae-7619c545a458",
+                        "6b523d76-ca2d-4059-b0a6-d90a6b8ba5a6",
+                        "13f4e065-b579-41f0-938d-b97c9dd54ce2",
+                        "c2142922-84d9-4564-8216-a4867b9e48c5",
+                        "92327c78-a473-402b-8edf-409869823216",
+                        "f1aa9ec7-c3b6-441c-b395-96fc796b7612",
+                        "877cdf39-5536-409c-bcba-2220e1b72796"
                       ],
                       "default": [
-                        "53382f9b-208e-43b1-ac1d-bf311791b49c"
+                        "6ad0f556-20fd-4ddf-a5cc-bf93c003a463"
                       ]
                     },
                     {
                       "title": "Productivity",
+                      "slug": "productivity",
                       "datasets": [
-                        "11b096b0-60d3-46f6-a78f-f51af4808a38"
+                        "d4e91298-b994-4e2c-947c-4f6486a66f30",
+                        "11f16cb9-def0-4bd5-a60e-50c542b837e3",
+                        "6ccfb266-20cd-4838-82b0-5309987a62f0"
                       ],
                       "default": [
-                        "11b096b0-60d3-46f6-a78f-f51af4808a38"
+                        "d4e91298-b994-4e2c-947c-4f6486a66f30"
                       ]
                     },
                     {
                       "title": "Infrastructure and maritime",
+                      "slug": "infrastructure-and-maritime",
                       "datasets": [
-                        "f8724e98-23ad-4767-9a64-15558173f25f"
+                        "28d1f505-571c-4a52-8215-48ea02aa4928"
                       ],
                       "default": [
-                        "f8724e98-23ad-4767-9a64-15558173f25f"
+                        "28d1f505-571c-4a52-8215-48ea02aa4928"
                       ]
                     },
                     {
                       "title": "Response",
+                      "slug": "response",
                       "datasets": [
-                        "f4a205bb-cbe4-414c-beb5-e8c3212c9028"
+                        "2442891a-157a-40e6-9092-ee596e6d30ba"
                       ],
                       "default": [
-                        "f4a205bb-cbe4-414c-beb5-e8c3212c9028"
+                        "2442891a-157a-40e6-9092-ee596e6d30ba"
                       ]
                     }
                   ]
@@ -821,13 +889,14 @@
       ],
       [
         {
-          "title": "Value of goods and services",
-          "anchor": "value-of-goods-and-services",
+          "title": "Why is the ocean so valuable?",
+          "anchor": "why-is-the-ocean-so-valuable",
+          "anchorTitle": "Value of Coastal Ecosystems",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Value of goods and services"
+                "title": "Why is the ocean so valuable?"
               },
               {
                 "grid": "50%",
@@ -850,7 +919,7 @@
                       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                       "widgets": [
                         {
-                          "id": "750ba500-9ffe-428b-b125-99013f102a5b"
+                          "id": "731293a0-b92f-4804-b59c-69a1d794ad73"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
@@ -869,7 +938,7 @@
                       "unit": "%",
                       "widgets": [
                         {
-                          "id": "c8001d38-b474-4db8-a9d0-2306dd72892e"
+                          "id": "bf6604e1-9f6b-4988-ace0-80db05248a9a"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
@@ -887,7 +956,7 @@
                       "unit": "%",
                       "widgets": [
                         {
-                          "id": "977c81d1-bebf-432d-8848-cbbbdad747cb"
+                          "id": "49e474c1-014b-476c-b832-8c9a556ad6e3"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
@@ -905,7 +974,7 @@
                       "unit": "%",
                       "widgets": [
                         {
-                          "id": "1546fa48-6966-486c-9ca2-775b95702e55"
+                          "id": "a9c33b55-494c-4984-8bfd-0f5b008dcf24"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
@@ -923,7 +992,7 @@
                       "unit": "%",
                       "widgets": [
                         {
-                          "id": "3966fed9-ef22-4c2b-b082-839de71f7eb4"
+                          "id": "4e8f077f-bed7-44f7-8d52-d793b485f301"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
@@ -941,7 +1010,7 @@
                       "unit": "%",
                       "widgets": [
                         {
-                          "id": "eedaa69b-7d14-4541-9a0c-1033bcddd072"
+                          "id": "2cb5af4f-2bfc-49f3-9f99-ac415e98c7db"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
@@ -957,14 +1026,20 @@
             ],
             [
               {
+                "grid": "100%",
+                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
+              }
+            ],
+            [
+              {
                 "grid": "50%",
-                "widget": "2a1db525-7352-4c88-a17e-5705e8860888",
+                "widget": "5557080d-b9cb-4da6-b4bc-ca15cb55a919",
                 "type": "map",
                 "comment": "Tourism"
               },
               {
                 "grid": "50%",
-                "widget": "d6331a40-57cd-40cf-9953-c966b6cb0e30",
+                "widget": "c15e3029-db42-4b55-982b-038b18686622",
                 "type": "map",
                 "comment": "Shoreline prot"
               }
@@ -978,13 +1053,13 @@
             [
               {
                 "grid": "50%",
-                "widget": "fddf8913-a4e6-44ca-87c5-2c4e138d3f06",
+                "widget": "83d41130-909a-44a8-8a15-b17ece5fb924",
                 "type": "map",
                 "comment": "Fisheries (mang)"
               },
               {
                 "grid": "50%",
-                "widget": "c506e664-b226-476a-9326-85c62ac19412",
+                "widget": "11121aac-8f74-41c5-ad75-e0cc7f9c7b1d",
                 "type": "map",
                 "comment": "Fisheries (coral)"
               }
@@ -998,7 +1073,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "2a054b7b-c42e-43d9-b6ad-f31fc67a82d4",
+                "widget": "0c61b0ea-d984-4f76-8bb7-606e90c21f11",
                 "type": "map",
                 "comment": "Blue carbon"
               }
@@ -1013,17 +1088,17 @@
       "indicators": [
         {
           "id": "land-sea-interface",
-          "title": "The Land/Sea Interface",
+          "title": "Land-Based Pollution",
           "icon": "land-sea"
         },
         {
           "id": "oceans-climate",
-          "title": "Oceans and Climate",
+          "title": "Ocean and Climate Change",
           "icon": "climate"
         },
         {
           "id": "biodiversity",
-          "title": "Biodiversity",
+          "title": "Ocean Biodiversity",
           "icon": "biodiversity"
         },
         {
@@ -1033,12 +1108,12 @@
         },
         {
           "id": "ocean-dependence",
-          "title": "Ocean Dependence",
+          "title": "Dependence on the Ocean",
           "icon": "dependence"
         },
         {
           "id": "blue-economy",
-          "title": "The Blue Economy",
+          "title": "Blue Economy",
           "icon": "economy"
         }
       ],
@@ -1056,9 +1131,9 @@
           "id": "land-sea-interface-1",
           "indicator": "land-sea-interface",
           "content": {
-            "title": "The Land-Sea Interface",
-            "subtitle": "Addressing threats to the ocean often begin on land.",
-            "intro": "The land and the ocean are strongly connected by a series of human and natural processes, fueling ocean life cycles. Human activities on land have introduced higher levels of sediment and toxic chemicals into the ocean, threatening the health of the coast, ocean resources and billions of people."
+            "title": "Land-Based Pollution",
+            "subtitle": "Addressing threats to the ocean often begin on land 22",
+            "intro": "The land and the ocean are strongly connected by a series of human and natural processes, fueling ocean life cycles. Human activities on land have introduced higher levels of sediment and toxic chemicals into the ocean, threatening the health of the coast, ocean resources and billions of people"
           }
         },
         {
@@ -1071,11 +1146,11 @@
           "info": [
             {
               "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
-              "position": [25, 28]
+              "position": [35,28]
             },
             {
               "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
-              "position": [50, 60]
+              "position": [50, 45]
             },
             {
               "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
@@ -1095,7 +1170,7 @@
                 "unit": "%"
               },
               {
-                "id": "",
+                "id": "34611389-153b-4f24-a687-418e073dd6e0",
                 "type": "chart"
               }
             ]
@@ -1114,8 +1189,8 @@
                 "unit": "%"
               },
               {
-                "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
-                "type": "map"
+                "id": "432ba622-36b9-4178-8a91-6a59446e7347",
+                "type": "chart"
               }
             ]
           }
@@ -1129,11 +1204,11 @@
           },
           "info": [
             {
-              "content": "Atmospheric carbon dioxide (CO2) is in balance with CO2 dissolved into the ocean. Increasing dissolved CO2 results in ocean acidification and habitat loss",
+              "content": "Ocean acidification is caused by rising CO2 levels in the atmosphere. Many critical ocean habitats and life forms begin to dissolve when the water is too acidic",
               "position": [55, 60]
             },
             {
-              "content": "Rising atmospheric and ocean temperatures put global coastal and island populations at risk of flooding from sea-level rise, and the ocean at risk of oxygen loss",
+              "content": "Oxygen is a key requirement for ocean life. Climate change is warming the ocean and driving deoxygenation by limiting its ability to hold and circulate oxygen into the deep ocean",
               "position": [75, 55]
             }
           ]
@@ -1142,11 +1217,11 @@
           "id": "biodiversity-1",
           "indicator": "biodiversity",
           "content": {
-            "title": "Biodiversity",
-            "subtitle": "Biodiversity — the variety and variability of life on Earth — is the natural capital people depend on for survival.",
+            "title": "Ocean Biodiversity",
+            "subtitle": "Biodiversity — the variety and variability of life on Earth — is the natural capital people depend on for survival",
             "widget": [
               {
-                "id": "",
+                "id": "9c1482d4-b196-49c5-a558-f25467f6ae50",
                 "type": "chart"
               },
               {
@@ -1166,7 +1241,11 @@
           },
           "info": [
             {
-              "content": "Ocean acidification is caused by rising CO2 levels in the atmosphere. Many critical ocean habitats and life forms begin to dissolve when the water is too acidic. [subscript the 2 in CO2]",
+              "content": "Lorem ipsum",
+              "position": [50, 50]
+            },
+            {
+              "content": "In the ocean, biodiversity underpins marine ecosystem functioning, which provides valuable services for people, including food, protection from storm surges and rising sea levels, and carbon sequestration",
               "position": [65, 65]
             }
           ]
@@ -1176,11 +1255,11 @@
           "indicator": "marine-protected-areas",
           "content": {
             "title": "Marine Protected Areas",
-            "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity.",
+            "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity",
             "widget": [
               {
-                "id":  "879ecb9e-5594-40ea-9458-2295b70017da",
-                "type": "map-swipe"
+                "id":  "92e5286e-b40a-4a6f-a3e5-84ac9b49d459",
+                "type": "chart"
               }
             ]
           }
@@ -1194,7 +1273,7 @@
           },
           "info": [
             {
-              "content": "MPAs that are fully protected can safeguard biodiversity, mitigate climate change and boost the productivity of fisheries in the surrounding areas.",
+              "content": "MPAs that are fully protected can safeguard biodiversity, mitigate climate change and boost the productivity of fisheries in the surrounding areas",
               "position": [60, 55]
             }
           ]
@@ -1203,8 +1282,14 @@
           "id": "ocean-dependence-1",
           "indicator": "ocean-dependence",
           "content": {
-            "title": "Ocean Dependence",
-            "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food."
+            "title": "Dependence on the Ocean",
+            "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food",
+            "widget": [
+              {
+                "id":  "4a54273c-0529-4da1-a935-f3de4738ca3e",
+                "type": "chart"
+              }
+            ]
           }
         },
         {
@@ -1216,16 +1301,12 @@
           },
           "info": [
             {
-              "content": "The ocean is a source of protein for x million people, supporting complete diets and access to food",
+              "content": "The ocean provides humans oxygen, deep cultural traditions, food and micronutrients. Human survival is intrinsically linked and dependent on this critical natural resource",
               "position": [25, 55]
             },
             {
-              "content": "Coastal ecosystems protect the coastline from  high waves during storms",
+              "content": "Three billion people depend on resources from marine and coastal ecosystems as a source of protein and key nutrients. When ocean environments are put under stress, it puts coastal communities at risk of food insecurity",
               "position": [50, 50]
-            },
-            {
-              "content": "From fishing through to pharmaceuticals, the ocean provides a source of income that in many cases cannot be replaced",
-              "position": [75, 55]
             }
           ]
         },
@@ -1234,11 +1315,11 @@
           "indicator": "blue-economy",
           "content": {
             "title": "Blue Economy",
-            "subtitle": "The ocean is an engine of livelihoods, transport, commerce and energy production.",
+            "subtitle": "The ocean is an engine of livelihoods, transport, commerce and energy production",
             "sectionPosition": "right",
             "sections": [
               {
-                "title": "section 1",
+                "title": "Marine Transport: Shipping",
                 "widget": [
                   {
                     "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
@@ -1247,13 +1328,13 @@
                     "unit": "%"
                   },
                   {
-                    "id": "",
+                    "id": "830f2880-527c-4272-8aaf-8ff8d87a83a8",
                     "type": "chart"
                   }
                 ]
               },
               {
-                "title": "section 2",
+                "title": "Minerals and Energy",
                 "widget": [
                   {
                     "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
@@ -1261,8 +1342,22 @@
                     "unit": "ha"
                   },
                   {
-                    "id": "756a71fb-1d9c-409f-82d5-efb4ebcac285",
-                    "type": "map"
+                    "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
+                    "type": "chart"
+                  }
+                ]
+              },
+              {
+                "title": "Fishing",
+                "widget": [
+                  {
+                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                    "unit": "tons"
+                  },
+                  {
+                    "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
+                    "type": "chart"
                   }
                 ]
               }
@@ -1278,15 +1373,15 @@
           },
           "info": [
             {
-              "content": "A sustainably managed fishery can feed the world, sustainable ocean management provides the means to support millions of  coastal communities",
+              "content": "The ocean is the source of millions of jobs in fishing, tourism, transportation, shipping and energy — and many more people are indirectly connected to the ocean economy",
               "position": [25, 55]
             },
             {
-              "content": "Tourism is an ever growing industry, often acting as a significant source of wealth for developing nations. Sustainable marine tourism provides essential jobs for a variety of communities and a means to engage with one of the worlds most important ecosystems",
+              "content": "As the world looks to recover from the coronavirus pandemic and the economic fallout, the ocean can bring economic relief and economic prosperity",
               "position": [70, 50]
             },
             {
-              "content": "Ocean sources of renewable energy are projected to increase x fold over the next ten years. The ocean is a solution to unsustainable energy generation",
+              "content": "The ocean could provide a virtually limitless supply of clean, renewable energy — creating jobs and spurring economic growth",
               "position": [70, 70]
             }
           ]
@@ -1306,7 +1401,7 @@
                   "indicators": [
                     {
                       "id": "land-sea-interface",
-                      "title": "The Land/Sea Interface",
+                      "title": "Land-Based Pollution",
                       "icon": "land-sea",
                       "widgets": [
                         {
@@ -1323,11 +1418,11 @@
                     },
                     {
                       "id": "oceans-climate",
-                      "title": "Oceans and Climate",
+                      "title": "Ocean and Climate Change",
                       "icon": "climate",
                       "widgets": [
                         {
-                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                          "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
@@ -1339,11 +1434,11 @@
                     },
                     {
                       "id": "biodiversity",
-                      "title": "Biodiversity",
+                      "title": "Ocean Biodiversity",
                       "icon": "biodiversity",
                       "widgets": [
                         {
-                          "id": "72874f62-9b18-4f1f-b14a-97554978fab7"
+                          "id": "9c1482d4-b196-49c5-a558-f25467f6ae50"
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
@@ -1371,7 +1466,7 @@
                     },
                     {
                       "id": "ocean-dependence",
-                      "title": "Ocean Dependence",
+                      "title": "Dependence on the Ocean",
                       "icon": "dependence",
                       "widgets": [
                         {
@@ -1387,7 +1482,7 @@
                     },
                     {
                       "id": "blue-economy",
-                      "title": "The Blue Economy",
+                      "title": "Blue Economy",
                       "icon": "economy",
                       "sections": [
                         {
@@ -1444,13 +1539,14 @@
       ],
       [
         {
-          "title": "Catchment Areas and Land Cover",
-          "anchor": "catchment-areas-and-land-cover",
+          "title": "How is land based pollution generated?",
+          "anchor": "how-is-land-based-pollution-generated",
+          "anchorTitle": "Land-Based Pollution",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Catchment Areas and Land Cover"
+                "title": "How is land based pollution generated?"
               },
               {
                 "grid": "50%",
@@ -1482,7 +1578,7 @@
             [
               {
                 "grid": "50%",
-                "text": "Lorem"
+                "text": "Poor wastewater management and the overuse of fertilizers and pesticides can introduce harmful pollutants into ocean ecosystems."
               }
             ],
             [
@@ -1512,17 +1608,18 @@
       ],
       [
         {
-          "title": "River Water Quality",
-          "anchor": "river-water-quality",
+          "title": "How do pollutants travel to the ocean?",
+          "anchor": "how-do-pollutants-travel-to-the-ocean",
+          "anchorTitle": "Movement of Ocean Pollutants",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "River Water Quality"
+                "title": "How do pollutants travel to the ocean?"
               },
               {
                 "grid": "50%",
-                "text": "Soil erosion from degraded and converted land near rivers and streams can flow into the ocean, creating clouds of sediment that limit ocean photosynthesis."
+                "text": "When soil erosion from deforested and degraded land enters rivers and streams, it can flow into the ocean and create clouds of sediment that limit ocean photosynthesis."
               }
             ],
             [
@@ -1664,17 +1761,18 @@
       ],
       [
         {
-          "title": "Ecosystems and Pressures",
-          "anchor": "ecosystems-and-pressures",
+          "title": "How does pollution damage coastal ecosystems?",
+          "anchor": "how-does-pollution-damage-coastal-ecosystems",
+          "anchorTitle": "Effects of Coastal Pollution",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Ecosystems and Pressures"
+                "title": "How does pollution damage coastal ecosystems?"
               },
               {
                 "grid": "50%",
-                "text": "Explore and combine maps to understand the relationships between ecosystems. Overlay the maps to view where ecosystem pressures and uses overlap and discover management priorities."
+                "text": "The ocean's ecosystems are deeply interconnected. Overlay the maps to discover management priorities and to better understand where ecosystem pressures and uses overlap."
               }
             ],
             [
@@ -1686,6 +1784,7 @@
                   "datasetGroups": [
                     {
                       "title": "Ecosystems",
+                      "slug": "ecosystems",
                       "datasets": [
                         "f31dece0-9256-428a-84de-3a59f5c06bb7",
                         "1d23838e-40da-4cf3-b61c-56258d3a5c56",
@@ -1698,6 +1797,7 @@
                     },
                     {
                       "title": "Climate pressures",
+                      "slug": "climate-pressures",
                       "datasets": [
                         "24ffab8a-588d-4fb8-92de-8bc54abf7da6",
                         "d64ec5d7-d186-41fa-b5b7-d1f246ff6d77",
@@ -1713,11 +1813,13 @@
                     },
                     {
                       "title": "Land-sea pressures",
+                      "slug": "land-sea-pressures",
                       "datasets": [
                         "6ad0f556-20fd-4ddf-a5cc-bf93c003a463",
                         "d6e42176-90c4-429d-8cae-7619c545a458",
                         "6b523d76-ca2d-4059-b0a6-d90a6b8ba5a6",
                         "13f4e065-b579-41f0-938d-b97c9dd54ce2",
+                        "c2142922-84d9-4564-8216-a4867b9e48c5",
                         "92327c78-a473-402b-8edf-409869823216",
                         "f1aa9ec7-c3b6-441c-b395-96fc796b7612",
                         "877cdf39-5536-409c-bcba-2220e1b72796"
@@ -1728,8 +1830,11 @@
                     },
                     {
                       "title": "Productivity",
+                      "slug": "productivity",
                       "datasets": [
-                        "d4e91298-b994-4e2c-947c-4f6486a66f30"
+                        "d4e91298-b994-4e2c-947c-4f6486a66f30",
+                        "11f16cb9-def0-4bd5-a60e-50c542b837e3",
+                        "6ccfb266-20cd-4838-82b0-5309987a62f0"
                       ],
                       "default": [
                         "d4e91298-b994-4e2c-947c-4f6486a66f30"
@@ -1737,6 +1842,7 @@
                     },
                     {
                       "title": "Infrastructure and maritime",
+                      "slug": "infrastructure-and-maritime",
                       "datasets": [
                         "28d1f505-571c-4a52-8215-48ea02aa4928"
                       ],
@@ -1746,6 +1852,7 @@
                     },
                     {
                       "title": "Response",
+                      "slug": "response",
                       "datasets": [
                         "2442891a-157a-40e6-9092-ee596e6d30ba"
                       ],
@@ -1762,17 +1869,18 @@
       ],
       [
         {
-          "title": "Value of goods and services",
-          "anchor": "value-of-goods-and-services",
+          "title": "Why is the ocean so valuable?",
+          "anchor": "why-is-the-ocean-so-valuable",
+          "anchorTitle": "Value of Coastal Ecosystems",
           "content": [
             [
               {
                 "grid": "100%",
-                "title": "Value of goods and services"
+                "title": "Why is the ocean so valuable?"
               },
               {
                 "grid": "50%",
-                "text": "The ocean and coast are valuable sources of food and employment for millions of people. Their wellbeing is dependent on the health of the ocean."
+                "text": "Millions of people and their livelihoods depend on the ocean and its coasts for valuable sources of food and employment."
               }
             ],
             [
@@ -1898,6 +2006,12 @@
             ],
             [
               {
+                "grid": "100%",
+                "text": "Coral reefs protect the shoreline from tropical storms and are a foundation for tourism, in turn providing coastal and inland communities with food and economic security."
+              }
+            ],
+            [
+              {
                 "grid": "50%",
                 "widget": "5557080d-b9cb-4da6-b4bc-ca15cb55a919",
                 "type": "map",
@@ -1913,7 +2027,7 @@
             [
               {
                 "grid": "100%",
-                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
+                "text": "Coral reefs and mangroves are essential aspects of strong food security in many countries. Both ecosystems support healthy fisheries by providing a habitat and nursery for juvenile fish."
               }
             ],
             [
@@ -1933,7 +2047,7 @@
             [
               {
                 "grid": "100%",
-                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean porttitor molestie porta. Phasellus blandit consequat orci, id volutpat leo congue eu. Sed semper augue quam, sollicitudin finibus dui finibus iaculis. In in lectus eget massa dignissim fringilla ac in orci. Etiam venenatis ante ut velit vehicula, at imperdiet magna dictum. "
+                "text": "Mangroves are five times more effective than land forests at storing carbon. These carbon storage powerhouses are crucial to climate adaptation and mitigation, but poor management and further mangrove degradation could release thousands of years worth of stored carbon dioxide."
               }
             ],
             [

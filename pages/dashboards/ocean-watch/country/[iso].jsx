@@ -55,11 +55,6 @@ import {
 import {
   getRWAdapter,
 } from 'utils/widget-editor';
-import {
-  isStagingAPI,
-} from 'utils/api';
-
-const isStaging = isStagingAPI();
 
 const WidgetShareModal = dynamic(() => import('../../../../components/widgets/share-modal'), { ssr: false });
 
@@ -159,7 +154,7 @@ export default function OceanWatchCountryProfilePage({
   const dashboardTabs = useMemo(() => flattenDeep(oceanWatchConfig['country-profile'] || [])
     .filter(({ anchor }) => Boolean(anchor))
     .map(({
-      title: label,
+      anchorTitle: label,
       anchor: value,
     }) => ({
       label,
@@ -205,7 +200,7 @@ export default function OceanWatchCountryProfilePage({
                   config={indicatorSetConfiguration.config}
                   params={{
                     ...area?.geostore && { geostore_id: area.geostore },
-                    geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                    geostore_env: 'geostore_prod',
                   }}
                   theme={indicatorSetConfiguration.config?.theme}
                 >
@@ -340,7 +335,7 @@ export default function OceanWatchCountryProfilePage({
                                       ...area?.geostore && { areaOfInterest: area.geostore },
                                     }}
                                     params={{
-                                      geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                      geostore_env: 'geostore_prod',
                                       ...area?.geostore && { geostore_id: area.geostore },
                                     }}
                                   />
@@ -365,7 +360,7 @@ export default function OceanWatchCountryProfilePage({
                                       <MapWidget
                                         widgetId={blockElement.widget}
                                         params={{
-                                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                          geostore_env: 'geostore_prod',
                                           ...area?.geostore && { geostore_id: area.geostore },
                                         }}
                                         {...area?.geostore && { areaOfInterest: area.geostore }}
@@ -377,15 +372,31 @@ export default function OceanWatchCountryProfilePage({
                               </InView>
                             )}
                             {(blockElement.widget && blockElement.type === 'map-swipe') && (
-                              <SwipeMapWidget
-                                widgetId={blockElement.widget}
-                                params={{
-                                  geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
-                                  ...area?.geostore && { geostore_id: area.geostore },
-                                }}
-                                {...area?.geostore && { areaOfInterest: area.geostore }}
-                                onToggleShare={handleShareWidget}
-                              />
+                              <InView
+                                triggerOnce
+                                threshold={0.25}
+                              >
+                                {({ ref, inView }) => (
+                                  <div
+                                    ref={ref}
+                                    style={{
+                                      height: '100%',
+                                    }}
+                                  >
+                                    {inView && (
+                                      <SwipeMapWidget
+                                        widgetId={blockElement.widget}
+                                        params={{
+                                          geostore_env: 'geostore_prod',
+                                          ...area?.geostore && { geostore_id: area.geostore },
+                                        }}
+                                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                                        onToggleShare={handleShareWidget}
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             )}
 
                             {(blockElement.widget && blockElement.type === 'chart') && (
@@ -406,7 +417,7 @@ export default function OceanWatchCountryProfilePage({
                                         widgetId={blockElement.widget}
                                         params={{
                                           ...area?.geostore && { geostore_id: area.geostore },
-                                          geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                          geostore_env: 'geostore_prod',
                                         }}
                                         onToggleShare={handleShareWidget}
                                       />
@@ -426,7 +437,7 @@ export default function OceanWatchCountryProfilePage({
                                   <CardIndicatorSet
                                     config={blockElement.config}
                                     params={{
-                                      geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+                                      geostore_env: 'geostore_prod',
                                       ...area?.geostore && { geostore_id: area.geostore },
                                     }}
                                     theme={blockElement?.config?.theme}
@@ -464,7 +475,6 @@ export default function OceanWatchCountryProfilePage({
                               )}
                             </InView>
                             )}
-
                           </div>
                         </div>
                       ))}
@@ -603,7 +613,7 @@ export default function OceanWatchCountryProfilePage({
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
           params={{
-            geostore_env: isStaging ? 'geostore_staging' : 'geostore_prod',
+            geostore_env: 'geostore_prod',
             ...area?.geostore && {
               geostore_id: area.geostore,
               aoi: area.geostore,

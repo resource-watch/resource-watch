@@ -4,10 +4,6 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  isStagingAPI,
-} from 'utils/api';
-
 // components
 import WidgetSidebar from './widget-sidebar';
 import MiniExploreMap from './map';
@@ -23,9 +19,8 @@ import './styles.scss';
 
 const miniExploreWidgetReducer = miniExploreWidgetSlice.reducer;
 const {
-  setGeostore,
+  setGeostoreBasin,
 } = miniExploreWidgetSlice.actions;
-const isStaging = isStagingAPI();
 let clickState = null;
 export default function MiniExploreWidgets({
   config: {
@@ -61,8 +56,6 @@ export default function MiniExploreWidgets({
       properties,
     } = dataFeature;
 
-    const geostore = properties[`${isStaging ? 'geostore_staging' : 'geostore_prod'}`];
-
     clickState = {
       source,
       sourceLayer,
@@ -76,7 +69,7 @@ export default function MiniExploreWidgets({
       },
     );
 
-    return dispatch(setGeostore(geostore));
+    return dispatch(setGeostoreBasin(properties.geostore_prod));
   }, []);
 
   return (
@@ -99,7 +92,7 @@ export default function MiniExploreWidgets({
           widgetIds={widgets}
           params={{
             ...params,
-            ...state.geostore && { geostore_id: state.geostore },
+            geostore_id: state.geostoreBasin,
           }}
         />
       </div>

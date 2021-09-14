@@ -1,15 +1,18 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import cx from 'classnames';
 
 // services
 import { fetchWidgets } from 'services/widget';
+import { fetchDataset } from 'services/dataset';
 
 // components
 import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 import TableFilters from 'components/admin/table-filters';
+import { USER_TYPES } from 'components/admin/table-filters/constants';
 
 // TDs
 import TitleTD from './td/title';
@@ -28,12 +31,17 @@ class WidgetsTable extends PureComponent {
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
+    dataset: null,
     widgets: [],
     filters: { name: null, 'user.role': 'ADMIN' },
   }
 
   componentDidMount() {
+    const { dataset } = this.props;
     this.loadWidgets();
+    if (dataset) {
+      this.loadDataset();
+    }
   }
 
   onFiltersChange = (value) => {
@@ -41,7 +49,8 @@ class WidgetsTable extends PureComponent {
     this.setState({
       filters: {
         name: filters.name,
-        'user.role': value.value,
+        ...(value.value === USER_TYPES.ADMIN && { 'user.role': value.value }),
+        ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
     () => this.loadWidgets());
@@ -64,7 +73,16 @@ class WidgetsTable extends PureComponent {
       },
       pagination: INITIAL_PAGINATION,
     }, () => this.loadWidgets());
-  }, 250)
+  }, 250);
+
+  loadDataset = () => {
+    const { dataset } = this.props;
+    fetchDataset(dataset)
+      .then((d) => {
+        this.setState({ dataset: d });
+      })
+      .catch((error) => { this.setState({ error }); });
+  }
 
   onChangePage = (nextPage) => {
     const { pagination } = this.state;
@@ -94,6 +112,7 @@ class WidgetsTable extends PureComponent {
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
       ...dataset && { dataset },
       ...filters,
     }, { Authorization: `Bearer ${token}` }, true)
@@ -115,6 +134,7 @@ class WidgetsTable extends PureComponent {
             ..._widget,
             owner: _widget.user ? _widget.user.name || (_widget.user.email || '').split('@')[0] : '',
             role: _widget.user ? _widget.user.role || '' : '',
+            disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(_widget.env),
           })),
         });
       })
@@ -127,8 +147,11 @@ class WidgetsTable extends PureComponent {
       pagination,
       widgets,
       error,
+      dataset,
     } = this.state;
-    const { dataset } = this.props;
+    const { dataset: datasetID } = this.props;
+
+    const disableNewButton = dataset && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
 
     return (
       <div className="c-widgets-table">
@@ -149,9 +172,10 @@ class WidgetsTable extends PureComponent {
           input={{ placeholder: 'Search widget' }}
           link={{
             label: 'New widget',
-            route: `/admin/data/widgets/new?dataset=${dataset}`,
+            route: `/admin/data/widgets/new?dataset=${datasetID}`,
           }}
           onSearch={this.onSearch}
+          disableButton={disableNewButton}
         />
 
         {!error && (
@@ -169,7 +193,7 @@ class WidgetsTable extends PureComponent {
                 {
                   name: 'Edit',
                   params: {
-                    tab: 'widgets', subtab: 'edit', id: '{{id}}', dataset,
+                    tab: 'widgets', subtab: 'edit', id: '{{id}}', datasetID,
                   },
                   show: true,
                   component: EditAction,

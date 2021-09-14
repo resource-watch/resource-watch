@@ -25,7 +25,7 @@ const EXCLUSIVE_PARTNERS = [
 export default function LayoutPartners() {
   const {
     data: partners,
-  } = usePublishedPartners({}, {
+  } = usePublishedPartners({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
     select: (_partners) => ({
       founders: _partners.filter((_partner) => _partner['partner-type'] === 'founding_partners'),
       funders: _partners.filter((_partner) => _partner['partner-type'] === 'funders'),
@@ -82,7 +82,7 @@ export default function LayoutPartners() {
             </div>
           </div>
           <div className="row">
-            {partners.founders.map((p) => (
+            {partners && partners.founders.map((p) => (
               <div
                 className="column small-12 medium-6"
                 key={p.id}
@@ -102,7 +102,7 @@ export default function LayoutPartners() {
             </div>
           </div>
           <div className="row">
-            {partners.anchorFunders.map((p) => (
+            {partners && partners.anchorFunders.map((p) => (
               <div
                 className="column small-12"
                 key={p.id}
@@ -122,7 +122,7 @@ export default function LayoutPartners() {
             </div>
           </div>
           <div className="row">
-            {partners.funders.map((p) => (
+            {partners && partners.funders.map((p) => (
               <div
                 className="column small-12 medium-6"
                 key={p.id}
@@ -148,7 +148,7 @@ export default function LayoutPartners() {
             </div>
           </div>
           <div className="row">
-            {partners.others.map((p) => (
+            {partners && partners.others.map((p) => (
               <div
                 className="column small-12 medium-6"
                 key={p.id}

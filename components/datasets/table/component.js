@@ -11,6 +11,7 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 import TableFilters from 'components/admin/table-filters';
+import { USER_TYPES } from 'components/admin/table-filters/constants';
 import NameTD from './td/name';
 import CodeTD from './td/code';
 import StatusTD from './td/status';
@@ -41,10 +42,12 @@ class DatasetsTable extends PureComponent {
   }
 
   onFiltersChange = (value) => {
+    const { filters } = this.state;
     this.setState({
       filters: {
-        ...this.state.filters,
-        'user.role': value.value,
+        ...filters,
+        ...(value.value === USER_TYPES.ADMIN && { 'user.role': value.value }),
+        ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
     () => this.loadDatasets());
@@ -97,6 +100,7 @@ class DatasetsTable extends PureComponent {
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
       ...filters,
     }, { Authorization: user?.token }, true)
       .then(({ datasets, meta }) => {
@@ -117,6 +121,7 @@ class DatasetsTable extends PureComponent {
             ..._dataset,
             owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
             role: _dataset.user ? _dataset.user.role : '',
+            disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(_dataset.env),
           })),
         });
       })

@@ -25,6 +25,7 @@ import {
 
 // utils
 import { getLinksByWidgetType } from 'utils/embed';
+import { getWidgetType } from 'utils/widget';
 import { logEvent } from 'utils/analytics';
 import { logger } from 'utils/logs';
 
@@ -41,12 +42,11 @@ export default function WidgetShareModal({
 
   const handleWidgetWebshot = useCallback(async () => {
     try {
-      const {
-        type,
-      } = widget?.widgetConfig;
+      const widgetType = getWidgetType(widget);
+
       setWebshotLoading(true);
       const { widgetThumbnail } = await takeWidgetWebshot(widget.id, user?.token, {
-        type,
+        type: widgetType,
         ...params,
       });
 

@@ -49,6 +49,7 @@ export default function DatasetsSidebarContainer({
     includes: 'layer,metadata',
     ids: datasetIDs.join(','),
     'page[size]': 50,
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   }, {
     enabled: !!datasetIDs.length,
     placeholderData: [],
@@ -72,7 +73,7 @@ export default function DatasetsSidebarContainer({
 
       return datasetGroups
         .map((group) => ({
-          id: group.title,
+          id: group.slug,
           title: group.title,
           datasets: datasets.length ? group.datasets
             .map((datasetId) => datasetsMap.get(datasetId)) : [],

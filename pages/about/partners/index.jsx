@@ -18,7 +18,9 @@ export const getServerSideProps = withRedux(withUserServerSide(async ({ store })
   const { dispatch, getState } = store;
   const { partners: { published } } = getState();
 
-  if (!published.list.length) await dispatch(getPartners());
+  if (!published.list.length) {
+    await dispatch(getPartners({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }));
+  }
 
   return ({
     props: ({}),

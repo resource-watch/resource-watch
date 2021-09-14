@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { FORM_ELEMENTS } from 'components/admin/pages/form/constants';
 
 // Components
+import Select from 'components/form/SelectInput';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 import TextArea from 'components/form/TextArea';
@@ -27,6 +28,7 @@ class Step1 extends React.Component {
   }
 
   render() {
+    const { onChange } = this.props;
     // Reset FORM_ELEMENTS
     FORM_ELEMENTS.elements = {};
 
@@ -36,7 +38,7 @@ class Step1 extends React.Component {
           {/* TITLE */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.title = c; }}
-            onChange={(value) => this.props.onChange({ title: value })}
+            onChange={(value) => onChange({ title: value })}
             validations={['required']}
             className="-fluid"
             properties={{
@@ -53,7 +55,7 @@ class Step1 extends React.Component {
           {/* SUMMARY */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.summary = c; }}
-            onChange={(value) => this.props.onChange({ summary: value })}
+            onChange={(value) => onChange({ summary: value })}
             className="-fluid"
             properties={{
               name: 'summary',
@@ -67,7 +69,7 @@ class Step1 extends React.Component {
           {/* DESCRIPTION */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
-            onChange={(value) => this.props.onChange({ description: value })}
+            onChange={(value) => onChange({ description: value })}
             className="-fluid"
             properties={{
               name: 'description',
@@ -85,7 +87,7 @@ class Step1 extends React.Component {
                 <Field
                   ref={(c) => { if (c) FORM_ELEMENTS.elements.photo = c; }}
                   onChange={(value) => {
-                    this.props.onChange({ photo: value });
+                    onChange({ photo: value });
                   }}
                   validations={['required']}
                   className="-fluid"
@@ -103,10 +105,32 @@ class Step1 extends React.Component {
             </div>
           </div>
 
+          {/* ENVIRONMENT */}
+          <Field
+            ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
+            className="-fluid"
+            options={[
+              { label: 'Staging', value: 'staging' },
+              { label: 'Preproduction', value: 'preproduction' },
+              { label: 'Production', value: 'production' },
+            ]}
+            onChange={(value) => this.props.onChange({ env: value })}
+            properties={{
+              name: 'env',
+              label: 'Environment',
+              placeholder: 'Choose an environment...',
+              noResultsText: 'Please, choose an environment for this page',
+              default: process.env.NEXT_PUBLIC_API_ENV,
+              value: this.props.form.env,
+            }}
+          >
+            {Select}
+          </Field>
+
           {/* PUBLISHED */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
-            onChange={(value) => this.props.onChange({ published: value.checked })}
+            onChange={(value) => onChange({ published: value.checked })}
             properties={{
               name: 'published',
               label: 'Do you want to set this dasboard as published?',
@@ -124,7 +148,7 @@ class Step1 extends React.Component {
           {/* CONTENT */}
           <Field
             ref={(c) => { if (c) FORM_ELEMENTS.elements.content = c; }}
-            onChange={(value) => this.props.onChange({ content: value })}
+            onChange={(value) => onChange({ content: value })}
             validations={['required']}
             className="-fluid"
             properties={{

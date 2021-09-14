@@ -22,7 +22,7 @@ export default function FooterLinks() {
   const {
     data: featuredDashboards,
     isError,
-  } = useFeaturedDashboards({}, {
+  } = useFeaturedDashboards({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
     select: (_dashboards) => _dashboards.map(({ id, name, slug }) => ({
       id,
       label: name,

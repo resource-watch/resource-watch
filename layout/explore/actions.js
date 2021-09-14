@@ -48,6 +48,8 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     // Page
     'page[number]': explore.datasets.page,
     'page[size]': explore.datasets.limit,
+    // Environment(s)
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   };
 
   dispatch(setDatasetsLoading(true));

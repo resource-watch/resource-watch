@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch: custom anchor titles. [OW-146](https://vizzuality.atlassian.net/browse/OW-146)
+- embeds: map-swipe widgets. [OW-121](https://vizzuality.atlassian.net/browse/OW-121)
 - Ocean watch country page: text blocks. [OW-123](https://vizzuality.atlassian.net/browse/OW-123)
 - Ocean Watch storytelling: worldwide geostore.
 - Ocean Watch storytelling: added "back to top" button. [OW-106](https://vizzuality.atlassian.net/browse/OW-106)
@@ -60,6 +62,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- mini-explore-widgets: missing initial placeholder. [OW-147](https://vizzuality.atlassian.net/browse/OW-147)
 - wrong pathname route when the explore tries to reflect its state in the URL. [RW-82](https://vizzuality.atlassian.net/browse/RW-82)
 - WYSIWYG: removes mini-explore button from toolbar. [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
 - opacity 0 couldn't be applied to layer. [OW-94](https://vizzuality.atlassian.net/browse/OW-94)

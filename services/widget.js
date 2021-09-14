@@ -238,9 +238,9 @@ export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
   logger.info(`Update widget metadata: ${widgetId}`);
   return WRIAPI.post(`/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
     {
-      ...metadata,
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
       env: process.env.NEXT_PUBLIC_API_ENV,
+      ...metadata,
     },
     { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))

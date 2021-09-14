@@ -11,6 +11,7 @@ class SearchInput extends PureComponent {
   static defaultProps = {
     link: {},
     onlyDesktop: false,
+    disableButton: false,
   }
 
   static propTypes = {
@@ -21,7 +22,9 @@ class SearchInput extends PureComponent {
     isHeader: PropTypes.bool,
     escapeText: PropTypes.bool,
     onSearch: PropTypes.func.isRequired,
+    disableButton: PropTypes.bool,
     onlyDesktop: PropTypes.bool,
+    className: PropTypes.string,
   };
 
   constructor(props) {
@@ -64,7 +67,7 @@ class SearchInput extends PureComponent {
 
   render() {
     const { value } = this.state;
-    const { link, input, isHeader } = this.props;
+    const { link, input, isHeader, className, disableButton } = this.props;
     const { onlyDesktop } = link;
 
     const classNames = classnames({ 'c-search-input--header': isHeader });
@@ -75,10 +78,11 @@ class SearchInput extends PureComponent {
       '-desktopOnly': onlyDesktop,
       'c-button': true,
       '-primary': true,
+      '-disabled': disableButton,
     });
 
     return (
-      <div className={`c-search-input ${classNames}`}>
+      <div className={`c-search-input ${classNames} ${className}`}>
         <div className="c-field -fluid">
           <div className="field-container">
             <input

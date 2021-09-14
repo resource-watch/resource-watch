@@ -54,6 +54,8 @@ export default function SwipeTypeWidgetContainer({
   widgetId,
   params,
   style,
+  isEmbed,
+  isWebshot,
   areaOfInterest,
   onToggleShare,
 }) {
@@ -193,6 +195,8 @@ export default function SwipeTypeWidgetContainer({
         bounds={bounds}
         widget={widget}
         style={style}
+        isEmbed={isEmbed}
+        isWebshot={isWebshot}
         isFetching={isFetching}
         isError={isError}
         isInACollection={isInACollection}
@@ -207,12 +211,16 @@ SwipeTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
   params: {},
   style: {},
+  isEmbed: false,
+  isWebshot: false,
 };
 
 SwipeTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
   params: PropTypes.shape({}),
   style: PropTypes.shape({}),
+  isEmbed: PropTypes.bool,
+  isWebshot: PropTypes.bool,
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };

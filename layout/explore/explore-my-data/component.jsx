@@ -36,6 +36,7 @@ export default function ExploreMyData() {
     userId: user?.id,
     application: process.env.NEXT_PUBLIC_APPLICATIONS,
     includes: 'layer,metadata',
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   }, {
     enabled: !!user?.id,
     refetchOnWindowFocus: false,
