@@ -3,6 +3,7 @@ import { toastr } from 'react-redux-toastr';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import Select from 'react-select';
+import cx from 'classnames';
 
 // Services
 import { fetchDatasets, updateDataset } from 'services/dataset';
@@ -23,39 +24,52 @@ function ExploreForm(props) {
 
   const getDatasetName = (d) => (d.metadata.length > 0 && d.metadata[0].name) || d.name;
 
+  const loadDatasets = (value) => {
+    fetchDatasets({
+      includes: 'metadata',
+      published: true,
+      status: 'saved',
+      ...(value && { name: value }),
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
+      sort: 'name',
+      'page[size]': 99999,
+    })
+      .then((data) => setSearch({
+        list: data.map((d) => ({
+          label: getDatasetName(d),
+          id: d.id,
+        })),
+        loading: false,
+        value,
+      }))
+      .catch((err) => toastr.error('Error performing dataset search', err));
+  };
+
   useEffect(() => {
+    // Highlighted datasets
     fetchDatasets({
       includes: 'metadata',
       'applicationConfig.rw.highlighted': 'true',
       'page[size]': 4,
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
     })
       .then((datasets) => {
         const datasetsMap = datasets.map((d) => ({
           label: getDatasetName(d),
           id: d.id,
+          env: d.env,
         }));
         setHighlightedDatasets({ old: datasetsMap, new: datasetsMap, loading: false });
       })
       .catch((err) => toastr.error('Error loading highlighted datasets', err));
+
+    // Dataset values for the selector
+    loadDatasets(null);
   }, []);
 
   const handleDatasetSearchInputChange = debounce((value) => {
     if (value) {
-      fetchDatasets({
-        includes: 'metadata',
-        published: true,
-        status: 'saved',
-        name: value,
-      })
-        .then((data) => setSearch({
-          list: data.map((d) => ({
-            label: getDatasetName(d),
-            id: d.id,
-          })),
-          loading: false,
-          value,
-        }))
-        .catch((err) => toastr.error('Error performing dataset search', err));
+      loadDatasets(value);
     }
   }, 250);
 
@@ -129,7 +143,10 @@ function ExploreForm(props) {
             <Spinner isLoading={highlightedDatasets.loading} className="-relative -light" />
             {highlightedDatasets.new.map((hd) => (
               <li
-                className="highlighted-dataset"
+                className={cx({
+                  'highlighted-dataset': true,
+                  '-disabled': !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(hd.env),
+                })}
                 key={hd.id}
               >
                 <span>{hd.label}</span>
