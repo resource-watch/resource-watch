@@ -16,7 +16,7 @@ import PartnersCarousel from './component';
 export default function PartnersCarouselContainer() {
   const {
     data: partners,
-  } = usePublishedPartners({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
+  } = usePublishedPartners({}, {
     select: (_partners) => sortBy(_partners.filter((_partner) => !OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES.includes(_partner['partner-type']) && _partner.featured), 'name'),
     placeholderData: [],
     refetchOnWindowFocus: false,
