@@ -74,7 +74,7 @@ export default function LayoutOceanWatch({
 
       {children}
 
-      <Footer isOceanWatch />
+      <Footer />
 
       <Search />
 

@@ -101,7 +101,9 @@ class ToolsTable extends PureComponent {
     const { pagination } = this.state;
 
     const toolsWithDisabledField = filteredTools
-      .map((t) => ({ ...t, disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(t.env) }));
+      .map((t) => ({
+        ...t, disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === t.env) < 0,
+      }));
 
     return (
       <div className="c-tools-table">
