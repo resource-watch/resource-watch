@@ -25,7 +25,7 @@ const EXCLUSIVE_PARTNERS = [
 export default function LayoutPartners() {
   const {
     data: partners,
-  } = usePublishedPartners({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
+  } = usePublishedPartners({}, {
     select: (_partners) => ({
       founders: _partners.filter((_partner) => _partner['partner-type'] === 'founding_partners'),
       funders: _partners.filter((_partner) => _partner['partner-type'] === 'funders'),

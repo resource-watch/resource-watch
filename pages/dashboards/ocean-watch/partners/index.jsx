@@ -125,10 +125,7 @@ export default function OceanWatchPartnersPage() {
                   key={child.id}
                   className="column small-12 medium-6"
                 >
-                  <PartnerBlock
-                    item={child}
-                    isExternal
-                  />
+                  <PartnerBlock item={child} />
                 </div>
               ))}
             </div>
