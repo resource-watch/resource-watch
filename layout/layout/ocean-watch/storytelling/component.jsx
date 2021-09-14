@@ -236,6 +236,10 @@ export default function OceanWatchStoryTelling({
                 key={step.id}
                 data={step}
                 geostore={geostore}
+                params={{
+                  geostore_env: 'geostore_prod',
+                  geostore_id: geostore,
+                }}
               />
             </div>
           </Step>

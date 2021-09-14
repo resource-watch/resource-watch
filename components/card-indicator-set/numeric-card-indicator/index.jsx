@@ -40,7 +40,7 @@ export default function NumericCardIndicatorContainer({
       placeholderData: data,
       select: (_data) => ({
         ...data,
-        value: _data?.rows?.[0]?.x,
+        value: _data?.rows?.[0]?.value,
       }),
     },
   );

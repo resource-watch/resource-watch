@@ -2,6 +2,9 @@ import {
   useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
+import {
+  replace,
+} from '@vizzuality/layer-manager-utils';
 
 // hooks
 import {
@@ -14,16 +17,17 @@ import StoryStep from './component';
 export default function StoryStepContainer({
   data,
   geostore,
+  params,
 }) {
   const query = useMemo(() => {
     if (data.isPlaceholder || !data.content.widget || !data.content.widget.length) return null;
 
     const blockWithQuery = data.content.widget.find(({ query: _query }) => _query);
 
-    if (blockWithQuery) return blockWithQuery.query;
+    if (blockWithQuery) return replace(blockWithQuery.query, params);
 
     return null;
-  }, [data]);
+  }, [data, params]);
 
   const {
     data: queryData,
@@ -37,7 +41,7 @@ export default function StoryStepContainer({
 
         const blockQueryWithValue = {
           ...data.content.widget[blockWithQueryIndex],
-          value: _data?.rows?.[0]?.x,
+          value: _data?.rows?.[0]?.value,
         };
 
         return ({
@@ -58,12 +62,14 @@ export default function StoryStepContainer({
     <StoryStep
       data={query ? queryData : data}
       geostore={geostore}
+      params={params}
     />
   );
 }
 
 StoryStepContainer.defaultProps = {
   geostore: null,
+  params: {},
 };
 
 StoryStepContainer.propTypes = {
@@ -75,5 +81,6 @@ StoryStepContainer.propTypes = {
       ),
     }),
   }).isRequired,
+  params: PropTypes.shape({}),
   geostore: PropTypes.string,
 };
