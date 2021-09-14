@@ -50,7 +50,7 @@ class DatasetsTable extends PureComponent {
         ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
-    () => this.loadDatasets());
+      () => this.loadDatasets());
   }
 
   /**
@@ -121,11 +121,10 @@ class DatasetsTable extends PureComponent {
             ..._dataset,
             owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
             role: _dataset.user ? _dataset.user.role : '',
-            disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(_dataset.env),
+            disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === _dataset.env) < 0,
           })),
         });
-      })
-      .catch((error) => toastr.error('There was an error loading the datasets', error));
+      }).catch((error) => toastr.error('There was an error loading the datasets', error));
   }
 
   render() {

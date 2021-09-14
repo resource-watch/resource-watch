@@ -145,7 +145,7 @@ function ExploreForm(props) {
               <li
                 className={cx({
                   'highlighted-dataset': true,
-                  '-disabled': !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(hd.env),
+                  '-disabled': process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === hd.env) < 0,
                 })}
                 key={hd.id}
               >
@@ -176,7 +176,7 @@ function ExploreForm(props) {
           Save
         </button>
       </div>
-    </div>
+    </div >
   );
 }
 

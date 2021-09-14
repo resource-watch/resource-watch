@@ -135,7 +135,7 @@ class LayersTable extends PureComponent {
             ..._layer,
             owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
             role: _layer.user ? _layer.user.role || '' : '',
-            disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(_layer.env),
+            disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((l) => l === _layer.env) < 0,
           })),
         });
       })

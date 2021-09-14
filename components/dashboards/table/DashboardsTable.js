@@ -120,7 +120,7 @@ class DashboardsTable extends PureComponent {
             ..._dashboard,
             owner: _dashboard.user ? _dashboard.user.name || (_dashboard.user.email || '').split('@')[0] : '',
             role: _dashboard.user ? _dashboard.user.role || '' : '',
-            disabled: !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(_dashboard.env),
+            disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === _dashboard.env) < 0,
           })),
           pagination: nextPagination,
         });
