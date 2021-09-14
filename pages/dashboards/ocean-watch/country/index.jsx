@@ -15,6 +15,7 @@ import {
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
 import Header from 'layout/header';
 import OceanWatchHero from 'layout/layout/ocean-watch/hero';
+import OceanWatchPartners from 'layout/layout/ocean-watch/partners';
 
 export default function OceanWatchCountryProfiles() {
   const router = useRouter();
@@ -90,6 +91,15 @@ export default function OceanWatchCountryProfiles() {
                   Start by selecting a country.
                 </h3>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="l-section -medium">
+        <div className="l-container">
+          <div className="row">
+            <div className="column small-12">
+              <OceanWatchPartners />
             </div>
           </div>
         </div>
