@@ -36,10 +36,9 @@ export const fetchPages = (params = {}, headers = {}) => {
 
 /**
  * Fetch page
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#fetch-page|here}
- * @param {String} id Page id.
+ * @param {String} id ID or slug of the page.
  * @param {String} token Authentication token.
- * @param {Object} params Request paremeters.
+ * @param {Object} params Request parameters.
  * @param {Object} headers Request headers.
  */
 export const fetchPage = (id, token, params = {}, headers = {}) => {
@@ -50,7 +49,10 @@ export const fetchPage = (id, token, params = {}, headers = {}) => {
       headers: {
         ...headers,
       },
-      params: { ...params },
+      params: {
+        env: process.env.NEXT_PUBLIC_ENVS_SHOW,
+        ...params,
+      },
     },
   )
     .then((response) => WRISerializer(response.data))

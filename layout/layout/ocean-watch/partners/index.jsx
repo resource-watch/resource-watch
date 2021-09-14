@@ -11,18 +11,18 @@ import {
 } from 'constants/ocean-watch';
 
 // components
-import PartnersCarousel from './component';
+import OceanWatchPartners from './component';
 
-export default function PartnersCarouselContainer() {
+export default function OceanWatchPartnersContainer() {
   const {
     data: partners,
   } = usePublishedPartners({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
-    select: (_partners) => sortBy(_partners.filter((_partner) => !OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES.includes(_partner['partner-type']) && _partner.featured), 'name'),
+    select: (_partners) => sortBy(_partners.filter((_partner) => OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES.includes(_partner['partner-type'])), 'name'),
     placeholderData: [],
     refetchOnWindowFocus: false,
   });
 
   return (
-    <PartnersCarousel partners={partners} />
+    <OceanWatchPartners partners={partners} />
   );
 }
