@@ -16,7 +16,7 @@ import OceanWatchPartners from './component';
 export default function OceanWatchPartnersContainer() {
   const {
     data: partners,
-  } = usePublishedPartners({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
+  } = usePublishedPartners({}, {
     select: (_partners) => sortBy(_partners.filter((_partner) => OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES.includes(_partner['partner-type'])), 'name'),
     placeholderData: [],
     refetchOnWindowFocus: false,

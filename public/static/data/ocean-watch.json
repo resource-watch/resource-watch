@@ -80,8 +80,8 @@
           "content": {
             "widget": [
               {
-                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                "description": "Proportion of sub-basins have a high or extremely high potential of driving coastal eutrophication",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND((SUM(proportion)*100)) AS value FROM ocn_calcs_014_eutrophication_risk AS data INNER JOIN gadm36_0 gadm ON data.gid_0 = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' AND cep_label IN ('High (1 to 5)', 'Extremely High (>5)') ",
                 "format": ".2f",
                 "unit": "%"
               },
@@ -328,8 +328,8 @@
                           "id": "34611389-153b-4f24-a687-418e073dd6e0"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), '{{iso}}' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = '{{iso}}'",
-                          "text": "Some highlight text about why this matters",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND((SUM(proportion)*100)) AS value FROM ocn_calcs_014_eutrophication_risk AS data INNER JOIN gadm36_0 gadm ON data.gid_0 = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' AND cep_label IN ('High (1 to 5)', 'Extremely High (>5)')",
+                          "text": "Proportion of sub-basins have a high or extremely high potential of driving coastal eutrophication",
                           "format": ".2f",
                           "unit": "%"
                         }
@@ -987,18 +987,18 @@
                     {
                       "id": "OECD-FAO-agricultural_outlook",
                       "title": "OECD/FAO Agricultural Outlook 2020-2029",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                      "format": ".2f",
-                      "unit": "%",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT rank FROM (SELECT iso, value, RANK() OVER (ORDER BY value DESC) FROM (SELECT iso, ROUND(SUM(value)) AS value, RANK() OVER (PARTITION BY iso ORDER BY time DESC) AS yr_rank FROM  foo_063_rw0_nutrient_balance_edit WHERE indicator='Balance per hectare' GROUP BY iso, time) AS data WHERE yr_rank=1) AS ranked INNER JOIN gadm36_0 gadm ON ranked.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "format": "",
+                      "unit": "",
                       "widgets": [
                         {
                           "id": "4e8f077f-bed7-44f7-8d52-d793b485f301"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                          "text": "Some highlight text about why this matters",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value) AS value FROM foo_063_rw0_nutrient_balance_edit AS data INNER JOIN gadm36_0 gadm ON data.iso = gadm.gid_0 WHERE indicator='Balance per hectare' AND gadm.{{geostoe_env}} ILIKE '{{geostore_id}}' GROUP BY time ORDER BY time DESC LIMIT 1",
+                          "text": "Nutrient excess or deficit per hectare",
                           "format": ".2f",
-                          "unit": "%"
+                          "unit": "kg"
                         }
                       ]
                     },
@@ -1164,8 +1164,8 @@
           "content": {
             "widget": [
               {
-                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                "description": "Proportion of current sub-basins have a high or extremely high potential of driving coastal eutrophication",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND((SUM(proportion)*100)) AS value FROM ocn_calcs_014_eutrophication_risk AS data INNER JOIN gadm36_0 gadm ON data.gid_0 = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' AND cep_label IN ('High (1 to 5)', 'Extremely High (>5)')",
                 "format": ".2f",
                 "unit": "%"
               },
@@ -1408,8 +1408,8 @@
                           "id": "34611389-153b-4f24-a687-418e073dd6e0"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                          "text": "Some highlight text about why this matters",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND((SUM(proportion)*100)) AS value FROM ocn_calcs_014_eutrophication_risk AS data INNER JOIN gadm36_0 gadm ON data.gid_0 = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' AND cep_label IN ('High (1 to 5)', 'Extremely High (>5)')",
+                          "text": "Proportion of current sub-basins have a high or extremely high potential of driving coastal eutrophication",
                           "format": ".2f",
                           "unit": "%"
                         }
@@ -1967,18 +1967,18 @@
                     {
                       "id": "OECD-FAO-agricultural_outlook",
                       "title": "OECD/FAO Agricultural Outlook 2020-2029",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                      "format": ".2f",
-                      "unit": "%",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT rank FROM (SELECT iso, value, RANK() OVER (ORDER BY value DESC) FROM (SELECT iso, ROUND(SUM(value)) AS value, RANK() OVER (PARTITION BY iso ORDER BY time DESC) AS yr_rank FROM  foo_063_rw0_nutrient_balance_edit WHERE indicator='Balance per hectare' GROUP BY iso, time) AS data WHERE yr_rank=1) AS ranked INNER JOIN gadm36_0 gadm ON ranked.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "format": "",
+                      "unit": "",
                       "widgets": [
                         {
                           "id": "4e8f077f-bed7-44f7-8d52-d793b485f301"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                          "text": "Some highlight text about why this matters",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value) AS value FROM foo_063_rw0_nutrient_balance_edit AS data INNER JOIN gadm36_0 gadm ON data.iso = gadm.gid_0 WHERE indicator='Balance per hectare' AND gadm.{{geostoe_env}} ILIKE '{{geostore_id}}' GROUP BY time ORDER BY time DESC LIMIT 1",
+                          "text": "Nutrient excess of deficit per hectare",
                           "format": ".2f",
-                          "unit": "%"
+                          "unit": "kg"
                         }
                       ]
                     },
