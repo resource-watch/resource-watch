@@ -466,7 +466,8 @@ export default function OceanWatchCountryProfilePage({
                                           title={title}
                                           theme={indicatorSetConfiguration?.config?.theme}
                                           params={{
-                                            iso,
+                                            geostore_env: 'geostore_prod',
+                                            ...area?.geostore && { geostore_id: area.geostore },
                                           }}
                                         />
                                       ))}
