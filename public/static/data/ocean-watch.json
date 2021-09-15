@@ -62,15 +62,24 @@
           "info": [
             {
               "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
-              "position": [25, 28]
+              "position": [
+                25,
+                28
+              ]
             },
             {
               "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
-              "position": [50, 60]
+              "position": [
+                50,
+                60
+              ]
             },
             {
               "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
-              "position": [50, 25]
+              "position": [
+                50,
+                25
+              ]
             }
           ]
         },
@@ -121,11 +130,17 @@
           "info": [
             {
               "content": "Ocean acidification is caused by rising CO2 levels in the atmosphere. Many critical ocean habitats and life forms begin to dissolve when the water is too acidic",
-              "position": [55, 60]
+              "position": [
+                55,
+                60
+              ]
             },
             {
               "content": "Oxygen is a key requirement for ocean life. Climate change is warming the ocean and driving deoxygenation by limiting its ability to hold and circulate oxygen into the deep ocean",
-              "position": [75, 55]
+              "position": [
+                75,
+                55
+              ]
             }
           ]
         },
@@ -158,11 +173,17 @@
           "info": [
             {
               "content": "Lorem ipsum",
-              "position": [50, 50]
+              "position": [
+                50,
+                50
+              ]
             },
             {
               "content": "In the ocean, biodiversity underpins marine ecosystem functioning, which provides valuable services for people, including food, protection from storm surges and rising sea levels, and carbon sequestration",
-              "position": [65, 65]
+              "position": [
+                65,
+                65
+              ]
             }
           ]
         },
@@ -174,7 +195,7 @@
             "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity",
             "widget": [
               {
-                "id":  "92e5286e-b40a-4a6f-a3e5-84ac9b49d459",
+                "id": "92e5286e-b40a-4a6f-a3e5-84ac9b49d459",
                 "type": "chart"
               }
             ]
@@ -190,7 +211,10 @@
           "info": [
             {
               "content": "MPAs that are fully protected can safeguard biodiversity, mitigate climate change and boost the productivity of fisheries in the surrounding areas",
-              "position": [60, 55]
+              "position": [
+                60,
+                55
+              ]
             }
           ]
         },
@@ -202,7 +226,7 @@
             "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food.",
             "widget": [
               {
-                "id":  "4a54273c-0529-4da1-a935-f3de4738ca3e",
+                "id": "4a54273c-0529-4da1-a935-f3de4738ca3e",
                 "type": "chart"
               }
             ]
@@ -218,15 +242,24 @@
           "info": [
             {
               "content": "The ocean is a source of protein for x million people, supporting complete diets and access to food",
-              "position": [25, 55]
+              "position": [
+                25,
+                55
+              ]
             },
             {
-              "content": "Coastal ecosystems protect the coastline from  high waves during storms",
-              "position": [50, 50]
+              "content": "Coastal ecosystems protect the coastline from  high waves during storms",
+              "position": [
+                50,
+                50
+              ]
             },
             {
               "content": "From fishing through to pharmaceuticals, the ocean provides a source of income that in many cases cannot be replaced",
-              "position": [75, 55]
+              "position": [
+                75,
+                55
+              ]
             }
           ]
         },
@@ -293,16 +326,25 @@
           },
           "info": [
             {
-              "content": "A sustainably managed fishery can feed the world, sustainable ocean management provides the means to support millions of  coastal communities",
-              "position": [25, 55]
+              "content": "A sustainably managed fishery can feed the world, sustainable ocean management provides the means to support millions of  coastal communities",
+              "position": [
+                25,
+                55
+              ]
             },
             {
               "content": "Tourism is an ever growing industry, often acting as a significant source of wealth for developing nations. Sustainable marine tourism provides essential jobs for a variety of communities and a means to engage with one of the worlds most important ecosystems",
-              "position": [70, 50]
+              "position": [
+                70,
+                50
+              ]
             },
             {
               "content": "Ocean sources of renewable energy are projected to increase x fold over the next ten years. The ocean is a solution to unsustainable energy generation",
-              "position": [70, 70]
+              "position": [
+                70,
+                70
+              ]
             }
           ]
         }
@@ -1145,15 +1187,24 @@
           "info": [
             {
               "content": "Plant roots hold soil in place. Deforestation and forest degradation remove the roots and increase the risk of soil erosion.",
-              "position": [35,28]
+              "position": [
+                35,
+                28
+              ]
             },
             {
               "content": "Fertilizers and waste runoff can enable thick, toxic layers of algae — or algal blooms — to grow. This prevents sunlight from reaching the seafloor and causes the loss of ocean biodiversity.",
-              "position": [50, 45]
+              "position": [
+                50,
+                45
+              ]
             },
             {
               "content": "Agriculture and livestock introduce nutrients to their environment. Excess nutrients can cause specific plants, like algae, to grow too fast.",
-              "position": [50, 25]
+              "position": [
+                50,
+                25
+              ]
             }
           ]
         },
@@ -1204,11 +1255,17 @@
           "info": [
             {
               "content": "Ocean acidification is caused by rising CO2 levels in the atmosphere. Many critical ocean habitats and life forms begin to dissolve when the water is too acidic",
-              "position": [55, 60]
+              "position": [
+                55,
+                60
+              ]
             },
             {
               "content": "Oxygen is a key requirement for ocean life. Climate change is warming the ocean and driving deoxygenation by limiting its ability to hold and circulate oxygen into the deep ocean",
-              "position": [75, 55]
+              "position": [
+                75,
+                55
+              ]
             }
           ]
         },
@@ -1241,11 +1298,17 @@
           "info": [
             {
               "content": "Lorem ipsum",
-              "position": [50, 50]
+              "position": [
+                50,
+                50
+              ]
             },
             {
               "content": "In the ocean, biodiversity underpins marine ecosystem functioning, which provides valuable services for people, including food, protection from storm surges and rising sea levels, and carbon sequestration",
-              "position": [65, 65]
+              "position": [
+                65,
+                65
+              ]
             }
           ]
         },
@@ -1257,7 +1320,7 @@
             "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity",
             "widget": [
               {
-                "id":  "92e5286e-b40a-4a6f-a3e5-84ac9b49d459",
+                "id": "92e5286e-b40a-4a6f-a3e5-84ac9b49d459",
                 "type": "chart"
               }
             ]
@@ -1273,7 +1336,10 @@
           "info": [
             {
               "content": "MPAs that are fully protected can safeguard biodiversity, mitigate climate change and boost the productivity of fisheries in the surrounding areas",
-              "position": [60, 55]
+              "position": [
+                60,
+                55
+              ]
             }
           ]
         },
@@ -1285,7 +1351,7 @@
             "subtitle": "Humans rely on the ocean for sufficient, safe and nutritious food",
             "widget": [
               {
-                "id":  "4a54273c-0529-4da1-a935-f3de4738ca3e",
+                "id": "4a54273c-0529-4da1-a935-f3de4738ca3e",
                 "type": "chart"
               }
             ]
@@ -1301,11 +1367,17 @@
           "info": [
             {
               "content": "The ocean provides humans oxygen, deep cultural traditions, food and micronutrients. Human survival is intrinsically linked and dependent on this critical natural resource",
-              "position": [25, 55]
+              "position": [
+                25,
+                55
+              ]
             },
             {
               "content": "Three billion people depend on resources from marine and coastal ecosystems as a source of protein and key nutrients. When ocean environments are put under stress, it puts coastal communities at risk of food insecurity",
-              "position": [50, 50]
+              "position": [
+                50,
+                50
+              ]
             }
           ]
         },
@@ -1373,15 +1445,24 @@
           "info": [
             {
               "content": "The ocean is the source of millions of jobs in fishing, tourism, transportation, shipping and energy — and many more people are indirectly connected to the ocean economy",
-              "position": [25, 55]
+              "position": [
+                25,
+                55
+              ]
             },
             {
               "content": "As the world looks to recover from the coronavirus pandemic and the economic fallout, the ocean can bring economic relief and economic prosperity",
-              "position": [70, 50]
+              "position": [
+                70,
+                50
+              ]
             },
             {
               "content": "The ocean could provide a virtually limitless supply of clean, renewable energy — creating jobs and spurring economic growth",
-              "position": [70, 70]
+              "position": [
+                70,
+                70
+              ]
             }
           ]
         }
