@@ -128,7 +128,7 @@ export default function IndicatorVisualization({
   }, [widgetQuery, params]);
 
   const {
-    data: secondaryWidget,
+    data: secondaryWidgetValue,
     isFetching: isFetchingSecondaryWidget,
     isError: isErrorSecondaryWidget,
     refetch: refetchSecondaryWidget,
@@ -139,7 +139,7 @@ export default function IndicatorVisualization({
       enabled: !!(replacedQuery),
       refetchOnWindowFocus: false,
       placeholderData: {},
-      select: ({ data }) => data?.rows[0],
+      select: ({ data }) => data?.rows[0]?.value,
     },
   );
 
@@ -265,11 +265,11 @@ export default function IndicatorVisualization({
               className="-transparent"
             />
           )}
-          {(!isFetchingSecondaryWidget && secondaryWidget) && (
+          {(!isFetchingSecondaryWidget && secondaryWidgetValue) && (
             <>
               <span className="data">
                 {widgets[1].format
-                  ? format(widgets[1].format)(secondaryWidget.x) : secondaryWidget.x}
+                  ? format(widgets[1].format)(secondaryWidgetValue) : secondaryWidgetValue}
                 {widgets[1].unit && (
                   <span className="unit">
                     {widgets[1].unit}
