@@ -151,7 +151,6 @@ export default function StoryStep({
     {},
     {
       enabled: Boolean(querySection),
-      placeholderData: null,
       select: (_data) => {
         const {
           format: valueFormat,
