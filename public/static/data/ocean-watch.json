@@ -110,7 +110,7 @@
             "widget": [
               {
                 "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0"
               },
               {
                 "id": "432ba622-36b9-4178-8a91-6a59446e7347",
@@ -386,7 +386,7 @@
                           "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
-                          "text": "Some highlight text about why this matters",
+                          "text": "Some highlight text about why this matters"
                         }
                       ]
                     },
@@ -1231,7 +1231,7 @@
             "widget": [
               {
                 "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0"
               },
               {
                 "id": "432ba622-36b9-4178-8a91-6a59446e7347",
@@ -1500,7 +1500,7 @@
                           "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
-                          "text": "Some highlight text about why this matters",
+                          "text": "Some highlight text about why this matters"
                         }
                       ]
                     },
