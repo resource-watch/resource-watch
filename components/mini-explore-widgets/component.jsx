@@ -1,6 +1,7 @@
 import {
   useReducer,
   useCallback,
+  useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 
@@ -71,6 +72,10 @@ export default function MiniExploreWidgets({
 
     return dispatch(setGeostoreBasin(properties.geostore_prod));
   }, []);
+
+  useEffect(() => {
+    dispatch(setGeostoreBasin(null));
+  }, [params]);
 
   return (
     <div className="c-mini-explore-widgets">
