@@ -142,7 +142,7 @@
               },
               {
                 "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' ",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) as value FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' ",
                 "unit": "%"
               }
             ]
@@ -361,7 +361,7 @@
                           "id": "9c1482d4-b196-49c5-a558-f25467f6ae50"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) as value FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                           "text": "Some highlight text about why this matters",
                           "unit": "%"
                         }
@@ -1225,7 +1225,7 @@
               },
               {
                 "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) as value FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                 "unit": "%"
               }
             ]
@@ -1440,7 +1440,7 @@
                           "id": "9c1482d4-b196-49c5-a558-f25467f6ae50"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) as value FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                           "text": "Some highlight text about why this matters",
                           "unit": "%"
                         }
