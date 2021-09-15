@@ -37,6 +37,7 @@ export default function StoryStepContainer({
     {
       placeholderData: data,
       select: (_data) => {
+        if (!data.content || !data?.content?.widget) return data;
         const blockWithQueryIndex = data.content.widget.findIndex(({ query: _query }) => _query);
 
         const blockQueryWithValue = {
