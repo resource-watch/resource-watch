@@ -101,8 +101,7 @@
             "widget": [
               {
                 "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication",
-                "value": 9.5,
-                "unit": "%"
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0"
               },
               {
                 "id": "432ba622-36b9-4178-8a91-6a59446e7347",
@@ -345,10 +344,7 @@
                           "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
-                          "text": "Some highlight text about why this matters",
-                          "format": ".2f",
-                          "unit": "%"
+                          "text": "Some highlight text about why this matters"
                         }
                       ]
                     },
@@ -1184,8 +1180,7 @@
             "widget": [
               {
                 "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
-                "value": 9.5,
-                "unit": "%"
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0"
               },
               {
                 "id": "432ba622-36b9-4178-8a91-6a59446e7347",
@@ -1424,10 +1419,7 @@
                           "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
-                          "text": "Some highlight text about why this matters",
-                          "format": ".2f",
-                          "unit": "%"
+                          "text": "Some highlight text about why this matters"
                         }
                       ]
                     },
