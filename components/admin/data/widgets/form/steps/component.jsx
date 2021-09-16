@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import WidgetEditor from '@widget-editor/widget-editor';
+import cx from 'classnames';
 
 // Constants
 import { FORM_ELEMENTS } from 'components/admin/data/widgets/form/constants';
@@ -50,7 +51,12 @@ class AdminWidgetForm extends Component {
     FORM_ELEMENTS.elements = {};
 
     return (
-      <fieldset className="c-field-container">
+      <fieldset
+        className={cx({
+          'c-field-container': true,
+          '-disabled': form.env && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(form.env),
+        })}
+      >
         <fieldset className="c-field-container">
           {/* DATASET */}
           <Field
@@ -77,15 +83,17 @@ class AdminWidgetForm extends Component {
               ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
               hint={'Choose "preproduction" to see this dataset it only as admin, "production" option will show it in public site.'}
               className="-fluid"
-              options={[{ label: 'Pre-production', value: 'preproduction' }, { label: 'Production', value: 'production' }]}
+              options={[
+                { label: 'Staging', value: 'staging' },
+                { label: 'Preproduction', value: 'preproduction' },
+                { label: 'Production', value: 'production' },
+              ]}
               onChange={(value) => onChange({ env: value })}
               properties={{
                 name: 'env',
                 label: 'Environment',
                 placeholder: 'Choose an environment...',
-                noResultsText: 'Please, type the name of the columns and press enter',
-                promptTextCreator: (label) => `The name of the column is "${label}"`,
-                default: 'preproduction',
+                default: process.env.NEXT_PUBLIC_API_ENV,
                 value: form.env,
               }}
             >

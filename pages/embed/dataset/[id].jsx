@@ -1,6 +1,12 @@
 // actions
 import { setEmbed } from 'redactions/common';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+} from 'hoc/auth';
+
 // components
 import LayoutEmbedDataset from 'layout/embed/dataset';
 
@@ -11,7 +17,7 @@ export default function EmbedDatasetPage(props) {
   return (<LayoutEmbedDataset {...props} />);
 }
 
-EmbedDatasetPage.getInitialProps = async ({ store, query }) => {
+export const getServerSideProps = withRedux(withUserServerSide(async ({ store, query }) => {
   const { dispatch } = store;
   const {
     id,
@@ -22,6 +28,8 @@ EmbedDatasetPage.getInitialProps = async ({ store, query }) => {
   const dataset = await fetchDataset(id, { includes: 'widget, metadata' });
 
   return ({
-    dataset,
+    props: ({
+      dataset,
+    }),
   });
-};
+}));

@@ -33,7 +33,7 @@ export default function LayoutDashboards({
 
   const {
     data: featuredDashboards,
-  } = useFeaturedDashboards({}, {
+  } = useFeaturedDashboards({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
     select: (_dashboards) => _dashboards.map(({
       name,
       slug,
@@ -53,6 +53,7 @@ export default function LayoutDashboards({
     data: highlightedDashboards,
   } = useHighlightedDashboards({
     include: 'user',
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   }, {
     select: (_dashboards) => _dashboards.map(({
       name,

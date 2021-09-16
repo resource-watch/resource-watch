@@ -84,16 +84,20 @@ class AdminPartnersTable extends PureComponent {
       authorization,
     } = this.props;
     const { pagination } = this.state;
+    const partnersWithDisabledField = partners
+      .map((p) => ({
+        ...p, disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === p.env) < 0,
+      }));
 
     return (
       <div className="c-partners-table">
         <Spinner className="-light" isLoading={loading} />
 
         {error && (
-        <p>
-          Error:
-          {error}
-        </p>
+          <p>
+            Error:
+            {error}
+          </p>
         )}
 
         <SearchInput
@@ -114,6 +118,7 @@ class AdminPartnersTable extends PureComponent {
               { label: 'Partner type', value: 'partner-type' },
               { label: 'Featured', value: 'featured', td: FeaturedTD },
               { label: 'Published', value: 'published', td: PublishedTD },
+              { label: 'Environment', value: 'env' },
             ]}
             actions={{
               show: true,
@@ -131,7 +136,7 @@ class AdminPartnersTable extends PureComponent {
               value: 1,
             }}
             filters={false}
-            data={partners}
+            data={partnersWithDisabledField}
             manualPagination
             onChangePage={this.onChangePage}
             onRowDelete={this.onRowDelete}

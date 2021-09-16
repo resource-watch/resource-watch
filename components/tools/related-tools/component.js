@@ -16,7 +16,7 @@ class RelatedTools extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.fetchTools();
+    this.props.fetchTools({ published: 'all' });
   }
 
   render() {

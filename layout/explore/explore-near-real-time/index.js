@@ -24,6 +24,7 @@ const ExploreNearRealTimeContainer = (props) => {
       'page[size]': 99,
       includes: 'layer,metadata',
       published: true,
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
     })
       .then((data) => {
         const newDatasets = {

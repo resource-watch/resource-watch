@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
+import cx from 'classnames';
 
 // Components
 import Navigation from 'components/form/Navigation';
@@ -42,7 +43,7 @@ class MetadataForm extends React.Component {
     const { widget } = this.props;
     if (widget) {
       fetchWidget(widget, { includes: 'metadata' })
-        .then(({ metadata, dataset }) => {
+        .then(({ metadata, dataset, env }) => {
           this.setState({
             form: (metadata && metadata.length)
               ? this.setFormFromParams(metadata[0])
@@ -51,6 +52,7 @@ class MetadataForm extends React.Component {
             dataset,
             // Stop the loading
             loading: false,
+            env,
           });
         })
         .catch((err) => {
@@ -148,26 +150,32 @@ class MetadataForm extends React.Component {
   }
 
   render() {
+    const { env } = this.state;
     return (
-      <div className="c-widget-metadata-form">
+      <div
+        className={cx({
+          'c-widget-metadata-form': true,
+          '-disabled': process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === env) < 0,
+        })}
+      >
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
           {this.state.loading && 'loading'}
           {!this.state.loading
             && (
-            <Step1
-              onChange={(value) => this.onChange(value)}
-              form={this.state.form}
-            />
+              <Step1
+                onChange={(value) => this.onChange(value)}
+                form={this.state.form}
+              />
             )}
 
           {!this.state.loading
             && (
-            <Navigation
-              step={this.state.step}
-              stepLength={this.state.stepLength}
-              submitting={this.state.submitting}
-              onStepChange={this.onStepChange}
-            />
+              <Navigation
+                step={this.state.step}
+                stepLength={this.state.stepLength}
+                submitting={this.state.submitting}
+                onStepChange={this.onStepChange}
+              />
             )}
         </form>
       </div>

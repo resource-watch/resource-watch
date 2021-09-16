@@ -7,6 +7,42 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer(withCSS(withSass({
   poweredByHeader: false,
 
+  eslint: {
+    // prevents compilation process to fail due to eslint warnings/errors.
+    // todo: fix eslint errors/warnings slowly until we ensure we can remove this option.
+    ignoreDuringBuilds: true,
+  },
+
+  // Webpack 5 is enabled by default
+  // You can still use webpack 4 while upgrading to the latest version of Next.js
+  // by adding the "webpack5: false" flag
+  webpack5: false,
+
+  async redirects() {
+    return [
+      {
+        source: '/data',
+        destination: '/data/explore',
+        permanent: true,
+      },
+      {
+        source: '/topics',
+        destination: '/dashboards',
+        permanent: true,
+      },
+      {
+        source: '/topics/:id',
+        destination: '/dashboards/:id',
+        permanent: true,
+      },
+      {
+        source: '/myrw',
+        destination: '/myrw/widgets/my_widgets',
+        permanent: true,
+      },
+    ];
+  },
+
   // exportPathMap: async (defaultPathMap) => ({
   //   ...defaultPathMap,
   //   '/': { page: '/home' },

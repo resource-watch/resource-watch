@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import cx from 'classnames';
 
 // services
 import { fetchLayers } from 'services/layer';
+import { fetchDataset } from 'services/dataset';
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -24,31 +26,32 @@ import GoToDatasetAction from './actions/go-to-dataset';
 
 // constants
 import { INITIAL_PAGINATION } from './constants';
+import { USER_TYPES } from 'components/admin/table-filters/constants';
 
 class LayersTable extends PureComponent {
-  static propTypes = {
-    dataset: PropTypes.string,
-    user: PropTypes.object.isRequired,
-  }
-
-  static defaultProps = { dataset: null }
-
   state = {
     pagination: INITIAL_PAGINATION,
     loading: true,
+    dataset: null,
     layers: [],
     filters: { name: null, 'user.role': 'ADMIN' },
   }
 
   UNSAFE_componentWillMount() {
+    const { dataset } = this.props;
     this.loadLayers();
+    if (dataset) {
+      this.loadDataset();
+    }
   }
 
   onFiltersChange = (value) => {
+    const { filters } = this.state;
     this.setState({
       filters: {
-        ...this.state.filters,
-        'user.role': value.value,
+        ...filters,
+        ...(value.value === USER_TYPES.ADMIN && { 'user.role': value.value }),
+        ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
     () => this.loadLayers());
@@ -71,7 +74,16 @@ class LayersTable extends PureComponent {
       },
       pagination: INITIAL_PAGINATION,
     }, () => this.loadLayers());
-  }, 250)
+  }, 250);
+
+  loadDataset = () => {
+    const { dataset } = this.props;
+    fetchDataset(dataset)
+      .then((d) => {
+        this.setState({ dataset: d });
+      })
+      .catch((error) => { this.setState({ error }); });
+  };
 
   onChangePage = (nextPage) => {
     const { pagination } = this.state;
@@ -91,7 +103,7 @@ class LayersTable extends PureComponent {
   }
 
   loadLayers = () => {
-    const { dataset, user: { token } } = this.props;
+    const { dataset, token } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
@@ -103,7 +115,8 @@ class LayersTable extends PureComponent {
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...(dataset && { dataset }),
       ...filters,
-    }, { Authorization: token }, true)
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
+    }, { Authorization: `Bearer ${token}` }, true)
       .then(({ layers, meta }) => {
         const {
           'total-pages': pages,
@@ -122,6 +135,7 @@ class LayersTable extends PureComponent {
             ..._layer,
             owner: _layer.user ? _layer.user.name || (_layer.user.email || '').split('@')[0] : '',
             role: _layer.user ? _layer.user.role || '' : '',
+            disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((l) => l === _layer.env) < 0,
           })),
         });
       })
@@ -134,8 +148,11 @@ class LayersTable extends PureComponent {
       pagination,
       layers,
       error,
+      dataset,
     } = this.state;
-    const { dataset } = this.props;
+    const { dataset: datasetID } = this.props;
+
+    const disableNewButton = dataset && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
 
     return (
       <div className="c-layer-table">
@@ -159,9 +176,10 @@ class LayersTable extends PureComponent {
           input={{ placeholder: 'Search layer' }}
           link={{
             label: 'New layer',
-            route: `/admin/data/layers/new?dataset=${dataset}`,
+            route: `/admin/data/layers/new?dataset=${datasetID}`,
           }}
           onSearch={this.onSearch}
+          disableButton={disableNewButton}
         />
 
         {!error && (
@@ -172,6 +190,7 @@ class LayersTable extends PureComponent {
               { label: 'Owner', value: 'owner', td: OwnerTD },
               { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
+              { label: 'Environment', value: 'env' },
             ]}
             actions={{
               show: true,
@@ -180,7 +199,7 @@ class LayersTable extends PureComponent {
                   name: 'Edit',
                   route: '/admin/data/layers/{{id}}/edit',
                   params: {
-                    tab: 'layers', subtab: 'edit', id: '{{id}}', dataset,
+                    tab: 'layers', subtab: 'edit', id: '{{id}}', datasetID,
                   },
                   show: true,
                   component: EditAction,
@@ -208,5 +227,14 @@ class LayersTable extends PureComponent {
     );
   }
 }
+
+LayersTable.defaultProps = {
+  dataset: null,
+};
+
+LayersTable.propTypes = {
+  dataset: PropTypes.string,
+  token: PropTypes.string.isRequired,
+};
 
 export default LayersTable;

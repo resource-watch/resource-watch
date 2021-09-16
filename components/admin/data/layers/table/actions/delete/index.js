@@ -1,8 +1,9 @@
-import { connect } from 'react-redux';
+// hoc
+import {
+  withUser,
+} from 'hoc/auth';
 
+// component
 import DeleteAction from './component';
 
-export default connect(
-  (state) => ({ user: state.user }),
-  null,
-)(DeleteAction);
+export default withUser(DeleteAction);

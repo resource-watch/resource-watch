@@ -71,6 +71,9 @@ export default function MiniExploreMap({
   onRemoveLayer,
   onChangeLayerDate,
   onChangeLayerTimeLine,
+  handleFitBoundsChange,
+  onLoad,
+  onHover,
 }) {
   const {
     pitch,
@@ -107,6 +110,10 @@ export default function MiniExploreMap({
         getCursor={handleMapCursor}
         className={mapClass}
         onViewportChange={handleViewport}
+        onFitBoundsChange={handleFitBoundsChange}
+        fitBoundsOptions={{ transitionDuration: 0 }}
+        {...onHover && { onHover }}
+        {...onLoad && { onLoad }}
       >
         {(_map) => (
           <>
@@ -175,7 +182,7 @@ export default function MiniExploreMap({
           {layerGroups.map((lg, i) => (
             <LegendListItem
               index={i}
-              key={lg.dataset}
+              key={lg.id}
               layerGroup={lg}
               toolbar={(
                 <LegendItemToolbar />
@@ -227,6 +234,8 @@ MiniExploreMap.defaultProps = {
   layerModal: null,
   layerGroupsInteractionLatLng: null,
   layerGroupsInteractionSelected: null,
+  onLoad: null,
+  onHover: null,
 };
 
 MiniExploreMap.propTypes = {
@@ -257,6 +266,7 @@ MiniExploreMap.propTypes = {
   ).isRequired,
   handleMapCursor: PropTypes.func.isRequired,
   handleViewport: PropTypes.func.isRequired,
+  handleFitBoundsChange: PropTypes.func.isRequired,
   handleClosePopup: PropTypes.func.isRequired,
   onChangeInteractiveLayer: PropTypes.func.isRequired,
   handleZoom: PropTypes.func.isRequired,
@@ -273,4 +283,6 @@ MiniExploreMap.propTypes = {
   onRemoveLayer: PropTypes.func.isRequired,
   onChangeLayerDate: PropTypes.func.isRequired,
   onChangeLayerTimeLine: PropTypes.func.isRequired,
+  onLoad: PropTypes.func,
+  onHover: PropTypes.func,
 };

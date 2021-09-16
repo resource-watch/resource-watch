@@ -18,6 +18,7 @@ export const getSimilarDatasets = createThunkAction('similar-datasets/getSimilar
       dataset: datasetIds.join(','),
       published: true,
       limit: 6,
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
     },
   )
     .then((data) => {

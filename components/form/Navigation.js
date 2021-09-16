@@ -12,6 +12,7 @@ class Navigation extends PureComponent {
     submitting: PropTypes.bool.isRequired,
     hideCancel: PropTypes.bool,
     showDelete: PropTypes.bool,
+    disabled: PropTypes.bool,
     onStepChange: PropTypes.func.isRequired,
     onBack: PropTypes.func,
     onDelete: PropTypes.func,
@@ -20,6 +21,7 @@ class Navigation extends PureComponent {
   static defaultProps = {
     hideCancel: false,
     showDelete: false,
+    disabled: false,
     onBack: null,
     onDelete: null,
   }
@@ -52,12 +54,12 @@ class Navigation extends PureComponent {
 
   render() {
     const {
-      step, stepLength, submitting, hideCancel, showDelete, onDelete,
+      step, stepLength, submitting, hideCancel, showDelete, onDelete, disabled,
     } = this.props;
     const submittingClassName = classnames({ '-submitting': submitting });
 
     return (
-      <ul className="c-field-buttons">
+      <ul className={classnames({ 'c-field-buttons': true, '-disabled': disabled })}>
         {showDelete
           && (
           <li className="c-button-container -full-width">

@@ -12,16 +12,14 @@ import {
 } from 'hooks/partners';
 
 // constants
+import {
+  OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES,
+} from 'constants/ocean-watch';
+
 const EXCLUSIVE_PARTNERS = [
   'founding_partners',
   'funders',
   'anchor_funder',
-];
-
-const OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES = [
-  'ow_collaborating-partner',
-  'ow_data-provider',
-  'ow_funder',
 ];
 
 export default function LayoutPartners() {
@@ -34,12 +32,7 @@ export default function LayoutPartners() {
       anchorFunders: _partners.filter((_partner) => _partner['partner-type'] === 'anchor_funder'),
       others: _partners.filter((_partner) => !EXCLUSIVE_PARTNERS.includes(_partner['partner-type']) && !OCEAN_WATCH_EXCLUSIVE_PARTNER_TYPES.includes(_partner['partner-type'])),
     }),
-    placeholderData: {
-      founders: [],
-      funders: [],
-      anchorFunders: [],
-      others: [],
-    },
+    placeholderData: [],
     refetchOnWindowFocus: false,
   });
 
@@ -89,7 +82,7 @@ export default function LayoutPartners() {
             </div>
           </div>
           <div className="row">
-            {partners.founders.map((p) => (
+            {partners && partners.founders.map((p) => (
               <div
                 className="column small-12 medium-6"
                 key={p.id}
@@ -109,7 +102,7 @@ export default function LayoutPartners() {
             </div>
           </div>
           <div className="row">
-            {partners.anchorFunders.map((p) => (
+            {partners && partners.anchorFunders.map((p) => (
               <div
                 className="column small-12"
                 key={p.id}
@@ -129,7 +122,7 @@ export default function LayoutPartners() {
             </div>
           </div>
           <div className="row">
-            {partners.funders.map((p) => (
+            {partners && partners.funders.map((p) => (
               <div
                 className="column small-12 medium-6"
                 key={p.id}
@@ -155,7 +148,7 @@ export default function LayoutPartners() {
             </div>
           </div>
           <div className="row">
-            {partners.others.map((p) => (
+            {partners && partners.others.map((p) => (
               <div
                 className="column small-12 medium-6"
                 key={p.id}

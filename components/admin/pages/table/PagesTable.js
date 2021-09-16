@@ -98,6 +98,11 @@ class PagesTable extends PureComponent {
     const { filteredPages } = this.props;
     const { pagination } = this.state;
 
+    const pagesWithDisabled = filteredPages.map((p) => (
+      {
+        ...p, disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === p.env) < 0,
+      }));
+
     return (
       <div className="c-pages-table">
         <Spinner className="-light" isLoading={this.props.loading} />
@@ -125,6 +130,7 @@ class PagesTable extends PureComponent {
               { label: 'Name', value: 'title', td: NameTD },
               { label: 'Role', value: 'role', td: RoleTD },
               { label: 'Published', value: 'published', td: PublishedTD },
+              { label: 'Environment', value: 'env' },
             ]}
             actions={{
               show: true,
@@ -142,7 +148,7 @@ class PagesTable extends PureComponent {
               value: 1,
             }}
             filters={false}
-            data={filteredPages}
+            data={pagesWithDisabled}
             manualPagination
             onChangePage={this.onChangePage}
             onRowDelete={() => this.props.getPages()}

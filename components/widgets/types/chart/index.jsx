@@ -1,11 +1,16 @@
 import PropTypes from 'prop-types';
-import {
-  useSelector,
-} from 'react-redux';
 
 // hooks
 import { useFetchWidget } from 'hooks/widget';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
+import {
+  useMe,
+} from 'hooks/user';
+
+// utils
+import {
+  getParametrizedWidget,
+} from 'utils/widget';
 
 // components
 import Chart from './component';
@@ -13,12 +18,18 @@ import Chart from './component';
 export default function ChartContainer({
   widgetId,
   adapter,
+  params,
   onToggleShare,
+  style,
+  isEmbed,
+  isWebshot,
 }) {
-  const userToken = useSelector((state) => state.user?.token);
+  const {
+    data: user,
+  } = useMe();
   const {
     isInACollection,
-  } = useBelongsToCollection(widgetId, userToken);
+  } = useBelongsToCollection(widgetId, user?.token);
 
   const {
     data: widget,
@@ -33,6 +44,7 @@ export default function ChartContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
+      select: (_widget) => getParametrizedWidget(_widget, params),
     },
   );
 
@@ -40,6 +52,9 @@ export default function ChartContainer({
     <Chart
       widget={widget}
       adapter={adapter}
+      style={style}
+      isEmbed={isEmbed}
+      isWebshot={isWebshot}
       isFetching={isFetching}
       isError={isError}
       isInACollection={isInACollection}
@@ -48,8 +63,19 @@ export default function ChartContainer({
   );
 }
 
+ChartContainer.defaultProps = {
+  params: {},
+  style: {},
+  isEmbed: false,
+  isWebshot: false,
+};
+
 ChartContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  params: PropTypes.shape({}),
+  style: PropTypes.shape({}),
+  isEmbed: PropTypes.bool,
+  isWebshot: PropTypes.bool,
   adapter: PropTypes.func.isRequired,
   onToggleShare: PropTypes.func.isRequired,
 };

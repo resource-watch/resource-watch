@@ -6,6 +6,7 @@ import {
   useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import {
   Legend,
   LegendListItem,
@@ -62,22 +63,35 @@ export default function MapTypeWidget({
   widget,
   layerGroups,
   aoiLayer,
+  maskLayer,
+  style,
+  isEmbed,
+  isWebshot,
   isFetching,
   isError,
   isInACollection,
+  mapBounds,
   onToggleShare,
+  onFitBoundsChange,
 }) {
   const handleError = useErrorHandler(isError ? new Error('something went wrong') : null);
   const [mapWidgetState, dispatch] = useReducer(mapWidgetReducer, ({
     ...mapWidgetInitialState,
     layerGroups,
   }));
-  const [viewport, setViewport] = useState(DEFAULT_VIEWPORT);
+  const [viewport, setViewport] = useState({
+    ...DEFAULT_VIEWPORT,
+    height: 400,
+  });
   const [isInfoWidgetVisible, setInfoWidgetVisibility] = useState(false);
 
   const [handleViewport] = useDebouncedCallback((_viewport) => {
     setViewport(_viewport);
   }, 250);
+
+  const handleFitBoundsChange = useCallback((_viewport) => {
+    onFitBoundsChange(_viewport);
+  }, [onFitBoundsChange]);
 
   const handleZoom = useCallback((zoom) => {
     setViewport(((prevViewport) => ({
@@ -142,21 +156,14 @@ export default function MapTypeWidget({
   }, [widget]);
 
   const bounds = useMemo(() => {
-    if (aoiLayer?.bbox) {
-      return ({
-        bbox: aoiLayer.bbox,
-        options: {
-          padding: 50,
-        },
-      });
-    }
+    if (mapBounds) return mapBounds;
 
     if (!widget?.widgetConfig?.bbox) return ({});
 
     return ({
       bbox: parseBbox(widget.widgetConfig.bbox),
     });
-  }, [aoiLayer, widget]);
+  }, [widget, mapBounds]);
 
   const boundaries = useMemo(() => !!widget?.widgetConfig?.basemapLayers?.boundaries, [widget]);
 
@@ -174,20 +181,22 @@ export default function MapTypeWidget({
 
       return [
         ...(aoiLayer !== null) ? [aoiLayer] : [],
-        ...activeLayers,
+        ...(maskLayer !== null) ? [maskLayer] : [],
+        ...activeLayers.filter(Boolean),
       ];
     },
-    [mapWidgetState, aoiLayer],
+    [mapWidgetState, aoiLayer, maskLayer],
   );
 
   return (
     <div
-      className="c-widget"
+      className={classnames('c-widget', { '-is-embed': isEmbed })}
       style={{
         height: '100%',
+        ...style,
       }}
     >
-      {!isFetching && !isError && (
+      {(!isFetching && !isError && !isWebshot) && (
         <div className="widget-header-container">
           <WidgetHeader
             widget={widget}
@@ -201,6 +210,7 @@ export default function MapTypeWidget({
       <div
         className="widget-container"
         style={{
+          minHeight: 400,
           ...!isInfoWidgetVisible && { border: 0 },
         }}
       >
@@ -211,18 +221,21 @@ export default function MapTypeWidget({
           />
         )}
 
-        {(!isFetching && !isError) && (
-          <div style={{
+        <div
+          style={{
             position: 'relative',
             width: '100%',
             height: '100%',
           }}
-          >
+        >
+          {(!isFetching && !isError) && (
+          <>
             <Map
               mapStyle={MAPSTYLES}
               viewport={viewport}
               basemap={basemap}
               onViewportChange={handleViewport}
+              onFitBoundsChange={handleFitBoundsChange}
               labels={labels}
               scrollZoom={false}
               bounds={bounds}
@@ -230,8 +243,8 @@ export default function MapTypeWidget({
               fitBoundsOptions={{
                 transitionDuration: 0,
               }}
-              onError={() => {
-                handleError(new Error('map couldn\'t load'));
+              onError={(errorMessage) => {
+                handleError(new Error(errorMessage));
               }}
             >
               {(_map) => (
@@ -241,53 +254,55 @@ export default function MapTypeWidget({
                 />
               )}
             </Map>
-            <MapControls customClass="c-map-controls -embed">
-              <ZoomControls
-                viewport={viewport}
-                onClick={handleZoom}
-              />
-            </MapControls>
+            {!isWebshot && (
+              <MapControls customClass="c-map-controls -embed">
+                <ZoomControls
+                  viewport={viewport}
+                  onClick={handleZoom}
+                />
+              </MapControls>
+            )}
 
             {(layers.length > 0) && (
-              <div className="c-legend-map -embed">
-                <Legend
-                  maxHeight={140}
-                  onChangeOrder={onChangeOrder}
-                >
-                  {mapWidgetState.layerGroups.map((lg, i) => (
-                    <LegendListItem
-                      index={i}
-                      key={lg.id}
-                      layerGroup={lg}
-                      {...layerGroups.length > 1 && {
-                        toolbar: (
-                          <LegendItemToolbar>
-                            <LegendItemButtonLayers />
-                            <LegendItemButtonOpacity />
-                            <LegendItemButtonVisibility />
-                          </LegendItemToolbar>
-                        ),
-                      }}
-                      onChangeOpacity={onChangeOpacity}
-                      onChangeVisibility={onChangeVisibility}
-                      onChangeLayer={onChangeLayer}
-                    >
-                      <LegendItemTypes />
-                    </LegendListItem>
-                  ))}
-                </Legend>
-              </div>
+            <div className="c-legend-map -embed">
+              <Legend
+                maxHeight={140}
+                onChangeOrder={onChangeOrder}
+              >
+                {mapWidgetState.layerGroups.map((lg, i) => (
+                  <LegendListItem
+                    index={i}
+                    key={lg.id}
+                    layerGroup={lg}
+                    {...layerGroups.length > 1 && {
+                      toolbar: (
+                        <LegendItemToolbar>
+                          <LegendItemButtonLayers />
+                          <LegendItemButtonOpacity />
+                          <LegendItemButtonVisibility />
+                        </LegendItemToolbar>
+                      ),
+                    }}
+                    onChangeOpacity={onChangeOpacity}
+                    onChangeVisibility={onChangeVisibility}
+                    onChangeLayer={onChangeLayer}
+                  >
+                    <LegendItemTypes />
+                  </LegendListItem>
+                ))}
+              </Legend>
+            </div>
             )}
-          </div>
-        )}
+          </>
+          )}
+        </div>
         {(isInfoWidgetVisible && widget && !isFetching) && (
-          <div
+          <WidgetInfo
+            widget={widget}
             style={{
               padding: 15,
             }}
-          >
-            <WidgetInfo widget={widget} />
-          </div>
+          />
         )}
       </div>
       {caption && (
@@ -302,6 +317,11 @@ export default function MapTypeWidget({
 MapTypeWidget.defaultProps = {
   layerGroups: [],
   aoiLayer: null,
+  mapBounds: null,
+  maskLayer: null,
+  style: {},
+  isEmbed: false,
+  isWebshot: false,
   isFetching: false,
   isError: false,
   isInACollection: false,
@@ -333,8 +353,14 @@ MapTypeWidget.propTypes = {
       PropTypes.number,
     ),
   }),
+  mapBounds: PropTypes.shape({}),
+  maskLayer: PropTypes.shape({}),
+  style: PropTypes.shape({}),
+  isEmbed: PropTypes.bool,
+  isWebshot: PropTypes.bool,
   isFetching: PropTypes.bool,
   isError: PropTypes.bool,
   isInACollection: PropTypes.bool,
   onToggleShare: PropTypes.func.isRequired,
+  onFitBoundsChange: PropTypes.func.isRequired,
 };

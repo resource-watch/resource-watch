@@ -1,4 +1,6 @@
-import 'isomorphic-fetch';
+import {
+  HYDRATE,
+} from 'next-redux-wrapper';
 import { fetchFaqs, updateFaqOrder } from 'services/faqs';
 
 /**
@@ -34,6 +36,12 @@ const initialState = {
  */
 export default function Faqs(state = initialState, action) {
   switch (action.type) {
+    case HYDRATE: {
+      return ({
+        ...state,
+        ...action.payload.faqs,
+      });
+    }
     case GET_FAQS_LOADING: {
       const faqs = {
         ...state,

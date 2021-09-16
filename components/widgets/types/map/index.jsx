@@ -1,17 +1,16 @@
 import {
   useMemo,
+  useCallback,
+  useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
   useQueries,
 } from 'react-query';
 import {
-  useSelector,
-} from 'react-redux';
-import groupBy from 'lodash/groupBy';
-import {
   ErrorBoundary,
 } from 'react-error-boundary';
+import { v4 as uuidv4 } from 'uuid';
 
 // services
 import {
@@ -24,20 +23,22 @@ import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 import {
   useGeostore,
 } from 'hooks/geostore';
-
-// constants
 import {
-  USER_AREA_LAYER_TEMPLATES,
-} from 'components/map/constants';
+  useMe,
+} from 'hooks/user';
 
 // utils
 import {
-  getUserAreaLayer,
-} from 'components/map/utils';
+  getAoiLayer,
+  getMaskLayer,
+  getLayerGroups,
+} from 'utils/layers';
 
 // components
 import ErrorFallback from 'components/error-fallback';
 import MapTypeWidget from './component';
+
+const mapKey = uuidv4();
 
 const CustomErrorFallback = ((_props) => (
   <ErrorFallback
@@ -48,13 +49,20 @@ const CustomErrorFallback = ((_props) => (
 
 export default function MapTypeWidgetContainer({
   widgetId,
+  params,
+  style,
+  isEmbed,
+  isWebshot,
   areaOfInterest,
   onToggleShare,
 }) {
-  const userToken = useSelector((state) => state.user?.token);
+  const [minZoom, setMinZoom] = useState(null);
+  const {
+    data: user,
+  } = useMe();
   const {
     isInACollection,
-  } = useBelongsToCollection(widgetId, userToken);
+  } = useBelongsToCollection(widgetId, user?.token);
 
   const {
     data: widget,
@@ -97,6 +105,10 @@ export default function MapTypeWidgetContainer({
       queryKey: ['fetch-layer', layerId],
       queryFn: () => fetchLayer(layerId),
       placeholderData: null,
+      select: (_layer) => (_layer ? ({
+        ..._layer,
+        params,
+      }) : null),
     })),
   );
 
@@ -105,46 +117,24 @@ export default function MapTypeWidgetContainer({
     .map(({ data }) => data),
   [layerStates]);
 
-  const aoiLayer = useMemo(() => {
-    if (!geostore) return null;
-
+  const onFitBoundsChange = useCallback((viewport) => {
     const {
-      id,
-      geojson,
-      bbox,
-    } = geostore;
+      zoom,
+    } = viewport;
 
-    return ({
-      ...getUserAreaLayer(
-        {
-          id,
-          geojson,
-        },
-        USER_AREA_LAYER_TEMPLATES.explore,
-      ),
-      opacity: 1,
-      visibility: true,
-      isAreaOfInterest: true,
-      bbox,
-    });
-  },
-  [geostore]);
+    setMinZoom(zoom);
+  }, []);
+
+  const aoiLayer = useMemo(
+    () => getAoiLayer(widget, geostore, { minZoom }), [geostore, widget, minZoom],
+  );
+
+  const maskLayer = useMemo(() => getMaskLayer(widget, params), [widget, params]);
 
   const layerGroups = useMemo(() => {
-    const layersByDataset = groupBy(layers, 'dataset');
-
-    return Object.keys(layersByDataset).map((datasetKey) => ({
-      id: datasetKey,
-      opacity: 1,
-      visibility: true,
-      layers: layersByDataset[datasetKey]
-        .map((_layer) => ({
-          ..._layer,
-          active: _layer.default,
-          opacity: 1,
-        })),
-    }));
-  }, [layers]);
+    const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
+    return getLayerGroups(layers, layerParams);
+  }, [layers, widget]);
 
   const isError = useMemo(
     () => (isErrorWidget || isErrorGeostore),
@@ -156,17 +146,34 @@ export default function MapTypeWidgetContainer({
       FallbackComponent={CustomErrorFallback}
       onReset={() => {
         refetchWidget();
-        refetchGeostore();
+        if (areaOfInterest) refetchGeostore();
       }}
     >
       <MapTypeWidget
+        // forces to render the component again and paint updated styles in the map.
+        // This might be fixed in recent versions of Layer Manager.
+        // todo: try to remove the key when the layer manager version is updated.
+        key={minZoom || mapKey}
         layerGroups={layerGroups}
+        {...geostore?.bbox && {
+          mapBounds: {
+            bbox: geostore.bbox,
+            options: {
+              padding: 50,
+            },
+          },
+        }}
         aoiLayer={aoiLayer}
+        maskLayer={maskLayer}
         widget={widget}
+        style={style}
+        isEmbed={isEmbed}
+        isWebshot={isWebshot}
         isFetching={isFetching}
         isError={isError}
         isInACollection={isInACollection}
         onToggleShare={onToggleShare}
+        onFitBoundsChange={onFitBoundsChange}
       />
     </ErrorBoundary>
   );
@@ -174,10 +181,18 @@ export default function MapTypeWidgetContainer({
 
 MapTypeWidgetContainer.defaultProps = {
   areaOfInterest: null,
+  params: {},
+  style: {},
+  isEmbed: false,
+  isWebshot: false,
 };
 
 MapTypeWidgetContainer.propTypes = {
   widgetId: PropTypes.string.isRequired,
+  params: PropTypes.shape({}),
+  style: PropTypes.shape({}),
+  isEmbed: PropTypes.bool,
+  isWebshot: PropTypes.bool,
   areaOfInterest: PropTypes.string,
   onToggleShare: PropTypes.func.isRequired,
 };

@@ -24,7 +24,10 @@ export const fetchArea = (id, params = {}, headers = {}) => {
         ...headers,
         'Upgrade-Insecure-Requests': 1,
       },
-      params: { ...params },
+      params: {
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        ...params,
+      },
     },
   )
     .then((response) => WRISerializer(response.data))
@@ -94,7 +97,9 @@ export const fetchUserAreas = (token, params = {}, _meta = false) => {
 export const deleteArea = (areaId, token) => {
   logger.info(`Delete area ${areaId}`);
 
-  return WRIAPI.delete(`/v2/area/${areaId}`, { headers: { Authorization: token } })
+  return WRIAPI.delete(`/v2/area/${areaId}`, {
+    headers: { Authorization: token },
+  })
     .catch(({ response }) => {
       const { status, statusText } = response;
       logger.error(`Error deleting area ${areaId}: ${status}: ${statusText}`);

@@ -26,7 +26,7 @@ export default function HeadApp({
   const {
     asPath,
   } = useRouter();
-  const isProduction = process.env.NEXT_PUBLIC_RW_ENV === 'production';
+  const isProduction = process.env.NEXT_PUBLIC_API_ENV === 'production';
   const isHotjarRoute = useMemo(() => HOTJAR_ROUTES
     .filter((route) => asPath.startsWith(route)).length > 0,
   [asPath]);

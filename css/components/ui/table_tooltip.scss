@@ -1,3 +1,6 @@
+
+@use "sass:math";
+
 /* Filters */
 $_arrow-width: 12px;
 $_footer-height: 40px;
@@ -37,7 +40,7 @@ $_footer-height: 40px;
       top: 0;
       width: $_arrow-width;
       height: $_arrow-width;
-      margin: -#{$_arrow-width/2} 0px 0px -#{$_arrow-width/2};
+      margin: -#{math.div($-arrow-width, 2)} 0px 0px -#{math.div($-arrow-width, 2)};
       background: $color-white;
       border-top: 1px solid $color-grey;
       border-left: 1px solid $color-grey;

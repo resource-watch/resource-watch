@@ -49,6 +49,7 @@ function ExploreDiscover(props) {
           published: true,
           'applicationConfig.rw.highlighted': 'true',
           includes: 'layer,metadata,widget',
+          env: process.env.NEXT_PUBLIC_ENVS_SHOW,
         })
           .then((data) => setHighlightedDatasets({ loading: false, list: data }))
           .catch((err) => toastr.error('Error loading highlighted datasets', err));
@@ -59,6 +60,7 @@ function ExploreDiscover(props) {
           published: true,
           sort: '-dataLastUpdated',
           includes: 'layer,metadata,widget',
+          env: process.env.NEXT_PUBLIC_ENVS_SHOW,
           'concepts[0][0]': 'near_real_time',
         })
           .then((data) => setRecentUpdatedDatasets({ loading: false, list: data }))
@@ -70,6 +72,7 @@ function ExploreDiscover(props) {
           published: true,
           sort: '-createdAt',
           includes: 'layer,metadata,widget',
+          env: process.env.NEXT_PUBLIC_ENVS_SHOW,
         })
           .then((data) => setRecentlyAddedDatasets({ loading: false, list: data }))
           .catch((err) => toastr.error('Error loading recently added datasets', err));

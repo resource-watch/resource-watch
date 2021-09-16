@@ -3,9 +3,14 @@ import {
   useCallback,
 } from 'react';
 import { useRouter } from 'next/router';
+import {
+  useQueryClient,
+} from 'react-query';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
+import Header from 'layout/header';
+import OceanWatchHero from 'layout/layout/ocean-watch/hero';
 import PartnerBlock from 'components/partner-block';
 import BannerCountries from 'components/banners/countries';
 
@@ -13,7 +18,9 @@ import BannerCountries from 'components/banners/countries';
 import {
   usePublishedPartners,
 } from 'hooks/partners';
-import useCountryList from 'hooks/country/country-list';
+import {
+  useOceanWatchAreas,
+} from 'hooks/ocean-watch';
 
 const PARTNERS_PAGE_DESCRIPTION = `
 We couldn’t do this on our own.
@@ -25,6 +32,7 @@ organisations to support the integrated management of our ocean.
 
 export default function OceanWatchPartnersPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const {
     data: {
       collaboratingPartners,
@@ -37,20 +45,17 @@ export default function OceanWatchPartnersPage() {
       dataProviders: _partners.filter((_partner) => _partner['partner-type'] === 'ow_data-provider'),
       funders: _partners.filter((_partner) => _partner['partner-type'] === 'ow_funder'),
     }),
-    placeholderData: {
-      collaboratingPartners: [],
-      dataProviders: [],
-      funders: [],
-    },
+    placeholderData: [],
     refetchOnWindowFocus: false,
   });
-  // todo: replace with Ocean Watch countries when available
+
   const {
     data: countries,
-  } = useCountryList({
-    select: (_countries) => _countries.map(({ name, geostoreId }) => ({
+  } = useOceanWatchAreas({
+    placeholderData: queryClient.getQueryData('ocean-watch-areas') || [],
+    select: (_countries) => _countries.map(({ name, iso }) => ({
       label: name,
-      value: geostoreId,
+      value: iso,
     })),
     refetchOnWindowFocus: false,
   });
@@ -85,6 +90,8 @@ export default function OceanWatchPartnersPage() {
       title="Ocean Watch – Partners"
       description={PARTNERS_PAGE_DESCRIPTION}
     >
+      <Header className="-transparent" />
+      <OceanWatchHero className="-ocean-watch" />
       <section className="l-section -secondary -medium">
         <div className="l-container">
           <div className="row">
@@ -118,10 +125,7 @@ export default function OceanWatchPartnersPage() {
                   key={child.id}
                   className="column small-12 medium-6"
                 >
-                  <PartnerBlock
-                    item={child}
-                    isExternal
-                  />
+                  <PartnerBlock item={child} />
                 </div>
               ))}
             </div>

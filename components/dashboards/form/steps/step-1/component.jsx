@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 // components
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
+import Select from 'components/form/SelectInput';
 import TextArea from 'components/form/TextArea';
 import FileImage from 'components/form/FileImage';
 import Checkbox from 'components/form/Checkbox';
@@ -177,39 +178,24 @@ class Step1 extends PureComponent {
           && (
             <Field
               ref={(c) => {
-                if (c) FORM_ELEMENTS.elements.preproduction = c;
+                if (c) FORM_ELEMENTS.elements.env = c;
               }}
-              onChange={(value) => onChange({ preproduction: value.checked })}
+              className="-fluid"
+              options={[
+                { label: 'Staging', value: 'staging' },
+                { label: 'Preproduction', value: 'preproduction' },
+                { label: 'Production', value: 'production' },
+              ]}
+              onChange={(value) => onChange({ env: value })}
               properties={{
-                name: 'preproduction',
-                label: 'Do you want to set this dashboard as pre-production?',
-                value: 'preproduction',
-                title: 'Pre-production',
-                defaultChecked: form.preproduction,
-                checked: form.preproduction,
+                name: 'env',
+                label: 'Environment',
+                placeholder: 'Choose an environment...',
+                default: process.env.NEXT_PUBLIC_API_ENV,
+                value: form.env,
               }}
             >
-              {Checkbox}
-            </Field>
-          )}
-
-          {!basic
-          && (
-            <Field
-              ref={(c) => {
-                if (c) FORM_ELEMENTS.elements.production = c;
-              }}
-              onChange={(value) => onChange({ production: value.checked })}
-              properties={{
-                name: 'production',
-                label: 'Do you want to set this dashboard as production?',
-                value: 'production',
-                title: 'Production',
-                defaultChecked: form.production,
-                checked: form.production,
-              }}
-            >
-              {Checkbox}
+              {Select}
             </Field>
           )}
 
@@ -325,8 +311,7 @@ Step1.propTypes = {
     content: PropTypes.string,
     'is-featured': PropTypes.bool,
     'is-highlighted': PropTypes.bool,
-    production: PropTypes.string,
-    preproduction: PropTypes.string,
+    env: PropTypes.string,
     published: PropTypes.bool,
     photo: PropTypes.string,
     description: PropTypes.string,

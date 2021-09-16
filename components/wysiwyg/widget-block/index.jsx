@@ -1,4 +1,4 @@
-import React, {
+import {
   useCallback,
   useEffect,
 } from 'react';
@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 
 // hooks
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
+import {
+  useMe,
+} from 'hooks/user';
 
 // constants
 import {
@@ -26,7 +29,6 @@ const WidgetBlock = (props) => {
   const {
     item,
     data,
-    user,
     RWAdapter,
     getWidget,
     setWidgetLoading,
@@ -36,8 +38,12 @@ const WidgetBlock = (props) => {
     setWidgetModal,
   } = props;
   const {
+    data: user,
+  } = useMe();
+
+  const {
     isInACollection,
-  } = useBelongsToCollection(item?.content?.widgetId, user.token);
+  } = useBelongsToCollection(item?.content?.widgetId, user?.token);
 
   const handleToggleModal = useCallback((modal) => {
     setWidgetModal({
@@ -102,9 +108,6 @@ const WidgetBlock = (props) => {
 };
 
 WidgetBlock.propTypes = {
-  user: PropTypes.shape({
-    token: PropTypes.string,
-  }).isRequired,
   item: PropTypes.shape({
     id: PropTypes.oneOf([
       PropTypes.number,
@@ -127,7 +130,6 @@ WidgetBlock.propTypes = {
 export default connect(
   (state) => ({
     data: state.widgetBlock,
-    user: state.user,
     RWAdapter: getRWAdapter(state),
   }),
   actions,

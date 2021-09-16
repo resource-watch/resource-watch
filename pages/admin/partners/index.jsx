@@ -4,6 +4,13 @@ import {
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+// hoc
+import {
+  withRedux,
+  withUserServerSide,
+  withAdminRole,
+} from 'hoc/auth';
+
 // actions
 import { getAllPartners } from 'modules/partners/actions';
 
@@ -21,6 +28,8 @@ const AdminPartnersPage = ({
 AdminPartnersPage.propTypes = {
   getAllPartners: PropTypes.func.isRequired,
 };
+
+export const getServerSideProps = withRedux(withUserServerSide(withAdminRole()));
 
 export default connect(
   null,

@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch: added OW partners carousel to several pages.
+- Ocean Watch: populates about page with API content. [OW-63](https://vizzuality.atlassian.net/browse/OW-63)
+- Ocean Watch: setup of about page. [OW-21](https://vizzuality.atlassian.net/browse/OW-21)
+- Ocean Watch: custom anchor titles. [OW-146](https://vizzuality.atlassian.net/browse/OW-146)
+- embeds: map-swipe widgets. [OW-121](https://vizzuality.atlassian.net/browse/OW-121)
+- Ocean watch country page: text blocks. [OW-123](https://vizzuality.atlassian.net/browse/OW-123)
+- Ocean Watch storytelling: worldwide geostore.
+- Ocean Watch storytelling: added "back to top" button. [OW-106](https://vizzuality.atlassian.net/browse/OW-106)
+- Ocean Watch country page: collapsible mini-explore. [OW-102](https://vizzuality.atlassian.net/browse/OW-102)
+- Ocean Watch country page: anchors. [OW-20](https://vizzuality.atlassian.net/browse/OW-20)
+- Ocean Watch country page introduction: increases size of the country selector. [OW-108](https://vizzuality.atlassian.net/browse/OW-108)
+- Ocean Watch country page introduction: map image. [OW-107](https://vizzuality.atlassian.net/browse/OW-107)
+- Ocean Watch country page: texts. [OW-110](https://vizzuality.atlassian.net/browse/OW-110)
+- Ocean watch introduction: texts. [OW-109](https://vizzuality.atlassian.net/browse/OW-109)
+- Ocean watch country page: call to action suggest a story [OW-41](https://vizzuality.atlassian.net/browse/OW-41)
+- Ocean watch country page: call to action data contribution/request [OW-38](https://vizzuality.atlassian.net/browse/OW-38)
+- Ocean watch country page: call to action to go to general explore page [OW-32](https://vizzuality.atlassian.net/browse/OW-32)
+- Ocean Watch storytelling: add skip to countries button. [OW-105](https://vizzuality.atlassian.net/browse/OW-105)
+- dim effect to banners.
+- Ocean Watch introduction: call to action suggest a story [OW-39](https://vizzuality.atlassian.net/browse/OW-39)
+- Ocean Watch introduction: call to action data contribution/request [OW-36](https://vizzuality.atlassian.net/browse/OW-36)
+- Ocean Watch introduction: call to action to go to general explore page  [OW-28](https://vizzuality.atlassian.net/browse/OW-28)
+- Ocean Watch introduction: call to action to go to coral reefs dashboard [OW-30](https://vizzuality.atlassian.net/browse/OW-30)
+- Area of Interest preview when user uploads a file. [RW-68](https://vizzuality.atlassian.net/browse/RW-68)
+- Ocean Watch: River Water Quality section. [OW-68](https://vizzuality.atlassian.net/browse/OW-68)
+- show/hide area of interest by zoom level. [OW-90](https://vizzuality.atlassian.net/browse/OW-90)
+- Ocean Watch: mask layer. [OW-99](https://vizzuality.atlassian.net/browse/OW-99)
+- Ocean Watch: map swipe widget with support for multiple layers. [OW-87](https://vizzuality.atlassian.net/browse/OW-87)
+- Ocean Watch: custom opacity per layer in map-type widgets. [OW-86](https://vizzuality.atlassian.net/browse/OW-86)
+- Ocean Watch: widget parametrization.
+- Ocean Watch: loads available countries and their geometries. [OW-49](https://vizzuality.atlassian.net/browse/OW-83)
 - Ocean Watch: indicators set in introduction page. [OW-49](https://vizzuality.atlassian.net/browse/OW-49)
 - Storybook.
 - Ocean Watch: indicators set in country profiles pages. [OW-74](https://vizzuality.atlassian.net/browse/OW-74)
@@ -22,6 +53,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Changed
+- Ocean Watch: changed texts and links of "Suggest a Story" banner. [OW-129](https://vizzuality.atlassian.net/browse/OW-129)
+- Ocean Watch storytelling: increases map zoom one level. [OW-113](https://vizzuality.atlassian.net/browse/OW-113)
 - `redux@4.1.0`
 - `react-redux@7.2.4`
 - Ocean Watch: updated texts from Partners page. [OW-24](https://vizzuality.atlassian.net/browse/OW-24)
@@ -32,6 +65,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- mini-explore-widgets: missing initial placeholder. [OW-147](https://vizzuality.atlassian.net/browse/OW-147)
+- wrong pathname route when the explore tries to reflect its state in the URL. [RW-82](https://vizzuality.atlassian.net/browse/RW-82)
+- WYSIWYG: removes mini-explore button from toolbar. [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
+- opacity 0 couldn't be applied to layer. [OW-94](https://vizzuality.atlassian.net/browse/OW-94)
 - data explore: areas of interest not loading.[RW-67](https://vizzuality.atlassian.net/browse/RW-67)
 - mini-explore: USA and World boundaries.
 - warning with dashboard links.

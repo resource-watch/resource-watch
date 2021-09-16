@@ -9,17 +9,17 @@ import { logger } from 'utils/logs';
  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#get-favorites|here}
  * @param {String} token User's token
  */
-export const fetchFavorites = (token) => {
+export const fetchFavorites = (token, params = {}) => {
   logger.info('Fetch favorites');
   return WRIAPI.get('/v1/favourite',
     {
       headers: {
         Authorization: token,
-        'Upgrade-Insecure-Requests': 1,
       },
       params: {
         application: process.env.NEXT_PUBLIC_APPLICATIONS,
         env: process.env.NEXT_PUBLIC_API_ENV,
+        ...params,
       },
     })
     .then((response) => WRISerializer(response.data))
@@ -42,6 +42,7 @@ export const createFavourite = (token, { resourceId, resourceType }) => {
   return WRIAPI.post('/v1/favourite',
     {
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
       resourceId,
       resourceType,
     },

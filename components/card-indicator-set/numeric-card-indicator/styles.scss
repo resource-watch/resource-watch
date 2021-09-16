@@ -1,0 +1,65 @@
+@import 'css/settings';
+
+.c-numeric-card-indicator {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  height: 175px;
+  background: $white;
+  border: 1px solid rgba($dove-grey, .3);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px 0 rgba($black, .09);
+  cursor: pointer;
+  transition: all $animation-time-2 $ease-in-out-sine;
+
+  > .info-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: $space;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+
+  > .content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: ($space * 2);
+
+    > .name {
+      margin: 0;
+      font-size: $font-size-extra-small;
+      color: $dove-grey;
+      text-align: center;
+      font-weight: $font-weight-regular;
+    }
+
+    > .value {
+      font-size: 42px;
+      font-weight: $font-weight-light;
+      color: $sea-blue;
+    }
+  }
+
+  &.-active {
+    background: $sea-blue;
+
+    .name,
+    .value {
+      color: $white;
+    }
+  }
+
+  &:hover {
+    &:not(.-active) {
+      box-shadow: 0 0 0 1px rgba($black, .05), 0 20px 30px rgba($black, .2);
+      transform: translateY(-4px);
+    }
+  }
+}

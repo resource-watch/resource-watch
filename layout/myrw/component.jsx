@@ -1,9 +1,13 @@
 import {
   useMemo,
 } from 'react';
-import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+
+// hooks
+import {
+  useMe,
+} from 'hooks/user';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -19,18 +23,19 @@ import CollectionsTab from 'components/app/myrw/collections';
 // constants
 import { MYRW_TABS } from './constants';
 
-export default function LayoutMyRW({
-  user,
-}) {
+export default function LayoutMyRW() {
   const {
     query: {
       params,
     },
   } = useRouter();
+  const {
+    data: user,
+  } = useMe();
   const tab = params?.[0] || null;
   const subtab = params?.[1] || null;
 
-  const userName = useMemo(() => (user.name ? ` ${user.name.split(' ')[0]}` : ''), [user]);
+  const userName = useMemo(() => (user?.name ? ` ${user.name.split(' ')[0]}` : ''), [user]);
   const title = useMemo(() => (userName ? `Hi${userName}!` : 'My Resource Watch'), [userName]);
   const currentTab = tab || 'widgets';
 
@@ -88,9 +93,3 @@ export default function LayoutMyRW({
     </Layout>
   );
 }
-
-LayoutMyRW.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-  }).isRequired,
-};

@@ -10,6 +10,7 @@ import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
 import flatten from 'lodash/flatten';
 import { useDebouncedCallback } from 'use-debounce';
+import { v4 as uuidv4 } from 'uuid';
 
 // hooks
 import {
@@ -33,7 +34,7 @@ import {
 } from 'utils/analytics';
 
 // components
-import MiniExplore from './component';
+import MiniExploreMap from './component';
 
 // reducers
 import {
@@ -61,6 +62,8 @@ const {
   resetMapLayerGroupsInteraction,
 } = miniExploreSlice.actions;
 
+const mapKey = uuidv4();
+
 export default function MiniExploreMapContainer({
   mapState: {
     viewport,
@@ -79,6 +82,7 @@ export default function MiniExploreMapContainer({
   dispatch,
 }) {
   const [layerModal, setLayerModal] = useState(null);
+  const [minZoom, setMinZoom] = useState(null);
   const [onChangeOpacity] = useDebouncedCallback((l, opacity) => {
     dispatch(setMapLayerGroupOpacity({ dataset: { id: l.dataset }, opacity }));
   }, 250);
@@ -228,6 +232,14 @@ export default function MiniExploreMapContainer({
     setLayerModal(layer);
   }, []);
 
+  const handleFitBoundsChange = useCallback((_viewport) => {
+    const {
+      zoom,
+    } = _viewport;
+
+    setMinZoom(zoom);
+  }, []);
+
   // returns an array of dataset IDs through the different dataset groups
   const datasetIds = useMemo(() => flattenDeep(
     datasetGroups.map(({ datasets: _datasets }) => _datasets),
@@ -243,6 +255,8 @@ export default function MiniExploreMapContainer({
   } = useFetchDatasets({
     includes: 'layer',
     ids: datasetIds.join(','),
+    'page[size]': 30,
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   }, {
     enabled: !!(datasetIds.length),
     refetchOnWindowFocus: false,
@@ -309,6 +323,7 @@ export default function MiniExploreMapContainer({
         {
           id,
           geojson,
+          minZoom,
         },
         USER_AREA_LAYER_TEMPLATES.explore,
       );
@@ -332,7 +347,7 @@ export default function MiniExploreMapContainer({
       ...activeLayerGroups,
     ];
   },
-  [layerGroups, geostore]);
+  [layerGroups, geostore, minZoom]);
 
   const activeInteractiveLayers = useMemo(() => flatten(
     compact(activeLayers.map((_activeLayer) => {
@@ -357,7 +372,11 @@ export default function MiniExploreMapContainer({
   ), [activeLayers]);
 
   return (
-    <MiniExplore
+    <MiniExploreMap
+      // forces to render the component again and paint updated styles in the map.
+      // This might be fixed in recent versions of Layer Manager.
+      // todo: try to remove the key when the layer manager version is updated.
+      key={minZoom || mapKey}
       viewport={viewport}
       bounds={bounds}
       basemapId={basemapId}
@@ -378,6 +397,7 @@ export default function MiniExploreMapContainer({
       handleBoundaries={handleBoundaries}
       handleClosePopup={handleClosePopup}
       handleViewport={handleViewport}
+      handleFitBoundsChange={handleFitBoundsChange}
       onChangeInteractiveLayer={onChangeInteractiveLayer}
       onClickLayer={onClickLayer}
       onChangeLayerTimeLine={onChangeLayerTimeLine}

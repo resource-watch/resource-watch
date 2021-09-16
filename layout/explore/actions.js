@@ -1,5 +1,6 @@
+import { createAction } from '@reduxjs/toolkit';
+import { createThunkAction } from 'redux-tools';
 import sortBy from 'lodash/sortBy';
-import { createAction, createThunkAction } from 'redux-tools';
 
 // Services
 import { fetchDatasets as fetchDatasetsService } from 'services/dataset';
@@ -47,6 +48,8 @@ export const fetchDatasets = createThunkAction('EXPLORE/fetchDatasets', () => (d
     // Page
     'page[number]': explore.datasets.page,
     'page[size]': explore.datasets.limit,
+    // Environment(s)
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   };
 
   dispatch(setDatasetsLoading(true));
@@ -85,6 +88,7 @@ export const setAreaOfInterest = createAction('EXPLORE-MAP__SET_AREA_OF_INTEREST
 export const setIsDrawing = createAction('EXPLORE-MAP__DRAWER__SET-IS-DRAWING');
 export const setDataDrawing = createAction('EXPLORE-MAP__DRAWER__SET-DATA');
 export const stopDrawing = createAction('EXPLORE-MAP__DRAWER__STOP-DRAWING');
+export const setPreviewAoi = createAction('EXPLORE-MAP__PREVIEW__SET_AOI');
 
 // LAYERS
 export const toggleMapLayerGroup = createAction('EXPLORE/toggleMapLayerGroup');

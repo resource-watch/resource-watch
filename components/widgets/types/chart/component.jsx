@@ -3,6 +3,7 @@ import {
   useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Renderer from '@widget-editor/renderer';
 
 // components
@@ -13,6 +14,9 @@ import WidgetInfo from '../../info';
 export default function ChartType({
   widget,
   adapter,
+  style,
+  isEmbed,
+  isWebshot,
   isFetching,
   isError,
   isInACollection,
@@ -31,8 +35,11 @@ export default function ChartType({
   const caption = widget?.metadata?.[0]?.info?.caption;
 
   return (
-    <div className="c-widget">
-      {!isFetching && !isError && (
+    <div
+      className={classnames('c-widget', { '-is-embed': isEmbed })}
+      style={style}
+    >
+      {(!isFetching && !isError && !isWebshot) && (
         <div className="widget-header-container">
           <WidgetHeader
             widget={widget}
@@ -43,6 +50,7 @@ export default function ChartType({
           />
         </div>
       )}
+
       <div
         className="widget-container"
         style={{
@@ -50,19 +58,24 @@ export default function ChartType({
         }}
       >
         {isFetching && (
-          <Spinner
-            isLoading
-            className="-transparent"
-          />
+        <Spinner
+          isLoading
+          className="-transparent"
+        />
         )}
         {!isFetching && !isError && (
-          <Renderer
-            adapter={adapter}
-            widgetConfig={widget.widgetConfig}
-          />
+        <Renderer
+          adapter={adapter}
+          widgetConfig={widget.widgetConfig}
+        />
         )}
         {(isInfoWidgetVisible && widget && !isFetching) && (
-          <WidgetInfo widget={widget} />
+        <WidgetInfo
+          widget={widget}
+          style={{
+            padding: 15,
+          }}
+        />
         )}
       </div>
       {caption && (
@@ -78,6 +91,9 @@ ChartType.defaultProps = {
   isFetching: false,
   isError: false,
   isInACollection: false,
+  style: {},
+  isEmbed: false,
+  isWebshot: false,
 };
 
 ChartType.propTypes = {
@@ -92,6 +108,9 @@ ChartType.propTypes = {
     ),
   }).isRequired,
   adapter: PropTypes.func.isRequired,
+  style: PropTypes.shape({}),
+  isEmbed: PropTypes.bool,
+  isWebshot: PropTypes.bool,
   isFetching: PropTypes.bool,
   isError: PropTypes.bool,
   isInACollection: PropTypes.bool,

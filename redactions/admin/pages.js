@@ -81,7 +81,7 @@ export function getPages() {
   return (dispatch) => {
     dispatch({ type: GET_PAGES_LOADING });
 
-    fetchPages()
+    fetchPages({ env: process.env.NEXT_PUBLIC_ENVS_SHOW })
       .then((data) => {
         dispatch({ type: GET_PAGES_SUCCESS, payload: data });
       })

@@ -14,6 +14,7 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 import TableFilters from 'components/admin/table-filters';
+import { USER_TYPES } from 'components/admin/table-filters/constants';
 
 // constants
 import { INITIAL_PAGINATION } from './constants';
@@ -44,10 +45,12 @@ class DashboardsTable extends PureComponent {
   }
 
   onFiltersChange = (value) => {
+    const { filters } = this.state;
     this.setState({
       filters: {
-        ...this.state.filters,
-        'user.role': value.value,
+        ...filters,
+        ...(value.value === USER_TYPES.ADMIN && { 'user.role': value.value }),
+        ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
     () => this.loadDashboards());
@@ -96,7 +99,7 @@ class DashboardsTable extends PureComponent {
         'page[number]': pagination.page,
         'page[size]': pagination.limit,
         application: process.env.NEXT_PUBLIC_APPLICATIONS,
-        env: process.env.NEXT_PUBLIC_API_ENV,
+        env: process.env.NEXT_PUBLIC_ENVS_SHOW,
       },
       { Authorization: token },
       true,
@@ -117,6 +120,7 @@ class DashboardsTable extends PureComponent {
             ..._dashboard,
             owner: _dashboard.user ? _dashboard.user.name || (_dashboard.user.email || '').split('@')[0] : '',
             role: _dashboard.user ? _dashboard.user.role || '' : '',
+            disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === _dashboard.env) < 0,
           })),
           pagination: nextPagination,
         });
@@ -152,6 +156,7 @@ class DashboardsTable extends PureComponent {
             { label: 'Role', value: 'role', td: RoleTD },
             { label: 'Preview', value: 'slug', td: PreviewTD },
             { label: 'Published', value: 'published', td: PublishedTD },
+            { label: 'Environment', value: 'env' },
           ]}
           actions={{
             show: true,

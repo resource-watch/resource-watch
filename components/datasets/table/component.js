@@ -11,6 +11,7 @@ import Spinner from 'components/ui/Spinner';
 import CustomTable from 'components/ui/customtable/CustomTable';
 import SearchInput from 'components/ui/SearchInput';
 import TableFilters from 'components/admin/table-filters';
+import { USER_TYPES } from 'components/admin/table-filters/constants';
 import NameTD from './td/name';
 import CodeTD from './td/code';
 import StatusTD from './td/status';
@@ -27,7 +28,7 @@ import DeleteAction from './actions/delete';
 import { INITIAL_PAGINATION } from './constants';
 
 class DatasetsTable extends PureComponent {
-  static propTypes = { user: PropTypes.object.isRequired }
+  static propTypes = { user: PropTypes.object.isRequired };
 
   state = {
     pagination: INITIAL_PAGINATION,
@@ -41,13 +42,15 @@ class DatasetsTable extends PureComponent {
   }
 
   onFiltersChange = (value) => {
+    const { filters } = this.state;
     this.setState({
       filters: {
-        ...this.state.filters,
-        'user.role': value.value,
+        ...filters,
+        ...(value.value === USER_TYPES.ADMIN && { 'user.role': value.value }),
+        ...(value.value === USER_TYPES.ALL && { 'user.role': null }),
       },
     },
-    () => this.loadDatasets());
+      () => this.loadDatasets());
   }
 
   /**
@@ -87,7 +90,7 @@ class DatasetsTable extends PureComponent {
   }
 
   loadDatasets = () => {
-    const { user: { token } } = this.props;
+    const { user } = this.props;
     const { pagination, filters } = this.state;
 
     this.setState({ loading: true });
@@ -97,8 +100,9 @@ class DatasetsTable extends PureComponent {
       'page[number]': pagination.page,
       'page[size]': pagination.limit,
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_ENVS_SHOW,
       ...filters,
-    }, { Authorization: token }, true)
+    }, { Authorization: user?.token }, true)
       .then(({ datasets, meta }) => {
         const {
           'total-pages': pages,
@@ -117,10 +121,10 @@ class DatasetsTable extends PureComponent {
             ..._dataset,
             owner: _dataset.user ? _dataset.user.name || (_dataset.user.email || '').split('@')[0] : '',
             role: _dataset.user ? _dataset.user.role : '',
+            disabled: process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === _dataset.env) < 0,
           })),
         });
-      })
-      .catch((error) => toastr.error('There was an error loading the datasets', error));
+      }).catch((error) => toastr.error('There was an error loading the datasets', error));
   }
 
   render() {
@@ -162,6 +166,7 @@ class DatasetsTable extends PureComponent {
             { label: 'Owner', value: 'owner', td: OwnerTD },
             { label: 'Role', value: 'role', td: RoleTD },
             { label: 'Updated at', value: 'updatedAt', td: UpdatedAtTD },
+            { label: 'Environment', value: 'env' },
             { label: 'Applications', value: 'application', td: ApplicationsTD },
             {
               label: 'Related content', value: 'status', td: RelatedContentTD, tdProps: { route: '/admin/data' },

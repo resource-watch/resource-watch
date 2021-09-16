@@ -1,28 +1,15 @@
 import {
   useCallback,
 } from 'react';
+import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import sortBy from 'lodash/sortBy';
-
-// hooks
-import {
-  usePublishedPartners,
-} from 'hooks/partners';
 
 const Carousel = dynamic(() => import('../../../components/ui/Carousel'), { ssr: false });
 
-export default function PartnersCarousel() {
-  const {
-    data: partners,
-  } = usePublishedPartners({}, {
-    select: (_partners) => sortBy(
-      _partners.filter((_partner) => _partner.featured), 'name',
-    ),
-    placeholderData: [],
-    refetchOnWindowFocus: false,
-  });
-
+export default function PartnersCarousel({
+  partners,
+}) {
   const renderPartners = useCallback(() => partners
     .map((_partner) => (
       <div
@@ -48,3 +35,15 @@ export default function PartnersCarousel() {
     <Carousel items={renderPartners()} />
   );
 }
+
+PartnersCarousel.propTypes = {
+  partners: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      logo: PropTypes.shape({
+        thumb: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
+  ).isRequired,
+};

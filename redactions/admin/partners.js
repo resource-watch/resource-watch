@@ -76,11 +76,11 @@ export default function Partners(state = initialState, action) {
  * @export
  * @param {string[]} applications Name of the applications to load the partners from
  */
-export function getPartners() {
+export function getPartners(params = {}) {
   return (dispatch) => {
     dispatch({ type: GET_PARTNERS_LOADING });
 
-    return fetchPartners({ published: 'all' })
+    return fetchPartners(params)
       .then((data) => {
         dispatch({ type: GET_PARTNERS_SUCCESS, payload: data });
       })

@@ -1,7 +1,6 @@
 import {
   useMemo,
 } from 'react';
-import PropTypes from 'prop-types';
 
 // hooks
 import {
@@ -25,24 +24,21 @@ const VALID_DATASET_PROVIDERS = [
   'gee',
 ];
 
-export default function ExploreMyData({
-  userToken,
-}) {
+export default function ExploreMyData() {
   const {
-    data: {
-      id: userId,
-    },
-  } = useMe(userToken);
+    data: user,
+  } = useMe();
 
   const {
     data: datasets,
     isFetching,
   } = useFetchDatasets({
-    userId,
+    userId: user?.id,
     application: process.env.NEXT_PUBLIC_APPLICATIONS,
     includes: 'layer,metadata',
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
   }, {
-    enabled: !!userId,
+    enabled: !!user?.id,
     refetchOnWindowFocus: false,
     initialData: [],
     initialStale: true,
@@ -58,7 +54,7 @@ export default function ExploreMyData({
 
   return (
     <div className="c-explore-my-data">
-      {(isFetching && userId) && <Spinner className="-light" isLoading />}
+      {(isFetching && user?.id) && <Spinner className="-light" isLoading />}
 
       {(!isFetching && datasetsToDisplay.length > 0) && (
         <DatasetList
@@ -67,17 +63,9 @@ export default function ExploreMyData({
         />
       )}
 
-      {((!isFetching && !datasetsToDisplay.length) || !userId) && (
+      {((!isFetching && !datasetsToDisplay.length) || !user?.id) && (
         <MyDataComingSoon />
       )}
     </div>
   );
 }
-
-ExploreMyData.defaultProps = {
-  userToken: null,
-};
-
-ExploreMyData.propTypes = {
-  userToken: PropTypes.string,
-};

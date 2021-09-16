@@ -16,7 +16,7 @@ import { logger } from 'utils/logs';
  * be included in the response or not.
  */
 export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
-  logger.info('Fetch datasets');
+  logger.info('Fetch datasets', params);
   const newParams = {
     env: process.env.NEXT_PUBLIC_API_ENV,
     application: process.env.NEXT_PUBLIC_APPLICATIONS,
@@ -78,7 +78,10 @@ export const fetchDataset = (id, params = {}) => {
       // TO-DO: forces the API to not cache, this should be removed at some point
       'Upgrade-Insecure-Requests': 1,
     },
-    params: { ...params },
+    params: {
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      ...params,
+    },
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -113,7 +116,10 @@ export const fetchDatasetTags = (datasetId, params = {}) => {
   return WRIAPI.get(`/v1/dataset/${datasetId}/vocabulary`,
     {
       headers: { 'Upgrade-Insecure-Requests': 1 },
-      params: { ...params },
+      params: {
+        env: process.env.NEXT_PUBLIC_API_ENV,
+        ...params,
+      },
     })
     .then((response) => WRISerializer(response.data))
     .catch((response) => {
@@ -173,7 +179,10 @@ export const createDataset = (token, params = {}, headers) => {
   logger.info('Create dataset');
 
   return WRIAPI.post('/v1/dataset',
-    params,
+    {
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      ...params,
+    },
     { headers: { Authorization: token, ...headers } })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
@@ -278,7 +287,10 @@ export const createMetadata = (datasetId, params = {}, token, headers = {}) => {
   logger.info(`Create metadata for dataset ${datasetId}`);
 
   return WRIAPI.post(`/v1/dataset/${datasetId}/metadata`,
-    params,
+    {
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      ...params,
+    },
     {
       headers: {
         Authorization: token,

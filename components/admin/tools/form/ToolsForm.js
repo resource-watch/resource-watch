@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 
 // Services
 import { fetchTool, updateTool, createTool } from 'services/tools';
@@ -134,7 +135,7 @@ class ToolsForm extends React.Component {
         }
         default: {
           if ((typeof params[f] !== 'undefined' || params[f] !== null)
-              || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+            || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -145,27 +146,42 @@ class ToolsForm extends React.Component {
   }
 
   render() {
+    const {
+      form,
+      loading,
+      step,
+      id,
+      stepLength,
+      submitting,
+    } = this.state;
     return (
-      <form className="c-form" onSubmit={this.onSubmit} noValidate>
-        <Spinner isLoading={this.state.loading} className="-light" />
+      <form
+        className={cx({
+          'c-form': true,
+          '-disabled': form.env && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(form.env),
+        })}
+        onSubmit={this.onSubmit}
+        noValidate
+      >
+        <Spinner isLoading={loading} className="-light" />
 
-        {(this.state.step === 1 && !this.state.loading)
+        {(step === 1 && !loading)
           && (
-          <Step1
-            onChange={(value) => this.onChange(value)}
-            form={this.state.form}
-            id={this.state.id}
-          />
+            <Step1
+              onChange={(value) => this.onChange(value)}
+              form={form}
+              id={id}
+            />
           )}
 
-        {!this.state.loading
+        {!loading
           && (
-          <Navigation
-            step={this.state.step}
-            stepLength={this.state.stepLength}
-            submitting={this.state.submitting}
-            onStepChange={this.onStepChange}
-          />
+            <Navigation
+              step={step}
+              stepLength={stepLength}
+              submitting={submitting}
+              onStepChange={this.onStepChange}
+            />
           )}
       </form>
     );

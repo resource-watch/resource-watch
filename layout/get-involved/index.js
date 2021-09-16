@@ -1,14 +1,16 @@
 // Redux
 import { connect } from 'react-redux';
 import * as actions from './get-involved-actions';
-import * as reducers from './get-involved-reducers';
+import getInvolvedIndexReducer from './get-involved-reducers';
 import initialState from './get-involved-default-state';
 
 import GetInvolvedComponent from './get-involved-component';
 
 // Mandatory
 export {
-  actions, reducers, initialState,
+  actions,
+  getInvolvedIndexReducer,
+  initialState,
 };
 
 export default connect(

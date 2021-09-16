@@ -1,15 +1,15 @@
-import { handleModule } from 'redux-tools';
-
-import blogModule from './blog';
-import dashboardsModule from './dashboards';
-import partnersModule from './partners';
-import staticPagesModules from './static-pages';
-import exploreModule from './explore';
+import searchReducer from 'layout/search/search-reducers';
+import blogReducer from './blog/reducers';
+import dashboardsReducer from './dashboards/reducers';
+import partnersReducer from './partners/reducers';
+import staticPagesReducer from './static-pages/reducers';
+import exploreReducer from './explore';
 
 export default {
-  blog: handleModule(blogModule),
-  dashboards: handleModule(dashboardsModule),
-  partners: handleModule(partnersModule),
-  staticPages: handleModule(staticPagesModules),
-  explore: handleModule(exploreModule),
+  search: searchReducer,
+  blog: blogReducer,
+  dashboards: dashboardsReducer,
+  partners: partnersReducer,
+  staticPages: staticPagesReducer,
+  explore: exploreReducer,
 };

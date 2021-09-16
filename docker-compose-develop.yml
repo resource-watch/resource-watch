@@ -8,6 +8,10 @@ services:
       - RW_ENV=production
       - PORT=3000
       - REDIS_URL=redis://redis:6379
+    volumes:
+      - .:/usr/src/app
+      # Prevent host node_modules from showing up in the container
+      - /usr/src/app/node_modules
     ports:
       - "3000:3000"
     restart: always

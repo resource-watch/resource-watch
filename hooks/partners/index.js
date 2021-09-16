@@ -22,6 +22,7 @@ export const usePublishedPartners = (
 ) => {
   const params = {
     published: true,
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
     ..._params,
   };
 

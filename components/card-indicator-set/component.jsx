@@ -1,7 +1,4 @@
 import {
-  useState,
-  useMemo,
-  useCallback,
   cloneElement,
   isValidElement,
 } from 'react';
@@ -14,22 +11,14 @@ import IndicatorVisualization from './indicator-visualization';
 import './styles.scss';
 
 export default function CardIndicatorSet({
-  config: {
-    indicators,
-  },
+  indicator,
   params,
   theme,
+  RWAdapter,
   children,
+  isInACollection,
+  handleClickCard,
 }) {
-  const defaultIndicator = useMemo(
-    () => indicators.find(({ default: isDefault }) => isDefault) || indicators?.[0],
-    [indicators],
-  );
-  const [currentIndicator, setIndicator] = useState(defaultIndicator || null);
-  const handleClickCard = useCallback((idSelected) => {
-    setIndicator(indicators.find(({ id }) => idSelected === id));
-  }, [indicators]);
-
   return (
     <div className="c-card-indicator-set">
       <div
@@ -41,7 +30,7 @@ export default function CardIndicatorSet({
       >
         {children.map((child) => {
           if (!isValidElement(child)) return null;
-          const isSelected = currentIndicator.id === child.props.id;
+          const isSelected = indicator.id === child.props.id;
 
           const childWithProps = cloneElement(child, ({
             onClickCard: handleClickCard,
@@ -62,11 +51,13 @@ export default function CardIndicatorSet({
           );
         })}
       </div>
-      {currentIndicator && (
+      {indicator && (
         <IndicatorVisualization
-          indicator={currentIndicator}
+          indicator={indicator}
           theme={theme}
           params={params}
+          isInACollection={isInACollection}
+          RWAdapter={RWAdapter}
         />
       )}
     </div>
@@ -79,14 +70,10 @@ CardIndicatorSet.defaultProps = {
 };
 
 CardIndicatorSet.propTypes = {
-  config: PropTypes.shape({
-    indicators: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        icon: PropTypes.string.isRequired,
-      }),
-    ).isRequired,
+  indicator: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    icon: PropTypes.string,
   }).isRequired,
   children: PropTypes.oneOfType([
     PropTypes.element,
@@ -96,4 +83,7 @@ CardIndicatorSet.propTypes = {
   ]).isRequired,
   theme: PropTypes.oneOf(['primary', 'secondary']),
   params: PropTypes.shape({}),
+  isInACollection: PropTypes.bool.isRequired,
+  handleClickCard: PropTypes.func.isRequired,
+  RWAdapter: PropTypes.func.isRequired,
 };

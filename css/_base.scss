@@ -177,6 +177,11 @@ input, button, select, textarea {
   }
 }
 
+.-disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
 @media screen and (min-width: map-get($breakpoints, medium)) {
   h1 {
     font-size: $font-size-h1;
