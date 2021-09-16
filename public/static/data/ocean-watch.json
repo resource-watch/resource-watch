@@ -1547,7 +1547,7 @@
                           "id": "4a54273c-0529-4da1-a935-f3de4738ca3e"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value)/avg*100-100 AS value FROM foo_061_rw0_blue_food_supply_edit data1 LEFT JOIN (SELECT AVG(value), 'Ocean-Sourced Food' AS type FROM (SELECT area, SUM(value) as value FROM foo_061_rw0_blue_food_supply_edit WHERE element_code = 674 AND type = 'Ocean-Sourced Food' AND year = 2018 GROUP BY area) data2) average ON average.type = data1.type LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data1.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE element_code = 674 AND data1.type = 'Ocean-Sourced Food' AND year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY area, avg",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(value)/avg*100-100) AS value FROM foo_061_rw0_blue_food_supply_edit data1 LEFT JOIN (SELECT AVG(value), 'Ocean-Sourced Food' AS type FROM (SELECT area, SUM(value) as value FROM foo_061_rw0_blue_food_supply_edit WHERE element_code = 674 AND type = 'Ocean-Sourced Food' AND year = 2018 GROUP BY area) data2) average ON average.type = data1.type LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data1.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE element_code = 674 AND data1.type = 'Ocean-Sourced Food' AND year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY area, avg",
                           "text": "of global average protein supply per capita",
                           "unit": "%"
                         }
