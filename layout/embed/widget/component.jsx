@@ -59,7 +59,7 @@ export default function LayoutEmbedWidget({
       description={`${widget.description || ''}`}
       {...widget.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl }}
     >
-      <div className="c-embed-widget">
+      <div className="c-embed-widget widget-content">
         <ChartWidget
           adapter={RWAdapter}
           widgetId={widgetId}
