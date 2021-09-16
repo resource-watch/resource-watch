@@ -1883,7 +1883,7 @@
                     {
                       "id": "FAO-fish-food-supply",
                       "title": "FAO yearbook: Fish contribution to food supply by Kcal by country",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS rank FROM (SELECT gid_0, geostore_prod,rank, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM (SELECT gid_0, geostore_prod,RANK() OVER(ORDER BY prop DESC) as rank FROM (SELECT area, SUM(CASE WHEN item = 'Ocean-Sourced Foods' THEN value ELSE 0 END)/NULLIF(SUM(CASE WHEN item = 'Grand Total' THEN value ELSE 0 END),0) prop FROM foo_061_rw1_blue_food_supply_edit WHERE year = 2018 GROUP BY area) data LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE prop is not null AND coastal = true) ranked GROUP BY rank, geostore_prod, gid_0) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT gid_0, geostore_prod,rank, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM (SELECT gid_0, geostore_prod,RANK() OVER(ORDER BY prop DESC) as rank FROM (SELECT area, SUM(CASE WHEN item = 'Ocean-Sourced Foods' THEN value ELSE 0 END)/NULLIF(SUM(CASE WHEN item = 'Grand Total' THEN value ELSE 0 END),0) prop FROM foo_061_rw1_blue_food_supply_edit WHERE year = 2018 GROUP BY area) data LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE prop is not null AND coastal = true) ranked GROUP BY rank, geostore_prod, gid_0) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
                       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                       "widgets": [
                         {
@@ -1944,7 +1944,7 @@
                           "id": "a9c33b55-494c-4984-8bfd-0f5b008dcf24"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(CASE WHEN element = 'Import Quantity' THEN value ELSE 0 END)/NULLIF(SUM(CASE WHEN element ='Export Quantity' THEN value ELSE 0 END), 0) ratio FROM foo_061_rw0_blue_food_supply_edit LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE element in ('Import Quantity','Export Quantity') AND type = 'Ocean-Sourced Food' AND year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY area",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ratio AS value FROM (SELECT SUM(CASE WHEN element = 'Import Quantity' THEN value ELSE 0 END)/NULLIF(SUM(CASE WHEN element ='Export Quantity' THEN value ELSE 0 END), 0) ratio FROM foo_061_rw0_blue_food_supply_edit LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE element in ('Import Quantity','Export Quantity') AND type = 'Ocean-Sourced Food' AND year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY area) data",
                           "text": "Some highlight text about why this matters",
                           "format": ".2f"
                         }
@@ -1953,7 +1953,7 @@
                     {
                       "id": "OECD-FAO-agricultural_outlook",
                       "title": "OECD/FAO Agricultural Outlook 2020-2029",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT rank FROM (SELECT iso, value, RANK() OVER (ORDER BY value DESC) FROM (SELECT iso, ROUND(SUM(value)) AS value, RANK() OVER (PARTITION BY iso ORDER BY time DESC) AS yr_rank FROM  foo_063_rw0_nutrient_balance_edit WHERE indicator='Balance per hectare' GROUP BY iso, time) AS data WHERE yr_rank=1) AS ranked INNER JOIN gadm36_0 gadm ON ranked.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT rank AS value FROM (SELECT iso, value, RANK() OVER (ORDER BY value DESC) FROM (SELECT iso, ROUND(SUM(value)) AS value, RANK() OVER (PARTITION BY iso ORDER BY time DESC) AS yr_rank FROM  foo_063_rw0_nutrient_balance_edit WHERE indicator='Balance per hectare' GROUP BY iso, time) AS data WHERE yr_rank=1) AS ranked INNER JOIN gadm36_0 gadm ON ranked.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                       "format": "",
                       "unit": "",
                       "widgets": [
@@ -1979,7 +1979,7 @@
                           "id": "2cb5af4f-2bfc-49f3-9f99-ac415e98c7db"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) FROM (SELECT country, SUM(constant_2018_usd) as value FROM ocn_022_rw0_fisheries_subsidies_edit WHERE category = 'Capacity-enhancing'GROUP BY country) data INNER JOIN ow_aliasing_countries AS alias ON alias.alias = data.country INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM (SELECT country, SUM(constant_2018_usd) as value FROM ocn_022_rw0_fisheries_subsidies_edit WHERE category = 'Capacity-enhancing'GROUP BY country) data INNER JOIN ow_aliasing_countries AS alias ON alias.alias = data.country INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                           "text": "Some highlight text about why this matters",
                           "format": ",",
                           "unit": "$"
