@@ -265,18 +265,18 @@ export default function IndicatorVisualization({
               className="-transparent"
             />
           )}
-          {(!isFetchingSecondaryWidget && secondaryWidgetValue) && (
+          {(!isFetchingSecondaryWidget) && (
             <>
               <span className="data">
-                {widgets[1].format
-                  ? format(widgets[1].format)(secondaryWidgetValue) : secondaryWidgetValue}
-                {widgets[1].unit && (
+                {(widgets?.[1]?.format)
+                  ? format(widgets[1].format)(secondaryWidgetValue) : secondaryWidgetValue || ''}
+                {(widgets?.[1]?.unit && secondaryWidgetValue) && (
                   <span className="unit">
                     {widgets[1].unit}
                   </span>
                 )}
               </span>
-              {widgets[1].text && (
+              {widgets?.[1]?.text && (
                 <Title className="-center">
                   <h4>
                     {widgets[1].text}
