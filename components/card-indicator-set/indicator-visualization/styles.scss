@@ -53,10 +53,11 @@
 
     > .main-widget-container {
       position: relative;
+      display: flex;
+      flex-direction: column;
       width: 65%;
+      height: 100%;
       padding: ($space * 2);
-      height: calc(100% - 30px);
-      overflow: hidden;
 
       .error-container {
         display: flex;
@@ -73,7 +74,8 @@
         position: relative;
         display: flex;
         height: 100%;
-        padding: 2.5% 10%;
+        flex-grow: 1;
+        flex-shrink: 1;
       }
 
       .widget-info-container {
