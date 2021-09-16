@@ -19,26 +19,24 @@ export default function NumericCardIndicator({
   data,
   onClickCard,
 }) {
+  const {
+    value,
+  } = data;
   const formatValue = useMemo(() => {
     const {
-      value,
       format: _format,
       unit,
     } = data;
     let valueString = '';
 
-    if (!value || !isNumber(value)) {
-      valueString = '-';
-
-      return valueString;
-    }
+    if (!value) return '-';
 
     valueString = _format ? format(_format)(value) : value;
 
     if (unit) valueString += unit;
 
     return valueString;
-  }, [data]);
+  }, [data, value]);
 
   return (
     <button
@@ -87,7 +85,7 @@ export default function NumericCardIndicator({
         <h5 className="name">
           {data.title || '-'}
         </h5>
-        <span className="value">
+        <span className={classnames('value', { '-is-literal': !isNumber(value) })}>
           {formatValue}
         </span>
       </div>

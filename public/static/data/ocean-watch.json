@@ -1032,7 +1032,7 @@
                           "id": "4e8f077f-bed7-44f7-8d52-d793b485f301"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value) AS value FROM foo_063_rw0_nutrient_balance_edit AS data INNER JOIN gadm36_0 gadm ON data.iso = gadm.gid_0 WHERE indicator='Balance per hectare' AND gadm.{{geostoe_env}} ILIKE '{{geostore_id}}' GROUP BY time ORDER BY time DESC LIMIT 1",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value) AS value FROM foo_063_rw0_nutrient_balance_edit AS data INNER JOIN gadm36_0 gadm ON data.iso = gadm.gid_0 WHERE indicator='Balance per hectare' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY time ORDER BY time DESC LIMIT 1",
                           "text": "Nutrient excess or deficit per hectare",
                           "format": ".2f",
                           "unit": "kg"
@@ -1210,9 +1210,8 @@
           "content": {
             "widget": [
               {
-                "description": "Proportion of current sub-basins have a high or extremely high potential of driving coastal eutrophication",
+                "description": "Proportion of sub-basins have a high or extremely high potential of driving coastal eutrophication",
                 "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND((SUM(proportion)*100)) AS value FROM ocn_calcs_014_eutrophication_risk AS data INNER JOIN gadm36_0 gadm ON data.gid_0 = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' AND cep_label IN ('High (1 to 5)', 'Extremely High (>5)')",
-                "format": ".2f",
                 "unit": "%"
               },
               {
@@ -1230,8 +1229,8 @@
             "subtitle": "The ocean is central to regulating the global climate.",
             "widget": [
               {
-                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) as value FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0"
+                "description": "Number of countries with ocean related adaption and mitigation measures in their NDCs",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) AS value FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0"
               },
               {
                 "id": "432ba622-36b9-4178-8a91-6a59446e7347",
@@ -1276,8 +1275,8 @@
                 "type": "chart"
               },
               {
-                "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) as value FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                "description": "Proportion of biodiversity hotspots that are within protected areas",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                 "unit": "%"
               }
             ]
@@ -1317,6 +1316,11 @@
               {
                 "id": "92e5286e-b40a-4a6f-a3e5-84ac9b49d459",
                 "type": "chart"
+              },
+              {
+                "description": "Proportion of the marine environment that is protected",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(value)) AS value FROM ocn_023_rw0_marine_protection_edit WHERE year = 2018 AND iso IN ('ABNJ','WLD')",
+                "unit": "%"
               }
             ]
           }
@@ -1403,9 +1407,10 @@
                 "title": "Minerals and Energy",
                 "widget": [
                   {
-                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
-                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                    "unit": "ha"
+                    "description": "Proportion of renewable electricity generated by marine and offshore energy sources",
+                    "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(CASE WHEN subtechnology IN ('Offshore Wind', 'Marine') THEN generation_gwh ELSE 0 END)/SUM(generation_gwh)*100 AS value FROM ene_009_renewable_generation_annually_edit INNER JOIN gadm36_0 gadm ON iso_a3 = gadm.gid_0 WHERE year=2018",
+                    "format":".2f",
+                    "unit": "%"
                   },
                   {
                     "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
@@ -1417,9 +1422,9 @@
                 "title": "Fishing",
                 "widget": [
                   {
-                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication. 2",
+                    "description": "The total hours spent fishing, globally, over 1 year",
                     "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                    "unit": "tons"
+                    "unit": "hrs"
                   },
                   {
                     "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
@@ -1484,8 +1489,7 @@
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND((SUM(proportion)*100)) AS value FROM ocn_calcs_014_eutrophication_risk AS data INNER JOIN gadm36_0 gadm ON data.gid_0 = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' AND cep_label IN ('High (1 to 5)', 'Extremely High (>5)')",
-                          "text": "Proportion of current sub-basins have a high or extremely high potential of driving coastal eutrophication",
-                          "format": ".2f",
+                          "text": "of basins have a high and extremely high potential to drive coastal eutrophication",
                           "unit": "%"
                         }
                       ],
@@ -1500,7 +1504,7 @@
                           "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
-                          "text": "Some highlight text about why this matters"
+                          "text": "Visit Climate Watch to explore how well oceans are represented in NDCs, click the 'i' button above"
                         }
                       ]
                     },
@@ -1513,8 +1517,8 @@
                           "id": "9c1482d4-b196-49c5-a558-f25467f6ae50"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) as value FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
-                          "text": "Some highlight text about why this matters",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM ocn_024a_rw0_key_biodiversity_area_protection INNER JOIN ow_aliasing_countries AS alias ON alias.alias = geoareaname INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE timeperiod = 2020 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                          "text": "of biodiversity hotspots that are currently within protected areas",
                           "unit": "%"
                         }
                       ]
@@ -1528,9 +1532,8 @@
                           "id": "92e5286e-b40a-4a6f-a3e5-84ac9b49d459"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                          "text": "Some highlight text about why this matters",
-                          "format": ".2f",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM ocn_023_rw0_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                          "text": "of marine area under national jurisdiction is currently protected",
                           "unit": "%"
                         }
                       ]
@@ -1544,9 +1547,8 @@
                           "id": "4a54273c-0529-4da1-a935-f3de4738ca3e"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                          "text": "Some highlight text about why this matters",
-                          "format": ".2f",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(value)/avg*100-100) AS value FROM foo_061_rw0_blue_food_supply_edit data1 LEFT JOIN (SELECT AVG(value), 'Ocean-Sourced Food' AS type FROM (SELECT area, SUM(value) as value FROM foo_061_rw0_blue_food_supply_edit WHERE element_code = 674 AND type = 'Ocean-Sourced Food' AND year = 2018 GROUP BY area) data2) average ON average.type = data1.type LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data1.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE element_code = 674 AND data1.type = 'Ocean-Sourced Food' AND year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY area, avg",
+                          "text": "of global average protein supply per capita",
                           "unit": "%"
                         }
                       ]
@@ -1578,9 +1580,9 @@
                               "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
-                              "text": "Some highlight text about why this matters",
-                              "format": ".2f",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(CASE WHEN subtechnology IN ('Offshore Wind', 'Marine') THEN generation_gwh ELSE 0 END)/SUM(generation_gwh)*100 AS value FROM ene_009_renewable_generation_annually_edit INNER JOIN gadm36_0 gadm ON iso_a3 = gadm.gid_0 WHERE year=2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso_a3",
+                              "text": "Proportion of renewable electricity generated by marine and offshore energy sources",
+                              "format": ".0f",
                               "unit": "%"
                             }
                           ]
@@ -1593,9 +1595,9 @@
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'GBR' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'GBR'",
-                              "text": "Some highlight text about why this matters",
+                              "text": "spent fishing within the marine area under national jurisdiction",
                               "format": ".2f",
-                              "unit": "%"
+                              "unit": "hrs"
                             }
                           ]
                         }
@@ -1815,8 +1817,8 @@
                     }
                   },
                   "layers": [
+                    "9f857b1c-fb79-47ec-82b2-3d4788176cbf",
                     "2c5ca21a-c646-4b8c-b329-909d66ec5615",
-                    "0c595ffa-90e1-4460-a02a-d0f9eca50894",
                     "8339b4a5-b99f-4d64-8737-30f79325e106"
                   ],
                   "widgets": [
@@ -1964,16 +1966,14 @@
                     {
                       "id": "FAO-fish-food-supply",
                       "title": "FAO yearbook: Fish contribution to food supply by Kcal by country",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                      "format": ".2f",
-                      "unit": "%",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT gid_0, geostore_prod,rank, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM (SELECT gid_0, geostore_prod,RANK() OVER(ORDER BY prop DESC) as rank FROM (SELECT area, SUM(CASE WHEN item = 'Ocean-Sourced Foods' THEN value ELSE 0 END)/NULLIF(SUM(CASE WHEN item = 'Grand Total' THEN value ELSE 0 END),0) prop FROM foo_061_rw1_blue_food_supply_edit WHERE year = 2018 GROUP BY area) data LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE prop is not null AND coastal = true) ranked GROUP BY rank, geostore_prod, gid_0) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
                       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
                       "widgets": [
                         {
                           "id": "731293a0-b92f-4804-b59c-69a1d794ad73"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(ocean_value)/NULLIF(SUM(total_value),0)*100 AS value FROM (SELECT area, year, item, CASE WHEN item = 'Ocean-Sourced Foods' THEN value ELSE 0 END ocean_value, CASE WHEN item = 'Grand Total' THEN value ELSE 0 END total_value FROM foo_061_rw1_blue_food_supply_edit WHERE year = 2018) data LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP by area",
                           "text": "Some highlight text about why this matters",
                           "format": ".2f",
                           "unit": "%"
@@ -1992,10 +1992,10 @@
                           "id": "bf6604e1-9f6b-4988-ace0-80db05248a9a"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ESP' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ESP'",
-                          "text": "Some highlight text about why this matters",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value)/pop*1000 as value FROM foo_062_rw0_fishery_production_edit production LEFT JOIN (SELECT yr_data AS pop, country_code FROM soc_076_country_population_edit WHERE year = 2020) population ON production.iso3_code = population.country_code LEFT JOIN gadm36_0 gadm on gadm.gid_0 = production.iso3_code WHERE measure = 'Q_tlw' AND type ='GlobalProduction_quantity' AND production.year=2019 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY gadm.gid_0, pop",
+                          "text": "",
                           "format": ".2f",
-                          "unit": "%"
+                          "unit": "kg"
                         }
                       ]
                     },
@@ -2010,9 +2010,8 @@
                           "id": "49e474c1-014b-476c-b832-8c9a556ad6e3"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(female_employment/NULLIF(total_employment,0)*100) AS value FROM (SELECT area, year, SUM(CASE WHEN sex = 'SEX_F' THEN obs_value ELSE 0 END) female_employment, SUM(CASE WHEN sex = 'SEX_T' THEN obs_value ELSE 0 END) total_employment, RANK() OVER(PARTITION BY area ORDER BY year DESC) as yr_rank FROM com_037_rw0_fishing_employment_edit WHERE type = 'Fishing' GROUP BY area, year ) data LEFT JOIN gadm36_0 gadm on gadm.gid_0 = data.area WHERE yr_rank = 1 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                           "text": "Some highlight text about why this matters",
-                          "format": ".2f",
                           "unit": "%"
                         }
                       ]
@@ -2020,7 +2019,7 @@
                     {
                       "id": "FAO-import-export",
                       "title": "FAO yearbook: net exporting and importing countries",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS value, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
                       "format": ".2f",
                       "unit": "%",
                       "widgets": [
@@ -2028,25 +2027,22 @@
                           "id": "a9c33b55-494c-4984-8bfd-0f5b008dcf24"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ratio AS value FROM (SELECT SUM(CASE WHEN element = 'Import Quantity' THEN value ELSE 0 END)/NULLIF(SUM(CASE WHEN element ='Export Quantity' THEN value ELSE 0 END), 0) ratio FROM foo_061_rw0_blue_food_supply_edit LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE element in ('Import Quantity','Export Quantity') AND type = 'Ocean-Sourced Food' AND year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY area) data",
                           "text": "Some highlight text about why this matters",
-                          "format": ".2f",
-                          "unit": "%"
+                          "format": ".2f"
                         }
                       ]
                     },
                     {
                       "id": "OECD-FAO-agricultural_outlook",
                       "title": "OECD/FAO Agricultural Outlook 2020-2029",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT rank FROM (SELECT iso, value, RANK() OVER (ORDER BY value DESC) FROM (SELECT iso, ROUND(SUM(value)) AS value, RANK() OVER (PARTITION BY iso ORDER BY time DESC) AS yr_rank FROM  foo_063_rw0_nutrient_balance_edit WHERE indicator='Balance per hectare' GROUP BY iso, time) AS data WHERE yr_rank=1) AS ranked INNER JOIN gadm36_0 gadm ON ranked.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
-                      "format": "",
-                      "unit": "",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT rank AS value FROM (SELECT iso, value, RANK() OVER (ORDER BY value DESC) FROM (SELECT iso, ROUND(SUM(value)) AS value, RANK() OVER (PARTITION BY iso ORDER BY time DESC) AS yr_rank FROM  foo_063_rw0_nutrient_balance_edit WHERE indicator='Balance per hectare' GROUP BY iso, time) AS data WHERE yr_rank=1) AS ranked INNER JOIN gadm36_0 gadm ON ranked.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                       "widgets": [
                         {
                           "id": "4e8f077f-bed7-44f7-8d52-d793b485f301"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value) AS value FROM foo_063_rw0_nutrient_balance_edit AS data INNER JOIN gadm36_0 gadm ON data.iso = gadm.gid_0 WHERE indicator='Balance per hectare' AND gadm.{{geostoe_env}} ILIKE '{{geostore_id}}' GROUP BY time ORDER BY time DESC LIMIT 1",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value) AS value FROM foo_063_rw0_nutrient_balance_edit AS data INNER JOIN gadm36_0 gadm ON data.iso = gadm.gid_0 WHERE indicator='Balance per hectare' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY time ORDER BY time DESC LIMIT 1",
                           "text": "Nutrient excess of deficit per hectare",
                           "format": ".2f",
                           "unit": "kg"
@@ -2064,10 +2060,9 @@
                           "id": "2cb5af4f-2bfc-49f3-9f99-ac415e98c7db"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM (SELECT country, SUM(constant_2018_usd) as value FROM ocn_022_rw0_fisheries_subsidies_edit WHERE category = 'Capacity-enhancing'GROUP BY country) data INNER JOIN ow_aliasing_countries AS alias ON alias.alias = data.country INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                           "text": "Some highlight text about why this matters",
-                          "format": ".2f",
-                          "unit": "%"
+                          "format": "$.0s"
                         }
                       ]
                     }
