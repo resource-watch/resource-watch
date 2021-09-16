@@ -3,6 +3,11 @@ import {
   fetchWidget,
 } from 'services/widget';
 
+// utils
+import {
+  getWidgetType,
+} from 'utils/widget';
+
 export default function Webshot() {
   return null;
 }
@@ -10,7 +15,6 @@ export default function Webshot() {
 export const getServerSideProps = async ({ query }) => {
   const {
     id,
-    type: widgetType,
     ...restQueryParams
   } = query;
 
@@ -19,12 +23,13 @@ export const getServerSideProps = async ({ query }) => {
   const widget = await fetchWidget(id, {
     application: process.env.NEXT_PUBLIC_APPLICATIONS,
   });
-  const { type } = widget?.widgetConfig || {};
+
+  const widgetType = getWidgetType(widget);
 
   return ({
     props: ({}),
     redirect: {
-      destination: `/embed/${type || 'widget'}/${id}${queryParams ? `?webshot=true&${queryParams.toString()}` : '?webshot=true'}`,
+      destination: `/embed/${widgetType}/${id}${queryParams ? `?webshot=true&${queryParams.toString()}` : '?webshot=true'}`,
       permanent: true,
     },
   });
