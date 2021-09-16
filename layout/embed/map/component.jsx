@@ -55,7 +55,7 @@ export default function LayoutEmbedMap({
       description={`${widget?.description || ''}`}
       {...widget?.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl }}
     >
-      <div className="c-embed-widget">
+      <div className="c-embed-widget widget-content">
         <MapWidget
           widgetId={widgetId}
           isEmbed
