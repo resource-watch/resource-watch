@@ -44,6 +44,10 @@
       font-size: 42px;
       font-weight: $font-weight-light;
       color: $sea-blue;
+
+      &.-is-literal {
+        font-size: 26px;
+      }
     }
   }
 
