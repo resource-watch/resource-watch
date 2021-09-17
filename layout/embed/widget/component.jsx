@@ -45,7 +45,7 @@ export default function LayoutEmbedWidget({
     // see https://resource-watch.github.io/doc-api/reference.html#isWebshot
     // it waits until 2 seconds to notify is ready to screenshot
     const timerId = window.setTimeout(() => {
-      window.isWebshot_READY = true;
+      window.WEBSHOT_READY = true;
     }, 2000);
 
     return () => {
