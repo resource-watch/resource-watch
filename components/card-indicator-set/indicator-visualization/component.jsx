@@ -223,8 +223,8 @@ export default function IndicatorVisualization({
                 style={{
                   ...isInfoVisible && {
                     padding: 0,
-                    height: 'calc(100% - 70px)',
                   },
+                  height: 'calc(100% - 70px)',
                 }}
               >
                 {mainWidget?.widgetConfig && (
