@@ -153,6 +153,10 @@ export default function IndicatorVisualization({
     setSection(defaultSection);
   }, [defaultSection]);
 
+  useEffect(() => {
+    refetchSecondaryWidget();
+  }, [params, refetchSecondaryWidget]);
+
   return (
     <div className={`c-visualization-indicator -${theme}`}>
       {(serializedSections.length > 0) && (
