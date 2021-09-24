@@ -272,9 +272,11 @@ export default function IndicatorVisualization({
           {(!isFetchingSecondaryWidget) && (
             <>
               <span className="data">
+                {/* eslint-disable-next-line no-nested-ternary */}
                 {(widgets?.[1]?.format)
-                  ? format(widgets[1].format)(secondaryWidgetValue) : secondaryWidgetValue || ''}
-                {(widgets?.[1]?.unit && secondaryWidgetValue) && (
+                  ? format(widgets[1].format)(secondaryWidgetValue)
+                  : (secondaryWidgetValue !== null) ? secondaryWidgetValue : ''}
+                {(widgets?.[1]?.unit && (secondaryWidgetValue !== null)) && (
                   <span className="unit">
                     {widgets[1].unit}
                   </span>
