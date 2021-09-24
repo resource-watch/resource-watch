@@ -1319,7 +1319,7 @@
               },
               {
                 "description": "Proportion of the marine environment that is protected",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(value)) AS value FROM ocn_023_rw0_marine_protection_edit WHERE year = 2018 AND iso IN ('ABNJ','WLD')",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(value)) AS value FROM ocn_023_rw0_marine_protection_edit WHERE year = 2021 AND iso IN ('ABNJ','WLD')",
                 "unit": "%"
               }
             ]
@@ -1531,7 +1531,7 @@
                           "id": "92e5286e-b40a-4a6f-a3e5-84ac9b49d459"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM ocn_023_rw0_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM ocn_023_rw0_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                           "text": "of marine area under national jurisdiction is currently protected",
                           "unit": "%"
                         }
