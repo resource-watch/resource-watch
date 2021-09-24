@@ -13,11 +13,6 @@ import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 import Spinner from 'components/ui/Spinner';
 
-// hooks
-import {
-  useMe,
-} from 'hooks/user';
-
 // services
 import {
   takeWidgetWebshot,
@@ -35,9 +30,6 @@ export default function WidgetShareModal({
   widget,
   params,
 }) {
-  const {
-    data: user,
-  } = useMe();
   const [isWebshotLoading, setWebshotLoading] = useState(false);
 
   const handleWidgetWebshot = useCallback(async () => {
@@ -45,7 +37,7 @@ export default function WidgetShareModal({
       const widgetType = getWidgetType(widget);
 
       setWebshotLoading(true);
-      const { widgetThumbnail } = await takeWidgetWebshot(widget.id, user?.token, {
+      const { widgetThumbnail } = await takeWidgetWebshot(widget.id, {
         type: widgetType,
         ...params,
       });
@@ -58,7 +50,7 @@ export default function WidgetShareModal({
       logger.error(`widget webshot: ${e.message}`);
       setWebshotLoading(false);
     }
-  }, [widget, user, params]);
+  }, [widget, params]);
 
   const shareLinks = useMemo(
     () => getLinksByWidgetType(widget, params), [widget, params],
@@ -92,25 +84,23 @@ export default function WidgetShareModal({
         >
           Close
         </button>
-        {user && (
-          <button
-            type="button"
-            className={classnames('c-btn -secondary', { '-disabled': isWebshotLoading })}
-            onClick={handleWidgetWebshot}
-            style={{
-              margin: '0 0 0 10px',
-              minWidth: 180,
-            }}
-          >
-            {isWebshotLoading
-              ? (
-                <Spinner
-                  isLoading
-                  className="-transparent -small"
-                />
-              ) : 'Download image'}
-          </button>
-        )}
+        <button
+          type="button"
+          className={classnames('c-btn -secondary', { '-disabled': isWebshotLoading })}
+          onClick={handleWidgetWebshot}
+          style={{
+            margin: '0 0 0 10px',
+            minWidth: 180,
+          }}
+        >
+          {isWebshotLoading
+            ? (
+              <Spinner
+                isLoading
+                className="-transparent -small"
+              />
+            ) : 'Download image'}
+        </button>
       </div>
     </Modal>
   );
