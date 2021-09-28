@@ -18,6 +18,7 @@ import {
 import {
   fetchDatasetTags,
   updateDatasetTags,
+  fetchDataset,
 } from 'services/dataset';
 
 const graphOptions = {
@@ -40,6 +41,7 @@ class TagsForm extends React.Component {
     loadingAllTags: false,
     loadingInferredTags: false,
     datasetHasTags: false,
+    datasetData: null,
   };
 
   /**
@@ -50,6 +52,7 @@ class TagsForm extends React.Component {
     this.loadAllTags();
     this.loadKnowledgeGraph();
     this.loadDatasetTags();
+    this.loadDataset();
   }
 
   loadDatasetTags() {
@@ -141,6 +144,16 @@ class TagsForm extends React.Component {
       () => this.loadInferredTags());
   }
 
+  loadDataset() {
+    const { dataset } = this.props;
+    fetchDataset(dataset)
+      .then((response) => this.setState({ datasetData: response }))
+      .catch((err) => {
+        toastr.error(`Error loading dataset: ${id}`);
+        console.error(err);
+      });
+  }
+
   /**
   * HELPER FUNCTIONS
   * - loadAllTags
@@ -190,10 +203,9 @@ class TagsForm extends React.Component {
   render() {
     const {
       tags, selectedTags, inferredTags, graph, loadingDatasetTags,
-      loadingAllTags, loadingInferredTags,
+      loadingAllTags, loadingInferredTags, datasetData,
     } = this.state;
-    const { dataset } = this.props;
-    const disabled = !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
+    const disabled = datasetData && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === datasetData.env) < 0;
 
     return (
       <form className={cx({

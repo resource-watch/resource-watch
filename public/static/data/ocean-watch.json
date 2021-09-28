@@ -1561,7 +1561,7 @@
                               "id": "830f2880-527c-4272-8aaf-8ff8d87a83a8"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) FROM com_038_rw0_shipping_emissions_edit INNER JOIN gadm36_0 gadm ON gid_0 ILIKE iso WHERE datetime = CAST('2018-01-01' AS date) AND {{geostore_env}} ILIKE '{{geostore_id}}'",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM com_038_rw0_shipping_emissions_edit INNER JOIN gadm36_0 gadm ON gid_0 ILIKE iso WHERE datetime = CAST('2018-01-01' AS date) AND {{geostore_env}} ILIKE '{{geostore_id}}'",
                               "text": "of national CO2 emissions is from maritime bunker fuels",
                               "format": "",
                               "unit": "%"
@@ -1589,9 +1589,9 @@
                               "id": ""
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'GBR' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'GBR'",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(hours)) AS value FROM (SELECT CASE WHEN pol_type = 'Overlapping claim' THEN 'DISP' WHEN pol_type = '200NM' AND iso_ter1 is null then iso_sov1 ELSE iso_ter1 END AS iso, pol_type, year, CASE WHEN pol_type = 'Joint Regime' THEN CAST(value AS numeric)/2 ELSE CAST(value AS numeric) END AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type IN ('200NM', 'Overlapping claim', 'Joint regime') UNION SELECT * FROM (SELECT pol_type, iso_ter2 AS iso, year, CAST(value AS numeric)/2 AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type = 'Joint Regime') AS joint ) data INNER JOIN gadm36_0 gadm on iso = gid_0 WHERE year = 2021 AND {{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso",
                               "text": "spent fishing within the marine area under national jurisdiction",
-                              "format": ".2f",
+                              "format": "",
                               "unit": "hrs"
                             }
                           ]

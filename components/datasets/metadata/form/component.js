@@ -193,7 +193,7 @@ class DatasetMetadataForm extends PureComponent {
       step,
       env,
     } = this.state;
-    const disabled = !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(env);
+    const disabled = process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === env) < 0;
 
     return (
       <div
