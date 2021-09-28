@@ -1319,7 +1319,7 @@
               },
               {
                 "description": "Proportion of the marine environment that is protected",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(value)) AS value FROM ocn_023_rw0_marine_protection_edit WHERE year = 2018 AND iso IN ('ABNJ','WLD')",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(value)) AS value FROM ocn_023_rw0_marine_protection_edit WHERE year = 2021 AND iso IN ('ABNJ','WLD')",
                 "unit": "%"
               }
             ]
@@ -1392,10 +1392,7 @@
                 "title": "Marine Transport: Shipping",
                 "widget": [
                   {
-                    "description": "x% of current sub-basins have a high or extremely high potential of driving coastal eutrophication.",
-                    "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'BRA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'BRA'",
-                    "format": ".2f",
-                    "unit": "%"
+                    "description": "Countries with the highest share of national CO2 emissions from maritime bunker fuels"
                   },
                   {
                     "id": "8d7a8386-9723-454e-9139-cd0fceb02d24",
@@ -1531,7 +1528,7 @@
                           "id": "92e5286e-b40a-4a6f-a3e5-84ac9b49d459"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM ocn_023_rw0_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM ocn_023_rw0_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                           "text": "of marine area under national jurisdiction is currently protected",
                           "unit": "%"
                         }
@@ -1564,9 +1561,9 @@
                               "id": "830f2880-527c-4272-8aaf-8ff8d87a83a8"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as value, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), 'ITA' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = 'ITA'",
-                              "text": "Some highlight text about why this matters",
-                              "format": ".2f",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) FROM com_038_rw0_shipping_emissions_edit INNER JOIN gadm36_0 gadm ON gid_0 ILIKE iso WHERE datetime = CAST('2018-01-01' AS date) AND {{geostore_env}} ILIKE '{{geostore_id}}'",
+                              "text": "of national CO2 emissions is from maritime bunker fuels",
+                              "format": "",
                               "unit": "%"
                             }
                           ],
@@ -1579,7 +1576,7 @@
                               "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(CASE WHEN subtechnology IN ('Offshore Wind', 'Marine') THEN generation_gwh ELSE 0 END)/SUM(generation_gwh)*100) AS value FROM ene_009_renewable_generation_annually_edit INNER JOIN gadm36_0 gadm ON iso_a3 = gadm.gid_0 WHERE year=2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso_a3",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CASE WHEN ratio > 1 THEN CAST(ratio AS text) WHEN ratio < 1 AND ratio > 0 THEN '<1' ELSE '0'  END AS value FROM (SELECT SUM(CASE WHEN subtechnology IN ('Offshore Wind', 'Marine') THEN generation_gwh ELSE 0 END)/SUM(generation_gwh)*100 AS ratio FROM ene_009_renewable_generation_annually_edit INNER JOIN gadm36_0 gadm ON iso_a3 = gadm.gid_0 WHERE year=2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso_a3) data",
                               "text": "Proportion of renewable electricity generated by marine and offshore energy sources",
                               "unit": "%"
                             }
@@ -1725,7 +1722,7 @@
                           {
                             "type": "mapnik",
                             "options": {
-                              "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 3"
+                              "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
                             }
                           }
                         ],
@@ -1982,7 +1979,7 @@
                     {
                       "id": "FAO-aquaculture",
                       "title": "FAO yearbook: aquaculture and capture production by country",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT , MAX(rank) OVER (PARTITION BY true) AS max_rank FROM (SELECT *, RANK() OVER(ORDER BY value DESC) FROM (SELECT iso3_code, SUM(value)/pop1000 as value FROM foo_062_rw0_fishery_production_edit production LEFT JOIN (SELECT yr_data AS pop, country_code FROM soc_076_country_population_edit WHERE year = 2020) population ON production.iso3_code = population.country_code WHERE measure = 'Q_tlw' AND type = 'GlobalProduction_quantity' AND production.year=2019 GROUP BY iso3_code, pop) data LEFT JOIN gadm36_0 gadm on gadm.gid_0 = data.iso3_code WHERE value is not null and coastal = true) ranked ) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT *, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM (SELECT *, RANK() OVER(ORDER BY value DESC) FROM (SELECT iso3_code, SUM(value)/pop*1000 as value FROM foo_062_rw0_fishery_production_edit production LEFT JOIN (SELECT yr_data AS pop, country_code FROM soc_076_country_population_edit WHERE year = 2020) population ON production.iso3_code = population.country_code WHERE measure = 'Q_tlw' AND type = 'GlobalProduction_quantity' AND production.year=2019 GROUP BY iso3_code, pop) data LEFT JOIN gadm36_0 gadm on gadm.gid_0 = data.iso3_code WHERE value is not null and coastal = true) ranked ) max_rank WHERE {{geostore_env}}='{{geostore_id}}'",
                       "widgets": [
                         {
                           "id": "bf6604e1-9f6b-4988-ace0-80db05248a9a"
@@ -1998,7 +1995,7 @@
                     {
                       "id": "ILO-employment",
                       "title": "ILO Labor Force Statistics: Employment in fisheries sector as a proportion of employment in the natural sectors by country",
-                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT , MAX(rank) OVER (PARTITION BY true) AS max_rank FROM(SELECT *, RANK() OVER(ORDER BY ratio DESC) as rank FROM (SELECT area, RANK() OVER(PARTITION BY area ORDER BY year DESC) as yr_rank, SUM(CASE WHEN sex = 'SEX_F' THEN obs_value ELSE 0 END)/NULLIF(SUM(CASE WHEN sex = 'SEX_T' THEN obs_value ELSE 0 END),0)100 AS ratio FROM com_037_rw0_fishing_employment_edit WHERE type = 'Fishing' GROUP BY area, year) data LEFT JOIN gadm36_0 gadm on gadm.gid_0 = data.area WHERE yr_rank =1 AND coastal=true AND ratio IS NOT NULL) ranked ) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT *, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM(SELECT *, RANK() OVER(ORDER BY ratio DESC) as rank FROM (SELECT area, RANK() OVER(PARTITION BY area ORDER BY year DESC) as yr_rank, SUM(CASE WHEN sex = 'SEX_F' THEN obs_value ELSE 0 END)/NULLIF(SUM(CASE WHEN sex = 'SEX_T' THEN obs_value ELSE 0 END),0)*100 AS ratio FROM com_037_rw0_fishing_employment_edit WHERE type = 'Fishing' GROUP BY area, year) data LEFT JOIN gadm36_0 gadm on gadm.gid_0 = data.area WHERE yr_rank =1 AND coastal=true AND ratio IS NOT NULL) ranked ) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
                       "widgets": [
                         {
                           "id": "49e474c1-014b-476c-b832-8c9a556ad6e3"

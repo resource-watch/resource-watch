@@ -153,6 +153,10 @@ export default function IndicatorVisualization({
     setSection(defaultSection);
   }, [defaultSection]);
 
+  useEffect(() => {
+    refetchSecondaryWidget();
+  }, [params, refetchSecondaryWidget]);
+
   return (
     <div className={`c-visualization-indicator -${theme}`}>
       {(serializedSections.length > 0) && (
@@ -219,8 +223,8 @@ export default function IndicatorVisualization({
                 style={{
                   ...isInfoVisible && {
                     padding: 0,
-                    height: 'calc(100% - 70px)',
                   },
+                  height: 'calc(100% - 70px)',
                 }}
               >
                 {mainWidget?.widgetConfig && (
@@ -268,9 +272,11 @@ export default function IndicatorVisualization({
           {(!isFetchingSecondaryWidget) && (
             <>
               <span className="data">
+                {/* eslint-disable-next-line no-nested-ternary */}
                 {(widgets?.[1]?.format)
-                  ? format(widgets[1].format)(secondaryWidgetValue) : secondaryWidgetValue || ''}
-                {(widgets?.[1]?.unit && secondaryWidgetValue) && (
+                  ? format(widgets[1].format)(secondaryWidgetValue)
+                  : (secondaryWidgetValue !== null) ? secondaryWidgetValue : ''}
+                {(widgets?.[1]?.unit && (secondaryWidgetValue !== null)) && (
                   <span className="unit">
                     {widgets[1].unit}
                   </span>
