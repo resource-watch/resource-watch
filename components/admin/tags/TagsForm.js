@@ -193,7 +193,7 @@ class TagsForm extends React.Component {
       loadingAllTags, loadingInferredTags,
     } = this.state;
     const { dataset } = this.props;
-    const disabled = !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
+    const disabled = process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === dataset.env) < 0;
 
     return (
       <form className={cx({

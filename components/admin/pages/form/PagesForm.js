@@ -150,7 +150,7 @@ class PagesForm extends React.Component {
       <form
         className={cx({
           'c-form': true,
-          '-disabled': form.env && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(form.env),
+          '-disabled': form.env && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === form.env) < 0,
         })}
         onSubmit={this.onSubmit}
         noValidate
