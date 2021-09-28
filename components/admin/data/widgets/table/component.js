@@ -151,7 +151,7 @@ class WidgetsTable extends PureComponent {
     } = this.state;
     const { dataset: datasetID } = this.props;
 
-    const disableNewButton = dataset && !process.env.NEXT_PUBLIC_ENVS_EDIT.includes(dataset.env);
+    const disableNewButton = dataset && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === dataset.env) < 0;
 
     return (
       <div className="c-widgets-table">
