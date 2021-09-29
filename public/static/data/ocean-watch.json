@@ -1423,7 +1423,7 @@
                     "unit": "hrs"
                   },
                   {
-                    "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
+                    "id": "c029173d-a568-4f1c-abb5-3835458a91bb",
                     "type": "chart"
                   }
                 ]
@@ -1586,7 +1586,7 @@
                           "title": "Fishing",
                           "widgets": [
                             {
-                              "id": ""
+                              "id": "6f974b0f-66cf-416b-a5a9-d1012856e4c8"
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(hours)) AS value FROM (SELECT CASE WHEN pol_type = 'Overlapping claim' THEN 'DISP' WHEN pol_type = '200NM' AND iso_ter1 is null then iso_sov1 ELSE iso_ter1 END AS iso, pol_type, year, CASE WHEN pol_type = 'Joint Regime' THEN CAST(value AS numeric)/2 ELSE CAST(value AS numeric) END AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type IN ('200NM', 'Overlapping claim', 'Joint regime') UNION SELECT * FROM (SELECT pol_type, iso_ter2 AS iso, year, CAST(value AS numeric)/2 AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type = 'Joint Regime') AS joint ) data INNER JOIN gadm36_0 gadm on iso = gid_0 WHERE year = 2021 AND {{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso",
