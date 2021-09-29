@@ -84,11 +84,10 @@ export default function OceanWatchCountryProfiles() {
                     textAlign: 'center',
                   }}
                 >
-                  Examine in-depth the curated data for the
+                  Select a coastal country to further explore
                   {' '}
                   <br />
-                  country profiles.
-                  Start by selecting a country.
+                  land-based pressures upon the ocean.
                 </h3>
               </div>
             </div>
