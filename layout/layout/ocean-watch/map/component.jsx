@@ -261,9 +261,9 @@ export default function MapSelection() {
             lineHeight: 1.4,
           }}
         >
-          Select a country lorem ipsum dolor sit,
+          Select a coastal country to further explore
           <br />
-          amet consectetur adipisicing elit.
+          land-based pressures upon the ocean.
         </p>
       </div>
       <div
