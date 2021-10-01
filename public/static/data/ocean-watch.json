@@ -1423,7 +1423,7 @@
                     "unit": "hrs"
                   },
                   {
-                    "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
+                    "id": "c029173d-a568-4f1c-abb5-3835458a91bb",
                     "type": "chart"
                   }
                 ]
@@ -1586,7 +1586,7 @@
                           "title": "Fishing",
                           "widgets": [
                             {
-                              "id": ""
+                              "id": "6f974b0f-66cf-416b-a5a9-d1012856e4c8"
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(hours)) AS value FROM (SELECT CASE WHEN pol_type = 'Overlapping claim' THEN 'DISP' WHEN pol_type = '200NM' AND iso_ter1 is null then iso_sov1 ELSE iso_ter1 END AS iso, pol_type, year, CASE WHEN pol_type = 'Joint Regime' THEN CAST(value AS numeric)/2 ELSE CAST(value AS numeric) END AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type IN ('200NM', 'Overlapping claim', 'Joint regime') UNION SELECT * FROM (SELECT pol_type, iso_ter2 AS iso, year, CAST(value AS numeric)/2 AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type = 'Joint Regime') AS joint ) data INNER JOIN gadm36_0 gadm on iso = gid_0 WHERE year = 2021 AND {{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso",
@@ -1722,7 +1722,7 @@
                           {
                             "type": "mapnik",
                             "options": {
-                              "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                              "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
                             }
                           }
                         ],
@@ -1762,10 +1762,7 @@
                                 0.75,
                                 [
                                   "boolean",
-                                  [
-                                    "feature-state",
-                                    "hover"
-                                  ],
+                                  ["all",["feature-state", "hover"], ["==", ["get","coast"], 1]],
                                   false
                                 ],
                                 0.5,
@@ -1814,7 +1811,7 @@
                   "layers": [
                     "9f857b1c-fb79-47ec-82b2-3d4788176cbf",
                     "2c5ca21a-c646-4b8c-b329-909d66ec5615",
-                    "8339b4a5-b99f-4d64-8737-30f79325e106"
+                    "1ad281f4-a6f6-4b49-b4bd-4b3087774776"
                   ],
                   "widgets": [
                     "3f531725-9d1f-436f-85f8-b1494b0262c1",
@@ -1960,9 +1957,9 @@
                   "indicators": [
                     {
                       "id": "FAO-fish-food-supply",
-                      "title": "FAO yearbook: Fish contribution to food supply by Kcal by country",
+                      "title": "Country rank: Ocean protein consumption/capita",
                       "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT gid_0, geostore_prod,rank, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM (SELECT gid_0, geostore_prod,RANK() OVER(ORDER BY prop DESC) as rank FROM (SELECT area, SUM(CASE WHEN item = 'Ocean-Sourced Foods' THEN value ELSE 0 END)/NULLIF(SUM(CASE WHEN item = 'Grand Total' THEN value ELSE 0 END),0) prop FROM foo_061_rw1_blue_food_supply_edit WHERE year = 2018 GROUP BY area) data LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE prop is not null AND coastal = true) ranked GROUP BY rank, geostore_prod, gid_0) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
-                      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                      "description": "Rank 1 = most protein consumed per capita out of the countries included",
                       "widgets": [
                         {
                           "id": "731293a0-b92f-4804-b59c-69a1d794ad73"
@@ -1978,8 +1975,9 @@
                     },
                     {
                       "id": "FAO-aquaculture",
-                      "title": "FAO yearbook: aquaculture and capture production by country",
+                      "title": "Country Rank: Fish production/capita",
                       "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT *, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM (SELECT *, RANK() OVER(ORDER BY value DESC) FROM (SELECT iso3_code, SUM(value)/pop*1000 as value FROM foo_062_rw0_fishery_production_edit production LEFT JOIN (SELECT yr_data AS pop, country_code FROM soc_076_country_population_edit WHERE year = 2020) population ON production.iso3_code = population.country_code WHERE measure = 'Q_tlw' AND type = 'GlobalProduction_quantity' AND production.year=2019 GROUP BY iso3_code, pop) data LEFT JOIN gadm36_0 gadm on gadm.gid_0 = data.iso3_code WHERE value is not null and coastal = true) ranked ) max_rank WHERE {{geostore_env}}='{{geostore_id}}'",
+                      "description": "Rank 1 = most fish produced per capita out of the countries included",
                       "widgets": [
                         {
                           "id": "bf6604e1-9f6b-4988-ace0-80db05248a9a"
@@ -1994,8 +1992,9 @@
                     },
                     {
                       "id": "ILO-employment",
-                      "title": "ILO Labor Force Statistics: Employment in fisheries sector as a proportion of employment in the natural sectors by country",
+                      "title": "Country rank: Women in fisheries",
                       "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT *, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM(SELECT *, RANK() OVER(ORDER BY ratio DESC) as rank FROM (SELECT area, RANK() OVER(PARTITION BY area ORDER BY year DESC) as yr_rank, SUM(CASE WHEN sex = 'SEX_F' THEN obs_value ELSE 0 END)/NULLIF(SUM(CASE WHEN sex = 'SEX_T' THEN obs_value ELSE 0 END),0)*100 AS ratio FROM com_037_rw0_fishing_employment_edit WHERE type = 'Fishing' GROUP BY area, year) data LEFT JOIN gadm36_0 gadm on gadm.gid_0 = data.area WHERE yr_rank =1 AND coastal=true AND ratio IS NOT NULL) ranked ) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "description": "Rank 1 = most women in the fisheries workforce out of the countries included",
                       "widgets": [
                         {
                           "id": "49e474c1-014b-476c-b832-8c9a556ad6e3"
@@ -2009,8 +2008,9 @@
                     },
                     {
                       "id": "FAO-import-export",
-                      "title": "FAO yearbook: net exporting and importing countries",
+                      "title": "Country rank: Import/export ratio",
                       "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT *, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM(SELECT area, RANK() OVER(ORDER BY ratio ASC) FROM(SELECT area,SUM(CASE WHEN element = 'Import Quantity' THEN value ELSE 0 END)/ NULLIF(SUM(CASE WHEN element ='Export Quantity' THEN value ELSE 0 END) ,0) ratio FROM foo_061_rw0_blue_food_supply_edit WHERE element in ('Import Quantity','Export Quantity') AND type = 'Ocean-Sourced Food' AND year = 2018 GROUP BY area ) data ) ranked LEFT JOIN (SELECT alias, iso FROM ow_aliasing_countries) alias ON alias.alias = ranked.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE coastal = true) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "description": "Rank 1 = most reliant on imports of fish to meet in-coutry demand out of the countries included",
                       "widgets": [
                         {
                           "id": "a9c33b55-494c-4984-8bfd-0f5b008dcf24"
@@ -2024,8 +2024,9 @@
                     },
                     {
                       "id": "OECD-FAO-agricultural_outlook",
-                      "title": "OECD/FAO Agricultural Outlook 2020-2029",
+                      "title": "Country rank: Excess nutrient use/hectare",
                       "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT *, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM (SELECT *, RANK() OVER (ORDER BY value DESC) FROM (SELECT iso, ROUND(SUM(value)) AS value, RANK() OVER (PARTITION BY iso ORDER BY time DESC) AS yr_rank FROM foo_063_rw0_nutrient_balance_edit WHERE indicator='Balance per hectare' GROUP BY iso, time) AS data WHERE yr_rank=1) AS ranked INNER JOIN gadm36_0 gadm ON ranked.iso = gadm.gid_0 WHERE value is NOT null and coastal = true ) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "description": "Rank 1 = the most excess nutrients being used in agricultural soils out of the countries included",
                       "widgets": [
                         {
                           "id": "4e8f077f-bed7-44f7-8d52-d793b485f301"
@@ -2040,8 +2041,9 @@
                     },
                     {
                       "id": "fisheries-subsidies",
-                      "title": "Fisheries subsidies (2009-19)",
+                      "title": "Country rank: Harmful fisheries subsidies",
                       "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT *, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM(SELECT *,RANK() OVER(ORDER BY value DESC) AS rank FROM (SELECT country, SUM(constant_2018_usd) as value FROM ocn_022_rw0_fisheries_subsidies_edit WHERE category = 'Capacity-enhancing' GROUP BY country) data WHERE value is not null) ranked LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = ranked.country LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE coastal = true ) max_rank WHERE {{geostore_env}} ILIKE '{{geostore_id}}'",
+                      "description": "Rank 1 = the highest expenditure on harmful subsidies out of the countries included",
                       "widgets": [
                         {
                           "id": "2cb5af4f-2bfc-49f3-9f99-ac415e98c7db"
