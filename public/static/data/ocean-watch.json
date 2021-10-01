@@ -1423,7 +1423,7 @@
                     "unit": "hrs"
                   },
                   {
-                    "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5",
+                    "id": "c029173d-a568-4f1c-abb5-3835458a91bb",
                     "type": "chart"
                   }
                 ]
@@ -1586,7 +1586,7 @@
                           "title": "Fishing",
                           "widgets": [
                             {
-                              "id": ""
+                              "id": "6f974b0f-66cf-416b-a5a9-d1012856e4c8"
                             },
                             {
                               "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(hours)) AS value FROM (SELECT CASE WHEN pol_type = 'Overlapping claim' THEN 'DISP' WHEN pol_type = '200NM' AND iso_ter1 is null then iso_sov1 ELSE iso_ter1 END AS iso, pol_type, year, CASE WHEN pol_type = 'Joint Regime' THEN CAST(value AS numeric)/2 ELSE CAST(value AS numeric) END AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type IN ('200NM', 'Overlapping claim', 'Joint regime') UNION SELECT * FROM (SELECT pol_type, iso_ter2 AS iso, year, CAST(value AS numeric)/2 AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type = 'Joint Regime') AS joint ) data INNER JOIN gadm36_0 gadm on iso = gid_0 WHERE year = 2021 AND {{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso",
@@ -1722,7 +1722,7 @@
                           {
                             "type": "mapnik",
                             "options": {
-                              "sql": "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                              "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
                             }
                           }
                         ],
@@ -1762,10 +1762,7 @@
                                 0.75,
                                 [
                                   "boolean",
-                                  [
-                                    "feature-state",
-                                    "hover"
-                                  ],
+                                  ["all",["feature-state", "hover"], ["==", ["get","coast"], 1]],
                                   false
                                 ],
                                 0.5,
@@ -1814,7 +1811,7 @@
                   "layers": [
                     "9f857b1c-fb79-47ec-82b2-3d4788176cbf",
                     "2c5ca21a-c646-4b8c-b329-909d66ec5615",
-                    "8339b4a5-b99f-4d64-8737-30f79325e106"
+                    "1ad281f4-a6f6-4b49-b4bd-4b3087774776"
                   ],
                   "widgets": [
                     "3f531725-9d1f-436f-85f8-b1494b0262c1",

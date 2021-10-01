@@ -270,6 +270,10 @@ export default function MiniExploreMapContainer({
       const layersWithParams = layers.map((_layer) => ({
         ..._layer,
         params,
+        // This a fix - perhaps temporary - for layers that are not default: true in the API
+        // and shouldn't be because of visibility constraints in RW or other apps.
+        // Otherwise, the layer manager throws an error and it doesn't work
+        default: true,
       }));
 
       dispatch(setMapLayerGroups(getLayerGroups(layersWithParams)));
