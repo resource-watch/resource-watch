@@ -1418,7 +1418,7 @@
                 "title": "Fishing",
                 "widget": [
                   {
-                    "description": "",
+                    "description": "The hours spent fishing over the latest year globally. To eplore the data in greater depth visit Global Fishing Watch, press the 'i' above.",
                     "query": "",
                     "unit": ""
                   },
@@ -1589,10 +1589,10 @@
                               "id": "6f974b0f-66cf-416b-a5a9-d1012856e4c8"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(hours)) AS value FROM (SELECT CASE WHEN pol_type = 'Overlapping claim' THEN 'DISP' WHEN pol_type = '200NM' AND iso_ter1 is null then iso_sov1 ELSE iso_ter1 END AS iso, pol_type, year, CASE WHEN pol_type = 'Joint Regime' THEN CAST(value AS numeric)/2 ELSE CAST(value AS numeric) END AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type IN ('200NM', 'Overlapping claim', 'Joint regime') UNION SELECT * FROM (SELECT pol_type, iso_ter2 AS iso, year, CAST(value AS numeric)/2 AS hours FROM com_030d_fishing_effort_by_zone WHERE pol_type = 'Joint Regime') AS joint ) data INNER JOIN gadm36_0 gadm on iso = gid_0 WHERE year = 2021 AND {{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso",
-                              "text": "The hours spent fishing over the latest year globally. To eplore the data in greater depth visit Global Fishing Watch, press the 'i' above.",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT pol_type, gadm.gid_0, year, SUM(value::NUMERIC) AS value FROM ( SELECT *, CASE WHEN iso_ter1 IS NULL THEN iso_sov1 ELSE iso_ter1 END AS gid_0 FROM com_030d_fishing_effort_by_zone) AS data LEFT OUTER JOIN gadm36_0 AS gadm ON data.gid_0 = gadm.gid_0 WHERE pol_type = '200NM' AND year = 2020 AND gadm.{{geostore_env}}='{{geostore_id}}' GROUP BY pol_type, gadm.gid_0, year",
+                              "text": " spent fishing within the country's marine area under national jurisdiction over the latest year. Visit Global Fishing Watch to eplore the data in-depth, press the 'i' above.",
                               "format": "",
-                              "unit": ""
+                              "unit": " hours"
                             }
                           ]
                         }
