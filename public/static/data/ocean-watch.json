@@ -1971,8 +1971,8 @@
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(ocean_value)/NULLIF(SUM(total_value),0)*100 AS value FROM (SELECT area, year, item, CASE WHEN item = 'Ocean-Sourced Foods' THEN value ELSE 0 END ocean_value, CASE WHEN item = 'Grand Total' THEN value ELSE 0 END total_value FROM foo_061_rw1_blue_food_supply_edit WHERE year = 2018) data LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP by area",
-                          "text": "of the country's daily protein supply per person comes from the ocean for the latest year on the chart",
-                          "format": ".2f",
+                          "text": "Of the country's daily protein supply per person comes from the ocean",
+                          "format": ".1f",
                           "unit": "%"
                         }
                       ],
