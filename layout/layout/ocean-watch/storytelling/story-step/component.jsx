@@ -406,6 +406,7 @@ export default function StoryStep({
           isVisible
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
+          params={widgetParams}
         />
       )}
     </>
