@@ -27,6 +27,7 @@ class ToolsForm extends React.Component {
     id: this.props.id,
     loading: !!this.props.id,
     form: STATE_DEFAULT.form,
+    initialForm: STATE_DEFAULT.form,
   });
 
   componentDidMount() {
@@ -39,6 +40,7 @@ class ToolsForm extends React.Component {
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
+            initialForm: this.setFormFromParams(data),
             // Stop the loading
             loading: false,
           });
@@ -83,6 +85,7 @@ class ToolsForm extends React.Component {
             updateTool(form, authorization)
               .then((data) => {
                 toastr.success('Success', `The tool "${data.id}" - "${data.title}" has been updated successfully`);
+                this.setState({ initialForm: form });
                 if (this.props.onSubmit) this.props.onSubmit();
               })
               .catch((err) => {
@@ -95,6 +98,7 @@ class ToolsForm extends React.Component {
             createTool(form, authorization)
               .then((data) => {
                 toastr.success('Success', `The tool "${data.id}" - "${data.title}" has been created successfully`);
+                this.setState({ initialForm: form });
                 if (this.props.onSubmit) this.props.onSubmit();
               })
               .catch((err) => {
@@ -148,6 +152,7 @@ class ToolsForm extends React.Component {
   render() {
     const {
       form,
+      initialForm,
       loading,
       step,
       id,
@@ -158,7 +163,7 @@ class ToolsForm extends React.Component {
       <form
         className={cx({
           'c-form': true,
-          '-disabled': form.env && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === form.env) < 0,
+          '-disabled': initialForm.env && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === initialForm.env) < 0,
         })}
         onSubmit={this.onSubmit}
         noValidate
