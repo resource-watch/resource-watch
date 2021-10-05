@@ -87,7 +87,11 @@ export default function OceanWatchHero({
                   <span>Share</span>
                 </button>
               </div>
-              <h1 className="page-header-title">Ocean Watch</h1>
+              <h1 className="page-header-title">
+                Ocean Watch
+                {' '}
+                <sup>Beta</sup>
+              </h1>
               <Tabs
                 options={OCEAN_WATCH_TABS}
                 defaultSelected={pathname}
