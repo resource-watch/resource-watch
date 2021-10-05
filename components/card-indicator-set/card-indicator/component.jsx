@@ -23,6 +23,8 @@ export default function CardIndicator({
         [`-${theme}`]: !!theme,
         '-active': isSelected,
       })}
+      id={id}
+      data-title={title}
       onClick={() => {
         if (onClickCard) onClickCard(id);
       }}

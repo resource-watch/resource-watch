@@ -9,6 +9,9 @@ import { Scrollama, Step } from 'react-scrollama';
 import classnames from 'classnames';
 import { Tooltip } from 'vizzuality-components';
 
+// utils
+import { logEvent } from 'utils/analytics';
+
 // components
 import Icon from 'components/ui/icon';
 import IndicatorsNavigation from './indicators-navigation/component';
@@ -40,6 +43,7 @@ export default function OceanWatchStoryTelling({
 
   const handleClickIndicator = (id) => {
     const element = document.getElementById(`${id}-1`);
+    const button = document.getElementById(id);
 
     if (element) {
       element.scrollIntoView({
@@ -47,6 +51,14 @@ export default function OceanWatchStoryTelling({
         block: 'start',
         inline: 'nearest',
       });
+    }
+
+    if (button) {
+      const {
+        title,
+      } = button.dataset;
+
+      logEvent('Ocean Watch Storytelling', 'user clicks on step', title);
     }
   };
 
