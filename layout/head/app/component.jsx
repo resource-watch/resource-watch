@@ -18,6 +18,8 @@ const HotjarScript = dynamic(() => import('../../../scripts/hotjar'), { ssr: fal
 const GoogleAnalyticsV4Script = dynamic(() => import('../../../scripts/google-analytics-v4'), { ssr: false });
 const CesiumScript = dynamic(() => import('../../../scripts/cesium'));
 
+const isProduction = ['preproduction', 'production'].includes(process.env.NEXT_PUBLIC_API_ENV);
+
 export default function HeadApp({
   title,
   description,
@@ -26,7 +28,6 @@ export default function HeadApp({
   const {
     asPath,
   } = useRouter();
-  const isProduction = process.env.NEXT_PUBLIC_API_ENV === 'production';
   const isHotjarRoute = useMemo(() => HOTJAR_ROUTES
     .filter((route) => asPath.startsWith(route)).length > 0,
   [asPath]);
@@ -63,10 +64,10 @@ export default function HeadApp({
       {isProduction && (
         <>
           <CrazyEggScript />
-          <UserReportScript />
           {isHotjarRoute && <HotjarScript />}
         </>
       )}
+      <UserReportScript />
       <GoogleAnalyticsV4Script />
       {isCesiumRoute && (<CesiumScript />)}
     </>

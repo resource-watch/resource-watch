@@ -1,3 +1,1 @@
-import UserReport from './component';
-
-export default UserReport;
+export { default } from './component';
