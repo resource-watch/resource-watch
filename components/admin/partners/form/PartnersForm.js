@@ -19,6 +19,7 @@ class PartnersForm extends React.Component {
     id: this.props.id,
     loading: !!this.props.id,
     form: STATE_DEFAULT.form,
+    initialForm: STATE_DEFAULT.form,
   });
 
   componentDidMount() {
@@ -30,6 +31,7 @@ class PartnersForm extends React.Component {
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
+            initialForm: this.setFormFromParams(data),
             // Stop the loading
             loading: false,
           });
@@ -138,6 +140,7 @@ class PartnersForm extends React.Component {
       updatePartner(id, body, token)
         .then((data) => {
           toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
+          this.setState({ initialForm: form });
 
           if (this.props.onSubmit) this.props.onSubmit();
         })
@@ -149,6 +152,7 @@ class PartnersForm extends React.Component {
       createPartner(body, token)
         .then((data) => {
           toastr.success('Success', `The partner "${data.id}" - "${data.name}" has been uploaded correctly`);
+          this.setState({ initialForm: form });
 
           if (this.props.onSubmit) this.props.onSubmit();
         })
@@ -160,13 +164,13 @@ class PartnersForm extends React.Component {
   }
 
   render() {
-    const { form } = this.state;
+    const { form, initialForm } = this.state;
     return (
       <form
 
         className={cx({
           'c-form': true,
-          '-disabled': form.env && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === form.env) < 0,
+          '-disabled': initialForm.env && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === initialForm.env) < 0,
         })}
         onSubmit={this.onSubmit}
         noValidate
