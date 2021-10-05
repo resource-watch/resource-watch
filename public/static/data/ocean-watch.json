@@ -1979,7 +1979,7 @@
                     },
                     {
                       "id": "FAO-aquaculture",
-                      "title": "Country Rank: Fish production/capita",
+                      "title": "Country rank: Fish production/capita",
                       "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(rank, ' of ', max_rank) AS value FROM (SELECT *, MAX(rank) OVER (PARTITION BY true) AS max_rank FROM (SELECT *, RANK() OVER(ORDER BY value DESC) FROM (SELECT iso3_code, SUM(value)/pop*1000 as value FROM foo_062_rw0_fishery_production_edit production LEFT JOIN (SELECT yr_data AS pop, country_code FROM soc_076_country_population_edit WHERE year = 2020) population ON production.iso3_code = population.country_code WHERE measure = 'Q_tlw' AND type = 'GlobalProduction_quantity' AND production.year=2019 GROUP BY iso3_code, pop) data LEFT JOIN gadm36_0 gadm on gadm.gid_0 = data.iso3_code WHERE value is not null and coastal = true) ranked ) max_rank WHERE {{geostore_env}}='{{geostore_id}}'",
                       "description": "Rank 1 = most fish produced per capita out of the countries included",
                       "widgets": [
@@ -2021,7 +2021,7 @@
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ratio AS value FROM (SELECT SUM(CASE WHEN element = 'Import Quantity' THEN value ELSE 0 END)/NULLIF(SUM(CASE WHEN element ='Export Quantity' THEN value ELSE 0 END), 0) ratio FROM foo_061_rw0_blue_food_supply_edit LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE element in ('Import Quantity','Export Quantity') AND type = 'Ocean-Sourced Food' AND year = 2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY area) data",
-                          "text": "A value >1 indicates a net importing country; a value <1 indicates a net exporting country",
+                          "text": " import/export ratio. A value >1 indicates a net importing country; a value <1 indicates a net exporting country",
                           "format": ".2f"
                         }
                       ]
