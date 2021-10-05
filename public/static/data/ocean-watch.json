@@ -1314,12 +1314,12 @@
             "subtitle": "Marine protected areas (MPAs) defend key ocean habitats against threats, so the ocean can continue its pivotal role as a vibrant source of food and economic opportunity",
             "widget": [
               {
-                "id": "92e5286e-b40a-4a6f-a3e5-84ac9b49d459",
+                "id": "c8107826-440d-4c14-8f12-3fb88449f730",
                 "type": "chart"
               },
               {
                 "description": "Proportion of the marine environment that is currently protected",
-                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(SUM(value)) AS value FROM ocn_023_rw0_marine_protection_edit WHERE year = 2021 AND iso IN ('ABNJ','WLD')",
+                "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT value FROM ocn_023_rw1_marine_protection_edit WHERE iso ='GLB'",
                 "unit": "%"
               }
             ]
@@ -1530,7 +1530,7 @@
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM ocn_023_rw0_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
-                          "text": "of the country's marine area under national jurisdiction is currently protected",
+                          "text": "of the country's marine area under national jurisdiction (including overseas territories) is currently protected",
                           "unit": "%"
                         }
                       ]
