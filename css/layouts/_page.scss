@@ -103,6 +103,13 @@
 
     .page-header-title {
       color: $alt-font-color;
+
+      > sup {
+        font-size: $font-size-medium;
+        font-weight: $font-weight-regular;
+        font-style: italic;
+        vertical-align: super;
+      }
     }
 
     .page-header-info {
