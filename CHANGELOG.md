@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- Ocean Watch: analytics events. [OW-76](https://vizzuality.atlassian.net/browse/OW-76)
 - Ocean Watch: added OW partners carousel to several pages.
 - Ocean Watch: populates about page with API content. [OW-63](https://vizzuality.atlassian.net/browse/OW-63)
 - Ocean Watch: setup of about page. [OW-21](https://vizzuality.atlassian.net/browse/OW-21)
@@ -65,6 +66,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- mini-explore/mini-explore-widgets: interactivity based on id field presence. [OW-155](https://vizzuality.atlassian.net/browse/OW-155)
+- feedback button in preproduction environment. [OW-163](https://vizzuality.atlassian.net/browse/OW-163)
 - mini-explore-widgets: missing initial placeholder. [OW-147](https://vizzuality.atlassian.net/browse/OW-147)
 - wrong pathname route when the explore tries to reflect its state in the URL. [RW-82](https://vizzuality.atlassian.net/browse/RW-82)
 - WYSIWYG: removes mini-explore button from toolbar. [RW-74](https://vizzuality.atlassian.net/browse/RW-74)

@@ -80,7 +80,6 @@ export const USER_AREA_LAYER_TEMPLATES = {
       body: {
         vectorLayers: [
           {
-            id: `${id}-glow`,
             type: 'line',
             source: id,
             paint: {
@@ -99,7 +98,6 @@ export const USER_AREA_LAYER_TEMPLATES = {
             },
           },
           {
-            id: `${id}-line`,
             type: 'line',
             source: id,
             paint: {
@@ -128,13 +126,11 @@ export const USER_AREA_LAYER_TEMPLATES = {
       body: {
         vectorLayers: [
           {
-            id: `${id}-line`,
             type: 'line',
             source: id,
             paint: { 'line-color': '#fab72e' },
           },
           {
-            id: `${id}-fill`,
             type: 'fill',
             source: id,
             paint: {
