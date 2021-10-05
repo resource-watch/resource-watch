@@ -1971,7 +1971,7 @@
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(ocean_value)/NULLIF(SUM(total_value),0)*100 AS value FROM (SELECT area, year, item, CASE WHEN item = 'Ocean-Sourced Foods' THEN value ELSE 0 END ocean_value, CASE WHEN item = 'Grand Total' THEN value ELSE 0 END total_value FROM foo_061_rw1_blue_food_supply_edit WHERE year = 2018) data LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = data.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP by area",
-                          "text": "Of the country's daily protein supply per person comes from the ocean",
+                          "text": "of the country's daily protein supply per person comes from the ocean, for the latest year on the chart",
                           "format": ".1f",
                           "unit": "%"
                         }
@@ -2038,7 +2038,7 @@
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value) AS value FROM foo_063_rw0_nutrient_balance_edit AS data INNER JOIN gadm36_0 gadm ON data.iso = gadm.gid_0 WHERE indicator='Balance per hectare' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY time ORDER BY time DESC LIMIT 1",
-                          "text": "Of excess nutrients per hectare were put into the soil and nearby environment in the latest year",
+                          "text": "of excess nutrients per hectare were put into the soil and nearby environment in the latest year",
                           "format": ".1f",
                           "unit": "kg"
                         }
