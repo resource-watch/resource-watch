@@ -1169,7 +1169,7 @@
           "indicator": "land-sea-interface",
           "content": {
             "title": "Land-Based Pollution",
-            "subtitle": "Addressing threats to the ocean often begin on land",
+            "subtitle": "Addressing threats to the ocean often begins on land",
             "intro": "The land and the ocean are strongly connected by a series of human and natural processes, fueling ocean life cycles. Human activities on land have introduced higher levels of sediment and toxic chemicals into the ocean, threatening the health of the coast, ocean resources and billions of people"
           }
         },
@@ -1210,7 +1210,7 @@
           "content": {
             "widget": [
               {
-                "description": "Proportion of river sub-basins with a high or extremely high potential of driving coastal eutrophication",
+                "description": "Proportion of sub-basins with a high or extremely high potential of driving coastal eutrophication",
                 "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND((SUM(proportion)*100)) AS value FROM ocn_calcs_014_eutrophication_risk AS data INNER JOIN gadm36_0 gadm ON data.gid_0 = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}' AND cep_label IN ('High (1 to 5)', 'Extremely High (>5)')",
                 "unit": "%"
               },
@@ -1291,7 +1291,7 @@
           },
           "info": [
             {
-              "content": "Lorem ipsum",
+              "content": "Biodiversity is threatened by overfishing, climate change, coastal development and pollution. Loss of biodiversity undermines the ocean’s natural capacity to provide essential ecosystem services and leaves the ocean less resilient to the effects of climate change",
               "position": [
                 50,
                 50
@@ -1849,7 +1849,7 @@
                 "grid": "100%",
                 "visualizationType": "mini-explore",
                 "config": {
-                  "title": "Lorem ipsum",
+                  "title": "Choose the data that is most relevant to you",
                   "datasetGroups": [
                     {
                       "title": "Ecosystems",
