@@ -1545,7 +1545,7 @@
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT gid_0, SUM(value)/global_avg AS value FROM foo_061_rw0_blue_food_supply_edit country_data_v1 LEFT JOIN (SELECT AVG(protein_supply) AS global_avg, 'Ocean-Sourced Food' AS type FROM (SELECT area, SUM(value) as protein_supply FROM foo_061_rw0_blue_food_supply_edit WHERE element_code = 674 AND type = 'Ocean-Sourced Food' AND year = 2018 GROUP BY area) country_data_v2) global ON global.type = country_data_v1.type LEFT JOIN ow_aliasing_countries AS alias ON alias.alias = country_data_v1.area LEFT JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE element_code = 674 AND country_data_v1.type = 'Ocean-Sourced Food' AND year = 2018 AND {{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY gid_0, global_avg",
-                          "text": "of the global average of marine protein consumption is consumed by the country's population.",
+                          "text": "of the global average of marine protein consumption is consumed by the country's population",
                           "format": ".1%",
                           "unit": ""
                         }
