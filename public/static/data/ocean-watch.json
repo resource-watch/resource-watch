@@ -1722,30 +1722,16 @@
                           {
                             "type": "mapnik",
                             "options": {
-                              "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                              "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5 and coast = 1"
                             }
                           }
                         ],
                         "vectorLayers": [
                           {
                             "filter": [
-                              "in",
-                              "intersect",
-                              false
-                            ],
-                            "paint": {
-                              "fill-color": "#616161",
-                              "fill-opacity": 1,
-                              "fill-outline-color": "#616161"
-                            },
-                            "source-layer": "layer0",
-                            "type": "fill"
-                          },
-                          {
-                            "filter": [
-                              "in",
-                              "intersect",
-                              true
+                              "==",
+                              "coast",
+                              1
                             ],
                             "paint": {
                               "fill-color": "#FAB72E",
@@ -1762,13 +1748,31 @@
                                 0.75,
                                 [
                                   "boolean",
-                                  ["all",["feature-state", "hover"], ["==", ["get","coast"], 1]],
+                                  [
+                                    "feature-state",
+                                    "hover"
+                                  ],
                                   false
                                 ],
                                 0.5,
                                 0
                               ],
                               "fill-outline-color": "#FAB72E"
+                            },
+                            "source-layer": "layer0",
+                            "id": "coastal-interactivity",
+                            "type": "fill"
+                          },
+                          {
+                            "filter": [
+                              "in",
+                              "intersect",
+                              false
+                            ],
+                            "paint": {
+                              "fill-color": "#616161",
+                              "fill-opacity": 1,
+                              "fill-outline-color": "#616161"
                             },
                             "source-layer": "layer0",
                             "type": "fill"

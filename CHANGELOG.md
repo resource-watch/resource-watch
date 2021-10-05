@@ -66,6 +66,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- mini-explore/mini-explore-widgets: interactivity based on id field presence. [OW-155](https://vizzuality.atlassian.net/browse/OW-155)
 - feedback button in preproduction environment. [OW-163](https://vizzuality.atlassian.net/browse/OW-163)
 - mini-explore-widgets: missing initial placeholder. [OW-147](https://vizzuality.atlassian.net/browse/OW-147)
 - wrong pathname route when the explore tries to reflect its state in the URL. [RW-82](https://vizzuality.atlassian.net/browse/RW-82)
