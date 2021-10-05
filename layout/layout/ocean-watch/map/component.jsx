@@ -263,7 +263,7 @@ export default function MapSelection() {
         >
           Select a coastal country to further explore
           <br />
-          land-based pressures upon the ocean.
+          land-based pressures upon the ocean
         </p>
       </div>
       <div
