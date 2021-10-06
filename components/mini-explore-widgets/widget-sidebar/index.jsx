@@ -36,10 +36,11 @@ export default function WidgetSidebarContainer({
             fontWeight: 'bold',
           }}
         >
-          Start by selecting an area
+          Start by selecting a coastal river basin
         </h4>
         <p>
-          Get to know the details for the different zones selecting an area on the map
+          Get to know the details of different pollutants flowing into the ocean.
+          Clicking a coastal basin will show the sedimentation at the river mouth
         </p>
       </div>
       <CardPlaceholder />
