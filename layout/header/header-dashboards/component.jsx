@@ -20,9 +20,9 @@ export default function HeaderDashboards() {
     data: featuredDashboards,
   } = useFeaturedDashboards({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
     select: (_dashboards) => _dashboards.map(({ id, name, slug }) => ({
-      id,
-      label: name,
-      href: `/dashboards/${slug}`,
+      id: slug === 'ocean' ? 'ocean-watch' : id,
+      label: slug === 'ocean' ? 'Ocean Watch' : name,
+      href: slug === 'ocean' ? '/dashboards/ocean-watch' : `/dashboards/${slug}`,
     })),
     placeholderData: [],
     refetchOnWindowFocus: false,

@@ -40,8 +40,8 @@ export default function LayoutDashboards({
       photo,
       user,
     }) => ({
-      name,
-      slug,
+      name: slug === 'ocean' ? 'Ocean Watch' : name,
+      slug: slug === 'ocean' ? 'ocean-watch' : slug,
       photo,
       user,
     })),
