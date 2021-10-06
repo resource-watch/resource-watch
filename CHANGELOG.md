@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- redirect from `/dashboards/ocean` to `/dashboards/ocean-watch`.
 - Ocean Watch: Ocean Watch beta. [OW-171](https://vizzuality.atlassian.net/browse/OW-171)
 - Ocean Watch: analytics events. [OW-76](https://vizzuality.atlassian.net/browse/OW-76)
 - Ocean Watch: added OW partners carousel to several pages.
@@ -55,6 +56,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Changed
+- updates links pointing to old Ocean dashboard to point to new Ocean Watch dashboard.
 - Ocean Watch: changed texts and links of "Suggest a Story" banner. [OW-129](https://vizzuality.atlassian.net/browse/OW-129)
 - Ocean Watch storytelling: increases map zoom one level. [OW-113](https://vizzuality.atlassian.net/browse/OW-113)
 - `redux@4.1.0`
