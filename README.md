@@ -82,7 +82,6 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_BING_MAPS_API_KEY | API KEY used by Cesium. You can find more info in [its documentation](https://cesium.com/docs/cesiumjs-ref-doc/BingMapsApi.html#.defaultKey). |  |  |
 | NEXT_PUBLIC_RW_MAPBOX_API_TOKEN | Mapbox token used to render and handle Mapbox instances. You can find more info in the [Mapbox documentation](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/). |  |  |
 | NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID | Measurement ID used by Google Analytics v4. You can find more info in [Google Analytics v4 documentation](https://support.google.com/analytics/answer/9744165?hl=en&utm_id=ad#cms). This variable doesn't replace `NEXT_PUBLIC_GOOGLE_ANALYTICS` environmental variable. | | |
-| NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH | Feature flag to enable Ocean Watch pages | `undefined`| By default, these pages will not appear so make sure you initialize the environmental variable if you are going to work on them. Set to `true` to enable it. |
 | NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD | Feature flag to enable GEDC dashboard | `undefined`| By default, this dashboard will not appear so make sure you initialize the environmental variable if you are going to work on it. Set to `true` to enable it. |
 | NEXTAUTH_URL | Canonical URL of the site used by [NextAuth](https://next-auth.js.org/) to handle authentication and sessions. | `http://localhost:$PORT` | |
 | NEXTAUTH_JWT_SECRET | A secret to use when signing JWT tokens | | |

@@ -648,13 +648,6 @@ export async function getStaticProps({
   } = params;
   const queryClient = new QueryClient();
 
-  // feature flag to avoid display any Ocean Watch development in other environments
-  if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true') {
-    return ({
-      notFound: true,
-    });
-  }
-
   return {
     props: ({
       iso,
