@@ -64,6 +64,15 @@ export default function OceanWatchIntroPage({
                   color: '#fff',
                 }}
                 >
+                  This is a Beta version of Ocean Watch -
+                  We&apos;re still tweaking things and making improvements.
+                  Please use the feedback button on the right to let us know
+                  if there is anything we can change to make your experience better!
+                </p>
+                <p style={{
+                  color: '#fff',
+                }}
+                >
                   The ocean and humanity are connected.
                   To ensure the health and economic vitality of ocean ecosystems,
                   ocean management needs an upgrade.
@@ -258,13 +267,6 @@ export default function OceanWatchIntroPage({
 }
 
 export async function getServerSideProps() {
-  // feature flag to avoid display any Ocean Watch development in other environments
-  if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true') {
-    return {
-      notFound: true,
-    };
-  }
-
   const queryClient = new QueryClient();
 
   // prefetch areas
