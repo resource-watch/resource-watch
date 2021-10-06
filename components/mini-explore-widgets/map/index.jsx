@@ -270,6 +270,10 @@ export default function MiniExploreMapContainer({
       const layersWithParams = layers.map((_layer) => ({
         ..._layer,
         params,
+        // This a fix - perhaps temporary - for layers that are not default: true in the API
+        // and shouldn't be because of visibility constraints in RW or other apps.
+        // Otherwise, the layer manager throws an error and it doesn't work
+        default: true,
       }));
 
       dispatch(setMapLayerGroups(getLayerGroups(layersWithParams)));
@@ -294,8 +298,15 @@ export default function MiniExploreMapContainer({
       bbox,
     } = geostore;
 
+    const customBbox = {
+      // USA
+      '73b01f180d24d194821a9fc83ad48b7e': [-191.425781, 9.622414, -65.566406, 71.856229],
+      // RUS
+      '8c15c2cae46439129549856f12e81fde': [-332.929688, 42.032974, -162.949219, 77.617709],
+    };
+
     dispatch(setBounds({
-      bbox,
+      bbox: customBbox[geostore.id] || bbox,
       options: {
         padding: 50,
       },
@@ -355,20 +366,15 @@ export default function MiniExploreMapContainer({
 
   const activeInteractiveLayers = useMemo(() => flatten(
     compact(activeLayers.map((_activeLayer) => {
-      const { id, layerConfig } = _activeLayer;
+      const { layerConfig } = _activeLayer;
       if (isEmpty(layerConfig)) return null;
 
       const { body = {} } = layerConfig;
       const { vectorLayers } = body;
 
       if (vectorLayers) {
-        return vectorLayers.map((l, i) => {
-          const {
-            id: vectorLayerId,
-            type: vectorLayerType,
-          } = l;
-          return vectorLayerId || `${id}-${vectorLayerType}-${i}`;
-        });
+        return vectorLayers.filter(({ id: vectorLayerId }) => Boolean(vectorLayerId))
+          .map(({ id: vectorLayerId }) => vectorLayerId);
       }
 
       return null;

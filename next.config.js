@@ -40,6 +40,11 @@ module.exports = withBundleAnalyzer(withCSS(withSass({
         destination: '/myrw/widgets/my_widgets',
         permanent: true,
       },
+      {
+        source: '/dashboards/ocean',
+        destination: '/dashboards/ocean-watch',
+        permanent: true,
+      },
     ];
   },
 

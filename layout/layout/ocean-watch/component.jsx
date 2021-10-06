@@ -4,6 +4,7 @@ import {
 import PropTypes from 'prop-types';
 import Progress from 'react-progress-2';
 import Toastr from 'react-redux-toastr';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { Icons } from 'vizzuality-components';
 
@@ -14,12 +15,13 @@ import { browserSupported } from 'utils/browser';
 // components
 import HeadApp from 'layout/head/app';
 import Footer from 'layout/footer';
-import UserReport from 'layout/user-report';
 import Search from 'layout/header/search';
 import IconsRW from 'components/icons';
 import Modal from 'components/ui/Modal';
 import NoBrowserSupport from 'components/app/common/Browser';
 import GDPRBanner from 'components/ui/gdpr-banner';
+
+const UserReportButton = dynamic(() => import('../../user-report'), { ssr: false });
 
 export default function LayoutOceanWatch({
   title,
@@ -84,7 +86,7 @@ export default function LayoutOceanWatch({
         transitionOut="fadeOut"
       />
 
-      <UserReport />
+      <UserReportButton />
     </div>
   );
 }

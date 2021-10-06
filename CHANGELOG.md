@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.2.0] - X
 ### Added
+- redirect from `/dashboards/ocean` to `/dashboards/ocean-watch`.
+- Ocean Watch: Ocean Watch beta. [OW-171](https://vizzuality.atlassian.net/browse/OW-171)
+- Ocean Watch: analytics events. [OW-76](https://vizzuality.atlassian.net/browse/OW-76)
 - Ocean Watch: added OW partners carousel to several pages.
 - Ocean Watch: populates about page with API content. [OW-63](https://vizzuality.atlassian.net/browse/OW-63)
 - Ocean Watch: setup of about page. [OW-21](https://vizzuality.atlassian.net/browse/OW-21)
@@ -53,6 +56,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Changed
+- updates links pointing to old Ocean dashboard to point to new Ocean Watch dashboard.
 - Ocean Watch: changed texts and links of "Suggest a Story" banner. [OW-129](https://vizzuality.atlassian.net/browse/OW-129)
 - Ocean Watch storytelling: increases map zoom one level. [OW-113](https://vizzuality.atlassian.net/browse/OW-113)
 - `redux@4.1.0`
@@ -65,6 +69,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Fixed
+- mini-explore/mini-explore-widgets: interactivity based on id field presence. [OW-155](https://vizzuality.atlassian.net/browse/OW-155)
+- feedback button in preproduction environment. [OW-163](https://vizzuality.atlassian.net/browse/OW-163)
 - mini-explore-widgets: missing initial placeholder. [OW-147](https://vizzuality.atlassian.net/browse/OW-147)
 - wrong pathname route when the explore tries to reflect its state in the URL. [RW-82](https://vizzuality.atlassian.net/browse/RW-82)
 - WYSIWYG: removes mini-explore button from toolbar. [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
@@ -77,6 +83,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 
 ### Removed
+- `NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH` environmental variable.
 - `origin` query param from `/auth` endpoints.[RW-71](https://vizzuality.atlassian.net/browse/RW-71)
 - Axios' cancelToken.
 - removes `react-responsive` and `react-responsive-redux`.

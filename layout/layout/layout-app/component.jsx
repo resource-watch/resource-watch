@@ -1,8 +1,9 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
+import { withRouter } from 'next/router';
 import Progress from 'react-progress-2';
 import classnames from 'classnames';
-import { withRouter } from 'next/router';
 
 // Utils
 import { initGA, logPageView } from 'utils/analytics';
@@ -16,7 +17,6 @@ import HeadApp from 'layout/head/app';
 import Header from 'layout/header';
 import Footer from 'layout/footer';
 
-import UserReport from 'layout/user-report';
 import IconsRW from 'components/icons';
 import Tooltip from 'components/ui/Tooltip';
 import Modal from 'components/ui/Modal';
@@ -30,6 +30,8 @@ import { containsString } from 'utils/string';
 
 // constants
 import { FULLSCREEN_PAGES } from 'constants/app';
+
+const UserReportButton = dynamic(() => import('../../user-report'), { ssr: false });
 
 class LayoutApp extends Component {
   constructor(props) {
@@ -62,8 +64,12 @@ class LayoutApp extends Component {
     logPageView();
   }
 
+  // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(newProps) {
-    if (this.state.modalOpen !== newProps.modal.open) {
+    const {
+      modalOpen,
+    } = this.state;
+    if (modalOpen !== newProps.modal.open) {
       this.setState({ modalOpen: newProps.modal.open });
     }
   }
@@ -143,7 +149,7 @@ class LayoutApp extends Component {
           transitionOut="fadeOut"
         />
 
-        <UserReport />
+        <UserReportButton />
       </div>
     );
   }
@@ -163,7 +169,10 @@ LayoutApp.propTypes = {
   description: PropTypes.string,
   pageHeader: PropTypes.bool,
   className: PropTypes.string,
-  modal: PropTypes.shape({}).isRequired,
+  modal: PropTypes.shape({
+    options: PropTypes.shape({}),
+    loading: PropTypes.bool,
+  }).isRequired,
   thumbnail: PropTypes.string,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,

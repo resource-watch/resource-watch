@@ -36,10 +36,11 @@ export default function WidgetSidebarContainer({
             fontWeight: 'bold',
           }}
         >
-          Start by selecting an area
+          Start by selecting a coastal river basin
         </h4>
         <p>
-          Get to know the details for the different zones selecting an area on the map
+          The graphs will show the concentration of dissolved oxygen,
+          and nutrients at the mouths of the rivers in the selected area
         </p>
       </div>
       <CardPlaceholder />

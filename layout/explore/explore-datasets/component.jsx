@@ -1,6 +1,9 @@
-import { useEffect } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useCallback,
+} from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 import Link from 'next/link';
 import classnames from 'classnames';
 
@@ -18,7 +21,7 @@ import ExploreDatasetsActions from './explore-datasets-actions';
 // Styles
 import './styles.scss';
 
-function ExploreDatasetsComponent(props) {
+export default function ExploreDatasets(props) {
   const {
     datasets: {
       selected,
@@ -30,18 +33,29 @@ function ExploreDatasetsComponent(props) {
     },
     selectedTags,
     search,
+    setDatasetsPage,
+    fetchDatasets,
   } = props;
 
-  const relatedDashboards = TOPICS.filter((topic) => selectedTags.find((tag) => tag.id === topic.id));
+  const relatedDashboards = useMemo(
+    () => TOPICS.filter((topic) => selectedTags.find((tag) => tag.id === topic.id))
+      .map((_dashboard) => ({
+        ..._dashboard,
+        ..._dashboard.slug === 'ocean-watch' && {
+          label: 'Ocean Watch',
+        },
+      })),
+    [selectedTags],
+  );
 
-  const fetchDatasets = debounce((page) => {
-    props.setDatasetsPage(page);
-    props.fetchDatasets();
-  });
+  const fetchDatasetsPerPage = useCallback((_page) => {
+    setDatasetsPage(_page);
+    fetchDatasets();
+  }, [setDatasetsPage, fetchDatasets]);
 
   useEffect(() => {
-    fetchDatasets(1);
-  }, []);
+    fetchDatasetsPerPage(1);
+  }, [fetchDatasetsPerPage]);
 
   const classValue = classnames({
     'c-explore-datasets': true,
@@ -61,7 +75,7 @@ function ExploreDatasetsComponent(props) {
                   className="c-button -primary -compressed"
                   onClick={() => {
                     props.toggleFiltersSelected({ tag: t, tab: 'topics' });
-                    fetchDatasets(1);
+                    fetchDatasetsPerPage(1);
                   }}
                 >
                   <span
@@ -83,7 +97,7 @@ function ExploreDatasetsComponent(props) {
                 onClick={() => {
                   props.resetFiltersSort();
                   props.setFiltersSearch('');
-                  fetchDatasets(1);
+                  fetchDatasetsPerPage(1);
                 }}
               >
                 <span
@@ -126,6 +140,9 @@ function ExploreDatasetsComponent(props) {
                   'background-size': 'cover',
                 }}
                 onClick={() => logEvent('Explore Menu', 'Select Dashboard', dashboard.label)}
+                role="button"
+                tabIndex={0}
+                onKeyPress={() => {}}
               >
                 <div className="dashboard-title">
                   {dashboard.label}
@@ -181,7 +198,7 @@ function ExploreDatasetsComponent(props) {
             }
             // ------------------------------------------------
 
-            fetchDatasets(p);
+            fetchDatasetsPerPage(p);
           }}
         />
         )}
@@ -190,21 +207,26 @@ function ExploreDatasetsComponent(props) {
   );
 }
 
-ExploreDatasetsComponent.propTypes = {
-  list: PropTypes.array,
-  page: PropTypes.number,
-  total: PropTypes.number,
-  limit: PropTypes.number,
-  options: PropTypes.object,
-  selectedTags: PropTypes.array.isRequired,
+ExploreDatasets.propTypes = {
+  datasets: PropTypes.shape({
+    selected: PropTypes.string.isRequired,
+    list: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+    total: PropTypes.number.isRequired,
+    limit: PropTypes.number.isRequired,
+    page: PropTypes.number.isRequired,
+    loading: PropTypes.bool.isRequired,
+  }).isRequired,
+  selectedTags: PropTypes.arrayOf(
+    PropTypes.shape(),
+  ).isRequired,
   search: PropTypes.string.isRequired,
-
-  // Actions
   fetchDatasets: PropTypes.func.isRequired,
   setDatasetsPage: PropTypes.func.isRequired,
   toggleFiltersSelected: PropTypes.func.isRequired,
   resetFiltersSort: PropTypes.func.isRequired,
   setFiltersSearch: PropTypes.func.isRequired,
 };
-
-export default ExploreDatasetsComponent;

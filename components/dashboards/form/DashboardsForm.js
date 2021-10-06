@@ -2,6 +2,7 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import { withRouter } from 'next/router';
+import cx from 'classnames';
 
 // components
 import Navigation from 'components/form/Navigation';
@@ -41,6 +42,10 @@ class DashboardsForm extends PureComponent {
       ...STATE_DEFAULT.form,
       user_id: this.props.user.id,
     },
+    initialForm: {
+      ...STATE_DEFAULT.form,
+      user_id: this.props.user.id,
+    }
   }
 
   componentDidMount() {
@@ -52,6 +57,7 @@ class DashboardsForm extends PureComponent {
         .then((data) => {
           this.setState({
             form: this.setFormFromParams(data),
+            initialForm: this.setFormFromParams(data),
             loading: false,
           });
         })
@@ -78,6 +84,7 @@ class DashboardsForm extends PureComponent {
       const onFetchSuccess = (data) => {
         const { id: dashboardId, name } = data;
         toastr.success('Success', `The dashboard "${dashboardId}" - "${name}" has been uploaded correctly`);
+        this.setState({ initialForm: form });
 
         if (this.props.onSubmit) this.props.onSubmit();
       };
@@ -113,7 +120,7 @@ class DashboardsForm extends PureComponent {
     }, 0);
   }
 
-  onChange =(obj) => {
+  onChange = (obj) => {
     const form = { ...this.state.form, ...obj };
     this.setState({ form });
   }
@@ -148,7 +155,7 @@ class DashboardsForm extends PureComponent {
         }
         default: {
           if ((typeof params[f] !== 'undefined' || params[f] !== null)
-              || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+            || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -166,11 +173,15 @@ class DashboardsForm extends PureComponent {
       step,
       stepLength,
       submitting,
+      initialForm,
     } = this.state;
 
     return (
       <form
-        className="c-form"
+        className={cx({
+          'c-form': true,
+          '-disabled': initialForm.env && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === initialForm.env) < 0,
+        })}
         onSubmit={this.onSubmit}
         noValidate
         data-cy="dashboard-form"
@@ -182,24 +193,24 @@ class DashboardsForm extends PureComponent {
 
         {(this.state.step === 1 && !loading)
           && (
-          <Step1
-            onChange={(value) => this.onChange(value)}
-            basic={basic}
-            form={form}
-            id={id}
-            {...this.props}
-          />
+            <Step1
+              onChange={(value) => this.onChange(value)}
+              basic={basic}
+              form={form}
+              id={id}
+              {...this.props}
+            />
           )}
 
         {!loading
           && (
-          <Navigation
-            step={step}
-            stepLength={stepLength}
-            submitting={submitting}
-            onStepChange={this.onStepChange}
-            onBack={this.onCancel}
-          />
+            <Navigation
+              step={step}
+              stepLength={stepLength}
+              submitting={submitting}
+              onStepChange={this.onStepChange}
+              onBack={this.onCancel}
+            />
           )}
       </form>
     );

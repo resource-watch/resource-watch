@@ -29,6 +29,9 @@ import {
   createFavourite,
 } from 'services/favourites';
 
+// utils
+import { logEvent } from 'utils/analytics';
+
 // constants
 import { FAVOURITES_COLLECTION } from './collections-panel-constants';
 
@@ -117,6 +120,9 @@ const CollectionsPanel = ({
           resourceId: resource.id,
           resourceType,
         }));
+
+        logEvent('Favorites', `user adds ${resourceType} to favorites`, resource.name);
+
         await refetchFavorites();
       } catch (e) {
         // do something
@@ -136,6 +142,9 @@ const CollectionsPanel = ({
       try {
         dispatch({ type: addToLoadingQueue, payload: collection.id });
         await addResourceToCollection(user?.token, collection.id, resourcePayload);
+
+        logEvent('Collections', `user adds ${resourceType} to collection`, resource.name);
+
         dispatch({ type: removeToLoadingQueue, payload: collection.id });
       } catch (e) {
         // do something
@@ -242,6 +251,7 @@ CollectionsPanel.defaultProps = {
 CollectionsPanel.propTypes = {
   resource: PropTypes.shape({
     id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
   }).isRequired,
   resourceType: PropTypes.oneOf([
     'dataset',

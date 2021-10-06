@@ -84,11 +84,10 @@ export default function OceanWatchCountryProfiles() {
                     textAlign: 'center',
                   }}
                 >
-                  Examine in-depth the curated data for the
+                  Select a coastal country to further explore
                   {' '}
                   <br />
-                  country profiles.
-                  Start by selecting a country.
+                  land-based pressures upon the ocean.
                 </h3>
               </div>
             </div>
@@ -109,13 +108,6 @@ export default function OceanWatchCountryProfiles() {
 }
 
 export async function getStaticProps() {
-  // feature flag to avoid display any Ocean Watch development in other environments
-  if (process.env.NEXT_PUBLIC_FEATURE_FLAG_OCEAN_WATCH !== 'true') {
-    return {
-      notFound: true,
-    };
-  }
-
   return {
     props: {},
   };

@@ -36,7 +36,10 @@ export default function WidgetShareModal({
     try {
       const widgetType = getWidgetType(widget);
 
+      logEvent('Share', 'user downloads an image of a widget', widget.name);
+
       setWebshotLoading(true);
+
       const { widgetThumbnail } = await takeWidgetWebshot(widget.id, {
         type: widgetType,
         ...params,

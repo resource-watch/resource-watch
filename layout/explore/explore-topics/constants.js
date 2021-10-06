@@ -46,7 +46,7 @@ export const TOPICS = [
     label: 'Ocean',
     backgroundURL: '/static/images/components/layout/explore/topics/topics-oceans.jpg',
     backgroundColor: 'rgba(44,117,176,0.7)',
-    slug: 'ocean',
+    slug: 'ocean-watch',
   },
   {
     id: 'urban',
