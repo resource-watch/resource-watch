@@ -133,7 +133,7 @@ export default function IndicatorVisualization({
     isError: isErrorSecondaryWidget,
     refetch: refetchSecondaryWidget,
   } = useQuery(
-    ['fetch-query', widgetQuery],
+    ['fetch-query', replacedQuery],
     () => axios.get(replacedQuery),
     {
       enabled: !!(replacedQuery),
