@@ -39,8 +39,8 @@ export default function WidgetSidebarContainer({
           Start by selecting a coastal river basin
         </h4>
         <p>
-          Get to know the details of different pollutants flowing into the ocean.
-          Clicking a coastal basin will show the sedimentation at the river mouth
+          The graphs will show the concentration of dissolved oxygen,
+          and nutrients at the mouths of the rivers in the selected area
         </p>
       </div>
       <CardPlaceholder />
