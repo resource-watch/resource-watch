@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `@vizzuality/wysiwyg@3.1.4` [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
 
 ### Fixed
+- restores old endpoint to render embed map-swipes without a widget. [RW-89](https://vizzuality.atlassian.net/browse/RW-89)
 
 ### Removed
 

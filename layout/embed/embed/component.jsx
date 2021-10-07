@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import LayoutEmbed from 'layout/layout/layout-embed';
 import Spinner from 'components/ui/Spinner';
 import Icon from 'components/ui/icon';
+import PoweredBy from 'components/embed/powered-by';
 
 // utils
 import { isLoadedExternally } from 'utils/embed';
@@ -137,7 +138,12 @@ class LayoutEmbedEmbed extends PureComponent {
               </button>
             </div>
           </div>
-          <div className="widget-content">
+          <div
+            className="widget-content"
+            style={{
+              padding: 0,
+            }}
+          >
             { !modalOpened
               && (
               <iframe
@@ -149,19 +155,7 @@ class LayoutEmbedEmbed extends PureComponent {
             {modalOpened && this.getModal()}
           </div>
           {isExternal && (
-            <div className="widget-footer">
-              <a
-                href="/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  className="embed-logo"
-                  src="/static/images/logo-embed.png"
-                  alt="Resource Watch"
-                />
-              </a>
-            </div>
+            <PoweredBy />
           )}
         </div>
       </LayoutEmbed>
