@@ -90,6 +90,7 @@ export default function OceanWatchIntroPage({
           width: '100%',
           height: 200,
           background: 'linear-gradient(to bottom, transparent, #0F4573)',
+          pointerEvents: 'none',
         }}
         />
       </div>

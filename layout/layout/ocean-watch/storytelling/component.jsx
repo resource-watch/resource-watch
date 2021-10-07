@@ -139,7 +139,7 @@ export default function OceanWatchStoryTelling({
         <div className="column small-12">
           <nav style={{
             position: 'relative',
-            padding: '25px 0',
+            margin: '25px 0',
             background: '#0F4573',
             zIndex: 2,
           }}
