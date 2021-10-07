@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.2.0] - X
+## [3.X.X] - 2021-X-X
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [3.2.0] - 2021-10-06
 ### Added
 - redirect from `/dashboards/ocean` to `/dashboards/ocean-watch`.
 - Ocean Watch: Ocean Watch beta. [OW-171](https://vizzuality.atlassian.net/browse/OW-171)
