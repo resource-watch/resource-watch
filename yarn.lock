@@ -3365,10 +3365,10 @@
     axios "^0.21.1"
     cancelable-promise "^3.2.3"
 
-"@vizzuality/wysiwyg@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@vizzuality/wysiwyg/-/wysiwyg-3.1.1.tgz#3d129031de8a298e964185e7bece574fc36f7b58"
-  integrity sha512-SwghhbesgAn00/4MSB/QzZKZa8jY6p4G+iNwim6N2vRM4PC1cRmBd0/OccH+CkHhi9twxWquo1GB2Sv3zAKU2w==
+"@vizzuality/wysiwyg@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@vizzuality/wysiwyg/-/wysiwyg-3.1.4.tgz#9cb97198a2c82c38fc1060c9e669e3d910a520d9"
+  integrity sha512-KmF9xAbhHbi5brSFsqVU/zxh6UBjNICJz83QbSpU7LPNcEMlCTiDq3YqQvNcEvpx4Yfb2DeJf45M1E8SfOvIKQ==
   dependencies:
     classnames "2.2.5"
     foundation-sites "^6.6.3"

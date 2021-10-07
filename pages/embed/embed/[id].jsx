@@ -1,5 +1,4 @@
 // actions
-import { setEmbed, setWebshotMode } from 'redactions/common';
 import {
   getWidget,
   checkIfFavorited,
@@ -20,7 +19,6 @@ export default function EmbedEmbedPage(props) {
 
 export const getServerSideProps = withRedux(withUserServerSide(async ({
   store,
-  req,
   query,
 }) => {
   const {
@@ -30,18 +28,12 @@ export const getServerSideProps = withRedux(withUserServerSide(async ({
   const { user } = getState();
   const {
     id,
-    webshot,
   } = query;
-
-  dispatch(setEmbed(true));
-  if (webshot) dispatch(setWebshotMode(true));
 
   await dispatch(getWidget(id));
   if (user.id) dispatch(checkIfFavorited(id));
 
   return ({
-    props: ({
-      referer: req.headers.referer,
-    }),
+    props: ({}),
   });
 }));
