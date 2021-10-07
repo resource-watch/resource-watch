@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 
 // components
-import LayoutEmbedMapSwipe from 'layout/embed/map-swipe';
+import LayoutEmbedMapSwipeWidget from 'layout/embed/map-swipe-widget';
 
 export default function EmbedMapSwipePage() {
   const {
@@ -14,7 +14,7 @@ export default function EmbedMapSwipePage() {
   } = useRouter();
 
   return (
-    <LayoutEmbedMapSwipe
+    <LayoutEmbedMapSwipeWidget
       widgetId={id}
       {...webshot && { isWebshot: true }}
       {...aoi && { aoi }}
