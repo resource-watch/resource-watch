@@ -11,21 +11,20 @@ import authPayload from '../fixtures/auth.json';
 // ***********************************************
 
 Cypress.Commands.add('login', (callbackUrl) => {
-  // sets user session manually
-  cy.setCookie('next-auth.session-token', 'eyJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsInN1YiI6IjE5YjIxYjI4ODIxNGI1MDAwMWRlN2Y2MyIsImFjY2Vzc1Rva2VuIjoidmFsaWRfdG9rZW4iLCJpYXQiOjE2MjUyMjA5MjIsImV4cCI6MTYyNzgxMjkyMn0.VKLEZJoAvlNChBhy8nInmQ9ZYXhqhsNHd28f8K1o6LtCahg78ika61n_76Jy-QtC5DLJtjL7kecE2Zn9lg0Mag');
-  cy.setCookie('next-auth.csrf-token', '24570bb383dba6732619dd59c98ce2085d009542a4d660feb581f30fb999da7d%7Cbf21856cb87b532267efc59c04ecaaad0961de65a27e3174e90dbceb30b842b2');
+  cy.intercept('GET', `${Cypress.env('NEXT_PUBLIC_WRI_API_URL')}/auth/user/me`, {
+    statusCode: 200,
+    fixture: 'auth.json',
+  }).as('getUser');
 
-  cy.fixture('auth').then((authPayload) => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: `${Cypress.env('NEXT_PUBLIC_WRI_API_URL')}/auth/user/me`,
-      },
-      authPayload,
-    ).as('getAuthPayload');
-  });
 
-  if (callbackUrl) cy.visit(callbackUrl);
+  cy.visit(`/sign-in${callbackUrl ? `?callbackUrl=${callbackUrl}` : ''}`);
+
+  cy.get('[data-cy="email-input"]').type('lorem@test.com');
+  cy.get('[data-cy="password-input"]').type('my-secure-password');
+
+  cy.get('[data-cy="submit-button"]').click();
+
+  // if (callbackUrl) cy.visit(callbackUrl);
 });
 
 Cypress.Commands.add('validateEnvVar', (varName) => {
