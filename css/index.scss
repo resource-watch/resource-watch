@@ -1,5 +1,7 @@
-// Reset
-// Project settings (it doesn't include Grid system)
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "settings";
 
 @import "~normalize.css/normalize";

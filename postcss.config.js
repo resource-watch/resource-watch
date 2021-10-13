@@ -1,7 +1,10 @@
-/* eslint global-require: 0 */
 module.exports = {
-  plugins: [
-    require('postcss-easy-import')({ prefix: '_' }), // keep this first
-    require('autoprefixer')({ /* ...options */ }), // so imports are auto-prefixed too
-  ],
+  plugins: {
+    // ! this plugin might be removed in the future when the application
+    // ! has fully migrated to tailwind and dropped support of deprecated
+    // ! @zeit/next-css and @zeit/next-sass
+    'postcss-easy-import': { prefix: '_' },
+    tailwindcss: {},
+    autoprefixer: {},
+  },
 };
