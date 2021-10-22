@@ -116,7 +116,16 @@ export default function LayoutCoralReefsDashboard() {
               </ScrollLink>
             </li>
             <li>
-              <strong>Key Resources </strong>
+              <ScrollLink
+                activeClass="-active"
+                to="key-resources"
+                spy
+                smooth
+                offset={-25}
+                isDynamic
+              >
+                <strong>Key resources</strong>
+              </ScrollLink>
               <span>– for further information on science and management, protected areas, status and trends, government and policy, ecosystem values, and how individuals can aid coral reefs</span>
             </li>
           </ul>
@@ -178,6 +187,9 @@ export default function LayoutCoralReefsDashboard() {
         </div>
         <div id="conclusion" className="section">
           <h1>Conclusion</h1>
+        </div>
+        <div id="key-resources" className="section">
+          <h1>Key Resources</h1>
         </div>
       </div>
     </div>
