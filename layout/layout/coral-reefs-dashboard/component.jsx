@@ -1,13 +1,30 @@
+import { useState, useEffect } from 'react';
 import Sticky from 'react-stickynode';
 import {
   Link as ScrollLink,
 } from 'react-scroll';
 
+// services
+import { fetchWidget } from 'services/widget';
+
 // constants
-import { TABS } from './constants';
+import { TABS, WIDGET_IDS } from './constants';
 
 /* eslint-disable max-len */
 export default function LayoutCoralReefsDashboard() {
+  const [widgets, setWidgets] = useState({});
+
+  useEffect(() => {
+    Promise.all(WIDGET_IDS.map((wID) => fetchWidget(wID)))
+      .then((values) => {
+        const newWidgets = {};
+        values.forEach((res, index) => { newWidgets[WIDGET_IDS[index]] = res; });
+        setWidgets(newWidgets);
+      });
+  }, []);
+
+  console.log('widgets', widgets);
+
   return (
     <div className="coral-reefs-dashboard">
       {/* ----------------------- TABLE OF CONTENTS ------------ */}
@@ -169,6 +186,17 @@ export default function LayoutCoralReefsDashboard() {
       <div id="dashboard-content">
         <div id="value" className="section">
           <h1>Reefs are Valuable</h1>
+          <p>
+            <span>Coral reefs are one of the most biologically rich and productive ecosystems on earth. Spread across the tropics, </span>
+            <strong>an estimated 1 billion people benefit either directly or indirectly from the many ecosystem services coral reefs provide.</strong>
+            <span> These services include providing a source of food and livelihood, reducing wave energy and protecting shorelines, attracting tourism, providing a source of inspiration and cultural value, and offering tremendous potential for bio-pharmaceuticals through the rich biological diversity found on coral reefs.</span>
+          </p>
+          <div className="row">
+            <div className="column small-12 medium-6"></div>
+            <div className="column small-12 medium-6">
+              <em>Worldwide, approximately 1 billion people live within 100 km of reefs, many of whom are likely to derive some benefits from the ecosystem services reefs provide. More than 330 million people reside in the direct vicinity of coral reefs (within 30 km of reefs and less than 10 km from the coast), where livelihoods are most likely to depend on reefs and related resources. This number of people dependent on coral reefs is estimated to have increased by 20 percent over the last decade.</em>
+            </div>
+          </div>
         </div>
         <div id="reefs-are-threatened" className="section">
           <h1>Reefs are Threatened</h1>
