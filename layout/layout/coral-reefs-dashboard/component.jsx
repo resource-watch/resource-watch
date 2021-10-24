@@ -3,9 +3,20 @@ import Sticky from 'react-stickynode';
 import {
   Link as ScrollLink,
 } from 'react-scroll';
+import {
+  useSelector,
+} from 'react-redux';
+
+// components
+import ChartWidget from 'components/widgets/types/chart';
 
 // services
 import { fetchWidget } from 'services/widget';
+
+// utils
+import {
+  getRWAdapter,
+} from 'utils/widget-editor';
 
 // constants
 import { TABS, WIDGET_IDS } from './constants';
@@ -13,6 +24,8 @@ import { TABS, WIDGET_IDS } from './constants';
 /* eslint-disable max-len */
 export default function LayoutCoralReefsDashboard() {
   const [widgets, setWidgets] = useState({});
+
+  const RWAdapter = useSelector((state) => getRWAdapter(state));
 
   useEffect(() => {
     Promise.all(WIDGET_IDS.map((wID) => fetchWidget(wID)))
@@ -22,8 +35,6 @@ export default function LayoutCoralReefsDashboard() {
         setWidgets(newWidgets);
       });
   }, []);
-
-  console.log('widgets', widgets);
 
   return (
     <div className="coral-reefs-dashboard">
@@ -192,7 +203,9 @@ export default function LayoutCoralReefsDashboard() {
             <span> These services include providing a source of food and livelihood, reducing wave energy and protecting shorelines, attracting tourism, providing a source of inspiration and cultural value, and offering tremendous potential for bio-pharmaceuticals through the rich biological diversity found on coral reefs.</span>
           </p>
           <div className="row">
-            <div className="column small-12 medium-6"></div>
+            <div className="column small-12 medium-6">
+              <ChartWidget widgetId="d3be43cc-8bf8-42f8-bc95-97530da07c84" adapter={RWAdapter} />
+            </div>
             <div className="column small-12 medium-6">
               <em>Worldwide, approximately 1 billion people live within 100 km of reefs, many of whom are likely to derive some benefits from the ecosystem services reefs provide. More than 330 million people reside in the direct vicinity of coral reefs (within 30 km of reefs and less than 10 km from the coast), where livelihoods are most likely to depend on reefs and related resources. This number of people dependent on coral reefs is estimated to have increased by 20 percent over the last decade.</em>
             </div>
