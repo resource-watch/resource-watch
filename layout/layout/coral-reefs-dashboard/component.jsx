@@ -12,6 +12,7 @@ import { TABS } from './constants';
 import ValueSection from './value-section';
 import ReefsAreThreatenedSection from './reefs-are-threatened-section';
 import KeyResourcesSection from './key-resources-section';
+import GlobalThreatsClimateChange from './global-threats-climate-change-section';
 
 const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
 
@@ -42,7 +43,7 @@ export default function LayoutCoralReefsDashboard() {
           </div>
         </div>
         <div className="column small-12 medium-6">
-          <h1>Table of Contents</h1>
+          <h1><strong>Table of Contents</strong></h1>
           <ul className="bullet-list">
             <li>
               <ScrollLink
@@ -188,9 +189,7 @@ export default function LayoutCoralReefsDashboard() {
       <div id="dashboard-content">
         <ValueSection onShareWidget={handleShareWidget} />
         <ReefsAreThreatenedSection onShareWidget={handleShareWidget} />
-        <div id="global-threats-climate-change" className="section">
-          <h1>Global Threats/Climate Change</h1>
-        </div>
+        <GlobalThreatsClimateChange onShareWidget={handleShareWidget} />
         <div id="coral-reef-condition" className="section">
           <h1>Coral Reef Condition</h1>
         </div>
