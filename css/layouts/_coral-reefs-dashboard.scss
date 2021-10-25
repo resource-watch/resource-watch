@@ -5,13 +5,16 @@
 
   .section {
     padding-top: 60px;
+
+    .subsection {
+      padding-top: 40px;
+    }
   }
 
   .image-container {
     display: flex;
     flex-direction: column;
   }
-
 
   h1 {
     font-size: math.div($font-size-h2, 2);
@@ -54,7 +57,7 @@
     }
   }
 
-  ul {
+  ul.bullet-list {
     li {
       font-size: $font-size-default;
       margin-left: 3em;
