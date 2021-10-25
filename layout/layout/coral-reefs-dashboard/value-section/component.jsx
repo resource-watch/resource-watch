@@ -19,7 +19,7 @@ const ValueSection = ({ onShareWidget }) => {
   return (
     <div id="value" className="section">
       <div className="subsection">
-        <h1>Reefs are Valuable</h1>
+        <h1><strong>Reefs are Valuable</strong></h1>
         <p>
           <span>Coral reefs are one of the most biologically rich and productive ecosystems on earth. Spread across the tropics, </span>
           <strong>an estimated 1 billion people benefit either directly or indirectly from the many ecosystem services coral reefs provide.</strong>
@@ -39,7 +39,7 @@ const ValueSection = ({ onShareWidget }) => {
         </div>
       </div>
       <div className="subsection">
-        <h2>Tourism</h2>
+        <h2><strong>Tourism</strong></h2>
         <p>
           <span>Coral reefs are an important magnet for both domestic and international tourism in over 100 countries and territories, generating jobs, revenue and foreign exchange. They provide on-reef recreation, such as diving and snorkeling, but also generate white sandy beaches and calm waters favored by tourists. Poorly managed tourism, however, c</span>
           an damage coral reefs. Prior to the abrupt decline in visitation due to COVID-19,
@@ -58,7 +58,7 @@ const ValueSection = ({ onShareWidget }) => {
         />
       </div>
       <div className="subsection">
-        <h2>Fisheries</h2>
+        <h2><strong>Fisheries</strong></h2>
         <p>
           <strong>Coral reef-associated fisheries provide an important source of protein and livelihood across the tropics for an estimated </strong>
           <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0065397" rel="noopener noreferrer" target="_blank"><strong>6 million reef fishers</strong></a>
@@ -85,7 +85,7 @@ const ValueSection = ({ onShareWidget }) => {
         />
       </div>
       <div className="subsection">
-        <h2>Shoreline Protection</h2>
+        <h2><strong>Shoreline Protection</strong></h2>
         <p>
           <span>Beyond their biological value, the physical structures of coral reefs reduce wave energy, wave heights, and associated erosion and storm damage. </span>
           <strong>Reefs protect an estimated </strong>
@@ -123,6 +123,7 @@ const ValueSection = ({ onShareWidget }) => {
           style={{
             height: 500,
             borderRadius: 4,
+            margin: '20px 0px',
           }}
         />
       </div>

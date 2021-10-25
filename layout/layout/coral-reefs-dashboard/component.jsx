@@ -10,6 +10,7 @@ import { TABS } from './constants';
 
 // sections
 import ValueSection from './value-section';
+import ReefsAreThreatenedSection from './reefs-are-threatened-section';
 
 const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
 
@@ -185,9 +186,7 @@ export default function LayoutCoralReefsDashboard() {
       </Sticky>
       <div id="dashboard-content">
         <ValueSection onShareWidget={handleShareWidget} />
-        <div id="reefs-are-threatened" className="section">
-          <h1>Reefs are Threatened</h1>
-        </div>
+        <ReefsAreThreatenedSection onShareWidget={handleShareWidget} />
         <div id="global-threats-climate-change" className="section">
           <h1>Global Threats/Climate Change</h1>
         </div>
