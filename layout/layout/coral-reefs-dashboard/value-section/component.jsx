@@ -102,7 +102,7 @@ const ValueSection = ({ onShareWidget }) => {
               {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
               <img className="cw-wysiwyg-image" src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/351/original/lindfield_coral-wave.png?1608159333&temp_id=351" alt="Photo by Steve Lindfield" />
             </div>
-            <div>
+            <div className="image-caption">
               <em>
                 Photo: Steve Lindfield
               </em>
