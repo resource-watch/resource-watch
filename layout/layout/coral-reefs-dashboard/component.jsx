@@ -11,6 +11,7 @@ import { TABS } from './constants';
 // sections
 import ValueSection from './value-section';
 import ReefsAreThreatenedSection from './reefs-are-threatened-section';
+import KeyResourcesSection from './key-resources-section';
 
 const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
 
@@ -202,9 +203,7 @@ export default function LayoutCoralReefsDashboard() {
         <div id="conclusion" className="section">
           <h1>Conclusion</h1>
         </div>
-        <div id="key-resources" className="section">
-          <h1>Key Resources</h1>
-        </div>
+        <KeyResourcesSection />
         {(!!widgetToShare) && (
         <WidgetShareModal
           isVisible
