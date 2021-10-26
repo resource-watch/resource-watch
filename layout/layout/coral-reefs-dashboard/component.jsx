@@ -1,13 +1,33 @@
+import { useState, useCallback } from 'react';
 import Sticky from 'react-stickynode';
 import {
   Link as ScrollLink,
 } from 'react-scroll';
+import dynamic from 'next/dynamic';
 
 // constants
 import { TABS } from './constants';
 
+// sections
+import ValueSection from './value-section';
+import ReefsAreThreatenedSection from './reefs-are-threatened-section';
+import KeyResourcesSection from './key-resources-section';
+import GlobalThreatsClimateChange from './global-threats-climate-change-section';
+
+const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
+
 /* eslint-disable max-len */
 export default function LayoutCoralReefsDashboard() {
+  const [widgetToShare, setWidgetToShare] = useState(null);
+
+  const handleShareWidget = useCallback((_widget) => {
+    setWidgetToShare(_widget);
+  }, []);
+
+  const handleCloseShareWidget = useCallback(() => {
+    setWidgetToShare(null);
+  }, []);
+
   return (
     <div className="coral-reefs-dashboard">
       {/* ----------------------- TABLE OF CONTENTS ------------ */}
@@ -23,8 +43,8 @@ export default function LayoutCoralReefsDashboard() {
           </div>
         </div>
         <div className="column small-12 medium-6">
-          <h1>Table of Contents</h1>
-          <ul>
+          <h1><strong>Table of Contents</strong></h1>
+          <ul className="bullet-list">
             <li>
               <ScrollLink
                 activeClass="-active"
@@ -116,7 +136,16 @@ export default function LayoutCoralReefsDashboard() {
               </ScrollLink>
             </li>
             <li>
-              <strong>Key Resources </strong>
+              <ScrollLink
+                activeClass="-active"
+                to="key-resources"
+                spy
+                smooth
+                offset={-25}
+                isDynamic
+              >
+                <strong>Key resources</strong>
+              </ScrollLink>
               <span>– for further information on science and management, protected areas, status and trends, government and policy, ecosystem values, and how individuals can aid coral reefs</span>
             </li>
           </ul>
@@ -158,15 +187,9 @@ export default function LayoutCoralReefsDashboard() {
         </div>
       </Sticky>
       <div id="dashboard-content">
-        <div id="value" className="section">
-          <h1>Reefs are Valuable</h1>
-        </div>
-        <div id="reefs-are-threatened" className="section">
-          <h1>Reefs are Threatened</h1>
-        </div>
-        <div id="global-threats-climate-change" className="section">
-          <h1>Global Threats/Climate Change</h1>
-        </div>
+        <ValueSection onShareWidget={handleShareWidget} />
+        <ReefsAreThreatenedSection onShareWidget={handleShareWidget} />
+        <GlobalThreatsClimateChange onShareWidget={handleShareWidget} />
         <div id="coral-reef-condition" className="section">
           <h1>Coral Reef Condition</h1>
         </div>
@@ -179,6 +202,14 @@ export default function LayoutCoralReefsDashboard() {
         <div id="conclusion" className="section">
           <h1>Conclusion</h1>
         </div>
+        <KeyResourcesSection />
+        {(!!widgetToShare) && (
+        <WidgetShareModal
+          isVisible
+          widget={widgetToShare}
+          onClose={handleCloseShareWidget}
+        />
+        )}
       </div>
     </div>
   );
