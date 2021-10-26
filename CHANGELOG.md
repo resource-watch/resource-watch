@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.X.X] - 2021-X-X
 ### Added
+- Ability to remove border styles of Area of Interest layer. [OW-91](https://vizzuality.atlassian.net/browse/OW-91)
 
 ### Changed
 - `@vizzuality/wysiwyg@3.1.4` [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
