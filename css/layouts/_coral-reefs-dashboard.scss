@@ -82,6 +82,23 @@
     }
   }
 
+  ol.number-list {
+    li {
+      font-size: $font-size-default;
+      margin-left: 3em;
+      list-style-type: decimal;
+
+      > a {
+        color: $link-font-color;
+
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
   .sticky-dashboard-content-bar {
     margin: ($space * 4) 0 0;
   }

@@ -14,6 +14,7 @@ import ReefsAreThreatenedSection from './reefs-are-threatened-section';
 import KeyResourcesSection from './key-resources-section';
 import GlobalThreatsClimateChange from './global-threats-climate-change-section';
 import ConditionSection from './condition-section';
+import ConclusionSection from './conclusion-section';
 
 const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
 
@@ -34,10 +35,8 @@ export default function LayoutCoralReefsDashboard() {
       {/* ----------------------- TABLE OF CONTENTS ------------ */}
       <div id="table-of-contents" className="row section">
         <div className="image-container column small-12 medium-6">
-          <div>
-            <img className="cw-wysiwyg-image" src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/377/original/IYORBank_UpClose_TheOceanAgency_03_cropped.jpg?1611936687&amp;temp_id=377" alt="IYORBank_UpClose_TheOceanAgency_03_cropped.jpg" />
-          </div>
-          <div>
+          <img className="cw-wysiwyg-image" src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/377/original/IYORBank_UpClose_TheOceanAgency_03_cropped.jpg?1611936687&amp;temp_id=377" alt="IYORBank_UpClose_TheOceanAgency_03_cropped.jpg" />
+          <div className="image-caption">
             <em>
               Photo: Steve Lindfield - Coral Reef Image Bank
             </em>
@@ -198,9 +197,7 @@ export default function LayoutCoralReefsDashboard() {
         <div id="social-and-economic-vulnerability" className="section">
           <h1>Social and Economic Vulnerability</h1>
         </div>
-        <div id="conclusion" className="section">
-          <h1>Conclusion</h1>
-        </div>
+        <ConclusionSection />
         <KeyResourcesSection />
         {(!!widgetToShare) && (
         <WidgetShareModal
