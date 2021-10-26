@@ -20,6 +20,10 @@
     }
   }
 
+  .caption {
+    color: rgb(166, 166, 166);
+  }
+
   h1 {
     font-size: math.div($font-size-h2, 2);
     color: $color-primary;

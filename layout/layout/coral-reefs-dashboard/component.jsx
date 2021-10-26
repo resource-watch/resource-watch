@@ -13,6 +13,7 @@ import ValueSection from './value-section';
 import ReefsAreThreatenedSection from './reefs-are-threatened-section';
 import KeyResourcesSection from './key-resources-section';
 import GlobalThreatsClimateChange from './global-threats-climate-change-section';
+import ConditionSection from './condition-section';
 
 const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
 
@@ -190,9 +191,7 @@ export default function LayoutCoralReefsDashboard() {
         <ValueSection onShareWidget={handleShareWidget} />
         <ReefsAreThreatenedSection onShareWidget={handleShareWidget} />
         <GlobalThreatsClimateChange onShareWidget={handleShareWidget} />
-        <div id="coral-reef-condition" className="section">
-          <h1>Coral Reef Condition</h1>
-        </div>
+        <ConditionSection onShareWidget={handleShareWidget} />
         <div id="management-resilience-and-other-mitigating-factors" className="section">
           <h1>Management, Resilience and Other Mitigating Factors</h1>
         </div>
