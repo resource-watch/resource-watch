@@ -85,6 +85,117 @@ const ConditionSection = ({ onShareWidget }) => {
       <div className="subsection">
         <p className="caption"><em>Modeled cover of live hard coral (left) and algae (right) for the world. The solid line represents the predicted marginal mean while the ribbons represent 80% (lighter shade) and 95% (darker shade) confidence intervals.</em></p>
       </div>
+      <div className="subsection">
+        <h2><strong>Outlook</strong></h2>
+        <p>
+          <span>Coral reefs are likely to continue to decline due to the combined pressures of warming and acidifying seas, coupled with the more local pressures of overfishing, destructive fishing, direct physical damage, sedimentation, pollution, and disease. Even if the most ambitious global temperature target of the Paris Agreement is met (limiting warming to 1.5°C), </span>
+          <a href="https://www.ipcc.ch/sr15/" rel="noopener noreferrer" target="_blank">reefs are projected to decline by 70-90%</a>
+          <span>. But coral reefs have proven to be resilient and can recover if conditions permit. While the world works to limit global warming, it is critical that local pressures be limited – to increase resilience and the prospect of coral recovery.&nbsp;</span>
+        </p>
+      </div>
+      <div className="subsection row">
+        <div className="image-container column small-12 medium-6">
+          <div>
+            <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/379/original/Richard_ling_coral_garden.jpg?1611946008&amp;temp_id=379" alt="Richard_ling_coral garden.jpg" />
+          </div>
+          <div className="image-caption">
+            <em>
+              A Blue Sea Star (Linckia laevigata) resting on hard Acropora coral at Lighthouse, Ribbon Reefs, Great Barrier Reef
+            </em>
+            <br />
+            <em>
+              Photo: Richard Ling
+            </em>
+          </div>
+        </div>
+        <div className="column small-12 medium-6">
+          <h2><strong>Select Global and Regional Reports</strong></h2>
+          <p><strong><u>Global Report</u></strong></p>
+          <ul className="bullet-list">
+            <li>
+              <a href="https://gcrmn.net/2020-report/" rel="noopener noreferrer" target="_blank"><em>Status of Coral Reefs of the World: 2020</em></a>
+              <em> </em>
+              <span>from the </span>
+              <a href="https://gcrmn.net" rel="noopener noreferrer" target="_blank">Global Coral Reef Monitoring Network (GCRMN</a>
+              <span>)</span>
+            </li>
+          </ul>
+          <p><strong><u>Regional Reports</u></strong></p>
+          <ul className="bullet-list">
+            <li>
+              <a href="https://www.aims.gov.au/reef-monitoring/gbr-condition-summary-2019-2020" rel="noopener noreferrer" target="_blank"><strong>Australia</strong></a>
+              <span> (2019/2020)&nbsp;</span>
+            </li>
+            <li>
+              <a href="https://ifrecor.fr/2021/08/15/2020-letat-de-sante-des-recifs-coralliens-herbiers-marins-et-mangroves-des-outre-mer-francais-un-bilan-mitige/" rel="noopener noreferrer" target="_blank"><strong>French Territories</strong></a>
+              <strong> </strong>
+              <span>(2020) – Guadeloupe, Martinique, Iles du Nord, Mayotte, Iles Eparses, Réunion, Nouvelle-Calédonie, Polynésie Française, Wallis et Futuna, and Clipperton (</span>
+              <a href="http://www.ifrecor-doc.fr/files/original/6c2c8c211206f5857e58dffdd4b12b5c.pdf" rel="noopener noreferrer" target="_blank">summary in English</a>
+              <span>)</span>
+            </li>
+            <li>
+              <a href="https://www.healthyreefs.org/cms/report-cards/" rel="noopener noreferrer" target="_blank"><strong>Mesoamerican Reef</strong></a>
+              <strong> </strong>
+              <span>(2020) – Mexico, Belize, Guatemala, Honduras</span>
+            </li>
+            <li>
+              <strong>US States and Territories </strong>
+              <span>(2020) – </span>
+              <a href="https://repository.library.noaa.gov/view/noaa/27295" rel="noopener noreferrer" target="_blank"><strong>US summary report</strong></a>
+              <strong>,</strong>
+              <span> and </span>
+              <a href="https://www.coris.noaa.gov/monitoring/status_report/" rel="noopener noreferrer" target="_blank">individual state and territory reports</a>
+              <span> (Florida, Puerto Rico, US Virgin Islands, Flower Garden Banks, American Samoa, Northern Mariana Islands, Guam, and Hawaii)</span>
+            </li>
+            <li>
+              <span>Multiple country reports from the </span>
+              <a href="https://www.livingoceansfoundation.org/global-reef-expedition/global-reef-expedition-final-reports/" rel="noopener noreferrer" target="_blank"><strong>Global Reef Expedition</strong></a>
+              <span>(The Bahamas, St. Kitts and Nevis, Jamaica, Navassa, Columbia, Galapagos, Fiji, French Polynesia, Tonga, Cook Islands, New Caledonia, Solomon Islands, and Palau)&nbsp;</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className="subsection">
+        <h2><strong>Coral Disease</strong></h2>
+        <p>
+          <span>Coral diseases could be considered a threat to coral reefs, but they are also </span>
+          an
+          <span> indicator of reef </span>
+          condition,
+          <span> as a diseased reef is damaged and vulnerable. Diseases are a natural feature in any ecosystem and are present in background populations of most species. Both in terms of prevalence and geographic distribution, </span>
+          <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6790777/" rel="noopener noreferrer" target="_blank"><strong>coral diseases have increased over the last 40 years</strong></a>
+          <strong>. Corals have become more susceptible to disease as a result of degraded water quality and </strong>
+          <a href="https://researchonline.jcu.edu.au/2705/" rel="noopener noreferrer" target="_blank">
+            <strong>climate change,</strong>
+            {' '}
+            which may cause some pathogens to become more virulent and may reduce a coral’s resilience.
+          </a>
+          {' '}
+          <span>There is strong evidence that </span>
+          <a href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.0050124" rel="noopener noreferrer" target="_blank">disease outbreaks have followed coral bleaching events</a>
+          <span>.</span>
+        </p>
+      </div>
+      <div className="subsection row">
+        <div className="column image-container small-12 medium-6">
+          <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/375/original/Stony_Coral_Tissue_Loss_Disease_Florida__TNC_reduced.jpg?1611618027&amp;temp_id=375" alt="tnc_stony-coral-tissue-loss-disease" />
+          <div className="image-caption">
+            <em>
+              Stony Coral Tissue Loss Disease in Florida
+
+            </em>
+            <br />
+            <em>Photo: The Nature Conservancy   </em>
+          </div>
+        </div>
+        <div className="column small-12 medium-6">
+          <p>
+            <em>Although many scientists and organizations monitor coral reefs and capture information on coral disease, no global database on disease has been updated since 2010. This is a significant gap in our understanding of coral threats, condition, and trends. A concerted effort is needed to address this gap. There are, however, local and regional efforts to track specific disease outbreaks, such as this dashboard on the </em>
+            <a href="https://www.agrra.org/coral-disease-outbreak/#sctld-dashboard" rel="noopener noreferrer" target="_blank"><em>Stony coral tissue loss disease (SCTLD)&nbsp;in the Caribbean</em></a>
+            <em>.</em>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
