@@ -13,6 +13,10 @@ import ValueSection from './value-section';
 import ReefsAreThreatenedSection from './reefs-are-threatened-section';
 import KeyResourcesSection from './key-resources-section';
 import GlobalThreatsClimateChange from './global-threats-climate-change-section';
+import ConditionSection from './condition-section';
+import ConclusionSection from './conclusion-section';
+import SocialAndEconomicVulnerabilitySection from './social-and-economic-vulnerability-section';
+import ManagementResilienceSection from './management-resilience-section';
 
 const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
 
@@ -33,10 +37,8 @@ export default function LayoutCoralReefsDashboard() {
       {/* ----------------------- TABLE OF CONTENTS ------------ */}
       <div id="table-of-contents" className="row section">
         <div className="image-container column small-12 medium-6">
-          <div>
-            <img className="cw-wysiwyg-image" src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/377/original/IYORBank_UpClose_TheOceanAgency_03_cropped.jpg?1611936687&amp;temp_id=377" alt="IYORBank_UpClose_TheOceanAgency_03_cropped.jpg" />
-          </div>
-          <div>
+          <img className="cw-wysiwyg-image" src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/377/original/IYORBank_UpClose_TheOceanAgency_03_cropped.jpg?1611936687&amp;temp_id=377" alt="IYORBank_UpClose_TheOceanAgency_03_cropped.jpg" />
+          <div className="image-caption">
             <em>
               Photo: Steve Lindfield - Coral Reef Image Bank
             </em>
@@ -190,18 +192,10 @@ export default function LayoutCoralReefsDashboard() {
         <ValueSection onShareWidget={handleShareWidget} />
         <ReefsAreThreatenedSection onShareWidget={handleShareWidget} />
         <GlobalThreatsClimateChange onShareWidget={handleShareWidget} />
-        <div id="coral-reef-condition" className="section">
-          <h1>Coral Reef Condition</h1>
-        </div>
-        <div id="management-resilience-and-other-mitigating-factors" className="section">
-          <h1>Management, Resilience and Other Mitigating Factors</h1>
-        </div>
-        <div id="social-and-economic-vulnerability" className="section">
-          <h1>Social and Economic Vulnerability</h1>
-        </div>
-        <div id="conclusion" className="section">
-          <h1>Conclusion</h1>
-        </div>
+        <ConditionSection onShareWidget={handleShareWidget} />
+        <ManagementResilienceSection onShareWidget={handleShareWidget} />
+        <SocialAndEconomicVulnerabilitySection onShareWidget={handleShareWidget} />
+        <ConclusionSection />
         <KeyResourcesSection />
         {(!!widgetToShare) && (
         <WidgetShareModal

@@ -20,6 +20,10 @@
     }
   }
 
+  .caption {
+    color: rgb(166, 166, 166);
+  }
+
   h1 {
     font-size: math.div($font-size-h2, 2);
     color: $color-primary;
@@ -66,6 +70,23 @@
       font-size: $font-size-default;
       margin-left: 3em;
       list-style-type: disc;
+
+      > a {
+        color: $link-font-color;
+
+        &:hover {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  ol.number-list {
+    li {
+      font-size: $font-size-default;
+      margin-left: 3em;
+      list-style-type: decimal;
 
       > a {
         color: $link-font-color;
