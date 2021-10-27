@@ -30,9 +30,7 @@ const GlobalThreatsClimateChangeSection = ({ onShareWidget }) => {
           </p>
         </div>
         <div className="image-container column small-12 medium-6">
-          <div>
-            <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/364/original/UNCROPPED__CoralBleaching_TheOceanAgency_66_reduced.jpg?1611603731&amp;temp_id=364" alt="coralbleaching_uncropped" />
-          </div>
+          <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/364/original/UNCROPPED__CoralBleaching_TheOceanAgency_66_reduced.jpg?1611603731&amp;temp_id=364" alt="coralbleaching_uncropped" />
           <div className="image-caption">
             <em>Bleached staghorn coral (foreground)</em>
             <br />
