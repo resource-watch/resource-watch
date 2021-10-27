@@ -250,3 +250,7 @@
 @include foundation-flex-classes;
 @include foundation-flex-grid;
 @include foundation-responsive-embed;
+
+p {
+  @apply mb-4;
+}
