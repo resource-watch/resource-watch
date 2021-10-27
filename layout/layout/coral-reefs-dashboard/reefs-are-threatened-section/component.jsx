@@ -44,6 +44,7 @@ const ReefsAreThreatenedSection = ({ onShareWidget }) => (
         <a href="https://wriorg.s3.amazonaws.com/s3fs-public/technical_notes.pdf" rel="noopener noreferrer" target="_blank"><em>These data</em></a>
         <em>, though dated, are still the best available global mapping of local threats to coral reefs. The coral reef conservation community should consider a collaboration to revise and improve these threat maps—either region-by-region or globally.</em>
       </p>
+      <iframe title="overfishing" frameBorder="0" src="https://resourcewatch.org/embed/data/explore?section=All%20data&amp;zoom=6&amp;lat=-13.233082628836565&amp;lng=45.146610533177494&amp;pitch=0&amp;bearing=0&amp;basemap=dark&amp;labels=light&amp;layers=%255B%257B%2522dataset%2522%253A%2522d553a58a-faa2-480d-b137-c96d76d5ccab%2522%252C%2522opacity%2522%253A1%252C%2522layer%2522%253A%2522b0151570-2639-4152-875d-18dc55c77817%2522%257D%252C%257B%2522dataset%2522%253A%25221d23838e-40da-4cf3-b61c-56258d3a5c56%2522%252C%2522opacity%2522%253A1%252C%2522layer%2522%253A%25225de4d3c8-bd99-4fa2-99f2-5724275afd67%2522%257D%255D&amp;page=1&amp;sort=relevance&amp;sortDirection=-1&amp;search=coral%20reef%20locations" width="100%" height="450" />
     </div>
     <div className="subsection">
       <h2>Coastal Development</h2>

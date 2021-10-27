@@ -49,6 +49,7 @@ const ManagementResilienceSection = ({ onShareWidget }) => {
           <strong>Coral reefs, mangroves, and seagrass areas are interconnected habitats which thrive adjacent to each other and provide nurseries and habitat for fish.</strong>
           <span> Coral reefs reduce wave energy and create calmer conditions which suit mangroves and seagrass, while the plants filter pollutants and sediment, creating cleaner water favored by reefs. Unfortunately, both mangrove and seagrass habitats have suffered widespread losses—often for coastal development or aquaculture.</span>
         </p>
+        <iframe title="Adjacent Habitats" frameBorder="0" src="https://resourcewatch.org/embed/data/explore?section=All+data&amp;selectedCollection=&amp;zoom=7.035074367685293&amp;lat=6.522963356638485&amp;lng=117.77940050953246&amp;pitch=0&amp;bearing=0&amp;basemap=dark&amp;labels=light&amp;layers=%255B%257B%2522dataset%2522%253A%2522f31dece0-9256-428a-84de-3a59f5c06bb7%2522%252C%2522opacity%2522%253A1%252C%2522layer%2522%253A%2522120d9032-ab0a-4d7f-9735-5c7685d29760%2522%257D%252C%257B%2522dataset%2522%253A%2522386314c4-ab42-47a7-b2cd-596b788e114d%2522%252C%2522opacity%2522%253A1%252C%2522layer%2522%253A%252252484ad8-dcb5-460c-bbb8-f1c0df67cba1%2522%257D%252C%257B%2522dataset%2522%253A%25221d23838e-40da-4cf3-b61c-56258d3a5c56%2522%252C%2522opacity%2522%253A1%252C%2522layer%2522%253A%25225de4d3c8-bd99-4fa2-99f2-5724275afd67%2522%257D%255D&amp;aoi=&amp;page=1&amp;sort=most-viewed&amp;sortDirection=-1&amp;topics=%255B%2522mangroves%2522%255D" width="100%" height="400" />
       </div>
       <div className="subsection row">
         <div className="column small-12 medium-4 image-container">
@@ -120,6 +121,7 @@ const ManagementResilienceSection = ({ onShareWidget }) => {
           <strong>ten percent of coral reefs are within mapped "no take" areas</strong>
           <span>.</span>
         </p>
+        <iframe title="Marine Protected Areas" frameBorder="0" src="https://resourcewatch.org/embed/data/explore?section=All%20data&amp;zoom=4.480711389372559&amp;lat=-12.495278701423732&amp;lng=146.8599386379343&amp;pitch=0&amp;bearing=0&amp;basemap=light&amp;labels=light&amp;layers=%255B%257B%2522dataset%2522%253A%25224429cf8f-7537-485f-b98a-5e67c56290b9%2522%252C%2522opacity%2522%253A0.67%252C%2522layer%2522%253A%2522fccc6d54-f4f5-41e3-934b-e02c982fd2b6%2522%257D%252C%257B%2522dataset%2522%253A%2522483c87c7-8724-4758-b8f0-a536b3a8f8a9%2522%252C%2522opacity%2522%253A0.69%252C%2522layer%2522%253A%2522e67c1446-4e8f-4e0b-b4ae-3b2d56bcee6e%2522%257D%252C%257B%2522dataset%2522%253A%25221d23838e-40da-4cf3-b61c-56258d3a5c56%2522%252C%2522opacity%2522%253A1%252C%2522layer%2522%253A%25225de4d3c8-bd99-4fa2-99f2-5724275afd67%2522%257D%255D&amp;page=1&amp;sort=most-viewed&amp;sortDirection=-1&amp;topics=%255B%2522coral_reef%2522%255D" width="100%" height="400" />
       </div>
       <div className="subsection row">
         <div className="column small-12 medium-6">
@@ -149,79 +151,79 @@ const ManagementResilienceSection = ({ onShareWidget }) => {
             </em>
           </div>
         </div>
-        <div className="subsection">
-          <ChartWidget
-            widgetId="be3cf170-33e1-427e-813e-cbdb95c52c88"
-            adapter={RWAdapter}
-            onToggleShare={onShareWidget}
-          />
+      </div>
+      <div className="subsection">
+        <ChartWidget
+          widgetId="be3cf170-33e1-427e-813e-cbdb95c52c88"
+          adapter={RWAdapter}
+          onToggleShare={onShareWidget}
+        />
+      </div>
+      <div className="subsection">
+        <h2><strong>Signs of Hope</strong></h2>
+        <p>
+          Coral reefs are important and valuable but are threatened and in decline in many locations around the globe.
+          {' '}
+          <strong>There are, however, signs of hope including healthy, resilient, and recovering reefs in many locations.</strong>
+        </p>
+      </div>
+      <div className="subsection row">
+        <div className="column image-container small-12 medium-6">
+          <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/386/original/CoralReefImageBank_MattCurnock_Schools_04_reduced.jpg?1611949722&amp;temp_id=386" alt="CoralReefImageBank_MattCurnock_Pacific_02_reduced.jpg" />
+          <div className="image-caption">
+            <em>
+              Photo: Matt Curnock - Coral Reef Image Bank
+            </em>
+          </div>
         </div>
-        <div className="subsection">
-          <h2><strong>Signs of Hope</strong></h2>
+        <div className="column small-12 medium-6">
           <p>
-            Coral reefs are important and valuable but are threatened and in decline in many locations around the globe.
-            {' '}
-            <strong>There are, however, signs of hope including healthy, resilient, and recovering reefs in many locations.</strong>
+            An analysis of “
+            <a href="https://www.nature.com/articles/nature18607" rel="noopener noreferrer" target="_blank"><strong>Bright Spots</strong></a>
+            ” identified 15 areas where reefs were found to be healthier and coral reef fisheries more productive than expected given local environmental and socioeconomic conditions. These areas were characterized by strong sociocultural institutions (such as customary tenure), high levels of engagement in local management, high dependence on marine resources, and beneficial environmental conditions such as proximity to deep-water refuges. (The contrasting “dark spot” areas were characterized by intensive capture and storage technology and a recent history of environmental shocks.) The bright spots analysis approach can be used to inform the types of investments and governance structures that can help to sustain coral reefs (e.g. participatory management and improved property rights).
           </p>
         </div>
-        <div className="subsection row">
-          <div className="column image-container small-12 medium-6">
-            <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/386/original/CoralReefImageBank_MattCurnock_Schools_04_reduced.jpg?1611949722&amp;temp_id=386" alt="CoralReefImageBank_MattCurnock_Pacific_02_reduced.jpg" />
-            <div className="image-caption">
-              <em>
-                Photo: Matt Curnock - Coral Reef Image Bank
-              </em>
-            </div>
-          </div>
-          <div className="column small-12 medium-6">
-            <p>
-              An analysis of “
-              <a href="https://www.nature.com/articles/nature18607" rel="noopener noreferrer" target="_blank"><strong>Bright Spots</strong></a>
-              ” identified 15 areas where reefs were found to be healthier and coral reef fisheries more productive than expected given local environmental and socioeconomic conditions. These areas were characterized by strong sociocultural institutions (such as customary tenure), high levels of engagement in local management, high dependence on marine resources, and beneficial environmental conditions such as proximity to deep-water refuges. (The contrasting “dark spot” areas were characterized by intensive capture and storage technology and a recent history of environmental shocks.) The bright spots analysis approach can be used to inform the types of investments and governance structures that can help to sustain coral reefs (e.g. participatory management and improved property rights).
-            </p>
+      </div>
+      <div className="subsection row">
+        <div className="column small-12 medium-6">
+          <p>
+            <strong>“</strong>
+            <a href="https://mission-blue.org/hope-spots/" rel="noopener noreferrer" target="_blank"><strong>Hope Spots</strong></a>
+            <strong>”</strong>
+            <span> are places that are scientifically identified as critical to the health of the ocean, in an effort coordinated by </span>
+            <a href="https://mission-blue.org/" rel="noopener noreferrer" target="_blank">Mission Blue</a>
+            <span>. Some Hope Spots are already formally protected, while others still need defined protection. The areas vary in size, and are often included due to one or more of several characteristics: a special abundance or diversity of species; unusual, rare, threatened or endemic species; importance as a migration corridor or spawning ground; significant historical, cultural or spiritual value; or particular economic importance to the community. Hope Spots are championed by local conservationists, with communications, expeditions, and scientific advisory support from Mission Blue.</span>
+          </p>
+        </div>
+        <div className="column image-container small-12 medium-6">
+          <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/387/original/IYORBank_AnimalsandtheReef_GregoryPiper_18_reduced.jpg?1611949791&amp;temp_id=387" alt="IYORBank_AnimalsandtheReef_GregoryPiper_18_reduced.jpg" />
+          {' '}
+          <div className="image-caption">
+            <em>
+              Photo: Gregory Pipe - Coral Reef Image Bank
+            </em>
           </div>
         </div>
-        <div className="subsection row">
-          <div className="column small-12 medium-6">
-            <p>
-              <strong>“</strong>
-              <a href="https://mission-blue.org/hope-spots/" rel="noopener noreferrer" target="_blank"><strong>Hope Spots</strong></a>
-              <strong>”</strong>
-              <span> are places that are scientifically identified as critical to the health of the ocean, in an effort coordinated by </span>
-              <a href="https://mission-blue.org/" rel="noopener noreferrer" target="_blank">Mission Blue</a>
-              <span>. Some Hope Spots are already formally protected, while others still need defined protection. The areas vary in size, and are often included due to one or more of several characteristics: a special abundance or diversity of species; unusual, rare, threatened or endemic species; importance as a migration corridor or spawning ground; significant historical, cultural or spiritual value; or particular economic importance to the community. Hope Spots are championed by local conservationists, with communications, expeditions, and scientific advisory support from Mission Blue.</span>
-            </p>
-          </div>
-          <div className="column image-container small-12 medium-6">
-            <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/387/original/IYORBank_AnimalsandtheReef_GregoryPiper_18_reduced.jpg?1611949791&amp;temp_id=387" alt="IYORBank_AnimalsandtheReef_GregoryPiper_18_reduced.jpg" />
-            {' '}
-            <div className="image-caption">
-              <em>
-                Photo: Gregory Pipe - Coral Reef Image Bank
-              </em>
-            </div>
-          </div>
-        </div>
-        <div className="subsection row">
-          <div className="column image-container small-12 medium-6">
-            <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/388/original/CoralReefImageBank_MattCurnock_Pacific_02_reduced.jpg?1611949843&amp;temp_id=388" alt="CoralReefImageBank_MattCurnock_Pacific_02_reduced.jpg" />
-            {' '}
-            <div className="image-caption">
-              <em>
-                Photo: Matt Curnock - Coral Reef Image Bank
+      </div>
+      <div className="subsection row">
+        <div className="column image-container small-12 medium-6">
+          <img src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/388/original/CoralReefImageBank_MattCurnock_Pacific_02_reduced.jpg?1611949843&amp;temp_id=388" alt="CoralReefImageBank_MattCurnock_Pacific_02_reduced.jpg" />
+          {' '}
+          <div className="image-caption">
+            <em>
+              Photo: Matt Curnock - Coral Reef Image Bank
 
-              </em>
-            </div>
+            </em>
           </div>
-          <div className="column small-12 medium-6">
-            <p>
-              <span>Although coral reefs are threatened by many factors, climate change is a dominant and rapidly growing threat. The </span>
-              <a href="https://www.50reefs.org/" rel="noopener noreferrer" target="_blank"><strong>50 Reefs initiative</strong></a>
-              <span> used modern portfolio theory in an </span>
-              <a href="https://conbio.onlinelibrary.wiley.com/doi/full/10.1111/conl.12587" rel="noopener noreferrer" target="_blank">analysis</a>
-              <span> to identify coral reef locations globally that, in the absence of other impacts, are likely to have a heightened chance of surviving projected climate changes relative to other reefs. These locations constitute important opportunities for novel conservation investments to secure less vulnerable yet well‐connected coral reefs that may, in turn, help to repopulate degraded areas in the event that the climate has stabilized.</span>
-            </p>
-          </div>
+        </div>
+        <div className="column small-12 medium-6">
+          <p>
+            <span>Although coral reefs are threatened by many factors, climate change is a dominant and rapidly growing threat. The </span>
+            <a href="https://www.50reefs.org/" rel="noopener noreferrer" target="_blank"><strong>50 Reefs initiative</strong></a>
+            <span> used modern portfolio theory in an </span>
+            <a href="https://conbio.onlinelibrary.wiley.com/doi/full/10.1111/conl.12587" rel="noopener noreferrer" target="_blank">analysis</a>
+            <span> to identify coral reef locations globally that, in the absence of other impacts, are likely to have a heightened chance of surviving projected climate changes relative to other reefs. These locations constitute important opportunities for novel conservation investments to secure less vulnerable yet well‐connected coral reefs that may, in turn, help to repopulate degraded areas in the event that the climate has stabilized.</span>
+          </p>
         </div>
       </div>
     </div>
