@@ -8,7 +8,6 @@ import Spinner from 'components/ui/Spinner';
 const LayoutEmbedMapSwipe = ({
   isFetching,
   layers,
-  mapOptions,
   bbox,
 }) => (
   <LayoutEmbed
@@ -26,7 +25,6 @@ const LayoutEmbedMapSwipe = ({
       <CompareMaps
         layers={layers}
         bbox={bbox}
-        mapOptions={mapOptions}
       />
     )}
   </LayoutEmbed>
@@ -41,11 +39,9 @@ LayoutEmbedMapSwipe.propTypes = {
     PropTypes.shape({}),
   ).isRequired,
   isFetching: PropTypes.bool.isRequired,
-  mapOptions: PropTypes.shape({
-    viewport: PropTypes.shape({}),
-  }).isRequired,
   bbox: PropTypes.arrayOf(
     PropTypes.number,
   ),
 };
+
 export default LayoutEmbedMapSwipe;
