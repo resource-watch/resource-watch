@@ -1,6 +1,7 @@
-import React, {
+import {
   useState,
 } from 'react';
+import PropTypes from 'prop-types';
 import Link from 'next/link';
 
 // components
@@ -20,7 +21,9 @@ import {
   PARDOT_NEWSLETTER_URL,
 } from './constants';
 
-export default function LayoutNewsletter() {
+export default function LayoutNewsletter({
+  isOceanWatch,
+}) {
   const [form, setForm] = useState({});
   const [modalVisibility, setModalVisibility] = useState(false);
 
@@ -196,6 +199,21 @@ export default function LayoutNewsletter() {
                   {Input}
                 </Field>
 
+                {isOceanWatch && (
+                  <Field
+                    className="-pi-hidden"
+                    properties={{
+                      name: 'ocean-watch',
+                      label: 'Ocean Watch',
+                      type: 'text',
+                      required: false,
+                      value: 'true',
+                    }}
+                  >
+                    {Input}
+                  </Field>
+                )}
+
                 <div className="c-button-container -j-end">
                   <button
                     type="submit"
@@ -239,3 +257,11 @@ export default function LayoutNewsletter() {
     </Layout>
   );
 }
+
+LayoutNewsletter.defaultProps = {
+  isOceanWatch: false,
+};
+
+LayoutNewsletter.propTypes = {
+  isOceanWatch: PropTypes.bool,
+};

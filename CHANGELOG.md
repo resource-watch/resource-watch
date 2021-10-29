@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.X.X] - 2021-X-X
 ### Added
+- Hidden field to newsletter to identify users coming from Ocean Watch pages. [OW-181](https://vizzuality.atlassian.net/browse/OW-181)
 - Ability to remove border styles of Area of Interest layer. [OW-91](https://vizzuality.atlassian.net/browse/OW-91)
 
 ### Changed
