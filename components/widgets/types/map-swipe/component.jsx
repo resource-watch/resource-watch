@@ -7,6 +7,7 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { useDebouncedCallback } from 'use-debounce';
 import {
   Legend,
   LegendListItem,
@@ -16,6 +17,7 @@ import compact from 'lodash/compact';
 
 // constants
 import {
+  DEFAULT_VIEWPORT,
   MAPSTYLES,
   BASEMAPS,
   LABELS,
@@ -26,6 +28,8 @@ import Spinner from 'components/ui/Spinner';
 import Map from 'components/map';
 import LayerManager from 'components/map/layer-manager';
 import MapboxCompare from 'components/map/plugins/compare/mapbox-compare';
+import MapControls from 'components/map/controls';
+import ZoomControls from 'components/map/controls/zoom';
 import WidgetHeader from '../../header';
 import WidgetInfo from '../../info';
 
@@ -49,6 +53,7 @@ export default function SwipeTypeWidget({
     right: null,
   });
   const [isInfoWidgetVisible, setInfoWidgetVisibility] = useState(false);
+  const [viewport, setViewport] = useState(DEFAULT_VIEWPORT);
   const swiperRef = createRef();
   const legendRef = useRef();
 
@@ -70,6 +75,18 @@ export default function SwipeTypeWidget({
   const handleFitBoundsChange = useCallback((_viewport) => {
     onFitBoundsChange(_viewport);
   }, [onFitBoundsChange]);
+
+  const [handleViewport] = useDebouncedCallback((_viewport) => {
+    setViewport(_viewport);
+  }, 1);
+
+  const handleZoom = useCallback((zoom) => {
+    setViewport((prevViewport) => ({
+      ...prevViewport,
+      zoom,
+      transitionDuration: 250,
+    }));
+  }, []);
 
   const basemap = useMemo(() => {
     const basemapKey = widget?.widgetConfig?.basemapLayers?.basemap || 'dark';
@@ -152,6 +169,7 @@ export default function SwipeTypeWidget({
                 basemap={basemap}
                 labels={labels}
                 boundaries
+                viewport={viewport}
                 bounds={bounds}
                 onFitBoundsChange={handleFitBoundsChange}
                 onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
@@ -212,6 +230,8 @@ export default function SwipeTypeWidget({
                 basemap={basemap}
                 labels={labels}
                 boundaries
+                viewport={viewport}
+                onViewportChange={handleViewport}
                 bounds={bounds}
                 onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
                 fitBoundsOptions={{
@@ -225,6 +245,13 @@ export default function SwipeTypeWidget({
                   />
                 )}
               </Map>
+
+              <MapControls customClass="c-map-controls -embed">
+                <ZoomControls
+                  viewport={viewport}
+                  onClick={handleZoom}
+                />
+              </MapControls>
 
               {(layersBySide.right.length > 0) && (
               <div
