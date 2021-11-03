@@ -2060,9 +2060,9 @@
                           "id": "2cb5af4f-2bfc-49f3-9f99-ac415e98c7db"
                         },
                         {
-                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(value) AS value FROM (SELECT country, SUM(constant_2018_usd) as value FROM ocn_022_rw0_fisheries_subsidies_edit WHERE category = 'Capacity-enhancing'GROUP BY country) data INNER JOIN ow_aliasing_countries AS alias ON alias.alias = data.country INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0 WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
+                          "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CASE WHEN value > 1000000000 THEN CONCAT('$',SUBSTRING(CAST(ROUND(value) AS text), 0,4), 'B') WHEN value > 1000000 THEN CONCAT('$',SUBSTRING(CAST(ROUND(value) AS text), 0,4), 'M') ELSE CONCAT('$', CAST(ROUND(value) AS text)) END AS value FROM (SELECT country, SUM(constant_2018_usd) as value FROM ocn_022_rw0_fisheries_subsidies_edit WHERE category = 'Capacity-enhancing' GROUP BY country) data INNER JOIN ow_aliasing_countries AS alias ON alias.alias = data.country INNER JOIN gadm36_0 gadm ON alias.iso = gadm.gid_0  WHERE gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                           "text": "was spent on subsidies that negatively impact the health of the country's fishery",
-                          "format": "$.0s"
+                          "format": ""
                         }
                       ]
                     }
