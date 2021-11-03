@@ -133,7 +133,7 @@ export default function MapTypeWidgetContainer({
 
   const layerGroups = useMemo(() => {
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
-    return getLayerGroups(layers, layerParams);
+    return getLayerGroups(layers, layerParams, true);
   }, [layers, widget]);
 
   const isError = useMemo(

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Ability to remove border styles of Area of Interest layer. [OW-91](https://vizzuality.atlassian.net/browse/OW-91)
 
 ### Changed
+- enforces layer activeness in map/map-swipe widgets regardless its configuration.
 - `@vizzuality/wysiwyg@3.1.4` [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
 
 ### Fixed
