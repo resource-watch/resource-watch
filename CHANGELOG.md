@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `@vizzuality/wysiwyg@3.1.4` [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
 
 ### Fixed
+- invalid score (NaN) in Ocean Watch widget. [OW-167](https://vizzuality.atlassian.net/browse/OW-167)
 - explore URL to embed (/embed/data/explore) now supports (optionally) selected dataset when sharing. [RW-88](https://vizzuality.atlassian.net/browse/RW-88)
 - restores old endpoint to render embed map-swipes without a widget. [RW-89](https://vizzuality.atlassian.net/browse/RW-89)
 

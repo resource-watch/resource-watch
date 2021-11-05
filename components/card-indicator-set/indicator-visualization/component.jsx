@@ -12,6 +12,7 @@ import { format } from 'd3-format';
 import Renderer from '@widget-editor/renderer';
 import { replace } from 'layer-manager';
 import axios from 'axios';
+import { isNumber } from 'lodash';
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -273,10 +274,10 @@ export default function IndicatorVisualization({
             <>
               <span className="data">
                 {/* eslint-disable-next-line no-nested-ternary */}
-                {(widgets?.[1]?.format)
+                {(widgets?.[1]?.format && isNumber(secondaryWidgetValue))
                   ? format(widgets[1].format)(secondaryWidgetValue)
-                  : (secondaryWidgetValue !== null) ? secondaryWidgetValue : ''}
-                {(widgets?.[1]?.unit && (secondaryWidgetValue !== null)) && (
+                  : ((isNumber(secondaryWidgetValue) ? secondaryWidgetValue : '-'))}
+                {(widgets?.[1]?.unit && isNumber(secondaryWidgetValue)) && (
                   <span className="unit">
                     {widgets[1].unit}
                   </span>
