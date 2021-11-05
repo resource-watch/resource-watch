@@ -12,7 +12,7 @@ import { format } from 'd3-format';
 import Renderer from '@widget-editor/renderer';
 import { replace } from 'layer-manager';
 import axios from 'axios';
-import { isNumber } from 'lodash';
+import isNumber from 'lodash/isNumber';
 
 // components
 import Spinner from 'components/ui/Spinner';

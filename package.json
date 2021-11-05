@@ -42,7 +42,6 @@
     "layer-manager": "2.0.12",
     "leaflet-utfgrid": "^0.3.0",
     "lodash": "^4.17.21",
-    "lodash.isnumber": "^3.0.3",
     "luma.gl": "^7.1.1",
     "moment": "^2.24.0",
     "next": "^11.1.0",
