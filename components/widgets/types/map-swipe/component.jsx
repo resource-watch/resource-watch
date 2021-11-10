@@ -169,6 +169,7 @@ export default function SwipeTypeWidget({
                 basemap={basemap}
                 labels={labels}
                 boundaries
+                scrollZoom={false}
                 viewport={viewport}
                 bounds={bounds}
                 onFitBoundsChange={handleFitBoundsChange}
@@ -230,6 +231,7 @@ export default function SwipeTypeWidget({
                 basemap={basemap}
                 labels={labels}
                 boundaries
+                scrollZoom={false}
                 viewport={viewport}
                 onViewportChange={handleViewport}
                 bounds={bounds}
