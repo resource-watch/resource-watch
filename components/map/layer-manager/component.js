@@ -29,7 +29,7 @@ class LayerManager extends PureComponent {
           <Layer
             key={_layer.id}
             {..._layer}
-            {...(_layer.layerConfig.decoder && CANVAS_DECODERS[_layer.layerConfig.decoder])
+            {...(_layer?.layerConfig?.decoder && CANVAS_DECODERS[_layer.layerConfig.decoder])
               && { decodeFunction: CANVAS_DECODERS[_layer.layerConfig.decoder] }}
           />
         ))}
