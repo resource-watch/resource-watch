@@ -352,15 +352,14 @@ export default function MiniExploreMapContainer({
 
   const activeInteractiveLayers = useMemo(() => flatten(
     compact(activeLayers.map((_activeLayer) => {
-      const { layerConfig } = _activeLayer;
-      if (isEmpty(layerConfig)) return null;
+      const { id, layerConfig, interactionConfig } = _activeLayer;
+      if (isEmpty(layerConfig) || isEmpty(interactionConfig)) return null;
 
       const { body = {} } = layerConfig;
       const { vectorLayers } = body;
 
       if (vectorLayers) {
-        return vectorLayers.filter(({ id: vectorLayerId }) => Boolean(vectorLayerId))
-          .map(({ id: vectorLayerId }) => vectorLayerId);
+        return vectorLayers.map(({ id: vectorLayerId, type: vectorLayerType }, index) => vectorLayerId || `${id}-${vectorLayerType}-${index}`);
       }
 
       return null;
