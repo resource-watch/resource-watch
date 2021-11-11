@@ -24,6 +24,7 @@ export default function MiniExplore({
     title,
     datasetGroups,
     areaOfInterest,
+    aoiBorder,
     forcedBbox,
   },
 }) {
@@ -51,6 +52,7 @@ export default function MiniExplore({
           mapState={mapState}
           datasetGroups={datasetGroups}
           areaOfInterest={areaOfInterest}
+          aoiBorder={aoiBorder}
           forcedBbox={forcedBbox}
         />
       </div>
@@ -69,6 +71,7 @@ MiniExplore.propTypes = {
       }),
     ).isRequired,
     areaOfInterest: PropTypes.string,
+    aoiBorder: PropTypes.bool,
     forcedBbox: PropTypes.arrayOf(
       PropTypes.number,
     ),

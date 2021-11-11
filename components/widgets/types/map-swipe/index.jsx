@@ -149,8 +149,8 @@ export default function SwipeTypeWidgetContainer({
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
 
     return ({
-      left: getLayerGroups(layers.left, layerParams),
-      right: getLayerGroups(layers.right, layerParams),
+      left: getLayerGroups(layers.left, layerParams, true),
+      right: getLayerGroups(layers.right, layerParams, true),
     });
   }, [layers, widget]);
 

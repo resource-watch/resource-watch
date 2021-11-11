@@ -1,5 +1,8 @@
-import React, {
-  Fragment, createRef, useRef, useState,
+import {
+  createRef,
+  useRef,
+  useState,
+  useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -7,12 +10,18 @@ import {
   LegendListItem,
   LegendItemTypes,
 } from 'vizzuality-components';
+import { useDebouncedCallback } from 'use-debounce';
 
 // constants
-import { MAPSTYLES } from 'components/map/constants';
+import {
+  DEFAULT_VIEWPORT,
+  MAPSTYLES,
+} from 'components/map/constants';
 
 // components
 import Map from 'components/map';
+import MapControls from 'components/map/controls';
+import ZoomControls from 'components/map/controls/zoom';
 import LayerManager from 'components/map/layer-manager';
 import MapboxCompare from './mapbox-compare';
 
@@ -23,12 +32,24 @@ const CompareMaps = (props) => {
   const {
     layers,
     bbox,
-    mapOptions,
     compareOptions,
   } = props;
   const swiperRef = createRef();
   const legendRef = useRef();
   const [map, setMap] = useState({ left: null, right: null });
+  const [viewport, setViewport] = useState(DEFAULT_VIEWPORT);
+
+  const [handleViewport] = useDebouncedCallback((_viewport) => {
+    setViewport(_viewport);
+  }, 1);
+
+  const handleZoom = useCallback((zoom) => {
+    setViewport((prevViewport) => ({
+      ...prevViewport,
+      zoom,
+      transitionDuration: 250,
+    }));
+  }, []);
 
   const handleMapRefs = (_map) => {
     setMap({
@@ -55,8 +76,8 @@ const CompareMaps = (props) => {
             },
           }
           )}
+          viewport={viewport}
           onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
-          {...mapOptions}
         >
           {(_map) => (
             <>
@@ -138,8 +159,9 @@ const CompareMaps = (props) => {
           basemap="dark"
           labels="light"
           boundaries
+          onViewportChange={handleViewport}
           onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
-          {...mapOptions}
+          viewport={viewport}
         >
           {(_map) => (
             <>
@@ -151,6 +173,13 @@ const CompareMaps = (props) => {
           )}
         </Map>
       </div>
+
+      <MapControls customClass="c-map-controls -embed">
+        <ZoomControls
+          viewport={viewport}
+          onClick={handleZoom}
+        />
+      </MapControls>
 
       {(map.left && map.right) && (
         <MapboxCompare
@@ -170,15 +199,19 @@ const CompareMaps = (props) => {
   );
 };
 
-CompareMaps.propTypes = {
-  mapOptions: PropTypes.object,
-  compareOptions: PropTypes.object,
-  layers: PropTypes.array.isRequired,
+CompareMaps.defaultProps = {
+  compareOptions: {},
+  bbox: null,
 };
 
-CompareMaps.defaultProps = {
-  mapOptions: {},
-  compareOptions: {},
+CompareMaps.propTypes = {
+  compareOptions: PropTypes.shape({}),
+  layers: PropTypes.arrayOf(PropTypes.shape({
+    dataset: PropTypes.string.isRequired,
+  })).isRequired,
+  bbox: PropTypes.arrayOf(
+    PropTypes.number,
+  ),
 };
 
 export default CompareMaps;

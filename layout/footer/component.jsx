@@ -1,4 +1,8 @@
+import {
+  useMemo,
+} from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 // components
 import Icon from 'components/ui/icon';
@@ -6,6 +10,12 @@ import FooterLinks from './footer-links';
 import PartnersCarousel from './partners-carousel';
 
 export default function Footer() {
+  const {
+    asPath,
+  } = useRouter();
+
+  const isOceanWatch = useMemo(() => asPath.includes('ocean-watch'), [asPath]);
+
   return (
     <footer className="l-footer">
       <div className="footer-main">
@@ -32,7 +42,7 @@ export default function Footer() {
               <ul>
                 <li>
                   <Link
-                    href="/about/newsletter"
+                    href={`/about/newsletter${isOceanWatch ? '?origin=ocean-watch' : ''}`}
                   >
                     <a className="c-button -primary join-us-button">
                       Subscribe to our newsletter
