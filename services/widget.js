@@ -219,10 +219,16 @@ export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
     metadata,
     { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
-    .catch(({ response }) => {
-      const { status, statusText } = response;
-      logger.error(`Error updating widget metadata ${widgetId}: ${status}: ${statusText}`);
-      throw new Error(`Error updating widget metadata ${widgetId}: ${status}: ${statusText}`);
+    .catch((error) => {
+      let errorMessage = error.message;
+
+      if (error.response) {
+        const { status, statusText } = error.response;
+        errorMessage = `${status} – ${statusText}`;
+      }
+
+      logger.error(`Error updating widget metadata ${widgetId}: ${errorMessage}`);
+      throw new Error(`Error updating widget metadata ${widgetId}: ${errorMessage}`);
     });
 };
 
@@ -244,10 +250,16 @@ export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
     },
     { headers: { Authorization: token } })
     .then((response) => WRISerializer(response.data))
-    .catch(({ response }) => {
-      const { status, statusText } = response;
-      logger.error(`Error creating widget metadata ${widgetId}: ${status}: ${statusText}`);
-      throw new Error(`Error creating widget metadata ${widgetId}: ${status}: ${statusText}`);
+    .catch((error) => {
+      let errorMessage = error.message;
+
+      if (error.response) {
+        const { status, statusText } = error.response;
+        errorMessage = `${status} – ${statusText}`;
+      }
+
+      logger.error(`Error creating widget metadata ${widgetId}:  ${errorMessage}`);
+      throw new Error(`Error creating widget metadata ${widgetId}:  ${errorMessage}`);
     });
 };
 

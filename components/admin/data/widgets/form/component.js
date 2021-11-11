@@ -217,6 +217,9 @@ class WidgetForm extends PureComponent {
               toastr.success('Success', `The widget "${id}" - "${name}" has been updated correctly`);
               this.setState({ loading: false });
               if (onSubmit) onSubmit(response);
+            })
+            .catch((error) => {
+              toastr.error('Something went wrong updating the metadata', error.message);
             });
         } else {
           // There is no metadata for this widget so we need to create it

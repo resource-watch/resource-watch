@@ -78,6 +78,7 @@ export default function MiniExploreMapContainer({
   },
   datasetGroups,
   areaOfInterest,
+  aoiBorder,
   forcedBbox,
   dispatch,
 }) {
@@ -313,7 +314,7 @@ export default function MiniExploreMapContainer({
 
   const activeLayers = useMemo(() => {
     let aoiLayer = null;
-    if (geostore) {
+    if (geostore && aoiBorder) {
       const {
         id,
         geojson,
@@ -347,7 +348,7 @@ export default function MiniExploreMapContainer({
       ...activeLayerGroups,
     ];
   },
-  [layerGroups, geostore, minZoom]);
+  [layerGroups, geostore, aoiBorder, minZoom]);
 
   const activeInteractiveLayers = useMemo(() => flatten(
     compact(activeLayers.map((_activeLayer) => {
@@ -409,6 +410,7 @@ export default function MiniExploreMapContainer({
 
 MiniExploreMapContainer.defaultProps = {
   areaOfInterest: null,
+  aoiBorder: true,
   forcedBbox: null,
 };
 
@@ -439,6 +441,7 @@ MiniExploreMapContainer.propTypes = {
     PropTypes.shape({}).isRequired,
   ).isRequired,
   areaOfInterest: PropTypes.string,
+  aoiBorder: PropTypes.bool,
   forcedBbox: PropTypes.arrayOf(
     PropTypes.number,
   ),

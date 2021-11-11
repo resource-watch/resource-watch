@@ -1,6 +1,5 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import syncMove from '@mapbox/mapbox-gl-sync-move';
 import EventEmitter from 'events';
 
 class MapboxCompare extends PureComponent {
@@ -47,7 +46,6 @@ class MapboxCompare extends PureComponent {
     const { options: { swiper } } = this.props;
     const swiperPosition = (this._horizontal ? this._bounds.height : this._bounds.width) / 2;
     this._setPosition(swiperPosition);
-    syncMove(this._leftRef, this._rightRef);
 
     this._rightRef.on('resize', this._onResize);
 

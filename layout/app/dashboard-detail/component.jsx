@@ -23,6 +23,7 @@ import SimilarDatasets from 'components/datasets/similar-datasets/similar-datase
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 import EnergyCountryExplorer from 'layout/app/dashboard-detail/energy-country-explorer';
+import LayoutCoralReefsDashboard from 'layout/layout/coral-reefs-dashboard/component';
 
 // utils
 import { logEvent } from 'utils/analytics';
@@ -51,6 +52,7 @@ const LayoutDashboardDetail = ({
   const [showShareModal, setShowShareModal] = useState(false);
   const [headerDescription, setHeaderDescription] = useState(summary);
   const isEnergyDashboard = slug === 'energy';
+  const isCoralReefsDashboard = slug === 'coral-reefs';
   const currentTab = tab || 'global';
   const headerClassName = classnames({
     'page-header-content': true,
@@ -206,7 +208,6 @@ const LayoutDashboardDetail = ({
           </div>
         </div>
       </header>
-
       {(
         isEnergyDashboard && tab === 'country' && process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD)
         ? (<EnergyCountryExplorer />)
@@ -220,7 +221,10 @@ const LayoutDashboardDetail = ({
                   </div>
                 )}
                 <div className="column small-12">
-                  <DashboardDetail dashboard={dashboard} />
+                  {!isCoralReefsDashboard && <DashboardDetail dashboard={dashboard} />}
+                  {(isCoralReefsDashboard && (
+                    <LayoutCoralReefsDashboard />
+                  ))}
                 </div>
               </div>
             </div>

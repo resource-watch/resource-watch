@@ -41,9 +41,10 @@ export const getTilerUrl = (layer) => {
  *
  * @param {Object[]} layers - array of layers to group by dataset
  * @param {Object} layerParams - additional layer params to modify the layer specification
+ * @param {boolean} forceActive - enforces the layer to be active regardless its configuration
  * @returns {Object[]} array of layers grouped by dataset
  */
-export const getLayerGroups = (layers = [], layerParams = {}) => {
+export const getLayerGroups = (layers = [], layerParams = {}, forceActive = false) => {
   const layersByDataset = groupBy(layers, 'dataset');
 
   return Object.keys(layersByDataset).map((datasetKey) => ({
@@ -52,7 +53,7 @@ export const getLayerGroups = (layers = [], layerParams = {}) => {
     layers: layersByDataset[datasetKey]
       .map((_layer) => ({
         ..._layer,
-        active: layerParams?.[_layer.id]?.default || Boolean(_layer.default),
+        active: forceActive || (layerParams?.[_layer.id]?.default || Boolean(_layer.default)),
         opacity: isNumber(layerParams?.[_layer.id]?.opacity) ? layerParams[_layer.id].opacity : 1,
         ..._layer?.layerConfig?.type === 'gee' && {
           layerConfig: {

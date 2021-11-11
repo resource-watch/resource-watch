@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.X.X] - 2021-X-X
 ### Added
+- zoom controls to map-slide type widgets. [OW-101](https://vizzuality.atlassian.net/browse/OW-101)
+- Hidden field to newsletter to identify users coming from Ocean Watch pages. [OW-181](https://vizzuality.atlassian.net/browse/OW-181)
+- Ability to remove border styles of Area of Interest layer. [OW-91](https://vizzuality.atlassian.net/browse/OW-91)
 
 ### Changed
+- enforces layer activeness in map/map-swipe widgets regardless its configuration.
 - `@vizzuality/wysiwyg@3.1.4` [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
 
 ### Fixed
+- invalid score (NaN) in Ocean Watch widget. [OW-167](https://vizzuality.atlassian.net/browse/OW-167)
 - explore URL to embed (/embed/data/explore) now supports (optionally) selected dataset when sharing. [RW-88](https://vizzuality.atlassian.net/browse/RW-88)
 - restores old endpoint to render embed map-swipes without a widget. [RW-89](https://vizzuality.atlassian.net/browse/RW-89)
 
