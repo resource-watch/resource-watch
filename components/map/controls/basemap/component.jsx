@@ -1,4 +1,6 @@
-import React, { PureComponent } from 'react';
+import {
+  useCallback, useEffect, useMemo, useState, useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -10,150 +12,163 @@ import Checkbox from 'components/form/Checkbox';
 // constants
 import { BASEMAPS, LABELS } from 'components/map/constants';
 
-// Utils
+// utils
 import { logEvent } from 'utils/analytics';
 
 // styles
 import './styles.scss';
 
-class BasemapControls extends PureComponent {
-  static propTypes = {
-    basemap: PropTypes.object,
-    labels: PropTypes.object,
-    boundaries: PropTypes.bool,
-    onChangeBasemap: PropTypes.func,
-    onChangeLabels: PropTypes.func,
-    onChangeBoundaries: PropTypes.func,
-  };
+export default function BasemapControls({
+  basemap,
+  labels,
+  boundaries,
+  disabledControls,
+  onChangeBasemap,
+  onChangeLabels,
+  onChangeBoundaries,
+}) {
+  const [active, setActive] = useState(false);
+  let basemapSelectorRef = useRef(null);
 
-  static defaultProps = {
-    // STORE
-    basemap: {},
-    labels: {},
-    boundaries: false,
+  const onScreenClick = useCallback((evt) => {
+    const el = basemapSelectorRef.current;
+    const clickOutside = el && el.contains && !el.contains(evt.target);
 
-    // ACTIONS
-    onChangeBasemap: (b) => { console.info(b); },
-    onChangeLabels: (l) => { console.info(l); },
-    onChangeBoundaries: (b) => { console.info(b); },
-  };
-
-  state = { active: false }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.onScreenClick);
-  }
-
-  onScreenClick = (e) => {
-    const el = document.querySelector('.c-tooltip');
-    const clickOutside = el && el.contains && !el.contains(e.target);
-
-    if (clickOutside) {
-      this.toggleDropdown(false);
+    if (clickOutside && active) {
+      setActive(false);
     }
-  }
+  }, [active]);
 
-  onBasemapChange = (basemap) => {
-    logEvent('Explore Map', 'change basemap', basemap);
-    this.props.onChangeBasemap(BASEMAPS[basemap]);
-  }
+  const toggleDropdown = useCallback((evt) => {
+    evt.preventDefault();
+    evt.stopPropagation();
+    setActive(!active);
+  }, [active]);
 
-  onLabelsChange = (labels) => {
-    this.props.onChangeLabels(LABELS[labels]);
-  }
+  const onBasemapChange = useCallback((nextBasemap) => {
+    logEvent('Explore Map', 'change basemap', nextBasemap);
+    onChangeBasemap(BASEMAPS[nextBasemap]);
+  }, [onChangeBasemap]);
 
-  onBoundariesChange = (boundaries) => {
-    this.props.onChangeBoundaries(boundaries.checked);
-  }
+  const onLabelsChange = useCallback((nextLabels) => {
+    onChangeLabels(LABELS[nextLabels]);
+  }, [onChangeLabels]);
 
-  toggleDropdown = (to) => {
-    const active = (typeof to !== 'undefined' && to !== null) ? to : !this.state.active;
+  const onBoundariesChange = useCallback((nextBoundaries) => {
+    onChangeBoundaries(nextBoundaries.checked);
+  }, [onChangeBoundaries]);
 
-    this.setState({ active });
+  useEffect(() => {
+    if (active) {
+      window.addEventListener('click', onScreenClick);
+    } else {
+      window.removeEventListener('click', onScreenClick);
+    }
 
-    requestAnimationFrame(() => {
-      if (to) {
-        window.addEventListener('click', this.onScreenClick);
-      } else {
-        window.removeEventListener('click', this.onScreenClick);
-      }
-    });
-    this.setState({ active });
-  }
+    return () => {
+      window.removeEventListener('click', onScreenClick);
+    };
+  }, [active, onScreenClick]);
 
-  // RENDER
-  render() {
-    const { basemap, labels, boundaries } = this.props;
-    const { active } = this.state;
+  const basemapOptions = Object.values(BASEMAPS).map(({ label, value }) => ({
+    label,
+    value,
+  }), []);
 
-    return (
-      <div className="c-basemap-control">
-        <Tether
-          attachment="top right"
-          constraints={[{ to: 'window' }]}
-          targetOffset="8px 100%"
-          classes={{ element: 'c-tooltip -arrow-right' }}
-          renderTarget={(ref) => (
-            <button
-              ref={ref}
-              type="button"
-              className="basemap-control--btn"
-              onClick={() => this.toggleDropdown(true)}
-            >
-              <Icon
-                name="icon-layers"
-                className="-small"
+  const labelsOptions = Object.values(LABELS).map(({ label, value }) => ({
+    label,
+    value,
+  }), []);
+
+  const disableBoundariesControls = useMemo(() => disabledControls.includes('boundaries'), [disabledControls]);
+
+  return (
+    <div className="c-basemap-control">
+      <Tether
+        attachment="top right"
+        constraints={[{ to: 'window' }]}
+        targetOffset="8px 100%"
+        classes={{ element: 'c-tooltip -arrow-right' }}
+        renderTarget={(ref) => (
+          <button
+            ref={ref}
+            type="button"
+            className="basemap-control--btn"
+            onClick={toggleDropdown}
+          >
+            <Icon
+              name="icon-layers"
+              className="-small"
+            />
+          </button>
+        )}
+        renderElement={(ref) => {
+          basemapSelectorRef = ref;
+
+          if (!active) return null;
+
+          return (
+            <div ref={ref}>
+              <RadioGroup
+                name="basemap"
+                options={basemapOptions}
+                properties={{ default: basemap.id }}
+                onChange={onBasemapChange}
               />
-            </button>
-          )}
-          renderElement={(ref) => {
-            if (!active) return null;
 
-            return (
-              <div ref={ref}>
-                <RadioGroup
-                  options={Object.keys(BASEMAPS).map((k) => {
-                    const bs = BASEMAPS[k];
-                    return {
-                      label: bs.label,
-                      value: bs.id,
-                    };
-                  })}
-                  name="basemap"
-                  properties={{ default: basemap.id }}
-                  onChange={this.onBasemapChange}
-                />
+              <div className="divisor" />
 
-                <div className="divisor" />
+              <RadioGroup
+                name="labels"
+                options={labelsOptions}
+                properties={{ default: labels.id }}
+                onChange={onLabelsChange}
+              />
 
-                <RadioGroup
-                  options={Object.keys(LABELS).map((k) => ({
-                    label: LABELS[k].label,
-                    value: LABELS[k].id,
-                  }))}
-                  name="labels"
-                  properties={{ default: labels.id }}
-                  onChange={this.onLabelsChange}
-                />
-
-                <div className="divisor" />
-
-                <Checkbox
-                  properties={{
-                    name: 'boundaries',
-                    title: 'Boundaries',
-                    value: 'boundaries',
-                    checked: boundaries,
-                  }}
-                  onChange={this.onBoundariesChange}
-                />
-              </div>
-            );
-          }}
-        />
-      </div>
-    );
-  }
+              {!disableBoundariesControls && (
+                <>
+                  <div className="divisor" />
+                  <Checkbox
+                    properties={{
+                      name: 'boundaries',
+                      title: 'Boundaries',
+                      value: 'boundaries',
+                      checked: boundaries,
+                    }}
+                    onChange={onBoundariesChange}
+                  />
+                </>
+              )}
+            </div>
+          );
+        }}
+      />
+    </div>
+  );
 }
 
-export default BasemapControls;
+BasemapControls.defaultProps = {
+  basemap: {},
+  labels: {},
+  boundaries: false,
+  disabledControls: [],
+  onChangeBasemap: () => {},
+  onChangeLabels: () => {},
+  onChangeBoundaries: () => {},
+};
+
+BasemapControls.propTypes = {
+  basemap: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }),
+  labels: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }),
+  boundaries: PropTypes.bool,
+  disabledControls: PropTypes.arrayOf(
+    PropTypes.string,
+  ),
+  onChangeBasemap: PropTypes.func,
+  onChangeLabels: PropTypes.func,
+  onChangeBoundaries: PropTypes.func,
+};

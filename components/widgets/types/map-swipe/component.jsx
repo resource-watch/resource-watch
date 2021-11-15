@@ -117,6 +117,11 @@ export default function SwipeTypeWidget({
     ],
   }), [layerGroupsBySide, aoiLayer, maskLayer]);
 
+  const boundaries = useMemo(
+    () => Boolean(widget?.widgetConfig?.basemapLayers?.boundaries),
+    [widget],
+  );
+
   const caption = widget?.metadata?.[0]?.info?.caption;
 
   return (
@@ -168,7 +173,7 @@ export default function SwipeTypeWidget({
                 className="-compare"
                 basemap={basemap}
                 labels={labels}
-                boundaries
+                boundaries={boundaries}
                 scrollZoom={false}
                 viewport={viewport}
                 bounds={bounds}
@@ -230,7 +235,7 @@ export default function SwipeTypeWidget({
                 className="-compare"
                 basemap={basemap}
                 labels={labels}
-                boundaries
+                boundaries={boundaries}
                 scrollZoom={false}
                 viewport={viewport}
                 onViewportChange={handleViewport}
@@ -336,6 +341,7 @@ SwipeTypeWidget.propTypes = {
       basemapLayers: PropTypes.shape({
         basemap: PropTypes.string,
         labels: PropTypes.string,
+        boundaries: PropTypes.bool,
       }),
     }),
     metadata: PropTypes.arrayOf(
