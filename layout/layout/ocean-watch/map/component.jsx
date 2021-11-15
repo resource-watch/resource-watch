@@ -65,7 +65,6 @@ const layers = [
                 '#217098',
               ],
               'fill-opacity': 1,
-              'fill-outline-color': '#15527f',
             },
             'source-layer': 'layer0',
             type: 'fill',
@@ -96,7 +95,6 @@ const layers = [
             paint: {
               'fill-color': '#0f4573',
               'fill-opacity': 1,
-              'fill-outline-color': '#15527f',
             },
             'source-layer': 'layer0',
             type: 'fill',
