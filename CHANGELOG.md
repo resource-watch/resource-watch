@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Ability to remove border styles of Area of Interest layer. [OW-91](https://vizzuality.atlassian.net/browse/OW-91)
 
 ### Changed
+- hides boundaries of map selector in Ocean Watch homepage. [OW-192](https://vizzuality.atlassian.net/browse/OW-192)
+- ability to hide boundaries controls in maps. [OW-192](https://vizzuality.atlassian.net/browse/OW-192)
+- boundaries disabled by default in map slides. [OW-192](https://vizzuality.atlassian.net/browse/OW-192)
 - enforces layer activeness in map/map-swipe widgets regardless its configuration.
 - `@vizzuality/wysiwyg@3.1.4` [RW-74](https://vizzuality.atlassian.net/browse/RW-74)
 
