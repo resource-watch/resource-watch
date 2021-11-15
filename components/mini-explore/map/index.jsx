@@ -78,6 +78,7 @@ export default function MiniExploreMapContainer({
   },
   datasetGroups,
   areaOfInterest,
+  disabledControls,
   aoiBorder,
   forcedBbox,
   dispatch,
@@ -378,6 +379,7 @@ export default function MiniExploreMapContainer({
       basemapId={basemapId}
       labelsId={labelsId}
       boundaries={boundaries}
+      disabledControls={disabledControls}
       layerGroups={layerGroups}
       activeLayers={activeLayers}
       activeInteractiveLayers={activeInteractiveLayers}
@@ -412,6 +414,7 @@ MiniExploreMapContainer.defaultProps = {
   areaOfInterest: null,
   aoiBorder: true,
   forcedBbox: null,
+  disabledControls: [],
 };
 
 MiniExploreMapContainer.propTypes = {
@@ -441,6 +444,9 @@ MiniExploreMapContainer.propTypes = {
     PropTypes.shape({}).isRequired,
   ).isRequired,
   areaOfInterest: PropTypes.string,
+  disabledControls: PropTypes.arrayOf(
+    PropTypes.string,
+  ),
   aoiBorder: PropTypes.bool,
   forcedBbox: PropTypes.arrayOf(
     PropTypes.number,

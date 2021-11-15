@@ -45,6 +45,7 @@ export default function MiniExploreMap({
   labelsId,
   bounds,
   boundaries,
+  disabledControls,
   activeLayers,
   activeInteractiveLayers,
   layerGroups,
@@ -164,6 +165,7 @@ export default function MiniExploreMap({
           basemap={basemap}
           labels={labels}
           boundaries={boundaries}
+          disabledControls={disabledControls}
           onChangeBasemap={handleBasemap}
           onChangeLabels={handleLabels}
           onChangeBoundaries={handleBoundaries}
@@ -234,6 +236,7 @@ MiniExploreMap.defaultProps = {
   layerModal: null,
   layerGroupsInteractionLatLng: null,
   layerGroupsInteractionSelected: null,
+  disabledControls: [],
   onLoad: null,
   onHover: null,
 };
@@ -245,6 +248,9 @@ MiniExploreMap.propTypes = {
   }).isRequired,
   bounds: PropTypes.shape({}).isRequired,
   boundaries: PropTypes.bool.isRequired,
+  disabledControls: PropTypes.arrayOf(
+    PropTypes.string,
+  ),
   basemapId: PropTypes.string.isRequired,
   labelsId: PropTypes.string.isRequired,
   layerModal: PropTypes.shape({}),
