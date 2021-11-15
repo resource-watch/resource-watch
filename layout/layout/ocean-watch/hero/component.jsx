@@ -24,7 +24,7 @@ const OCEAN_WATCH_TABS = [
     params: {},
   },
   {
-    label: 'Country Profile',
+    label: 'Coastal Profile',
     value: '/dashboards/ocean-watch/country/[iso]',
     route: '/dashboards/ocean-watch/country',
     params: {},

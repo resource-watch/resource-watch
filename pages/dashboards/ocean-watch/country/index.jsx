@@ -61,7 +61,7 @@ export default function OceanWatchCountryProfiles() {
                 onChange={handleAreaChange}
                 clearable={false}
                 value={countryValue}
-                placeholder="Select a country"
+                placeholder="Select a coastline"
               />
               <div
                 style={{
@@ -84,7 +84,7 @@ export default function OceanWatchCountryProfiles() {
                     textAlign: 'center',
                   }}
                 >
-                  Select a coastal country to further explore
+                  Select a coastline country to further explore
                   {' '}
                   <br />
                   land-based pressures upon the ocean.

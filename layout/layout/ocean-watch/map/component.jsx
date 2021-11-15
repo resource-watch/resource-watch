@@ -260,7 +260,7 @@ export default function MapSelection() {
             lineHeight: 1.4,
           }}
         >
-          Select a coastal country to further explore
+          Select a coastline to further explore
           <br />
           land-based pressures upon the ocean
         </p>
@@ -404,7 +404,7 @@ export default function MapSelection() {
                 }}
                 onClick={() => { setVisibility(true); }}
               >
-                Select a country
+                Select a coastline
               </button>
             </Tooltip>
           </div>
