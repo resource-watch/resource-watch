@@ -10,7 +10,7 @@
  */
 
 .l-page {
-  background-color: $body-bg-color;
+  background-color: $white;
   width: 100%;
 
   @media screen and (min-width: map-get($breakpoints, medium)) {
@@ -29,7 +29,7 @@
   // Header
   .c-page-header,
   .l-page-header {
-    background-color: $color-primary;
+    background-color: $dark-pink;
     background-image: $header-bg-image,
       linear-gradient(
         86deg,
@@ -74,16 +74,16 @@
     }
 
     .page-header-content {
-      color: $alt-font-color;
+      color: $white;
       padding: $margin-size-small 0 $margin-size-small;
 
       h1 {
-        color: $alt-font-color;
+        color: $white;
         margin-bottom: 0;
       }
 
       h3 {
-        color: $alt-font-color;
+        color: $white;
         margin: $space-1 * 2 0px $space-1 * 5;
         font-weight: $font-weight-light;
       }
@@ -102,7 +102,7 @@
     }
 
     .page-header-title {
-      color: $alt-font-color;
+      color: $white;
 
       > sup {
         font-size: $font-size-medium;

@@ -1,7 +1,7 @@
 @import 'css/settings';
 
 .l-header {
-  background-color: $header-bg-color;
+  background-color: $dark-pink;
   background-image: $header-bg-image,
     linear-gradient(
       86deg,
@@ -36,7 +36,7 @@
       width: 200px;
       height: 35px;
       display: block;
-      fill: $color-white;
+      fill: $white;
     }
 
     .brand-title {
@@ -67,21 +67,21 @@
           display: inline-flex;
           align-items: center;
           padding: 7px 10px;
-          color: $alt-font-color;
-          fill: $alt-font-color;
+          color: $white;
+          fill: $white;
           cursor: pointer;
 
           &:hover {
-            color: $active-font-color;
-            fill: $active-font-color;
+            color: $yellow;
+            fill: $yellow;
             text-decoration: none;
           }
         }
 
         &.-active > a {
           position: relative;
-          color: $active-font-color;
-          fill: $active-font-color;
+          color: $yellow;
+          fill: $yellow;
           font-weight: bold;
           text-decoration: none;
 
@@ -93,7 +93,7 @@
             transform: translate(-50%, 0);
             width: calc(100% - 20px);
             height: 2px;
-            background: $active-font-color;
+            background: $yellow;
           }
         }
       }

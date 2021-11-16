@@ -57,7 +57,7 @@
 
       > .geosuggest__suggests {
         position: relative;
-        font-size: $font-size-default;
+        font-size: $font-size-normal;
         background-color: $white;
         border: 1px solid $light-grey;
         border-top: 0;
@@ -73,7 +73,7 @@
           cursor: pointer;
 
           .geosuggest__item__matched-text {
-            color: $color-primary;
+            color: $dark-pink;
           }
 
           &:hover,

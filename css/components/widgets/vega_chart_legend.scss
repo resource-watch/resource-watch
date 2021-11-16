@@ -6,8 +6,8 @@
   .toggle-button {
     display: flex;
     align-items: center;
-    font-size: $font-size-small-medium;
-    color: $color-text-3;
+    font-size: $font-size-small;
+    color: $dove-grey;
     cursor: pointer;
 
     span {
@@ -17,11 +17,11 @@
       width: 15px;
       height: 15px;
       margin-right: 5px;
-      border: 1px solid rgba($color-text-3, .2);
+      border: 1px solid rgba($dove-grey, .2);
       border-radius: 100%;
       font-family: "Georgia", serif;
       font-style: italic;
-      color: $color-text-1;
+      color: $charcoal-grey;
     }
   }
 
@@ -33,7 +33,7 @@
     width: 200px;
     border: 1px solid rgba(26, 28, 34, .1);
     border-radius: 4px;
-    background-color: $color-white;
+    background-color: $white;
     box-shadow: 0 20px 30px 0 rgba(0, 0, 0, .1);
 
     &[aria-hidden="true"] {
@@ -46,7 +46,7 @@
       left: 0;
       width: 100%;
       height: 15px;
-      background: linear-gradient(to bottom, $color-white, rgba($color-white, 0));
+      background: linear-gradient(to bottom, $white, rgba($white, 0));
       content: '';
     }
 
@@ -56,7 +56,7 @@
       left: 0;
       width: 100%;
       height: 15px;
-      background: linear-gradient(to top, $color-white, rgba($color-white, 0));
+      background: linear-gradient(to top, $white, rgba($white, 0));
       content: '';
     }
 
@@ -84,8 +84,8 @@
       }
 
       .item {
-        font-size: $font-size-default;
-        color: $color-text-1;
+        font-size: $font-size-normal;
+        color: $charcoal-grey;
       }
 
       .shape {
@@ -95,7 +95,7 @@
         height: 10px;
         border: 1px solid rgba(26, 28, 34, .1);
         // The color might be overridden by some JS
-        background-color: $color-secondary;
+        background-color: $sea-blue;
 
         &.-circle {
           border-radius: 100%;

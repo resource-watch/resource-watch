@@ -59,7 +59,7 @@
   }
 
   .error {
-    color: $color-red;
+    color: $color-13;
     margin: 3px 0 0;
     font-size: 12px;
   }
@@ -145,7 +145,7 @@
       > select,
       .input,
       .Select {
-        background: $color-tertiary;
+        background: $porcelain;
       }
     }
   }
@@ -157,7 +157,7 @@
       > select,
       .input,
       .Select-control {
-        border-color: $color-red;
+        border-color: $color-13;
       }
     }
   }

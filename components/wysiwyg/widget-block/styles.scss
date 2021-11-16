@@ -5,16 +5,16 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: $color-white;
-  border: 1px solid rgba($color-black, .1);
+  background-color: $white;
+  border: 1px solid rgba($black, .1);
   border-radius: 4px;
-  box-shadow: 0 1px 2px 0 rgba($color-black, .05);
+  box-shadow: 0 1px 2px 0 rgba($black, .05);
 
   > header {
     flex-shrink: 0;
     min-height: 51px;
     padding: 15px;
-    border-bottom: 2px solid rgba($color-black, .05);
+    border-bottom: 2px solid rgba($black, .05);
 
     .header-container {
       position: relative;
@@ -82,7 +82,7 @@
         span {
           display: block;
           font-weight: $font-weight-regular;
-          font-size: $font-size-default;
+          font-size: $font-size-normal;
         }
       }
     }
@@ -108,7 +108,7 @@
       }
 
       h4 {
-        color: $body-font-color;
+        color: $charcoal-grey;
       }
 
       .widget-links-container {
@@ -120,7 +120,7 @@
             margin-left: 35px;
 
             a {
-              color: $link-font-color;
+              color: $sea-blue;
             }
           }
         }

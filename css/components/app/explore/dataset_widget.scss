@@ -3,11 +3,11 @@
   position: relative;
   flex-direction: column;
   flex: 1 0 auto;
-  background: $ui-bg-color;
+  background: $porcelain;
   min-width: 240px;
 
   .info {
-    background: $color-white;
+    background: $white;
     flex: 1 0 auto;
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@
 
       a {
         text-decoration: none;
-        color: $color-text-1;
+        color: $charcoal-grey;
       }
 
       p {
@@ -93,7 +93,7 @@
       .info {
         .detail {
           a {
-            color: darken($color-text-1, 10%);
+            color: darken($charcoal-grey, 10%);
             text-decoration: underline;
           }
         }

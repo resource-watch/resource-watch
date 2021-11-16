@@ -28,8 +28,8 @@ $_footer-height: 40px;
     display: flex;
     flex-direction: column;
     margin: $_arrow-width 0 0;
-    background: $color-white;
-    border: 1px solid $color-grey;
+    background: $white;
+    border: 1px solid $blue-grey;
     box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
 
     // Arrow
@@ -41,9 +41,9 @@ $_footer-height: 40px;
       width: $_arrow-width;
       height: $_arrow-width;
       margin: -#{math.div($-arrow-width, 2)} 0px 0px -#{math.div($-arrow-width, 2)};
-      background: $color-white;
-      border-top: 1px solid $color-grey;
-      border-left: 1px solid $color-grey;
+      background: $white;
+      border-top: 1px solid $blue-grey;
+      border-left: 1px solid $blue-grey;
       transform: rotate(45deg);
     }
 
@@ -70,12 +70,12 @@ $_footer-height: 40px;
 
       &:before {
         top: 0;
-        background: linear-gradient(to bottom, $color-white, rgba($color-white, 0));
+        background: linear-gradient(to bottom, $white, rgba($white, 0));
       }
 
       &:after {
         bottom: 0;
-        background: linear-gradient(to top, $color-white, rgba($color-white, 0));
+        background: linear-gradient(to top, $white, rgba($white, 0));
       }
     }
 
@@ -89,7 +89,7 @@ $_footer-height: 40px;
         width: 100%;
         padding: 5px;
         padding-right: 30px;
-        color: $color-text-1;
+        color: $charcoal-grey;
         border: solid 1px rgba(202, 203, 207, 0.85);
         border-radius: 4px;
       }
@@ -106,18 +106,18 @@ $_footer-height: 40px;
         cursor: pointer;
 
         &.-search {
-          fill: $color-secondary;
+          fill: $sea-blue;
 
           &:hover {
-            fill: lighten($color-secondary, 10%);
+            fill: lighten($sea-blue, 10%);
           }
         }
 
         &.-close {
-          fill: $color-error;
+          fill: $color-13;
 
           &:hover {
-            fill: lighten($color-error, 10%);
+            fill: lighten($color-13, 10%);
           }
         }
       }

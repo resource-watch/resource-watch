@@ -248,6 +248,14 @@
 @include foundation-flex-grid;
 @include foundation-responsive-embed;
 
-p {
-  @apply mb-4;
+@layer base {
+  body {
+    @apply antialiased;
+    @apply bg-white;
+  }
+
+  p {
+    @apply mb-4;
+  }
 }
+

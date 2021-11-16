@@ -73,7 +73,7 @@
   }
 
   &.-selected {
-    border-color: $color-primary;
+    border-color: $dark-pink;
   }
 
   &.-clickable {
@@ -85,5 +85,5 @@
       transform: translateY(-4px);
     }
   }
-  
+
 }

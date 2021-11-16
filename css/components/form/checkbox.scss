@@ -13,11 +13,11 @@
     left: 0;
     transform: none;
     text-align: left;
-    color: $color-text-1;
+    color: $charcoal-grey;
     margin-left: 0;
 
     &:hover {
-      color: lighten($color-text-1, 12.5%);
+      color: lighten($charcoal-grey, 12.5%);
     }
 
     .checkbox-icon {
@@ -27,7 +27,7 @@
       width: 14px;
       height: 14px;
       margin-right: 5px;
-      border: 1px solid $color-secondary;
+      border: 1px solid $sea-blue;
       border-radius: 4px;
       transform: translate(0,-50%);
 
@@ -39,8 +39,8 @@
         left: 50%;
         width: 6px;
         height: 3px;
-        border-left: 1px solid $color-secondary;
-        border-bottom: 1px solid $color-secondary;
+        border-left: 1px solid $sea-blue;
+        border-bottom: 1px solid $sea-blue;
         transform: translate(-50%,-50%) rotate(-40deg) scale(0);
         transition: all .16s cubic-bezier(0.445, 0.050, 0.550, 0.950);
       }

@@ -15,7 +15,7 @@
     padding: 10px 0 14px;
     border: none;
     font-size: $font-size-medium;
-    color: $color-white;
+    color: $white;
     outline: none;
     text-decoration: none;
     white-space: nowrap;
@@ -32,7 +32,7 @@
       line-height: 14px;
       font-size: 10px;
       font-weight: $font-weight-bold;
-      background: $color-mango;
+      background: $yellow;
     }
 
     &:after {
@@ -44,17 +44,17 @@
       bottom: 0;
       left: 50%;
       opacity: 0;
-      background: $color-mango;
+      background: $yellow;
       transform: translate(-50%,0);
       transition: all $animation-time $ease-in-out-sine;
     }
 
     &:hover {
-      color: $color-mango;
+      color: $yellow;
     }
 
     &.-active {
-      color: $color-mango;
+      color: $yellow;
 
       &:after {
         height: 5px;
@@ -64,29 +64,29 @@
   }
 
   &.-dark {
-    background: $ui-bg-color;
+    background: $porcelain;
     padding: 0 $space-1 * 2;
 
     .tabs-btn {
-      color: $color-text-1;
+      color: $charcoal-grey;
       font-size: $font-size-normal;
       padding: 14px 0;
 
       .number {
-        color: $color-primary;
+        color: $dark-pink;
         background: transparent;
       }
 
       &:after {
-        background: $color-primary;
+        background: $dark-pink;
       }
 
       &:hover {
-        color: $color-primary;
+        color: $dark-pink;
       }
 
       &.-active {
-        color: $color-primary;
+        color: $dark-pink;
       }
     }
   }

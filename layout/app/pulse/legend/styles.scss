@@ -29,12 +29,12 @@
 
   h3 {
     font-weight: 500;
-    font-size: $font-size-default;
-    color: $color-white;
+    font-size: $font-size-normal;
+    color: $white;
     margin: 0;
     margin-bottom: 3px;
 
-    &.-dark { color: $color-text-1; }
+    &.-dark { color: $charcoal-grey; }
 
     .category {
       font-weight: 400;
