@@ -6,13 +6,11 @@
 * in this case you should take a look '_foundation_settings' file.
 */
 
+// grid
 @import 'foundation_settings';
 
 // It should be removed
 @import "deprecated";
-
-// grid
-@import 'foundation_settings';
 
 // Colors
 $dark-pink: #c32d7b;
