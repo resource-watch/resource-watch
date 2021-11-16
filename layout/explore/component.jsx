@@ -120,7 +120,7 @@ function Explore(props) {
       <div className="c-page-explore">
         <Media
           greaterThanOrEqual="md"
-          className="_flex"
+          className="flex flex-1"
         >
           <>
             {/*
@@ -148,7 +148,7 @@ function Explore(props) {
         </Media>
         <Media
           at="sm"
-          className="_flex"
+          className="flex flex-1"
         >
           <>
             {getSidebarLayout()}
