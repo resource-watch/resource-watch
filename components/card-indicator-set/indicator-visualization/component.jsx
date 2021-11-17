@@ -276,7 +276,7 @@ export default function IndicatorVisualization({
                 {/* eslint-disable-next-line no-nested-ternary */}
                 {(widgets?.[1]?.format && isNumber(secondaryWidgetValue))
                   ? format(widgets[1].format)(secondaryWidgetValue)
-                  : ((isNumber(secondaryWidgetValue) ? secondaryWidgetValue : '-'))}
+                  : ((secondaryWidgetValue || '-'))}
                 {(widgets?.[1]?.unit && isNumber(secondaryWidgetValue)) && (
                   <span className="unit">
                     {widgets[1].unit}
