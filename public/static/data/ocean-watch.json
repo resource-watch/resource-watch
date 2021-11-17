@@ -36,7 +36,7 @@
       "steps": [
         {
           "id": "opening",
-          "indicator": "opening",
+          "indicator": "land-sea-interface",
           "isPlaceholder": true,
           "background": {
             "src": "/static/images/ocean-watch/storytelling/RW-OW3D-1.jpg"
