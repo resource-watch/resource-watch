@@ -132,6 +132,7 @@ export const miniExploreSlice = createSlice({
 
       if (toggle) {
         layerGroups.unshift({
+          id: dataset.id,
           dataset: dataset.id,
           visibility: true,
           layers: layers.map((l) => ({ ...l, active: l.default })),
