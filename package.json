@@ -117,6 +117,8 @@
     "@storybook/preset-scss": "^1.0.3",
     "@storybook/react": "^6.4.9",
     "autoprefixer": "^10.4.0",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.3.0",
@@ -126,16 +128,17 @@
     "cypress": "8.5.0",
     "cypress-fail-fast": "2.2.0",
     "cypress-file-upload": "5.0.2",
-    "eslint": "^7.19.0",
-    "eslint-config-airbnb": "^18.2.0",
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb": "19.0.1",
+    "eslint-config-airbnb-typescript": "^16.0.0",
     "eslint-plugin-cypress": "^2.11.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-mocha": "^8.0.0",
-    "eslint-plugin-react": "^7.21.1",
-    "eslint-plugin-react-hooks": "3.0.0",
-    "husky": "^3.0.5",
-    "lint-staged": "^9.2.5",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.2",
     "mocha": "^8.3.0",
     "nock": "^13.0.7",
     "nyc": "^15.1.0",
@@ -146,14 +149,16 @@
     "start-server-and-test": "^1.12.0",
     "style-loader": "^2.0.0",
     "tailwindcss": "^3.0.0",
+    "typescript": "^4.5.2",
     "webpack": "^4.44.2"
   },
   "scripts": {
-    "lint": "cross-env eslint . --ext .js,.jsx",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "dev": "cross-env NODE_ENV=development NODE_OPTIONS=--max_old_space_size=4096 node index.js",
     "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 next build",
     "build:test": "cross-env NODE_ENV=test NODE_OPTIONS=--max_old_space_size=4096 next build",
     "start": "cross-env node index.js",
+    "check-types": "tsc --noemit -p tsconfig.json",
     "analyze": "cross-env ANALYZE=true yarn build",
     "sitemap": "cross-env node next-sitemap.js",
     "cypress": "cross-env cypress run --browser firefox --headless",
@@ -170,20 +175,15 @@
     "tailwindcss:watch": "NODE_ENV=development npx tailwindcss --watch -i ./css/index.scss -o ./public/styles/tailwind.storybook.css",
     "storybook:styles:prod": "NODE_ENV=production npx tailwindcss -i ./css/index.scss -o ./public/styles/tailwind.storybook.css",
     "storybook:dev": "start-storybook -p 6006",
-    "storybook:build": "yarn storybook:styles:prod && build-storybook"
+    "storybook:build": "yarn storybook:styles:prod && build-storybook",
+    "prepare": "husky install"
   },
   "engines": {
-    "node": ">=14.15"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "node": ">=14.17"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --fix",
-      "git add"
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix --cache"
     ]
   }
 }

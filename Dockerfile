@@ -1,4 +1,4 @@
-FROM node:14.15-alpine
+FROM node:14.17-alpine
 LABEL maintainer="hello@vizzuality.com"
 
 ARG NEXT_PUBLIC_AUTH_CALLBACK=https://resourcewatch.org/auth-callback
