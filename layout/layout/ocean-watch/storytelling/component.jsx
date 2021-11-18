@@ -23,11 +23,10 @@ export default function OceanWatchStoryTelling({
   steps,
   geostore,
 }) {
-  const [tooltipVisibility, setTooltipVisibility] = useState({
-    id: null,
-    indicator: null,
+  const [selectedStep, setSelectedStep] = useState({
+    id: 'opening',
+    indicator: 'land-sea-interface',
   });
-  const [selectedStep, setSelectedStep] = useState('opening');
   const [showSkip, setShowSkip] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -44,7 +43,6 @@ export default function OceanWatchStoryTelling({
       id: data.id,
       indicator: data.indicator,
     });
-    setTooltipVisibility({});
   };
 
   const handleClickIndicator = (id) => {
@@ -91,12 +89,6 @@ export default function OceanWatchStoryTelling({
     setShowBackToTop(false);
     setShowSkip(false);
   }, []);
-
-  const handleClickTooltip = useCallback((id) => {
-    setTooltipVisibility({
-      [id]: !tooltipVisibility[id],
-    });
-  }, [tooltipVisibility]);
 
   const placeholderSteps = useMemo(() => steps.filter(
     ({ isPlaceholder }) => isPlaceholder,
@@ -164,7 +156,7 @@ export default function OceanWatchStoryTelling({
               height: 'calc(100% - 210px)',
             }}
           >
-            {placeholderSteps.map((step, index) => (
+            {placeholderSteps.map((step) => (
               <div>
                 <StepBackground
                   key={step.id}
@@ -221,7 +213,6 @@ export default function OceanWatchStoryTelling({
                       <button
                         type="button"
                         className="cursor-pointer"
-                        onClick={() => { handleClickTooltip(`${step.indicator}-${index}`); }}
                         style={{
                           cursor: 'pointer',
                         }}
