@@ -506,7 +506,7 @@
             [
               {
                 "grid": "100%",
-                "widget": "2d80df96-f93e-4a1b-95fc-4f1241139c0e",
+                "widget": "8aed1752-387c-4669-8ffd-064998ae666d",
                 "type": "map-swipe",
                 "comment": "Sediment Pressure Map"
               }
@@ -700,7 +700,7 @@
                   },
                   "layers": [
                     "9f857b1c-fb79-47ec-82b2-3d4788176cbf",
-                    "2c5ca21a-c646-4b8c-b329-909d66ec5615",
+                    "39d97687-3e26-404c-a765-c0b9f220b24c",
                     "1ad281f4-a6f6-4b49-b4bd-4b3087774776"
                   ],
                   "widgets": [
