@@ -65,7 +65,6 @@ const layers = [
                 '#217098',
               ],
               'fill-opacity': 1,
-              'fill-outline-color': '#15527f',
             },
             'source-layer': 'layer0',
             type: 'fill',
@@ -96,7 +95,6 @@ const layers = [
             paint: {
               'fill-color': '#0f4573',
               'fill-opacity': 1,
-              'fill-outline-color': '#15527f',
             },
             'source-layer': 'layer0',
             type: 'fill',
@@ -262,7 +260,7 @@ export default function MapSelection() {
             lineHeight: 1.4,
           }}
         >
-          Select a coastal country to further explore
+          Select a coastline to further explore
           <br />
           land-based pressures upon the ocean
         </p>
@@ -406,7 +404,7 @@ export default function MapSelection() {
                 }}
                 onClick={() => { setVisibility(true); }}
               >
-                Select a country
+                Select a coastline
               </button>
             </Tooltip>
           </div>

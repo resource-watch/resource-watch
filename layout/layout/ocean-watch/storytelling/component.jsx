@@ -23,8 +23,10 @@ export default function OceanWatchStoryTelling({
   steps,
   geostore,
 }) {
-  const [tooltipVisibility, setTooltipVisibility] = useState({});
-  const [selectedIndicator, setSelectedIndicator] = useState('opening');
+  const [selectedStep, setSelectedStep] = useState({
+    id: 'opening',
+    indicator: 'land-sea-interface',
+  });
   const [showSkip, setShowSkip] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -37,8 +39,10 @@ export default function OceanWatchStoryTelling({
     if (direction === 'up') setShowSkip(true);
     if (direction === 'up' && data.id === 'opening') setShowSkip(false);
 
-    setSelectedIndicator(data.indicator);
-    setTooltipVisibility({});
+    setSelectedStep({
+      id: data.id,
+      indicator: data.indicator,
+    });
   };
 
   const handleClickIndicator = (id) => {
@@ -86,20 +90,14 @@ export default function OceanWatchStoryTelling({
     setShowSkip(false);
   }, []);
 
-  const handleClickTooltip = useCallback((id) => {
-    setTooltipVisibility({
-      [id]: !tooltipVisibility[id],
-    });
-  }, [tooltipVisibility]);
-
   const placeholderSteps = useMemo(() => steps.filter(
     ({ isPlaceholder }) => isPlaceholder,
   ), [steps]);
 
   useEffect(() => {
     const onScroll = () => {
+      const floatingBarLimit = document.getElementById('intro-content').getBoundingClientRect().height - document.getElementById('countries-selection').getBoundingClientRect().height;
       window.requestAnimationFrame(() => {
-        const floatingBarLimit = document.getElementById('intro-content').getBoundingClientRect().height - document.getElementById('countries-selection').getBoundingClientRect().height;
         if (window.scrollY > floatingBarLimit) setShowSkip(false);
       });
     };
@@ -146,7 +144,7 @@ export default function OceanWatchStoryTelling({
           >
             <IndicatorsNavigation
               indicators={indicators}
-              selectedIndicator={selectedIndicator}
+              selectedIndicator={selectedStep.indicator}
               onClickIndicator={handleClickIndicator}
             />
           </nav>
@@ -158,13 +156,13 @@ export default function OceanWatchStoryTelling({
               height: 'calc(100% - 210px)',
             }}
           >
-            {placeholderSteps.map((step, index) => (
+            {placeholderSteps.map((step) => (
               <div>
                 <StepBackground
                   key={step.id}
                   src={step.background.src}
                   style={{
-                    opacity: selectedIndicator === step.indicator ? 1 : 0,
+                    opacity: selectedStep.indicator === step.indicator ? 1 : 0,
                   }}
                 />
                 {(step.info || []).map(({
@@ -173,7 +171,7 @@ export default function OceanWatchStoryTelling({
                 }) => (
                   <div
                     className={classnames('info-point absolute opacity-0', {
-                      'opacity-100': selectedIndicator === step.indicator,
+                      'opacity-100': selectedStep.id === step.id,
                     })}
                     style={{
                       position: 'absolute',
@@ -181,9 +179,10 @@ export default function OceanWatchStoryTelling({
                       top: `${position[1]}%`,
                       pointerEvents: 'none',
                       opacity: 0,
-                      ...selectedIndicator === step.indicator && {
+                      zIndex: 0,
+                      ...selectedStep.id === step.id && {
                         opacity: 1,
-                        pointerEvents: 'all',
+                        pointerEvents: 'auto',
                         zIndex: 1,
                       },
                     }}
@@ -214,7 +213,6 @@ export default function OceanWatchStoryTelling({
                       <button
                         type="button"
                         className="cursor-pointer"
-                        onClick={() => { handleClickTooltip(`${step.indicator}-${index}`); }}
                         style={{
                           cursor: 'pointer',
                         }}
@@ -235,28 +233,30 @@ export default function OceanWatchStoryTelling({
           </div>
         </div>
       </div>
-      <Scrollama
-        onStepEnter={onStepEnter}
-      >
-        {steps.map((step) => (
-          <Step
-            key={step.id}
-            data={step}
-          >
-            <div>
-              <StoryStep
-                key={step.id}
-                data={step}
-                geostore={geostore}
-                params={{
-                  geostore_env: 'geostore_prod',
-                  geostore_id: geostore,
-                }}
-              />
-            </div>
-          </Step>
-        ))}
-      </Scrollama>
+      {steps.length > 0 && (
+        <Scrollama
+          onStepEnter={onStepEnter}
+        >
+          {steps.map((step) => (
+            <Step
+              key={step.id}
+              data={step}
+            >
+              <div>
+                <StoryStep
+                  key={step.id}
+                  data={step}
+                  geostore={geostore}
+                  params={{
+                    geostore_env: 'geostore_prod',
+                    geostore_id: geostore,
+                  }}
+                />
+              </div>
+            </Step>
+          ))}
+        </Scrollama>
+      )}
       <div
         className="storytelling-floating-bar"
         style={{
@@ -292,7 +292,7 @@ export default function OceanWatchStoryTelling({
               pointerEvents: 'all',
             }}
           >
-            Skip to countries
+            Skip to coastlines
           </button>
         </div>
       </div>
