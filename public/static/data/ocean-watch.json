@@ -108,7 +108,7 @@
             "subtitle": "The ocean is central to regulating the global climate.",
             "widget": [
               {
-                "description": "Number of countries or territories with ocean-related adaption and mitigation measures in their NDCs",
+                "description": "Number of countries with ocean-related adaption and mitigation measures in their Nationally Determined Contribution",
                 "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) AS value FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0"
               },
               {
@@ -1117,7 +1117,7 @@
             "subtitle": "The ocean is central to regulating the global climate.",
             "widget": [
               {
-                "description": "Number of countries or territories with ocean-related adaption and mitigation measures in their NDCs",
+                "description": "Number of countries with ocean-related adaption and mitigation measures in their Nationally Determined Contribution",
                 "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CONCAT(countries_w_measures, ' of ', total_countries) AS value FROM (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS countries_w_measures FROM ocn_025_rw0_ocean_ndc_measures WHERE value = 'Sectoral Measure Specified') measures INNER JOIN (SELECT 'GLB' as gid_0, COUNT(DISTINCT(iso_code3)) AS total_countries FROM ocn_025_rw0_ocean_ndc_measures) total ON total.gid_0 = measures.gid_0"
               },
               {
