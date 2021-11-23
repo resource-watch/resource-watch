@@ -12,6 +12,7 @@
     "@next/bundle-analyzer": "^10.0.7",
     "@next/env": "10.0.8",
     "@reduxjs/toolkit": "^1.5.1",
+    "@tailwindcss/typography": "^0.4.1",
     "@vizzuality/layer-manager-utils": "^1.0.0-alpha.3",
     "@vizzuality/wysiwyg": "^3.1.4",
     "@widget-editor/renderer": "^2.6.3",
