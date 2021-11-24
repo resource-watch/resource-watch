@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import {
-  useQuery,
   QueryClient,
 } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -25,21 +24,8 @@ const OceanWatchStoryTelling = dynamic(() => import('../../../layout/layout/ocea
 
 export default function OceanWatchIntroPage({
   geostore,
+  oceanWatchConfig,
 }) {
-  const {
-    data: oceanWatchConfig,
-  } = useQuery(
-    ['ocean-watch-config-file'],
-    () => fetchConfigFile(),
-    {
-      refetchOnWindowFocus: false,
-      placeholderData: {
-        intro: [],
-      },
-      initialStale: true,
-    },
-  );
-
   return (
     <LayoutOceanWatch
       title="Ocean Watch – Introduction"
@@ -272,6 +258,10 @@ export async function getServerSideProps() {
 
   // prefetch areas
   await queryClient.prefetchQuery('ocean-watch-areas', fetchOceanWatchAreas);
+
+  // prefetch Ocean Watch config file
+  await queryClient.prefetchQuery('ocean-watch-config-file', fetchConfigFile);
+
   // this page always uses a worldwide geostore
   const { geostore } = queryClient.getQueryData('ocean-watch-areas').find(({ iso }) => iso === 'GLB') || {};
 
@@ -279,6 +269,7 @@ export async function getServerSideProps() {
     props: ({
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
       geostore,
+      oceanWatchConfig: queryClient.getQueryData('ocean-watch-config-file'),
     }),
   };
 }
@@ -289,4 +280,10 @@ OceanWatchIntroPage.defaultProps = {
 
 OceanWatchIntroPage.propTypes = {
   geostore: PropTypes.string,
+  oceanWatchConfig: PropTypes.shape({
+    intro: PropTypes.shape({
+      steps: PropTypes.arrayOf(PropTypes.shape({})),
+      indicators: PropTypes.arrayOf(PropTypes.shape({})),
+    }).isRequired,
+  }).isRequired,
 };
