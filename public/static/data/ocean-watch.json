@@ -977,13 +977,7 @@
             ],
             [
               {
-                "grid": "50%",
-                "widget": "83d41130-909a-44a8-8a15-b17ece5fb924",
-                "type": "map",
-                "comment": "Fisheries (mang)"
-              },
-              {
-                "grid": "50%",
+                "grid": "100%",
                 "widget": "11121aac-8f74-41c5-ad75-e0cc7f9c7b1d",
                 "type": "map",
                 "comment": "Fisheries (coral)"
