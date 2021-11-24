@@ -457,7 +457,7 @@
                               "id": "3a6c3ff4-e1a5-4209-835d-40dabe37c1c5"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CASE WHEN ratio > 1 THEN CONCAT(CAST(ROUND(CAST(ratio AS numeric), 2) AS text), '%25') WHEN ratio < 1 AND ratio > 0 THEN '<1%25' ELSE '0%25' END AS value FROM (SELECT SUM (CASE WHEN subtechnology IN ('Offshore Wind', 'Marine') THEN generation_gwh ELSE 0 END)/SUM(generation_gwh)*100 AS ratio FROM ene_009_renewable_generation_annually_edit INNER JOIN gadm36_0 gadm ON iso_a3 = gadm.gid_0 WHERE year=2018 AND gadm.{{gostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso_a3) data",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT CASE WHEN ratio > 1 THEN CONCAT(CAST(ROUND(CAST(ratio AS numeric), 2) AS text), '%25') WHEN ratio < 1 AND ratio > 0 THEN '<1%25' ELSE '0%25' END AS value FROM (SELECT SUM (CASE WHEN subtechnology IN ('Offshore Wind', 'Marine') THEN generation_gwh ELSE 0 END)/SUM(generation_gwh)*100 AS ratio FROM ene_009_renewable_generation_annually_edit INNER JOIN gadm36_0 gadm ON iso_a3 = gadm.gid_0 WHERE year=2018 AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY iso_a3) data",
                               "text": "of the location's renwable energy currently comes from the ocean",
                               "format":"",
                               "unit": "%"
