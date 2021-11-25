@@ -343,6 +343,7 @@ export default function MapSelection() {
                     longitude={tooltip.lngLat[0]}
                     closeButton={false}
                     className="rw-ow-popup-layer"
+                    offsetTop={-20}
                   >
                     <span
                       style={{
