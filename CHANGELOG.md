@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 ### Fixed
+- Ocean Watch: tooltip overlapping click on map. [OW-175](https://vizzuality.atlassian.net/browse/OW-175)
 - Ocean Watch: false error in Climate NDC indicator when query is empty. [OW-193](https://vizzuality.atlassian.net/browse/OW-193)
 - planet pulse: removes conditional Cesium script load. [RW-106](https://vizzuality.atlassian.net/browse/RW-106)
 - mini-explore: layer interactivity. [OW-185](https://vizzuality.atlassian.net/browse/OW-185)

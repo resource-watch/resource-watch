@@ -35,6 +35,7 @@
 
 .rw-ow-popup-layer {
   pointer-events: none;
+  top: -10px;
 
   .mapboxgl-popup-content {
     background: transparent;
