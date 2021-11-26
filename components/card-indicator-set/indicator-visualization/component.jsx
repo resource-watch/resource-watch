@@ -6,7 +6,7 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import classnames from 'classnames';
 import { format } from 'd3-format';
 import Renderer from '@widget-editor/renderer';
@@ -47,6 +47,7 @@ export default function IndicatorVisualization({
 }) {
   const [isInfoVisible, setInfoVisibility] = useState(false);
   const [isShareVisible, setShareWidgetVisibility] = useState(false);
+  const queryClient = useQueryClient();
 
   const serializedSections = useMemo(
     () => (sections || []).map((section, index) => ({
@@ -128,19 +129,23 @@ export default function IndicatorVisualization({
     return replace(widgetQuery, params);
   }, [widgetQuery, params]);
 
+  const queryKeys = useMemo(() => Object.values(params), [params]);
+
   const {
     data: secondaryWidgetValue,
     isFetching: isFetchingSecondaryWidget,
     isError: isErrorSecondaryWidget,
     refetch: refetchSecondaryWidget,
   } = useQuery(
-    ['fetch-query', replacedQuery],
-    () => axios.get(replacedQuery),
+    ['fetch-query', replacedQuery, ...queryKeys],
+    () => {
+      if (!replacedQuery) return Promise.resolve('-');
+      return axios.get(replacedQuery).then(({ data }) => data?.rows);
+    },
     {
-      enabled: !!(replacedQuery),
       refetchOnWindowFocus: false,
-      placeholderData: {},
-      select: ({ data }) => data?.rows[0]?.value,
+      placeholderData: queryClient.getQueryData(['fetch-query', replacedQuery, ...queryKeys]) || {},
+      select: (data) => data[0]?.value,
     },
   );
 
@@ -276,7 +281,7 @@ export default function IndicatorVisualization({
                 {/* eslint-disable-next-line no-nested-ternary */}
                 {(widgets?.[1]?.format && isNumber(secondaryWidgetValue))
                   ? format(widgets[1].format)(secondaryWidgetValue)
-                  : ((isNumber(secondaryWidgetValue) ? secondaryWidgetValue : '-'))}
+                  : ((secondaryWidgetValue || '-'))}
                 {(widgets?.[1]?.unit && isNumber(secondaryWidgetValue)) && (
                   <span className="unit">
                     {widgets[1].unit}

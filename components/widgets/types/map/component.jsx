@@ -165,7 +165,10 @@ export default function MapTypeWidget({
     });
   }, [widget, mapBounds]);
 
-  const boundaries = useMemo(() => !!widget?.widgetConfig?.basemapLayers?.boundaries, [widget]);
+  const boundaries = useMemo(
+    () => Boolean(widget?.widgetConfig?.basemapLayers?.boundaries),
+    [widget],
+  );
 
   const caption = widget?.metadata?.[0]?.info?.caption;
 

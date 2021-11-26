@@ -65,7 +65,6 @@ const layers = [
                 '#217098',
               ],
               'fill-opacity': 1,
-              'fill-outline-color': '#15527f',
             },
             'source-layer': 'layer0',
             type: 'fill',
@@ -96,7 +95,6 @@ const layers = [
             paint: {
               'fill-color': '#0f4573',
               'fill-opacity': 1,
-              'fill-outline-color': '#15527f',
             },
             'source-layer': 'layer0',
             type: 'fill',
@@ -262,7 +260,7 @@ export default function MapSelection() {
             lineHeight: 1.4,
           }}
         >
-          Select a coastal country to further explore
+          Select a coastline to further explore
           <br />
           land-based pressures upon the ocean
         </p>
@@ -286,7 +284,7 @@ export default function MapSelection() {
             ...gradientStyles,
             top: 0,
             left: 0,
-            background: 'linear-gradient(to bottom, #0F4573 33%, transparent 100%)',
+            background: 'linear-gradient(to bottom, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
           }}
           />
           <div style={{
@@ -295,7 +293,7 @@ export default function MapSelection() {
             bottom: 0,
             height: '100%',
             width: 75,
-            background: 'linear-gradient(to right, #0F4573 33%, transparent 100%)',
+            background: 'linear-gradient(to right, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
           }}
           />
           <div style={{
@@ -305,14 +303,14 @@ export default function MapSelection() {
             bottom: 0,
             height: '100%',
             width: 75,
-            background: 'linear-gradient(to left, #0F4573 33%, transparent 100%)',
+            background: 'linear-gradient(to left, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
           }}
           />
           <div style={{
             ...gradientStyles,
             bottom: 0,
             left: 0,
-            background: 'linear-gradient(to top, #0F4573 33%, transparent 100%)',
+            background: 'linear-gradient(to top, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
           }}
           />
           <Map
@@ -345,6 +343,7 @@ export default function MapSelection() {
                     longitude={tooltip.lngLat[0]}
                     closeButton={false}
                     className="rw-ow-popup-layer"
+                    offsetTop={-20}
                   >
                     <span
                       style={{
@@ -406,7 +405,7 @@ export default function MapSelection() {
                 }}
                 onClick={() => { setVisibility(true); }}
               >
-                Select a country
+                Select a coastline
               </button>
             </Tooltip>
           </div>

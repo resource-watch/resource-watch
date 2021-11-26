@@ -20,6 +20,7 @@ import {
 } from 'hooks/sql';
 
 // components
+import InView from 'components/in-view';
 import ChartWidget from 'components/widgets/types/chart';
 import MapWidget from 'components/widgets/types/map';
 import SwipeMapWidget from 'components/widgets/types/map-swipe';
@@ -44,17 +45,34 @@ function renderWidget({
   return (
     <>
       {(widgetId && widgetType === 'chart') && (
-        <ChartWidget
-          adapter={adapter}
-          widgetId={widgetId}
-          onToggleShare={handleShareWidget}
-          params={params}
-          style={{
-            height: 450,
-            borderRadius: 4,
-            color: '#393f44',
-          }}
-        />
+        <InView
+          triggerOnce
+          threshold={0.25}
+        >
+          {({ ref, inView }) => (
+            <div
+              ref={ref}
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+            >
+              {inView && (
+                <ChartWidget
+                  adapter={adapter}
+                  widgetId={widgetId}
+                  onToggleShare={handleShareWidget}
+                  params={params}
+                  style={{
+                    height: 450,
+                    borderRadius: 4,
+                    color: '#393f44',
+                  }}
+                />
+              )}
+            </div>
+          )}
+        </InView>
       )}
 
       {(widgetId && widgetType === 'map') && (
@@ -213,8 +231,10 @@ export default function StoryStep({
                     width: '100%',
                   }}
                 >
-                  {content.widget.map((_widgetBlock) => (
+                  {content.widget.map((_widgetBlock, index) => (
                     <div
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={`_widgetBlock-${index}`}
                       className={classnames({
                         column: true,
                         'small-12': content.widget.length === 1,

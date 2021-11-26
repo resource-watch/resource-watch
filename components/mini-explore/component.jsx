@@ -24,11 +24,16 @@ export default function MiniExplore({
     title,
     datasetGroups,
     areaOfInterest,
+    boundaries,
+    disabledControls,
     aoiBorder,
     forcedBbox,
   },
 }) {
-  const [mapState, dispatch] = useReducer(miniExploreReducer, miniExploreState);
+  const [mapState, dispatch] = useReducer(miniExploreReducer, ({
+    ...miniExploreState,
+    ...boundaries && { boundaries },
+  }));
   const {
     layerGroups,
   } = mapState;
@@ -50,6 +55,7 @@ export default function MiniExplore({
         <MiniExploreMap
           dispatch={dispatch}
           mapState={mapState}
+          disabledControls={disabledControls}
           datasetGroups={datasetGroups}
           areaOfInterest={areaOfInterest}
           aoiBorder={aoiBorder}
@@ -70,6 +76,10 @@ MiniExplore.propTypes = {
         default: PropTypes.arrayOf(PropTypes.string),
       }),
     ).isRequired,
+    boundaries: PropTypes.bool,
+    disabledControls: PropTypes.arrayOf(
+      PropTypes.string,
+    ),
     areaOfInterest: PropTypes.string,
     aoiBorder: PropTypes.bool,
     forcedBbox: PropTypes.arrayOf(

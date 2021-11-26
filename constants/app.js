@@ -16,10 +16,6 @@ export const FULLSCREEN_PAGES = [
   '/sign-in',
 ];
 
-export const CESIUM_ROUTES = [
-  '/data/pulse',
-];
-
 export const HOTJAR_ROUTES = [
   '/data/explore',
 ];

@@ -415,30 +415,6 @@ export const LAYERS_PLANET_PULSE = [
         initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
       },
       {
-        label: 'Conflicts and Protests',
-        id: '2da3bbb8-a8b7-47b7-b3bc-823ddc330960',
-        descriptionPulse:
-  <div className="description">
-    <div className="description-text">
-      The Armed Conflict Location and Event Data Project (ACLED) gathers and reports dates and locations of violence and protests in Africa and 10 countries in South and Southeast Asia. Larger point sizes indicate events with fatalities. The data are for select countries only.
-    </div>
-    <div className="view-with-container">
-      <span className="view-with-label"><strong>View with:</strong></span>
-      <LayerPill layerId="117ef67f-0613-40de-8429-a0097fe4f262" label="Data coverage" />
-      <LabelsPill url={LABELS.light.value} label="Labels" />
-    </div>
-  </div>,
-        contextLayers: ['117ef67f-0613-40de-8429-a0097fe4f262'],
-        contextLayersOnTop: false,
-        '3d': false,
-        markerType: 'default',
-        basemap: {
-          name: 'default',
-          url: 'https://api.mapbox.com/styles/v1/resourcewatch/cj1erey1c00ia2rqmvh6htv3x/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicmVzb3VyY2V3YXRjaCIsImEiOiJjajFlcXZhNzcwMDBqMzNzMTQ0bDN6Y3U4In0.FRcIP_yusVaAy0mwAX1B8w',
-        },
-        initialPosition: { latitude: 0, longitude: 0, height: 20000000 },
-      },
-      {
         label: 'Migrant Deaths',
         id: '0c094e37-4563-4633-9a38-28dd4a4724bf',
         descriptionPulse:
