@@ -157,9 +157,8 @@ export default function OceanWatchStoryTelling({
             }}
           >
             {placeholderSteps.map((step) => (
-              <div>
+              <div key={step.id}>
                 <StepBackground
-                  key={step.id}
                   src={step.background.src}
                   style={{
                     opacity: selectedStep.indicator === step.indicator ? 1 : 0,
@@ -168,8 +167,10 @@ export default function OceanWatchStoryTelling({
                 {(step.info || []).map(({
                   content,
                   position,
-                }) => (
+                }, index) => (
                   <div
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`point-${index}`}
                     className={classnames('info-point absolute opacity-0', {
                       'opacity-100': selectedStep.id === step.id,
                     })}
@@ -233,30 +234,27 @@ export default function OceanWatchStoryTelling({
           </div>
         </div>
       </div>
-      {steps.length > 0 && (
-        <Scrollama
-          onStepEnter={onStepEnter}
-        >
-          {steps.map((step) => (
-            <Step
-              key={step.id}
-              data={step}
-            >
-              <div>
-                <StoryStep
-                  key={step.id}
-                  data={step}
-                  geostore={geostore}
-                  params={{
-                    geostore_env: 'geostore_prod',
-                    geostore_id: geostore,
-                  }}
-                />
-              </div>
-            </Step>
-          ))}
-        </Scrollama>
-      )}
+      <Scrollama
+        onStepEnter={onStepEnter}
+      >
+        {steps.map((step) => (
+          <Step
+            key={step.id}
+            data={step}
+          >
+            <div>
+              <StoryStep
+                data={step}
+                geostore={geostore}
+                params={{
+                  geostore_env: 'geostore_prod',
+                  geostore_id: geostore,
+                }}
+              />
+            </div>
+          </Step>
+        ))}
+      </Scrollama>
       <div
         className="storytelling-floating-bar"
         style={{

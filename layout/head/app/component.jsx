@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 
 // constants
 import {
-  CESIUM_ROUTES,
   HOTJAR_ROUTES,
 } from 'constants/app';
 
@@ -31,7 +30,6 @@ export default function HeadApp({
   const isHotjarRoute = useMemo(() => HOTJAR_ROUTES
     .filter((route) => asPath.startsWith(route)).length > 0,
   [asPath]);
-  const isCesiumRoute = useMemo(() => CESIUM_ROUTES.includes(asPath), [asPath]);
   const url = (typeof window !== 'undefined') ? `${window.location.origin}${window.location.pathname}` : '';
 
   return (
@@ -69,7 +67,7 @@ export default function HeadApp({
       )}
       <UserReportScript />
       <GoogleAnalyticsV4Script />
-      {isCesiumRoute && (<CesiumScript />)}
+      <CesiumScript />
     </>
   );
 }
