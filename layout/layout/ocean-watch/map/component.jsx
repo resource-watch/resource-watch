@@ -284,7 +284,7 @@ export default function MapSelection() {
             ...gradientStyles,
             top: 0,
             left: 0,
-            background: 'linear-gradient(to bottom, #0F4573 33%, transparent 100%)',
+            background: 'linear-gradient(to bottom, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
           }}
           />
           <div style={{
@@ -293,7 +293,7 @@ export default function MapSelection() {
             bottom: 0,
             height: '100%',
             width: 75,
-            background: 'linear-gradient(to right, #0F4573 33%, transparent 100%)',
+            background: 'linear-gradient(to right, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
           }}
           />
           <div style={{
@@ -303,14 +303,14 @@ export default function MapSelection() {
             bottom: 0,
             height: '100%',
             width: 75,
-            background: 'linear-gradient(to left, #0F4573 33%, transparent 100%)',
+            background: 'linear-gradient(to left, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
           }}
           />
           <div style={{
             ...gradientStyles,
             bottom: 0,
             left: 0,
-            background: 'linear-gradient(to top, #0F4573 33%, transparent 100%)',
+            background: 'linear-gradient(to top, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
           }}
           />
           <Map
