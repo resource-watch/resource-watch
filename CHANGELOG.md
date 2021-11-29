@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - improved styles for widget captions. [OW-164](https://vizzuality.atlassian.net/browse/OW-164)
 
 ### Fixed
+- map thumbnails: concatenation when a tile query includes single comma. [RW-108](https://vizzuality.atlassian.net/browse/RW-108)
 - Ocean Watch: tooltip overlapping click on map. [OW-175](https://vizzuality.atlassian.net/browse/OW-175)
 - Ocean Watch: false error in Climate NDC indicator when query is empty. [OW-193](https://vizzuality.atlassian.net/browse/OW-193)
 - planet pulse: removes conditional Cesium script load. [RW-106](https://vizzuality.atlassian.net/browse/RW-106)
