@@ -99,21 +99,14 @@ export const getImageForLeaflet = ({ layerSpec }) => {
   const { layerConfig } = layerSpec;
 
   if (!layerConfig) throw Error('layerConfig param is required');
-  if (!layerConfig.body) throw Error('layerConfig does not have body param');
 
-  if (layerConfig.type !== 'tileLayer') {
-    return null;
-  }
+  if (layerConfig.type !== 'tileLayer') return null;
 
-  if (!layerConfig.url || (layerConfig.body && !layerConfig.body.url)) {
-    return null;
-  }
+  const url = layerConfig.url || layerConfig?.body?.url;
 
-  const url = layerConfig.url || layerConfig.body.url;
+  if (!url) return null;
 
-  const tile = url.replace('{z}', '0').replace('{x}', '0').replace('{y}', '0');
-
-  return tile;
+  return url.replace('{z}', '0').replace('{x}', '0').replace('{y}', '0');
 };
 
 export const getLayerImage = async ({
