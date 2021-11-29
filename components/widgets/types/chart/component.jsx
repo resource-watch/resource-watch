@@ -1,6 +1,7 @@
 import {
   useState,
   useCallback,
+  useMemo,
 } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -32,7 +33,7 @@ export default function ChartType({
     onToggleShare(widget);
   }, [onToggleShare, widget]);
 
-  const caption = widget?.metadata?.[0]?.info?.caption;
+  const caption = useMemo(() => widget?.metadata?.[0]?.info?.caption, [widget]);
 
   return (
     <div
@@ -55,6 +56,11 @@ export default function ChartType({
         className="widget-container"
         style={{
           padding: 15,
+          ...caption && {
+            borderBottom: 0,
+            borderRadius: 0,
+            boxShadow: 'none',
+          },
         }}
       >
         {isFetching && (
