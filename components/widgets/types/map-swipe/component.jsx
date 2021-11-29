@@ -122,7 +122,7 @@ export default function SwipeTypeWidget({
     [widget],
   );
 
-  const caption = widget?.metadata?.[0]?.info?.caption;
+  const caption = useMemo(() => widget?.metadata?.[0]?.info?.caption, [widget]);
 
   return (
     <div
@@ -148,6 +148,7 @@ export default function SwipeTypeWidget({
         style={{
           minHeight: 400,
           ...!isInfoWidgetVisible && { border: 0 },
+          ...caption && { borderRadius: 0 },
         }}
       >
         {isFetching && (
@@ -310,12 +311,12 @@ export default function SwipeTypeWidget({
             }}
           />
         )}
-        {caption && (
-          <div className="widget-caption-container">
-            {caption}
-          </div>
-        )}
       </div>
+      {caption && (
+        <div className="widget-caption-container">
+          {caption}
+        </div>
+      )}
     </div>
   );
 }

@@ -170,7 +170,7 @@ export default function MapTypeWidget({
     [widget],
   );
 
-  const caption = widget?.metadata?.[0]?.info?.caption;
+  const caption = useMemo(() => widget?.metadata?.[0]?.info?.caption, [widget]);
 
   useEffect(() => {
     dispatch(setMapLayerGroups(layerGroups));
@@ -215,6 +215,7 @@ export default function MapTypeWidget({
         style={{
           minHeight: 400,
           ...!isInfoWidgetVisible && { border: 0 },
+          ...caption && { borderRadius: 0 },
         }}
       >
         {isFetching && (
