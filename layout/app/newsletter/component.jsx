@@ -207,7 +207,7 @@ export default function LayoutNewsletter({
                       label: 'Ocean Watch',
                       type: 'text',
                       required: false,
-                      value: 'true',
+                      value: 'is-ocean-watch',
                     }}
                   >
                     {Input}
