@@ -27,8 +27,6 @@ export const getServerSideProps: GetServerSideProps = withRedux(
       },
     } = getState();
 
-    console.log('!!!');
-
     // fetches posts from blog when there are no posts
     // to display or when an error happened previously
     if ((!latestPosts.length && !spotlightPosts.length)
