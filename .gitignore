@@ -34,3 +34,6 @@ public/styles
 
 # eslint
 .eslintcache
+
+# Typescript
+tsconfig.tsbuildinfo

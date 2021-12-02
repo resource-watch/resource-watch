@@ -6114,11 +6114,6 @@ concat-with-sourcemaps@^1.0.0:
   dependencies:
     source-map "^0.6.1"
 
-confusing-browser-globals@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/confusing-browser-globals/-/confusing-browser-globals-1.0.10.tgz#30d1e7f3d1b882b25ec4933d1d1adac353d20a59"
-  integrity sha512-gNld/3lySHwuhaVluJUKLePYirM3QNCKzVxqAdhJII9/WXKVX5PURzMVJspS1jTslSqjeuG4KMVTSouit5YPHA==
-
 connect-redis@3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/connect-redis/-/connect-redis-3.3.0.tgz#c9510c1a567ff710eb2510e6a7509fa92b2232df"
@@ -7756,23 +7751,6 @@ escodegen@^2.0.0:
     optionator "^0.8.1"
   optionalDependencies:
     source-map "~0.6.1"
-
-eslint-config-airbnb-base@^15.0.0:
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-15.0.0.tgz#6b09add90ac79c2f8d723a2580e07f3925afd236"
-  integrity sha512-xaX3z4ZZIcFLvh2oUNvcX5oEofXda7giYmuplVxoOg5A7EXJMrUyqRgR+mhDhPK8LZ4PttFOBvCYDbX3sUoUig==
-  dependencies:
-    confusing-browser-globals "^1.0.10"
-    object.assign "^4.1.2"
-    object.entries "^1.1.5"
-    semver "^6.3.0"
-
-eslint-config-airbnb-typescript@^16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-typescript/-/eslint-config-airbnb-typescript-16.0.0.tgz#75007e27d5a7fb75530721f48197817c1d2ad4d1"
-  integrity sha512-qDOyD0YYZo5Us1YvOnWig2Ly/+IlQKmMZpnqKnJgVtHdK8SkjaSyVBHKbD41dEaQxk8vRVGBC94PuR2ceSwbLQ==
-  dependencies:
-    eslint-config-airbnb-base "^15.0.0"
 
 eslint-config-next@12.0.4:
   version "12.0.4"
