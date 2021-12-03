@@ -4,18 +4,15 @@
 
 @import "settings";
 
-// Libraries
 @import '~react-progress-2/main';
 @import '~react-redux-toastr/lib/css/react-redux-toastr.min';
 @import '~react-input-range/lib/css/index';
 @import '~vizzuality-components/dist/bundle';
 
 
-// Editor
 @import '~react-quill/dist/quill.snow';
 
 
-// Common files
 @import "base";
 @import "mixins";
 @import "layouts/container",
@@ -30,9 +27,6 @@
   "layouts/static",
   "layouts/ocean-watch",
   "layouts/_coral-reefs-dashboard";
-
-// Components
-// UI
 
 @import "./components/ui/aside";
 @import "./components/ui/avatar";
@@ -77,7 +71,6 @@
 @import "./components/ui/browser";
 
 
-// Modal
 @import "./components/modal/credits_modal";
 @import "./components/modal/save_widget_modal";
 @import "./components/modal/how_to_widget_editor_modal";
@@ -91,33 +84,26 @@
 @import "./components/modal/alerts_preview";
 
 
-// areas
 @import "./components/areas/areas_form";
 
 
-// collections
 @import "./components/collections/collections-panel";
 
-// datasets
 @import './components/datasets/list';
 @import './components/datasets/list-item';
 @import './components/datasets/search';
 
-// Subscriptions
 @import "./components/subscriptions/subscriptions_form";
 @import "./components/subscriptions/subscription_selector";
 
-// VIS
 @import "./components/vis/globe";
 
-// Map
 @import "./components/map/map";
 @import "./components/map/map-swipe";
 @import "./components/map/map-popup";
 @import './components/map/map-side-by-side-layout';
 @import './components/map/map-side-by-side-range';
 
-// Form
 @import '~@vizzuality/wysiwyg/build/rw';
 @import "./components/form/form";
 @import "./components/form/field";
@@ -133,7 +119,6 @@
 @import "./components/form/wysiwyg";
 
 
-// WIDGETS
 @import "./components/widgets/add_widget_to_collection_tooltip";
 @import "./components/widgets/text_chart";
 @import "./components/widgets/widget_editor";
@@ -160,9 +145,7 @@
 @import "./components/widget";
 
 
-// ================== ADMIN ======================
 
-// Datasets
 @import "./components/admin/dataset/card";
 @import "./components/admin/dataset/filter";
 @import "./components/admin/dataset/filter-item";
@@ -172,7 +155,6 @@
 @import "./components/admin/dataset/metadata-source-list";
 
 
-// Widgets
 @import "./components/admin/widget/chart";
 @import "./components/admin/widget/widget_chart";
 @import "./components/admin/widget/placeholder_chart";
@@ -181,25 +163,19 @@
 @import "./components/admin/widget/form";
 @import "./components/admin/widget/metadata_form";
 
-// Layers
 @import "./components/admin/layer/layers_new";
 @import "./components/admin/layer/form";
 
-// Tags
 @import "./components/admin/tags/tags_form";
 
-// FAQs
 @import "./components/admin/faqs/faqs_table";
 
-// ================== APP ======================
 
-// COMMON
 @import "./components/app/common/banner";
 @import "./components/app/common/card_static";
 @import "./components/app/common/partner_block";
 @import "./components/app/common/partners_slider";
 
-// PAGES
 @import "./components/app/pages/explore";
 @import "./components/app/pages/submit_insight";
 @import "./components/app/pages/partner_detail";
@@ -209,9 +185,7 @@
 @import "./components/app/pages/alerts_page";
 @import "./components/app/pages/newsletter";
 
-// EXPLORE
 
-// old
 @import "./components/app/explore/dataset_placeholder_chart";
 @import "./components/app/explore/widget_configurator";
 @import "./components/app/explore/explore_layers_tooltip";
@@ -220,12 +194,10 @@
 @import "./components/app/explore/explore_dataset_filters";
 @import "./components/app/explore/similar_datasets";
 
-// DASHBOARDS
 @import './components/dashboards/list';
 @import './components/dashboards/template-selector';
 @import './components/dashboards/dashboards-subheader-block';
 
-// MyRW
 @import "./components/app/pages/myrw/myrw_edit_profile";
 @import "./components/app/pages/myrw/myrw_subscriptions";
 @import "./components/app/pages/myrw/myrw_common";
@@ -233,16 +205,12 @@
 @import "./components/app/pages/myrw/myrw_widgets_new";
 @import "./components/app/pages/myrw/myrw_dataset_widgets";
 
-// Embed
 @import "./components/app/pages/embed/embed_widget";
 @import "./components/app/pages/embed/embed_table";
 @import "./components/app/pages/embed/embed_dataset";
 
-// Subscriptions
 @import "./components/app/subscriptions/subscription_card";
 
-// Foundation:
-// We are using this library only for grid system
 @import '~foundation-sites/scss/foundation';
 @include foundation-flex-classes;
 @include foundation-flex-grid;

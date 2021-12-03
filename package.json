@@ -143,6 +143,7 @@
     "nock": "^13.0.7",
     "nyc": "^15.1.0",
     "postcss": "^7",
+    "postcss-cli": "7",
     "postcss-easy-import": "^3.0.0",
     "postcss-loader": "^3",
     "sass": "^1.34.1",
@@ -172,8 +173,10 @@
     "cover:report": "nyc report --reporter=lcov --reporter=text",
     "cover": "npm run cover:frontend && npm run cover:report",
     "build-storybook": "build-storybook",
-    "storybook:dev": "start-storybook -p 6006 -s ./public",
-    "storybook:build": "build-storybook -s ./public"
+    "storybook:styles:dev": "NODE_ENV=development postcss ./css/index.scss -o ./public/styles/tailwind.storybook.css",
+    "storybook:styles:prod": "NODE_ENV=production postcss ./css/index.scss -o ./storybook-static/styles/tailwind.storybook.css",
+    "storybook:dev": "yarn storybook:styles:dev && start-storybook -p 6006",
+    "storybook:build": "yarn storybook:styles:prod && build-storybook"
   },
   "engines": {
     "node": ">=14.15"

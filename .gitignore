@@ -30,3 +30,4 @@ coverage.json
 
 # storybook
 storybook-static
+public/styles

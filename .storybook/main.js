@@ -7,6 +7,7 @@ module.exports = {
   stories: [
     "../components/**/*.stories.@(js|jsx|ts|tsx)",
   ],
+  staticDirs: ['../public'],
   addons: [
     {
       name: '@storybook/preset-scss',
