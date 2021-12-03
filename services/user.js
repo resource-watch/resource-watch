@@ -130,10 +130,7 @@ export const fetchUser = (userToken) => WRIAPI.get('/auth/user/me', {
     Authorization: userToken,
   },
 })
-  .then(({ status, statusText, data }) => {
-    if (status >= 400) throw Error(statusText);
-    return data;
-  })
+  .then((res) => res.data)
   .catch(() => {
     throw Error('unable to fetch user');
   });

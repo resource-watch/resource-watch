@@ -1,9 +1,9 @@
-FROM cypress/included:6.6.0
+FROM cypress/included:8.5.0
 LABEL maintainer="hello@vizzuality.com"
 
 WORKDIR /e2e
 
-RUN yarn add -D "@cypress/code-coverage@3.9.2"
+RUN yarn add -D "@cypress/code-coverage@3.9.11"
 RUN yarn add -D "cypress-file-upload@5.0.2"
 RUN yarn add -D "cypress-fail-fast@2.2.0"
 RUN yarn add -D "@next/env@10.0.8"

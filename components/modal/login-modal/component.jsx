@@ -116,6 +116,7 @@ class LoginModal extends PureComponent {
                       required: true,
                       default: email,
                       placeholder: 'example@resourcewatch.org',
+                      'data-cy': 'email-input',
                     }}
                   >
                     {Input}
@@ -134,6 +135,7 @@ class LoginModal extends PureComponent {
                         type: 'password',
                         placeholder: '*********',
                         autoComplete: 'current-password',
+                        'data-cy': 'password-input',
                       }}
                     >
                       {Input}
@@ -163,6 +165,7 @@ class LoginModal extends PureComponent {
                         <button
                           type="submit"
                           className="c-button -primary"
+                          data-cy="submit-button"
                         >
                           {register ? 'Register' : 'Log in'}
                         </button>
