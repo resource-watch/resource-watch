@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import DatasetList from 'layout/explore/explore-datasets/list';
 import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 
-// Styles
-import './styles.scss';
-
 function RelatedContent(props) {
   const { datasets: { list, loading }, setSelectedDataset } = props;
 

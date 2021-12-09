@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 class AlertsTable extends PureComponent {
   static propTypes = {
     alerts: PropTypes.shape({

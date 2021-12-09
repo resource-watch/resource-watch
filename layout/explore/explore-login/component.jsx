@@ -2,9 +2,6 @@
 import CardPlaceholder from 'components/card-placeholder';
 import LoginRequired from 'components/ui/login-required';
 
-// styles
-import './styles.scss';
-
 const ExploreLogin = () => (
   <div className="c-explore-login">
     <CardPlaceholder />

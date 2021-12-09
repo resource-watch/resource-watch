@@ -15,9 +15,6 @@ import { BASEMAPS, LABELS } from 'components/map/constants';
 // utils
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 export default function BasemapControls({
   basemap,
   labels,

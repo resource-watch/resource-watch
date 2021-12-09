@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-// styles
-import 'components/wysiwyg/widget-block-edition/styles.scss';
+
+import 'components/wysiwyg/widget-block-edition/_styles.scss';
 
 // components
 import Tabs from 'components/ui/Tabs';

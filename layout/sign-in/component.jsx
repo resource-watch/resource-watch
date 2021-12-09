@@ -2,9 +2,6 @@
 import Layout from 'layout/layout/layout-app';
 import LoginModal from 'components/modal/login-modal';
 
-// styles
-import './styles.scss';
-
 export default function SignIn() {
   return (
     <Layout

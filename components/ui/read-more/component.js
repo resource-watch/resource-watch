@@ -4,9 +4,6 @@ import truncate from 'lodash/truncate';
 import ReactMarkdown from 'react-markdown';
 import classnames from 'classnames';
 
-// Styles
-import './styles.scss';
-
 function ReadMore(props) {
   const [visible, setVisible] = useState(false);
   const {

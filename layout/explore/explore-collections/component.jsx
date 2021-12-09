@@ -12,9 +12,6 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 import useFetchCollection from 'hooks/collection/fetch-collection';
 import useFetchDatasets from 'hooks/dataset/fetch-datasets';
 
-// Styles
-import './styles.scss';
-
 const ExploreCollections = ({
   token,
   selectedCollection,

@@ -11,9 +11,6 @@ import Paginator from 'components/ui/Paginator';
 // hooks
 import usePaginatedUserAreas from 'hooks/user-areas/paginated-user-areas';
 
-// styles
-import './styles.scss';
-
 const AreasIndex = ({
   token,
 }) => {

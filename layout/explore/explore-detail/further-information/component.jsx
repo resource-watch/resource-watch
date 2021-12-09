@@ -9,9 +9,6 @@ import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from 'layout/explore/explore-d
 // utils
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 const FurtherInformationComponent = ({
   metadata: {
     info: {

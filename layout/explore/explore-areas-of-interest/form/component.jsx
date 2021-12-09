@@ -21,9 +21,6 @@ import ProminentButton from 'components/prominent-button';
 import Icon from 'components/ui/icon';
 import CountrySelector from './country-selector';
 
-// styles
-import './styles.scss';
-
 const AREA_ACTIONS = {
   'draw-area': 'DRAW_AREA',
   'preset-country': 'PRESET_COUNTRY',

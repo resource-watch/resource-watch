@@ -14,9 +14,6 @@ import Spinner from 'components/ui/Spinner';
 // hooks
 import useCountryList from 'hooks/country/country-list';
 
-// styles
-import './styles.scss';
-
 const CountrySelector = ({
   onClickCountry,
 }) => {

@@ -1,8 +1,5 @@
 import PropTypes from 'prop-types';
 
-// styles
-import './styles.scss';
-
 export default function ErrorFallback({
   title,
   resetErrorBoundary,

@@ -9,9 +9,6 @@ import RadioGroup from 'components/form/RadioGroup';
 import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 
-// Styles
-import './styles.scss';
-
 function CountrySelector(props) {
   const {
     loading,

@@ -14,9 +14,6 @@ import Spinner from 'components/ui/Spinner';
 // utils
 import { processFile } from 'utils/areas';
 
-// styles
-import './styles.scss';
-
 const UploadArea = ({
   onUploadArea,
 }) => {

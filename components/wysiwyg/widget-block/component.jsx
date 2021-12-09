@@ -38,9 +38,6 @@ import {
   parseBbox,
 } from 'components/map/utils';
 
-// styles
-import './styles.scss';
-
 // const defaultTheme = getVegaTheme();
 
 class WidgetBlock extends PureComponent {

@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-// Styles
-import './styles.scss';
-
 function ExploreDetailFooterComponent(props) {
   const {
     setSidebarAnchor,

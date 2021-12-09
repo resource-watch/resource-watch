@@ -16,9 +16,6 @@ import Spinner from 'components/ui/Spinner';
 import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 import MyDataComingSoon from './coming-soon';
 
-// styles
-import './styles.scss';
-
 const VALID_DATASET_PROVIDERS = [
   'cartodb',
   'gee',

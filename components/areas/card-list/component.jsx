@@ -6,9 +6,6 @@ import classnames from 'classnames';
 import InView from 'components/in-view';
 import AreaCard from '../card';
 
-// styles
-import './styles.scss';
-
 const AreaCardList = ({
   areas,
   className,

@@ -5,9 +5,6 @@ import classnames from 'classnames';
 import DatasetList from 'layout/explore/explore-datasets/list';
 import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 
-// Styles
-import './styles.scss';
-
 function ExploreNearRealTimeComponent(props) {
   const {
     datasets: {

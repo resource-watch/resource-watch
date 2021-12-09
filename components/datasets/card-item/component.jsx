@@ -19,9 +19,6 @@ import {
   Media,
 } from 'lib/media';
 
-// styles
-import './styles.scss';
-
 export default function DatasetCardItem(props) {
   const {
     dataset,

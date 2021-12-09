@@ -14,9 +14,6 @@ import {
   Media,
 } from 'lib/media';
 
-// styles
-import './styles.scss';
-
 class LayerMenuComponent extends PureComponent {
   handleLayerClick(layer) {
     const {

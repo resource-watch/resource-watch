@@ -25,9 +25,6 @@ import ZoomControls from 'components/map/controls/zoom';
 import LayerManager from 'components/map/layer-manager';
 import MapboxCompare from './mapbox-compare';
 
-// styles
-import './styles.scss';
-
 const CompareMaps = (props) => {
   const {
     layers,

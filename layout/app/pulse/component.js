@@ -27,9 +27,6 @@ import LayerGlobeManager from 'utils/layers/LayerGlobeManager';
 import { substitution } from 'utils/utils';
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 // Cesium
 let Cesium;
 

@@ -18,9 +18,6 @@ import { fetchWidget } from 'services/widget';
 import { WORLD_COUNTRY, US_COUNTRY_VALUES } from 'layout/app/dashboard-detail/energy-country-explorer/constants';
 import MiniExplore from 'components/mini-explore';
 
-// Styles
-import './styles.scss';
-
 function CustomSection(props) {
   const {
     section, bbox, country, geostore,

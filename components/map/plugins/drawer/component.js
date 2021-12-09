@@ -7,7 +7,7 @@ import {
 import PropTypes from 'prop-types';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
-// styles
+
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 
 // constants

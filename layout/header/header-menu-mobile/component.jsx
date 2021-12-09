@@ -14,9 +14,6 @@ import SearchMobile from 'layout/header/search-mobile';
 // constants
 import { APP_HEADER_ITEMS } from 'layout/header/constants';
 
-// styles
-import './styles.scss';
-
 const HeaderMenuMobile = ({
   header,
   user,

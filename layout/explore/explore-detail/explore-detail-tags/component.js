@@ -7,9 +7,6 @@ import { logEvent } from 'utils/analytics';
 // Constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
-// styles
-import './styles.scss';
-
 function ExploreDetailTags(props) {
   const { tags } = props;
 

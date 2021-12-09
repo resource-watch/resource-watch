@@ -33,9 +33,6 @@ import {
   VIDEO_OPTIONS,
 } from './constants';
 
-// styles
-import './styles.scss';
-
 export default function LayoutHome() {
   const router = useRouter();
   const [isVideoReady, setVideoReady] = useState(false);

@@ -19,9 +19,6 @@ import { EXPLORE_SUBSECTIONS } from 'layout/explore/constants';
 // hooks
 import usePaginatedUserAreas from 'hooks/user-areas/paginated-user-areas';
 
-// styles
-import './styles.scss';
-
 const ExploreAreasOfInterest = ({
   token,
   aoi,

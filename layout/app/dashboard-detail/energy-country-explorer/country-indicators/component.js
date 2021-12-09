@@ -7,9 +7,6 @@ import IndicatorCard from './indicator-card';
 
 // Constants
 
-// Styles
-import './styles.scss';
-
 function CountryIndicators(props) {
   const { indicators, country } = props;
 

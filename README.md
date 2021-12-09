@@ -143,14 +143,13 @@ Layouts are the second component to be loaded through the page. They contain all
 Layouts should follow the same folder structure as pages. For example: if you need created your `myawesome` page in `pages/app/myawesome`, the layout for this page should be placed in `layouts/app/myawesome` and so on.
 
 ### **./components**
-Every component will be contained in its own folder with its name. A basic component will contain the component itself (`component.js`) and an entrypoint to it (`index.js`). If the component needs access to the store, we will provide it here, otherwise we will just import the component. Additional files could be `styles.scss` (containing component-scoped styles) and `constants.js` (component-scoped constants).
+Every component will be contained in its own folder with its name. A basic component will contain the component itself (`component.js`) and an entrypoint to it (`index.js`). If the component needs access to the store, we will provide it here, otherwise we will just import the component. Additional files such as `constants.js` (component-scoped constants) and others.
 
 ```
 ./components/sidebar/
    ./constants.js (not mandatory)
    ./component.js (mandatory)
    ./index.js (mandatory)
-   ./styles.scss (not mandatory)
 ```
 
 Try to make stateless component (unless it really needs it). This will make components easier to track and reuse.
@@ -170,9 +169,11 @@ This is a legacy folder. Still in use. [Selectors](https://github.com/reduxjs/re
 
 
 ### **css**
-Contains generic application styles, grid, settings, mixins and anything style-related in a global scope. It also contains third-app components styles if needed.
+Contains TailwindCSS directives, third-party styles and global styles.
 
-_Legacy note:_ in the `./css/components` folder you will notice a lot of styles whose scope is the component itself. From now on, components must have its own styles inside the component folder. Check `components` section to learn more about how to include component-scoped styles.
+*Legacy note*: styles coming from places like `components` or `layout` should be removed eventually and replaced with TailwindCSS classes. This is a workaround to keep all styles loaded from a single place without overriding the original ones.
+
+
 
 
 ### **./constants**
