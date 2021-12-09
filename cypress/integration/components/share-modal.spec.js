@@ -29,14 +29,21 @@ describe('a user wants to share the page with a shortened link', () => {
 
     cy.get('.page-header-content').find('button[data-cy="share-button"]').click();
 
-    cy.wait('@getBitlyLink')
+    cy.wait('@getBitlyLink').then(() => {
+      cy.get('.c-share-modal').find('#share-link').then(($btn) => {
+        expect($btn.val()).to.eq('https://bit.ly/test');
+      });
+    })
 
-    cy.get('.c-share-modal').find('#share-link').then(($btn) => {
-      expect($btn.val()).to.eq('https://bit.ly/test');
-    });
   });
 
-  it.skip('the user gets the standard link if bitly is down', () => {
+  it('the user gets the standard link if bitly is down', () => {
+    cy.on('uncaught:exception', (err) => {
+      // return false to prevent the error from
+      // failing this test
+      return false
+    });
+
     cy.intercept(
       {
         method: 'POST',

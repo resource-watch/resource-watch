@@ -2,14 +2,10 @@ describe('A visitor signs-up successfully', () => {
   before(() => {
     cy.validateEnvVar('NEXT_PUBLIC_WRI_API_URL');
 
-    cy.intercept({
-      method: 'POST',
-      pathname: '/auth/sign-up',
-      url: Cypress.env('NEXT_PUBLIC_WRI_API_URL')
-    },
+    cy.intercept('POST', `${Cypress.env('NEXT_PUBLIC_WRI_API_URL')}/auth/sign-up`,
     {
-      "data": { "id": "6058c355b4966c00bb7ddf1d", "email": "lorem@test.com", "name": "Lorem Test", "createdAt": "2021-03-26T11:19:49.000Z", "role": "USER", "extraUserData": { "apps": [] } } }
-    ).as('registerUser');
+      fixture: 'user/new-user',
+    }).as('registerUser');
   });
 
   it('the visitor fills up the form and register successfully', function() {
