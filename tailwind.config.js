@@ -1,15 +1,11 @@
-// ! The app uses the PostCSS 7 compatibility build (see https://tailwindcss.com/docs/installation#post-css-7-compatibility-build)
-// ! due to @zeit/next-css and @zeit/next-sass internal dependencies.
-// ! Once these dependencies are gone, do not forget to update Tailwind's dependencies to latest versions (https://tailwindcss.com/docs/installation#install-tailwind-via-npm)
 const typography = require('@tailwindcss/typography');
 
 module.exports = {
-  purge: [
+  content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './layout/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
   ],
-  darkMode: false,
   theme: {
     extend: {
       typography: (theme) => ({

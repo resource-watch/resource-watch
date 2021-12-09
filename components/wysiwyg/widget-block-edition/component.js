@@ -1,9 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-
-import 'components/wysiwyg/widget-block-edition/_styles.scss';
-
 // components
 import Tabs from 'components/ui/Tabs';
 import Spinner from 'components/ui/Spinner';
