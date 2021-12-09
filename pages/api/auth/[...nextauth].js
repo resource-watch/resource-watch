@@ -36,7 +36,7 @@ const options = {
           password,
         } = credentials;
 
-        if (process.env.TEST_ENV === 'FRONTEND') return authPayload;
+        if (process.env.NEXT_PUBLIC_RW_ENV === 'test') return authPayload;
 
         const { status, data } = await signIn(({ email, password }));
         if (status === 200) return data.data;
@@ -47,7 +47,6 @@ const options = {
       id: 'third-party',
       name: 'third-party',
       async authorize(credentials) {
-        logger.info('CREDENTIALS', credentials);
         const { token } = credentials;
         const user = await fetchUser(`Bearer ${token}`);
         logger.info('USER', user);
@@ -70,7 +69,6 @@ const options = {
     async session(session, token) {
       const newSession = session;
       newSession.accessToken = token.accessToken;
-      logger.info(newSession, 'SESSION CALLBACK');
       return newSession;
     },
     async redirect(callbackUrl) {
@@ -94,8 +92,6 @@ const options = {
       logger.error(`Error logging in: ${message}`);
     },
   },
-
-  debug: true,
 
   logger: {
     error(code, ...message) {

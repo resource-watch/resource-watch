@@ -22,6 +22,9 @@ import wrapper from 'lib/store';
 // actions
 import { setUser } from 'redactions/user';
 
+// tests
+import authPayload from '../cypress/fixtures/auth.json';
+
 const queryClient = new QueryClient();
 
 export function withAuthentication(getServerSidePropsFunc) {
@@ -143,7 +146,7 @@ export function withUserServerSide(getServerSidePropsFunc) {
       }
     }
 
-    const user = await fetchUser(`Bearer ${session.accessToken}`);
+    const user = (process.env.NEXT_PUBLIC_RW_ENV === 'test') ? authPayload : await fetchUser(`Bearer ${session.accessToken}`);
 
     if (contextWithStore.store) {
       contextWithStore.store.dispatch(setUser({
