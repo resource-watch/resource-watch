@@ -4,10 +4,10 @@
   clear: left;
   align-items: center;
   min-height: 22px;
-  background-color: $color-blue-turquoise;
-  font-size: $font-size-small-medium;
+  background-color: $blue-turquoise;
+  font-size: $font-size-small;
   font-weight: $font-weight-bold;
-  color: $color-white;
+  color: $white;
   border-radius: 15px;
   padding: 3px 15px 4px 10px;
   cursor: grab;
@@ -25,17 +25,17 @@
 
   .aggregate-function {
     margin-left: 6px;
-    color: $color-grey;
+    color: $blue-grey;
   }
 
   .order-by {
     margin-left: 10px;
-    color: $color-grey;
+    color: $blue-grey;
   }
 
   .c-icon {
     margin-right: 5px;
-    fill: $color-white;
+    fill: $white;
 
     &.close-button {
       cursor: pointer;

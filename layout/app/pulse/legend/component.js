@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { LegendItemTypes } from 'vizzuality-components';
 
-// styles
-import './styles.scss';
-
 function Legend(props) {
   if (props.layerActive) {
     return (

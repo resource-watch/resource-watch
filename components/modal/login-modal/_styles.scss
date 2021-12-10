@@ -43,7 +43,7 @@
   }
   .log-in-container {
     > .wrapper {
-      padding: 0 $margin-size-big;
+      padding: 0 100px;
 
       @media screen and (min-width: map-get($breakpoints, medium)) {
         padding: 0 $margin-size;

@@ -16,9 +16,6 @@ import useFetchCollections from 'hooks/collection/fetch-collections';
 import { logEvent } from 'utils/analytics';
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
-// Styles
-import './styles.scss';
-
 const ExploreMenu = ({
   token,
   open,

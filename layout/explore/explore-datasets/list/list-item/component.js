@@ -17,7 +17,7 @@ import {
   Media,
 } from 'lib/media';
 
-import './styles.scss';
+
 
 class DatasetListItem extends React.Component {
   static propTypes = {

@@ -20,9 +20,9 @@
     line-height: 1;
 
     &.-release {
-      border-color: $color-secondary;
+      border-color: $sea-blue;
       .placeholder {
-        color: $color-secondary;
+        color: $sea-blue;
       }
     }
 
@@ -39,7 +39,7 @@
       width: 100%;
 
       padding-right: 10px;
-      color: $color-silver;
+      color: $light-grey;
     }
   }
 

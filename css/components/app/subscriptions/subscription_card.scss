@@ -10,7 +10,7 @@
   }
 
   .border-container {
-    border: 1px solid $color-grey;
+    border: 1px solid $blue-grey;
 
     .map-container {
       position: relative;
@@ -65,11 +65,11 @@
         margin-bottom: 0px;
 
         .pending-label {
-          color: $color-blue-turquoise;
+          color: $blue-turquoise;
         }
 
         a {
-          color: $color-dark-pink;
+          color: $dark-pink;
           cursor: pointer;
         }
       }

@@ -9,9 +9,6 @@ import axios from 'axios';
 // components
 import Spinner from 'components/ui/Spinner';
 
-// styles
-import './styles.scss';
-
 class LayerPopup extends PureComponent {
   static propTypes = {
     latlng: PropTypes.object,

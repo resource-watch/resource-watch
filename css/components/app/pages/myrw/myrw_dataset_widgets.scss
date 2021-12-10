@@ -24,7 +24,7 @@
 
        svg {
          margin-left: 5px;
-         fill: $color-grey;
+         fill: $blue-grey;
        }
      }
 
@@ -35,12 +35,12 @@
 
        button {
          cursor: pointer;
-         fill: $color-grey;
+         fill: $blue-grey;
          padding-top: 0px;
          padding-bottom: 0px;
 
          &.-active {
-           fill: $color-black;
+           fill: $black;
          }
        }
      }

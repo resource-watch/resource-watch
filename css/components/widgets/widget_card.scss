@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   min-width: 200px;
-  background: $color-tertiary;
+  background: $porcelain;
   display: flex;
   flex-direction: column;
   flex: 1 0 auto;
@@ -52,7 +52,7 @@
   }
 
   .info {
-    background: $color-white;
+    background: $white;
     flex: 1 0 auto;
     display: flex;
     flex-direction: column;
@@ -64,14 +64,14 @@
 
       a {
         text-decoration: none;
-        color: $color-text-1;
+        color: $charcoal-grey;
       }
 
       p {
         margin: 10px 0 0;
         word-break: break-word;
         font-size: $font-size-normal;
-        color: $ui-font-color;
+        color: $dove-grey;
       }
     }
 
@@ -88,6 +88,6 @@
   }
 
   &.-selected {
-    border-color: $color-primary;
+    border-color: $dark-pink;
   }
 }

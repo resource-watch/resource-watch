@@ -3,7 +3,7 @@
   position: relative;
   padding-left: 10px;
   padding-right: 10px;
-  background-color: $ui-bg-color;
+  background-color: $porcelain;
 
   .customize-visualization {
     position: relative;
@@ -15,11 +15,11 @@
     flex-grow: 0;
     padding: $margin-size-small;
     border: 1px solid $border-color-1;
-    box-shadow: 0 1px 2px 0 rgba($color-black, .09);
-    background-color: $body-bg-color;
+    box-shadow: 0 1px 2px 0 rgba($black, .09);
+    background-color: $white;
 
     > .title {
-      color: $color-dark-pink;
+      color: $dark-pink;
       font-weight: $font-weight-light;
     }
 
@@ -112,21 +112,21 @@
       right: 30px;
       width: 30px;
       height: 30px;
-      background-color: $color-white;
+      background-color: $white;
       border-radius: 3px;
       cursor: pointer;
       z-index: 999;
 
       &:hover {
-        background-color: mix($color-primary, $color-white, 5%);
+        background-color: mix($dark-pink, $white, 5%);
       }
 
       a {
-        color: $color-white;
+        color: $white;
       }
 
       svg {
-        fill: $color-black;
+        fill: $black;
       }
     }
   }

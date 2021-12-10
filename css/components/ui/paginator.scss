@@ -43,9 +43,9 @@
       text-align: center;
       list-style: none;
       float: left;
-      background-color: $color-white;
+      background-color: $white;
       margin-right: 8px;
-      border: 1px solid $color-pale-grey;
+      border: 1px solid $porcelain;
       outline: none;
 
       a {
@@ -54,9 +54,9 @@
       }
 
       &:hover {
-        border-color: $color-secondary;
+        border-color: $sea-blue;
         a {
-          color: $color-secondary;
+          color: $sea-blue;
         }
       }
 
@@ -65,12 +65,12 @@
         border-color: $blue-turquoise;
 
         a {
-          color: $color-white;
+          color: $white;
         }
 
         &:hover {
           a {
-            color: $color-white;
+            color: $white;
           }
         }
       }
@@ -111,13 +111,13 @@
     &-prev, &-next {
       transform: translate(0, -2px);
       &:hover {
-        color: $color-secondary;
+        color: $sea-blue;
 
         a {
-          color: $color-secondary;
+          color: $sea-blue;
 
           &:after {
-            color: $color-secondary;
+            color: $sea-blue;
           }
         }
       }
@@ -181,7 +181,7 @@
         input {
           margin: 0 8px;
           box-sizing: border-box;
-          background-color: $color-white;
+          background-color: $white;
           border-radius: 6px;
           border: 1px solid $border-color-1;
           outline: none;
@@ -190,7 +190,7 @@
           height: 28px;
 
           &:hover {
-            border-color: $color-secondary;
+            border-color: $sea-blue;
           }
         }
       }
@@ -215,7 +215,7 @@
         input {
           margin: 0 8px;
           box-sizing: border-box;
-          background-color: $color-white;
+          background-color: $white;
           border-radius: 6px;
           border: 1px solid $border-color-1;
           outline: none;
@@ -224,7 +224,7 @@
           min-height: 20px;
 
           &:hover {
-            border-color: $color-secondary;
+            border-color: $sea-blue;
           }
         }
       }

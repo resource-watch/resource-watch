@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 // Components
 import DatasetLayerCard from './dataset-layer-card';
 
-// Styles
-import './styles.scss';
-
 function DatasetLayers(props) {
   const {
     layers, dataset, isATimeline, timelineLayerMapbox, timelineLayer,

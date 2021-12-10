@@ -12,7 +12,7 @@
     cursor: pointer;
 
     &:hover {
-      border: 2px dashed $color-black;
+      border: 2px dashed $black;
     }
   }
 
@@ -35,11 +35,11 @@
       transform: translate(50%,-50%);
       padding: 4px;
       border-radius: 50%;
-      background: $color-error;
-      fill: $color-white;
+      background: $color-13;
+      fill: $white;
 
       &:hover {
-        background: darken($color-error, 5%);
+        background: darken($color-13, 5%);
       }
     }
   }

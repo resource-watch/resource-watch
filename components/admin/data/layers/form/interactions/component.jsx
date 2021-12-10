@@ -12,9 +12,6 @@ import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 import InteractionsItems from './interactions-items';
 
-// styles
-import './styles.scss';
-
 class InteractionManager extends PureComponent {
   componentDidMount() {
     const {

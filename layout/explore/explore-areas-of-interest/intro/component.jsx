@@ -6,9 +6,6 @@ import PropTypes from 'prop-types';
 // constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
-// styles
-import './styles.scss';
-
 const ExploreAreasOfInterestIntro = ({
   setSidebarSection,
 }) => {

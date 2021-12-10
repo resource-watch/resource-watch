@@ -8,9 +8,6 @@ import Icon from 'components/ui/icon';
 // utils
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 class SearchControls extends PureComponent {
   static propTypes = { onSelectLocation: PropTypes.func.isRequired };
 

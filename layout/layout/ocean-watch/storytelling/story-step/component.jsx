@@ -30,9 +30,6 @@ import {
   getRWAdapter,
 } from 'utils/widget-editor';
 
-// styles
-import './styles.scss';
-
 const WidgetShareModal = dynamic(() => import('../../../../../components/widgets/share-modal'), { ssr: false });
 
 function renderWidget({

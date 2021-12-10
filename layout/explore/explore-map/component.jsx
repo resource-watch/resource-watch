@@ -53,9 +53,6 @@ import {
 // constants
 import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
 
-// styles
-import './styles.scss';
-
 const ExploreMap = (props) => {
   const {
     token,

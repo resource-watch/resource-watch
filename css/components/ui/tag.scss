@@ -14,30 +14,30 @@
   }
 
   &.-primary {
-    background: $color-primary;
-    color: $color-white;
-    border: 1px solid $color-primary;
+    background: $dark-pink;
+    color: $white;
+    border: 1px solid $dark-pink;
     font-weight: $font-weight-bold;
 
     &:hover {
-      background: darken($color-primary, 10%);
+      background: darken($dark-pink, 10%);
     }
   }
 
   &.-secondary {
     background: transparent;
-    color: $color-text-1;
-    border: 1px solid $color-primary;
+    color: $charcoal-grey;
+    border: 1px solid $dark-pink;
     font-weight: $font-weight-bold;
 
     &:hover {
-      background: rgba($color-primary, 0.2);
+      background: rgba($dark-pink, 0.2);
     }
   }
 
   &.-tertiary {
     background: transparent;
-    color: $color-text-1;
+    color: $charcoal-grey;
     border: 1px solid $border-color-2;
     font-weight: $font-weight-bold;
 
@@ -49,7 +49,7 @@
   &.-clean {
     cursor: default; // If we don't have include grapho we can't set this tags as clickable
     padding: 0;
-    color: $color-text-1;
+    color: $charcoal-grey;
 
     &:hover {
       // text-decoration: underline; // If we don't have include grapho we can't set this tags as clickable

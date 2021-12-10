@@ -34,9 +34,9 @@
         flex-direction: column;
         height: 200px;
         padding: $space * 2;
-        border: 1px solid rgba($color-black, .1);
+        border: 1px solid rgba($black, .1);
         border-radius: 4px;
-        box-shadow: 0 1px 2px 0 rgba($color-black, .05);
+        box-shadow: 0 1px 2px 0 rgba($black, .05);
 
         &:not(:first-child) {
           margin: ($space * 4) 0 0;

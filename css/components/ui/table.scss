@@ -38,29 +38,29 @@ $table-font-size: $font-size-small;
     }
 
     thead {
-      background-color: $color-white;
+      background-color: $white;
 
       th {
         position: relative;
         font-size: $table-font-size;
-        color: $color-text-1;
+        color: $charcoal-grey;
         font-weight: bold;
         white-space: nowrap;
 
         padding: $table-column-padding;
 
         .filter-action {
-          fill: $color-mid-grey;
+          fill: $light-grey;
         }
       }
     }
 
     tbody {
       tr {
-        background-color: $color-white;
+        background-color: $white;
 
         &.-selected {
-          // background-color: $color-secondary;
+          // background-color: $sea-blue;
         }
       }
 
@@ -115,16 +115,16 @@ $table-font-size: $font-size-small;
   // CUSTOM TDs
   // Main
   td.main {
-    color: $color-text-1;
+    color: $charcoal-grey;
     font-weight: 700;
     min-width: 200px;
 
     a {
-      color: $color-text-1;
+      color: $charcoal-grey;
       text-decoration: none;
 
       &:hover {
-        color: darken($color-text-1, 10%);
+        color: darken($charcoal-grey, 10%);
         text-decoration: underline;
       }
     }
@@ -145,23 +145,23 @@ $table-font-size: $font-size-small;
     &.-success,
     &.-saved,
     &.-completed {
-      color: $color-green;
-      &:before { background-color: $color-green; }
+      color: $color-14;
+      &:before { background-color: $color-14; }
     }
 
     &.-pending {
-      color: $color-mid-grey;
-      &:before { background-color: $color-mid-grey; }
+      color: $light-grey;
+      &:before { background-color: $light-grey; }
     }
 
     &.-failed {
-      color: $color-mango;
-      &:before { background-color: $color-mango; }
+      color: $yellow;
+      &:before { background-color: $yellow; }
     }
 
     &.-deleted {
-      color: $color-error;
-      &:before { background-color: $color-error; }
+      color: $color-13;
+      &:before { background-color: $color-13; }
     }
   }
 }

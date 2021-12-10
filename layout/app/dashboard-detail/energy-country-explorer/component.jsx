@@ -27,9 +27,6 @@ import CountryIndicators from './country-indicators';
 // Constants
 import { WORLD_COUNTRY, US_COUNTRY_VALUES } from './constants';
 
-// Styles
-import './styles.scss';
-
 function EnergyCountryExplorer(props) {
   const {
     router: {

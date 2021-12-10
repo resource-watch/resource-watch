@@ -18,12 +18,9 @@ export default class MyDocument extends Document {
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta name="author" content="Vizzuality" />
           <link rel="icon" href="/favicon.ico" />
-          <link rel="preconnect" href="https://fonts.gstatic.com/" />
-          <link
-            rel="stylesheet"
-            media="screen"
-            href="https://fonts.googleapis.com/css?family=Lato:300,400,700"
-          />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+          <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
           <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
 
           {/* Mobile address background */}

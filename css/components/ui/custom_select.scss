@@ -12,7 +12,7 @@
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 5px solid $color-primary;
+    border-bottom: 5px solid $dark-pink;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -96,7 +96,7 @@
     line-height: 1.1;
     font-style: italic;
     color: palette(blue);
-    background-color: $color-white;
+    background-color: $white;
     font-size: $font-size-normal;
     box-shadow: 0 -2px 4px 0 rgba(33, 62, 118, 0.09), 0 2px 4px 0 rgba(33, 62, 118, 0.09);
   }
@@ -142,7 +142,7 @@
     top: 100%;
     left: 0;
     min-width: 100%;
-    background-color: $color-white;
+    background-color: $white;
     z-index: 999;
     box-shadow: 0 -2px 3px 0 rgba(33, 62, 118, 0.09), 0 2px 3px 0 rgba(33, 62, 118, 0.09);
     max-height: 400px;
@@ -153,7 +153,7 @@
     li {
       display: flex;
       justify-content: space-between;
-      color: $color-text-headers;
+      color: $charcoal-grey;
       font-size: $font-size-normal;
       font-weight: normal;
       line-height: 2;
@@ -162,34 +162,34 @@
       align-items: center;
 
       .c-icon {
-        fill: $color-primary;
+        fill: $dark-pink;
         width: 11px;
         height: 11px;
       }
 
       &.title {
-        color: $color-primary;
+        color: $dark-pink;
         justify-content: flex-start;
         border-bottom: 1px solid $border-color-1;
         padding: 10px $margin-size-extra-small;
 
         &:hover {
-          background-color: $color-white;
-          color: $color-primary;
+          background-color: $white;
+          color: $dark-pink;
         }
       }
 
       &:hover {
-        background-color: rgba($color-charcoal-grey, .05);
-        color: $color-secondary;
+        background-color: rgba($charcoal-grey, .05);
+        color: $sea-blue;
       }
 
       &.-selected {
-        background-color: rgba($color-charcoal-grey, .05);
+        background-color: rgba($charcoal-grey, .05);
       }
 
       &[aria-selected="true"] {
-        color: $color-primary;
+        color: $dark-pink;
       }
 
       & .label {
@@ -214,7 +214,7 @@
   .custom-select-search {
     z-index: 1;
     background-color: transparent;
-    color: $body-font-color;
+    color: $charcoal-grey;
     outline: none;
     border: none;
     position: absolute;

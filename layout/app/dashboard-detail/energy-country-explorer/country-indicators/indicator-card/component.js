@@ -12,8 +12,6 @@ import InfoTooltip from './info-tooltip';
 
 // Constants
 
-// styles
-import './styles.scss';
 import RankingBar from './ranking-bar/component';
 
 function IndicatorCard(props) {

@@ -6,9 +6,6 @@ import classnames from 'classnames';
 import InView from 'components/in-view';
 import WidgetCard from '../card';
 
-// styles
-import './styles.scss';
-
 const WidgetCardList = (props) => {
   const {
     widgets,

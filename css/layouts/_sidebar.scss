@@ -7,8 +7,8 @@ $min-width-sidebar-closed: 10px;
   display: flex;
   flex-direction: column;
   max-width: $max-width-sidebar;
-  background-color: $color-white;
-  color: $color-text-1;
+  background-color: $white;
+  color: $charcoal-grey;
   z-index: 3;
 
   @media screen and (min-width: map-get($breakpoints, medium)) {
@@ -53,7 +53,7 @@ $min-width-sidebar-closed: 10px;
     left: 100%;
     z-index: 1;
     cursor: pointer;
-    background-color: rgba($ui-font-color, .8);
+    background-color: rgba($dove-grey, .8);
     border: none;
     border-radius: 0 2px 2px 0;
     transition: background $animation-time-2 $ease-in-out-sine;
@@ -64,14 +64,14 @@ $min-width-sidebar-closed: 10px;
 
     .c-icon {
       width: 12px;
-      fill: $color-white;
+      fill: $white;
 
       &.-left { transform: rotate(90deg); }
       &.-right { transform: rotate(-90deg); }
     }
 
     &:hover {
-      background-color: rgba(darken($ui-font-color, 5%), .8);
+      background-color: rgba(darken($dove-grey, 5%), .8);
     }
   }
 }

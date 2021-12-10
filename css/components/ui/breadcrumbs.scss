@@ -16,8 +16,8 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      color: $active-font-color;
-      fill: $active-font-color;
+      color: $yellow;
+      fill: $yellow;
       text-decoration: none;
       cursor: pointer;
 
@@ -30,8 +30,8 @@
       }
 
       &:hover {
-        color: darken($active-font-color, 10%);
-        fill: darken($active-font-color, 10%);
+        color: darken($yellow, 10%);
+        fill: darken($yellow, 10%);
       }
     }
   }

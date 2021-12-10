@@ -2,7 +2,7 @@
 
 .c-upload-area {
   p a {
-    color: $color-secondary;
+    color: $sea-blue;
     text-decoration: none;
   }
 
@@ -21,7 +21,7 @@
     border-radius: 4px;
 
     &.-active {
-      border-color: $color-primary;
+      border-color: $dark-pink;
     }
 
     > div {
@@ -51,8 +51,8 @@
       margin-right: 5px;
       padding: 2px 8px;
 
-      color: $color-white;
-      background-color: $color-mango;
+      color: $white;
+      background-color: $yellow;
 
       border-radius: 4px;
     }
@@ -60,7 +60,7 @@
 
   .complementary-info {
     margin-top: 20px;
-    font-size: $font-size-default;
+    font-size: $font-size-normal;
 
     p { margin: 0; }
 

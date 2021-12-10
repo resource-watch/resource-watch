@@ -35,9 +35,6 @@ import useSubscriptionsByArea from 'hooks/subscription/fetch-subscriptions-by-ar
 // utils
 import { getUserAreaLayer } from 'components/map/utils';
 
-// styles
-import './styles.scss';
-
 const AreaCard = (props) => {
   const {
     area,

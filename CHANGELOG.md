@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.X.X] - 2021-X-X
 ### Added
+- `tailwindcss` framework.
 
 ### Changed
 - improved styles for widget captions. [OW-164](https://vizzuality.atlassian.net/browse/OW-164)

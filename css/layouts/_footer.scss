@@ -16,14 +16,14 @@
       padding-left: 24px;
       padding-right: 38px;
 
-      color: $ui-font-color;
+      color: $dove-grey;
       font-size: $font-size-small;
       font-weight: bold;
       letter-spacing: 2px;
       text-transform: uppercase;
 
       transform: translate(-50%, -10px);
-      background-color: $body-bg-color;
+      background-color: $white;
 
       a {
         position: relative;
@@ -48,7 +48,7 @@
     border-top: 1px solid $border-color-1;
     padding: $margin-size 0;
 
-    color: $ui-font-color;
+    color: $dove-grey;
   }
 
   .footer-social {
@@ -91,7 +91,7 @@
 
     .footer-container {
       padding: 55px 0;
-      color: $color-white;
+      color: $white;
       display: flex;
       justify-content: space-between;
     }

@@ -26,9 +26,6 @@ import { logEvent } from 'utils/analytics';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 import RankingWidget from './ranking-widget';
 
-// Styles
-import './styles.scss';
-
 function DashboardWidgetCard(props) {
   const {
     user,

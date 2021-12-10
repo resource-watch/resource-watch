@@ -12,9 +12,6 @@ import {
   Media,
 } from 'lib/media';
 
-// styles
-import './styles.scss';
-
 export default function Header({
   className,
   header,

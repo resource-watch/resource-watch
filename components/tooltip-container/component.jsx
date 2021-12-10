@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-import './styles.scss';
-
 export default function TooltipContainer({
   style,
   children,

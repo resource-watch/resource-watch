@@ -18,11 +18,11 @@
         display: flex;
         align-items: center;
         text-decoration: none;
-        color: $color-text-1;
-        fill: $color-text-1;
+        color: $charcoal-grey;
+        fill: $charcoal-grey;
         padding: math.div($space-1, 2) 6px;
         border-radius: 4px;
-        font-size: $font-size-default;
+        font-size: $font-size-normal;
         cursor: pointer;
 
         > * {
@@ -31,15 +31,15 @@
         }
 
         &.-empty {
-          color: $color-white;
-          fill: $color-white;
-          background: $color-mango;
+          color: $white;
+          fill: $white;
+          background: $yellow;
         }
 
         &:hover {
-          color: $color-white;
-          fill: $color-white;
-          background: $color-text-1;
+          color: $white;
+          fill: $white;
+          background: $charcoal-grey;
         }
       }
 
@@ -47,10 +47,10 @@
         > a {
           pointer-events: none;
           cursor: default;
-          color: rgba($color-text-1, .3);
+          color: rgba($charcoal-grey, .3);
 
           > svg {
-            fill: rgba($color-text-1, .3);
+            fill: rgba($charcoal-grey, .3);
           }
         }
       }

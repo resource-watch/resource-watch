@@ -20,28 +20,28 @@
             box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
             margin-bottom: 2 * $space;
             cursor: pointer;
-      
+
             > * {
               margin-left: 5px;
-      
+
               &:first-child { margin-left: 0; }
             }
-      
+
             .actions-sort-button {
               padding: $space;
               font-size: $font-size-tiny;
               line-height: 10px;
               font-weight: bold;
               color: $dove-grey;
-              fill: rgba($color-charcoal-grey, 0.2);
+              fill: rgba($charcoal-grey, 0.2);
               display: flex;
-      
+
               &.isInteractive {
                 cursor: pointer;
-      
+
                 &:hover {
-                  color: darken($color-charcoal-grey, 15%);
-                  fill: rgba($color-charcoal-grey, 0.5);
+                  color: darken($charcoal-grey, 15%);
+                  fill: rgba($charcoal-grey, 0.5);
                 }
               }
             }
@@ -51,7 +51,7 @@
             width: 230px;
             display: flex;
             flex-wrap: wrap;
-    
+
             .c-button {
                 display: flex;
                 align-items: center;
@@ -65,7 +65,7 @@
                     line-height: 10px;
                     font-weight: bold;
                 }
-    
+
                 .c-icon {
                     margin-left: 2 * $space;
                 }
@@ -110,7 +110,7 @@
             margin: 2 * $space 0px 2 * $space 0px;
             border-radius: 4px;
             background-size: cover;
-            background-repeat: no-repeat; 
+            background-repeat: no-repeat;
             box-shadow: 0 2px 6px 0 rgba(0,0,0,0.1);
             transition: all $animation-time-2 $ease-in-out-sine;
             cursor: pointer;
@@ -130,7 +130,7 @@
             }
         }
     }
-    
+
     .request-data-container {
         display: flex;
         flex-direction: column;

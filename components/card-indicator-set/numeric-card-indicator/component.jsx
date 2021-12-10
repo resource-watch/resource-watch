@@ -10,9 +10,6 @@ import { format } from 'd3-format';
 // components
 import Icon from 'components/ui/icon';
 
-// styles
-import './styles.scss';
-
 export default function NumericCardIndicator({
   theme,
   isSelected,

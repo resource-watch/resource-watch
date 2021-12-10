@@ -18,9 +18,6 @@ import Icon from 'components/ui/icon';
 import Modal from 'components/modal/modal-component';
 import SubscriptionsModal from 'components/modal/subscriptions-modal/dataset';
 
-// styles
-import './styles.scss';
-
 class LayerCardComponent extends PureComponent {
   constructor(props) {
     super(props);

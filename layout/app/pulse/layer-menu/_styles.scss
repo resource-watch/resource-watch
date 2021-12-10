@@ -23,7 +23,7 @@
       > .name {
         display: inline-block;
         text-transform: uppercase;
-        color: $color-white;
+        color: $white;
         font-size: $font-size-small;
         padding: 14px;
         border-radius: 3px;
@@ -53,7 +53,7 @@
       &.-active {
         // NAME
         > .name {
-          border-color: rgba($color-white, .2);
+          border-color: rgba($white, .2);
         }
       }
     }

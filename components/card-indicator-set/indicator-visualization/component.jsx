@@ -30,9 +30,6 @@ import {
   getParametrizedWidget,
 } from 'utils/widget';
 
-// styles
-import './styles.scss';
-
 const WidgetShareModal = dynamic(() => import('../../widgets/share-modal'), { ssr: false });
 
 export default function IndicatorVisualization({

@@ -42,7 +42,7 @@
         font-family: $body-font-family;
         font-size: $font-size-small;
         font-weight: $font-weight-bold;
-        color: $body-font-color;
+        color: $charcoal-grey;
       }
 
       .input-range__track,
@@ -52,8 +52,8 @@
 
       .input-range__slider,
       .input-range__track--active {
-        background-color: $color-secondary;
-        border-color: $color-secondary;
+        background-color: $sea-blue;
+        border-color: $sea-blue;
       }
     }
   }

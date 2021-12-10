@@ -7,7 +7,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  background-color: $color-white;
+  background-color: $white;
   max-width: 400px;
   border-radius: 4px;
   z-index: 7;
@@ -31,7 +31,7 @@
   }
 
   h3, h5 {
-    color: $color-dark-pink;
+    color: $dark-pink;
     margin: 0px;
   }
 

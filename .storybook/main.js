@@ -1,12 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  features: {
-    postcss: false,
-  },
   stories: [
     "../components/**/*.stories.@(js|jsx|ts|tsx)",
   ],
+  staticDirs: ['../public'],
   addons: [
     {
       name: '@storybook/preset-scss',

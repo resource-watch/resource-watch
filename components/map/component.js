@@ -9,9 +9,6 @@ import isEmpty from 'lodash/isEmpty';
 // constants
 import { DEFAULT_VIEWPORT } from './constants';
 
-// styles
-import './styles.scss';
-
 class Map extends PureComponent {
   static propTypes = {
     /** A function that returns the map instance */

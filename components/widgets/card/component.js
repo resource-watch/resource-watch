@@ -39,9 +39,6 @@ import ShareModal from 'components/modal/share-modal';
 import TextChart from 'components/widgets/charts/TextChart';
 import WidgetActionsTooltip from './tooltip';
 
-// styles
-import './styles.scss';
-
 const WidgetCard = (props) => {
   const {
     widget,

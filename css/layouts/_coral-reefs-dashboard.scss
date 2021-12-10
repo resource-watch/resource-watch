@@ -26,7 +26,7 @@
 
   h1 {
     font-size: math.div($font-size-h2, 2);
-    color: $color-primary;
+    color: $dark-pink;
     font-weight: $font-weight-light;
     font-family: $body-font-family;
     margin-top: $font-size-h2 * 0.5;
@@ -38,7 +38,7 @@
 
   h2 {
     font-size: math.div($font-size-h3, 2);
-    color: $color-primary;
+    color: $dark-pink;
     font-weight: $font-weight-light;
     font-family: $body-font-family;
     margin-bottom: $font-size-h3 * 0.5;
@@ -49,14 +49,14 @@
   }
 
   p {
-    color: $body-font-color;
-    font-size: $global-font-size;
+    color: $charcoal-grey;
+    font-size: $font-size-medium;
     font-family: $body-font-family;
     line-height: $global-lineheight;
     max-width: 80ch;
 
     > a {
-        color: $link-font-color;
+        color: $sea-blue;
         text-decoration: underline;
     }
 
@@ -67,12 +67,12 @@
 
   ul.bullet-list {
     li {
-      font-size: $font-size-default;
+      font-size: $font-size-normal;
       margin-left: 3em;
       list-style-type: disc;
 
       > a {
-        color: $link-font-color;
+        color: $sea-blue;
 
         &:hover {
           text-decoration: underline;
@@ -84,12 +84,12 @@
 
   ol.number-list {
     li {
-      font-size: $font-size-default;
+      font-size: $font-size-normal;
       margin-left: 3em;
       list-style-type: decimal;
 
       > a {
-        color: $link-font-color;
+        color: $sea-blue;
 
         &:hover {
           text-decoration: underline;

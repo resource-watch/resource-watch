@@ -3,9 +3,6 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 
-// styles
-import './styles.scss';
-
 export default function WidgetInfo({
   widget,
   style,

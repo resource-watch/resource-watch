@@ -8,9 +8,6 @@ import RadioGroup from 'components/form/RadioGroup';
 // utils
 import { USER_TYPES, USER_OPTIONS } from './constants.js';
 
-// styles
-import './styles.scss';
-
 class FiltersComponent extends PureComponent {
   static propTypes = {
     className: PropTypes.string,

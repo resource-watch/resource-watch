@@ -3,7 +3,7 @@
 .toggle-search {
 
   .c-field-search {
-    background-color: $alt-font-color;
+    background-color: $white;
     border-radius: 4px;
     position: relative;
   }
@@ -17,7 +17,7 @@
 
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
     font-size: $font-size-normal;
-    color: $body-font-color;
+    color: $charcoal-grey;
 
     background: none;
 
@@ -37,6 +37,6 @@
     top: 50%;
     right: 5px;
     transform: translateY(-50%);
-    fill: $body-font-color;
+    fill: $charcoal-grey;
   }
 }

@@ -16,9 +16,6 @@ import { getTooltipContainer } from 'utils/tooltip';
 // utils
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 export default function ExploreDetailHeader({
   dataset,
   setSelectedDataset,

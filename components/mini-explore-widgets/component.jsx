@@ -15,9 +15,6 @@ import {
   miniExploreWidgetSlice,
 } from './reducer';
 
-// styles
-import './styles.scss';
-
 const miniExploreWidgetReducer = miniExploreWidgetSlice.reducer;
 const {
   setGeostoreBasin,

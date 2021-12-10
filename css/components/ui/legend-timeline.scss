@@ -8,7 +8,7 @@
   }
 
   .c-icon {
-    fill: $color-charcoal-grey;
+    fill: $charcoal-grey;
     margin-right: 12px;
   }
 
@@ -20,7 +20,7 @@
 
   .input-range__slider {
     border: 0;
-    background-color: $color-primary;
+    background-color: $dark-pink;
     width: 14px;
     height: 14px;
     margin-top: -9px;
@@ -31,7 +31,7 @@
   }
 
   .input-range__track--active {
-    background-color: $color-primary;
+    background-color: $dark-pink;
   }
 
   .input-range__label--min, .input-range__label--max {
