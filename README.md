@@ -237,6 +237,25 @@ To run it: `yarn analyze`.
 
 It will run the application in production build (makes a `yarn build` internally) and open a tab in your browser displaying the bundles treemap.
 
+# Storybook 📚
+
+## Development
+To run Storybook in development run the following processes separately:
+```bash
+	# TailwindCSS will compile the styles and generate a new stylesheet used by Storybook and will update it if needed
+	yarn tailwindcss:watch
+
+	# runs Storybook server using the stylesheet previously created by TailwindCSS
+	yarn storybook:dev
+```
+*Note*: if a new TailwindCSS class is added, Storybook will not be aware of it. To fix this, just refresh the page and Storybook will get the most updated stylesheet provided by TailwindCSS.
+
+## Production
+To deploy Storybook run the following command:
+```bash
+	# TailwindCSS will generate a production-ready stylesheet and Storybook will generate the static files needed to be served.
+	yarn storybook:build
+```
 
 # Deploy 🛫
 You will need access to [Resource Watch Jenkins](https://jenkins.resourcewatch.org/).

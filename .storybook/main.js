@@ -1,9 +1,6 @@
 const path = require('path');
 
 module.exports = {
-  features: {
-    postcss: false,
-  },
   stories: [
     "../components/**/*.stories.@(js|jsx|ts|tsx)",
   ],
