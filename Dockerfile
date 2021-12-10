@@ -64,7 +64,7 @@ COPY .babelrc .
 COPY .browserlistrc .
 COPY package.json .
 COPY yarn.lock .
-COPY tailwind.config.js
+COPY tailwind.config.js .
 COPY index.js .
 COPY next.config.js .
 COPY next-sitemap.js .
