@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `tailwindcss` framework.
 
 ### Changed
+- `webpack 5` and `next@12`
 - improved styles for widget captions. [OW-164](https://vizzuality.atlassian.net/browse/OW-164)
 
 ### Fixed
