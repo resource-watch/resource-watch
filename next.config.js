@@ -11,11 +11,6 @@ module.exports = withBundleAnalyzer({
     ignoreDuringBuilds: true,
   },
 
-  // Webpack 5 is enabled by default
-  // You can still use webpack 4 while upgrading to the latest version of Next.js
-  // by adding the "webpack5: false" flag
-  webpack5: false,
-
   async redirects() {
     return [
       {
@@ -58,18 +53,4 @@ module.exports = withBundleAnalyzer({
   //   '/data/explore': { page: '/explore' },
   //   '/data/pulse': { page: '/pulse' },
   // }),
-
-  webpack: (config) => {
-    // eslint-disable-next-line no-underscore-dangle
-    const _config = { ...config };
-
-    _config.node = {
-      console: true,
-      fs: 'empty',
-      net: 'empty',
-      tls: 'empty',
-    };
-
-    return _config;
-  },
 });
