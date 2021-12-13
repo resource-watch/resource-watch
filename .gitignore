@@ -31,3 +31,9 @@ coverage.json
 # storybook
 storybook-static
 public/styles
+
+# eslint
+.eslintcache
+
+# Typescript
+tsconfig.tsbuildinfo

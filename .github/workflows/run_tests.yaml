@@ -20,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        node: [ '14.15' ]
+        node: [ '14.17' ]
 
     env:
       CC_TEST_REPORTER_ID: 1a3b4790c97b84d93856c16cd0ceac7070a43c7620444d9de945c75c2edfa676
