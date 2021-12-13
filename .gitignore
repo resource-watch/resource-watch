@@ -37,3 +37,6 @@ public/styles
 
 # Typescript
 tsconfig.tsbuildinfo
+
+
+pages/layer-manager.tsx

@@ -17,9 +17,7 @@ import {
   LegendItemTypes,
   LegendItemTimeStep,
 } from 'vizzuality-components';
-import {
-  LegendItemTimeline,
-} from 'old-vizzuality-components';
+import { LegendItemTimeline } from 'old-vizzuality-components';
 
 // components
 import Modal from 'components/modal/modal-component';
@@ -45,10 +43,7 @@ import { fetchArea } from 'services/areas';
 import { fetchGeostore } from 'services/geostore';
 
 // constants
-import {
-  MAPSTYLES,
-  USER_AREA_LAYER_TEMPLATES,
-} from 'components/map/constants';
+import { MAPSTYLES, USER_AREA_LAYER_TEMPLATES } from 'components/map/constants';
 
 // constants
 import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
@@ -99,153 +94,205 @@ const ExploreMap = (props) => {
     layer: null,
     loading: {},
   });
-  const [displayedLayers, setDisplayedLayers] = useState([
-    ...activeLayers,
-  ]);
+  const [displayedLayers, setDisplayedLayers] = useState([...activeLayers]);
 
-  const onChangeInfo = useCallback((layer) => {
-    setMapState({
-      ...mapState,
-      layer,
-    });
+  const onChangeInfo = useCallback(
+    (layer) => {
+      setMapState({
+        ...mapState,
+        layer,
+      });
 
-    if (layer) {
-      if (exploreBehavior && onLayerInfoButtonClick) {
-        onLayerInfoButtonClick(layer);
-      } else {
-        setSelectedDataset(layer.dataset);
-        setSidebarAnchor('layers');
+      if (layer) {
+        if (exploreBehavior && onLayerInfoButtonClick) {
+          onLayerInfoButtonClick(layer);
+        } else {
+          setSelectedDataset(layer.dataset);
+          setSidebarAnchor('layers');
+        }
       }
-    }
-  }, [mapState, exploreBehavior, onLayerInfoButtonClick, setSelectedDataset, setSidebarAnchor]);
+    },
+    [mapState, exploreBehavior, onLayerInfoButtonClick, setSelectedDataset, setSidebarAnchor],
+  );
 
   const onChangeOpacity = debounce((l, opacity) => {
     const { setMapLayerGroupOpacity } = props;
     setMapLayerGroupOpacity({ dataset: { id: l.dataset }, opacity });
   }, 250);
 
-  const onChangeVisibility = useCallback((l, visibility) => {
-    setMapLayerGroupVisibility({
-      dataset: { id: l.dataset },
-      visibility,
-    });
-  }, [setMapLayerGroupVisibility]);
+  const onChangeVisibility = useCallback(
+    (l, visibility) => {
+      setMapLayerGroupVisibility({
+        dataset: { id: l.dataset },
+        visibility,
+      });
+    },
+    [setMapLayerGroupVisibility],
+  );
 
-  const onChangeLayer = useCallback((l) => {
-    resetLayerParametrization();
+  const onChangeLayer = useCallback(
+    (l) => {
+      resetLayerParametrization();
 
-    setMapLayerGroupActive({
-      dataset: { id: l.dataset },
-      active: l.id,
-    });
+      setMapLayerGroupActive({
+        dataset: { id: l.dataset },
+        active: l.id,
+      });
 
-    logEvent('Explore Map', 'Clicks Another Layer from Map Legend Tooltip',
-      `${l.name} [${l.id}]`);
-  }, [resetLayerParametrization, setMapLayerGroupActive]);
+      logEvent(
+        'Explore Map',
+        'Clicks Another Layer from Map Legend Tooltip',
+        `${l.name} [${l.id}]`,
+      );
+    },
+    [resetLayerParametrization, setMapLayerGroupActive],
+  );
 
-  const onRemoveLayer = useCallback((l) => {
-    toggleMapLayerGroup({
-      dataset: { id: l.dataset },
-      toggle: false,
-    });
+  const onRemoveLayer = useCallback(
+    (l) => {
+      toggleMapLayerGroup({
+        dataset: { id: l.dataset },
+        toggle: false,
+      });
 
-    removeLayerParametrization(l.id);
-  }, [toggleMapLayerGroup, removeLayerParametrization]);
+      removeLayerParametrization(l.id);
+    },
+    [toggleMapLayerGroup, removeLayerParametrization],
+  );
 
-  const onChangeOrder = useCallback((datasetIds) => {
-    setMapLayerGroupsOrder({ datasetIds });
-  }, [setMapLayerGroupsOrder]);
+  const onChangeOrder = useCallback(
+    (datasetIds) => {
+      setMapLayerGroupsOrder({ datasetIds });
+    },
+    [setMapLayerGroupsOrder],
+  );
 
-  const onChangeLayerDate = useCallback((dates, layer) => {
-    const { id, layerConfig: { decode_config: decodeConfig } } = layer;
+  const onChangeLayerDate = useCallback(
+    (dates, layer) => {
+      const {
+        id,
+        layerConfig: { decode_config: decodeConfig },
+      } = layer;
 
-    setMapLayerParametrization({
-      id,
-      nextConfig: {
-        ...decodeConfig && {
-          decodeParams: {
-            startDate: dates[0],
-            endDate: dates[1],
-          },
+      setMapLayerParametrization({
+        id,
+        nextConfig: {
+          ...(decodeConfig && {
+            decodeParams: {
+              startDate: dates[0],
+              endDate: dates[1],
+            },
+          }),
+          ...(!decodeConfig && {
+            params: {
+              startDate: dates[0],
+              endDate: dates[1],
+            },
+          }),
         },
-        ...!decodeConfig && {
-          params: {
-            startDate: dates[0],
-            endDate: dates[1],
-          },
-        },
-      },
-    });
-  }, [setMapLayerParametrization]);
+      });
+    },
+    [setMapLayerParametrization],
+  );
 
-  const onChangeLayerTimeLine = useCallback((l) => {
-    setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
-    logEvent('Explore Map', 'Clicks Another Layer from Map Legend Timeline',
-      `${l.name} [${l.id}]`);
-  }, [setMapLayerGroupActive]);
+  const onChangeLayerTimeLine = useCallback(
+    (l) => {
+      setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
+      logEvent(
+        'Explore Map',
+        'Clicks Another Layer from Map Legend Timeline',
+        `${l.name} [${l.id}]`,
+      );
+    },
+    [setMapLayerGroupActive],
+  );
 
-  const onClickLayer = useCallback(({ features, lngLat }) => {
-    let interactions = {};
+  const onClickLayer = useCallback(
+    ({ features, lngLat }) => {
+      let interactions = {};
 
-    // if the user clicks on a zone where there is no data in any current layer
-    // we will reset the current interaction of those layers to display "no data available" message
-    if (!features.length) {
-      interactions = Object.keys(layerGroupsInteraction).reduce((accumulator, currentValue) => ({
-        ...accumulator,
-        [currentValue]: {},
-      }), {});
-    } else {
-      interactions = features.reduce((accumulator, currentValue) => ({
-        ...accumulator,
-        [currentValue.layer.source]: { data: currentValue.properties },
-      }), {});
-    }
+      // if the user clicks on a zone where there is no data in any current layer
+      // we will reset the current interaction of those layers to display "no data available" message
+      if (!features.length) {
+        interactions = Object.keys(layerGroupsInteraction).reduce(
+          (accumulator, currentValue) => ({
+            ...accumulator,
+            [currentValue]: {},
+          }),
+          {},
+        );
+      } else {
+        interactions = features.reduce(
+          (accumulator, currentValue) => ({
+            ...accumulator,
+            [currentValue.layer.source]: { data: currentValue.properties },
+          }),
+          {},
+        );
+      }
 
-    setMapLayerGroupsInteractionLatLng({
-      longitude: lngLat[0],
-      latitude: lngLat[1],
-    });
-    setMapLayerGroupsInteraction(interactions);
+      setMapLayerGroupsInteractionLatLng({
+        longitude: lngLat[0],
+        latitude: lngLat[1],
+      });
+      setMapLayerGroupsInteraction(interactions);
 
-    return true;
-  }, [layerGroupsInteraction, setMapLayerGroupsInteractionLatLng, setMapLayerGroupsInteraction]);
+      return true;
+    },
+    [layerGroupsInteraction, setMapLayerGroupsInteractionLatLng, setMapLayerGroupsInteraction],
+  );
 
-  const onChangeInteractiveLayer = useCallback((selected) => {
-    setMapLayerGroupsInteractionSelected(selected);
-  }, [setMapLayerGroupsInteractionSelected]);
+  const onChangeInteractiveLayer = useCallback(
+    (selected) => {
+      setMapLayerGroupsInteractionSelected(selected);
+    },
+    [setMapLayerGroupsInteractionSelected],
+  );
 
   const handleClosePopup = useCallback(() => {
     resetMapLayerGroupsInteraction();
   }, [resetMapLayerGroupsInteraction]);
 
-  const handleSearch = useCallback((locationParams) => {
-    setBounds({
-      ...locationParams,
-      options: { zoom: 2 },
-    });
-  }, [setBounds]);
+  const handleSearch = useCallback(
+    (locationParams) => {
+      setBounds({
+        ...locationParams,
+        options: { zoom: 2 },
+      });
+    },
+    [setBounds],
+  );
 
-  const [handleViewport] = useDebouncedCallback((_viewport) => {
+  const handleViewport = useDebouncedCallback((_viewport) => {
     setViewport(_viewport);
   }, 250);
 
-  const handleBoundaries = useCallback((_boundaries) => {
-    setBoundaries(_boundaries);
-  }, [setBoundaries]);
+  const handleBoundaries = useCallback(
+    (_boundaries) => {
+      setBoundaries(_boundaries);
+    },
+    [setBoundaries],
+  );
 
-  const handleZoom = useCallback((zoom) => {
-    setViewport({
-      zoom,
-      // transitionDuration is always set to avoid mixing
-      // durations of other actions (like flying)
-      transitionDuration: 250,
-    });
-  }, [setViewport]);
+  const handleZoom = useCallback(
+    (zoom) => {
+      setViewport({
+        zoom,
+        // transitionDuration is always set to avoid mixing
+        // durations of other actions (like flying)
+        transitionDuration: 250,
+      });
+    },
+    [setViewport],
+  );
 
-  const handleBasemap = useCallback((_basemap) => {
-    const { id } = _basemap;
-    setBasemap(id);
-  }, [setBasemap]);
+  const handleBasemap = useCallback(
+    (_basemap) => {
+      const { id } = _basemap;
+      setBasemap(id);
+    },
+    [setBasemap],
+  );
 
   const handleResetView = useCallback(() => {
     setViewport({
@@ -257,23 +304,34 @@ const ExploreMap = (props) => {
     });
   }, [setViewport]);
 
-  const handleLabels = useCallback(({ value }) => {
-    setLabels(value);
-  }, [setLabels]);
+  const handleLabels = useCallback(
+    ({ value }) => {
+      setLabels(value);
+    },
+    [setLabels],
+  );
 
-  const handleMapCursor = useCallback(({ isHovering, isDragging }) => {
-    if (isDrawing && isDragging) return 'grabbing';
-    if (isDrawing) return 'crosshair';
-    if (isHovering) return 'pointer';
+  const handleMapCursor = useCallback(
+    ({ isHovering, isDragging }) => {
+      if (isDrawing && isDragging) return 'grabbing';
+      if (isDrawing) return 'crosshair';
+      if (isHovering) return 'pointer';
 
-    return 'grab';
-  }, [isDrawing]);
+      return 'grab';
+    },
+    [isDrawing],
+  );
 
-  const handleDrawComplete = useCallback((geojson) => {
-    setDataDrawing(geojson);
-  }, [setDataDrawing]);
+  const handleDrawComplete = useCallback(
+    (geojson) => {
+      setDataDrawing(geojson);
+    },
+    [setDataDrawing],
+  );
 
-  const handleDrawEscapeKey = useCallback(() => { stopDrawing(); }, [stopDrawing]);
+  const handleDrawEscapeKey = useCallback(() => {
+    stopDrawing();
+  }, [stopDrawing]);
 
   const { loading, layer } = mapState;
   const { pitch, bearing } = viewport;
@@ -297,19 +355,17 @@ const ExploreMap = (props) => {
           geostore: geostoreId,
           public: isPublicArea,
           userId: areaUserId,
-        } = await fetchArea(aoi, {}, {
-          Authorization: token,
-        });
+        } = await fetchArea(
+          aoi,
+          {},
+          {
+            Authorization: token,
+          },
+        );
 
-        if (!isPublicArea
-          && (areaUserId !== userId)
-        ) throw new Error('This area is private.');
+        if (!isPublicArea && areaUserId !== userId) throw new Error('This area is private.');
 
-        const {
-          id,
-          geojson,
-          bbox,
-        } = await fetchGeostore(geostoreId);
+        const { id, geojson, bbox } = await fetchGeostore(geostoreId);
 
         const aoiLayer = getUserAreaLayer(
           {
@@ -336,11 +392,7 @@ const ExploreMap = (props) => {
     };
 
     const fetchPreviewAoI = async () => {
-      const {
-        id,
-        geojson,
-        bbox,
-      } = await fetchGeostore(previewAoi);
+      const { id, geojson, bbox } = await fetchGeostore(previewAoi);
       const aoiLayer = getUserAreaLayer(
         {
           id,
@@ -391,7 +443,7 @@ const ExploreMap = (props) => {
         .some((l) => !!l) && <Spinner isLoading />}
 
       <Map
-        {...!isDrawing && { onClick: onClickLayer }}
+        {...(!isDrawing && { onClick: onClickLayer })}
         interactiveLayerIds={activeInteractiveLayers}
         mapStyle={MAPSTYLES}
         viewport={viewport}
@@ -405,10 +457,7 @@ const ExploreMap = (props) => {
       >
         {(_map) => (
           <>
-            <LayerManager
-              map={_map}
-              layers={displayedLayers}
-            />
+            <LayerManager map={_map} layers={displayedLayers} />
 
             <Drawer
               map={_map}
@@ -417,7 +466,7 @@ const ExploreMap = (props) => {
               onDrawComplete={handleDrawComplete}
             />
 
-            {(!isEmpty(layerGroupsInteractionLatLng) && activeLayers.length && !isDrawing) && (
+            {!isEmpty(layerGroupsInteractionLatLng) && activeLayers.length && !isDrawing && (
               <Popup
                 {...layerGroupsInteractionLatLng}
                 closeButton
@@ -450,10 +499,7 @@ const ExploreMap = (props) => {
       </Map>
 
       <MapControls>
-        <ZoomControls
-          viewport={viewport}
-          onClick={handleZoom}
-        />
+        <ZoomControls viewport={viewport} onClick={handleZoom} />
         <ShareControls />
         <BasemapControls
           basemap={basemap}
@@ -464,17 +510,11 @@ const ExploreMap = (props) => {
           onChangeBoundaries={handleBoundaries}
         />
         <SearchControls onSelectLocation={handleSearch} />
-        <ResetViewControls
-          className={resetViewBtnClass}
-          onResetView={handleResetView}
-        />
+        <ResetViewControls className={resetViewBtnClass} onResetView={handleResetView} />
       </MapControls>
 
       <div className="c-legend-map">
-        <Legend
-          maxHeight={embed ? 100 : 300}
-          onChangeOrder={onChangeOrder}
-        >
+        <Legend maxHeight={embed ? 100 : 300} onChangeOrder={onChangeOrder}>
           {layerGroups.map((lg, i) => (
             <LegendListItem
               index={i}
@@ -504,7 +544,7 @@ const ExploreMap = (props) => {
                 customClass="rw-legend-timeline"
                 defaultStyles={LEGEND_TIMELINE_PROPERTIES}
                 dots={false}
-                {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
+                {...(lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } })}
               />
               {/* Temporary: only show old timeline approach if there's no occurrence of
                 new timelineParams config
@@ -514,7 +554,7 @@ const ExploreMap = (props) => {
                   onChangeLayer={onChangeLayerTimeLine}
                   customClass="rw-legend-timeline"
                   {...LEGEND_TIMELINE_PROPERTIES}
-                  {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
+                  {...(lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } })}
                 />
               )}
             </LegendListItem>
@@ -522,11 +562,7 @@ const ExploreMap = (props) => {
         </Legend>
       </div>
       {!!layer && embed && (
-        <Modal
-          isOpen={!!layer}
-          className="-medium"
-          onRequestClose={() => onChangeInfo(null)}
-        >
+        <Modal isOpen={!!layer} className="-medium" onRequestClose={() => onChangeInfo(null)}>
           <LayerInfoModal layer={layer} />
         </Modal>
       )}
@@ -563,21 +599,15 @@ ExploreMap.propTypes = {
     value: PropTypes.string.isRequired,
   }).isRequired,
   boundaries: PropTypes.bool.isRequired,
-  activeLayers: PropTypes.arrayOf(
-    PropTypes.shape({}),
-  ).isRequired,
-  layerGroups: PropTypes.arrayOf(
-    PropTypes.shape({}),
-  ).isRequired,
+  activeLayers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  layerGroups: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   layerGroupsInteraction: PropTypes.shape({}).isRequired,
   layerGroupsInteractionSelected: PropTypes.string,
   layerGroupsInteractionLatLng: PropTypes.shape({
     latitude: PropTypes.number,
     longitude: PropTypes.number,
   }),
-  activeInteractiveLayers: PropTypes.arrayOf(
-    PropTypes.string,
-  ).isRequired,
+  activeInteractiveLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   setViewport: PropTypes.func.isRequired,
   setBounds: PropTypes.func.isRequired,
   setBasemap: PropTypes.func.isRequired,
