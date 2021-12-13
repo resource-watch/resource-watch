@@ -62,16 +62,17 @@ COPY cypress ./cypress
 # Copy single files
 COPY .babelrc .
 COPY .browserlistrc .
-COPY package.json .
-COPY yarn.lock .
-COPY tailwind.config.js .
-COPY index.js .
-COPY next.config.js .
-COPY next-sitemap.js .
-COPY postcss.config.js .
-COPY jsconfig.json .
 COPY .env.test .
 COPY .env.production .
+COPY yarn.lock .
+COPY index.js .
+COPY next-env.d.ts .
+COPY next-sitemap.js .
+COPY next.config.js .
+COPY package.json .
+COPY postcss.config.js .
+COPY tailwind.config.js .
+COPY tsconfig.json .
 
 RUN yarn install --frozen-lockfile --production=false
 
