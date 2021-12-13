@@ -15,21 +15,6 @@ module.exports = withBundleAnalyzer({
     // prevents compilation process to fail due to eslint warnings/errors.
     // todo: fix eslint errors/warnings slowly until we ensure we can remove this option.
     ignoreDuringBuilds: true,
-    dirs: [
-      'components',
-      'constants',
-      'hoc',
-      'hooks',
-      'lib',
-      'modules',
-      'pages',
-      'redactions',
-      'scripts',
-      'selectors',
-      'services',
-      'types',
-      'utils'
-    ],
   },
 
   async redirects() {

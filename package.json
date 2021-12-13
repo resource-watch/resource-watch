@@ -154,7 +154,6 @@
     "build:test": "cross-env NODE_ENV=test NODE_OPTIONS=--max_old_space_size=4096 next build",
     "start": "cross-env node index.js",
     "lint": "next lint && yarn check-types",
-    "lint-staged": "lint-staged",
     "check-types": "tsc --noEmit -p tsconfig.json",
     "prettier": "prettier --config .prettierrc.json --check --write \"**/*.{tsx,jsx,ts,js}\"",
     "analyze": "cross-env ANALYZE=true yarn build",
