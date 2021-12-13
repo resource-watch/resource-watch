@@ -1,4 +1,5 @@
 import isNumber from 'lodash/isNumber';
+import { ViewportProps } from 'react-map-gl';
 
 export const MAPSTYLES = 'mapbox://styles/resourcewatch/cjzmw480d00z41cp2x81gm90h';
 
@@ -7,31 +8,46 @@ export const BASEMAPS = {
     id: 'dark',
     value: 'dark',
     label: 'Dark',
-    options: { attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>' },
+    options: {
+      attribution:
+        '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
+    },
   },
   light: {
     id: 'light',
     value: 'light',
     label: 'Light',
-    options: { attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>' },
+    options: {
+      attribution:
+        '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
+    },
   },
   satellite: {
     id: 'satellite',
     value: 'satellite',
     label: 'Satellite',
-    options: { attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>' },
+    options: {
+      attribution:
+        '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
+    },
   },
   terrain: {
     id: 'terrain',
     value: 'terrain',
     label: 'Terrain',
-    options: { attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>' },
+    options: {
+      attribution:
+        '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
+    },
   },
   aqueduct: {
     id: 'aqueduct',
     value: 'aqueduct',
     label: 'Hydrography',
-    options: { attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>' },
+    options: {
+      attribution:
+        '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a>',
+    },
   },
 };
 
@@ -61,7 +77,7 @@ export const BOUNDARIES = {
   },
 };
 
-export const DEFAULT_VIEWPORT = {
+export const DEFAULT_VIEWPORT: ViewportProps = {
   zoom: 2,
   latitude: 0,
   longitude: 0,
@@ -84,16 +100,12 @@ export const USER_AREA_LAYER_TEMPLATES = {
             source: id,
             paint: {
               'line-color': 'hsl(40, 95%, 58%)',
-              ...!minZoom && {
+              ...(!minZoom && {
                 'line-width': 2,
-              },
-              ...isNumber(minZoom) && {
-                'line-width': [
-                  'interpolate', ['linear'], ['zoom'],
-                  minZoom, 2,
-                  (minZoom + 2), 0,
-                ],
-              },
+              }),
+              ...(isNumber(minZoom) && {
+                'line-width': ['interpolate', ['linear'], ['zoom'], minZoom, 2, minZoom + 2, 0],
+              }),
               'line-offset': -2,
             },
           },
@@ -101,16 +113,12 @@ export const USER_AREA_LAYER_TEMPLATES = {
             type: 'line',
             source: id,
             paint: {
-              ...!minZoom && {
+              ...(!minZoom && {
                 'line-width': 2,
-              },
-              ...isNumber(minZoom) && {
-                'line-width': [
-                  'interpolate', ['linear'], ['zoom'],
-                  minZoom, 2,
-                  (minZoom + 2), 0,
-                ],
-              },
+              }),
+              ...(isNumber(minZoom) && {
+                'line-width': ['interpolate', ['linear'], ['zoom'], minZoom, 2, minZoom + 2, 0],
+              }),
             },
           },
         ],

@@ -28,12 +28,10 @@ const WidgetBlockEdition = (props) => {
   const { search, tab, page } = state;
   const { page: initialPage } = initialState;
   const { user, onSubmit } = props;
-  const [debouncedSearch] = useDebouncedCallback(
-    (searchTerm) => {
-      dispatch(setPage(initialPage));
-      dispatch(setSearch(searchTerm));
-    }, 250,
-  );
+  const debouncedSearch = useDebouncedCallback((searchTerm) => {
+    dispatch(setPage(initialPage));
+    dispatch(setSearch(searchTerm));
+  }, 250);
 
   useEffect(() => {
     fetchWidgets(
@@ -76,7 +74,9 @@ const WidgetBlockEdition = (props) => {
       onChangePage={(newPage) => {
         dispatch(setPage(newPage));
       }}
-      onChangeSearch={(searchTerm) => { debouncedSearch(searchTerm); }}
+      onChangeSearch={(searchTerm) => {
+        debouncedSearch(searchTerm);
+      }}
       {...props}
     />
   );
@@ -90,7 +90,4 @@ WidgetBlockEdition.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default connect(
-  (state) => ({ user: state.user }),
-  null,
-)(WidgetBlockEdition);
+export default connect((state) => ({ user: state.user }), null)(WidgetBlockEdition);

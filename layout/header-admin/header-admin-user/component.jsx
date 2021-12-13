@@ -1,6 +1,4 @@
-import {
-  useState,
-} from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import Tether from 'react-tether';
@@ -8,17 +6,13 @@ import { useDebouncedCallback } from 'use-debounce';
 import { signOut } from 'next-auth/client';
 
 // hooks
-import {
-  useMe,
-} from 'hooks/user';
+import { useMe } from 'hooks/user';
 
 // components
 import Icon from 'components/ui/icon';
 
 const AdminHeaderUser = () => {
-  const {
-    data: user,
-  } = useMe();
+  const { data: user } = useMe();
   const [isVisible, setVisibility] = useState(false);
 
   const logout = (e) => {
@@ -26,20 +20,22 @@ const AdminHeaderUser = () => {
     signOut();
   };
 
-  const [toggleDropdown] = useDebouncedCallback((_isVisible) => {
+  const toggleDropdown = useDebouncedCallback((_isVisible) => {
     setVisibility(_isVisible);
   }, 50);
 
   if (user) {
-    const photo = (user.photo) ? `url(${user.photo})` : 'none';
+    const photo = user.photo ? `url(${user.photo})` : 'none';
 
     return (
       <div className="c-avatar" style={{ backgroundImage: photo }}>
         <Tether
           attachment="top center"
-          constraints={[{
-            to: 'window',
-          }]}
+          constraints={[
+            {
+              to: 'window',
+            },
+          ]}
           classes={{ element: 'c-header-dropdown' }}
           renderTarget={(ref) => (
             <Link href="/myrw">
@@ -48,10 +44,8 @@ const AdminHeaderUser = () => {
                 onMouseEnter={() => toggleDropdown(true)}
                 onMouseLeave={() => toggleDropdown(false)}
               >
-                {(!user.photo && user.email) && (
-                  <span className="avatar-letter">
-                    {user.email.split('')[0]}
-                  </span>
+                {!user.photo && user.email && (
+                  <span className="avatar-letter">{user.email.split('')[0]}</span>
                 )}
               </a>
             </Link>
@@ -79,7 +73,9 @@ const AdminHeaderUser = () => {
                   </li>
                 )}
                 <li className="header-dropdown-list-item">
-                  <a onClick={logout} href="/logout">Logout</a>
+                  <a onClick={logout} href="/logout">
+                    Logout
+                  </a>
                 </li>
               </ul>
             );
@@ -93,9 +89,11 @@ const AdminHeaderUser = () => {
     return (
       <Tether
         attachment="top center"
-        constraints={[{
-          to: 'window',
-        }]}
+        constraints={[
+          {
+            to: 'window',
+          },
+        ]}
         classes={{ element: 'c-header-dropdown' }}
         renderTarget={(ref) => (
           <span
@@ -117,19 +115,13 @@ const AdminHeaderUser = () => {
               onMouseLeave={() => toggleDropdown(false)}
             >
               <li className="header-dropdown-list-item">
-                <a href="/auth/facebook">
-                  Facebook
-                </a>
+                <a href="/auth/facebook">Facebook</a>
               </li>
               <li className="header-dropdown-list-item">
-                <a href="/auth/google">
-                  Google
-                </a>
+                <a href="/auth/google">Google</a>
               </li>
               <li className="header-dropdown-list-item">
-                <a href="/auth/twitter">
-                  Twitter
-                </a>
+                <a href="/auth/twitter">Twitter</a>
               </li>
             </ul>
           );

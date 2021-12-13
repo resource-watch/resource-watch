@@ -1,11 +1,4 @@
-import {
-  useState,
-  useCallback,
-  useReducer,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import { useState, useCallback, useReducer, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import compact from 'lodash/compact';
 import isEmpty from 'lodash/isEmpty';
@@ -14,39 +7,24 @@ import { useDebouncedCallback } from 'use-debounce';
 import { v4 as uuidv4 } from 'uuid';
 
 // hooks
-import {
-  useGeostore,
-} from 'hooks/geostore';
+import { useGeostore } from 'hooks/geostore';
 
 // constants
-import {
-  USER_AREA_LAYER_TEMPLATES,
-} from 'components/map/constants';
+import { USER_AREA_LAYER_TEMPLATES } from 'components/map/constants';
 
 // services
-import {
-  fetchLayer,
-} from 'services/layer';
+import { fetchLayer } from 'services/layer';
 
 // utils
-import {
-  getUserAreaLayer,
-} from 'components/map/utils';
-import {
-  getLayerGroups,
-} from 'utils/layers';
-import {
-  logEvent,
-} from 'utils/analytics';
+import { getUserAreaLayer } from 'components/map/utils';
+import { getLayerGroups } from 'utils/layers';
+import { logEvent } from 'utils/analytics';
 
 // components
 import MiniExploreMap from 'components/mini-explore/map/component';
 
 // reducers
-import {
-  initialState,
-  mapSlice,
-} from './reducer';
+import { initialState, mapSlice } from './reducer';
 
 const {
   setViewport,
@@ -97,118 +75,174 @@ export default function MiniExploreMapContainer({
     layerGroupsInteractionLatLng,
   } = mapState;
 
-  const [onChangeOpacity] = useDebouncedCallback((l, opacity) => {
+  const onChangeOpacity = useDebouncedCallback((l, opacity) => {
     dispatch(setMapLayerGroupOpacity({ dataset: { id: l.dataset }, opacity }));
   }, 250);
 
-  const onChangeVisibility = useCallback((l, visibility) => {
-    dispatch(setMapLayerGroupVisibility({
-      dataset: { id: l.dataset },
-      visibility,
-    }));
-  }, [dispatch]);
+  const onChangeVisibility = useCallback(
+    (l, visibility) => {
+      dispatch(
+        setMapLayerGroupVisibility({
+          dataset: { id: l.dataset },
+          visibility,
+        }),
+      );
+    },
+    [dispatch],
+  );
 
-  const onChangeLayer = useCallback((l) => {
-    dispatch(resetLayerParametrization());
+  const onChangeLayer = useCallback(
+    (l) => {
+      dispatch(resetLayerParametrization());
 
-    dispatch(setMapLayerGroupActive({
-      dataset: { id: l.dataset },
-      active: l.id,
-    }));
+      dispatch(
+        setMapLayerGroupActive({
+          dataset: { id: l.dataset },
+          active: l.id,
+        }),
+      );
 
-    logEvent('Mini Explore Map', 'Clicks Another Layer from Map Legend Tooltip',
-      `${l.name} [${l.id}]`);
-  }, [dispatch]);
+      logEvent(
+        'Mini Explore Map',
+        'Clicks Another Layer from Map Legend Tooltip',
+        `${l.name} [${l.id}]`,
+      );
+    },
+    [dispatch],
+  );
 
-  const onRemoveLayer = useCallback((l) => {
-    dispatch(toggleMapLayerGroup({
-      dataset: { id: l.dataset },
-      toggle: false,
-    }));
+  const onRemoveLayer = useCallback(
+    (l) => {
+      dispatch(
+        toggleMapLayerGroup({
+          dataset: { id: l.dataset },
+          toggle: false,
+        }),
+      );
 
-    removeLayerParametrization(l.id);
-  }, [dispatch]);
+      removeLayerParametrization(l.id);
+    },
+    [dispatch],
+  );
 
-  const onChangeOrder = useCallback((datasetIds) => {
-    dispatch(setMapLayerGroupsOrder({ datasetIds }));
-  }, [dispatch]);
+  const onChangeOrder = useCallback(
+    (datasetIds) => {
+      dispatch(setMapLayerGroupsOrder({ datasetIds }));
+    },
+    [dispatch],
+  );
 
-  const onChangeLayerDate = useCallback((dates, layer) => {
-    const { id, layerConfig: { decode_config: decodeConfig } } = layer;
+  const onChangeLayerDate = useCallback(
+    (dates, layer) => {
+      const {
+        id,
+        layerConfig: { decode_config: decodeConfig },
+      } = layer;
 
-    dispatch(setMapLayerParametrization({
-      id,
-      nextConfig: {
-        ...decodeConfig && {
-          decodeParams: {
-            startDate: dates[0],
-            endDate: dates[1],
+      dispatch(
+        setMapLayerParametrization({
+          id,
+          nextConfig: {
+            ...(decodeConfig && {
+              decodeParams: {
+                startDate: dates[0],
+                endDate: dates[1],
+              },
+            }),
+            ...(!decodeConfig && {
+              params: {
+                startDate: dates[0],
+                endDate: dates[1],
+              },
+            }),
           },
-        },
-        ...!decodeConfig && {
-          params: {
-            startDate: dates[0],
-            endDate: dates[1],
+        }),
+      );
+    },
+    [dispatch],
+  );
+
+  const onChangeLayerTimeLine = useCallback(
+    (l) => {
+      dispatch(
+        setMapLayerGroupActive({
+          dataset: {
+            id: l.dataset,
           },
-        },
-      },
-    }));
-  }, [dispatch]);
+          active: l.id,
+        }),
+      );
+      logEvent(
+        'Mini Explore Map',
+        'Clicks Another Layer from Map Legend Timeline',
+        `${l.name} [${l.id}]`,
+      );
+    },
+    [dispatch],
+  );
 
-  const onChangeLayerTimeLine = useCallback((l) => {
-    dispatch(setMapLayerGroupActive({
-      dataset: {
-        id: l.dataset,
-      },
-      active: l.id,
-    }));
-    logEvent('Mini Explore Map', 'Clicks Another Layer from Map Legend Timeline',
-      `${l.name} [${l.id}]`);
-  }, [dispatch]);
-
-  const onChangeInteractiveLayer = useCallback((selected) => {
-    dispatch(setMapLayerGroupsInteractionSelected(selected));
-  }, [dispatch]);
+  const onChangeInteractiveLayer = useCallback(
+    (selected) => {
+      dispatch(setMapLayerGroupsInteractionSelected(selected));
+    },
+    [dispatch],
+  );
 
   const handleClosePopup = useCallback(() => {
     dispatch(resetMapLayerGroupsInteraction());
   }, [dispatch]);
 
-  const [handleViewport] = useDebouncedCallback((_viewport) => {
+  const handleViewport = useDebouncedCallback((_viewport) => {
     dispatch(setViewport(_viewport));
   }, 250);
 
-  const handleBoundaries = useCallback((_boundaries) => {
-    dispatch(setBoundaries(_boundaries));
-  }, [dispatch]);
+  const handleBoundaries = useCallback(
+    (_boundaries) => {
+      dispatch(setBoundaries(_boundaries));
+    },
+    [dispatch],
+  );
 
-  const handleZoom = useCallback((zoom) => {
-    dispatch(setViewport({
-      zoom,
-      // transitionDuration is always set to avoid mixing
-      // durations of other actions (like flying)
-      transitionDuration: 250,
-    }));
-  }, [dispatch]);
+  const handleZoom = useCallback(
+    (zoom) => {
+      dispatch(
+        setViewport({
+          zoom,
+          // transitionDuration is always set to avoid mixing
+          // durations of other actions (like flying)
+          transitionDuration: 250,
+        }),
+      );
+    },
+    [dispatch],
+  );
 
-  const handleBasemap = useCallback((_basemap) => {
-    const { id } = _basemap;
-    dispatch(setBasemap(id));
-  }, [dispatch]);
+  const handleBasemap = useCallback(
+    (_basemap) => {
+      const { id } = _basemap;
+      dispatch(setBasemap(id));
+    },
+    [dispatch],
+  );
 
   const handleResetView = useCallback(() => {
-    dispatch(setViewport({
-      bearing: 0,
-      pitch: 0,
-      // transitionDuration is always set to avoid mixing
-      // durations of other actions (like flying)
-      transitionDuration: 250,
-    }));
+    dispatch(
+      setViewport({
+        bearing: 0,
+        pitch: 0,
+        // transitionDuration is always set to avoid mixing
+        // durations of other actions (like flying)
+        transitionDuration: 250,
+      }),
+    );
   }, [dispatch]);
 
-  const handleLabels = useCallback(({ value }) => {
-    dispatch(setLabels(value));
-  }, [dispatch]);
+  const handleLabels = useCallback(
+    ({ value }) => {
+      dispatch(setLabels(value));
+    },
+    [dispatch],
+  );
 
   const handleMapCursor = useCallback(({ isHovering }) => {
     if (isHovering) return 'pointer';
@@ -220,29 +254,20 @@ export default function MiniExploreMapContainer({
   }, []);
 
   const handleFitBoundsChange = useCallback((_viewport) => {
-    const {
-      zoom,
-    } = _viewport;
+    const { zoom } = _viewport;
 
     setMinZoom(zoom);
   }, []);
 
-  const [handleHover] = useDebouncedCallback((evt) => {
+  const handleHover = useDebouncedCallback((evt) => {
     if (hoverState) {
-      mapRef.current.setFeatureState(
-        hoverState,
-        {
-          hover: false,
-        },
-      );
+      mapRef.current.setFeatureState(hoverState, {
+        hover: false,
+      });
     }
 
     if (evt.features.length > 0) {
-      const {
-        source,
-        sourceLayer,
-        properties,
-      } = evt.features[0];
+      const { source, sourceLayer, properties } = evt.features[0];
 
       if (!properties.cartodb_id) return false;
 
@@ -253,12 +278,9 @@ export default function MiniExploreMapContainer({
       };
 
       if (properties.cartodb_id) {
-        mapRef.current.setFeatureState(
-          hoverState,
-          {
-            hover: true,
-          },
-        );
+        mapRef.current.setFeatureState(hoverState, {
+          hover: true,
+        });
       }
     }
     return true;
@@ -280,9 +302,7 @@ export default function MiniExploreMapContainer({
     });
   }, [layerIds, params]);
 
-  const {
-    data: geostore,
-  } = useGeostore(
+  const { data: geostore } = useGeostore(
     areaOfInterest,
     {},
     {
@@ -294,9 +314,7 @@ export default function MiniExploreMapContainer({
   useEffect(() => {
     if (!geostore) return false;
 
-    const {
-      bbox,
-    } = geostore;
+    const { bbox } = geostore;
 
     const customBbox = {
       // USA
@@ -305,12 +323,14 @@ export default function MiniExploreMapContainer({
       '8c15c2cae46439129549856f12e81fde': [-332.929688, 42.032974, -162.949219, 77.617709],
     };
 
-    dispatch(setBounds({
-      bbox: customBbox[geostore.id] || bbox,
-      options: {
-        padding: 50,
-      },
-    }));
+    dispatch(
+      setBounds({
+        bbox: customBbox[geostore.id] || bbox,
+        options: {
+          padding: 50,
+        },
+      }),
+    );
 
     return true;
   }, [geostore, dispatch]);
@@ -320,10 +340,7 @@ export default function MiniExploreMapContainer({
     let maskLayer = null;
 
     if (geostore) {
-      const {
-        id,
-        geojson,
-      } = geostore;
+      const { id, geojson } = geostore;
 
       aoiLayer = getUserAreaLayer(
         {
@@ -350,40 +367,49 @@ export default function MiniExploreMapContainer({
       };
     }
 
-    const activeLayerGroups = layerGroups.filter(
-      (lg) => lg.layers.length > 0,
-    ).map((lg) => ({
-      ...lg.layers.find((l) => l.active),
-    }));
+    const activeLayerGroups = layerGroups
+      .filter((lg) => lg.layers.length > 0)
+      .map((lg) => ({
+        ...lg.layers.find((l) => l.active),
+      }));
 
     return [
-      ...(aoiLayer !== null) ? [aoiLayer] : [],
-      ...(maskLayer !== null) ? [maskLayer] : [],
+      ...(aoiLayer !== null ? [aoiLayer] : []),
+      ...(maskLayer !== null ? [maskLayer] : []),
       ...activeLayerGroups,
     ];
-  },
-  [layerGroups, geostore, mask, params, minZoom]);
+  }, [layerGroups, geostore, mask, params, minZoom]);
 
-  const activeInteractiveLayers = useMemo(() => flatten(
-    compact(activeLayers.map((_activeLayer) => {
-      const { layerConfig } = _activeLayer;
-      if (isEmpty(layerConfig)) return null;
+  const activeInteractiveLayers = useMemo(
+    () =>
+      flatten(
+        compact(
+          activeLayers.map((_activeLayer) => {
+            const { layerConfig } = _activeLayer;
+            if (isEmpty(layerConfig)) return null;
 
-      const { body = {} } = layerConfig;
-      const { vectorLayers } = body;
+            const { body = {} } = layerConfig;
+            const { vectorLayers } = body;
 
-      if (vectorLayers) {
-        return vectorLayers.filter(({ id: vectorLayerId }) => Boolean(vectorLayerId))
-          .map(({ id: vectorLayerId }) => vectorLayerId);
-      }
+            if (vectorLayers) {
+              return vectorLayers
+                .filter(({ id: vectorLayerId }) => Boolean(vectorLayerId))
+                .map(({ id: vectorLayerId }) => vectorLayerId);
+            }
 
-      return null;
-    })),
-  ), [activeLayers]);
+            return null;
+          }),
+        ),
+      ),
+    [activeLayers],
+  );
 
-  const handleClickLayer = useCallback((stuff) => {
-    if (onClickLayer) onClickLayer(stuff, mapRef.current);
-  }, [mapRef, onClickLayer]);
+  const handleClickLayer = useCallback(
+    (stuff) => {
+      if (onClickLayer) onClickLayer(stuff, mapRef.current);
+    },
+    [mapRef, onClickLayer],
+  );
 
   return (
     <MiniExploreMap
@@ -423,7 +449,9 @@ export default function MiniExploreMapContainer({
       onChangeOpacity={onChangeOpacity}
       handleFitBoundsChange={handleFitBoundsChange}
       onHover={handleHover}
-      onLoad={({ map }) => { mapRef.current = map; }}
+      onLoad={({ map }) => {
+        mapRef.current = map;
+      }}
     />
   );
 }
@@ -435,9 +463,7 @@ MiniExploreMapContainer.defaultProps = {
 };
 
 MiniExploreMapContainer.propTypes = {
-  layerIds: PropTypes.arrayOf(
-    PropTypes.string.isRequired,
-  ).isRequired,
+  layerIds: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   areaOfInterest: PropTypes.string,
   mask: PropTypes.shape({}),
   params: PropTypes.shape({}),
