@@ -1,10 +1,4 @@
-import {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  useMemo,
-} from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Link from 'next/link';
@@ -29,21 +23,12 @@ import useCountryList from 'hooks/country/country-list';
 import { fetchGeostore } from 'services/geostore';
 
 // utils
-import {
-  getUserAreaLayer,
-} from 'components/map/utils';
+import { getUserAreaLayer } from 'components/map/utils';
 
 // constants
-import {
-  DEFAULT_VIEWPORT,
-  MAPSTYLES,
-  USER_AREA_LAYER_TEMPLATES,
-} from 'components/map/constants';
+import { DEFAULT_VIEWPORT, MAPSTYLES, USER_AREA_LAYER_TEMPLATES } from 'components/map/constants';
 
-const AreasForm = ({
-  area,
-  onSubmit,
-}) => {
+const AreasForm = ({ area, onSubmit }) => {
   const drawer = useRef(null);
   const [mapState, setMapState] = useState({
     viewport: DEFAULT_VIEWPORT,
@@ -57,15 +42,16 @@ const AreasForm = ({
     geojson: null,
   });
   const [previewAoi, setPreviewAoi] = useState(null);
-  const {
-    data: countries,
-  } = useCountryList();
+  const { data: countries } = useCountryList();
 
-  const handleSubmit = useCallback((evt) => {
-    evt.preventDefault();
+  const handleSubmit = useCallback(
+    (evt) => {
+      evt.preventDefault();
 
-    onSubmit(form);
-  }, [form, onSubmit]);
+      onSubmit(form);
+    },
+    [form, onSubmit],
+  );
 
   const onChangeSelectedArea = useCallback((value) => {
     if (typeof value === 'undefined') {
@@ -109,7 +95,7 @@ const AreasForm = ({
     }));
   }, []);
 
-  const [handleViewport] = useDebouncedCallback((viewport) => {
+  const handleViewport = useDebouncedCallback((viewport) => {
     setMapState((prevMapState) => ({
       ...prevMapState,
       viewport,
@@ -126,17 +112,22 @@ const AreasForm = ({
     }));
   }, []);
 
-  const handleMapCursor = useCallback(({ isHovering, isDragging }) => {
-    const { isDrawing } = mapState;
+  const handleMapCursor = useCallback(
+    ({ isHovering, isDragging }) => {
+      const { isDrawing } = mapState;
 
-    if (isDrawing && isDragging) return 'grabbing';
-    if (isDrawing) return 'crosshair';
-    if (isHovering) return 'pointer';
+      if (isDrawing && isDragging) return 'grabbing';
+      if (isDrawing) return 'crosshair';
+      if (isHovering) return 'pointer';
 
-    return 'grab';
-  }, [mapState]);
+      return 'grab';
+    },
+    [mapState],
+  );
 
-  const handleDrawerReady = useCallback((ref) => { drawer.current = ref; }, []);
+  const handleDrawerReady = useCallback((ref) => {
+    drawer.current = ref;
+  }, []);
 
   const handleDrawerEscapeKey = useCallback(() => {
     setMapState((prevMapState) => ({
@@ -178,11 +169,7 @@ const AreasForm = ({
 
   const fetchAoiPreview = useCallback(async (_previewAoi) => {
     if (!_previewAoi) return false;
-    const {
-      id,
-      geojson,
-      bbox,
-    } = await fetchGeostore(_previewAoi);
+    const { id, geojson, bbox } = await fetchGeostore(_previewAoi);
 
     setMapState((prevMapState) => ({
       ...prevMapState,
@@ -212,13 +199,16 @@ const AreasForm = ({
 
   const mapClass = classnames({ 'no-pointer-events': mapState.isDrawing });
 
-  const countryOptions = useMemo(() => countries
-    .filter(({ name }) => !!name)
-    .map(({ name, geostoreId }) => ({
-      label: name,
-      value: geostoreId,
-    })),
-  [countries]);
+  const countryOptions = useMemo(
+    () =>
+      countries
+        .filter(({ name }) => !!name)
+        .map(({ name, geostoreId }) => ({
+          label: name,
+          value: geostoreId,
+        })),
+    [countries],
+  );
 
   useEffect(() => {
     fetchAoiPreview(previewAoi);
@@ -226,10 +216,7 @@ const AreasForm = ({
 
   return (
     <div className="c-areas-form">
-      <form
-        className="c-form"
-        onSubmit={handleSubmit}
-      >
+      <form className="c-form" onSubmit={handleSubmit}>
         <fieldset className="c-field-container">
           <Field
             onChange={handleNameChange}
@@ -259,13 +246,13 @@ const AreasForm = ({
           />
         </div>
 
-        {(form.geostore && form.geoCountrySelected) && (
+        {form.geostore && form.geoCountrySelected && (
           <span className="c-field__helpMessage">
             If you want to draw/upload a custom area, remove the selected area above.
           </span>
         )}
 
-        {(!form.geostore || !form.geoCountrySelected) && (!area) && (
+        {(!form.geostore || !form.geoCountrySelected) && !area && (
           <div className="c-field">
             <p>Draw Area</p>
             <div className="c-field__map--container">
@@ -280,10 +267,7 @@ const AreasForm = ({
               >
                 {(_map) => (
                   <>
-                    <LayerManager
-                      map={_map}
-                      layers={mapState.layers}
-                    />
+                    <LayerManager map={_map} layers={mapState.layers} />
                     <Drawer
                       map={_map}
                       drawing={mapState.isDrawing}
@@ -295,10 +279,7 @@ const AreasForm = ({
                 )}
               </Map>
               <MapControls>
-                <ZoomControls
-                  viewport={mapState.viewport}
-                  onClick={handleZoom}
-                />
+                <ZoomControls viewport={mapState.viewport} onClick={handleZoom} />
                 <DrawPolygonControls
                   drawing={mapState.isDrawing}
                   onDrawPolygon={handleDrawPolygon}
@@ -317,22 +298,14 @@ const AreasForm = ({
         <div className="c-button-container -full-width -j-end">
           <ul>
             <li>
-              <Link
-                href="/myrw/areas"
-              >
-                <button
-                  type="button"
-                  className="c-btn -secondary"
-                >
+              <Link href="/myrw/areas">
+                <button type="button" className="c-btn -secondary">
                   Cancel
                 </button>
               </Link>
             </li>
             <li>
-              <button
-                type="submit"
-                className="c-btn -primary"
-              >
+              <button type="submit" className="c-btn -primary">
                 Submit
               </button>
             </li>

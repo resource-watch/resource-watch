@@ -1,6 +1,4 @@
-import React, {
-  useState,
-} from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import { useDebouncedCallback } from 'use-debounce';
@@ -9,20 +7,20 @@ import Tether from 'react-tether';
 // utils
 import { logEvent } from 'utils/analytics';
 
-const HeaderData = ({
-  children,
-}) => {
+const HeaderData = ({ children }) => {
   const [isVisible, setVisibility] = useState(false);
-  const [toggleDropdown] = useDebouncedCallback((_isVisible) => {
+  const toggleDropdown = useDebouncedCallback((_isVisible) => {
     setVisibility(_isVisible);
   }, 50);
 
   return (
     <Tether
       attachment="top center"
-      constraints={[{
-        to: 'window',
-      }]}
+      constraints={[
+        {
+          to: 'window',
+        },
+      ]}
       classes={{ element: 'c-header-dropdown' }}
       renderTarget={(ref) => (
         <Link href="/data/explore">
