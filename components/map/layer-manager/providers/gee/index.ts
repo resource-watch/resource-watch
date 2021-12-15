@@ -30,7 +30,6 @@ class GeeProviderMaker implements ProviderMaker {
       const result = {
         ...layer,
         source: {
-          ...layer.source,
           ...omit(layer.source, 'provider'),
           tiles: [this.getTilerUrl(layer)],
         } as Source,
