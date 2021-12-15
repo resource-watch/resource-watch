@@ -5,7 +5,7 @@ import { APILayerSpec } from 'types/layer';
 
 const layers: APILayerSpec[] = [
   {
-    id: '87465472-4de8-4565-bf26-0536742908cc',
+    id: 'b68b2532-0c3c-4285-8d59-327f2091d4d3',
     type: 'raster',
     name: 'December 12, 2021 00:00 CT O₃ Concentration (ppb)',
     slug: 'December-12-2021-0000-CT-O-Concentration-ppb_2',
@@ -14,7 +14,7 @@ const layers: APILayerSpec[] = [
       'Air quality forecast for ozone (O₃) concentrations at Earth’s surface on indicated date, expressed in parts per billion (ppb).',
     application: ['rw'],
     iso: [],
-    provider: 'gee',
+    provider: 'wms',
     userId: '57a0aa1071e394dd32ffe137',
     default: false,
     protected: false,
@@ -38,14 +38,20 @@ const layers: APILayerSpec[] = [
       },
       source: {
         provider: {
-          type: 'deck-decode',
+          type: 'wms',
           options: {
-            decoder: 'biomass-loss',
+            layers: ['GEBCO_2019_Grid_2'],
+            format: 'image/png',
+            width: 256,
+            height: 256,
+            transparent: true,
+            srs: 'EPSG:3857',
+            version: '1.1.0',
           },
         },
         parse: false,
         type: 'raster',
-        tiles: [],
+        tiles: ['https://www.gebco.net/data_and_products/gebco_web_services/2019/mapserv'],
         minzoom: 3,
         maxzoom: 12,
       },
