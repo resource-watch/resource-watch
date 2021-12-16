@@ -6,7 +6,7 @@ import { APILayerSpec } from 'types/layer';
 const layers: APILayerSpec[] = [
   {
     id: 'b68b2532-0c3c-4285-8d59-327f2091d4d3',
-    type: 'raster',
+    type: 'geojson',
     name: 'December 12, 2021 00:00 CT O₃ Concentration (ppb)',
     slug: 'December-12-2021-0000-CT-O-Concentration-ppb_2',
     dataset: '00d6bae1-e105-4165-8230-ee73a8128538',
@@ -38,21 +38,14 @@ const layers: APILayerSpec[] = [
       },
       source: {
         provider: {
-          type: 'wms',
+          type: 'feature-service',
           options: {
-            layers: ['GEBCO_2019_Grid_2'],
-            format: 'image/png',
-            width: 256,
-            height: 256,
-            transparent: true,
-            srs: 'EPSG:3857',
-            version: '1.1.0',
+            tiler:
+              'https://gis-gfw.wri.org/arcgis/rest/services/country_data/south_america/MapServer/9',
           },
         },
         parse: false,
-        type: 'raster',
-        tiles: ['https://www.gebco.net/data_and_products/gebco_web_services/2019/mapserv'],
-        minzoom: 3,
+        type: 'geojson',
         maxzoom: 12,
       },
     },
