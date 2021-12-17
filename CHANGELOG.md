@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `tailwindcss` framework.
 
 ### Changed
+- updates standalone Area of Interest layer specs to match new layer specification. [RW-99](https://vizzuality.atlassian.net/browse/RW-99)[RW-97](https://vizzuality.atlassian.net/browse/RW-97)[RW-102](https://vizzuality.atlassian.net/browse/RW-102)
+- makes map's `onMapViewportChange` function optional.	
 - `webpack 5` and `next@12`
 - improved styles for widget captions. [OW-164](https://vizzuality.atlassian.net/browse/OW-164)
 
