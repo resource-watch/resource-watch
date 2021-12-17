@@ -48,7 +48,7 @@ export interface MapProps extends InteractiveMapProps {
   onMapLoad?: ({ map, mapContainer }) => void;
 
   /** A function that exposes the viewport */
-  onMapViewportChange: (viewport: Partial<ViewportProps>) => void;
+  onMapViewportChange?: (viewport: Partial<ViewportProps>) => void;
 }
 
 export const Map = ({
@@ -90,7 +90,7 @@ export const Map = ({
   }, [onMapLoad]);
 
   const debouncedOnMapViewportChange = useDebouncedCallback((v) => {
-    onMapViewportChange(v);
+    if (onMapViewportChange) onMapViewportChange(v);
   }, 250);
 
   const handleViewportChange = useCallback(

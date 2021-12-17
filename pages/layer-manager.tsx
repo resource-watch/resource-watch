@@ -48,6 +48,16 @@ const layers: APILayerSpec[] = [
         type: 'geojson',
         maxzoom: 12,
       },
+      render: {
+        layers: [
+          {
+            type: 'fill',
+            paint: {
+              'fill-color': '#F00',
+            },
+          },
+        ],
+      },
     },
     legendConfig: {
       items: [

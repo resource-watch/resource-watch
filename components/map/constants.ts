@@ -1,5 +1,6 @@
 import isNumber from 'lodash/isNumber';
 import { ViewportProps } from 'react-map-gl';
+import { APILayerSpec } from 'types/layer';
 
 export const MAPSTYLES = 'mapbox://styles/resourcewatch/cjzmw480d00z41cp2x81gm90h';
 
@@ -87,14 +88,16 @@ export const DEFAULT_VIEWPORT: ViewportProps = {
 };
 
 export const USER_AREA_LAYER_TEMPLATES = {
-  explore: ({ id, geojson, minZoom }) => ({
+  explore: ({ id, geojson, minZoom }): Partial<APILayerSpec> => ({
     id,
-    provider: 'geojson',
+    type: 'geojson',
     layerConfig: {
-      parse: false,
-      data: geojson,
-      body: {
-        vectorLayers: [
+      source: {
+        type: 'geojson',
+        data: geojson,
+      },
+      render: {
+        layers: [
           {
             type: 'line',
             source: id,
@@ -125,14 +128,16 @@ export const USER_AREA_LAYER_TEMPLATES = {
       },
     },
   }),
-  'area-card': ({ id, geojson }) => ({
+  'area-card': ({ id, geojson }): Partial<APILayerSpec> => ({
     id,
-    provider: 'geojson',
+    type: 'geojson',
     layerConfig: {
-      parse: false,
-      data: geojson,
-      body: {
-        vectorLayers: [
+      source: {
+        type: 'geojson',
+        data: geojson,
+      },
+      render: {
+        layers: [
           {
             type: 'line',
             source: id,

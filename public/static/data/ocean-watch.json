@@ -595,20 +595,25 @@
                 "config": {
                   "title": "Water Quality Pressure",
                   "mask": {
-                    "provider": "cartodb",
-                    "promoteId": "cartodb_id",
+                    "type": "vector",
                     "layerConfig": {
-                      "account": "wri-rw",
-                      "body": {
-                        "layers": [
-                          {
-                            "type": "mapnik",
-                            "options": {
-                              "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                      "source": {
+                        "promoteId": "cartodb_id",
+                        "provider": {
+                          "type": "carto",
+                          "account": "wri-rw",
+                          "layers": [
+                            {
+                              "options": {
+                                "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                              },
+                              "type": "mapnik"
                             }
-                          }
-                        ],
-                        "vectorLayers": [
+                          ]
+                        }
+                      },
+                      "render": {
+                        "layers": [
                           {
                             "filter": [
                               "all",
@@ -645,7 +650,7 @@
                               ],
                               "fill-outline-color": "#FAB72E"
                             },
-                            "source-layer": "layer0",
+                            "source": "layer0",
                             "id": "coastal-interactivity",
                             "type": "fill"
                           },
@@ -659,7 +664,7 @@
                               "line-color": "#FAB72E",
                               "line-width": 2
                             },
-                            "source-layer": "layer0",
+                            "source": "layer0",
                             "type": "line"
                           },
                           {
@@ -676,7 +681,7 @@
                                 3
                               ]
                             },
-                            "source-layer": "layer0",
+                            "source": "layer0",
                             "type": "line"
                           },
                           {
@@ -690,11 +695,10 @@
                               "fill-opacity": 1,
                               "fill-outline-color": "#616161"
                             },
-                            "source-layer": "layer0",
+                            "source": "layer0",
                             "type": "fill"
                           }
-                        ],
-                        "layerType": "vector"
+                        ]
                       }
                     }
                   },
@@ -1598,20 +1602,25 @@
                 "config": {
                   "title": "Water Quality Pressure",
                   "mask": {
-                    "provider": "cartodb",
-                    "promoteId": "cartodb_id",
+                    "type": "vector",
                     "layerConfig": {
-                      "account": "wri-rw",
-                      "body": {
-                        "layers": [
-                          {
-                            "type": "mapnik",
-                            "options": {
-                              "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                      "source": {
+                        "promoteId": "cartodb_id",
+                        "provider": {
+                          "type": "carto",
+                          "account": "wri-rw",
+                          "layers": [
+                            {
+                              "options": {
+                                "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                              },
+                              "type": "mapnik"
                             }
-                          }
-                        ],
-                        "vectorLayers": [
+                          ]
+                        }
+                      },
+                      "render": {
+                        "layers": [
                           {
                             "filter": [
                               "all",
@@ -1648,7 +1657,7 @@
                               ],
                               "fill-outline-color": "#FAB72E"
                             },
-                            "source-layer": "layer0",
+                            "source": "layer0",
                             "id": "coastal-interactivity",
                             "type": "fill"
                           },
@@ -1662,7 +1671,7 @@
                               "line-color": "#FAB72E",
                               "line-width": 2
                             },
-                            "source-layer": "layer0",
+                            "source": "layer0",
                             "type": "line"
                           },
                           {
@@ -1679,7 +1688,7 @@
                                 3
                               ]
                             },
-                            "source-layer": "layer0",
+                            "source": "layer0",
                             "type": "line"
                           },
                           {
@@ -1693,11 +1702,10 @@
                               "fill-opacity": 1,
                               "fill-outline-color": "#616161"
                             },
-                            "source-layer": "layer0",
+                            "source": "layer0",
                             "type": "fill"
                           }
-                        ],
-                        "layerType": "vector"
+                        ]
                       }
                     }
                   },
