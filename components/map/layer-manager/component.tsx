@@ -13,6 +13,8 @@ import { parseLayers } from './utils';
 const LayerManager = ({ layers, map }: { map: MapRef; layers: APILayerSpec[] }): JSX.Element => {
   const parsedLayers = useMemo(() => parseLayers(layers), [layers]);
 
+  console.log('parsedLayers', parsedLayers);
+
   return (
     <VizzLayerManager map={map} plugin={PluginMapboxGl} providers={ResourceWatchProviders}>
       {parsedLayers.map((_layer) => (

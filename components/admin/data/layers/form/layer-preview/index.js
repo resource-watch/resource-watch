@@ -14,7 +14,6 @@ export { actions, reducers, initialState };
 
 export default connect(
   (state) => ({
-    user: state.user,
     adminLayerPreview: state.adminLayerPreview,
     interactions: state.interactions.added,
     layers: getLayers(state),
