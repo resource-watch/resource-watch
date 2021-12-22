@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import dynamic from 'next/dynamic';
 
 // Redux
 import { connect } from 'react-redux';
@@ -28,17 +29,17 @@ class Step1 extends PureComponent {
     datasets: PropTypes.array,
     onChange: PropTypes.func.isRequired,
     onChangeDataset: PropTypes.func.isRequired,
-    verifyLayerConfig: PropTypes.func.isRequired,
-  }
+    // verifyLayerConfig: PropTypes.func.isRequired,
+  };
 
   static defaultProps = {
     id: null,
     datasets: [],
-  }
+  };
 
   handleRefreshPreview = () => {
     this.setLayerGroups();
-  }
+  };
 
   layerConfigStatus(title, err) {
     const classes = classnames({
@@ -49,26 +50,27 @@ class Step1 extends PureComponent {
     return (
       <section className={classes}>
         <h4>{title}</h4>
-        {err && err.errors && <ul>{err.errors.map((e, k) => <li key={k}>{e}</li>)}</ul>}
+        {err && err.errors && (
+          <ul>
+            {err.errors.map((e, k) => (
+              <li key={k}>{e}</li>
+            ))}
+          </ul>
+        )}
       </section>
     );
   }
 
   render() {
-    const {
-      user,
-      layerPreview,
-      verifyLayerConfig,
-      form,
-      id,
-    } = this.props;
+    const { user, layerPreview, form, id } = this.props;
 
     return (
       <fieldset className="c-field-container">
-        {!id
-          && (
+        {!id && (
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.dataset = c;
+            }}
             onChange={(value) => this.props.onChangeDataset(value)}
             validations={['required']}
             options={this.props.datasets}
@@ -83,10 +85,12 @@ class Step1 extends PureComponent {
           >
             {Select}
           </Field>
-          )}
+        )}
 
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.name = c; }}
+          ref={(c) => {
+            if (c) FORM_ELEMENTS.elements.name = c;
+          }}
           onChange={(value) => this.props.onChange({ name: value })}
           validations={['required']}
           properties={{
@@ -100,11 +104,14 @@ class Step1 extends PureComponent {
           {Input}
         </Field>
 
-        {(user.role === 'ADMIN')
-          && (
+        {user.role === 'ADMIN' && (
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
-            hint={'Choose "preproduction" to see this dataset only as admin, "production" option will show it in the public site.'}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.env = c;
+            }}
+            hint={
+              'Choose "preproduction" to see this dataset only as admin, "production" option will show it in the public site.'
+            }
             className="-fluid"
             options={[
               { label: 'Staging', value: 'staging' },
@@ -123,11 +130,13 @@ class Step1 extends PureComponent {
           >
             {Select}
           </Field>
-          )}
+        )}
 
         {/* PUBLISHED */}
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
+          ref={(c) => {
+            if (c) FORM_ELEMENTS.elements.published = c;
+          }}
           onChange={(value) => this.props.onChange({ published: value.checked })}
           properties={{
             name: 'published',
@@ -141,7 +150,9 @@ class Step1 extends PureComponent {
         </Field>
 
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.provider = c; }}
+          ref={(c) => {
+            if (c) FORM_ELEMENTS.elements.provider = c;
+          }}
           onChange={(value) => this.props.onChange({ provider: value })}
           validations={['required']}
           options={PROVIDER_OPTIONS}
@@ -157,7 +168,9 @@ class Step1 extends PureComponent {
         </Field>
 
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.description = c; }}
+          ref={(c) => {
+            if (c) FORM_ELEMENTS.elements.description = c;
+          }}
           onChange={(value) => this.props.onChange({ description: value })}
           properties={{
             name: 'description',
@@ -170,7 +183,9 @@ class Step1 extends PureComponent {
         </Field>
 
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.layerConfig = c; }}
+          ref={(c) => {
+            if (c) FORM_ELEMENTS.elements.layerConfig = c;
+          }}
           onChange={(value) => this.props.onChange({ layerConfig: value })}
           properties={{
             name: 'layerConfig',
@@ -181,27 +196,23 @@ class Step1 extends PureComponent {
           {Code}
         </Field>
 
-        {layerPreview.errors
-          && this.layerConfigStatus('Layer config not valid!', layerPreview.errors)}
+        {layerPreview.errors &&
+          this.layerConfigStatus('Layer config not valid!', layerPreview.errors)}
 
-        {layerPreview.errors === false
-          && this.layerConfigStatus('Layer config valid')}
+        {layerPreview.errors === false && this.layerConfigStatus('Layer config valid')}
 
-        {form.provider === 'cartodb'
-          && (
+        {/* {form.provider === 'cartodb' && (
           <div className="c-button-container -full-width -j-end">
-            <button
-              type="button"
-              className="c-button -primary"
-              onClick={() => verifyLayerConfig()}
-            >
+            <button type="button" className="c-button -primary" onClick={() => verifyLayerConfig()}>
               Verify config
             </button>
           </div>
-          )}
+        )} */}
 
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.legendConfig = c; }}
+          ref={(c) => {
+            if (c) FORM_ELEMENTS.elements.legendConfig = c;
+          }}
           onChange={(value) => this.props.onChange({ legendConfig: value })}
           properties={{
             name: 'legendConfig',
@@ -212,13 +223,13 @@ class Step1 extends PureComponent {
           {Code}
         </Field>
 
-        {form.provider === 'cartodb' && (
-          <InteractionManager layer={form} />)}
+        {form.provider === 'cartodb' && <InteractionManager layer={form} />}
 
-        {form.provider !== 'cartodb'
-          && (
+        {form.provider !== 'cartodb' && (
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.interactionConfig = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.interactionConfig = c;
+            }}
             onChange={(value) => this.props.onChange({ interactionConfig: value })}
             properties={{
               name: 'interactionConfig',
@@ -228,19 +239,20 @@ class Step1 extends PureComponent {
           >
             {Code}
           </Field>
-          )}
+        )}
 
-        <LayerPreviewComponent
-          layer={form}
-        />
+        <LayerPreviewComponent layer={form} />
 
         <Field
-          ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
+          ref={(c) => {
+            if (c) FORM_ELEMENTS.elements.default = c;
+          }}
           onChange={(value) => this.props.onChange({ default: value.checked })}
           option={{ label: 'Default' }}
           properties={{
             name: 'default',
-            label: 'Do you want to set this layer as the default one. (Only one default layer per dataset is allowed at a time)',
+            label:
+              'Do you want to set this layer as the default one. (Only one default layer per dataset is allowed at a time)',
             value: 'default',
             title: 'Default',
             checked: this.props.form.default,

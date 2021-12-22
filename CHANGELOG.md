@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `tailwindcss` framework.
 
 ### Changed
+- makes changes in admin to preview layers with new spec. [RW-103](https://vizzuality.atlassian.net/browse/RW-103)
 - updates standalone Area of Interest layer specs to match new layer specification. [RW-99](https://vizzuality.atlassian.net/browse/RW-99)[RW-97](https://vizzuality.atlassian.net/browse/RW-97)[RW-102](https://vizzuality.atlassian.net/browse/RW-102)
 - makes map's `onMapViewportChange` function optional.	
 - `webpack 5` and `next@12`
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - mini-explore: layer interactivity. [OW-185](https://vizzuality.atlassian.net/browse/OW-185)
 
 ### Removed
+- removed Carto verification when an admin creates/edits a layer. [RW-103](https://vizzuality.atlassian.net/browse/RW-103)
 
 ## [3.3.0] - 2021-11-11
 ### Added
@@ -45,6 +47,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - invalid score (NaN) in Ocean Watch widget. [OW-167](https://vizzuality.atlassian.net/browse/OW-167)
 - explore URL to embed (/embed/data/explore) now supports (optionally) selected dataset when sharing. [RW-88](https://vizzuality.atlassian.net/browse/RW-88)
 - restores old endpoint to render embed map-swipes without a widget. [RW-89](https://vizzuality.atlassian.net/browse/RW-89)
+
 
 
 ## [3.2.0] - 2021-10-06

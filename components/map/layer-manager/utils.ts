@@ -5,7 +5,7 @@ import { APILayerSpec } from 'types/layer';
 
 export const parseLayers = (layers: APILayerSpec[]): LayerSpec[] => {
   return layers.map((layer): LayerSpec => {
-    const { id, type, layerConfig } = layer;
+    const { id, layerConfig } = layer;
     const layerProps: LayerSpec = pick(layerConfig, [
       'deck',
       'decodeParams',
@@ -16,6 +16,7 @@ export const parseLayers = (layers: APILayerSpec[]): LayerSpec[] => {
       'params',
       'sqlParams',
       'source',
+      'type',
       'render',
       'visibility',
       'zIndex',
@@ -23,7 +24,6 @@ export const parseLayers = (layers: APILayerSpec[]): LayerSpec[] => {
 
     return {
       id,
-      type,
       ...layerProps,
     };
   });
