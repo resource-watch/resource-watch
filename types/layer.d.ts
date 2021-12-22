@@ -1,4 +1,8 @@
-import { Render, Source } from '@vizzuality/layer-manager';
+import { Source } from '@vizzuality/layer-manager';
+
+export interface Render {
+  layers?: Record<string, string | number | boolean | unknown>[];
+}
 
 export interface layerConfigSpec {
   render?: Render;

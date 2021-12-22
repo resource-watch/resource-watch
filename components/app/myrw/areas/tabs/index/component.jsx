@@ -11,9 +11,7 @@ import Paginator from 'components/ui/Paginator';
 // hooks
 import usePaginatedUserAreas from 'hooks/user-areas/paginated-user-areas';
 
-const AreasIndex = ({
-  token,
-}) => {
+const AreasIndex = ({ token }) => {
   const router = useRouter();
   const [pagination, setPagination] = useState({
     page: 1,
@@ -21,10 +19,7 @@ const AreasIndex = ({
     size: 0,
   });
   const {
-    data: {
-      areas: userAreas,
-      meta,
-    },
+    data: { areas: userAreas, meta },
     isFetching,
     isSuccess,
     isFetchedAfterMount,
@@ -35,17 +30,21 @@ const AreasIndex = ({
     sort: 'name',
   });
 
-  const handlePagination = useCallback((_nextPage) => {
-    setPagination({
-      ...pagination,
-      page: _nextPage,
-    });
-  }, [pagination]);
+  const handlePagination = useCallback(
+    (_nextPage) => {
+      setPagination({
+        ...pagination,
+        page: _nextPage,
+      });
+    },
+    [pagination],
+  );
 
   const handleMapView = useCallback(
     ({ id }) => {
       router.push(`/data/explore?aoi=${id}`);
-    }, [router],
+    },
+    [router],
   );
 
   const handleDeletionArea = useCallback(() => {
@@ -70,22 +69,15 @@ const AreasIndex = ({
           <ul>
             <li>
               <Link href="/myrw-detail/areas/new">
-                <a className="c-button -secondary">
-                  New area
-                </a>
+                <a className="c-button -secondary">New area</a>
               </Link>
             </li>
           </ul>
         </div>
-        {isFetching && (
-          <Spinner
-            isLoading
-            className="spinner -small -right -transparent"
-          />
-        )}
+        {isFetching && <Spinner isLoading className="spinner -small -right -transparent" />}
       </div>
 
-      {(isSuccess && isFetchedAfterMount) && (
+      {isSuccess && isFetchedAfterMount && (
         <>
           <AreaCardList
             areas={userAreas}
@@ -95,11 +87,8 @@ const AreasIndex = ({
             onDeletionArea={handleDeletionArea}
           />
 
-          {(pagination.size > pagination.limit) && (
-            <Paginator
-              options={pagination}
-              onChange={handlePagination}
-            />
+          {pagination.size > pagination.limit && (
+            <Paginator options={pagination} onChange={handlePagination} />
           )}
         </>
       )}

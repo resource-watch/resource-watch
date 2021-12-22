@@ -362,8 +362,13 @@ export default function MiniExploreMapContainer({
     if (mask) {
       maskLayer = {
         id: maskLayerId,
-        ...mask,
-        params,
+        ...{
+          ...mask,
+          layerConfig: {
+            ...mask.layerConfig,
+            params,
+          },
+        },
       };
     }
 
