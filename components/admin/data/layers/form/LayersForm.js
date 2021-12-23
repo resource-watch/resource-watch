@@ -16,8 +16,6 @@ import Step1 from 'components/admin/data/layers/form/steps/Step1';
 import Navigation from 'components/form/Navigation';
 import Spinner from 'components/ui/Spinner';
 
-import LayerManager from 'utils/layers/LayerManager';
-
 // constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
 
@@ -65,12 +63,6 @@ class LayersForm extends PureComponent {
       form: formObj,
       loading: !!props.id,
     };
-
-    this.layerManager = new LayerManager(null, {
-      layersUpdated: (valid, err) => {
-        this.props.setLayerInteractionError(valid ? false : err);
-      },
-    });
   }
 
   componentDidMount() {
