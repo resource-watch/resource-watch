@@ -137,34 +137,8 @@ class LayersForm extends PureComponent {
       const newForm = { ...form, interactionConfig };
 
       // Verify that layers are valid, otherwise render error
-      const { adminLayerPreview } = this.props;
-      const { layerGroups } = adminLayerPreview;
-      const cartoLayer =
-        layerGroups.length && 'layers' in layerGroups[0]
-          ? layerGroups[0].layers.filter((layer) => layer.provider === 'cartodb')
-          : [];
-
       if (valid) {
-        // Start the submitting
-        this.setState({ submitting: true });
         this.props.setLayerInteractionError(false);
-
-        if (cartoLayer.length) {
-          // If we have carto layers, make sure they work
-          this.layerManager.verifyCartoLayer(
-            { ...cartoLayer[0], layerConfig: newForm.layerConfig },
-            (cartoLayerValid) => {
-              if (cartoLayerValid) {
-                this.saveLayer(newForm);
-              } else {
-                toastr.error('Error', 'Layer config contains errors');
-                this.setState({ submitting: false });
-              }
-            },
-          );
-          return;
-        }
-
         this.saveLayer(newForm);
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
@@ -233,23 +207,6 @@ class LayersForm extends PureComponent {
     return newForm;
   }
 
-  // verifyLayerConfig() {
-  //   const { adminLayerPreview } = this.props;
-  //   const { layerGroups } = adminLayerPreview;
-
-  //   const { form } = this.state;
-
-  //   const cartoLayer =
-  //     layerGroups.length && 'layers' in layerGroups[0]
-  //       ? layerGroups[0].layers.filter((layer) => layer.provider === 'cartodb')
-  //       : [];
-
-  //   if (cartoLayer.length) {
-  //     // If we have carto layers, make sure they work
-  //     this.layerManager.verifyCartoLayer({ ...cartoLayer[0], layerConfig: form.layerConfig });
-  //   }
-  // }
-
   saveLayer(form) {
     const { id, dataset } = this.state;
     const { onSubmit, authorization } = this.props;
@@ -310,7 +267,6 @@ class LayersForm extends PureComponent {
             datasets={datasets}
             onChange={(value) => this.onChange(value)}
             onChangeDataset={(value) => this.onChangeDataset(value)}
-            // verifyLayerConfig={() => this.verifyLayerConfig()}
           />
         )}
 

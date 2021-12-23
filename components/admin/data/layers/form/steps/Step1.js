@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import dynamic from 'next/dynamic';
 
 // Redux
 import { connect } from 'react-redux';
@@ -29,7 +28,6 @@ class Step1 extends PureComponent {
     datasets: PropTypes.array,
     onChange: PropTypes.func.isRequired,
     onChangeDataset: PropTypes.func.isRequired,
-    // verifyLayerConfig: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -200,14 +198,6 @@ class Step1 extends PureComponent {
           this.layerConfigStatus('Layer config not valid!', layerPreview.errors)}
 
         {layerPreview.errors === false && this.layerConfigStatus('Layer config valid')}
-
-        {/* {form.provider === 'cartodb' && (
-          <div className="c-button-container -full-width -j-end">
-            <button type="button" className="c-button -primary" onClick={() => verifyLayerConfig()}>
-              Verify config
-            </button>
-          </div>
-        )} */}
 
         <Field
           ref={(c) => {
