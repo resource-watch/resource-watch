@@ -157,10 +157,7 @@ export default class LayerManager {
     if (layer.layerConfig.fitBounds) {
       const bounds = geojsonLayer.getBounds();
 
-      this.map.fitBounds([
-        bounds.getNorthWest(),
-        bounds.getSouthEast(),
-      ], { padding: [20, 20] });
+      this.map.fitBounds([bounds.getNorthWest(), bounds.getSouthEast()], { padding: [20, 20] });
     }
 
     if (this.options.swipe) {
@@ -188,9 +185,11 @@ export default class LayerManager {
         layer = L.tileLayer.wms(layerData.url, layerData.body); // eslint-disable-line
         break;
       case 'tileLayer':
-        if (layerData.body.style
-            && typeof layerData.body.style === 'string'
-            && layerData.body.indexOf('style: "function') >= 0) {
+        if (
+          layerData.body.style &&
+          typeof layerData.body.style === 'string' &&
+          layerData.body.indexOf('style: "function') >= 0
+        ) {
           layerData.body.style = eval(`(${layerData.body.style})`); // eslint-disable-line
         }
         layer = L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
@@ -202,8 +201,8 @@ export default class LayerManager {
     }
 
     if (layer) {
-      const eventName = (layerData.type === 'wms'
-      || layerData.type === 'tileLayer') ? 'tileload' : 'load';
+      const eventName =
+        layerData.type === 'wms' || layerData.type === 'tileLayer' ? 'tileload' : 'load';
       layer.on(eventName, () => {
         delete this.layersLoading[layerData.id];
       });
@@ -233,9 +232,11 @@ export default class LayerManager {
 
     // first, we check if layer exist in leaflet
     if (L[layer.type]) {
-      if (layerData.body.style
-          && typeof layerData.body.style === 'string'
-          && layerData.body.indexOf('style: "function') >= 0) {
+      if (
+        layerData.body.style &&
+        typeof layerData.body.style === 'string' &&
+        layerData.body.indexOf('style: "function') >= 0
+      ) {
         layerData.body.style = eval(`(${layerData.body.style})`); // eslint-disable-line
       }
       const newLayer = new L.tileLayer(layerData.url, layerData.body); // eslint-disable-line
@@ -262,8 +263,7 @@ export default class LayerManager {
     } else if (L.esri[layer.type]) {
       const layerConfig = JSON.parse(bodyStringified);
       layerConfig.pane = 'tilePane';
-      if (layerConfig.style
-        && layerConfig.style.indexOf('function') >= 0) {
+      if (layerConfig.style && layerConfig.style.indexOf('function') >= 0) {
         layerConfig.style = eval(`(${layerConfig.style})`); // eslint-disable-line
       }
       const newLayer = L.esri[layer.type](layerConfig);
@@ -300,10 +300,6 @@ export default class LayerManager {
     }
   }
 
-  verifyCartoLayer(layerSpec, callback) {
-    return this.addCartoLayer(layerSpec, true, callback);
-  }
-
   addCartoLayer(layerSpec, verifyLayersOnly = false, callback) {
     const layer = {
       ...layerSpec.layerConfig,
@@ -318,9 +314,10 @@ export default class LayerManager {
     this.layersLoading[layer.id] = true;
 
     // is it interactive?
-    const isInteractive = !isEmpty(layerSpec.interactionConfig)
-                          && !!layerSpec.interactionConfig.output
-                          && !!layerSpec.interactionConfig.output.length;
+    const isInteractive =
+      !isEmpty(layerSpec.interactionConfig) &&
+      !!layerSpec.interactionConfig.output &&
+      !!layerSpec.interactionConfig.output.length;
 
     const layerTpl = {
       version: '1.3.0',
@@ -348,7 +345,8 @@ export default class LayerManager {
       })
       .then((data) => {
         if (verifyLayersOnly === true) {
-          if (this.layersUpdated && typeof this.layersUpdated === 'function') this.layersUpdated(!this.errors, data);
+          if (this.layersUpdated && typeof this.layersUpdated === 'function')
+            this.layersUpdated(!this.errors, data);
           if (this.errors) this.errorDetails = data;
           if (callback && typeof callback === 'function') callback(!this.errors);
           return;
@@ -383,7 +381,8 @@ export default class LayerManager {
         }
 
         if (callback && typeof callback === 'function') callback(!this.errors);
-      }).catch(() => {
+      })
+      .catch(() => {
         this.rejectLayersLoading = true;
       });
   }
