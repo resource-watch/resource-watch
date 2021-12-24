@@ -10,14 +10,10 @@ import {
   LegendItemButtonVisibility,
   LegendItemTypes,
 } from 'vizzuality-components';
-import { useDebouncedCallback } from 'use-debounce';
 import { useErrorHandler } from 'react-error-boundary';
 
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
-
-// utils
-import { parseBbox } from 'components/map/utils';
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -52,7 +48,7 @@ export default function MapTypeWidget({
   isFetching,
   isError,
   isInACollection,
-  mapBounds,
+  bounds,
   onToggleShare,
   onFitBoundsChange,
 }) {
@@ -67,9 +63,9 @@ export default function MapTypeWidget({
   });
   const [isInfoWidgetVisible, setInfoWidgetVisibility] = useState(false);
 
-  const handleViewport = useDebouncedCallback((_viewport) => {
+  const handleViewport = useCallback((_viewport) => {
     setViewport(_viewport);
-  }, 250);
+  }, []);
 
   const handleFitBoundsChange = useCallback(
     (_viewport) => {
@@ -145,16 +141,6 @@ export default function MapTypeWidget({
     return LABELS[label].value;
   }, [widget]);
 
-  const bounds = useMemo(() => {
-    if (mapBounds) return mapBounds;
-
-    if (!widget?.widgetConfig?.bbox) return {};
-
-    return {
-      bbox: parseBbox(widget.widgetConfig.bbox),
-    };
-  }, [widget, mapBounds]);
-
   const boundaries = useMemo(
     () => Boolean(widget?.widgetConfig?.basemapLayers?.boundaries),
     [widget],
@@ -220,15 +206,12 @@ export default function MapTypeWidget({
                 mapStyle={MAPSTYLES}
                 viewport={viewport}
                 basemap={basemap}
-                onViewportChange={handleViewport}
+                onMapViewportChange={handleViewport}
                 onFitBoundsChange={handleFitBoundsChange}
                 labels={labels}
                 scrollZoom={false}
                 bounds={bounds}
                 boundaries={boundaries}
-                fitBoundsOptions={{
-                  transitionDuration: 0,
-                }}
                 onError={(errorMessage) => {
                   handleError(new Error(errorMessage));
                 }}
@@ -288,7 +271,7 @@ export default function MapTypeWidget({
 MapTypeWidget.defaultProps = {
   layerGroups: [],
   aoiLayer: null,
-  mapBounds: null,
+  bounds: {},
   maskLayer: null,
   style: {},
   isEmbed: false,
@@ -320,7 +303,7 @@ MapTypeWidget.propTypes = {
   aoiLayer: PropTypes.shape({
     bbox: PropTypes.arrayOf(PropTypes.number),
   }),
-  mapBounds: PropTypes.shape({}),
+  bounds: PropTypes.shape({}),
   maskLayer: PropTypes.shape({}),
   style: PropTypes.shape({}),
   isEmbed: PropTypes.bool,

@@ -173,9 +173,6 @@ export default function SwipeTypeWidget({
                   bounds={bounds}
                   onFitBoundsChange={handleFitBoundsChange}
                   onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
-                  fitBoundsOptions={{
-                    transitionDuration: 0,
-                  }}
                 >
                   {(_map) => <LayerManager map={_map} layers={layersBySide.left} />}
                 </Map>
@@ -216,12 +213,9 @@ export default function SwipeTypeWidget({
                   boundaries={boundaries}
                   scrollZoom={false}
                   viewport={viewport}
-                  onViewportChange={handleViewport}
+                  onMapViewportChange={handleViewport}
                   bounds={bounds}
                   onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
-                  fitBoundsOptions={{
-                    transitionDuration: 0,
-                  }}
                 >
                   {(_map) => <LayerManager map={_map} layers={layersBySide.right} />}
                 </Map>

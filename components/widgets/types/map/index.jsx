@@ -2,7 +2,6 @@ import { useMemo, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useQueries } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { v4 as uuidv4 } from 'uuid';
 
 // services
 import { fetchLayer } from 'services/layer';
@@ -15,12 +14,11 @@ import { useMe } from 'hooks/user';
 
 // utils
 import { getAoiLayer, getMaskLayer, getLayerGroups } from 'utils/layers';
+import { parseBbox } from 'components/map/utils';
 
 // components
 import ErrorFallback from 'components/error-fallback';
 import MapTypeWidget from './component';
-
-const mapKey = uuidv4();
 
 const CustomErrorFallback = (_props) => (
   <ErrorFallback {..._props} title="Something went wrong loading the widget" />
@@ -106,6 +104,22 @@ export default function MapTypeWidgetContainer({
     [geostore, widget, minZoom],
   );
 
+  const bounds = useMemo(() => {
+    if (geostore?.bbox)
+      return {
+        bbox: geostore.bbox,
+        options: {
+          padding: 50,
+        },
+      };
+
+    if (!widget?.widgetConfig?.bounds) return {};
+
+    return {
+      bbox: parseBbox(widget.widgetConfig.bounds.bbox),
+    };
+  }, [widget, geostore]);
+
   const maskLayer = useMemo(() => getMaskLayer(widget, params), [widget, params]);
 
   const layerGroups = useMemo(() => {
@@ -124,19 +138,8 @@ export default function MapTypeWidgetContainer({
       }}
     >
       <MapTypeWidget
-        // forces to render the component again and paint updated styles in the map.
-        // This might be fixed in recent versions of Layer Manager.
-        // todo: try to remove the key when the layer manager version is updated.
-        key={minZoom || mapKey}
         layerGroups={layerGroups}
-        {...(geostore?.bbox && {
-          mapBounds: {
-            bbox: geostore.bbox,
-            options: {
-              padding: 50,
-            },
-          },
-        })}
+        bounds={bounds}
         aoiLayer={aoiLayer}
         maskLayer={maskLayer}
         widget={widget}

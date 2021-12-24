@@ -1,22 +1,15 @@
-import {
-  useState,
-} from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ErrorBoundary,
-} from 'react-error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 
 // components
 import ErrorFallback from 'components/error-fallback';
 import MapTypeWidget from './component';
 import WidgetShareModal from '../../share-modal';
 
-const CustomErrorFallback = ((_props) => (
-  <ErrorFallback
-    {..._props}
-    title="Something went wrong loading the widget"
-  />
-));
+const CustomErrorFallback = (_props) => (
+  <ErrorFallback {..._props} title="Something went wrong loading the widget" />
+);
 
 export default {
   title: 'Widget/Map',
@@ -24,14 +17,14 @@ export default {
   argTypes: {},
   decorators: [
     (Story) => (
-      <div style={{
-        width: '100%',
-        height: 500,
-      }}
+      <div
+        style={{
+          width: '100%',
+          height: 500,
+          minHeight: 500,
+        }}
       >
-        <ErrorBoundary
-          FallbackComponent={CustomErrorFallback}
-        >
+        <ErrorBoundary FallbackComponent={CustomErrorFallback}>
           <Story />
         </ErrorBoundary>
       </div>
@@ -48,12 +41,11 @@ function Template(args) {
   return (
     <>
       {args.isError && triggerError()}
-      <MapTypeWidget
-        {...args}
-        onToggleShare={() => setVisibilityWidgetShareModal(true)}
-      />
+      <MapTypeWidget {...args} onToggleShare={() => setVisibilityWidgetShareModal(true)} />
       <WidgetShareModal
-        onClose={() => { setVisibilityWidgetShareModal(false); }}
+        onClose={() => {
+          setVisibilityWidgetShareModal(false);
+        }}
         isVisible={isWidgetShareModalVisible}
         widget={args.widget}
       />
@@ -65,22 +57,24 @@ Template.propTypes = {
   args: PropTypes.shape({}).isRequired,
 };
 
-export const Default = Template.bind({});
+export const VectorCarto = Template.bind({});
+export const Raster = Template.bind({});
+export const RasterGEE = Template.bind({});
+export const GeojsonWMS = Template.bind({});
 export const WithAreaOfInterest = Template.bind({});
 export const WithMultipleLayers = Template.bind({});
 
 const widget = {
   id: '626ed7d7-efdd-4697-aee0-15ddb2f86d35',
-  name: 'Coral reefs are the \'rainforest of the seas,\' home to a quarter of all marine species',
+  name: "Coral reefs are the 'rainforest of the seas,' home to a quarter of all marine species",
   dataset: '1d23838e-40da-4cf3-b61c-56258d3a5c56',
   slug: 'Coral-reefs-are-the-rainforest-of-the-seas-home-to-a-quarter-of-all-marine-species_1',
   userId: '5f15f3961f753f0010b897d8',
-  description: '2005 Coral Reef Locations Coral reef areas Description Mapped coral reefs in 2005. Corals exist in temperate and tropical waters, but shallow-water reefs are centered around the equator. Mapping reefs provides a baseline for monitoring and managing threats to this biodiverse ecosystem.',
+  description:
+    '2005 Coral Reef Locations Coral reef areas Description Mapped coral reefs in 2005. Corals exist in temperate and tropical waters, but shallow-water reefs are centered around the equator. Mapping reefs provides a baseline for monitoring and managing threats to this biodiverse ecosystem.',
   source: '',
   authors: '',
-  application: [
-    'rw',
-  ],
+  application: ['rw'],
   verified: false,
   default: false,
   protected: false,
@@ -95,22 +89,9 @@ const widget = {
     zoom: 4,
     lat: -7.231698708367139,
     lng: 490.7896391162598,
-    bounds: [
-      [
-        -25.403584973186703,
-        471.0142484912598,
-      ],
-      [
-        11.695272733029402,
-        510.5650297412598,
-      ],
-    ],
-    bbox: [
-      -25.403584973186703,
-      471.0142484912598,
-      11.695272733029402,
-      510.5650297412598,
-    ],
+    bounds: {
+      bbox: [-13.095703125, 34.56085936708384, 5.009765625, 44.809121700077355],
+    },
     basemapLayers: {
       basemap: 'dark',
       labels: 'light',
@@ -168,45 +149,33 @@ const aoiLayer = {
   id: '972c24e1da2c2baacc7572ee9501abdc',
   provider: 'geojson',
   layerConfig: {
-    parse: false,
-    data: {
-      crs: {},
-      features: [
-        {
-          geometry: {
-            coordinates: [
-              [
+    type: 'geojson',
+    source: {
+      type: 'geojson',
+      data: {
+        crs: {},
+        features: [
+          {
+            geometry: {
+              coordinates: [
                 [
-                  -12.093761259,
-                  44.552460756,
-                ],
-                [
-                  -14.106357807,
-                  35.660331733,
-                ],
-                [
-                  17.065486395,
-                  35.126167008,
-                ],
-                [
-                  17.814359529,
-                  47.540103435,
-                ],
-                [
-                  -12.093761259,
-                  44.552460756,
+                  [-12.093761259, 44.552460756],
+                  [-14.106357807, 35.660331733],
+                  [17.065486395, 35.126167008],
+                  [17.814359529, 47.540103435],
+                  [-12.093761259, 44.552460756],
                 ],
               ],
-            ],
-            type: 'Polygon',
+              type: 'Polygon',
+            },
+            type: 'Feature',
           },
-          type: 'Feature',
-        },
-      ],
-      type: 'FeatureCollection',
+        ],
+        type: 'FeatureCollection',
+      },
     },
-    body: {
-      vectorLayers: [
+    render: {
+      layers: [
         {
           id: '972c24e1da2c2baacc7572ee9501abdc-glow',
           type: 'line',
@@ -229,15 +198,10 @@ const aoiLayer = {
   opacity: 1,
   visibility: true,
   isAreaOfInterest: true,
-  bbox: [
-    -14.106357807,
-    35.126167008,
-    17.814359529,
-    47.540103435,
-  ],
+  bbox: [-14.106357807, 35.126167008, 17.814359529, 47.540103435],
 };
 
-Default.args = {
+VectorCarto.args = {
   widget,
   layerGroups: [
     {
@@ -250,13 +214,11 @@ Default.args = {
           name: 'Countries Experiencing Disaster Events',
           slug: 'Disaster-Events-in-the-News-Points',
           dataset: '4919be3a-c543-4964-a224-83ef801370de',
-          description: 'Countries experiencing ongoing disasters that are actively being monitored by ReliefWeb. Each point is located in the center of a particular country and does not indicate where in that country the disaster occurred. The types of disasters being monitored include floods, droughts, severe local storms, tropical cyclones, storm surges, tsunamis, earthquakes, wildfires, cold waves, heat waves, volcanic activity, landslides, mudslides, snow avalanches, epidemics, insect infestations, and technological disasters.',
-          application: [
-            'rw',
-          ],
+          description:
+            'Countries experiencing ongoing disasters that are actively being monitored by ReliefWeb. Each point is located in the center of a particular country and does not indicate where in that country the disaster occurred. The types of disasters being monitored include floods, droughts, severe local storms, tropical cyclones, storm surges, tsunamis, earthquakes, wildfires, cold waves, heat waves, volcanic activity, landslides, mudslides, snow avalanches, epidemics, insect infestations, and technological disasters.',
+          application: ['rw'],
           iso: [],
           provider: 'cartodb',
-          type: 'layer',
           userId: '5ba001878e311b7e3718740f',
           default: true,
           active: true,
@@ -265,32 +227,34 @@ Default.args = {
           published: true,
           env: 'production',
           layerConfig: {
-            account: 'rw-nrt',
-            body: {
-              maxzoom: 18,
-              minzoom: 0,
-              layers: [
-                {
-                  type: 'mapnik',
-                  options: {
-                    sql: 'SELECT * FROM dis_006_reliefweb_disasters_interaction',
-                    cartocss: '#dis_006_reliefweb_disasters_interaction  {::halo { marker-width: 20; marker-fill-opacity: 0.2;marker-fill:#FFF; marker-line-color: #FFF; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; } marker-fill-opacity: 1; marker-line-width: 0.3 ; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; marker-fill:#42f4f1; marker-line-color: #42f4f1; marker-width: 8;}',
-                    cartocss_version: '2.3.0',
+            type: 'vector',
+            source: {
+              provider: {
+                type: 'carto',
+                account: 'rw-nrt',
+                layers: [
+                  {
+                    type: 'mapnik',
+                    options: {
+                      sql: 'SELECT * FROM dis_006_reliefweb_disasters_interaction',
+                      cartocss:
+                        '#dis_006_reliefweb_disasters_interaction  {::halo { marker-width: 20; marker-fill-opacity: 0.2;marker-fill:#FFF; marker-line-color: #FFF; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; } marker-fill-opacity: 1; marker-line-width: 0.3 ; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; marker-fill:#42f4f1; marker-line-color: #42f4f1; marker-width: 8;}',
+                      cartocss_version: '2.3.0',
+                    },
                   },
-                },
-              ],
-              vectorLayers: [
+                ],
+              },
+              type: 'vector',
+            },
+            render: {
+              layers: [
                 {
                   paint: {
                     'circle-color': '#42f4f1',
                     'circle-stroke-width': [
                       'interpolate',
-                      [
-                        'linear',
-                      ],
-                      [
-                        'zoom',
-                      ],
+                      ['linear'],
+                      ['zoom'],
                       0,
                       2,
                       3,
@@ -301,31 +265,16 @@ Default.args = {
                     'circle-stroke-color': '#fff',
                     'circle-opacity': 0.9,
                     'circle-stroke-opacity': 0.3,
-                    'circle-radius': [
-                      'interpolate',
-                      [
-                        'linear',
-                      ],
-                      [
-                        'zoom',
-                      ],
-                      0,
-                      3,
-                      3,
-                      10,
-                      12,
-                      30,
-                    ],
+                    'circle-radius': ['interpolate', ['linear'], ['zoom'], 0, 3, 3, 10, 12, 30],
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                  ],
+                  filter: ['all'],
                 },
               ],
+              maxzoom: 18,
+              minzoom: 0,
             },
-            layerType: 'vector',
           },
           legendConfig: {
             type: 'basic',
@@ -366,8 +315,236 @@ Default.args = {
   ],
 };
 
-WithAreaOfInterest.args = {
+Raster.args = {
   widget,
+  layerGroups: [
+    {
+      id: '4919be3a-c543-4964-a224-83ef801370de',
+      opacity: 1,
+      visibility: true,
+      layers: [
+        {
+          active: true,
+          type: 'layer',
+          id: 'mosaic-land-cover-and-land-use-2020',
+          name: '2020 Land Cover',
+          description:
+            'Global composite land cover map of 2020 with 9 classes shown. Unknown and ocean classes are not shown.',
+          dataset: 'mosaic-land-cover-and-land-use-2020',
+          provider: 'leaflet',
+          type: 'raster',
+          layerConfig: {
+            type: 'raster',
+            source: {
+              type: 'raster',
+              tiles: [
+                'https://storage.googleapis.com/lcl_tiles/GLCLU2020/composite2020/{z}/{x}/{y}.png',
+              ],
+              minzoom: 1,
+              maxzoom: 12,
+            },
+          },
+          legendConfig: {
+            items: [
+              {
+                color: '#FEFECC',
+                name: 'Bare Ground',
+                id: 0,
+              },
+              {
+                color: '#B9B91E',
+                name: 'Short Vegetation',
+                id: 1,
+              },
+              {
+                color: '#347834',
+                name: 'Forest',
+                id: 2,
+              },
+              {
+                color: '#0D570D',
+                name: 'Tall Forest (20m+)',
+                id: 3,
+              },
+              {
+                color: '#88CAAD',
+                name: 'Wetland - Short Vegetation',
+                id: 4,
+              },
+              {
+                color: '#589558',
+                name: 'Wetland - Forest',
+                id: 5,
+              },
+              {
+                color: '#6baed6',
+                name: 'Water',
+                id: 6,
+              },
+              {
+                color: '#acd1e8',
+                name: 'Snow/Ice',
+                id: 7,
+              },
+              {
+                color: '#fff183',
+                name: 'Cropland',
+                id: 8,
+              },
+              {
+                color: '#e8765d',
+                name: 'Built-up Area',
+                id: 9,
+              },
+            ],
+            type: 'basic',
+          },
+        },
+      ],
+    },
+  ],
+};
+
+RasterGEE.args = {
+  widget,
+  layerGroups: [
+    {
+      id: '4919be3a-c543-4964-a224-83ef801370de',
+      opacity: 1,
+      visibility: true,
+      layers: [
+        {
+          active: true,
+          id: '0490bdf9-15fa-4dbf-ae4a-0db4e8ea0e06',
+          name: '1975 Human Settlements Grid',
+          slug: '1975-Human-Settlements-Grid_1',
+          dataset: '565c3cb1-8015-4029-b497-e9245608580f',
+          description:
+            'Highlights urban centers (high density clusters with a high degree of built-up land and high population density), urban clusters or towns and suburbs (low density), and rural areas in 1975.',
+          application: ['rw'],
+          iso: [],
+          provider: 'gee',
+          userId: '57a0aa1071e394dd32ffe137',
+          default: false,
+          protected: false,
+          published: true,
+          env: 'staging',
+          layerConfig: {
+            type: 'raster',
+            source: {
+              provider: {
+                type: 'gee',
+                options: {},
+              },
+              type: 'raster',
+              tiles: [],
+              minzoom: 3,
+              maxzoom: 12,
+            },
+          },
+          legendConfig: {
+            type: 'choropleth',
+            items: [
+              {
+                id: 0,
+                name: 'Rural',
+                color: '#084594',
+              },
+              {
+                id: 1,
+                name: ' Urban clusters',
+                color: '#6baed6',
+              },
+              {
+                id: 2,
+                name: 'Urban centers',
+                color: '#eff3ff',
+              },
+            ],
+          },
+          interactionConfig: {},
+          applicationConfig: {},
+          staticImageConfig: {},
+          createdAt: '2021-12-22T16:49:24.604Z',
+          updatedAt: '2021-12-22T16:50:55.530Z',
+        },
+      ],
+    },
+  ],
+};
+
+GeojsonWMS.args = {
+  widget,
+  layerGroups: [
+    {
+      id: '4919be3a-c543-4964-a224-83ef801370de',
+      opacity: 1,
+      visibility: true,
+      layers: [
+        {
+          active: true,
+          id: '0490bdf9-15fa-4dbf-ae4a-0db4e8ea0e06',
+          name: '1975 Human Settlements Grid',
+          slug: '1975-Human-Settlements-Grid_1',
+          dataset: '565c3cb1-8015-4029-b497-e9245608580f',
+          description:
+            'Highlights urban centers (high density clusters with a high degree of built-up land and high population density), urban clusters or towns and suburbs (low density), and rural areas in 1975.',
+          application: ['rw'],
+          iso: [],
+          provider: 'gee',
+          userId: '57a0aa1071e394dd32ffe137',
+          default: false,
+          protected: false,
+          published: true,
+          env: 'staging',
+          layerConfig: {
+            type: 'raster',
+            source: {
+              provider: {
+                type: 'feature-service',
+                options: {
+                  tiler:
+                    'https://services.arcgis.com/hBEMHCkbQdfV906F/ArcGIS/rest/services/CommunityNaturalResourceRights/FeatureServer/0',
+                },
+              },
+              parse: false,
+              type: 'geojson',
+              minzoom: 3,
+              maxzoom: 12,
+            },
+            render: {
+              layers: [
+                {
+                  paint: {
+                    'fill-color': '#0f0',
+                    'fill-opacity': 0.5,
+                  },
+                  // 'source-layer': 'layer0',
+                  type: 'fill',
+                },
+              ],
+            },
+          },
+          legendConfig: {},
+          interactionConfig: {},
+          applicationConfig: {},
+          staticImageConfig: {},
+          createdAt: '2021-12-22T16:49:24.604Z',
+          updatedAt: '2021-12-22T16:50:55.530Z',
+        },
+      ],
+    },
+  ],
+};
+
+WithAreaOfInterest.args = {
+  widget: {
+    ...widget,
+    widgetConfig: {
+      ...widget.widgetConfig,
+      bbox: [-13.095703125, 34.56085936708384, 5.009765625, 44.809121700077355],
+    },
+  },
   aoiLayer,
 };
 
@@ -407,10 +584,9 @@ WithMultipleLayers.args = {
           name: 'Power Plants by Capacity (MW) and Fuel Type',
           slug: 'Capacity-MW',
           dataset: 'a86d906d-9862-4783-9e30-cdb68cd808b8',
-          description: 'Global power plants by capacity in megawatts and fuel type. Includes coal, oil, gas, hydro, nuclear, solar, waste, wind, geothermal, and biomass.',
-          application: [
-            'rw',
-          ],
+          description:
+            'Global power plants by capacity in megawatts and fuel type. Includes coal, oil, gas, hydro, nuclear, solar, waste, wind, geothermal, and biomass.',
+          application: ['rw'],
           iso: [],
           provider: 'cartodb',
           type: 'layer',
@@ -422,27 +598,33 @@ WithMultipleLayers.args = {
           published: true,
           env: 'production',
           layerConfig: {
-            body: {
-              layers: [
-                {
-                  options: {
-                    cartocss_version: '2.3.0',
-                    cartocss: "#powerwatch_data_20180102 { marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0;}[capacity_mw <= 1500] {marker-fill-opacity: 0.6;}[capacity_mw > 1500] {marker-fill-opacity: 0.8;} [capacity_mw > 1500]{marker-width: 12.0+8.0*[capacity_mw]/22500.0;} [capacity_mw <= 1500]{marker-width: 4.0+8.0*[capacity_mw]/1500.0;} [primary_fuel='Coal']{marker-fill:#000000;}[primary_fuel='Oil']{marker-fill:#B15928;}[primary_fuel='Gas']{marker-fill:#BC80BD;}[primary_fuel='Hydro']{marker-fill:#1F78B4;}[primary_fuel='Nuclear']{marker-fill:#E31A1C;}[primary_fuel='Solar']{marker-fill:#FF7F00;}[primary_fuel='Waste']{marker-fill:#6A3D9A;}[primary_fuel='Wind']{marker-fill:#5CA2D1;}[primary_fuel='Geothermal']{marker-fill:#FDBF6F;}[primary_fuel='Biomass']{marker-fill:#229A00;}[primary_fuel='Others']{marker-fill:#B2DF8A;} [capacity_mw>=9000]{marker-width:10;}",
-                    sql: 'SELECT * FROM powerwatch_data_20180102',
+            type: 'vector',
+            source: {
+              provider: {
+                type: 'carto',
+                account: 'wri-rw',
+                layers: [
+                  {
+                    options: {
+                      cartocss_version: '2.3.0',
+                      cartocss:
+                        "#powerwatch_data_20180102 { marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0;}[capacity_mw <= 1500] {marker-fill-opacity: 0.6;}[capacity_mw > 1500] {marker-fill-opacity: 0.8;} [capacity_mw > 1500]{marker-width: 12.0+8.0*[capacity_mw]/22500.0;} [capacity_mw <= 1500]{marker-width: 4.0+8.0*[capacity_mw]/1500.0;} [primary_fuel='Coal']{marker-fill:#000000;}[primary_fuel='Oil']{marker-fill:#B15928;}[primary_fuel='Gas']{marker-fill:#BC80BD;}[primary_fuel='Hydro']{marker-fill:#1F78B4;}[primary_fuel='Nuclear']{marker-fill:#E31A1C;}[primary_fuel='Solar']{marker-fill:#FF7F00;}[primary_fuel='Waste']{marker-fill:#6A3D9A;}[primary_fuel='Wind']{marker-fill:#5CA2D1;}[primary_fuel='Geothermal']{marker-fill:#FDBF6F;}[primary_fuel='Biomass']{marker-fill:#229A00;}[primary_fuel='Others']{marker-fill:#B2DF8A;} [capacity_mw>=9000]{marker-width:10;}",
+                      sql: 'SELECT * FROM powerwatch_data_20180102',
+                    },
+                    type: 'mapnik',
                   },
-                  type: 'mapnik',
-                },
-              ],
+                ],
+              },
+              type: 'vector',
+            },
+            render: {
               maxzoom: 18,
-              vectorLayers: [
+              layers: [
                 {
                   paint: {
                     'circle-color': [
                       'match',
-                      [
-                        'get',
-                        'primary_fuel',
-                      ],
+                      ['get', 'primary_fuel'],
                       'Coal',
                       '#000',
                       'Oil',
@@ -473,74 +655,23 @@ WithMultipleLayers.args = {
                     'circle-stroke-opacity': 0.5,
                     'circle-radius': [
                       'interpolate',
-                      [
-                        'linear',
-                      ],
-                      [
-                        'zoom',
-                      ],
+                      ['linear'],
+                      ['zoom'],
                       0,
-                      [
-                        '+',
-                        0.1,
-                        [
-                          '/',
-                          [
-                            'sqrt',
-                            [
-                              '/',
-                              [
-                                'get',
-                                'capacity_mw',
-                              ],
-                              [
-                                'pi',
-                              ],
-                            ],
-                          ],
-                          20,
-                        ],
-                      ],
+                      ['+', 0.1, ['/', ['sqrt', ['/', ['get', 'capacity_mw'], ['pi']]], 20]],
                       12,
-                      [
-                        '+',
-                        4,
-                        [
-                          '/',
-                          [
-                            'sqrt',
-                            [
-                              '/',
-                              [
-                                'get',
-                                'capacity_mw',
-                              ],
-                              [
-                                'pi',
-                              ],
-                            ],
-                          ],
-                          3,
-                        ],
-                      ],
+                      ['+', 4, ['/', ['sqrt', ['/', ['get', 'capacity_mw'], ['pi']]], 3]],
                     ],
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
                   layout: {
-                    'circle-sort-key': [
-                      'get',
-                      'capacity_mw',
-                    ],
+                    'circle-sort-key': ['get', 'capacity_mw'],
                   },
-                  filter: [
-                    'all',
-                  ],
+                  filter: ['all'],
                 },
               ],
             },
-            account: 'wri-rw',
-            layerType: 'vector',
           },
           legendConfig: {
             items: [
@@ -680,10 +811,9 @@ WithMultipleLayers.args = {
           name: 'Power Plants by Fuel Type',
           slug: 'Fuel-Type',
           dataset: 'a86d906d-9862-4783-9e30-cdb68cd808b8',
-          description: 'Global power plants by fuel type. Includes coal, oil, gas, hydro, nuclear, solar, waste, wind, geothermal, and biomass.',
-          application: [
-            'rw',
-          ],
+          description:
+            'Global power plants by fuel type. Includes coal, oil, gas, hydro, nuclear, solar, waste, wind, geothermal, and biomass.',
+          application: ['rw'],
           iso: [],
           provider: 'cartodb',
           type: 'layer',
@@ -695,21 +825,29 @@ WithMultipleLayers.args = {
           published: true,
           env: 'production',
           layerConfig: {
-            account: 'wri-rw',
-            body: {
+            type: 'vector',
+            source: {
+              provider: {
+                type: 'carto',
+                account: 'wri-rw',
+                layers: [
+                  {
+                    type: 'mapnik',
+                    options: {
+                      sql: 'SELECT * FROM powerwatch_data_20180102',
+                      cartocss:
+                        "#powerwatch_data_20180102 {marker-fill-opacity:1; marker-width:3; marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0;[zoom > 2] {marker-width: 3;} [zoom > 3] {marker-width: 4;}[zoom > 5] {marker-width: 7;} [zoom > 7] {marker-width: 12;} [zoom > 9] {marker-width: 15;}} [primary_fuel='Coal']{marker-fill:#000000;}[primary_fuel='Oil']{marker-fill:#B15928;}[primary_fuel='Gas']{marker-fill:#BC80BD;}[primary_fuel='Hydro']{marker-fill:#1F78B4;}[primary_fuel='Nuclear']{marker-fill:#E31A1C;}[primary_fuel='Solar']{marker-fill:#FF7F00;}[primary_fuel='Waste']{marker-fill:#6A3D9A;}[primary_fuel='Wind']{marker-fill:#5CA2D1;}[primary_fuel='Geothermal']{marker-fill:#FDBF6F;}[primary_fuel='Biomass']{marker-fill:#229A00;}[primary_fuel='Others']{marker-fill:#B2DF8A;}",
+                      cartocss_version: '2.3.0',
+                    },
+                  },
+                ],
+              },
+              type: 'vector',
+            },
+            render: {
               maxzoom: 18,
               minzoom: 3,
               layers: [
-                {
-                  type: 'mapnik',
-                  options: {
-                    sql: 'SELECT * FROM powerwatch_data_20180102',
-                    cartocss: "#powerwatch_data_20180102 {marker-fill-opacity:1; marker-width:3; marker-line-width:0.3; marker-line-color:#FFF; marker-allow-overlap: true; marker-line-opacity:0;[zoom > 2] {marker-width: 3;} [zoom > 3] {marker-width: 4;}[zoom > 5] {marker-width: 7;} [zoom > 7] {marker-width: 12;} [zoom > 9] {marker-width: 15;}} [primary_fuel='Coal']{marker-fill:#000000;}[primary_fuel='Oil']{marker-fill:#B15928;}[primary_fuel='Gas']{marker-fill:#BC80BD;}[primary_fuel='Hydro']{marker-fill:#1F78B4;}[primary_fuel='Nuclear']{marker-fill:#E31A1C;}[primary_fuel='Solar']{marker-fill:#FF7F00;}[primary_fuel='Waste']{marker-fill:#6A3D9A;}[primary_fuel='Wind']{marker-fill:#5CA2D1;}[primary_fuel='Geothermal']{marker-fill:#FDBF6F;}[primary_fuel='Biomass']{marker-fill:#229A00;}[primary_fuel='Others']{marker-fill:#B2DF8A;}",
-                    cartocss_version: '2.3.0',
-                  },
-                },
-              ],
-              vectorLayers: [
                 {
                   paint: {
                     'circle-opacity': 1,
@@ -720,14 +858,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '>',
-                      'zoom ',
-                      2,
-                    ],
-                  ],
+                  filter: ['all', ['>', 'zoom ', 2]],
                 },
                 {
                   paint: {
@@ -735,14 +866,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '>',
-                      'zoom ',
-                      3,
-                    ],
-                  ],
+                  filter: ['all', ['>', 'zoom ', 3]],
                 },
                 {
                   paint: {
@@ -750,14 +874,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '>',
-                      'zoom ',
-                      5,
-                    ],
-                  ],
+                  filter: ['all', ['>', 'zoom ', 5]],
                 },
                 {
                   paint: {
@@ -765,14 +882,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '>',
-                      'zoom ',
-                      7,
-                    ],
-                  ],
+                  filter: ['all', ['>', 'zoom ', 7]],
                 },
                 {
                   paint: {
@@ -780,14 +890,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '>',
-                      'zoom ',
-                      9,
-                    ],
-                  ],
+                  filter: ['all', ['>', 'zoom ', 9]],
                 },
                 {
                   paint: {
@@ -795,14 +898,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Coal',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Coal']],
                 },
                 {
                   paint: {
@@ -810,14 +906,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Oil',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Oil']],
                 },
                 {
                   paint: {
@@ -825,14 +914,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Gas',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Gas']],
                 },
                 {
                   paint: {
@@ -840,14 +922,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Hydro',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Hydro']],
                 },
                 {
                   paint: {
@@ -855,14 +930,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Nuclear',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Nuclear']],
                 },
                 {
                   paint: {
@@ -870,14 +938,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Solar',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Solar']],
                 },
                 {
                   paint: {
@@ -885,14 +946,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Waste',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Waste']],
                 },
                 {
                   paint: {
@@ -900,14 +954,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Wind',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Wind']],
                 },
                 {
                   paint: {
@@ -915,14 +962,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Geothermal',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Geothermal']],
                 },
                 {
                   paint: {
@@ -930,14 +970,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Biomass',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Biomass']],
                 },
                 {
                   paint: {
@@ -945,18 +978,10 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'primary_fuel',
-                      'Others',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'primary_fuel', 'Others']],
                 },
               ],
             },
-            layerType: 'vector',
           },
           legendConfig: {
             items: [
@@ -1102,10 +1127,9 @@ WithMultipleLayers.args = {
           name: 'Adaptation Capacity to Reef Loss',
           slug: 'Adaptation-Capacity-to-Reef-Loss_6',
           dataset: 'fe9b286f-4b28-409a-85f5-2e81b2bd5056',
-          description: 'An adaptive capacity index to reef loss based on the following inputs: economic resources, education, health (life expectancy), governance, access to markets, and agricultural resources',
-          application: [
-            'rw',
-          ],
+          description:
+            'An adaptive capacity index to reef loss based on the following inputs: economic resources, education, health (life expectancy), governance, access to markets, and agricultural resources',
+          application: ['rw'],
           iso: [],
           provider: 'cartodb',
           type: 'layer',
@@ -1117,20 +1141,28 @@ WithMultipleLayers.args = {
           published: true,
           env: 'production',
           layerConfig: {
-            account: 'wri-rw',
-            body: {
+            type: 'vector',
+            source: {
+              provider: {
+                type: 'carto',
+                account: 'wri-rw',
+                layers: [
+                  {
+                    type: 'mapnik',
+                    options: {
+                      sql: 'SELECT * FROM bio_031_soc_econ_reef',
+                      cartocss:
+                        "#bio_031_soc_econ_reef{polygon-opacity: 0.5; line-width: 0.5; line-color:#bdbdbd; line-opacity: 1;}  #bio_031_soc_econ_reef [adapt_cat = 'High' ] {polygon-fill: #a6d96a; } #bio_031_soc_econ_reef [adapt_cat = 'Medium'] {polygon-fill: #ffffbf; } #bio_031_soc_econ_reef [adapt_cat = 'Low'] {polygon-fill: #fdae61;} #bio_031_soc_econ_reef [adapt_cat = 'Very low'] {polygon-fill: #d7191c;}",
+                      cartocss_version: '2.3.0',
+                    },
+                  },
+                ],
+              },
+              type: 'vector',
+            },
+            render: {
               maxzoom: 18,
               layers: [
-                {
-                  type: 'mapnik',
-                  options: {
-                    sql: 'SELECT * FROM bio_031_soc_econ_reef',
-                    cartocss: "#bio_031_soc_econ_reef{polygon-opacity: 0.5; line-width: 0.5; line-color:#bdbdbd; line-opacity: 1;}  #bio_031_soc_econ_reef [adapt_cat = 'High' ] {polygon-fill: #a6d96a; } #bio_031_soc_econ_reef [adapt_cat = 'Medium'] {polygon-fill: #ffffbf; } #bio_031_soc_econ_reef [adapt_cat = 'Low'] {polygon-fill: #fdae61;} #bio_031_soc_econ_reef [adapt_cat = 'Very low'] {polygon-fill: #d7191c;}",
-                    cartocss_version: '2.3.0',
-                  },
-                },
-              ],
-              vectorLayers: [
                 {
                   paint: {
                     'line-width': 0.5,
@@ -1139,9 +1171,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'line',
-                  filter: [
-                    'all',
-                  ],
+                  filter: ['all'],
                 },
                 {
                   paint: {
@@ -1150,14 +1180,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'fill',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'adapt_cat',
-                      'Very low',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'adapt_cat', 'Very low']],
                 },
                 {
                   paint: {
@@ -1166,14 +1189,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'fill',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'adapt_cat',
-                      'Low',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'adapt_cat', 'Low']],
                 },
                 {
                   paint: {
@@ -1182,14 +1198,7 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'fill',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'adapt_cat',
-                      'Medium',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'adapt_cat', 'Medium']],
                 },
                 {
                   paint: {
@@ -1198,18 +1207,10 @@ WithMultipleLayers.args = {
                   },
                   'source-layer': 'layer0',
                   type: 'fill',
-                  filter: [
-                    'all',
-                    [
-                      '==',
-                      'adapt_cat',
-                      'High',
-                    ],
-                  ],
+                  filter: ['all', ['==', 'adapt_cat', 'High']],
                 },
               ],
             },
-            layerType: 'vector',
           },
           legendConfig: {
             type: 'choropleth',
@@ -1280,10 +1281,9 @@ WithMultipleLayers.args = {
           name: 'Countries Experiencing Disaster Events',
           slug: 'Disaster-Events-in-the-News-Points',
           dataset: '4919be3a-c543-4964-a224-83ef801370de',
-          description: 'Countries experiencing ongoing disasters that are actively being monitored by ReliefWeb. Each point is located in the center of a particular country and does not indicate where in that country the disaster occurred. The types of disasters being monitored include floods, droughts, severe local storms, tropical cyclones, storm surges, tsunamis, earthquakes, wildfires, cold waves, heat waves, volcanic activity, landslides, mudslides, snow avalanches, epidemics, insect infestations, and technological disasters.',
-          application: [
-            'rw',
-          ],
+          description:
+            'Countries experiencing ongoing disasters that are actively being monitored by ReliefWeb. Each point is located in the center of a particular country and does not indicate where in that country the disaster occurred. The types of disasters being monitored include floods, droughts, severe local storms, tropical cyclones, storm surges, tsunamis, earthquakes, wildfires, cold waves, heat waves, volcanic activity, landslides, mudslides, snow avalanches, epidemics, insect infestations, and technological disasters.',
+          application: ['rw'],
           iso: [],
           provider: 'cartodb',
           type: 'layer',
@@ -1295,32 +1295,36 @@ WithMultipleLayers.args = {
           published: true,
           env: 'production',
           layerConfig: {
-            account: 'rw-nrt',
-            body: {
+            type: 'vector',
+            source: {
+              provider: {
+                type: 'carto',
+                account: 'rw-nrt',
+                layers: [
+                  {
+                    type: 'mapnik',
+                    options: {
+                      sql: 'SELECT * FROM dis_006_reliefweb_disasters_interaction',
+                      cartocss:
+                        '#dis_006_reliefweb_disasters_interaction  {::halo { marker-width: 20; marker-fill-opacity: 0.2;marker-fill:#FFF; marker-line-color: #FFF; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; } marker-fill-opacity: 1; marker-line-width: 0.3 ; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; marker-fill:#42f4f1; marker-line-color: #42f4f1; marker-width: 8;}',
+                      cartocss_version: '2.3.0',
+                    },
+                  },
+                ],
+              },
+              type: 'vector',
+            },
+            render: {
               maxzoom: 18,
               minzoom: 0,
               layers: [
-                {
-                  type: 'mapnik',
-                  options: {
-                    sql: 'SELECT * FROM dis_006_reliefweb_disasters_interaction',
-                    cartocss: '#dis_006_reliefweb_disasters_interaction  {::halo { marker-width: 20; marker-fill-opacity: 0.2;marker-fill:#FFF; marker-line-color: #FFF; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; } marker-fill-opacity: 1; marker-line-width: 0.3 ; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-allow-overlap: true; marker-fill:#42f4f1; marker-line-color: #42f4f1; marker-width: 8;}',
-                    cartocss_version: '2.3.0',
-                  },
-                },
-              ],
-              vectorLayers: [
                 {
                   paint: {
                     'circle-color': '#42f4f1',
                     'circle-stroke-width': [
                       'interpolate',
-                      [
-                        'linear',
-                      ],
-                      [
-                        'zoom',
-                      ],
+                      ['linear'],
+                      ['zoom'],
                       0,
                       2,
                       3,
@@ -1331,31 +1335,14 @@ WithMultipleLayers.args = {
                     'circle-stroke-color': '#fff',
                     'circle-opacity': 0.9,
                     'circle-stroke-opacity': 0.3,
-                    'circle-radius': [
-                      'interpolate',
-                      [
-                        'linear',
-                      ],
-                      [
-                        'zoom',
-                      ],
-                      0,
-                      3,
-                      3,
-                      10,
-                      12,
-                      30,
-                    ],
+                    'circle-radius': ['interpolate', ['linear'], ['zoom'], 0, 3, 3, 10, 12, 30],
                   },
                   'source-layer': 'layer0',
                   type: 'circle',
-                  filter: [
-                    'all',
-                  ],
+                  filter: ['all'],
                 },
               ],
             },
-            layerType: 'vector',
           },
           legendConfig: {
             type: 'basic',
