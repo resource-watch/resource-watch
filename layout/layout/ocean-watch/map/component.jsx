@@ -304,7 +304,7 @@ export default function MapSelection() {
             mapOptions={{
               renderWorldCopies: false,
             }}
-            onViewportChange={handleViewport}
+            onMapViewportChange={handleViewport}
             onHover={handleHover}
             onLoad={({ map }) => {
               mapRef.current = map;

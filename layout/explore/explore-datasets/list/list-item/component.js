@@ -6,51 +6,22 @@ import { withRouter } from 'next/router';
 
 // components
 import WidgetChart from 'components/charts/widget-chart';
-import LayerChart from 'components/charts/layer-chart';
+import MapThumbnail from 'components/map/thumbnail';
 import PlaceholderChart from 'components/charts/placeholder-chart';
 
 // Utils
 import { getDateConsideringTimeZone } from 'utils/utils';
 
 // lib
-import {
-  Media,
-} from 'lib/media';
-
-
+import { Media } from 'lib/media';
 
 class DatasetListItem extends React.Component {
-  static propTypes = {
-    // STATE
-    dataset: PropTypes.object.isRequired,
-    widget: PropTypes.object,
-    layer: PropTypes.object,
-    metadata: PropTypes.object.isRequired,
-    actions: PropTypes.node.isRequired,
-    active: PropTypes.bool.isRequired,
-    expandedChart: PropTypes.bool,
-    toggleMapLayerGroup: PropTypes.func.isRequired,
-    resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
-    setMapLayerGroupActive: PropTypes.func.isRequired,
-    router: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
-  static defaultProps = {
-    layer: null,
-    widget: null,
-    expandedChart: false,
-  };
-
   /**
    * HELPER
    * - renderChart
-  */
+   */
   renderChart = () => {
-    const {
-      dataset, widget, layer, expandedChart,
-    } = this.props;
+    const { dataset, widget, layer, expandedChart, basemap } = this.props;
 
     const isWidgetMap = widget && widget.widgetConfig.type === 'map';
     const isEmbedWidget = widget && widget.widgetConfig.type === 'embed';
@@ -61,17 +32,18 @@ class DatasetListItem extends React.Component {
 
     if (widget && !isWidgetMap && !isEmbedWidget) {
       return (
-        <Link href={`/data/explore/${dataset.slug}`}>
+        <Link href={`/data/explore/${dataset.slug}`} passHref>
           <div className={classNameValue}>
             <WidgetChart widget={widget} thumbnail />
           </div>
         </Link>
       );
-    } if (layer || isWidgetMap) {
+    }
+    if (layer || isWidgetMap) {
       return (
-        <Link href={`/data/explore/${dataset.slug}`}>
+        <Link href={`/data/explore/${dataset.slug}`} passHref>
           <div className={classNameValue}>
-            <LayerChart layer={layer} />
+            <MapThumbnail layer={layer} basemap={basemap} />
           </div>
         </Link>
       );
@@ -86,7 +58,7 @@ class DatasetListItem extends React.Component {
         </Link>
       </div>
     );
-  }
+  };
 
   handleClick = () => {
     const {
@@ -106,12 +78,10 @@ class DatasetListItem extends React.Component {
       setMapLayerGroupActive({ dataset: { id: dataset.id }, active: layer.id });
       resetMapLayerGroupsInteraction();
     }
-  }
+  };
 
   render() {
-    const {
-      dataset, metadata, actions, active,
-    } = this.props;
+    const { dataset, metadata, actions, active } = this.props;
 
     const dateLastUpdated = getDateConsideringTimeZone(dataset.dataLastUpdated, true);
     const classNameValue = classnames({
@@ -121,53 +91,33 @@ class DatasetListItem extends React.Component {
 
     return (
       <div className={classNameValue}>
-        <Media
-          greaterThanOrEqual="md"
-        >
-          {this.renderChart()}
-        </Media>
+        <Media greaterThanOrEqual="md">{this.renderChart()}</Media>
 
-        <Media
-          at="sm"
-        >
-          <Link href={`/data/explore/${dataset.slug}`}>
-            {this.renderChart()}
-          </Link>
+        <Media at="sm">
+          <Link href={`/data/explore/${dataset.slug}`}>{this.renderChart()}</Link>
         </Media>
 
         {/* INFO */}
         <div className="info">
           <div className="source-date">
             {/* Source */}
-            <div
-              className="source"
-              title={metadata && metadata.source}
-            >
+            <div className="source" title={metadata && metadata.source}>
               {metadata && metadata.source}
             </div>
             {/* Last update */}
-            <div className="date">
-              {dateLastUpdated}
-            </div>
+            <div className="date">{dateLastUpdated}</div>
           </div>
 
           {/* Title */}
           <div className="title-actions">
             <h4>
               <Link href={`/data/explore/${dataset.slug}`}>
-                <a>
-                  {(metadata && metadata.info && metadata.info.name) || dataset.name}
-                </a>
+                <a>{(metadata && metadata.info && metadata.info.name) || dataset.name}</a>
               </Link>
             </h4>
             {actions && (
-              <Media
-                greaterThanOrEqual="md"
-              >
-                {React.cloneElement(
-                  actions,
-                  ({ ...this.props }),
-                )}
+              <Media greaterThanOrEqual="md">
+                {React.cloneElement(actions, { ...this.props })}
               </Media>
             )}
           </div>
@@ -176,5 +126,28 @@ class DatasetListItem extends React.Component {
     );
   }
 }
+
+DatasetListItem.defaultProps = {
+  layer: null,
+  widget: null,
+  expandedChart: false,
+};
+
+DatasetListItem.propTypes = {
+  dataset: PropTypes.shape({}).isRequired,
+  widget: PropTypes.shape({}),
+  layer: PropTypes.shape({}),
+  metadata: PropTypes.shape({}).isRequired,
+  actions: PropTypes.node.isRequired,
+  active: PropTypes.bool.isRequired,
+  expandedChart: PropTypes.bool,
+  basemap: PropTypes.string.isRequired,
+  toggleMapLayerGroup: PropTypes.func.isRequired,
+  resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
+  setMapLayerGroupActive: PropTypes.func.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default withRouter(DatasetListItem);

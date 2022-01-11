@@ -4,12 +4,7 @@ import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import Renderer from '@widget-editor/renderer';
 
-import {
-  Tooltip,
-  Legend,
-  LegendListItem,
-  LegendItemTypes,
-} from 'vizzuality-components';
+import { Tooltip, Legend, LegendListItem, LegendItemTypes } from 'vizzuality-components';
 import { toastr } from 'react-redux-toastr';
 
 // components
@@ -28,15 +23,11 @@ import ShareModal from 'components/modal/share-modal';
 import ErrorBoundary from 'components/ui/error-boundary';
 
 // constants
-import {
-  DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS,
-} from 'components/map/constants';
+import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
 
 // utils
 import { logEvent } from 'utils/analytics';
-import {
-  parseBbox,
-} from 'components/map/utils';
+import { parseBbox } from 'components/map/utils';
 
 // const defaultTheme = getVegaTheme();
 
@@ -62,15 +53,11 @@ class WidgetBlock extends PureComponent {
     shareWidget: null,
     viewport: DEFAULT_VIEWPORT,
     isInitMap: false,
-  }
+  };
 
   componentDidUpdate() {
     const { viewport, isInitMap } = this.state;
-    if (
-      isInitMap === false
-      && viewport.latitude === 0
-      && viewport.longitude === 0
-    ) {
+    if (isInitMap === false && viewport.latitude === 0 && viewport.longitude === 0) {
       this.setViewportByProps();
     }
   }
@@ -84,7 +71,10 @@ class WidgetBlock extends PureComponent {
     if (!data[id]) {
       return null;
     }
-    const { widget: { widgetConfig }, widgetType } = data[id];
+    const {
+      widget: { widgetConfig },
+      widgetType,
+    } = data[id];
     if (widgetType && widgetType === 'map' && widgetConfig) {
       const { lat, lng, zoom } = widgetConfig;
       const center = { latitude: lat, longitude: lng, zoom };
@@ -95,23 +85,26 @@ class WidgetBlock extends PureComponent {
       });
     }
     return true;
-  }
+  };
 
   getMapBounds(widget = {}) {
     if (widget?.widgetConfig?.bbox) {
-      return ({
+      return {
         bbox: parseBbox(widget.widgetConfig.bbox),
-      });
+      };
     }
 
-    return ({});
+    return {};
   }
 
   getMapBasemap(widget = {}) {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
-    const basemap = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.basemap) ? widgetConfig.basemapLayers.basemap : 'dark';
+    const basemap =
+      !!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.basemap
+        ? widgetConfig.basemapLayers.basemap
+        : 'dark';
 
     return BASEMAPS[basemap].value;
   }
@@ -120,18 +113,21 @@ class WidgetBlock extends PureComponent {
     const { widgetConfig } = widget;
     if (!widgetConfig) return {};
 
-    const label = (!!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.labels) ? widgetConfig.basemapLayers.labels : 'light';
+    const label =
+      !!widgetConfig.basemapLayers && !!widgetConfig.basemapLayers.labels
+        ? widgetConfig.basemapLayers.labels
+        : 'light';
 
     return LABELS[label].value;
   }
 
   handleToggleShareModal = (widget) => {
     this.setState({ shareWidget: widget });
-  }
+  };
 
   handleViewport = (viewportNew) => {
     this.setState({ viewport: { ...viewportNew } });
-  }
+  };
 
   handleZoom = (zoom) => {
     const { viewport } = this.state;
@@ -142,22 +138,17 @@ class WidgetBlock extends PureComponent {
         transitionDuration: 250,
       },
     });
-  }
+  };
 
   handleMapErrors = (error) => {
-    const { item: { id } } = this.props;
+    const {
+      item: { id },
+    } = this.props;
     toastr.error(`There was an error loading item ${id}`, error);
-  }
+  };
 
   render() {
-    const {
-      data,
-      item,
-      onToggleModal,
-      onToggleLoading,
-      RWAdapter,
-      isInACollection,
-    } = this.props;
+    const { data, item, onToggleModal, onToggleLoading, RWAdapter, isInACollection } = this.props;
 
     const { viewport, isInitMap } = this.state;
 
@@ -178,8 +169,8 @@ class WidgetBlock extends PureComponent {
       layersError,
     } = data[id];
 
-    const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0
-      && widget.metadata[0].info)) || {};
+    const metadataInfo =
+      (widget && widget.metadata && widget.metadata.length > 0 && widget.metadata[0].info) || {};
 
     const widgetLinks = metadataInfo.widgetLinks || [];
     const widgetIsEmbed = widget && widget.widgetConfig && widget.widgetConfig.type === 'embed';
@@ -196,12 +187,8 @@ class WidgetBlock extends PureComponent {
     });
 
     const filteredLayers = [];
-    layers.map(
-      (layerGroup) => layerGroup.layers.filter(
-        (l) => l.active === true,
-      ).forEach(
-        (l) => filteredLayers.push(l),
-      ),
+    layers.map((layerGroup) =>
+      layerGroup.layers.filter((l) => l.active === true).forEach((l) => filteredLayers.push(l)),
     );
 
     return (
@@ -213,11 +200,11 @@ class WidgetBlock extends PureComponent {
             <div className="buttons">
               <ul>
                 <li>
-                  <button className="c-btn -tertiary -clean" onClick={() => this.handleToggleShareModal(widget)}>
-                    <Icon
-                      name="icon-share"
-                      className="-small"
-                    />
+                  <button
+                    className="c-btn -tertiary -clean"
+                    onClick={() => this.handleToggleShareModal(widget)}
+                  >
+                    <Icon name="icon-share" className="-small" />
                   </button>
 
                   <Modal
@@ -227,14 +214,21 @@ class WidgetBlock extends PureComponent {
                   >
                     <ShareModal
                       links={{
-                        link: typeof window !== 'undefined' && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
-                        embed: typeof window !== 'undefined' && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
+                        link:
+                          typeof window !== 'undefined' &&
+                          `${window.location.origin}/embed/${widgetType}/${widget.id}`,
+                        embed:
+                          typeof window !== 'undefined' &&
+                          `${window.location.origin}/embed/${widgetType}/${widget.id}`,
                       }}
                       analytics={{
-                        facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
-                        twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
+                        facebook: () =>
+                          logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
+                        twitter: () =>
+                          logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
                         email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
-                        copy: (type) => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`),
+                        copy: (type) =>
+                          logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`),
                       }}
                     />
                   </Modal>
@@ -243,39 +237,24 @@ class WidgetBlock extends PureComponent {
                 <li>
                   <LoginRequired redirect={false}>
                     <Tooltip
-                      overlay={(
-                        <CollectionsPanel
-                          resource={widget}
-                          resourceType="widget"
-                        />
-)}
+                      overlay={<CollectionsPanel resource={widget} resourceType="widget" />}
                       overlayClassName="c-rc-tooltip"
                       overlayStyle={{ color: '#fff' }}
                       placement="bottomLeft"
                       trigger="click"
                     >
-                      <button
-                        className="c-btn favourite-button"
-                        tabIndex={-1}
-                      >
-                        <Icon
-                          name={starIconName}
-                          className="-star -small"
-                        />
+                      <button className="c-btn favourite-button" tabIndex={-1}>
+                        <Icon name={starIconName} className="-star -small" />
                       </button>
                     </Tooltip>
                   </LoginRequired>
                 </li>
                 <li>
-                  <button
-                    type="button"
-                    onClick={() => onToggleModal(!widgetModal)}
-                  >
+                  <button type="button" onClick={() => onToggleModal(!widgetModal)}>
                     <Icon name={modalIcon} className="-small" />
                   </button>
                 </li>
               </ul>
-
             </div>
           </div>
         </header>
@@ -284,131 +263,113 @@ class WidgetBlock extends PureComponent {
           <div className="widget-container">
             <Spinner isLoading={widgetLoading || layersLoading} className="-light -small" />
 
-            {!widgetError && widgetType === 'text' && widget
-              && (
+            {!widgetError && widgetType === 'text' && widget && (
               <TextChart
                 widgetConfig={widget.widgetConfig}
                 toggleLoading={(loading) => onToggleLoading(loading)}
               />
-              )}
+            )}
 
             {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget && (
-              <Renderer
-                adapter={RWAdapter}
-                widgetConfig={widget.widgetConfig}
+              <Renderer adapter={RWAdapter} widgetConfig={widget.widgetConfig} />
+            )}
+
+            {widgetIsEmbed && (
+              <iframe
+                title={widget.name}
+                src={widgetEmbedUrl}
+                width="100%"
+                height="100%"
+                frameBorder="0"
               />
             )}
 
-            {widgetIsEmbed
-              && <iframe title={widget.name} src={widgetEmbedUrl} width="100%" height="100%" frameBorder="0" />}
-
-            {!isEmpty(widget) && !widgetLoading && !widgetError && !layersError && widgetType === 'map' && layers && isInitMap && (
-              <>
-                <Map
-                  mapStyle={MAPSTYLES}
-                  viewport={viewport}
-                  basemap={this.getMapBasemap(widget)}
-                  onViewportChange={this.handleViewport}
-                  labels={this.getMapLabel(widget)}
-                  scrollZoom={false}
-                  bounds={this.getMapBounds(widget)}
-                  onError={this.handleMapErrors}
-                  style={{
-                    height: 'auto',
-                  }}
-                >
-                  {(_map) => (
-                    <>
-                      <LayerManager
-                        map={_map}
-                        layers={filteredLayers}
-                      />
-                    </>
-                  )}
-                </Map>
-                <MapControls customClass="c-map-controls -embed">
-                  <ZoomControls
+            {!isEmpty(widget) &&
+              !widgetLoading &&
+              !widgetError &&
+              !layersError &&
+              widgetType === 'map' &&
+              layers &&
+              isInitMap && (
+                <>
+                  <Map
+                    mapStyle={MAPSTYLES}
                     viewport={viewport}
-                    onClick={this.handleZoom}
-                  />
-                </MapControls>
-
-                <div className="c-legend-map -embed">
-                  <Legend
-                    maxHeight={140}
-                    sortable={false}
+                    basemap={this.getMapBasemap(widget)}
+                    onMapViewportChange={this.handleViewport}
+                    labels={this.getMapLabel(widget)}
+                    scrollZoom={false}
+                    bounds={this.getMapBounds(widget)}
+                    onError={this.handleMapErrors}
+                    style={{
+                      height: 'auto',
+                    }}
                   >
-                    {layers.map((lg, i) => (
-                      <LegendListItem
-                        index={i}
-                        key={lg.dataset}
-                        layerGroup={lg}
-                      >
-                        <LegendItemTypes />
-                      </LegendListItem>
-                    ))}
-                  </Legend>
-                </div>
-              </>
-            )}
+                    {(_map) => (
+                      <>
+                        <LayerManager map={_map} layers={filteredLayers} />
+                      </>
+                    )}
+                  </Map>
+                  <MapControls customClass="c-map-controls -embed">
+                    <ZoomControls viewport={viewport} onClick={this.handleZoom} />
+                  </MapControls>
 
-            {!widgetError && !layersError && !item && !item.content.widgetId
-              && (
+                  <div className="c-legend-map -embed">
+                    <Legend maxHeight={140} sortable={false}>
+                      {layers.map((lg, i) => (
+                        <LegendListItem index={i} key={lg.dataset} layerGroup={lg}>
+                          <LegendItemTypes />
+                        </LegendListItem>
+                      ))}
+                    </Legend>
+                  </div>
+                </>
+              )}
+
+            {!widgetError && !layersError && !item && !item.content.widgetId && (
               <div className="message">
                 <div className="no-data">No data</div>
               </div>
-              )}
+            )}
 
-            {(widgetError || layersError)
-              && (
+            {(widgetError || layersError) && (
               <div className="message">
                 <div className="error">Unable to load</div>
               </div>
-              )}
+            )}
 
-            {widgetModal
-              && (
+            {widgetModal && (
               <div className="widget-modal">
-                {widget && !widget.description
-                  && <p>No additional information is available</p>}
+                {widget && !widget.description && <p>No additional information is available</p>}
 
                 {widget && widget.description && (
-                <div>
-                  <h4>Description</h4>
-                  <p>{widget.description}</p>
-                </div>
+                  <div>
+                    <h4>Description</h4>
+                    <p>{widget.description}</p>
+                  </div>
                 )}
 
-                {widgetLinks.length > 0
-                  && (
+                {widgetLinks.length > 0 && (
                   <div className="widget-links-container">
                     <h4>Links</h4>
                     <ul>
                       {widgetLinks.map((link) => (
                         <li>
-                          <a
-                            href={link.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
+                          <a href={link.link} target="_blank" rel="noopener noreferrer">
                             {link.name}
                           </a>
                         </li>
                       ))}
                     </ul>
                   </div>
-                  )}
+                )}
               </div>
-              )}
+            )}
           </div>
         </ErrorBoundary>
 
-        {caption
-          && (
-          <div className="caption-container">
-            {caption}
-          </div>
-          )}
+        {caption && <div className="caption-container">{caption}</div>}
       </div>
     );
   }

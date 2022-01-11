@@ -261,7 +261,7 @@ const AreasForm = ({ area, onSubmit }) => {
                 viewport={mapState.viewport}
                 basemap="dark"
                 bounds={mapState.bounds}
-                onViewportChange={handleViewport}
+                onMapViewportChange={handleViewport}
                 getCursor={handleMapCursor}
                 className={mapClass}
               >
@@ -298,7 +298,7 @@ const AreasForm = ({ area, onSubmit }) => {
         <div className="c-button-container -full-width -j-end">
           <ul>
             <li>
-              <Link href="/myrw/areas">
+              <Link href="/myrw/areas" passHref>
                 <button type="button" className="c-btn -secondary">
                   Cancel
                 </button>

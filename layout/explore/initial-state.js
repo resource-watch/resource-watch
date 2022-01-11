@@ -1,9 +1,4 @@
-import {
-  TOPICS,
-  DATA_TYPES,
-  FREQUENCIES,
-  TIME_PERIODS,
-} from 'utils/concepts';
+import { TOPICS, DATA_TYPES, FREQUENCIES, TIME_PERIODS } from 'utils/concepts';
 import { BASEMAPS, LABELS } from 'components/map/constants';
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
@@ -14,7 +9,7 @@ export default {
     loading: true,
     error: null,
     page: 1,
-    limit: 30,
+    limit: 10,
     total: 0,
     selected: null,
   },
