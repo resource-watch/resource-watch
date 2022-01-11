@@ -47,7 +47,6 @@ const {
 
 const miniExploreReducer = mapSlice.reducer;
 
-const mapKey = uuidv4();
 const maskLayerId = uuidv4();
 let hoverState = null;
 
@@ -418,10 +417,6 @@ export default function MiniExploreMapContainer({
 
   return (
     <MiniExploreMap
-      // forces to render the component again and paint updated styles in the map.
-      // This might be fixed in recent versions of Layer Manager.
-      // todo: try to remove the key when the layer manager version is updated.
-      key={minZoom || mapKey}
       viewport={viewport}
       bounds={bounds}
       basemapId={basemapId}

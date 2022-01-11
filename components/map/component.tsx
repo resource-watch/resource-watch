@@ -49,6 +49,8 @@ export interface MapProps extends InteractiveMapProps {
 
   /** A function that exposes the viewport */
   onMapViewportChange?: (viewport: Partial<ViewportProps>) => void;
+  /** Optional callback when bounds are changed  */
+  onFitBoundsChange?: (viewport: Partial<ViewportProps>) => void;
 }
 
 export const Map = ({
@@ -70,6 +72,7 @@ export const Map = ({
   doubleClickZoom,
   width = '100%',
   height = '100%',
+  onFitBoundsChange,
   getCursor,
   ...mapboxProps
 }: MapProps): JSX.Element => {
@@ -148,14 +151,15 @@ export const Map = ({
       ...newViewport,
     }));
     debouncedOnMapViewportChange(newViewport);
+    if (onFitBoundsChange) onFitBoundsChange(newViewport);
 
     return setTimeout(() => {
       setFlight(false);
     }, +transitionDuration);
-  }, [ready, bounds, debouncedOnMapViewportChange]);
+  }, [ready, bounds, debouncedOnMapViewportChange, onFitBoundsChange]);
 
   const handleBasemap = useCallback(
-    (basemap: string) => {
+    (basemap: Basemap) => {
       const { current: map } = mapRef;
       const BASEMAP_GROUPS = ['basemap'];
       const { layers, metadata } = map.getStyle();
@@ -195,7 +199,7 @@ export const Map = ({
   );
 
   const handleLabels = useCallback(
-    (labels: string) => {
+    (labels: Labels) => {
       const { current: map } = mapRef;
       const LABELS_GROUP = ['labels'];
       const { layers, metadata } = map.getStyle();
@@ -275,7 +279,7 @@ export const Map = ({
   }, [onMapReady]);
 
   useEffect(() => {
-    if (!isEmpty(bounds) && !!bounds.bbox && bounds.bbox.every((b) => !!b)) {
+    if (!isEmpty(bounds) && !!bounds.bbox && bounds.bbox.every((b) => typeof b === 'number')) {
       handleFitBounds();
     }
   }, [bounds, handleFitBounds]);
