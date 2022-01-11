@@ -6687,11 +6687,6 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
-corslite@0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/corslite/-/corslite-0.0.7.tgz#8e451db5320a7556de1ef78d9bd3566343077721"
-  integrity sha1-jkUdtTIKdVbeHveNm9NWY0MHdyE=
-
 cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-2.2.2.tgz#6173cebd56fac042c1f4390edf7af6c07c7cb892"
@@ -11653,13 +11648,6 @@ lcid@^2.0.0:
   integrity sha512-avPEb8P8EGnwXKClwsNUgryVjllcRqtMYa49NTsbQagYuT1DcXnl1915oxWjoyGrXR6zH/Y0Zc96xWsPcoDKeA==
   dependencies:
     invert-kv "^2.0.0"
-
-leaflet-utfgrid@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/leaflet-utfgrid/-/leaflet-utfgrid-0.3.0.tgz#6b87bede198e8050a988972185285633023406d9"
-  integrity sha1-a4e+3hmOgFCpiJchhShWMwI0Btk=
-  dependencies:
-    corslite "0.0.7"
 
 levn@^0.4.1:
   version "0.4.1"
@@ -19441,11 +19429,6 @@ what-input@^4.0.3:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/what-input/-/what-input-4.3.1.tgz#b8ea7554ba1d9171887c4c6addf28185fec3d31d"
   integrity sha512-7KD71RWNRWI9M08shZ8+n/2UjO5amwsG9PMSXWz0iIlH8H2DVbHE8Z2tW1RqQa0kIwdeqdUIffFz7crDfkcbAw==
-
-whatwg-fetch@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.2.tgz#fe294d1d89e36c5be8b3195057f2e4bc74fc980e"
-  integrity sha1-/ilNHYnjbFvosxlQV/LkvHT8mA4=
 
 whatwg-fetch@>=0.10.0:
   version "3.6.2"

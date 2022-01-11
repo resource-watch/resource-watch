@@ -41,7 +41,6 @@
     "fuse.js": "^3.2.1",
     "isomorphic-fetch": "2.2.1",
     "jsonapi-serializer": "3.5.3",
-    "leaflet-utfgrid": "^0.3.0",
     "lodash": "^4.17.21",
     "luma.gl": "^7.3.2",
     "moment": "^2.24.0",
@@ -55,7 +54,6 @@
     "passport-mock-strategy": "^2.0.0",
     "pino": "^5.11.3",
     "pluralize": "5.0.0",
-    "promise.prototype.finally": "^3.1.0",
     "prop-types": "^15.6.0",
     "rc-pagination": "1.9.8",
     "rc-tooltip": "^3.7.0",
@@ -104,7 +102,6 @@
     "uuid": "^8.3.2",
     "vega-lib": "^4.4.0",
     "vizzuality-components": "^3.0.3",
-    "whatwg-fetch": "2.0.2",
     "wri-json-api-serializer": "1.0.1"
   },
   "devDependencies": {
