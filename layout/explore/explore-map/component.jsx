@@ -453,7 +453,7 @@ const ExploreMap = (props) => {
         boundaries={boundaries}
         getCursor={handleMapCursor}
         className={mapClass}
-        onViewportChange={handleViewport}
+        onMapViewportChange={handleViewport}
       >
         {(_map) => (
           <>

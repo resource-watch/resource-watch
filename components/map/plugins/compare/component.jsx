@@ -134,7 +134,7 @@ const CompareMaps = (props) => {
           basemap="dark"
           labels="light"
           boundaries
-          onViewportChange={handleViewport}
+          onMapViewportChange={handleViewport}
           onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
           viewport={viewport}
         >

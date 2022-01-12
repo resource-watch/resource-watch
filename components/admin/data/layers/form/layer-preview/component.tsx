@@ -183,7 +183,7 @@ export const LayerPreview = ({
           basemap="dark"
           labels="light"
           viewport={viewport}
-          onViewportChange={handleViewport}
+          onMapViewportChange={handleViewport}
           scrollZoom={false}
           boundaries
           interactiveLayerIds={interactiveLayerIds}
