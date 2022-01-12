@@ -1,33 +1,21 @@
-import {
-  useCallback,
-  cloneElement,
-} from 'react';
+import { useCallback, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import classnames from 'classnames';
 
 // components
 import WidgetChart from 'components/charts/widget-chart';
-import LayerChart from 'components/charts/layer-chart';
+import MapThumbnail from 'components/map/thumbnail';
 import PlaceholderChart from 'components/charts/placeholder-chart';
 
 // Utils
 import { getDateConsideringTimeZone } from 'utils/utils';
 
 // lib
-import {
-  Media,
-} from 'lib/media';
+import { Media } from 'lib/media';
 
 export default function DatasetCardItem(props) {
-  const {
-    dataset,
-    widget,
-    layer,
-    metadata,
-    actions,
-    expandedChart,
-  } = props;
+  const { dataset, widget, layer, metadata, actions, expandedChart } = props;
   const dateLastUpdated = getDateConsideringTimeZone(dataset.dataLastUpdated, true);
 
   const renderChart = useCallback(() => {
@@ -51,7 +39,7 @@ export default function DatasetCardItem(props) {
         <Link href={`/data/explore/${dataset.slug}`}>
           <a>
             <div className={classNameValue}>
-              <LayerChart layer={layer} />
+              <MapThumbnail layer={layer} />
             </div>
           </a>
         </Link>
@@ -76,55 +64,31 @@ export default function DatasetCardItem(props) {
         '-active': dataset.active,
       })}
     >
-      <Media
-        greaterThanOrEqual="md"
-      >
-        {renderChart()}
-      </Media>
+      <Media greaterThanOrEqual="md">{renderChart()}</Media>
 
-      <Media
-        at="sm"
-      >
-        <Link href={dataset.hrefLink}>
-          {renderChart()}
-        </Link>
+      <Media at="sm">
+        <Link href={dataset.hrefLink}>{renderChart()}</Link>
       </Media>
 
       {/* INFO */}
       <div className="info">
         <div className="source-date">
           {/* Source */}
-          <div
-            className="source"
-            title={metadata && metadata.source}
-          >
+          <div className="source" title={metadata && metadata.source}>
             {metadata && metadata.source}
           </div>
           {/* Last update */}
-          <div className="date">
-            {dateLastUpdated}
-          </div>
+          <div className="date">{dateLastUpdated}</div>
         </div>
 
         {/* Title */}
         <div className="title-actions">
           <h4>
             <Link href={dataset.hrefLink}>
-              <a>
-                {(metadata && metadata.info && metadata.info.name) || dataset.name}
-              </a>
+              <a>{(metadata && metadata.info && metadata.info.name) || dataset.name}</a>
             </Link>
           </h4>
-          {actions && (
-            <Media
-              greaterThanOrEqual="md"
-            >
-              {cloneElement(
-                actions,
-                ({ ...props }),
-              )}
-            </Media>
-          )}
+          {actions && <Media greaterThanOrEqual="md">{cloneElement(actions, { ...props })}</Media>}
         </div>
       </div>
     </div>
