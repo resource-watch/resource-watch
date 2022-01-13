@@ -1,15 +1,10 @@
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-const Icon = ({
-  name,
-  className,
-  style,
-  ...restProps
-}) => (
+const Icon = ({ name, className, style, ...restProps }) => (
   <svg
-    className={classnames('c-icon', { [className]: !!className })}
-    {...style && { style }}
+    className={classnames('c-icon inline-block align-baseline', { [className]: !!className })}
+    {...(style && { style })}
     {...restProps}
   >
     <use xlinkHref={`#${name}`} />

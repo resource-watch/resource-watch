@@ -1,54 +1,28 @@
-import {
-  useMemo,
-  useState,
-  useCallback,
-} from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import {
-  useQueries,
-} from 'react-query';
-import {
-  ErrorBoundary,
-} from 'react-error-boundary';
-import { v4 as uuidv4 } from 'uuid';
+import { useQueries } from 'react-query';
+import { ErrorBoundary } from 'react-error-boundary';
 
 // services
-import {
-  fetchLayer,
-} from 'services/layer';
+import { fetchLayer } from 'services/layer';
 
 // hooks
 import { useFetchWidget } from 'hooks/widget';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
-import {
-  useGeostore,
-} from 'hooks/geostore';
-import {
-  useMe,
-} from 'hooks/user';
+import { useGeostore } from 'hooks/geostore';
+import { useMe } from 'hooks/user';
 
 // utils
-import {
-  parseBbox,
-} from 'components/map/utils';
-import {
-  getAoiLayer,
-  getMaskLayer,
-  getLayerGroups,
-} from 'utils/layers';
+import { parseBbox } from 'components/map/utils';
+import { getAoiLayer, getMaskLayer, getLayerGroups } from 'utils/layers';
 
 // components
 import ErrorFallback from 'components/error-fallback';
 import SwipeTypeWidget from './component';
 
-const mapKey = uuidv4();
-
-const CustomErrorFallback = ((_props) => (
-  <ErrorFallback
-    {..._props}
-    title="Something went wrong loading the widget"
-  />
-));
+const CustomErrorFallback = (_props) => (
+  <ErrorFallback {..._props} title="Something went wrong loading the widget" />
+);
 
 export default function SwipeTypeWidgetContainer({
   widgetId,
@@ -60,17 +34,11 @@ export default function SwipeTypeWidgetContainer({
   onToggleShare,
 }) {
   const [minZoom, setMinZoom] = useState(null);
-  const {
-    data: user,
-  } = useMe();
-  const {
-    isInACollection,
-  } = useBelongsToCollection(widgetId, user?.token);
+  const { data: user } = useMe();
+  const { isInACollection } = useBelongsToCollection(widgetId, user?.token);
 
   const onFitBoundsChange = useCallback((viewport) => {
-    const {
-      zoom,
-    } = viewport;
+    const { zoom } = viewport;
 
     setMinZoom(zoom);
   }, []);
@@ -129,14 +97,13 @@ export default function SwipeTypeWidgetContainer({
     })),
   );
 
-  const layers = useMemo(() => ({
-    left: leftLayerStates
-      .filter(({ data }) => !!data)
-      .map(({ data }) => data),
-    right: rightLayerStates
-      .filter(({ data }) => !!data)
-      .map(({ data }) => data),
-  }), [leftLayerStates, rightLayerStates]);
+  const layers = useMemo(
+    () => ({
+      left: leftLayerStates.filter(({ data }) => !!data).map(({ data }) => data),
+      right: rightLayerStates.filter(({ data }) => !!data).map(({ data }) => data),
+    }),
+    [leftLayerStates, rightLayerStates],
+  );
 
   const aoiLayer = useMemo(
     () => getAoiLayer(widget, geostore, { minZoom }),
@@ -148,33 +115,29 @@ export default function SwipeTypeWidgetContainer({
   const layerGroupsBySide = useMemo(() => {
     const { layerParams } = widget?.widgetConfig?.paramsConfig || {};
 
-    return ({
+    return {
       left: getLayerGroups(layers.left, layerParams, true),
       right: getLayerGroups(layers.right, layerParams, true),
-    });
+    };
   }, [layers, widget]);
 
   const bounds = useMemo(() => {
-    if (geostore?.bbox) {
-      return ({
+    if (geostore?.bbox)
+      return {
         bbox: geostore.bbox,
         options: {
           padding: 50,
         },
-      });
-    }
+      };
 
-    if (!widget?.widgetConfig?.bbox) return ({});
+    if (!widget?.widgetConfig?.bounds) return {};
 
-    return ({
-      bbox: parseBbox(widget.widgetConfig.bbox),
-    });
-  }, [geostore, widget]);
+    return {
+      bbox: parseBbox(widget.widgetConfig.bounds.bbox),
+    };
+  }, [widget, geostore]);
 
-  const isError = useMemo(
-    () => (isErrorWidget || isErrorGeostore),
-    [isErrorWidget, isErrorGeostore],
-  );
+  const isError = useMemo(() => isErrorWidget || isErrorGeostore, [isErrorWidget, isErrorGeostore]);
 
   return (
     <ErrorBoundary
@@ -185,10 +148,6 @@ export default function SwipeTypeWidgetContainer({
       }}
     >
       <SwipeTypeWidget
-        // forces to render the component again and paint updated styles in the map.
-        // This might be fixed in recent versions of Layer Manager.
-        // todo: try to remove the key when the layer manager version is updated.
-        key={minZoom || mapKey}
         layerGroupsBySide={layerGroupsBySide}
         aoiLayer={aoiLayer}
         maskLayer={maskLayer}

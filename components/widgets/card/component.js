@@ -14,11 +14,7 @@ import { fetchLayer } from 'services/layer';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 
 // utils
-import {
-  isMapWidget,
-  isEmbedWidget,
-  isTextualWidget,
-} from 'utils/widget';
+import { isMapWidget, isEmbedWidget, isTextualWidget } from 'utils/widget';
 import { logEvent } from 'utils/analytics';
 
 // constants
@@ -34,7 +30,7 @@ import LayerManager from 'components/map/layer-manager';
 import LoginRequired from 'components/ui/login-required';
 import CollectionsPanel from 'components/collections-panel';
 import WidgetChart from 'components/charts/widget-chart';
-import LayerChart from 'components/charts/layer-chart';
+import MapThumbnail from 'components/map/thumbnail';
 import ShareModal from 'components/modal/share-modal';
 import TextChart from 'components/widgets/charts/TextChart';
 import WidgetActionsTooltip from './tooltip';
@@ -56,26 +52,25 @@ const WidgetCard = (props) => {
 
   const router = useRouter();
   const [state, dispatch] = useReducer(REDUCER, INITIAL_STATE);
-  const {
-    loading,
-    mapLoading,
-    layer,
-    error,
-    tooltip,
-  } = state;
-  const {
-    isInACollection,
-  } = useBelongsToCollection(widget.id, user.token);
+  const { loading, mapLoading, layer, error, tooltip } = state;
+  const { isInACollection } = useBelongsToCollection(widget.id, user.token);
 
   const handleRemoveVisualization = () => {
-    const { user: { token }, onWidgetRemove } = props;
+    const {
+      user: { token },
+      onWidgetRemove,
+    } = props;
     const { id, name, dataset } = widget;
 
     toastr.confirm(`Are you sure you want to remove the visualization: ${name}?`, {
       onOk: () => {
         deleteWidget(id, dataset, token)
-          .then(() => { onWidgetRemove(); })
-          .catch(({ message }) => toastr.error('Something went wrong deleting the widget', message));
+          .then(() => {
+            onWidgetRemove();
+          })
+          .catch(({ message }) =>
+            toastr.error('Something went wrong deleting the widget', message),
+          );
       },
     });
   };
@@ -107,7 +102,9 @@ const WidgetCard = (props) => {
   };
 
   const handleEditWidget = () => {
-    const { user: { role, id } } = props;
+    const {
+      user: { role, id },
+    } = props;
     const isOwner = widget.userId === id;
     const isAdmin = role === 'ADMIN';
 
@@ -144,7 +141,9 @@ const WidgetCard = (props) => {
     link.dispatchEvent(event);
   };
 
-  const handleTooltipVisibility = (visible) => { dispatch({ type: 'WIDGET-CARD/SET_TOOLTIP', payload: visible }); };
+  const handleTooltipVisibility = (visible) => {
+    dispatch({ type: 'WIDGET-CARD/SET_TOOLTIP', payload: visible });
+  };
 
   const getLayer = async (layerId) => {
     dispatch({ type: 'WIDGET-CARD/SET_LOADING', payload: true });
@@ -155,7 +154,10 @@ const WidgetCard = (props) => {
       dispatch({ type: 'WIDGET-CARD/SET_LAYER', payload: layerData });
       dispatch({ type: 'WIDGET-CARD/SET_LOADING', payload: false });
     } catch (e) {
-      dispatch({ type: 'WIDGET-CARD/SET_ERROR', payload: 'There was an issue rendering the visualization' });
+      dispatch({
+        type: 'WIDGET-CARD/SET_ERROR',
+        payload: 'There was an issue rendering the visualization',
+      });
       dispatch({ type: 'WIDGET-CARD/SET_LOADING', payload: false });
     }
   };
@@ -205,18 +207,17 @@ const WidgetCard = (props) => {
     if (isMapWidget(widget.widgetConfig)) {
       // We render the thumbnail of a map
       if (mode === 'grid') {
-        return (<LayerChart layer={layer} />);
+        return <MapThumbnail layer={layer} basemap="light" />;
       }
 
-      const { widgetConfig: { basemapLayers, bbox } } = widget;
+      const {
+        widgetConfig: { basemapLayers, bbox },
+      } = widget;
       const { basemap, boundaries, labels } = basemapLayers;
 
       return (
         <div className="c-widget-chart -map">
-          <Spinner
-            isLoading={mapLoading}
-            className="-light"
-          />
+          <Spinner isLoading={mapLoading} className="-light" />
           <Map
             interactiveLayerIds={[]}
             mapStyle={MAPSTYLES}
@@ -244,12 +245,7 @@ const WidgetCard = (props) => {
               });
             }}
           >
-            {(_map) => (
-              <LayerManager
-                map={_map}
-                layers={[layer]}
-              />
-            )}
+            {(_map) => <LayerManager map={_map} layers={[layer]} />}
           </Map>
         </div>
       );
@@ -265,27 +261,25 @@ const WidgetCard = (props) => {
     }
 
     // We render a Vega chart
-    return (
-      <WidgetChart
-        widget={widget}
-        thumbnail={thumbnail}
-      />
-    );
+    return <WidgetChart widget={widget} thumbnail={thumbnail} />;
   };
 
   useEffect(() => {
     if (isMapWidget(widget.widgetConfig)) {
-      const layerId = (widget.widgetConfig.paramsConfig
-        && widget.widgetConfig.paramsConfig.layer)
-        || widget.widgetConfig.layer_id;
+      const layerId =
+        (widget.widgetConfig.paramsConfig && widget.widgetConfig.paramsConfig.layer) ||
+        widget.widgetConfig.layer_id;
 
       getLayer(layerId);
     }
   }, [widget]);
 
-  const widgetLinks = (widget.metadata && widget.metadata.length > 0
-    && widget.metadata[0].info
-    && widget.metadata[0].info.widgetLinks) || [];
+  const widgetLinks =
+    (widget.metadata &&
+      widget.metadata.length > 0 &&
+      widget.metadata[0].info &&
+      widget.metadata[0].info.widgetLinks) ||
+    [];
   const isWidgetOwner = widget.userId === user.id;
 
   const starIconName = classnames({
@@ -306,89 +300,69 @@ const WidgetCard = (props) => {
       {...(clickable && { onClick: () => onWidgetClick && onWidgetClick(widget) })}
       {...(clickable && { onKeyPress: () => onWidgetClick && onWidgetClick(widget) })}
     >
-      <div className="widget-preview">
-        {getWidgetPreview()}
-      </div>
+      <div className="widget-preview">{getWidgetPreview()}</div>
       <div className="info">
         <div className="detail">
           {/* Title */}
-          <Title className="-default -primary">
-            {widget.name}
-          </Title>
+          <Title className="-default -primary">{widget.name}</Title>
           <p>
             {truncate(widget.description, { length: limitChar, separator: ' ', omission: '...' })}
           </p>
-          {showFavorite
-            && (
+          {showFavorite && (
             <LoginRequired>
               <Tooltip
-                overlay={(
-                  <CollectionsPanel
-                    resource={widget}
-                    resourceType="widget"
-                  />
-                )}
+                overlay={<CollectionsPanel resource={widget} resourceType="widget" />}
                 overlayClassName="c-rc-tooltip"
                 overlayStyle={{ color: '#fff' }}
                 placement="bottomLeft"
                 trigger="click"
               >
-                <button
-                  type="button"
-                  className="c-btn favourite-button"
-                  tabIndex={-1}
-                >
-                  <Icon
-                    name={starIconName}
-                    className="-star -small"
-                  />
+                <button type="button" className="c-btn favourite-button" tabIndex={-1}>
+                  <Icon name={starIconName} className="-star -small" />
                 </button>
               </Tooltip>
             </LoginRequired>
-            )}
+          )}
         </div>
 
-        {(showActions || showRemove || showEmbed)
-          && (
+        {(showActions || showRemove || showEmbed) && (
           <div className="actions">
             {showActions && (
-
-            <Tooltip
-              visible={tooltip}
-              overlayClassName="c-rc-tooltip -default -no-max-width"
-              placement="top"
-              destroyTooltipOnHide
-              overlay={(
-                <WidgetActionsTooltip
-                  toggleTooltip={() => { handleTooltipVisibility(false); }}
-                  onShareEmbed={handleEmbed}
-                  onGoToDataset={handleGoToDataset}
-                  onEditWidget={handleEditWidget}
-                  onDownloadPDF={handleDownloadPDF}
-                  onRemove={handleRemoveVisualization}
-                  widgetLinks={widgetLinks}
-                  isWidgetOwner={isWidgetOwner}
-                />
-                )}
-            >
-
-              <button
-                className="c-button -secondary widget-actions"
-                onClick={() => { handleTooltipVisibility(!tooltip); }}
+              <Tooltip
+                visible={tooltip}
+                overlayClassName="c-rc-tooltip -default -no-max-width"
+                placement="top"
+                destroyTooltipOnHide
+                overlay={
+                  <WidgetActionsTooltip
+                    toggleTooltip={() => {
+                      handleTooltipVisibility(false);
+                    }}
+                    onShareEmbed={handleEmbed}
+                    onGoToDataset={handleGoToDataset}
+                    onEditWidget={handleEditWidget}
+                    onDownloadPDF={handleDownloadPDF}
+                    onRemove={handleRemoveVisualization}
+                    widgetLinks={widgetLinks}
+                    isWidgetOwner={isWidgetOwner}
+                  />
+                }
               >
-                Options
-              </button>
-            </Tooltip>
+                <button
+                  className="c-button -secondary widget-actions"
+                  onClick={() => {
+                    handleTooltipVisibility(!tooltip);
+                  }}
+                >
+                  Options
+                </button>
+              </Tooltip>
             )}
-            <button
-              type="button"
-              className="c-button"
-              onClick={handleEditWidget}
-            >
+            <button type="button" className="c-button" onClick={handleEditWidget}>
               Edit
             </button>
           </div>
-          )}
+        )}
       </div>
     </div>
   );

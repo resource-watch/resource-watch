@@ -6,12 +6,7 @@ import { connect } from 'react-redux';
 
 // Services
 import { fetchDatasets } from 'services/dataset';
-import {
-  fetchLayer,
-  deleteLayer,
-  createLayer,
-  updateLayer,
-} from 'services/layer';
+import { fetchLayer, deleteLayer, createLayer, updateLayer } from 'services/layer';
 import { toastr } from 'react-redux-toastr';
 
 import { setLayerInteractionError } from 'components/admin/data/layers/form/layer-preview/actions';
@@ -20,8 +15,6 @@ import { setLayerInteractionError } from 'components/admin/data/layers/form/laye
 import Step1 from 'components/admin/data/layers/form/steps/Step1';
 import Navigation from 'components/form/Navigation';
 import Spinner from 'components/ui/Spinner';
-
-import LayerManager from 'utils/layers/LayerManager';
 
 // constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from './constants';
@@ -44,23 +37,23 @@ class LayersForm extends PureComponent {
         }),
       }),
     }).isRequired,
-  }
+  };
 
   static defaultProps = {
     dataset: null,
     onSubmit: null,
-  }
+  };
 
   constructor(props) {
     super(props);
 
     const formObj = props.dataset
-      ? ({
-        ...STATE_DEFAULT.form,
-        dataset: props.dataset,
-        application: props.application,
-      })
-      : ({ ...STATE_DEFAULT.form, application: props.application });
+      ? {
+          ...STATE_DEFAULT.form,
+          dataset: props.dataset,
+          application: props.application,
+        }
+      : { ...STATE_DEFAULT.form, application: props.application };
 
     this.state = {
       ...STATE_DEFAULT,
@@ -70,12 +63,6 @@ class LayersForm extends PureComponent {
       form: formObj,
       loading: !!props.id,
     };
-
-    this.layerManager = new LayerManager(null, {
-      layersUpdated: (valid, err) => {
-        this.props.setLayerInteractionError(valid ? false : err);
-      },
-    });
   }
 
   componentDidMount() {
@@ -134,7 +121,6 @@ class LayersForm extends PureComponent {
       // Grab all the interactions from the redux store
       if (form.provider === 'cartodb') {
         interactionConfig = {
-
           ...form.interactionConfig,
           output: interactions.added,
         };
@@ -143,60 +129,36 @@ class LayersForm extends PureComponent {
       const newForm = { ...form, interactionConfig };
 
       // Verify that layers are valid, otherwise render error
-      const { adminLayerPreview } = this.props;
-      const { layerGroups } = adminLayerPreview;
-      const cartoLayer = layerGroups.length && 'layers' in layerGroups[0]
-        ? layerGroups[0].layers.filter((layer) => layer.provider === 'cartodb')
-        : [];
-
       if (valid) {
-        // Start the submitting
-        this.setState({ submitting: true });
         this.props.setLayerInteractionError(false);
-
-        if (cartoLayer.length) {
-          // If we have carto layers, make sure they work
-          this.layerManager.verifyCartoLayer(
-            { ...cartoLayer[0], layerConfig: newForm.layerConfig },
-            (cartoLayerValid) => {
-              if (cartoLayerValid) {
-                this.saveLayer(newForm);
-              } else {
-                toastr.error('Error', 'Layer config contains errors');
-                this.setState({ submitting: false });
-              }
-            },
-          );
-          return;
-        }
-
         this.saveLayer(newForm);
       } else {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
-  }
+  };
 
   onChange = (obj) => {
     const form = { ...this.state.form, ...obj };
     this.setState({ form });
-  }
+  };
 
   onChangeDataset = (dataset) => {
     const form = { ...this.state.form, dataset };
     this.setState({ dataset, form });
-  }
+  };
 
   onStepChange = (step) => {
     this.setState({ step });
-  }
+  };
 
   onDelete = () => {
-    const { form: { name }, id, dataset } = this.state;
     const {
-      authorization,
-      router,
-    } = this.props;
+      form: { name },
+      id,
+      dataset,
+    } = this.state;
+    const { authorization, router } = this.props;
 
     toastr.confirm(`Are you sure that you want to delete the layer: "${name}"`, {
       onOk: () => {
@@ -213,7 +175,7 @@ class LayersForm extends PureComponent {
           });
       },
     });
-  }
+  };
 
   // HELPERS
   setFormFromParams(params) {
@@ -223,35 +185,18 @@ class LayersForm extends PureComponent {
       switch (f) {
         default: {
           if (
-            typeof params[f] !== 'undefined'
-            || params[f] !== null
-            || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)
+            typeof params[f] !== 'undefined' ||
+            params[f] !== null ||
+            typeof this.state.form[f] !== 'undefined' ||
+            this.state.form[f] !== null
           ) {
-            newForm[f] = (f in params) ? params[f] : this.state.form[f];
+            newForm[f] = f in params ? params[f] : this.state.form[f];
           }
         }
       }
     });
 
     return newForm;
-  }
-
-  verifyLayerConfig() {
-    const { adminLayerPreview } = this.props;
-    const { layerGroups } = adminLayerPreview;
-
-    const { form } = this.state;
-
-    const cartoLayer = layerGroups.length && 'layers' in layerGroups[0]
-      ? layerGroups[0].layers.filter((layer) => layer.provider === 'cartodb')
-      : [];
-
-    if (cartoLayer.length) {
-      // If we have carto layers, make sure they work
-      this.layerManager.verifyCartoLayer(
-        { ...cartoLayer[0], layerConfig: form.layerConfig },
-      );
-    }
   }
 
   saveLayer(form) {
@@ -261,20 +206,28 @@ class LayersForm extends PureComponent {
     if (id) {
       updateLayer(form, dataset, authorization)
         .then((data) => {
-          toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been updated correctly`);
+          toastr.success(
+            'Success',
+            `The layer "${data.id}" - "${data.name}" has been updated correctly`,
+          );
           if (onSubmit) onSubmit(data.id, dataset);
           this.setState({ submitting: false, form: data });
-        }).catch((error) => {
+        })
+        .catch((error) => {
           this.setState({ submitting: false });
           toastr.error('Error updating layer', error);
         });
     } else {
       createLayer(form, dataset, authorization)
         .then((data) => {
-          toastr.success('Success', `The layer "${data.id}" - "${data.name}" has been created correctly`);
+          toastr.success(
+            'Success',
+            `The layer "${data.id}" - "${data.name}" has been created correctly`,
+          );
           if (onSubmit) onSubmit(data.id, dataset);
           this.setState({ submitting: false, form: data });
-        }).catch((error) => {
+        })
+        .catch((error) => {
           this.setState({ submitting: false });
           toastr.error('Error creating layer', error);
         });
@@ -282,14 +235,10 @@ class LayersForm extends PureComponent {
   }
 
   render() {
-    const {
-      form, id, datasets, loading, step, stepLength, submitting,
-    } = this.state;
+    const { form, id, datasets, loading, step, stepLength, submitting } = this.state;
     const {
       router: {
-        query: {
-          params,
-        },
+        query: { params },
       },
     } = this.props;
 
@@ -299,22 +248,21 @@ class LayersForm extends PureComponent {
       <form className="c-form c-layers-form" onSubmit={this.onSubmit} noValidate>
         <Spinner isLoading={loading} className="-light" />
 
-        {(step === 1 && !loading)
-          && (
+        {step === 1 && !loading && (
           <Step1
-            ref={(c) => { this.step = c; }}
+            ref={(c) => {
+              this.step = c;
+            }}
             form={form}
             id={id}
             layerPreview={this.props.adminLayerPreview}
             datasets={datasets}
             onChange={(value) => this.onChange(value)}
             onChangeDataset={(value) => this.onChangeDataset(value)}
-            verifyLayerConfig={() => this.verifyLayerConfig()}
           />
-          )}
+        )}
 
-        {!loading
-          && (
+        {!loading && (
           <Navigation
             step={step}
             stepLength={stepLength}
@@ -323,7 +271,7 @@ class LayersForm extends PureComponent {
             showDelete={!isNew}
             onDelete={this.onDelete}
           />
-          )}
+        )}
       </form>
     );
   }
@@ -337,7 +285,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = { setLayerInteractionError };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withRouter(LayersForm));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LayersForm));

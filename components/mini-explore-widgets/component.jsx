@@ -1,8 +1,4 @@
-import {
-  useReducer,
-  useCallback,
-  useEffect,
-} from 'react';
+import { useReducer, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -10,24 +6,13 @@ import WidgetSidebar from './widget-sidebar';
 import MiniExploreMap from './map';
 
 // reducers
-import {
-  miniExploreWidgetState,
-  miniExploreWidgetSlice,
-} from './reducer';
+import { miniExploreWidgetState, miniExploreWidgetSlice } from './reducer';
 
 const miniExploreWidgetReducer = miniExploreWidgetSlice.reducer;
-const {
-  setGeostoreBasin,
-} = miniExploreWidgetSlice.actions;
+const { setGeostoreBasin } = miniExploreWidgetSlice.actions;
 let clickState = null;
 export default function MiniExploreWidgets({
-  config: {
-    title,
-    layers,
-    mask,
-    widgets,
-    areaOfInterest,
-  },
+  config: { title, layers, mask, widgets, areaOfInterest },
   params,
   adapter,
 }) {
@@ -35,12 +20,9 @@ export default function MiniExploreWidgets({
 
   const onClickLayer = useCallback(({ features }, map) => {
     if (clickState) {
-      map.setFeatureState(
-        clickState,
-        {
-          active: false,
-        },
-      );
+      map.setFeatureState(clickState, {
+        active: false,
+      });
     }
 
     if (!features.length) return false;
@@ -48,11 +30,7 @@ export default function MiniExploreWidgets({
     const dataFeature = features.find(({ id }) => Boolean(id));
 
     if (!dataFeature) return false;
-    const {
-      source,
-      sourceLayer,
-      properties,
-    } = dataFeature;
+    const { source, sourceLayer, properties } = dataFeature;
 
     clickState = {
       source,
@@ -60,12 +38,9 @@ export default function MiniExploreWidgets({
       id: properties.cartodb_id,
     };
 
-    map.setFeatureState(
-      clickState,
-      {
-        active: true,
-      },
-    );
+    map.setFeatureState(clickState, {
+      active: true,
+    });
 
     return dispatch(setGeostoreBasin(properties.geostore_prod));
   }, []);
@@ -77,9 +52,7 @@ export default function MiniExploreWidgets({
   return (
     <div className="c-mini-explore-widgets">
       <header>
-        <h4>
-          {title}
-        </h4>
+        <h4>{title}</h4>
       </header>
       <div className="main-container">
         <MiniExploreMap
@@ -109,13 +82,9 @@ MiniExploreWidgets.defaultProps = {
 MiniExploreWidgets.propTypes = {
   config: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    layers: PropTypes.arrayOf(
-      PropTypes.string.isRequired,
-    ).isRequired,
+    layers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     mask: PropTypes.shape({}),
-    widgets: PropTypes.arrayOf(
-      PropTypes.string.isRequired,
-    ).isRequired,
+    widgets: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     areaOfInterest: PropTypes.string,
   }).isRequired,
   params: PropTypes.shape({}),

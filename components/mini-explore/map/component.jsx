@@ -1,6 +1,4 @@
-import {
-  useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
@@ -12,9 +10,7 @@ import {
   LegendItemTypes,
   LegendItemTimeStep,
 } from 'vizzuality-components';
-import {
-  LegendItemTimeline,
-} from 'old-vizzuality-components';
+import { LegendItemTimeline } from 'old-vizzuality-components';
 
 // components
 import Map from 'components/map';
@@ -28,11 +24,7 @@ import ResetViewControls from 'components/map/controls/reset-view';
 import LayerPopup from 'components/map/popup';
 
 // constants
-import {
-  MAPSTYLES,
-  BASEMAPS,
-  LABELS,
-} from 'components/map/constants';
+import { MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
 // todo: these constants should be generic
 import {
   LEGEND_TIMELINE_PROPERTIES,
@@ -76,10 +68,7 @@ export default function MiniExploreMap({
   onLoad,
   onHover,
 }) {
-  const {
-    pitch,
-    bearing,
-  } = viewport;
+  const { pitch, bearing } = viewport;
   const resetViewBtnClass = classnames({
     '-with-transition': true,
     '-visible': pitch !== 0 || bearing !== 0,
@@ -110,21 +99,17 @@ export default function MiniExploreMap({
         boundaries={boundaries}
         getCursor={handleMapCursor}
         className={mapClass}
-        onViewportChange={handleViewport}
+        onMapViewportChange={handleViewport}
         onFitBoundsChange={handleFitBoundsChange}
         fitBoundsOptions={{ transitionDuration: 0 }}
-        {...onHover && { onHover }}
-        {...onLoad && { onLoad }}
+        {...(onHover && { onHover })}
+        {...(onLoad && { onLoad })}
       >
         {(_map) => (
           <>
-            <LayerManager
-              map={_map}
-              layers={activeLayers}
-            />
+            <LayerManager map={_map} layers={activeLayers} />
 
-            {(!isEmpty(layerGroupsInteractionLatLng)
-              && activeLayersWithoutAreaOfInterest.length) && (
+            {!isEmpty(layerGroupsInteractionLatLng) && activeLayersWithoutAreaOfInterest.length && (
               <Popup
                 {...layerGroupsInteractionLatLng}
                 closeButton
@@ -157,10 +142,7 @@ export default function MiniExploreMap({
       </Map>
 
       <MapControls>
-        <ZoomControls
-          viewport={viewport}
-          onClick={handleZoom}
-        />
+        <ZoomControls viewport={viewport} onClick={handleZoom} />
         <BasemapControls
           basemap={basemap}
           labels={labels}
@@ -170,25 +152,17 @@ export default function MiniExploreMap({
           onChangeLabels={handleLabels}
           onChangeBoundaries={handleBoundaries}
         />
-        <ResetViewControls
-          className={resetViewBtnClass}
-          onResetView={handleResetView}
-        />
+        <ResetViewControls className={resetViewBtnClass} onResetView={handleResetView} />
       </MapControls>
 
       <div className="c-legend-map">
-        <Legend
-          maxHeight={300}
-          onChangeOrder={onChangeOrder}
-        >
+        <Legend maxHeight={300} onChangeOrder={onChangeOrder}>
           {layerGroups.map((lg, i) => (
             <LegendListItem
               index={i}
               key={lg.id}
               layerGroup={lg}
-              toolbar={(
-                <LegendItemToolbar />
-              )}
+              toolbar={<LegendItemToolbar />}
               onChangeInfo={onChangeInfo}
               onChangeOpacity={onChangeOpacity}
               onChangeVisibility={onChangeVisibility}
@@ -201,7 +175,7 @@ export default function MiniExploreMap({
                 customClass="rw-legend-timeline"
                 defaultStyles={LEGEND_TIMELINE_PROPERTIES}
                 dots={false}
-                {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
+                {...(lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } })}
               />
               {/* Temporary: only show old timeline approach if there's no occurrence of
                 new timelineParams config
@@ -211,7 +185,7 @@ export default function MiniExploreMap({
                   onChangeLayer={onChangeLayerTimeLine}
                   customClass="rw-legend-timeline"
                   {...LEGEND_TIMELINE_PROPERTIES}
-                  {...lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } }}
+                  {...(lg.layers.length > TIMELINE_THRESHOLD && { dotStyle: { opacity: 0 } })}
                 />
               )}
             </LegendListItem>
@@ -219,11 +193,7 @@ export default function MiniExploreMap({
         </Legend>
       </div>
       {!!layerModal && (
-        <Modal
-          isOpen
-          className="-medium"
-          onRequestClose={() => onChangeInfo(null)}
-        >
+        <Modal isOpen className="-medium" onRequestClose={() => onChangeInfo(null)}>
           <LayerInfoModal layer={layerModal} />
         </Modal>
       )}
@@ -248,28 +218,20 @@ MiniExploreMap.propTypes = {
   }).isRequired,
   bounds: PropTypes.shape({}).isRequired,
   boundaries: PropTypes.bool.isRequired,
-  disabledControls: PropTypes.arrayOf(
-    PropTypes.string,
-  ),
+  disabledControls: PropTypes.arrayOf(PropTypes.string),
   basemapId: PropTypes.string.isRequired,
   labelsId: PropTypes.string.isRequired,
   layerModal: PropTypes.shape({}),
   mapClass: PropTypes.string,
-  layerGroups: PropTypes.arrayOf(
-    PropTypes.shape({}),
-  ).isRequired,
-  activeInteractiveLayers: PropTypes.arrayOf(
-    PropTypes.string,
-  ).isRequired,
+  layerGroups: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  activeInteractiveLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   layerGroupsInteraction: PropTypes.shape({}).isRequired,
   layerGroupsInteractionSelected: PropTypes.string,
   layerGroupsInteractionLatLng: PropTypes.shape({
     latitude: PropTypes.number,
     longitude: PropTypes.number,
   }),
-  activeLayers: PropTypes.arrayOf(
-    PropTypes.shape({}),
-  ).isRequired,
+  activeLayers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   handleMapCursor: PropTypes.func.isRequired,
   handleViewport: PropTypes.func.isRequired,
   handleFitBoundsChange: PropTypes.func.isRequired,

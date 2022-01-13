@@ -1,27 +1,12 @@
-import {
-  createRef,
-  useRef,
-  useState,
-  useMemo,
-  useCallback,
-} from 'react';
+import { createRef, useRef, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { useDebouncedCallback } from 'use-debounce';
-import {
-  Legend,
-  LegendListItem,
-  LegendItemTypes,
-} from 'vizzuality-components';
+import { Legend, LegendListItem, LegendItemTypes } from 'vizzuality-components';
 import compact from 'lodash/compact';
 
 // constants
-import {
-  DEFAULT_VIEWPORT,
-  MAPSTYLES,
-  BASEMAPS,
-  LABELS,
-} from 'components/map/constants';
+import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
 
 // components
 import Spinner from 'components/ui/Spinner';
@@ -65,18 +50,24 @@ export default function SwipeTypeWidget({
     onToggleShare(widget);
   }, [onToggleShare, widget]);
 
-  const handleMapRefs = useCallback((_map) => {
-    setMap({
-      ...map,
-      ..._map,
-    });
-  }, [map]);
+  const handleMapRefs = useCallback(
+    (_map) => {
+      setMap({
+        ...map,
+        ..._map,
+      });
+    },
+    [map],
+  );
 
-  const handleFitBoundsChange = useCallback((_viewport) => {
-    onFitBoundsChange(_viewport);
-  }, [onFitBoundsChange]);
+  const handleFitBoundsChange = useCallback(
+    (_viewport) => {
+      onFitBoundsChange(_viewport);
+    },
+    [onFitBoundsChange],
+  );
 
-  const [handleViewport] = useDebouncedCallback((_viewport) => {
+  const handleViewport = useDebouncedCallback((_viewport) => {
     setViewport(_viewport);
   }, 1);
 
@@ -100,22 +91,29 @@ export default function SwipeTypeWidget({
     return LABELS[label].value;
   }, [widget]);
 
-  const layersBySide = useMemo(() => ({
-    left: [
-      ...(aoiLayer !== null) ? [aoiLayer] : [],
-      ...(maskLayer !== null) ? [maskLayer] : [],
-      ...compact(layerGroupsBySide.left.map(
-        (_layerGroup) => (_layerGroup.layers || []).find((_layer) => _layer.active),
-      )),
-    ],
-    right: [
-      ...(aoiLayer !== null) ? [aoiLayer] : [],
-      ...(maskLayer !== null) ? [maskLayer] : [],
-      ...compact(layerGroupsBySide.right.map(
-        (_layerGroup) => (_layerGroup.layers || []).find((_layer) => _layer.active),
-      )),
-    ],
-  }), [layerGroupsBySide, aoiLayer, maskLayer]);
+  const layersBySide = useMemo(
+    () => ({
+      left: [
+        ...(aoiLayer !== null ? [aoiLayer] : []),
+        ...(maskLayer !== null ? [maskLayer] : []),
+        ...compact(
+          layerGroupsBySide.left.map((_layerGroup) =>
+            (_layerGroup.layers || []).find((_layer) => _layer.active),
+          ),
+        ),
+      ],
+      right: [
+        ...(aoiLayer !== null ? [aoiLayer] : []),
+        ...(maskLayer !== null ? [maskLayer] : []),
+        ...compact(
+          layerGroupsBySide.right.map((_layerGroup) =>
+            (_layerGroup.layers || []).find((_layer) => _layer.active),
+          ),
+        ),
+      ],
+    }),
+    [layerGroupsBySide, aoiLayer, maskLayer],
+  );
 
   const boundaries = useMemo(
     () => Boolean(widget?.widgetConfig?.basemapLayers?.boundaries),
@@ -132,7 +130,7 @@ export default function SwipeTypeWidget({
         ...style,
       }}
     >
-      {(!isFetching && !isError && !isWebshot) && (
+      {!isFetching && !isError && !isWebshot && (
         <div className="widget-header-container">
           <WidgetHeader
             widget={widget}
@@ -147,16 +145,11 @@ export default function SwipeTypeWidget({
         className="widget-container"
         style={{
           minHeight: 400,
-          ...!isInfoWidgetVisible && { border: 0 },
-          ...caption && { borderRadius: 0 },
+          ...(!isInfoWidgetVisible && { border: 0 }),
+          ...(caption && { borderRadius: 0 }),
         }}
       >
-        {isFetching && (
-          <Spinner
-            isLoading
-            className="-transparent"
-          />
-        )}
+        {isFetching && <Spinner isLoading className="-transparent" />}
 
         <div
           className="c-map-comparison"
@@ -165,145 +158,108 @@ export default function SwipeTypeWidget({
           }}
         >
           <div className="compare-container">
-            {(!isFetching && !isError) && (
-            <>
-              {/* left map */}
-              <Map
-                interactiveLayerIds={[]}
-                mapStyle={MAPSTYLES}
-                className="-compare"
-                basemap={basemap}
-                labels={labels}
-                boundaries={boundaries}
-                scrollZoom={false}
-                viewport={viewport}
-                bounds={bounds}
-                onFitBoundsChange={handleFitBoundsChange}
-                onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
-                fitBoundsOptions={{
-                  transitionDuration: 0,
-                }}
-              >
-                {(_map) => (
-                  <LayerManager
-                    map={_map}
-                    layers={layersBySide.left}
-                  />
-                )}
-              </Map>
-
-              {(layersBySide.left.length > 0) && (
-              <div
-                className="c-legend-map"
-                style={{
-                  left: 16,
-                }}
-              >
-                <Legend
-                  maxHeight={140}
-                  sortable={false}
-                  expanded={false}
+            {!isFetching && !isError && (
+              <>
+                {/* left map */}
+                <Map
+                  interactiveLayerIds={[]}
+                  mapStyle={MAPSTYLES}
+                  className="-compare"
+                  basemap={basemap}
+                  labels={labels}
+                  boundaries={boundaries}
+                  scrollZoom={false}
+                  viewport={viewport}
+                  bounds={bounds}
+                  onFitBoundsChange={handleFitBoundsChange}
+                  onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
                 >
-                  {layerGroupsBySide.left.map((lg, i) => (
-                    <LegendListItem
-                      index={i}
-                      key={lg.id}
-                      layerGroup={lg}
-                    >
-                      <LegendItemTypes />
-                    </LegendListItem>
-                  ))}
-                </Legend>
-              </div>
-              )}
-            </>
+                  {(_map) => <LayerManager map={_map} layers={layersBySide.left} />}
+                </Map>
+
+                {layersBySide.left.length > 0 && (
+                  <div
+                    className="c-legend-map"
+                    style={{
+                      left: 16,
+                    }}
+                  >
+                    <Legend maxHeight={140} sortable={false} expanded={false}>
+                      {layerGroupsBySide.left.map((lg, i) => (
+                        <LegendListItem index={i} key={lg.id} layerGroup={lg}>
+                          <LegendItemTypes />
+                        </LegendListItem>
+                      ))}
+                    </Legend>
+                  </div>
+                )}
+              </>
             )}
           </div>
           <div className="compare-container">
-            {(!isFetching && !isError) && (
-            <>
-              {/* right map */}
-              {/* swiper */}
-              <div
-                ref={swiperRef}
-                className="swiper-container mapboxgl-compare"
-              >
-                <div className="compare-swiper" />
-              </div>
-              <Map
-                interactiveLayerIds={[]}
-                mapStyle={MAPSTYLES}
-                className="-compare"
-                basemap={basemap}
-                labels={labels}
-                boundaries={boundaries}
-                scrollZoom={false}
-                viewport={viewport}
-                onViewportChange={handleViewport}
-                bounds={bounds}
-                onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
-                fitBoundsOptions={{
-                  transitionDuration: 0,
-                }}
-              >
-                {(_map) => (
-                  <LayerManager
-                    map={_map}
-                    layers={layersBySide.right}
-                  />
-                )}
-              </Map>
-
-              <MapControls customClass="c-map-controls -embed">
-                <ZoomControls
+            {!isFetching && !isError && (
+              <>
+                {/* right map */}
+                {/* swiper */}
+                <div ref={swiperRef} className="swiper-container mapboxgl-compare">
+                  <div className="compare-swiper" />
+                </div>
+                <Map
+                  interactiveLayerIds={[]}
+                  mapStyle={MAPSTYLES}
+                  className="-compare"
+                  basemap={basemap}
+                  labels={labels}
+                  boundaries={boundaries}
+                  scrollZoom={false}
                   viewport={viewport}
-                  onClick={handleZoom}
-                />
-              </MapControls>
-
-              {(layersBySide.right.length > 0) && (
-              <div
-                className="c-legend-map"
-                style={{
-                  right: 16,
-                }}
-              >
-                <Legend
-                  maxHeight={140}
-                  sortable={false}
-                  expanded={false}
+                  onMapViewportChange={handleViewport}
+                  bounds={bounds}
+                  onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
                 >
-                  {layerGroupsBySide.right.map((lg, i) => (
-                    <LegendListItem
-                      index={i}
-                      key={lg.id}
-                      layerGroup={lg}
-                    >
-                      <LegendItemTypes />
-                    </LegendListItem>
-                  ))}
-                </Legend>
-              </div>
-              )}
-            </>
+                  {(_map) => <LayerManager map={_map} layers={layersBySide.right} />}
+                </Map>
+
+                <MapControls customClass="c-map-controls -embed">
+                  <ZoomControls viewport={viewport} onClick={handleZoom} />
+                </MapControls>
+
+                {layersBySide.right.length > 0 && (
+                  <div
+                    className="c-legend-map"
+                    style={{
+                      right: 16,
+                    }}
+                  >
+                    <Legend maxHeight={140} sortable={false} expanded={false}>
+                      {layerGroupsBySide.right.map((lg, i) => (
+                        <LegendListItem index={i} key={lg.id} layerGroup={lg}>
+                          <LegendItemTypes />
+                        </LegendListItem>
+                      ))}
+                    </Legend>
+                  </div>
+                )}
+              </>
             )}
-            {(map.left && map.right) && (
-            <MapboxCompare
-              leftRef={map.left}
-              rightRef={map.right}
-              swiper={swiperRef}
-              options={{
-                swiper: {
-                  offset: legendRef.current
-                    ? legendRef.current.getBoundingClientRect().height : 0,
-                },
-              }}
-            />
+            {map.left && map.right && (
+              <MapboxCompare
+                leftRef={map.left}
+                rightRef={map.right}
+                swiper={swiperRef}
+                options={{
+                  swiper: {
+                    offset: legendRef.current
+                      ? legendRef.current.getBoundingClientRect().height
+                      : 0,
+                  },
+                }}
+              />
             )}
           </div>
         </div>
 
-        {(isInfoWidgetVisible && widget && !isFetching) && (
+        {isInfoWidgetVisible && widget && !isFetching && (
           <WidgetInfo
             widget={widget}
             style={{
@@ -312,11 +268,7 @@ export default function SwipeTypeWidget({
           />
         )}
       </div>
-      {caption && (
-        <div className="widget-caption-container">
-          {caption}
-        </div>
-      )}
+      {caption && <div className="widget-caption-container">{caption}</div>}
     </div>
   );
 }

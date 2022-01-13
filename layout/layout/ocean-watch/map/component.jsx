@@ -1,8 +1,4 @@
-import {
-  useState,
-  useCallback,
-  useRef,
-} from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useDebouncedCallback } from 'use-debounce';
 import { Popup } from 'react-map-gl';
@@ -16,20 +12,13 @@ import LayerManager from 'components/map/layer-manager';
 import TooltipList from 'components/tooltip-list';
 
 // hooks
-import {
-  useOceanWatchAreas,
-} from 'hooks/ocean-watch';
+import { useOceanWatchAreas } from 'hooks/ocean-watch';
 
 // constants
-import {
-  MAPSTYLES,
-  DEFAULT_VIEWPORT,
-} from 'components/map/constants';
+import { MAPSTYLES, DEFAULT_VIEWPORT } from 'components/map/constants';
 
 // utils
-import {
-  getInteractiveLayers,
-} from 'components/map/utils';
+import { getInteractiveLayers } from 'components/map/utils';
 
 const layers = [
   {
@@ -53,14 +42,7 @@ const layers = [
             paint: {
               'fill-color': [
                 'case',
-                [
-                  'boolean',
-                  [
-                    'feature-state',
-                    'hover',
-                  ],
-                  false,
-                ],
+                ['boolean', ['feature-state', 'hover'], false],
                 '#fab72e',
                 '#217098',
               ],
@@ -144,49 +126,43 @@ export default function MapSelection() {
     }));
   }, []);
 
-  const handleClickCountry = useCallback((evt) => {
-    if (!evt.features?.length) return false;
+  const handleClickCountry = useCallback(
+    (evt) => {
+      if (!evt.features?.length) return false;
 
-    const {
-      properties: {
-        iso,
-      },
-    } = evt.features[0];
+      const {
+        properties: { iso },
+      } = evt.features[0];
 
-    router.push({
-      pathname: '/dashboards/ocean-watch/country/[iso]',
-      query: {
-        iso,
-      },
-    });
+      router.push({
+        pathname: '/dashboards/ocean-watch/country/[iso]',
+        query: {
+          iso,
+        },
+      });
 
-    return true;
-  }, [router]);
+      return true;
+    },
+    [router],
+  );
 
   const handleVisibility = useCallback((_visible) => {
     setVisibility(_visible);
   }, []);
 
-  const [handleHover] = useDebouncedCallback((evt) => {
+  const handleHover = useDebouncedCallback((evt) => {
     if (mapRef.current === null) return false;
 
     if (hoverState) {
-      mapRef.current.setFeatureState(
-        hoverState,
-        {
-          hover: false,
-        },
-      );
+      mapRef.current.setFeatureState(hoverState, {
+        hover: false,
+      });
 
       setTooltip({});
     }
 
     if (evt.features.length > 0) {
-      const {
-        source,
-        sourceLayer,
-        properties,
-      } = evt.features[0];
+      const { source, sourceLayer, properties } = evt.features[0];
 
       hoverState = {
         source,
@@ -195,12 +171,9 @@ export default function MapSelection() {
       };
 
       if (properties.iso) {
-        mapRef.current.setFeatureState(
-          hoverState,
-          {
-            hover: true,
-          },
-        );
+        mapRef.current.setFeatureState(hoverState, {
+          hover: true,
+        });
       }
 
       setTooltip({
@@ -211,25 +184,27 @@ export default function MapSelection() {
     return true;
   }, 0);
 
-  const handleCountryList = useCallback(({ value }) => {
-    router.push({
-      pathname: '/dashboards/ocean-watch/country/[iso]',
-      query: {
-        iso: value,
-      },
-    });
+  const handleCountryList = useCallback(
+    ({ value }) => {
+      router.push({
+        pathname: '/dashboards/ocean-watch/country/[iso]',
+        query: {
+          iso: value,
+        },
+      });
 
-    setVisibility(false);
-  }, [router]);
+      setVisibility(false);
+    },
+    [router],
+  );
 
-  const {
-    data: areas,
-  } = useOceanWatchAreas({
+  const { data: areas } = useOceanWatchAreas({
     placeholderData: [],
-    select: (_areas) => _areas.map(({ name, iso }) => ({
-      label: name,
-      value: iso,
-    })),
+    select: (_areas) =>
+      _areas.map(({ name, iso }) => ({
+        label: name,
+        value: iso,
+      })),
   });
 
   return (
@@ -280,38 +255,42 @@ export default function MapSelection() {
             width: '100%',
           }}
         >
-          <div style={{
-            ...gradientStyles,
-            top: 0,
-            left: 0,
-            background: 'linear-gradient(to bottom, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
-          }}
+          <div
+            style={{
+              ...gradientStyles,
+              top: 0,
+              left: 0,
+              background: 'linear-gradient(to bottom, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
+            }}
           />
-          <div style={{
-            ...gradientStyles,
-            top: 0,
-            bottom: 0,
-            height: '100%',
-            width: 75,
-            background: 'linear-gradient(to right, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
-          }}
+          <div
+            style={{
+              ...gradientStyles,
+              top: 0,
+              bottom: 0,
+              height: '100%',
+              width: 75,
+              background: 'linear-gradient(to right, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
+            }}
           />
-          <div style={{
-            ...gradientStyles,
-            top: 0,
-            right: 0,
-            bottom: 0,
-            height: '100%',
-            width: 75,
-            background: 'linear-gradient(to left, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
-          }}
+          <div
+            style={{
+              ...gradientStyles,
+              top: 0,
+              right: 0,
+              bottom: 0,
+              height: '100%',
+              width: 75,
+              background: 'linear-gradient(to left, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
+            }}
           />
-          <div style={{
-            ...gradientStyles,
-            bottom: 0,
-            left: 0,
-            background: 'linear-gradient(to top, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
-          }}
+          <div
+            style={{
+              ...gradientStyles,
+              bottom: 0,
+              left: 0,
+              background: 'linear-gradient(to top, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
+            }}
           />
           <Map
             mapStyle={MAPSTYLES}
@@ -325,7 +304,7 @@ export default function MapSelection() {
             mapOptions={{
               renderWorldCopies: false,
             }}
-            onViewportChange={handleViewport}
+            onMapViewportChange={handleViewport}
             onHover={handleHover}
             onLoad={({ map }) => {
               mapRef.current = map;
@@ -333,10 +312,7 @@ export default function MapSelection() {
           >
             {(_map) => (
               <>
-                <LayerManager
-                  map={_map}
-                  layers={layers}
-                />
+                <LayerManager map={_map} layers={layers} />
                 {tooltip.lngLat && (
                   <Popup
                     latitude={tooltip.lngLat[1]}
@@ -363,11 +339,7 @@ export default function MapSelection() {
                     transform: 'translate(0, -50%)',
                   }}
                 >
-                  <ZoomControls
-                    className="-ocean-watch"
-                    viewport={viewport}
-                    onClick={handleZoom}
-                  />
+                  <ZoomControls className="-ocean-watch" viewport={viewport} onClick={handleZoom} />
                 </MapControls>
               </>
             )}
@@ -383,13 +355,13 @@ export default function MapSelection() {
             }}
           >
             <Tooltip
-              overlay={(
+              overlay={
                 <TooltipList
                   list={areas}
                   onClickItem={handleCountryList}
                   placeholder="Type a country..."
                 />
-              )}
+              }
               overlayClassName="c-rc-tooltip -default"
               placement="top"
               trigger="click"
@@ -403,7 +375,9 @@ export default function MapSelection() {
                 style={{
                   pointerEvents: 'all',
                 }}
-                onClick={() => { setVisibility(true); }}
+                onClick={() => {
+                  setVisibility(true);
+                }}
               >
                 Select a coastline
               </button>

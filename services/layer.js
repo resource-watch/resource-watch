@@ -27,10 +27,10 @@ export const fetchLayers = (params = {}, headers = {}, _meta = false) => {
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
-    transformResponse: [].concat(
-      WRIAPI.defaults.transformResponse,
-      (({ data, meta }) => ({ layers: data, meta })),
-    ),
+    transformResponse: [].concat(WRIAPI.defaults.transformResponse, ({ data, meta }) => ({
+      layers: data,
+      meta,
+    })),
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -80,27 +80,26 @@ export const fetchLayer = (id, params = {}) => {
       env: process.env.NEXT_PUBLIC_API_ENV,
       ...params,
     },
-    transformResponse: [].concat(
-      WRIAPI.defaults.transformResponse,
-      ({ data }) => data,
-    ),
-  }).then((response) => {
-    const { status, statusText, data } = response;
+    transformResponse: [].concat(WRIAPI.defaults.transformResponse, ({ data }) => data),
+  })
+    .then((response) => {
+      const { status, statusText, data } = response;
 
-    if (status >= 300) {
-      if (status === 404) {
-        logger.debug(`Layer '${id}' not found, ${status}: ${statusText}`);
-      } else {
-        logger.error('Error fetching layer:', `${status}: ${statusText}`);
+      if (status >= 300) {
+        if (status === 404) {
+          logger.debug(`Layer '${id}' not found, ${status}: ${statusText}`);
+        } else {
+          logger.error('Error fetching layer:', `${status}: ${statusText}`);
+        }
+        throw new Error(statusText);
       }
-      throw new Error(statusText);
-    }
-    return WRISerializer({ data });
-  }).catch(({ response }) => {
-    const { status, statusText } = response;
-    logger.error('Error fetching layer:', `${status}: ${statusText}`);
-    throw new Error('Error fetching layer:', `${status}: ${statusText}`);
-  });
+      return WRISerializer({ data });
+    })
+    .catch(({ response }) => {
+      const { status, statusText } = response;
+      logger.error('Error fetching layer:', `${status}: ${statusText}`);
+      throw new Error('Error fetching layer:', `${status}: ${statusText}`);
+    });
 };
 
 /**
@@ -150,7 +149,9 @@ export const deleteLayer = (layerId, datasetId, token) => {
  */
 export const updateLayer = (layer, datasetId, token) => {
   logger.info(`Update layer: ${layer.id}`);
-  return WRIAPI.patch(`/v1/dataset/${datasetId}/layer/${layer.id}`, layer, { headers: { Authorization: token } })
+  return WRIAPI.patch(`/v1/dataset/${datasetId}/layer/${layer.id}`, layer, {
+    headers: { Authorization: token },
+  })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -169,13 +170,15 @@ export const updateLayer = (layer, datasetId, token) => {
  */
 export const createLayer = (layer, datasetId, token) => {
   logger.info('Create layer');
-  return WRIAPI.post(`/v1/dataset/${datasetId}/layer`,
+  return WRIAPI.post(
+    `/v1/dataset/${datasetId}/layer`,
     {
       application: process.env.NEXT_PUBLIC_APPLICATIONS.split(','),
       env: process.env.NEXT_PUBLIC_API_ENV,
       ...layer,
     },
-    { headers: { Authorization: token } })
+    { headers: { Authorization: token } },
+  )
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
