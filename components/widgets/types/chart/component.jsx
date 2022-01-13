@@ -1,8 +1,4 @@
-import {
-  useState,
-  useCallback,
-  useMemo,
-} from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Renderer from '@widget-editor/renderer';
@@ -11,6 +7,9 @@ import Renderer from '@widget-editor/renderer';
 import Spinner from 'components/ui/Spinner';
 import WidgetHeader from '../../header';
 import WidgetInfo from '../../info';
+
+// constants
+import { WIDGET_EDITOR_MAPBOX_PROPS } from 'constants/widget-editor';
 
 export default function ChartType({
   widget,
@@ -36,11 +35,8 @@ export default function ChartType({
   const caption = useMemo(() => widget?.metadata?.[0]?.info?.caption, [widget]);
 
   return (
-    <div
-      className={classnames('c-widget', { '-is-embed': isEmbed })}
-      style={style}
-    >
-      {(!isFetching && !isError && !isWebshot) && (
+    <div className={classnames('c-widget', { '-is-embed': isEmbed })} style={style}>
+      {!isFetching && !isError && !isWebshot && (
         <div className="widget-header-container">
           <WidgetHeader
             widget={widget}
@@ -56,39 +52,31 @@ export default function ChartType({
         className="widget-container"
         style={{
           padding: 15,
-          ...caption && {
+          ...(caption && {
             borderBottom: 0,
             borderRadius: 0,
             boxShadow: 'none',
-          },
+          }),
         }}
       >
-        {isFetching && (
-        <Spinner
-          isLoading
-          className="-transparent"
-        />
-        )}
+        {isFetching && <Spinner isLoading className="-transparent" />}
         {!isFetching && !isError && (
-        <Renderer
-          adapter={adapter}
-          widgetConfig={widget.widgetConfig}
-        />
+          <Renderer
+            adapter={adapter}
+            widgetConfig={widget.widgetConfig}
+            map={WIDGET_EDITOR_MAPBOX_PROPS}
+          />
         )}
-        {(isInfoWidgetVisible && widget && !isFetching) && (
-        <WidgetInfo
-          widget={widget}
-          style={{
-            padding: 15,
-          }}
-        />
+        {isInfoWidgetVisible && widget && !isFetching && (
+          <WidgetInfo
+            widget={widget}
+            style={{
+              padding: 15,
+            }}
+          />
         )}
       </div>
-      {caption && (
-        <div className="widget-caption-container">
-          {caption}
-        </div>
-      )}
+      {caption && <div className="widget-caption-container">{caption}</div>}
     </div>
   );
 }
