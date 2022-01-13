@@ -335,3 +335,10 @@
   }
 }
 
+// overrides Tailwind defaults for this specific case
+.vizzuality__toggle-legend {
+  svg {
+    display: inline-block;
+    vertical-align: initial;
+  }
+}
