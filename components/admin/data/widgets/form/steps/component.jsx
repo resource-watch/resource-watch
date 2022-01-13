@@ -15,6 +15,7 @@ import Checkbox from 'components/form/Checkbox';
 import {
   WIDGET_EDITOR_DEFAULT_THEME,
   WIDGET_EDITOR_COLOUR_SCHEMES,
+  WIDGET_EDITOR_MAPBOX_PROPS,
 } from 'constants/widget-editor';
 
 class AdminWidgetForm extends Component {
@@ -37,14 +38,7 @@ class AdminWidgetForm extends Component {
   }
 
   render() {
-    const {
-      id,
-      user,
-      datasets,
-      onChange,
-      onSave,
-      RWAdapter,
-    } = this.props;
+    const { id, user, datasets, onChange, onSave, RWAdapter } = this.props;
     const { form } = this.state;
 
     // Reset FORM_ELEMENTS
@@ -54,13 +48,17 @@ class AdminWidgetForm extends Component {
       <fieldset
         className={cx({
           'c-field-container': true,
-          '-disabled': form.env && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === form.env) < 0,
+          '-disabled':
+            form.env &&
+            process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === form.env) < 0,
         })}
       >
         <fieldset className="c-field-container">
           {/* DATASET */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.dataset = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.dataset = c;
+            }}
             onChange={(value) => onChange({ dataset: value })}
             validations={['required']}
             className="-fluid"
@@ -78,10 +76,14 @@ class AdminWidgetForm extends Component {
             {Select}
           </Field>
 
-          {(user.role === 'ADMIN') && (
+          {user.role === 'ADMIN' && (
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.env = c; }}
-              hint={'Choose "preproduction" to see this dataset it only as admin, "production" option will show it in public site.'}
+              ref={(c) => {
+                if (c) FORM_ELEMENTS.elements.env = c;
+              }}
+              hint={
+                'Choose "preproduction" to see this dataset it only as admin, "production" option will show it in public site.'
+              }
               className="-fluid"
               options={[
                 { label: 'Staging', value: 'staging' },
@@ -103,7 +105,9 @@ class AdminWidgetForm extends Component {
 
           {/* PUBLISHED */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.published = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.published = c;
+            }}
             onChange={(value) => onChange({ published: value.checked })}
             properties={{
               name: 'published',
@@ -118,7 +122,9 @@ class AdminWidgetForm extends Component {
 
           {/* DEFAULT */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.default = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.default = c;
+            }}
             onChange={(value) => onChange({ default: value.checked })}
             properties={{
               name: 'default',
@@ -133,7 +139,9 @@ class AdminWidgetForm extends Component {
 
           {/* DEFAULT EDITABLE WIDGET */}
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.defaultEditableWidget = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.defaultEditableWidget = c;
+            }}
             onChange={(value) => onChange({ defaultEditableWidget: value.checked })}
             properties={{
               name: 'defaultEditableWidget',
@@ -149,7 +157,9 @@ class AdminWidgetForm extends Component {
           {/* FREEZE */}
           <div className="freeze-container">
             <Field
-              ref={(c) => { if (c) FORM_ELEMENTS.elements.freeze = c; }}
+              ref={(c) => {
+                if (c) FORM_ELEMENTS.elements.freeze = c;
+              }}
               onChange={(value) => onChange({ freeze: value.checked })}
               properties={{
                 name: 'freeze',
@@ -163,7 +173,7 @@ class AdminWidgetForm extends Component {
             >
               {Checkbox}
             </Field>
-            {(form.freeze && id) && (
+            {form.freeze && id && (
               <div className="freeze-text">
                 This widget has been&nbsp;
                 <strong>frozen</strong>
@@ -183,6 +193,7 @@ class AdminWidgetForm extends Component {
             adapter={RWAdapter}
             schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
             authenticated
+            map={WIDGET_EDITOR_MAPBOX_PROPS}
             compact={false}
           />
         )}
@@ -204,9 +215,7 @@ AdminWidgetForm.propTypes = {
   form: PropTypes.shape({
     dataset: PropTypes.string,
   }).isRequired,
-  datasets: PropTypes.arrayOf(
-    PropTypes.shape({}),
-  ),
+  datasets: PropTypes.arrayOf(PropTypes.shape({})),
   onChange: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   RWAdapter: PropTypes.func.isRequired,

@@ -24,12 +24,11 @@ import ErrorBoundary from 'components/ui/error-boundary';
 
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
+import { WIDGET_EDITOR_MAPBOX_PROPS } from 'constants/widget-editor';
 
 // utils
 import { logEvent } from 'utils/analytics';
 import { parseBbox } from 'components/map/utils';
-
-// const defaultTheme = getVegaTheme();
 
 class WidgetBlock extends PureComponent {
   static propTypes = {
@@ -271,7 +270,11 @@ class WidgetBlock extends PureComponent {
             )}
 
             {!widgetError && widgetType === 'widget' && widget.widgetConfig && widget && (
-              <Renderer adapter={RWAdapter} widgetConfig={widget.widgetConfig} />
+              <Renderer
+                adapter={RWAdapter}
+                widgetConfig={widget.widgetConfig}
+                map={WIDGET_EDITOR_MAPBOX_PROPS}
+              />
             )}
 
             {widgetIsEmbed && (

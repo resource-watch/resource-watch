@@ -21,27 +21,25 @@ import {
   WIDGET_EDITOR_DEFAULT_THEME,
   WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
   WIDGET_EDITOR_COLOUR_SCHEMES,
+  WIDGET_EDITOR_MAPBOX_PROPS,
 } from 'constants/widget-editor';
 
 // utils
 import { logEvent } from 'utils/analytics';
 
 function ExploreDetailVisualization(props) {
-  const {
-    widgetId,
-    datasetId,
-    aoi,
-    authorization,
-    RWAdapter,
-  } = props;
+  const { widgetId, datasetId, aoi, authorization, RWAdapter } = props;
   const router = useRouter();
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const {
-    data: area,
-  } = useFetchArea(aoi, authorization, {}, {
-    enabled: !!(aoi && authorization),
-  });
+  const { data: area } = useFetchArea(
+    aoi,
+    authorization,
+    {},
+    {
+      enabled: !!(aoi && authorization),
+    },
+  );
 
   const onSaveWidget = (widget) => {
     if (!authorization) {
@@ -76,12 +74,12 @@ function ExploreDetailVisualization(props) {
               info: { caption: widget.metadata.caption },
             },
             authorization,
-          )
-            .then(() => {
-              router.push('/myrw/widgets/my_widgets');
-              toastr.success('Success', 'Widget created successfully!');
-            });
-        }).catch((err) => {
+          ).then(() => {
+            router.push('/myrw/widgets/my_widgets');
+            toastr.success('Success', 'Widget created successfully!');
+          });
+        })
+        .catch((err) => {
           setLoading(false);
           toastr.error('Error creating widget', err);
         });
@@ -96,23 +94,18 @@ function ExploreDetailVisualization(props) {
         <WidgetEditor
           datasetId={datasetId}
           {...(widgetId && { widgetId })}
-          {...area?.geostore && { areaIntersection: area.geostore }}
+          {...(area?.geostore && { areaIntersection: area.geostore })}
           compact
+          map={WIDGET_EDITOR_MAPBOX_PROPS}
           onSave={onSaveWidget}
           theme={WIDGET_EDITOR_DEFAULT_THEME}
           adapter={RWAdapter}
           schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
           authenticated
-          disable={[
-            ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
-            'advanced-editor',
-          ]}
+          disable={[...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES, 'advanced-editor']}
         />
       </ErrorBoundary>
-      <Modal
-        isOpen={loginModalOpen}
-        onRequestClose={() => setLoginModalOpen(false)}
-      >
+      <Modal isOpen={loginModalOpen} onRequestClose={() => setLoginModalOpen(false)}>
         <LoginModal />
       </Modal>
     </div>
