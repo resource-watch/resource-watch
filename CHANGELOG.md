@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `tailwindcss` framework.
 
 ### Changed
+- map labels change according to selected basemap.
 - makes changes in admin to preview layers with new spec. [RW-103](https://vizzuality.atlassian.net/browse/RW-103)
 - updates standalone Area of Interest layer specs to match new layer specification. [RW-99](https://vizzuality.atlassian.net/browse/RW-99)[RW-97](https://vizzuality.atlassian.net/browse/RW-97)[RW-102](https://vizzuality.atlassian.net/browse/RW-102)
 - makes map's `onMapViewportChange` function optional.	

@@ -1,6 +1,7 @@
 import isNumber from 'lodash/isNumber';
 import { ViewportProps } from 'react-map-gl';
 import { APILayerSpec } from 'types/layer';
+import { Basemap, Labels } from './types';
 
 export const MAPSTYLES = 'mapbox://styles/resourcewatch/cjzmw480d00z41cp2x81gm90h';
 
@@ -155,4 +156,12 @@ export const USER_AREA_LAYER_TEMPLATES = {
       },
     },
   }),
+};
+
+export const BASEMAP_LABEL_DICTIONARY: Record<Basemap, Labels> = {
+  dark: 'light',
+  light: 'dark',
+  satellite: 'light',
+  terrain: 'dark',
+  aqueduct: 'dark',
 };

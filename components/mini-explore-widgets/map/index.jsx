@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useGeostore } from 'hooks/geostore';
 
 // constants
-import { USER_AREA_LAYER_TEMPLATES } from 'components/map/constants';
+import { USER_AREA_LAYER_TEMPLATES, BASEMAP_LABEL_DICTIONARY } from 'components/map/constants';
 
 // services
 import { fetchLayer } from 'services/layer';
@@ -220,8 +220,9 @@ export default function MiniExploreMapContainer({
     (_basemap) => {
       const { id } = _basemap;
       dispatch(setBasemap(id));
+      if (labelsId !== 'none') dispatch(setLabels(BASEMAP_LABEL_DICTIONARY[id]));
     },
-    [dispatch],
+    [dispatch, labelsId],
   );
 
   const handleResetView = useCallback(() => {

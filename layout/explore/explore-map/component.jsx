@@ -43,7 +43,11 @@ import { fetchArea } from 'services/areas';
 import { fetchGeostore } from 'services/geostore';
 
 // constants
-import { MAPSTYLES, USER_AREA_LAYER_TEMPLATES } from 'components/map/constants';
+import {
+  MAPSTYLES,
+  USER_AREA_LAYER_TEMPLATES,
+  BASEMAP_LABEL_DICTIONARY,
+} from 'components/map/constants';
 
 // constants
 import { LEGEND_TIMELINE_PROPERTIES, TIMELINE_THRESHOLD } from './constants';
@@ -290,8 +294,9 @@ const ExploreMap = (props) => {
     (_basemap) => {
       const { id } = _basemap;
       setBasemap(id);
+      if (labels.value !== 'none') setLabels(BASEMAP_LABEL_DICTIONARY[id]);
     },
-    [setBasemap],
+    [setBasemap, setLabels, labels],
   );
 
   const handleResetView = useCallback(() => {
