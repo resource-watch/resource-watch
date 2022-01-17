@@ -7,11 +7,23 @@ import Renderer from '@widget-editor/renderer';
 import Spinner from 'components/ui/Spinner';
 import WidgetHeader from '../../header';
 import WidgetInfo from '../../info';
+import WidgetCaption from '../../caption';
 
 // constants
 import { WIDGET_EDITOR_MAPBOX_PROPS } from 'constants/widget-editor';
 
-export default function ChartType({
+import type { APIWidgetSpec } from 'types/widget';
+import type { ChartContainerProps } from './index';
+
+export interface ChartTypeProps extends Omit<ChartContainerProps, 'widgetId'> {
+  widget: APIWidgetSpec;
+  adapter: () => void;
+  isFetching: boolean;
+  isError: boolean;
+  isInACollection: boolean;
+}
+
+const ChartType = ({
   widget,
   adapter,
   style,
@@ -21,7 +33,7 @@ export default function ChartType({
   isError,
   isInACollection,
   onToggleShare,
-}) {
+}: ChartTypeProps): JSX.Element => {
   const [isInfoWidgetVisible, setInfoWidgetVisibility] = useState(false);
 
   const handleInfoToggle = useCallback(() => {
@@ -29,15 +41,15 @@ export default function ChartType({
   }, []);
 
   const handleShareToggle = useCallback(() => {
-    onToggleShare(widget);
-  }, [onToggleShare, widget]);
+    onToggleShare(true);
+  }, [onToggleShare]);
 
   const caption = useMemo(() => widget?.metadata?.[0]?.info?.caption, [widget]);
 
   return (
     <div className={classnames('c-widget', { '-is-embed': isEmbed })} style={style}>
       {!isFetching && !isError && !isWebshot && (
-        <div className="widget-header-container">
+        <div className="p-4 border border-b-0 rounded-tl rounded-tr widget-header-container border-gray-light">
           <WidgetHeader
             widget={widget}
             onToggleInfo={handleInfoToggle}
@@ -49,14 +61,9 @@ export default function ChartType({
       )}
 
       <div
-        className="widget-container"
+        className="relative flex h-full p-4 overflow-x-auto overflow-y-hidden border widget-container grow border-gray-light"
         style={{
-          padding: 15,
-          ...(caption && {
-            borderBottom: 0,
-            borderRadius: 0,
-            boxShadow: 'none',
-          }),
+          height: 400,
         }}
       >
         {isFetching && <Spinner isLoading className="-transparent" />}
@@ -68,18 +75,15 @@ export default function ChartType({
           />
         )}
         {isInfoWidgetVisible && widget && !isFetching && (
-          <WidgetInfo
-            widget={widget}
-            style={{
-              padding: 15,
-            }}
-          />
+          <WidgetInfo widget={widget} className="p-4" />
         )}
       </div>
-      {caption && <div className="widget-caption-container">{caption}</div>}
+      {caption && <WidgetCaption text={caption} />}
     </div>
   );
-}
+};
+
+export default ChartType;
 
 ChartType.defaultProps = {
   isFetching: false,

@@ -1,7 +1,7 @@
-import { useMemo, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import { useMemo, useState, useCallback, CSSProperties } from 'react';
 import { useQueries } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
+import type { ViewportProps } from 'react-map-gl';
 
 // services
 import { fetchLayer } from 'services/layer';
@@ -13,31 +13,43 @@ import { useGeostore } from 'hooks/geostore';
 import { useMe } from 'hooks/user';
 
 // utils
-import { parseBbox } from 'components/map/utils';
 import { getAoiLayer, getMaskLayer, getLayerGroups } from 'utils/layers';
 
 // components
 import ErrorFallback from 'components/error-fallback';
 import SwipeTypeWidget from './component';
 
+import type { Bounds } from 'components/map/types';
+import type { APIWidgetSpec } from 'types/widget';
+
 const CustomErrorFallback = (_props) => (
   <ErrorFallback {..._props} title="Something went wrong loading the widget" />
 );
 
-export default function SwipeTypeWidgetContainer({
+export interface SwipeTypeWidgetContainerProps {
+  widgetId: string;
+  params?: Record<string, string | number>;
+  style?: CSSProperties;
+  isEmbed?: boolean;
+  isWebshot?: boolean;
+  areaOfInterest?: string;
+  onToggleShare: (widget: APIWidgetSpec) => void;
+}
+
+const SwipeTypeWidgetContainer = ({
   widgetId,
-  params,
-  style,
-  isEmbed,
-  isWebshot,
-  areaOfInterest,
+  params = {},
+  style = {},
+  isEmbed = false,
+  isWebshot = false,
+  areaOfInterest = null,
   onToggleShare,
-}) {
-  const [minZoom, setMinZoom] = useState(null);
+}: SwipeTypeWidgetContainerProps): JSX.Element => {
+  const [minZoom, setMinZoom] = useState<number>(null);
   const { data: user } = useMe();
   const { isInACollection } = useBelongsToCollection(widgetId, user?.token);
 
-  const onFitBoundsChange = useCallback((viewport) => {
+  const onFitBoundsChange = useCallback((viewport: ViewportProps) => {
     const { zoom } = viewport;
 
     setMinZoom(zoom);
@@ -121,20 +133,20 @@ export default function SwipeTypeWidgetContainer({
     };
   }, [layers, widget]);
 
-  const bounds = useMemo(() => {
+  const bounds: Bounds | null = useMemo(() => {
     if (geostore?.bbox)
       return {
         bbox: geostore.bbox,
         options: {
           padding: 50,
         },
-      };
+      } as Bounds;
 
-    if (!widget?.widgetConfig?.bounds) return {};
+    if (!widget?.widgetConfig?.bounds) return null;
 
     return {
-      bbox: parseBbox(widget.widgetConfig.bounds.bbox),
-    };
+      bbox: widget.widgetConfig.bbox,
+    } as Bounds;
   }, [widget, geostore]);
 
   const isError = useMemo(() => isErrorWidget || isErrorGeostore, [isErrorWidget, isErrorGeostore]);
@@ -144,7 +156,7 @@ export default function SwipeTypeWidgetContainer({
       FallbackComponent={CustomErrorFallback}
       onReset={() => {
         refetchWidget();
-        refetchGeostore();
+        if (areaOfInterest) refetchGeostore();
       }}
     >
       <SwipeTypeWidget
@@ -164,22 +176,6 @@ export default function SwipeTypeWidgetContainer({
       />
     </ErrorBoundary>
   );
-}
-
-SwipeTypeWidgetContainer.defaultProps = {
-  areaOfInterest: null,
-  params: {},
-  style: {},
-  isEmbed: false,
-  isWebshot: false,
 };
 
-SwipeTypeWidgetContainer.propTypes = {
-  widgetId: PropTypes.string.isRequired,
-  params: PropTypes.shape({}),
-  style: PropTypes.shape({}),
-  isEmbed: PropTypes.bool,
-  isWebshot: PropTypes.bool,
-  areaOfInterest: PropTypes.string,
-  onToggleShare: PropTypes.func.isRequired,
-};
+export default SwipeTypeWidgetContainer;

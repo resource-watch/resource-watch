@@ -6,13 +6,8 @@ import { useFetchWidget } from 'hooks/widget';
 // components
 import LayoutEmbedMap from './component';
 
-export default function LayoutEmbedMapContainer({
-  widgetId,
-  ...props
-}) {
-  const {
-    data: widget,
-  } = useFetchWidget(
+export default function LayoutEmbedMapContainer({ widgetId, ...props }) {
+  const { data: widget } = useFetchWidget(
     widgetId,
     {
       includes: 'metadata',
@@ -24,13 +19,7 @@ export default function LayoutEmbedMapContainer({
     },
   );
 
-  return (
-    <LayoutEmbedMap
-      widget={widget}
-      widgetId={widgetId}
-      {...props}
-    />
-  );
+  return <LayoutEmbedMap widget={widget} widgetId={widgetId} {...props} />;
 }
 
 LayoutEmbedMapContainer.propTypes = {
