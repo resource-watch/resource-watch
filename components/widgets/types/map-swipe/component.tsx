@@ -1,5 +1,4 @@
 import { createRef, useRef, useState, useMemo, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { useDebouncedCallback } from 'use-debounce';
 import { Legend, LegendListItem, LegendItemTypes } from 'vizzuality-components';
@@ -17,30 +16,54 @@ import MapControls from 'components/map/controls';
 import ZoomControls from 'components/map/controls/zoom';
 import WidgetHeader from '../../header';
 import WidgetInfo from '../../info';
+import WidgetCaption from '../../caption';
 
-export default function SwipeTypeWidget({
+import type { ViewportProps } from 'react-map-gl';
+import type { APIWidgetSpec } from 'types/widget';
+import type { Bounds, LayerGroup, Basemap, Labels } from 'components/map/types';
+import type { SwipeTypeWidgetContainerProps } from './index';
+
+export interface LayerGroupsBySide {
+  left: LayerGroup[];
+  right: LayerGroup[];
+}
+
+export interface SwipeTypeWidgetProps extends Omit<SwipeTypeWidgetContainerProps, 'widgetId'> {
+  layerGroupsBySide: LayerGroupsBySide;
+  // todo: improve typing of layers
+  aoiLayer?: Record<string, string | unknown>;
+  maskLayer?: Record<string, string | unknown>;
+  widget: APIWidgetSpec;
+  bounds?: Bounds;
+  isFetching?: boolean;
+  isInACollection?: boolean;
+  isError?: boolean;
+  onFitBoundsChange: (viewport: ViewportProps) => void;
+}
+
+const SwipeTypeWidget = ({
   layerGroupsBySide,
-  aoiLayer,
-  maskLayer,
+  aoiLayer = null,
+  maskLayer = null,
   bounds,
   widget,
-  style,
-  isEmbed,
-  isWebshot,
-  isInACollection,
-  isFetching,
-  isError,
+  style = {},
+  isEmbed = false,
+  isWebshot = false,
+  isInACollection = false,
+  isFetching = false,
+  isError = false,
   onToggleShare,
   onFitBoundsChange,
-}) {
+}: SwipeTypeWidgetProps): JSX.Element => {
   const [map, setMap] = useState({
     left: null,
     right: null,
   });
   const [isInfoWidgetVisible, setInfoWidgetVisibility] = useState(false);
   const [viewport, setViewport] = useState(DEFAULT_VIEWPORT);
-  const swiperRef = createRef();
-  const legendRef = useRef();
+  const swiperRef = createRef<HTMLDivElement>();
+  const legendRef = useRef<HTMLDivElement>(null);
 
   const handleInfoToggle = useCallback(() => {
     setInfoWidgetVisibility((infoWidgetVisibility) => !infoWidgetVisibility);
@@ -82,13 +105,13 @@ export default function SwipeTypeWidget({
   const basemap = useMemo(() => {
     const basemapKey = widget?.widgetConfig?.basemapLayers?.basemap || 'dark';
 
-    return BASEMAPS[basemapKey].value;
+    return BASEMAPS[basemapKey].value as Basemap;
   }, [widget]);
 
   const labels = useMemo(() => {
     const label = widget?.widgetConfig?.basemapLayers?.labels || 'light';
 
-    return LABELS[label].value;
+    return LABELS[label].value as Labels;
   }, [widget]);
 
   const layersBySide = useMemo(
@@ -131,7 +154,7 @@ export default function SwipeTypeWidget({
       }}
     >
       {!isFetching && !isError && !isWebshot && (
-        <div className="widget-header-container">
+        <div className="p-4 border border-b-0 rounded-tl rounded-tr widget-header-container border-gray-light">
           <WidgetHeader
             widget={widget}
             onToggleInfo={handleInfoToggle}
@@ -142,11 +165,15 @@ export default function SwipeTypeWidget({
         </div>
       )}
       <div
-        className="widget-container"
+        className={classnames(
+          'relative flex h-full overflow-x-auto overflow-y-hidden widget-container grow rounded',
+          {
+            'border-0': !isInfoWidgetVisible,
+            'rounded-none': caption,
+          },
+        )}
         style={{
-          minHeight: 400,
-          ...(!isInfoWidgetVisible && { border: 0 }),
-          ...(caption && { borderRadius: 0 }),
+          height: 400,
         }}
       >
         {isFetching && <Spinner isLoading className="-transparent" />}
@@ -172,7 +199,7 @@ export default function SwipeTypeWidget({
                   viewport={viewport}
                   bounds={bounds}
                   onFitBoundsChange={handleFitBoundsChange}
-                  onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
+                  onMapLoad={({ map: _map }) => handleMapRefs({ left: _map })}
                 >
                   {(_map) => <LayerManager map={_map} layers={layersBySide.left} />}
                 </Map>
@@ -215,7 +242,7 @@ export default function SwipeTypeWidget({
                   viewport={viewport}
                   onMapViewportChange={handleViewport}
                   bounds={bounds}
-                  onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
+                  onMapLoad={({ map: _map }) => handleMapRefs({ right: _map })}
                 >
                   {(_map) => <LayerManager map={_map} layers={layersBySide.right} />}
                 </Map>
@@ -260,61 +287,12 @@ export default function SwipeTypeWidget({
         </div>
 
         {isInfoWidgetVisible && widget && !isFetching && (
-          <WidgetInfo
-            widget={widget}
-            style={{
-              padding: 15,
-            }}
-          />
+          <WidgetInfo widget={widget} className="p-4" />
         )}
       </div>
-      {caption && <div className="widget-caption-container">{caption}</div>}
+      {caption && <WidgetCaption text={caption} />}
     </div>
   );
-}
-
-SwipeTypeWidget.defaultProps = {
-  aoiLayer: null,
-  maskLayer: null,
-  bounds: {},
-  style: {},
-  isEmbed: false,
-  isWebshot: false,
 };
 
-SwipeTypeWidget.propTypes = {
-  layerGroupsBySide: PropTypes.shape({
-    left: PropTypes.arrayOf(PropTypes.shape({})),
-    right: PropTypes.arrayOf(PropTypes.shape({})),
-  }).isRequired,
-  aoiLayer: PropTypes.shape({}),
-  maskLayer: PropTypes.shape({}),
-  widget: PropTypes.shape({
-    widgetConfig: PropTypes.shape({
-      basemapLayers: PropTypes.shape({
-        basemap: PropTypes.string,
-        labels: PropTypes.string,
-        boundaries: PropTypes.bool,
-      }),
-    }),
-    metadata: PropTypes.arrayOf(
-      PropTypes.shape({
-        info: PropTypes.shape({
-          caption: PropTypes.string,
-        }),
-      }),
-    ),
-  }).isRequired,
-  style: PropTypes.shape({}),
-  isEmbed: PropTypes.bool,
-  isWebshot: PropTypes.bool,
-  isInACollection: PropTypes.bool.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  isError: PropTypes.bool.isRequired,
-  bounds: PropTypes.shape({
-    bbox: PropTypes.arrayOf(PropTypes.number),
-    options: PropTypes.shape({}),
-  }),
-  onToggleShare: PropTypes.func.isRequired,
-  onFitBoundsChange: PropTypes.func.isRequired,
-};
+export default SwipeTypeWidget;

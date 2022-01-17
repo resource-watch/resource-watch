@@ -1,5 +1,4 @@
-import { useMemo, useCallback, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useMemo, useCallback, useState, CSSProperties } from 'react';
 import { useQueries } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -14,25 +13,37 @@ import { useMe } from 'hooks/user';
 
 // utils
 import { getAoiLayer, getMaskLayer, getLayerGroups } from 'utils/layers';
-import { parseBbox } from 'components/map/utils';
 
 // components
 import ErrorFallback from 'components/error-fallback';
 import MapTypeWidget from './component';
 
+import type { APILayerSpec } from 'types/layer';
+import type { APIWidgetSpec } from 'types/widget';
+
 const CustomErrorFallback = (_props) => (
   <ErrorFallback {..._props} title="Something went wrong loading the widget" />
 );
 
-export default function MapTypeWidgetContainer({
+export interface MapTypeWidgetContainerProps {
+  widgetId: string;
+  params?: Record<string, string | number | unknown>;
+  style?: CSSProperties;
+  isEmbed?: boolean;
+  isWebshot?: boolean;
+  areaOfInterest?: string;
+  onToggleShare: (widget: APIWidgetSpec) => void;
+}
+
+const MapTypeWidgetContainer = ({
   widgetId,
-  params,
-  style,
-  isEmbed,
-  isWebshot,
-  areaOfInterest,
+  params = {},
+  style = {},
+  isEmbed = false,
+  isWebshot = false,
+  areaOfInterest = null,
   onToggleShare,
-}) {
+}: MapTypeWidgetContainerProps): JSX.Element => {
   const [minZoom, setMinZoom] = useState(null);
   const { data: user } = useMe();
   const { isInACollection } = useBelongsToCollection(widgetId, user?.token);
@@ -88,7 +99,7 @@ export default function MapTypeWidgetContainer({
     })),
   );
 
-  const layers = useMemo(
+  const layers: APILayerSpec[] = useMemo(
     () => layerStates.filter(({ data }) => !!data).map(({ data }) => data),
     [layerStates],
   );
@@ -113,10 +124,10 @@ export default function MapTypeWidgetContainer({
         },
       };
 
-    if (!widget?.widgetConfig?.bounds) return {};
+    if (!widget?.widgetConfig?.bounds) return null;
 
     return {
-      bbox: parseBbox(widget.widgetConfig.bounds.bbox),
+      bbox: widget.widgetConfig.bbox,
     };
   }, [widget, geostore]);
 
@@ -154,22 +165,6 @@ export default function MapTypeWidgetContainer({
       />
     </ErrorBoundary>
   );
-}
-
-MapTypeWidgetContainer.defaultProps = {
-  areaOfInterest: null,
-  params: {},
-  style: {},
-  isEmbed: false,
-  isWebshot: false,
 };
 
-MapTypeWidgetContainer.propTypes = {
-  widgetId: PropTypes.string.isRequired,
-  params: PropTypes.shape({}),
-  style: PropTypes.shape({}),
-  isEmbed: PropTypes.bool,
-  isWebshot: PropTypes.bool,
-  areaOfInterest: PropTypes.string,
-  onToggleShare: PropTypes.func.isRequired,
-};
+export default MapTypeWidgetContainer;

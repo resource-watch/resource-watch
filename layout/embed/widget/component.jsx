@@ -1,12 +1,5 @@
-import {
-  useState,
-  useCallback,
-  useEffect,
-} from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {
-  useSelector,
-} from 'react-redux';
 import dynamic from 'next/dynamic';
 
 // components
@@ -14,24 +7,16 @@ import LayoutEmbed from 'layout/layout/layout-embed';
 import ChartWidget from 'components/widgets/types/chart';
 import PoweredBy from 'components/embed/powered-by';
 
-// utils
-import {
-  getRWAdapter,
-} from 'utils/widget-editor';
 import { isLoadedExternally } from 'utils/embed';
 
-const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
+const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), {
+  ssr: false,
+});
 
 const isExternal = isLoadedExternally();
 
-export default function LayoutEmbedWidget({
-  widgetId,
-  widget,
-  params,
-  isWebshot,
-}) {
+export default function LayoutEmbedWidget({ widgetId, widget, params, isWebshot }) {
   const [widgetToShare, setWidgetToShare] = useState(null);
-  const RWAdapter = useSelector((state) => getRWAdapter(state));
 
   const handleShareWidget = useCallback((_widget) => {
     setWidgetToShare(_widget);
@@ -57,30 +42,23 @@ export default function LayoutEmbedWidget({
     <LayoutEmbed
       title={widget.name}
       description={`${widget.description || ''}`}
-      {...widget.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl }}
+      {...(widget.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl })}
     >
       <div className="c-embed-widget widget-content">
         <ChartWidget
-          adapter={RWAdapter}
           widgetId={widgetId}
           params={params}
           onToggleShare={handleShareWidget}
           isEmbed
-          {...isWebshot && { isWebshot: true }}
+          {...(isWebshot && { isWebshot: true })}
           style={{
-            ...(isExternal && !isWebshot) && { height: 'calc(100% - 56px)' },
+            ...(isExternal && !isWebshot && { height: 'calc(100% - 56px)' }),
           }}
         />
-        {((isExternal && !isWebshot)) && (
-          <PoweredBy />
-        )}
+        {isExternal && !isWebshot && <PoweredBy />}
       </div>
       {widgetToShare && (
-        <WidgetShareModal
-          isVisible
-          widget={widgetToShare}
-          onClose={handleCloseShareWidget}
-        />
+        <WidgetShareModal isVisible widget={widgetToShare} onClose={handleCloseShareWidget} />
       )}
     </LayoutEmbed>
   );

@@ -118,7 +118,6 @@ export const Map = ({
   );
 
   const handleFitBounds = useCallback(() => {
-    if (!ready) return null;
     const { bbox, options = {}, viewportOptions = {} } = bounds;
     const { transitionDuration = 0 } = viewportOptions;
 
@@ -126,6 +125,7 @@ export const Map = ({
       throw new Error("mapContainerRef doesn't have any dimensions");
     }
 
+    console.log('bbox', bbox);
     const { longitude, latitude, zoom } = fitBounds({
       width: mapContainerRef.current.offsetWidth,
       height: mapContainerRef.current.offsetHeight,
@@ -156,7 +156,7 @@ export const Map = ({
     return setTimeout(() => {
       setFlight(false);
     }, +transitionDuration);
-  }, [ready, bounds, debouncedOnMapViewportChange, onFitBoundsChange]);
+  }, [bounds, debouncedOnMapViewportChange, onFitBoundsChange]);
 
   const handleBasemap = useCallback(
     (basemap: Basemap) => {
@@ -279,10 +279,15 @@ export const Map = ({
   }, [onMapReady]);
 
   useEffect(() => {
-    if (!isEmpty(bounds) && !!bounds.bbox && bounds.bbox.every((b) => typeof b === 'number')) {
+    if (
+      !isEmpty(bounds) &&
+      !!bounds.bbox &&
+      bounds.bbox.every((b) => typeof b === 'number') &&
+      loaded
+    ) {
       handleFitBounds();
     }
-  }, [bounds, handleFitBounds]);
+  }, [bounds, loaded, handleFitBounds]);
 
   useEffect(() => {
     setViewport((prevViewportState) => ({

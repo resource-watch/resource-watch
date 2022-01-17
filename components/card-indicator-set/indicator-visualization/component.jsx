@@ -216,14 +216,7 @@ export default function IndicatorVisualization({
                     map={WIDGET_EDITOR_MAPBOX_PROPS}
                   />
                 )}
-                {isInfoVisible && mainWidget && (
-                  <WidgetInfo
-                    widget={mainWidget}
-                    style={{
-                      padding: 15,
-                    }}
-                  />
-                )}
+                {isInfoVisible && mainWidget && <WidgetInfo widget={mainWidget} className="p-4" />}
               </div>
             </>
           )}

@@ -1,28 +1,16 @@
-import {
-  useState,
-  useMemo,
-  useCallback,
-} from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {
-  useQuery,
-  QueryClient,
-  useQueryClient,
-} from 'react-query';
+import { useQuery, QueryClient, useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import {
-  useSelector,
-} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import Select from 'react-select';
 import Sticky from 'react-stickynode';
-import {
-  Link as ScrollLink,
-} from 'react-scroll';
+import { Link as ScrollLink } from 'react-scroll';
 import flattenDeep from 'lodash/flattenDeep';
 
 // components
@@ -42,41 +30,38 @@ import ChartWidget from 'components/widgets/types/chart';
 import Banner from 'components/app/common/Banner';
 
 // hooks
-import {
-  useOceanWatchAreas,
-} from 'hooks/ocean-watch';
+import { useOceanWatchAreas } from 'hooks/ocean-watch';
 
 // services
-import {
-  fetchConfigFile,
-  fetchOceanWatchAreas,
-} from 'services/ocean-watch';
+import { fetchConfigFile, fetchOceanWatchAreas } from 'services/ocean-watch';
 
 // utils
-import {
-  getRWAdapter,
-} from 'utils/widget-editor';
+import { getRWAdapter } from 'utils/widget-editor';
 
-const WidgetShareModal = dynamic(() => import('../../../../components/widgets/share-modal'), { ssr: false });
+const WidgetShareModal = dynamic(() => import('../../../../components/widgets/share-modal'), {
+  ssr: false,
+});
 
-export default function OceanWatchCountryProfilePage({
-  iso,
-}) {
+export default function OceanWatchCountryProfilePage({ iso }) {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [widgetToShare, setWidgetToShare] = useState(null);
   const RWAdapter = useSelector((state) => getRWAdapter(state));
 
-  const handleAreaChange = useCallback(({ value }) => {
-    router.push({
-      pathname: '/dashboards/ocean-watch/country/[iso]',
-      query: {
-        iso: value,
-      },
-    });
-  }, [router]);
+  const handleAreaChange = useCallback(
+    ({ value }) => {
+      router.push({
+        pathname: '/dashboards/ocean-watch/country/[iso]',
+        query: {
+          iso: value,
+        },
+      });
+    },
+    [router],
+  );
 
   const handleShareWidget = useCallback((_widget) => {
+    debugger;
     setWidgetToShare(_widget);
   }, []);
 
@@ -84,15 +69,11 @@ export default function OceanWatchCountryProfilePage({
     setWidgetToShare(null);
   }, []);
 
-  const {
-    data: areas,
-  } = useOceanWatchAreas({
+  const { data: areas } = useOceanWatchAreas({
     placeholderData: queryClient.getQueryData('ocean-watch-areas') || [],
   });
 
-  const {
-    data: oceanWatchConfig,
-  } = useQuery(
+  const { data: oceanWatchConfig } = useQuery(
     ['ocean-watch-config-file'],
     () => fetchConfigFile(),
     {
@@ -105,33 +86,38 @@ export default function OceanWatchCountryProfilePage({
     },
   );
 
-  const serializedConfiguration = useMemo(() => (oceanWatchConfig['country-profile'])
-    .map((rowContent) => {
-      const rowId = uuidv4();
+  const serializedConfiguration = useMemo(
+    () =>
+      oceanWatchConfig['country-profile'].map((rowContent) => {
+        const rowId = uuidv4();
 
-      return ([
-        ...rowContent.map((blockContent) => ({
-          ...blockContent,
-          id: uuidv4(),
-          rowId,
-        })),
-      ]);
-    }), [oceanWatchConfig]);
+        return [
+          ...rowContent.map((blockContent) => ({
+            ...blockContent,
+            id: uuidv4(),
+            rowId,
+          })),
+        ];
+      }),
+    [oceanWatchConfig],
+  );
 
   const indicatorSetConfiguration = useMemo(() => {
-    const configuration = serializedConfiguration
-      .find((rowContent) => !!rowContent.find((blockContent) => blockContent.content?.[0]?.[0]?.visualizationType === 'main-indicators-set'))?.[0];
+    const configuration = serializedConfiguration.find(
+      (rowContent) =>
+        !!rowContent.find(
+          (blockContent) =>
+            blockContent.content?.[0]?.[0]?.visualizationType === 'main-indicators-set',
+        ),
+    )?.[0];
 
     if (configuration) {
-      const {
-        content,
-        ...restConfiguration
-      } = configuration;
+      const { content, ...restConfiguration } = configuration;
 
-      return ({
+      return {
         ...restConfiguration,
-        ...content && flattenDeep(content)?.[0],
-      });
+        ...(content && flattenDeep(content)?.[0]),
+      };
     }
 
     return null;
@@ -139,28 +125,30 @@ export default function OceanWatchCountryProfilePage({
 
   const area = useMemo(() => areas.find(({ iso: areaId }) => iso === areaId), [areas, iso]);
 
-  const areaOptions = useMemo(() => areas.map(({
-    name: label,
-    iso: value,
-  }) => ({
-    label,
-    value,
-  })), [areas]);
+  const areaOptions = useMemo(
+    () =>
+      areas.map(({ name: label, iso: value }) => ({
+        label,
+        value,
+      })),
+    [areas],
+  );
 
   const defaultAreaOption = useMemo(
     () => areaOptions.find(({ value }) => iso === value),
     [areaOptions, iso],
   );
 
-  const dashboardTabs = useMemo(() => flattenDeep(oceanWatchConfig['country-profile'] || [])
-    .filter(({ anchor }) => Boolean(anchor))
-    .map(({
-      anchorTitle: label,
-      anchor: value,
-    }) => ({
-      label,
-      value,
-    })), [oceanWatchConfig]);
+  const dashboardTabs = useMemo(
+    () =>
+      flattenDeep(oceanWatchConfig['country-profile'] || [])
+        .filter(({ anchor }) => Boolean(anchor))
+        .map(({ anchorTitle: label, anchor: value }) => ({
+          label,
+          value,
+        })),
+    [oceanWatchConfig],
+  );
 
   return (
     <LayoutOceanWatch
@@ -178,9 +166,10 @@ export default function OceanWatchCountryProfilePage({
         <div className="l-container">
           <div className="row">
             <div className="column small-12">
-              <div style={{
-                paddingBottom: 30,
-              }}
+              <div
+                style={{
+                  paddingBottom: 30,
+                }}
               >
                 <Select
                   instanceId="area-selector"
@@ -200,17 +189,13 @@ export default function OceanWatchCountryProfilePage({
                 <CardIndicatorSet
                   config={indicatorSetConfiguration.config}
                   params={{
-                    ...area?.geostore && { geostore_id: area.geostore },
+                    ...(area?.geostore && { geostore_id: area.geostore }),
                     geostore_env: 'geostore_prod',
                   }}
                   theme={indicatorSetConfiguration.config?.theme}
                 >
-                  {(indicatorSetConfiguration.config?.indicators || [])
-                    .map(({
-                      id,
-                      title,
-                      icon,
-                    }) => (
+                  {(indicatorSetConfiguration.config?.indicators || []).map(
+                    ({ id, title, icon }) => (
                       <CardIndicator
                         key={id}
                         id={id}
@@ -218,7 +203,8 @@ export default function OceanWatchCountryProfilePage({
                         icon={icon}
                         theme={indicatorSetConfiguration.config?.theme}
                       />
-                    ))}
+                    ),
+                  )}
                 </CardIndicatorSet>
               )}
             </div>
@@ -240,7 +226,7 @@ export default function OceanWatchCountryProfilePage({
                 <div className="column small-12">
                   <ul className="dashboard-anchors-list">
                     {dashboardTabs.map(({ label, value }) => (
-                      <li className="dashboard-anchors-list-item">
+                      <li className="dashboard-anchors-list-item" key={value}>
                         <ScrollLink
                           activeClass="-active"
                           to={value}
@@ -265,13 +251,14 @@ export default function OceanWatchCountryProfilePage({
           {serializedConfiguration.map((rowContent) => (
             <div
               key={rowContent[0]?.rowId}
-              {...rowContent[0]?.anchor && { id: rowContent[0].anchor }}
+              {...(rowContent[0]?.anchor && { id: rowContent[0].anchor })}
             >
-              {(rowContent[0]?.content || []).map((blockContent) => {
+              {(rowContent[0]?.content || []).map((blockContent, index) => {
                 if (blockContent?.[0].visualizationType === 'main-indicators-set') return null;
 
                 return (
                   <div
+                    key={index}
                     className="l-section -small"
                     style={{
                       height: '100%',
@@ -292,64 +279,47 @@ export default function OceanWatchCountryProfilePage({
                               height: '100%',
                             }}
                           >
-                            {blockElement.title && (
-                            <h2>
-                              {blockElement.title}
-                            </h2>
-                            )}
-                            {blockElement.text && (
-                            <p>
-                              {blockElement.text}
-                            </p>
-                            )}
+                            {blockElement.title && <h2>{blockElement.title}</h2>}
+                            {blockElement.text && <p>{blockElement.text}</p>}
                             {blockElement.visualizationType === 'mini-explore' && (
-                            <InView
-                              triggerOnce
-                              threshold={0.25}
-                            >
-                              {({ ref, inView }) => (
-                                <div ref={ref}>
-                                  {inView && (
-                                  <MiniExplore
-                                    config={{
-                                      ...blockElement.config,
-                                      ...area?.geostore && { areaOfInterest: area.geostore },
-                                    }}
-                                  />
-                                  )}
-                                </div>
-                              )}
-                            </InView>
+                              <InView triggerOnce threshold={0.25}>
+                                {({ ref, inView }) => (
+                                  <div ref={ref}>
+                                    {inView && (
+                                      <MiniExplore
+                                        config={{
+                                          ...blockElement.config,
+                                          ...(area?.geostore && { areaOfInterest: area.geostore }),
+                                        }}
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             )}
                             {blockElement.visualizationType === 'mini-explore-widgets' && (
-                            <InView
-                              triggerOnce
-                              threshold={0.25}
-                            >
-                              {({ ref, inView }) => (
-                                <div ref={ref}>
-                                  {inView && (
-                                  <MiniExploreWidgets
-                                    adapter={RWAdapter}
-                                    config={{
-                                      ...blockElement.config,
-                                      ...area?.geostore && { areaOfInterest: area.geostore },
-                                    }}
-                                    params={{
-                                      geostore_env: 'geostore_prod',
-                                      ...area?.geostore && { geostore_id: area.geostore },
-                                    }}
-                                  />
-                                  )}
-                                </div>
-                              )}
-                            </InView>
+                              <InView triggerOnce threshold={0.25}>
+                                {({ ref, inView }) => (
+                                  <div ref={ref}>
+                                    {inView && (
+                                      <MiniExploreWidgets
+                                        adapter={RWAdapter}
+                                        config={{
+                                          ...blockElement.config,
+                                          ...(area?.geostore && { areaOfInterest: area.geostore }),
+                                        }}
+                                        params={{
+                                          geostore_env: 'geostore_prod',
+                                          ...(area?.geostore && { geostore_id: area.geostore }),
+                                        }}
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             )}
-                            {(blockElement.widget && blockElement.type === 'map') && (
-                              <InView
-                                triggerOnce
-                                threshold={0.25}
-                              >
+                            {blockElement.widget && blockElement.type === 'map' && (
+                              <InView triggerOnce threshold={0.25}>
                                 {({ ref, inView }) => (
                                   <div
                                     ref={ref}
@@ -362,9 +332,9 @@ export default function OceanWatchCountryProfilePage({
                                         widgetId={blockElement.widget}
                                         params={{
                                           geostore_env: 'geostore_prod',
-                                          ...area?.geostore && { geostore_id: area.geostore },
+                                          ...(area?.geostore && { geostore_id: area.geostore }),
                                         }}
-                                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                                        {...(area?.geostore && { areaOfInterest: area.geostore })}
                                         onToggleShare={handleShareWidget}
                                       />
                                     )}
@@ -372,11 +342,8 @@ export default function OceanWatchCountryProfilePage({
                                 )}
                               </InView>
                             )}
-                            {(blockElement.widget && blockElement.type === 'map-swipe') && (
-                              <InView
-                                triggerOnce
-                                threshold={0.25}
-                              >
+                            {blockElement.widget && blockElement.type === 'map-swipe' && (
+                              <InView triggerOnce threshold={0.25}>
                                 {({ ref, inView }) => (
                                   <div
                                     ref={ref}
@@ -389,9 +356,9 @@ export default function OceanWatchCountryProfilePage({
                                         widgetId={blockElement.widget}
                                         params={{
                                           geostore_env: 'geostore_prod',
-                                          ...area?.geostore && { geostore_id: area.geostore },
+                                          ...(area?.geostore && { geostore_id: area.geostore }),
                                         }}
-                                        {...area?.geostore && { areaOfInterest: area.geostore }}
+                                        {...(area?.geostore && { areaOfInterest: area.geostore })}
                                         onToggleShare={handleShareWidget}
                                       />
                                     )}
@@ -400,11 +367,8 @@ export default function OceanWatchCountryProfilePage({
                               </InView>
                             )}
 
-                            {(blockElement.widget && blockElement.type === 'chart') && (
-                              <InView
-                                triggerOnce
-                                threshold={0.25}
-                              >
+                            {blockElement.widget && blockElement.type === 'chart' && (
+                              <InView triggerOnce threshold={0.25}>
                                 {({ ref, inView }) => (
                                   <div
                                     ref={ref}
@@ -414,10 +378,9 @@ export default function OceanWatchCountryProfilePage({
                                   >
                                     {inView && (
                                       <ChartWidget
-                                        adapter={RWAdapter}
                                         widgetId={blockElement.widget}
                                         params={{
-                                          ...area?.geostore && { geostore_id: area.geostore },
+                                          ...(area?.geostore && { geostore_id: area.geostore }),
                                           geostore_env: 'geostore_prod',
                                         }}
                                         onToggleShare={handleShareWidget}
@@ -428,54 +391,47 @@ export default function OceanWatchCountryProfilePage({
                               </InView>
                             )}
                             {blockElement.visualizationType === 'indicators-set' && (
-                            <InView
-                              triggerOnce
-                              threshold={0.25}
-                            >
-                              {({ ref, inView }) => (
-                                <div ref={ref}>
-                                  {inView && (
-                                  <CardIndicatorSet
-                                    config={blockElement.config}
-                                    params={{
-                                      geostore_env: 'geostore_prod',
-                                      ...area?.geostore && { geostore_id: area.geostore },
-                                    }}
-                                    theme={blockElement?.config?.theme}
-                                  >
-                                    {(blockElement?.config?.indicators || [])
-                                      .map(({
-                                        id,
-                                        title,
-                                        description,
-                                        query,
-                                        format,
-                                        unit,
-                                      }) => (
-                                        <NumericCardIndicator
-                                          key={id}
-                                          id={id}
-                                          data={{
-                                            id,
-                                            title,
-                                            query,
-                                            description,
-                                            format,
-                                            unit,
-                                          }}
-                                          title={title}
-                                          theme={indicatorSetConfiguration?.config?.theme}
-                                          params={{
-                                            geostore_env: 'geostore_prod',
-                                            ...area?.geostore && { geostore_id: area.geostore },
-                                          }}
-                                        />
-                                      ))}
-                                  </CardIndicatorSet>
-                                  )}
-                                </div>
-                              )}
-                            </InView>
+                              <InView triggerOnce threshold={0.25}>
+                                {({ ref, inView }) => (
+                                  <div ref={ref}>
+                                    {inView && (
+                                      <CardIndicatorSet
+                                        config={blockElement.config}
+                                        params={{
+                                          geostore_env: 'geostore_prod',
+                                          ...(area?.geostore && { geostore_id: area.geostore }),
+                                        }}
+                                        theme={blockElement?.config?.theme}
+                                      >
+                                        {(blockElement?.config?.indicators || []).map(
+                                          ({ id, title, description, query, format, unit }) => (
+                                            <NumericCardIndicator
+                                              key={id}
+                                              id={id}
+                                              data={{
+                                                id,
+                                                title,
+                                                query,
+                                                description,
+                                                format,
+                                                unit,
+                                              }}
+                                              title={title}
+                                              theme={indicatorSetConfiguration?.config?.theme}
+                                              params={{
+                                                geostore_env: 'geostore_prod',
+                                                ...(area?.geostore && {
+                                                  geostore_id: area.geostore,
+                                                }),
+                                              }}
+                                            />
+                                          ),
+                                        )}
+                                      </CardIndicatorSet>
+                                    )}
+                                  </div>
+                                )}
+                              </InView>
                             )}
                           </div>
                         </div>
@@ -495,9 +451,7 @@ export default function OceanWatchCountryProfilePage({
                 className="-text-center"
                 bgImage="/static/images/pages/app/banner-coral.jpg"
               >
-                <p className="-claim">
-                  Check the Coral Reefs dashboard
-                </p>
+                <p className="-claim">Check the Coral Reefs dashboard</p>
                 <a
                   className="c-button -alt -primary"
                   href="https://resourcewatch.org/dashboards/coral-reefs"
@@ -526,18 +480,14 @@ export default function OceanWatchCountryProfilePage({
                   }}
                 >
                   <div>
-                    <p className="-claim">
-                      Did you miss something?
-                    </p>
+                    <p className="-claim">Did you miss something?</p>
                     <p>
-                      Know of a data set that you&apos;d like to see on Resource Watch or have
-                      a specific area of interest you&apos;d like us to cover?
+                      Know of a data set that you&apos;d like to see on Resource Watch or have a
+                      specific area of interest you&apos;d like us to cover?
                     </p>
                   </div>
                   <Link href="/get-involved/contribute-data">
-                    <a className="c-button -alt -primary">
-                      Request data
-                    </a>
+                    <a className="c-button -alt -primary">Request data</a>
                   </Link>
                 </div>
               </Banner>
@@ -565,12 +515,8 @@ export default function OceanWatchCountryProfilePage({
                   }}
                 >
                   <div>
-                    <p className="-claim">
-                      What&apos;s Your Ocean Watch Story?
-                    </p>
-                    <p>
-                      How have you used Ocean Watch data to drive impact?
-                    </p>
+                    <p className="-claim">What&apos;s Your Ocean Watch Story?</p>
+                    <p>How have you used Ocean Watch data to drive impact?</p>
                   </div>
                   <a
                     className="c-button -alt -primary"
@@ -599,10 +545,8 @@ export default function OceanWatchCountryProfilePage({
                   <br />
                   on the Explore page
                 </p>
-                <Link href="/data/explore?section=All data&topics=[&quot;ocean&quot;]">
-                  <a className="c-button -alt -primary">
-                    Go to explore
-                  </a>
+                <Link href='/data/explore?section=All data&topics=["ocean"]'>
+                  <a className="c-button -alt -primary">Go to explore</a>
                 </Link>
               </Banner>
             </div>
@@ -618,17 +562,17 @@ export default function OceanWatchCountryProfilePage({
           </div>
         </section>
       </div>
-      {(!!widgetToShare) && (
+      {!!widgetToShare && (
         <WidgetShareModal
           isVisible
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
           params={{
             geostore_env: 'geostore_prod',
-            ...area?.geostore && {
+            ...(area?.geostore && {
               geostore_id: area.geostore,
               aoi: area.geostore,
-            },
+            }),
           }}
         />
       )}
@@ -640,19 +584,15 @@ OceanWatchCountryProfilePage.propTypes = {
   iso: PropTypes.string.isRequired,
 };
 
-export async function getStaticProps({
-  params,
-}) {
-  const {
-    iso,
-  } = params;
+export async function getStaticProps({ params }) {
+  const { iso } = params;
   const queryClient = new QueryClient();
 
   return {
-    props: ({
+    props: {
       iso,
       dehydratedState: JSON.parse(JSON.stringify(dehydrate(queryClient))),
-    }),
+    },
     revalidate: 300,
   };
 }

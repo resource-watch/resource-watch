@@ -7,10 +7,6 @@ export const getUserAreaLayer = (
   template = USER_AREA_LAYER_TEMPLATES['area-card'],
 ) => template({ id, geojson, minZoom });
 
-// use it to parse a bbox coming from widget-editor
-// and want to render in a Mapbox map
-export const parseBbox = (bbox) => [bbox[1], bbox[0], bbox[3], bbox[2]];
-
 /**
  *
  * @param {object[]} activeLayers Array of layers that mean to be interactive

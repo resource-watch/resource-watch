@@ -1,22 +1,15 @@
-import {
-  useState,
-} from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ErrorBoundary,
-} from 'react-error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 
 // components
 import ErrorFallback from 'components/error-fallback';
 import SwipeTypeWidget from './component';
 import WidgetShareModal from '../../share-modal';
 
-const CustomErrorFallback = ((_props) => (
-  <ErrorFallback
-    {..._props}
-    title="Something went wrong loading the widget"
-  />
-));
+const CustomErrorFallback = (_props) => (
+  <ErrorFallback {..._props} title="Something went wrong loading the widget" />
+);
 
 export default {
   title: 'Widget/Map-Swipe',
@@ -24,14 +17,13 @@ export default {
   argTypes: {},
   decorators: [
     (Story) => (
-      <div style={{
-        width: '100%',
-        height: 500,
-      }}
+      <div
+        style={{
+          width: '100%',
+          height: 500,
+        }}
       >
-        <ErrorBoundary
-          FallbackComponent={CustomErrorFallback}
-        >
+        <ErrorBoundary FallbackComponent={CustomErrorFallback}>
           <Story />
         </ErrorBoundary>
       </div>
@@ -48,12 +40,11 @@ function Template(args) {
   return (
     <>
       {args.isError && triggerError()}
-      <SwipeTypeWidget
-        {...args}
-        onToggleShare={() => setVisibilityWidgetShareModal(true)}
-      />
+      <SwipeTypeWidget {...args} onToggleShare={() => setVisibilityWidgetShareModal(true)} />
       <WidgetShareModal
-        onClose={() => { setVisibilityWidgetShareModal(false); }}
+        onClose={() => {
+          setVisibilityWidgetShareModal(false);
+        }}
         isVisible={isWidgetShareModalVisible}
         widget={args.widget}
       />
@@ -77,9 +68,7 @@ const widget = {
   description: '',
   source: '',
   authors: '',
-  application: [
-    'rw',
-  ],
+  application: ['rw'],
   verified: false,
   default: false,
   protected: false,
@@ -189,26 +178,11 @@ const aoiLayer = {
           geometry: {
             coordinates: [
               [
-                [
-                  -12.093761259,
-                  44.552460756,
-                ],
-                [
-                  -14.106357807,
-                  35.660331733,
-                ],
-                [
-                  17.065486395,
-                  35.126167008,
-                ],
-                [
-                  17.814359529,
-                  47.540103435,
-                ],
-                [
-                  -12.093761259,
-                  44.552460756,
-                ],
+                [-12.093761259, 44.552460756],
+                [-14.106357807, 35.660331733],
+                [17.065486395, 35.126167008],
+                [17.814359529, 47.540103435],
+                [-12.093761259, 44.552460756],
               ],
             ],
             type: 'Polygon',
@@ -242,12 +216,7 @@ const aoiLayer = {
   opacity: 1,
   visibility: true,
   isAreaOfInterest: true,
-  bbox: [
-    -14.106357807,
-    35.126167008,
-    17.814359529,
-    47.540103435,
-  ],
+  bbox: [-14.106357807, 35.126167008, 17.814359529, 47.540103435],
 };
 
 Default.args = {
@@ -257,12 +226,7 @@ Default.args = {
   isInACollection: false,
   aoiLayer,
   bounds: {
-    bbox: [
-      -14.106357807,
-      35.126167008,
-      17.814359529,
-      47.540103435,
-    ],
+    bbox: [-14.106357807, 35.126167008, 17.814359529, 47.540103435],
   },
   layerGroupsBySide: {
     left: [
@@ -276,10 +240,9 @@ Default.args = {
             name: 'Marine Protected Areas (polygons)',
             slug: 'Marine-Protected-Areas-polygons',
             dataset: 'cb738e45-4068-4bd9-b040-cbeef74d4b83',
-            description: 'Boundaries of officially designated parks, reserves, and other formal conservation areas around the world that have a substantial marine component. The authors caution that the absence of a management category does not in any way reduce the importance of a protected area, nor does it imply that the site is not being adequately managed or should be excluded from analyses.',
-            application: [
-              'rw',
-            ],
+            description:
+              'Boundaries of officially designated parks, reserves, and other formal conservation areas around the world that have a substantial marine component. The authors caution that the absence of a management category does not in any way reduce the importance of a protected area, nor does it imply that the site is not being adequately managed or should be excluded from analyses.',
+            application: ['rw'],
             iso: [],
             provider: 'cartodb',
             userId: '5d4383b6bc2f700010659e31',
@@ -293,7 +256,8 @@ Default.args = {
                   {
                     options: {
                       cartocss_version: '2.3.0',
-                      cartocss: '#layer {polygon-opacity: 0.2; polygon-fill: #0079B0; polygon-gamma-method: power; line-color:#0079B0; line-opacity:0.8; line-width:1}',
+                      cartocss:
+                        '#layer {polygon-opacity: 0.2; polygon-fill: #0079B0; polygon-gamma-method: power; line-color:#0079B0; line-opacity:0.8; line-width:1}',
                       sql: 'SELECT * FROM bio_007b_rw0_marine_protected_area_polygon_edit',
                     },
                     type: 'cartodb',
@@ -309,9 +273,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'line',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                   {
                     paint: {
@@ -320,9 +282,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                 ],
               },
@@ -426,10 +386,9 @@ Default.args = {
             name: 'Watersheds - Level 3',
             slug: 'Watersheds-Level-3',
             dataset: '36ae1411-8ce4-4720-860c-8363af092247',
-            description: 'Watershed boundaries and sub-basin delineations for level 3 (according to the Pfafstetter coding system). This level corresponds to the largest river basins of each continent.',
-            application: [
-              'rw',
-            ],
+            description:
+              'Watershed boundaries and sub-basin delineations for level 3 (according to the Pfafstetter coding system). This level corresponds to the largest river basins of each continent.',
+            application: ['rw'],
             iso: [],
             provider: 'cartodb',
             userId: '5d4383b6bc2f700010659e31',
@@ -443,7 +402,8 @@ Default.args = {
                   {
                     options: {
                       cartocss_version: '2.3.0',
-                      cartocss: '#layer {polygon-opacity: 0.9;polygon-fill:#ffd380;line-color: #e1b562;line-width: 2;line-opacity: 1;}',
+                      cartocss:
+                        '#layer {polygon-opacity: 0.9;polygon-fill:#ffd380;line-color: #e1b562;line-width: 2;line-opacity: 1;}',
                       sql: 'SELECT * FROM wat_068_rw0_watersheds_edit WHERE level = 3',
                     },
                     type: 'mapnik',
@@ -458,9 +418,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                   {
                     paint: {
@@ -470,9 +428,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'line',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                 ],
               },
@@ -528,10 +484,9 @@ Default.args = {
             name: '2000 Coastal Eutrophication Potential',
             slug: '2000-Coastal-Eutrophication-Potential_1',
             dataset: 'cb75c884-7e0a-436d-89c8-c27bf6fb31dc',
-            description: 'Coastal eutrophication potential measures the potential for riverine loadings of nitrogen, phosphorus and silica to stimulate harmful algal blooms in coastal waters. Higher values indicate higher levels of excess nutrients with respect to silica, creating more favorable conditions for harmful algal growth and eutrophication in coastal waters downstream. Values are calculated based on data from the year 2000.',
-            application: [
-              'rw',
-            ],
+            description:
+              'Coastal eutrophication potential measures the potential for riverine loadings of nitrogen, phosphorus and silica to stimulate harmful algal blooms in coastal waters. Higher values indicate higher levels of excess nutrients with respect to silica, creating more favorable conditions for harmful algal growth and eutrophication in coastal waters downstream. Values are calculated based on data from the year 2000.',
+            application: ['rw'],
             iso: [],
             provider: 'cartodb',
             userId: '5d4383b6bc2f700010659e31',
@@ -548,7 +503,8 @@ Default.args = {
                     type: 'mapnik',
                     options: {
                       sql: 'SELECT * FROM wat_059_aqueduct_coastal_eutrophication_potential',
-                      cartocss: '#layer {polygon-opacity:1; line-width:0; line-color:#FFF; line-opacity:0;} [cep_cat=4]{polygon-fill:#990000;}[cep_cat=3]{polygon-fill:#FF1900;} [cep_cat=2]{polygon-fill:#FF9900;} [cep_cat=1]{polygon-fill:#FFE600;} [cep_cat=0]{polygon-fill:#FFFF99;}[cep_cat=-1]{polygon-fill:#4E4E4E;}',
+                      cartocss:
+                        '#layer {polygon-opacity:1; line-width:0; line-color:#FFF; line-opacity:0;} [cep_cat=4]{polygon-fill:#990000;}[cep_cat=3]{polygon-fill:#FF1900;} [cep_cat=2]{polygon-fill:#FF9900;} [cep_cat=1]{polygon-fill:#FFE600;} [cep_cat=0]{polygon-fill:#FFFF99;}[cep_cat=-1]{polygon-fill:#4E4E4E;}',
                       cartocss_version: '2.3.0',
                     },
                   },
@@ -560,9 +516,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                   {
                     paint: {
@@ -570,14 +524,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                      [
-                        '==',
-                        'cep_cat',
-                        4,
-                      ],
-                    ],
+                    filter: ['all', ['==', 'cep_cat', 4]],
                   },
                   {
                     paint: {
@@ -585,14 +532,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                      [
-                        '==',
-                        'cep_cat',
-                        3,
-                      ],
-                    ],
+                    filter: ['all', ['==', 'cep_cat', 3]],
                   },
                   {
                     paint: {
@@ -600,14 +540,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                      [
-                        '==',
-                        'cep_cat',
-                        2,
-                      ],
-                    ],
+                    filter: ['all', ['==', 'cep_cat', 2]],
                   },
                   {
                     paint: {
@@ -615,14 +548,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                      [
-                        '==',
-                        'cep_cat',
-                        1,
-                      ],
-                    ],
+                    filter: ['all', ['==', 'cep_cat', 1]],
                   },
                   {
                     paint: {
@@ -630,14 +556,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                      [
-                        '==',
-                        'cep_cat',
-                        0,
-                      ],
-                    ],
+                    filter: ['all', ['==', 'cep_cat', 0]],
                   },
                   {
                     paint: {
@@ -645,14 +564,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                      [
-                        '==',
-                        'cep_cat',
-                        -1,
-                      ],
-                    ],
+                    filter: ['all', ['==', 'cep_cat', -1]],
                   },
                   {
                     paint: {
@@ -662,9 +574,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'line',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                 ],
               },
@@ -746,10 +656,9 @@ Default.args = {
             name: 'Marine Protected Areas (polygons)',
             slug: 'Marine-Protected-Areas-polygons',
             dataset: 'cb738e45-4068-4bd9-b040-cbeef74d4b83',
-            description: 'Boundaries of officially designated parks, reserves, and other formal conservation areas around the world that have a substantial marine component. The authors caution that the absence of a management category does not in any way reduce the importance of a protected area, nor does it imply that the site is not being adequately managed or should be excluded from analyses.',
-            application: [
-              'rw',
-            ],
+            description:
+              'Boundaries of officially designated parks, reserves, and other formal conservation areas around the world that have a substantial marine component. The authors caution that the absence of a management category does not in any way reduce the importance of a protected area, nor does it imply that the site is not being adequately managed or should be excluded from analyses.',
+            application: ['rw'],
             iso: [],
             provider: 'cartodb',
             userId: '5d4383b6bc2f700010659e31',
@@ -763,7 +672,8 @@ Default.args = {
                   {
                     options: {
                       cartocss_version: '2.3.0',
-                      cartocss: '#layer {polygon-opacity: 0.2; polygon-fill: #0079B0; polygon-gamma-method: power; line-color:#0079B0; line-opacity:0.8; line-width:1}',
+                      cartocss:
+                        '#layer {polygon-opacity: 0.2; polygon-fill: #0079B0; polygon-gamma-method: power; line-color:#0079B0; line-opacity:0.8; line-width:1}',
                       sql: 'SELECT * FROM bio_007b_rw0_marine_protected_area_polygon_edit',
                     },
                     type: 'cartodb',
@@ -779,9 +689,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'line',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                   {
                     paint: {
@@ -790,9 +698,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                 ],
               },
@@ -896,10 +802,9 @@ Default.args = {
             name: 'Watersheds - Level 3',
             slug: 'Watersheds-Level-3',
             dataset: '36ae1411-8ce4-4720-860c-8363af092247',
-            description: 'Watershed boundaries and sub-basin delineations for level 3 (according to the Pfafstetter coding system). This level corresponds to the largest river basins of each continent.',
-            application: [
-              'rw',
-            ],
+            description:
+              'Watershed boundaries and sub-basin delineations for level 3 (according to the Pfafstetter coding system). This level corresponds to the largest river basins of each continent.',
+            application: ['rw'],
             iso: [],
             provider: 'cartodb',
             userId: '5d4383b6bc2f700010659e31',
@@ -913,7 +818,8 @@ Default.args = {
                   {
                     options: {
                       cartocss_version: '2.3.0',
-                      cartocss: '#layer {polygon-opacity: 0.9;polygon-fill:#ffd380;line-color: #e1b562;line-width: 2;line-opacity: 1;}',
+                      cartocss:
+                        '#layer {polygon-opacity: 0.9;polygon-fill:#ffd380;line-color: #e1b562;line-width: 2;line-opacity: 1;}',
                       sql: 'SELECT * FROM wat_068_rw0_watersheds_edit WHERE level = 3',
                     },
                     type: 'mapnik',
@@ -928,9 +834,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'fill',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                   {
                     paint: {
@@ -940,9 +844,7 @@ Default.args = {
                     },
                     'source-layer': 'layer0',
                     type: 'line',
-                    filter: [
-                      'all',
-                    ],
+                    filter: ['all'],
                   },
                 ],
               },
@@ -998,10 +900,9 @@ Default.args = {
             name: '2015 Land Cover',
             slug: '2015-Land-Cover_2',
             dataset: 'f7bbc39e-81ab-4d91-be37-c12e33cd8436',
-            description: 'Discrete land cover classification for 2015, according to UN-FAO LCCS, with 11 classes shown. Forests are shown as two classes (open and closed), unknown and ocean classes are not shown.',
-            application: [
-              'rw',
-            ],
+            description:
+              'Discrete land cover classification for 2015, according to UN-FAO LCCS, with 11 classes shown. Forests are shown as two classes (open and closed), unknown and ocean classes are not shown.',
+            application: ['rw'],
             iso: [],
             provider: 'gee',
             userId: '5d4383b6bc2f700010659e31',
@@ -1015,7 +916,8 @@ Default.args = {
               isImageCollection: false,
               body: {
                 styleType: 'sld',
-                sldValue: '<RasterSymbolizer><ChannelSelection>   <GrayChannel>   <SourceChannelName>discrete_classification</SourceChannelName>        </GrayChannel>        </ChannelSelection> <ColorMap type="values" extended="false" ><ColorMapEntry color="#FFBB22" quantity="20" label="Shrubland" opacity="1" /><ColorMapEntry color="#FFFF4C" quantity="30" label="Herbaceous vegetation" opacity="1" /><ColorMapEntry color="#F096FF" quantity="40" label="Cropland" opacity="1" /><ColorMapEntry color="#FA0000" quantity="50" label="Urban / Built up" opacity="1" /><ColorMapEntry color="#B4B4B4" quantity="60" label="Bare / sparse vegetation" opacity="1" /><ColorMapEntry color="#F0F0F0" quantity="70" label="Snow and ice" opacity="1" /><ColorMapEntry color="#0032C8" quantity="80" label="Permanent water bodies" opacity="1" /><ColorMapEntry color="#0096A0" quantity="90" label="Herbaceous wetland" opacity="1" /><ColorMapEntry color="#FAE6A0" quantity="100" label="Moss and lichen" opacity="1" /><ColorMapEntry color="#007800" quantity="111" label="Closed forest, evergreen needle leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="112" label="Closed forest, evergreen broad leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="113" label="Closed forest, deciduous needle leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="114" label="Closed forest, deciduous broad leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="115" label="Closed forest, mixed" opacity="1" /><ColorMapEntry color="#007800" quantity="116" label="Closed forest, unknown type" opacity="1" /><ColorMapEntry color="#648c00" quantity="121" label="Open forest, evergreen needle leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="122" label="Open forest, evergreen broad leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="123" label="Open forest, deciduous needle leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="124" label="Open forest, deciduous broad leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="125" label="Open forest, mixed" opacity="1" /><ColorMapEntry color="#648c00" quantity="126" label="Open forest, unknown type" opacity="1" /></ColorMap></RasterSymbolizer>',
+                sldValue:
+                  '<RasterSymbolizer><ChannelSelection>   <GrayChannel>   <SourceChannelName>discrete_classification</SourceChannelName>        </GrayChannel>        </ChannelSelection> <ColorMap type="values" extended="false" ><ColorMapEntry color="#FFBB22" quantity="20" label="Shrubland" opacity="1" /><ColorMapEntry color="#FFFF4C" quantity="30" label="Herbaceous vegetation" opacity="1" /><ColorMapEntry color="#F096FF" quantity="40" label="Cropland" opacity="1" /><ColorMapEntry color="#FA0000" quantity="50" label="Urban / Built up" opacity="1" /><ColorMapEntry color="#B4B4B4" quantity="60" label="Bare / sparse vegetation" opacity="1" /><ColorMapEntry color="#F0F0F0" quantity="70" label="Snow and ice" opacity="1" /><ColorMapEntry color="#0032C8" quantity="80" label="Permanent water bodies" opacity="1" /><ColorMapEntry color="#0096A0" quantity="90" label="Herbaceous wetland" opacity="1" /><ColorMapEntry color="#FAE6A0" quantity="100" label="Moss and lichen" opacity="1" /><ColorMapEntry color="#007800" quantity="111" label="Closed forest, evergreen needle leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="112" label="Closed forest, evergreen broad leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="113" label="Closed forest, deciduous needle leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="114" label="Closed forest, deciduous broad leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="115" label="Closed forest, mixed" opacity="1" /><ColorMapEntry color="#007800" quantity="116" label="Closed forest, unknown type" opacity="1" /><ColorMapEntry color="#648c00" quantity="121" label="Open forest, evergreen needle leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="122" label="Open forest, evergreen broad leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="123" label="Open forest, deciduous needle leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="124" label="Open forest, deciduous broad leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="125" label="Open forest, mixed" opacity="1" /><ColorMapEntry color="#648c00" quantity="126" label="Open forest, unknown type" opacity="1" /></ColorMap></RasterSymbolizer>',
                 url: 'https://staging-api.resourcewatch.org/v1/layer/fe6315f7-e208-441d-9193-9dee6499b349/tile/gee/{z}/{x}/{y}',
               },
               timeline: true,
@@ -1085,7 +987,7 @@ Default.args = {
             interactionConfig: {
               type: 'intersection',
               config: {
-                url: "https://api.resourcewatch.org/v1/query/b2f00f99-46ed-43e6-a7a1-a5809d9369d4?sql=select st_summarystats(rast, 'discrete_classification', false) as x from 'COPERNICUS/Landcover/100m/Proba-V-C3/Global/2015' where ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[{{lng}},{{lat}}]}'),4326),the_geom)",
+                url: 'https://api.resourcewatch.org/v1/query/b2f00f99-46ed-43e6-a7a1-a5809d9369d4?sql=select st_summarystats(rast, \'discrete_classification\', false) as x from \'COPERNICUS/Landcover/100m/Proba-V-C3/Global/2015\' where ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON(\'{"type":"Point","coordinates":[{{lng}},{{lat}}]}\'),4326),the_geom)',
               },
               output: [
                 {

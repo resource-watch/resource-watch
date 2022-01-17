@@ -1,6 +1,4 @@
-import {
-  useState,
-} from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { AdapterModifier } from '@widget-editor/widget-editor';
 import RWAdapter from '@widget-editor/rw-adapter';
@@ -27,13 +25,12 @@ function Template(args) {
           margin: '0 auto',
         }}
       >
-        <ChartType
-          {...args}
-          onToggleShare={() => setVisibilityWidgetShareModal(true)}
-        />
+        <ChartType {...args} onToggleShare={() => setVisibilityWidgetShareModal(true)} />
       </div>
       <WidgetShareModal
-        onClose={() => { setVisibilityWidgetShareModal(false); }}
+        onClose={() => {
+          setVisibilityWidgetShareModal(false);
+        }}
         isVisible={isWidgetShareModalVisible}
         widget={args.widget}
       />
@@ -53,12 +50,11 @@ const widget = {
   dataset: '32324f22-e7f6-4e0d-bc38-d82c6484f1be',
   slug: 'Countries-with-Greatest-Tree-Cover-2000',
   userId: '58fa22c54eecd907310778cd',
-  description: 'Top 10 countries with most tree cover in 2000. “Tree cover” was defined as all vegetation taller than 5 meters in height. “Tree cover” is the biophysical presence of trees and may take the form of natural forests or plantations existing over a range of canopy densities.',
+  description:
+    'Top 10 countries with most tree cover in 2000. “Tree cover” was defined as all vegetation taller than 5 meters in height. “Tree cover” is the biophysical presence of trees and may take the form of natural forests or plantations existing over a range of canopy densities.',
   source: '',
   authors: '',
-  application: [
-    'rw',
-  ],
+  application: ['rw'],
   verified: false,
   default: false,
   protected: false,
@@ -240,7 +236,9 @@ Default.args = {
   widget,
   isInACollection: false,
   // eslint-disable-next-line no-console
-  onToggleInfo: (evt) => { console.info(evt); },
+  onToggleInfo: (evt) => {
+    console.info(evt);
+  },
   adapter: AdapterModifier(RWAdapter, {
     endpoint: `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1`,
     env: process.env.NEXT_PUBLIC_API_ENV,

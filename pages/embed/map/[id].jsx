@@ -5,19 +5,14 @@ import LayoutEmbedMap from 'layout/embed/map';
 
 const EmbedMapPage = () => {
   const {
-    query: {
-      id,
-      webshot,
-      aoi,
-      ...restQueryParams
-    },
+    query: { id, webshot, aoi, ...restQueryParams },
   } = useRouter();
 
   return (
     <LayoutEmbedMap
       widgetId={id}
-      {...webshot && { isWebshot: true }}
-      {...aoi && { aoi }}
+      {...(webshot && { isWebshot: true })}
+      {...(aoi && { aoi })}
       params={restQueryParams}
     />
   );
