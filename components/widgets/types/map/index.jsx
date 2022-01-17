@@ -14,7 +14,6 @@ import { useMe } from 'hooks/user';
 
 // utils
 import { getAoiLayer, getMaskLayer, getLayerGroups } from 'utils/layers';
-import { parseBbox } from 'components/map/utils';
 
 // components
 import ErrorFallback from 'components/error-fallback';
@@ -116,7 +115,7 @@ export default function MapTypeWidgetContainer({
     if (!widget?.widgetConfig?.bounds) return {};
 
     return {
-      bbox: parseBbox(widget.widgetConfig.bounds.bbox),
+      bbox: widget.widgetConfig.bbox,
     };
   }, [widget, geostore]);
 

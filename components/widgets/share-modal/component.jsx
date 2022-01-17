@@ -1,8 +1,4 @@
-import {
-  useCallback,
-  useState,
-  useMemo,
-} from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { saveAs } from 'file-saver';
@@ -14,9 +10,7 @@ import ShareModal from 'components/modal/share-modal';
 import Spinner from 'components/ui/Spinner';
 
 // services
-import {
-  takeWidgetWebshot,
-} from 'services/webshot';
+import { takeWidgetWebshot } from 'services/webshot';
 
 // utils
 import { getLinksByWidgetType } from 'utils/embed';
@@ -24,12 +18,7 @@ import { getWidgetType } from 'utils/widget';
 import { logEvent } from 'utils/analytics';
 import { logger } from 'utils/logs';
 
-export default function WidgetShareModal({
-  isVisible,
-  onClose,
-  widget,
-  params,
-}) {
+export default function WidgetShareModal({ isVisible, onClose, widget, params }) {
   const [isWebshotLoading, setWebshotLoading] = useState(false);
 
   const handleWidgetWebshot = useCallback(async () => {
@@ -46,7 +35,10 @@ export default function WidgetShareModal({
       });
 
       if (widgetThumbnail) {
-        saveAs(widgetThumbnail, `${widget.slug}-${dateFnsFormat(Date.now(), 'yyyy-MM-dd\'T\'HH:mm:ss')}.png`);
+        saveAs(
+          widgetThumbnail,
+          `${widget.slug}-${dateFnsFormat(Date.now(), "yyyy-MM-dd'T'HH:mm:ss")}.png`,
+        );
         setWebshotLoading(false);
       }
     } catch (e) {
@@ -55,36 +47,28 @@ export default function WidgetShareModal({
     }
   }, [widget, params]);
 
-  const shareLinks = useMemo(
-    () => getLinksByWidgetType(widget, params), [widget, params],
-  );
+  const shareLinks = useMemo(() => getLinksByWidgetType(widget, params), [widget, params]);
 
   return (
-    <Modal
-      isOpen={isVisible}
-      className="-medium"
-      onRequestClose={onClose}
-    >
+    <Modal isOpen={isVisible} className="-medium" onRequestClose={onClose}>
       <ShareModal
         links={shareLinks}
         analytics={{
           facebook: () => logEvent('Share (embed)', `Share widget: ${widget?.name}`, 'Facebook'),
           twitter: () => logEvent('Share (embed)', `Share widget: ${widget?.name}`, 'Twitter'),
           email: () => logEvent('Share', `Share widget: ${widget?.name}`, 'Email'),
-          copy: (type) => logEvent('Share (embed)', `Share widget: ${widget?.name}`, `Copy ${type}`),
+          copy: (type) =>
+            logEvent('Share (embed)', `Share widget: ${widget?.name}`, `Copy ${type}`),
         }}
       />
 
-      <div style={{
-        display: 'flex',
-        margin: '80px 0 0',
-      }}
+      <div
+        style={{
+          display: 'flex',
+          margin: '80px 0 0',
+        }}
       >
-        <button
-          type="button"
-          className="c-btn -primary"
-          onClick={onClose}
-        >
+        <button type="button" className="c-btn -primary" onClick={onClose}>
           Close
         </button>
         <button
@@ -96,13 +80,11 @@ export default function WidgetShareModal({
             minWidth: 180,
           }}
         >
-          {isWebshotLoading
-            ? (
-              <Spinner
-                isLoading
-                className="-transparent -small"
-              />
-            ) : 'Download image'}
+          {isWebshotLoading ? (
+            <Spinner isLoading className="-transparent -small" />
+          ) : (
+            'Download image'
+          )}
         </button>
       </div>
     </Modal>

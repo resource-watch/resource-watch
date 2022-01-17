@@ -3,14 +3,10 @@ import PropTypes from 'prop-types';
 // hooks
 import { useFetchWidget } from 'hooks/widget';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
-import {
-  useMe,
-} from 'hooks/user';
+import { useMe } from 'hooks/user';
 
 // utils
-import {
-  getParametrizedWidget,
-} from 'utils/widget';
+import { getParametrizedWidget } from 'utils/widget';
 
 // components
 import Chart from './component';
@@ -23,13 +19,10 @@ export default function ChartContainer({
   style,
   isEmbed,
   isWebshot,
+  encodeParams,
 }) {
-  const {
-    data: user,
-  } = useMe();
-  const {
-    isInACollection,
-  } = useBelongsToCollection(widgetId, user?.token);
+  const { data: user } = useMe();
+  const { isInACollection } = useBelongsToCollection(widgetId, user?.token);
 
   const {
     data: widget,
@@ -44,7 +37,7 @@ export default function ChartContainer({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
-      select: (_widget) => getParametrizedWidget(_widget, params),
+      select: (_widget) => getParametrizedWidget(_widget, params, encodeParams),
     },
   );
 

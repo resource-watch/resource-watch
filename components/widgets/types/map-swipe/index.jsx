@@ -13,7 +13,6 @@ import { useGeostore } from 'hooks/geostore';
 import { useMe } from 'hooks/user';
 
 // utils
-import { parseBbox } from 'components/map/utils';
 import { getAoiLayer, getMaskLayer, getLayerGroups } from 'utils/layers';
 
 // components
@@ -133,7 +132,7 @@ export default function SwipeTypeWidgetContainer({
     if (!widget?.widgetConfig?.bounds) return {};
 
     return {
-      bbox: parseBbox(widget.widgetConfig.bounds.bbox),
+      bbox: widget.widgetConfig.bounds.bbox,
     };
   }, [widget, geostore]);
 

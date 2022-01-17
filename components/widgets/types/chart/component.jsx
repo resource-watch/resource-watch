@@ -7,6 +7,7 @@ import Renderer from '@widget-editor/renderer';
 import Spinner from 'components/ui/Spinner';
 import WidgetHeader from '../../header';
 import WidgetInfo from '../../info';
+import WidgetCaption from '../../caption';
 
 // constants
 import { WIDGET_EDITOR_MAPBOX_PROPS } from 'constants/widget-editor';
@@ -37,7 +38,7 @@ export default function ChartType({
   return (
     <div className={classnames('c-widget', { '-is-embed': isEmbed })} style={style}>
       {!isFetching && !isError && !isWebshot && (
-        <div className="widget-header-container">
+        <div className="p-4 border border-b-0 rounded-tl rounded-tr widget-header-container border-gray-light">
           <WidgetHeader
             widget={widget}
             onToggleInfo={handleInfoToggle}
@@ -49,14 +50,15 @@ export default function ChartType({
       )}
 
       <div
-        className="widget-container"
+        className="relative flex h-full p-4 overflow-x-auto overflow-y-hidden border widget-container grow border-gray-light"
         style={{
-          padding: 15,
-          ...(caption && {
-            borderBottom: 0,
-            borderRadius: 0,
-            boxShadow: 'none',
-          }),
+          height: 400,
+          // padding: 15,
+          // ...(caption && {
+          //   borderBottom: 0,
+          //   borderRadius: 0,
+          //   boxShadow: 'none',
+          // }),
         }}
       >
         {isFetching && <Spinner isLoading className="-transparent" />}
@@ -68,15 +70,10 @@ export default function ChartType({
           />
         )}
         {isInfoWidgetVisible && widget && !isFetching && (
-          <WidgetInfo
-            widget={widget}
-            style={{
-              padding: 15,
-            }}
-          />
+          <WidgetInfo widget={widget} className="p-4" />
         )}
       </div>
-      {caption && <div className="widget-caption-container">{caption}</div>}
+      {caption && <WidgetCaption text={caption} />}
     </div>
   );
 }

@@ -17,6 +17,7 @@ import MapControls from 'components/map/controls';
 import ZoomControls from 'components/map/controls/zoom';
 import WidgetHeader from '../../header';
 import WidgetInfo from '../../info';
+import WidgetCaption from '../../caption';
 
 export default function SwipeTypeWidget({
   layerGroupsBySide,
@@ -131,7 +132,7 @@ export default function SwipeTypeWidget({
       }}
     >
       {!isFetching && !isError && !isWebshot && (
-        <div className="widget-header-container">
+        <div className="p-4 border border-b-0 rounded-tl rounded-tr widget-header-container border-gray-light">
           <WidgetHeader
             widget={widget}
             onToggleInfo={handleInfoToggle}
@@ -142,11 +143,15 @@ export default function SwipeTypeWidget({
         </div>
       )}
       <div
-        className="widget-container"
+        className={classnames(
+          'relative flex h-full overflow-x-auto overflow-y-hidden widget-container grow rounded',
+          {
+            'border-0': !isInfoWidgetVisible,
+            'rounded-none': caption,
+          },
+        )}
         style={{
-          minHeight: 400,
-          ...(!isInfoWidgetVisible && { border: 0 }),
-          ...(caption && { borderRadius: 0 }),
+          height: 400,
         }}
       >
         {isFetching && <Spinner isLoading className="-transparent" />}
@@ -260,15 +265,10 @@ export default function SwipeTypeWidget({
         </div>
 
         {isInfoWidgetVisible && widget && !isFetching && (
-          <WidgetInfo
-            widget={widget}
-            style={{
-              padding: 15,
-            }}
-          />
+          <WidgetInfo widget={widget} className="p-4" />
         )}
       </div>
-      {caption && <div className="widget-caption-container">{caption}</div>}
+      {caption && <WidgetCaption text={caption} />}
     </div>
   );
 }
