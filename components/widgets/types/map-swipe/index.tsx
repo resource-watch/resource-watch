@@ -111,8 +111,8 @@ const SwipeTypeWidgetContainer = ({
 
   const layers = useMemo(
     () => ({
-      left: leftLayerStates.filter(({ data }) => !!data).map(({ data }) => data),
-      right: rightLayerStates.filter(({ data }) => !!data).map(({ data }) => data),
+      left: leftLayerStates.filter(({ data }) => !!data && data?.id).map(({ data }) => data),
+      right: rightLayerStates.filter(({ data }) => !!data && data?.id).map(({ data }) => data),
     }),
     [leftLayerStates, rightLayerStates],
   );

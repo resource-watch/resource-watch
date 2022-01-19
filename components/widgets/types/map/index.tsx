@@ -100,7 +100,7 @@ const MapTypeWidgetContainer = ({
   );
 
   const layers: APILayerSpec[] = useMemo(
-    () => layerStates.filter(({ data }) => !!data).map(({ data }) => data),
+    () => layerStates.filter(({ data }) => !!data && data?.id).map(({ data }) => data),
     [layerStates],
   );
 
