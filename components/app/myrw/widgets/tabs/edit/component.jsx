@@ -18,6 +18,7 @@ import {
 import {
   WIDGET_EDITOR_DEFAULT_THEME,
   WIDGET_EDITOR_COLOUR_SCHEMES,
+  WIDGET_EDITOR_MAPBOX_PROPS,
 } from 'constants/widget-editor';
 
 class MyRWWidgetEditTab extends React.Component {
@@ -72,11 +73,10 @@ class MyRWWidgetEditTab extends React.Component {
               },
             },
             user.token,
-          )
-            .then(() => {
-              this.setState({ loading: false });
-              toastr.success('Success', 'Widget updated successfully!');
-            });
+          ).then(() => {
+            this.setState({ loading: false });
+            toastr.success('Success', 'Widget updated successfully!');
+          });
         } else {
           createWidgetMetadata(
             widget.id,
@@ -88,17 +88,17 @@ class MyRWWidgetEditTab extends React.Component {
               },
             },
             user.token,
-          )
-            .then(() => {
-              this.setState({ loading: false });
-              toastr.success('Success', 'Widget updated successfully!');
-            });
+          ).then(() => {
+            this.setState({ loading: false });
+            toastr.success('Success', 'Widget updated successfully!');
+          });
         }
-      }).catch((err) => {
+      })
+      .catch((err) => {
         this.setState({ loading: false });
         toastr.error('Error', err);
       });
-  }
+  };
 
   render() {
     const { RWAdapter } = this.props;
@@ -106,10 +106,7 @@ class MyRWWidgetEditTab extends React.Component {
 
     return (
       <div className="c-myrw-widgets-edit">
-        <Spinner
-          className="-light"
-          isLoading={loading}
-        />
+        <Spinner className="-light" isLoading={loading} />
         {widget && (
           <WidgetEditor
             datasetId={widget.dataset}
@@ -117,6 +114,7 @@ class MyRWWidgetEditTab extends React.Component {
             onSave={this.onSaveWidget}
             theme={WIDGET_EDITOR_DEFAULT_THEME}
             adapter={RWAdapter}
+            map={WIDGET_EDITOR_MAPBOX_PROPS}
             schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
           />
         )}

@@ -264,7 +264,6 @@
 @import "./layout/sign-in/styles";
 @import "./layout/header/header-menu-mobile/styles";
 @import "./layout/header/styles";
-@import "./components/error-fallback/styles";
 @import "./components/ui/read-more/styles";
 @import "./components/ui/gdpr-banner/styles";
 @import "./components/ui/accordion/styles";
@@ -282,7 +281,6 @@
 @import "./components/areas/card/styles";
 @import "./components/areas/card-list/styles";
 @import "./components/wysiwyg/widget-block-edition/styles";
-@import "./components/wysiwyg/widget-block/styles";
 @import "./components/datasets/form/sorting-layer-manager/styles";
 @import "./components/datasets/card-list/styles";
 @import "./components/datasets/card-item/styles";
@@ -335,7 +333,7 @@
   }
 }
 
-// overrides Tailwind defaults for this specific case
+/* overrides Tailwind defaults for this specific case */
 .vizzuality__toggle-legend {
   svg {
     display: inline-block;

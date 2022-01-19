@@ -325,7 +325,6 @@ Raster.args = {
       layers: [
         {
           active: true,
-          type: 'layer',
           id: 'mosaic-land-cover-and-land-use-2020',
           name: '2020 Land Cover',
           description:

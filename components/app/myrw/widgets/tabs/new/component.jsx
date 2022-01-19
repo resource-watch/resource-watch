@@ -18,6 +18,7 @@ import {
   WIDGET_EDITOR_DEFAULT_THEME,
   WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
   WIDGET_EDITOR_COLOUR_SCHEMES,
+  WIDGET_EDITOR_MAPBOX_PROPS,
 } from 'constants/widget-editor';
 
 // utils
@@ -43,10 +44,7 @@ class MyRWWidgetNewTab extends React.Component {
 
   onSaveWidget = (data) => {
     const { datasets, selectedDataset } = this.state;
-    const {
-      user,
-      router,
-    } = this.props;
+    const { user, router } = this.props;
     // The widget creation endpoint expects the application property to be
     // of array type
 
@@ -59,7 +57,11 @@ class MyRWWidgetNewTab extends React.Component {
       env: process.env.NEXT_PUBLIC_API_ENV,
     };
 
-    logEvent('My RW', 'User creates new widget', datasets.find((d) => d.id === selectedDataset).label);
+    logEvent(
+      'My RW',
+      'User creates new widget',
+      datasets.find((d) => d.id === selectedDataset).label,
+    );
 
     this.setState({ loading: true });
 
@@ -75,20 +77,20 @@ class MyRWWidgetNewTab extends React.Component {
             info: { caption: data.metadata.caption },
           },
           user.token,
-        )
-          .then(() => {
-            router.push('/myrw/widgets/my_widgets');
-            toastr.success('Success', 'Widget created successfully!');
-          });
-      }).catch((err) => {
+        ).then(() => {
+          router.push('/myrw/widgets/my_widgets');
+          toastr.success('Success', 'Widget created successfully!');
+        });
+      })
+      .catch((err) => {
         this.setState({ loading: false });
         toastr.error('Error', err);
       });
-  }
+  };
 
   handleDatasetSelected = (value) => {
     this.setState({ selectedDataset: value });
-  }
+  };
 
   loadDatasets() {
     const { user } = this.props;
@@ -99,52 +101,48 @@ class MyRWWidgetNewTab extends React.Component {
       'page[size]': 999999,
     }).then((response) => {
       this.setState((prevState) => ({
-        datasets: [...prevState.datasets, ...response.map((dataset) => {
-          const metadata = dataset.metadata[0];
-          return ({
-            id: dataset.id,
-            type: dataset.type,
-            provider: dataset.provider,
-            tableName: dataset.tableName,
-            label: metadata && metadata.info
-              ? metadata.info.name
-              : dataset.name,
-            value: dataset.id,
-          });
-        })],
-        loadingPublishedDatasets: false,
-      }));
-    });
-
-    fetchDatasets({ userId: user.id, includes: 'metadata' })
-      .then((response) => {
-        this.setState((prevState) => ({
-          datasets: [...prevState.datasets, ...response.map((dataset) => {
+        datasets: [
+          ...prevState.datasets,
+          ...response.map((dataset) => {
             const metadata = dataset.metadata[0];
-            return ({
+            return {
               id: dataset.id,
               type: dataset.type,
               provider: dataset.provider,
               tableName: dataset.tableName,
-              label: metadata && metadata.info
-                ? metadata.info.name
-                : dataset.name,
+              label: metadata && metadata.info ? metadata.info.name : dataset.name,
               value: dataset.id,
-            });
-          })],
-          loadingUserDatasets: false,
-        }));
-      });
+            };
+          }),
+        ],
+        loadingPublishedDatasets: false,
+      }));
+    });
+
+    fetchDatasets({ userId: user.id, includes: 'metadata' }).then((response) => {
+      this.setState((prevState) => ({
+        datasets: [
+          ...prevState.datasets,
+          ...response.map((dataset) => {
+            const metadata = dataset.metadata[0];
+            return {
+              id: dataset.id,
+              type: dataset.type,
+              provider: dataset.provider,
+              tableName: dataset.tableName,
+              label: metadata && metadata.info ? metadata.info.name : dataset.name,
+              value: dataset.id,
+            };
+          }),
+        ],
+        loadingUserDatasets: false,
+      }));
+    });
   }
 
   render() {
-    const {
-      loading,
-      datasets,
-      selectedDataset,
-      loadingUserDatasets,
-      loadingPublishedDatasets,
-    } = this.state;
+    const { loading, datasets, selectedDataset, loadingUserDatasets, loadingPublishedDatasets } =
+      this.state;
     const { RWAdapter } = this.props;
 
     return (
@@ -178,12 +176,10 @@ class MyRWWidgetNewTab extends React.Component {
             onSave={this.onSaveWidget}
             theme={WIDGET_EDITOR_DEFAULT_THEME}
             adapter={RWAdapter}
+            map={WIDGET_EDITOR_MAPBOX_PROPS}
             schemes={WIDGET_EDITOR_COLOUR_SCHEMES}
             authenticated
-            disable={[
-              ...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES,
-              'advanced-editor',
-            ]}
+            disable={[...WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES, 'advanced-editor']}
           />
         )}
       </div>
