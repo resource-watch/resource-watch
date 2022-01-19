@@ -5,13 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.X.X] - 2021-X-X
+## [3.1.X] - 2022-X-X
 ### Added
 - 'FeatureService' provider for Layer Manager. [RW-114](https://vizzuality.atlassian.net/browse/RW-114)
 - `WMS` provider for Layer Manager. [RW-113](https://vizzuality.atlassian.net/browse/RW-113)
 - `tailwindcss` framework.
 
 ### Changed
+- migrates widgets to Typescript.
+- unifies Ocean Watch widgets with the rest of dashboards. [RW-101](https://vizzuality.atlassian.net/browse/RW-101)
+- `widget-editor@2.6.5` (Mapbox release) [RW-110](https://vizzuality.atlassian.net/browse/RW-110)
 - map labels change according to selected basemap.
 - makes changes in admin to preview layers with new spec. [RW-103](https://vizzuality.atlassian.net/browse/RW-103)
 - updates standalone Area of Interest layer specs to match new layer specification. [RW-99](https://vizzuality.atlassian.net/browse/RW-99)[RW-97](https://vizzuality.atlassian.net/browse/RW-97)[RW-102](https://vizzuality.atlassian.net/browse/RW-102)
