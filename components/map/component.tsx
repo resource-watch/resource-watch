@@ -339,6 +339,23 @@ export const Map = ({
         getCursor={getCursor || handleGetCursor}
         transitionInterpolator={new FlyToInterpolator()}
         transitionEasing={easeCubic}
+        transformRequest={(url, resourceType) => {
+          // Global Fishing Watch tilers require authorization so we need to add
+          // the header before Mapbox handles the request
+          if (
+            resourceType === 'Tile' &&
+            url.startsWith('https://gateway.api.globalfishingwatch.org/')
+          ) {
+            return {
+              url,
+              headers: {
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_GLOBAL_FISHING_WATCH_TOKEN}`,
+              },
+            };
+          }
+
+          return null;
+        }}
       >
         {ready &&
           loaded &&

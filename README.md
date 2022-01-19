@@ -85,6 +85,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD | Feature flag to enable GEDC dashboard | `undefined`| By default, this dashboard will not appear so make sure you initialize the environmental variable if you are going to work on it. Set to `true` to enable it. |
 | NEXTAUTH_URL | Canonical URL of the site used by [NextAuth](https://next-auth.js.org/) to handle authentication and sessions. | `http://localhost:$PORT` | |
 | NEXTAUTH_JWT_SECRET | A secret to use when signing JWT tokens | | |
+| NEXT_PUBLIC_GLOBAL_FISHING_WATCH_TOKEN | token used by Mapbox to fetch tiles from Global Fishing Watch API (https://gateway.api.globalfishingwatch.org/) | | |
 
 If you want to customize these variables for your local environment, the recommended way is creating a `.env.local` file.
 
