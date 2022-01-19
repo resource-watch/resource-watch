@@ -595,9 +595,10 @@
                 "config": {
                   "title": "Water Quality Pressure",
                   "mask": {
-                    "type": "vector",
                     "layerConfig": {
+                      "type": "vector",
                       "source": {
+                        "type": "vector",
                         "promoteId": "cartodb_id",
                         "provider": {
                           "type": "carto",
@@ -650,7 +651,7 @@
                               ],
                               "fill-outline-color": "#FAB72E"
                             },
-                            "source": "layer0",
+                            "source-layer": "layer0",
                             "id": "coastal-interactivity",
                             "type": "fill"
                           },
@@ -664,7 +665,7 @@
                               "line-color": "#FAB72E",
                               "line-width": 2
                             },
-                            "source": "layer0",
+                            "source-layer": "layer0",
                             "type": "line"
                           },
                           {
@@ -681,7 +682,7 @@
                                 3
                               ]
                             },
-                            "source": "layer0",
+                            "source-layer": "layer0",
                             "type": "line"
                           },
                           {
@@ -695,7 +696,7 @@
                               "fill-opacity": 1,
                               "fill-outline-color": "#616161"
                             },
-                            "source": "layer0",
+                            "source-layer": "layer0",
                             "type": "fill"
                           }
                         ]
@@ -1602,9 +1603,10 @@
                 "config": {
                   "title": "Water Quality Pressure",
                   "mask": {
-                    "type": "vector",
                     "layerConfig": {
+                      "type": "vector",
                       "source": {
+                        "type": "vector",
                         "promoteId": "cartodb_id",
                         "provider": {
                           "type": "carto",
@@ -1657,7 +1659,7 @@
                               ],
                               "fill-outline-color": "#FAB72E"
                             },
-                            "source": "layer0",
+                            "source-layer": "layer0",
                             "id": "coastal-interactivity",
                             "type": "fill"
                           },
@@ -1671,7 +1673,7 @@
                               "line-color": "#FAB72E",
                               "line-width": 2
                             },
-                            "source": "layer0",
+                            "source-layer": "layer0",
                             "type": "line"
                           },
                           {
@@ -1688,7 +1690,7 @@
                                 3
                               ]
                             },
-                            "source": "layer0",
+                            "source-layer": "layer0",
                             "type": "line"
                           },
                           {
@@ -1702,7 +1704,7 @@
                               "fill-opacity": 1,
                               "fill-outline-color": "#616161"
                             },
-                            "source": "layer0",
+                            "source-layer": "layer0",
                             "type": "fill"
                           }
                         ]
