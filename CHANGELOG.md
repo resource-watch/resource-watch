@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `tailwindcss` framework.
 
 ### Changed
+- disables widget alerts.
 - migrates widgets to Typescript.
 - unifies Ocean Watch widgets with the rest of dashboards. [RW-101](https://vizzuality.atlassian.net/browse/RW-101)
 - `widget-editor@2.6.5` (Mapbox release) [RW-110](https://vizzuality.atlassian.net/browse/RW-110)
@@ -31,6 +32,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - mini-explore: layer interactivity. [OW-185](https://vizzuality.atlassian.net/browse/OW-185)
 
 ### Removed
+- `polyfill`, `leaflet-utfgrid`, `promise.prototype.finally`, `whatwg-fetch` dependencies.
+- Leaflet CSS stylesheets and other styles related to Leaflet.
 - removed Carto verification when an admin creates/edits a layer. [RW-103](https://vizzuality.atlassian.net/browse/RW-103)
 
 ## [3.3.0] - 2021-11-11

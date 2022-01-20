@@ -8,7 +8,7 @@ import areaAlerts from 'selectors/user/areaAlerts';
 
 // Components
 import { getLabel } from 'utils/datasets/dataset-helpers';
-import AlertWidget from 'components/areas/AlertWidget';
+// import AlertWidget from 'components/areas/AlertWidget';
 
 // Services
 import { fetchSubscription } from 'services/subscriptions';
@@ -22,9 +22,9 @@ class AreasAlerts extends React.Component {
 
     this.state = { subscriptionData: null };
 
-    fetchSubscription(subscription.id, user.token).then(((data) => {
+    fetchSubscription(subscription.id, user.token).then((data) => {
       this.setState({ subscriptionData: data });
-    }));
+    });
   }
 
   render() {
@@ -34,8 +34,10 @@ class AreasAlerts extends React.Component {
 
     return (
       <div className="c-alerts-page">
-        {subscription && subscription.attributes && subscription.attributes.datasets
-          && subscription.attributes.datasets.map((dataset, key) => (
+        {/* {subscription &&
+          subscription.attributes &&
+          subscription.attributes.datasets &&
+          subscription.attributes.datasets.map((dataset, key) => (
             <AlertWidget
               key={id}
               dataset={dataset}
@@ -44,35 +46,28 @@ class AreasAlerts extends React.Component {
               subscription={subscription}
               subscriptionData={subscriptionData}
             />
-          ))}
+          ))} */}
         <p>
-          This notification reports
-          {' '}
-          {id in alerts ? alerts[id].map((a) => getLabel(a.dataset)).join(', ') : null}
-          {' '}
-          for the area of interest you subscribed to.
-          You will receive a separate email for each area and each alert you subscribe to.
-          Date of alerts refers to the date range within which change was detected.
-          There may be a lag between detection and when you receive this notification.
+          This notification reports{' '}
+          {id in alerts ? alerts[id].map((a) => getLabel(a.dataset)).join(', ') : null} for the area
+          of interest you subscribed to. You will receive a separate email for each area and each
+          alert you subscribe to. Date of alerts refers to the date range within which change was
+          detected. There may be a lag between detection and when you receive this notification.
         </p>
 
         <p>
-          For questions or if you would like more information,
-          please email: [resourcewatch@wri.org]
+          For questions or if you would like more information, please email: [resourcewatch@wri.org]
         </p>
 
         <p>
-          Please note that this information is subject to the
-          {' '}
+          Please note that this information is subject to the{' '}
           <Link href="/terms-of-service">
             <a>Resource Watch Terms of Service</a>
           </Link>
-          .
-          You can unsubscribe or manage your subscriptions at
+          . You can unsubscribe or manage your subscriptions at
           <Link href="myrw/areas">
             <a> My Resource Watch</a>
-          </Link>
-          {' '}
+          </Link>{' '}
           [my resource watch aoi page].
         </p>
       </div>
