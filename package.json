@@ -12,6 +12,7 @@
     "@next/bundle-analyzer": "^10.0.7",
     "@next/env": "10.0.8",
     "@reduxjs/toolkit": "^1.5.1",
+    "@tailwindcss/line-clamp": "^0.3.1",
     "@tailwindcss/typography": "^0.5.0",
     "@vizzuality/layer-manager": "^4.0.1",
     "@vizzuality/layer-manager-plugin-mapboxgl": "^1.0.1",

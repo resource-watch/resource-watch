@@ -112,7 +112,9 @@ class DatasetListItem extends React.Component {
           <div className="title-actions">
             <h4>
               <Link href={`/data/explore/${dataset.slug}`}>
-                <a>{(metadata && metadata.info && metadata.info.name) || dataset.name}</a>
+                <a className="line-clamp-2">
+                  {(metadata && metadata.info && metadata.info.name) || dataset.name}
+                </a>
               </Link>
             </h4>
             {actions && (
