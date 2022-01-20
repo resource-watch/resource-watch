@@ -19,7 +19,6 @@ export default connect(
   (state, props) => ({
     user: state.user,
     active: isActive(state, props),
-    basemap: state.explore.map.basemap,
   }),
   {
     ...actions,

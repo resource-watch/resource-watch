@@ -207,7 +207,7 @@ const WidgetCard = (props) => {
     if (isMapWidget(widget.widgetConfig)) {
       // We render the thumbnail of a map
       if (mode === 'grid') {
-        return <MapThumbnail layer={layer} basemap="light" />;
+        return <MapThumbnail layer={layer} />;
       }
 
       const {

@@ -26,6 +26,7 @@ export interface APILayerSpec {
   protected: boolean;
   published: boolean;
   env: string;
+  thumbnailUrl: string;
   layerConfig: layerConfigSpec;
   legendConfig: Record<string, string | number | boolean | unknown>;
   applicationConfig: Record<string, string | number | boolean | unknown>;

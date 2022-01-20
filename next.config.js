@@ -17,6 +17,10 @@ module.exports = withBundleAnalyzer({
     ignoreDuringBuilds: true,
   },
 
+  images: {
+    domains: ['s3.amazonaws.com'],
+  },
+
   async redirects() {
     return [
       {

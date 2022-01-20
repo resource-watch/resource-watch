@@ -21,7 +21,7 @@ class DatasetListItem extends React.Component {
    * - renderChart
    */
   renderChart = () => {
-    const { dataset, widget, layer, expandedChart, basemap } = this.props;
+    const { dataset, widget, layer, expandedChart } = this.props;
 
     const isWidgetMap = widget && widget.widgetConfig.type === 'map';
     const isEmbedWidget = widget && widget.widgetConfig.type === 'embed';
@@ -43,7 +43,7 @@ class DatasetListItem extends React.Component {
       return (
         <Link href={`/data/explore/${dataset.slug}`} passHref>
           <div className={classNameValue}>
-            <MapThumbnail layer={layer} basemap={basemap} />
+            <MapThumbnail layer={layer} />
           </div>
         </Link>
       );
@@ -141,7 +141,6 @@ DatasetListItem.propTypes = {
   actions: PropTypes.node.isRequired,
   active: PropTypes.bool.isRequired,
   expandedChart: PropTypes.bool,
-  basemap: PropTypes.string.isRequired,
   toggleMapLayerGroup: PropTypes.func.isRequired,
   resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
   setMapLayerGroupActive: PropTypes.func.isRequired,
