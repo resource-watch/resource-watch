@@ -26,10 +26,6 @@ export const sortLayers = (_layers = [], _layerOrder = []) => {
   return [...sortedLayers, ...restLayers];
 };
 
-export const getTilerUrl = (layer) => {
-  if (!layer) throw new Error('layer required to generate tiler URL');
-  return `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
-};
 /**
  *
  * @param {Object[]} layers - array of layers to group by dataset
@@ -47,16 +43,6 @@ export const getLayerGroups = (layers = [], layerParams = {}, forceActive = fals
       ..._layer,
       active: forceActive || layerParams?.[_layer.id]?.default || Boolean(_layer.default),
       opacity: isNumber(layerParams?.[_layer.id]?.opacity) ? layerParams[_layer.id].opacity : 1,
-      // todo: remove this once layers have been migrated. This logic is replicated inside the GEE provider
-      ...(_layer?.layerConfig?.type === 'gee' && {
-        layerConfig: {
-          ..._layer.layerConfig,
-          body: {
-            ..._layer.layerConfig.body,
-            url: getTilerUrl(_layer),
-          },
-        },
-      }),
     })),
   }));
 };
