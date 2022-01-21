@@ -41,8 +41,8 @@ const ChartType = ({
   }, []);
 
   const handleShareToggle = useCallback(() => {
-    onToggleShare(true);
-  }, [onToggleShare]);
+    onToggleShare(widget);
+  }, [onToggleShare, widget]);
 
   const caption = useMemo(() => widget?.metadata?.[0]?.info?.caption, [widget]);
 
