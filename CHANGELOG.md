@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `tailwindcss` framework.
 
 ### Changed
+- disables encoding params for embeds and dashboards. [RW-115](https://vizzuality.atlassian.net/browse/RW-115)
 - disables widget alerts.
 - migrates widgets to Typescript.
 - unifies Ocean Watch widgets with the rest of dashboards. [RW-101](https://vizzuality.atlassian.net/browse/RW-101)

@@ -11,11 +11,12 @@ import { getRWAdapter } from 'utils/widget-editor';
 // components
 import Chart from './component';
 import type { CSSProperties } from 'react';
+import { APIWidgetSpec } from 'types/widget';
 
 export interface ChartContainerProps {
   widgetId: string;
   params?: Record<string, string | number | unknown>;
-  onToggleShare: (show: boolean) => void;
+  onToggleShare: (widget: APIWidgetSpec) => void;
   style?: CSSProperties;
   isEmbed?: boolean;
   isWebshot?: boolean;
