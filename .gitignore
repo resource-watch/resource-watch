@@ -38,5 +38,10 @@ public/styles
 # Typescript
 tsconfig.tsbuildinfo
 
-
-pages/layer-manager.tsx
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

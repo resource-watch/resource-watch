@@ -180,5 +180,6 @@
   },
   "engines": {
     "node": ">=14.17"
-  }
+  },
+  "packageManager": "yarn@3.1.1"
 }
