@@ -61,6 +61,7 @@ COPY scripts ./scripts
 # stop copying this folder when the user is not stored in the global state
 # (see https://github.com/resource-watch/resource-watch/blob/develop/pages/_app.jsx#L22)
 COPY cypress ./cypress
+COPY .yarn ./yarn
 
 # Copy single files
 COPY .babelrc .
