@@ -18,6 +18,7 @@ import { getAoiLayer, getMaskLayer, getLayerGroups } from 'utils/layers';
 import ErrorFallback from 'components/error-fallback';
 import MapTypeWidget from './component';
 
+// types
 import type { APILayerSpec } from 'types/layer';
 import type { APIWidgetSpec } from 'types/widget';
 
@@ -140,6 +141,16 @@ const MapTypeWidgetContainer = ({
 
   const isError = useMemo(() => isErrorWidget || isErrorGeostore, [isErrorWidget, isErrorGeostore]);
 
+  // * these params are used to make a shareable URL. See more details about which ones are accepted in utils/embed
+  const shareableParams = useMemo(
+    () => ({
+      ...(params.geostore_id && {
+        aoi: params.geostore_id,
+      }),
+    }),
+    [params],
+  );
+
   return (
     <ErrorBoundary
       FallbackComponent={CustomErrorFallback}
@@ -153,7 +164,8 @@ const MapTypeWidgetContainer = ({
         bounds={bounds}
         aoiLayer={aoiLayer}
         maskLayer={maskLayer}
-        widget={widget}
+        widget={widget as APIWidgetSpec}
+        shareableParams={shareableParams}
         style={style}
         isEmbed={isEmbed}
         isWebshot={isWebshot}

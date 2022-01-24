@@ -15,6 +15,7 @@ import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 
 // utils
 import { isMapWidget, isEmbedWidget, isTextualWidget } from 'utils/widget';
+import { getLinksByWidgetType } from 'utils/embed';
 import { logEvent } from 'utils/analytics';
 
 // constants
@@ -76,18 +77,12 @@ const WidgetCard = (props) => {
   };
 
   const handleEmbed = () => {
-    const { toggleModal, setModalOptions } = props;
-    const { id, widgetConfig } = widget;
-    const widgetType = widgetConfig.type || 'widget';
-    const location = typeof window !== 'undefined' && window.location;
-    const { origin } = location;
+    const { toggleModal, setModalOptions, params } = props;
+    const { id } = widget;
     const options = {
       children: ShareModal,
       childrenProps: {
-        links: {
-          link: `${origin}/data/widget/${id}`,
-          embed: location && `${origin}/embed/${widgetType}/${id}`,
-        },
+        links: getLinksByWidgetType(widget, params),
         analytics: {
           facebook: () => logEvent('Share', `Share widget: ${id}`, 'Facebook'),
           twitter: () => logEvent('Share', `Share widget: ${id}`, 'Twitter'),
@@ -369,17 +364,16 @@ const WidgetCard = (props) => {
 };
 
 WidgetCard.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   widget: PropTypes.object.isRequired,
   showActions: PropTypes.bool,
   showRemove: PropTypes.bool,
   showEmbed: PropTypes.bool,
+  params: PropTypes.shape({}),
   showFavorite: PropTypes.bool,
   mode: PropTypes.oneOf(['grid', 'full']).isRequired,
   onWidgetRemove: PropTypes.func.isRequired,
   onWidgetClick: PropTypes.func,
   limitChar: PropTypes.number,
-  // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   setModalOptions: PropTypes.func.isRequired,
@@ -396,6 +390,7 @@ WidgetCard.defaultProps = {
   thumbnail: false,
   clickable: false,
   onWidgetClick: null,
+  params: {},
 };
 
 export default WidgetCard;
