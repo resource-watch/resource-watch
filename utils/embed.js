@@ -1,24 +1,11 @@
-import {
-  getWidgetType,
-} from 'utils/widget';
+import { getWidgetType } from 'utils/widget';
 
 // these list are used to populate the query params of the embed URLS according to the widget type
-const ALLOWED_QUERY_PARAMS_MAP_WIDGETS = [
-  'aoi',
-  'type',
-];
+const ALLOWED_QUERY_PARAMS_MAP_WIDGETS = ['aoi', 'type'];
 
-const ALLOWED_QUERY_PARAMS_MAPS_SWIPE_WIDGETS = [
-  'aoi',
-  'type',
-  'geostore_env',
-  'geostore_id',
-];
+const ALLOWED_QUERY_PARAMS_MAPS_SWIPE_WIDGETS = ['aoi', 'type', 'geostore_env', 'geostore_id'];
 
-const ALLOWED_QUERY_PARAMS_CHART_WIDGETS = [
-  'geostore_env',
-  'geostore_id',
-];
+const ALLOWED_QUERY_PARAMS_CHART_WIDGETS = ['geostore_env', 'geostore_id', 'country'];
 
 export const isLoadedExternally = () => {
   if (typeof document === 'undefined' || document.referrer === '') return false;
@@ -27,9 +14,7 @@ export const isLoadedExternally = () => {
 };
 
 export const getLinksByWidgetType = (widget = {}, params = {}) => {
-  const {
-    id,
-  } = widget;
+  const { id } = widget;
 
   const widgetType = getWidgetType(widget);
 
@@ -43,15 +28,22 @@ export const getLinksByWidgetType = (widget = {}, params = {}) => {
 
   const validParams = Object.keys(params)
     .filter((paramKey) => queryParamsFilter.includes(paramKey))
-    .reduce((prev, validParamKey) => ({
-      ...prev,
-      [validParamKey]: params[validParamKey],
-    }), {});
+    .reduce(
+      (prev, validParamKey) => ({
+        ...prev,
+        [validParamKey]: params[validParamKey],
+      }),
+      {},
+    );
 
   const queryParams = new URLSearchParams(validParams);
 
-  return ({
-    link: `${window.location.origin}/embed/${widgetType}/${id}${queryParams.toString().length ? `?${queryParams.toString()}` : ''}`,
-    embed: `${window.location.origin}/embed/${widgetType}/${id}${queryParams.toString().length ? `?${queryParams.toString()}` : ''}`,
-  });
+  return {
+    link: `${window.location.origin}/data/widget/${id}${
+      queryParams.toString().length ? `?${queryParams.toString()}` : ''
+    }`,
+    embed: `${window.location.origin}/embed/${widgetType}/${id}${
+      queryParams.toString().length ? `?${queryParams.toString()}` : ''
+    }`,
+  };
 };

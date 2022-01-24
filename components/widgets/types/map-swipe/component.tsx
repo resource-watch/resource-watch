@@ -45,6 +45,7 @@ const SwipeTypeWidget = ({
   layerGroupsBySide,
   aoiLayer = null,
   maskLayer = null,
+  params,
   bounds,
   widget,
   style = {},
@@ -157,6 +158,7 @@ const SwipeTypeWidget = ({
         <div className="p-4 border border-b-0 rounded-tl rounded-tr widget-header-container border-gray-light">
           <WidgetHeader
             widget={widget}
+            params={params}
             onToggleInfo={handleInfoToggle}
             onToggleShare={handleShareToggle}
             isInACollection={isInACollection}

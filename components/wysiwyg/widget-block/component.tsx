@@ -23,6 +23,7 @@ const WidgetBlock = ({ widget }: WidgetBlockProps): JSX.Element => {
   const openShareModal = useCallback(() => {
     setShowModal(true);
   }, []);
+
   const closeShareModal = useCallback(() => {
     setShowModal(false);
   }, []);
