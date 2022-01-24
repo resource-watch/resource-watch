@@ -1,9 +1,7 @@
 import { FC } from 'react';
 import type { AppProps } from 'next/app';
 
-import {
-  Provider as AuthenticationProvider,
-} from 'next-auth/client';
+import { Provider as AuthenticationProvider } from 'next-auth/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 
@@ -21,10 +19,7 @@ finallyShim.shim();
 
 const queryClient = new QueryClient();
 
-const ResourceWatchApp: FC<AppProps> = ({
-  Component,
-  pageProps,
-}: AppProps) => {
+const ResourceWatchApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <MediaContextProvider>

@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 // components
 import Spinner from 'components/ui/Spinner';
 
+// todo: replace this component with components/widgets/types/ranking
+
 function RankingWidget(props) {
   const { widgetConfig } = props;
   const [rankingWidget, setRankingWidget] = useState({
@@ -16,12 +18,13 @@ function RankingWidget(props) {
   useEffect(() => {
     const { url } = widgetConfig;
 
-    axios.get(url)
+    axios
+      .get(url)
       .then((result) => {
         const { rows } = result.data;
         setRankingWidget({
           loading: false,
-          data: (rows.length > 0) ? rows[0] : null,
+          data: rows.length > 0 ? rows[0] : null,
         });
       })
       .catch((err) => {
@@ -35,37 +38,21 @@ function RankingWidget(props) {
 
   return (
     <div className="c-ranking-widget">
-      <Spinner
-        isLoading={loading}
-        className="-light -relative"
-      />
-      {!loading
-                && (
-                <div className="data-container">
-                  {data
-                        && (
-                        <>
-                          <h1>{data.x}</h1>
-                          <div className="subtitle">
-                            Rank
-                            {' '}
-                            <span className="ranking-value">{data.ranking}</span>
-                            {' '}
-                            of
-                            {data.count}
-                            {' '}
-                            countries
-                          </div>
-                        </>
-                        )}
-                  {!loading && !data
-                        && (
-                        <div className="no-data">
-                          No data available
-                        </div>
-                        )}
-                </div>
-                )}
+      <Spinner isLoading={loading} className="-light -relative" />
+      {!loading && (
+        <div className="data-container">
+          {data && (
+            <>
+              <h1>{data.x}</h1>
+              <div className="subtitle">
+                Rank <span className="ranking-value">{data.ranking}</span> of
+                {data.count} countries
+              </div>
+            </>
+          )}
+          {!loading && !data && <div className="no-data">No data available</div>}
+        </div>
+      )}
     </div>
   );
 }
