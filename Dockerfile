@@ -68,6 +68,7 @@ COPY .browserlistrc .
 COPY .env.test .
 COPY .env.production .
 COPY yarn.lock .
+COPY .yarnrc.yml
 COPY index.js .
 COPY next-env.d.ts .
 COPY next-sitemap.js .

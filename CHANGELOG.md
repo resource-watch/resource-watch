@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `tailwindcss` framework.
 
 ### Changed
+- `yarn@3`
 - disables encoding params for embeds and dashboards. [RW-115](https://vizzuality.atlassian.net/browse/RW-115)
 - disables widget alerts.
 - migrates widgets to Typescript.
