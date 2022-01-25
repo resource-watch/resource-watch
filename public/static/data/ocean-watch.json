@@ -471,7 +471,7 @@
                               "id": "6f974b0f-66cf-416b-a5a9-d1012856e4c8"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT pol_type, gadm.gid_0, year, SUM(value::NUMERIC) AS value FROM ( SELECT *, CASE WHEN iso_ter1 IS NULL THEN iso_sov1 ELSE iso_ter1 END AS gid_0 FROM com_030d_fishing_effort_by_zone) AS data LEFT OUTER JOIN gadm36_0 AS gadm ON data.gid_0 = gadm.gid_0 WHERE pol_type = '200NM' AND year = 2020 AND gadm.{{geostore_env}}='{{geostore_id}}' GROUP BY pol_type, gadm.gid_0, year",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT pol_type, gadm.gid_0, year, SUM(value::NUMERIC) AS value FROM ( SELECT *, CASE WHEN iso_ter1 IS NULL THEN iso_sov1 ELSE iso_ter1 END AS gid_0 FROM com_030d_fishing_effort_by_zone) AS data LEFT OUTER JOIN gadm36_0 AS gadm ON data.gid_0 = gadm.gid_0 WHERE pol_type = '200NM' AND year = 2021 AND gadm.{{geostore_env}}='{{geostore_id}}' GROUP BY pol_type, gadm.gid_0, year",
                               "text": "spent fishing within 200 nautical miles of the coastline in the latest year",
                               "format": ",.0f",
                               "unit": "hrs"
@@ -1479,7 +1479,7 @@
                               "id": "6f974b0f-66cf-416b-a5a9-d1012856e4c8"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT pol_type, gadm.gid_0, year, SUM(value::NUMERIC) AS value FROM ( SELECT *, CASE WHEN iso_ter1 IS NULL THEN iso_sov1 ELSE iso_ter1 END AS gid_0 FROM com_030d_fishing_effort_by_zone) AS data LEFT OUTER JOIN gadm36_0 AS gadm ON data.gid_0 = gadm.gid_0 WHERE pol_type = '200NM' AND year = 2020 AND gadm.{{geostore_env}}='{{geostore_id}}' GROUP BY pol_type, gadm.gid_0, year",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT pol_type, gadm.gid_0, year, SUM(value::NUMERIC) AS value FROM ( SELECT *, CASE WHEN iso_ter1 IS NULL THEN iso_sov1 ELSE iso_ter1 END AS gid_0 FROM com_030d_fishing_effort_by_zone) AS data LEFT OUTER JOIN gadm36_0 AS gadm ON data.gid_0 = gadm.gid_0 WHERE pol_type = '200NM' AND year = 2021 AND gadm.{{geostore_env}}='{{geostore_id}}' GROUP BY pol_type, gadm.gid_0, year",
                               "text": "spent fishing within 200 nautical miles of the coastline in the latest year",
                               "format": ",.0f",
                               "unit": "hrs"
