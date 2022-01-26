@@ -19,8 +19,8 @@ export const getInteractiveLayers = (activeLayers) =>
         const { id, layerConfig } = _activeLayer;
         if (isEmpty(layerConfig)) return null;
 
-        const { body = {} } = layerConfig;
-        const { vectorLayers } = body;
+        // * keeps backward compatibility for now
+        const vectorLayers = layerConfig.render?.layers || layerConfig.body?.vectorLayers;
 
         if (vectorLayers) {
           return vectorLayers.map((l, i) => {

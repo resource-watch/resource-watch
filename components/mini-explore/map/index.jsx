@@ -2,8 +2,6 @@ import { useState, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import flattenDeep from 'lodash/flattenDeep';
 import compact from 'lodash/compact';
-import isEmpty from 'lodash/isEmpty';
-import flatten from 'lodash/flatten';
 import { useDebouncedCallback } from 'use-debounce';
 
 // hooks
@@ -14,7 +12,7 @@ import { useGeostore } from 'hooks/geostore';
 import { USER_AREA_LAYER_TEMPLATES, BASEMAP_LABEL_DICTIONARY } from 'components/map/constants';
 
 // utils
-import { getUserAreaLayer } from 'components/map/utils';
+import { getUserAreaLayer, getInteractiveLayers } from 'components/map/utils';
 import { logEvent } from 'utils/analytics';
 
 // components
@@ -395,30 +393,7 @@ export default function MiniExploreMapContainer({
     return [...(aoiLayer !== null ? [aoiLayer] : []), ...activeLayerGroups];
   }, [layerGroups, geostore, aoiBorder, minZoom]);
 
-  const activeInteractiveLayers = useMemo(
-    () =>
-      flatten(
-        compact(
-          activeLayers.map((_activeLayer) => {
-            const { id, layerConfig, interactionConfig } = _activeLayer;
-            if (isEmpty(layerConfig) || isEmpty(interactionConfig)) return null;
-
-            const { body = {} } = layerConfig;
-            const { vectorLayers } = body;
-
-            if (vectorLayers) {
-              return vectorLayers.map(
-                ({ id: vectorLayerId, type: vectorLayerType }, index) =>
-                  vectorLayerId || `${id}-${vectorLayerType}-${index}`,
-              );
-            }
-
-            return null;
-          }),
-        ),
-      ),
-    [activeLayers],
-  );
+  const activeInteractiveLayers = useMemo(() => getInteractiveLayers(activeLayers), [activeLayers]);
 
   return (
     <MiniExploreMap
