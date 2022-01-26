@@ -316,16 +316,9 @@ export default function MiniExploreMapContainer({
 
     const { bbox } = geostore;
 
-    const customBbox = {
-      // USA
-      '73b01f180d24d194821a9fc83ad48b7e': [-191.425781, 9.622414, -65.566406, 71.856229],
-      // RUS
-      '8c15c2cae46439129549856f12e81fde': [-332.929688, 42.032974, -162.949219, 77.617709],
-    };
-
     dispatch(
       setBounds({
-        bbox: customBbox[geostore.id] || bbox,
+        bbox,
         options: {
           padding: 50,
         },
