@@ -103,7 +103,7 @@ export default function MiniExploreMap({
         onFitBoundsChange={handleFitBoundsChange}
         fitBoundsOptions={{ transitionDuration: 0 }}
         {...(onHover && { onHover })}
-        {...(onLoad && { onLoad })}
+        {...(onLoad && { onMapLoad: onLoad })}
       >
         {(_map) => (
           <>
