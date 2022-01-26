@@ -5,7 +5,7 @@
     text-transform: none;
     position: relative;
     padding-left: 20px;
-    font-size: $font-size-default;
+    font-size: $font-size-normal;
     line-height: 1;
     cursor: pointer;
     width: auto;
@@ -13,10 +13,10 @@
     left: 0;
     transform: none;
     text-align: left;
-    color: $color-text-1;
+    color: $charcoal-grey;
 
     &:hover {
-      color: lighten($color-text-1, 12.5%);
+      color: lighten($charcoal-grey, 12.5%);
     }
 
     span {
@@ -25,7 +25,7 @@
       left: 0;
       width: 14px;
       height: 14px;
-      border: 1px solid $color-secondary;
+      border: 1px solid $sea-blue;
       border-radius: 50%;
       transform: translate(0,-50%);
 
@@ -36,7 +36,7 @@
         left: 50%;
         width: 8px;
         height: 8px;
-        background: $color-secondary;
+        background: $sea-blue;
         border-radius: 50%;
         display: block;
         transform: translate(-50%,-50%) scale(0);

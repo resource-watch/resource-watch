@@ -47,3 +47,9 @@
   }
 }
 
+// removes Mapbox logo from map thumbnails
+.mapbox-thumbnail {
+  .mapboxgl-ctrl-logo {
+    display: none;
+  }
+}

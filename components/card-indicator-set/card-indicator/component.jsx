@@ -4,8 +4,7 @@ import classnames from 'classnames';
 // components
 import Icon from 'components/ui/icon';
 
-// styles
-import './styles.scss';
+
 
 export default function CardIndicator({
   id,

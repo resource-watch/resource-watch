@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 
 import Icon from 'components/ui/icon';
 
-// styles
-import './styles.scss';
-
 class LayerMenuNativeComponent extends PureComponent {
   render() {
     const { layers, triggerClick } = this.props;

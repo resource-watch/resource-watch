@@ -7,6 +7,9 @@ import Spinner from 'components/ui/Spinner';
 import WidgetShareModal from 'components/widgets/share-modal';
 import WidgetInfo from 'components/widgets/info';
 
+// constants
+import { WIDGET_EDITOR_MAPBOX_PROPS } from 'constants/widget-editor';
+
 export default function WidgetItem({
   widgetState,
   adapter,
@@ -20,12 +23,7 @@ export default function WidgetItem({
   return (
     <>
       <div className="widget-item">
-        {widgetState.isFetching && (
-          <Spinner
-            isLoading
-            className="-transparent"
-          />
-        )}
+        {widgetState.isFetching && <Spinner isLoading className="-transparent" />}
         {!widgetState.isFetching && !widgetState.isError && (
           <>
             <WidgetHeader
@@ -39,20 +37,15 @@ export default function WidgetItem({
               <Renderer
                 adapter={adapter}
                 widgetConfig={widgetState.data.widgetConfig}
+                map={WIDGET_EDITOR_MAPBOX_PROPS}
               />
-              {(isInfoVisible && widgetState.data) && (
-                <WidgetInfo widget={widgetState.data} />
-              )}
+              {isInfoVisible && widgetState.data && <WidgetInfo widget={widgetState.data} />}
             </div>
           </>
         )}
       </div>
       {isShareVisible && (
-        <WidgetShareModal
-          isVisible
-          widget={widgetState.data}
-          onClose={handleCloseShareWidget}
-        />
+        <WidgetShareModal isVisible widget={widgetState.data} onClose={handleCloseShareWidget} />
       )}
     </>
   );

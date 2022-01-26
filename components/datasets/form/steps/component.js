@@ -152,7 +152,7 @@ class Step1 extends PureComponent {
         {option.value}
         {' '}
         {option.type && typeof option.type === 'string' ? (
-          <small className="_right">{option.type}</small>
+          <small className="float-right">{option.type}</small>
         ) : null}
       </div>
     );

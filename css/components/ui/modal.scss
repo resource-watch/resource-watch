@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba($color-black, .3);
+  background: rgba($black, .3);
   transition: all $animation-time $ease-in-sine;
   z-index: 100000; // Just to be sure that is over all the content
   visibility: visible;
@@ -42,7 +42,7 @@
     display: flex;
     position: relative;
     width: calc(100% - 50px);
-    max-width: $max-width-modal;
+    max-width: 880px;
     background: white;
     box-shadow: 0 1px 1px rgba(0,0,0,.15);
     z-index: 1;
@@ -64,7 +64,7 @@
   }
 
   .modal-close {
-    fill: $color-black;
+    fill: $black;
     display: block;
     position: absolute;
     top: 15px;
@@ -78,7 +78,7 @@
     z-index: 2; /* Otherwise, it won't be reachable */
 
     &:hover {
-      svg { fill: $color-primary; }
+      svg { fill: $dark-pink; }
     }
   }
 
@@ -94,7 +94,7 @@
   // THEMES
   &.-menu {
     .modal-container {
-      background: $color-primary;
+      background: $dark-pink;
     }
 
     .modal-content {
@@ -120,7 +120,7 @@
   // SIZES
   &.-medium {
     .modal-container {
-      max-width: $max-width-modal-medium;
+      max-width: 600px;
     }
   }
 }

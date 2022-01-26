@@ -6,9 +6,6 @@ import { toastr } from 'react-redux-toastr';
 import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
 
-// styles
-import './styles.scss';
-
 class ShareModalComponent extends PureComponent {
   static propTypes = {
     links: PropTypes.object.isRequired,

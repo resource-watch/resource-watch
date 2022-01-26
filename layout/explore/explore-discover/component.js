@@ -11,7 +11,6 @@ import TopicsList from 'layout/explore/explore-topics/list';
 import DatasetList from 'layout/explore/explore-datasets/list';
 import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-datasets-actions';
 
-
 // services
 import { fetchExploreConfig } from 'services/config';
 import { fetchDatasets } from 'services/dataset';
@@ -22,9 +21,6 @@ import { logEvent } from 'utils/analytics';
 // constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 import { TOPICS } from 'layout/explore/explore-topics/constants';
-
-// styles
-import './styles.scss';
 
 function ExploreDiscover(props) {
   const {

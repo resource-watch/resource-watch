@@ -14,9 +14,6 @@ import {
   miniExploreSlice,
 } from './reducer';
 
-// styles
-import './styles.scss';
-
 const miniExploreReducer = miniExploreSlice.reducer;
 
 export default function MiniExplore({

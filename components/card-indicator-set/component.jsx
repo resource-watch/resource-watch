@@ -7,9 +7,6 @@ import PropTypes from 'prop-types';
 // components
 import IndicatorVisualization from './indicator-visualization';
 
-// styles
-import './styles.scss';
-
 export default function CardIndicatorSet({
   indicator,
   params,

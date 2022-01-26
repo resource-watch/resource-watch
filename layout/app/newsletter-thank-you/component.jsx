@@ -6,9 +6,6 @@ import Layout from 'layout/layout/layout-app';
 import Banner from 'components/app/common/Banner';
 import Breadcrumbs from 'components/ui/Breadcrumbs';
 
-// styles
-import './styles.scss';
-
 export default function LayoutNewsletterThankYou() {
   return (
     <Layout

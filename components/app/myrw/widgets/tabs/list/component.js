@@ -15,9 +15,6 @@ import Paginator from 'components/ui/Paginator';
 // constants
 import { WIDGET_LIST_SUBTABS } from './constants';
 
-// styles
-import './styles.scss';
-
 class MyRWWidgets extends PureComponent {
   static propTypes = {
     display: PropTypes.oneOf(['grid', 'list']).isRequired,

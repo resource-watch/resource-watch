@@ -19,9 +19,6 @@ import {
 // utils
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 const MiniExploreDatasetsActions = (props) => {
   const {
     dataset,

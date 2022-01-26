@@ -33,9 +33,6 @@ import {
   VIDEO_OPTIONS,
 } from './constants';
 
-// styles
-import './styles.scss';
-
 export default function LayoutHome() {
   const router = useRouter();
   const [isVideoReady, setVideoReady] = useState(false);
@@ -96,7 +93,7 @@ export default function LayoutHome() {
             <h1>Monitoring the Planet&rsquo;s Pulse</h1>
             <p>Resource Watch provides trusted and timely data for a sustainable future.</p>
             <Link href="/data/explore">
-              <a className="c-button -alt -primary">Explore data</a>
+              <a className="c-button -alt -primary mt-5">Explore data</a>
             </Link>
           </div>
         </div>

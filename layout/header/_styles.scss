@@ -1,0 +1,104 @@
+@import 'css/settings';
+
+.l-header {
+  background-color: $dark-pink;
+  background-image: $header-bg-image,
+    linear-gradient(
+      86deg,
+      $header-gradient-color-1 0%,
+      $header-gradient-color-2 100%
+    );
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: 10000;
+
+  &.-transparent {
+    background-image: none;
+    background-color: transparent;
+  }
+
+  .header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: $header-main-height-mobile;
+
+    @media screen and (min-width: map-get($breakpoints, medium)) {
+      height: $header-main-height;
+    }
+  }
+
+  .header-logo {
+    position: relative;
+
+    .brand-logo {
+      width: 200px;
+      height: 35px;
+      display: block;
+      fill: $white;
+    }
+
+    .brand-title {
+      display: block;
+      height: 0;
+      width: 0;
+      color: transparent;
+      text-indent: -9999px;
+      visibility: hidden;
+      margin: 0;
+    }
+  }
+
+  .header-menu {
+    ul {
+      display: flex;
+      align-items: center;
+
+      > li {
+
+        &:not(:first-child) {
+          margin-left: $margin-size-extra-small;
+        }
+
+        > a,
+        > span,
+        > button {
+          display: inline-flex;
+          align-items: center;
+          padding: 7px 10px;
+          color: $white;
+          fill: $white;
+          cursor: pointer;
+
+          &:hover {
+            color: $yellow;
+            fill: $yellow;
+            text-decoration: none;
+          }
+        }
+
+        &.-active > a {
+          position: relative;
+          color: $yellow;
+          fill: $yellow;
+          font-weight: bold;
+          text-decoration: none;
+
+          &:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+            width: calc(100% - 20px);
+            height: 2px;
+            background: $yellow;
+          }
+        }
+      }
+    }
+  }
+}
+
+

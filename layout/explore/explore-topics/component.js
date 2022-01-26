@@ -11,8 +11,6 @@ import { TOPICS } from './constants';
 // Components
 import TopicsList from './list';
 
-import './styles.scss';
-
 function ExploreTopicsComponent(props) {
   const clickHandler = (id) => {
     props.setFiltersSearch('');

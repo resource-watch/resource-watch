@@ -3,7 +3,7 @@
   height: 32px;
   position: relative;
   border-radius: 50%;
-  background-color: $color-text-1;
+  background-color: $charcoal-grey;
   background-size: cover;
 
   a {
@@ -17,10 +17,10 @@
   }
 
   .avatar-letter {
-    color: $color-white;
+    color: $white;
     text-transform: uppercase;
     font-weight: 500;
-    font-size: $font-size-huge;
+    font-size: 22px;
   }
 
   .avatar-notifications {
@@ -36,8 +36,8 @@
     border-radius: 50%;
     font-size: $font-size-extra-small;
     font-weight: $font-weight-bold;
-    color: $color-white;
-    background: $color-mango;
-    box-shadow: 0 2px 4px 0 rgba($color-black, 0.1);
+    color: $white;
+    background: $yellow;
+    box-shadow: 0 2px 4px 0 rgba($black, 0.1);
   }
 }

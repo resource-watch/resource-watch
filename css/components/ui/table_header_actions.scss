@@ -13,8 +13,8 @@
 
       &.-active {
         svg {
-          stroke: $color-secondary;
-          fill: $color-secondary;
+          stroke: $sea-blue;
+          fill: $sea-blue;
         }
       }
     }
@@ -32,8 +32,8 @@
       }
 
       svg {
-        fill: $color-mid-grey;
-        stroke: $color-mid-grey;
+        fill: $light-grey;
+        stroke: $light-grey;
         stroke-width: 3px;
       }
     }

@@ -1,23 +1,12 @@
-import {
-  useCallback,
-  useState,
-  useMemo,
-} from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import dynamic from 'next/dynamic';
-import {
-  useSelector,
-} from 'react-redux';
 import { format } from 'd3-format';
-import {
-  replace,
-} from '@vizzuality/layer-manager-utils';
+import { replace } from '@vizzuality/layer-manager-utils';
 
 // hooks
-import {
-  useSQLQuery,
-} from 'hooks/sql';
+import { useSQLQuery } from 'hooks/sql';
 
 // components
 import InView from 'components/in-view';
@@ -25,30 +14,15 @@ import ChartWidget from 'components/widgets/types/chart';
 import MapWidget from 'components/widgets/types/map';
 import SwipeMapWidget from 'components/widgets/types/map-swipe';
 
-// utils
-import {
-  getRWAdapter,
-} from 'utils/widget-editor';
+const WidgetShareModal = dynamic(() => import('../../../../../components/widgets/share-modal'), {
+  ssr: false,
+});
 
-// styles
-import './styles.scss';
-
-const WidgetShareModal = dynamic(() => import('../../../../../components/widgets/share-modal'), { ssr: false });
-
-function renderWidget({
-  id: widgetId,
-  type: widgetType,
-  adapter,
-  handleShareWidget,
-  params,
-}) {
+function renderWidget({ id: widgetId, type: widgetType, handleShareWidget, params }) {
   return (
     <>
-      {(widgetId && widgetType === 'chart') && (
-        <InView
-          triggerOnce
-          threshold={0.25}
-        >
+      {widgetId && widgetType === 'chart' && (
+        <InView triggerOnce threshold={0.25}>
           {({ ref, inView }) => (
             <div
               ref={ref}
@@ -59,7 +33,6 @@ function renderWidget({
             >
               {inView && (
                 <ChartWidget
-                  adapter={adapter}
                   widgetId={widgetId}
                   onToggleShare={handleShareWidget}
                   params={params}
@@ -75,7 +48,7 @@ function renderWidget({
         </InView>
       )}
 
-      {(widgetId && widgetType === 'map') && (
+      {widgetId && widgetType === 'map' && (
         <MapWidget
           widgetId={widgetId}
           onToggleShare={handleShareWidget}
@@ -87,7 +60,7 @@ function renderWidget({
         />
       )}
 
-      {(widgetId && widgetType === 'map-swipe') && (
+      {widgetId && widgetType === 'map-swipe' && (
         <SwipeMapWidget
           widgetId={widgetId}
           onToggleShare={handleShareWidget}
@@ -101,17 +74,8 @@ function renderWidget({
   );
 }
 
-export default function StoryStep({
-  data,
-  geostore,
-  params,
-}) {
-  const {
-    content,
-  } = data;
-
-  const RWAdapter = useSelector((state) => getRWAdapter(state));
-
+export default function StoryStep({ data, geostore, params }) {
+  const { content } = data;
   const [widgetToShare, setWidgetToShare] = useState(null);
 
   const handleShareWidget = useCallback((_widget) => {
@@ -123,23 +87,21 @@ export default function StoryStep({
   }, []);
 
   const serializedSections = useMemo(
-    () => (content?.sections || []).map((section, index) => ({
-      ...section,
-      id: index,
-    })),
+    () =>
+      (content?.sections || []).map((section, index) => ({
+        ...section,
+        id: index,
+      })),
     [content],
   );
 
-  const defaultSection = useMemo(
-    () => {
-      if (!serializedSections.length) return null;
+  const defaultSection = useMemo(() => {
+    if (!serializedSections.length) return null;
 
-      return serializedSections.find(
-        ({ default: isDefault }) => isDefault,
-      ) || serializedSections?.[0];
-    },
-    [serializedSections],
-  );
+    return (
+      serializedSections.find(({ default: isDefault }) => isDefault) || serializedSections?.[0]
+    );
+  }, [serializedSections]);
 
   const [currentSection, setSection] = useState(defaultSection);
 
@@ -158,31 +120,34 @@ export default function StoryStep({
     return currentSection.widget.find(({ id }) => id);
   }, [currentSection]);
 
-  const handleSection = useCallback((_id) => {
-    setSection(serializedSections.find(({ id }) => _id === id));
-  }, [serializedSections]);
+  const handleSection = useCallback(
+    (_id) => {
+      setSection(serializedSections.find(({ id }) => _id === id));
+    },
+    [serializedSections],
+  );
 
-  const {
-    data: queryValueSection,
-  } = useSQLQuery(
+  const { data: queryValueSection } = useSQLQuery(
     querySection,
     {},
     {
       enabled: Boolean(querySection),
       select: (_data) => {
-        const {
-          format: valueFormat,
-        } = currentSection.widget.find(({ format: _format }) => _format) || {};
+        const { format: valueFormat } =
+          currentSection.widget.find(({ format: _format }) => _format) || {};
 
         return valueFormat ? format(valueFormat)(_data?.rows?.[0]?.value) : _data?.rows?.[0]?.value;
       },
     },
   );
 
-  const widgetParams = useMemo(() => ({
-    geostore_env: 'geostore_prod',
-    ...geostore && { geostore_id: geostore },
-  }), [geostore]);
+  const widgetParams = useMemo(
+    () => ({
+      geostore_env: 'geostore_prod',
+      ...(geostore && { geostore_id: geostore }),
+    }),
+    [geostore],
+  );
 
   return (
     <>
@@ -192,9 +157,7 @@ export default function StoryStep({
         })}
         id={data.id}
       >
-        <div
-          className="content"
-        >
+        <div className="content">
           {!data.isPlaceholder && (
             <>
               <div
@@ -204,21 +167,13 @@ export default function StoryStep({
                 }}
               >
                 <div className="column small-12">
-                  {content.title && (
-                    <h3 className="story-title">
-                      {content.title}
-                    </h3>
-                  )}
+                  {content.title && <h3 className="story-title">{content.title}</h3>}
                   {content.subtitle && (
-                    <h4 className="story-subtitle -text-center">
-                      {content.subtitle}
-                    </h4>
+                    <h4 className="story-subtitle -text-center">{content.subtitle}</h4>
                   )}
                   {content.intro && (
                     <div className="story-intro">
-                      <p className="-text-center">
-                        {content.intro}
-                      </p>
+                      <p className="-text-center">{content.intro}</p>
                     </div>
                   )}
                 </div>
@@ -251,9 +206,7 @@ export default function StoryStep({
                         }}
                       >
                         {_widgetBlock.description && (
-                        <p className="-text-center">
-                          {_widgetBlock.description}
-                        </p>
+                          <p className="-text-center">{_widgetBlock.description}</p>
                         )}
                         {_widgetBlock.value && (
                           <span className="widget-value">
@@ -267,7 +220,6 @@ export default function StoryStep({
                         {renderWidget({
                           id: _widgetBlock.id,
                           type: _widgetBlock.type,
-                          adapter: RWAdapter,
                           handleShareWidget,
                           params: widgetParams,
                         })}
@@ -277,7 +229,7 @@ export default function StoryStep({
                 </div>
               )}
 
-              {(serializedSections.length > 0) && (
+              {serializedSections.length > 0 && (
                 <div
                   style={{
                     margin: '25px 0 0',
@@ -302,7 +254,9 @@ export default function StoryStep({
                                 <button
                                   key={id}
                                   type="button"
-                                  onClick={() => { handleSection(id); }}
+                                  onClick={() => {
+                                    handleSection(id);
+                                  }}
                                   className={classnames({
                                     'btn-section': true,
                                     '-active': currentSection?.id === id,
@@ -322,11 +276,12 @@ export default function StoryStep({
                               }}
                             >
                               {currentSection.widget.find(({ description }) => description) && (
-                              <p className="-text-center">
-                                {currentSection.widget.find(
-                                  ({ description }) => description,
-                                ).description}
-                              </p>
+                                <p className="-text-center">
+                                  {
+                                    currentSection.widget.find(({ description }) => description)
+                                      .description
+                                  }
+                                </p>
                               )}
                               {queryValueSection && (
                                 <span className="widget-value">
@@ -338,12 +293,11 @@ export default function StoryStep({
                           </>
                         )}
 
-                        {(widgetSection && content.sectionPosition === 'right') && (
+                        {widgetSection && content.sectionPosition === 'right' && (
                           <>
                             {renderWidget({
                               id: widgetSection.id,
                               type: widgetSection.type,
-                              adapter: RWAdapter,
                               handleShareWidget,
                               params: widgetParams,
                             })}
@@ -368,7 +322,9 @@ export default function StoryStep({
                                 <button
                                   key={id}
                                   type="button"
-                                  onClick={() => { handleSection(id); }}
+                                  onClick={() => {
+                                    handleSection(id);
+                                  }}
                                   className={classnames({
                                     'btn-section': true,
                                     '-active': currentSection?.id === id,
@@ -387,11 +343,12 @@ export default function StoryStep({
                               }}
                             >
                               {currentSection.widget.find(({ description }) => description) && (
-                              <p className="-text-center">
-                                {currentSection.widget.find(
-                                  ({ description }) => description,
-                                ).description}
-                              </p>
+                                <p className="-text-center">
+                                  {
+                                    currentSection.widget.find(({ description }) => description)
+                                      .description
+                                  }
+                                </p>
                               )}
                               {queryValueSection && (
                                 <span className="widget-value">
@@ -402,12 +359,11 @@ export default function StoryStep({
                             </div>
                           </>
                         )}
-                        {(widgetSection && content.sectionPosition !== 'right') && (
+                        {widgetSection && content.sectionPosition !== 'right' && (
                           <>
                             {renderWidget({
                               id: widgetSection.id,
                               type: widgetSection.type,
-                              adapter: RWAdapter,
                               handleShareWidget,
                             })}
                           </>
@@ -421,7 +377,7 @@ export default function StoryStep({
           )}
         </div>
       </div>
-      {(!!widgetToShare) && (
+      {!!widgetToShare && (
         <WidgetShareModal
           isVisible
           widget={widgetToShare}
@@ -446,16 +402,9 @@ StoryStep.propTypes = {
       title: PropTypes.string,
       subtitle: PropTypes.string,
       intro: PropTypes.string,
-      widget: PropTypes.arrayOf(
-        PropTypes.shape({}),
-      ),
-      sectionPosition: PropTypes.oneOf([
-        'left',
-        'right',
-      ]),
-      sections: PropTypes.arrayOf(
-        PropTypes.shape({}),
-      ),
+      widget: PropTypes.arrayOf(PropTypes.shape({})),
+      sectionPosition: PropTypes.oneOf(['left', 'right']),
+      sections: PropTypes.arrayOf(PropTypes.shape({})),
     }),
   }).isRequired,
   params: PropTypes.shape({}),

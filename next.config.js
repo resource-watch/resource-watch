@@ -1,10 +1,14 @@
-const withSass = require('@zeit/next-sass');
-const withCSS = require('@zeit/next-css');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-module.exports = withBundleAnalyzer(withCSS(withSass({
+// @ts-check
+
+/**
+ * @type {import('next').NextConfig}
+ * */
+
+module.exports = withBundleAnalyzer({
   poweredByHeader: false,
 
   eslint: {
@@ -13,10 +17,9 @@ module.exports = withBundleAnalyzer(withCSS(withSass({
     ignoreDuringBuilds: true,
   },
 
-  // Webpack 5 is enabled by default
-  // You can still use webpack 4 while upgrading to the latest version of Next.js
-  // by adding the "webpack5: false" flag
-  webpack5: false,
+  images: {
+    domains: ['s3.amazonaws.com'],
+  },
 
   async redirects() {
     return [
@@ -60,18 +63,4 @@ module.exports = withBundleAnalyzer(withCSS(withSass({
   //   '/data/explore': { page: '/explore' },
   //   '/data/pulse': { page: '/pulse' },
   // }),
-
-  webpack: (config) => {
-    // eslint-disable-next-line no-underscore-dangle
-    const _config = { ...config };
-
-    _config.node = {
-      console: true,
-      fs: 'empty',
-      net: 'empty',
-      tls: 'empty',
-    };
-
-    return _config;
-  },
-})));
+});

@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import { Tooltip } from 'vizzuality-components';
 import IndicatorTooltip from 'layout/app/dashboard-detail/energy-country-explorer/country-indicators/indicator-card/indicator-tooltip';
 
-// styles
-import './styles.scss';
-
 function RankingBar(props) {
   const { count, ranking, showPoint } = props;
 

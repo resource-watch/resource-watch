@@ -1,6 +1,6 @@
 .c-we-chart-tooltip {
     display: flex;
-    font-size: $font-size-default;
+    font-size: $font-size-normal;
 
   > .labels,
   > .values {
@@ -20,12 +20,12 @@
 
   > .labels {
     margin-right: 20px;
-    color: $color-text-3;
+    color: $dove-grey;
   }
 
   > .values {
     font-weight: $font-weight-bold;
-    color: $color-text-1;
+    color: $charcoal-grey;
 
     span:first-of-type {
       font-size: $font-size-extra-big;

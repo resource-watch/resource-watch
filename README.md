@@ -85,6 +85,7 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD | Feature flag to enable GEDC dashboard | `undefined`| By default, this dashboard will not appear so make sure you initialize the environmental variable if you are going to work on it. Set to `true` to enable it. |
 | NEXTAUTH_URL | Canonical URL of the site used by [NextAuth](https://next-auth.js.org/) to handle authentication and sessions. | `http://localhost:$PORT` | |
 | NEXTAUTH_JWT_SECRET | A secret to use when signing JWT tokens | | |
+| NEXT_PUBLIC_GLOBAL_FISHING_WATCH_TOKEN | token used by Mapbox to fetch tiles from Global Fishing Watch API (https://gateway.api.globalfishingwatch.org/) | | |
 
 If you want to customize these variables for your local environment, the recommended way is creating a `.env.local` file.
 
@@ -143,14 +144,13 @@ Layouts are the second component to be loaded through the page. They contain all
 Layouts should follow the same folder structure as pages. For example: if you need created your `myawesome` page in `pages/app/myawesome`, the layout for this page should be placed in `layouts/app/myawesome` and so on.
 
 ### **./components**
-Every component will be contained in its own folder with its name. A basic component will contain the component itself (`component.js`) and an entrypoint to it (`index.js`). If the component needs access to the store, we will provide it here, otherwise we will just import the component. Additional files could be `styles.scss` (containing component-scoped styles) and `constants.js` (component-scoped constants).
+Every component will be contained in its own folder with its name. A basic component will contain the component itself (`component.js`) and an entrypoint to it (`index.js`). If the component needs access to the store, we will provide it here, otherwise we will just import the component. Additional files such as `constants.js` (component-scoped constants) and others.
 
 ```
 ./components/sidebar/
    ./constants.js (not mandatory)
    ./component.js (mandatory)
    ./index.js (mandatory)
-   ./styles.scss (not mandatory)
 ```
 
 Try to make stateless component (unless it really needs it). This will make components easier to track and reuse.
@@ -170,9 +170,11 @@ This is a legacy folder. Still in use. [Selectors](https://github.com/reduxjs/re
 
 
 ### **css**
-Contains generic application styles, grid, settings, mixins and anything style-related in a global scope. It also contains third-app components styles if needed.
+Contains TailwindCSS directives, third-party styles and global styles.
 
-_Legacy note:_ in the `./css/components` folder you will notice a lot of styles whose scope is the component itself. From now on, components must have its own styles inside the component folder. Check `components` section to learn more about how to include component-scoped styles.
+*Legacy note*: styles coming from places like `components` or `layout` should be removed eventually and replaced with TailwindCSS classes. This is a workaround to keep all styles loaded from a single place without overriding the original ones.
+
+
 
 
 ### **./constants**
@@ -236,6 +238,25 @@ To run it: `yarn analyze`.
 
 It will run the application in production build (makes a `yarn build` internally) and open a tab in your browser displaying the bundles treemap.
 
+# Storybook 📚
+
+## Development
+To run Storybook in development run the following processes separately:
+```bash
+	# TailwindCSS will compile the styles and generate a new stylesheet used by Storybook and will update it if needed
+	yarn tailwindcss:watch
+
+	# runs Storybook server using the stylesheet previously created by TailwindCSS
+	yarn storybook:dev
+```
+*Note*: if a new TailwindCSS class is added, Storybook will not be aware of it. To fix this, just refresh the page and Storybook will get the most updated stylesheet provided by TailwindCSS.
+
+## Production
+To deploy Storybook run the following command:
+```bash
+	# TailwindCSS will generate a production-ready stylesheet and Storybook will generate the static files needed to be served.
+	yarn storybook:build
+```
 
 # Deploy 🛫
 You will need access to [Resource Watch Jenkins](https://jenkins.resourcewatch.org/).

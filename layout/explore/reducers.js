@@ -1,7 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {
-  HYDRATE,
-} from 'next-redux-wrapper';
+import { HYDRATE } from 'next-redux-wrapper';
 
 // utils
 import { logEvent } from 'utils/analytics';
@@ -61,13 +59,13 @@ export default createReducer(initialState, (builder) => {
     .addCase(actions.setDatasetsMode, (state, { payload }) => {
       logEvent('Explore Menu', 'Change dataset view', payload);
 
-      return ({
+      return {
         ...state,
         datasets: {
           ...state.datasets,
           mode: payload,
         },
-      });
+      };
     })
     .addCase(actions.setSelectedDataset, (state, { payload }) => ({
       ...state,
@@ -110,10 +108,10 @@ export default createReducer(initialState, (builder) => {
       const selected = { ...state.filters.selected, [key]: list };
       const filters = { ...state.filters, selected };
 
-      return ({
+      return {
         ...state,
         filters,
-      });
+      };
     })
     .addCase(actions.toggleFiltersSelected, (state, { payload }) => {
       const { tab, tag } = payload;
@@ -128,10 +126,10 @@ export default createReducer(initialState, (builder) => {
 
       const selected = { ...state.filters.selected, [tab]: arr };
       const filters = { ...state.filters, selected };
-      return ({
+      return {
         ...state,
         filters,
-      });
+      };
     })
     .addCase(actions.resetFiltersSelected, (state) => ({
       ...state,
@@ -261,10 +259,11 @@ export default createReducer(initialState, (builder) => {
 
       // sorts layers if applies
       if (
-        applicationConfig
-        && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
-        && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
-        && layers.length > 1) {
+        applicationConfig &&
+        applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS] &&
+        applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder &&
+        layers.length > 1
+      ) {
         const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
         datasetLayers = sortLayers(datasetLayers, layerOrder);
       }
@@ -276,8 +275,11 @@ export default createReducer(initialState, (builder) => {
           layers: datasetLayers.map((l) => ({ ...l, active: l.default })),
         });
         if (layerGroups[0].layers.length) {
-          logEvent('Explore Map', 'Add layer',
-            `${layerGroups[0].layers[0].name} [${layerGroups[0].layers[0].id}]`);
+          logEvent(
+            'Explore Map',
+            'Add layer',
+            `${layerGroups[0].layers[0].name} [${layerGroups[0].layers[0].id}]`,
+          );
         }
       } else {
         const index = layerGroups.findIndex((l) => l.dataset === dataset.id);
@@ -286,38 +288,41 @@ export default createReducer(initialState, (builder) => {
 
       // Return map
       const map = { ...state.map, layerGroups };
-      return ({
+      return {
         ...state,
         map,
-      });
+      };
     })
     .addCase(actions.setMapLayerGroupVisibility, (state, { payload }) => {
       const { dataset, visibility } = payload;
       const layerGroups = state.map.layerGroups.map((lg) => {
         if (lg.dataset !== dataset.id) return lg;
-        const layers = lg.layers.map((l) => ({ ...l, visibility }));
+        const layers = lg.layers.map((l) => ({
+          ...l,
+          layerConfig: { ...l.layerConfig, visibility },
+        }));
         return { ...lg, layers, visibility };
       });
 
       const map = { ...state.map, layerGroups };
-      return ({
+      return {
         ...state,
         map,
-      });
+      };
     })
     .addCase(actions.setMapLayerGroupOpacity, (state, { payload }) => {
       const { dataset, opacity } = payload;
       const layerGroups = state.map.layerGroups.map((lg) => {
         if (lg.dataset !== dataset.id) return lg;
-        const layers = lg.layers.map((l) => ({ ...l, opacity }));
+        const layers = lg.layers.map((l) => ({ ...l, layerConfig: { ...l.layerConfig, opacity } }));
         return { ...lg, layers, opacity };
       });
 
       const map = { ...state.map, layerGroups };
-      return ({
+      return {
         ...state,
         map,
-      });
+      };
     })
     .addCase(actions.setMapLayerGroupActive, (state, { payload }) => {
       const { dataset, active } = payload;
@@ -330,24 +335,25 @@ export default createReducer(initialState, (builder) => {
       });
 
       const map = { ...state.map, layerGroups };
-      return ({
+      return {
         ...state,
         map,
-      });
+      };
     })
     .addCase(actions.setMapLayerGroupsOrder, (state, { payload }) => {
       const { datasetIds } = payload;
       const layerGroups = [...state.map.layerGroups];
 
       // Sort by new order
-      layerGroups.sort((a, b) => (
-        datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1));
+      layerGroups.sort((a, b) =>
+        datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1,
+      );
 
       const map = { ...state.map, layerGroups };
-      return ({
+      return {
         ...state,
         map,
-      });
+      };
     })
     .addCase(actions.setMapLayerGroups, (state, { payload }) => {
       const { datasets, params } = payload;
@@ -361,10 +367,11 @@ export default createReducer(initialState, (builder) => {
 
           // sorts layers if applies
           if (
-            applicationConfig
-            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
-            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
-            && layers.length > 1) {
+            applicationConfig &&
+            applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS] &&
+            applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder &&
+            layers.length > 1
+          ) {
             const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
             publishedLayers = sortLayers(publishedLayers, layerOrder);
           }
@@ -385,14 +392,14 @@ export default createReducer(initialState, (builder) => {
           const aIndex = params.findIndex((p) => p.dataset === a.dataset);
           const bIndex = params.findIndex((p) => p.dataset === b.dataset);
 
-          return (aIndex > bIndex ? 1 : -1);
+          return aIndex > bIndex ? 1 : -1;
         });
       const map = { ...state.map, layerGroups };
 
-      return ({
+      return {
         ...state,
         map,
-      });
+      };
     })
     // interaction
     .addCase(actions.setMapLayerGroupsInteraction, (state, { payload }) => ({
@@ -439,13 +446,13 @@ export default createReducer(initialState, (builder) => {
         ...nextConfig,
       };
 
-      return ({
+      return {
         ...state,
         map: {
           ...state.map,
           parametrization: { ...parametrization },
         },
-      });
+      };
     })
     .addCase(actions.removeLayerParametrization, (state, { payload }) => {
       const { map } = state;
@@ -453,13 +460,13 @@ export default createReducer(initialState, (builder) => {
 
       delete parametrization[payload];
 
-      return ({
+      return {
         ...state,
         map: {
           ...state.map,
           parametrization: { ...parametrization },
         },
-      });
+      };
     })
     .addCase(actions.resetLayerParametrization, (state) => ({
       ...state,

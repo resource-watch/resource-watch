@@ -11,9 +11,6 @@ import { fetchDatasets, updateDataset } from 'services/dataset';
 // Components
 import Spinner from 'components/ui/Spinner';
 
-// Styles
-import './styles.scss';
-
 function ExploreForm(props) {
   const [highlightedDatasets, setHighlightedDatasets] = useState({ old: [], new: [], loading: true });
   const [updatingData, setUpdatingData] = useState({
@@ -176,7 +173,7 @@ function ExploreForm(props) {
           Save
         </button>
       </div>
-    </div >
+    </div>
   );
 }
 

@@ -16,9 +16,6 @@ import {
 // utils
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 export default function MyDataComingSoon() {
   const {
     data: user,

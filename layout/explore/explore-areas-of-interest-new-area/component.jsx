@@ -15,9 +15,6 @@ import ExploreAreaForm from 'layout/explore/explore-areas-of-interest/form';
 import { createArea } from 'services/areas';
 import { createGeostore } from 'services/geostore';
 
-// styles
-import './styles.scss';
-
 const ExploreAreasOfInterestNewArea = ({
   token,
   drawer,

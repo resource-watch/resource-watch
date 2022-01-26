@@ -31,7 +31,7 @@ $this: 'c-search-input';
 
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans;
     font-size: $font-size-medium;
-    color: $color-white;
+    color: $white;
 
     background: none;
 
@@ -41,7 +41,7 @@ $this: 'c-search-input';
     box-shadow: none;
 
     &::placeholder {
-      color: darken($color-white, 20%);
+      color: darken($white, 20%);
     }
   }
 
@@ -59,7 +59,7 @@ $this: 'c-search-input';
       top: 50%;
       right: 10px;
       transform: translate(0, -50%);
-      fill: $color-text-1;
+      fill: $charcoal-grey;
     }
   }
 }

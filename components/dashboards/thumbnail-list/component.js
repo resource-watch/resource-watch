@@ -3,9 +3,6 @@ import classnames from 'classnames';
 
 import PropTypes from 'prop-types';
 
-// styles
-import './styles.scss';
-
 class DashboardThumbnailList extends PureComponent {
   static propTypes = {
     dashboards: PropTypes.array,

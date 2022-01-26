@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Hammer from 'react-hammerjs';
 
-// styles
-import './styles.scss';
-
 class LayerContainerComponent extends PureComponent {
   handleSwipe() {
     const { layerActive, displayed, setDisplayed } = this.props;

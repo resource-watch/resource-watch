@@ -29,7 +29,7 @@
   }
 
   .rc-slider-track {
-    background-color: $color-primary;
+    background-color: $dark-pink;
     height: 2px;
     top: 50%;
     margin: -1px 0 0;
@@ -53,12 +53,12 @@
     top: 50%;
     margin: 0;
     transform: translate(-50%, -50%);
-    border-color: $color-white;
-    background-color: $color-primary;
+    border-color: $white;
+    background-color: $dark-pink;
 
     &:focus,
     &:hover, {
-      border-color: $color-white;
+      border-color: $white;
       outline: none;
     }
   }
@@ -68,7 +68,7 @@
     height: 2px;
 
     &.input-range__track--active {
-      background-color: $color-primary;
+      background-color: $dark-pink;
     }
   }
 
@@ -80,12 +80,12 @@
     margin-top: -8px;
     width: 17px;
     height: 17px;
-    border-color: $color-white;
-    background-color: $color-primary;
+    border-color: $white;
+    background-color: $dark-pink;
 
     &:focus,
     &:hover, {
-      border-color: $color-white;
+      border-color: $white;
       outline: none;
     }
   }

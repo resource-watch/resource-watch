@@ -8,18 +8,17 @@ export default class HeadAdmin extends React.Component {
 
     return (
       <HeadNext>
-        <title>
-          {title}
-          {' '}
-          | RW Content Manager
-        </title>
+        <title>{title} | RW Content Manager</title>
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="author" content="Vizzuality" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Lato:400,300,700" />
-        {/* TO-DO: remove this when Axios is completely implemented */}
-        <script src="https://cdn.polyfill.io/v2/polyfill.min.js" />
+        <link
+          rel="stylesheet"
+          media="screen"
+          href="https://fonts.googleapis.com/css?family=Lato:400,300,700"
+          display="swap"
+        />
 
         {/* Mobile address background */}
         {/* Chrome, Firefox OS and Opera */}
@@ -29,20 +28,6 @@ export default class HeadAdmin extends React.Component {
         {/* iOS Safari */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
-        {/* leaflet styles */}
-        {/* Leaflet styles are here to allow our chunk css (custom styles) override them */}
-        <link
-          rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-          crossOrigin=""
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.2/leaflet.draw.css"
-          crossOrigin=""
-        />
       </HeadNext>
     );
   }

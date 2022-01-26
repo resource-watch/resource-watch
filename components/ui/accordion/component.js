@@ -11,9 +11,6 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 
-// styles
-import './styles.scss';
-
 class AccordionComponent extends PureComponent {
   static propTypes = {
     className: PropTypes.string,

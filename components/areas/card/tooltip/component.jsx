@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 const AreaActionsTooltip = (props) => {
   const {
     onMouseDown,

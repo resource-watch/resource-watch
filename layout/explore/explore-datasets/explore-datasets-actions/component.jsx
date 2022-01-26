@@ -21,7 +21,7 @@ import useFetchCollection from 'hooks/collection/fetch-collection';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-import './styles.scss';
+
 
 const ExploreDatasetsActions = (props) => {
   const {

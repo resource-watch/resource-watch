@@ -10,9 +10,6 @@ import { connect } from 'react-redux';
 // Components
 import Switch from 'components/ui/Switch';
 
-// styles
-import './styles.scss';
-
 class LayerMenuDropdownComponent extends PureComponent {
   render() {
     const { layerActive, layers, triggerClick } = this.props;

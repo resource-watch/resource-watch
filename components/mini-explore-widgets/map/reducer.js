@@ -1,12 +1,7 @@
-import {
-  createSlice,
-} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 // constants
-import {
-  BASEMAPS,
-  LABELS,
-} from 'components/map/constants';
+import { BASEMAPS, LABELS } from 'components/map/constants';
 
 // utils
 import { logEvent } from 'utils/analytics';
@@ -74,23 +69,18 @@ export const mapSlice = createSlice({
     }),
     toggleMapLayerGroup: (state, { payload }) => {
       const layerGroups = [...state.layerGroups];
-      const {
-        dataset,
-        toggle,
-      } = payload;
-      const {
-        applicationConfig,
-        layer,
-      } = dataset;
+      const { dataset, toggle } = payload;
+      const { applicationConfig, layer } = dataset;
 
       let layers = layer;
 
       // sorts layers if applies
       if (
-        applicationConfig
-        && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
-        && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
-        && layers.length > 1) {
+        applicationConfig &&
+        applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS] &&
+        applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder &&
+        layers.length > 1
+      ) {
         const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
         layers = sortLayers(layers, layerOrder);
       }
@@ -102,88 +92,91 @@ export const mapSlice = createSlice({
           layers: layers.map((l) => ({ ...l, active: l.default })),
         });
         if (layerGroups[0].layers.length) {
-          logEvent('Mini Explore Map', 'Add layer',
-            `${layerGroups[0].layers[0].name} [${layerGroups[0].layers[0].id}]`);
+          logEvent(
+            'Mini Explore Map',
+            'Add layer',
+            `${layerGroups[0].layers[0].name} [${layerGroups[0].layers[0].id}]`,
+          );
         }
       } else {
         const index = layerGroups.findIndex((l) => l.dataset === dataset.id);
         layerGroups.splice(index, 1);
       }
 
-      return ({
+      return {
         ...state,
         layerGroups,
-      });
+      };
     },
     setMapLayerGroupVisibility: (state, { payload }) => {
-      const {
-        dataset,
-        visibility,
-      } = payload;
+      const { dataset, visibility } = payload;
       const layerGroups = state.layerGroups.map((lg) => {
         if (lg.id !== dataset.id) return lg;
-        const updatedLayers = lg.layers.map((l) => ({ ...l, visibility }));
-        return ({
+        const updatedLayers = lg.layers.map((l) => ({
+          ...l,
+          layerConfig: { ...l.layerConfig, visibility },
+        }));
+        return {
           ...lg,
           layers: updatedLayers,
           visibility,
-        });
+        };
       });
 
-      return ({
+      return {
         ...state,
         layerGroups,
-      });
+      };
     },
     setMapLayerGroupOpacity: (state, { payload }) => {
       const { dataset, opacity } = payload;
       const layerGroups = state.layerGroups.map((lg) => {
         if (lg.id !== dataset.id) return lg;
-        const layers = lg.layers.map((l) => ({ ...l, opacity }));
-        return ({
+        const layers = lg.layers.map((l) => ({ ...l, layerConfig: { ...l.layerConfig, opacity } }));
+        return {
           ...lg,
           layers,
           opacity,
-        });
+        };
       });
 
-      return ({
+      return {
         ...state,
         layerGroups,
-      });
+      };
     },
     setMapLayerGroupActive: (state, { payload }) => {
       const { dataset, active } = payload;
       const layerGroups = state.layerGroups.map((lg) => {
         if (lg.id !== dataset.id) return lg;
 
-        return ({
+        return {
           ...lg,
           layers: lg.layers.map((_layer) => ({
             ..._layer,
             active: _layer.id === active,
           })),
-        });
+        };
       });
 
-      return ({
+      return {
         ...state,
         layerGroups,
-      });
+      };
     },
     setMapLayerGroupsOrder: (state, { payload }) => {
       const { datasetIds } = payload;
       const layerGroups = [...state.layerGroups];
 
       // Sort by new order
-      layerGroups.sort(
-        (a, b) => (datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1),
+      layerGroups.sort((a, b) =>
+        datasetIds.indexOf(a.dataset) > datasetIds.indexOf(b.dataset) ? 1 : -1,
       );
 
-      return ({
+      return {
         ...state,
         layerGroups,
-      });
+      };
     },
     setMapLayerParametrization: (state, { payload }) => {
       const { id, nextConfig } = payload;
@@ -195,12 +188,12 @@ export const mapSlice = createSlice({
         ...nextConfig,
       };
 
-      return ({
+      return {
         ...state,
         parametrization: {
           ...parametrization,
         },
-      });
+      };
     },
     removeLayerParametrization: (state, { payload }) => {
       const { map } = state;

@@ -8,7 +8,7 @@ $banner-padding-size: 70px;
   padding-top: $banner-padding-size;
   padding-bottom: $banner-padding-size;
   border-radius: 4px;
-  color: $alt-font-color;
+  color: $white;
 
   &.-use-background {
     background-size: cover;
@@ -31,10 +31,10 @@ $banner-padding-size: 70px;
   }
 
   h1, h2, h3 {
-    color: $alt-font-color;
+    color: $white;
 
     a  {
-      color: $alt-font-color;
+      color: $white;
     }
   }
 

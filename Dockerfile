@@ -1,4 +1,4 @@
-FROM node:14.15-alpine
+FROM node:14.17-alpine
 LABEL maintainer="hello@vizzuality.com"
 
 ARG NEXT_PUBLIC_AUTH_CALLBACK=https://resourcewatch.org/auth-callback
@@ -6,6 +6,7 @@ ARG NEXTAUTH_URL=https://resourcewatch.org
 ARG NEXTAUTH_JWT_SECRET=thisIsAVeryBadSecret
 ARG NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER=not_valid
 ARG NEXT_PUBLIC_RW_MAPBOX_API_TOKEN=not_valid
+ARG NEXT_PUBLIC_GLOBAL_FISHING_WATCH_TOKEN=not_valid
 ARG NEXT_PUBLIC_WRI_API_URL=https://api.resourcewatch.org
 ARG NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD=false
 ARG NEXT_PUBLIC_API_ENV=production
@@ -25,6 +26,7 @@ ENV NEXT_PUBLIC_GOOGLE_ANALYTICS UA-67196006-1
 ENV NODE_ENV production
 ENV NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER $NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER
 ENV NEXT_PUBLIC_RW_MAPBOX_API_TOKEN $NEXT_PUBLIC_RW_MAPBOX_API_TOKEN
+ENV NEXT_PUBLIC_GLOBAL_FISHING_WATCH_TOKEN $NEXT_PUBLIC_GLOBAL_FISHING_WATCH_TOKEN
 ENV NEXT_PUBLIC_WRI_API_URL $NEXT_PUBLIC_WRI_API_URL
 ENV NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD $NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD
 ENV NEXT_PUBLIC_ENVS_SHOW $NEXT_PUBLIC_ENVS_SHOW
@@ -54,26 +56,30 @@ COPY services ./services
 COPY server ./server
 COPY utils ./utils
 COPY test ./test
+COPY types ./types
 COPY scripts ./scripts
 # stop copying this folder when the user is not stored in the global state
 # (see https://github.com/resource-watch/resource-watch/blob/develop/pages/_app.jsx#L22)
 COPY cypress ./cypress
+COPY .yarn ./.yarn
 
 # Copy single files
 COPY .babelrc .
 COPY .browserlistrc .
-COPY package.json .
-COPY yarn.lock .
-COPY api.md .
-COPY index.js .
-COPY next.config.js .
-COPY next-sitemap.js .
-COPY postcss.config.js .
-COPY jsconfig.json .
 COPY .env.test .
 COPY .env.production .
+COPY yarn.lock .
+COPY .yarnrc.yml .
+COPY index.js .
+COPY next-env.d.ts .
+COPY next-sitemap.js .
+COPY next.config.js .
+COPY package.json .
+COPY postcss.config.js .
+COPY tailwind.config.js .
+COPY tsconfig.json .
 
-RUN yarn install --frozen-lockfile --production=false
+RUN yarn install --immutable
 
 RUN yarn build
 

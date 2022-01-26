@@ -1,33 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import {
-  Icons,
-} from 'vizzuality-components';
+import { Icons } from 'vizzuality-components';
 
 // components
 import HeadApp from 'layout/head/app';
 import IconsRW from 'components/icons';
 
-const LayoutEmbed = ({
-  title,
-  description,
-  className,
-  thumbnailUrl,
-  children,
-}) => (
-  <div className={classnames(
-    'l-page',
-    {
+const LayoutEmbed = ({ title, description, className, thumbnailUrl, children }) => (
+  <div
+    className={classnames('l-page', {
       [className]: !!className,
-    },
-  )}
+    })}
   >
-    <HeadApp
-      title={title}
-      description={description}
-      thumbnail={thumbnailUrl}
-    />
+    <HeadApp title={title} description={description} thumbnail={thumbnailUrl} />
     <Icons />
     <IconsRW />
     {children}

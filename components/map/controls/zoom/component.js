@@ -5,9 +5,6 @@ import classnames from 'classnames';
 // components
 import Icon from 'components/ui/icon';
 
-// styles
-import './styles.scss';
-
 class ZoomControls extends PureComponent {
   increaseZoom = (e) => {
     e.stopPropagation();

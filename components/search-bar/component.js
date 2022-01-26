@@ -57,7 +57,7 @@ class SearchBar extends PureComponent {
       router,
       search: {
         page,
-      }
+      },
     } = this.props;
 
     if (!isHeader) {
@@ -155,7 +155,7 @@ class SearchBar extends PureComponent {
         {isHeader
           && (
           <button
-            className="search-close"
+            className="z-10 flex items-center justify-center bg-white rounded-full search-close"
             type="button"
             onClick={() => this.setSearchOpened(false)}
           >

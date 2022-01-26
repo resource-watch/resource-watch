@@ -5,13 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.X.X] - 2021-X-X
+## [3.1.X] - 2022-X-X
 ### Added
+- interception to handle requests from Global Fishing Watch. [RW-117](https://vizzuality.atlassian.net/browse/RW-117)
+- 'FeatureService' provider for Layer Manager. [RW-114](https://vizzuality.atlassian.net/browse/RW-114)
+- `WMS` provider for Layer Manager. [RW-113](https://vizzuality.atlassian.net/browse/RW-113)
+- `tailwindcss` framework.
 
 ### Changed
+- `yarn@3`
+- disables encoding params for embeds and dashboards. [RW-115](https://vizzuality.atlassian.net/browse/RW-115)
+- disables widget alerts.
+- migrates widgets to Typescript.
+- unifies Ocean Watch widgets with the rest of dashboards. [RW-101](https://vizzuality.atlassian.net/browse/RW-101)
+- `widget-editor@2.6.5` (Mapbox release) [RW-110](https://vizzuality.atlassian.net/browse/RW-110)
+- map labels change according to selected basemap.
+- makes changes in admin to preview layers with new spec. [RW-103](https://vizzuality.atlassian.net/browse/RW-103)
+- updates standalone Area of Interest layer specs to match new layer specification. [RW-99](https://vizzuality.atlassian.net/browse/RW-99)[RW-97](https://vizzuality.atlassian.net/browse/RW-97)[RW-102](https://vizzuality.atlassian.net/browse/RW-102)
+- makes map's `onMapViewportChange` function optional.	
+- `webpack 5` and `next@12`
 - improved styles for widget captions. [OW-164](https://vizzuality.atlassian.net/browse/OW-164)
 
 ### Fixed
+- Ocean Watch: water quality basins interactivity. [OW-201](https://vizzuality.atlassian.net/browse/OW-201)
 - map thumbnails: concatenation when a tile query includes single comma. [RW-108](https://vizzuality.atlassian.net/browse/RW-108)
 - Ocean Watch: tooltip overlapping click on map. [OW-175](https://vizzuality.atlassian.net/browse/OW-175)
 - Ocean Watch: false error in Climate NDC indicator when query is empty. [OW-193](https://vizzuality.atlassian.net/browse/OW-193)
@@ -19,6 +35,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - mini-explore: layer interactivity. [OW-185](https://vizzuality.atlassian.net/browse/OW-185)
 
 ### Removed
+- `polyfill`, `leaflet-utfgrid`, `promise.prototype.finally`, `whatwg-fetch` dependencies.
+- Leaflet CSS stylesheets and other styles related to Leaflet.
+- removed Carto verification when an admin creates/edits a layer. [RW-103](https://vizzuality.atlassian.net/browse/RW-103)
 
 ## [3.3.0] - 2021-11-11
 ### Added
@@ -39,6 +58,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - invalid score (NaN) in Ocean Watch widget. [OW-167](https://vizzuality.atlassian.net/browse/OW-167)
 - explore URL to embed (/embed/data/explore) now supports (optionally) selected dataset when sharing. [RW-88](https://vizzuality.atlassian.net/browse/RW-88)
 - restores old endpoint to render embed map-swipes without a widget. [RW-89](https://vizzuality.atlassian.net/browse/RW-89)
+
 
 
 ## [3.2.0] - 2021-10-06

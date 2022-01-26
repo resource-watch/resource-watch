@@ -1,8 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 
@@ -14,17 +10,13 @@ import PoweredBy from 'components/embed/powered-by';
 // utils
 import { isLoadedExternally } from 'utils/embed';
 
-const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
+const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), {
+  ssr: false,
+});
 
 const isExternal = isLoadedExternally();
 
-export default function LayoutEmbedMap({
-  widget,
-  widgetId,
-  aoi,
-  params,
-  isWebshot,
-}) {
+export default function LayoutEmbedMap({ widget, widgetId, aoi, params, isWebshot }) {
   const [widgetToShare, setWidgetToShare] = useState(null);
 
   const handleShareWidget = useCallback((_widget) => {
@@ -53,29 +45,27 @@ export default function LayoutEmbedMap({
     <LayoutEmbed
       title={widget?.name}
       description={`${widget?.description || ''}`}
-      {...widget?.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl }}
+      {...(widget?.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl })}
     >
       <div className="c-embed-widget widget-content">
         <MapWidget
           widgetId={widgetId}
           isEmbed
           onToggleShare={handleShareWidget}
-          {...aoi && { areaOfInterest: aoi }}
-          {...isWebshot && { isWebshot: true }}
+          {...(aoi && { areaOfInterest: aoi })}
+          {...(isWebshot && { isWebshot: true })}
           params={params}
         />
 
-        {((isExternal && !isWebshot)) && (
-          <PoweredBy />
-        )}
+        {isExternal && !isWebshot && <PoweredBy />}
       </div>
-      {(!!widgetToShare) && (
+      {!!widgetToShare && (
         <WidgetShareModal
           isVisible
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
           params={{
-            ...aoi && { aoi },
+            ...(aoi && { aoi }),
             ...params,
           }}
         />

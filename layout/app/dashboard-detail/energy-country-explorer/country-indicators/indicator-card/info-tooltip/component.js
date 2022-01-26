@@ -9,9 +9,6 @@ import { fetchDataset } from 'services/dataset';
 // Components
 import Spinner from 'components/ui/Spinner';
 
-// Styles
-import './styles.scss';
-
 function InfoTooltip(props) {
   const { datasetID, dataYear } = props;
   const [dataset, setDataset] = useState({

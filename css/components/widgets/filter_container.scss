@@ -6,7 +6,7 @@
 
   margin-top: 8px;
 
-  font-size: $font-size-small-medium;
+  font-size: $font-size-small;
   font-weight: $font-weight-bold;
 
   .text {
@@ -28,10 +28,10 @@
     line-height: 1;
 
     &.-release{
-      border-color: $color-secondary;
+      border-color: $sea-blue;
 
       .placeholder {
-        color: $color-secondary;
+        color: $sea-blue;
       }
     }
 
@@ -41,7 +41,7 @@
     }
 
     .placeholder {
-      color: $color-silver;
+      color: $light-grey;
     }
   }
 }

@@ -16,9 +16,6 @@ import { registerUser } from 'services/user';
 // constants
 import { FORM_ELEMENTS } from './constants';
 
-// styles
-import './styles.scss';
-
 class LoginModal extends PureComponent {
   constructor(props) {
     super(props);

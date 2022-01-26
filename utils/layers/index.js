@@ -1,18 +1,11 @@
-import {
-  isNumber,
-  groupBy,
-} from 'lodash';
+import { isNumber, groupBy } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
 // utils
-import {
-  getUserAreaLayer,
-} from 'components/map/utils';
+import { getUserAreaLayer } from 'components/map/utils';
 
 // constants
-import {
-  USER_AREA_LAYER_TEMPLATES,
-} from 'components/map/constants';
+import { USER_AREA_LAYER_TEMPLATES } from 'components/map/constants';
 
 // sorts layers based on an array of layer ids
 export const sortLayers = (_layers = [], _layerOrder = []) => {
@@ -33,10 +26,6 @@ export const sortLayers = (_layers = [], _layerOrder = []) => {
   return [...sortedLayers, ...restLayers];
 };
 
-export const getTilerUrl = (layer) => {
-  if (!layer) throw new Error('layer required to generate tiler URL');
-  return `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/layer/${layer.id}/tile/gee/{z}/{x}/{y}`;
-};
 /**
  *
  * @param {Object[]} layers - array of layers to group by dataset
@@ -50,42 +39,24 @@ export const getLayerGroups = (layers = [], layerParams = {}, forceActive = fals
   return Object.keys(layersByDataset).map((datasetKey) => ({
     id: datasetKey,
     visibility: true,
-    layers: layersByDataset[datasetKey]
-      .map((_layer) => ({
-        ..._layer,
-        active: forceActive || (layerParams?.[_layer.id]?.default || Boolean(_layer.default)),
-        opacity: isNumber(layerParams?.[_layer.id]?.opacity) ? layerParams[_layer.id].opacity : 1,
-        ..._layer?.layerConfig?.type === 'gee' && {
-          layerConfig: {
-            ..._layer.layerConfig,
-            body: {
-              ..._layer.layerConfig.body,
-              url: getTilerUrl(_layer),
-            },
-          },
-        },
-      })),
+    layers: layersByDataset[datasetKey].map((_layer) => ({
+      ..._layer,
+      active: forceActive || layerParams?.[_layer.id]?.default || Boolean(_layer.default),
+      opacity: isNumber(layerParams?.[_layer.id]?.opacity) ? layerParams[_layer.id].opacity : 1,
+    })),
   }));
 };
 
 export const getAoiLayer = (widget = {}, geostore, options = {}) => {
   if (!geostore) return null;
 
-  const {
-    layerParams,
-  } = widget?.widgetConfig || {};
+  const { layerParams } = widget?.widgetConfig || {};
 
-  const {
-    minZoom,
-  } = options;
+  const { minZoom } = options;
 
-  const {
-    id,
-    geojson,
-    bbox,
-  } = geostore;
+  const { id, geojson, bbox } = geostore;
 
-  return ({
+  return {
     ...getUserAreaLayer(
       {
         id,
@@ -98,24 +69,21 @@ export const getAoiLayer = (widget = {}, geostore, options = {}) => {
     visibility: true,
     isAreaOfInterest: true,
     bbox,
-  });
+  };
 };
 
 export const getMaskLayer = (widget = {}, params = {}) => {
-  const {
-    mask,
-    layerParams,
-  } = widget?.widgetConfig?.paramsConfig || {};
+  const { mask, layerParams } = widget?.widgetConfig?.paramsConfig || {};
 
   if (!mask) return null;
 
-  return ({
+  return {
     id: mask?.id || `${uuidv4()}-mask`,
-    provider: 'cartodb',
+    type: 'vector',
     layerConfig: {
       ...mask,
+      params,
     },
-    params,
     opacity: layerParams?.mask?.opacity || 1,
-  });
+  };
 };

@@ -30,3 +30,18 @@ coverage.json
 
 # storybook
 storybook-static
+public/styles
+
+# eslint
+.eslintcache
+
+# Typescript
+tsconfig.tsbuildinfo
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
