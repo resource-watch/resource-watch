@@ -79,7 +79,7 @@ COPY postcss.config.js .
 COPY tailwind.config.js .
 COPY tsconfig.json .
 
-RUN yarn install --frozen-lockfile --production=false
+RUN yarn install --immutable
 
 RUN yarn build
 
