@@ -61,7 +61,7 @@ COPY scripts ./scripts
 # stop copying this folder when the user is not stored in the global state
 # (see https://github.com/resource-watch/resource-watch/blob/develop/pages/_app.jsx#L22)
 COPY cypress ./cypress
-COPY .yarn ./yarn
+COPY .yarn ./.yarn
 
 # Copy single files
 COPY .babelrc .
@@ -69,7 +69,7 @@ COPY .browserlistrc .
 COPY .env.test .
 COPY .env.production .
 COPY yarn.lock .
-COPY .yarnrc.yml
+COPY .yarnrc.yml .
 COPY index.js .
 COPY next-env.d.ts .
 COPY next-sitemap.js .
