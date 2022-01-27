@@ -1,6 +1,4 @@
-import React, {
-  useCallback,
-} from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Link from 'next/link';
@@ -11,7 +9,7 @@ import Icon from 'components/ui/icon';
 import LoginRequired from 'components/ui/login-required';
 import CollectionsPanel from 'components/collections-panel';
 import WidgetChart from 'components/charts/widget-chart';
-import LayerChart from 'components/charts/layer-chart';
+import MapThumbnail from 'components/map/thumbnail';
 import PlaceholderChart from 'components/charts/placeholder-chart';
 import ForwardLink from 'components/forward-link';
 
@@ -23,24 +21,11 @@ import { getTooltipContainer } from 'utils/tooltip';
 import { getDateConsideringTimeZone } from 'utils/utils';
 
 // lib
-import {
-  Media,
-} from 'lib/media';
+import { Media } from 'lib/media';
 
 const DatasetListItem = (props) => {
-  const {
-    dataset,
-    widget,
-    layer,
-    mode,
-    user,
-    actions,
-    tags,
-    metadata,
-  } = props;
-  const {
-    isInACollection,
-  } = useBelongsToCollection(dataset.id, user.token);
+  const { dataset, widget, layer, mode, user, actions, tags, metadata } = props;
+  const { isInACollection } = useBelongsToCollection(dataset.id, user.token);
   const renderChart = useCallback(() => {
     const isWidgetMap = widget && widget.widgetConfig.type === 'map';
     const isEmbedWidget = widget && widget.widgetConfig.type === 'embed';
@@ -58,17 +43,14 @@ const DatasetListItem = (props) => {
     if (layer || isWidgetMap) {
       return (
         <div className="list-item-chart">
-          <LayerChart layer={layer} />
+          <MapThumbnail layer={layer} />
         </div>
       );
     }
 
     return (
       <div className="list-item-chart">
-        <Link
-          href={`/data/explore/${dataset.slug}`}
-          passHref
-        >
+        <Link href={`/data/explore/${dataset.slug}`} passHref>
           <ForwardLink>
             <PlaceholderChart />
           </ForwardLink>
@@ -92,19 +74,11 @@ const DatasetListItem = (props) => {
   return (
     <div className={`c-dataset-list-item -${mode}`}>
       {/* CHART */}
-      <Media
-        greaterThanOrEqual="md"
-      >
-        {renderChart()}
-      </Media>
+      <Media greaterThanOrEqual="md">{renderChart()}</Media>
 
       {/* CHART MOBILE */}
-      <Media
-        at="sm"
-      >
-        <Link href={`/data/explore/${dataset.slug}`}>
-          {renderChart()}
-        </Link>
+      <Media at="sm">
+        <Link href={`/data/explore/${dataset.slug}`}>{renderChart()}</Link>
       </Media>
 
       {/* INFO */}
@@ -113,10 +87,7 @@ const DatasetListItem = (props) => {
           {/* Title */}
           <div className="title-container">
             <h4>
-              <Link
-                href={`/data/explore/${dataset.slug}`}
-                passHref
-              >
+              <Link href={`/data/explore/${dataset.slug}`} passHref>
                 <ForwardLink>
                   {(metadata && metadata.info && metadata.info.name) || dataset.name}
                 </ForwardLink>
@@ -125,26 +96,15 @@ const DatasetListItem = (props) => {
               {/* Favorite dataset icon */}
               <LoginRequired>
                 <Tooltip
-                  overlay={(
-                    <CollectionsPanel
-                      resource={dataset}
-                      resourceType="dataset"
-                    />
-                  )}
+                  overlay={<CollectionsPanel resource={dataset} resourceType="dataset" />}
                   overlayClassName="c-rc-tooltip"
                   placement="bottomRight"
                   trigger="click"
                   getTooltipContainer={getTooltipContainer}
                   monitorWindowResize
                 >
-                  <button
-                    type="button"
-                    className="c-btn favourite-button"
-                  >
-                    <Icon
-                      name={starIconName}
-                      className={starIconClass}
-                    />
+                  <button type="button" className="c-btn favourite-button">
+                    <Icon name={starIconName} className={starIconClass} />
                   </button>
                 </Tooltip>
               </LoginRequired>
@@ -171,20 +131,10 @@ const DatasetListItem = (props) => {
             )}
           </div>
 
-          {!!tags && (
-            React.cloneElement(
-              tags,
-              { ...props },
-            )
-          )}
+          {!!tags && React.cloneElement(tags, { ...props })}
         </div>
 
-        {!!actions && (
-          React.cloneElement(
-            actions,
-            { ...props },
-          )
-        )}
+        {!!actions && React.cloneElement(actions, { ...props })}
       </div>
     </div>
   );

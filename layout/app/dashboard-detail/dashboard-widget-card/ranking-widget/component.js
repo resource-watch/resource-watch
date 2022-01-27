@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 // components
 import Spinner from 'components/ui/Spinner';
 
-// styles
-import './styles.scss';
-
 function RankingWidget(props) {
   const { widgetConfig } = props;
   const [rankingWidget, setRankingWidget] = useState({

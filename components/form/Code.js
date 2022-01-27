@@ -43,7 +43,7 @@ class Code extends FormElement {
   /**
    * UI EVENTS
    * - triggerChange
-  */
+   */
   triggerChange(value) {
     this.setState({ value: value || JSON.stringify({}, null, 2) }, () => {
       try {

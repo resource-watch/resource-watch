@@ -1,6 +1,4 @@
-import {
-  useState,
-} from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Tether from 'react-tether';
@@ -8,36 +6,26 @@ import { useDebouncedCallback } from 'use-debounce';
 import { signOut } from 'next-auth/client';
 
 // hooks
-import {
-  useMe,
-} from 'hooks/user';
+import { useMe } from 'hooks/user';
 
 // components
 import Icon from 'components/ui/icon';
 
 const HeaderUser = () => {
   const [isVisible, setVisibility] = useState(false);
-  const {
-    data: user,
-  } = useMe();
-  const {
-    asPath,
-  } = useRouter();
+  const { data: user } = useMe();
+  const { asPath } = useRouter();
 
   const logout = async (e) => {
     if (e) e.preventDefault();
     signOut();
   };
 
-  const [toggleDropdown] = useDebouncedCallback((_isVisible) => {
+  const toggleDropdown = useDebouncedCallback((_isVisible) => {
     setVisibility(_isVisible);
   }, 50);
 
-  const {
-    photo,
-    role,
-    email,
-  } = user || {};
+  const { photo, role, email } = user || {};
 
   if (user) {
     const userAvatar = photo ? `url(${photo})` : 'none';
@@ -46,9 +34,11 @@ const HeaderUser = () => {
       <div className="c-avatar" style={{ backgroundImage: userAvatar }}>
         <Tether
           attachment="top center"
-          constraints={[{
-            to: 'window',
-          }]}
+          constraints={[
+            {
+              to: 'window',
+            },
+          ]}
           classes={{ element: 'c-header-dropdown' }}
           renderTarget={(ref) => (
             <Link href="/myrw">
@@ -57,12 +47,7 @@ const HeaderUser = () => {
                 onMouseEnter={() => toggleDropdown(true)}
                 onMouseLeave={() => toggleDropdown(false)}
               >
-                {(!photo && email)
-                  && (
-                  <span className="avatar-letter">
-                    {email.split('')[0]}
-                  </span>
-                  )}
+                {!photo && email && <span className="avatar-letter">{email.split('')[0]}</span>}
               </a>
             </Link>
           )}
@@ -108,18 +93,17 @@ const HeaderUser = () => {
                       <a>Profile</a>
                     </Link>
                   </li>
-                  {role === 'ADMIN'
-                    && (
+                  {role === 'ADMIN' && (
                     <li className="header-dropdown-list-item">
-                      <Link
-                        href="/admin"
-                      >
+                      <Link href="/admin">
                         <a>Admin</a>
                       </Link>
                     </li>
-                    )}
+                  )}
                   <li className="header-dropdown-list-item">
-                    <a onClick={logout} href="/logout">Logout</a>
+                    <a onClick={logout} href="/logout">
+                      Logout
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -133,10 +117,7 @@ const HeaderUser = () => {
   return (
     <Link href={`/sign-in?callbackUrl=${asPath}`}>
       <a className="header-menu-link">
-        <Icon
-          name="icon-user"
-          className="-medium user-icon"
-        />
+        <Icon name="icon-user" className="-medium user-icon" />
       </a>
     </Link>
   );

@@ -15,9 +15,6 @@ import Icon from 'components/ui/icon';
 import { getLabel } from 'utils/datasets/dataset-helpers';
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 const ExploreDetailButtons = ({
   dataset,
 }) => {

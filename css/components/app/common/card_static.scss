@@ -15,13 +15,13 @@
   transition: all .3s;
 
   &.-alt {
-    color: $color-white;
+    color: $white;
 
     h1, h2, h3, h4  {
-      color: $color-white;
+      color: $white;
 
       a {
-        color: $color-white;
+        color: $white;
       }
     }
   }

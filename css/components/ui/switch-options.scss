@@ -5,7 +5,7 @@ $switch-width: 28px;
 .c-switch-options {
   display: flex;
   align-items: center;
-  font-size: $font-size-small-medium;
+  font-size: $font-size-small;
 
   > * {
     display: block;
@@ -19,14 +19,14 @@ $switch-width: 28px;
 
   .switch-label {
     font-weight: 700;
-    color: lighten($color-text-1, 25%);
+    color: lighten($charcoal-grey, 25%);
 
     &:hover {
-      color: lighten($color-text-1, 12.5%);
+      color: lighten($charcoal-grey, 12.5%);
     }
 
     &.-selected {
-      color: $color-text-1;
+      color: $charcoal-grey;
     }
   }
 
@@ -34,14 +34,14 @@ $switch-width: 28px;
     width: $switch-width;
     height: math.div($switch-width, 2);
     border-radius: 20px;
-    background: $color-dark-grey;
+    background: $blue-grey;
 
     span {
       display: block;
       position: absolute;
       width: math.div($switch-width, 2) - 4px;
       height: math.div($switch-width, 2) - 4px;
-      background: $color-primary;
+      background: $dark-pink;
       border-radius: 50%;
       margin: 2px;
       transition: transform $animation-time $ease-in-out-sine;

@@ -1,10 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  useMemo,
-} from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
@@ -16,10 +10,7 @@ import { fetchGeostore } from 'services/geostore';
 import { updateArea } from 'services/areas';
 
 // constants
-import {
-  DEFAULT_VIEWPORT,
-  MAPSTYLES,
-} from 'components/map/constants';
+import { DEFAULT_VIEWPORT, MAPSTYLES } from 'components/map/constants';
 
 // components
 import Map from 'components/map';
@@ -35,9 +26,6 @@ import useSubscriptionsByArea from 'hooks/subscription/fetch-subscriptions-by-ar
 // utils
 import { getUserAreaLayer } from 'components/map/utils';
 
-// styles
-import './styles.scss';
-
 const AreaCard = (props) => {
   const {
     area,
@@ -49,14 +37,7 @@ const AreaCard = (props) => {
     onChangedVisibility,
     onDeletionArea,
   } = props;
-  const {
-    id,
-    geostore,
-    subscription,
-    name,
-    geostore: geostoreId,
-    isVisible,
-  } = area;
+  const { id, geostore, subscription, name, geostore: geostoreId, isVisible } = area;
   const tooltipRef = useRef(null);
   const formRef = useRef(null);
   const nameRef = useRef(null);
@@ -67,39 +48,39 @@ const AreaCard = (props) => {
   const [loading, setLoadingState] = useState(true);
   const [layer, setLayerState] = useState({ bounds: {}, geojson: null });
 
-  const {
-    data: subscriptionsByArea,
-    refetch,
-  } = useSubscriptionsByArea(id, token);
+  const { data: subscriptionsByArea, refetch } = useSubscriptionsByArea(id, token);
 
   const handleMapView = useCallback(() => onMapView(area), [onMapView, area]);
 
-  const handleEditSubscription = useCallback((modalState = true) => {
-    setModalState({
-      open: modalState,
-      mode: subscription ? 'edit' : 'new',
-    });
-  }, [subscription]);
+  const handleEditSubscription = useCallback(
+    (modalState = true) => {
+      setModalState({
+        open: modalState,
+        mode: subscription ? 'edit' : 'new',
+      });
+    },
+    [subscription],
+  );
 
   const handleDeleteArea = useCallback(() => {
-    toastr.confirm(`Are you sure you want to delete the area ${area.name}?
+    toastr.confirm(
+      `Are you sure you want to delete the area ${area.name}?
       Deleting an area will delete all the subscriptions associated to it`,
-    {
-      onOk: async () => {
-        try {
-          await removeUserArea(area);
-          onDeletionArea();
-        } catch (e) {
-          toastr.error(e.message);
-        }
+      {
+        onOk: async () => {
+          try {
+            await removeUserArea(area);
+            onDeletionArea();
+          } catch (e) {
+            toastr.error(e.message);
+          }
+        },
       },
-    });
+    );
   }, [removeUserArea, onDeletionArea, area]);
 
   const handleChangeVisibility = useCallback(async () => {
-    const {
-      public: isAreaPublic,
-    } = area;
+    const { public: isAreaPublic } = area;
     try {
       await updateArea(
         id,
@@ -133,32 +114,38 @@ const AreaCard = (props) => {
     setAreaName(evt.target.value);
   }, []);
 
-  const handleKeyDown = useCallback(async (evt) => {
-    if (evt.key === 'Escape') {
-      setAreaName(name);
-      nameRef.current.blur();
-    }
-  }, [name]);
+  const handleKeyDown = useCallback(
+    async (evt) => {
+      if (evt.key === 'Escape') {
+        setAreaName(name);
+        nameRef.current.blur();
+      }
+    },
+    [name],
+  );
 
-  const handleSubmit = useCallback(async (evt) => {
-    evt.preventDefault();
-    evt.stopPropagation();
+  const handleSubmit = useCallback(
+    async (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
 
-    try {
-      await updateArea(
-        id,
-        {
-          name: areaName,
-          geostore,
-        },
-        token,
-      );
-      nameRef.current.blur();
-      if (onEditArea) onEditArea(id);
-    } catch (e) {
-      toastr.error('Something went wrong updating the area.');
-    }
-  }, [id, areaName, geostore, token, onEditArea]);
+      try {
+        await updateArea(
+          id,
+          {
+            name: areaName,
+            geostore,
+          },
+          token,
+        );
+        nameRef.current.blur();
+        if (onEditArea) onEditArea(id);
+      } catch (e) {
+        toastr.error('Something went wrong updating the area.');
+      }
+    },
+    [id, areaName, geostore, token, onEditArea],
+  );
 
   const openSubscriptionsModal = useCallback(() => {
     handleEditSubscription(true);
@@ -178,6 +165,8 @@ const AreaCard = (props) => {
           bounds: { bbox, options: { padding: 30 } },
           geojson,
         });
+
+        setLoadingState(false);
       })
       .catch((_error) => {
         if (axios.isCancel(_error)) {
@@ -186,6 +175,8 @@ const AreaCard = (props) => {
         } else {
           toastr.error(`Something went wrong loading your area "${name}"`);
         }
+
+        setLoadingState(false);
       });
   }, [area, geostoreId, name]);
 
@@ -201,19 +192,20 @@ const AreaCard = (props) => {
     '-ready': !loading,
   });
 
-  const userAreaLayer = useMemo(() => (geojson ? [getUserAreaLayer({ id: 'user-area', geojson })] : []), [geojson]);
+  const userAreaLayer = useMemo(
+    () => (geojson ? [getUserAreaLayer({ id: 'user-area', geojson })] : []),
+    [geojson],
+  );
 
-  const subscriptionsToConfirm = useMemo(() => subscriptionsByArea
-    .filter(({ confirmed }) => !confirmed),
-  [subscriptionsByArea]);
+  const subscriptionsToConfirm = useMemo(
+    () => subscriptionsByArea.filter(({ confirmed }) => !confirmed),
+    [subscriptionsByArea],
+  );
 
   return (
     <div className="c-area-card">
       <div className={mapContainerClass}>
-        <Spinner
-          isLoading={loading}
-          className="-transparent"
-        />
+        <Spinner isLoading={loading} className="-transparent" />
         <Map
           mapStyle={MAPSTYLES}
           viewport={DEFAULT_VIEWPORT}
@@ -229,28 +221,17 @@ const AreaCard = (props) => {
           dragRotate={false}
           dragPan={false}
           visible={!loading}
-          onLoad={({ map }) => {
-            map.on('render', () => {
-              if (map.areTilesLoaded()) {
-                setLoadingState(false);
-                map.off('render');
-              }
-            });
-          }}
         >
-          {(_map) => (
-            <LayerManager
-              map={_map}
-              layers={userAreaLayer}
-            />
-          )}
+          {(_map) => <LayerManager map={_map} layers={userAreaLayer} />}
         </Map>
       </div>
       <div className="text-container">
         <div className="basic-info">
           <div className="name-visibility">
             <form
-              ref={(ref) => { formRef.current = ref; }}
+              ref={(ref) => {
+                formRef.current = ref;
+              }}
               onSubmit={handleSubmit}
             >
               <input
@@ -259,7 +240,9 @@ const AreaCard = (props) => {
                 name="area-name"
                 required
                 minLength={3}
-                ref={(ref) => { nameRef.current = ref; }}
+                ref={(ref) => {
+                  nameRef.current = ref;
+                }}
                 onChange={handleChange}
                 onClick={handleClick}
                 onKeyDown={handleKeyDown}
@@ -271,21 +254,14 @@ const AreaCard = (props) => {
           </div>
           <div className="subscriptions">
             {subscriptionsByArea.length > 0 && (
-              <button
-                type="button"
-                className="c-btn -clean"
-                onClick={openSubscriptionsModal}
-              >
+              <button type="button" className="c-btn -clean" onClick={openSubscriptionsModal}>
                 {`${subscriptionsByArea.length} subscription`}
                 {subscriptionsByArea.length > 1 && 's'}
-                {subscriptionsToConfirm.length > 0 && ` (${subscriptionsToConfirm.length} to confirm)`}
+                {subscriptionsToConfirm.length > 0 &&
+                  ` (${subscriptionsToConfirm.length} to confirm)`}
               </button>
             )}
-            {!subscriptionsByArea.length && (
-              <span>
-                No subscriptions
-              </span>
-            )}
+            {!subscriptionsByArea.length && <span>No subscriptions</span>}
           </div>
         </div>
         <div className="actions-container">
@@ -304,24 +280,30 @@ const AreaCard = (props) => {
             overlayClassName="c-rc-tooltip -default"
             placement="top"
             destroyTooltipOnHide
-            onPopupAlign={(ref) => { tooltipRef.current = ref; }}
-            overlay={(
+            onPopupAlign={(ref) => {
+              tooltipRef.current = ref;
+            }}
+            overlay={
               <AreaActionsTooltip
                 area={area}
                 tooltipRef={tooltipRef}
                 showSubscriptions={showSubscriptions}
-                onMouseDown={() => { handleTooltip(false); }}
+                onMouseDown={() => {
+                  handleTooltip(false);
+                }}
                 onRenameArea={handleRenameArea}
                 onChangeVisibility={handleChangeVisibility}
                 onEditSubscriptions={openSubscriptionsModal}
                 onDeleteArea={handleDeleteArea}
               />
-            )}
+            }
           >
             <button
               type="button"
               className="c-btn -tertiary -compressed -fs-medium"
-              onClick={() => { handleTooltip(true); }}
+              onClick={() => {
+                handleTooltip(true);
+              }}
             >
               Edit
             </button>
@@ -330,14 +312,8 @@ const AreaCard = (props) => {
       </div>
 
       {isModalOpen && (
-        <Modal
-          isOpen
-          onRequestClose={closeSubscriptionsModal}
-        >
-          <SubscriptionsModal
-            area={area.id}
-            onRequestClose={closeSubscriptionsModal}
-          />
+        <Modal isOpen onRequestClose={closeSubscriptionsModal}>
+          <SubscriptionsModal area={area.id} onRequestClose={closeSubscriptionsModal} />
         </Modal>
       )}
     </div>
@@ -354,9 +330,7 @@ AreaCard.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     geostore: PropTypes.string.isRequired,
-    subscriptions: PropTypes.arrayOf(
-      PropTypes.shape({}).isRequired,
-    ),
+    subscriptions: PropTypes.arrayOf(PropTypes.shape({}).isRequired),
     subscription: PropTypes.shape({}),
     isVisible: PropTypes.bool,
     public: PropTypes.bool.isRequired,

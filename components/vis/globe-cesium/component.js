@@ -5,9 +5,6 @@ import compact from 'lodash/compact';
 // Redux
 import { connect } from 'react-redux';
 
-// styles
-import './styles.scss';
-
 let Cesium;
 
 // -----------------GLOBE CONSTANTS-------------------

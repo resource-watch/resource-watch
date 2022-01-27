@@ -1,7 +1,7 @@
-export const WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES = [
-  'typography',
-  'end-user-filters',
-];
+import providers from 'components/map/layer-manager/providers';
+import { MAPSTYLES } from 'components/map/constants';
+
+export const WIDGET_EDITOR_DEFAULT_DISABLED_FEATURES = ['typography', 'end-user-filters'];
 
 export const WIDGET_EDITOR_COLOUR_SCHEMES = [
   {
@@ -81,4 +81,10 @@ export const WIDGET_EDITOR_DEFAULT_THEME = {
     gridColor: '#A9ABAD',
     gridOpacity: 1,
   },
+};
+
+export const WIDGET_EDITOR_MAPBOX_PROPS = {
+  mapboxToken: process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN,
+  providers,
+  MAPSTYLES,
 };

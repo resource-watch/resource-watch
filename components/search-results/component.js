@@ -7,9 +7,6 @@ import { withRouter } from 'next/router';
 import Title from 'components/ui/Title';
 import Paginator from 'components/ui/Paginator';
 
-// styles
-import './styles.scss';
-
 class SearchResults extends PureComponent {
   static propTypes = {
     search: PropTypes.shape({

@@ -22,9 +22,6 @@ import ExploreDetailVisualization from './explore-detail-visualization';
 // Constants
 import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from './constants';
 
-// Styles
-import './styles.scss';
-
 class ExploreDetailComponent extends React.Component {
   static propTypes = {
     dataset: PropTypes.object,

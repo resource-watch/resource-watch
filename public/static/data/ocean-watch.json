@@ -471,7 +471,7 @@
                               "id": "6f974b0f-66cf-416b-a5a9-d1012856e4c8"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT pol_type, gadm.gid_0, year, SUM(value::NUMERIC) AS value FROM ( SELECT *, CASE WHEN iso_ter1 IS NULL THEN iso_sov1 ELSE iso_ter1 END AS gid_0 FROM com_030d_fishing_effort_by_zone) AS data LEFT OUTER JOIN gadm36_0 AS gadm ON data.gid_0 = gadm.gid_0 WHERE pol_type = '200NM' AND year = 2020 AND gadm.{{geostore_env}}='{{geostore_id}}' GROUP BY pol_type, gadm.gid_0, year",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT pol_type, gadm.gid_0, year, SUM(value::NUMERIC) AS value FROM ( SELECT *, CASE WHEN iso_ter1 IS NULL THEN iso_sov1 ELSE iso_ter1 END AS gid_0 FROM com_030d_fishing_effort_by_zone) AS data LEFT OUTER JOIN gadm36_0 AS gadm ON data.gid_0 = gadm.gid_0 WHERE pol_type = '200NM' AND year = 2021 AND gadm.{{geostore_env}}='{{geostore_id}}' GROUP BY pol_type, gadm.gid_0, year",
                               "text": "spent fishing within 200 nautical miles of the coastline in the latest year",
                               "format": ",.0f",
                               "unit": "hrs"
@@ -595,20 +595,26 @@
                 "config": {
                   "title": "Water Quality Pressure",
                   "mask": {
-                    "provider": "cartodb",
-                    "promoteId": "cartodb_id",
                     "layerConfig": {
-                      "account": "wri-rw",
-                      "body": {
-                        "layers": [
-                          {
-                            "type": "mapnik",
-                            "options": {
-                              "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                      "type": "vector",
+                      "source": {
+                        "type": "vector",
+                        "promoteId": "cartodb_id",
+                        "provider": {
+                          "type": "carto",
+                          "account": "wri-rw",
+                          "layers": [
+                            {
+                              "options": {
+                                "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                              },
+                              "type": "mapnik"
                             }
-                          }
-                        ],
-                        "vectorLayers": [
+                          ]
+                        }
+                      },
+                      "render": {
+                        "layers": [
                           {
                             "filter": [
                               "all",
@@ -693,8 +699,7 @@
                             "source-layer": "layer0",
                             "type": "fill"
                           }
-                        ],
-                        "layerType": "vector"
+                        ]
                       }
                     }
                   },
@@ -1474,7 +1479,7 @@
                               "id": "6f974b0f-66cf-416b-a5a9-d1012856e4c8"
                             },
                             {
-                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT pol_type, gadm.gid_0, year, SUM(value::NUMERIC) AS value FROM ( SELECT *, CASE WHEN iso_ter1 IS NULL THEN iso_sov1 ELSE iso_ter1 END AS gid_0 FROM com_030d_fishing_effort_by_zone) AS data LEFT OUTER JOIN gadm36_0 AS gadm ON data.gid_0 = gadm.gid_0 WHERE pol_type = '200NM' AND year = 2020 AND gadm.{{geostore_env}}='{{geostore_id}}' GROUP BY pol_type, gadm.gid_0, year",
+                              "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT pol_type, gadm.gid_0, year, SUM(value::NUMERIC) AS value FROM ( SELECT *, CASE WHEN iso_ter1 IS NULL THEN iso_sov1 ELSE iso_ter1 END AS gid_0 FROM com_030d_fishing_effort_by_zone) AS data LEFT OUTER JOIN gadm36_0 AS gadm ON data.gid_0 = gadm.gid_0 WHERE pol_type = '200NM' AND year = 2021 AND gadm.{{geostore_env}}='{{geostore_id}}' GROUP BY pol_type, gadm.gid_0, year",
                               "text": "spent fishing within 200 nautical miles of the coastline in the latest year",
                               "format": ",.0f",
                               "unit": "hrs"
@@ -1598,20 +1603,26 @@
                 "config": {
                   "title": "Water Quality Pressure",
                   "mask": {
-                    "provider": "cartodb",
-                    "promoteId": "cartodb_id",
                     "layerConfig": {
-                      "account": "wri-rw",
-                      "body": {
-                        "layers": [
-                          {
-                            "type": "mapnik",
-                            "options": {
-                              "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                      "type": "vector",
+                      "source": {
+                        "type": "vector",
+                        "promoteId": "cartodb_id",
+                        "provider": {
+                          "type": "carto",
+                          "account": "wri-rw",
+                          "layers": [
+                            {
+                              "options": {
+                                "sql": "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5"
+                              },
+                              "type": "mapnik"
                             }
-                          }
-                        ],
-                        "vectorLayers": [
+                          ]
+                        }
+                      },
+                      "render": {
+                        "layers": [
                           {
                             "filter": [
                               "all",
@@ -1696,8 +1707,7 @@
                             "source-layer": "layer0",
                             "type": "fill"
                           }
-                        ],
-                        "layerType": "vector"
+                        ]
                       }
                     }
                   },

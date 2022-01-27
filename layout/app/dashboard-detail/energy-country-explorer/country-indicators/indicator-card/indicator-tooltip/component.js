@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Styles
-import './styles.scss';
-
 function IndicatorTooltip(props) {
   const { ranking, count } = props;
 

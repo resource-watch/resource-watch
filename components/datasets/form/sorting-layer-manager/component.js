@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 // components
 import LayerCard from './layer-card';
 
-// styles
-import './styles.scss';
-
 class SortingLayerManager extends PureComponent {
   static propTypes = {
     layers: PropTypes.array.isRequired,

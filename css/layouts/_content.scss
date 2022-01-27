@@ -10,12 +10,12 @@
 
   .l-content-header {
     padding: $margin-size-extra-small 0;
-    background-color: $ui-bg-color;
+    background-color: $porcelain;
     text-align: center;
 
     p {
       line-height: 1.33;
-      color: $ui-font-color;
+      color: $dove-grey;
       max-width: 80%;
       margin: 1rem auto;
 
@@ -29,7 +29,7 @@
     padding: $margin-size 0;
 
     @media screen and (min-width: map-get($breakpoints, medium)) {
-      padding: $margin-size-big 0;
+      padding: 100px 0;
     }
 
     .l-container {
@@ -37,7 +37,7 @@
         margin-top: $margin-size;
 
         @media screen and (min-width: map-get($breakpoints, medium)) {
-          margin-top: $margin-size-big;
+          margin-top: 100px;
         }
       }
     }

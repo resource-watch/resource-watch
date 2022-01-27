@@ -10,9 +10,6 @@ import PropTypes from 'prop-types';
 // components
 import SearchInput from 'components/ui/SearchInput';
 
-// styles
-import './styles.scss';
-
 export default function TooltipList({
   list,
   onClickItem,

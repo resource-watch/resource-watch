@@ -26,7 +26,7 @@ describe('An authenticated user creates a new dashboard', () => {
         expect(response.body.data.length).to.eq(dashboardsPayload.data.length);
       });
 
-      cy.get('.c-dashboards-list > .list > .list-item').then((dashboardItems) => {
+      cy.get('.c-dashboards-list > .list > *').then((dashboardItems) => {
         expect(dashboardItems.length).to.eq(dashboardsPayload.data.length);
       });
     })

@@ -18,9 +18,6 @@ import ExploreDatasetsSort from 'layout/explore/explore-datasets-header/explore-
 import DatasetList from './list';
 import ExploreDatasetsActions from './explore-datasets-actions';
 
-// Styles
-import './styles.scss';
-
 export default function ExploreDatasets(props) {
   const {
     datasets: {

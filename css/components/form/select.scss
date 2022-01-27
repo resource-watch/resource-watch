@@ -67,7 +67,7 @@
   box-sizing: border-box;
 }
 .Select.is-disabled > .Select-control {
-  background-color: $color-tertiary;
+  background-color: $porcelain;
 }
 .Select.is-disabled > .Select-control:hover {
   box-shadow: none;
@@ -91,7 +91,7 @@
   overflow: hidden;
   position: relative;
   width: 100%;
-  font-size: $font-size-default;
+  font-size: $font-size-normal;
 }
 .Select-control:hover {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -122,7 +122,7 @@
 .Select-placeholder,
 .Select--single > .Select-control .Select-value {
   bottom: 0;
-  color: $color-text-2;
+  color: $blue-grey;
   left: 0;
   line-height: 42px;
   padding-left: 15px;
@@ -288,7 +288,7 @@
   width: 100%;
   z-index: 10;
   -webkit-overflow-scrolling: touch;
-  font-size: $font-size-default;
+  font-size: $font-size-normal;
 }
 .Select-menu {
   max-height: 198px;
@@ -394,7 +394,7 @@
   background-color: rgba(0, 126, 255, 0.24);
 }
 .Select--multi.is-disabled .Select-value {
-  background-color: $color-tertiary;
+  background-color: $porcelain;
   border: 1px solid #e3e3e3;
   color: #333;
 }
@@ -405,7 +405,7 @@
 .Select--multi.is-disabled .Select-value-icon:hover,
 .Select--multi.is-disabled .Select-value-icon:focus,
 .Select--multi.is-disabled .Select-value-icon:active {
-  background-color: $color-tertiary;
+  background-color: $porcelain;
 }
 @keyframes Select-animation-spin {
   to {

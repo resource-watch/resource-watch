@@ -13,13 +13,13 @@
     span {
       display: block;
       font-weight: $font-weight-regular;
-      font-size: $font-size-default;
+      font-size: $font-size-normal;
     }
   }
 
   .content {
     .token {
-      color: $color-secondary;
+      color: $sea-blue;
       font-weight: $font-weight-bold;
     }
   }

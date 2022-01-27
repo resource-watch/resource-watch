@@ -7,9 +7,6 @@ import PropTypes from 'prop-types';
 import Spinner from 'components/ui/Spinner';
 import DatasetListItem from '../card-item';
 
-// styles
-import './styles.scss';
-
 export default function DatasetCardList({
   list,
   actions,

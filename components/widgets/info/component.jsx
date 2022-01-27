@@ -1,53 +1,35 @@
-import {
-  useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
-// styles
-import './styles.scss';
-
-export default function WidgetInfo({
-  widget,
-  style,
-}) {
+export default function WidgetInfo({ widget, className }) {
   const widgetLinks = useMemo(() => widget?.metadata?.[0]?.info?.widgetLinks || [], [widget]);
 
   return (
     <div
-      className="c-widget-info"
-      style={style}
+      className={classnames('c-widget-info', {
+        [className]: Boolean(className),
+      })}
     >
       <div className="widget-info-row">
-        {!widget?.description && (
-          <p>
-            No additional information is available.
-          </p>
-        )}
+        {!widget?.description && <p>No additional information is available.</p>}
 
         {widget?.description && (
           <>
-            <h4>
-              Description
-            </h4>
-            <p>
-              {widget.description}
-            </p>
+            <h4>Description</h4>
+            <p>{widget.description}</p>
           </>
         )}
       </div>
 
-      {(widgetLinks.length > 0) && (
+      {widgetLinks.length > 0 && (
         <div className="widget-info-row">
           <div className="widget-links-container">
             <h4>Links</h4>
             <ul>
               {widgetLinks.map((link) => (
                 <li>
-                  <a
-                    href={link.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href={link.link} target="_blank" rel="noopener noreferrer">
                     {link.name}
                   </a>
                 </li>

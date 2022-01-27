@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
-// styles
-import './styles.scss';
-
 const GDPRBanner = ({ handleGDPR }) => (
   <div className="c-gdpr-banner">
     <div className="l-container">

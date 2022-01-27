@@ -1,9 +1,4 @@
-import {
-  useState,
-  useMemo,
-  useEffect,
-  useCallback,
-} from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useQuery, useQueryClient } from 'react-query';
@@ -21,25 +16,18 @@ import WidgetHeader from 'components/widgets/header';
 import WidgetInfo from 'components/widgets/info';
 
 // hooks
-import {
-  useFetchWidget,
-} from 'hooks/widget';
+import { useFetchWidget } from 'hooks/widget';
 
 // utils
-import {
-  getParametrizedWidget,
-} from 'utils/widget';
+import { getParametrizedWidget } from 'utils/widget';
 
-// styles
-import './styles.scss';
+// constants
+import { WIDGET_EDITOR_MAPBOX_PROPS } from 'constants/widget-editor';
 
 const WidgetShareModal = dynamic(() => import('../../widgets/share-modal'), { ssr: false });
 
 export default function IndicatorVisualization({
-  indicator: {
-    widgets: _widgets,
-    sections,
-  },
+  indicator: { widgets: _widgets, sections },
   params,
   theme,
   isInACollection,
@@ -50,23 +38,21 @@ export default function IndicatorVisualization({
   const queryClient = useQueryClient();
 
   const serializedSections = useMemo(
-    () => (sections || []).map((section, index) => ({
-      ...section,
-      id: index,
-    })),
+    () =>
+      (sections || []).map((section, index) => ({
+        ...section,
+        id: index,
+      })),
     [sections],
   );
 
-  const defaultSection = useMemo(
-    () => {
-      if (!serializedSections.length) return null;
+  const defaultSection = useMemo(() => {
+    if (!serializedSections.length) return null;
 
-      return serializedSections.find(
-        ({ default: isDefault }) => isDefault,
-      ) || serializedSections?.[0];
-    },
-    [serializedSections],
-  );
+    return (
+      serializedSections.find(({ default: isDefault }) => isDefault) || serializedSections?.[0]
+    );
+  }, [serializedSections]);
 
   const [currentSection, setSection] = useState(defaultSection);
 
@@ -76,23 +62,17 @@ export default function IndicatorVisualization({
     return _widgets;
   }, [sections, currentSection, _widgets]);
 
-  const mainWidgetAvailable = useMemo(
-    () => {
-      if (currentSection) return currentSection.widgets?.[0]?.id;
+  const mainWidgetAvailable = useMemo(() => {
+    if (currentSection) return currentSection.widgets?.[0]?.id;
 
-      return widgets?.[0]?.id;
-    },
-    [widgets, currentSection],
-  );
+    return widgets?.[0]?.id;
+  }, [widgets, currentSection]);
 
-  const widgetQuery = useMemo(
-    () => {
-      if (currentSection) return currentSection.widgets?.[1].query;
+  const widgetQuery = useMemo(() => {
+    if (currentSection) return currentSection.widgets?.[1].query;
 
-      return widgets?.[1]?.query;
-    },
-    [widgets, currentSection],
-  );
+    return widgets?.[1]?.query;
+  }, [widgets, currentSection]);
 
   const {
     data: mainWidget,
@@ -105,7 +85,7 @@ export default function IndicatorVisualization({
       includes: 'metadata',
     },
     {
-      enabled: !!(mainWidgetAvailable),
+      enabled: !!mainWidgetAvailable,
       refetchOnWindowFocus: false,
       placeholderData: {},
       select: (_widget) => getParametrizedWidget(_widget, params),
@@ -120,9 +100,12 @@ export default function IndicatorVisualization({
     setShareWidgetVisibility(null);
   }, []);
 
-  const handleSection = useCallback((_id) => {
-    setSection(serializedSections.find(({ id }) => _id === id));
-  }, [serializedSections]);
+  const handleSection = useCallback(
+    (_id) => {
+      setSection(serializedSections.find(({ id }) => _id === id));
+    },
+    [serializedSections],
+  );
 
   const replacedQuery = useMemo(() => {
     if (!widgetQuery) return null;
@@ -149,11 +132,9 @@ export default function IndicatorVisualization({
     },
   );
 
-  const handleToggleInfo = useCallback(
-    () => {
-      setInfoVisibility(!isInfoVisible);
-    }, [isInfoVisible],
-  );
+  const handleToggleInfo = useCallback(() => {
+    setInfoVisibility(!isInfoVisible);
+  }, [isInfoVisible]);
 
   useEffect(() => {
     setSection(defaultSection);
@@ -165,13 +146,15 @@ export default function IndicatorVisualization({
 
   return (
     <div className={`c-visualization-indicator -${theme}`}>
-      {(serializedSections.length > 0) && (
+      {serializedSections.length > 0 && (
         <div className="sections-container">
           {serializedSections.map(({ id, title }) => (
             <button
               key={id}
               type="button"
-              onClick={() => { handleSection(id); }}
+              onClick={() => {
+                handleSection(id);
+              }}
               className={classnames({
                 'btn-section': true,
                 '-active': currentSection?.id === id,
@@ -184,11 +167,9 @@ export default function IndicatorVisualization({
       )}
       <div className="visualization-indicator-container">
         <div className="main-widget-container">
-          {(!isFetchingMainWidget && isErrorMainWidget) && (
+          {!isFetchingMainWidget && isErrorMainWidget && (
             <div className="error-container">
-              <span className="error">
-                There was an error loading the widget.
-              </span>
+              <span className="error">There was an error loading the widget.</span>
               <button
                 type="button"
                 onClick={refetchMainWidget}
@@ -201,13 +182,8 @@ export default function IndicatorVisualization({
               </button>
             </div>
           )}
-          {isFetchingMainWidget && (
-            <Spinner
-              isLoading
-              className="-transparent"
-            />
-          )}
-          {(!isFetchingMainWidget && !isErrorMainWidget) && (
+          {isFetchingMainWidget && <Spinner isLoading className="-transparent" />}
+          {!isFetchingMainWidget && !isErrorMainWidget && (
             <>
               {mainWidget && (
                 <div
@@ -227,9 +203,9 @@ export default function IndicatorVisualization({
               <div
                 className="widget-container"
                 style={{
-                  ...isInfoVisible && {
+                  ...(isInfoVisible && {
                     padding: 0,
-                  },
+                  }),
                   height: 'calc(100% - 70px)',
                 }}
               >
@@ -237,26 +213,18 @@ export default function IndicatorVisualization({
                   <Renderer
                     adapter={RWAdapter}
                     widgetConfig={mainWidget.widgetConfig}
+                    map={WIDGET_EDITOR_MAPBOX_PROPS}
                   />
                 )}
-                {(isInfoVisible && mainWidget) && (
-                  <WidgetInfo
-                    widget={mainWidget}
-                    style={{
-                      padding: 15,
-                    }}
-                  />
-                )}
+                {isInfoVisible && mainWidget && <WidgetInfo widget={mainWidget} className="p-4" />}
               </div>
             </>
           )}
         </div>
         <div className="secondary-widget-container">
-          {(!isFetchingSecondaryWidget && isErrorSecondaryWidget) && (
+          {!isFetchingSecondaryWidget && isErrorSecondaryWidget && (
             <>
-              <span className="error">
-                There was an error loading the widget.
-              </span>
+              <span className="error">There was an error loading the widget.</span>
               <button
                 type="button"
                 onClick={refetchSecondaryWidget}
@@ -269,37 +237,28 @@ export default function IndicatorVisualization({
               </button>
             </>
           )}
-          {isFetchingSecondaryWidget && (
-            <Spinner
-              isLoading
-              className="-transparent"
-            />
-          )}
-          {(!isFetchingSecondaryWidget) && (
+          {isFetchingSecondaryWidget && <Spinner isLoading className="-transparent" />}
+          {!isFetchingSecondaryWidget && (
             <>
               <span className="data">
                 {/* eslint-disable-next-line no-nested-ternary */}
-                {(widgets?.[1]?.format && isNumber(secondaryWidgetValue))
+                {widgets?.[1]?.format && isNumber(secondaryWidgetValue)
                   ? format(widgets[1].format)(secondaryWidgetValue)
-                  : ((secondaryWidgetValue || '-'))}
-                {(widgets?.[1]?.unit && isNumber(secondaryWidgetValue)) && (
-                  <span className="unit">
-                    {widgets[1].unit}
-                  </span>
+                  : secondaryWidgetValue || '-'}
+                {widgets?.[1]?.unit && isNumber(secondaryWidgetValue) && (
+                  <span className="unit">{widgets[1].unit}</span>
                 )}
               </span>
               {widgets?.[1]?.text && (
                 <Title className="-center">
-                  <h4>
-                    {widgets[1].text}
-                  </h4>
+                  <h4>{widgets[1].text}</h4>
                 </Title>
               )}
             </>
           )}
         </div>
       </div>
-      {(!!isShareVisible) && (
+      {!!isShareVisible && (
         <WidgetShareModal
           isVisible
           widget={isShareVisible}
@@ -323,9 +282,7 @@ IndicatorVisualization.propTypes = {
     sections: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string.isRequired,
-        widgets: PropTypes.arrayOf(
-          PropTypes.shape(),
-        ).isRequired,
+        widgets: PropTypes.arrayOf(PropTypes.shape()).isRequired,
       }),
     ),
     widgets: PropTypes.arrayOf(

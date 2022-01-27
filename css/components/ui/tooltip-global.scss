@@ -3,7 +3,7 @@
 $tooltip-arrow-size: 10px;
 .c-tooltip-global {
   position: fixed;
-  background-color: $color-white;
+  background-color: $white;
   border-radius: 2px;
   box-shadow: 0 0 3px rgba(0, 0, 0, .2);
   padding: 10px;
@@ -20,7 +20,7 @@ $tooltip-arrow-size: 10px;
     position: absolute;
     left: 50%;
     bottom: 0;
-    background: $color-white;
+    background: $white;
     width: $tooltip-arrow-size;
     height: $tooltip-arrow-size;
     border-right: 1px solid $border-color-2;

@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// styles
-import './styles.scss';
-
 const MaintenanceBanner = ({ timeText, handleMaintenanceBanner }) => (
   <div className="c-gdpr-banner">
     <div className="l-container">

@@ -1,6 +1,4 @@
-import {
-  useCallback, useEffect, useMemo, useState, useRef,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -15,9 +13,6 @@ import { BASEMAPS, LABELS } from 'components/map/constants';
 // utils
 import { logEvent } from 'utils/analytics';
 
-// styles
-import './styles.scss';
-
 export default function BasemapControls({
   basemap,
   labels,
@@ -30,33 +25,48 @@ export default function BasemapControls({
   const [active, setActive] = useState(false);
   let basemapSelectorRef = useRef(null);
 
-  const onScreenClick = useCallback((evt) => {
-    const el = basemapSelectorRef.current;
-    const clickOutside = el && el.contains && !el.contains(evt.target);
+  const onScreenClick = useCallback(
+    (evt) => {
+      const el = basemapSelectorRef.current;
+      const clickOutside = el && el.contains && !el.contains(evt.target);
 
-    if (clickOutside && active) {
-      setActive(false);
-    }
-  }, [active]);
+      if (clickOutside && active) {
+        setActive(false);
+      }
+    },
+    [active],
+  );
 
-  const toggleDropdown = useCallback((evt) => {
-    evt.preventDefault();
-    evt.stopPropagation();
-    setActive(!active);
-  }, [active]);
+  const toggleDropdown = useCallback(
+    (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+      setActive(!active);
+    },
+    [active],
+  );
 
-  const onBasemapChange = useCallback((nextBasemap) => {
-    logEvent('Explore Map', 'change basemap', nextBasemap);
-    onChangeBasemap(BASEMAPS[nextBasemap]);
-  }, [onChangeBasemap]);
+  const onBasemapChange = useCallback(
+    (nextBasemap) => {
+      logEvent('Explore Map', 'change basemap', nextBasemap);
+      onChangeBasemap(BASEMAPS[nextBasemap]);
+    },
+    [onChangeBasemap],
+  );
 
-  const onLabelsChange = useCallback((nextLabels) => {
-    onChangeLabels(LABELS[nextLabels]);
-  }, [onChangeLabels]);
+  const onLabelsChange = useCallback(
+    (nextLabels) => {
+      onChangeLabels(LABELS[nextLabels]);
+    },
+    [onChangeLabels],
+  );
 
-  const onBoundariesChange = useCallback((nextBoundaries) => {
-    onChangeBoundaries(nextBoundaries.checked);
-  }, [onChangeBoundaries]);
+  const onBoundariesChange = useCallback(
+    (nextBoundaries) => {
+      onChangeBoundaries(nextBoundaries.checked);
+    },
+    [onChangeBoundaries],
+  );
 
   useEffect(() => {
     if (active) {
@@ -70,17 +80,26 @@ export default function BasemapControls({
     };
   }, [active, onScreenClick]);
 
-  const basemapOptions = Object.values(BASEMAPS).map(({ label, value }) => ({
-    label,
-    value,
-  }), []);
+  const basemapOptions = Object.values(BASEMAPS).map(
+    ({ label, value }) => ({
+      label,
+      value,
+    }),
+    [],
+  );
 
-  const labelsOptions = Object.values(LABELS).map(({ label, value }) => ({
-    label,
-    value,
-  }), []);
+  const labelsOptions = Object.values(LABELS).map(
+    ({ label, value }) => ({
+      label,
+      value,
+    }),
+    [],
+  );
 
-  const disableBoundariesControls = useMemo(() => disabledControls.includes('boundaries'), [disabledControls]);
+  const disableBoundariesControls = useMemo(
+    () => disabledControls.includes('boundaries'),
+    [disabledControls],
+  );
 
   return (
     <div className="c-basemap-control">
@@ -90,16 +109,8 @@ export default function BasemapControls({
         targetOffset="8px 100%"
         classes={{ element: 'c-tooltip -arrow-right' }}
         renderTarget={(ref) => (
-          <button
-            ref={ref}
-            type="button"
-            className="basemap-control--btn"
-            onClick={toggleDropdown}
-          >
-            <Icon
-              name="icon-layers"
-              className="-small"
-            />
+          <button ref={ref} type="button" className="basemap-control--btn" onClick={toggleDropdown}>
+            <Icon name="icon-layers" className="-small" />
           </button>
         )}
         renderElement={(ref) => {
@@ -121,7 +132,10 @@ export default function BasemapControls({
               <RadioGroup
                 name="labels"
                 options={labelsOptions}
-                properties={{ default: labels.id }}
+                properties={{
+                  default: labels.id,
+                  value: labels.id,
+                }}
                 onChange={onLabelsChange}
               />
 
@@ -165,9 +179,7 @@ BasemapControls.propTypes = {
     id: PropTypes.string.isRequired,
   }),
   boundaries: PropTypes.bool,
-  disabledControls: PropTypes.arrayOf(
-    PropTypes.string,
-  ),
+  disabledControls: PropTypes.arrayOf(PropTypes.string),
   onChangeBasemap: PropTypes.func,
   onChangeLabels: PropTypes.func,
   onChangeBoundaries: PropTypes.func,

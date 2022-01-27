@@ -10,9 +10,6 @@ import Icon from 'components/ui/icon';
 import Title from 'components/ui/Title';
 import CollectionsPanel from 'components/collections-panel';
 
-// styles
-import './styles.scss';
-
 export default function WidgetHeader({
   widget,
   isInACollection,

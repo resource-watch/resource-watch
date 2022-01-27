@@ -14,9 +14,6 @@ import CardPlaceholder from 'components/card-placeholder';
 import useFetchUserFavorites from 'hooks/favorite/fetch-favorites';
 import useFetchDatasets from 'hooks/dataset/fetch-datasets';
 
-// styles
-import './styles.scss';
-
 const ExploreFavorites = ({
   userToken,
 }) => {

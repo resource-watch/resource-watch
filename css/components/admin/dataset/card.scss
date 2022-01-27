@@ -1,19 +1,18 @@
 .c-datasets-card {
   // Colors
-  $color-primary: #c32d7b;
-  $color-secondary: #3bb2d0;
-  $color-tertiary: #f4f5f6;
-  $color-white: #fff;
-  $color-black: #000;
-  $color-grey: #e3e4e6;
-  $color-red: #e23035;
-  $color-green: #65b60d;
+  $dark-pink: #c32d7b;
+  $sea-blue: #3bb2d0;
+  $porcelain: #f4f5f6;
+  $white: #fff;
+  $black: #000;
+  $blue-grey: #e3e4e6;
+  $color-13: #e23035;
+  $color-14: #65b60d;
 
   $border-color-1: #e3e4e6;
   $border-color-2: #ccc;
 
-  $color-text-1: #393f44;
-  $color-text-2: #999ba1;
+  $charcoal-grey: #393f44;
 
   display: flex;
   flex-direction: column;
@@ -24,21 +23,21 @@
   cursor: pointer;
 
   &:hover {
-    background: $color-tertiary;
+    background: $porcelain;
   }
 
   &.-selected {
-    background: $color-tertiary;
+    background: $porcelain;
   }
 
   h3 {
     font-size: 16px;
-    color: $color-secondary;
+    color: $sea-blue;
     margin: 0;
   }
 
   p {
-    color: $color-text-1;
+    color: $charcoal-grey;
     margin: 0;
   }
 }

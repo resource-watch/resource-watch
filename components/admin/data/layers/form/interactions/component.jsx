@@ -12,19 +12,17 @@ import Field from 'components/form/Field';
 import Select from 'components/form/SelectInput';
 import InteractionsItems from './interactions-items';
 
-// styles
-import './styles.scss';
-
 class InteractionManager extends PureComponent {
   componentDidMount() {
-    const {
-      layer,
-      getAvailableLayerInteractions,
-    } = this.props;
+    const { layer, getAvailableLayerInteractions } = this.props;
 
     // fetches all fields available in the dataset
-    getAvailableLayerInteractions(layer)
-      .catch((e) => toastr.error('Error fetching fields', e.message));
+    getAvailableLayerInteractions(layer).catch((e) =>
+      toastr.error(
+        'There was an error fetching the CARTO fields to setup the interactivity. Please, make sure the fields "account" and "sql" are provided in the provider configuration.',
+        e.message,
+      ),
+    );
   }
 
   componentWillUnmount() {
@@ -37,7 +35,7 @@ class InteractionManager extends PureComponent {
 
     interactions.added = arrayMove(interactions.added, oldIndex, newIndex);
     setCurrentInteractions(interactions.added);
-  }
+  };
 
   addInteractions(options = []) {
     const { interactions, setCurrentInteractions } = this.props;
@@ -53,8 +51,7 @@ class InteractionManager extends PureComponent {
 
     // Remove layer if its not in options
     if (interactions.added) {
-      interactions.added = interactions.added
-        .filter((item) => options.includes(item.column));
+      interactions.added = interactions.added.filter((item) => options.includes(item.column));
     }
 
     if (!interactions.added || options.length > interactions.added.length) {
@@ -146,7 +143,6 @@ class InteractionManager extends PureComponent {
           useDragHandle
           onSortEnd={this.onSortInteractions}
         />
-
       </div>
     );
   }
@@ -155,12 +151,8 @@ class InteractionManager extends PureComponent {
 InteractionManager.propTypes = {
   layer: PropTypes.shape({}).isRequired,
   interactions: PropTypes.shape({
-    added: PropTypes.arrayOf(
-      PropTypes.shape({}).isRequired,
-    ).isRequired,
-    available: PropTypes.arrayOf(
-      PropTypes.shape({}).isRequired,
-    ).isRequired,
+    added: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
+    available: PropTypes.arrayOf(PropTypes.shape({}).isRequired).isRequired,
   }).isRequired,
   setCurrentInteractions: PropTypes.func.isRequired,
   getAvailableLayerInteractions: PropTypes.func.isRequired,

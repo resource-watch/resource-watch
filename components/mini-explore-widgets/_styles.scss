@@ -1,0 +1,60 @@
+@import 'css/settings';
+
+.c-mini-explore-widgets {
+  width: 100%;
+  border: 1px solid rgba($black ,.1);
+  border-radius: 4px;
+
+  > header {
+    padding: $space * 3;
+
+    > h4 {
+      margin: 0;
+    }
+    border-bottom: 1px solid rgba($black ,.1);
+    box-shadow: 0 1px 2px 0 rgba($black, .09);
+  }
+
+  > .main-container {
+    overflow: auto;
+    display: flex;
+    width: 100%;
+    min-height: 700px;
+    max-height: 700px;
+
+    > .widgets-sidebar {
+      width: 430px;
+      overflow-y: auto;
+      padding: ($space * 3);
+      box-shadow: 0 1px 3px 0 rgba($black, .15), 0 7px 15px 0 rgba($black, .15);
+
+      .widget-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 200px;
+        padding: $space * 2;
+        border: 1px solid rgba($black, .1);
+        border-radius: 4px;
+        box-shadow: 0 1px 2px 0 rgba($black, .05);
+
+        &:not(:first-child) {
+          margin: ($space * 4) 0 0;
+        }
+
+        .widget-container {
+          position: relative;
+          display: flex;
+          height: 100%;
+          margin: ($space * 2) 0 0;
+        }
+      }
+    }
+    .map-container {
+      position: relative;
+      width: 100%;
+      min-height: 100%;
+      margin: 0 0 0($space * 3);
+    }
+  }
+}

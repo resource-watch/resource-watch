@@ -1,12 +1,8 @@
-import React, {
-  useState,
-} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Renderer from '@widget-editor/renderer';
-import {
-  Tooltip,
-} from 'vizzuality-components';
+import { Tooltip } from 'vizzuality-components';
 
 // components
 import TextChart from 'components/widgets/charts/TextChart';
@@ -26,26 +22,18 @@ import { logEvent } from 'utils/analytics';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 import RankingWidget from './ranking-widget';
 
-// Styles
-import './styles.scss';
+// constants
+import { WIDGET_EDITOR_MAPBOX_PROPS } from 'constants/widget-editor';
 
 function DashboardWidgetCard(props) {
-  const {
-    user,
-    widget,
-    loading,
-    explicitHeight,
-    RWAdapter,
-  } = props;
+  const { user, widget, loading, explicitHeight, RWAdapter } = props;
   const widgetConfig = widget && widget.widgetConfig;
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [infoCardOpen, setInfoCardOpen] = useState(false);
-  const {
-    isInACollection,
-  } = useBelongsToCollection(widget.id, user.token);
+  const { isInACollection } = useBelongsToCollection(widget.id, user.token);
   const widgetType = widget && widget.type;
-  const metadataInfo = (widget && (widget.metadata && widget.metadata.length > 0
-    && widget.metadata[0].info)) || {};
+  const metadataInfo =
+    (widget && widget.metadata && widget.metadata.length > 0 && widget.metadata[0].info) || {};
 
   const widgetLinks = metadataInfo.widgetLinks || [];
   const { caption } = metadataInfo;
@@ -81,14 +69,8 @@ function DashboardWidgetCard(props) {
           <div className="buttons">
             <ul>
               <li>
-                <button
-                  className="c-btn -tertiary -clean"
-                  onClick={() => setShareModalOpen(true)}
-                >
-                  <Icon
-                    name="icon-share"
-                    className="-small"
-                  />
+                <button className="c-btn -tertiary -clean" onClick={() => setShareModalOpen(true)}>
+                  <Icon name="icon-share" className="-small" />
                 </button>
 
                 <Modal
@@ -98,14 +80,23 @@ function DashboardWidgetCard(props) {
                 >
                   <ShareModal
                     links={{
-                      link: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
-                      embed: typeof window !== 'undefined' && widget && `${window.location.origin}/embed/${widgetType}/${widget.id}`,
+                      link:
+                        typeof window !== 'undefined' &&
+                        widget &&
+                        `${window.location.origin}/embed/${widgetType}/${widget.id}`,
+                      embed:
+                        typeof window !== 'undefined' &&
+                        widget &&
+                        `${window.location.origin}/embed/${widgetType}/${widget.id}`,
                     }}
                     analytics={{
-                      facebook: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
-                      twitter: () => logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
+                      facebook: () =>
+                        logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
+                      twitter: () =>
+                        logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
                       email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
-                      copy: (type) => logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`),
+                      copy: (type) =>
+                        logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`),
                     }}
                   />
                 </Modal>
@@ -114,34 +105,20 @@ function DashboardWidgetCard(props) {
               <li>
                 <LoginRequired>
                   <Tooltip
-                    overlay={(
-                      <CollectionsPanel
-                        resource={widget}
-                        resourceType="widget"
-                      />
-                    )}
+                    overlay={<CollectionsPanel resource={widget} resourceType="widget" />}
                     overlayClassName="c-rc-tooltip"
                     overlayStyle={{ color: '#fff' }}
                     placement="bottomLeft"
                     trigger="click"
                   >
-                    <button
-                      className="c-btn favourite-button"
-                      tabIndex={-1}
-                    >
-                      <Icon
-                        name={starIconName}
-                        className="-star -small"
-                      />
+                    <button className="c-btn favourite-button" tabIndex={-1}>
+                      <Icon name={starIconName} className="-star -small" />
                     </button>
                   </Tooltip>
                 </LoginRequired>
               </li>
               <li>
-                <button
-                  type="button"
-                  onClick={() => setInfoCardOpen(!infoCardOpen)}
-                >
+                <button type="button" onClick={() => setInfoCardOpen(!infoCardOpen)}>
                   <Icon name={modalIcon} className="-small" />
                 </button>
               </li>
@@ -152,21 +129,17 @@ function DashboardWidgetCard(props) {
       <ErrorBoundary message="There was an error loading the visualization">
         <div className={classNameWidgetContainer}>
           <Spinner isLoading={loading} className="-light -small" />
-          {widgetType === 'text' && widget && (
-            <TextChart
-              widgetConfig={widgetConfig}
-            />
-          )}
+          {widgetType === 'text' && widget && <TextChart widgetConfig={widgetConfig} />}
 
           {widgetType === 'widget' && !widgetIsEmbed && !widgetIsRanking && (
             <Renderer
               adapter={RWAdapter}
               widgetConfig={widgetConfig}
+              map={WIDGET_EDITOR_MAPBOX_PROPS}
             />
           )}
 
-          {widgetIsEmbed
-            && (
+          {widgetIsEmbed && (
             <iframe
               title={widget.name}
               src={widgetEmbedUrl}
@@ -174,52 +147,39 @@ function DashboardWidgetCard(props) {
               height={explicitHeight ? `${explicitHeight}px` : '100%'}
               frameBorder="0"
             />
-            )}
+          )}
 
-          {widgetIsRanking
-            && <RankingWidget widgetConfig={widgetConfig} />}
+          {widgetIsRanking && <RankingWidget widgetConfig={widgetConfig} />}
 
-          {infoCardOpen
-            && (
+          {infoCardOpen && (
             <div className="widget-modal">
-              {widget && !widget.description
-                && <p>No additional information is available</p>}
+              {widget && !widget.description && <p>No additional information is available</p>}
 
               {widget && widget.description && (
-              <div>
-                <h4>Description</h4>
-                <p>{widget.description}</p>
-              </div>
+                <div>
+                  <h4>Description</h4>
+                  <p>{widget.description}</p>
+                </div>
               )}
 
-              {widgetLinks.length > 0
-                && (
+              {widgetLinks.length > 0 && (
                 <div className="widget-links-container">
                   <h4>Links</h4>
                   <ul>
                     {widgetLinks.map((link) => (
                       <li>
-                        <a
-                          href={link.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
+                        <a href={link.link} target="_blank" rel="noopener noreferrer">
                           {link.name}
                         </a>
                       </li>
                     ))}
                   </ul>
                 </div>
-                )}
+              )}
             </div>
-            )}
-        </div>
-        {caption
-          && (
-          <div className="caption-container">
-            {caption}
-          </div>
           )}
+        </div>
+        {caption && <div className="caption-container">{caption}</div>}
       </ErrorBoundary>
     </div>
   );

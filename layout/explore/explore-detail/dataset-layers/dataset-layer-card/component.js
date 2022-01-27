@@ -5,9 +5,6 @@ import classnames from 'classnames';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-// Styles
-import './styles.scss';
-
 function DatasetLayerCard(props) {
   const {
     dataset,
