@@ -16,7 +16,6 @@ import { logger } from 'utils/logs';
  * be included in the response or not.
  */
 export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
-  logger.info('Fetch datasets', params);
   const newParams = {
     env: process.env.NEXT_PUBLIC_API_ENV,
     application: process.env.NEXT_PUBLIC_APPLICATIONS,
@@ -30,10 +29,10 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
       ...headers,
     },
     params: newParams,
-    transformResponse: [].concat(
-      WRIAPI.defaults.transformResponse,
-      (({ data, meta }) => ({ datasets: data, meta })),
-    ),
+    transformResponse: [].concat(WRIAPI.defaults.transformResponse, ({ data, meta }) => ({
+      datasets: data,
+      meta,
+    })),
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -113,14 +112,13 @@ export const fetchDataset = (id, params = {}) => {
  */
 export const fetchDatasetTags = (datasetId, params = {}) => {
   logger.info(`Fetch dataset tags: ${datasetId}`);
-  return WRIAPI.get(`/v1/dataset/${datasetId}/vocabulary`,
-    {
-      headers: { 'Upgrade-Insecure-Requests': 1 },
-      params: {
-        env: process.env.NEXT_PUBLIC_API_ENV,
-        ...params,
-      },
-    })
+  return WRIAPI.get(`/v1/dataset/${datasetId}/vocabulary`, {
+    headers: { 'Upgrade-Insecure-Requests': 1 },
+    params: {
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      ...params,
+    },
+  })
     .then((response) => WRISerializer(response.data))
     .catch((response) => {
       const { status, statusText } = response;
@@ -178,12 +176,14 @@ export const deleteDataset = (id, token) => {
 export const createDataset = (token, params = {}, headers) => {
   logger.info('Create dataset');
 
-  return WRIAPI.post('/v1/dataset',
+  return WRIAPI.post(
+    '/v1/dataset',
     {
       env: process.env.NEXT_PUBLIC_API_ENV,
       ...params,
     },
-    { headers: { Authorization: token, ...headers } })
+    { headers: { Authorization: token, ...headers } },
+  )
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -227,13 +227,15 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
   logger.info(`Update dataset tags: ${datasetId}`);
 
   if (usePatch) {
-    return WRIAPI.patch(`/v1/dataset/${datasetId}/vocabulary/knowledge_graph`,
+    return WRIAPI.patch(
+      `/v1/dataset/${datasetId}/vocabulary/knowledge_graph`,
       {
         tags,
         application: process.env.NEXT_PUBLIC_APPLICATIONS,
         env: process.env.NEXT_PUBLIC_API_ENV,
       },
-      { headers: { Authorization: token } })
+      { headers: { Authorization: token } },
+    )
       .then((response) => WRISerializer(response.data))
       .catch((response) => {
         const { status, statusText } = response;
@@ -242,7 +244,8 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
       });
   }
   if (tags.length > 0) {
-    return WRIAPI.post(`/v1/dataset/${datasetId}/vocabulary`,
+    return WRIAPI.post(
+      `/v1/dataset/${datasetId}/vocabulary`,
       {
         knowledge_graph: {
           tags,
@@ -250,7 +253,8 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
           env: process.env.NEXT_PUBLIC_API_ENV,
         },
       },
-      { headers: { Authorization: token } })
+      { headers: { Authorization: token } },
+    )
       .then((response) => WRISerializer(response.data))
       .catch((response) => {
         const { status, statusText } = response;
@@ -258,14 +262,13 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
         throw new Error(`Error updating dataset tags ${datasetId}: ${status}: ${statusText}`);
       });
   }
-  return WRIAPI.delete(`/v1/dataset/${datasetId}/vocabulary/knowledge_graph`,
-    {
-      headers: { Authorization: token },
-      params: {
-        application: process.env.NEXT_PUBLIC_APPLICATIONS,
-        env: process.env.NEXT_PUBLIC_API_ENV,
-      },
-    })
+  return WRIAPI.delete(`/v1/dataset/${datasetId}/vocabulary/knowledge_graph`, {
+    headers: { Authorization: token },
+    params: {
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+    },
+  })
     .then((response) => WRISerializer(response.data))
     .catch((response) => {
       const { status, statusText } = response;
@@ -286,7 +289,8 @@ export const updateDatasetTags = (datasetId, tags, token, usePatch = false) => {
 export const createMetadata = (datasetId, params = {}, token, headers = {}) => {
   logger.info(`Create metadata for dataset ${datasetId}`);
 
-  return WRIAPI.post(`/v1/dataset/${datasetId}/metadata`,
+  return WRIAPI.post(
+    `/v1/dataset/${datasetId}/metadata`,
     {
       env: process.env.NEXT_PUBLIC_API_ENV,
       ...params,
@@ -296,7 +300,8 @@ export const createMetadata = (datasetId, params = {}, token, headers = {}) => {
         Authorization: token,
         ...headers,
       },
-    })
+    },
+  )
     .then(({ data }) => WRISerializer(data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -318,31 +323,19 @@ export const createMetadata = (datasetId, params = {}, token, headers = {}) => {
 export const updateMetadata = (datasetId, params = {}, token, headers = {}) => {
   logger.info(`Update metadata for dataset ${datasetId}`);
 
-  return WRIAPI.patch(`/v1/dataset/${datasetId}/metadata`,
-    params,
-    {
-      headers: {
-        Authorization: token,
-        ...headers,
-      },
-    })
+  return WRIAPI.patch(`/v1/dataset/${datasetId}/metadata`, params, {
+    headers: {
+      Authorization: token,
+      ...headers,
+    },
+  })
     .then(({ data }) => WRISerializer(data))
     .catch(({ response }) => {
       const { status, statusText } = response;
 
       logger.error(`Error updating metadata for dataset: ${datasetId}. ${status}: ${statusText}`);
-      throw new Error(`Error updating metadata for dataset: ${datasetId}. ${status}: ${statusText}`);
+      throw new Error(
+        `Error updating metadata for dataset: ${datasetId}. ${status}: ${statusText}`,
+      );
     });
-};
-
-export default {
-  fetchDatasets,
-  fetchDataset,
-  fetchDatasetTags,
-  updateDatasetTags,
-  deleteDataset,
-  createDataset,
-  updateDataset,
-  createMetadata,
-  updateMetadata,
 };
