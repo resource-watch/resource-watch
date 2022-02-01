@@ -5747,18 +5747,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@widget-editor/core@npm:^2.6.5":
-  version: 2.6.5
-  resolution: "@widget-editor/core@npm:2.6.5"
+"@widget-editor/core@npm:^2.7.2":
+  version: 2.7.2
+  resolution: "@widget-editor/core@npm:2.7.2"
   dependencies:
-    "@widget-editor/types": ^2.6.5
-  checksum: 3204953ec0058db89966cc482062eae6f9b8ca969aee6cf253121f31473a3a173f1a4d1ad9c37a46ce4e77b95990cdf38c44328f00f8839071a461c146b1c902
+    "@widget-editor/types": ^2.7.2
+  checksum: ce8f4b58da74a7510ccb1065c727a056512956fcc9ea48fc27dafe6f02988b95b63e0ca9746861d601f708028189c35c51034e4cae64afeca8f2a3c2c48c621e
   languageName: node
   linkType: hard
 
-"@widget-editor/map@npm:^2.6.5":
-  version: 2.6.5
-  resolution: "@widget-editor/map@npm:2.6.5"
+"@widget-editor/map@npm:^2.7.2":
+  version: 2.7.2
+  resolution: "@widget-editor/map@npm:2.7.2"
   dependencies:
     "@vizzuality/layer-manager": ^4.0.1
     "@vizzuality/layer-manager-plugin-mapboxgl": ^1.0.1
@@ -5771,19 +5771,19 @@ __metadata:
     react-dom: ^16.12.0
     react-map-gl: ^5.0.7
     vizzuality-components: ^3.0.0-beta.16
-  checksum: 4cdfb11b9541e62dbd777caf2c0d3130f78a730d32140c4c9c1354539b4e804c2b31eef83bc0f9e9ef23fef562d2155e3f5c9045bf5bcd0c09a40b5704bd03dc
+  checksum: ebd7d3b0db8720956fa8bcfefa8707a6187cfcfbfaea49d83a0814629d8d3ea75bcc18d467a07b542c210d183bf4dcb6fce2d5e2b37bb0e07fbe2f90fa16db50
   languageName: node
   linkType: hard
 
-"@widget-editor/renderer@npm:^2.6.5":
-  version: 2.6.5
-  resolution: "@widget-editor/renderer@npm:2.6.5"
+"@widget-editor/renderer@npm:2.7.2, @widget-editor/renderer@npm:^2.7.2":
+  version: 2.7.2
+  resolution: "@widget-editor/renderer@npm:2.7.2"
   dependencies:
     "@babel/plugin-proposal-class-properties": ^7.8.3
-    "@widget-editor/core": ^2.6.5
-    "@widget-editor/map": ^2.6.5
-    "@widget-editor/shared": ^2.6.5
-    "@widget-editor/types": ^2.6.5
+    "@widget-editor/core": ^2.7.2
+    "@widget-editor/map": ^2.7.2
+    "@widget-editor/shared": ^2.7.2
+    "@widget-editor/types": ^2.7.2
     babel-plugin-styled-components: ^1.10.6
     lodash: ^4.17.15
     prop-types: 15.7.2
@@ -5793,25 +5793,25 @@ __metadata:
   peerDependencies:
     react: ^16.12.0
     react-dom: ^16.12.0
-  checksum: 90b673efc82181568e5f9cda6a6ba87a5d9c8a1bd692e2b1b97199101da58cc568ed9062223305c3f7b6ddebe497a748f99c8515c54ba899987f16ef7672e4e9
+  checksum: d0099e58e87b2c7da9ed04dc1604bdf717bcc435bb88cb6e042b5063ffe53ce6a53e06541d9e9095fd9fffe93ea9c98fd80ee6720bd536f6d35b50b570904533
   languageName: node
   linkType: hard
 
-"@widget-editor/rw-adapter@npm:^2.6.5":
-  version: 2.6.5
-  resolution: "@widget-editor/rw-adapter@npm:2.6.5"
+"@widget-editor/rw-adapter@npm:2.7.2":
+  version: 2.7.2
+  resolution: "@widget-editor/rw-adapter@npm:2.7.2"
   dependencies:
-    "@widget-editor/core": ^2.6.5
-    "@widget-editor/types": ^2.6.5
+    "@widget-editor/core": ^2.7.2
+    "@widget-editor/types": ^2.7.2
     axios: ">=0.21.1"
     lodash: ^4.17.15
-  checksum: f262e856246f1e57fb2056e6c465494c53144a3f0214ee50c8b66724887f9ddc07bc8f9c4ce811ef265a0ecefaa329739d7db9a9c3dfb51c213669c697c045a7
+  checksum: 0d6fe9340f420a084bdee8f05462e39d6061b3d5f2708db1cd447dfa52fd8180effdd688270cfc069c951af9af68f77355f4ad1d8178545c0ea9191e851469fb
   languageName: node
   linkType: hard
 
-"@widget-editor/shared@npm:^2.6.5":
-  version: 2.6.5
-  resolution: "@widget-editor/shared@npm:2.6.5"
+"@widget-editor/shared@npm:^2.7.2":
+  version: 2.7.2
+  resolution: "@widget-editor/shared@npm:2.7.2"
   dependencies:
     "@babel/plugin-proposal-class-properties": ^7.8.3
     babel-plugin-styled-components: ^1.10.6
@@ -5833,26 +5833,26 @@ __metadata:
     react-redux: ^7.1.3
     redux: ^4.0.4
     redux-thunk: ^2.3.0
-  checksum: 2853bf8d765a2104305c61c3c239fe2e8a7b0ecdb4775a8c3da54f5634f305c15fcc8654c3c41226098c63bc54c331636bae615ad33c5d334f7120456a20041a
+  checksum: 885f5192fdab26b75a7c8a1234ebb99d25bdc7c643a59f273cea031b8b4a1e168f82d336f671073b6b4e070d50ba2223d936218f5319d0d49c68bcb9ad936e5e
   languageName: node
   linkType: hard
 
-"@widget-editor/types@npm:^2.6.5":
-  version: 2.6.5
-  resolution: "@widget-editor/types@npm:2.6.5"
-  checksum: f6b3db14259c55fdaf6e6343732ae8722dad0edbb57cb2ff68e8b77dc97a13f3cf4b450bc70e9ac8178c081f5205b930d34a25476cf092c2332824df501a71dc
+"@widget-editor/types@npm:^2.7.2":
+  version: 2.7.2
+  resolution: "@widget-editor/types@npm:2.7.2"
+  checksum: 301d4026f09b3588b20591579ebc6b93f65c251011230ca159c11ca244b2f0184e0568dfb1291dec8913e4dad5cab56ab0cd83a7baeb6d06ef9c262399ce984a
   languageName: node
   linkType: hard
 
-"@widget-editor/widget-editor@npm:^2.6.5":
-  version: 2.6.5
-  resolution: "@widget-editor/widget-editor@npm:2.6.5"
+"@widget-editor/widget-editor@npm:2.7.2":
+  version: 2.7.2
+  resolution: "@widget-editor/widget-editor@npm:2.7.2"
   dependencies:
     "@babel/plugin-proposal-class-properties": ^7.8.3
-    "@widget-editor/core": ^2.6.5
-    "@widget-editor/renderer": ^2.6.5
-    "@widget-editor/shared": ^2.6.5
-    "@widget-editor/types": ^2.6.5
+    "@widget-editor/core": ^2.7.2
+    "@widget-editor/renderer": ^2.7.2
+    "@widget-editor/shared": ^2.7.2
+    "@widget-editor/types": ^2.7.2
     babel-plugin-styled-components: ^1.10.6
     lodash: ^4.17.15
     prismjs: ^1.20.0
@@ -5876,7 +5876,7 @@ __metadata:
     react-redux: ^7.1.3
     redux: ^4.0.4
     redux-thunk: ^2.3.0
-  checksum: 03b605fa64f86845fbe55daa8b44e93fffae094a23ced50a6b850c7fec564f8f0e0b8527bfd25d68e0235dc6736299774ef1d08149d7130004793d437192b141
+  checksum: f1ef20eb9c21ef1ed68b3b1f53a01fe13e39c677e0476f4f78d93f028c07623832b13eb59b4e2f98b5083c63d3f2fa1a1bdf0f7d572552081599ef78e24c82e6
   languageName: node
   linkType: hard
 
@@ -21979,9 +21979,9 @@ __metadata:
     "@vizzuality/layer-manager-react": ^1.0.1
     "@vizzuality/layer-manager-utils": ^1.0.1
     "@vizzuality/wysiwyg": ^3.1.4
-    "@widget-editor/renderer": ^2.6.5
-    "@widget-editor/rw-adapter": ^2.6.5
-    "@widget-editor/widget-editor": ^2.6.5
+    "@widget-editor/renderer": 2.7.2
+    "@widget-editor/rw-adapter": 2.7.2
+    "@widget-editor/widget-editor": 2.7.2
     autoprefixer: ^10.4.0
     axios: ^0.21.2
     babel-loader: ^8.2.2
