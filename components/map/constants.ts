@@ -89,8 +89,9 @@ export const DEFAULT_VIEWPORT: ViewportProps = {
 };
 
 export const USER_AREA_LAYER_TEMPLATES = {
-  explore: ({ id, geojson, minZoom }): Partial<APILayerSpec> => ({
+  explore: ({ id, geojson, minZoom }): Partial<APILayerSpec & { isAreaOfInterest: boolean }> => ({
     id,
+    isAreaOfInterest: true,
     layerConfig: {
       type: 'geojson',
       source: {
@@ -129,8 +130,9 @@ export const USER_AREA_LAYER_TEMPLATES = {
       },
     },
   }),
-  'area-card': ({ id, geojson }): Partial<APILayerSpec> => ({
+  'area-card': ({ id, geojson }): Partial<APILayerSpec & { isAreaOfInterest: boolean }> => ({
     id,
+    isAreaOfInterest: true,
     layerConfig: {
       type: 'geojson',
       source: {
