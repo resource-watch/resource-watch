@@ -348,7 +348,7 @@ const ExploreMap = (props) => {
 
   useEffect(() => {
     setDisplayedLayers((prevLayers) => [
-      ...prevLayers.filter(({ provider }) => provider === 'geojson'),
+      ...prevLayers.filter(({ isAreaOfInterest }) => isAreaOfInterest),
       ...activeLayers,
     ]);
   }, [activeLayers, aoi]);
@@ -382,7 +382,7 @@ const ExploreMap = (props) => {
 
         setDisplayedLayers((prevLayers) => [
           aoiLayer,
-          ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
+          ...prevLayers.filter(({ isAreaOfInterest }) => !isAreaOfInterest),
         ]);
 
         setBounds({
@@ -408,7 +408,7 @@ const ExploreMap = (props) => {
 
       setDisplayedLayers((prevLayers) => [
         aoiLayer,
-        ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
+        ...prevLayers.filter(({ isAreaOfInterest }) => !isAreaOfInterest),
       ]);
 
       setBounds({
@@ -424,7 +424,7 @@ const ExploreMap = (props) => {
     else {
       // if the user removes the AoI, filter it to avoid display it in the map
       setDisplayedLayers((prevLayers) => [
-        ...prevLayers.filter(({ provider }) => provider !== 'geojson'),
+        ...prevLayers.filter(({ isAreaOfInterest }) => !isAreaOfInterest),
       ]);
     }
   }, [aoi, token, userId, setBounds, previewAoi]);
