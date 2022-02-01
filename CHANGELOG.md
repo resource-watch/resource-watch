@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 ### Fixed
+- explore: area of interest handling. [RW-120](https://vizzuality.atlassian.net/browse/RW-120)
 
 ### Removed
 
