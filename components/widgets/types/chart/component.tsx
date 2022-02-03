@@ -61,7 +61,7 @@ const ChartType = ({
       )}
 
       <div
-        className="relative flex h-full p-4 overflow-x-auto overflow-y-hidden border widget-container grow border-gray-light"
+        className="relative flex h-full p-4 overflow-x-auto overflow-y-hidden border widget-container border-gray-light"
         style={{
           height: 400,
         }}
