@@ -122,7 +122,7 @@ export const fetchWidget = (
 export const deleteWidget = (
   widgetId: string,
   datasetId: string,
-  token: Pick<UserWithToken, 'token'>,
+  token: string,
 ): Promise<AxiosResponse> => {
   logger.info(`Delete widget: ${widgetId}`);
 
