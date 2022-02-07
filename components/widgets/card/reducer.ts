@@ -1,4 +1,14 @@
-export const INITIAL_STATE = {
+import { APILayerSpec } from 'types/layer';
+
+export interface InitialStateProps {
+  loading: boolean;
+  mapLoading: boolean;
+  error: string;
+  layer: APILayerSpec;
+  tooltip: boolean;
+}
+
+export const INITIAL_STATE: InitialStateProps = {
   loading: false,
   mapLoading: true,
   error: null,
@@ -6,7 +16,7 @@ export const INITIAL_STATE = {
   tooltip: false,
 };
 
-export const REDUCER = (state, { type, payload }) => {
+export const REDUCER = (state: InitialStateProps, { type, payload }) => {
   switch (type) {
     case 'WIDGET-CARD/SET_LAYER':
       return { ...state, layer: payload };
