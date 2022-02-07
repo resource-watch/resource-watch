@@ -2,7 +2,11 @@ import type { Basemap, Labels } from 'components/map/types';
 
 export type WidgetTypes = 'widget' | 'map' | 'embed' | 'text' | 'chart' | 'map-swipe' | 'ranking';
 
+export interface EmbedSource {
+  src: string;
+}
 export interface WidgetParamsConfig {
+  embed?: EmbedSource;
   layer?: string;
   layers?: string[];
   layerParams?: Record<string, string | number | unknown>;
@@ -26,10 +30,17 @@ export interface WidgetConfig {
   type?: WidgetTypes;
   url?: string;
   data?: Record<string, string | number | unknown>[];
+  layer_id?: string;
+}
+
+export interface WidgetLink {
+  name: string;
+  link: string;
 }
 
 export interface WidgetMetadataInfo {
   caption?: string;
+  widgetLinks?: WidgetLink[];
 }
 export interface WidgetMetadata {
   language?: string;
