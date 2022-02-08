@@ -296,7 +296,7 @@ export const Map = ({
   }, [viewport]);
 
   useEffect(() => {
-    if (loaded) handleBasemap(basemap);
+    if (loaded && basemap !== 'none') handleBasemap(basemap);
   }, [basemap, loaded, handleBasemap]);
 
   useEffect(() => {
