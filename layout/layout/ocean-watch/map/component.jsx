@@ -312,6 +312,7 @@ export default function MapSelection() {
             interactiveLayerIds={interactiveLayersIds}
             fitBoundsOptions={{ transitionDuration: 0 }}
             touchZoom={false}
+            basemap="none"
             dragRotate={false}
             scrollZoom={false}
             onClick={handleClickCountry}
