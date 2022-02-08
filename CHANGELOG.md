@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ### Changed
+- updates Coral Reefs calls to action. [OW-29](https://vizzuality.atlassian.net/browse/OW-29)
 - `next@12.0.10`
 
 ### Fixed
