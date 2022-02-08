@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 ### Fixed
+- my visualizations: fixes PDF download. [OW-125](https://vizzuality.atlassian.net/browse/OW-125)
 
 ### Removed
 
