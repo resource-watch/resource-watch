@@ -160,7 +160,7 @@ export const USER_AREA_LAYER_TEMPLATES = {
   }),
 };
 
-export const BASEMAP_LABEL_DICTIONARY: Record<Basemap, Labels> = {
+export const BASEMAP_LABEL_DICTIONARY: Record<Exclude<Basemap, 'none'>, Labels> = {
   dark: 'light',
   light: 'dark',
   satellite: 'light',
