@@ -27,17 +27,25 @@ const layers = [
     promoteId: 'iso',
     isInteractive: true,
     layerConfig: {
-      account: 'wri-rw',
-      body: {
-        layers: [
-          {
-            type: 'mapnik',
-            options: {
-              sql: 'SELECT gid_0 as iso, name_0 as name, coastal, the_geom_webmercator FROM gadm36_0 where coastal is true',
+      type: 'vector',
+      source: {
+        type: 'vector',
+        promoteId: 'iso',
+        provider: {
+          account: 'wri-rw',
+          type: 'carto',
+          layers: [
+            {
+              type: 'mapnik',
+              options: {
+                sql: 'SELECT gid_0 as iso, name_0 as name, coastal, the_geom_webmercator FROM gadm36_0 where coastal is true',
+              },
             },
-          },
-        ],
-        vectorLayers: [
+          ],
+        },
+      },
+      render: {
+        layers: [
           {
             paint: {
               'fill-color': [
@@ -52,7 +60,6 @@ const layers = [
             type: 'fill',
           },
         ],
-        layerType: 'vector',
       },
     },
     opacity: 1,
@@ -62,17 +69,25 @@ const layers = [
     provider: 'cartodb',
     promoteId: 'iso',
     layerConfig: {
-      account: 'wri-rw',
-      body: {
-        layers: [
-          {
-            type: 'mapnik',
-            options: {
-              sql: 'SELECT the_geom_webmercator FROM gadm36_0 where coastal is false',
+      type: 'vector',
+      source: {
+        type: 'vector',
+        promoteId: 'iso',
+        provider: {
+          account: 'wri-rw',
+          type: 'carto',
+          layers: [
+            {
+              type: 'mapnik',
+              options: {
+                sql: 'SELECT the_geom_webmercator FROM gadm36_0 where coastal is false',
+              },
             },
-          },
-        ],
-        vectorLayers: [
+          ],
+        },
+      },
+      render: {
+        layers: [
           {
             paint: {
               'fill-color': '#0f4573',
@@ -82,7 +97,6 @@ const layers = [
             type: 'fill',
           },
         ],
-        layerType: 'vector',
       },
     },
     opacity: 1,
@@ -102,7 +116,7 @@ const gradientStyles = {
 export default function MapSelection() {
   const [viewport, setViewport] = useState({
     ...DEFAULT_VIEWPORT,
-    zoom: 0,
+    zoom: 1,
     latitude: 15,
   });
   const [buttonListVisibility, setVisibility] = useState(false);
@@ -306,7 +320,7 @@ export default function MapSelection() {
             }}
             onMapViewportChange={handleViewport}
             onHover={handleHover}
-            onLoad={({ map }) => {
+            onMapLoad={({ map }) => {
               mapRef.current = map;
             }}
           >
