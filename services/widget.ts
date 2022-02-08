@@ -4,15 +4,24 @@ import WRISerializer from 'wri-json-api-serializer';
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
+// types
+import type { APIWidgetSpec, WidgetMetadata } from 'types/widget';
+import type { UserWithToken } from 'types/user';
+import { AxiosResponse } from 'axios';
+
 /**
  * Fetch widgets according to params.
-  * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-to-obtain-all-widgets|here}
+ * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#how-to-obtain-all-widgets|here}
  * @param {Object} params - params sent to the API.
  * @param {Object} headers - headers used in the request
  * @param {boolean} _meta - flag indicating whether meta information should be
  * included in the response or not
  */
-export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
+export const fetchWidgets = (
+  params: Record<string, string | number> = {},
+  headers: Record<string, string | number> = {},
+  _meta = false,
+) => {
   logger.info('fetches widgets');
   return WRIAPI.get('/v1/widget', {
     headers: {
@@ -26,10 +35,10 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
       ...params,
     },
-    transformResponse: [].concat(
-      WRIAPI.defaults.transformResponse,
-      (({ data, meta }) => ({ widgets: data, meta })),
-    ),
+    transformResponse: [].concat(WRIAPI.defaults.transformResponse, ({ data, meta }) => ({
+      widgets: data,
+      meta,
+    })),
   })
     .then((response) => {
       const { status, statusText, data } = response;
@@ -62,11 +71,14 @@ export const fetchWidgets = (params = {}, headers = {}, _meta = false) => {
  * @param {String} id - widget id.
  * @param {Object} params - params sent to the API.
  */
-export const fetchWidget = (id, params = {}) => {
+export const fetchWidget = (
+  id: string,
+  params: Record<string, string | number> = {},
+): Promise<APIWidgetSpec> => {
   if (!id) throw Error('The widget id is mandatory to perform this request (fetchWidget).');
   logger.info(`Fetch widget: ${id}`);
 
-  return WRIAPI.get(`/v1/widget/${id}`, {
+  return WRIAPI.get<APIWidgetSpec>(`/v1/widget/${id}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       // TO-DO: forces the API to not cache, this should be removed at some point
@@ -107,10 +119,14 @@ export const fetchWidget = (id, params = {}) => {
  * @param {String} datasetId - dataset ID.
  * @param {String} token - user's token.
  */
-export const deleteWidget = (widgetId, datasetId, token) => {
+export const deleteWidget = (
+  widgetId: string,
+  datasetId: string,
+  token: string,
+): Promise<AxiosResponse> => {
   logger.info(`Delete widget: ${widgetId}`);
 
-  return WRIAPI.delete(`/v1/dataset/${datasetId}/widget/${widgetId}`, {
+  return WRIAPI.delete<APIWidgetSpec>(`/v1/dataset/${datasetId}/widget/${widgetId}`, {
     headers: {
       ...WRIAPI.defaults.headers,
       Authorization: token,
@@ -143,9 +159,14 @@ export const deleteWidget = (widgetId, datasetId, token) => {
  * @param {Object} widget - widget data.
  * @param {string} token - user's token.
  */
-export const updateWidget = (widget, token) => {
+export const updateWidget = (
+  widget: APIWidgetSpec,
+  token: Pick<UserWithToken, 'token'>,
+): Promise<APIWidgetSpec> => {
   logger.info(`Update widget: ${widget.id}`);
-  return WRIAPI.patch(`/v1/widget/${widget.id}`, widget, { headers: { Authorization: token } })
+  return WRIAPI.patch<APIWidgetSpec>(`/v1/widget/${widget.id}`, widget, {
+    headers: { Authorization: token },
+  })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -161,15 +182,21 @@ export const updateWidget = (widget, token) => {
  * @param {string} datasetId - Dataset ID the widget belongs to.
  * @param {string} token - user's token.
  */
-export const createWidget = (widget, datasetId, token) => {
+export const createWidget = (
+  widget: Partial<APIWidgetSpec>,
+  datasetId: string,
+  token: Pick<UserWithToken, 'token'>,
+): Promise<APIWidgetSpec> => {
   logger.info('Create widget');
-  return WRIAPI.post(`/v1/dataset/${datasetId}/widget`,
+  return WRIAPI.post<APIWidgetSpec>(
+    `/v1/dataset/${datasetId}/widget`,
     {
       application: process.env.NEXT_PUBLIC_APPLICATIONS.split(','),
       env: process.env.NEXT_PUBLIC_API_ENV,
       ...widget,
     },
-    { headers: { Authorization: token } })
+    { headers: { Authorization: token } },
+  )
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -186,17 +213,21 @@ export const createWidget = (widget, datasetId, token) => {
  * @param {string} token - user's token.
  * @param {Object} params - request parameters.
  */
-export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => {
+export const fetchWidgetMetadata = (
+  widgetId: string,
+  datasetId: string,
+  token: Pick<UserWithToken, 'token'>,
+  params: Record<string, string | number>,
+): Promise<Pick<APIWidgetSpec, 'metadata'>> => {
   logger.info(`Update widget metadata: ${widgetId}`);
-  return WRIAPI.fetch(`/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
-    {
-      headers: { Authorization: token },
-      params: {
-        application: process.env.NEXT_PUBLIC_APPLICATIONS,
-        env: process.env.NEXT_PUBLIC_API_ENV,
-        ...params,
-      },
-    })
+  return WRIAPI.get(`/v1/dataset/${datasetId}/widget/${widgetId}/metadata`, {
+    headers: { Authorization: token },
+    params: {
+      application: process.env.NEXT_PUBLIC_APPLICATIONS,
+      env: process.env.NEXT_PUBLIC_API_ENV,
+      ...params,
+    },
+  })
     .then((response) => WRISerializer(response.data))
     .catch(({ response }) => {
       const { status, statusText } = response;
@@ -213,11 +244,20 @@ export const fetchWidgetMetadata = (widgetId, datasetId, token, params = {}) => 
  * @param {Object} metadata - metadata to be updated.
  * @param {string} token - user's token.
  */
-export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
+export const updateWidgetMetadata = (
+  widgetId: string,
+  datasetId: string,
+  metadata: Pick<APIWidgetSpec, 'metadata'>,
+  token: Pick<UserWithToken, 'token'>,
+): Promise<Pick<APIWidgetSpec, 'metadata'>> => {
   logger.info(`Update widget metadata: ${widgetId}`);
-  return WRIAPI.patch(`/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
+  return WRIAPI.patch<Pick<APIWidgetSpec, 'metadata'>>(
+    `/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
     metadata,
-    { headers: { Authorization: token } })
+    {
+      headers: { Authorization: token },
+    },
+  )
     .then((response) => WRISerializer(response.data))
     .catch((error) => {
       let errorMessage = error.message;
@@ -240,15 +280,22 @@ export const updateWidgetMetadata = (widgetId, datasetId, metadata, token) => {
  * @param {Object} metadata - metadata to be updated.
  * @param {string} token - user's token.
  */
-export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
+export const createWidgetMetadata = (
+  widgetId: string,
+  datasetId: string,
+  metadata: WidgetMetadata,
+  token: Pick<UserWithToken, 'token'>,
+): Promise<Pick<APIWidgetSpec, 'metadata'>> => {
   logger.info(`Update widget metadata: ${widgetId}`);
-  return WRIAPI.post(`/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
+  return WRIAPI.post<Pick<APIWidgetSpec, 'metadata'>>(
+    `/v1/dataset/${datasetId}/widget/${widgetId}/metadata`,
     {
       application: process.env.NEXT_PUBLIC_APPLICATIONS,
       env: process.env.NEXT_PUBLIC_API_ENV,
       ...metadata,
     },
-    { headers: { Authorization: token } })
+    { headers: { Authorization: token } },
+  )
     .then((response) => WRISerializer(response.data))
     .catch((error) => {
       let errorMessage = error.message;
@@ -261,15 +308,4 @@ export const createWidgetMetadata = (widgetId, datasetId, metadata, token) => {
       logger.error(`Error creating widget metadata ${widgetId}:  ${errorMessage}`);
       throw new Error(`Error creating widget metadata ${widgetId}:  ${errorMessage}`);
     });
-};
-
-export default {
-  fetchWidgets,
-  fetchWidget,
-  updateWidget,
-  createWidget,
-  fetchWidgetMetadata,
-  updateWidgetMetadata,
-  createWidgetMetadata,
-  deleteWidget,
 };

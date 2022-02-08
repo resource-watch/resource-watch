@@ -14,6 +14,7 @@ import { useMe } from 'hooks/user';
 
 // utils
 import { getAoiLayer, getMaskLayer, getLayerGroups } from 'utils/layers';
+import { getParametrizedWidget } from 'utils/widget';
 
 // components
 import ErrorFallback from 'components/error-fallback';
@@ -68,7 +69,7 @@ const SwipeTypeWidgetContainer = ({
     {
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
-      placeholderData: {},
+      select: (_widget) => getParametrizedWidget(_widget as APIWidgetSpec, params, false),
     },
   );
 
@@ -151,6 +152,17 @@ const SwipeTypeWidgetContainer = ({
 
   const isError = useMemo(() => isErrorWidget || isErrorGeostore, [isErrorWidget, isErrorGeostore]);
 
+  // * these params are used to make a shareable URL. See more details about which ones are accepted in utils/embed
+  const shareableParams = useMemo(
+    () => ({
+      ...params,
+      ...(params.geostore_id && {
+        aoi: params.geostore_id,
+      }),
+    }),
+    [params],
+  );
+
   return (
     <ErrorBoundary
       FallbackComponent={CustomErrorFallback}
@@ -164,7 +176,8 @@ const SwipeTypeWidgetContainer = ({
         aoiLayer={aoiLayer}
         maskLayer={maskLayer}
         bounds={bounds}
-        widget={widget}
+        widget={widget as APIWidgetSpec}
+        params={shareableParams}
         style={style}
         isEmbed={isEmbed}
         isWebshot={isWebshot}

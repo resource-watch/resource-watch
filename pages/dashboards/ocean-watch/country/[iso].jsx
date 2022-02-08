@@ -61,7 +61,6 @@ export default function OceanWatchCountryProfilePage({ iso }) {
   );
 
   const handleShareWidget = useCallback((_widget) => {
-    debugger;
     setWidgetToShare(_widget);
   }, []);
 

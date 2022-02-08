@@ -1,16 +1,21 @@
 import { replace } from '@vizzuality/layer-manager-utils';
 
-export const isMapWidget = (widgetConfig = {}) =>
+import type { APIWidgetSpec, WidgetConfig, WidgetTypes } from 'types/widget';
+
+export const isMapWidget = (widgetConfig = {} as WidgetConfig) =>
   'type' in widgetConfig && widgetConfig.type === 'map';
 
-export const isMapSwipeWidget = (widgetConfig = {}) =>
+export const isMapSwipeWidget = (widgetConfig = {} as WidgetConfig) =>
   isMapWidget(widgetConfig) &&
   'layersLeft' in (widgetConfig.paramsConfig || {}) &&
   'layersRight' in (widgetConfig.paramsConfig || {});
 
+export const isRankingWidget = (widgetConfig = {} as WidgetConfig) =>
+  'type' in widgetConfig && widgetConfig.type === 'ranking';
+
 // Some widgets have not been created with the widget editor
 // so the paramsConfig attribute doesn't exist
-export const isEmbedWidget = (widgetConfig = {}) =>
+export const isEmbedWidget = (widgetConfig = {} as WidgetConfig) =>
   !!(
     widgetConfig &&
     ((widgetConfig.paramsConfig && widgetConfig.paramsConfig.visualizationType === 'embed') ||
@@ -20,10 +25,10 @@ export const isEmbedWidget = (widgetConfig = {}) =>
 
 // The widgets that are created through the widget editor
 // don't have any "type" attribute
-export const isTextualWidget = (widgetConfig = {}) =>
+export const isTextualWidget = (widgetConfig = {} as WidgetConfig) =>
   'type' in widgetConfig && widgetConfig.type === 'text';
 
-export const hasValidConfiguration = (widget = {}) => {
+export const hasValidConfiguration = (widget = {} as APIWidgetSpec): boolean => {
   // checks widgetConfig attribute is present
   if (!Object.prototype.hasOwnProperty.call(widget, 'widgetConfig')) return false;
 
@@ -40,8 +45,13 @@ export const hasValidConfiguration = (widget = {}) => {
   return true;
 };
 
-export const getParametrizedWidget = (widget = {}, params = {}, encode = true) => ({
+export const getParametrizedWidget = (
+  widget: APIWidgetSpec,
+  params: Record<string, string | number> = {},
+  encode = true,
+): APIWidgetSpec => ({
   ...widget,
+  name: replace(widget.name, params),
   widgetConfig: {
     ...(widget?.widgetConfig || {}),
     data: (widget?.widgetConfig?.data || []).map((_data) => {
@@ -55,7 +65,7 @@ export const getParametrizedWidget = (widget = {}, params = {}, encode = true) =
   },
 });
 
-export const getWidgetType = (widget) => {
+export const getWidgetType = (widget: APIWidgetSpec): WidgetTypes => {
   if (!widget) throw new Error('getWidgetType: widget not found');
 
   const { widgetConfig } = widget;
@@ -65,6 +75,8 @@ export const getWidgetType = (widget) => {
   if (isMapWidget(widgetConfig)) return 'map';
 
   if (isEmbedWidget(widgetConfig)) return 'embed';
+
+  if (isRankingWidget(widgetConfig)) return 'ranking';
 
   return 'widget';
 };

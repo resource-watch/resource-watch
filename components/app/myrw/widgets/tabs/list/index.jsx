@@ -1,7 +1,4 @@
-import {
-  useReducer,
-  useEffect,
-} from 'react';
+import { useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
@@ -11,15 +8,15 @@ import debounce from 'lodash/debounce';
 // services
 import { fetchWidgets } from 'services/widget';
 
+// hooks
+import { useFetchUserData } from 'hooks/user';
+
+// utils
+import { getParametrizedWidget } from 'utils/widget';
+
 // store
 import reducer from './reducer';
-import {
-  setDisplay,
-  setPagination,
-  setSearch,
-  setSort,
-  setWidgetState,
-} from './actions';
+import { setDisplay, setPagination, setSearch, setSort, setWidgetState } from './actions';
 import initialState from './initial-state';
 
 // components
@@ -39,42 +36,50 @@ const WidgetListTabContainer = (props) => {
     pagination: { page },
   } = state;
   const {
-    query: {
-      params,
-    },
+    query: { params },
   } = useRouter();
   const subtab = params?.[1] || null;
+
+  const { data: userWidgetParametrization } = useFetchUserData({
+    select: (userData) =>
+      userData?.applicationData?.[process.env.NEXT_PUBLIC_APPLICATIONS]?.widgets || {},
+  });
 
   const getWidgets = () => {
     const queryParams = getQueryParams(state, props);
 
-    dispatch(setWidgetState({
-      loading: true,
-      error: null,
-    }));
+    dispatch(
+      setWidgetState({
+        loading: true,
+        error: null,
+      }),
+    );
     fetchWidgets(queryParams, { Authorization: token }, true)
       .then(({ widgets, meta }) => {
-        const {
-          'total-pages': pages,
-          'total-items': size,
-        } = meta;
+        const { 'total-pages': pages, 'total-items': size } = meta;
         const nextPagination = {
           size,
           pages,
         };
 
-        dispatch(setWidgetState({
-          loading: false,
-          list: widgets,
-        }));
+        dispatch(
+          setWidgetState({
+            loading: false,
+            list: widgets.map((_widget) =>
+              getParametrizedWidget(_widget, userWidgetParametrization[_widget.id] || {}, false),
+            ),
+          }),
+        );
 
         dispatch(setPagination(nextPagination));
       })
       .catch(({ message }) => {
-        dispatch(setWidgetState({
-          loading: false,
-          error: message,
-        }));
+        dispatch(
+          setWidgetState({
+            loading: false,
+            error: message,
+          }),
+        );
       });
   };
 
@@ -92,8 +97,12 @@ const WidgetListTabContainer = (props) => {
         detail: 'myrw_detail',
       }}
       sideTab={subtab}
-      handlePageChange={(nextPage) => { dispatch(setPagination({ page: nextPage })); }}
-      handleDisplay={(display) => { dispatch(setDisplay(display)); }}
+      handlePageChange={(nextPage) => {
+        dispatch(setPagination({ page: nextPage }));
+      }}
+      handleDisplay={(display) => {
+        dispatch(setDisplay(display));
+      }}
       handleSortChange={() => {
         const newSort = sort === 'asc' ? 'desc' : 'asc';
         dispatch(setSort(newSort));
@@ -108,7 +117,9 @@ const WidgetListTabContainer = (props) => {
         dispatch(setSearch(value));
         dispatch(setPagination({ page: 1 }));
       }, 300)}
-      handleRefresh={() => { getWidgets(); }}
+      handleRefresh={() => {
+        getWidgets();
+      }}
       thumbnail
     />
   );

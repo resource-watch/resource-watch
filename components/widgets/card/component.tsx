@@ -1,10 +1,11 @@
-import { useReducer, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useReducer, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import truncate from 'lodash/truncate';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
 import { Tooltip } from 'vizzuality-components';
+import { saveAs } from 'file-saver';
+import dateFnsFormat from 'date-fns/format';
 
 // services
 import { deleteWidget } from 'services/widget';
@@ -14,12 +15,13 @@ import { fetchLayer } from 'services/layer';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 
 // utils
-import { isMapWidget, isEmbedWidget, isTextualWidget } from 'utils/widget';
+import { isMapWidget, isEmbedWidget, isTextualWidget, getWidgetType } from 'utils/widget';
+import { getLinksByWidgetType } from 'utils/embed';
 import { logEvent } from 'utils/analytics';
 
 // constants
 import { MAPSTYLES } from 'components/map/constants';
-import { INITIAL_STATE, REDUCER } from 'components/widgets/card/constants';
+import { INITIAL_STATE, REDUCER } from 'components/widgets/card/reducer';
 
 // components
 import Title from 'components/ui/Title';
@@ -34,37 +36,57 @@ import MapThumbnail from 'components/map/thumbnail';
 import ShareModal from 'components/modal/share-modal';
 import TextChart from 'components/widgets/charts/TextChart';
 import WidgetActionsTooltip from './tooltip';
+import { useMe } from 'hooks/user';
 
-const WidgetCard = (props) => {
-  const {
-    widget,
-    mode,
-    user,
-    limitChar,
-    showActions,
-    showEmbed,
-    showRemove,
-    showFavorite,
-    thumbnail,
-    onWidgetClick,
-    clickable,
-  } = props;
+// types
+import type { APIWidgetSpec } from 'types/widget';
 
+export interface WidgetCardProps {
+  widget: APIWidgetSpec;
+  mode: 'grid' | 'list';
+  limitChar?: number;
+  showActions?: boolean;
+  showEmbed?: boolean;
+  showRemove?: boolean;
+  showFavorite?: boolean;
+  thumbnail?: boolean;
+  clickable?: boolean;
+  params?: Record<string, string>;
+  onWidgetClick?: (widget: APIWidgetSpec) => void;
+  onWidgetRemove: () => void;
+  setModalOptions: (options) => void;
+  toggleModal: (visibility: boolean) => void;
+}
+
+const WidgetCard = ({
+  widget,
+  mode,
+  limitChar = 70,
+  showActions = false,
+  showEmbed = false,
+  showRemove = false,
+  showFavorite = true,
+  thumbnail = false,
+  clickable = false,
+  params = {},
+  onWidgetClick,
+  onWidgetRemove,
+  toggleModal,
+  setModalOptions,
+}: WidgetCardProps): JSX.Element => {
   const router = useRouter();
   const [state, dispatch] = useReducer(REDUCER, INITIAL_STATE);
   const { loading, mapLoading, layer, error, tooltip } = state;
-  const { isInACollection } = useBelongsToCollection(widget.id, user.token);
+  const { data: user } = useMe();
+  const { isInACollection } = useBelongsToCollection(widget.id, user?.token);
+  const widgetType = useMemo(() => getWidgetType(widget), [widget]);
 
-  const handleRemoveVisualization = () => {
-    const {
-      user: { token },
-      onWidgetRemove,
-    } = props;
+  const handleRemoveVisualization = useCallback(() => {
     const { id, name, dataset } = widget;
 
     toastr.confirm(`Are you sure you want to remove the visualization: ${name}?`, {
       onOk: () => {
-        deleteWidget(id, dataset, token)
+        deleteWidget(id, dataset, user?.token)
           .then(() => {
             onWidgetRemove();
           })
@@ -73,21 +95,14 @@ const WidgetCard = (props) => {
           );
       },
     });
-  };
+  }, [user, widget, onWidgetRemove]);
 
-  const handleEmbed = () => {
-    const { toggleModal, setModalOptions } = props;
-    const { id, widgetConfig } = widget;
-    const widgetType = widgetConfig.type || 'widget';
-    const location = typeof window !== 'undefined' && window.location;
-    const { origin } = location;
+  const handleEmbed = useCallback(() => {
+    const { id } = widget;
     const options = {
       children: ShareModal,
       childrenProps: {
-        links: {
-          link: `${origin}/data/widget/${id}`,
-          embed: location && `${origin}/embed/${widgetType}/${id}`,
-        },
+        links: getLinksByWidgetType(widget, params),
         analytics: {
           facebook: () => logEvent('Share', `Share widget: ${id}`, 'Facebook'),
           twitter: () => logEvent('Share', `Share widget: ${id}`, 'Twitter'),
@@ -99,51 +114,51 @@ const WidgetCard = (props) => {
 
     toggleModal(true);
     setModalOptions(options);
-  };
+  }, [params, widget, toggleModal, setModalOptions]);
 
-  const handleEditWidget = () => {
-    const {
-      user: { role, id },
-    } = props;
-    const isOwner = widget.userId === id;
-    const isAdmin = role === 'ADMIN';
-
-    if (isAdmin) {
+  const handleEditWidget = useCallback(() => {
+    if (user?.role === 'ADMIN') {
       router.push(`/admin/data/widgets/${widget.id}/edit?dataset=${widget.dataset}`);
-    } else if (isOwner) {
+    } else if (widget.userId === user?.id) {
       router.push(`/myrw-detail/widgets/${widget.id}/edit`);
     } else {
       router.push(`/data/widget/${widget.id}`);
     }
-  };
+  }, [router, user, widget]);
 
-  const handleGoToDataset = () => {
+  const handleGoToDataset = useCallback(() => {
     const { dataset } = widget;
 
     router.push(`/data/explore/${dataset}`);
-  };
+  }, [router, widget]);
 
-  const handleDownloadPDF = () => {
-    toastr.info('Widget download', 'The file is being generated...');
+  const handleDownloadPDF = useCallback(async () => {
+    toastr.info('Downloading PDF...', 'This process might take a few seconds.');
 
-    const { id, name, widgetConfig } = widget;
-    const type = widgetConfig.type || 'widget';
+    const { id } = widget;
     const { origin } = window.location;
-    const filename = encodeURIComponent(name);
+    const destinyQueryParams = new URLSearchParams(params);
+    const url = new URL(`${origin}/embed/${widgetType}/${id}`);
+    const queryParams = new URLSearchParams({
+      filename: widget.slug,
+      width: '790',
+      height: '580',
+      waitFor: '8000',
+    });
 
-    const link = document.createElement('a');
-    link.setAttribute('download', '');
-    link.href = `${process.env.NEXT_PUBLIC_WRI_API_URL}/v1/webshot/pdf?filename=${filename}&width=790&height=580&waitFor=8000&url=${origin}/embed/${type}/${id}`;
+    const webshot = `${
+      process.env.NEXT_PUBLIC_WRI_API_URL
+    }/v1/webshot?${queryParams.toString()}&url=${encodeURIComponent(
+      `${url}?${destinyQueryParams}`,
+    )}`;
 
-    // link.click() doesn't work on Firefox for some reasons
-    // so we have to create an event manually
-    const event = new MouseEvent('click');
-    link.dispatchEvent(event);
-  };
+    toggleModal(false);
+    saveAs(webshot, `${widget.slug}-${dateFnsFormat(Date.now(), "yyyy-MM-dd'T'HH:mm:ss")}.pdf`);
+  }, [widget, params, widgetType, toggleModal]);
 
-  const handleTooltipVisibility = (visible) => {
+  const handleTooltipVisibility = useCallback((visible) => {
     dispatch({ type: 'WIDGET-CARD/SET_TOOLTIP', payload: visible });
-  };
+  }, []);
 
   const getLayer = async (layerId) => {
     dispatch({ type: 'WIDGET-CARD/SET_LOADING', payload: true });
@@ -225,7 +240,6 @@ const WidgetCard = (props) => {
               bbox,
               options: {},
             }}
-            fitBoundsOptions={{ transitionDuration: 0 }}
             basemap={basemap}
             labels={labels}
             boundaries={boundaries}
@@ -236,7 +250,7 @@ const WidgetCard = (props) => {
             scrollZoom={false}
             doubleClickZoom={false}
             touchRotate={false}
-            onLoad={({ map }) => {
+            onMapLoad={({ map }) => {
               map.on('render', () => {
                 if (map.areTilesLoaded()) {
                   dispatch({ type: 'WIDGET-CARD/SET_MAP_LOADING', payload: false });
@@ -274,31 +288,21 @@ const WidgetCard = (props) => {
     }
   }, [widget]);
 
-  const widgetLinks =
-    (widget.metadata &&
-      widget.metadata.length > 0 &&
-      widget.metadata[0].info &&
-      widget.metadata[0].info.widgetLinks) ||
-    [];
-  const isWidgetOwner = widget.userId === user.id;
-
-  const starIconName = classnames({
-    'icon-star-full': isInACollection,
-    'icon-star-empty': !isInACollection,
-  });
-
-  const mainClassname = classnames({
-    'c-widget-card': true,
-    '-clickable': clickable,
-  });
+  const widgetLinks = useMemo(() => widget?.metadata?.[0]?.info?.widgetLinks || [], [widget]);
+  const isWidgetOwner = useMemo(() => widget.userId === user?.id, [widget, user]);
 
   return (
     <div
-      className={mainClassname}
-      {...(clickable && { tabIndex: -1 })}
-      {...(clickable && { role: 'button' })}
-      {...(clickable && { onClick: () => onWidgetClick && onWidgetClick(widget) })}
-      {...(clickable && { onKeyPress: () => onWidgetClick && onWidgetClick(widget) })}
+      className={classnames({
+        'c-widget-card': true,
+        '-clickable': clickable,
+      })}
+      {...(clickable && {
+        tabIndex: -1,
+        role: 'button',
+        onClick: () => onWidgetClick && onWidgetClick(widget),
+        onKeyPress: () => onWidgetClick && onWidgetClick(widget),
+      })}
     >
       <div className="widget-preview">{getWidgetPreview()}</div>
       <div className="info">
@@ -318,7 +322,13 @@ const WidgetCard = (props) => {
                 trigger="click"
               >
                 <button type="button" className="c-btn favourite-button" tabIndex={-1}>
-                  <Icon name={starIconName} className="-star -small" />
+                  <Icon
+                    name={classnames({
+                      'icon-star-full': isInACollection,
+                      'icon-star-empty': !isInACollection,
+                    })}
+                    className="-star -small"
+                  />
                 </button>
               </Tooltip>
             </LoginRequired>
@@ -366,36 +376,6 @@ const WidgetCard = (props) => {
       </div>
     </div>
   );
-};
-
-WidgetCard.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  widget: PropTypes.object.isRequired,
-  showActions: PropTypes.bool,
-  showRemove: PropTypes.bool,
-  showEmbed: PropTypes.bool,
-  showFavorite: PropTypes.bool,
-  mode: PropTypes.oneOf(['grid', 'full']).isRequired,
-  onWidgetRemove: PropTypes.func.isRequired,
-  onWidgetClick: PropTypes.func,
-  limitChar: PropTypes.number,
-  // eslint-disable-next-line react/forbid-prop-types
-  user: PropTypes.object.isRequired,
-  toggleModal: PropTypes.func.isRequired,
-  setModalOptions: PropTypes.func.isRequired,
-  thumbnail: PropTypes.bool,
-  clickable: PropTypes.bool,
-};
-
-WidgetCard.defaultProps = {
-  showActions: false,
-  showRemove: false,
-  showFavorite: true,
-  limitChar: 70,
-  showEmbed: false,
-  thumbnail: false,
-  clickable: false,
-  onWidgetClick: null,
 };
 
 export default WidgetCard;
