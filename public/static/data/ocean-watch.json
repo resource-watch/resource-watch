@@ -380,7 +380,7 @@
                           "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
-                          "text": "Visit Climate Watch to explore how well oceans are represented in NDCs, click the 'i' button above"
+                          "instructions": "Visit Climate Watch to explore how well oceans are represented in NDCs, click the 'i' button above"
                         }
                       ]
                     },
@@ -1388,7 +1388,7 @@
                           "id": "432ba622-36b9-4178-8a91-6a59446e7347"
                         },
                         {
-                          "text": "Visit Climate Watch to explore how well oceans are represented in NDCs, click the 'i' button above"
+                          "instructions": "Visit Climate Watch to explore how well oceans are represented in NDCs, click the 'i' button above"
                         }
                       ]
                     },
