@@ -1,8 +1,16 @@
 import { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-export default function WidgetInfo({ widget, className }) {
+// types
+import type { APIWidgetSpec } from 'types/widget';
+
+const WidgetInfo = ({
+  widget,
+  className,
+}: {
+  widget: APIWidgetSpec;
+  className?: string;
+}): JSX.Element => {
   const widgetLinks = useMemo(() => widget?.metadata?.[0]?.info?.widgetLinks || [], [widget]);
 
   return (
@@ -28,7 +36,7 @@ export default function WidgetInfo({ widget, className }) {
             <h4>Links</h4>
             <ul>
               {widgetLinks.map((link) => (
-                <li>
+                <li key={link.link}>
                   <a href={link.link} target="_blank" rel="noopener noreferrer">
                     {link.name}
                   </a>
@@ -40,27 +48,6 @@ export default function WidgetInfo({ widget, className }) {
       )}
     </div>
   );
-}
-
-WidgetInfo.defaultProps = {
-  style: {},
 };
 
-WidgetInfo.propTypes = {
-  widget: PropTypes.shape({
-    description: PropTypes.string,
-    metadata: PropTypes.arrayOf(
-      PropTypes.shape({
-        info: PropTypes.shape({
-          widgetLinks: PropTypes.arrayOf(
-            PropTypes.shape({
-              name: PropTypes.string,
-              link: PropTypes.string,
-            }),
-          ),
-        }),
-      }),
-    ),
-  }).isRequired,
-  style: PropTypes.shape({}),
-};
+export default WidgetInfo;
