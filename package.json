@@ -121,6 +121,7 @@
     "@types/mapbox-gl": "^2.6.0",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
+    "@widget-editor/types": "^2.6.3",
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-istanbul": "^6.0.0",

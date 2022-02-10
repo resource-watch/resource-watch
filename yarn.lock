@@ -5735,7 +5735,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@widget-editor/types@npm:^2.7.2":
+"@widget-editor/types@npm:^2.6.3, @widget-editor/types@npm:^2.7.2":
   version: 2.7.2
   resolution: "@widget-editor/types@npm:2.7.2"
   checksum: 301d4026f09b3588b20591579ebc6b93f65c251011230ca159c11ca244b2f0184e0568dfb1291dec8913e4dad5cab56ab0cd83a7baeb6d06ef9c262399ce984a
@@ -21525,6 +21525,7 @@ __metadata:
     "@vizzuality/wysiwyg": ^3.1.4
     "@widget-editor/renderer": 2.7.2
     "@widget-editor/rw-adapter": 2.7.2
+    "@widget-editor/types": ^2.6.3
     "@widget-editor/widget-editor": 2.7.2
     autoprefixer: ^10.4.0
     axios: ^0.21.2
