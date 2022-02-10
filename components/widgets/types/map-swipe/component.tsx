@@ -150,7 +150,6 @@ const SwipeTypeWidget = ({
     <div
       className={classnames('c-widget', { '-is-embed': isEmbed })}
       style={{
-        height: '100%',
         ...style,
       }}
     >
@@ -175,17 +174,12 @@ const SwipeTypeWidget = ({
           },
         )}
         style={{
-          height: 400,
+          ...(!isEmbed && { height: 400 }),
         }}
       >
         {isFetching && <Spinner isLoading className="-transparent" />}
 
-        <div
-          className="c-map-comparison"
-          style={{
-            height: '100%',
-          }}
-        >
+        <div className="relative w-full h-full overflow-hidden c-map-comparison">
           <div className="compare-container">
             {!isFetching && !isError && (
               <>
