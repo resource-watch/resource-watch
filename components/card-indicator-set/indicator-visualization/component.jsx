@@ -144,6 +144,12 @@ export default function IndicatorVisualization({
     refetchSecondaryWidget();
   }, [params, refetchSecondaryWidget]);
 
+  const isNoData = useMemo(() => {
+    if (secondaryWidgetValue?.toString() === '0') return false;
+    if (!secondaryWidgetValue) return true;
+    return false;
+  }, [secondaryWidgetValue]);
+
   return (
     <div className={`c-visualization-indicator -${theme}`}>
       {serializedSections.length > 0 && (
@@ -240,18 +246,23 @@ export default function IndicatorVisualization({
           {isFetchingSecondaryWidget && <Spinner isLoading className="-transparent" />}
           {!isFetchingSecondaryWidget && (
             <>
-              <span className="data">
-                {/* eslint-disable-next-line no-nested-ternary */}
-                {widgets?.[1]?.format && isNumber(secondaryWidgetValue)
-                  ? format(widgets[1].format)(secondaryWidgetValue)
-                  : secondaryWidgetValue || '-'}
-                {widgets?.[1]?.unit && isNumber(secondaryWidgetValue) && (
-                  <span className="unit">{widgets[1].unit}</span>
-                )}
-              </span>
-              {widgets?.[1]?.text && (
-                <Title className="-center">
-                  <h4>{widgets[1].text}</h4>
+              {!isNoData && (
+                <span className="data">
+                  {/* eslint-disable-next-line no-nested-ternary */}
+                  {widgets?.[1]?.format && isNumber(secondaryWidgetValue)
+                    ? format(widgets[1].format)(secondaryWidgetValue)
+                    : secondaryWidgetValue || '-'}
+                  {widgets?.[1]?.unit && isNumber(secondaryWidgetValue) && (
+                    <span className="unit">{widgets[1].unit}</span>
+                  )}
+                </span>
+              )}
+              {isNoData && !widgets?.[1]?.instructions && (
+                <span className="text-gray">No data available</span>
+              )}
+              {((widgets?.[1]?.text && !isNoData) || widgets?.[1]?.instructions) && (
+                <Title className="text-center">
+                  <h4>{widgets[1].text || widgets[1].instructions}</h4>
                 </Title>
               )}
             </>
