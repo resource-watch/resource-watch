@@ -59,29 +59,6 @@ export const registerUser = ({ email }) => {
 };
 
 /**
- * Resets the user's password.
- * Needs the token hosted in the email sent in forgotPassword
- * NOTE:this is NOT implemented in the API to be done from the app.
- * right now the only way it's through the email link pointing to Control Tower.
- * Check out the API docs for this endpoint {@link https://resource-watch.github.io/doc-api/index-rw.html#password-recovery|here}
- * @param {Object} options
- * @returns {Object}
- */
-export const resetPassword = ({ tokenEmail, password, repeatPassword }) => {
-  logger.info('Reset password');
-  return WRIAPI.post(`auth/reset-password/${tokenEmail}`, {
-    password,
-    repeatPassword,
-  })
-    .then((response) => response.data)
-    .catch(({ response }) => {
-      const { status, statusText } = response;
-      logger.error(`Error resetting user password: ${status}: ${statusText}`);
-      throw new Error(`Error resetting user password: ${status}: ${statusText}`);
-    });
-};
-
-/**
  * Upload user photo
  * @param {Blob} file file data
  * @param {Object} user
