@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - explore: area of interest handling. [RW-120](https://vizzuality.atlassian.net/browse/RW-120)
 
 ### Removed
+- reset password page. [RW-72](https://vizzuality.atlassian.net/browse/RW-72)
 
 ## [3.4.0] - 2022-01-27
 ### Added
