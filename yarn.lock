@@ -2906,7 +2906,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/geojson-rewind@npm:^0.5.0, @mapbox/geojson-rewind@npm:^0.5.1":
+"@mapbox/geojson-rewind@npm:^0.5.1":
   version: 0.5.1
   resolution: "@mapbox/geojson-rewind@npm:0.5.1"
   dependencies:
@@ -2947,15 +2947,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/mapbox-gl-supported@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "@mapbox/mapbox-gl-supported@npm:1.5.0"
-  peerDependencies:
-    mapbox-gl: ">=0.32.1 <2.0.0"
-  checksum: 0861f89e2a1e116a8731242fe049e6ad398ff3ac1481b87df9b042daa8ad76f5f6e1f60acc37d2bd483546817280259bde57e1aa51e46d1bef9efcecd4884efe
-  languageName: node
-  linkType: hard
-
 "@mapbox/mapbox-gl-supported@npm:^2.0.0":
   version: 2.0.1
   resolution: "@mapbox/mapbox-gl-supported@npm:2.0.1"
@@ -2977,7 +2968,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mapbox/tiny-sdf@npm:^1.1.0, @mapbox/tiny-sdf@npm:^1.1.1":
+"@mapbox/tiny-sdf@npm:^1.1.0":
   version: 1.2.5
   resolution: "@mapbox/tiny-sdf@npm:1.2.5"
   checksum: d4cfd700c8ccd8b9183da78a943e314cada4184966a52758857cc7141391829a2da31b733046ee0a57e169396314533ffbde8445ce3476a193c6aefcc7bc883a
@@ -3055,7 +3046,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@math.gl/web-mercator@npm:^3.3.1, @math.gl/web-mercator@npm:^3.5.1, @math.gl/web-mercator@npm:^3.5.4, @math.gl/web-mercator@npm:^3.5.5":
+"@math.gl/web-mercator@npm:^3.5.1, @math.gl/web-mercator@npm:^3.5.4":
   version: 3.5.6
   resolution: "@math.gl/web-mercator@npm:3.5.6"
   dependencies:
@@ -4898,15 +4889,6 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
-  languageName: node
-  linkType: hard
-
-"@types/mapbox-gl@npm:^2.0.3":
-  version: 2.4.2
-  resolution: "@types/mapbox-gl@npm:2.4.2"
-  dependencies:
-    "@types/geojson": "*"
-  checksum: d18b388bb9806c369fe834d502fccd196239291df34b38b190bd1c74be726d6bb45066e6e3d65fbf61f2c056cea805f8a373044167efef3ee96464153dd3265c
   languageName: node
   linkType: hard
 
@@ -10340,7 +10322,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"earcut@npm:^2.0.6, earcut@npm:^2.2.2, earcut@npm:^2.2.3":
+"earcut@npm:^2.0.6, earcut@npm:^2.2.3":
   version: 2.2.3
   resolution: "earcut@npm:2.2.3"
   checksum: 4e3bab80366c49e0332a0bb061649a3b9354dcbfa636155c7eee250be0670d7139d53f2aebbcf90788507c71b76ec1713c20e36527f202b9abb79c9e5858ec35
@@ -12520,7 +12502,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gl-matrix@npm:^3.0.0, gl-matrix@npm:^3.2.1, gl-matrix@npm:^3.3.0":
+"gl-matrix@npm:^3.0.0, gl-matrix@npm:^3.3.0":
   version: 3.4.3
   resolution: "gl-matrix@npm:3.4.3"
   checksum: c47830ba727f3d0fab635c48135af96aef66274079a3e0afd6f68b68c98eae9fc1bcfdc7312fe2301e4fd22dd24c5e0f1b5d025960a208e50d07101ed8d940f9
@@ -15991,23 +15973,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mapbox-gl@npm:^1.0.0":
-  version: 1.13.2
-  resolution: "mapbox-gl@npm:1.13.2"
+"mapbox-gl@npm:2.7.0":
+  version: 2.7.0
+  resolution: "mapbox-gl@npm:2.7.0"
   dependencies:
-    "@mapbox/geojson-rewind": ^0.5.0
+    "@mapbox/geojson-rewind": ^0.5.1
     "@mapbox/geojson-types": ^1.0.2
     "@mapbox/jsonlint-lines-primitives": ^2.0.2
-    "@mapbox/mapbox-gl-supported": ^1.5.0
+    "@mapbox/mapbox-gl-supported": ^2.0.0
     "@mapbox/point-geometry": ^0.1.0
-    "@mapbox/tiny-sdf": ^1.1.1
+    "@mapbox/tiny-sdf": ^2.0.2
     "@mapbox/unitbezier": ^0.0.0
     "@mapbox/vector-tile": ^1.3.1
     "@mapbox/whoots-js": ^3.1.0
     csscolorparser: ~1.0.3
-    earcut: ^2.2.2
+    earcut: ^2.2.3
     geojson-vt: ^3.2.1
-    gl-matrix: ^3.2.1
+    gl-matrix: ^3.3.0
     grid-index: ^1.1.0
     minimist: ^1.2.5
     murmurhash-js: ^1.0.0
@@ -16015,10 +15997,10 @@ __metadata:
     potpack: ^1.0.1
     quickselect: ^2.0.0
     rw: ^1.3.3
-    supercluster: ^7.1.0
+    supercluster: ^7.1.4
     tinyqueue: ^2.0.3
-    vt-pbf: ^3.1.1
-  checksum: ea87bbab1b5d2a4597a3170769295dd80b73c06782051d82f9fd9f2839cfc60f56b9043dd707bdac0f9b4a60c087440cc9d215d693cb545b2e446d7c08175458
+    vt-pbf: ^3.1.3
+  checksum: 48fc2281b7357d3c6f02da78d8219543ae18b466427c787951b707d8f7a829fab0d044f46e7fa44a3e8abd8148570c76ed0d2827bd918ebef2845e125dfceeb4
   languageName: node
   linkType: hard
 
@@ -20013,21 +19995,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-map-gl@npm:^5.0.7":
-  version: 5.3.17
-  resolution: "react-map-gl@npm:5.3.17"
+"react-map-gl@npm:7.0.6":
+  version: 7.0.6
+  resolution: "react-map-gl@npm:7.0.6"
   dependencies:
-    "@babel/runtime": ^7.0.0
-    "@types/geojson": ^7946.0.7
-    "@types/mapbox-gl": ^2.0.3
-    mapbox-gl: ^1.0.0
-    mjolnir.js: ^2.5.0
-    prop-types: ^15.7.2
-    resize-observer-polyfill: ^1.5.1
-    viewport-mercator-project: ^7.0.4
+    "@types/mapbox-gl": ^2.6.0
   peerDependencies:
+    mapbox-gl: "*"
     react: ">=16.3.0"
-  checksum: e478e2165a0950e0a72cddf04f1e6a0fe998e20395623bb2e0f27234378b2189cee0d07581416e1cb94124601e12a7134986bf3ae46c391581bde0f1e2b4ff45
+  checksum: c67adeb9e88f79eacfdff421f9e41e5169daed0862faa924fe09d33b9c37b08895a2b5aabe134793402dd989dddef0983a9b26ed810b0d691246ce64edac6280
   languageName: node
   linkType: hard
 
@@ -21502,7 +21478,6 @@ __metadata:
     "@babel/preset-env": ^7.12.13
     "@cypress/code-coverage": 3.9.11
     "@mapbox/mapbox-gl-draw": ^1.1.2
-    "@math.gl/web-mercator": ^3.3.1
     "@next/bundle-analyzer": ^10.0.7
     "@next/env": 10.0.8
     "@reduxjs/toolkit": ^1.5.1
@@ -21564,6 +21539,7 @@ __metadata:
     lint-staged: ^12.1.2
     lodash: ^4.17.21
     luma.gl: ^7.3.2
+    mapbox-gl: 2.7.0
     mocha: ^8.3.0
     moment: ^2.24.0
     next: 12.0.10
@@ -21601,7 +21577,7 @@ __metadata:
     react-input-autosize: 2.0.1
     react-input-range: ^1.2.1
     react-intersection-observer: ^8.24.2
-    react-map-gl: ^5.0.7
+    react-map-gl: 7.0.6
     react-markdown: ^4.0.3
     react-modal: ^3.13.1
     react-progress-2: 4.4.1
@@ -23135,7 +23111,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supercluster@npm:^7.1.0, supercluster@npm:^7.1.4":
+"supercluster@npm:^7.1.4":
   version: 7.1.4
   resolution: "supercluster@npm:7.1.4"
   dependencies:
@@ -25417,15 +25393,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viewport-mercator-project@npm:^7.0.4":
-  version: 7.0.4
-  resolution: "viewport-mercator-project@npm:7.0.4"
-  dependencies:
-    "@math.gl/web-mercator": ^3.5.5
-  checksum: ef6fad785e773caacccd09b333cd485a83813b5b2776fbcaa4b6e2c05e203c5b1fcd4abd94224ca6e4a2129c186b87d107497d532984265c15617e06318ec826
-  languageName: node
-  linkType: hard
-
 "vinyl-fs@npm:^2.4.4":
   version: 2.4.4
   resolution: "vinyl-fs@npm:2.4.4"
@@ -25550,7 +25517,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vt-pbf@npm:^3.1.1, vt-pbf@npm:^3.1.3":
+"vt-pbf@npm:^3.1.3":
   version: 3.1.3
   resolution: "vt-pbf@npm:3.1.3"
   dependencies:

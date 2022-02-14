@@ -66,7 +66,7 @@ export default function MiniExploreMap({
   onChangeLayerTimeLine,
   handleFitBoundsChange,
   onLoad,
-  onHover,
+  onMouseMove,
 }) {
   const { pitch, bearing } = viewport;
   const resetViewBtnClass = classnames({
@@ -102,7 +102,7 @@ export default function MiniExploreMap({
         onMapViewportChange={handleViewport}
         onFitBoundsChange={handleFitBoundsChange}
         fitBoundsOptions={{ transitionDuration: 0 }}
-        {...(onHover && { onHover })}
+        {...(onMouseMove && { onMouseMove })}
         {...(onLoad && { onMapLoad: onLoad })}
       >
         {(_map) => (
@@ -208,7 +208,7 @@ MiniExploreMap.defaultProps = {
   layerGroupsInteractionSelected: null,
   disabledControls: [],
   onLoad: null,
-  onHover: null,
+  onMouseMove: null,
 };
 
 MiniExploreMap.propTypes = {
@@ -252,5 +252,5 @@ MiniExploreMap.propTypes = {
   onChangeLayerDate: PropTypes.func.isRequired,
   onChangeLayerTimeLine: PropTypes.func.isRequired,
   onLoad: PropTypes.func,
-  onHover: PropTypes.func,
+  onMouseMove: PropTypes.func,
 };

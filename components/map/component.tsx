@@ -2,17 +2,15 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import ReactMapGL, { FlyToInterpolator, TRANSITION_EVENTS, ViewportProps } from 'react-map-gl';
-import { InteractiveMapProps } from 'react-map-gl';
-import { fitBounds } from '@math.gl/web-mercator';
-import { easeCubic } from 'd3-ease';
+import ReactMapGL, { MapRef } from 'react-map-gl';
+import type { MapProps, ViewState, ViewStateChangeEvent } from 'react-map-gl';
 
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES } from './constants';
 
 import { Basemap, Labels } from './types';
 
-export interface MapProps extends InteractiveMapProps {
+export interface CustomMapProps extends MapProps {
   /** A function that returns the map instance */
   // children?: React.ReactNode;
   children?: (map) => JSX.Element;
@@ -21,7 +19,7 @@ export interface MapProps extends InteractiveMapProps {
   className?: string;
 
   /** An object that defines the viewport */
-  viewport?: Partial<ViewportProps>;
+  viewport?: Partial<ViewState>;
 
   /** basemap displayed */
   basemap?: Basemap;
@@ -36,21 +34,19 @@ export interface MapProps extends InteractiveMapProps {
   bounds?: {
     bbox: number[];
     options?: Record<string, unknown>;
-    viewportOptions?: Partial<ViewportProps>;
+    viewportOptions?: Partial<ViewState>;
   };
-
-  /** A function that exposes when the map is mounted.
-   * It receives and object with the `mapRef` and `mapContainerRef` reference. */
-  onMapReady?: ({ map, mapContainer }) => void;
 
   /** A function that exposes when the map is loaded.
    * It receives and object with the `mapRef` and `mapContainerRef` reference. */
   onMapLoad?: ({ map, mapContainer }) => void;
 
+  // getCursor?:
+
   /** A function that exposes the viewport */
-  onMapViewportChange?: (viewport: Partial<ViewportProps>) => void;
+  onMapViewportChange?: (viewport: Partial<ViewState>) => void;
   /** Optional callback when bounds are changed  */
-  onFitBoundsChange?: (viewport: Partial<ViewportProps>) => void;
+  onFitBoundsChange?: (viewport: Partial<ViewState>) => void;
 }
 
 export const Map = ({
@@ -61,30 +57,24 @@ export const Map = ({
   basemap = 'dark',
   labels = 'light',
   boundaries = false,
-  onMapReady,
+  style = {},
   onMapLoad,
   onMapViewportChange,
   dragPan,
   dragRotate,
   scrollZoom,
-  touchZoom,
-  touchRotate,
+  // touchZoom,
+  // touchRotate,
   doubleClickZoom,
-  width = '100%',
-  height = '100%',
   onFitBoundsChange,
-  getCursor,
+  cursor,
   ...mapboxProps
-}: MapProps): JSX.Element => {
-  const mapRef = useRef(null);
+}: CustomMapProps): JSX.Element => {
+  const mapRef = useRef<MapRef>(null);
   const mapContainerRef = useRef(null);
 
-  const [mapViewport, setViewport] = useState<ViewportProps>({
-    ...DEFAULT_VIEWPORT,
-    ...viewport,
-  });
+  const [mapViewport, setViewport] = useState<ViewState>(DEFAULT_VIEWPORT as ViewState);
   const [flying, setFlight] = useState(false);
-  const [ready, setReady] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   const handleLoad = useCallback(() => {
@@ -97,9 +87,10 @@ export const Map = ({
   }, 250);
 
   const handleViewportChange = useCallback(
-    (v) => {
-      setViewport(v);
-      debouncedOnMapViewportChange(v);
+    (evt: ViewStateChangeEvent) => {
+      const { viewState } = evt;
+      setViewport(viewState);
+      debouncedOnMapViewportChange(viewState);
     },
     [debouncedOnMapViewportChange],
   );
@@ -119,43 +110,53 @@ export const Map = ({
 
   const handleFitBounds = useCallback(() => {
     const { bbox, options = {}, viewportOptions = {} } = bounds;
-    const { transitionDuration = 0 } = viewportOptions;
+    const { transitionDuration = 0 } = options;
+
+    if (!mapRef.current) return null;
 
     if (mapContainerRef.current.offsetWidth <= 0 || mapContainerRef.current.offsetHeight <= 0) {
       throw new Error("mapContainerRef doesn't have any dimensions");
     }
 
-    const { longitude, latitude, zoom } = fitBounds({
-      width: mapContainerRef.current.offsetWidth,
-      height: mapContainerRef.current.offsetHeight,
-      bounds: [
+    // const { longitude, latitude, zoom } = fitBounds({
+    //   width: mapContainerRef.current.offsetWidth,
+    //   height: mapContainerRef.current.offsetHeight,
+    //   bounds: [
+    //     [bbox[0], bbox[1]],
+    //     [bbox[2], bbox[3]],
+    //   ],
+    //   ...options,
+    // });
+
+    mapRef.current.fitBounds(
+      [
         [bbox[0], bbox[1]],
         [bbox[2], bbox[3]],
       ],
-      ...options,
-    });
+      options,
+    );
 
-    const newViewport = {
-      longitude,
-      latitude,
-      zoom,
-      transitionDuration,
-      transitionInterruption: TRANSITION_EVENTS.UPDATE,
-      ...viewportOptions,
-    };
+    // const newViewport: Partial<ViewState> = {
+    //   longitude,
+    //   latitude,
+    //   zoom,
+    //   // transitionDuration,
+    //   // transitionInterruption: TRANSITION_EVENTS.UPDATE,
+    //   ...viewportOptions,
+    // };
 
-    setFlight(true);
-    setViewport((prevViewport) => ({
-      ...prevViewport,
-      ...newViewport,
-    }));
-    debouncedOnMapViewportChange(newViewport);
-    if (onFitBoundsChange) onFitBoundsChange(newViewport);
+    // setFlight(true);
+    // setViewport((prevViewport) => ({
+    //   ...prevViewport,
+    //   ...newViewport,
+    // }));
+    // debouncedOnMapViewportChange(newViewport);
+    // if (onFitBoundsChange) onFitBoundsChange(newViewport);
 
-    return setTimeout(() => {
-      setFlight(false);
-    }, +transitionDuration);
-  }, [bounds, debouncedOnMapViewportChange, onFitBoundsChange]);
+    // return setTimeout(() => {
+    //   setFlight(false);
+    // }, +transitionDuration);
+  }, [bounds, debouncedOnMapViewportChange, onFitBoundsChange, mapRef]);
 
   const handleBasemap = useCallback(
     (basemap: Basemap) => {
@@ -273,11 +274,6 @@ export const Map = ({
   );
 
   useEffect(() => {
-    setReady(true);
-    if (onMapReady) onMapReady({ map: mapRef.current, mapContainer: mapContainerRef.current });
-  }, [onMapReady]);
-
-  useEffect(() => {
     if (
       !isEmpty(bounds) &&
       !!bounds.bbox &&
@@ -319,26 +315,21 @@ export const Map = ({
         ref={(_map) => {
           if (_map) mapRef.current = _map.getMap();
         }}
-        mapboxApiAccessToken={
+        mapboxAccessToken={
           process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN || process.env.STORYBOOK_RW_MAPBOX_API_TOKEN
         }
         mapStyle={MAPSTYLES}
         {...mapboxProps}
         {...mapViewport}
-        width={width}
-        height={height}
+        style={style}
         dragPan={!flying && dragPan}
         dragRotate={!flying && dragRotate}
         scrollZoom={!flying && scrollZoom}
-        touchZoom={!flying && touchZoom}
-        touchRotate={!flying && touchRotate}
         doubleClickZoom={!flying && doubleClickZoom}
-        onViewportChange={handleViewportChange}
+        onMove={handleViewportChange}
         onResize={handleResize}
         onLoad={handleLoad}
-        getCursor={getCursor || handleGetCursor}
-        transitionInterpolator={new FlyToInterpolator()}
-        transitionEasing={easeCubic}
+        // cursor={cursor || handleGetCursor}
         transformRequest={(url, resourceType) => {
           // Global Fishing Watch tilers require authorization so we need to add
           // the header before Mapbox handles the request
@@ -357,11 +348,7 @@ export const Map = ({
           return null;
         }}
       >
-        {ready &&
-          loaded &&
-          !!mapRef.current &&
-          typeof children === 'function' &&
-          children(mapRef.current)}
+        {loaded && !!mapRef.current && typeof children === 'function' && children(mapRef.current)}
       </ReactMapGL>
     </div>
   );

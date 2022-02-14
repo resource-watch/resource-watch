@@ -417,7 +417,7 @@ export default function MiniExploreMapContainer({
       onChangeVisibility={onChangeVisibility}
       onChangeOpacity={onChangeOpacity}
       handleFitBoundsChange={handleFitBoundsChange}
-      onHover={handleHover}
+      onMouseMove={handleHover}
       onLoad={({ map }) => {
         mapRef.current = map;
       }}

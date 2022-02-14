@@ -12,7 +12,7 @@ class ZoomControls extends PureComponent {
     const { zoom, maxZoom } = viewport;
 
     onClick(zoom === maxZoom ? zoom : zoom + 1);
-  }
+  };
 
   decreaseZoom = (e) => {
     e.stopPropagation();
@@ -20,7 +20,7 @@ class ZoomControls extends PureComponent {
     const { zoom, minZoom } = viewport;
 
     onClick(zoom === minZoom ? zoom : zoom - 1);
-  }
+  };
 
   render() {
     const { className, viewport } = this.props;

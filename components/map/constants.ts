@@ -1,5 +1,5 @@
 import isNumber from 'lodash/isNumber';
-import { ViewportProps } from 'react-map-gl';
+import { ViewState } from 'react-map-gl';
 import { APILayerSpec } from 'types/layer';
 import { Basemap, Labels } from './types';
 
@@ -79,13 +79,13 @@ export const BOUNDARIES = {
   },
 };
 
-export const DEFAULT_VIEWPORT: ViewportProps = {
+export const DEFAULT_VIEWPORT: Partial<ViewState> = {
   zoom: 2,
   latitude: 0,
   longitude: 0,
   pitch: 0,
   bearing: 0,
-  transitionDuration: 250,
+  // transitionDuration: 250,
 };
 
 export const USER_AREA_LAYER_TEMPLATES = {

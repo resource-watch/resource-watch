@@ -320,7 +320,7 @@ export default function MapSelection() {
               renderWorldCopies: false,
             }}
             onMapViewportChange={handleViewport}
-            onHover={handleHover}
+            onMouseMove={handleHover}
             onMapLoad={({ map }) => {
               mapRef.current = map;
             }}

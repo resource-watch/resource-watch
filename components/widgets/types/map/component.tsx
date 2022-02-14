@@ -10,7 +10,7 @@ import {
   LegendItemTypes,
 } from 'vizzuality-components';
 import { useErrorHandler } from 'react-error-boundary';
-import type { ViewportProps } from 'react-map-gl';
+import type { ViewState, MapRef } from 'react-map-gl';
 
 // constants
 import { DEFAULT_VIEWPORT, MAPSTYLES, BASEMAPS, LABELS } from 'components/map/constants';
@@ -55,7 +55,7 @@ export interface MapTypeWidgetProps extends Omit<MapTypeWidgetContainerProps, 'w
   isError: boolean;
   isInACollection?: boolean;
   bounds?: Bounds | null;
-  onFitBoundsChange: (viewport: ViewportProps) => void;
+  onFitBoundsChange: (viewport: ViewState) => void;
 }
 
 const MapTypeWidget = ({
@@ -79,30 +79,38 @@ const MapTypeWidget = ({
     ...mapWidgetInitialState,
     layerGroups,
   });
-  const [viewport, setViewport] = useState<ViewportProps>({
-    ...DEFAULT_VIEWPORT,
-    height: 400,
-  });
+  const [map, setMap] = useState<MapRef>();
+  const [viewport, setViewport] = useState<ViewState>(DEFAULT_VIEWPORT as ViewState);
   const [isInfoWidgetVisible, setInfoWidgetVisibility] = useState(false);
 
-  const handleViewport = useCallback((_viewport: ViewportProps) => {
+  const handleViewport = useCallback((_viewport: ViewState) => {
     setViewport(_viewport);
   }, []);
 
   const handleFitBoundsChange = useCallback(
-    (_viewport: ViewportProps) => {
+    (_viewport: ViewState) => {
       onFitBoundsChange(_viewport);
     },
     [onFitBoundsChange],
   );
 
-  const handleZoom = useCallback((zoom) => {
-    setViewport((prevViewport) => ({
-      ...prevViewport,
-      zoom,
-      transitionDuration: 250,
-    }));
-  }, []);
+  const handleZoom = useCallback(
+    (zoom) => {
+      if (!map) return null;
+
+      map.flyTo({
+        center: [viewport.longitude, viewport.latitude],
+        zoom,
+        duration: 250,
+      });
+      // setViewport((prevViewport) => ({
+      //   ...prevViewport,
+      //   zoom,
+      //   transitionDuration: 250,
+      // }));
+    },
+    [map, viewport],
+  );
 
   const handleInfoToggle = useCallback(() => {
     setInfoWidgetVisibility((infoWidgetVisibility) => !infoWidgetVisibility);
@@ -234,6 +242,9 @@ const MapTypeWidget = ({
               boundaries={boundaries}
               onError={(errorMessage) => {
                 handleError(new Error(errorMessage.error?.message));
+              }}
+              onMapLoad={({ map }) => {
+                setMap(map);
               }}
             >
               {(_map) => <LayerManager map={_map} layers={layers} />}

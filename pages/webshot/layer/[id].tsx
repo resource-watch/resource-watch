@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useMemo, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Image from 'next/image';
-import { StaticMap } from 'react-map-gl';
+import { Map } from 'react-map-gl';
 import LayerManager from 'components/map/layer-manager';
 import type { ViewState } from 'react-map-gl';
 import omit from 'lodash/omit';
@@ -15,7 +15,7 @@ import { fetchLayer } from 'services/layer';
 export interface MapThumbnailProps {
   layer: APILayerSpec;
   basemap?: Basemap;
-  viewState?: ViewState;
+  viewState?: Partial<ViewState>;
   width?: number;
   height?: number;
 }
@@ -122,8 +122,6 @@ export const LayerWebshot = ({
           mapboxApiAccessToken={
             process.env.NEXT_PUBLIC_RW_MAPBOX_API_TOKEN || process.env.STORYBOOK_RW_MAPBOX_API_TOKEN
           }
-          width="100%"
-          height="100%"
           viewState={viewState}
           mapStyle={MAPSTYLES}
           className="mapbox-thumbnail"
@@ -131,7 +129,7 @@ export const LayerWebshot = ({
           attributionControl={false}
           reuseMaps
           preserveDrawingBuffer
-          preventStyleDiffing
+          styleDiffing
         >
           {isLoaded && <LayerManager map={mapRef.current} layers={parsedLayer} />}
         </StaticMap>
