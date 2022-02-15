@@ -1,6 +1,8 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+
+// hooks
+import { useFetchUserData } from 'hooks/user';
 
 // components
 import InView from 'components/in-view';
@@ -32,26 +34,26 @@ const WidgetCardList = (props) => {
     'medium-4': mode === 'grid',
   });
 
+  const { data: userWidgetParametrization } = useFetchUserData({
+    select: (userData) =>
+      userData?.applicationData?.[process.env.NEXT_PUBLIC_APPLICATIONS]?.widgets,
+    placeholderData: {},
+  });
+
   return (
     <div className={componentClass}>
       <ul className="row">
         {widgets.map((widget) => (
-          <li
-            key={widget.id}
-            className={columnClassName}
-          >
-            <InView
-              triggerOnce
-              threshold={0.35}
-            >
+          <li key={widget.id} className={columnClassName}>
+            <InView triggerOnce threshold={0.35}>
               {({ ref, inView }) => (
-                <div
-                  ref={ref}
-                  className="card-container"
-                >
+                <div ref={ref} className="card-container">
                   {inView && (
                     <WidgetCard
                       widget={widget}
+                      {...(userWidgetParametrization?.[widget.id] && {
+                        params: userWidgetParametrization[widget.id],
+                      })}
                       onWidgetClick={onWidgetClick}
                       onWidgetRemove={onWidgetRemove}
                       showActions={showActions}

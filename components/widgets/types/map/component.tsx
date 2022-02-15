@@ -44,9 +44,9 @@ import type { APIWidgetSpec } from 'types/widget';
 import type { LayerGroup, Bounds } from 'components/map/types';
 import type { MapTypeWidgetContainerProps } from './index';
 
-export interface MapTypeWidgetProps
-  extends Omit<MapTypeWidgetContainerProps, 'widgetId' | 'params'> {
+export interface MapTypeWidgetProps extends Omit<MapTypeWidgetContainerProps, 'widgetId'> {
   widget: APIWidgetSpec;
+  shareableParams: Record<string, string | unknown>;
   layerGroups: LayerGroup[];
   // todo: improve typing of layers
   aoiLayer?: Record<string, string | unknown>;
@@ -60,6 +60,7 @@ export interface MapTypeWidgetProps
 
 const MapTypeWidget = ({
   widget,
+  shareableParams,
   layerGroups = [],
   aoiLayer = null,
   maskLayer = null,
@@ -196,6 +197,7 @@ const MapTypeWidget = ({
         <div className="p-4 border border-b-0 rounded-tl rounded-tr border-gray-light">
           <WidgetHeader
             widget={widget}
+            params={shareableParams}
             onToggleInfo={handleInfoToggle}
             onToggleShare={handleShareToggle}
             isInACollection={isInACollection}
