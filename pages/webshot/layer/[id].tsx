@@ -85,7 +85,7 @@ export const LayerWebshot = ({
       window.setTimeout(() => {
         setDataURL(mapRef.current.getCanvas().toDataURL());
         window.WEBSHOT_READY = true;
-      }, 2000);
+      }, 8000);
     }
   }, [basemap, isLoaded, dataURL, handleBasemap]);
 

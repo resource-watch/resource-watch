@@ -1,6 +1,4 @@
-import {
-  useCallback,
-} from 'react';
+import { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Tooltip } from 'vizzuality-components';
@@ -12,48 +10,43 @@ import CollectionsPanel from 'components/collections-panel';
 
 // hooks
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
-import {
-  useMe,
-} from 'hooks/user';
+import { useMe } from 'hooks/user';
 
 // utils
 import { logEvent } from 'utils/analytics';
 
 const MiniExploreDatasetsActions = (props) => {
-  const {
-    dataset,
-    layer,
-    handleAddMap,
-  } = props;
-  const {
-    data: user,
-  } = useMe();
-  const {
-    isInACollection,
-    refetch,
-  } = useBelongsToCollection(dataset.id, user?.token);
+  const { dataset, layer, handleAddMap } = props;
+  const { data: user } = useMe();
+  const { isInACollection, refetch } = useBelongsToCollection(dataset.id, user?.token);
 
-  const handleToggleFavorite = useCallback((isFavorite, resource) => {
-    const datasetName = resource?.metadata[0]?.info?.name;
+  const handleToggleFavorite = useCallback(
+    (isFavorite, resource) => {
+      const datasetName = resource?.metadata[0]?.info?.name;
 
-    if (isFavorite) {
-      logEvent('Mini Explore Menu', 'Add dataset to favorites', datasetName);
-    } else {
-      logEvent('Mini Explore Menu', 'Remove dataset from favorites', datasetName);
-    }
-    refetch();
-  }, [refetch]);
+      if (isFavorite) {
+        logEvent('Mini Explore Menu', 'Add dataset to favorites', datasetName);
+      } else {
+        logEvent('Mini Explore Menu', 'Remove dataset from favorites', datasetName);
+      }
+      refetch();
+    },
+    [refetch],
+  );
 
-  const handleToggleCollection = useCallback((isAdded, resource) => {
-    const datasetName = resource?.metadata[0]?.info?.name;
+  const handleToggleCollection = useCallback(
+    (isAdded, resource) => {
+      const datasetName = resource?.metadata[0]?.info?.name;
 
-    if (isAdded) {
-      logEvent('Mini Explore Menu', 'Add dataset to a collection', datasetName);
-    } else {
-      logEvent('Mini Explore Menu', 'Remove dataset from a collection', datasetName);
-    }
-    refetch();
-  }, [refetch]);
+      if (isAdded) {
+        logEvent('Mini Explore Menu', 'Add dataset to a collection', datasetName);
+      } else {
+        logEvent('Mini Explore Menu', 'Remove dataset from a collection', datasetName);
+      }
+      refetch();
+    },
+    [refetch],
+  );
 
   const userIsLoggedIn = user?.token;
   const datasetName = dataset?.metadata[0]?.info?.name;
@@ -68,11 +61,14 @@ const MiniExploreDatasetsActions = (props) => {
     '-empty': !isInACollection,
   });
 
-  const onHandleMap = useCallback((evt) => {
-    evt.stopPropagation();
-    evt.preventDefault();
-    handleAddMap(dataset, layer);
-  }, [handleAddMap, dataset, layer]);
+  const onHandleMap = useCallback(
+    (evt) => {
+      evt.stopPropagation();
+      evt.preventDefault();
+      handleAddMap(dataset, layer);
+    },
+    [handleAddMap, dataset, layer],
+  );
 
   return (
     <div className="c-datasets-actions">
@@ -101,7 +97,7 @@ const MiniExploreDatasetsActions = (props) => {
         }}
       >
         <Tooltip
-          overlay={(
+          overlay={
             <CollectionsPanel
               resource={dataset}
               resourceType="dataset"
@@ -110,7 +106,7 @@ const MiniExploreDatasetsActions = (props) => {
               onToggleFavorite={handleToggleFavorite}
               onToggleCollection={handleToggleCollection}
             />
-          )}
+          }
           overlayClassName="c-rc-tooltip"
           placement="bottomRight"
           trigger="click"
@@ -125,10 +121,7 @@ const MiniExploreDatasetsActions = (props) => {
               }
             }}
           >
-            <Icon
-              name={starIconName}
-              className={starIconClass}
-            />
+            <Icon name={starIconName} className={starIconClass} />
           </button>
         </Tooltip>
       </LoginRequired>

@@ -61,7 +61,6 @@ export default function OceanWatchCountryProfilePage({ iso }) {
   );
 
   const handleShareWidget = useCallback((_widget) => {
-    debugger;
     setWidgetToShare(_widget);
   }, []);
 
@@ -451,10 +450,10 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                 className="-text-center"
                 bgImage="/static/images/pages/app/banner-coral.jpg"
               >
-                <p className="-claim">Check the Coral Reefs dashboard</p>
+                <p className="-claim">Check out the Coral Reefs dashboards</p>
                 <a
                   className="c-button -alt -primary"
-                  href="https://resourcewatch.org/dashboards/coral-reefs"
+                  href="https://resourcewatch.org/dashboards/coral-reef-dashboards"
                 >
                   Coral Reefs
                 </a>

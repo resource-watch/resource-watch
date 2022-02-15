@@ -6,6 +6,8 @@ import { useMe } from 'hooks/user';
 import { useFetchWidget } from 'hooks/widget';
 
 import EmbedTypeWidget from './component';
+
+// types
 import type { APIWidgetSpec } from 'types/widget';
 
 const CustomErrorFallback = (_props) => (
@@ -44,7 +46,7 @@ const EmbedTypeWidgetContainer = ({
       }}
     >
       <EmbedTypeWidget
-        widget={widget}
+        widget={widget as APIWidgetSpec}
         isFetching={isLoading}
         isInACollection={isInACollection}
         onToggleShare={onToggleShare}

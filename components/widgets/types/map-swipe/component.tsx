@@ -45,6 +45,7 @@ const SwipeTypeWidget = ({
   layerGroupsBySide,
   aoiLayer = null,
   maskLayer = null,
+  params,
   bounds,
   widget,
   style = {},
@@ -149,7 +150,6 @@ const SwipeTypeWidget = ({
     <div
       className={classnames('c-widget', { '-is-embed': isEmbed })}
       style={{
-        height: '100%',
         ...style,
       }}
     >
@@ -157,6 +157,7 @@ const SwipeTypeWidget = ({
         <div className="p-4 border border-b-0 rounded-tl rounded-tr widget-header-container border-gray-light">
           <WidgetHeader
             widget={widget}
+            params={params}
             onToggleInfo={handleInfoToggle}
             onToggleShare={handleShareToggle}
             isInACollection={isInACollection}
@@ -173,17 +174,12 @@ const SwipeTypeWidget = ({
           },
         )}
         style={{
-          height: 400,
+          ...(!isEmbed && { height: 400 }),
         }}
       >
         {isFetching && <Spinner isLoading className="-transparent" />}
 
-        <div
-          className="c-map-comparison"
-          style={{
-            height: '100%',
-          }}
-        >
+        <div className="relative w-full h-full overflow-hidden c-map-comparison">
           <div className="compare-container">
             {!isFetching && !isError && (
               <>

@@ -27,6 +27,7 @@ const ChartType = ({
   widget,
   adapter,
   style,
+  params,
   isEmbed,
   isWebshot,
   isFetching,
@@ -52,6 +53,7 @@ const ChartType = ({
         <div className="p-4 border border-b-0 rounded-tl rounded-tr widget-header-container border-gray-light">
           <WidgetHeader
             widget={widget}
+            params={params}
             onToggleInfo={handleInfoToggle}
             onToggleShare={handleShareToggle}
             isInACollection={isInACollection}
@@ -61,7 +63,7 @@ const ChartType = ({
       )}
 
       <div
-        className="relative flex h-full p-4 overflow-x-auto overflow-y-hidden border widget-container grow border-gray-light"
+        className="relative flex h-full p-4 overflow-x-auto overflow-y-hidden border widget-container border-gray-light"
         style={{
           height: 400,
         }}

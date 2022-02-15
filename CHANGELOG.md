@@ -5,7 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.1.X] - 2022-X-X
+## [3.X.X] - 2022-XX-XX
+### Added
+- custom "no data" for set of indicators. [OW-179](https://vizzuality.atlassian.net/browse/OW-179)
+
+### Changed
+- updates Coral Reefs calls to action. [OW-29](https://vizzuality.atlassian.net/browse/OW-29)
+- `next@12.0.10`
+
+### Fixed
+- my visualizations: fixes PDF download. [OW-125](https://vizzuality.atlassian.net/browse/OW-125)
+- explore: area of interest handling. [RW-120](https://vizzuality.atlassian.net/browse/RW-120)
+
+### Removed
+- reset password page. [RW-72](https://vizzuality.atlassian.net/browse/RW-72)
+
+## [3.4.0] - 2022-01-27
 ### Added
 - interception to handle requests from Global Fishing Watch. [RW-117](https://vizzuality.atlassian.net/browse/RW-117)
 - 'FeatureService' provider for Layer Manager. [RW-114](https://vizzuality.atlassian.net/browse/RW-114)

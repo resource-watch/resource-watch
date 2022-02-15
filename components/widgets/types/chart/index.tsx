@@ -11,11 +11,13 @@ import { getRWAdapter } from 'utils/widget-editor';
 // components
 import Chart from './component';
 import type { CSSProperties } from 'react';
-import { APIWidgetSpec } from 'types/widget';
+
+// types
+import type { APIWidgetSpec } from 'types/widget';
 
 export interface ChartContainerProps {
   widgetId: string;
-  params?: Record<string, string | number | unknown>;
+  params?: Record<string, string | number>;
   onToggleShare: (widget: APIWidgetSpec) => void;
   style?: CSSProperties;
   isEmbed?: boolean;
@@ -49,14 +51,15 @@ const ChartContainer = ({
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
       placeholderData: {},
-      select: (_widget) => getParametrizedWidget(_widget, params, encodeParams),
+      select: (_widget) => getParametrizedWidget(_widget as APIWidgetSpec, params, encodeParams),
     },
   );
 
   return (
     <Chart
-      widget={widget}
+      widget={widget as APIWidgetSpec}
       adapter={RWAdapter}
+      params={params}
       style={style}
       isEmbed={isEmbed}
       isWebshot={isWebshot}
