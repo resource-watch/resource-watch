@@ -24,6 +24,7 @@ import WidgetList from './component';
 
 // helpers
 import { getQueryParams } from './helpers';
+import { useCallback } from 'react';
 
 const WidgetListTabContainer = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -40,12 +41,12 @@ const WidgetListTabContainer = (props) => {
   } = useRouter();
   const subtab = params?.[1] || null;
 
-  const { data: userWidgetParametrization } = useFetchUserData({
+  const { data: userWidgetParametrization, isFetched } = useFetchUserData({
     select: (userData) =>
       userData?.applicationData?.[process.env.NEXT_PUBLIC_APPLICATIONS]?.widgets || {},
   });
 
-  const getWidgets = () => {
+  const getWidgets = useCallback(() => {
     const queryParams = getQueryParams(state, props);
 
     dispatch(
@@ -81,21 +82,17 @@ const WidgetListTabContainer = (props) => {
           }),
         );
       });
-  };
+  }, [userWidgetParametrization, props, state, token]);
 
   useEffect(() => {
-    if (subtab) {
+    if (subtab && isFetched) {
       getWidgets();
     }
-  }, [search, sort, page, subtab]); // eslint-disable-line
+  }, [search, sort, page, subtab, isFetched]); // eslint-disable-line
 
   return (
     <WidgetList
       {...state}
-      routes={{
-        index: 'myrw',
-        detail: 'myrw_detail',
-      }}
       sideTab={subtab}
       handlePageChange={(nextPage) => {
         dispatch(setPagination({ page: nextPage }));

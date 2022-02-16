@@ -19,7 +19,6 @@ class MyRWWidgets extends PureComponent {
   static propTypes = {
     display: PropTypes.oneOf(['grid', 'list']).isRequired,
     sort: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    routes: PropTypes.object.isRequired,
     pagination: PropTypes.object.isRequired,
     widgets: PropTypes.object.isRequired,
     sideTab: PropTypes.string.isRequired,
@@ -41,7 +40,6 @@ class MyRWWidgets extends PureComponent {
       search,
       widgets,
       sort,
-      routes,
       pagination,
       sideTab,
       handlePageChange,
@@ -52,9 +50,7 @@ class MyRWWidgets extends PureComponent {
       handleRefresh,
       thumbnail,
     } = this.props;
-    const {
-      page, size, limit, pages,
-    } = pagination;
+    const { page, size, limit, pages } = pagination;
     const sortIcon = classnames({
       'icon-arrow-up': sort === 'asc',
       'icon-arrow-down': sort !== 'asc',
@@ -63,11 +59,7 @@ class MyRWWidgets extends PureComponent {
     const gridIconClass = classnames({ '-active': display === 'grid' });
     const listIconClass = classnames({ '-active': display === 'list' });
 
-    const {
-      list: _widgets,
-      loading,
-      error,
-    } = widgets;
+    const { list: _widgets, loading, error } = widgets;
 
     return (
       <div className="c-myrw-widgets-list">
@@ -75,16 +67,11 @@ class MyRWWidgets extends PureComponent {
           <div className="row l-row">
             <div className="columns small-12 medium-3">
               <Sticky>
-                {
-                  ({ style }) => (
-                    <div style={style}>
-                      <CollectionListAside
-                        additionalTabs={WIDGET_LIST_SUBTABS}
-                        selected={sideTab}
-                      />
-                    </div>
-                  )
-                }
+                {({ style }) => (
+                  <div style={style}>
+                    <CollectionListAside additionalTabs={WIDGET_LIST_SUBTABS} selected={sideTab} />
+                  </div>
+                )}
               </Sticky>
             </div>
 
@@ -100,7 +87,9 @@ class MyRWWidgets extends PureComponent {
                     route: '/myrw-detail/widgets/new',
                     onlyDesktop: true,
                   }}
-                  onSearch={(value) => { handleSearch(value); }}
+                  onSearch={(value) => {
+                    handleSearch(value);
+                  }}
                 />
                 <div className="row">
                   <div className="column small-12">
@@ -108,13 +97,12 @@ class MyRWWidgets extends PureComponent {
                       <div className="buttons-container">
                         <button
                           className="last-modified-container"
-                          onClick={() => { handleSortChange(); }}
+                          onClick={() => {
+                            handleSortChange();
+                          }}
                         >
                           <a>Last modified</a>
-                          <Icon
-                            className="-small"
-                            name={sortIcon}
-                          />
+                          <Icon className="-small" name={sortIcon} />
                         </button>
                         <div className="mode-buttons">
                           <button
@@ -135,10 +123,7 @@ class MyRWWidgets extends PureComponent {
                       </div>
                     </div>
                     <div className="widget-list-container">
-                      <Spinner
-                        isLoading={loading}
-                        className="-light"
-                      />
+                      <Spinner isLoading={loading} className="-light" />
                       {!loading && (
                         <WidgetCardList
                           widgets={_widgets}
@@ -149,20 +134,24 @@ class MyRWWidgets extends PureComponent {
                           thumbnail={thumbnail}
                         />
                       )}
-                      {(pages > 1) && (
+                      {pages > 1 && (
                         <Paginator
                           options={{
                             size,
                             page,
                             limit,
                           }}
-                          onChange={(nextPage) => { handlePageChange(nextPage); }}
+                          onChange={(nextPage) => {
+                            handlePageChange(nextPage);
+                          }}
                         />
                       )}
-                      {(!_widgets.length && !loading && !error && !search) && (
-                        <div className="user-message-container">You currently have no visualizations</div>
+                      {!_widgets.length && !loading && !error && !search && (
+                        <div className="user-message-container">
+                          You currently have no visualizations
+                        </div>
                       )}
-                      {(!_widgets.length && !loading && !error && search) && (
+                      {!_widgets.length && !loading && !error && search && (
                         <div className="user-message-container">{`Your search '${search}' didn't return any results`}</div>
                       )}
 
@@ -172,7 +161,9 @@ class MyRWWidgets extends PureComponent {
                           <button
                             type="button"
                             className="c-button -underline"
-                            onClick={() => { handleRefresh(); }}
+                            onClick={() => {
+                              handleRefresh();
+                            }}
                           >
                             try again
                           </button>
@@ -183,9 +174,7 @@ class MyRWWidgets extends PureComponent {
                 </div>
                 <div className="c-button-container -j-center c-field-buttons">
                   <Link href="/data/explore">
-                    <a className="c-button -secondary">
-                      Explore Datasets
-                    </a>
+                    <a className="c-button -secondary">Explore Datasets</a>
                   </Link>
                 </div>
               </div>

@@ -144,6 +144,7 @@ const MapTypeWidgetContainer = ({
   // * these params are used to make a shareable URL. See more details about which ones are accepted in utils/embed
   const shareableParams = useMemo(
     () => ({
+      ...params,
       ...(params.geostore_id && {
         aoi: params.geostore_id,
       }),
