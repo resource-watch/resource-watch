@@ -1,7 +1,7 @@
 import { getWidgetType } from 'utils/widget';
 
 // these list are used to populate the query params of the embed URLS according to the widget type
-const ALLOWED_QUERY_PARAMS_MAP_WIDGETS = ['aoi', 'type'];
+const ALLOWED_QUERY_PARAMS_MAP_WIDGETS = ['aoi', 'type', 'geostore_env', 'geostore_id'];
 
 const ALLOWED_QUERY_PARAMS_MAPS_SWIPE_WIDGETS = ['aoi', 'type', 'geostore_env', 'geostore_id'];
 
