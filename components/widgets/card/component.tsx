@@ -1,6 +1,5 @@
 import { useReducer, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/router';
-import truncate from 'lodash/truncate';
 import classnames from 'classnames';
 import { toastr } from 'react-redux-toastr';
 import { Tooltip } from 'vizzuality-components';
@@ -20,15 +19,12 @@ import { getLinksByWidgetType } from 'utils/embed';
 import { logEvent } from 'utils/analytics';
 
 // constants
-import { MAPSTYLES } from 'components/map/constants';
 import { INITIAL_STATE, REDUCER } from 'components/widgets/card/reducer';
 
 // components
 import Title from 'components/ui/Title';
 import Icon from 'components/ui/icon';
 import Spinner from 'components/ui/Spinner';
-import Map from 'components/map';
-import LayerManager from 'components/map/layer-manager';
 import LoginRequired from 'components/ui/login-required';
 import CollectionsPanel from 'components/collections-panel';
 import WidgetChart from 'components/charts/widget-chart';
@@ -44,7 +40,6 @@ import type { APIWidgetSpec } from 'types/widget';
 export interface WidgetCardProps {
   widget: APIWidgetSpec;
   mode: 'grid' | 'list';
-  limitChar?: number;
   showActions?: boolean;
   showEmbed?: boolean;
   showRemove?: boolean;
@@ -61,7 +56,6 @@ export interface WidgetCardProps {
 const WidgetCard = ({
   widget,
   mode,
-  limitChar = 70,
   showActions = false,
   showEmbed = false,
   showRemove = false,
@@ -76,7 +70,7 @@ const WidgetCard = ({
 }: WidgetCardProps): JSX.Element => {
   const router = useRouter();
   const [state, dispatch] = useReducer(REDUCER, INITIAL_STATE);
-  const { loading, mapLoading, layer, error, tooltip } = state;
+  const { loading, layer, error, tooltip } = state;
   const { data: user } = useMe();
   const { isInACollection } = useBelongsToCollection(widget.id, user?.token);
   const widgetType = useMemo(() => getWidgetType(widget), [widget]);
@@ -178,20 +172,16 @@ const WidgetCard = ({
   };
 
   const getWidgetPreview = () => {
-    if (!widget) return null;
-
-    if (loading || (!layer && isMapWidget(widget.widgetConfig))) {
-      return (
-        <div className={`c-widget-chart -${mode} -map`}>
-          <Spinner className="-light" isLoading />
-        </div>
-      );
+    if (loading) {
+      return <Spinner className="-light" isLoading />;
     }
 
-    if (error) {
-      toastr.error('Error', error);
-      // TODO: Correctly show the UI
-      return null;
+    if (error || !widget) {
+      return (
+        <div className="flex items-center justify-center h-full">
+          <span className="text-gray">Preview not available</span>
+        </div>
+      );
     }
 
     // If the widget is an embedded page, we render a
@@ -218,51 +208,8 @@ const WidgetCard = ({
       );
     }
 
-    // If the widget is a map, we render the correct component
     if (isMapWidget(widget.widgetConfig)) {
-      // We render the thumbnail of a map
-      if (mode === 'grid') {
-        return <MapThumbnail layer={layer} />;
-      }
-
-      const {
-        widgetConfig: { basemapLayers, bbox },
-      } = widget;
-      const { basemap, boundaries, labels } = basemapLayers;
-
-      return (
-        <div className="c-widget-chart -map">
-          <Spinner isLoading={mapLoading} className="-light" />
-          <Map
-            interactiveLayerIds={[]}
-            mapStyle={MAPSTYLES}
-            bounds={{
-              bbox,
-              options: {},
-            }}
-            basemap={basemap}
-            labels={labels}
-            boundaries={boundaries}
-            reuseMaps
-            visible={!mapLoading}
-            dragPan={false}
-            dragRotate={false}
-            scrollZoom={false}
-            doubleClickZoom={false}
-            touchRotate={false}
-            onMapLoad={({ map }) => {
-              map.on('render', () => {
-                if (map.areTilesLoaded()) {
-                  dispatch({ type: 'WIDGET-CARD/SET_MAP_LOADING', payload: false });
-                  map.off('render');
-                }
-              });
-            }}
-          >
-            {(_map) => <LayerManager map={_map} layers={[layer]} />}
-          </Map>
-        </div>
-      );
+      return <MapThumbnail layer={layer} />;
     }
 
     // If the widget is a textual one, it's rendered differently
@@ -307,11 +254,8 @@ const WidgetCard = ({
       <div className="widget-preview">{getWidgetPreview()}</div>
       <div className="info">
         <div className="detail">
-          {/* Title */}
-          <Title className="-default -primary">{widget.name}</Title>
-          <p>
-            {truncate(widget.description, { length: limitChar, separator: ' ', omission: '...' })}
-          </p>
+          <Title className="-default -primary line-clamp-3">{widget.name}</Title>
+          <p className="line-clamp-4">{widget.description}</p>
           {showFavorite && (
             <LoginRequired>
               <Tooltip
