@@ -23,17 +23,6 @@ const WidgetCardList = (props) => {
     clickable,
   } = props;
 
-  const componentClass = classnames({
-    'c-widget-list': true,
-    [className]: !!className,
-  });
-
-  const columnClassName = classnames({
-    column: true,
-    'small-12': true,
-    'medium-4': mode === 'grid',
-  });
-
   const { data: userWidgetParametrization } = useFetchUserData({
     select: (userData) =>
       userData?.applicationData?.[process.env.NEXT_PUBLIC_APPLICATIONS]?.widgets,
@@ -41,13 +30,22 @@ const WidgetCardList = (props) => {
   });
 
   return (
-    <div className={componentClass}>
+    <div
+      className={classnames('-mt-5', {
+        [className]: !!className,
+      })}
+    >
       <ul className="row">
         {widgets.map((widget) => (
-          <li key={widget.id} className={columnClassName}>
+          <li
+            key={widget.id}
+            className={classnames('column small-12 mt-5', {
+              'medium-4': mode === 'grid',
+            })}
+          >
             <InView triggerOnce threshold={0.35}>
               {({ ref, inView }) => (
-                <div ref={ref} className="card-container">
+                <div ref={ref} className="flex h-full">
                   {inView && (
                     <WidgetCard
                       widget={widget}
