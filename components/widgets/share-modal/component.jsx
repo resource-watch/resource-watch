@@ -32,6 +32,7 @@ export default function WidgetShareModal({ isVisible, onClose, widget, params })
       const { widgetThumbnail } = await takeWidgetWebshot(widget.id, {
         type: widgetType,
         ...params,
+        height: 400,
       });
 
       if (widgetThumbnail) {
