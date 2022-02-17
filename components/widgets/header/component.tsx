@@ -42,8 +42,11 @@ export default function WidgetHeader({
       // data user are linked to user accounts but are not the same thing,
       // so we must create a data user instance if it doesn't exist before
       if (error.message === 'User not found') {
+        const splitName = user.name.split(' ');
         const userObject: User = {
-          ...pick(user, ['email', 'name']),
+          ...pick(user, ['email']),
+          firstName: splitName[0],
+          ...(splitName[1] && { lastName: splitName[1] }),
           applicationData: {
             [process.env.NEXT_PUBLIC_APPLICATIONS]: {},
           },
