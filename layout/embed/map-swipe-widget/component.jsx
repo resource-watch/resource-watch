@@ -1,8 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 
@@ -11,20 +7,19 @@ import LayoutEmbed from 'layout/layout/layout-embed';
 import SwipeMapWidget from 'components/widgets/types/map-swipe';
 import PoweredBy from 'components/embed/powered-by';
 
+// hooks
+import { useGeostore } from 'hooks/geostore';
+
 // utils
 import { isLoadedExternally } from 'utils/embed';
 
-const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), { ssr: false });
+const WidgetShareModal = dynamic(() => import('../../../components/widgets/share-modal'), {
+  ssr: false,
+});
 
 const isExternal = isLoadedExternally();
 
-export default function LayoutEmbedMapWidget({
-  widget,
-  widgetId,
-  aoi,
-  params,
-  isWebshot,
-}) {
+export default function LayoutEmbedMapWidget({ widget, widgetId, aoi, params, isWebshot }) {
   const [widgetToShare, setWidgetToShare] = useState(null);
 
   const handleShareWidget = useCallback((_widget) => {
@@ -34,6 +29,24 @@ export default function LayoutEmbedMapWidget({
   const handleCloseShareWidget = useCallback(() => {
     setWidgetToShare(null);
   }, []);
+
+  const { data: geostoreProperties } = useGeostore(
+    params?.geostore_id || params?.aoi,
+    {},
+    {
+      enabled: Boolean(params?.geostore_id || params?.aoi),
+      select: (geostore) => {
+        if (!geostore) return {};
+        return geostore.geojson.features[0].properties || {};
+      },
+      placeholderData: null,
+    },
+  );
+
+  const updatedParams = useMemo(
+    () => ({ ...params, ...geostoreProperties }),
+    [params, geostoreProperties],
+  );
 
   useEffect(() => {
     if (!isWebshot) return null;
@@ -53,29 +66,27 @@ export default function LayoutEmbedMapWidget({
     <LayoutEmbed
       title={widget?.name}
       description={`${widget?.description || ''}`}
-      {...widget?.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl }}
+      {...(widget?.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl })}
     >
       <div className="c-embed-widget widget-content">
         <SwipeMapWidget
           widgetId={widgetId}
           isEmbed
           onToggleShare={handleShareWidget}
-          {...aoi && { areaOfInterest: aoi }}
-          {...isWebshot && { isWebshot: true }}
-          params={params}
+          {...(aoi && { areaOfInterest: aoi })}
+          {...(isWebshot && { isWebshot: true })}
+          params={updatedParams}
         />
 
-        {((isExternal && !isWebshot)) && (
-          <PoweredBy />
-        )}
+        {isExternal && !isWebshot && <PoweredBy />}
       </div>
-      {(!!widgetToShare) && (
+      {!!widgetToShare && (
         <WidgetShareModal
           isVisible
           widget={widgetToShare}
           onClose={handleCloseShareWidget}
           params={{
-            ...aoi && { aoi },
+            ...(aoi && { aoi }),
             ...params,
           }}
         />
