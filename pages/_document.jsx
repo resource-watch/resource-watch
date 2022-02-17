@@ -1,5 +1,4 @@
 import Document, { Html, Main, NextScript, Head } from 'next/document';
-import Script from 'next/script';
 
 // lib
 import { mediaStyles } from 'lib/media';
@@ -11,6 +10,10 @@ export default class MyDocument extends Document {
         <Head>
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta name="author" content="Vizzuality" />
+          {/* disables robots crawling for staging and preproduction sites */}
+          {process.env.NEXTAUTH_URL !== 'https://resourcewatch.org' && (
+            <meta name="robots" content="noindex, nofollow" />
+          )}
           <link rel="icon" href="/favicon.ico" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
@@ -34,11 +37,6 @@ export default class MyDocument extends Document {
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:site" content="@resource_watch" />
           <meta property="fb:app_id" content="Resource Watch" />
-
-          {/* Google API */}
-          <Script
-            src={`https://maps.googleapis.com/maps/api/js?v=weekly&key=${process.env.NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER}&libraries=places`}
-          />
 
           <style
             type="text/css"
