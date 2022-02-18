@@ -17,7 +17,6 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap"
             rel="stylesheet"
           />
-          <link rel="stylesheet" media="screen" href="/static/styles/add-search-results.css" />
 
           {/* Mobile address background */}
           {/* Chrome, Firefox OS and Opera */}
