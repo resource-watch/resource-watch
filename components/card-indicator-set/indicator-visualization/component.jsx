@@ -199,6 +199,7 @@ export default function IndicatorVisualization({
                 >
                   <WidgetHeader
                     widget={mainWidget}
+                    params={params}
                     onToggleInfo={handleToggleInfo}
                     isInfoVisible={isInfoVisible}
                     isInACollection={isInACollection}

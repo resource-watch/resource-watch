@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.X.X] - 2022-XX-XX
 ### Added
+- geostore names to widget titles.
 - custom "no data" for set of indicators. [OW-179](https://vizzuality.atlassian.net/browse/OW-179)
 
 ### Changed

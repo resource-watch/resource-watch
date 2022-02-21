@@ -5,6 +5,7 @@ import { toastr } from 'react-redux-toastr';
 import { Tooltip } from 'vizzuality-components';
 import { saveAs } from 'file-saver';
 import dateFnsFormat from 'date-fns/format';
+import { replace } from '@vizzuality/layer-manager-utils';
 
 // services
 import { deleteWidget } from 'services/widget';
@@ -32,7 +33,10 @@ import MapThumbnail from 'components/map/thumbnail';
 import ShareModal from 'components/modal/share-modal';
 import TextChart from 'components/widgets/charts/TextChart';
 import WidgetActionsTooltip from './tooltip';
+
+// hooks
 import { useMe } from 'hooks/user';
+import { useGeostore } from 'hooks/geostore';
 
 // types
 import type { APIWidgetSpec } from 'types/widget';
@@ -238,6 +242,24 @@ const WidgetCard = ({
   const widgetLinks = useMemo(() => widget?.metadata?.[0]?.info?.widgetLinks || [], [widget]);
   const isWidgetOwner = useMemo(() => widget.userId === user?.id, [widget, user]);
 
+  const { data: geostoreProperties } = useGeostore(
+    params?.geostore_id || params?.aoi,
+    {},
+    {
+      enabled: Boolean(params?.geostore_id || params?.aoi),
+      select: (geostore) => {
+        if (!geostore) return {};
+        return geostore.geojson.features[0].properties || {};
+      },
+      placeholderData: null,
+    },
+  );
+
+  const widgetName = useMemo(() => {
+    if (!geostoreProperties) return widget.name;
+    return replace(widget.name, geostoreProperties);
+  }, [widget, geostoreProperties]);
+
   return (
     <div
       className={classnames({
@@ -254,7 +276,7 @@ const WidgetCard = ({
       <div className="widget-preview">{getWidgetPreview()}</div>
       <div className="info">
         <div className="detail">
-          <Title className="-default -primary line-clamp-3">{widget.name}</Title>
+          <Title className="-default -primary line-clamp-3">{widgetName}</Title>
           <p className="line-clamp-4">{widget.description}</p>
           {showFavorite && (
             <LoginRequired>

@@ -15,7 +15,7 @@ import { getWidgetType } from 'utils/widget';
 
 // types
 import type { APIWidgetSpec } from 'types/widget';
-import useGeostore from 'hooks/geostore';
+import { useGeostore } from 'hooks/geostore';
 
 export interface LayoutWidgetDetailProps {
   widget: APIWidgetSpec;
