@@ -30,9 +30,6 @@ const LoginRequired = ({ clickCallback = null, children }: LoginRequiredProps): 
     setVisibility(false);
   }, []);
 
-  // * the LoginModal component uses Next's routing, we will avoid it while Storybook is running
-  if (process.env.STORYBOOK_RUNNING) return children;
-
   return user ? (
     children
   ) : (
