@@ -1,6 +1,4 @@
-import {
-  useState,
-} from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import WidgetHeader from './component';
@@ -19,10 +17,14 @@ const Template = (args) => {
     <>
       <WidgetHeader
         {...args}
-        onToggleShare={() => { setVisibilityWidgetShareModal(true); }}
+        onToggleShare={() => {
+          setVisibilityWidgetShareModal(true);
+        }}
       />
       <WidgetShareModal
-        onClose={() => { setVisibilityWidgetShareModal(false); }}
+        onClose={() => {
+          setVisibilityWidgetShareModal(false);
+        }}
         isVisible={isWidgetShareModalVisible}
         widget={args.widget}
       />
@@ -45,9 +47,7 @@ const widget = {
   description: '',
   source: '',
   authors: '',
-  application: [
-    'rw',
-  ],
+  application: ['rw'],
   verified: false,
   default: true,
   protected: false,
@@ -66,5 +66,7 @@ Default.args = {
   widget,
   isInACollection: false,
   // eslint-disable-next-line no-console
-  onToggleInfo: (evt) => { console.info(evt); },
+  onToggleInfo: (evt) => {
+    console.info(evt);
+  },
 };

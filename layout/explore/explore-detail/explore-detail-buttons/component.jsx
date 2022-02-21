@@ -1,7 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-} from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 // components
@@ -15,89 +12,66 @@ import Icon from 'components/ui/icon';
 import { getLabel } from 'utils/datasets/dataset-helpers';
 import { logEvent } from 'utils/analytics';
 
-const ExploreDetailButtons = ({
-  dataset,
-}) => {
+const ExploreDetailButtons = ({ dataset }) => {
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
 
   const { metadata, subscribable } = dataset;
   const { info } = metadata[0];
   const isSubscribable = subscribable && Object.keys(subscribable).length > 0;
 
-  const handleDownloadSource = useCallback(() => { logEvent('Explore', 'Download data from source', getLabel(dataset)); }, [dataset]);
-  const handleDownload = useCallback(() => { logEvent('Explore', 'Download data', getLabel(dataset)); }, [dataset]);
-  const handleLearnMore = useCallback(() => { logEvent('Explore', 'Click to data provider', getLabel(dataset)); }, [dataset]);
-  const openSubscribeModal = useCallback(() => { setShowSubscribeModal(true); }, []);
-  const closeSubscribeModal = useCallback(() => { setShowSubscribeModal(false); }, []);
+  const handleDownloadSource = useCallback(() => {
+    logEvent('Explore', 'Download data from source', getLabel(dataset));
+  }, [dataset]);
+  const handleDownload = useCallback(() => {
+    logEvent('Explore', 'Download data', getLabel(dataset));
+  }, [dataset]);
+  const handleLearnMore = useCallback(() => {
+    logEvent('Explore', 'Click to data provider', getLabel(dataset));
+  }, [dataset]);
+  const openSubscribeModal = useCallback(() => {
+    setShowSubscribeModal(true);
+  }, []);
+  const closeSubscribeModal = useCallback(() => {
+    setShowSubscribeModal(false);
+  }, []);
 
   return (
     <div className="c-explore-detail-buttons">
       <div className="dataset-actions">
         {info.data_download_original_link && (
-          <ProminentButton
-            isLink
-            onClick={handleDownloadSource}
-          >
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href={info.data_download_original_link}
-            >
+          <ProminentButton isLink onClick={handleDownloadSource}>
+            <a target="_blank" rel="noopener noreferrer" href={info.data_download_original_link}>
               <Icon name="icon-download" />
-              <span>
-                download from source
-              </span>
+              <span>download from source</span>
             </a>
-
           </ProminentButton>
         )}
         {info.data_download_link && (
-          <ProminentButton
-            isLink
-            onClick={handleDownload}
-          >
+          <ProminentButton isLink onClick={handleDownload}>
             <a href={info.data_download_link}>
               <Icon name="icon-download" />
-              <span>
-                download
-              </span>
+              <span>download</span>
             </a>
           </ProminentButton>
         )}
         {info.learn_more_link && (
-          <ProminentButton
-            isLink
-            onClick={handleLearnMore}
-          >
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href={info.learn_more_link}
-            >
+          <ProminentButton isLink onClick={handleLearnMore}>
+            <a target="_blank" rel="noopener noreferrer" href={info.learn_more_link}>
               <Icon name="icon-learn-more" />
-              <span>
-                learn more from source
-              </span>
+              <span>learn more from source</span>
             </a>
           </ProminentButton>
         )}
         {isSubscribable && (
-          <LoginRequired redirect={false}>
-            <ProminentButton
-              onClick={openSubscribeModal}
-            >
+          <LoginRequired>
+            <ProminentButton onClick={openSubscribeModal}>
               <Icon name="icon-subscription" />
-              <span>
-                subscribe to alerts
-              </span>
+              <span>subscribe to alerts</span>
             </ProminentButton>
           </LoginRequired>
         )}
       </div>
-      <Modal
-        isOpen={showSubscribeModal}
-        onRequestClose={closeSubscribeModal}
-      >
+      <Modal isOpen={showSubscribeModal} onRequestClose={closeSubscribeModal}>
         <DatasetSubscriptionsModal
           onRequestClose={closeSubscribeModal}
           dataset={{ ...dataset, metadata: metadata[0] }}
