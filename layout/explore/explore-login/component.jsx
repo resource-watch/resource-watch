@@ -5,16 +5,11 @@ import LoginRequired from 'components/ui/login-required';
 const ExploreLogin = () => (
   <div className="c-explore-login">
     <CardPlaceholder />
-    <LoginRequired redirect={false}>
+    <LoginRequired>
       <div className="card-login">
         <h4>Log in or create a free account to access advanced features</h4>
-        <p>
-          Save your favorite data, create customized collections, and more.
-        </p>
-        <button
-          type="button"
-          className="c-button -primary -compressed"
-        >
+        <p>Save your favorite data, create customized collections, and more.</p>
+        <button type="button" className="c-button -primary -compressed">
           Log in
         </button>
       </div>

@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Tooltip } from 'vizzuality-components';
 import pick from 'lodash/pick';
@@ -21,7 +20,7 @@ export default function WidgetHeader({
   isInACollection,
   onToggleInfo,
   onToggleShare,
-  isInfoVisible,
+  isInfoVisible = false,
 }) {
   const starIconName = classnames({
     'icon-star-full': isInACollection,
@@ -97,7 +96,7 @@ export default function WidgetHeader({
               </button>
             </li>
             <li>
-              <LoginRequired redirect={false}>
+              <LoginRequired>
                 <Tooltip
                   overlay={
                     <CollectionsPanel
@@ -129,21 +128,3 @@ export default function WidgetHeader({
     </header>
   );
 }
-
-WidgetHeader.defaultProps = {
-  isInfoVisible: false,
-};
-
-WidgetHeader.propTypes = {
-  widget: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    widgetConfig: PropTypes.shape({
-      type: PropTypes.string,
-    }),
-  }).isRequired,
-  isInACollection: PropTypes.bool.isRequired,
-  isInfoVisible: PropTypes.bool,
-  onToggleInfo: PropTypes.func.isRequired,
-  onToggleShare: PropTypes.func.isRequired,
-};
