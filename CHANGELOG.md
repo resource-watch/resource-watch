@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - custom "no data" for set of indicators. [OW-179](https://vizzuality.atlassian.net/browse/OW-179)
 
 ### Changed
+- updates `eslint@8.9.0` and other linters and plugins.
 - `next@12.1.0`
 - disables robot crawling for staging and preproduction sites.
 - updates Coral Reefs calls to action. [OW-29](https://vizzuality.atlassian.net/browse/OW-29)
