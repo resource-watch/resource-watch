@@ -10,6 +10,10 @@ export default class MyDocument extends Document {
         <Head>
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta name="author" content="Vizzuality" />
+          {/* disables robots crawling for staging and preproduction sites */}
+          {process.env.NEXTAUTH_URL !== 'https://resourcewatch.org' && (
+            <meta name="robots" content="noindex, nofollow" />
+          )}
           <link rel="icon" href="/favicon.ico" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
