@@ -63,15 +63,7 @@ const MapTypeWidgetContainer = ({
     {
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
-      select: (_widget) =>
-        getParametrizedWidget(
-          {
-            ..._widget,
-            name: `${_widget.name} in {{geostore_country_name}}`,
-          } as APIWidgetSpec,
-          params,
-          false,
-        ),
+      select: (_widget) => getParametrizedWidget(_widget as APIWidgetSpec, params, false),
       placeholderData: {},
     },
   );
