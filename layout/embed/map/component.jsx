@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 
@@ -6,6 +6,9 @@ import dynamic from 'next/dynamic';
 import LayoutEmbed from 'layout/layout/layout-embed';
 import MapWidget from 'components/widgets/types/map';
 import PoweredBy from 'components/embed/powered-by';
+
+// hooks
+import { useGeostore } from 'hooks/geostore';
 
 // utils
 import { isLoadedExternally } from 'utils/embed';
@@ -41,6 +44,24 @@ export default function LayoutEmbedMap({ widget, widgetId, aoi, params, isWebsho
     };
   }, [isWebshot]);
 
+  const { data: geostoreProperties } = useGeostore(
+    params?.geostore_id || aoi,
+    {},
+    {
+      enabled: Boolean(params?.geostore_id || aoi),
+      select: (geostore) => {
+        if (!geostore) return {};
+        return geostore.geojson.features[0].properties || {};
+      },
+      placeholderData: null,
+    },
+  );
+
+  const updatedParams = useMemo(
+    () => ({ ...params, ...geostoreProperties }),
+    [params, geostoreProperties],
+  );
+
   return (
     <LayoutEmbed
       title={widget?.name}
@@ -54,7 +75,7 @@ export default function LayoutEmbedMap({ widget, widgetId, aoi, params, isWebsho
           onToggleShare={handleShareWidget}
           {...(aoi && { areaOfInterest: aoi })}
           {...(isWebshot && { isWebshot: true })}
-          params={params}
+          params={updatedParams}
         />
 
         {isExternal && !isWebshot && <PoweredBy />}

@@ -13,6 +13,7 @@ import { useMe } from 'hooks/user';
 
 // utils
 import { getAoiLayer, getMaskLayer, getLayerGroups } from 'utils/layers';
+import { getParametrizedWidget } from 'utils/widget';
 
 // components
 import ErrorFallback from 'components/error-fallback';
@@ -28,7 +29,7 @@ const CustomErrorFallback = (_props) => (
 
 export interface MapTypeWidgetContainerProps {
   widgetId: string;
-  params?: Record<string, string | number | unknown>;
+  params?: Record<string, string | number>;
   style?: CSSProperties;
   isEmbed?: boolean;
   isWebshot?: boolean;
@@ -62,6 +63,15 @@ const MapTypeWidgetContainer = ({
     {
       enabled: !!widgetId,
       refetchOnWindowFocus: false,
+      select: (_widget) =>
+        getParametrizedWidget(
+          {
+            ..._widget,
+            name: `${_widget.name} in {{geostore_country_name}}`,
+          } as APIWidgetSpec,
+          params,
+          false,
+        ),
       placeholderData: {},
     },
   );
