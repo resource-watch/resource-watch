@@ -1,10 +1,13 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
 import ChartWidget from 'components/widgets/types/chart';
 import PoweredBy from 'components/embed/powered-by';
+
+// hooks
+import { useGeostore } from 'hooks/geostore';
 
 import { isLoadedExternally } from 'utils/embed';
 import { APIWidgetSpec } from 'types/widget';
@@ -38,6 +41,19 @@ const LayoutEmbedWidget = ({
     setWidgetToShare(null);
   }, []);
 
+  const { data: geostoreProperties } = useGeostore(
+    params.geostore_id as string,
+    {},
+    {
+      enabled: Boolean(params.geostore_id),
+      select: (geostore) => {
+        if (!geostore) return {};
+        return geostore.geojson.features[0].properties || {};
+      },
+      placeholderData: null,
+    },
+  );
+
   useEffect(() => {
     // see https://resource-watch.github.io/doc-api/reference.html#isWebshot
     // it waits until 2 seconds to notify is ready to screenshot
@@ -50,6 +66,11 @@ const LayoutEmbedWidget = ({
     };
   }, []);
 
+  const updatedParams = useMemo(
+    () => ({ ...params, ...(geostoreProperties as Record<string, string | number>) }),
+    [params, geostoreProperties],
+  );
+
   return (
     <LayoutEmbed
       title={widget.name}
@@ -59,7 +80,7 @@ const LayoutEmbedWidget = ({
       <div className="c-embed-widget widget-content">
         <ChartWidget
           widgetId={widgetId}
-          params={params}
+          params={updatedParams}
           encodeParams={false}
           onToggleShare={handleShareWidget}
           isEmbed

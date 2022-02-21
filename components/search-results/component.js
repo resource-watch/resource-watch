@@ -23,16 +23,14 @@ class SearchResults extends PureComponent {
     router: PropTypes.shape({
       replace: PropTypes.func.isRequired,
     }).isRequired,
-  }
+  };
 
-  static defaultProps = { headerSearch: false }
+  static defaultProps = { headerSearch: false };
 
   onChangePage = (page) => {
     const {
       setSearchPage,
-      search: {
-        term,
-      },
+      search: { term },
       router,
     } = this.props;
 
@@ -50,51 +48,41 @@ class SearchResults extends PureComponent {
         shallow: true,
       },
     );
-  }
+  };
 
   render() {
     const {
-      search: {
-        term, list, total, page, limit, loading, selected,
-      },
+      search: { term, list, total, page, limit, loading, selected },
       headerSearch,
     } = this.props;
-    const searchListClass = classnames(
-      'c-search-list',
-      { 'c-search-list--header': headerSearch },
-    );
+    const searchListClass = classnames('c-search-list', { 'c-search-list--header': headerSearch });
     const showPagination = !!total && total > limit && !loading && list.length > 0;
-    const noResults = ((!term) || !total) && term.length !== 0 && !loading;
+    const noResults = (!term || !total) && term.length !== 0 && !loading;
 
     return (
       <div className={searchListClass}>
-        {term && list.length > 0
-          && (
+        {term && list.length > 0 && (
           <ul className="search-list">
             {list.map((l, k) => (
               <li
                 key={l.id}
-                className={`search-list-item ${k === (selected - 1) ? 'search-list-item--selected' : null}`}
+                className={`search-list-item ${
+                  k === selected - 1 ? 'search-list-item--selected' : null
+                }`}
               >
                 <Title className="-default">
-                  <a href={l.url}>
-                    {l.title}
-                  </a>
+                  <a href={l.url}>{l.title}</a>
                 </Title>
 
-                <div
-                  className="highlight"
-                  dangerouslySetInnerHTML={{ __html: l.highlight }}
-                />
+                <div className="highlight" dangerouslySetInnerHTML={{ __html: l.highlight }} />
               </li>
             ))}
           </ul>
-          )}
+        )}
 
-        {noResults && (<p className="c-search-list--empty">No results</p>)}
+        {noResults && <p className="py-3 text-center text-gray">No results</p>}
 
-        {!headerSearch && showPagination
-          && (
+        {!headerSearch && showPagination && (
           <Paginator
             options={{
               size: total,
@@ -103,7 +91,7 @@ class SearchResults extends PureComponent {
             }}
             onChange={this.onChangePage}
           />
-          )}
+        )}
       </div>
     );
   }

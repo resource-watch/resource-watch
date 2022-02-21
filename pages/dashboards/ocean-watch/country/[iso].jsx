@@ -31,6 +31,7 @@ import Banner from 'components/app/common/Banner';
 
 // hooks
 import { useOceanWatchAreas } from 'hooks/ocean-watch';
+import { useGeostore } from 'hooks/geostore';
 
 // services
 import { fetchConfigFile, fetchOceanWatchAreas } from 'services/ocean-watch';
@@ -124,6 +125,19 @@ export default function OceanWatchCountryProfilePage({ iso }) {
 
   const area = useMemo(() => areas.find(({ iso: areaId }) => iso === areaId), [areas, iso]);
 
+  const { data: geostoreProperties } = useGeostore(
+    area?.geostore,
+    {},
+    {
+      enabled: Boolean(area?.geostore),
+      select: (geostore) => {
+        if (!geostore) return {};
+        return geostore.geojson.features[0].properties || {};
+      },
+      placeholderData: {},
+    },
+  );
+
   const areaOptions = useMemo(
     () =>
       areas.map(({ name: label, iso: value }) => ({
@@ -190,6 +204,7 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                   params={{
                     ...(area?.geostore && { geostore_id: area.geostore }),
                     geostore_env: 'geostore_prod',
+                    ...geostoreProperties,
                   }}
                   theme={indicatorSetConfiguration.config?.theme}
                 >
@@ -310,6 +325,7 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                         params={{
                                           geostore_env: 'geostore_prod',
                                           ...(area?.geostore && { geostore_id: area.geostore }),
+                                          ...geostoreProperties,
                                         }}
                                       />
                                     )}
@@ -332,6 +348,7 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                         params={{
                                           geostore_env: 'geostore_prod',
                                           ...(area?.geostore && { geostore_id: area.geostore }),
+                                          ...geostoreProperties,
                                         }}
                                         {...(area?.geostore && { areaOfInterest: area.geostore })}
                                         onToggleShare={handleShareWidget}
@@ -356,6 +373,7 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                         params={{
                                           geostore_env: 'geostore_prod',
                                           ...(area?.geostore && { geostore_id: area.geostore }),
+                                          ...geostoreProperties,
                                         }}
                                         {...(area?.geostore && { areaOfInterest: area.geostore })}
                                         onToggleShare={handleShareWidget}
@@ -381,6 +399,7 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                         params={{
                                           ...(area?.geostore && { geostore_id: area.geostore }),
                                           geostore_env: 'geostore_prod',
+                                          ...geostoreProperties,
                                         }}
                                         onToggleShare={handleShareWidget}
                                       />
@@ -399,6 +418,7 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                         params={{
                                           geostore_env: 'geostore_prod',
                                           ...(area?.geostore && { geostore_id: area.geostore }),
+                                          ...geostoreProperties,
                                         }}
                                         theme={blockElement?.config?.theme}
                                       >
@@ -422,6 +442,7 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                                 ...(area?.geostore && {
                                                   geostore_id: area.geostore,
                                                 }),
+                                                ...geostoreProperties,
                                               }}
                                             />
                                           ),
