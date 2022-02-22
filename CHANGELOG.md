@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.4.0] - 2022-01-27
 ### Added
+- support for attributions in maps. [RW-77](https://vizzuality.atlassian.net/browse/RW-77)
 - interception to handle requests from Global Fishing Watch. [RW-117](https://vizzuality.atlassian.net/browse/RW-117)
 - 'FeatureService' provider for Layer Manager. [RW-114](https://vizzuality.atlassian.net/browse/RW-114)
 - `WMS` provider for Layer Manager. [RW-113](https://vizzuality.atlassian.net/browse/RW-113)
