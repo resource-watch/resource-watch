@@ -86,7 +86,7 @@ const SwipeTypeWidget = ({
 
   const handleFitBoundsChange = useCallback(
     (_viewport) => {
-      onFitBoundsChange(_viewport);
+      if (onFitBoundsChange) onFitBoundsChange(_viewport);
     },
     [onFitBoundsChange],
   );

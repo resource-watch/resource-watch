@@ -126,36 +126,75 @@ const widget = {
         'fe6315f7-e208-441d-9193-9dee6499b349',
       ],
       mask: {
-        account: 'wri-rw',
-        body: {
-          layers: [
-            {
-              type: 'mapnik',
-              options: {
-                sql: "SELECT cartodb_id, the_geom_webmercator, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}' )) as intersect FROM 'wri-rw'.wat_068_rw0_watersheds_edit WHERE level = 3",
-              },
+        layerConfig: {
+          type: 'vector',
+          source: {
+            type: 'vector',
+            promoteId: 'cartodb_id',
+            provider: {
+              type: 'carto',
+              account: 'wri-rw',
+              layers: [
+                {
+                  options: {
+                    sql: "SELECT cartodb_id, the_geom_webmercator, coast, st_intersects(the_geom, (select the_geom from gadm36_0 where {{geostore_env}} = '{{geostore_id}}')) as intersect, geostore_staging, geostore_prod FROM wat_068_rw0_watersheds_edit WHERE level = 5",
+                  },
+                  type: 'mapnik',
+                },
+              ],
             },
-          ],
-          vectorLayers: [
-            {
-              paint: {
-                'fill-color': '#000',
-                'fill-opacity': 0,
+          },
+          render: {
+            layers: [
+              {
+                filter: ['all', ['==', 'coast', 1], ['in', 'intersect', true]],
+                paint: {
+                  'fill-color': '#FAB72E',
+                  'fill-opacity': [
+                    'case',
+                    ['boolean', ['feature-state', 'active'], false],
+                    0.75,
+                    ['boolean', ['feature-state', 'hover'], false],
+                    0.5,
+                    0,
+                  ],
+                  'fill-outline-color': '#FAB72E',
+                },
+                'source-layer': 'layer0',
+                id: 'coastal-interactivity',
+                type: 'fill',
               },
-              'source-layer': 'layer0',
-              type: 'fill',
-            },
-            {
-              paint: {
-                'line-color': '#0079B0',
-                'line-opacity': 1,
-                'line-width': 1,
+              {
+                filter: ['in', 'intersect', true],
+                paint: {
+                  'line-color': '#FAB72E',
+                  'line-width': 2,
+                },
+                'source-layer': 'layer0',
+                type: 'line',
               },
-              'source-layer': 'layer0',
-              type: 'line',
-            },
-          ],
-          layerType: 'vector',
+              {
+                filter: ['in', 'intersect', true],
+                paint: {
+                  'line-color': '#000000',
+                  'line-width': 2,
+                  'line-dasharray': [2, 3],
+                },
+                'source-layer': 'layer0',
+                type: 'line',
+              },
+              {
+                filter: ['in', 'intersect', false],
+                paint: {
+                  'fill-color': '#616161',
+                  'fill-opacity': 1,
+                  'fill-outline-color': '#616161',
+                },
+                'source-layer': 'layer0',
+                type: 'fill',
+              },
+            ],
+          },
         },
       },
     },
@@ -170,30 +209,33 @@ const aoiLayer = {
   id: '972c24e1da2c2baacc7572ee9501abdc',
   provider: 'geojson',
   layerConfig: {
-    parse: false,
-    data: {
-      crs: {},
-      features: [
-        {
-          geometry: {
-            coordinates: [
-              [
-                [-12.093761259, 44.552460756],
-                [-14.106357807, 35.660331733],
-                [17.065486395, 35.126167008],
-                [17.814359529, 47.540103435],
-                [-12.093761259, 44.552460756],
+    type: 'geojson',
+    source: {
+      type: 'geojson',
+      data: {
+        crs: {},
+        features: [
+          {
+            geometry: {
+              coordinates: [
+                [
+                  [-12.093761259, 44.552460756],
+                  [-14.106357807, 35.660331733],
+                  [17.065486395, 35.126167008],
+                  [17.814359529, 47.540103435],
+                  [-12.093761259, 44.552460756],
+                ],
               ],
-            ],
-            type: 'Polygon',
+              type: 'Polygon',
+            },
+            type: 'Feature',
           },
-          type: 'Feature',
-        },
-      ],
-      type: 'FeatureCollection',
+        ],
+        type: 'FeatureCollection',
+      },
     },
-    body: {
-      vectorLayers: [
+    render: {
+      layers: [
         {
           id: '972c24e1da2c2baacc7572ee9501abdc-glow',
           type: 'line',
@@ -251,20 +293,28 @@ Default.args = {
             published: true,
             env: 'production',
             layerConfig: {
-              body: {
-                layers: [
-                  {
-                    options: {
-                      cartocss_version: '2.3.0',
-                      cartocss:
-                        '#layer {polygon-opacity: 0.2; polygon-fill: #0079B0; polygon-gamma-method: power; line-color:#0079B0; line-opacity:0.8; line-width:1}',
-                      sql: 'SELECT * FROM bio_007b_rw0_marine_protected_area_polygon_edit',
+              type: 'vector',
+              source: {
+                type: 'vector',
+                provider: {
+                  type: 'carto',
+                  account: 'rw-nrt',
+                  layers: [
+                    {
+                      type: 'mapnik',
+                      options: {
+                        sql: 'SELECT * FROM bio_007b_rw0_marine_protected_area_polygon_edit',
+                        cartocss:
+                          '#layer {polygon-opacity: 0.2; polygon-fill: #0079B0; polygon-gamma-method: power; line-color:#0079B0; line-opacity:0.8; line-width:1}',
+                        cartocss_version: '2.3.0',
+                      },
                     },
-                    type: 'cartodb',
-                  },
-                ],
-                maxzoom: 18,
-                vectorLayers: [
+                  ],
+                },
+              },
+              maxzoom: 18,
+              render: {
+                layers: [
                   {
                     paint: {
                       'line-color': '#0079B0',
@@ -286,8 +336,6 @@ Default.args = {
                   },
                 ],
               },
-              account: 'rw-nrt',
-              layerType: 'vector',
             },
             legendConfig: {
               type: 'basic',
@@ -397,20 +445,28 @@ Default.args = {
             published: true,
             env: 'production',
             layerConfig: {
-              body: {
-                layers: [
-                  {
-                    options: {
-                      cartocss_version: '2.3.0',
-                      cartocss:
-                        '#layer {polygon-opacity: 0.9;polygon-fill:#ffd380;line-color: #e1b562;line-width: 2;line-opacity: 1;}',
-                      sql: 'SELECT * FROM wat_068_rw0_watersheds_edit WHERE level = 3',
+              type: 'vector',
+              source: {
+                provider: {
+                  type: 'carto',
+                  account: 'wri-rw',
+                  layers: [
+                    {
+                      type: 'mapnik',
+                      options: {
+                        sql: 'SELECT * FROM wat_068_rw0_watersheds_edit WHERE level = 3',
+                        cartocss:
+                          '#layer {polygon-opacity: 0.9;polygon-fill:#ffd380;line-color: #e1b562;line-width: 2;line-opacity: 1;}',
+                        cartocss_version: '2.3.0',
+                      },
                     },
-                    type: 'mapnik',
-                  },
-                ],
-                maxzoom: 18,
-                vectorLayers: [
+                  ],
+                },
+                type: 'vector',
+              },
+              maxzoom: 18,
+              render: {
+                layers: [
                   {
                     paint: {
                       'fill-opacity': 0.9,
@@ -432,8 +488,6 @@ Default.args = {
                   },
                 ],
               },
-              account: 'wri-rw',
-              layerType: 'vector',
             },
             legendConfig: {
               items: [
@@ -495,21 +549,28 @@ Default.args = {
             published: true,
             env: 'production',
             layerConfig: {
-              account: 'wri-rw',
-              body: {
-                maxzoom: 18,
-                layers: [
-                  {
-                    type: 'mapnik',
-                    options: {
-                      sql: 'SELECT * FROM wat_059_aqueduct_coastal_eutrophication_potential',
-                      cartocss:
-                        '#layer {polygon-opacity:1; line-width:0; line-color:#FFF; line-opacity:0;} [cep_cat=4]{polygon-fill:#990000;}[cep_cat=3]{polygon-fill:#FF1900;} [cep_cat=2]{polygon-fill:#FF9900;} [cep_cat=1]{polygon-fill:#FFE600;} [cep_cat=0]{polygon-fill:#FFFF99;}[cep_cat=-1]{polygon-fill:#4E4E4E;}',
-                      cartocss_version: '2.3.0',
+              type: 'vector',
+              source: {
+                provider: {
+                  type: 'carto',
+                  account: 'wri-rw',
+                  layers: [
+                    {
+                      type: 'mapnik',
+                      options: {
+                        sql: 'SELECT * FROM wat_059_aqueduct_coastal_eutrophication_potential',
+                        cartocss:
+                          '#layer {polygon-opacity:1; line-width:0; line-color:#FFF; line-opacity:0;} [cep_cat=4]{polygon-fill:#990000;}[cep_cat=3]{polygon-fill:#FF1900;} [cep_cat=2]{polygon-fill:#FF9900;} [cep_cat=1]{polygon-fill:#FFE600;} [cep_cat=0]{polygon-fill:#FFFF99;}[cep_cat=-1]{polygon-fill:#4E4E4E;}',
+                        cartocss_version: '2.3.0',
+                      },
                     },
-                  },
-                ],
-                vectorLayers: [
+                  ],
+                },
+                type: 'vector',
+              },
+              maxzoom: 18,
+              render: {
+                layers: [
                   {
                     paint: {
                       'fill-opacity': 1,
@@ -578,7 +639,6 @@ Default.args = {
                   },
                 ],
               },
-              layerType: 'vector',
             },
             legendConfig: {
               items: [
@@ -667,20 +727,28 @@ Default.args = {
             published: true,
             env: 'production',
             layerConfig: {
-              body: {
-                layers: [
-                  {
-                    options: {
-                      cartocss_version: '2.3.0',
-                      cartocss:
-                        '#layer {polygon-opacity: 0.2; polygon-fill: #0079B0; polygon-gamma-method: power; line-color:#0079B0; line-opacity:0.8; line-width:1}',
-                      sql: 'SELECT * FROM bio_007b_rw0_marine_protected_area_polygon_edit',
+              type: 'vector',
+              source: {
+                provider: {
+                  type: 'carto',
+                  account: 'rw-nrt',
+                  layers: [
+                    {
+                      type: 'mapnik',
+                      options: {
+                        sql: 'SELECT * FROM bio_007b_rw0_marine_protected_area_polygon_edit',
+                        cartocss:
+                          '#layer {polygon-opacity: 0.2; polygon-fill: #0079B0; polygon-gamma-method: power; line-color:#0079B0; line-opacity:0.8; line-width:1}',
+                        cartocss_version: '2.3.0',
+                      },
                     },
-                    type: 'cartodb',
-                  },
-                ],
-                maxzoom: 18,
-                vectorLayers: [
+                  ],
+                },
+                type: 'vector',
+              },
+              maxzoom: 18,
+              render: {
+                layers: [
                   {
                     paint: {
                       'line-color': '#0079B0',
@@ -702,8 +770,6 @@ Default.args = {
                   },
                 ],
               },
-              account: 'rw-nrt',
-              layerType: 'vector',
             },
             legendConfig: {
               type: 'basic',
@@ -813,20 +879,28 @@ Default.args = {
             published: true,
             env: 'production',
             layerConfig: {
-              body: {
-                layers: [
-                  {
-                    options: {
-                      cartocss_version: '2.3.0',
-                      cartocss:
-                        '#layer {polygon-opacity: 0.9;polygon-fill:#ffd380;line-color: #e1b562;line-width: 2;line-opacity: 1;}',
-                      sql: 'SELECT * FROM wat_068_rw0_watersheds_edit WHERE level = 3',
+              type: 'vector',
+              source: {
+                provider: {
+                  type: 'carto',
+                  account: 'wri-rw',
+                  layers: [
+                    {
+                      type: 'mapnik',
+                      options: {
+                        sql: 'SELECT * FROM wat_068_rw0_watersheds_edit WHERE level = 3',
+                        cartocss:
+                          '#layer {polygon-opacity: 0.9;polygon-fill:#ffd380;line-color: #e1b562;line-width: 2;line-opacity: 1;}',
+                        cartocss_version: '2.3.0',
+                      },
                     },
-                    type: 'mapnik',
-                  },
-                ],
-                maxzoom: 18,
-                vectorLayers: [
+                  ],
+                },
+                type: 'vector',
+              },
+              maxzoom: 18,
+              render: {
+                layers: [
                   {
                     paint: {
                       'fill-opacity': 0.9,
@@ -848,8 +922,6 @@ Default.args = {
                   },
                 ],
               },
-              account: 'wri-rw',
-              layerType: 'vector',
             },
             legendConfig: {
               items: [
@@ -895,7 +967,7 @@ Default.args = {
         visibility: true,
         layers: [
           {
-            id: 'fe6315f7-e208-441d-9193-9dee6499b349',
+            id: '0490bdf9-15fa-4dbf-ae4a-0db4e8ea0e06',
             type: 'layer',
             name: '2015 Land Cover',
             slug: '2015-Land-Cover_2',
@@ -911,14 +983,16 @@ Default.args = {
             published: true,
             env: 'production',
             layerConfig: {
-              type: 'gee',
-              assetId: 'COPERNICUS/Landcover/100m/Proba-V-C3/Global/2015',
-              isImageCollection: false,
-              body: {
-                styleType: 'sld',
-                sldValue:
-                  '<RasterSymbolizer><ChannelSelection>   <GrayChannel>   <SourceChannelName>discrete_classification</SourceChannelName>        </GrayChannel>        </ChannelSelection> <ColorMap type="values" extended="false" ><ColorMapEntry color="#FFBB22" quantity="20" label="Shrubland" opacity="1" /><ColorMapEntry color="#FFFF4C" quantity="30" label="Herbaceous vegetation" opacity="1" /><ColorMapEntry color="#F096FF" quantity="40" label="Cropland" opacity="1" /><ColorMapEntry color="#FA0000" quantity="50" label="Urban / Built up" opacity="1" /><ColorMapEntry color="#B4B4B4" quantity="60" label="Bare / sparse vegetation" opacity="1" /><ColorMapEntry color="#F0F0F0" quantity="70" label="Snow and ice" opacity="1" /><ColorMapEntry color="#0032C8" quantity="80" label="Permanent water bodies" opacity="1" /><ColorMapEntry color="#0096A0" quantity="90" label="Herbaceous wetland" opacity="1" /><ColorMapEntry color="#FAE6A0" quantity="100" label="Moss and lichen" opacity="1" /><ColorMapEntry color="#007800" quantity="111" label="Closed forest, evergreen needle leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="112" label="Closed forest, evergreen broad leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="113" label="Closed forest, deciduous needle leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="114" label="Closed forest, deciduous broad leaf" opacity="1" /><ColorMapEntry color="#007800" quantity="115" label="Closed forest, mixed" opacity="1" /><ColorMapEntry color="#007800" quantity="116" label="Closed forest, unknown type" opacity="1" /><ColorMapEntry color="#648c00" quantity="121" label="Open forest, evergreen needle leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="122" label="Open forest, evergreen broad leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="123" label="Open forest, deciduous needle leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="124" label="Open forest, deciduous broad leaf" opacity="1" /><ColorMapEntry color="#648c00" quantity="125" label="Open forest, mixed" opacity="1" /><ColorMapEntry color="#648c00" quantity="126" label="Open forest, unknown type" opacity="1" /></ColorMap></RasterSymbolizer>',
-                url: 'https://staging-api.resourcewatch.org/v1/layer/fe6315f7-e208-441d-9193-9dee6499b349/tile/gee/{z}/{x}/{y}',
+              type: 'raster',
+              source: {
+                provider: {
+                  type: 'gee',
+                  options: {},
+                },
+                type: 'raster',
+                tiles: [],
+                // minzoom: 3,
+                // maxzoom: 12,
               },
               timeline: true,
               order: 2015,
