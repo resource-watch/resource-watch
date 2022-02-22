@@ -1,6 +1,4 @@
-import {
-  useEffect,
-} from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Link from 'next/link';
@@ -14,31 +12,24 @@ import SearchMobile from 'layout/header/search-mobile';
 // constants
 import { APP_HEADER_ITEMS } from 'layout/header/constants';
 
-const HeaderMenuMobile = ({
-  header,
-  user,
-  setMobileOpened,
-}) => {
-  const {
-    pathname,
-  } = useRouter();
+const HeaderMenuMobile = ({ header, user, setMobileOpened }) => {
+  const { pathname } = useRouter();
 
   const logout = (e) => {
     if (e) e.preventDefault();
 
     // Get to logout
     fetch(`${process.env.NEXT_PUBLIC_WRI_API_URL}/auth/logout`, { credentials: 'include' })
-      .then(() => { window.location.href = `/logout?callbackUrl=${window.location.href}`; })
-      .catch((err) => { toastr.error('Error', err); });
+      .then(() => {
+        window.location.href = `/logout?callbackUrl=${window.location.href}`;
+      })
+      .catch((err) => {
+        toastr.error('Error', err);
+      });
   };
 
-  const {
-    mobileOpened,
-  } = header;
-  const {
-    role,
-    token,
-  } = user;
+  const { mobileOpened } = header;
+  const { role, token } = user;
   const classNames = classnames({ '-opened': mobileOpened });
 
   useEffect(() => {
@@ -84,37 +75,28 @@ const HeaderMenuMobile = ({
               // If admin user is defined and is not equal to the current token
               if (typeof item.admin !== 'undefined' && item.admin !== isUserAdmin) return null;
 
-              const activeClassName = classnames({ '-active': item.pages && item.pages.includes(pathname) });
-
               return (
                 <li
                   key={item.label}
-                  className={activeClassName}
+                  className={classnames({ '-active': pathname.startsWith(item.root) })}
                 >
-                  {(item.href && !item.external) && (
+                  {item.href && !item.external && (
                     <h2>
-                      <Link
-                        href={item.href}
-                        // route={item.route}
-                        // params={item.params}
-                      >
+                      <Link href={item.href}>
                         <a>{item.label}</a>
                       </Link>
                     </h2>
                   )}
 
-                  {(item.href && item.external) && (
+                  {item.href && item.external && (
                     <h2>
-                      <a href={item.href}>
-                        {item.label}
-                      </a>
+                      <a href={item.href}>{item.label}</a>
                     </h2>
                   )}
 
-                  {!item.href && (<h2>{item.label}</h2>)}
+                  {!item.href && <h2>{item.label}</h2>}
 
-                  {item.children
-                    && (
+                  {item.children && (
                     <ul>
                       {item.children.map((c) => {
                         // If user is defined and is not equal to the current token
@@ -139,17 +121,10 @@ const HeaderMenuMobile = ({
                               </Link>
                             )}
 
-                            {(c.href && c.external) && (
-                              <a href={c.href}>
-                                {c.label}
-                              </a>
-                            )}
+                            {c.href && c.external && <a href={c.href}>{c.label}</a>}
 
                             {c.id === 'logout' && (
-                              <a
-                                href={c.href}
-                                onClick={logout}
-                              >
+                              <a href={c.href} onClick={logout}>
                                 {c.label}
                               </a>
                             )}
@@ -157,7 +132,7 @@ const HeaderMenuMobile = ({
                         );
                       })}
                     </ul>
-                    )}
+                  )}
                 </li>
               );
             })}
