@@ -2,7 +2,12 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import ReactMapGL, { FlyToInterpolator, TRANSITION_EVENTS, ViewportProps } from 'react-map-gl';
+import ReactMapGL, {
+  FlyToInterpolator,
+  TRANSITION_EVENTS,
+  ViewportProps,
+  AttributionControl,
+} from 'react-map-gl';
 import { InteractiveMapProps } from 'react-map-gl';
 import { fitBounds } from '@math.gl/web-mercator';
 import { easeCubic } from 'd3-ease';
@@ -39,6 +44,9 @@ export interface MapProps extends InteractiveMapProps {
     viewportOptions?: Partial<ViewportProps>;
   };
 
+  /** map attributions */
+  attributions?: string | [string];
+
   /** A function that exposes when the map is mounted.
    * It receives and object with the `mapRef` and `mapContainerRef` reference. */
   onMapReady?: ({ map, mapContainer }) => void;
@@ -74,6 +82,7 @@ export const Map = ({
   height = '100%',
   onFitBoundsChange,
   getCursor,
+  attributions,
   ...mapboxProps
 }: MapProps): JSX.Element => {
   const mapRef = useRef(null);
@@ -339,6 +348,7 @@ export const Map = ({
         getCursor={getCursor || handleGetCursor}
         transitionInterpolator={new FlyToInterpolator()}
         transitionEasing={easeCubic}
+        attributionControl={false}
         transformRequest={(url, resourceType) => {
           // Global Fishing Watch tilers require authorization so we need to add
           // the header before Mapbox handles the request
@@ -357,11 +367,25 @@ export const Map = ({
           return null;
         }}
       >
-        {ready &&
-          loaded &&
-          !!mapRef.current &&
-          typeof children === 'function' &&
-          children(mapRef.current)}
+        <>
+          {ready &&
+            loaded &&
+            !!mapRef.current &&
+            typeof children === 'function' &&
+            children(mapRef.current)}
+          {/* the attribution controls are read-only components and the properties are not reactive after initialization
+             https://visgl.github.io/react-map-gl/docs/api-reference/attribution-control#properties
+             */}
+          {attributions?.length > 0 && (
+            <AttributionControl
+              customAttribution={attributions}
+              className="absolute bottom-0 right-0 text-xs"
+            />
+          )}
+          {!attributions?.length && (
+            <AttributionControl className="absolute bottom-0 right-0 text-xs" />
+          )}
+        </>
       </ReactMapGL>
     </div>
   );
