@@ -1,19 +1,25 @@
 import type { Basemap, Labels } from 'components/map/types';
-
+import type { MaskLayer } from 'types/layer';
 export type WidgetTypes = 'widget' | 'map' | 'embed' | 'text' | 'chart' | 'map-swipe' | 'ranking';
 
 export interface EmbedSource {
   src: string;
 }
+
+export interface LayerParams {
+  [key: string]: Record<string, string | number | unknown>;
+}
+
 export interface WidgetParamsConfig {
   embed?: EmbedSource;
   layer?: string;
   layers?: string[];
-  layerParams?: Record<string, string | number | unknown>;
+  layerParams?: LayerParams;
   // used to define the layers of a map-swipe widget
   layersLeft?: string[];
   layersRight?: string[];
   visualizationType: WidgetTypes;
+  mask?: MaskLayer;
 }
 
 export interface WidgetBasemapLayers {
@@ -27,6 +33,7 @@ export interface WidgetConfig {
   bbox?: [number, number, number, number];
   bounds?: number[];
   paramsConfig?: WidgetParamsConfig;
+  layerParams?: LayerParams;
   type?: WidgetTypes;
   url?: string;
   data?: Record<string, string | number | unknown>[];

@@ -6,6 +6,9 @@ import { getUserAreaLayer } from 'components/map/utils';
 
 // constants
 import { USER_AREA_LAYER_TEMPLATES } from 'components/map/constants';
+import { APIWidgetSpec } from 'types/widget';
+import { APILayerSpec } from 'types/layer';
+import { LayerGroup } from 'components/map/types';
 
 // sorts layers based on an array of layer ids
 export const sortLayers = (_layers = [], _layerOrder = []) => {
@@ -33,12 +36,17 @@ export const sortLayers = (_layers = [], _layerOrder = []) => {
  * @param {boolean} forceActive - enforces the layer to be active regardless its configuration
  * @returns {Object[]} array of layers grouped by dataset
  */
-export const getLayerGroups = (layers = [], layerParams = {}, forceActive = false) => {
+export const getLayerGroups = (
+  layers = [],
+  layerParams = {},
+  forceActive = false,
+): LayerGroup[] => {
   const layersByDataset = groupBy(layers, 'dataset');
 
   return Object.keys(layersByDataset).map((datasetKey) => ({
     id: datasetKey,
     visibility: true,
+    visible: true,
     layers: layersByDataset[datasetKey].map((_layer) => ({
       ..._layer,
       active: forceActive || layerParams?.[_layer.id]?.default || Boolean(_layer.default),
@@ -47,7 +55,11 @@ export const getLayerGroups = (layers = [], layerParams = {}, forceActive = fals
   }));
 };
 
-export const getAoiLayer = (widget = {}, geostore, options = {}) => {
+export const getAoiLayer = (
+  widget: Partial<APIWidgetSpec> = {},
+  geostore,
+  options: Record<string, string | number> = {},
+) => {
   if (!geostore) return null;
 
   const { layerParams } = widget?.widgetConfig || {};
@@ -72,7 +84,7 @@ export const getAoiLayer = (widget = {}, geostore, options = {}) => {
   };
 };
 
-export const getMaskLayer = (widget = {}, params = {}) => {
+export const getMaskLayer = (widget: Partial<APIWidgetSpec> = {}, params = {}) => {
   const { mask, layerParams } = widget?.widgetConfig?.paramsConfig || {};
 
   if (!mask) return null;
@@ -86,4 +98,11 @@ export const getMaskLayer = (widget = {}, params = {}) => {
     },
     opacity: layerParams?.mask?.opacity || 1,
   };
+};
+
+export const getLayerAttributions = (layers: APILayerSpec[]): string => {
+  return layers
+    .filter(({ layerConfig }) => layerConfig?.body?.attribution || layerConfig.attribution)
+    .map(({ layerConfig }) => layerConfig?.body?.attribution || layerConfig.attribution)
+    .join(', ');
 };

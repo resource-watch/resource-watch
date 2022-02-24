@@ -1,13 +1,9 @@
-import {
-  createElement,
-} from 'react';
+import { createElement } from 'react';
 import classnames from 'classnames';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import {
-  useSession,
-} from 'next-auth/client';
+import { useSession } from 'next-auth/client';
 
 // components
 import { APP_HEADER_ITEMS } from 'layout/header/constants';
@@ -24,9 +20,7 @@ const header = {
 };
 
 const HeaderMenu = () => {
-  const {
-    pathname,
-  } = useRouter();
+  const { pathname } = useRouter();
   const [session] = useSession();
 
   return (
@@ -38,7 +32,6 @@ const HeaderMenu = () => {
           // if user is defined but it is not equal to the current token
           if (typeof item.user !== 'undefined' && item.user !== isUserLogged) return null;
 
-          const activeClassName = classnames({ '-active': item.pages && item.pages.includes(pathname) });
           let DropdownMenu;
           if (item.id !== 'blog') {
             DropdownMenu = dynamic(() => header[item.id]);
@@ -47,20 +40,17 @@ const HeaderMenu = () => {
           return (
             <li
               key={item.label}
-              className={activeClassName}
+              className={classnames({
+                '-active': pathname.startsWith(item.root),
+              })}
             >
-              {(!DropdownMenu && item.href && !item.external)
-                && (
+              {!DropdownMenu && item.href && !item.external && (
                 <Link href={item.href}>
                   <a>{item.label}</a>
                 </Link>
-                )}
-
-              {(!DropdownMenu && item.external) && (
-                <a href={item.href}>
-                  {item.label}
-                </a>
               )}
+
+              {!DropdownMenu && item.external && <a href={item.href}>{item.label}</a>}
 
               {DropdownMenu && createElement(DropdownMenu, item)}
             </li>

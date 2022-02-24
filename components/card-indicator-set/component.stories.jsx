@@ -1,7 +1,4 @@
-import {
-  useState,
-  useCallback,
-} from 'react';
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { AdapterModifier } from '@widget-editor/widget-editor';
 import RWAdapter from '@widget-editor/rw-adapter';
@@ -18,31 +15,28 @@ export default {
 };
 
 const Template = (args) => {
-  const {
-    indicator,
-    containerStyles,
-    theme,
-    config,
-  } = args;
+  const { indicator, containerStyles, theme, config } = args;
   const [currentIndicator, setIndicator] = useState(indicator);
   const {
-    config: {
-      indicators,
-    },
+    config: { indicators },
   } = args;
 
-  const handleClickCard = useCallback((idSelected) => {
-    setIndicator(indicators.find(({ id }) => idSelected === id));
-  }, [indicators]);
+  const handleClickCard = useCallback(
+    (idSelected) => {
+      setIndicator(indicators.find(({ id }) => idSelected === id));
+    },
+    [indicators],
+  );
 
   return (
-    <div style={{
-      ...containerStyles,
-      ...theme !== 'primary' && {
-        backgroundImage: 'none',
-        background: '#f4f6f7',
-      },
-    }}
+    <div
+      style={{
+        ...containerStyles,
+        ...(theme !== 'primary' && {
+          backgroundImage: 'none',
+          background: '#f4f6f7',
+        }),
+      }}
     >
       <CardIndicatorSet
         {...args}
@@ -51,13 +45,7 @@ const Template = (args) => {
         theme={theme}
       >
         {config.indicators.map(({ id, title, icon }) => (
-          <CardIndicator
-            key={id}
-            id={id}
-            title={title}
-            icon={icon}
-            theme={theme}
-          />
+          <CardIndicator key={id} id={id} title={title} icon={icon} theme={theme} />
         ))}
       </CardIndicatorSet>
     </div>
@@ -76,28 +64,25 @@ Template.propTypes = {
 export const Default = Template.bind({});
 
 const NumericTemplate = (args) => {
-  const {
-    indicator,
-    containerStyles,
-    theme,
-    config,
-  } = args;
+  const { indicator, containerStyles, theme, config } = args;
   const [currentIndicator, setIndicator] = useState(indicator);
   const {
-    config: {
-      indicators,
-    },
+    config: { indicators },
   } = args;
 
-  const handleClickCard = useCallback((idSelected) => {
-    setIndicator(indicators.find(({ id }) => idSelected === id));
-  }, [indicators]);
+  const handleClickCard = useCallback(
+    (idSelected) => {
+      setIndicator(indicators.find(({ id }) => idSelected === id));
+    },
+    [indicators],
+  );
 
   return (
-    <div style={{
-      ...containerStyles,
-      background: '#fff',
-    }}
+    <div
+      style={{
+        ...containerStyles,
+        background: '#fff',
+      }}
     >
       <CardIndicatorSet
         {...args}
@@ -105,14 +90,7 @@ const NumericTemplate = (args) => {
         handleClickCard={handleClickCard}
         theme={theme}
       >
-        {config.indicators.map(({
-          id,
-          title,
-          value,
-          description,
-          unit,
-          format,
-        }) => (
+        {config.indicators.map(({ id, title, value, description, unit, format }) => (
           <NumericCardIndicator
             key={id}
             id={id}
@@ -153,10 +131,11 @@ const commonConfig = {
         icon: 'marine',
         widgets: [
           {
-            id: '50c3fb9c-cef3-4533-8ae7-9ad122bb7963',
+            id: '92e5286e-b40a-4a6f-a3e5-84ac9b49d459',
           },
           {
-            query: 'https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, \'%25\' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), \'{{iso}}\' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = \'{{iso}}\'',
+            query:
+              "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(CAST(value AS numeric),1) AS value FROM ocn_023_rw1_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND unit = 'Percentage' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
             text: 'Some highlight text about why this matters',
             format: '.2f',
           },
@@ -172,7 +151,8 @@ const commonConfig = {
             id: 'c8c4a6cc-6ac8-43a0-b988-f26301314a55',
           },
           {
-            query: 'https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, \'%25\' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), \'{{iso}}\' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = \'{{iso}}\'',
+            query:
+              "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(CAST(value AS numeric),1) AS value FROM ocn_023_rw1_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND unit = 'Percentage' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
             text: 'Some highlight text about why this matters',
             format: '.2f',
           },
@@ -190,7 +170,8 @@ const commonConfig = {
                 id: 'fe388698-4a58-4c43-b2b1-4d169334b2e4',
               },
               {
-                query: 'https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, \'%25\' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), \'{{iso}}\' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = \'{{iso}}\'',
+                query:
+                  "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(CAST(value AS numeric),1) AS value FROM ocn_023_rw1_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND unit = 'Percentage' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                 text: 'Some highlight text about why this matters',
                 format: '.2f',
               },
@@ -204,7 +185,8 @@ const commonConfig = {
                 id: '41223a30-f4e8-4749-9b44-034443646da4',
               },
               {
-                query: 'https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, \'%25\' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), \'{{iso}}\' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = \'{{iso}}\'',
+                query:
+                  "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(CAST(value AS numeric),1) AS value FROM ocn_023_rw1_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND unit = 'Percentage' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
                 text: 'Some highlight text about why this matters',
                 format: '.2f',
               },
@@ -221,7 +203,8 @@ const commonConfig = {
             id: '5eec6ec5-51e5-4d39-af23-9d1cda64dc3a',
           },
           {
-            query: 'https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, \'%25\' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), \'{{iso}}\' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = \'{{iso}}\'',
+            query:
+              "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(CAST(value AS numeric),1) AS value FROM ocn_023_rw1_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND unit = 'Percentage' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
             text: 'Some highlight text about why this matters',
             format: '.2f',
           },
@@ -233,10 +216,11 @@ const commonConfig = {
         icon: 'dependence',
         widgets: [
           {
-            id: '4e4501f3-3380-488c-8eca-8a9d99c90a70',
+            id: '4a54273c-0529-4da1-a935-f3de4738ca3e',
           },
           {
-            query: 'https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, \'%25\' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), \'{{iso}}\' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = \'{{iso}}\'',
+            query:
+              "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(CAST(value AS numeric),1) AS value FROM ocn_023_rw1_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND unit = 'Percentage' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
             text: 'Some highlight text about why this matters',
             format: '.2f',
           },
@@ -251,7 +235,8 @@ const commonConfig = {
             id: 'f5a86ecb-e5d9-470e-ba57-33b3d0912881',
           },
           {
-            query: 'https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, \'%25\' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), \'{{iso}}\' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = \'{{iso}}\'',
+            query:
+              "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(CAST(value AS numeric),1) AS value FROM ocn_023_rw1_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND unit = 'Percentage' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
             text: 'Some highlight text about why this matters',
             format: '.2f',
           },
@@ -261,6 +246,8 @@ const commonConfig = {
   },
   params: {
     iso: 'BRA',
+    geostore_env: 'geostore_prod',
+    geostore_id: '9bc50cce7f5b6ebd0452a3b839708ba9',
   },
   isInACollection: false,
   indicator: {
@@ -269,10 +256,11 @@ const commonConfig = {
     icon: 'marine',
     widgets: [
       {
-        id: '50c3fb9c-cef3-4533-8ae7-9ad122bb7963',
+        id: '92e5286e-b40a-4a6f-a3e5-84ac9b49d459',
       },
       {
-        query: 'https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, \'%25\' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), \'{{iso}}\' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = \'{{iso}}\'',
+        query:
+          "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(CAST(value AS numeric),1) AS value FROM ocn_023_rw1_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND unit = 'Percentage' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
         text: 'Some highlight text about why this matters',
         format: '.2f',
       },
@@ -287,7 +275,8 @@ const commonConfig = {
   }),
   containerStyles: {
     padding: 50,
-    backgroundImage: 'url(\'/static/images/components/layout/header-bg-texture.png\'), linear-gradient(137.52deg, #c32d7b 0%, #0F4573 100%)',
+    backgroundImage:
+      "url('/static/images/components/layout/header-bg-texture.png'), linear-gradient(137.52deg, #c32d7b 0%, #0F4573 100%)",
   },
   theme: 'primary',
 };
@@ -354,7 +343,8 @@ Numeric.args = {
         id: '50c3fb9c-cef3-4533-8ae7-9ad122bb7963',
       },
       {
-        query: 'https://wri-rw.carto.com/api/v2/sql?q=WITH r as (SELECT ROW_NUMBER() OVER (ORDER BY total DESC) AS ranking, rw_country_code as country_code, rw_country_name as country_name, total/100. as x, \'%25\' as unit, year FROM ene_012_electricity_access_edit WHERE year = 2018 AND year IS NOT NULL AND total IS NOT NULL ORDER BY total DESC), v as (SELECT count(distinct(country_code)), \'{{iso}}\' as country_code  FROM ene_012_electricity_access_edit) SELECT * FROM r INNER JOIN v ON r.country_code = v.country_code WHERE r.country_code = \'{{iso}}\'',
+        query:
+          "https://wri-rw.carto.com/api/v2/sql?q=SELECT ROUND(CAST(value AS numeric),1) AS value FROM ocn_023_rw1_marine_protection_edit INNER JOIN gadm36_0 gadm ON iso = gadm.gid_0 WHERE year = 2021 AND unit = 'Percentage' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}'",
         text: 'Some highlight text about why this matters',
         format: '.2f',
       },

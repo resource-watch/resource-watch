@@ -18,6 +18,9 @@ import WidgetHeader from '../../header';
 import WidgetInfo from '../../info';
 import WidgetCaption from '../../caption';
 
+// utils
+import { getLayerAttributions } from 'utils/layers';
+
 import type { ViewportProps } from 'react-map-gl';
 import type { APIWidgetSpec } from 'types/widget';
 import type { Bounds, LayerGroup, Basemap, Labels } from 'components/map/types';
@@ -86,7 +89,7 @@ const SwipeTypeWidget = ({
 
   const handleFitBoundsChange = useCallback(
     (_viewport) => {
-      onFitBoundsChange(_viewport);
+      if (onFitBoundsChange) onFitBoundsChange(_viewport);
     },
     [onFitBoundsChange],
   );
@@ -145,6 +148,11 @@ const SwipeTypeWidget = ({
   );
 
   const caption = useMemo(() => widget?.metadata?.[0]?.info?.caption, [widget]);
+
+  const attributions = useMemo(
+    () => getLayerAttributions([...layersBySide.left, ...layersBySide.right]),
+    [layersBySide],
+  );
 
   return (
     <div
@@ -236,8 +244,9 @@ const SwipeTypeWidget = ({
                   boundaries={boundaries}
                   scrollZoom={false}
                   viewport={viewport}
-                  onMapViewportChange={handleViewport}
+                  attributions={attributions}
                   bounds={bounds}
+                  onMapViewportChange={handleViewport}
                   onMapLoad={({ map: _map }) => handleMapRefs({ right: _map })}
                 >
                   {(_map) => <LayerManager map={_map} layers={layersBySide.right} />}

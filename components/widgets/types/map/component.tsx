@@ -25,7 +25,8 @@ import WidgetHeader from '../../header';
 import WidgetInfo from '../../info';
 import WidgetCaption from '../../caption';
 
-import type { Basemap, Labels } from 'components/map/types';
+// utils
+import { getLayerAttributions } from 'utils/layers';
 
 // reducers
 import { mapWidgetInitialState, mapWidgetSlice } from './reducer';
@@ -41,7 +42,7 @@ const {
 } = mapWidgetSlice.actions;
 
 import type { APIWidgetSpec } from 'types/widget';
-import type { LayerGroup, Bounds } from 'components/map/types';
+import type { Basemap, Labels, LayerGroup, Bounds } from 'components/map/types';
 import type { MapTypeWidgetContainerProps } from './index';
 
 export interface MapTypeWidgetProps extends Omit<MapTypeWidgetContainerProps, 'widgetId'> {
@@ -186,6 +187,8 @@ const MapTypeWidget = ({
     ];
   }, [mapWidgetState, aoiLayer, maskLayer]);
 
+  const attributions = useMemo(() => getLayerAttributions(layers), [layers]);
+
   return (
     <div
       className={classnames('c-widget h-full', { '-is-embed': isEmbed })}
@@ -232,6 +235,7 @@ const MapTypeWidget = ({
               scrollZoom={false}
               bounds={bounds}
               boundaries={boundaries}
+              attributions={attributions}
               onError={(errorMessage) => {
                 handleError(new Error(errorMessage.error?.message));
               }}
