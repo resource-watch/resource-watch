@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `next@12.0.10`
 
 ### Fixed
+- highlighting of navigation bar based on current page. [RW-92](https://vizzuality.atlassian.net/browse/RW-92)
+- storybook: star icon appearing in widget header. [RW-78](https://vizzuality.atlassian.net/browse/RW-78)
 - wrong attributes sent to the user data creation endpoint.
 - my visualizations: fixes PDF download. [OW-125](https://vizzuality.atlassian.net/browse/OW-125)
 - explore: area of interest handling. [RW-120](https://vizzuality.atlassian.net/browse/RW-120)
@@ -27,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.4.0] - 2022-01-27
 ### Added
+- support for attributions in maps. [RW-77](https://vizzuality.atlassian.net/browse/RW-77)
 - interception to handle requests from Global Fishing Watch. [RW-117](https://vizzuality.atlassian.net/browse/RW-117)
 - 'FeatureService' provider for Layer Manager. [RW-114](https://vizzuality.atlassian.net/browse/RW-114)
 - `WMS` provider for Layer Manager. [RW-113](https://vizzuality.atlassian.net/browse/RW-113)

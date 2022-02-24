@@ -3,11 +3,8 @@ export const APP_HEADER_ITEMS = [
     id: 'data',
     label: 'Data',
     href: '/data/explore',
-    pages: [
-      '/app/explore',
-      '/app/explore-detail',
-      '/app/pulse',
-    ],
+    // used to determine if the menu should be highlighted based on the current page
+    root: '/data',
     children: [
       {
         label: 'Explore Datasets',
@@ -28,10 +25,7 @@ export const APP_HEADER_ITEMS = [
     id: 'dashboards',
     label: 'Dashboards',
     href: '/dashboards',
-    pages: [
-      '/app/dashboards',
-      '/app/dashboards-detail',
-    ],
+    root: '/dashboards',
     children: [],
   },
   {
@@ -44,13 +38,7 @@ export const APP_HEADER_ITEMS = [
     id: 'about',
     label: 'About',
     href: '/about',
-    pages: [
-      '/app/about',
-      '/app/partners',
-      '/app/faqs',
-      '/app/how-to',
-      '/app/contact-us',
-    ],
+    root: '/about',
     children: [
       {
         label: 'Partners',
@@ -74,10 +62,7 @@ export const APP_HEADER_ITEMS = [
     id: 'get-involved',
     label: 'Get Involved',
     href: '/get-involved',
-    pages: [
-      '/app/get-involved',
-      '/app/get-involved-detail',
-    ],
+    root: '/get-involved',
     children: [
       {
         label: 'Suggest a story',

@@ -89,7 +89,6 @@ const MiniExploreDatasetsActions = (props) => {
       </button>
       {/* Favorite dataset icon */}
       <LoginRequired
-        redirect={false}
         clickCallback={() => {
           if (!userIsLoggedIn) {
             logEvent('Mini Explore Menu', 'Anonymous user Clicks Star', datasetName);

@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { Tooltip } from 'vizzuality-components';
 import pick from 'lodash/pick';
@@ -21,7 +20,7 @@ export default function WidgetHeader({
   isInACollection,
   onToggleInfo,
   onToggleShare,
-  isInfoVisible,
+  isInfoVisible = false,
 }) {
   const starIconName = classnames({
     'icon-star-full': isInACollection,
@@ -97,26 +96,33 @@ export default function WidgetHeader({
               </button>
             </li>
             <li>
-              <LoginRequired redirect={false}>
-                <Tooltip
-                  overlay={
-                    <CollectionsPanel
-                      resource={widget}
-                      resourceType="widget"
-                      onToggleFavorite={handleAfterToggleCollection}
-                      onToggleCollection={handleAfterToggleCollection}
-                    />
-                  }
-                  overlayClassName="c-rc-tooltip"
-                  overlayStyle={{ color: '#fff' }}
-                  placement="bottomLeft"
-                  trigger="click"
-                >
-                  <button type="button" className="c-btn -clean" tabIndex={-1}>
-                    <Icon name={starIconName} className="-star -small" />
-                  </button>
-                </Tooltip>
-              </LoginRequired>
+              {/* to avoid rendering complex components running Storybook, we render an alternative star button that does nothing */}
+              {process.env.STORYBOOK_RUNNING ? (
+                <button type="button" className="c-btn -clean" tabIndex={-1}>
+                  <Icon name={starIconName} className="-star -small" />
+                </button>
+              ) : (
+                <LoginRequired>
+                  <Tooltip
+                    overlay={
+                      <CollectionsPanel
+                        resource={widget}
+                        resourceType="widget"
+                        onToggleFavorite={handleAfterToggleCollection}
+                        onToggleCollection={handleAfterToggleCollection}
+                      />
+                    }
+                    overlayClassName="c-rc-tooltip"
+                    overlayStyle={{ color: '#fff' }}
+                    placement="bottomLeft"
+                    trigger="click"
+                  >
+                    <button type="button" className="c-btn -clean" tabIndex={-1}>
+                      <Icon name={starIconName} className="-star -small" />
+                    </button>
+                  </Tooltip>
+                </LoginRequired>
+              )}
             </li>
             <li>
               <button type="button" className="c-btn -clean" onClick={onToggleInfo}>
@@ -129,21 +135,3 @@ export default function WidgetHeader({
     </header>
   );
 }
-
-WidgetHeader.defaultProps = {
-  isInfoVisible: false,
-};
-
-WidgetHeader.propTypes = {
-  widget: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    widgetConfig: PropTypes.shape({
-      type: PropTypes.string,
-    }),
-  }).isRequired,
-  isInACollection: PropTypes.bool.isRequired,
-  isInfoVisible: PropTypes.bool,
-  onToggleInfo: PropTypes.func.isRequired,
-  onToggleShare: PropTypes.func.isRequired,
-};
