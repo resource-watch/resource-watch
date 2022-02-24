@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import Script from 'next/script';
 
 export default function GoogleAnalyticsV4Script() {
   if (!process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID) {
@@ -7,11 +7,14 @@ export default function GoogleAnalyticsV4Script() {
   }
 
   return (
-    <Head>
+    <>
       {/* Global site tag (gtag.js) - Google Analytics */}
-      <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID}`} />
-      <script
-        // eslint-disable-next-line react/no-danger
+      <Script
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID}`}
+      />
+      <Script
+        id="google-analytics-v4"
         dangerouslySetInnerHTML={{
           __html: `
           window.dataLayer = window.dataLayer || [];
@@ -22,6 +25,6 @@ export default function GoogleAnalyticsV4Script() {
         `,
         }}
       />
-    </Head>
+    </>
   );
 }
