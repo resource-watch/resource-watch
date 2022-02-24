@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
+import { replace } from '@vizzuality/layer-manager-utils';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
@@ -64,7 +65,7 @@ export default function LayoutEmbedMap({ widget, widgetId, aoi, params, isWebsho
 
   return (
     <LayoutEmbed
-      title={widget?.name}
+      title={replace(widget.name, updatedParams)}
       description={`${widget?.description || ''}`}
       {...(widget?.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl })}
     >
