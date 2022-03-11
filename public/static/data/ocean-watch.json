@@ -1528,7 +1528,7 @@
               },
               {
                 "grid": "50%",
-                "widget": "bd2e07f0-f62a-42df-83e6-65a3ebcdbc29",
+                "widget": "feddec38-7b28-4be6-881a-0c4761598ed8",
                 "type": "chart",
                 "comment": "Sediment Pressure Chart 2 (placeholder)"
               }
@@ -1550,13 +1550,13 @@
             [
               {
                 "grid": "50%",
-                "widget": "15b5ec89-0ea6-4cd4-beac-7caceb80e42c",
+                "widget": "81b0cc2e-e5aa-4077-9be8-a1ab5f5b7b6d",
                 "type": "chart",
                 "comment": "Water Quality Pressure Chart 1"
               },
               {
                 "grid": "50%",
-                "widget": "b8e454be-9a0f-4a8f-8e92-3d7b0fd6423f",
+                "widget": "c6aeda4c-8150-4df6-996c-ebb6a5bfc54b",
                 "type": "chart",
                 "comment": "Water Quality Pressure Chart 2"
               }
@@ -1717,9 +1717,9 @@
                     "1ad281f4-a6f6-4b49-b4bd-4b3087774776"
                   ],
                   "widgets": [
-                    "3f531725-9d1f-436f-85f8-b1494b0262c1",
-                    "80b7addc-f6ea-4d38-808c-359e49a8b84e",
-                    "d0b57543-e771-41e1-a9b6-a9487d5c3d5b"
+                    "511ab9fc-9fab-4025-95a3-415586421ab7",
+                    "b5d03901-ddf2-40cd-999c-dada8a7ac415",
+                    "e22ed0d7-9929-499c-8dda-49e0f9418f9a"
                   ]
                 }
               }
