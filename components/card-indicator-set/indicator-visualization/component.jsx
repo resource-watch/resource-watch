@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import classnames from 'classnames';
 import { format } from 'd3-format';
 import Renderer from '@widget-editor/renderer';
-import { replace } from 'layer-manager';
+import { replace } from '@vizzuality/layer-manager-utils';
 import axios from 'axios';
 import isNumber from 'lodash/isNumber';
 
@@ -263,7 +263,7 @@ export default function IndicatorVisualization({
               )}
               {((widgets?.[1]?.text && !isNoData) || widgets?.[1]?.instructions) && (
                 <Title className="text-center">
-                  <h4>{widgets[1].text || widgets[1].instructions}</h4>
+                  <h4>{replace(widgets[1].text || widgets[1].instructions, params)}</h4>
                 </Title>
               )}
             </>

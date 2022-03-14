@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
+import { replace } from '@vizzuality/layer-manager-utils';
 
 // components
 import Layout from 'layout/layout/layout-app';
@@ -61,7 +62,7 @@ const LayoutWidgetDetail = ({ widget, params }: LayoutWidgetDetailProps): JSX.El
 
   return (
     <Layout
-      title={widget?.name}
+      title={replace(widget?.name, updatedQueryParams)}
       description={widget?.description}
       thumbnail={widget?.thumbnailUrl}
       pageHeader
@@ -71,7 +72,7 @@ const LayoutWidgetDetail = ({ widget, params }: LayoutWidgetDetailProps): JSX.El
           <div className="l-container">
             <div className="row">
               <div className="column">
-                {widget && <WidgetDetailHeader widget={widget} params={params} />}
+                {widget && <WidgetDetailHeader widget={widget} params={updatedQueryParams} />}
               </div>
             </div>
           </div>

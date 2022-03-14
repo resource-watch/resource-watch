@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import classnames from 'classnames';
+import { replace } from '@vizzuality/layer-manager-utils';
 
 // components
 import Icon from 'components/ui/icon';
@@ -40,7 +41,7 @@ const WidgetDetailHeader = ({
   return (
     <>
       <div className="page-header-content">
-        <h1>{widget.name}</h1>
+        <h1>{replace(widget.name, params)}</h1>
         <h3>{widget.description}</h3>
         <ul className="flex">
           <li className="ml-5 first:m-0">

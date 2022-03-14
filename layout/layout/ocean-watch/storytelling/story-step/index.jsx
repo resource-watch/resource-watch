@@ -1,24 +1,14 @@
-import {
-  useMemo,
-} from 'react';
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import {
-  replace,
-} from '@vizzuality/layer-manager-utils';
+import { replace } from '@vizzuality/layer-manager-utils';
 
 // hooks
-import {
-  useSQLQuery,
-} from 'hooks/sql';
+import { useSQLQuery } from 'hooks/sql';
 
 // components
 import StoryStep from './component';
 
-export default function StoryStepContainer({
-  data,
-  geostore,
-  params,
-}) {
+export default function StoryStepContainer({ data, geostore, params }) {
   const query = useMemo(() => {
     if (data.isPlaceholder || !data.content.widget || !data.content.widget.length) return null;
 
@@ -29,9 +19,7 @@ export default function StoryStepContainer({
     return null;
   }, [data, params]);
 
-  const {
-    data: queryData,
-  } = useSQLQuery(
+  const { data: queryData } = useSQLQuery(
     query,
     {},
     {
@@ -45,7 +33,7 @@ export default function StoryStepContainer({
           value: _data?.rows?.[0]?.value,
         };
 
-        return ({
+        return {
           ...data,
           content: {
             ...data.content,
@@ -54,18 +42,12 @@ export default function StoryStepContainer({
               return block;
             }),
           },
-        });
+        };
       },
     },
   );
 
-  return (
-    <StoryStep
-      data={query ? queryData : data}
-      geostore={geostore}
-      params={params}
-    />
-  );
+  return <StoryStep data={query ? queryData : data} geostore={geostore} params={params} />;
 }
 
 StoryStepContainer.defaultProps = {
@@ -77,9 +59,7 @@ StoryStepContainer.propTypes = {
   data: PropTypes.shape({
     isPlaceholder: PropTypes.bool,
     content: PropTypes.shape({
-      widget: PropTypes.arrayOf(
-        PropTypes.shape({}),
-      ),
+      widget: PropTypes.arrayOf(PropTypes.shape({})),
     }),
   }).isRequired,
   params: PropTypes.shape({}),

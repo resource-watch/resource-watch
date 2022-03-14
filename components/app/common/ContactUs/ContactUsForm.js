@@ -18,18 +18,18 @@ import SubmitModalComponent from 'components/modal/submit-modal';
 import { FORM_ELEMENTS, STATE_DEFAULT, FORM_TOPICS } from './constants';
 
 class ContactUsForm extends React.Component {
-  state = ({
+  state = {
     ...STATE_DEFAULT,
     form: STATE_DEFAULT.form,
     showSubmitModal: false,
-  });
+  };
 
   /**
    * UI EVENTS
    * - onSubmit
    * - onChange
    * - handleToggleModal
-  */
+   */
   onSubmit = (event) => {
     const { form } = this.state;
     event.preventDefault();
@@ -57,7 +57,7 @@ class ContactUsForm extends React.Component {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
-  }
+  };
 
   onChange(obj) {
     const form = { ...this.state.form, ...obj };
@@ -66,7 +66,7 @@ class ContactUsForm extends React.Component {
 
   handleToggleModal = (bool) => {
     this.setState({ showSubmitModal: bool });
-  }
+  };
 
   render() {
     const { submitting } = this.state;
@@ -75,7 +75,9 @@ class ContactUsForm extends React.Component {
       <div className="c-contact-us">
         <form className="c-form" onSubmit={this.onSubmit} noValidate>
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.topic = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.topic = c;
+            }}
             onChange={(value) => this.onChange({ topic: value })}
             validations={['required']}
             className="-fluid"
@@ -92,7 +94,9 @@ class ContactUsForm extends React.Component {
           </Field>
 
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.email = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.email = c;
+            }}
             onChange={(value) => this.onChange({ email: value })}
             validations={['required', 'email']}
             className="-fluid"
@@ -109,7 +113,9 @@ class ContactUsForm extends React.Component {
           </Field>
 
           <Field
-            ref={(c) => { if (c) FORM_ELEMENTS.elements.text = c; }}
+            ref={(c) => {
+              if (c) FORM_ELEMENTS.elements.text = c;
+            }}
             onChange={(value) => this.onChange({ text: value })}
             validations={['required']}
             className="-fluid"
@@ -124,9 +130,15 @@ class ContactUsForm extends React.Component {
             {TextArea}
           </Field>
 
-          <div className="actions-container -align-right">
-            <button type="submit" className={`c-btn -primary ${submitting ? '-disabled' : null}`} disabled={submitting}>
-              {submitting && <Spinner className="-small -transparent -white-icon" isLoading={submitting} />}
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className={`c-btn -primary ${submitting ? '-disabled' : null}`}
+              disabled={submitting}
+            >
+              {submitting && (
+                <Spinner className="-small -transparent -white-icon" isLoading={submitting} />
+              )}
               Submit
             </button>
           </div>

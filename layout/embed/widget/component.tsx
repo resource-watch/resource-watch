@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
+import { replace } from '@vizzuality/layer-manager-utils';
 
 // components
 import LayoutEmbed from 'layout/layout/layout-embed';
@@ -73,7 +74,7 @@ const LayoutEmbedWidget = ({
 
   return (
     <LayoutEmbed
-      title={widget.name}
+      title={replace(widget.name, updatedParams)}
       description={`${widget.description || ''}`}
       {...(widget.thumbnailUrl && { thumbnailUrl: widget.thumbnailUrl })}
     >

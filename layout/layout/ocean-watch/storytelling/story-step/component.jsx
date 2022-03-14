@@ -145,8 +145,9 @@ export default function StoryStep({ data, geostore, params }) {
     () => ({
       geostore_env: 'geostore_prod',
       ...(geostore && { geostore_id: geostore }),
+      ...params,
     }),
-    [geostore],
+    [geostore, params],
   );
 
   return (
