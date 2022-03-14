@@ -928,7 +928,7 @@
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value) AS value FROM foo_063_rw0_nutrient_balance_edit AS data INNER JOIN gadm36_0 gadm ON data.iso = gadm.gid_0 WHERE indicator='Balance per hectare' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY time ORDER BY time DESC LIMIT 1",
-                          "text": "of excess nutrients per hectare were put into soil and nearby environment in {{geostore_country_name}} in the latest year",
+                          "text": "of excess nutrients per hectare were put into the soil and nearby environment in {{geostore_country_name}} in the latest year",
                           "format": ".1f",
                           "unit": "kg"
                         }
@@ -1936,7 +1936,7 @@
                         },
                         {
                           "query": "https://wri-rw.carto.com/api/v2/sql?q=SELECT SUM(value) AS value FROM foo_063_rw0_nutrient_balance_edit AS data INNER JOIN gadm36_0 gadm ON data.iso = gadm.gid_0 WHERE indicator='Balance per hectare' AND gadm.{{geostore_env}} ILIKE '{{geostore_id}}' GROUP BY time ORDER BY time DESC LIMIT 1",
-                          "text": "of excess nutrients per hectare were put into soil and nearby environment in {{geostore_country_name}} in the latest year",
+                          "text": "of excess nutrients per hectare were put into the soil and nearby environment in {{geostore_country_name}} in the latest year",
                           "format": ".1f",
                           "unit": "kg"
                         }
