@@ -1,9 +1,4 @@
-import {
-  useCallback,
-  useState,
-  useMemo,
-  useEffect,
-} from 'react';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Scrollama, Step } from 'react-scrollama';
 import classnames from 'classnames';
@@ -12,23 +7,44 @@ import { Tooltip } from 'vizzuality-components';
 // utils
 import { logEvent } from 'utils/analytics';
 
+// hooks
+import { useGeostore } from 'hooks/geostore';
+
 // components
 import Icon from 'components/ui/icon';
 import IndicatorsNavigation from './indicators-navigation/component';
 import StoryStep from './story-step';
 import StepBackground from './background';
 
-export default function OceanWatchStoryTelling({
-  indicators,
-  steps,
-  geostore,
-}) {
+export default function OceanWatchStoryTelling({ indicators, steps, geostore }) {
   const [selectedStep, setSelectedStep] = useState({
     id: 'opening',
     indicator: 'land-sea-interface',
   });
   const [showSkip, setShowSkip] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  const { data: geostoreProperties } = useGeostore(
+    geostore,
+    {},
+    {
+      enabled: Boolean(geostore),
+      select: (geostore) => {
+        if (!geostore) return {};
+        return geostore.geojson.features[0].properties || {};
+      },
+      placeholderData: null,
+    },
+  );
+
+  const params = useMemo(
+    () => ({
+      geostore_env: 'geostore_prod',
+      geostore_id: geostore,
+      ...geostoreProperties,
+    }),
+    [geostore, geostoreProperties],
+  );
 
   const onStepEnter = ({ data, direction }) => {
     setShowBackToTop(true);
@@ -58,9 +74,7 @@ export default function OceanWatchStoryTelling({
     }
 
     if (button) {
-      const {
-        title,
-      } = button.dataset;
+      const { title } = button.dataset;
 
       logEvent('Ocean Watch Storytelling', 'user clicks on step', title);
     }
@@ -90,13 +104,16 @@ export default function OceanWatchStoryTelling({
     setShowSkip(false);
   }, []);
 
-  const placeholderSteps = useMemo(() => steps.filter(
-    ({ isPlaceholder }) => isPlaceholder,
-  ), [steps]);
+  const placeholderSteps = useMemo(
+    () => steps.filter(({ isPlaceholder }) => isPlaceholder),
+    [steps],
+  );
 
   useEffect(() => {
     const onScroll = () => {
-      const floatingBarLimit = document.getElementById('intro-content').getBoundingClientRect().height - document.getElementById('countries-selection').getBoundingClientRect().height;
+      const floatingBarLimit =
+        document.getElementById('intro-content').getBoundingClientRect().height -
+        document.getElementById('countries-selection').getBoundingClientRect().height;
       window.requestAnimationFrame(() => {
         if (window.scrollY > floatingBarLimit) setShowSkip(false);
       });
@@ -135,12 +152,13 @@ export default function OceanWatchStoryTelling({
         }}
       >
         <div className="column small-12">
-          <nav style={{
-            position: 'relative',
-            margin: '25px 0',
-            background: '#0F4573',
-            zIndex: 2,
-          }}
+          <nav
+            style={{
+              position: 'relative',
+              margin: '25px 0',
+              background: '#0F4573',
+              zIndex: 2,
+            }}
           >
             <IndicatorsNavigation
               indicators={indicators}
@@ -164,10 +182,7 @@ export default function OceanWatchStoryTelling({
                     opacity: selectedStep.indicator === step.indicator ? 1 : 0,
                   }}
                 />
-                {(step.info || []).map(({
-                  content,
-                  position,
-                }, index) => (
+                {(step.info || []).map(({ content, position }, index) => (
                   <div
                     // eslint-disable-next-line react/no-array-index-key
                     key={`point-${index}`}
@@ -181,15 +196,15 @@ export default function OceanWatchStoryTelling({
                       pointerEvents: 'none',
                       opacity: 0,
                       zIndex: 0,
-                      ...selectedStep.id === step.id && {
+                      ...(selectedStep.id === step.id && {
                         opacity: 1,
                         pointerEvents: 'auto',
                         zIndex: 1,
-                      },
+                      }),
                     }}
                   >
                     <Tooltip
-                      overlay={(
+                      overlay={
                         <div
                           style={{
                             maxWidth: 350,
@@ -203,7 +218,7 @@ export default function OceanWatchStoryTelling({
                         >
                           {content}
                         </div>
-                    )}
+                      }
                       overlayClassName="c-rc-tooltip"
                       placement="top"
                       trigger="hover"
@@ -234,23 +249,11 @@ export default function OceanWatchStoryTelling({
           </div>
         </div>
       </div>
-      <Scrollama
-        onStepEnter={onStepEnter}
-      >
+      <Scrollama onStepEnter={onStepEnter}>
         {steps.map((step) => (
-          <Step
-            key={step.id}
-            data={step}
-          >
+          <Step key={step.id} data={step}>
             <div>
-              <StoryStep
-                data={step}
-                geostore={geostore}
-                params={{
-                  geostore_env: 'geostore_prod',
-                  geostore_id: geostore,
-                }}
-              />
+              <StoryStep data={step} geostore={geostore} params={params} />
             </div>
           </Step>
         ))}
@@ -258,14 +261,12 @@ export default function OceanWatchStoryTelling({
       <div
         className="storytelling-floating-bar"
         style={{
-          ...!showSkip && {
+          ...(!showSkip && {
             transform: 'translate(0, 120%)',
-          },
+          }),
         }}
       >
-        <div
-          className="bg-buttons"
-        >
+        <div className="bg-buttons">
           <button
             type="button"
             onClick={handleBackToTop}
