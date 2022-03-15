@@ -212,6 +212,19 @@ export default function MapSelection() {
     [router],
   );
 
+  const selectCountry = useCallback(
+    (evt) => {
+      const iso = evt.currentTarget.value;
+      router.push({
+        pathname: '/dashboards/ocean-watch/country/[iso]',
+        query: {
+          iso,
+        },
+      });
+    },
+    [router],
+  );
+
   const { data: areas } = useOceanWatchAreas({
     placeholderData: [],
     select: (_areas) =>
@@ -234,136 +247,114 @@ export default function MapSelection() {
           textAlign: 'center',
         }}
       >
-        <h3
-          style={{
-            fontSize: 64,
-            fontWeight: 300,
-            color: '#fff',
-          }}
-        >
-          Where?
-        </h3>
-        <p
-          style={{
-            fontSize: 26,
-            fontWeight: 300,
-            color: '#fff',
-            lineHeight: 1.4,
-          }}
-        >
+        <h3 className="text-lg font-light text-white md:text-2xl">Where?</h3>
+        <p className="text-base font-light leading-5 text-white md:text-lg md:leading-8">
           Select a coastline to further explore
           <br />
           land-based pressures upon the ocean
         </p>
       </div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          position: 'relative',
-          height: 475,
-        }}
-      >
-        <div
-          style={{
-            position: 'relative',
-            height: '100%',
-            width: '100%',
-          }}
-        >
-          <div
-            style={{
-              ...gradientStyles,
-              top: 0,
-              left: 0,
-              background: 'linear-gradient(to bottom, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
-            }}
-          />
-          <div
-            style={{
-              ...gradientStyles,
-              top: 0,
-              bottom: 0,
-              height: '100%',
-              width: 75,
-              background: 'linear-gradient(to right, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
-            }}
-          />
-          <div
-            style={{
-              ...gradientStyles,
-              top: 0,
-              right: 0,
-              bottom: 0,
-              height: '100%',
-              width: 75,
-              background: 'linear-gradient(to left, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
-            }}
-          />
-          <div
-            style={{
-              ...gradientStyles,
-              bottom: 0,
-              left: 0,
-              background: 'linear-gradient(to top, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
-            }}
-          />
-          <Map
-            mapStyle={MAPSTYLES}
-            viewport={viewport}
-            interactiveLayerIds={interactiveLayersIds}
-            fitBoundsOptions={{ transitionDuration: 0 }}
-            touchZoom={false}
-            basemap="none"
-            dragRotate={false}
-            scrollZoom={false}
-            onClick={handleClickCountry}
-            mapOptions={{
-              renderWorldCopies: false,
-            }}
-            onMapViewportChange={handleViewport}
-            onHover={handleHover}
-            onMapLoad={({ map }) => {
-              mapRef.current = map;
-            }}
-          >
-            {(_map) => (
-              <>
-                <LayerManager map={_map} layers={layers} />
-                {tooltip.lngLat && (
-                  <Popup
-                    latitude={tooltip.lngLat[1]}
-                    longitude={tooltip.lngLat[0]}
-                    closeButton={false}
-                    className="rw-ow-popup-layer"
-                    offsetTop={-20}
-                  >
-                    <span
-                      style={{
-                        color: '#fab72e',
-                        textShadow: '1px 1px 2px rgba(15, 69, 115, 0.75)',
-                      }}
+      <div className=" flex items-center relative md:h-[475px]">
+        <div className="relative w-full h-full">
+          <div className="relative hidden w-full h-full md:inline-block">
+            <div
+              style={{
+                ...gradientStyles,
+                top: 0,
+                left: 0,
+                background: 'linear-gradient(to bottom, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
+              }}
+            />
+            <div
+              style={{
+                ...gradientStyles,
+                top: 0,
+                bottom: 0,
+                height: '100%',
+                width: 75,
+                background: 'linear-gradient(to right, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
+              }}
+            />
+            <div
+              style={{
+                ...gradientStyles,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                height: '100%',
+                width: 75,
+                background: 'linear-gradient(to left, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
+              }}
+            />
+            <div
+              style={{
+                ...gradientStyles,
+                bottom: 0,
+                left: 0,
+                background: 'linear-gradient(to top, #0F4573 33%, rgba(15, 69, 115, 0) 100%)',
+              }}
+            />
+            <Map
+              mapStyle={MAPSTYLES}
+              viewport={viewport}
+              interactiveLayerIds={interactiveLayersIds}
+              fitBoundsOptions={{ transitionDuration: 0 }}
+              touchZoom={false}
+              basemap="none"
+              dragRotate={false}
+              scrollZoom={false}
+              onClick={handleClickCountry}
+              mapOptions={{
+                renderWorldCopies: false,
+              }}
+              onMapViewportChange={handleViewport}
+              onHover={handleHover}
+              onMapLoad={({ map }) => {
+                mapRef.current = map;
+              }}
+            >
+              {(_map) => (
+                <>
+                  <LayerManager map={_map} layers={layers} />
+                  {tooltip.lngLat && (
+                    <Popup
+                      latitude={tooltip.lngLat[1]}
+                      longitude={tooltip.lngLat[0]}
+                      closeButton={false}
+                      className="rw-ow-popup-layer"
+                      offsetTop={-20}
                     >
-                      {tooltip.countryName}
-                    </span>
-                  </Popup>
-                )}
+                      <span
+                        style={{
+                          color: '#fab72e',
+                          textShadow: '1px 1px 2px rgba(15, 69, 115, 0.75)',
+                        }}
+                      >
+                        {tooltip.countryName}
+                      </span>
+                    </Popup>
+                  )}
 
-                <MapControls
-                  style={{
-                    top: '50%',
-                    right: 60,
-                    transform: 'translate(0, -50%)',
-                  }}
-                >
-                  <ZoomControls className="-ocean-watch" viewport={viewport} onClick={handleZoom} />
-                </MapControls>
-              </>
-            )}
-          </Map>
+                  <MapControls
+                    style={{
+                      top: '50%',
+                      right: 60,
+                      transform: 'translate(0, -50%)',
+                    }}
+                  >
+                    <ZoomControls
+                      className="-ocean-watch"
+                      viewport={viewport}
+                      onClick={handleZoom}
+                    />
+                  </MapControls>
+                </>
+              )}
+            </Map>
+          </div>
           <div
+            className="mt-7 md:absolute md:m-0 map-select-container"
             style={{
-              position: 'absolute',
               bottom: 0,
               display: 'flex',
               justifyContent: 'center',
@@ -399,6 +390,25 @@ export default function MapSelection() {
                 Select a coastline
               </button>
             </Tooltip>
+          </div>
+          <div className="map-native-select-container">
+            <select
+              className="w-full p-2 mt-4 text-white border rounded border-gray-light"
+              style={{
+                background: '#0F4573',
+              }}
+              onChange={selectCountry}
+              defaultValue="none"
+            >
+              <option value="none" disabled hidden>
+                Select a coastline
+              </option>
+              {areas.map(({ label, value }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>

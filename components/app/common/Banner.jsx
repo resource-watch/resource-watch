@@ -1,14 +1,7 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-export default function Banner({
-  styles,
-  useBackground,
-  className,
-  bgImage,
-  useDim,
-  children,
-}) {
+export default function Banner({ styles, useBackground, className, bgImage, useDim, children }) {
   return (
     <section
       className={classNames({
@@ -19,9 +12,9 @@ export default function Banner({
       })}
       style={{
         ...styles,
-        ...bgImage && {
+        ...(bgImage && {
           backgroundImage: `url(${bgImage})`,
-        },
+        }),
       }}
     >
       {useDim ? (
@@ -32,7 +25,9 @@ export default function Banner({
         >
           {children}
         </div>
-      ) : children}
+      ) : (
+        children
+      )}
     </section>
   );
 }
@@ -47,12 +42,8 @@ Banner.defaultProps = {
 
 Banner.propTypes = {
   bgImage: PropTypes.string,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.element,
-    ),
-    PropTypes.element,
-  ]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element])
+    .isRequired,
   className: PropTypes.string,
   styles: PropTypes.shape({}),
   useDim: PropTypes.bool,

@@ -2,12 +2,12 @@
 
 .c-storytelling-step {
   position: relative;
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   pointer-events: none;
-  padding: 240px 0 150px;
+  padding: 120px 0 75px;
   background: linear-gradient(180deg, rgba(15,69,115,0) 0%, rgba(15, 69, 115, 0.7) 16.33%, rgba(15, 69, 115, 0.85) 79.68%, rgba(15,69,115,0) 100%);
 
   > .content {
@@ -20,40 +20,10 @@
 
     color: $white;
 
-    .story-title {
-      font-size: $font-size-h1;
-      color: $white;
-      text-align: center;
-    }
-
-    .story-subtitle {
-      margin: 0 0 ($space * 8);
-      font-size: 18px;
-      color: $white;
-      font-weight: $font-weight-regular;
-    }
-
-    .story-intro {
-      display: flex;
-      justify-content: center;
-      margin: ($space * 10) 0 0;
-
-      > p {
-        max-width: 450px;
-        text-align: center;
-      }
-    }
-
-    .widget-value {
-      font-size: 80px;
-      font-weight: $font-weight-light;
-    }
-
     .sections-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 0 0 ($space * 8);
 
       > .btn-section {
         position: relative;
@@ -95,5 +65,9 @@
       background: none;
       pointer-events: none;
     }
+  }
+
+  @media screen and (min-width: map-get($breakpoints, medium)) {
+    padding: 240px 0 150px;
   }
 }

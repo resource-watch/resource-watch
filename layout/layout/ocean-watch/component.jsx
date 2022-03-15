@@ -1,6 +1,4 @@
-import {
-  useEffect,
-} from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Progress from 'react-progress-2';
 import Toastr from 'react-redux-toastr';
@@ -23,11 +21,7 @@ import GDPRBanner from 'components/ui/gdpr-banner';
 
 const UserReportButton = dynamic(() => import('../../user-report'), { ssr: false });
 
-export default function LayoutOceanWatch({
-  title,
-  description,
-  children,
-}) {
+export default function LayoutOceanWatch({ title, description, children }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -48,26 +42,16 @@ export default function LayoutOceanWatch({
   }, [router]);
 
   return (
-    <div
-      id="#main"
-      className="l-ocean-watch"
-    >
-      <HeadApp
-        title={title}
-        description={description}
-      />
+    <div id="#main" className="l-ocean-watch">
+      <HeadApp title={title} description={description} />
 
       <GDPRBanner />
 
-      {!browserSupported()
-        && (
-        <Modal
-          open
-          canClose={false}
-        >
+      {!browserSupported() && (
+        <Modal open canClose={false}>
           <NoBrowserSupport />
         </Modal>
-        )}
+      )}
 
       <Icons />
       <IconsRW />
@@ -80,11 +64,7 @@ export default function LayoutOceanWatch({
 
       <Search />
 
-      <Toastr
-        preventDuplicates
-        transitionIn="fadeIn"
-        transitionOut="fadeOut"
-      />
+      <Toastr preventDuplicates transitionIn="fadeIn" transitionOut="fadeOut" />
 
       <UserReportButton />
     </div>
