@@ -1,6 +1,4 @@
-import {
-  useState,
-} from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import classnames from 'classnames';
@@ -25,7 +23,7 @@ const OCEAN_WATCH_TABS = [
   },
   {
     label: 'Coastal Profile',
-    value: '/dashboards/ocean-watch/country/[iso]',
+    value: '/dashboards/ocean-watch/country',
     route: '/dashboards/ocean-watch/country',
     params: {},
   },
@@ -43,12 +41,8 @@ const OCEAN_WATCH_TABS = [
   },
 ];
 
-export default function OceanWatchHero({
-  className,
-}) {
-  const {
-    pathname,
-  } = useRouter();
+export default function OceanWatchHero({ className }) {
+  const { pathname } = useRouter();
   const [shareVisible, setShareVisibility] = useState(false);
 
   return (
@@ -68,35 +62,27 @@ export default function OceanWatchHero({
                   alignItems: 'baseline',
                 }}
               >
-                <Breadcrumbs items={[
-                  {
-                    name: 'Dashboards',
-                    route: '/dashboards',
-                  },
-                ]}
+                <Breadcrumbs
+                  items={[
+                    {
+                      name: 'Dashboards',
+                      route: '/dashboards',
+                    },
+                  ]}
                 />
                 <button
                   type="button"
                   className="c-btn -tertiary -alt -clean"
                   onClick={() => setShareVisibility(true)}
                 >
-                  <Icon
-                    name="icon-share"
-                    className="-small"
-                  />
+                  <Icon name="icon-share" className="-small" />
                   <span>Share</span>
                 </button>
               </div>
               <h1 className="page-header-title">
-                Ocean Watch
-                {' '}
-                <sup>Beta</sup>
+                Ocean Watch <sup>Beta</sup>
               </h1>
-              <Tabs
-                options={OCEAN_WATCH_TABS}
-                defaultSelected={pathname}
-                selected={pathname}
-              />
+              <Tabs options={OCEAN_WATCH_TABS} defaultSelected={pathname} selected={pathname} />
             </div>
           </div>
         </div>

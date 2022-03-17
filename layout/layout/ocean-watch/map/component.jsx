@@ -215,10 +215,12 @@ export default function MapSelection() {
   const { data: areas } = useOceanWatchAreas({
     placeholderData: [],
     select: (_areas) =>
-      _areas.map(({ name, iso }) => ({
-        label: name,
-        value: iso,
-      })),
+      _areas
+        .filter(({ iso }) => iso !== 'GLB')
+        .map(({ name, iso }) => ({
+          label: name,
+          value: iso,
+        })),
   });
 
   return (

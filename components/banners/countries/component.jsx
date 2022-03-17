@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-} from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Tether from 'react-tether';
 
@@ -12,11 +7,7 @@ import TooltipContainer from 'components/tooltip-container';
 import DropdownList from 'components/dropdown-list';
 import Banner from 'components/app/common/Banner';
 
-export default function BannerCountries({
-  title,
-  countryList,
-  onChangeCountry,
-}) {
+export default function BannerCountries({ title, countryList, onChangeCountry }) {
   const [isVisible, setVisibility] = useState(false);
   let countrySelectorRef = useRef(null);
   const tetherRef = useRef(null);
@@ -35,8 +26,8 @@ export default function BannerCountries({
     const handleMouseDown = (e) => {
       const countrySelectorDOM = countrySelectorRef.current;
       const buttonDOM = buttonRef.current;
-      const clickOutside = !countrySelectorDOM?.contains(e.target)
-        && !buttonDOM?.contains(e.target);
+      const clickOutside =
+        !countrySelectorDOM?.contains(e.target) && !buttonDOM?.contains(e.target);
       if (clickOutside) setVisibility(false);
     };
 
@@ -61,19 +52,22 @@ export default function BannerCountries({
         borderRadius: 5,
       }}
     >
-      <h3 className="-claim">
-        {title}
-      </h3>
-      <div style={{
-        marginTop: 15,
-      }}
+      <h3 className="-claim">{title}</h3>
+      <div
+        style={{
+          marginTop: 15,
+        }}
       >
         <Tether
-          ref={(tether) => { tetherRef.current = tether; }}
+          ref={(tether) => {
+            tetherRef.current = tether;
+          }}
           attachment="bottom center"
-          constraints={[{
-            to: 'window',
-          }]}
+          constraints={[
+            {
+              to: 'window',
+            },
+          ]}
           offset="15px 0"
           renderTarget={(ref) => {
             buttonRef = ref;
@@ -85,7 +79,7 @@ export default function BannerCountries({
                 className="c-btn -secondary -no-hover"
                 onClick={toggleDropdown}
               >
-                Select a country
+                Select a coastline
               </button>
             );
           }}
@@ -113,10 +107,7 @@ export default function BannerCountries({
 }
 
 BannerCountries.propTypes = {
-  title: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-  ]).isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   countryList: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,

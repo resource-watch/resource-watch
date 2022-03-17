@@ -1,15 +1,10 @@
-import {
-  useState,
-  useCallback,
-} from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import sortBy from 'lodash/sortBy';
 import Select from 'react-select';
 
 // hooks
-import {
-  useOceanWatchAreas,
-} from 'hooks/ocean-watch';
+import { useOceanWatchAreas } from 'hooks/ocean-watch';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
@@ -21,27 +16,28 @@ export default function OceanWatchCountryProfiles() {
   const router = useRouter();
   const [countryValue, setCountryValue] = useState();
 
-  const {
-    data: areas,
-  } = useOceanWatchAreas({
-    select: (_areas) => sortBy(_areas.map(({
-      name: label,
-      iso: value,
-    }) => ({
-      label,
-      value,
-    })), ['label']),
+  const { data: areas } = useOceanWatchAreas({
+    select: (_areas) =>
+      _areas
+        .filter(({ iso }) => iso !== 'GLB')
+        .map(({ name: label, iso: value }) => ({
+          label,
+          value,
+        })),
   });
 
-  const handleAreaChange = useCallback(({ value }) => {
-    setCountryValue(value);
-    router.push({
-      pathname: '/dashboards/ocean-watch/country/[iso]',
-      query: {
-        iso: value,
-      },
-    });
-  }, [router]);
+  const handleAreaChange = useCallback(
+    ({ value }) => {
+      setCountryValue(value);
+      router.push({
+        pathname: '/dashboards/ocean-watch/country/[iso]',
+        query: {
+          iso: value,
+        },
+      });
+    },
+    [router],
+  );
 
   return (
     <LayoutOceanWatch
@@ -84,9 +80,7 @@ export default function OceanWatchCountryProfiles() {
                     textAlign: 'center',
                   }}
                 >
-                  Select a coastline country to further explore
-                  {' '}
-                  <br />
+                  Select a coastline country to further explore <br />
                   land-based pressures upon the ocean.
                 </h3>
               </div>
