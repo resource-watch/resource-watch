@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `next@12.0.10`
 
 ### Fixed
+- ocean watch: highlight of "Coastal Profile" tab.
 - highlighting of navigation bar based on current page. [RW-92](https://vizzuality.atlassian.net/browse/RW-92)
 - storybook: star icon appearing in widget header. [RW-78](https://vizzuality.atlassian.net/browse/RW-78)
 - wrong attributes sent to the user data creation endpoint.
