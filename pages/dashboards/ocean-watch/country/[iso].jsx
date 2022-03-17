@@ -71,6 +71,7 @@ export default function OceanWatchCountryProfilePage({ iso }) {
 
   const { data: areas } = useOceanWatchAreas({
     placeholderData: queryClient.getQueryData('ocean-watch-areas') || [],
+    select: (_areas) => _areas.filter(({ iso }) => iso !== 'GLB'),
   });
 
   const { data: oceanWatchConfig } = useQuery(
@@ -625,11 +626,13 @@ export async function getStaticPaths() {
   const areas = queryClient.getQueryData('ocean-watch-areas');
 
   return {
-    paths: areas.map(({ iso }) => ({
-      params: {
-        iso,
-      },
-    })),
+    paths: areas
+      .filter(({ iso }) => iso !== 'GLB')
+      .map(({ iso }) => ({
+        params: {
+          iso,
+        },
+      })),
     fallback: false,
   };
 }
