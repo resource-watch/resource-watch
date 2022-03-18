@@ -382,7 +382,7 @@ export default function MapSelection() {
               </button>
             </Tooltip>
           </div>
-          <div className="map-native-select-container">
+          <div className="w-full map-native-select-container">
             <select
               className="w-full p-2 mt-4 text-white border rounded border-gray-light"
               style={{
