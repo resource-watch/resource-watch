@@ -24,13 +24,7 @@ function renderWidget({ id: widgetId, type: widgetType, handleShareWidget, param
       {widgetId && widgetType === 'chart' && (
         <InView triggerOnce threshold={0.25}>
           {({ ref, inView }) => (
-            <div
-              ref={ref}
-              style={{
-                width: '100%',
-                height: '100%',
-              }}
-            >
+            <div ref={ref} className="w-full h-full">
               {inView && (
                 <ChartWidget
                   widgetId={widgetId}
@@ -153,8 +147,8 @@ export default function StoryStep({ data, geostore, params }) {
   return (
     <>
       <div
-        className={classnames('c-storytelling-step', {
-          '-is-placeholder': data.isPlaceholder,
+        className={classnames('c-storytelling-step md:h-screen', {
+          '-is-placeholder h-screen': data.isPlaceholder,
         })}
         id={data.id}
       >
@@ -168,49 +162,38 @@ export default function StoryStep({ data, geostore, params }) {
                 }}
               >
                 <div className="column small-12">
-                  {content.title && <h3 className="story-title">{content.title}</h3>}
+                  {content.title && (
+                    <h3 className="text-lg font-normal text-center text-white md:text-2xl md:font-light">
+                      {content.title}
+                    </h3>
+                  )}
                   {content.subtitle && (
-                    <h4 className="story-subtitle -text-center">{content.subtitle}</h4>
+                    <h4 className="mb-0 font-normal text-center text-white text-[18px] md:mb-10">
+                      {content.subtitle}
+                    </h4>
                   )}
                   {content.intro && (
-                    <div className="story-intro">
-                      <p className="-text-center">{content.intro}</p>
+                    <div className="flex justify-center m-0">
+                      <p className="mt-4 text-center md:mt-12 md:max-w-[450px]">{content.intro}</p>
                     </div>
                   )}
                 </div>
               </div>
 
               {content.widget && (
-                <div
-                  className="row"
-                  style={{
-                    width: '100%',
-                  }}
-                >
+                <div className="w-full row">
                   {content.widget.map((_widgetBlock, index) => (
                     <div
                       // eslint-disable-next-line react/no-array-index-key
                       key={`_widgetBlock-${index}`}
-                      className={classnames({
-                        column: true,
-                        'small-12': content.widget.length === 1,
-                        'medium-6': content.widget.length === 2,
-                      })}
+                      className="column small-12 medium-6"
                     >
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          flexDirection: 'column',
-                          height: '100%',
-                        }}
-                      >
+                      <div className="flex flex-col items-center justify-center h-full mt-6 md:mt-0">
                         {_widgetBlock.description && (
-                          <p className="-text-center">{_widgetBlock.description}</p>
+                          <p className="text-center">{_widgetBlock.description}</p>
                         )}
                         {_widgetBlock.value && (
-                          <span className="widget-value">
+                          <span className="font-light text-xl md:text-[80px]">
                             {_widgetBlock.format
                               ? format(_widgetBlock.format)(_widgetBlock.value)
                               : _widgetBlock.value}
@@ -232,13 +215,13 @@ export default function StoryStep({ data, geostore, params }) {
 
               {serializedSections.length > 0 && (
                 <div
+                  className="w-full"
                   style={{
                     margin: '25px 0 0',
-                    width: '100%',
                   }}
                 >
                   <div className="row">
-                    <div className="column small-6">
+                    <div className="column small-12 medium-6">
                       <div
                         style={{
                           display: 'flex',
@@ -277,7 +260,7 @@ export default function StoryStep({ data, geostore, params }) {
                               }}
                             >
                               {currentSection.widget.find(({ description }) => description) && (
-                                <p className="-text-center">
+                                <p className="text-center">
                                   {
                                     currentSection.widget.find(({ description }) => description)
                                       .description
@@ -285,7 +268,7 @@ export default function StoryStep({ data, geostore, params }) {
                                 </p>
                               )}
                               {queryValueSection && (
-                                <span className="widget-value">
+                                <span className="text-lg md:text-[80px] font-light">
                                   {queryValueSection}
                                   {currentSection.widget.find(({ unit }) => unit)?.unit}
                                 </span>
@@ -306,19 +289,11 @@ export default function StoryStep({ data, geostore, params }) {
                         )}
                       </div>
                     </div>
-                    <div className="column small-6">
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          height: '100%',
-                        }}
-                      >
+                    <div className="column small-12 medium-6">
+                      <div className="flex flex-col items-center justify-center h-full">
                         {content.sectionPosition === 'right' && (
                           <>
-                            <div className="sections-container">
+                            <div className="mt-4 mb-4 sections-container md:mb-10">
                               {serializedSections.map(({ id, title }) => (
                                 <button
                                   key={id}
@@ -327,7 +302,7 @@ export default function StoryStep({ data, geostore, params }) {
                                     handleSection(id);
                                   }}
                                   className={classnames({
-                                    'btn-section': true,
+                                    'btn-section leading-5': true,
                                     '-active': currentSection?.id === id,
                                   })}
                                 >
@@ -352,7 +327,7 @@ export default function StoryStep({ data, geostore, params }) {
                                 </p>
                               )}
                               {queryValueSection && (
-                                <span className="widget-value">
+                                <span className="text-lg md:text-[80px] font-light">
                                   {queryValueSection}
                                   {currentSection.widget.find(({ unit }) => unit)?.unit}
                                 </span>

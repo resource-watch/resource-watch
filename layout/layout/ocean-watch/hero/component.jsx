@@ -79,10 +79,15 @@ export default function OceanWatchHero({ className }) {
                   <span>Share</span>
                 </button>
               </div>
-              <h1 className="page-header-title">
+              <h1 className="mb-2 page-header-title md:mb-8">
                 Ocean Watch <sup>Beta</sup>
               </h1>
-              <Tabs options={OCEAN_WATCH_TABS} defaultSelected={pathname} selected={pathname} />
+              <Tabs
+                options={OCEAN_WATCH_TABS}
+                defaultSelected={pathname}
+                selected={pathname}
+                className="overflow-x-auto"
+              />
             </div>
           </div>
         </div>
