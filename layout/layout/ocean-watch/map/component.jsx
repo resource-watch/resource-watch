@@ -352,16 +352,7 @@ export default function MapSelection() {
               )}
             </Map>
           </div>
-          <div
-            className="mt-7 md:absolute md:m-0 map-select-container"
-            style={{
-              bottom: 0,
-              display: 'flex',
-              justifyContent: 'center',
-              width: '100%',
-              zIndex: 3,
-            }}
-          >
+          <div className="bottom-0 z-10 justify-center w-full mt-7 md:absolute md:m-0 map-select-container">
             <Tooltip
               overlay={
                 <TooltipList
