@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - custom "no data" for set of indicators. [OW-179](https://vizzuality.atlassian.net/browse/OW-179)
 
 ### Changed
+- removes noindex meta tag in development.
 - ocean watch: removes `the World` in country index page.
 - ocean watch: removes `the World` from coastline options list.
 - moves native `scripts` to NextJS scripts.
