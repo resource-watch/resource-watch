@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, FC } from 'react';
 import Head from 'next/head';
 
 // components
@@ -25,7 +25,9 @@ import { Media } from 'lib/media';
 // constants
 import { EXPLORE_SECTIONS, EXPLORE_SUBSECTIONS } from './constants';
 
-const Explore = (props) => {
+import type { ExploreLayoutProps } from 'layout/explore/types';
+
+const Explore: FC<ExploreLayoutProps> = (props) => {
   const {
     explore: {
       datasets: { selected },
