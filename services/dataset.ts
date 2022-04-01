@@ -4,6 +4,9 @@ import WRISerializer from 'wri-json-api-serializer';
 import { WRIAPI } from 'utils/axios';
 import { logger } from 'utils/logs';
 
+// types
+import { APIDatasetSpec } from 'types/dataset';
+
 // API docs: https://resource-watch.github.io/doc-api/index-rw.html#dataset
 
 /**
@@ -67,16 +70,14 @@ export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
  * @param {Object} params - params sent to the API.
  * @returns {Object} serialized specified dataset.
  */
-export const fetchDataset = (id, params = {}) => {
+export const fetchDataset = (
+  id: string,
+  params: Record<string, string | number> = {},
+): Promise<APIDatasetSpec> => {
   if (!id) throw Error('dataset id is mandatory to perform this fetching.');
   logger.info(`Fetch dataset: ${id}`);
 
-  return WRIAPI.get(`/v1/dataset/${id}`, {
-    headers: {
-      ...WRIAPI.defaults.headers,
-      // TO-DO: forces the API to not cache, this should be removed at some point
-      'Upgrade-Insecure-Requests': 1,
-    },
+  return WRIAPI.get<APIDatasetSpec>(`/v1/dataset/${id}`, {
     params: {
       env: process.env.NEXT_PUBLIC_API_ENV,
       ...params,
