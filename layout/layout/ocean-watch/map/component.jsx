@@ -384,9 +384,10 @@ export default function MapSelection() {
           </div>
           <div className="w-full map-native-select-container">
             <select
-              className="w-full p-2 mt-4 text-white border rounded border-gray-light"
+              className="w-full p-2 mt-4 text-center text-white border rounded appearance-none border-gray-light"
               style={{
                 background: '#0F4573',
+                height: 45,
               }}
               onChange={selectCountry}
               defaultValue="none"

@@ -26,6 +26,7 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
   });
   const [showSkip, setShowSkip] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showMobileIndicatorSelector, setMobileIndicatorSelector] = useState(true);
 
   const { data: geostoreProperties } = useGeostore(
     geostore,
@@ -54,14 +55,30 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
     // displays button at the beginning of the first step
     if (direction === 'down' && data.id === 'opening') setShowSkip(true);
     // hides button at the end of the last step
-    if (data.id === steps[steps.length - 1].id && direction === 'down') setShowSkip(false);
-    if (direction === 'up') setShowSkip(true);
+    if (data.id === steps[steps.length - 1].id && direction === 'down') {
+      setShowSkip(false);
+      setMobileIndicatorSelector(false);
+    }
+    if (direction === 'up') {
+      setShowSkip(true);
+      setMobileIndicatorSelector(true);
+    }
     if (direction === 'up' && data.id === 'opening') setShowSkip(false);
 
     setSelectedStep({
       id: data.id,
       indicator: data.indicator,
     });
+  };
+
+  const onStepExit = ({ data, direction }) => {
+    if (data.id === steps[steps.length - 1].id && direction === 'up') {
+      setMobileIndicatorSelector(true);
+    }
+
+    if (data.id === steps[steps.length - 1].id && direction === 'down') {
+      setMobileIndicatorSelector(false);
+    }
   };
 
   const handleClickIndicator = (id) => {
@@ -175,7 +192,10 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
       </Media>
 
       <div
-        className="sticky top-0 z-20 py-4 lg:py-0"
+        className={classnames('top-0 z-20 sticky py-4 lg:py-0 transition-opacity', {
+          'opacity-0': !showMobileIndicatorSelector,
+          'opacity-1': showMobileIndicatorSelector,
+        })}
         style={{
           background: '#0F4573',
         }}
@@ -185,8 +205,9 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
             <select
               style={{
                 background: '#0F4573',
+                height: 45,
               }}
-              className="z-50 w-full p-2 text-white border rounded border-gray-light"
+              className="z-50 w-full p-2 text-center text-white border rounded appearance-none border-gray-light"
               onChange={handleSelectIndicator}
               value={selectedStep.indicator}
             >
@@ -301,7 +322,7 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
           </div>
         </div>
       </div>
-      <Scrollama onStepEnter={onStepEnter}>
+      <Scrollama onStepEnter={onStepEnter} onStepExit={onStepExit}>
         {steps.map((step) => (
           <Step key={step.id} data={step}>
             <div>

@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Head from 'next/head';
 import classnames from 'classnames';
 import { useQuery, QueryClient, useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -181,6 +182,9 @@ export default function OceanWatchCountryProfilePage({ iso }) {
       title="Ocean Watch"
       description="Ocean Watch description" // todo: replace description
     >
+      <Head>
+        <meta name="viewport" content="width=1024" />
+      </Head>
       <Header className="-transparent" />
       <OceanWatchHero className="-ocean-watch" />
       <section
