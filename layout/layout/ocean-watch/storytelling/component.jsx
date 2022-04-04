@@ -10,6 +10,9 @@ import { logEvent } from 'utils/analytics';
 // hooks
 import { useGeostore } from 'hooks/geostore';
 
+// lib
+import { Media } from 'lib/media';
+
 // components
 import Icon from 'components/ui/icon';
 import IndicatorsNavigation from './indicators-navigation/component';
@@ -23,6 +26,7 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
   });
   const [showSkip, setShowSkip] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showMobileIndicatorSelector, setMobileIndicatorSelector] = useState(true);
 
   const { data: geostoreProperties } = useGeostore(
     geostore,
@@ -51,14 +55,30 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
     // displays button at the beginning of the first step
     if (direction === 'down' && data.id === 'opening') setShowSkip(true);
     // hides button at the end of the last step
-    if (data.id === steps[steps.length - 1].id && direction === 'down') setShowSkip(false);
-    if (direction === 'up') setShowSkip(true);
+    if (data.id === steps[steps.length - 1].id && direction === 'down') {
+      setShowSkip(false);
+      setMobileIndicatorSelector(false);
+    }
+    if (direction === 'up') {
+      setShowSkip(true);
+      setMobileIndicatorSelector(true);
+    }
     if (direction === 'up' && data.id === 'opening') setShowSkip(false);
 
     setSelectedStep({
       id: data.id,
       indicator: data.indicator,
     });
+  };
+
+  const onStepExit = ({ data, direction }) => {
+    if (data.id === steps[steps.length - 1].id && direction === 'up') {
+      setMobileIndicatorSelector(true);
+    }
+
+    if (data.id === steps[steps.length - 1].id && direction === 'down') {
+      setMobileIndicatorSelector(false);
+    }
   };
 
   const handleClickIndicator = (id) => {
@@ -77,6 +97,22 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
       const { title } = button.dataset;
 
       logEvent('Ocean Watch Storytelling', 'user clicks on step', title);
+    }
+  };
+
+  const handleSelectIndicator = (evt) => {
+    const id = evt.currentTarget.value;
+    const element = document.getElementById(`${id}-1`);
+    const button = document.getElementById(id);
+
+    if (element) {
+      element.scrollIntoView(true);
+    }
+
+    if (button) {
+      const { title } = button.dataset;
+
+      logEvent('Ocean Watch Storytelling', 'user selects step', title);
     }
   };
 
@@ -130,27 +166,13 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
     <div className="l-container">
       <div className="row">
         <div className="column small-12">
-          <h3
-            style={{
-              fontSize: 42,
-              fontWeight: '300',
-              color: '#fff',
-            }}
-          >
+          <h3 className="text-lg font-light text-white md:text-xl">
             Select a topic to explore its data
           </h3>
         </div>
       </div>
 
-      <div
-        style={{
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+      <Media lessThan="lg">
         <div className="column small-12">
           <nav
             style={{
@@ -166,13 +188,67 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
               onClickIndicator={handleClickIndicator}
             />
           </nav>
+        </div>
+      </Media>
+
+      <div
+        className={classnames('top-0 z-20 sticky py-4 lg:py-0 transition-opacity', {
+          'opacity-0': !showMobileIndicatorSelector,
+          'opacity-1': showMobileIndicatorSelector,
+        })}
+        style={{
+          background: '#0F4573',
+        }}
+      >
+        <div className="column small-12">
+          <Media lessThan="lg">
+            <select
+              style={{
+                background: '#0F4573',
+                height: 45,
+              }}
+              className="z-50 w-full p-2 text-center text-white border rounded appearance-none border-gray-light"
+              onChange={handleSelectIndicator}
+              value={selectedStep.indicator}
+            >
+              {indicators.map(({ id, title }) => (
+                <option key={id} value={id}>
+                  {title}
+                </option>
+              ))}
+            </select>
+          </Media>
+        </div>
+      </div>
+
+      <div className="sticky top-0 flex flex-col h-screen">
+        <div className="flex items-center md:inline-block column small-12">
+          <Media greaterThanOrEqual="lg">
+            <nav
+              style={{
+                position: 'relative',
+                margin: '25px 0',
+                background: '#0F4573',
+                zIndex: 2,
+              }}
+            >
+              <IndicatorsNavigation
+                indicators={indicators}
+                selectedIndicator={selectedStep.indicator}
+                onClickIndicator={handleClickIndicator}
+              />
+            </nav>
+          </Media>
           <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              // 210px: height of the navigation bar
-              height: 'calc(100% - 210px)',
-            }}
+            style={
+              {
+                // position: 'relative',
+                // width: '100%',
+                // 210px: height of the navigation bar
+                // height: 'calc(100% - 210px)',
+              }
+            }
+            className="relative w-full placeholder-step-container"
           >
             {placeholderSteps.map((step) => (
               <div key={step.id}>
@@ -186,18 +262,15 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
                   <div
                     // eslint-disable-next-line react/no-array-index-key
                     key={`point-${index}`}
-                    className={classnames('info-point absolute opacity-0', {
-                      'opacity-100': selectedStep.id === step.id,
+                    className={classnames('info-point absolute pointer-events-none', {
+                      'opacity-0': selectedStep.id !== step.id,
+                      'opacity-1': selectedStep.id === step.id,
                     })}
                     style={{
-                      position: 'absolute',
                       left: `${position[0]}%`,
                       top: `${position[1]}%`,
-                      pointerEvents: 'none',
-                      opacity: 0,
                       zIndex: 0,
                       ...(selectedStep.id === step.id && {
-                        opacity: 1,
                         pointerEvents: 'auto',
                         zIndex: 1,
                       }),
@@ -249,7 +322,7 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
           </div>
         </div>
       </div>
-      <Scrollama onStepEnter={onStepEnter}>
+      <Scrollama onStepEnter={onStepEnter} onStepExit={onStepExit}>
         {steps.map((step) => (
           <Step key={step.id} data={step}>
             <div>
@@ -266,22 +339,33 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
           }),
         }}
       >
-        <div className="bg-buttons">
-          <button
-            type="button"
-            onClick={handleBackToTop}
-            className="c-button -secondary -alt"
-            style={{
-              position: 'absolute',
-              left: 0,
-              transform: 'translate(-50%, 0)',
-              pointerEvents: 'all',
-              transition: 'opacity 0.24s cubic-bezier(0.445, 0.05, 0.55, 0.95)',
-              opacity: showBackToTop ? 1 : 0,
-            }}
-          >
-            Back to top
-          </button>
+        <div className="relative flex flex-row-reverse justify-center w-full md:w-auto md:flex-row bg-buttons">
+          <div className="hidden md:inline-block">
+            <button
+              type="button"
+              onClick={handleBackToTop}
+              className="c-button -secondary -alt"
+              style={{
+                position: 'absolute',
+                left: 0,
+                transform: 'translate(-50%, 0)',
+                pointerEvents: 'all',
+                transition: 'opacity 0.24s cubic-bezier(0.445, 0.05, 0.55, 0.95)',
+                opacity: showBackToTop ? 1 : 0,
+              }}
+            >
+              Back to top
+            </button>
+          </div>
+          <div className="md:hidden">
+            <button
+              type="button"
+              onClick={handleBackToTop}
+              className="absolute z-20 w-8 h-8 p-1 -translate-y-1/2 border border-white rounded-full right-5 top-1/2"
+            >
+              <Icon name="icon-arrow-up" className="w-full h-full fill-white" />
+            </button>
+          </div>
 
           <button
             type="button"

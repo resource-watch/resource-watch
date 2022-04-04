@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 
-export default function StepBackground({
-  src,
-  style,
-}) {
+export default function StepBackground({ src, style }) {
   return (
     <div
       className="c-storytelling-background"

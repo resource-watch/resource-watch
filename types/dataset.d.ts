@@ -7,6 +7,7 @@ export interface APIDatasetSpec {
   id: string;
   layer?: APILayerSpec[];
   name: string;
+  published: boolean;
   slug: string;
   type: 'dataset';
   widget?: APIWidgetSpec[];

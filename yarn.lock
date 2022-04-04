@@ -19215,7 +19215,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raf@npm:^3.0.0, raf@npm:^3.3.0, raf@npm:^3.4.0":
+"raf@npm:^3.0.0, raf@npm:^3.3.0, raf@npm:^3.4.0, raf@npm:^3.4.1":
   version: 3.4.1
   resolution: "raf@npm:3.4.1"
   dependencies:
@@ -21568,6 +21568,7 @@ __metadata:
     redux-thunk: 2.1.0
     redux-tools: "git+https://github.com/Vizzuality/redux-tools.git#v3.3.1"
     reselect: 3.0.1
+    rooks: 5.10.2
     sass: ^1.44.0
     sass-loader: ^10.0.0
     serve-static: ^1.13.2
@@ -21651,6 +21652,19 @@ __metadata:
     hash-base: ^3.0.0
     inherits: ^2.0.1
   checksum: 006accc40578ee2beae382757c4ce2908a826b27e2b079efdcd2959ee544ddf210b7b5d7d5e80467807604244e7388427330f5c6d4cd61e6edaddc5773ccc393
+  languageName: node
+  linkType: hard
+
+"rooks@npm:5.10.2":
+  version: 5.10.2
+  resolution: "rooks@npm:5.10.2"
+  dependencies:
+    lodash.debounce: ^4.0.8
+    raf: ^3.4.1
+  peerDependencies:
+    react: ^16.8.0  || ^17.0.0
+    react-dom: ^16.8.0  || ^17.0.0
+  checksum: f164fa8871d60510ca45ae8d7f6cf4114910ce5ff3e47be831aff9342578ddba678bd9c2f6060c81ae6b3a544b624a15170b22c4894e1f52b62c0b42cb1cc4a0
   languageName: node
   linkType: hard
 

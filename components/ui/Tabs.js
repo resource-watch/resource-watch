@@ -18,7 +18,7 @@ export default class Tabs extends React.Component {
   /**
    * UI EVENTS
    * - onChangeTab
-  */
+   */
   onChangeTab(selected) {
     this.setState({ selected }, () => {
       if (this.props.onChange) this.props.onChange(selected);
@@ -31,12 +31,12 @@ export default class Tabs extends React.Component {
 
     return (
       <header
-        className={classnames({
+        className={classnames('md:mt-8 overflow-x-auto', {
           'c-tabs': true,
           [className]: !!className,
         })}
       >
-        <div className="row l-row">
+        <ul className="flex space-x-5">
           {options.map((option) => {
             const btnClasses = classnames({
               '-active': option.value === selected,
@@ -44,31 +44,29 @@ export default class Tabs extends React.Component {
             });
 
             return (
-              <div
-                key={option.value}
-                className="column shrink"
-              >
-                {option.route
-                  && (
+              <li key={option.value}>
+                {option.route && (
                   <Link href={option.route}>
                     <a className={`tabs-btn ${btnClasses}`}>
                       <span className="title">{option.label}</span>
                       {!!option.number && <span className="number">{option.number}</span>}
                     </a>
                   </Link>
-                  )}
+                )}
 
-                {!option.route
-                  && (
-                  <button className={`tabs-btn ${btnClasses}`} onClick={() => this.onChangeTab(option.value)}>
+                {!option.route && (
+                  <button
+                    className={`tabs-btn ${btnClasses}`}
+                    onClick={() => this.onChangeTab(option.value)}
+                  >
                     <span className="title">{option.label}</span>
                     {!!option.number && <span className="number">{option.number}</span>}
                   </button>
-                  )}
-              </div>
+                )}
+              </li>
             );
           })}
-        </div>
+        </ul>
       </header>
     );
   }

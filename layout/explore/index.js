@@ -5,9 +5,10 @@ import * as actions from './actions';
 import LayoutExplore from './component';
 
 export default connect(
-  (state) => ({
+  (state, pageProps) => ({
     explore: state.explore,
     userIsLoggedIn: !!state.user.id,
+    ...pageProps,
   }),
   actions,
 )(LayoutExplore);
