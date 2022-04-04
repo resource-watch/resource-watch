@@ -7,10 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.X.X] - 2022-XX-XX
 ### Added
+- canonical URL to explore pages. [RW-127](https://vizzuality.atlassian.net/browse/RW-127)
+- meta tag to not index explore page for unpublished datasets. [RW-126](https://vizzuality.atlassian.net/browse/RW-126)
+- ocean watch: responsive homepage. [OW-209](https://vizzuality.atlassian.net/browse/OW-209)
 - geostore names to widget titles.
 - custom "no data" for set of indicators. [OW-179](https://vizzuality.atlassian.net/browse/OW-179)
 
 ### Changed
+- removes noindex meta tag in development.
+- ocean watch: removes `the World` in country index page.
+- ocean watch: removes `the World` from coastline options list.
 - moves native `scripts` to NextJS scripts.
 - updates `eslint@8.9.0` and other linters and plugins.
 - `next@12.1.0`
@@ -19,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `next@12.0.10`
 
 ### Fixed
+- ocean watch: highlight of "Coastal Profile" tab.
 - highlighting of navigation bar based on current page. [RW-92](https://vizzuality.atlassian.net/browse/RW-92)
 - storybook: star icon appearing in widget header. [RW-78](https://vizzuality.atlassian.net/browse/RW-78)
 - wrong attributes sent to the user data creation endpoint.

@@ -98,6 +98,7 @@
     "redux-thunk": "2.1.0",
     "redux-tools": "git+https://github.com/Vizzuality/redux-tools.git#v3.3.1",
     "reselect": "3.0.1",
+    "rooks": "5.10.2",
     "serve-static": "^1.13.2",
     "use-debounce": "^7.0.1",
     "uuid": "^8.3.2",

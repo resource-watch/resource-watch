@@ -50,6 +50,38 @@
     }
   }
 
+  .placeholder-step-container {
+    height: 50%;
+
+    @media screen and (min-width: 768px) {
+      height: calc(100% - 410px);
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+
+    @media screen and (min-width: map-get($breakpoints, large)) {
+      height: calc(100% - 210px);
+      top: 0;
+      transform: none;
+    }
+  }
+
+  .map-select-container {
+    display: none;
+
+    @media screen and (min-width: 767px) {
+      display: flex;
+    }
+  }
+
+  .map-native-select-container {
+    display: inline-block;
+
+    @media screen and (min-width: 767px) {
+      display: none;
+    }
+  }
+
   .storytelling-floating-bar {
     z-index: 11;
     position: fixed;
@@ -58,7 +90,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    pointer-events: none;
+    // pointer-events: none;
     transition: transform .16s cubic-bezier(0.645, 0.045, 0.355, 1.000);
 
     > .bg-buttons {

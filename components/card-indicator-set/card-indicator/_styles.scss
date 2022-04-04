@@ -5,9 +5,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  height: 160px;
-  width: 160px;
-  padding: ($space * 2);
+  // height: 160px;
+  // width: 160px;
+  // padding: ($space * 2);
   border: 1px solid rgba($white, .3);
   border-radius: 4px;
   box-shadow: 0 1px 2px 0 rgba($black, .09);
@@ -25,12 +25,6 @@
     width: 50px;
     height: 50px;
     fill: $blue-turquoise;
-  }
-
-  > .card-title {
-    display: inline-block;
-    font-size: $font-size-medium;
-    font-weight: 500;
   }
 
   &.-primary {

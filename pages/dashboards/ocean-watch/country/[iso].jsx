@@ -1,5 +1,6 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Head from 'next/head';
 import classnames from 'classnames';
 import { useQuery, QueryClient, useQueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -12,6 +13,7 @@ import Select from 'react-select';
 import Sticky from 'react-stickynode';
 import { Link as ScrollLink } from 'react-scroll';
 import flattenDeep from 'lodash/flattenDeep';
+import { useMediaMatch } from 'rooks';
 
 // components
 import LayoutOceanWatch from 'layout/layout/ocean-watch';
@@ -28,6 +30,7 @@ import MapWidget from 'components/widgets/types/map';
 import SwipeMapWidget from 'components/widgets/types/map-swipe';
 import ChartWidget from 'components/widgets/types/chart';
 import Banner from 'components/app/common/Banner';
+import Modal from 'components/modal/modal-component';
 
 // hooks
 import { useOceanWatchAreas } from 'hooks/ocean-watch';
@@ -46,7 +49,9 @@ const WidgetShareModal = dynamic(() => import('../../../../components/widgets/sh
 export default function OceanWatchCountryProfilePage({ iso }) {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const shouldWarningModalRender = useMediaMatch('(max-width: 768px)');
   const [widgetToShare, setWidgetToShare] = useState(null);
+  const [isModalVisible, setModalVisibility] = useState(false);
   const RWAdapter = useSelector((state) => getRWAdapter(state));
 
   const handleAreaChange = useCallback(
@@ -71,6 +76,7 @@ export default function OceanWatchCountryProfilePage({ iso }) {
 
   const { data: areas } = useOceanWatchAreas({
     placeholderData: queryClient.getQueryData('ocean-watch-areas') || [],
+    select: (_areas) => _areas.filter(({ iso }) => iso !== 'GLB'),
   });
 
   const { data: oceanWatchConfig } = useQuery(
@@ -163,11 +169,22 @@ export default function OceanWatchCountryProfilePage({ iso }) {
     [oceanWatchConfig],
   );
 
+  const onCloseModal = useCallback(() => {
+    setModalVisibility((modalVisibility) => !modalVisibility);
+  }, []);
+
+  useEffect(() => {
+    if (shouldWarningModalRender) setModalVisibility(shouldWarningModalRender);
+  }, [shouldWarningModalRender]);
+
   return (
     <LayoutOceanWatch
       title="Ocean Watch"
       description="Ocean Watch description" // todo: replace description
     >
+      <Head>
+        <meta name="viewport" content="width=1024" />
+      </Head>
       <Header className="-transparent" />
       <OceanWatchHero className="-ocean-watch" />
       <section
@@ -303,7 +320,9 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                       <MiniExplore
                                         config={{
                                           ...blockElement.config,
-                                          ...(area?.geostore && { areaOfInterest: area.geostore }),
+                                          ...(area?.geostore && {
+                                            areaOfInterest: area.geostore,
+                                          }),
                                         }}
                                       />
                                     )}
@@ -320,11 +339,15 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                         adapter={RWAdapter}
                                         config={{
                                           ...blockElement.config,
-                                          ...(area?.geostore && { areaOfInterest: area.geostore }),
+                                          ...(area?.geostore && {
+                                            areaOfInterest: area.geostore,
+                                          }),
                                         }}
                                         params={{
                                           geostore_env: 'geostore_prod',
-                                          ...(area?.geostore && { geostore_id: area.geostore }),
+                                          ...(area?.geostore && {
+                                            geostore_id: area.geostore,
+                                          }),
                                           ...geostoreProperties,
                                         }}
                                       />
@@ -347,10 +370,14 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                         widgetId={blockElement.widget}
                                         params={{
                                           geostore_env: 'geostore_prod',
-                                          ...(area?.geostore && { geostore_id: area.geostore }),
+                                          ...(area?.geostore && {
+                                            geostore_id: area.geostore,
+                                          }),
                                           ...geostoreProperties,
                                         }}
-                                        {...(area?.geostore && { areaOfInterest: area.geostore })}
+                                        {...(area?.geostore && {
+                                          areaOfInterest: area.geostore,
+                                        })}
                                         onToggleShare={handleShareWidget}
                                       />
                                     )}
@@ -372,10 +399,14 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                         widgetId={blockElement.widget}
                                         params={{
                                           geostore_env: 'geostore_prod',
-                                          ...(area?.geostore && { geostore_id: area.geostore }),
+                                          ...(area?.geostore && {
+                                            geostore_id: area.geostore,
+                                          }),
                                           ...geostoreProperties,
                                         }}
-                                        {...(area?.geostore && { areaOfInterest: area.geostore })}
+                                        {...(area?.geostore && {
+                                          areaOfInterest: area.geostore,
+                                        })}
                                         onToggleShare={handleShareWidget}
                                       />
                                     )}
@@ -397,7 +428,9 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                       <ChartWidget
                                         widgetId={blockElement.widget}
                                         params={{
-                                          ...(area?.geostore && { geostore_id: area.geostore }),
+                                          ...(area?.geostore && {
+                                            geostore_id: area.geostore,
+                                          }),
                                           geostore_env: 'geostore_prod',
                                           ...geostoreProperties,
                                         }}
@@ -417,7 +450,9 @@ export default function OceanWatchCountryProfilePage({ iso }) {
                                         config={blockElement.config}
                                         params={{
                                           geostore_env: 'geostore_prod',
-                                          ...(area?.geostore && { geostore_id: area.geostore }),
+                                          ...(area?.geostore && {
+                                            geostore_id: area.geostore,
+                                          }),
                                           ...geostoreProperties,
                                         }}
                                         theme={blockElement?.config?.theme}
@@ -596,6 +631,12 @@ export default function OceanWatchCountryProfilePage({ iso }) {
           }}
         />
       )}
+      <Modal isOpen={isModalVisible} onRequestClose={onCloseModal}>
+        <p>
+          The mobile version has limited functionality, please check the desktop version to have
+          access to the full list of features available on the Ocean Watch dashboard.
+        </p>
+      </Modal>
     </LayoutOceanWatch>
   );
 }
@@ -625,11 +666,13 @@ export async function getStaticPaths() {
   const areas = queryClient.getQueryData('ocean-watch-areas');
 
   return {
-    paths: areas.map(({ iso }) => ({
-      params: {
-        iso,
-      },
-    })),
+    paths: areas
+      .filter(({ iso }) => iso !== 'GLB')
+      .map(({ iso }) => ({
+        params: {
+          iso,
+        },
+      })),
     fallback: false,
   };
 }

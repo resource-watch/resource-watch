@@ -25,12 +25,10 @@
 
     &:before {
       top: 0;
-      background: linear-gradient(180deg, $white, transparent);
     }
 
     &:after {
       bottom: 0;
-      background: linear-gradient(180deg, transparent, $white);
     }
 
     > .list {

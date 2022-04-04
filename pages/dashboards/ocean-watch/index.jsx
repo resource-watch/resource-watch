@@ -110,78 +110,54 @@ export default function OceanWatchIntroPage({ geostore, oceanWatchConfig }) {
               <div className="column small-12">
                 <Banner
                   useDim
-                  className="-text-center"
+                  className="h-full !p-10 md:!p-16"
                   bgImage="/static/images/pages/app/banner-coral.jpg"
                 >
-                  <p className="-claim">Check out the Coral Reefs dashboards</p>
-                  <a
-                    className="c-button -alt -primary"
-                    href="https://resourcewatch.org/dashboards/coral-reef-dashboards"
-                  >
-                    Coral Reefs
-                  </a>
+                  <div className="flex flex-col h-full md:items-center">
+                    <h4 className="text-lg font-light text-center text-white md:text-xl md:leading-10 ">
+                      Check out the Coral Reefs dashboards
+                    </h4>
+                    <a
+                      className="c-button -alt -primary"
+                      href="https://resourcewatch.org/dashboards/coral-reef-dashboards"
+                    >
+                      Coral Reefs
+                    </a>
+                  </div>
                 </Banner>
               </div>
-              <div
-                className="column small-6"
-                style={{
-                  margin: '20px 0 0',
-                }}
-              >
+              <div className="mt-5 column small-12 medium-6">
                 <Banner
                   bgImage="/static/images/homepage/home-data-bg1.png"
-                  styles={{
-                    padding: 40,
-                  }}
+                  className="h-full !p-10"
                 >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                    }}
-                  >
-                    <div>
-                      <p className="-claim">Did you miss something?</p>
-                      <p>
-                        Know of a data set that you&apos;d like to see on Resource Watch or have a
-                        specific area of interest you&apos;d like us to cover?
-                      </p>
-                    </div>
+                  <div className="h-full">
+                    <h4 className="text-lg font-light text-white md:text-xl md:leading-10">
+                      Did you miss something?
+                    </h4>
+                    <p>
+                      Know of a data set that you&apos;d like to see on Resource Watch or have a
+                      specific area of interest you&apos;d like us to cover?
+                    </p>
+                  </div>
+                  <div className="flex justify-center w-full mt-3 md:justify-start">
                     <Link href="/get-involved/contribute-data">
-                      <a className="c-button -alt -primary">Request data</a>
+                      <a className="w-full md:w-auto c-button -alt -primary">Request data</a>
                     </Link>
                   </div>
                 </Banner>
               </div>
-              <div
-                className="column small-6"
-                style={{
-                  margin: '20px 0 0',
-                }}
-              >
-                <Banner
-                  bgImage="/static/images/backgrounds/jellyfish.jpg"
-                  styles={{
-                    padding: 40,
-                    height: '100%',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'flex-start',
-                      height: '100%',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <div>
-                      <p className="-claim">What&apos;s Your Ocean Watch Story?</p>
-                      <p>How have you used Ocean Watch data to drive impact?</p>
-                    </div>
+              <div className="mt-5 column small-12 medium-6 ">
+                <Banner bgImage="/static/images/backgrounds/jellyfish.jpg" className="h-full !p-10">
+                  <div className="h-full">
+                    <h4 className="text-lg font-light text-white md:text-xl md:leading-10">
+                      What&apos;s Your Ocean Watch Story?
+                    </h4>
+                    <p>How have you used Ocean Watch data to drive impact?</p>
+                  </div>
+                  <div className="flex justify-center w-full mt-3 md:justify-start">
                     <a
-                      className="c-button -alt -primary"
+                      className="w-full c-button -alt -primary md:w-auto"
                       href="https://docs.google.com/forms/d/e/1FAIpQLSc0KvLPwuCyMwXMQ3sO9gerN_HFECBHHBVnzq2uyROP-cbAOg/viewform"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -199,16 +175,16 @@ export default function OceanWatchIntroPage({ geostore, oceanWatchConfig }) {
               >
                 <Banner
                   useDim
-                  className="-text-center"
+                  className="!p-10 text-center"
                   bgImage="/static/images/pages/app/banner-ocean-watch.jpg"
                 >
-                  <p className="-claim">
+                  <h4 className="m-0 text-lg font-light text-white md:leading-10 md:text-xl">
                     Check out the Ocean Watch data
                     <br />
                     on the Explore page
-                  </p>
+                  </h4>
                   <Link href='/data/explore?section=All data&topics=["ocean"]'>
-                    <a className="c-button -alt -primary">Go to explore</a>
+                    <a className="w-full mt-4 c-button -alt -primary md:w-auto">Go to explore</a>
                   </Link>
                 </Banner>
               </div>
