@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.X.X] - 2022-XX-XX
 ### Added
+- meta tag to not index explore page for unpublished datasets. [RW-126](https://vizzuality.atlassian.net/browse/RW-126)
 - ocean watch: responsive homepage. [OW-209](https://vizzuality.atlassian.net/browse/OW-209)
 - geostore names to widget titles.
 - custom "no data" for set of indicators. [OW-179](https://vizzuality.atlassian.net/browse/OW-179)
