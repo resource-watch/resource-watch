@@ -91,12 +91,18 @@ const Explore = (props) => {
 
   return (
     <Layout title={titleSt} description={descriptionSt} className="-fullscreen">
-      {/* unpublished datasets are not indexed by search engines but still accessible in the application */}
-      {datasetData && !datasetData?.published && (
-        <Head>
-          <meta name="robots" content="noindex, follow" />
-        </Head>
-      )}
+      <Head>
+        {/* unpublished datasets are not indexed by search engines but still accessible in the application */}
+        {datasetData && !datasetData?.published && <meta name="robots" content="noindex, follow" />}
+        {/* adds canonical url to avoid content duplicity between pages with dataset slug and ID */}
+        {datasetData && (
+          <link
+            rel="canonical"
+            href={`https://resourcewatch.org/data/explore/${datasetData.slug}`}
+          />
+        )}
+      </Head>
+
       <div className="c-page-explore">
         <Media greaterThanOrEqual="md" className="flex flex-1">
           <>
