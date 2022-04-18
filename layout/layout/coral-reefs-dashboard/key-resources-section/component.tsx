@@ -7,6 +7,15 @@ const KeyResourcesSection = () => (
       <strong>Key Resources</strong>
     </h1>
 
+    <h2>
+      <strong>Regional Coral Reef Dashboards</strong>
+    </h2>
+
+    <p>
+      For coral reef maps and indicators focused on the individual GCRMN regions, click the links
+      below the map:
+    </p>
+
     <Image
       src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/content_images/images/000/000/194/cover/gcrmn_map_draft_5.png?1638814322"
       alt="GCRMN regions"
