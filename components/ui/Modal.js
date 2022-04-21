@@ -32,6 +32,7 @@ export default class Modal extends React.Component {
 
   // Close modal when esc key is pressed
   UNSAFE_componentWillReceiveProps({ open }) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     function escKeyPressListener(evt) {
       document.removeEventListener('keydown', escKeyPressListener);
@@ -67,7 +68,7 @@ export default class Modal extends React.Component {
               <Icon name="icon-cross" className="-small" />
             </button>
           )}
-          <div className="m-0 modal-content">
+          <div className="!m-0 modal-content">
             {this.props.children ? this.props.children : null}
             {this.props.loading ? <Spinner isLoading /> : this.getContent()}
           </div>
