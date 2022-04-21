@@ -61,7 +61,7 @@ const LayoutApp: FC<LayoutAppProps> = ({
   }, []);
 
   return (
-    <div id="#main" className={classnames('l-page', { [className]: !!className })}>
+    <div className={classnames('l-page', { [className]: !!className })}>
       <HeadApp title={title} description={description} {...(thumbnail && { thumbnail })} />
 
       <GDPRBanner />
@@ -79,7 +79,7 @@ const LayoutApp: FC<LayoutAppProps> = ({
 
       <ProgressBar />
 
-      {children}
+      <main>{children}</main>
 
       {!isFullScreen && <Footer />}
 
