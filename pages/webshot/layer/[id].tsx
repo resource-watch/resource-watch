@@ -20,12 +20,6 @@ export interface MapThumbnailProps {
   height?: number;
 }
 
-declare global {
-  interface Window {
-    WEBSHOT_READY: boolean;
-  }
-}
-
 export const LayerWebshot = ({
   layer,
   basemap = 'light',

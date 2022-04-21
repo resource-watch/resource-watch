@@ -8,6 +8,7 @@ export default function SignIn() {
       className="l-log-in"
       title="Resource Watch Sign-in/Register"
       description="Resource Watch Sign-in/Register"
+      isFullScreen
     >
       <div className="l-container">
         <div className="content">
