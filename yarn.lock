@@ -7691,9 +7691,9 @@ __metadata:
   linkType: hard
 
 "cached-path-relative@npm:^1.0.0, cached-path-relative@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "cached-path-relative@npm:1.0.2"
-  checksum: 643fa65a6522f975505d273c2027ff7632437e9be79bb7f02fa655ccb30cfe6e6219eff70b8ad73558806f6453bc18391623967ef2d065745fc4a1efd48c2a3e
+  version: 1.1.0
+  resolution: "cached-path-relative@npm:1.1.0"
+  checksum: 2f1d63c2301feda575039b945811e54b2dc851b49e94aa366d2916fece745fe4f4490a28a68bd0afe79c2fe336bebf62cbdfa2ad75b178d33b074089114d402d
   languageName: node
   linkType: hard
 
@@ -11870,23 +11870,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.14.0":
-  version: 1.14.5
-  resolution: "follow-redirects@npm:1.14.5"
+"follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4":
+  version: 1.14.7
+  resolution: "follow-redirects@npm:1.14.7"
   peerDependenciesMeta:
     debug:
       optional: true
-  checksum: f004a76b2ee3a849772c2816e30928253bf47537b0f00184d89f4966413add96a228a4d96ca8c702bc045a683c52c2ba41545c915cc1a5e33bf8fd9d07b59aee
-  languageName: node
-  linkType: hard
-
-"follow-redirects@npm:^1.14.4":
-  version: 1.14.6
-  resolution: "follow-redirects@npm:1.14.6"
-  peerDependenciesMeta:
-    debug:
-      optional: true
-  checksum: 7fcdb089a733d2aa39041880790e9f772df009fcd0b243fee7e10acf0e14a8dab5208cf79eb1de35b9cc6033d4dde7f95becadfaa360c50d460b4c730b375e80
+  checksum: f6d03e5e30877431065bca0d1b2e3db93949eb799d368a5c07ea8a4b71205f0349a3f8f0191bf13a07c93885522834dca1dc8e527dc99a772c6911fba24edc5f
   languageName: node
   linkType: hard
 
@@ -16414,9 +16404,9 @@ __metadata:
   linkType: hard
 
 "minimist@npm:^1.1.0, minimist@npm:^1.1.1, minimist@npm:^1.2.0, minimist@npm:^1.2.5":
-  version: 1.2.5
-  resolution: "minimist@npm:1.2.5"
-  checksum: 86706ce5b36c16bfc35c5fe3dbb01d5acdc9a22f2b6cc810b6680656a1d2c0e44a0159c9a3ba51fb072bb5c203e49e10b51dcd0eec39c481f4c42086719bae52
+  version: 1.2.6
+  resolution: "minimist@npm:1.2.6"
+  checksum: d15428cd1e11eb14e1233bcfb88ae07ed7a147de251441d61158619dfb32c4d7e9061d09cab4825fdee18ecd6fce323228c8c47b5ba7cd20af378ca4048fb3fb
   languageName: node
   linkType: hard
 
@@ -16743,11 +16733,11 @@ __metadata:
   linkType: hard
 
 "nanoid@npm:^3.1.23, nanoid@npm:^3.1.30":
-  version: 3.1.30
-  resolution: "nanoid@npm:3.1.30"
+  version: 3.1.31
+  resolution: "nanoid@npm:3.1.31"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 276d0d4b0c41c46aeefec5f09f093e4085a2352d06881c845db22b84f8ef72cc8defae6d76bfb1d8a2a128eb2dec42ab148d16582be4e7754c97905806ef57b6
+  checksum: 3e9fddc1619cc8f787f37fa3d26c072049b7105af4d5365dae32adce13250e29dfab2d2b061f3798b2dd3cc0dee663917a63032979df56ef64c15c287748ab99
   languageName: node
   linkType: hard
 
@@ -16973,11 +16963,11 @@ __metadata:
   linkType: hard
 
 "node-fetch@npm:^2.3.0, node-fetch@npm:^2.6.1":
-  version: 2.6.6
-  resolution: "node-fetch@npm:2.6.6"
+  version: 2.6.7
+  resolution: "node-fetch@npm:2.6.7"
   dependencies:
     whatwg-url: ^5.0.0
-  checksum: ee8290626bdb73629c59722b75dcf4b9b6a67c1ed7eb9102e368479c4a13b56a48c2bb3ad71571e378e98c8b2c64c820e11f9cd39e4b8557dd138ad571ef9a42
+  checksum: 8d816ffd1ee22cab8301c7756ef04f3437f18dace86a1dae22cf81db8ef29c0bf6655f3215cb0cdb22b420b6fe141e64b26905e7f33f9377a7fa59135ea3e10b
   languageName: node
   linkType: hard
 
@@ -18800,9 +18790,9 @@ __metadata:
   linkType: hard
 
 "prismjs@npm:^1.20.0, prismjs@npm:^1.21.0, prismjs@npm:~1.25.0":
-  version: 1.25.0
-  resolution: "prismjs@npm:1.25.0"
-  checksum: 04d8eae9d1b26b76c350bc65621584c8f8cab80ace7da3953f8aef2f9a8dd4b4f71c1d15bc5c67f126ddc90cd5af613919dc1340589a6c57355bed86fa3ac010
+  version: 1.27.0
+  resolution: "prismjs@npm:1.27.0"
+  checksum: 85c7f4a3e999073502cc9e1882af01e3709706369ec254b60bff1149eda701f40d02512acab956012dc7e61cfd61743a3a34c1bd0737e8dbacd79141e5698bbc
   languageName: node
   linkType: hard
 
