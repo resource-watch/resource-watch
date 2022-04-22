@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+// ! react-progress-2 is deprecated and unmaintained. Look for a replacement.
 import Progress from 'react-progress-2';
 
 const ProgressBar = () => {
