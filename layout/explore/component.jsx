@@ -90,7 +90,7 @@ const Explore = (props) => {
     : 'Browse more than 200 global data sets on the state of our planet.';
 
   return (
-    <Layout title={titleSt} description={descriptionSt} className="-fullscreen">
+    <Layout title={titleSt} description={descriptionSt} className="-fullscreen" isFullScreen>
       <Head>
         {/* unpublished datasets are not indexed by search engines but still accessible in the application */}
         {datasetData && !datasetData?.published && <meta name="robots" content="noindex, follow" />}
