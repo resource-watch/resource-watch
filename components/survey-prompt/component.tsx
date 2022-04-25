@@ -22,7 +22,8 @@ const SurveyPrompt = () => {
 
   if (
     localStorage.getItem(LOCAL_STORAGE_RW_SURVEY_DO_NOT_ASK_AGAIN) === 'true' ||
-    sessionStorage.getItem(SESSION_STORAGE_RW_SURVEY_FIRST_TIME) === 'false'
+    sessionStorage.getItem(SESSION_STORAGE_RW_SURVEY_FIRST_TIME) === 'false' ||
+    process.env.NEXT_PUBLIC_RW_ENV === 'test'
   )
     return null;
 
