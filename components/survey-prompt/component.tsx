@@ -30,18 +30,15 @@ const SurveyPrompt = () => {
   return (
     <Modal isOpen={showModal} onRequestClose={handleCloseModal}>
       <h3>Help us take Resource Watch to the next level!</h3>
-      <p>
-        Share with us your main goals, challenges, and what you like about interacting with the
-        platform.
-      </p>
+      <p>Share with us your main goals, challenges, and what you like about the platform.</p>
       <p>
         <a
-          href="http://s.alchemer.com/s3/Resource-Watch-User-Survey-March-2022"
+          href="https://survey.alchemer.com/s3/6793668/a14ca0dea024"
           target="_blank"
           rel="noopener noreferrer"
           title="Resource Watch survey"
         >
-          Take survey
+          Take the survey
         </a>
         <div className="flex items-center justify-between mt-5">
           <Checkbox
