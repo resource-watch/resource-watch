@@ -10,12 +10,4 @@ export const TRANSIFEX_BLACKLIST = [
   '/app/explore/embed',
 ];
 
-export const FULLSCREEN_PAGES = [
-  '/data/explore',
-  '/data/pulse',
-  '/sign-in',
-];
-
-export const HOTJAR_ROUTES = [
-  '/data/explore',
-];
+export const HOTJAR_ROUTES = ['/data/explore'];
