@@ -13,6 +13,9 @@ const HotjarScript = dynamic(() => import('../../../scripts/hotjar'), { ssr: fal
 const GoogleAnalyticsV4Script = dynamic(() => import('../../../scripts/google-analytics-v4'), {
   ssr: false,
 });
+const GoogleTagManagerScript = dynamic(() => import('../../../scripts/google-tag-manager'), {
+  ssr: false,
+});
 const CesiumScript = dynamic(() => import('../../../scripts/cesium'));
 
 const isProduction = ['preproduction', 'production'].includes(process.env.NEXT_PUBLIC_API_ENV);
@@ -45,6 +48,7 @@ export default function HeadApp({ title, description, thumbnail }) {
           {isHotjarRoute && <HotjarScript />}
         </>
       )}
+      <GoogleTagManagerScript />
       <UserReportScript />
       <GoogleAnalyticsV4Script />
       <CesiumScript />
