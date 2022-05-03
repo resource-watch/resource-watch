@@ -5,7 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.X.X] - 2022-XX-XX
+## [3.X.X] - 2022-X-X
+### Added
+
+### Changed
+- bump `next@12.1.6`
+
+### Fixed
+
+### Removed
+
+## [3.5.0] - 2022-05-03
 ### Added
 - survey modal. [RW-135](https://vizzuality.atlassian.net/browse/RW-135)
 - new content to Coral Reefs dashboard. [RW-128](https://vizzuality.atlassian.net/browse/RW-128)
