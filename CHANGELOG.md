@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 ### Changed
+- bump `moment@2.29.3`.
 - Coral Reefs dashboard: text changes. [RW-137](https://vizzuality.atlassian.net/browse/RW-137)
 - bump `next@12.1.6`.
 
