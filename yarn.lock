@@ -19645,13 +19645,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-fast-compare@npm:^2.0.4":
-  version: 2.0.4
-  resolution: "react-fast-compare@npm:2.0.4"
-  checksum: 06046595f90a4e3e3a56f40a8078c00aa71bdb064ddb98343f577f546aa22e888831fd45f009c93b34707cc842b4c637737e956fd13d6f80607ee92fb9cf9a1c
-  languageName: node
-  linkType: hard
-
 "react-fast-compare@npm:^3.0.1, react-fast-compare@npm:^3.2.0":
   version: 3.2.0
   resolution: "react-fast-compare@npm:3.2.0"
@@ -21324,7 +21317,6 @@ __metadata:
     react-dropdown-tree-select: 1.9.2
     react-dropzone: 4.2.9
     react-error-boundary: ^3.1.3
-    react-fast-compare: ^2.0.4
     react-ga: ^2.3.5
     react-geosuggest: ^2.12.0
     react-google-recaptcha: ^2.1.0

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { singular } from 'pluralize';
 import { toastr } from 'react-redux-toastr';
-import isEqual from 'react-fast-compare';
+import isEqual from 'lodash/isEqual';
 
 // components
 import Layout from 'layout/layout/layout-admin';
@@ -20,12 +20,14 @@ import { fetchWidget } from 'services/widget';
 import { capitalizeFirstLetter } from 'utils/utils';
 
 class LayoutAdminDataDetail extends PureComponent {
-  static propTypes = { query: PropTypes.object.isRequired }
+  static propTypes = { query: PropTypes.object.isRequired };
 
-  state= { data: null }
+  state = { data: null };
 
   UNSAFE_componentWillMount() {
-    const { query: { id } } = this.props;
+    const {
+      query: { id },
+    } = this.props;
     if (id === 'new') return;
 
     this.getData();
@@ -40,7 +42,9 @@ class LayoutAdminDataDetail extends PureComponent {
   }
 
   getName() {
-    const { query: { tab, id } } = this.props;
+    const {
+      query: { tab, id },
+    } = this.props;
     const { data } = this.state;
 
     if (id === 'new') return `New ${singular(tab)}`;
@@ -50,29 +54,45 @@ class LayoutAdminDataDetail extends PureComponent {
   }
 
   getData() {
-    const { query: { tab, id } } = this.props;
+    const {
+      query: { tab, id },
+    } = this.props;
 
     if (tab === 'datasets') {
       fetchDataset(id)
-        .then((dataset) => { this.setState({ data: dataset }); })
-        .catch((err) => { toastr.error('Error', err.message); });
+        .then((dataset) => {
+          this.setState({ data: dataset });
+        })
+        .catch((err) => {
+          toastr.error('Error', err.message);
+        });
     }
 
     if (tab === 'widgets') {
       fetchWidget(id)
-        .then((widget) => { this.setState({ data: widget }); })
-        .catch((err) => { toastr.error('Error', err.message); });
+        .then((widget) => {
+          this.setState({ data: widget });
+        })
+        .catch((err) => {
+          toastr.error('Error', err.message);
+        });
     }
 
     if (tab === 'layers') {
       fetchLayer(id)
-        .then((layer) => { this.setState({ data: layer }); })
-        .catch((err) => { toastr.error('Error', err.message); });
+        .then((layer) => {
+          this.setState({ data: layer });
+        })
+        .catch((err) => {
+          toastr.error('Error', err.message);
+        });
     }
   }
 
   render() {
-    const { query: { tab, dataset } } = this.props;
+    const {
+      query: { tab, dataset },
+    } = this.props;
 
     return (
       <Layout
@@ -85,18 +105,28 @@ class LayoutAdminDataDetail extends PureComponent {
             <div className="row">
               <div className="column small-12">
                 <div className="page-header-content">
-                  {dataset && tab !== 'datasets'
-                    && (
+                  {dataset && tab !== 'datasets' && (
                     <Breadcrumbs
-                      items={[{ name: capitalizeFirstLetter(tab), route: `/admin/data/datasets/${dataset}/${tab}?`, params: { tab: 'datasets', subtab: tab, id: dataset } }]}
+                      items={[
+                        {
+                          name: capitalizeFirstLetter(tab),
+                          route: `/admin/data/datasets/${dataset}/${tab}?`,
+                          params: { tab: 'datasets', subtab: tab, id: dataset },
+                        },
+                      ]}
                     />
-                    )}
-                  {!dataset
-                    && (
+                  )}
+                  {!dataset && (
                     <Breadcrumbs
-                      items={[{ name: capitalizeFirstLetter(tab), route: `/admin/data/${tab}`, params: { tab } }]}
+                      items={[
+                        {
+                          name: capitalizeFirstLetter(tab),
+                          route: `/admin/data/${tab}`,
+                          params: { tab },
+                        },
+                      ]}
                     />
-                    )}
+                  )}
                   <h1>{this.getName()}</h1>
                 </div>
               </div>
@@ -108,9 +138,9 @@ class LayoutAdminDataDetail extends PureComponent {
           <div className="l-container -admin">
             <div className="row">
               <div className="column small-12">
-                {(tab === 'datasets') && (<DatasetsTab />)}
-                {(tab === 'widgets') && (<WidgetsTab />)}
-                {(tab === 'layers') && (<LayersTab />)}
+                {tab === 'datasets' && <DatasetsTab />}
+                {tab === 'widgets' && <WidgetsTab />}
+                {tab === 'layers' && <LayersTab />}
               </div>
             </div>
           </div>
