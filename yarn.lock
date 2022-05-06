@@ -8874,7 +8874,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-react-class@npm:^15.5.2, create-react-class@npm:^15.6.0":
+"create-react-class@npm:^15.6.0":
   version: 15.7.0
   resolution: "create-react-class@npm:15.7.0"
   dependencies:
@@ -19747,18 +19747,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-input-autosize@npm:2.0.1":
-  version: 2.0.1
-  resolution: "react-input-autosize@npm:2.0.1"
-  dependencies:
-    create-react-class: ^15.5.2
-    prop-types: ^15.5.8
-  peerDependencies:
-    react: ^0.14.9 || ^15.3.0 || ^16.0.0-rc || ^16.0
-  checksum: ed4349122c6d12a83ba83b7b319c9df53dc0d246d6b24547bfbcb478025093d63d499d76869c7fb7fd54e162e0807fdc7ea29d0caa5d90c4b5dc2d0917c6f880
-  languageName: node
-  linkType: hard
-
 "react-input-autosize@npm:^2.1.2":
   version: 2.2.2
   resolution: "react-input-autosize@npm:2.2.2"
@@ -21322,7 +21310,6 @@ __metadata:
     react-google-recaptcha: ^2.1.0
     react-graph-vis: 1.0.2
     react-hammerjs: ^1.0.1
-    react-input-autosize: 2.0.1
     react-input-range: ^1.2.1
     react-intersection-observer: ^8.24.2
     react-map-gl: ^5.0.7
