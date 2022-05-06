@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 ### Removed
+- removes `react-fast-compare`.
 - removes `react-dates`.
 
 ## [3.5.0] - 2022-05-03
