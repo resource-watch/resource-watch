@@ -76,17 +76,19 @@ const ConditionSection = ({
             </p>
           </div>
           <div className="column small-12 medium-6">
-            <div className="flex flex-col">
-              <Image
-                src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/365/original/dano_pendygrasse_roatan_cordeliabanks_crop.jpg?1611604063&amp;temp_id=365"
-                alt="dano-pendygrasse"
-                width={330}
-                height={479}
-                layout="responsive"
-              />
-            </div>
-            <div className="image-caption">
-              <em>Photo: Daniel Stephen Pendygrasse</em>
+            <div className="image-container">
+              <div className="flex flex-col ">
+                <Image
+                  src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/365/original/dano_pendygrasse_roatan_cordeliabanks_crop.jpg?1611604063&amp;temp_id=365"
+                  alt="dano-pendygrasse"
+                  width={330}
+                  height={479}
+                  layout="responsive"
+                />
+              </div>
+              <div className="image-caption">
+                <em>Photo: Daniel Stephen Pendygrasse</em>
+              </div>
             </div>
           </div>
         </div>
