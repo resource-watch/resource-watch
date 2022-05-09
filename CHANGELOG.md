@@ -14,8 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - bump `next@12.1.6`.
 
 ### Fixed
+- Explore: fixes navigation when a user clicks on "All datasets" button after searching. Now the search results remain. [RW-87](https://vizzuality.atlassian.net/browse/RW-87)
 
 ### Removed
+- removes unused `resetFiltersSelected` action.
+- removes `isServer` state in redux and its action/reducer.
 - removes `react-input-autosize`.
 - removes `react-fast-compare`.
 - removes `react-dates`.

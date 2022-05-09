@@ -24,7 +24,6 @@ class SearchComponent extends React.Component {
     onChangeTextSearch: PropTypes.func,
     onToggleSelected: PropTypes.func,
     onChangeSelected: PropTypes.func,
-    onResetSelected: PropTypes.func,
   };
 
   constructor(props) {
@@ -33,16 +32,20 @@ class SearchComponent extends React.Component {
     const { list } = props;
 
     this.fuse = new Fuse(list, {
-      keys: [{
-        name: 'label',
-        weight: 0.6,
-      }, {
-        name: 'synonyms',
-        weight: 0.3,
-      }, {
-        name: 'id',
-        weight: 0.1,
-      }],
+      keys: [
+        {
+          name: 'label',
+          weight: 0.6,
+        },
+        {
+          name: 'synonyms',
+          weight: 0.3,
+        },
+        {
+          name: 'id',
+          weight: 0.1,
+        },
+      ],
       threshold: 0.2,
       minMatchCharLength: 2,
     });
@@ -53,7 +56,7 @@ class SearchComponent extends React.Component {
     value: '',
     filteredList: [],
     groupedFilteredList: {},
-  }
+  };
 
   // UI EVENTS:
   // - onScreenClick
@@ -69,7 +72,7 @@ class SearchComponent extends React.Component {
     if (clickOutside) {
       this.onToggleOpen(false);
     }
-  }
+  };
 
   onScreenKeyup = (e) => {
     switch (e.keyCode) {
@@ -94,7 +97,7 @@ class SearchComponent extends React.Component {
       default:
         return true;
     }
-  }
+  };
 
   onToggleOpen = (to) => {
     requestAnimationFrame(() => {
@@ -115,24 +118,26 @@ class SearchComponent extends React.Component {
     });
 
     this.props.onChangeOpen(to);
-  }
+  };
 
   onKeyArrow = (direction) => {
     const { index, filteredList } = this.state;
     if (direction === 'up') {
-      this.setState({ index: (index !== 0) ? index - 1 : filteredList.length });
+      this.setState({ index: index !== 0 ? index - 1 : filteredList.length });
     }
 
     if (direction === 'down') {
-      this.setState({ index: (index !== filteredList.length) ? index + 1 : 0 });
+      this.setState({ index: index !== filteredList.length ? index + 1 : 0 });
     }
-  }
+  };
 
   onKeyEnter = () => {
     const { value, index, groupedFilteredList } = this.state;
 
     if (index !== 0) {
-      const filteredList = flatten(Object.keys(groupedFilteredList).map((g) => groupedFilteredList[g]));
+      const filteredList = flatten(
+        Object.keys(groupedFilteredList).map((g) => groupedFilteredList[g]),
+      );
 
       const tag = filteredList[index - 1];
 
@@ -142,11 +147,11 @@ class SearchComponent extends React.Component {
     }
 
     this.onToggleOpen(false);
-  }
+  };
 
   onListItemMouseOver = (index) => {
     this.setState({ index });
-  }
+  };
 
   onChangeSearch = (e) => {
     const { value } = e.currentTarget;
@@ -156,29 +161,36 @@ class SearchComponent extends React.Component {
       this.onToggleOpen(true);
     }
 
-    const filteredList = (value.length > 2) ? this.fuse.search(value).sort((a, b) => {
-      const index1 = a.label.toLowerCase().indexOf(value.toLowerCase());
-      const index2 = b.label.toLowerCase().indexOf(value.toLowerCase());
-      const exactMatch1 = a.label.toLowerCase() === value.toLowerCase();
-      const exactMatch2 = b.label.toLowerCase() === value.toLowerCase();
-      if (exactMatch1) {
-        return -1;
-      } if (exactMatch2) {
-        return 1;
-      }
-      return index1 > index2;
-    }) : [];
-    const newGroupFilteredList = omit(groupBy(filteredList, (l) => {
-      const group = l.labels && l.labels[1];
-      return group || 'undefined';
-    }), ['undefined', 'GEOGRAPHY']);
+    const filteredList =
+      value.length > 2
+        ? this.fuse.search(value).sort((a, b) => {
+            const index1 = a.label.toLowerCase().indexOf(value.toLowerCase());
+            const index2 = b.label.toLowerCase().indexOf(value.toLowerCase());
+            const exactMatch1 = a.label.toLowerCase() === value.toLowerCase();
+            const exactMatch2 = b.label.toLowerCase() === value.toLowerCase();
+            if (exactMatch1) {
+              return -1;
+            }
+            if (exactMatch2) {
+              return 1;
+            }
+            return index1 > index2;
+          })
+        : [];
+    const newGroupFilteredList = omit(
+      groupBy(filteredList, (l) => {
+        const group = l.labels && l.labels[1];
+        return group || 'undefined';
+      }),
+      ['undefined', 'GEOGRAPHY'],
+    );
     this.setState({
       index: Object.keys(newGroupFilteredList).length > 0 ? 1 : 0,
       value,
       filteredList,
       groupedFilteredList: newGroupFilteredList,
     });
-  }
+  };
 
   render() {
     const { open } = this.props;
@@ -199,7 +211,9 @@ class SearchComponent extends React.Component {
           </button>
 
           <input
-            ref={(c) => { this.input = c; }}
+            ref={(c) => {
+              this.input = c;
+            }}
             className={classnames({
               'search-input': true,
               '-open': open,
@@ -212,29 +226,24 @@ class SearchComponent extends React.Component {
         </div>
 
         {/* Dropdown search */}
-        {open && value
-          && (
+        {open && value && (
           <div className="search-dropdown">
             <div className="search-dropdown-list">
               {Object.keys(groupedFilteredList).map((g) => (
                 <div className="search-dropdown-list-item" key={g}>
-                  {!!g && g.toLowerCase
-                    && (
+                  {!!g && g.toLowerCase && (
                     <h4>
                       Filter by
-                      {g.toLowerCase()}
-                      :
+                      {g.toLowerCase()}:
                     </h4>
-                    )}
+                  )}
 
                   <ul className="list-item-results">
                     {groupedFilteredList[g].map((l) => {
                       const currentIndex = ++groupedFilteredListIndex;
 
                       return (
-                        <li
-                          key={l.id}
-                        >
+                        <li key={l.id}>
                           <button
                             type="button"
                             className={classnames({ '-active': index === currentIndex })}
@@ -273,9 +282,8 @@ class SearchComponent extends React.Component {
               </div>
             </div>
           </div>
-          )}
+        )}
       </div>
-
     );
   }
 }

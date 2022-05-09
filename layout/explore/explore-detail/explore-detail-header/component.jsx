@@ -1,8 +1,6 @@
-import {
-  useState,
-  useCallback,
-} from 'react';
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 
 // components
 import Icon from 'components/ui/icon';
@@ -16,12 +14,18 @@ import { getTooltipContainer } from 'utils/tooltip';
 // utils
 import { logEvent } from 'utils/analytics';
 
+// constants
+import { EXPLORE_SECTIONS } from 'layout/explore/constants';
+
 export default function ExploreDetailHeader({
   dataset,
   setSelectedDataset,
   userIsLoggedIn,
   isSidebarOpen,
+  setSidebarSection,
+  setFiltersSearch,
 }) {
+  const { query } = useRouter();
   const [showShareModal, setShowShareModal] = useState(false);
   const handleToggleFavorite = useCallback((isFavorite, resource) => {
     const datasetName = resource?.metadata[0]?.info?.name;
@@ -41,20 +45,35 @@ export default function ExploreDetailHeader({
     }
   }, []);
 
+  const handleGoBack = useCallback(() => {
+    const { search } = query;
+    setSelectedDataset(null);
+
+    if (search) {
+      setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
+      setFiltersSearch(search);
+    }
+  }, [query, setSelectedDataset, setSidebarSection, setFiltersSearch]);
+
   const location = typeof window !== 'undefined' && window.location;
-  const datasetName = dataset && dataset.metadata && dataset.metadata[0]
-      && dataset.metadata[0].info && dataset.metadata[0].info.name;
+  const datasetName =
+    dataset &&
+    dataset.metadata &&
+    dataset.metadata[0] &&
+    dataset.metadata[0].info &&
+    dataset.metadata[0].info.name;
 
   return (
     <div
       className="c-explore-detail-header"
       style={{
-        ...!isSidebarOpen && { position: 'absolute' },
+        ...(!isSidebarOpen && { position: 'absolute' }),
       }}
     >
       <button
+        type="button"
+        onClick={handleGoBack}
         className="c-btn -primary -compressed -fs-tiny all-datasets-button"
-        onClick={() => setSelectedDataset(null)}
       >
         <Icon className="-small" name="icon-arrow-left-2" />
         <span>ALL DATASETS</span>
@@ -69,14 +88,14 @@ export default function ExploreDetailHeader({
           }}
         >
           <Tooltip
-            overlay={(
+            overlay={
               <CollectionsPanel
                 resource={dataset}
                 resourceType="dataset"
                 onToggleFavorite={handleToggleFavorite}
                 onToggleCollection={handleToggleCollection}
               />
-            )}
+            }
             overlayClassName="c-rc-tooltip"
             placement="bottomRight"
             trigger="click"

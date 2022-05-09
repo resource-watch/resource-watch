@@ -1,8 +1,4 @@
-import {
-  useEffect,
-  useMemo,
-  useCallback,
-} from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import classnames from 'classnames';
@@ -20,14 +16,7 @@ import ExploreDatasetsActions from './explore-datasets-actions';
 
 export default function ExploreDatasets(props) {
   const {
-    datasets: {
-      selected,
-      list,
-      total,
-      limit,
-      page,
-      loading,
-    },
+    datasets: { selected, list, total, limit, page, loading },
     selectedTags,
     search,
     setDatasetsPage,
@@ -35,20 +24,25 @@ export default function ExploreDatasets(props) {
   } = props;
 
   const relatedDashboards = useMemo(
-    () => TOPICS.filter((topic) => selectedTags.find((tag) => tag.id === topic.id))
-      .map((_dashboard) => ({
-        ..._dashboard,
-        ..._dashboard.slug === 'ocean-watch' && {
-          label: 'Ocean Watch',
-        },
-      })),
+    () =>
+      TOPICS.filter((topic) => selectedTags.find((tag) => tag.id === topic.id)).map(
+        (_dashboard) => ({
+          ..._dashboard,
+          ...(_dashboard.slug === 'ocean-watch' && {
+            label: 'Ocean Watch',
+          }),
+        }),
+      ),
     [selectedTags],
   );
 
-  const fetchDatasetsPerPage = useCallback((_page) => {
-    setDatasetsPage(_page);
-    fetchDatasets();
-  }, [setDatasetsPage, fetchDatasets]);
+  const fetchDatasetsPerPage = useCallback(
+    (_page) => {
+      setDatasetsPage(_page);
+      fetchDatasets();
+    },
+    [setDatasetsPage, fetchDatasets],
+  );
 
   useEffect(() => {
     fetchDatasetsPerPage(1);
@@ -65,8 +59,8 @@ export default function ExploreDatasets(props) {
         <div className="left-container">
           <ExploreDatasetsSort />
           <div className="tags-container">
-            {selectedTags.length > 0
-              && selectedTags.map((t) => (
+            {selectedTags.length > 0 &&
+              selectedTags.map((t) => (
                 <button
                   key={t.id}
                   className="c-button -primary -compressed"
@@ -75,16 +69,10 @@ export default function ExploreDatasets(props) {
                     fetchDatasetsPerPage(1);
                   }}
                 >
-                  <span
-                    className="button-text"
-                    title={t.label.toUpperCase()}
-                  >
+                  <span className="button-text" title={t.label.toUpperCase()}>
                     {t.label.toUpperCase()}
                   </span>
-                  <Icon
-                    name="icon-cross"
-                    className="-tiny"
-                  />
+                  <Icon name="icon-cross" className="-tiny" />
                 </button>
               ))}
             {search && (
@@ -97,16 +85,10 @@ export default function ExploreDatasets(props) {
                   fetchDatasetsPerPage(1);
                 }}
               >
-                <span
-                  className="button-text"
-                  title={`TEXT: ${search.toUpperCase()}`}
-                >
+                <span className="button-text" title={`TEXT: ${search.toUpperCase()}`}>
                   {`TEXT: ${search.toUpperCase()}`}
                 </span>
-                <Icon
-                  name="icon-cross"
-                  className="-tiny"
-                />
+                <Icon name="icon-cross" className="-tiny" />
               </button>
             )}
           </div>
@@ -116,19 +98,16 @@ export default function ExploreDatasets(props) {
         </div>
       </div>
 
-      {relatedDashboards.length > 0
-        && (
+      {relatedDashboards.length > 0 && (
         <div className="related-dashboards">
           <div className="header">
             <h4>Related dashboards</h4>
             <Link href="/dashboards">
-              <a className="header-button">
-                SEE ALL
-              </a>
+              <a className="header-button">SEE ALL</a>
             </Link>
           </div>
           {relatedDashboards.map((dashboard) => (
-            <Link href={`/dashboards/${dashboard.slug}`}>
+            <Link key={dashboard.id} href={`/dashboards/${dashboard.slug}`} passHref>
               <div
                 className="dashboard-button"
                 style={{
@@ -139,19 +118,15 @@ export default function ExploreDatasets(props) {
                 onClick={() => logEvent('Explore Menu', 'Select Dashboard', dashboard.label)}
                 role="button"
                 tabIndex={0}
-                onKeyPress={() => {}}
               >
-                <div className="dashboard-title">
-                  {dashboard.label}
-                </div>
+                <div className="dashboard-title">{dashboard.label}</div>
               </div>
             </Link>
           ))}
         </div>
-        )}
+      )}
 
-      {!list.length && !loading
-        && (
+      {!list.length && !loading && (
         <div className="request-data-container">
           <div className="request-data-text">
             Oops! We couldn&#39;t find data for your search...
@@ -165,19 +140,16 @@ export default function ExploreDatasets(props) {
             Request data
           </a>
         </div>
-        )}
+      )}
 
       <DatasetList
         loading={loading}
         numberOfPlaceholders={20}
         list={list}
-        actions={(
-          <ExploreDatasetsActions />
-        )}
+        actions={<ExploreDatasetsActions />}
       />
 
-      {!!list.length && total > limit
-        && (
+      {!!list.length && total > limit && (
         <Paginator
           options={{
             page,
@@ -198,15 +170,14 @@ export default function ExploreDatasets(props) {
             fetchDatasetsPerPage(p);
           }}
         />
-        )}
-
+      )}
     </div>
   );
 }
 
 ExploreDatasets.propTypes = {
   datasets: PropTypes.shape({
-    selected: PropTypes.string.isRequired,
+    selected: PropTypes.string,
     list: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -217,9 +188,7 @@ ExploreDatasets.propTypes = {
     page: PropTypes.number.isRequired,
     loading: PropTypes.bool.isRequired,
   }).isRequired,
-  selectedTags: PropTypes.arrayOf(
-    PropTypes.shape(),
-  ).isRequired,
+  selectedTags: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   search: PropTypes.string.isRequired,
   fetchDatasets: PropTypes.func.isRequired,
   setDatasetsPage: PropTypes.func.isRequired,

@@ -1,26 +1,22 @@
-import {
-  HYDRATE,
-} from 'next-redux-wrapper';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const SET_LOCALE = 'common/SET_LOCALE';
 const SET_EMBED = 'common/SET_EMBED';
 const SET_WEBSHOT = 'common/SET_WEBSHOT';
-const SET_IS_SERVER = 'common/SET_IS_SERVER';
 
 const initialState = {
   locale: 'en',
   embed: false,
   webshot: false,
-  isServer: true,
 };
 
 export default function commonReducer(state = initialState, action) {
   switch (action.type) {
     case HYDRATE:
-      return ({
+      return {
         ...state,
         ...action.payload.common,
-      });
+      };
     case SET_LOCALE:
       return { ...state, locale: action.payload };
 
@@ -29,10 +25,6 @@ export default function commonReducer(state = initialState, action) {
 
     case SET_WEBSHOT:
       return { ...state, webshot: action.payload };
-
-    case SET_IS_SERVER:
-      return { ...state, isServer: action.payload };
-
     default:
       return state;
   }
@@ -74,16 +66,5 @@ export function setWebshotMode(webshot) {
   return {
     type: SET_WEBSHOT,
     payload: webshot,
-  };
-}
-
-/**
- * Set if we are on the server side or not
- * @param {boolean} isServer boolean
- */
-export function setIsServer(isServer) {
-  return {
-    type: SET_IS_SERVER,
-    payload: isServer,
   };
 }
