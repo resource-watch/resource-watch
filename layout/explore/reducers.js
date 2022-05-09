@@ -131,14 +131,6 @@ export default createReducer(initialState, (builder) => {
         filters,
       };
     })
-    .addCase(actions.resetFiltersSelected, (state) => ({
-      ...state,
-      filters: {
-        ...state.filters,
-        search: initialState.filters.search,
-        selected: initialState.filters.selected,
-      },
-    }))
     // sort
     .addCase(actions.setSortSelected, (state, { payload }) => ({
       ...state,
