@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - removes unused `resetFiltersSelected` action.
 - removes `isServer` state in redux and its action/reducer.
+- removes `chroma-js`.
 - removes `react-input-autosize`.
 - removes `react-fast-compare`.
 - removes `react-dates`.
