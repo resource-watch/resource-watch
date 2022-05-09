@@ -1,9 +1,17 @@
 import PropTypes from 'prop-types';
+import Image from 'next/image';
 
 // components
 import ChartWidget from 'components/widgets/types/chart';
 
-const ConditionSection = ({ onShareWidget }) => {
+// types
+import type { APIWidgetSpec } from 'types/widget';
+
+const ConditionSection = ({
+  onShareWidget,
+}: {
+  onShareWidget: (widget: APIWidgetSpec) => void;
+}) => {
   return (
     <div id="coral-reef-condition" className="section">
       <div className="subsection">
@@ -67,11 +75,14 @@ const ConditionSection = ({ onShareWidget }) => {
               .) The figures below reflect global trends for live, hard coral cover and algal cover.
             </p>
           </div>
-          <div className="image-container column small-12 medium-6">
-            <div>
-              <img
+          <div className="column small-12 medium-6">
+            <div className="flex flex-col">
+              <Image
                 src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/365/original/dano_pendygrasse_roatan_cordeliabanks_crop.jpg?1611604063&amp;temp_id=365"
                 alt="dano-pendygrasse"
+                width={330}
+                height={479}
+                layout="responsive"
               />
             </div>
             <div className="image-caption">
@@ -167,9 +178,12 @@ const ConditionSection = ({ onShareWidget }) => {
       <div className="subsection row">
         <div className="image-container column small-12 medium-6">
           <div>
-            <img
+            <Image
               src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/379/original/Richard_ling_coral_garden.jpg?1611946008&amp;temp_id=379"
               alt="Richard_ling_coral garden.jpg"
+              width={1200}
+              height={1600}
+              layout="responsive"
             />
           </div>
           <div className="image-caption">
@@ -344,9 +358,12 @@ const ConditionSection = ({ onShareWidget }) => {
       </div>
       <div className="subsection row">
         <div className="column image-container small-12 medium-6">
-          <img
+          <Image
             src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/375/original/Stony_Coral_Tissue_Loss_Disease_Florida__TNC_reduced.jpg?1611618027&amp;temp_id=375"
             alt="tnc_stony-coral-tissue-loss-disease"
+            width={2320}
+            height={1739}
+            layout="responsive"
           />
           <div className="image-caption">
             <em>Stony Coral Tissue Loss Disease in Florida</em>
