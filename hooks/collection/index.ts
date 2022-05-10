@@ -46,10 +46,27 @@ export const useAddToCollection = (
   return useMutation<Collection, Error, CollectionParams>(
     ({ resource, collection }) => addToCollection({ resource, collection, token: user.token }),
     {
-      onMutate: () => {
+      onMutate: async ({ collection, resource }) => {
         const previousCollections = queryClient.getQueryData<Collection[]>('fetch-collections');
 
-        return { previousCollections };
+        await queryClient.cancelQueries('fetch-collections');
+
+        const updatedCollections = [...previousCollections];
+
+        let modifiedCollection = updatedCollections.find(({ id }) => id === collection);
+
+        modifiedCollection = {
+          ...modifiedCollection,
+          resources: [...modifiedCollection.resources, { ...resource }],
+        };
+
+        const collectionIndex = updatedCollections.findIndex(({ id }) => id === collection);
+
+        updatedCollections[collectionIndex] = { ...modifiedCollection };
+
+        queryClient.setQueryData<Collection[]>('fetch-collections', updatedCollections);
+
+        return { collection, resource };
       },
       onSuccess: async (data, variables) => {
         logEvent('Collections', `user adds ${variables.resource.type} to collection`);
@@ -78,8 +95,25 @@ export const useRemoveFromCollection = (
   return useMutation<Collection, Error, CollectionParams>(
     ({ resource, collection }) => removeFromCollection({ resource, collection, token: user.token }),
     {
-      onMutate: () => {
+      onMutate: async ({ collection, resource }) => {
         const previousCollections = queryClient.getQueryData<Collection[]>('fetch-collections');
+
+        await queryClient.cancelQueries('fetch-collections');
+
+        const updatedCollections = [...previousCollections];
+
+        let modifiedCollection = updatedCollections.find(({ id }) => id === collection);
+
+        modifiedCollection = {
+          ...modifiedCollection,
+          resources: [...modifiedCollection.resources.filter(({ id }) => resource.id !== id)],
+        };
+
+        const collectionIndex = updatedCollections.findIndex(({ id }) => id === collection);
+
+        updatedCollections[collectionIndex] = modifiedCollection;
+
+        queryClient.setQueryData<Collection[]>('fetch-collections', [...updatedCollections]);
 
         return { previousCollections };
       },
