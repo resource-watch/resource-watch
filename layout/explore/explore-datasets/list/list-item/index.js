@@ -21,6 +21,7 @@ export default connect(
     active: isActive(state, props),
     filters: state.explore.filters,
     sort: state.explore.sort,
+    sidebar: state.explore.sidebar,
   }),
   {
     ...actions,

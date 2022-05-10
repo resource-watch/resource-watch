@@ -14,9 +14,6 @@ import { getTooltipContainer } from 'utils/tooltip';
 // utils
 import { logEvent } from 'utils/analytics';
 
-// constants
-import { EXPLORE_SECTIONS } from 'layout/explore/constants';
-
 export default function ExploreDetailHeader({
   dataset,
   setSelectedDataset,
@@ -24,6 +21,7 @@ export default function ExploreDetailHeader({
   isSidebarOpen,
   setSidebarSection,
   setFiltersSearch,
+  setFiltersSelected,
 }) {
   const { query } = useRouter();
   const [showShareModal, setShowShareModal] = useState(false);
@@ -46,14 +44,16 @@ export default function ExploreDetailHeader({
   }, []);
 
   const handleGoBack = useCallback(() => {
-    const { search } = query;
+    const { search, section, topics } = query;
     setSelectedDataset(null);
+    setSidebarSection(section);
+
+    if (topics) setFiltersSelected({ key: 'topics', list: JSON.parse(decodeURIComponent(topics)) });
 
     if (search) {
-      setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
       setFiltersSearch(search);
     }
-  }, [query, setSelectedDataset, setSidebarSection, setFiltersSearch]);
+  }, [query, setSelectedDataset, setSidebarSection, setFiltersSelected, setFiltersSearch]);
 
   const location = typeof window !== 'undefined' && window.location;
   const datasetName =
