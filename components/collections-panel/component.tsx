@@ -7,7 +7,7 @@ import CollectionPanelItem from 'components/collections-panel/collections-panel-
 // hooks
 import { useMe } from 'hooks/user';
 import useFetchCollections from 'hooks/collection/fetch-collections';
-import useIsFavorite from 'hooks/favorite/is-favorite';
+import { useIsFavorite } from 'hooks/favorite';
 import { useAddToCollection, useRemoveFromCollection, useAddCollection } from 'hooks/collection';
 import { useSaveFavorite, useDeleteFavorite } from 'hooks/favorite';
 
@@ -30,7 +30,7 @@ export interface CollectionsPanelProps {
   onKeyPress?: (evt: KeyboardEvent<HTMLDivElement>) => void;
   onClick?: (evt: MouseEvent<HTMLDivElement>) => void;
   onToggleFavorite?: (isFavorite: boolean, resource: ANY_RESOURCE) => void;
-  onToggleCollection?: (isAdded: boolean, resource: ANY_RESOURCE) => void;
+  onToggleCollection?: (isAdded: boolean, resource: Resource) => void;
 }
 
 const CollectionsPanel = ({
@@ -45,13 +45,13 @@ const CollectionsPanel = ({
   const { mutate: mutateAddToCollection } = useAddToCollection({
     onSuccess: async (updatedCollection, variables) => {
       logEvent('Collections', `user adds ${variables.resource.type} to collection`);
-      if (onToggleCollection) onToggleCollection(true, updatedCollection);
+      if (onToggleCollection) onToggleCollection(true, variables.resource);
     },
   });
   const { mutate: mutateRemoveFromCollection } = useRemoveFromCollection({
     onSuccess: async (updatedCollection, variables) => {
       logEvent('Collections', `user removes ${variables.resource.type} from collection`);
-      if (onToggleCollection) onToggleCollection(false, updatedCollection);
+      if (onToggleCollection) onToggleCollection(false, variables.resource);
     },
   });
   const { mutate: mutateAddCollection } = useAddCollection();
@@ -83,11 +83,7 @@ const CollectionsPanel = ({
       initialStale: true,
     },
   );
-  const {
-    isFavorite,
-    data: favorite,
-    isSuccess: isFavoriteSuccess,
-  } = useIsFavorite(resource.id, user?.token);
+  const { data: favorite, isSuccess: isFavoriteSuccess } = useIsFavorite(resource.id, user?.token);
   const isSuccess = isCollectionsSuccess || isFavoriteSuccess;
 
   const onAddCollection = useCallback(async () => {
@@ -116,7 +112,7 @@ const CollectionsPanel = ({
   }, [mutateAddCollection, newCollectionState]);
 
   const handleToggleFavorite = useCallback(async () => {
-    if (isFavorite) {
+    if (favorite) {
       try {
         mutateRemoveFavorite({ favoriteId: favorite.id });
       } catch (e) {
@@ -134,7 +130,7 @@ const CollectionsPanel = ({
         toastr.error(e.message);
       }
     }
-  }, [mutateAddFavorite, mutateRemoveFavorite, resource, resourceType, isFavorite, favorite]);
+  }, [mutateAddFavorite, mutateRemoveFavorite, resource, resourceType, favorite]);
 
   const handleToggleCollection = useCallback(
     (isAdded, collection) => {
@@ -214,7 +210,7 @@ const CollectionsPanel = ({
             <CollectionPanelItem
               key={FAVOURITES_COLLECTION.id}
               collection={FAVOURITES_COLLECTION}
-              isChecked={isFavorite}
+              isChecked={Boolean(favorite)}
               onToggleCollection={handleToggleFavorite}
             />
             {collections.map((collection) => (

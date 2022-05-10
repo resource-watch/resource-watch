@@ -26,20 +26,18 @@ export default function ExploreDetailHeader({
   const { query } = useRouter();
   const [showShareModal, setShowShareModal] = useState(false);
   const handleToggleFavorite = useCallback((isFavorite, resource) => {
-    const datasetName = resource?.metadata[0]?.info?.name;
     if (isFavorite) {
-      logEvent('Explore Menu', 'Add dataset to favorites', datasetName);
+      logEvent('Explore Menu', 'Add dataset to favorites', resource.id);
     } else {
-      logEvent('Explore Menu', 'Remove dataset from favorites', datasetName);
+      logEvent('Explore Menu', 'Remove dataset from favorites', resource.id);
     }
   }, []);
 
   const handleToggleCollection = useCallback((isAdded, resource) => {
-    const datasetName = resource?.metadata[0]?.info?.name;
     if (isAdded) {
-      logEvent('Explore Menu', 'Add dataset to a collection', datasetName);
+      logEvent('Explore Menu', 'Add dataset to a collection', resource.id);
     } else {
-      logEvent('Explore Menu', 'Remove dataset from a collection', datasetName);
+      logEvent('Explore Menu', 'Remove dataset from a collection', resource.id);
     }
   }, []);
 
