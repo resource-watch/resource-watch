@@ -1,8 +1,6 @@
-import {
-  useState,
-  useCallback,
-} from 'react';
+import { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 
 // components
 import Icon from 'components/ui/icon';
@@ -21,40 +19,59 @@ export default function ExploreDetailHeader({
   setSelectedDataset,
   userIsLoggedIn,
   isSidebarOpen,
+  setSidebarSection,
+  setFiltersSearch,
+  setFiltersSelected,
 }) {
+  const { query } = useRouter();
   const [showShareModal, setShowShareModal] = useState(false);
   const handleToggleFavorite = useCallback((isFavorite, resource) => {
-    const datasetName = resource?.metadata[0]?.info?.name;
     if (isFavorite) {
-      logEvent('Explore Menu', 'Add dataset to favorites', datasetName);
+      logEvent('Explore Menu', 'Add dataset to favorites', resource.id);
     } else {
-      logEvent('Explore Menu', 'Remove dataset from favorites', datasetName);
+      logEvent('Explore Menu', 'Remove dataset from favorites', resource.id);
     }
   }, []);
 
   const handleToggleCollection = useCallback((isAdded, resource) => {
-    const datasetName = resource?.metadata[0]?.info?.name;
     if (isAdded) {
-      logEvent('Explore Menu', 'Add dataset to a collection', datasetName);
+      logEvent('Explore Menu', 'Add dataset to a collection', resource.id);
     } else {
-      logEvent('Explore Menu', 'Remove dataset from a collection', datasetName);
+      logEvent('Explore Menu', 'Remove dataset from a collection', resource.id);
     }
   }, []);
 
+  const handleGoBack = useCallback(() => {
+    const { search, section, topics } = query;
+    setSelectedDataset(null);
+    setSidebarSection(section);
+
+    if (topics) setFiltersSelected({ key: 'topics', list: JSON.parse(decodeURIComponent(topics)) });
+
+    if (search) {
+      setFiltersSearch(search);
+    }
+  }, [query, setSelectedDataset, setSidebarSection, setFiltersSelected, setFiltersSearch]);
+
   const location = typeof window !== 'undefined' && window.location;
-  const datasetName = dataset && dataset.metadata && dataset.metadata[0]
-      && dataset.metadata[0].info && dataset.metadata[0].info.name;
+  const datasetName =
+    dataset &&
+    dataset.metadata &&
+    dataset.metadata[0] &&
+    dataset.metadata[0].info &&
+    dataset.metadata[0].info.name;
 
   return (
     <div
       className="c-explore-detail-header"
       style={{
-        ...!isSidebarOpen && { position: 'absolute' },
+        ...(!isSidebarOpen && { position: 'absolute' }),
       }}
     >
       <button
+        type="button"
+        onClick={handleGoBack}
         className="c-btn -primary -compressed -fs-tiny all-datasets-button"
-        onClick={() => setSelectedDataset(null)}
       >
         <Icon className="-small" name="icon-arrow-left-2" />
         <span>ALL DATASETS</span>
@@ -69,14 +86,14 @@ export default function ExploreDetailHeader({
           }}
         >
           <Tooltip
-            overlay={(
+            overlay={
               <CollectionsPanel
                 resource={dataset}
                 resourceType="dataset"
                 onToggleFavorite={handleToggleFavorite}
                 onToggleCollection={handleToggleCollection}
               />
-            )}
+            }
             overlayClassName="c-rc-tooltip"
             placement="bottomRight"
             trigger="click"

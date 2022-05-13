@@ -26,6 +26,25 @@ export interface DeleteFavorite {
   favoriteId: string;
 }
 
+export const useFetchUserFavorites = <D>(
+  token: string,
+  queryConfig: QueryObserverOptions<Favorite[], Error, D> = {},
+) =>
+  useQuery('fetch-user-favorites', () => fetchFavorites(token), {
+    ...queryConfig,
+  });
+
+export const useIsFavorite = (id: string, token: string) => {
+  const queryClient = useQueryClient();
+
+  return useFetchUserFavorites<Favorite>(token, {
+    enabled: Boolean(token),
+    refetchOnWindowFocus: false,
+    placeholderData: queryClient.getQueryData('fetch-user-favorites') || [],
+    select: (userFavorites) => userFavorites.find(({ resourceId }) => id === resourceId),
+  });
+};
+
 const addFavorite = ({
   token,
   favorite,
@@ -46,10 +65,15 @@ export const useSaveFavorite = (
   return useMutation<Favorite, Error, NewFavorite>(
     ({ favorite }) => addFavorite({ token: user.token, favorite }),
     {
-      onMutate: () => {
-        const previousFavorites = queryClient.getQueryData<Favorite[]>('fetch-user-favorites');
+      onMutate: async (data) => {
+        await queryClient.cancelQueries('fetch-user-favorites');
 
-        return { previousFavorites };
+        queryClient.setQueryData<Favorite[]>('fetch-user-favorites', (prevFavorites) => [
+          ...prevFavorites,
+          { ...data.favorite } as Favorite,
+        ]);
+
+        return { data };
       },
       onSuccess: async (data, variables) => {
         logEvent(
@@ -80,10 +104,14 @@ export const useDeleteFavorite = (
   return useMutation<Favorite, Error, DeleteFavorite>(
     ({ favoriteId }) => removeFavorite({ token: user.token, favoriteId }),
     {
-      onMutate: () => {
-        const previousFavorites = queryClient.getQueryData<Favorite[]>('fetch-user-favorites');
+      onMutate: async (data) => {
+        await queryClient.cancelQueries('fetch-user-favorites');
 
-        return { previousFavorites };
+        queryClient.setQueryData<Favorite[]>('fetch-user-favorites', (prevFavorites) => [
+          ...prevFavorites.filter(({ id }) => id !== data.favoriteId),
+        ]);
+
+        return { data };
       },
       onSuccess: async (data, variables) => {
         logEvent('Favorites', `user removes from favorites ${variables.favoriteId}`);
@@ -99,11 +127,3 @@ export const useDeleteFavorite = (
     },
   );
 };
-
-export const useFetchUserFavorites = (
-  token: string,
-  queryConfig: QueryObserverOptions<Favorite[], Error> = {},
-) =>
-  useQuery<Favorite[], Error>('fetch-user-favorites', () => fetchFavorites(token), {
-    ...queryConfig,
-  });

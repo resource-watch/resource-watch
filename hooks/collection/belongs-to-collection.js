@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useQueryClient } from 'react-query';
 
 // hooks
@@ -10,7 +10,7 @@ const useBelongsToCollection = (resourceId, token) => {
   const { data: userFavorites, refetch: refetchFavorites } = useFetchUserFavorites([token], {
     enabled: !!token,
     refetchOnWindowFocus: false,
-    initialData: [],
+    placeholderData: queryClient.getQueryData('fetch-user-favorites') || [],
   });
 
   const { data: collections, refetch: refetchCollections } = useFetchCollections(
@@ -21,7 +21,6 @@ const useBelongsToCollection = (resourceId, token) => {
     {
       enabled: !!token,
       refetchOnWindowFocus: false,
-      initialData: queryClient.getQueryData('fetch-collections') || [],
     },
   );
 
@@ -30,14 +29,12 @@ const useBelongsToCollection = (resourceId, token) => {
     refetchCollections();
   }, [refetchFavorites, refetchCollections]);
 
-  const isInACollection = useMemo(() => {
-    const containedInFavorites = userFavorites.some((fav) => fav.resourceId === resourceId);
-    const containedInCollections = collections.some(({ resources }) =>
-      resources.some(({ id }) => id === resourceId),
-    );
+  const containedInFavorites = userFavorites.some((fav) => fav.resourceId === resourceId);
+  const containedInCollections = collections.some(({ resources }) =>
+    resources.some(({ id }) => id === resourceId),
+  );
 
-    return containedInFavorites || containedInCollections;
-  }, [userFavorites, collections, resourceId]);
+  const isInACollection = containedInFavorites || containedInCollections;
 
   return {
     isInACollection,

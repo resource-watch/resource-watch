@@ -5,7 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.X.X] - 2022-XX-XX
+## [3.X.X] - 2022-X-X
+### Added
+
+### Changed
+- dataset fetching determined by `NEXT_PUBLIC_ENVS_SHOW` environmental variable.
+- bump `moment@2.29.3`.
+- Coral Reefs dashboard: text changes. [RW-137](https://vizzuality.atlassian.net/browse/RW-137)
+- bump `next@12.1.6`.
+
+### Fixed
+- Explore: fixes navigation when a user clicks on "All datasets" button after searching. Now the search results remain. [RW-87](https://vizzuality.atlassian.net/browse/RW-87)
+
+### Removed
+- removes unused `resetFiltersSelected` action.
+- removes `isServer` state in redux and its action/reducer.
+- removes `chroma-js`.
+- removes `react-input-autosize`.
+- removes `react-fast-compare`.
+- removes `react-dates`.
+
+## [3.5.0] - 2022-05-03
 ### Added
 - survey modal. [RW-135](https://vizzuality.atlassian.net/browse/RW-135)
 - new content to Coral Reefs dashboard. [RW-128](https://vizzuality.atlassian.net/browse/RW-128)
@@ -27,6 +47,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `next@12.0.10`
 
 ### Fixed
+- async issue adding/removing resources from a collection or favorites. [RW-93](https://vizzuality.atlassian.net/browse/RW-93)
 - ocean watch: highlight of "Coastal Profile" tab.
 - highlighting of navigation bar based on current page. [RW-92](https://vizzuality.atlassian.net/browse/RW-92)
 - storybook: star icon appearing in widget header. [RW-78](https://vizzuality.atlassian.net/browse/RW-78)
@@ -39,6 +60,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.4.0] - 2022-01-27
 ### Added
+- Google Tag Manager container ID. [RW-136](https://vizzuality.atlassian.net/browse/RW-136)
 - support for attributions in maps. [RW-77](https://vizzuality.atlassian.net/browse/RW-77)
 - interception to handle requests from Global Fishing Watch. [RW-117](https://vizzuality.atlassian.net/browse/RW-117)
 - 'FeatureService' provider for Layer Manager. [RW-114](https://vizzuality.atlassian.net/browse/RW-114)

@@ -22,12 +22,10 @@ const MiniExploreDatasetsActions = (props) => {
 
   const handleToggleFavorite = useCallback(
     (isFavorite, resource) => {
-      const datasetName = resource?.metadata[0]?.info?.name;
-
       if (isFavorite) {
-        logEvent('Mini Explore Menu', 'Add dataset to favorites', datasetName);
+        logEvent('Mini Explore Menu', 'Add dataset to favorites', resource.id);
       } else {
-        logEvent('Mini Explore Menu', 'Remove dataset from favorites', datasetName);
+        logEvent('Mini Explore Menu', 'Remove dataset from favorites', resource.id);
       }
       refetch();
     },
@@ -36,12 +34,10 @@ const MiniExploreDatasetsActions = (props) => {
 
   const handleToggleCollection = useCallback(
     (isAdded, resource) => {
-      const datasetName = resource?.metadata[0]?.info?.name;
-
       if (isAdded) {
-        logEvent('Mini Explore Menu', 'Add dataset to a collection', datasetName);
+        logEvent('Mini Explore Menu', 'Add dataset to a collection', resource.id);
       } else {
-        logEvent('Mini Explore Menu', 'Remove dataset from a collection', datasetName);
+        logEvent('Mini Explore Menu', 'Remove dataset from a collection', resource.id);
       }
       refetch();
     },
