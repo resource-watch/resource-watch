@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.X.X] - 2022-X-X
 ### Added
+- rich schema script for specific datasets. [RW-141](https://vizzuality.atlassian.net/browse/RW-141)
 
 ### Changed
 - dataset fetching determined by `NEXT_PUBLIC_ENVS_SHOW` environmental variable.
