@@ -1,7 +1,4 @@
-import {
-  useCallback,
-  useMemo,
-} from 'react';
+import { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -42,11 +39,8 @@ const ExploreMenu = ({
   setFiltersSearch,
   toggleFiltersSelected,
   setFiltersSelected,
-  resetFiltersSelected,
 }) => {
-  const {
-    data: collections,
-  } = useFetchCollections(
+  const { data: collections } = useFetchCollections(
     token,
     {
       sort: 'name',
@@ -63,64 +57,65 @@ const ExploreMenu = ({
     fetchDatasets();
   }, [setDatasetsPage, fetchDatasets]);
 
-  const onChangeTextSearch = useCallback((_search) => {
-    if (!_search && sortSelected === 'relevance') {
-      resetFiltersSort();
-    }
-    setFiltersSearch(_search);
-    if (_search && shouldAutoUpdateSortDirection) {
-      setSortSelected('relevance');
-      setSortDirection(-1);
-    }
+  const onChangeTextSearch = useCallback(
+    (_search) => {
+      if (!_search && sortSelected === 'relevance') {
+        resetFiltersSort();
+      }
+      setFiltersSearch(_search);
+      if (_search && shouldAutoUpdateSortDirection) {
+        setSortSelected('relevance');
+        setSortDirection(-1);
+      }
 
-    setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
-    loadDatasets();
-    logEvent('Explore Menu', 'search', _search);
-  }, [
-    resetFiltersSort,
-    setFiltersSearch,
-    setSortSelected,
-    setSortDirection,
-    setSidebarSection,
-    loadDatasets,
-    shouldAutoUpdateSortDirection,
-    sortSelected,
-  ]);
-
-  const onToggleSelected = useCallback((payload) => {
-    if (section !== EXPLORE_SECTIONS.ALL_DATA) {
       setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
-    }
-    toggleFiltersSelected({ tag: payload, tab: 'topics' });
-    loadDatasets();
-  }, [section, setSidebarSection, toggleFiltersSelected, loadDatasets]);
+      loadDatasets();
+      logEvent('Explore Menu', 'search', _search);
+    },
+    [
+      resetFiltersSort,
+      setFiltersSearch,
+      setSortSelected,
+      setSortDirection,
+      setSidebarSection,
+      loadDatasets,
+      shouldAutoUpdateSortDirection,
+      sortSelected,
+    ],
+  );
 
-  const onChangeSelected = useCallback((payload = []) => {
-    setFiltersSelected({ key: tab, list: payload });
+  const onToggleSelected = useCallback(
+    (payload) => {
+      if (section !== EXPLORE_SECTIONS.ALL_DATA) {
+        setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
+      }
+      toggleFiltersSelected({ tag: payload, tab: 'topics' });
+      loadDatasets();
+    },
+    [section, setSidebarSection, toggleFiltersSelected, loadDatasets],
+  );
 
-    loadDatasets();
-    logEvent('Explore Menu', `filter ${tab}`, payload.join(','));
-  }, [setFiltersSelected, tab, loadDatasets]);
+  const onChangeSelected = useCallback(
+    (payload = []) => {
+      setFiltersSelected({ key: tab, list: payload });
 
-  const onResetSelected = useCallback(() => {
-    resetFiltersSelected();
+      loadDatasets();
+      logEvent('Explore Menu', `filter ${tab}`, payload.join(','));
+    },
+    [setFiltersSelected, tab, loadDatasets],
+  );
 
-    if (sortSelected === 'relevance') {
-      resetFiltersSort();
-    }
-
-    loadDatasets();
-    logEvent('Explore Menu', 'Clear filters', 'click');
-  }, [resetFiltersSelected, sortSelected, resetFiltersSort, loadDatasets]);
-
-  const collectionsWithDatasets = useMemo(() => collections
-    .filter(({ resources }) => resources.find(({ type }) => type === 'dataset')), [collections]);
+  const collectionsWithDatasets = useMemo(
+    () => collections.filter(({ resources }) => resources.find(({ type }) => type === 'dataset')),
+    [collections],
+  );
 
   return (
-    <div className={classnames({
-      'c-explore-menu': true,
-      '-hidden': selectedDataset,
-    })}
+    <div
+      className={classnames({
+        'c-explore-menu': true,
+        '-hidden': selectedDataset,
+      })}
     >
       <DatasetSearch
         open={open}
@@ -134,7 +129,6 @@ const ExploreMenu = ({
         onChangeTextSearch={onChangeTextSearch}
         onToggleSelected={onToggleSelected}
         onChangeSelected={onChangeSelected}
-        onResetSelected={onResetSelected}
       />
 
       <div className="menu-options">
@@ -192,7 +186,9 @@ const ExploreMenu = ({
             logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.NEAR_REAL_TIME);
           }}
         >
-          <Icon name={`icon-recent-${section === EXPLORE_SECTIONS.NEAR_REAL_TIME ? 'on' : 'off'}`} />
+          <Icon
+            name={`icon-recent-${section === EXPLORE_SECTIONS.NEAR_REAL_TIME ? 'on' : 'off'}`}
+          />
           Near Real-Time
         </div>
         <div
@@ -230,7 +226,9 @@ const ExploreMenu = ({
             logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.AREAS_OF_INTEREST);
           }}
         >
-          <Icon name={`icon-aoi-${section === EXPLORE_SECTIONS.AREAS_OF_INTEREST ? 'on' : 'off'}`} />
+          <Icon
+            name={`icon-aoi-${section === EXPLORE_SECTIONS.AREAS_OF_INTEREST ? 'on' : 'off'}`}
+          />
           Areas of Interest
         </div>
 
@@ -273,30 +271,32 @@ const ExploreMenu = ({
         >
           <span className="collection-name">My Favorites</span>
         </div>
-        {userIsLoggedIn && collectionsWithDatasets.map((collection) => (
-          <div
-            key={collection.id}
-            className={classnames({
-              'menu-option': true,
-              collection: true,
-              '-active': section === EXPLORE_SECTIONS.COLLECTIONS && selectedCollection === collection.id,
-            })}
-            role="button"
-            tabIndex={0}
-            onKeyPress={() => {
-              setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
-              setSidebarSelectedCollection(collection.id);
-              logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.COLLECTIONS);
-            }}
-            onClick={() => {
-              setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
-              setSidebarSelectedCollection(collection.id);
-              logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.COLLECTIONS);
-            }}
-          >
-            <span className="collection-name">{collection.name}</span>
-          </div>
-        ))}
+        {userIsLoggedIn &&
+          collectionsWithDatasets.map((collection) => (
+            <div
+              key={collection.id}
+              className={classnames({
+                'menu-option': true,
+                collection: true,
+                '-active':
+                  section === EXPLORE_SECTIONS.COLLECTIONS && selectedCollection === collection.id,
+              })}
+              role="button"
+              tabIndex={0}
+              onKeyPress={() => {
+                setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
+                setSidebarSelectedCollection(collection.id);
+                logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.COLLECTIONS);
+              }}
+              onClick={() => {
+                setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
+                setSidebarSelectedCollection(collection.id);
+                logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.COLLECTIONS);
+              }}
+            >
+              <span className="collection-name">{collection.name}</span>
+            </div>
+          ))}
       </div>
     </div>
   );
@@ -312,9 +312,7 @@ ExploreMenu.propTypes = {
   token: PropTypes.string,
   open: PropTypes.bool.isRequired,
   tab: PropTypes.string.isRequired,
-  tags: PropTypes.arrayOf(
-    PropTypes.shape({}),
-  ).isRequired,
+  tags: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   options: PropTypes.shape({}).isRequired,
   selected: PropTypes.shape({}).isRequired,
   search: PropTypes.string.isRequired,
@@ -333,7 +331,6 @@ ExploreMenu.propTypes = {
   setSortSelected: PropTypes.func.isRequired,
   setSortDirection: PropTypes.func.isRequired,
   toggleFiltersSelected: PropTypes.func.isRequired,
-  resetFiltersSelected: PropTypes.func.isRequired,
   resetFiltersSort: PropTypes.func.isRequired,
   setSidebarSection: PropTypes.func.isRequired,
   setSidebarSelectedCollection: PropTypes.func.isRequired,

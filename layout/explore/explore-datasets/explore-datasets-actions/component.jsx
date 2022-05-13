@@ -1,7 +1,4 @@
-import {
-  useCallback,
-  useMemo,
-} from 'react';
+import { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -21,8 +18,6 @@ import useFetchCollection from 'hooks/collection/fetch-collection';
 // Utils
 import { logEvent } from 'utils/analytics';
 
-
-
 const ExploreDatasetsActions = (props) => {
   const {
     dataset,
@@ -33,46 +28,55 @@ const ExploreDatasetsActions = (props) => {
     toggleMapLayerGroup,
     resetMapLayerGroupsInteraction,
   } = props;
-  const {
-    isInACollection,
-  } = useBelongsToCollection(dataset.id, user.token);
-  const {
-    refetch,
-  } = useFetchCollection(selectedCollection, user.token, {}, {
-    enabled: !!(selectedCollection && user.token),
-  });
+  const { isInACollection } = useBelongsToCollection(dataset.id, user.token);
+  const { refetch } = useFetchCollection(
+    selectedCollection,
+    user.token,
+    {},
+    {
+      enabled: !!(selectedCollection && user.token),
+    },
+  );
   const isActive = useMemo(
     () => !!layerGroups.find((l) => l.dataset === dataset.id),
     [dataset, layerGroups],
   );
 
-  const handleToggleLayerGroup = useCallback((event) => {
-    event.stopPropagation();
+  const handleToggleLayerGroup = useCallback(
+    (event) => {
+      event.stopPropagation();
 
-    toggleMapLayerGroup({ dataset, toggle: !isActive });
-    resetMapLayerGroupsInteraction();
-  }, [isActive, dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction]);
+      toggleMapLayerGroup({ dataset, toggle: !isActive });
+      resetMapLayerGroupsInteraction();
+    },
+    [isActive, dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction],
+  );
 
-  const handleToggleFavorite = useCallback((isFavorite, resource) => {
-    if (selectedCollection) refetch();
-    const datasetName = resource?.metadata[0]?.info?.name;
-    if (isFavorite) {
-      logEvent('Explore Menu', 'Add dataset to favorites', datasetName);
-    } else {
-      logEvent('Explore Menu', 'Remove dataset from favorites', datasetName);
-    }
-  }, [selectedCollection, refetch]);
+  const handleToggleFavorite = useCallback(
+    (isFavorite, resource) => {
+      if (selectedCollection) refetch();
 
-  const handleToggleCollection = useCallback((isAdded, resource) => {
-    if (selectedCollection) refetch();
-    const datasetName = resource?.metadata[0]?.info?.name;
+      if (isFavorite) {
+        logEvent('Explore Menu', 'Add dataset to favorites', resource.id);
+      } else {
+        logEvent('Explore Menu', 'Remove dataset from favorites', resource.id);
+      }
+    },
+    [selectedCollection, refetch],
+  );
 
-    if (isAdded) {
-      logEvent('Explore Menu', 'Add dataset to a collection', datasetName);
-    } else {
-      logEvent('Explore Menu', 'Remove dataset from a collection', datasetName);
-    }
-  }, [selectedCollection, refetch]);
+  const handleToggleCollection = useCallback(
+    (isAdded, resource) => {
+      if (selectedCollection) refetch();
+
+      if (isAdded) {
+        logEvent('Explore Menu', 'Add dataset to a collection', resource.id);
+      } else {
+        logEvent('Explore Menu', 'Remove dataset from a collection', resource.id);
+      }
+    },
+    [selectedCollection, refetch],
+  );
 
   const userIsLoggedIn = user.token;
   const datasetName = dataset?.metadata[0]?.info?.name;
@@ -113,7 +117,7 @@ const ExploreDatasetsActions = (props) => {
         }}
       >
         <Tooltip
-          overlay={(
+          overlay={
             <CollectionsPanel
               resource={dataset}
               resourceType="dataset"
@@ -122,7 +126,7 @@ const ExploreDatasetsActions = (props) => {
               onToggleFavorite={handleToggleFavorite}
               onToggleCollection={handleToggleCollection}
             />
-          )}
+          }
           overlayClassName="c-rc-tooltip"
           placement="bottomRight"
           trigger="click"
@@ -140,10 +144,7 @@ const ExploreDatasetsActions = (props) => {
               }
             }}
           >
-            <Icon
-              name={starIconName}
-              className={starIconClass}
-            />
+            <Icon name={starIconName} className={starIconClass} />
           </button>
         </Tooltip>
       </LoginRequired>
@@ -168,9 +169,7 @@ ExploreDatasetsActions.propTypes = {
   }).isRequired,
   layer: PropTypes.shape({}).isRequired,
   selectedCollection: PropTypes.string,
-  layerGroups: PropTypes.arrayOf(
-    PropTypes.shape({}),
-  ).isRequired,
+  layerGroups: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   toggleMapLayerGroup: PropTypes.func.isRequired,
   resetMapLayerGroupsInteraction: PropTypes.func.isRequired,
   user: PropTypes.shape({

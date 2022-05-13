@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
 
 // actions
-import { setIsServer as setServerAction } from 'redactions/common';
 import * as actions from 'layout/explore/actions';
 
 // hoc
@@ -17,12 +16,6 @@ import { fetchDataset } from 'services/dataset';
 import Explore from 'layout/explore';
 
 class ExplorePage extends PureComponent {
-  componentDidMount() {
-    const { setIsServer } = this.props;
-
-    setIsServer(false);
-  }
-
   componentDidUpdate(prevProps) {
     if (this.shouldUpdateUrl(prevProps)) {
       this.setExploreURL();
@@ -95,18 +88,16 @@ class ExplorePage extends PureComponent {
       }),
     };
 
-    if (typeof window !== 'undefined') {
-      router.replace(
-        {
-          pathname: '/data/explore/[[...dataset]]',
-          query,
-        },
-        {},
-        {
-          shallow: true,
-        },
-      );
-    }
+    router.replace(
+      {
+        pathname: '/data/explore/[[...dataset]]',
+        query,
+      },
+      {},
+      {
+        shallow: true,
+      },
+    );
   }
 
   shouldUpdateUrl(prevProps) {
@@ -275,7 +266,9 @@ export const getServerSideProps = withRedux(
 
 ExplorePage.propTypes = {
   explore: PropTypes.shape({
-    datasets: PropTypes.arrayOf(PropTypes.shape({})),
+    datasets: PropTypes.shape({
+      selected: PropTypes.string,
+    }),
     filters: PropTypes.shape({
       search: PropTypes.string,
       selected: PropTypes.shape({
@@ -306,11 +299,10 @@ ExplorePage.propTypes = {
     }),
     sort: PropTypes.shape({
       selected: PropTypes.string,
-      direction: PropTypes.string,
+      direction: PropTypes.number,
     }),
   }).isRequired,
   resetExplore: PropTypes.func.isRequired,
-  setIsServer: PropTypes.func.isRequired,
   router: PropTypes.shape({
     replace: PropTypes.func.isRequired,
   }).isRequired,
@@ -318,5 +310,4 @@ ExplorePage.propTypes = {
 
 export default connect((state, pageProps) => ({ explore: state.explore, ...pageProps }), {
   ...actions,
-  setIsServer: setServerAction,
 })(withRouter(ExplorePage));

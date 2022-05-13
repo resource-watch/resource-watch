@@ -20,7 +20,7 @@ import { APIDatasetSpec } from 'types/dataset';
  */
 export const fetchDatasets = (params = {}, headers = {}, _meta = false) => {
   const newParams = {
-    env: process.env.NEXT_PUBLIC_API_ENV,
+    env: process.env.NEXT_PUBLIC_ENVS_SHOW,
     application: process.env.NEXT_PUBLIC_APPLICATIONS,
     ...params,
   };

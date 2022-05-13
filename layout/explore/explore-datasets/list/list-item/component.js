@@ -81,7 +81,7 @@ class DatasetListItem extends React.Component {
   };
 
   render() {
-    const { dataset, metadata, actions, active } = this.props;
+    const { dataset, metadata, actions, active, filters, sort, sidebar } = this.props;
 
     const dateLastUpdated = getDateConsideringTimeZone(dataset.dataLastUpdated, true);
     const classNameValue = classnames({
@@ -111,7 +111,20 @@ class DatasetListItem extends React.Component {
           {/* Title */}
           <div className="title-actions">
             <h4>
-              <Link href={`/data/explore/${dataset.slug}`}>
+              <Link
+                href={{
+                  pathname: `/data/explore/${dataset.slug}`,
+                  query: {
+                    ...(filters.search && { search: filters.search }),
+                    ...(filters.selected.topics?.length && {
+                      topics: encodeURIComponent(JSON.stringify(filters.selected.topics)),
+                    }),
+                    ...(sort.selected && { sort: sort.selected }),
+                    ...(sort.direction && { sortDirection: sort.direction }),
+                    ...(sidebar.section && { section: sidebar.section }),
+                  },
+                }}
+              >
                 <a className="line-clamp-2">
                   {(metadata && metadata.info && metadata.info.name) || dataset.name}
                 </a>

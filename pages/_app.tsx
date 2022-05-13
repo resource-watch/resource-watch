@@ -23,6 +23,22 @@ const queryClient = new QueryClient();
 const ResourceWatchApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <>
+      {process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_CONTAINER_ID && (
+        <noscript>
+          {/* Google Tag Manager (noscript) */}
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_CONTAINER_ID}`}
+            height={0}
+            width={0}
+            style={{
+              display: 'none',
+              visibility: 'hidden',
+            }}
+          />
+          {/* End Google Tag Manager (noscript) */}
+        </noscript>
+      )}
+
       {/* Google places API */}
       <Script
         src={`https://maps.googleapis.com/maps/api/js?v=weekly&key=${process.env.NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER}&libraries=places`}

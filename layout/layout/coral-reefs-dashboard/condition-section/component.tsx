@@ -1,9 +1,17 @@
 import PropTypes from 'prop-types';
+import Image from 'next/image';
 
 // components
 import ChartWidget from 'components/widgets/types/chart';
 
-const ConditionSection = ({ onShareWidget }) => {
+// types
+import type { APIWidgetSpec } from 'types/widget';
+
+const ConditionSection = ({
+  onShareWidget,
+}: {
+  onShareWidget: (widget: APIWidgetSpec) => void;
+}) => {
   return (
     <div id="coral-reef-condition" className="section">
       <div className="subsection">
@@ -13,73 +21,74 @@ const ConditionSection = ({ onShareWidget }) => {
         <div className="row">
           <div className="column small-12 medium-6">
             <p>
-              <span>
-                Estimates of the extent of damage to the world’s coral reefs vary, but most present
-                a grim outlook for these magnificent ecosystems. Globally, it is likely that{' '}
-              </span>
+              Estimates of the extent of damage to the world’s coral reefs vary, but most present a
+              grim outlook for these magnificent ecosystems. Globally, it is likely that{' '}
               <a
-                href="https://www.cell.com/one-earth/fulltext/S2590-3322(21)00474-7#%20"
+                href="https://www.cell.com/one-earth/fulltext/S2590-3322(21)00474-7"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <strong>
-                  over half of the world’s reefs have already been severely damaged or lost
-                </strong>
+                over half of the world’s reefs have already been degraded
               </a>
-              <strong> because of climate change, pollution, and human activities.</strong>
-              <span>
-                {' '}
-                Hard coral cover has declined significantly in some regions, and there has been a
-                shift toward coral species less able to support diverse coral reef habitats.
-              </span>
+              – by climate change, pollution and other human activities - resulting in loss of live
+              coral cover, reduced coral diversity and increased algal cover. Hard coral cover has
+              declined significantly in some regions, and there has been a shift toward coral
+              species less able to support diverse coral reef habitats. Both the global 2011{' '}
+              <a
+                href="https://www.wri.org/research/reefs-risk-revisited"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Reefs at Risk Revisited
+              </a>{' '}
+              report and a{' '}
+              <a
+                href="https://www.frontiersin.org/articles/10.3389/fmars.2017.00158/full"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                2017 paper in Frontiers in Marine Science
+              </a>{' '}
+              project that by 2050, virtually all of the worlds reefs will be at high risk from a
+              combination of local threats and ocean warming.
             </p>
             <p>
-              <span>A recent study by the </span>
-              <a href="https://gcrmn.net" rel="noopener noreferrer" target="_blank">
-                Global Coral Reef Monitoring Network (GCRMN
-              </a>
-              <span>)</span>
-              <span> </span>
-              <span>
-                takes a detailed look at change in live hard coral cover and algal cover over time.
-              </span>
-              <span> </span>
+              A global compilation of data on live coral cover and algal cover by the{' '}
               <a href="https://gcrmn.net/2020-report/" rel="noopener noreferrer" target="_blank">
-                <em>Status of Coral Reefs of the World: 2020</em>
+                Global Coral Reef Monitoring Network (GCRMN)
               </a>
-              <span>
-                {' '}
-                is based on data collected by more than 300 scientists over the past 40 years, from
-                nearly 35,000
-              </span>
-              <span>
-                {' '}
-                coral reef surveys at over 12,000 sites, though for many sites data are only
-                available for a single year.&nbsp;The report finds that large-scale coral bleaching
-                events caused by ocean warming are the greatest disturbance to the world’s coral
-                reefs, but also identifies examples of coral recovery between disturbances. It
-                recommends reducing local pressures on reefs in order to maintain their resilience,
-                while global threats posed by climate change are addressed. (Results are available
-                for ten regions within{' '}
-              </span>
+              , however, finds considerable resilience on many reefs.{' '}
+              <a href="https://gcrmn.net/2020-report/" rel="noopener noreferrer" target="_blank">
+                Status of Coral Reefs of the World: 2020
+              </a>{' '}
+              is based on data collected by more than 300 scientists over the past 40 years, from
+              nearly 35,000 coral reef surveys at over 12,000 sites, though for many sites data are
+              only available for a single year. The report finds that large-scale coral bleaching
+              events caused by ocean warming are the greatest disturbance to the world’s coral
+              reefs, but also identifies examples of coral recovery between disturbances. It
+              recommends reducing local pressures on reefs to maintain their resilience, while
+              global threats posed by climate change are addressed. (Results are available for ten
+              regions within{' '}
               <a href="https://gcrmn.net/2020-report/" rel="noopener noreferrer" target="_blank">
                 the report
               </a>
-              <span>.)</span>{' '}
-              <span>
-                The figures below reflect global trends for live, hard coral cover and algal cover.{' '}
-              </span>
+              .) The figures below reflect global trends for live, hard coral cover and algal cover.
             </p>
           </div>
-          <div className="image-container column small-12 medium-6">
-            <div>
-              <img
-                src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/365/original/dano_pendygrasse_roatan_cordeliabanks_crop.jpg?1611604063&amp;temp_id=365"
-                alt="dano-pendygrasse"
-              />
-            </div>
-            <div className="image-caption">
-              <em>Photo: Daniel Stephen Pendygrasse</em>
+          <div className="column small-12 medium-6">
+            <div className="image-container">
+              <div className="flex flex-col ">
+                <Image
+                  src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/365/original/dano_pendygrasse_roatan_cordeliabanks_crop.jpg?1611604063&amp;temp_id=365"
+                  alt="dano-pendygrasse"
+                  width={330}
+                  height={479}
+                  layout="responsive"
+                />
+              </div>
+              <div className="image-caption">
+                <em>Photo: Daniel Stephen Pendygrasse</em>
+              </div>
             </div>
           </div>
         </div>
@@ -171,9 +180,12 @@ const ConditionSection = ({ onShareWidget }) => {
       <div className="subsection row">
         <div className="image-container column small-12 medium-6">
           <div>
-            <img
+            <Image
               src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/379/original/Richard_ling_coral_garden.jpg?1611946008&amp;temp_id=379"
               alt="Richard_ling_coral garden.jpg"
+              width={1200}
+              height={1600}
+              layout="responsive"
             />
           </div>
           <div className="image-caption">
@@ -348,9 +360,12 @@ const ConditionSection = ({ onShareWidget }) => {
       </div>
       <div className="subsection row">
         <div className="column image-container small-12 medium-6">
-          <img
+          <Image
             src="https://s3.amazonaws.com/wri-api-backups/resourcewatch/staging/temporary_content_images/images/000/000/375/original/Stony_Coral_Tissue_Loss_Disease_Florida__TNC_reduced.jpg?1611618027&amp;temp_id=375"
             alt="tnc_stony-coral-tissue-loss-disease"
+            width={2320}
+            height={1739}
+            layout="responsive"
           />
           <div className="image-caption">
             <em>Stony Coral Tissue Loss Disease in Florida</em>

@@ -19,6 +19,9 @@ export default connect(
   (state, props) => ({
     user: state.user,
     active: isActive(state, props),
+    filters: state.explore.filters,
+    sort: state.explore.sort,
+    sidebar: state.explore.sidebar,
   }),
   {
     ...actions,
