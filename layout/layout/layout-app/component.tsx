@@ -21,7 +21,6 @@ import NoBrowserSupport from 'components/app/common/Browser';
 import GDPRBanner from 'components/ui/gdpr-banner';
 import ProgressBar from 'components/progress-bar';
 
-const SurveyPrompt = dynamic(() => import('../../../components/survey-prompt'), { ssr: false });
 const UserReportButton = dynamic(() => import('../../user-report'), { ssr: false });
 
 export interface LayoutAppProps {
@@ -87,8 +86,6 @@ const LayoutApp: FC<LayoutAppProps> = ({
       <Tooltip />
 
       <Search />
-
-      <SurveyPrompt />
 
       <Modal
         open={modal.open}
