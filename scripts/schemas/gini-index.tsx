@@ -20,7 +20,7 @@ const GiniIndexScript = () => {
             "name": "World Bank Group",
             "url": "https://www.worldbank.org/"
           },
-          "citation": "World Bank Group. \"World Development Indicators: Gini Index.\" Retrieved from http://data.worldbank.org/indicator/SI.POV.GINI. Accessed through Resource Watch, (date). www.resourcewatch.org.",
+          "citation": "World Bank Group. World Development Indicators: Gini Index. Retrieved from http://data.worldbank.org/indicator/SI.POV.GINI. Accessed through Resource Watch, (date). www.resourcewatch.org.",
           "keywords": "Inequality, Economic, Gini Coefficient, Income Distribution",
           "license": "https://creativecommons.org/licenses/by/4.0/",
           "isAccessibleForFree": true,

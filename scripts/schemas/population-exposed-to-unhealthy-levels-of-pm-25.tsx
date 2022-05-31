@@ -19,7 +19,7 @@ const PopulationExposedUnhealthyLevelsPMScript = () => {
             "@type": "Organization",
             "name": "World Bank, Group Global Burden of Disease, United Nations World Health Organization (WHO)"
           },
-          "citation": "Brauer, M. et al., for the Global Burden of Disease Study. \"PM2.5 Air Pollution, Population Exposed to Levels Exceeding WHO Guideline Value (% of Total).\" Accessed through Resource Watch, (date). www.resourcewatch.org.",
+          "citation": "Brauer, M. et al., for the Global Burden of Disease Study. PM2.5 Air Pollution, Population Exposed to Levels Exceeding WHO Guideline Value (% of Total). Accessed through Resource Watch, (date). www.resourcewatch.org.",
           "keywords": "Health, SDG, Pollution, Emissions, Air Quality, Sustainable cities",
           "license": "http://data.worldbank.org/summary-terms-of-use",
           "spatialCoverage": "Global",

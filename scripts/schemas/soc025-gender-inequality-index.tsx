@@ -20,7 +20,7 @@ const GenderInequalityIndexScript = () => {
             "name": "United Nations Development Programme (UNDP)",
             "url": "http://hdr.undp.org/"
           },
-          "citation": "United Nations Development Programme. 2015. \"Gender Inequality Index.\" The Human Development Report. Retrieved from http://hdr.undp.org/en/content/gender-inequality-index-gii. Accessed through Resource Watch, (date). www.resourcewatch.org.",
+          "citation": "United Nations Development Programme. 2015. Gender Inequality Index. The Human Development Report. Retrieved from http://hdr.undp.org/en/content/gender-inequality-index-gii. Accessed through Resource Watch, (date). www.resourcewatch.org.",
           "keywords": "Society, Inequality, Gender Index, Development",
           "license": "http://hdr.undp.org/en/content/copyright-and-terms-use",
           "isAccessibleForFree": true,
