@@ -54,7 +54,7 @@
     "luma.gl": "^7.3.2",
     "moment": "2.29.3",
     "next": "12.1.6",
-    "next-auth": "^3.27.0",
+    "next-auth": "^3.29.5",
     "next-redux-wrapper": "^7.0.2",
     "nextjs-sitemap-generator": "^1.1.1",
     "nuka-carousel": "^4.4.0",
