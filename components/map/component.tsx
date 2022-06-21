@@ -19,7 +19,6 @@ import { Basemap, Labels } from './types';
 
 export interface MapProps extends InteractiveMapProps {
   /** A function that returns the map instance */
-  // children?: React.ReactNode;
   children?: (map) => JSX.Element;
 
   /** Custom css class for styling */
