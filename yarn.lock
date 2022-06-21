@@ -19699,17 +19699,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hammerjs@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "react-hammerjs@npm:1.0.1"
-  dependencies:
-    hammerjs: ^2.0.8
-  peerDependencies:
-    react: ^0.14.9 || ^15.3.0 || ^16.0.0-rc || ^16.0
-  checksum: 0196e2ac08d0d4d81d1dfeddd9d871f2162d1f0b8ea1a95ff81cec0dbb6323e45043606f4b65a5ee7063332d1d74cf7e00140d50530205329aa885f4b0bf2997
-  languageName: node
-  linkType: hard
-
 "react-helmet-async@npm:^1.0.7":
   version: 1.1.2
   resolution: "react-helmet-async@npm:1.1.2"
@@ -21287,7 +21276,6 @@ __metadata:
     react-geosuggest: ^2.12.0
     react-google-recaptcha: ^2.1.0
     react-graph-vis: 1.0.2
-    react-hammerjs: ^1.0.1
     react-input-range: ^1.2.1
     react-intersection-observer: ^8.24.2
     react-map-gl: ^5.0.7

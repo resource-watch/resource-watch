@@ -36,7 +36,6 @@ jobs:
       NEXT_PUBLIC_RW_ENV: test
       NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER: fakeGoogleApiToken
       NEXT_PUBLIC_RW_MAPBOX_API_TOKEN: fakeMapboxToken
-      NEXT_PUBLIC_BING_MAPS_API_KEY: fakeBingToken
       NEXT_PUBLIC_ADD_SEARCH_KEY: abcdef1234567890abcdef1234567890
       NEXT_PUBLIC_BITLY_TOKEN: fakeBitlyToken
       NEXT_PUBLIC_WRI_API_URL: https://api.resourcewatch.org

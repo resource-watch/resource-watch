@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Explore: fixes navigation when a user clicks on "All datasets" button after searching. Now the search results remain. [RW-87](https://vizzuality.atlassian.net/browse/RW-87)
 
 ### Removed
+- removes Planet Pulse page. [RW-149](https://vizzuality.atlassian.net/browse/RW-149)
 - removes user survey. [RW-142](https://vizzuality.atlassian.net/browse/RW-142)
 - removes unused `resetFiltersSelected` action.
 - removes `isServer` state in redux and its action/reducer.
