@@ -197,8 +197,6 @@ const AreasForm = ({ area, onSubmit }) => {
     return true;
   }, []);
 
-  const mapClass = classnames({ 'no-pointer-events': mapState.isDrawing });
-
   const countryOptions = useMemo(
     () =>
       countries
@@ -263,7 +261,7 @@ const AreasForm = ({ area, onSubmit }) => {
                 bounds={mapState.bounds}
                 onMapViewportChange={handleViewport}
                 getCursor={handleMapCursor}
-                className={mapClass}
+                className={classnames({ 'map-overlays-no-pointer-events': mapState.isDrawing })}
               >
                 {(_map) => (
                   <>

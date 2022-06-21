@@ -195,7 +195,6 @@ const SwipeTypeWidget = ({
                 <Map
                   interactiveLayerIds={[]}
                   mapStyle={MAPSTYLES}
-                  className="-compare"
                   basemap={basemap}
                   labels={labels}
                   boundaries={boundaries}
@@ -238,7 +237,6 @@ const SwipeTypeWidget = ({
                 <Map
                   interactiveLayerIds={[]}
                   mapStyle={MAPSTYLES}
-                  className="-compare"
                   basemap={basemap}
                   labels={labels}
                   boundaries={boundaries}
