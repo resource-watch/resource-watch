@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const sitemap = require('nextjs-sitemap-generator');
 
 // after generating the sitemap, remove manually the following URLs:
@@ -9,7 +10,6 @@ const sitemap = require('nextjs-sitemap-generator');
 // https://resourcewatch.org/newsletter
 // https://resourcewatch.org/partners
 // https://resourcewatch.org/policy
-// https://resourcewatch.org/pulse
 
 sitemap({
   baseUrl: 'https://resourcewatch.org',
@@ -29,11 +29,7 @@ sitemap({
   targetDirectory: `${__dirname}/public`,
   nextConfigPath: `${__dirname}/next.config.js`,
   ignoreIndexFiles: true,
-  ignoredExtensions: [
-    'png',
-    'jpg',
-    'json',
-  ],
+  ignoredExtensions: ['png', 'jpg', 'json'],
 });
 
 // eslint-disable-next-line no-console

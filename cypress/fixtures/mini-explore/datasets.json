@@ -2600,9 +2600,6 @@
                 "config": {
                   "url": "https://api.resourcewatch.org/v1/query/b75d8398-34f2-447d-832d-ea570451995a?sql=select last(tropospheric_NO2_column_number_density) as x from 'projects/resource-watch-gee/cit_035_tropomi_atmospheric_chemistry_model_30day_avg/NO2/cit_035_tropomi_atmospheric_chemistry_model_30day_avg_NO2_2021-05-15' where system:time_start >= 1533448800000 and ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":[{{lng}},{{lat}}]}'),4326),the_geom)"
                 },
-                "pulseConfig": {
-                  "url": "https://api.resourcewatch.org/v1/query/b75d8398-34f2-447d-832d-ea570451995a?sql=select last(tropospheric_NO2_column_number_density) as x from 'projects/resource-watch-gee/cit_035_tropomi_atmospheric_chemistry_model_30day_avg/NO2/cit_035_tropomi_atmospheric_chemistry_model_30day_avg_NO2_2021-05-15' where system:time_start >= 1533448800000 and ST_INTERSECTS(ST_SetSRID(ST_GeomFromGeoJSON('{\"type\":\"Point\",\"coordinates\":{{point}}}'),4326),the_geom)"
-                },
                 "output": [
                   {
                     "column": "x",

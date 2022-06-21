@@ -1,7 +1,4 @@
-import {
-  useCallback,
-  useState,
-} from 'react';
+import { useCallback, useState } from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -15,58 +12,48 @@ import BlogFeed from 'components/blog/feed';
 import ExploreCards from 'layout/app/home/explore-cards';
 
 // hooks
-import {
-  useFeaturedDashboards,
-} from 'hooks/dashboard';
+import { useFeaturedDashboards } from 'hooks/dashboard';
 
 // utils
 import { browserSupported } from 'utils/browser';
 
 // lib
-import {
-  Media,
-} from 'lib/media';
+import { Media } from 'lib/media';
 
 // constants
-import {
-  VIDEO_ID,
-  VIDEO_OPTIONS,
-} from './constants';
+import { VIDEO_ID, VIDEO_OPTIONS } from './constants';
 
 export default function LayoutHome() {
   const router = useRouter();
   const [isVideoReady, setVideoReady] = useState(false);
 
-  const onSelectDashboard = useCallback(({ slug }) => {
-    router.push(`/dashboards/${slug}`);
-  }, [router]);
+  const onSelectDashboard = useCallback(
+    ({ slug }) => {
+      router.push(`/dashboards/${slug}`);
+    },
+    [router],
+  );
 
   const onVideoStateChange = useCallback(({ data }) => {
     setVideoReady(data === 1);
   }, []);
 
-  const videoForegroundClass = classnames(
-    'video-foreground',
-    { '-ready': isVideoReady },
-  );
+  const videoForegroundClass = classnames('video-foreground', { '-ready': isVideoReady });
 
-  const {
-    data: featuredDashboards,
-  } = useFeaturedDashboards({ env: process.env.NEXT_PUBLIC_ENVS_SHOW }, {
-    select: (_dashboards) => _dashboards.map(({
-      name,
-      slug,
-      photo,
-      user,
-    }) => ({
-      name: slug === 'ocean' ? 'Ocean Watch' : name,
-      slug: slug === 'ocean' ? 'ocean-watch' : slug,
-      photo,
-      user,
-    })),
-    placeholderData: [],
-    refetchOnWindowFocus: false,
-  });
+  const { data: featuredDashboards } = useFeaturedDashboards(
+    { env: process.env.NEXT_PUBLIC_ENVS_SHOW },
+    {
+      select: (_dashboards) =>
+        _dashboards.map(({ name, slug, photo, user }) => ({
+          name: slug === 'ocean' ? 'Ocean Watch' : name,
+          slug: slug === 'ocean' ? 'ocean-watch' : slug,
+          photo,
+          user,
+        })),
+      placeholderData: [],
+      refetchOnWindowFocus: false,
+    },
+  );
 
   return (
     <Layout
@@ -75,16 +62,10 @@ export default function LayoutHome() {
       className="l-home"
     >
       <div className="video-intro">
-        <Media
-          greaterThanOrEqual="md"
-        >
+        <Media greaterThanOrEqual="md">
           <div className={videoForegroundClass}>
             {browserSupported() && (
-              <YouTube
-                videoId={VIDEO_ID}
-                opts={VIDEO_OPTIONS}
-                onStateChange={onVideoStateChange}
-              />
+              <YouTube videoId={VIDEO_ID} opts={VIDEO_OPTIONS} onStateChange={onVideoStateChange} />
             )}
           </div>
         </Media>
@@ -93,16 +74,13 @@ export default function LayoutHome() {
             <h1>Monitoring the Planet&rsquo;s Pulse</h1>
             <p>Resource Watch provides trusted and timely data for a sustainable future.</p>
             <Link href="/data/explore">
-              <a className="c-button -alt -primary mt-5">Explore data</a>
+              <a className="mt-5 c-button -alt -primary">Explore data</a>
             </Link>
           </div>
         </div>
       </div>
 
-      <section
-        id="discoverInsights"
-        className="l-section"
-      >
+      <section id="discoverInsights" className="l-section">
         <div className="l-container">
           <header>
             <div className="row">
@@ -142,8 +120,8 @@ export default function LayoutHome() {
                 <div className="column small-12 medium-6">
                   <h2>Featured dashboards</h2>
                   <p>
-                    Discover collections of curated data on the major
-                    challenges facing human society and the planet.
+                    Discover collections of curated data on the major challenges facing human
+                    society and the planet.
                   </p>
                 </div>
               </div>
@@ -167,8 +145,8 @@ export default function LayoutHome() {
               <div className="column small-12 medium-6">
                 <h2>Dive into the data</h2>
                 <p>
-                  Create overlays, share visualizations, and
-                  subscribe to updates on your favorite issues.
+                  Create overlays, share visualizations, and subscribe to updates on your favorite
+                  issues.
                 </p>
               </div>
             </div>
@@ -182,10 +160,7 @@ export default function LayoutHome() {
         </div>
       </section>
 
-      <Banner
-        className="get-involved"
-        bgImage="/static/images/backgrounds/mod_getInvolved.jpg"
-      >
+      <Banner className="get-involved" bgImage="/static/images/backgrounds/mod_getInvolved.jpg">
         <div className="l-container">
           <h2>Get involved</h2>
           <p>Use data to drive change in your community and around the world.</p>
@@ -194,27 +169,19 @@ export default function LayoutHome() {
               <a className="c-btn -alt -primary">Sign up</a>
             </Link>
 
-            <Link
-              href="/get-involved/join-the-community"
-            >
+            <Link href="/get-involved/join-the-community">
               <a className="c-btn -b -alt">Join the community</a>
             </Link>
 
-            <Link
-              href="/get-involved/contribute-data"
-            >
+            <Link href="/get-involved/contribute-data">
               <a className="c-btn -b -alt">Contribute data</a>
             </Link>
 
-            <Link
-              href="/get-involved/suggest-a-story"
-            >
+            <Link href="/get-involved/suggest-a-story">
               <a className="c-btn -b -alt">Suggest a story</a>
             </Link>
 
-            <Link
-              href="/get-involved/develop-your-app"
-            >
+            <Link href="/get-involved/develop-your-app">
               <a className="c-btn -b -alt">Develop your app</a>
             </Link>
           </div>

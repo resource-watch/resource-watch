@@ -1,19 +1,5 @@
 export const EXPLORE_CARDS = [
   {
-    tag: 'Planet Pulse',
-    title: 'View near-real-time data on the planet',
-    intro: '',
-    buttons: [
-      {
-        text: 'Launch Planet Pulse',
-        path: '/data/pulse',
-        anchor: true,
-        className: '-primary',
-      },
-    ],
-    background: 'url(/static/images/homepage/home-data-bg4.png) 67% center',
-  },
-  {
     tag: 'Explore Data',
     title: 'Access data on the map',
     intro: 'Identify patterns between data sets on the map or download data for analysis.',
@@ -55,6 +41,22 @@ export const EXPLORE_CARDS = [
       },
     ],
     background: 'url(/static/images/homepage/home-data-bg3.png) 67% center',
+  },
+  {
+    id: 'insights',
+    title: 'Suggest a story',
+    intro: [
+      'Have you uncovered an interesting connection in the data we should tell a story about?',
+    ],
+    buttons: [
+      {
+        text: 'Suggest a story',
+        path: '/get-involved/suggest-a-story',
+        className: '-primary -alt',
+      },
+    ],
+    background: 'url(/static/images/backgrounds/jellyfish.jpg)',
+    className: '!bg-cover', // todo: remove !important when styles are updated to Tailwind and are more flexible
   },
 ];
 

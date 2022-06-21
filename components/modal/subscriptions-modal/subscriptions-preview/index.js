@@ -13,7 +13,6 @@ export default connect(
   (state) => ({
     data: parseTableData(state),
     loading: state.subscriptions.preview.loading,
-    activeDataset: state.layerCardPulse.dataset,
     preview: state.subscriptions.preview,
     datasetTitle: state.subscriptions.userSelection.datasets,
   }),
