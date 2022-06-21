@@ -9,10 +9,7 @@ import { getUserAreas } from 'redactions/user';
 import * as actions from '../actions';
 
 // selectors
-import {
-  getAvailableAreas,
-  isAreaFound,
-} from '../selectors';
+import { getAvailableAreas, isAreaFound } from '../selectors';
 
 // component
 import DatasetSubscriptionsModal from './component';
@@ -41,7 +38,7 @@ class DatasetSubscriptionModalContainer extends Component {
     updateSubscription: PropTypes.func.isRequired,
     clearSubscriptions: PropTypes.func.isRequired,
     clearLocalSubscriptions: PropTypes.func.isRequired,
-  }
+  };
 
   UNSAFE_componentWillMount() {
     const {
@@ -68,13 +65,20 @@ class DatasetSubscriptionModalContainer extends Component {
           id: dataset.id,
           label: dataset.name,
           value: dataset.name,
-          subscriptions: sortBy(Object.keys(dataset.subscribable || dataset.attributes.subscribable)
-            .map((val, index) => ({
-              label: val,
-              value: val,
-              ...((dataset.subscribable || dataset.attributes.subscribable)[val] && { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery }),
-              ...(index === 0 && { selected: true }),
-            })), 'label'),
+          subscriptions: sortBy(
+            Object.keys(dataset.subscribable || dataset.attributes.subscribable).map(
+              (val, index) => ({
+                label: val,
+                value: val,
+                ...((dataset.subscribable || dataset.attributes.subscribable)[val] && {
+                  query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {})
+                    .dataQuery,
+                }),
+                ...(index === 0 && { selected: true }),
+              }),
+            ),
+            'label',
+          ),
           threshold: 1,
         })),
       });
@@ -88,7 +92,9 @@ class DatasetSubscriptionModalContainer extends Component {
 
     if (nextSubscriptions.length && subscriptionsChanged) {
       if (nextActiveArea && nextActiveArea.subscription) {
-        const currentSubscription = nextSubscriptions.find((_subscription) => _subscription.id === activeArea.subscription.id);
+        const currentSubscription = nextSubscriptions.find(
+          (_subscription) => _subscription.id === activeArea.subscription.id,
+        );
         const subscriptionTypes = currentSubscription.attributes.datasetsQuery
           .filter((_datasetQuery) => _datasetQuery.type)
           .map((_datasetQuery) => _datasetQuery.type);
@@ -98,13 +104,14 @@ class DatasetSubscriptionModalContainer extends Component {
             id: dataset.id,
             label: dataset.name,
             value: dataset.name,
-            subscriptions: sortBy(Object.keys(dataset.subscribable
-              || dataset.attributes.subscribable)
-              .map((val) => ({
+            subscriptions: sortBy(
+              Object.keys(dataset.subscribable || dataset.attributes.subscribable).map((val) => ({
                 label: val,
                 value: val,
                 ...(subscriptionTypes.includes(val) && { selected: true }),
-              })), 'label'),
+              })),
+              'label',
+            ),
             threshold: activeArea.subscription.attributes.datasetsQuery[index].threshold,
           })),
         });
@@ -131,13 +138,20 @@ class DatasetSubscriptionModalContainer extends Component {
           id: dataset.id,
           label: dataset.name,
           value: dataset.name,
-          subscriptions: sortBy(Object.keys(dataset.subscribable || dataset.attributes.subscribable)
-            .map((val, index) => ({
-              label: val,
-              value: val,
-              ...((dataset.subscribable || dataset.attributes.subscribable)[val] && { query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {}).dataQuery }),
-              ...(index === 0 && { selected: true }),
-            })), 'label'),
+          subscriptions: sortBy(
+            Object.keys(dataset.subscribable || dataset.attributes.subscribable).map(
+              (val, index) => ({
+                label: val,
+                value: val,
+                ...((dataset.subscribable || dataset.attributes.subscribable)[val] && {
+                  query: ((dataset.subscribable || dataset.attributes.subscribable)[val] || {})
+                    .dataQuery,
+                }),
+                ...(index === 0 && { selected: true }),
+              }),
+            ),
+            'label',
+          ),
           threshold: 1,
         })),
       });
@@ -145,7 +159,7 @@ class DatasetSubscriptionModalContainer extends Component {
   }
 
   render() {
-    return (<DatasetSubscriptionsModal {...this.props} />);
+    return <DatasetSubscriptionsModal {...this.props} />;
   }
 }
 
@@ -155,14 +169,14 @@ export default connect(
     areas: getAvailableAreas(state),
     areaFound: isAreaFound(state),
     userAreas: state.user.areas.items,
-    activeDataset: state.layerCardPulse.dataset || props.dataset,
+    activeDataset: props.dataset,
     subscriptions: state.subscriptions.list,
     subscription: state.subscriptions.subscriptionCreation,
     preview: state.subscriptions.list.preview,
-    loading: state.subscriptions.areas.loading
-      || state.subscriptions.userAreas.loading || state.subscriptions.datasets.loading,
-    // loading: state.subscriptions.loading || state.subscriptions.areas.loading ||
-    //   state.subscriptions.userAreas.loading || state.subscriptions.datasets.loading
+    loading:
+      state.subscriptions.areas.loading ||
+      state.subscriptions.userAreas.loading ||
+      state.subscriptions.datasets.loading,
   }),
   {
     getUserAreas,

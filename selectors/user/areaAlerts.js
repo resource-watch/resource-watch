@@ -1,9 +1,7 @@
 import { createSelector } from 'reselect';
 
-// Get the pulse
 const user = (state) => state.user;
 
-// Create a function to compare the current active datatasets and the current pulseIds
 const getAreaAlerts = ({ areas }) => {
   const alerts = {};
 
