@@ -5378,22 +5378,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vizzuality/layer-manager@npm:^4.0.1":
-  version: 4.0.1
-  resolution: "@vizzuality/layer-manager@npm:4.0.1"
-  dependencies:
-    "@vizzuality/layer-manager-utils": ^1.0.1
-    axios: ^0.21.4
-    cancelable-promise: ^3.2.3
-    fast-deep-equal: ^3.1.3
-    mapbox-gl: ^2.2.0
-  checksum: ee9dd2aa120d1397ac734d300a3be3d2f4cebeb743c1f480a07e4ebaf8eb7cf0963d3fe3bed90bdd91cc19a7d7d4adfe0c754e99fb0c28936e6d4c09f1924f2b
-  languageName: node
-  linkType: hard
-
-"@vizzuality/layer-manager@npm:alpha":
-  version: 4.2.1-alpha.1
-  resolution: "@vizzuality/layer-manager@npm:4.2.1-alpha.1"
+"@vizzuality/layer-manager@npm:4.2.1-alpha.3":
+  version: 4.2.1-alpha.3
+  resolution: "@vizzuality/layer-manager@npm:4.2.1-alpha.3"
   dependencies:
     "@vizzuality/layer-manager-utils": ^1.1.1-alpha.0
     axios: ^0.21.4
@@ -5401,7 +5388,7 @@ __metadata:
     fast-deep-equal: ^3.1.3
     js-deep-equals: ^2.1.1
     mapbox-gl: ^2.2.0
-  checksum: 48aa74a2ffaffff4dafb8963bad1dfdd8e1d1ad3ca70aae2813498507665347657731643edc2f0f74f77654b47206a6b284d47e33326f6a9e66e7d6c0d4c74ca
+  checksum: 8a89bad47e5773bd5484b4654a395c7f1d1c82501141a1c29b168cc7fe71120297cab5a90a18a954b985ff101bf5511bd088c46e14a3d3c6062d14a726e5db60
   languageName: node
   linkType: hard
 
@@ -21238,7 +21225,7 @@ __metadata:
     "@types/mapbox-gl": ^2.6.0
     "@typescript-eslint/eslint-plugin": 5.12.0
     "@typescript-eslint/parser": 5.12.0
-    "@vizzuality/layer-manager": alpha
+    "@vizzuality/layer-manager": 4.2.1-alpha.3
     "@vizzuality/layer-manager-layers-deckgl": alpha
     "@vizzuality/layer-manager-plugin-mapboxgl": alpha
     "@vizzuality/layer-manager-provider-carto": alpha
