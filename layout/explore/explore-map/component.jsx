@@ -344,7 +344,6 @@ const ExploreMap = (props) => {
     '-with-transition': true,
     '-visible': pitch !== 0 || bearing !== 0,
   });
-  const mapClass = classnames({ 'no-pointer-events': isDrawing });
 
   useEffect(() => {
     setDisplayedLayers((prevLayers) => [
@@ -457,7 +456,7 @@ const ExploreMap = (props) => {
         labels={labels.value}
         boundaries={boundaries}
         getCursor={handleMapCursor}
-        className={mapClass}
+        className={classnames({ 'map-overlays-no-pointer-events': isDrawing })}
         onMapViewportChange={handleViewport}
       >
         {(_map) => (

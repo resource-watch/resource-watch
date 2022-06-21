@@ -46,7 +46,6 @@ const CompareMaps = (props) => {
         <Map
           interactiveLayerIds={[]}
           mapStyle={MAPSTYLES}
-          className="-compare"
           basemap="dark"
           labels="light"
           boundaries
@@ -130,7 +129,6 @@ const CompareMaps = (props) => {
         <Map
           interactiveLayerIds={[]}
           mapStyle={MAPSTYLES}
-          className="-compare"
           basemap="dark"
           labels="light"
           boundaries
