@@ -33,7 +33,7 @@ export default {
 };
 
 function triggerError() {
-  throw new Error('this is an sample error');
+  throw new Error('this is a sample error');
 }
 
 function Template(args) {
