@@ -1,20 +1,9 @@
 @import 'mapbox-gl/dist/mapbox-gl.css';
 
-.c-map {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-
-  &.no-pointer-events {
-    .overlays {
-      pointer-events: none;
-    }
-  }
-
-  &.-compare {
-    position: unset;
-    z-index: auto;
+// ! Required to draw on the map.
+.map-overlays-no-pointer-events {
+  .overlays {
+    pointer-events: none;
   }
 }
 

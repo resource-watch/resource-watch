@@ -138,7 +138,7 @@ class Step1 extends PureComponent {
           onChange={(value) => this.props.onChange({ published: value.checked })}
           properties={{
             name: 'published',
-            label: 'Do you want to set this widget as published?',
+            label: 'Do you want to set this layer as published?',
             value: 'published',
             title: 'Published',
             checked: this.props.form.published,
