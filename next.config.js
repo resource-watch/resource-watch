@@ -30,7 +30,7 @@ module.exports = withBundleAnalyzer({
       },
       {
         source: '/data/pulse',
-        destination: '/data/explore?section=Near+Real-Time',
+        destination: '/data/explore?section=Near%20Real-Time',
         permanent: true,
       },
       {

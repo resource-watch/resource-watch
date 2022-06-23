@@ -12,7 +12,7 @@ export const APP_HEADER_ITEMS = [
       },
       {
         label: 'Near Real-Time Data',
-        href: '/data/explore?section=Near+Real-Time',
+        href: '/data/explore?section=Near%20Real-Time',
       },
       {
         label: 'App Gallery',
