@@ -12,7 +12,7 @@ const MaterialExtractionTradeUseScript = () => {
           "@context": "https://schema.org/",
           "@type": "Dataset",
           "name": "Global Material Flows",
-          "description": "The Global Material Flows Database holds a variety of datasets on material extraction and consumption. The dataset displayed on Resource Watch shows global material consumption and extraction of nonmetallic minerals, biomass, fossil fuels, and metal ores on a national scale.
+          "description": "The Global Material Flows Database holds a variety of datasets on material extraction and consumption. The dataset displayed on Resource Watch shows global material consumption and extraction of nonmetallic minerals, biomass, fossil fuels, and metal ores on a national scale.",
           "url": "https://resourcewatch.org/data/explore/Material-Extraction-Trade-and-Use",
           "alternateName": "Global Material Flows Database",
           "creator": {
