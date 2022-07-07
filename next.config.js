@@ -29,6 +29,11 @@ module.exports = withBundleAnalyzer({
         permanent: true,
       },
       {
+        source: '/data/pulse',
+        destination: '/data/explore?section=Near%20Real-Time',
+        permanent: true,
+      },
+      {
         source: '/topics',
         destination: '/dashboards',
         permanent: true,
@@ -61,6 +66,5 @@ module.exports = withBundleAnalyzer({
   //   '/privacy-policy': { page: '/policy' },
   //   '/api-attribution-requirements': { page: 'attribution-requirements' },
   //   '/data/explore': { page: '/explore' },
-  //   '/data/pulse': { page: '/pulse' },
   // }),
 });

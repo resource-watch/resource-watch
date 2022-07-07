@@ -16,7 +16,6 @@ const GoogleAnalyticsV4Script = dynamic(() => import('../../../scripts/google-an
 const GoogleTagManagerScript = dynamic(() => import('../../../scripts/google-tag-manager'), {
   ssr: false,
 });
-const CesiumScript = dynamic(() => import('../../../scripts/cesium'));
 
 const isProduction = ['preproduction', 'production'].includes(process.env.NEXT_PUBLIC_API_ENV);
 
@@ -51,7 +50,6 @@ export default function HeadApp({ title, description, thumbnail }) {
       <GoogleTagManagerScript />
       <UserReportScript />
       <GoogleAnalyticsV4Script />
-      <CesiumScript />
     </>
   );
 }

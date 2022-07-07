@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 // components
 import CardApp from 'components/app/common/CardApp';
-import Banner from 'components/app/common/Banner';
 
 function ContributeData() {
   const cards = [
@@ -32,98 +31,64 @@ function ContributeData() {
   ];
 
   return (
-    <div>
-      <aside className="l-postcontent">
-        <div className="l-container">
-          <div className="row">
-            <div className="column small-12">
-              <div className="c-terms">
-                <h3>Guiding principles</h3>
-                <p>
-                  We seek to develop and acquire data that cover a diverse range of themes for a
-                  wide audience that are:
-                </p>
-                <ul>
-                  <li>
-                    <strong>Open:</strong>
-                    {' '}
-                    Data that can be freely used, reused, and redistributed
-                  </li>
-                  <li>
-                    <strong>Relevant:</strong>
-                    {' '}
-                    Data that help answer questions to address urgent,
-                    global challenges
-                  </li>
-                  <li>
-                    <strong>Reliable:</strong>
-                    {' '}
-                    Peer-reviewed or official government data produced by
-                    transparent, established methodologies
-                  </li>
-                  <li>
-                    <strong>Timely:</strong>
-                    {' '}
-                    Most up-to-date, and complete information available
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="column small-12">
+    <aside className="l-postcontent">
+      <div className="l-container">
+        <div className="row">
+          <div className="column small-12">
+            <div className="c-terms">
+              <h3>Guiding principles</h3>
               <p>
-                Before submitting a dataset, please make sure to browse our catalog and review our
-                {' '}
-                <Link href="/get-involved/data-policy">
-                  <a>data policy</a>
-                </Link>
-                {' '}
-                and submission guidelines.
+                We seek to develop and acquire data that cover a diverse range of themes for a wide
+                audience that are:
               </p>
+              <ul>
+                <li>
+                  <strong>Open:</strong> Data that can be freely used, reused, and redistributed
+                </li>
+                <li>
+                  <strong>Relevant:</strong> Data that help answer questions to address urgent,
+                  global challenges
+                </li>
+                <li>
+                  <strong>Reliable:</strong> Peer-reviewed or official government data produced by
+                  transparent, established methodologies
+                </li>
+                <li>
+                  <strong>Timely:</strong> Most up-to-date, and complete information available
+                </li>
+              </ul>
             </div>
           </div>
+        </div>
+        <div className="row">
+          <div className="column small-12">
+            <p>
+              Before submitting a dataset, please make sure to browse our catalog and review our{' '}
+              <Link href="/get-involved/data-policy">
+                <a>data policy</a>
+              </Link>{' '}
+              and submission guidelines.
+            </p>
+          </div>
+        </div>
 
-          <div className="l-section">
-            <div className="row">
-              {cards.map((card) => (
-                <div key={card.id} className="column small-12 medium-6 large-6 c-card-column">
-                  <CardApp
-                    title={card.title}
-                    className="-compact"
-                    description={card.description}
-                    link={{ ...card.link }}
-                    buttonType="primary"
-                  />
-                </div>
-              ))}
-            </div>
+        <div className="l-section">
+          <div className="row">
+            {cards.map((card) => (
+              <div key={card.id} className="column small-12 medium-6 large-6 c-card-column">
+                <CardApp
+                  title={card.title}
+                  className="-compact"
+                  description={card.description}
+                  link={{ ...card.link }}
+                  buttonType="primary"
+                />
+              </div>
+            ))}
           </div>
         </div>
-      </aside>
-      <aside className="l-postcontent">
-        <div className="l-container">
-          <div className="row align-center">
-            <div className="column small-12">
-              <Banner
-                className="-text-center"
-                bgImage="/static/images/pages/app/bg-banner-planetPulse.jpg"
-              >
-                <p className="-claim">
-                  View near-real-time data
-                  {' '}
-                  <br />
-                  on the Planet
-                </p>
-                <Link href="/data/pulse">
-                  <a className="c-button -alt -primary">Launch Planet Pulse</a>
-                </Link>
-              </Banner>
-            </div>
-          </div>
-        </div>
-      </aside>
-    </div>
+      </div>
+    </aside>
   );
 }
 
