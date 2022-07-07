@@ -10,7 +10,7 @@ export const FOOTER_LINKS = [
       },
       {
         label: 'Near Real-Time Data',
-        href: '/data/pulse',
+        href: '/data/explore?section=Near%20Real-Time',
       },
       {
         label: 'App Gallery',
