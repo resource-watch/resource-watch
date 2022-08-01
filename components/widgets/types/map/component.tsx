@@ -82,6 +82,9 @@ const MapTypeWidget = ({
   });
   const [viewport, setViewport] = useState<ViewportProps>({
     ...DEFAULT_VIEWPORT,
+    ...(widget?.widgetConfig?.lat && { latitude: widget.widgetConfig.lat }),
+    ...(widget?.widgetConfig?.lng && { longitude: widget.widgetConfig.lng }),
+    ...(widget?.widgetConfig?.zoom && { zoom: widget.widgetConfig.zoom }),
     height: 400,
   });
   const [isInfoWidgetVisible, setInfoWidgetVisibility] = useState(false);
@@ -170,6 +173,15 @@ const MapTypeWidget = ({
   );
 
   const caption = useMemo(() => widget?.metadata?.[0]?.info?.caption, [widget]);
+
+  useEffect(() => {
+    setViewport((prevViewport) => ({
+      ...prevViewport,
+      ...(widget?.widgetConfig?.lat && { latitude: widget.widgetConfig.lat }),
+      ...(widget?.widgetConfig?.lng && { longitude: widget.widgetConfig.lng }),
+      ...(widget?.widgetConfig?.zoom && { zoom: widget.widgetConfig.zoom }),
+    }));
+  }, [widget]);
 
   useEffect(() => {
     dispatch(setMapLayerGroups(layerGroups));

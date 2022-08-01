@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - bump `next@12.1.6`.
 
 ### Fixed
+- `/embed/map/{widget_id}` and `/data/widget/{widget_id}` routes take into account latitude/longitude values set in widget configuration. [RW-3](https://gfw.atlassian.net/browse/RW-3)
 - map overlay style that prevented a user could draw on the map.
 - typo in published layers checkbox. [RW-146](https://vizzuality.atlassian.net/browse/RW-146)
 - Explore: fixes navigation when a user clicks on "All datasets" button after searching. Now the search results remain. [RW-87](https://vizzuality.atlassian.net/browse/RW-87)

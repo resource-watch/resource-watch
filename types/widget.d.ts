@@ -32,12 +32,15 @@ export interface WidgetConfig {
   basemapLayers?: WidgetBasemapLayers;
   bbox?: [number, number, number, number];
   bounds?: number[];
-  paramsConfig?: WidgetParamsConfig;
+  data?: Record<string, string | number | unknown>[];
+  lat?: number;
+  layer_id?: string;
   layerParams?: LayerParams;
+  lng?: number;
+  paramsConfig?: WidgetParamsConfig;
   type?: WidgetTypes;
   url?: string;
-  data?: Record<string, string | number | unknown>[];
-  layer_id?: string;
+  zoom?: number;
 }
 
 export interface WidgetLink {
