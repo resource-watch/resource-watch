@@ -85,7 +85,6 @@ export const DEFAULT_VIEWPORT: ViewportProps = {
   longitude: 0,
   pitch: 0,
   bearing: 0,
-  transitionDuration: 250,
 };
 
 export const USER_AREA_LAYER_TEMPLATES = {
