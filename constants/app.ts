@@ -11,3 +11,5 @@ export const TRANSIFEX_BLACKLIST = [
 ];
 
 export const HOTJAR_ROUTES = ['/data/explore'];
+
+export const PARDOT_FORM_HANDLER = 'https://connect.wri.org/l/120942/2021-06-01/53bndz';

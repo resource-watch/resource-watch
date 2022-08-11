@@ -53,7 +53,7 @@ export const FORM_COUNTRIES = {
     { value: '817057', label: 'Congo, the Democratic Republic of the' },
     { value: '817059', label: 'Cook Islands' },
     { value: '817061', label: 'Costa Rica' },
-    { value: '817063', label: 'Côte d\'Ivoire' },
+    { value: '817063', label: "Côte d'Ivoire" },
     { value: '817065', label: 'Croatia' },
     { value: '817067', label: 'Cuba' },
     { value: '817069', label: 'Curaçao' },
@@ -116,11 +116,11 @@ export const FORM_COUNTRIES = {
     { value: '817183', label: 'Kazakhstan' },
     { value: '817185', label: 'Kenya' },
     { value: '817187', label: 'Kiribati' },
-    { value: '817189', label: 'Korea, Democratic People\'s Republic of' },
+    { value: '817189', label: "Korea, Democratic People's Republic of" },
     { value: '817191', label: 'Korea, Republic of' },
     { value: '817193', label: 'Kuwait' },
     { value: '817195', label: 'Kyrgyzstan' },
-    { value: '817197', label: 'Lao People\'s Democratic Republic' },
+    { value: '817197', label: "Lao People's Democratic Republic" },
     { value: '817199', label: 'Latvia' },
     { value: '817201', label: 'Lebanon' },
     { value: '817203', label: 'Lesotho' },
@@ -250,5 +250,3 @@ export const FORM_COUNTRIES = {
     { value: '817451', label: 'Zimbabwe' },
   ],
 };
-
-export const PARDOT_NEWSLETTER_URL = 'https://go.pardot.com/l/120942/2018-01-25/3nzl13';
