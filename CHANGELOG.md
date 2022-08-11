@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - rich schema script for specific datasets. [RW-141](https://vizzuality.atlassian.net/browse/RW-141)
 
 ### Changed
+- updates default Pardot URL to custom one.[RW-8](https://gfw.atlassian.net/browse/RW-8)
 - dataset fetching determined by `NEXT_PUBLIC_ENVS_SHOW` environmental variable.
 - bump `moment@2.29.3`.
 - Coral Reefs dashboard: text changes. [RW-137](https://vizzuality.atlassian.net/browse/RW-137)

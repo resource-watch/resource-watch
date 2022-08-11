@@ -1,7 +1,4 @@
-import {
-  useState,
-  useCallback,
-} from 'react';
+import { useState, useCallback } from 'react';
 
 // components
 import CardPlaceholder from 'components/card-placeholder';
@@ -9,17 +6,16 @@ import Field from 'components/form/Field';
 import Input from 'components/form/Input';
 
 // hooks
-import {
-  useMe,
-} from 'hooks/user';
+import { useMe } from 'hooks/user';
 
 // utils
 import { logEvent } from 'utils/analytics';
 
-export default function MyDataComingSoon() {
-  const {
-    data: user,
-  } = useMe();
+// constants
+import { PARDOT_FORM_HANDLER } from 'constants/app';
+
+const MyDataComingSoon = (): JSX.Element => {
+  const { data: user } = useMe();
   const [form, setForm] = useState({
     email: user?.email || '',
   });
@@ -28,12 +24,15 @@ export default function MyDataComingSoon() {
     logEvent('Explore Menu', 'My Data', 'clicks on "I\'m interested" button');
   }, []);
 
-  const onChangeEmail = useCallback((value) => {
-    setForm({
-      ...form,
-      ...{ email: value },
-    });
-  }, [form]);
+  const onChangeEmail = useCallback(
+    (value: typeof form.email) => {
+      setForm({
+        ...form,
+        ...{ email: value },
+      });
+    },
+    [form],
+  );
 
   return (
     <div className="c-explore-my-data-coming-soon">
@@ -45,15 +44,16 @@ export default function MyDataComingSoon() {
           Resource Watch?
         </h4>
         <p>
-          We are exploring ways to let you bring your data to the platform.
-          Would you use this feature? Let us know.
+          We are exploring ways to let you bring your data to the platform. Would you use this
+          feature? Let us know.
         </p>
 
         <form
           id="my-data-sign-up"
           className="c-form my-data-form"
-          // Pardot doesn't support submitting data to form handlers via Ajax requests.
-          action="https://connect.wri.org/l/120942/2021-06-01/53bndz"
+          // ! Pardot doesn't support submitting data to form handlers via Ajax requests:
+          // ! https://help.salesforce.com/s/articleView?id=pardot_considerations_for_using_form_handlers.htm&type=5&language=en_US
+          action={PARDOT_FORM_HANDLER}
           onSubmit={onSubmit}
         >
           <Field
@@ -72,8 +72,7 @@ export default function MyDataComingSoon() {
           >
             {Input}
           </Field>
-
-          { /* pardot honeypot field – anti-spam protection */}
+          {/* pardot honeypot field – anti-spam protection */}
           <Field
             className="-pi-hidden"
             properties={{
@@ -85,11 +84,8 @@ export default function MyDataComingSoon() {
           >
             {Input}
           </Field>
-          <button
-            type="submit"
-            className="c-button -primary -compressed"
-          >
-            I’m interested
+          <button type="submit" className="c-button -primary -compressed">
+            I&apos;m interested
           </button>
         </form>
       </div>
@@ -97,4 +93,6 @@ export default function MyDataComingSoon() {
       <CardPlaceholder />
     </div>
   );
-}
+};
+
+export default MyDataComingSoon;
