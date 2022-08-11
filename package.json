@@ -167,7 +167,7 @@
     "prettier": "prettier --config .prettierrc.json --check --write \"**/*.{tsx,jsx,ts,js}\"",
     "analyze": "cross-env ANALYZE=true yarn build",
     "sitemap": "cross-env node next-sitemap.js",
-    "cypress": "cross-env cypress run --browser firefox --headless",
+    "cypress": "cross-env cypress run",
     "cy:open": "cross-env cypress open",
     "test:frontend": "NODE_ENV=test TEST_ENV=FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn start' 3000 'yarn cypress'",
     "test:frontend-ui": "NODE_ENV=test TEST_ENV=FRONTEND NODE_OPTIONS=--max_old_space_size=4096 start-server-and-test 'yarn start' 3000 'yarn cy:open'",
