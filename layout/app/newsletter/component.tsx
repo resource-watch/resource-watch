@@ -1,7 +1,4 @@
-import {
-  useState,
-} from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 import Link from 'next/link';
 
 // components
@@ -16,20 +13,31 @@ import Modal from 'components/modal/modal-component';
 import NewsletterConfirmationModal from 'components/modal/newsletter-confirmation-modal';
 
 // constants
-import {
-  FORM_COUNTRIES,
-  PARDOT_NEWSLETTER_URL,
-} from './constants';
+import { PARDOT_FORM_HANDLER } from 'constants/app';
+import { FORM_COUNTRIES } from './constants';
 
-export default function LayoutNewsletter({
-  isOceanWatch,
-}) {
-  const [form, setForm] = useState({});
+import { LayoutNewsletterProps } from './types';
+
+const LayoutNewsletter = ({ isOceanWatch }: LayoutNewsletterProps): JSX.Element => {
+  const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    city: '',
+    country: '',
+    company: '',
+    job_title: '',
+    resource_watch_feature_test_group: false,
+  });
   const [modalVisibility, setModalVisibility] = useState(false);
 
-  const onSubmit = () => { setModalVisibility(true); };
+  const onSubmit = () => {
+    setModalVisibility(true);
+  };
 
-  const onChange = (value) => { setForm({ ...form, ...value }); };
+  const onChange = (value: Partial<typeof form>) => {
+    setForm({ ...form, ...value });
+  };
 
   return (
     <Layout
@@ -43,9 +51,7 @@ export default function LayoutNewsletter({
           <div className="row">
             <div className="column small-12">
               <div className="page-header-content">
-                <Breadcrumbs
-                  items={[{ name: 'About', route: '/about' }]}
-                />
+                <Breadcrumbs items={[{ name: 'About', route: '/about' }]} />
                 <h1>Newsletter</h1>
               </div>
             </div>
@@ -56,23 +62,22 @@ export default function LayoutNewsletter({
         <div className="l-container">
           <div className="row align-center">
             <div className="column small-12 medium-8">
-              <h2>
-                Sign up for Resource Watch news
-              </h2>
+              <h2>Sign up for Resource Watch news</h2>
               <p>
-                Don’t miss out on training announcements, our monthly newsletter,
-                exclusive tips for using the platform,
-                and the latest stories on the pulse of the planet.
+                Don&apos;t miss out on training announcements, our monthly newsletter, exclusive
+                tips for using the platform, and the latest stories on the pulse of the planet.
               </p>
             </div>
           </div>
           <div className="row align-center">
             <div className="column small-12 medium-8">
               <form
-                action={PARDOT_NEWSLETTER_URL}
-                onSubmit={onSubmit}
-                className="c-form"
                 id="pardot-form"
+                className="c-form"
+                // ! Pardot doesn't support submitting data to form handlers via Ajax requests:
+                // ! https://help.salesforce.com/s/articleView?id=pardot_considerations_for_using_form_handlers.htm&type=5&language=en_US
+                action={PARDOT_FORM_HANDLER}
+                onSubmit={onSubmit}
               >
                 <div className="form-row">
                   <Field
@@ -174,9 +179,11 @@ export default function LayoutNewsletter({
 
                 <div className="form-row">
                   <Field
-                    onChange={(value) => onChange({
-                      resource_watch_feature_test_group: value.checked,
-                    })}
+                    onChange={(value) =>
+                      onChange({
+                        resource_watch_feature_test_group: value.checked,
+                      })
+                    }
                     properties={{
                       name: 'resource_watch_feature_test_group',
                       defaultChecked: false,
@@ -186,7 +193,7 @@ export default function LayoutNewsletter({
                     {Checkbox}
                   </Field>
                 </div>
-                { /* pardot honeypot field */}
+                {/* pardot honeypot field */}
                 <Field
                   className="-pi-hidden"
                   properties={{
@@ -215,10 +222,7 @@ export default function LayoutNewsletter({
                 )}
 
                 <div className="c-button-container -j-end">
-                  <button
-                    type="submit"
-                    className="c-btn -primary"
-                  >
+                  <button type="submit" className="c-btn -primary">
                     Sign up
                   </button>
                 </div>
@@ -232,12 +236,13 @@ export default function LayoutNewsletter({
         <div className="l-container">
           <div className="row align-center">
             <div className="column small-12">
-              <Banner className="-text-center" bgImage="/static/images/backgrounds/partners-02@2x.jpg">
+              <Banner
+                className="-text-center"
+                bgImage="/static/images/backgrounds/partners-02@2x.jpg"
+              >
                 <p className="-claim">
                   Let&rsquo;s build a more sustainable
-                  <br />
-                  {' '}
-                  world together.
+                  <br /> world together.
                 </p>
                 <Link href="/about/partners">
                   <a className="c-btn -primary">Partners</a>
@@ -248,20 +253,11 @@ export default function LayoutNewsletter({
         </div>
       </aside>
 
-      <Modal
-        isOpen={modalVisibility}
-        onRequestClose={() => setModalVisibility(false)}
-      >
+      <Modal isOpen={modalVisibility} onRequestClose={() => setModalVisibility(false)}>
         <NewsletterConfirmationModal />
       </Modal>
     </Layout>
   );
-}
-
-LayoutNewsletter.defaultProps = {
-  isOceanWatch: false,
 };
 
-LayoutNewsletter.propTypes = {
-  isOceanWatch: PropTypes.bool,
-};
+export default LayoutNewsletter;
