@@ -1,5 +1,6 @@
-import { Source } from '@vizzuality/layer-manager';
+import { Source, LayerType } from '@vizzuality/layer-manager';
 import type { GeoJSONSourceRaw } from 'mapbox-gl';
+import type { TileLayer } from '@deck.gl/geo-layers';
 
 export interface MaskLayer extends GeoJSONSourceRaw {
   id: string;
@@ -14,12 +15,21 @@ export interface layerConfigBodySpec {
   attribution?: string;
 }
 
+export interface DeckProps {
+  type: 'deck';
+  params?: Record<string, unknown>;
+  data: string;
+  subtype: string;
+}
+
 export interface layerConfigSpec {
+  type: LayerType;
   render?: Render;
   source: Partial<Source>;
   [key: string]: Record<string, string | number | boolean | unknown> | string | boolean | number;
   attribution?: string;
   body?: layerConfigBodySpec;
+  deck?: DeckProps;
 }
 
 export interface APILayerSpec {
@@ -46,4 +56,10 @@ export interface APILayerSpec {
   staticImageConfig: Record<string, string | number | boolean | unknown>;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface DeckLayerSpec {
+  id: string;
+  type: 'deck';
+  deck: TileLayer[];
 }
