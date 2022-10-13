@@ -56,7 +56,7 @@ const CompareMaps = (props) => {
             },
           })}
           viewport={viewport}
-          onLoad={({ map: _map }) => handleMapRefs({ left: _map })}
+          onMapLoad={({ map: _map }) => handleMapRefs({ left: _map })}
         >
           {(_map) => (
             <>
@@ -133,7 +133,7 @@ const CompareMaps = (props) => {
           labels="light"
           boundaries
           onMapViewportChange={handleViewport}
-          onLoad={({ map: _map }) => handleMapRefs({ right: _map })}
+          onMapLoad={({ map: _map }) => handleMapRefs({ right: _map })}
           viewport={viewport}
         >
           {(_map) => (
