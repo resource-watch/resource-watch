@@ -8,15 +8,14 @@ import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 import Icon from 'components/ui/icon';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 class LayoutEmbedDashboard extends PureComponent {
-  static propTypes = { dashboard: PropTypes.object.isRequired }
+  static propTypes = { dashboard: PropTypes.object.isRequired };
 
-  state = { showShareModal: false }
+  state = { showShareModal: false };
 
-  handleToggleShareModal = (bool) => { this.setState({ showShareModal: bool }); }
+  handleToggleShareModal = (bool) => {
+    this.setState({ showShareModal: bool });
+  };
 
   render() {
     const { dashboard } = this.props;
@@ -54,20 +53,15 @@ class LayoutEmbedDashboard extends PureComponent {
                           <ShareModal
                             links={{
                               link: typeof window !== 'undefined' && window.location.href,
-                              embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${dashboard.slug}`,
-                            }}
-                            analytics={{
-                              facebook: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, 'Facebook'),
-                              twitter: () => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, 'Twitter'),
-                              email: () => logEvent('Share', `Share dashboard: ${dashboard.name}`, 'Email'),
-                              copy: (type) => logEvent('Share (embed)', `Share dashboard: ${dashboard.name}`, `Copy ${type}`),
+                              embed:
+                                typeof window !== 'undefined' &&
+                                `${window.location.origin}/embed/dashboard/${dashboard.slug}`,
                             }}
                           />
                         </Modal>
                       </li>
                     </ul>
                   </div>
-
                 </div>
               </div>
             </div>

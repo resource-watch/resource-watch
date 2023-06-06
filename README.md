@@ -76,16 +76,14 @@ Before deep-diving into the env var list, here are a few key concepts that you s
 | NEXT_PUBLIC_ENVS_EDIT | Sets the environment value(s) that data should have in order to be modifiable in the application. Multiple values are allowed. | `staging,preproduction,production` |
 | NEXT_PUBLIC_WRI_API_URL | URL of the WRI API |  | In most cases you'll want to use https://api.resourcewatch.org for this value. When testing, be sure to mock all your HTTP requests, and avoid relying on actual calls to external services (like this one). |
 | NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER | API Key used for google maps library |  |  |
-| NEXT_PUBLIC_GOOGLE_ANALYTICS | Google Analytics tracker ID |  |  |
 | NEXT_PUBLIC_ADD_SEARCH_KEY | Used to allow global search function in the site with [AddSearch](https://www.addsearch.com/) |  |  |
 | NEXT_PUBLIC_BLOG_API_URL | Used to fetch posts coming from the Resource Watch blog (Wordpress) |  | In most cases you'll want to use https://blog.resourcewatch.org/wp-json/wp/v2 for this value. When testing, be sure to mock all your HTTP requests, and avoid relying on actual calls to external services (like this one). |
 | NEXT_PUBLIC_RW_MAPBOX_API_TOKEN | Mapbox token used to render and handle Mapbox instances. You can find more info in the [Mapbox documentation](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/). |  |  |
-| NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID | Measurement ID used by Google Analytics v4. You can find more info in [Google Analytics v4 documentation](https://support.google.com/analytics/answer/9744165?hl=en&utm_id=ad#cms). This variable doesn't replace `NEXT_PUBLIC_GOOGLE_ANALYTICS` environmental variable. | | |
 | NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD | Feature flag to enable GEDC dashboard | `undefined`| By default, this dashboard will not appear so make sure you initialize the environmental variable if you are going to work on it. Set to `true` to enable it. |
 | NEXTAUTH_URL | Canonical URL of the site used by [NextAuth](https://next-auth.js.org/) to handle authentication and sessions. | `http://localhost:$PORT` | |
 | NEXTAUTH_JWT_SECRET | A secret to use when signing JWT tokens | | |
 | NEXT_PUBLIC_GLOBAL_FISHING_WATCH_TOKEN | token used by Mapbox to fetch tiles from Global Fishing Watch API (https://gateway.api.globalfishingwatch.org/) | | |
-| NEXT_PUBLIC_GOOGLE_TAG_MANAGER_CONTAINER_ID | Container ID used by [Google Tag Manager](https://tagmanager.google.com/). | `undefined` | This environmental variable is a future replacement of `NEXT_PUBLIC_GOOGLE_ANALYTICS_V4_ID` as Universal Analytics will be [deprecated soon](https://support.google.com/analytics/answer/11583528). The format must be `GTM-XXXXXXX`. |
+| NEXT_PUBLIC_GOOGLE_TAG_MANAGER_CONTAINER_ID | Container ID used by [Google Tag Manager](https://tagmanager.google.com/). | `undefined` | The format must be `GTM-XXXXXXX`. |
 
 If you want to customize these variables for your local environment, the recommended way is creating a `.env.local` file.
 

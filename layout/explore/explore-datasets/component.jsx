@@ -3,9 +3,6 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import classnames from 'classnames';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // components
 import Paginator from 'components/ui/Paginator';
 import Icon from 'components/ui/icon';
@@ -115,7 +112,6 @@ export default function ExploreDatasets(props) {
                   'background-position': 'center',
                   'background-size': 'cover',
                 }}
-                onClick={() => logEvent('Explore Menu', 'Select Dashboard', dashboard.label)}
                 role="button"
                 tabIndex={0}
               >

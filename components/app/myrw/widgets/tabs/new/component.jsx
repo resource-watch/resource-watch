@@ -21,9 +21,6 @@ import {
   WIDGET_EDITOR_MAPBOX_PROPS,
 } from 'constants/widget-editor';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 class MyRWWidgetNewTab extends React.Component {
   constructor(props) {
     super(props);
@@ -56,12 +53,6 @@ class MyRWWidgetNewTab extends React.Component {
       application: process.env.NEXT_PUBLIC_APPLICATIONS.split(','),
       env: process.env.NEXT_PUBLIC_API_ENV,
     };
-
-    logEvent(
-      'My RW',
-      'User creates new widget',
-      datasets.find((d) => d.id === selectedDataset).label,
-    );
 
     this.setState({ loading: true });
 

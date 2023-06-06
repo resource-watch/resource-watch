@@ -1,6 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
 import { createThunkAction } from 'redux-tools';
-import { logEvent } from 'utils/analytics';
 
 // SEARCH
 export const setSearchList = createAction('SEARCH/setSearchList');
@@ -18,9 +17,10 @@ export const fetchSearch = createThunkAction('SEARCH/fetchSearch', () => (dispat
   if (term) {
     dispatch(setSearchLoading(true));
     dispatch(setSearchError(null));
-    logEvent('Search', 'Search', term);
 
-    return fetch(`https://api.addsearch.com/v1/search/${process.env.NEXT_PUBLIC_ADD_SEARCH_KEY}?term=${term}&page=${page}&limit=${limit}&fuzzy=true`)
+    return fetch(
+      `https://api.addsearch.com/v1/search/${process.env.NEXT_PUBLIC_ADD_SEARCH_KEY}?term=${term}&page=${page}&limit=${limit}&fuzzy=true`,
+    )
       .then((response) => {
         if (response.status >= 400) throw Error(response.statusText);
         return response.json();

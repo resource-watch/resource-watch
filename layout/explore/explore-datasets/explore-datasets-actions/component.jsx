@@ -15,9 +15,6 @@ import { getTooltipContainer } from 'utils/tooltip';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 import useFetchCollection from 'hooks/collection/fetch-collection';
 
-// Utils
-import { logEvent } from 'utils/analytics';
-
 const ExploreDatasetsActions = (props) => {
   const {
     dataset,
@@ -52,31 +49,13 @@ const ExploreDatasetsActions = (props) => {
     [isActive, dataset, toggleMapLayerGroup, resetMapLayerGroupsInteraction],
   );
 
-  const handleToggleFavorite = useCallback(
-    (isFavorite, resource) => {
-      if (selectedCollection) refetch();
+  const handleToggleFavorite = useCallback(() => {
+    if (selectedCollection) refetch();
+  }, [selectedCollection, refetch]);
 
-      if (isFavorite) {
-        logEvent('Explore Menu', 'Add dataset to favorites', resource.id);
-      } else {
-        logEvent('Explore Menu', 'Remove dataset from favorites', resource.id);
-      }
-    },
-    [selectedCollection, refetch],
-  );
-
-  const handleToggleCollection = useCallback(
-    (isAdded, resource) => {
-      if (selectedCollection) refetch();
-
-      if (isAdded) {
-        logEvent('Explore Menu', 'Add dataset to a collection', resource.id);
-      } else {
-        logEvent('Explore Menu', 'Remove dataset from a collection', resource.id);
-      }
-    },
-    [selectedCollection, refetch],
-  );
+  const handleToggleCollection = useCallback(() => {
+    if (selectedCollection) refetch();
+  }, [selectedCollection, refetch]);
 
   const userIsLoggedIn = user.token;
   const datasetName = dataset?.metadata[0]?.info?.name;
@@ -108,14 +87,7 @@ const ExploreDatasetsActions = (props) => {
       >
         {isActive ? 'Active' : 'Add to map'}
       </button>
-      {/* Favorite dataset icon */}
-      <LoginRequired
-        clickCallback={() => {
-          if (!userIsLoggedIn) {
-            logEvent('Explore Menu', 'Anonymous user Clicks Star', datasetName);
-          }
-        }}
-      >
+      <LoginRequired>
         <Tooltip
           overlay={
             <CollectionsPanel
@@ -139,9 +111,6 @@ const ExploreDatasetsActions = (props) => {
             tabIndex={-1}
             onClick={(event) => {
               event.stopPropagation();
-              if (userIsLoggedIn) {
-                logEvent('Explore Menu', 'Authenticated user Clicks Star', datasetName);
-              }
             }}
           >
             <Icon name={starIconName} className={starIconClass} />

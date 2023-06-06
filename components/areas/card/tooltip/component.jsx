@@ -1,9 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-// Utils
-import { logEvent } from 'utils/analytics';
-
 const AreaActionsTooltip = (props) => {
   const {
     onMouseDown,
@@ -16,28 +13,30 @@ const AreaActionsTooltip = (props) => {
     tooltipRef,
   } = props;
 
-  const handleClick = useCallback((action) => {
-    switch (action) {
-      case 'rename':
-        onRenameArea();
-        break;
-      case 'change-visibility':
-        onChangeVisibility();
-        break;
-      case 'edit_subscriptions':
-        logEvent('My RW', 'Edit subscription', area.name);
-        onEditSubscriptions();
-        break;
-      case 'delete_area':
-        onDeleteArea();
-        break;
-      default: {
-        throw Error(`Action '${action}' not supported`);
+  const handleClick = useCallback(
+    (action) => {
+      switch (action) {
+        case 'rename':
+          onRenameArea();
+          break;
+        case 'change-visibility':
+          onChangeVisibility();
+          break;
+        case 'edit_subscriptions':
+          onEditSubscriptions();
+          break;
+        case 'delete_area':
+          onDeleteArea();
+          break;
+        default: {
+          throw Error(`Action '${action}' not supported`);
+        }
       }
-    }
 
-    onMouseDown();
-  }, [area, onRenameArea, onChangeVisibility, onEditSubscriptions, onDeleteArea, onMouseDown]);
+      onMouseDown();
+    },
+    [onRenameArea, onChangeVisibility, onEditSubscriptions, onDeleteArea, onMouseDown],
+  );
 
   useEffect(() => {
     const triggerMouseDown = (e) => {
@@ -57,11 +56,7 @@ const AreaActionsTooltip = (props) => {
     <div className="c-area-actions-tooltip">
       <ul>
         <li>
-          <button
-            type="button"
-            className="c-button"
-            onClick={() => handleClick('rename')}
-          >
+          <button type="button" className="c-button" onClick={() => handleClick('rename')}>
             Rename
           </button>
         </li>
@@ -74,12 +69,10 @@ const AreaActionsTooltip = (props) => {
             {`Make ${area.public ? 'Private' : 'Public'}`}
           </button>
         </li>
-        {
-        /**
-        * * Enable subscriptions unconditionally when they work properly.
-        * * Currently, they are disabled in Explore.
-        */
-        }
+        {/**
+         * * Enable subscriptions unconditionally when they work properly.
+         * * Currently, they are disabled in Explore.
+         */}
         {showSubscriptions && (
           <li>
             <button
@@ -92,11 +85,7 @@ const AreaActionsTooltip = (props) => {
           </li>
         )}
         <li>
-          <button
-            type="button"
-            className="c-button"
-            onClick={() => handleClick('delete_area')}
-          >
+          <button type="button" className="c-button" onClick={() => handleClick('delete_area')}>
             Delete area
           </button>
         </li>

@@ -5,12 +5,7 @@ import Link from 'next/link';
 // Components
 import Title from 'components/ui/Title';
 
-// Utils
-import { logEvent } from 'utils/analytics';
-
-function CardApp({
-  background, title, description, link, className, buttonType, logEvent = false,
-}) {
+function CardApp({ background, title, description, link, className, buttonType }) {
   const classNames = classnames({
     [className]: className,
   });
@@ -21,41 +16,25 @@ function CardApp({
   });
 
   return (
-    <div
-      className={`c-card-app ${classNames}`}
-    >
-      {!!(background)
-        && (
+    <div className={`c-card-app ${classNames}`}>
+      {!!background && (
         <div
           className="card-background"
           style={{
             backgroundImage: `url(${background})`,
           }}
         />
-        )}
+      )}
 
       <div className="card-container">
-        <Title className="-default">
-          {title}
-        </Title>
+        <Title className="-default">{title}</Title>
 
-        <div className="card-content">
-          {description}
-        </div>
+        <div className="card-content">{description}</div>
 
         <div className="card-footer">
           {!!link && !link.external && (
             <Link href={link.route}>
-              <a
-                className={`c-button ${buttonClasses} -fullwidth`}
-                onClick={() => {
-                  if (logEvent) {
-                    logEvent('Related app Go to site clicked', title);
-                  }
-                }}
-              >
-                {link.label}
-              </a>
+              <a className={`c-button ${buttonClasses} -fullwidth`}>{link.label}</a>
             </Link>
           )}
           {!!link && link.external && (
@@ -63,11 +42,7 @@ function CardApp({
               href={link.route}
               target="_blank"
               className={`c-button ${buttonClasses} -fullwidth`}
-              onClick={() => {
-                if (logEvent) {
-                  logEvent('Related app Go to site clicked', title);
-                }
-              }}
+              rel="noreferrer"
             >
               {link.label}
             </a>
@@ -85,7 +60,6 @@ CardApp.propTypes = {
   link: PropTypes.object,
   buttonType: PropTypes.string,
   className: PropTypes.any,
-  logEvent: PropTypes.bool,
 };
 
 export default CardApp;
