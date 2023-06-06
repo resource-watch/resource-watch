@@ -13,7 +13,6 @@ import Paginator from 'components/ui/Paginator';
 import { fetchDatasets } from 'services/dataset';
 
 // utils
-import { logEvent } from 'utils/analytics';
 import { DATASETS_PER_PAGE } from './constants';
 
 class CatalogLayout extends PureComponent {
@@ -74,7 +73,6 @@ class CatalogLayout extends PureComponent {
       search: value,
       page: 1,
     });
-    logEvent('Catalog page', 'search', value);
   }, 500);
 
   handlePageChange = (page) => {
@@ -82,9 +80,7 @@ class CatalogLayout extends PureComponent {
   };
 
   render() {
-    const {
-      loading, datasets, page, totalItems,
-    } = this.state;
+    const { loading, datasets, page, totalItems } = this.state;
 
     return (
       <Layout

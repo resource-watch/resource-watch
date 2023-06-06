@@ -6,8 +6,6 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { Icons } from 'vizzuality-components';
 
-// utils
-import { initGA, logPageView } from 'utils/analytics';
 import { browserSupported } from 'utils/browser';
 
 // components
@@ -32,13 +30,6 @@ export default function LayoutOceanWatch({ title, description, children }) {
     router.events.on('routeChangeComplete', () => {
       if (Progress && Progress.Component.instance) Progress.hideAll();
     });
-
-    // Google Analytics
-    if (!window.GA_INITIALIZED) {
-      initGA();
-      window.GA_INITIALIZED = true;
-    }
-    logPageView();
   }, [router]);
 
   return (

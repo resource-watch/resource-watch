@@ -4,9 +4,6 @@ import classnames from 'classnames';
 import { withRouter } from 'next/router';
 import Progress from 'react-progress-2';
 
-// Utils
-import { initGA, logPageView } from 'utils/analytics';
-
 // Components
 import IconsRW from 'components/icons';
 
@@ -25,7 +22,7 @@ import GDPRBanner from 'components/ui/gdpr-banner';
 class LayoutAdmin extends PureComponent {
   static defaultProps = { className: null };
 
-  state = { modalOpen: false }
+  state = { modalOpen: false };
 
   UNSAFE_componentWillMount() {
     // When a tooltip is shown and the router navigates to a
@@ -41,10 +38,7 @@ class LayoutAdmin extends PureComponent {
   }
 
   componentDidMount() {
-    const {
-      router,
-      updateIsLoading,
-    } = this.props;
+    const { router, updateIsLoading } = this.props;
 
     router.events.on('routeChangeStart', () => {
       updateIsLoading(true);
@@ -55,13 +49,6 @@ class LayoutAdmin extends PureComponent {
       updateIsLoading(false);
       if (Progress && Progress.Component.instance) Progress.hideAll();
     });
-
-    // Google Analytics
-    if (!window.GA_INITIALIZED) {
-      initGA();
-      window.GA_INITIALIZED = true;
-    }
-    logPageView();
   }
 
   UNSAFE_componentWillReceiveProps(newProps) {
@@ -71,15 +58,8 @@ class LayoutAdmin extends PureComponent {
   }
 
   render() {
-    const {
-      title,
-      description,
-      pageHeader,
-      modal,
-      className,
-      toggleModal,
-      setModalOptions,
-    } = this.props;
+    const { title, description, pageHeader, modal, className, toggleModal, setModalOptions } =
+      this.props;
     const { modalOpen } = this.state;
     const componentClass = classnames('l-page', { [className]: !!className });
 

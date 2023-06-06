@@ -4,15 +4,13 @@ import Link from 'next/link';
 import CardApp from 'components/app/common/CardApp';
 import Banner from 'components/app/common/Banner';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 function DevelopYourApp() {
   const cards = [
     {
       id: 'api-documentation',
       title: 'API documentation',
-      description: 'Pull data from Resource Watch into your application, and learn how the Resource Watch platform works.',
+      description:
+        'Pull data from Resource Watch into your application, and learn how the Resource Watch platform works.',
       link: {
         route: 'https://api.resourcewatch.org',
         label: 'Read the docs',
@@ -22,7 +20,8 @@ function DevelopYourApp() {
     {
       id: 'fork-code',
       title: 'Fork our source code',
-      description: 'Build on our open source code for your next project, or contribute to the development of Resource Watch.',
+      description:
+        'Build on our open source code for your next project, or contribute to the development of Resource Watch.',
       link: {
         route: 'https://github.com/resource-watch/',
         label: 'Visit our Github',
@@ -32,9 +31,11 @@ function DevelopYourApp() {
     {
       id: 'submit-app',
       title: 'Submit an app',
-      description: 'Share your map or app with the Resource Watch community. Please review our app review guidelines before submission.',
+      description:
+        'Share your map or app with the Resource Watch community. Please review our app review guidelines before submission.',
       link: {
-        route: 'https://docs.google.com/forms/d/e/1FAIpQLSfZ79GW0jF7BL_-mUjHOgXEUN3U2p95FgiOp-_ZaqqwTfI7Gg/viewform?usp=sf_link',
+        route:
+          'https://docs.google.com/forms/d/e/1FAIpQLSfZ79GW0jF7BL_-mUjHOgXEUN3U2p95FgiOp-_ZaqqwTfI7Gg/viewform?usp=sf_link',
         label: 'Submit your app',
         external: true,
       },
@@ -64,21 +65,16 @@ function DevelopYourApp() {
         <div className="l-container">
           <div className="row align-center">
             <div className="column small-12">
-              <Banner className="-text-center" bgImage="/static/images/backgrounds/bg-partner-maryland.jpg">
+              <Banner
+                className="-text-center"
+                bgImage="/static/images/backgrounds/bg-partner-maryland.jpg"
+              >
                 <p className="-claim">
-                  Explore maps and apps curated
-                  {' '}
-                  <br />
+                  Explore maps and apps curated <br />
                   by the Resource Watch community.
                 </p>
                 <Link href="/get-involved/apps">
-                  <a
-                    role="button"
-                    onKeyPress={() => logEvent('App Gallery link clicked', 'Develop your app')}
-                    className="c-button -primary -alt"
-                    onClick={() => logEvent('App Gallery link clicked', 'Develop your app')}
-                    tabIndex={-1}
-                  >
+                  <a role="button" className="c-button -primary -alt" tabIndex={-1}>
                     App gallery
                   </a>
                 </Link>

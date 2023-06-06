@@ -32,7 +32,6 @@ jobs:
       NEXT_PUBLIC_APPLICATIONS: rw
       NEXT_PUBLIC_BLOG_API_URL: https://blog.resourcewatch.org/wp-json/wp/v2
       NEXT_PUBLIC_AUTH_CALLBACK: http://localhost:3000/auth-callback
-      NEXT_PUBLIC_GOOGLE_ANALYTICS: UA-12345678-9
       NEXT_PUBLIC_RW_ENV: test
       NEXT_PUBLIC_RW_GOGGLE_API_TOKEN_SHORTENER: fakeGoogleApiToken
       NEXT_PUBLIC_RW_MAPBOX_API_TOKEN: fakeMapboxToken

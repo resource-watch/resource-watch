@@ -1,7 +1,4 @@
-import {
-  useState,
-  useEffect,
-} from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { toastr } from 'react-redux-toastr';
 import classnames from 'classnames';
@@ -15,20 +12,12 @@ import ExploreDatasetsActions from 'layout/explore/explore-datasets/explore-data
 import { fetchExploreConfig } from 'services/config';
 import { fetchDatasets } from 'services/dataset';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // constants
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 import { TOPICS } from 'layout/explore/explore-topics/constants';
 
 function ExploreDiscover(props) {
-  const {
-    setSidebarSection,
-    selectedDataset,
-    setSortSelected,
-    setSortIsUserSelected,
-  } = props;
+  const { setSidebarSection, selectedDataset, setSortSelected, setSortIsUserSelected } = props;
   const [config, setConfig] = useState(null);
   const [highlightedDatasets, setHighlightedDatasets] = useState({ loading: true, list: [] });
   const [recentUpdatedDatasets, setRecentUpdatedDatasets] = useState({ loading: true, list: [] });
@@ -79,10 +68,11 @@ function ExploreDiscover(props) {
   const relatedTopics = config && config.explore.discover['related-topics'];
 
   return (
-    <div className={classnames({
-      'c-explore-discover': true,
-      '-hidden': selectedDataset,
-    })}
+    <div
+      className={classnames({
+        'c-explore-discover': true,
+        '-hidden': selectedDataset,
+      })}
     >
       <div className="trending-datasets discover-section">
         <div className="header">
@@ -93,11 +83,9 @@ function ExploreDiscover(props) {
             tabIndex={-1}
             onClick={() => {
               setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
-              logEvent('Explore Menu', 'Click to See All Data', 'Highlighted datasets');
             }}
             onKeyPress={() => {
               setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
-              logEvent('Explore Menu', 'Click to See All Data', 'Highlighted datasets');
             }}
           >
             SEE ALL DATA
@@ -107,9 +95,7 @@ function ExploreDiscover(props) {
           loading={highlightedDatasets.loading}
           numberOfPlaceholders={4}
           list={highlightedDatasets.list}
-          actions={(
-            <ExploreDatasetsActions />
-          )}
+          actions={<ExploreDatasetsActions />}
         />
       </div>
       <div className="related-topics discover-section">
@@ -121,18 +107,15 @@ function ExploreDiscover(props) {
             tabIndex={-1}
             onClick={() => {
               setSidebarSection(EXPLORE_SECTIONS.TOPICS);
-              logEvent('Explore Menu', 'Click to See All Topics');
             }}
             onKeyPress={() => {
               setSidebarSection(EXPLORE_SECTIONS.TOPICS);
-              logEvent('Explore Menu', 'Click to See All Topics');
             }}
           >
             SEE ALL
           </div>
         </div>
-        {relatedTopics && relatedTopics.length > 0
-          && (
+        {relatedTopics && relatedTopics.length > 0 && (
           <TopicsList
             topics={TOPICS.filter((t) => relatedTopics.find((rT) => rT === t.id))}
             onClick={(id) => {
@@ -144,7 +127,7 @@ function ExploreDiscover(props) {
               props.setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
             }}
           />
-          )}
+        )}
       </div>
       <div className="recently-added discover-section">
         <div className="header">
@@ -158,14 +141,12 @@ function ExploreDiscover(props) {
               setSortSelected('createdAt');
               setSortIsUserSelected();
               props.fetchDatasets();
-              logEvent('Explore Menu', 'Click to See All Data', 'Recently Added Datasets');
             }}
             onKeyPress={() => {
               setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
               setSortSelected('createdAt');
               setSortIsUserSelected();
               props.fetchDatasets();
-              logEvent('Explore Menu', 'Click to See All Data', 'Recently Added Datasets');
             }}
           >
             SEE ALL DATA
@@ -175,9 +156,7 @@ function ExploreDiscover(props) {
           loading={recentlyAddedDatasets.loading}
           numberOfPlaceholders={4}
           list={recentlyAddedDatasets.list}
-          actions={(
-            <ExploreDatasetsActions />
-          )}
+          actions={<ExploreDatasetsActions />}
         />
       </div>
       <div className="recent-updated discover-section">
@@ -189,11 +168,9 @@ function ExploreDiscover(props) {
             tabIndex={-1}
             onClick={() => {
               setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME);
-              logEvent('Explore Menu', 'Click to See All Data', 'Recently Updated Datasets');
             }}
             onKeyPress={() => {
               setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME);
-              logEvent('Explore Menu', 'Click to See All Data', 'Recently Updated Datasets');
             }}
           >
             SEE ALL DATA
@@ -203,9 +180,7 @@ function ExploreDiscover(props) {
           loading={recentUpdatedDatasets.loading}
           numberOfPlaceholders={4}
           list={recentUpdatedDatasets.list}
-          actions={(
-            <ExploreDatasetsActions />
-          )}
+          actions={<ExploreDatasetsActions />}
         />
       </div>
     </div>

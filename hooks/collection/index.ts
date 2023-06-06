@@ -11,9 +11,6 @@ import {
 // hooks
 import { useMe } from 'hooks/user';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 import type { Collection, Resource } from 'types/collection';
 export interface CollectionParams {
   resource: Resource;
@@ -69,7 +66,6 @@ export const useAddToCollection = (
         return { collection, resource };
       },
       onSuccess: async (data, variables) => {
-        logEvent('Collections', `user adds ${variables.resource.type} to collection`);
         await queryClient.invalidateQueries('fetch-collections');
       },
       onError: async (error, variables, context: { previousCollections: Collection[] }) => {
@@ -118,7 +114,6 @@ export const useRemoveFromCollection = (
         return { previousCollections };
       },
       onSuccess: async (data, variables) => {
-        logEvent('Collections', `user removes ${variables.resource.type} from collection`);
         await queryClient.invalidateQueries('fetch-collections');
       },
       onError: async (error, variables, context: { previousCollections: Collection[] }) => {
@@ -151,7 +146,6 @@ export const useAddCollection = (
     { collection: Pick<Collection, 'name' | 'env' | 'resources' | 'application'> }
   >(({ collection }) => addCollection({ collection, token: user.token }), {
     onSuccess: async () => {
-      logEvent('Collections', 'user adds a new collection');
       await queryClient.invalidateQueries('fetch-collections');
     },
     onError: (error, variables) => {
@@ -178,7 +172,6 @@ export const useRemoveCollection = (
     ({ collection }) => removeCollection({ collection, token: user.token }),
     {
       onSuccess: async () => {
-        logEvent('Collections', 'user removes a collection');
         await queryClient.invalidateQueries('fetch-collections');
       },
       onError: (error, variables) => {

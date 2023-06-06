@@ -10,9 +10,6 @@ import { HOTJAR_ROUTES } from 'constants/app';
 const CrazyEggScript = dynamic(() => import('../../../scripts/crazyegg'), { ssr: false });
 const UserReportScript = dynamic(() => import('../../../scripts/userreport'), { ssr: false });
 const HotjarScript = dynamic(() => import('../../../scripts/hotjar'), { ssr: false });
-const GoogleAnalyticsV4Script = dynamic(() => import('../../../scripts/google-analytics-v4'), {
-  ssr: false,
-});
 const GoogleTagManagerScript = dynamic(() => import('../../../scripts/google-tag-manager'), {
   ssr: false,
 });
@@ -49,7 +46,6 @@ export default function HeadApp({ title, description, thumbnail }) {
       )}
       <GoogleTagManagerScript />
       <UserReportScript />
-      <GoogleAnalyticsV4Script />
     </>
   );
 }

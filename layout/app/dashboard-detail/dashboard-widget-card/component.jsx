@@ -15,9 +15,6 @@ import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 import ErrorBoundary from 'components/ui/error-boundary';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // hooks
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 import RankingWidget from './ranking-widget';
@@ -89,15 +86,6 @@ function DashboardWidgetCard(props) {
                         widget &&
                         `${window.location.origin}/embed/${widgetType}/${widget.id}`,
                     }}
-                    analytics={{
-                      facebook: () =>
-                        logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Facebook'),
-                      twitter: () =>
-                        logEvent('Share (embed)', `Share widget: ${widget.name}`, 'Twitter'),
-                      email: () => logEvent('Share', `Share widget: ${widget.name}`, 'Email'),
-                      copy: (type) =>
-                        logEvent('Share (embed)', `Share widget: ${widget.name}`, `Copy ${type}`),
-                    }}
                   />
                 </Modal>
               </li>
@@ -167,7 +155,7 @@ function DashboardWidgetCard(props) {
                   <h4>Links</h4>
                   <ul>
                     {widgetLinks.map((link) => (
-                      <li>
+                      <li key={link.link}>
                         <a href={link.link} target="_blank" rel="noopener noreferrer">
                           {link.name}
                         </a>

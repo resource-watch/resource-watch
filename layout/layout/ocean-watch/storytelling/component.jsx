@@ -4,9 +4,6 @@ import { Scrollama, Step } from 'react-scrollama';
 import classnames from 'classnames';
 import { Tooltip } from 'vizzuality-components';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // hooks
 import { useGeostore } from 'hooks/geostore';
 
@@ -83,7 +80,6 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
 
   const handleClickIndicator = (id) => {
     const element = document.getElementById(`${id}-1`);
-    const button = document.getElementById(id);
 
     if (element) {
       element.scrollIntoView({
@@ -92,27 +88,14 @@ export default function OceanWatchStoryTelling({ indicators, steps, geostore }) 
         inline: 'nearest',
       });
     }
-
-    if (button) {
-      const { title } = button.dataset;
-
-      logEvent('Ocean Watch Storytelling', 'user clicks on step', title);
-    }
   };
 
   const handleSelectIndicator = (evt) => {
     const id = evt.currentTarget.value;
     const element = document.getElementById(`${id}-1`);
-    const button = document.getElementById(id);
 
     if (element) {
       element.scrollIntoView(true);
-    }
-
-    if (button) {
-      const { title } = button.dataset;
-
-      logEvent('Ocean Watch Storytelling', 'user selects step', title);
     }
   };
 

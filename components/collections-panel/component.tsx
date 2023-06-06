@@ -11,9 +11,6 @@ import { useIsFavorite } from 'hooks/favorite';
 import { useAddToCollection, useRemoveFromCollection, useAddCollection } from 'hooks/collection';
 import { useSaveFavorite, useDeleteFavorite } from 'hooks/favorite';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // types
 import type { Collection, Resource } from 'types/collection';
 import type { API_ENVS, RESOURCE_TYPES, ANY_RESOURCE } from 'types';
@@ -44,29 +41,22 @@ const CollectionsPanel = ({
   const { data: user } = useMe();
   const { mutate: mutateAddToCollection } = useAddToCollection({
     onSuccess: async (updatedCollection, variables) => {
-      logEvent('Collections', `user adds ${variables.resource.type} to collection`);
       if (onToggleCollection) onToggleCollection(true, variables.resource);
     },
   });
   const { mutate: mutateRemoveFromCollection } = useRemoveFromCollection({
     onSuccess: async (updatedCollection, variables) => {
-      logEvent('Collections', `user removes ${variables.resource.type} from collection`);
       if (onToggleCollection) onToggleCollection(false, variables.resource);
     },
   });
   const { mutate: mutateAddCollection } = useAddCollection();
   const { mutate: mutateAddFavorite } = useSaveFavorite({
     onSuccess: async (updatedFavorite, variables) => {
-      logEvent(
-        'Collections',
-        `user favorites ${variables.favorite.resourceType} "${variables.favorite.resourceId}"`,
-      );
       if (onToggleFavorite) onToggleFavorite(true, updatedFavorite);
     },
   });
   const { mutate: mutateRemoveFavorite } = useDeleteFavorite({
     onSuccess: async (updatedFavorite, variables) => {
-      logEvent('Favorites', `user removes from favorites ${variables.favoriteId}`);
       if (onToggleFavorite) onToggleFavorite(false, updatedFavorite);
     },
   });

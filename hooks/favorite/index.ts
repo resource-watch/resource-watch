@@ -12,9 +12,6 @@ import { useMe } from 'hooks/user';
 // services
 import { fetchFavorites, deleteFavourite, createFavourite } from 'services/favourites';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // types
 import type { Favorite } from 'types/favorite';
 
@@ -75,12 +72,6 @@ export const useSaveFavorite = (
 
         return { data };
       },
-      onSuccess: async (data, variables) => {
-        logEvent(
-          'Favorites',
-          `user favorites ${variables.favorite.resourceType} "${variables.favorite.resourceId}"`,
-        );
-      },
       onError: async (error, data, context: { previousFavorites: Favorite[] }) => {
         queryClient.setQueryData('fetch-user-favorites', context.previousFavorites);
         throw new Error(
@@ -112,9 +103,6 @@ export const useDeleteFavorite = (
         ]);
 
         return { data };
-      },
-      onSuccess: async (data, variables) => {
-        logEvent('Favorites', `user removes from favorites ${variables.favoriteId}`);
       },
       onError: async (error, data, context: { previousFavorites: Favorite[] }) => {
         queryClient.setQueryData('fetch-user-favorites', context.previousFavorites);
