@@ -7,11 +7,7 @@ import { toastr } from 'react-redux-toastr';
 import { connect } from 'react-redux';
 
 // services
-import {
-  fetchDataset,
-  createDataset,
-  updateDataset,
-} from 'services/dataset';
+import { fetchDataset, createDataset, updateDataset } from 'services/dataset';
 import { fetchFields } from 'services/fields';
 
 // components
@@ -20,7 +16,6 @@ import Step1 from 'components/datasets/form/steps';
 import Spinner from 'components/ui/Spinner';
 
 // utils
-import { logEvent } from 'utils/analytics';
 import { sortLayers } from 'utils/layers';
 import { getFieldUrl, getFields } from 'utils/fields';
 
@@ -35,21 +30,21 @@ class DatasetsForm extends PureComponent {
     dataset: PropTypes.string,
     basic: PropTypes.bool,
     onSubmit: PropTypes.func,
-  }
+  };
 
   static defaultProps = {
     dataset: null,
     basic: true,
     onSubmit: null,
-  }
+  };
 
-  state = ({
+  state = {
     ...STATE_DEFAULT,
     loading: !!this.props.dataset,
     loadingColumns: !!this.props.dataset,
     columns: [],
     form: { ...STATE_DEFAULT.form, application: this.props.application },
-  });
+  };
 
   UNSAFE_componentWillMount() {
     const { dataset: datasetId } = this.props;
@@ -62,10 +57,11 @@ class DatasetsForm extends PureComponent {
 
           // sorts layers if applies
           if (
-            applicationConfig
-            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
-            && applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder
-            && layers.length > 1) {
+            applicationConfig &&
+            applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS] &&
+            applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder &&
+            layers.length > 1
+          ) {
             const { layerOrder } = applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS];
             _layers = sortLayers(layers, layerOrder);
           }
@@ -92,7 +88,9 @@ class DatasetsForm extends PureComponent {
               })
               .catch(({ message }) => {
                 const { id } = dataset;
-                this.setState({ loadingColumns: false }, () => { toastr.error(`Error fetching fields from dataset ${id}`); });
+                this.setState({ loadingColumns: false }, () => {
+                  toastr.error(`Error fetching fields from dataset ${id}`);
+                });
                 console.error(`Error fetching fields from dataset ${id}`, message);
               });
           } else {
@@ -100,7 +98,9 @@ class DatasetsForm extends PureComponent {
           }
         })
         .catch(({ message }) => {
-          this.setState({ loading: false }, () => { toastr.error('Error fetching dataset'); });
+          this.setState({ loading: false }, () => {
+            toastr.error('Error fetching dataset');
+          });
           console.error(`Error fetching dataset: ${message}`);
         });
     }
@@ -122,7 +122,6 @@ class DatasetsForm extends PureComponent {
         // if we are in the last step we will submit the form
         if (this.state.step === this.state.stepLength && !this.state.submitting) {
           const { form, layers } = this.state;
-          logEvent('My RW', 'Add New Dataset', form.name);
 
           // Start the submitting
           this.setState({ submitting: true });
@@ -140,7 +139,6 @@ class DatasetsForm extends PureComponent {
           bodyObj.subscribable = {};
           form.subscribable.forEach((_subscription) => {
             bodyObj.subscribable[_subscription.type] = {
-
               dataQuery: _subscription.dataQuery,
               subscriptionQuery: _subscription.subscriptionQuery,
             };
@@ -149,18 +147,19 @@ class DatasetsForm extends PureComponent {
           // every updated dataset will contain set the layer order in its config
           // if it doesn't previously
           if (
-            dataset
-            && layers.length
-            && (!bodyObj.applicationConfig
-            || !bodyObj.applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]
-            || !bodyObj.applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder)
+            dataset &&
+            layers.length &&
+            (!bodyObj.applicationConfig ||
+              !bodyObj.applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS] ||
+              !bodyObj.applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS].layerOrder)
           ) {
             bodyObj = {
               ...bodyObj,
               applicationConfig: {
                 ...form.applicationConfig,
                 [process.env.NEXT_PUBLIC_APPLICATIONS]: {
-                  ...(form.applicationConfig && form.applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]),
+                  ...(form.applicationConfig &&
+                    form.applicationConfig[process.env.NEXT_PUBLIC_APPLICATIONS]),
                   layerOrder: layers.map((_layer) => _layer.id),
                 },
               },
@@ -203,16 +202,16 @@ class DatasetsForm extends PureComponent {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
-  }
+  };
 
   onChange = (obj) => {
     const form = { ...this.state.form, ...obj };
     this.setState({ form });
-  }
+  };
 
   onStepChange = (step) => {
     this.setState({ step });
-  }
+  };
 
   // HELPERS
   setFormFromParams(params) {
@@ -250,7 +249,9 @@ class DatasetsForm extends PureComponent {
       dataDataset,
     } = this.state;
     const { dataset, basic, authorization } = this.props;
-    const disabled = dataDataset && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === dataDataset.env) < 0;
+    const disabled =
+      dataDataset &&
+      process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === dataDataset.env) < 0;
 
     return (
       <form className="c-form c-datasets-form" onSubmit={this.onSubmit} noValidate>
@@ -287,7 +288,4 @@ class DatasetsForm extends PureComponent {
 
 const mapStateToProps = (state) => ({ locale: state.common.locale });
 
-export default connect(
-  mapStateToProps,
-  null,
-)(DatasetsForm);
+export default connect(mapStateToProps, null)(DatasetsForm);

@@ -17,7 +17,6 @@ export const APP_HEADER_ITEMS = [
       {
         label: 'App Gallery',
         href: '/get-involved/apps',
-        logEvent: true,
       },
     ],
   },

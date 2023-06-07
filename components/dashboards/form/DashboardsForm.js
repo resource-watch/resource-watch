@@ -12,9 +12,6 @@ import Step1 from 'components/dashboards/form/steps/step-1';
 // services
 import { fetchDashboard, createDashboard, updateDashboard } from 'services/dashboard';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // constants
 import { STATE_DEFAULT, FORM_ELEMENTS } from 'components/dashboards/form/constants';
 
@@ -27,13 +24,13 @@ class DashboardsForm extends PureComponent {
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
-  }
+  };
 
   static defaultProps = {
     id: null,
     basic: false,
     onSubmit: null,
-  }
+  };
 
   state = {
     ...STATE_DEFAULT,
@@ -45,8 +42,8 @@ class DashboardsForm extends PureComponent {
     initialForm: {
       ...STATE_DEFAULT.form,
       user_id: this.props.user.id,
-    }
-  }
+    },
+  };
 
   componentDidMount() {
     const { id } = this.props;
@@ -61,18 +58,17 @@ class DashboardsForm extends PureComponent {
             loading: false,
           });
         })
-        .catch((err) => { toastr.error(err.message); });
+        .catch((err) => {
+          toastr.error(err.message);
+        });
     }
   }
 
   onSubmit = (event) => {
-    const { user: { token } } = this.props;
     const {
-      step,
-      form,
-      submitting,
-      stepLength,
-    } = this.state;
+      user: { token },
+    } = this.props;
+    const { step, form, submitting, stepLength } = this.state;
     event.preventDefault();
 
     FORM_ELEMENTS.validate(step);
@@ -83,7 +79,10 @@ class DashboardsForm extends PureComponent {
       const valid = FORM_ELEMENTS.isValid(step);
       const onFetchSuccess = (data) => {
         const { id: dashboardId, name } = data;
-        toastr.success('Success', `The dashboard "${dashboardId}" - "${name}" has been uploaded correctly`);
+        toastr.success(
+          'Success',
+          `The dashboard "${dashboardId}" - "${name}" has been uploaded correctly`,
+        );
         this.setState({ initialForm: form });
 
         if (this.props.onSubmit) this.props.onSubmit();
@@ -101,15 +100,9 @@ class DashboardsForm extends PureComponent {
           this.setState({ submitting: true });
 
           if (!id) {
-            createDashboard(form, token)
-              .then(onFetchSuccess)
-              .catch(onFetchError);
-            logEvent('My RW', 'User creates a new dashboard', form.name);
+            createDashboard(form, token).then(onFetchSuccess).catch(onFetchError);
           } else {
-            updateDashboard(id, form, token)
-              .then(onFetchSuccess)
-              .catch(onFetchError);
-            logEvent('My RW', 'User updates an existing dashboard', form.name);
+            updateDashboard(id, form, token).then(onFetchSuccess).catch(onFetchError);
           }
         } else {
           this.setState({ step: step + 1 });
@@ -118,27 +111,26 @@ class DashboardsForm extends PureComponent {
         toastr.error('Error', 'Fill all the required fields or correct the invalid values');
       }
     }, 0);
-  }
+  };
 
   onChange = (obj) => {
     const form = { ...this.state.form, ...obj };
     this.setState({ form });
-  }
+  };
 
-  onStepChange = (step) => { this.setState({ step }); }
+  onStepChange = (step) => {
+    this.setState({ step });
+  };
 
   onCancel = () => {
-    const {
-      basic,
-      router,
-    } = this.props;
+    const { basic, router } = this.props;
 
     if (basic) {
       router.push('/myrw/dashboards');
     } else {
       router.push('/admin/dashboards');
     }
-  }
+  };
 
   // HELPERS
   setFormFromParams(params) {
@@ -154,8 +146,12 @@ class DashboardsForm extends PureComponent {
           break;
         }
         default: {
-          if ((typeof params[f] !== 'undefined' || params[f] !== null)
-            || (typeof this.state.form[f] !== 'undefined' || this.state.form[f] !== null)) {
+          if (
+            typeof params[f] !== 'undefined' ||
+            params[f] !== null ||
+            typeof this.state.form[f] !== 'undefined' ||
+            this.state.form[f] !== null
+          ) {
             newForm[f] = params[f] || this.state.form[f];
           }
         }
@@ -167,51 +163,42 @@ class DashboardsForm extends PureComponent {
 
   render() {
     const { id, basic } = this.props;
-    const {
-      loading,
-      form,
-      step,
-      stepLength,
-      submitting,
-      initialForm,
-    } = this.state;
+    const { loading, form, step, stepLength, submitting, initialForm } = this.state;
 
     return (
       <form
         className={cx({
           'c-form': true,
-          '-disabled': initialForm.env && process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === initialForm.env) < 0,
+          '-disabled':
+            initialForm.env &&
+            process.env.NEXT_PUBLIC_ENVS_EDIT.split(',').findIndex((d) => d === initialForm.env) <
+              0,
         })}
         onSubmit={this.onSubmit}
         noValidate
         data-cy="dashboard-form"
       >
-        <Spinner
-          isLoading={loading}
-          className="-light"
-        />
+        <Spinner isLoading={loading} className="-light" />
 
-        {(this.state.step === 1 && !loading)
-          && (
-            <Step1
-              onChange={(value) => this.onChange(value)}
-              basic={basic}
-              form={form}
-              id={id}
-              {...this.props}
-            />
-          )}
+        {this.state.step === 1 && !loading && (
+          <Step1
+            onChange={(value) => this.onChange(value)}
+            basic={basic}
+            form={form}
+            id={id}
+            {...this.props}
+          />
+        )}
 
-        {!loading
-          && (
-            <Navigation
-              step={step}
-              stepLength={stepLength}
-              submitting={submitting}
-              onStepChange={this.onStepChange}
-              onBack={this.onCancel}
-            />
-          )}
+        {!loading && (
+          <Navigation
+            step={step}
+            stepLength={stepLength}
+            submitting={submitting}
+            onStepChange={this.onStepChange}
+            onBack={this.onCancel}
+          />
+        )}
       </form>
     );
   }

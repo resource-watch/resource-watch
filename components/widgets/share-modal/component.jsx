@@ -15,7 +15,6 @@ import { takeWidgetWebshot } from 'services/webshot';
 // utils
 import { getLinksByWidgetType } from 'utils/embed';
 import { getWidgetType } from 'utils/widget';
-import { logEvent } from 'utils/analytics';
 import { logger } from 'utils/logs';
 
 export default function WidgetShareModal({ isVisible, onClose, widget, params }) {
@@ -24,8 +23,6 @@ export default function WidgetShareModal({ isVisible, onClose, widget, params })
   const handleWidgetWebshot = useCallback(async () => {
     try {
       const widgetType = getWidgetType(widget);
-
-      logEvent('Share', 'user downloads an image of a widget', widget.name);
 
       setWebshotLoading(true);
 
@@ -52,16 +49,7 @@ export default function WidgetShareModal({ isVisible, onClose, widget, params })
 
   return (
     <Modal isOpen={isVisible} className="-medium" onRequestClose={onClose}>
-      <ShareModal
-        links={shareLinks}
-        analytics={{
-          facebook: () => logEvent('Share (embed)', `Share widget: ${widget?.name}`, 'Facebook'),
-          twitter: () => logEvent('Share (embed)', `Share widget: ${widget?.name}`, 'Twitter'),
-          email: () => logEvent('Share', `Share widget: ${widget?.name}`, 'Email'),
-          copy: (type) =>
-            logEvent('Share (embed)', `Share widget: ${widget?.name}`, `Copy ${type}`),
-        }}
-      />
+      <ShareModal links={shareLinks} />
 
       <div
         style={{

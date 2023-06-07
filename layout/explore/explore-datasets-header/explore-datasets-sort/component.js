@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import { Tooltip } from 'vizzuality-components';
 
-// Utils
-import { logEvent } from 'utils/analytics';
 import { getTooltipContainer } from 'utils/tooltip';
 
 // Components
@@ -25,12 +23,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
   };
 
   onSortSelected = (selected) => {
-    const {
-      setSortSelected,
-      setSortDirection,
-      setSortIsUserSelected,
-      fetchDatasets,
-    } = this.props;
+    const { setSortSelected, setSortDirection, setSortIsUserSelected, fetchDatasets } = this.props;
 
     setSortSelected(selected);
     if (selected === 'relevance') {
@@ -38,8 +31,7 @@ class ExploreDatasetsSortComponent extends PureComponent {
     }
     setSortIsUserSelected();
     fetchDatasets();
-    logEvent('Explore Menu', 'Change Sort Option', selected);
-  }
+  };
 
   onSortDirection = () => {
     const {
@@ -56,27 +48,22 @@ class ExploreDatasetsSortComponent extends PureComponent {
     setSortDirection(-direction);
     setSortIsUserSelected();
     fetchDatasets();
-  }
+  };
 
   render() {
-    const {
-      selected,
-      direction,
-      options,
-      canChangeSortDirection,
-    } = this.props;
+    const { selected, direction, options, canChangeSortDirection } = this.props;
 
     return (
       <div className="c-explore-datasets-sort">
         <Tooltip
-          overlay={(
+          overlay={
             <RadioGroup
               name="sort"
               properties={{ default: selected }}
               options={options}
               onChange={this.onSortSelected}
             />
-          )}
+          }
           overlayClassName="c-rc-tooltip -default"
           placement="top"
           trigger={['click']}
@@ -84,10 +71,10 @@ class ExploreDatasetsSortComponent extends PureComponent {
           getTooltipContainer={getTooltipContainer}
           destroyTooltipOnHide
         >
-          <button
-            className="actions-sort-button"
-          >
-            <span>{`SORT BY ${options.find((o) => o.value === selected).label.toUpperCase()}`}</span>
+          <button className="actions-sort-button">
+            <span>{`SORT BY ${options
+              .find((o) => o.value === selected)
+              .label.toUpperCase()}`}</span>
           </button>
         </Tooltip>
 
@@ -98,11 +85,9 @@ class ExploreDatasetsSortComponent extends PureComponent {
           })}
           onClick={this.onSortDirection}
         >
-          {direction < 0
-            && <Icon className="-small" name="icon-arrow-down" />}
+          {direction < 0 && <Icon className="-small" name="icon-arrow-down" />}
 
-          {direction > 0
-            && <Icon className="-small" name="icon-arrow-up" />}
+          {direction > 0 && <Icon className="-small" name="icon-arrow-up" />}
         </button>
       </div>
     );

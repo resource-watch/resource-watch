@@ -15,7 +15,6 @@ export const FOOTER_LINKS = [
       {
         label: 'App Gallery',
         href: '/get-involved/apps',
-        logEvent: true,
       },
     ],
   },

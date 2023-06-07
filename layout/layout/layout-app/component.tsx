@@ -1,10 +1,8 @@
-import { FC, useEffect, ReactNode } from 'react';
+import { FC, ReactNode } from 'react';
 import dynamic from 'next/dynamic';
 import classnames from 'classnames';
 import { Icons } from 'vizzuality-components';
 
-// utils
-import { initGA, logPageView } from 'utils/analytics';
 import { browserSupported } from 'utils/browser';
 
 // components
@@ -51,15 +49,6 @@ const LayoutApp: FC<LayoutAppProps> = ({
   title,
   toggleModal,
 }: LayoutAppProps) => {
-  useEffect(() => {
-    // Google Analytics
-    if (!window.GA_INITIALIZED) {
-      initGA();
-      window.GA_INITIALIZED = true;
-    }
-    logPageView();
-  }, []);
-
   return (
     <div className={classnames('l-page', { [className]: !!className })}>
       <HeadApp title={title} description={description} {...(thumbnail && { thumbnail })} />

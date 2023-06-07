@@ -17,7 +17,6 @@ import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 // utils
 import { isMapWidget, isEmbedWidget, isTextualWidget, getWidgetType } from 'utils/widget';
 import { getLinksByWidgetType } from 'utils/embed';
-import { logEvent } from 'utils/analytics';
 
 // constants
 import { INITIAL_STATE, REDUCER } from 'components/widgets/card/reducer';
@@ -96,16 +95,10 @@ const WidgetCard = ({
   }, [user, widget, onWidgetRemove]);
 
   const handleEmbed = useCallback(() => {
-    const { id } = widget;
     const options = {
       children: ShareModal,
       childrenProps: {
         links: getLinksByWidgetType(widget, params),
-        analytics: {
-          facebook: () => logEvent('Share', `Share widget: ${id}`, 'Facebook'),
-          twitter: () => logEvent('Share', `Share widget: ${id}`, 'Twitter'),
-          copy: (type) => logEvent('Share', `Share widget: ${id}`, `Copy ${type}`),
-        },
         toggleModal,
       },
     };

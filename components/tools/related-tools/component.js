@@ -13,7 +13,7 @@ class RelatedTools extends PureComponent {
     loading: PropTypes.bool,
 
     fetchTools: PropTypes.func,
-  }
+  };
 
   componentDidMount() {
     this.props.fetchTools({ published: 'all' });
@@ -26,8 +26,7 @@ class RelatedTools extends PureComponent {
       <div className="c-related-tools">
         <Spinner isLoading={loading} className="-light" />
 
-        {!loading && !active.length
-          && <p>No data available</p>}
+        {!loading && !active.length && <p>No data available</p>}
 
         <div className="row">
           {list
@@ -38,7 +37,6 @@ class RelatedTools extends PureComponent {
                   background={tool.thumbnail.original}
                   title={tool.title}
                   description={tool.summary}
-                  logEvent
                   link={{
                     label: 'Go to site',
                     route: tool.url,

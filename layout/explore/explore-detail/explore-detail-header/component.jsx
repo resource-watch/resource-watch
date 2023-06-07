@@ -11,9 +11,6 @@ import { Tooltip } from 'vizzuality-components';
 import CollectionsPanel from 'components/collections-panel';
 import { getTooltipContainer } from 'utils/tooltip';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 export default function ExploreDetailHeader({
   dataset,
   setSelectedDataset,
@@ -25,21 +22,6 @@ export default function ExploreDetailHeader({
 }) {
   const { query } = useRouter();
   const [showShareModal, setShowShareModal] = useState(false);
-  const handleToggleFavorite = useCallback((isFavorite, resource) => {
-    if (isFavorite) {
-      logEvent('Explore Menu', 'Add dataset to favorites', resource.id);
-    } else {
-      logEvent('Explore Menu', 'Remove dataset from favorites', resource.id);
-    }
-  }, []);
-
-  const handleToggleCollection = useCallback((isAdded, resource) => {
-    if (isAdded) {
-      logEvent('Explore Menu', 'Add dataset to a collection', resource.id);
-    } else {
-      logEvent('Explore Menu', 'Remove dataset from a collection', resource.id);
-    }
-  }, []);
 
   const handleGoBack = useCallback(() => {
     const { search, section, topics } = query;
@@ -78,36 +60,16 @@ export default function ExploreDetailHeader({
       </button>
       <div className="right-buttons">
         {/* Collections tooltip */}
-        <LoginRequired
-          clickCallback={() => {
-            if (!userIsLoggedIn) {
-              logEvent('Explore (Detail)', 'Anonymous user Clicks Save', datasetName);
-            }
-          }}
-        >
+        <LoginRequired>
           <Tooltip
-            overlay={
-              <CollectionsPanel
-                resource={dataset}
-                resourceType="dataset"
-                onToggleFavorite={handleToggleFavorite}
-                onToggleCollection={handleToggleCollection}
-              />
-            }
+            overlay={<CollectionsPanel resource={dataset} resourceType="dataset" />}
             overlayClassName="c-rc-tooltip"
             placement="bottomRight"
             trigger="click"
             getTooltipContainer={getTooltipContainer}
             monitorWindowResize
           >
-            <button
-              className="c-btn -quaternary -compressed -fs-tiny"
-              onClick={() => {
-                if (userIsLoggedIn) {
-                  logEvent('Explore (Detail)', 'Authenticated user Clicks Save', datasetName);
-                }
-              }}
-            >
+            <button className="c-btn -quaternary -compressed -fs-tiny" type="button">
               <Icon className="-small" name="icon-star-full" />
               <span>SAVE</span>
             </button>
@@ -129,12 +91,6 @@ export default function ExploreDetailHeader({
               links={{
                 link: location && location.href,
                 embed: location && `${location.origin}/embed${location.pathname}${location.search}`,
-              }}
-              analytics={{
-                facebook: () => logEvent('Share', 'Share explore', 'Facebook'),
-                twitter: () => logEvent('Share', 'Share explore', 'Twitter'),
-                email: () => logEvent('Share', 'Share explore', 'Email'),
-                copy: (type) => logEvent('Share', 'Share explore', `Copy ${type}`),
               }}
             />
           </Modal>

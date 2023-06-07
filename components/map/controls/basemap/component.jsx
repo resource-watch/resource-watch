@@ -10,9 +10,6 @@ import Checkbox from 'components/form/Checkbox';
 // constants
 import { BASEMAPS, LABELS } from 'components/map/constants';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 export default function BasemapControls({
   basemap,
   labels,
@@ -48,22 +45,21 @@ export default function BasemapControls({
 
   const onBasemapChange = useCallback(
     (nextBasemap) => {
-      logEvent('Explore Map', 'change basemap', nextBasemap);
-      onChangeBasemap(BASEMAPS[nextBasemap]);
+      onChangeBasemap?.(BASEMAPS[nextBasemap]);
     },
     [onChangeBasemap],
   );
 
   const onLabelsChange = useCallback(
     (nextLabels) => {
-      onChangeLabels(LABELS[nextLabels]);
+      onChangeLabels?.(LABELS[nextLabels]);
     },
     [onChangeLabels],
   );
 
   const onBoundariesChange = useCallback(
     (nextBoundaries) => {
-      onChangeBoundaries(nextBoundaries.checked);
+      onChangeBoundaries?.(nextBoundaries.checked);
     },
     [onChangeBoundaries],
   );
@@ -166,9 +162,9 @@ BasemapControls.defaultProps = {
   labels: {},
   boundaries: false,
   disabledControls: [],
-  onChangeBasemap: () => {},
-  onChangeLabels: () => {},
-  onChangeBoundaries: () => {},
+  onChangeBasemap: null,
+  onChangeLabels: null,
+  onChangeBoundaries: null,
 };
 
 BasemapControls.propTypes = {

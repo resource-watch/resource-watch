@@ -6,9 +6,6 @@ import ReactMarkdown from 'react-markdown';
 // constants
 import { DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS } from 'layout/explore/explore-detail/constants';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 const FurtherInformationComponent = ({
   metadata: {
     info: {
@@ -37,23 +34,13 @@ const FurtherInformationComponent = ({
     {cautions && (
       <div className="metadata-field">
         <h4>Cautions</h4>
-        <ReadMore
-          markdown
-          text={cautions}
-          limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS}
-          readMoreClicked={() => logEvent('Explore (Detail)', 'Clicks Read More', 'cautions')}
-        />
+        <ReadMore markdown text={cautions} limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS} />
       </div>
     )}
     {citation && (
       <div className="metadata-field">
         <h4>Suggested citation</h4>
-        <ReadMore
-          markdown
-          text={citation}
-          limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS}
-          readMoreClicked={() => logEvent('Explore (Detail)', 'Clicks Read More', 'citation')}
-        />
+        <ReadMore markdown text={citation} limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS} />
       </div>
     )}
     {spatialResolution && (
@@ -63,21 +50,18 @@ const FurtherInformationComponent = ({
           markdown
           text={spatialResolution}
           limitChar={DEFAULT_LIMIT_CHAR_FOR_METADATA_FIELDS}
-          readMoreClicked={() => logEvent('Explore (Detail)', 'Clicks Read More', 'spatial resolution')}
         />
       </div>
     )}
     {sources && (
       <div className="metadata-field">
         <h4>Sources</h4>
-        {
-          sources.map((source) => (
-            <div key={source.id}>
-              {source['source-name']}
-              {source['source-description']}
-            </div>
-          ))
-        }
+        {sources.map((source) => (
+          <div key={source.id}>
+            {source['source-name']}
+            {source['source-description']}
+          </div>
+        ))}
       </div>
     )}
     <div className="row">
@@ -102,11 +86,7 @@ const FurtherInformationComponent = ({
       <div className="column small-6">
         <div className="metadata-field">
           <h4>License</h4>
-          <a
-            href={licenseLink}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
+          <a href={licenseLink} target="_blank" rel="noreferrer noopener">
             {license}
           </a>
         </div>

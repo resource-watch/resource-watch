@@ -4,9 +4,6 @@ import PropTypes from 'prop-types';
 import { useDebouncedCallback } from 'use-debounce';
 import Tether from 'react-tether';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 const HeaderData = ({ children }) => {
   const [isVisible, setVisibility] = useState(false);
   const toggleDropdown = useDebouncedCallback((_isVisible) => {
@@ -44,18 +41,7 @@ const HeaderData = ({ children }) => {
             onMouseLeave={() => toggleDropdown(false)}
           >
             {children.map((c) => (
-              <li
-                key={c.label}
-                className="header-dropdown-list-item"
-                role="button"
-                tabIndex={-1}
-                onKeyPress={() => {
-                  if (c.logEvent) logEvent(`${c.label} link clicked`, 'Header');
-                }}
-                onClick={() => {
-                  if (c.logEvent) logEvent(`${c.label} link clicked`, 'Header');
-                }}
-              >
+              <li key={c.label} className="header-dropdown-list-item" role="button" tabIndex={-1}>
                 <Link href={c.href}>
                   <a>{c.label}</a>
                 </Link>
@@ -73,7 +59,6 @@ HeaderData.propTypes = {
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       href: PropTypes.string.isRequired,
-      logEvent: PropTypes.bool,
     }),
   ).isRequired,
 };

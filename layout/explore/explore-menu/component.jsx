@@ -9,8 +9,6 @@ import Icon from 'components/ui/icon';
 // hooks
 import useFetchCollections from 'hooks/collection/fetch-collections';
 
-// Utils
-import { logEvent } from 'utils/analytics';
 import { EXPLORE_SECTIONS } from 'layout/explore/constants';
 
 const ExploreMenu = ({
@@ -70,7 +68,6 @@ const ExploreMenu = ({
 
       setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
       loadDatasets();
-      logEvent('Explore Menu', 'search', _search);
     },
     [
       resetFiltersSort,
@@ -100,7 +97,6 @@ const ExploreMenu = ({
       setFiltersSelected({ key: tab, list: payload });
 
       loadDatasets();
-      logEvent('Explore Menu', `filter ${tab}`, payload.join(','));
     },
     [setFiltersSelected, tab, loadDatasets],
   );
@@ -141,11 +137,9 @@ const ExploreMenu = ({
           tabIndex={0}
           onKeyPress={() => {
             setSidebarSection(EXPLORE_SECTIONS.DISCOVER);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.DISCOVER);
           }}
           onClick={() => {
             setSidebarSection(EXPLORE_SECTIONS.DISCOVER);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.DISCOVER);
           }}
         >
           <Icon name={`icon-discover-${section === EXPLORE_SECTIONS.DISCOVER ? 'on' : 'off'}`} />
@@ -160,11 +154,9 @@ const ExploreMenu = ({
           tabIndex={0}
           onKeyPress={() => {
             setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.ALL_DATA);
           }}
           onClick={() => {
             setSidebarSection(EXPLORE_SECTIONS.ALL_DATA);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.ALL_DATA);
           }}
         >
           <Icon name={`icon-all-${section === EXPLORE_SECTIONS.ALL_DATA ? 'on' : 'off'}`} />
@@ -179,11 +171,9 @@ const ExploreMenu = ({
           tabIndex={0}
           onKeyPress={() => {
             setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.NEAR_REAL_TIME);
           }}
           onClick={() => {
             setSidebarSection(EXPLORE_SECTIONS.NEAR_REAL_TIME);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.NEAR_REAL_TIME);
           }}
         >
           <Icon
@@ -200,11 +190,9 @@ const ExploreMenu = ({
           tabIndex={0}
           onKeyPress={() => {
             setSidebarSection(EXPLORE_SECTIONS.TOPICS);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.TOPICS);
           }}
           onClick={() => {
             setSidebarSection(EXPLORE_SECTIONS.TOPICS);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.TOPICS);
           }}
         >
           <Icon name={`icon-topics-${section === EXPLORE_SECTIONS.TOPICS ? 'on' : 'off'}`} />
@@ -219,11 +207,9 @@ const ExploreMenu = ({
           tabIndex={0}
           onKeyPress={() => {
             setSidebarSection(EXPLORE_SECTIONS.AREAS_OF_INTEREST);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.AREAS_OF_INTEREST);
           }}
           onClick={() => {
             setSidebarSection(EXPLORE_SECTIONS.AREAS_OF_INTEREST);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.AREAS_OF_INTEREST);
           }}
         >
           <Icon
@@ -244,11 +230,9 @@ const ExploreMenu = ({
           data-cy="my-data-tab"
           onKeyPress={() => {
             setSidebarSection(EXPLORE_SECTIONS.MY_DATA);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.MY_DATA);
           }}
           onClick={() => {
             setSidebarSection(EXPLORE_SECTIONS.MY_DATA);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.MY_DATA);
           }}
         >
           <span className="section-name">My Data</span>
@@ -262,11 +246,9 @@ const ExploreMenu = ({
           tabIndex={0}
           onKeyPress={() => {
             setSidebarSection(EXPLORE_SECTIONS.FAVORITES);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.FAVORITES);
           }}
           onClick={() => {
             setSidebarSection(EXPLORE_SECTIONS.FAVORITES);
-            logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.FAVORITES);
           }}
         >
           <span className="collection-name">My Favorites</span>
@@ -286,12 +268,10 @@ const ExploreMenu = ({
               onKeyPress={() => {
                 setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
                 setSidebarSelectedCollection(collection.id);
-                logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.COLLECTIONS);
               }}
               onClick={() => {
                 setSidebarSection(EXPLORE_SECTIONS.COLLECTIONS);
                 setSidebarSelectedCollection(collection.id);
-                logEvent('Explore Menu', 'Clicks tab', EXPLORE_SECTIONS.COLLECTIONS);
               }}
             >
               <span className="collection-name">{collection.name}</span>

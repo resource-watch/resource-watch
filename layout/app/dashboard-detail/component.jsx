@@ -1,9 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-} from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import classnames from 'classnames';
@@ -25,29 +20,17 @@ import ShareModal from 'components/modal/share-modal';
 import EnergyCountryExplorer from 'layout/app/dashboard-detail/energy-country-explorer';
 import LayoutCoralReefsDashboard from 'layout/layout/coral-reefs-dashboard/component';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // services
 import { fetchCountryPowerExplorerConfig } from 'services/config';
 
 // constants
 import { ENERGY_TABS } from './constants';
 
-const LayoutDashboardDetail = ({
-  dashboard,
-}) => {
-  const {
-    name,
-    summary,
-    description,
-    slug,
-  } = dashboard;
+const LayoutDashboardDetail = ({ dashboard }) => {
+  const { name, summary, description, slug } = dashboard;
   const router = useRouter();
   const {
-    query: {
-      tab,
-    },
+    query: { tab },
   } = router;
   const [showShareModal, setShowShareModal] = useState(false);
   const [headerDescription, setHeaderDescription] = useState(summary);
@@ -58,30 +41,34 @@ const LayoutDashboardDetail = ({
     'page-header-content': true,
     '-with-tabs': isEnergyDashboard,
   });
-  const headerText = (isEnergyDashboard && tab === 'country')
-    ? headerDescription : summary;
+  const headerText = isEnergyDashboard && tab === 'country' ? headerDescription : summary;
 
-  const handleTagSelected = useCallback((tag, labels = ['TOPIC']) => {
-    const tagSt = `["${tag.id}"]`;
-    let treeSt = 'topics';
-    if (labels.includes('TOPIC')) {
-      treeSt = 'topics';
-    } else if (labels.includes('GEOGRAPHY')) {
-      treeSt = 'geographies';
-    } else if (labels.includes('DATA_TYPE')) {
-      treeSt = 'dataTypes';
-    }
+  const handleTagSelected = useCallback(
+    (tag, labels = ['TOPIC']) => {
+      const tagSt = `["${tag.id}"]`;
+      let treeSt = 'topics';
+      if (labels.includes('TOPIC')) {
+        treeSt = 'topics';
+      } else if (labels.includes('GEOGRAPHY')) {
+        treeSt = 'geographies';
+      } else if (labels.includes('DATA_TYPE')) {
+        treeSt = 'dataTypes';
+      }
 
-    router.push({
-      pathname: 'explore',
-      query: {
-        [treeSt]: tagSt,
-      },
-    });
-  }, [router]);
+      router.push({
+        pathname: 'explore',
+        query: {
+          [treeSt]: tagSt,
+        },
+      });
+    },
+    [router],
+  );
 
   const handleToggleShareModal = useCallback(
-    (_showShareModal) => { setShowShareModal(_showShareModal); },
+    (_showShareModal) => {
+      setShowShareModal(_showShareModal);
+    },
     [setShowShareModal],
   );
 
@@ -95,10 +82,12 @@ const LayoutDashboardDetail = ({
       }
     };
 
-    if (process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD
-      && isEnergyDashboard
-      && tab === 'country'
-    ) loadCountryPowerExplorerConfig();
+    if (
+      process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD &&
+      isEnergyDashboard &&
+      tab === 'country'
+    )
+      loadCountryPowerExplorerConfig();
   }, [isEnergyDashboard, tab]);
 
   const datasets = useMemo(() => {
@@ -148,17 +137,16 @@ const LayoutDashboardDetail = ({
           <div className="row">
             <div className="column small-12">
               <div className={headerClassName}>
-                <Breadcrumbs items={[
-                  {
-                    name: 'Dashboards',
-                    route: '/dashboards',
-                  },
-                ]}
+                <Breadcrumbs
+                  items={[
+                    {
+                      name: 'Dashboards',
+                      route: '/dashboards',
+                    },
+                  ]}
                 />
                 <h1>{name}</h1>
-                {headerText && (
-                  <h3>{headerText}</h3>
-                )}
+                {headerText && <h3>{headerText}</h3>}
                 <div className="page-header-info">
                   <ul>
                     <li>
@@ -168,10 +156,7 @@ const LayoutDashboardDetail = ({
                         onClick={() => handleToggleShareModal(true)}
                         data-cy="share-button"
                       >
-                        <Icon
-                          name="icon-share"
-                          className="-small"
-                        />
+                        <Icon name="icon-share" className="-small" />
                         <span>Share</span>
                       </button>
 
@@ -183,65 +168,51 @@ const LayoutDashboardDetail = ({
                         <ShareModal
                           links={{
                             link: typeof window !== 'undefined' && window.location.href,
-                            embed: typeof window !== 'undefined' && `${window.location.origin}/embed/dashboard/${slug}`,
-                          }}
-                          analytics={{
-                            facebook: () => logEvent('Share', `Share dashboard: ${name}`, 'Facebook'),
-                            twitter: () => logEvent('Share', `Share dashboard: ${name}`, 'Twitter'),
-                            email: () => logEvent('Share', `Share dashboard: ${name}`, 'Email'),
-                            copy: (type) => logEvent('Share', `Share dashboard: ${name}`, `Copy ${type}`),
+                            embed:
+                              typeof window !== 'undefined' &&
+                              `${window.location.origin}/embed/dashboard/${slug}`,
                           }}
                         />
                       </Modal>
                     </li>
                   </ul>
                 </div>
-                {(isEnergyDashboard && process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD) && (
-                  <Tabs
-                    options={ENERGY_TABS}
-                    defaultSelected={currentTab}
-                    selected={currentTab}
-                  />
+                {isEnergyDashboard && process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD && (
+                  <Tabs options={ENERGY_TABS} defaultSelected={currentTab} selected={currentTab} />
                 )}
               </div>
             </div>
           </div>
         </div>
       </header>
-      {(
-        isEnergyDashboard && tab === 'country' && process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD)
-        ? (<EnergyCountryExplorer />)
-        : (
-          <div className="l-section">
-            <div className="l-container">
-              <div className="row">
-                {description && (
-                  <div className="column small-12">
-                    <ReactMarkdown linkTarget="_blank" source={description} />
-                  </div>
-                )}
+      {isEnergyDashboard &&
+      tab === 'country' &&
+      process.env.NEXT_PUBLIC_FEATURE_FLAG_GEDC_DASHBOARD ? (
+        <EnergyCountryExplorer />
+      ) : (
+        <div className="l-section">
+          <div className="l-container">
+            <div className="row">
+              {description && (
                 <div className="column small-12">
-                  {!isCoralReefsDashboard && <DashboardDetail dashboard={dashboard} />}
-                  {(isCoralReefsDashboard && (
-                    <LayoutCoralReefsDashboard />
-                  ))}
+                  <ReactMarkdown linkTarget="_blank" source={description} />
                 </div>
+              )}
+              <div className="column small-12">
+                {!isCoralReefsDashboard && <DashboardDetail dashboard={dashboard} />}
+                {isCoralReefsDashboard && <LayoutCoralReefsDashboard />}
               </div>
             </div>
           </div>
-        )}
-      {(datasets.length > 0) && (
+        </div>
+      )}
+      {datasets.length > 0 && (
         <div className="l-section">
           <div className="l-container">
             <div className="row">
               <div className="column small-12">
-                <Title className="-extrabig -secondary -p-secondary">
-                  Similar datasets
-                </Title>
-                <SimilarDatasets
-                  datasetIds={datasets}
-                  onTagSelected={handleTagSelected}
-                />
+                <Title className="-extrabig -secondary -p-secondary">Similar datasets</Title>
+                <SimilarDatasets datasetIds={datasets} onTagSelected={handleTagSelected} />
               </div>
             </div>
           </div>

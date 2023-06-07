@@ -5,15 +5,12 @@ import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 import Icon from 'components/ui/icon';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 class ShareControls extends PureComponent {
-  state = { showShareModal: false }
+  state = { showShareModal: false };
 
   handleToggleShareModal = (modalVisibility) => {
     this.setState({ showShareModal: modalVisibility });
-  }
+  };
 
   render() {
     const { showShareModal } = this.state;
@@ -26,10 +23,7 @@ class ShareControls extends PureComponent {
           className="share-control--btn"
           onClick={() => this.handleToggleShareModal(true)}
         >
-          <Icon
-            name="icon-share"
-            className="-small"
-          />
+          <Icon name="icon-share" className="-small" />
 
           <Modal
             isOpen={showShareModal}
@@ -40,12 +34,6 @@ class ShareControls extends PureComponent {
               links={{
                 link: location && location.href,
                 embed: location && `${location.origin}/embed${location.pathname}${location.search}`,
-              }}
-              analytics={{
-                facebook: () => logEvent('Share', 'Share explore', 'Facebook'),
-                twitter: () => logEvent('Share', 'Share explore', 'Twitter'),
-                email: () => logEvent('Share', 'Share explore', 'Email'),
-                copy: (type) => logEvent('Share', 'Share explore', `Copy ${type}`),
               }}
             />
           </Modal>

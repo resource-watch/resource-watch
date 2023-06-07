@@ -8,10 +8,6 @@ import DatasetSubscriptionsModal from 'components/modal/subscriptions-modal/data
 import ProminentButton from 'components/prominent-button';
 import Icon from 'components/ui/icon';
 
-// utils
-import { getLabel } from 'utils/datasets/dataset-helpers';
-import { logEvent } from 'utils/analytics';
-
 const ExploreDetailButtons = ({ dataset }) => {
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
 
@@ -19,15 +15,6 @@ const ExploreDetailButtons = ({ dataset }) => {
   const { info } = metadata[0];
   const isSubscribable = subscribable && Object.keys(subscribable).length > 0;
 
-  const handleDownloadSource = useCallback(() => {
-    logEvent('Explore', 'Download data from source', getLabel(dataset));
-  }, [dataset]);
-  const handleDownload = useCallback(() => {
-    logEvent('Explore', 'Download data', getLabel(dataset));
-  }, [dataset]);
-  const handleLearnMore = useCallback(() => {
-    logEvent('Explore', 'Click to data provider', getLabel(dataset));
-  }, [dataset]);
   const openSubscribeModal = useCallback(() => {
     setShowSubscribeModal(true);
   }, []);
@@ -39,7 +26,7 @@ const ExploreDetailButtons = ({ dataset }) => {
     <div className="c-explore-detail-buttons">
       <div className="dataset-actions">
         {info.data_download_original_link && (
-          <ProminentButton isLink onClick={handleDownloadSource}>
+          <ProminentButton isLink>
             <a target="_blank" rel="noopener noreferrer" href={info.data_download_original_link}>
               <Icon name="icon-download" />
               <span>download from source</span>
@@ -47,7 +34,7 @@ const ExploreDetailButtons = ({ dataset }) => {
           </ProminentButton>
         )}
         {info.data_download_link && (
-          <ProminentButton isLink onClick={handleDownload}>
+          <ProminentButton isLink>
             <a href={info.data_download_link}>
               <Icon name="icon-download" />
               <span>download</span>
@@ -55,7 +42,7 @@ const ExploreDetailButtons = ({ dataset }) => {
           </ProminentButton>
         )}
         {info.learn_more_link && (
-          <ProminentButton isLink onClick={handleLearnMore}>
+          <ProminentButton isLink>
             <a target="_blank" rel="noopener noreferrer" href={info.learn_more_link}>
               <Icon name="icon-learn-more" />
               <span>learn more from source</span>
