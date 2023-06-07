@@ -8,7 +8,7 @@ export default function UserReportScript() {
       dangerouslySetInnerHTML={{
         __html: `
             window._urq = window._urq || [];
-            _urq.push(['setGACode', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}']);
+            _urq.push(['setGACode', '${process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_CONTAINER_ID}']);
             _urq.push(['initSite', '085d5a65-977b-4c3d-af9f-d0a3624e276f']);
             (function() {
             var ur = document.createElement('script');

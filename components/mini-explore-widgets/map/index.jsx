@@ -15,7 +15,6 @@ import { fetchLayer } from 'services/layer';
 // utils
 import { getUserAreaLayer, getInteractiveLayers } from 'components/map/utils';
 import { getLayerGroups } from 'utils/layers';
-import { logEvent } from 'utils/analytics';
 
 // components
 import MiniExploreMap from 'components/mini-explore/map/component';
@@ -97,12 +96,6 @@ export default function MiniExploreMapContainer({
           active: l.id,
         }),
       );
-
-      logEvent(
-        'Mini Explore Map',
-        'Clicks Another Layer from Map Legend Tooltip',
-        `${l.name} [${l.id}]`,
-      );
     },
     [dispatch],
   );
@@ -167,11 +160,6 @@ export default function MiniExploreMapContainer({
           },
           active: l.id,
         }),
-      );
-      logEvent(
-        'Mini Explore Map',
-        'Clicks Another Layer from Map Legend Timeline',
-        `${l.name} [${l.id}]`,
       );
     },
     [dispatch],

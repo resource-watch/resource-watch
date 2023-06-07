@@ -34,8 +34,6 @@ import ResetViewControls from 'components/map/controls/reset-view';
 import Drawer from 'components/map/plugins/drawer';
 import LayerPopup from 'components/map/popup';
 
-// Utils
-import { logEvent } from 'utils/analytics';
 import { getUserAreaLayer } from 'components/map/utils';
 
 // services
@@ -142,12 +140,6 @@ const ExploreMap = (props) => {
         dataset: { id: l.dataset },
         active: l.id,
       });
-
-      logEvent(
-        'Explore Map',
-        'Clicks Another Layer from Map Legend Tooltip',
-        `${l.name} [${l.id}]`,
-      );
     },
     [resetLayerParametrization, setMapLayerGroupActive],
   );
@@ -202,11 +194,6 @@ const ExploreMap = (props) => {
   const onChangeLayerTimeLine = useCallback(
     (l) => {
       setMapLayerGroupActive({ dataset: { id: l.dataset }, active: l.id });
-      logEvent(
-        'Explore Map',
-        'Clicks Another Layer from Map Legend Timeline',
-        `${l.name} [${l.id}]`,
-      );
     },
     [setMapLayerGroupActive],
   );

@@ -10,9 +10,6 @@ import Tabs from 'components/ui/Tabs';
 import Modal from 'components/modal/modal-component';
 import ShareModal from 'components/modal/share-modal';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // constants
 const OCEAN_WATCH_TABS = [
   {
@@ -101,12 +98,6 @@ export default function OceanWatchHero({ className }) {
         <ShareModal
           links={{
             link: typeof window !== 'undefined' && window.location.href,
-          }}
-          analytics={{
-            facebook: () => logEvent('Share', 'Share dashboard: Ocean Watch', 'Facebook'),
-            twitter: () => logEvent('Share', 'Share dashboard: Ocean Watch', 'Twitter'),
-            email: () => logEvent('Share', 'Share dashboard: Ocean Watch', 'Email'),
-            copy: (type) => logEvent('Share', 'Share dashboard: Ocean Watch', `Copy ${type}`),
           }}
         />
       </Modal>

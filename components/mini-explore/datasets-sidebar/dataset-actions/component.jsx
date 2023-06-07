@@ -12,37 +12,18 @@ import CollectionsPanel from 'components/collections-panel';
 import useBelongsToCollection from 'hooks/collection/belongs-to-collection';
 import { useMe } from 'hooks/user';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 const MiniExploreDatasetsActions = (props) => {
   const { dataset, layer, handleAddMap } = props;
   const { data: user } = useMe();
   const { isInACollection, refetch } = useBelongsToCollection(dataset.id, user?.token);
 
-  const handleToggleFavorite = useCallback(
-    (isFavorite, resource) => {
-      if (isFavorite) {
-        logEvent('Mini Explore Menu', 'Add dataset to favorites', resource.id);
-      } else {
-        logEvent('Mini Explore Menu', 'Remove dataset from favorites', resource.id);
-      }
-      refetch();
-    },
-    [refetch],
-  );
+  const handleToggleFavorite = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
-  const handleToggleCollection = useCallback(
-    (isAdded, resource) => {
-      if (isAdded) {
-        logEvent('Mini Explore Menu', 'Add dataset to a collection', resource.id);
-      } else {
-        logEvent('Mini Explore Menu', 'Remove dataset from a collection', resource.id);
-      }
-      refetch();
-    },
-    [refetch],
-  );
+  const handleToggleCollection = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
   const userIsLoggedIn = user?.token;
   const datasetName = dataset?.metadata[0]?.info?.name;
@@ -84,13 +65,7 @@ const MiniExploreDatasetsActions = (props) => {
         {dataset.active ? 'Active' : 'Add to map'}
       </button>
       {/* Favorite dataset icon */}
-      <LoginRequired
-        clickCallback={() => {
-          if (!userIsLoggedIn) {
-            logEvent('Mini Explore Menu', 'Anonymous user Clicks Star', datasetName);
-          }
-        }}
-      >
+      <LoginRequired>
         <Tooltip
           overlay={
             <CollectionsPanel
@@ -106,16 +81,7 @@ const MiniExploreDatasetsActions = (props) => {
           placement="bottomRight"
           trigger="click"
         >
-          <button
-            type="button"
-            className="c-button -secondary -compressed"
-            tabIndex={-1}
-            onClick={() => {
-              if (userIsLoggedIn) {
-                logEvent('Mini Explore Menu', 'Authenticated user Clicks Star', datasetName);
-              }
-            }}
-          >
+          <button type="button" className="c-button -secondary -compressed" tabIndex={-1}>
             <Icon name={starIconName} className={starIconClass} />
           </button>
         </Tooltip>

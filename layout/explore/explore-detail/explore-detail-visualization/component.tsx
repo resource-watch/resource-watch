@@ -24,9 +24,6 @@ import {
   WIDGET_EDITOR_MAPBOX_PROPS,
 } from 'constants/widget-editor';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 function ExploreDetailVisualization(props) {
   const { widgetId, datasetId, aoi, authorization, RWAdapter } = props;
   const router = useRouter();
@@ -44,7 +41,6 @@ function ExploreDetailVisualization(props) {
   const onSaveWidget = (widget) => {
     if (!authorization) {
       setLoginModalOpen(true);
-      logEvent('Explore (Detail)', 'Anonymous user clicks on Save from Widget Editor', datasetId);
     } else {
       // The widget creation endpoint expects the application property to be
       // of array type
@@ -57,8 +53,6 @@ function ExploreDetailVisualization(props) {
         application: process.env.NEXT_PUBLIC_APPLICATIONS.split(','),
         env: process.env.NEXT_PUBLIC_API_ENV,
       };
-
-      logEvent('Explore (Detail)', 'Save Widget', datasetId);
 
       setLoading(true);
 

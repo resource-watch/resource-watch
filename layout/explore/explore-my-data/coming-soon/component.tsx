@@ -8,9 +8,6 @@ import Input from 'components/form/Input';
 // hooks
 import { useMe } from 'hooks/user';
 
-// utils
-import { logEvent } from 'utils/analytics';
-
 // constants
 import { PARDOT_FORM_HANDLER } from 'constants/app';
 
@@ -19,10 +16,6 @@ const MyDataComingSoon = (): JSX.Element => {
   const [form, setForm] = useState({
     email: user?.email || '',
   });
-
-  const onSubmit = useCallback(async () => {
-    logEvent('Explore Menu', 'My Data', 'clicks on "I\'m interested" button');
-  }, []);
 
   const onChangeEmail = useCallback(
     (value: typeof form.email) => {
@@ -54,7 +47,6 @@ const MyDataComingSoon = (): JSX.Element => {
           // ! Pardot doesn't support submitting data to form handlers via Ajax requests:
           // ! https://help.salesforce.com/s/articleView?id=pardot_considerations_for_using_form_handlers.htm&type=5&language=en_US
           action={PARDOT_FORM_HANDLER}
-          onSubmit={onSubmit}
         >
           <Field
             validations={['required', 'email']}
