@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.X.X] - 2022-X-X
+## [3.X.X] - 2023-X-X
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [3.6.0] - 2023-06-07
 ### Added
 - Support for deck.gl layers: tileLayers with DecodedRasterLayer [RW-138](https://vizzuality.atlassian.net/browse/RW-138)
 - rich schema script for specific datasets. [RW-141](https://vizzuality.atlassian.net/browse/RW-141)
