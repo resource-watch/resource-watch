@@ -18,6 +18,7 @@ import Search from 'layout/header/search';
 import NoBrowserSupport from 'components/app/common/Browser';
 import GDPRBanner from 'components/ui/gdpr-banner';
 import ProgressBar from 'components/progress-bar';
+import DeprecationBanner from 'components/deprecation-banner/DeprecationBanner';
 
 const UserReportButton = dynamic(() => import('../../user-report'), { ssr: false });
 
@@ -63,6 +64,8 @@ const LayoutApp: FC<LayoutAppProps> = ({
 
       <Icons />
       <IconsRW />
+
+      <DeprecationBanner>Thank you for visting Resource Watch. This site is no longer being updated and will be archived in the coming months.<br/>See <a href="https://www.wri.org/data/data-applications/" target="_blank" rel="noreferrer">WRI&apos;s Applications Portfolio</a> or visit the <a href="https://datasets.wri.org/" target="_blank" rel="noreferrer">Data Explorer</a> to browse WRI data.</DeprecationBanner>
 
       <Header pageHeader={pageHeader} />
 
